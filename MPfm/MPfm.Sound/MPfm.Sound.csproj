@@ -141,12 +141,16 @@
     <Compile Include="BassWrapper\Wasapi\BassWasapiEnums.cs" />
     <Compile Include="BassWrapper\Wasapi\BassWasapiStructs.cs" />
     <Compile Include="BassWrapper\Wasapi\BassWasapiCallbacks.cs" />
+    <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
+    <Compile Include="PeakFiles\PeakFileDoneData.cs" />
+    <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
+    <Compile Include="PeakFiles\PeakFileProgressData.cs" />
+    <Compile Include="PeakFiles\PeakFileStartedData.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />
     <Compile Include="Playlists\PlaylistTools.cs" />
     <Compile Include="Playlists\PlaylistFileFormat.cs" />
-    <Compile Include="PeakFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\APETag.cs" />
     <Compile Include="Tags\SV7Metadata.cs" />
@@ -156,5 +160,6 @@
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="XingInfoHeaderReader.cs" />
+    <Compile Include="PeakFiles\PeakFileGenerator.cs" />
   </ItemGroup>
 </Project>

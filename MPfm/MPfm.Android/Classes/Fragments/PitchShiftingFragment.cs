@@ -21,6 +21,8 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Models;
+using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
@@ -47,5 +49,23 @@ namespace MPfm.Android.Classes.Fragments
         {
             
         }
+
+        #region ITimeShiftingView implementation
+
+        public Action<float> OnSetTimeShifting { get; set; }
+        public Action<TimeShiftingMode> OnSetTimeShiftingMode { get; set; }
+        public Action OnResetTimeShifting { get; set; }
+        public Action OnDetectTempo { get; set; }
+
+        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }   
+
+        public void TimeShiftingError(Exception ex)
+        {
+        }
+
+        #endregion
+
     }
 }

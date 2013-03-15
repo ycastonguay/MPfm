@@ -25,6 +25,7 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Objects;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
 {
@@ -34,10 +35,6 @@ namespace MPfm.Android.Classes.Fragments
         private Button _button;
         private EditText _editText;
         private IEnumerable<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
-
-        public MobileLibraryBrowserType BrowserType { get; set; }
-        public string Filter { get; set; }
-        public Action<int> OnItemClick { get; set; }
 
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base(null) { }
@@ -73,7 +70,15 @@ namespace MPfm.Android.Classes.Fragments
             builder.Show();
         }
 
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
+
+        #region IMobileLibraryBrowserView implementation
+
+        public MobileLibraryBrowserType BrowserType { get; set; }
+        public string Filter { get; set; }
+        public Action<int> OnItemClick { get; set; }
+        public Action<string, string> OnRequestAlbumArt { get; set; }
+
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle)
         {
             _entities = entities;
             var listAdapter = (MobileLibraryBrowserListAdapter) ListAdapter;
@@ -85,9 +90,19 @@ namespace MPfm.Android.Classes.Fragments
                 Activity.RunOnUiThread(() => {
                     listAdapter.SetData(entities);   
                     listAdapter.NotifyDataSetChanged();
-                });                
+                });
             }
-
         }
+
+        public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
+        {
+        }
+
+        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
+        {
+        }
+
+        #endregion
+
     }
 }

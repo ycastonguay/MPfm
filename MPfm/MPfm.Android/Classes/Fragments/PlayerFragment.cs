@@ -28,6 +28,7 @@ using Java.Lang;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Android.Classes.Helpers;
 using MPfm.Core;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Views;
 using MPfm.Player;
 using MPfm.Sound.AudioFiles;
@@ -112,6 +113,10 @@ namespace MPfm.Android.Classes.Fragments
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
+
+        public void RefreshPlayerStatus(PlayerStatusType status)
+        {
+        }
 
         public void RefreshPlayerPosition(MVP.Models.PlayerPositionEntity entity)
         {

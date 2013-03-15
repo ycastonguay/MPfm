@@ -223,5 +223,13 @@
     <Compile Include="Presenters\PitchShiftingPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IPlayerMetadataPresenter.cs" />
     <Compile Include="Presenters\PlayerMetadataPresenter.cs" />
+    <Compile Include="Messages\PlayerPlaylistIndexChangedMessage.cs" />
+    <Compile Include="Messages\PlayerCommandMessage.cs" />
+    <Compile Include="Views\ILoopDetailsView.cs" />
+    <Compile Include="Views\IMarkerDetailsView.cs" />
+    <Compile Include="Presenters\Interfaces\ILoopDetailsPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMarkerDetailsPresenter.cs" />
+    <Compile Include="Presenters\LoopDetailsPresenter.cs" />
+    <Compile Include="Presenters\MarkerDetailsPresenter.cs" />
   </ItemGroup>
 </Project>

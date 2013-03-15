@@ -23,7 +23,6 @@ using System.Linq;
 using MPfm.Core;
 using MPfm.Core.Attributes;
 using MPfm.Sound.Tags;
-using System.Drawing;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;

@@ -22,6 +22,7 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
 {
@@ -47,5 +48,14 @@ namespace MPfm.Android.Classes.Fragments
         {
             
         }
+
+        #region IPlayerMetadataView implementation
+
+        public void RefreshAudioFile(AudioFile audioFile)
+        {
+        }
+
+        #endregion
+
     }
 }

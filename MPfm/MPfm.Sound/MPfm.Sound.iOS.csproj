@@ -204,6 +204,11 @@
     <Compile Include="BassWrapper\Wasapi\BassWasapiEnums.cs" />
     <Compile Include="BassWrapper\Wasapi\BassWasapiStructs.cs" />
     <Compile Include="BassWrapper\Wasapi\BassWasapiCallbacks.cs" />
+    <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
+    <Compile Include="PeakFiles\PeakFileDoneData.cs" />
+    <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
+    <Compile Include="PeakFiles\PeakFileProgressData.cs" />
+    <Compile Include="PeakFiles\PeakFileStartedData.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />

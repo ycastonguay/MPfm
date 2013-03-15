@@ -125,5 +125,6 @@
     <Compile Include="Objects\Loop.cs" />
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Events\AudioInterruptedData.cs" />
   </ItemGroup>
 </Project>

@@ -16,12 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Fragments
 {
@@ -47,5 +49,16 @@ namespace MPfm.Android.Classes.Fragments
         {
             
         }
+
+        #region ILoopsView implementation
+
+        public Action OnAddLoop { get; set; }
+        public Action<Loop> OnEditLoop { get; set; }
+
+        public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
     }
 }

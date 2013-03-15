@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,12 +26,12 @@ using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Bass.Net;
 
-namespace MPfm.Sound
-{	
+namespace MPfm.Sound.PeakFiles
+{
     /// <summary>
     /// This class can generate peak files asynchronously. Use the ProcessData event to get the progress.
     /// </summary>
-    public class PeakFileGenerator
+    public class PeakFileGenerator : IPeakFileGenerator
     {
         private Task _currentTask;
         private CancellationTokenSource cancellationTokenSource = null;
@@ -474,110 +473,4 @@ namespace MPfm.Sound
             }
         }
     }
-    	
-    /// <summary>
-    /// Defines the data used with the OnProcessStarted event.
-    /// </summary>
-    public class PeakFileStartedData
-    {
-        /// <summary>
-        /// Defines the audio file path length in bytes.
-        /// </summary>
-        public long Length { get; set; }
-        /// <summary>
-        /// Defines the total number of blocks to read.
-        /// </summary>
-        public int TotalBlocks { get; set; }
-    }
-
-    /// <summary>
-    /// Defines the progress data used with the OnProcessData event.
-    /// </summary>
-    public class PeakFileProgressData
-    {
-        /// <summary>
-        /// Defines the audio file path to analyse in order to generate the peak file.
-        /// </summary>
-        public string AudioFilePath { get; set; }
-        /// <summary>
-        /// Defines the peak file path.
-        /// </summary>
-        public string PeakFilePath { get; set; }
-        /// <summary>
-        /// Defines the thread number currently reporting.
-        /// </summary>
-        public int ThreadNumber { get; set; }
-        /// <summary>
-        /// Defines the current thread progress in percentage.
-        /// </summary>
-        public float PercentageDone { get; set; }
-        /// <summary>
-        /// Defines the audio file path length in bytes.
-        /// </summary>
-        public long Length { get; set; }
-        /// <summary>
-        /// Defines the current block to read.
-        /// </summary>
-        public int CurrentBlock { get; set; }
-        /// <summary>
-        /// Defines the total number of blocks to read.
-        /// </summary>
-        public int TotalBlocks { get; set; }
-
-        /// <summary>
-        /// Defines the list of min/max wave data values for waveform.
-        /// Useful for displaying the waveform generation in real-time.
-        /// </summary>
-        public List<WaveDataMinMax> MinMax { get; set; }
-    }
-
-    /// <summary>
-    /// Defines the data used with the OnProcessDone event.
-    /// </summary>
-    public class PeakFileDoneData
-    {
-        public string AudioFilePath { get; set; }
-        public bool Cancelled { get; set; }
-    }
-
-    /// <summary>
-    /// This Exception class is raised when the peak file is corrupted.    
-    /// Related to the PeakFile class.
-    /// </summary>
-    [Serializable]
-    public class PeakFileCorruptedException 
-        : Exception
-    {
-        /// <summary>
-        /// Default constructor for the PeakFileCorruptedException exception class.
-        /// </summary>
-        /// <param name="message">Exception message</param>
-        /// <param name="innerException">Inner exception</param>
-        public PeakFileCorruptedException(string message, Exception innerException) 
-            : base(message, innerException)
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// This Exception class is raised when the peak file is incompatible.
-    /// Related to the PeakFile class.
-    /// </summary>
-    [Serializable]
-    public class PeakFileFormatIncompatibleException
-        : Exception
-    {
-        /// <summary>
-        /// Default constructor for the PeakFileFormatIncompatibleException exception class.
-        /// </summary>
-        /// <param name="message">Exception message</param>
-        /// <param name="innerException">Inner exception</param>
-        public PeakFileFormatIncompatibleException(string message, Exception innerException) 
-            : base(message, innerException)
-        {
-
-        }
-    }
-
 }
