@@ -51,6 +51,14 @@ namespace MPfm.iOS
         public Action OnAddLoop { get; set; }           
         public Action<Loop> OnEditLoop { get; set; }
 
+        public void LoopError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                UIAlertView alertView = new UIAlertView("Loop Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
+
         public void RefreshLoops(List<Loop> loops)
         {
         }

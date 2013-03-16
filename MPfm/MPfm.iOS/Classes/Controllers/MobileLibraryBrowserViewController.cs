@@ -47,11 +47,11 @@ namespace MPfm.iOS.Classes.Controllers
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
         {
+            _items = new List<LibraryBrowserEntity>();
         }
         
         public override void ViewDidLoad()
         {
-            _items = new List<LibraryBrowserEntity>();
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 

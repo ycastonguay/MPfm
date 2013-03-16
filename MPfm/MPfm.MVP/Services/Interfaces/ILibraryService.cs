@@ -15,8 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using MPfm.Library.Objects;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Services.Interfaces
@@ -43,5 +45,17 @@ namespace MPfm.MVP.Services.Interfaces
 		List<string> SelectDistinctArtistNames(AudioFileFormat format);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName);
+
+        void InsertMarker(Marker marker);
+        Marker SelectMarker(Guid markerId);
+        List<Marker> SelectMarkers(Guid audioFileId);
+        void UpdateMarker(Marker marker);
+        void DeleteMarker(Guid markerId);
+
+        void InsertLoop(Loop Loop);
+        Loop SelectLoop(Guid LoopId);
+        List<Loop> SelectLoops(Guid audioFileId);
+        void UpdateLoop(Loop Loop);
+        void DeleteLoop(Guid LoopId);
     }
 }

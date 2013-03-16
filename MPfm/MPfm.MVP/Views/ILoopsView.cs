@@ -28,7 +28,8 @@ namespace MPfm.MVP.Views
 	{
         Action OnAddLoop { get; set; }
         Action<Loop> OnEditLoop { get; set; }
-        
+    
+        void LoopError(Exception ex);
         void RefreshLoops(List<Loop> loops);
 	}
 }

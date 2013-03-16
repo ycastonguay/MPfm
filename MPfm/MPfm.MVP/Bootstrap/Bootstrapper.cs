@@ -49,7 +49,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<ILibraryService, LibraryService>().AsSingleton();
             container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
             container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();
-            container.Register<IPeakFileGenerator, PeakFileGenerator>().AsSingleton();
+            container.Register<IPeakFileService, PeakFileService>().AsSingleton();
 
             // Register presenters
             container.Register<ISplashPresenter, SplashPresenter>().AsSingleton();
@@ -60,18 +60,18 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IMobileOptionsMenuPresenter, MobileOptionsMenuPresenter>().AsSingleton();
             container.Register<ILibraryBrowserPresenter, LibraryBrowserPresenter>().AsSingleton();
             container.Register<IUpdateLibraryPresenter, UpdateLibraryPresenter>().AsSingleton();
-            container.Register<IEffectsPresenter, EffectsPresenter>().AsSingleton();
+            container.Register<IEffectsPresenter, EffectsPresenter>().AsMultiInstance();
             container.Register<IAudioPreferencesPresenter, AudioPreferencesPresenter>().AsSingleton();
             container.Register<IGeneralPreferencesPresenter, GeneralPreferencesPresenter>().AsSingleton();
             container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsSingleton();
             container.Register<IPlaylistPresenter, PlaylistPresenter>().AsSingleton();
-            container.Register<ILoopsPresenter, LoopsPresenter>().AsSingleton();
-            container.Register<ILoopDetailsPresenter, LoopDetailsPresenter>().AsSingleton();
-            container.Register<IMarkersPresenter, MarkersPresenter>().AsSingleton();
-            container.Register<IMarkerDetailsPresenter, MarkerDetailsPresenter>().AsSingleton();
-            container.Register<ITimeShiftingPresenter, TimeShiftingPresenter>().AsSingleton();
-            container.Register<IPitchShiftingPresenter, PitchShiftingPresenter>().AsSingleton();
-            container.Register<IPlayerMetadataPresenter, PlayerMetadataPresenter>().AsSingleton();
+            container.Register<ILoopsPresenter, LoopsPresenter>().AsMultiInstance();
+            container.Register<ILoopDetailsPresenter, LoopDetailsPresenter>().AsMultiInstance();
+            container.Register<IMarkersPresenter, MarkersPresenter>().AsMultiInstance();
+            container.Register<IMarkerDetailsPresenter, MarkerDetailsPresenter>().AsMultiInstance();
+            container.Register<ITimeShiftingPresenter, TimeShiftingPresenter>().AsMultiInstance();
+            container.Register<IPitchShiftingPresenter, PitchShiftingPresenter>().AsMultiInstance();
+            container.Register<IPlayerMetadataPresenter, PlayerMetadataPresenter>().AsMultiInstance();
         }
         
         /// <summary>

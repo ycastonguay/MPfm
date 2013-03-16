@@ -508,7 +508,7 @@ namespace MPfm.Library.Database
         /// <returns>List of Markers</returns>
         public List<Marker> SelectMarkers(Guid audioFileId)
         {
-            List<Marker> markers = _gateway.Select<Marker>("SELECT * FROM Markers");
+            List<Marker> markers = _gateway.Select<Marker>("SELECT * FROM Markers WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY PositionBytes");
             return markers;
         }
 
@@ -572,7 +572,7 @@ namespace MPfm.Library.Database
         /// <returns>List of Loops</returns>
         public List<Loop> SelectLoops(Guid audioFileId)
         {
-            List<Loop> loops = _gateway.Select<Loop>("SELECT * FROM Loops  WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
+            List<Loop> loops = _gateway.Select<Loop>("SELECT * FROM Loops WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY LengthBytes");
             return loops;
         }
 

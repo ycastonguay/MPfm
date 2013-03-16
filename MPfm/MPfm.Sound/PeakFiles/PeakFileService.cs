@@ -31,7 +31,7 @@ namespace MPfm.Sound.PeakFiles
     /// <summary>
     /// This class can generate peak files asynchronously. Use the ProcessData event to get the progress.
     /// </summary>
-    public class PeakFileGenerator : IPeakFileGenerator
+    public class PeakFileService : IPeakFileService
     {
         private Task _currentTask;
         private CancellationTokenSource cancellationTokenSource = null;
@@ -105,13 +105,6 @@ namespace MPfm.Sound.PeakFiles
             {
                 progressReportBlockInterval = value;
             }
-        }
-
-        /// <summary>
-        /// Default constructor for the PeakFile class.
-        /// </summary>
-        public PeakFileGenerator()
-        {
         }
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmWaveFormView")]
     public class MPfmWaveFormView : UIView
     {
-        private IPeakFileGenerator _peakFileGenerator;
+        private IPeakFileService _peakFileService;
         private string _status = "Initial status";
         private bool _isLoading = false;
         private UIImage _imageCache = null;
@@ -64,10 +64,10 @@ namespace MPfm.iOS.Classes.Controls
             _waveDataHistory = new List<WaveDataMinMax>();
             DisplayType = WaveFormDisplayType.Stereo;
 
-            _peakFileGenerator = Bootstrapper.GetContainer().Resolve<IPeakFileGenerator>();
-            _peakFileGenerator.OnProcessStarted += HandleOnPeakFileProcessStarted;
-            _peakFileGenerator.OnProcessData += HandleOnPeakFileProcessData;
-            _peakFileGenerator.OnProcessDone += HandleOnPeakFileProcessDone;
+            _peakFileService = Bootstrapper.GetContainer().Resolve<IPeakFileService>();
+            _peakFileService.OnProcessStarted += HandleOnPeakFileProcessStarted;
+            _peakFileService.OnProcessData += HandleOnPeakFileProcessData;
+            _peakFileService.OnProcessDone += HandleOnPeakFileProcessDone;
         }
 
         void HandleOnPeakFileProcessStarted(PeakFileStartedData data)
@@ -134,8 +134,8 @@ namespace MPfm.iOS.Classes.Controls
 
             // Check if another peak file is already loading
             Console.WriteLine("WaveFormView - LoadPeakFile audioFile: " + audioFile.FilePath);
-            if (_peakFileGenerator.IsLoading)
-                _peakFileGenerator.Cancel();
+            if (_peakFileService.IsLoading)
+                _peakFileService.Cancel();
 
             // Check if the peak file subfolder exists
             string peakFileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PeakFiles");
@@ -164,7 +164,7 @@ namespace MPfm.iOS.Classes.Controls
                     List<WaveDataMinMax> data = null;
                     try
                     {
-                        data = _peakFileGenerator.ReadPeakFile(peakFilePath);
+                        data = _peakFileService.ReadPeakFile(peakFilePath);
                         if(data != null)
                             return data;
                     } 
@@ -176,7 +176,7 @@ namespace MPfm.iOS.Classes.Controls
                     try
                     {
                         Console.WriteLine("Peak file could not be loaded - Generating " + peakFilePath + "...");
-                        _peakFileGenerator.GeneratePeakFile(audioFile.FilePath, peakFilePath);
+                        _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
                     } 
                     catch (Exception ex)
                     {
@@ -212,13 +212,13 @@ namespace MPfm.iOS.Classes.Controls
             {
                 // Start generating peak file in background
                 Console.WriteLine("Peak file doesn't exist - Generating " + peakFilePath + "...");
-                _peakFileGenerator.GeneratePeakFile(audioFile.FilePath, peakFilePath);
+                _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
             }
         }
 
         public void CancelPeakFileGeneration()
         {
-            _peakFileGenerator.Cancel();
+            _peakFileService.Cancel();
         }
 
         public override void Draw(RectangleF rect)

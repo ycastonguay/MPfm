@@ -17,9 +17,10 @@
 
 using System;
 using System.Drawing;
+using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controllers.Base;
 
 namespace MPfm.iOS
@@ -43,8 +44,36 @@ namespace MPfm.iOS
 
         partial void actionDeleteMarker(NSObject sender)
         {
+            if(OnDeleteMarker != null)
+                OnDeleteMarker();
         }
 
+        #region IMarkerDetailsView implementation
+
+        public Action OnDeleteMarker { get; set; }
+
+        public void MarkerDetailsError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                UIAlertView alertView = new UIAlertView("Marker Details Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
+
+        public void DismissView()
+        {
+            InvokeOnMainThread(() => {
+                DismissViewController(true, null);
+            });
+        }
+
+        public void RefreshMarker(Marker marker)
+        {
+            InvokeOnMainThread(() => {
+            });
+        }
+
+        #endregion
     }
 }
 

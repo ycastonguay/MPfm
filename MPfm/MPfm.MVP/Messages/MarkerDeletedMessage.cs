@@ -16,20 +16,21 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using MPfm.Player.Objects;
+using TinyMessenger;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-	/// Marker details view interface.
-	/// </summary>
-	public interface IMarkerDetailsView : IBaseView
-	{
-        Action OnDeleteMarker { get; set; }
+    /// <summary>
+    /// Message indicating that a marker has been deleted from the database.
+    /// </summary>
+    public class MarkerDeletedMessage : TinyMessageBase
+    {
+        public Guid MarkerId { get; set; }
 
-        void MarkerDetailsError(Exception ex);
-        void DismissView();
-        void RefreshMarker(Marker marker);
-	}
+        public MarkerDeletedMessage(object sender) 
+            : base(sender)
+        {
+        }
+    }
 }

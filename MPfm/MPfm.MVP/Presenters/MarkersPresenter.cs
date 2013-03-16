@@ -15,10 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using MPfm.Core;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
 {
@@ -27,11 +33,18 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class MarkersPresenter : BasePresenter<IMarkersView>, IMarkersPresenter
 	{
+        readonly ITinyMessengerHub _messageHub;
         readonly MobileNavigationManager _navigationManager;
+        readonly ILibraryService _libraryService;
+        readonly IPlayerService _playerService;
+        Guid _audioFileId = Guid.Empty;
 
-        public MarkersPresenter(MobileNavigationManager navigationManager)
+        public MarkersPresenter(ITinyMessengerHub messageHub, MobileNavigationManager navigationManager, ILibraryService libraryService, IPlayerService playerService)
 		{
+            _messageHub = messageHub;
             _navigationManager = navigationManager;
+            _libraryService = libraryService;
+            _playerService = playerService;
 		}
 
         public override void BindView(IMarkersView view)
@@ -40,22 +53,65 @@ namespace MPfm.MVP.Presenters
             view.OnAddMarker = OnAddMarker;
             view.OnEditMarker = OnEditMarker;
 
+            _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
+                _audioFileId = m.Data.AudioFileStarted.Id;
+                RefreshMarkers(_audioFileId);
+            });
+            _messageHub.Subscribe<MarkerDeletedMessage>((MarkerDeletedMessage m) => {
+                RefreshMarkers(_audioFileId);
+            });
+
             base.BindView(view);
         }
 
-        private void CreateMarkerDetailsView()
+        private void CreateMarkerDetailsView(Guid markerId)
         {
-            var view = _navigationManager.CreateMarkerDetailsView();
+            var view = _navigationManager.CreateMarkerDetailsView(markerId);
             _navigationManager.PushDialogView(view);
         }
 
         private void OnAddMarker()
         {
-            CreateMarkerDetailsView();
+            try
+            {
+                // Create marker and add to database
+                Marker marker = new Marker();
+                marker.Name = "New Marker";           
+                marker.PositionBytes = _playerService.GetPosition();
+                marker.PositionSamples = (uint)ConvertAudio.ToPCM(marker.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+                int ms = (int)ConvertAudio.ToMS(marker.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
+                marker.Position = Conversion.MillisecondsToTimeString((ulong)ms);
+                marker.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
+                _libraryService.InsertMarker(marker);
+
+                // Refresh marker list
+                RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while adding a marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void OnEditMarker(Marker marker)
         {
+            CreateMarkerDetailsView(marker.MarkerId);
+        }
+
+        private void RefreshMarkers(Guid audioFileId)
+        {
+            try
+            {
+                var markers = _libraryService.SelectMarkers(audioFileId);
+                View.RefreshMarkers(markers);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                View.MarkerError(ex);
+            }
+
         }
     }
 }

@@ -15,9 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
+using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
 {
@@ -26,15 +30,54 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class MarkerDetailsPresenter : BasePresenter<IMarkerDetailsView>, IMarkerDetailsPresenter
 	{
-        public MarkerDetailsPresenter()
+        private readonly Guid _markerId;
+        private readonly ILibraryService _libraryService;
+        private readonly ITinyMessengerHub _messageHub;
+
+        public MarkerDetailsPresenter(Guid markerId, ITinyMessengerHub messageHub, ILibraryService libraryService)
 		{
+            _markerId = markerId;
+            _messageHub = messageHub;
+            _libraryService = libraryService;
 		}
 
         public override void BindView(IMarkerDetailsView view)
         {            
             // Subscribe to view actions
-            
+            view.OnDeleteMarker = DeleteMarker;           
+
             base.BindView(view);
+        }
+
+        public void DeleteMarker()
+        {
+            try
+            {
+                _libraryService.DeleteMarker(_markerId);
+                _messageHub.PublishAsync(new MarkerDeletedMessage(this){ 
+                    MarkerId = _markerId
+                });
+                View.DismissView();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while deleting a marker: " + ex.Message);
+                View.MarkerDetailsError(ex);
+            }
+        }
+
+        private void RefreshMarker()
+        {
+            try
+            {
+                var marker = _libraryService.SelectMarker(_markerId);
+                View.RefreshMarker(marker);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while refreshing a marker: " + ex.Message);
+                View.MarkerDetailsError(ex);
+            }
         }
     }
 }

@@ -355,13 +355,13 @@ namespace MPfm.MVP.Navigation
             return _markersView;
         }
 
-        public virtual IMarkerDetailsView CreateMarkerDetailsView()
+        public virtual IMarkerDetailsView CreateMarkerDetailsView(Guid markerId)
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>();
-                _markerDetailsPresenter.BindView((IMarkerDetailsView)view);
+                var presenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads(){{"markerId", markerId}});
+                presenter.BindView((IMarkerDetailsView)view);
             };
             
             // Create view and manage view destruction

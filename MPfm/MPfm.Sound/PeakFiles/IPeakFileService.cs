@@ -20,7 +20,7 @@ using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Sound.PeakFiles
 {
-    public interface IPeakFileGenerator
+    public interface IPeakFileService
     {
         /// <summary>
         /// Indicates if a peak file is generating.
@@ -42,17 +42,17 @@ namespace MPfm.Sound.PeakFiles
         /// <summary>
         /// Event called when a thread starts its work.
         /// </summary>
-        event PeakFileGenerator.ProcessStarted OnProcessStarted;
+        event PeakFileService.ProcessStarted OnProcessStarted;
 
         /// <summary>
         /// Event called every 20 blocks when generating a peak file.
         /// </summary>
-        event PeakFileGenerator.ProcessData OnProcessData;
+        event PeakFileService.ProcessData OnProcessData;
 
         /// <summary>
         /// Event called when all the GeneratePeakFiles threads have completed their work.
         /// </summary>
-        event PeakFileGenerator.ProcessDone OnProcessDone;
+        event PeakFileService.ProcessDone OnProcessDone;
 
         /// <summary>
         /// Generates a peak file for an audio file.

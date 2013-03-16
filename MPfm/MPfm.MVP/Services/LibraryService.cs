@@ -23,6 +23,7 @@ using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Services
 {
@@ -197,5 +198,64 @@ namespace MPfm.MVP.Services
 		{
 			return gateway.SelectDistinctAlbumTitles(format, artistName);
 		}
+
+        #region Markers
+
+        public void InsertMarker(Marker marker)
+        {
+            gateway.InsertMarker(marker);
+        }
+
+        public Marker SelectMarker(Guid markerId)
+        {
+            return gateway.SelectMarker(markerId);
+        }
+
+        public List<Marker> SelectMarkers(Guid audioFileId)
+        {
+            return gateway.SelectMarkers(audioFileId);
+        }
+
+        public void UpdateMarker(Marker marker)
+        {
+            gateway.UpdateMarker(marker);
+        }
+
+        public void DeleteMarker(Guid markerId)
+        {
+            gateway.DeleteMarker(markerId);
+        }
+
+        #endregion
+
+        #region Loops
+        
+        public void InsertLoop(Loop Loop)
+        {
+            gateway.InsertLoop(Loop);
+        }
+        
+        public Loop SelectLoop(Guid LoopId)
+        {
+            return gateway.SelectLoop(LoopId);
+        }
+        
+        public List<Loop> SelectLoops(Guid audioFileId)
+        {
+            return gateway.SelectLoops(audioFileId);
+        }
+        
+        public void UpdateLoop(Loop Loop)
+        {
+            gateway.UpdateLoop(Loop);
+        }
+        
+        public void DeleteLoop(Guid LoopId)
+        {
+            gateway.DeleteLoop(LoopId);
+        }
+        
+        #endregion
+
     }
 }
