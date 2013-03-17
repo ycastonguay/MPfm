@@ -157,7 +157,6 @@ namespace MPfm.iOS.Classes.Controls
             string peakFilePath = Path.Combine(peakFileFolder, Normalizer.NormalizeStringForUrl(audioFile.ArtistName + "_" + audioFile.AlbumTitle + "_" + audioFile.Title + "_" + audioFile.FileType.ToString()) + ".peak");
 
             // Check if peak file exists
-            bool peakFileLoadedSuccessfully = false;
             if (File.Exists(peakFilePath))
             {
                 Task<List<WaveDataMinMax>>.Factory.StartNew(() => {
@@ -236,7 +235,8 @@ namespace MPfm.iOS.Classes.Controls
             else if(_waveDataHistory.Count == 0)
                 emptyWaveFormMessage = string.Empty;
 
-            if(!string.IsNullOrEmpty(emptyWaveFormMessage))
+            //if(!string.IsNullOrEmpty(emptyWaveFormMessage))
+            if(_isLoading || _waveDataHistory.Count == 0)
             {
                 context = UIGraphics.GetCurrentContext();
                 
@@ -258,7 +258,7 @@ namespace MPfm.iOS.Classes.Controls
                 context = UIGraphics.GetCurrentContext();
                 context.DrawImage(Bounds, _imageCache.CGImage);            
             }
-            else
+            else if (_imageCache == null && _waveDataHistory.Count > 0)
             {
                 // Let the user know the image cache is generating
                 context = UIGraphics.GetCurrentContext();
@@ -351,7 +351,7 @@ namespace MPfm.iOS.Classes.Controls
                         i = (float)Math.Round(i * 2) / 2;
 
                         // Determine the maximum height of a line (+/-)
-                        Console.WriteLine("WaveForm - Rendering " + i.ToString() + " on " + widthAvailable.ToString());
+                        //Console.WriteLine("WaveForm - Rendering " + i.ToString() + " on " + widthAvailable.ToString());
                         float heightToRenderLine = 0;
                         if (DisplayType == WaveFormDisplayType.Stereo)
                         {
@@ -410,7 +410,7 @@ namespace MPfm.iOS.Classes.Controls
                             mixMaxHeight = mixMax * heightToRenderLine;
                             mixMinHeight = mixMin * heightToRenderLine;
                         }
-                        catch
+                        catch(Exception ex)
                         {
                             throw;
                         }
