@@ -16,15 +16,16 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
 using MPfm.Player;
+using MPfm.Player.Events;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Bass.Net;
+using MPfm.Sound.Playlists;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
 using TinyMessenger;
-using MPfm.Sound.AudioFiles;
-using System.Linq;
-using MPfm.Sound.Playlists;
-using MPfm.Player.Events;
 
 namespace MPfm.MVP.Services
 {
@@ -212,6 +213,11 @@ namespace MPfm.MVP.Services
         public void SetTimeShifting(float timeShifting)
         {
             _player.TimeShifting = timeShifting;
+        }
+
+        public void GoToMarker(Marker marker)
+        {
+            _player.GoToMarker(marker);
         }
 
         public void BypassEQ()

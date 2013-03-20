@@ -19,6 +19,9 @@ using System;
 using System.Drawing;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+using MonoTouch.CoreAnimation;
+using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
@@ -27,6 +30,8 @@ namespace MPfm.iOS
 {
     public partial class MarkerDetailsViewController : BaseViewController, IMarkerDetailsView
     {
+        private Marker _marker = null;
+
         public MarkerDetailsViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MarkerDetailsViewController_iPhone" : "MarkerDetailsViewController_iPad", null)
         {
@@ -34,12 +39,62 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
+            // Add gradient background
+            CAGradientLayer gradient = new CAGradientLayer();
+            gradient.Frame = this.View.Bounds;
+            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+            this.View.Layer.InsertSublayer(gradient, 0);
+
+            // Set UI fonts
+//            lblMarkerDetails.Font = UIFont.FromName("OstrichSans-Black", 22);
+//            lblTitleName.Font = UIFont.FromName("OstrichSans-Black", 14);
+//            lblTitlePosition.Font = UIFont.FromName("OstrichSans-Black", 14);
+//            lblTitleComments.Font = UIFont.FromName("OstrichSans-Black", 14);
+//            btnDeleteMarker.Font = UIFont.FromName("OstrichSans-Black", 18);
+//            btnClose.Font = UIFont.FromName("OstrichSans-Black", 18);
+
+            // Add padding to text field (http://stackoverflow.com/questions/3727068/set-padding-for-uitextfield-with-uitextborderstylenone)
+            UIView paddingView = new UIView(new RectangleF(0, 0, 5, 20));
+            txtName.LeftView = paddingView;
+            txtName.LeftViewMode = UITextFieldViewMode.Always;
+
+            // Make sure the Done key closes the keyboard
+            txtName.ShouldReturn = (a) => {
+                txtName.ResignFirstResponder();
+                return true;
+            };
+            textViewComments.ShouldBeginEditing = (a) => {
+                UIView.Animate(0.2f, () => {
+                    View.Bounds = new RectangleF(View.Bounds.X, View.Bounds.Y + 100, View.Bounds.Width, View.Bounds.Height);
+                });
+                return true;
+            };
+            textViewComments.ShouldEndEditing = (a) => {
+                textViewComments.ResignFirstResponder();
+                UIView.Animate(0.2f, () => {
+                    View.Bounds = new RectangleF(View.Bounds.X, View.Bounds.Y - 100, View.Bounds.Width, View.Bounds.Height);
+                });
+                return true;
+            };
+
+            sliderPosition.ValueChanged += HandleSliderPositionValueChanged;
+
             base.ViewDidLoad();
+        }
+
+        private void HandleSliderPositionValueChanged(object sender, EventArgs e)
+        {
+            // Calculate new position by sending a request to the presenter
+            OnChangePosition(sliderPosition.Value);
         }
 
         partial void actionClose(NSObject sender)
         {
-            this.DismissViewController(true, null);
+            // TODO: Calculate position from slider
+            _marker.Name = txtName.Text;
+            _marker.Comments = textViewComments.Text;
+            _marker.Position = lblPosition.Text;
+            OnUpdateMarker(_marker);
         }
 
         partial void actionDeleteMarker(NSObject sender)
@@ -50,6 +105,8 @@ namespace MPfm.iOS
 
         #region IMarkerDetailsView implementation
 
+        public Action<float> OnChangePosition { get; set; }
+        public Action<Marker> OnUpdateMarker { get; set; }
         public Action OnDeleteMarker { get; set; }
 
         public void MarkerDetailsError(Exception ex)
@@ -67,9 +124,22 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshMarker(Marker marker)
+        public void RefreshMarker(Marker marker, AudioFile audioFile)
         {
             InvokeOnMainThread(() => {
+                _marker = marker;
+                txtName.Text = marker.Name;
+                textViewComments.Text = marker.Comments;
+                //lblPosition.Text = marker.Position;
+                lblLength.Text = audioFile.Length;
+            });
+        }
+
+        public void RefreshMarkerPosition(string position, float positionPercentage)
+        {
+            InvokeOnMainThread(() => {
+                lblPosition.Text = position;
+                sliderPosition.Value = positionPercentage;
             });
         }
 

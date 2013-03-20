@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Views
 {
@@ -26,10 +27,13 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface IMarkerDetailsView : IBaseView
 	{
+        Action<float> OnChangePosition { get; set; }
+        Action<Marker> OnUpdateMarker { get; set; }
         Action OnDeleteMarker { get; set; }
 
         void MarkerDetailsError(Exception ex);
         void DismissView();
-        void RefreshMarker(Marker marker);
+        void RefreshMarker(Marker marker, AudioFile audioFile);
+        void RefreshMarkerPosition(string position, float positionPercentage);
 	}
 }

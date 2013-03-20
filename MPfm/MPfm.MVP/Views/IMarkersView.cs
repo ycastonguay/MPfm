@@ -28,6 +28,7 @@ namespace MPfm.MVP.Views
 	{
         Action OnAddMarker { get; set; }
         Action<Marker> OnEditMarker { get; set; }
+        Action<Marker> OnSelectMarker { get; set; }
 
         void MarkerError(Exception ex);
         void RefreshMarkers(List<Marker> markers);

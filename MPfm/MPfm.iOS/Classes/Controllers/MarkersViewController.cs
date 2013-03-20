@@ -96,10 +96,12 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            Console.WriteLine("Selected marker");
-            //OnItemClick(indexPath.Row);
+            if(OnSelectMarker != null)
+            {
+                OnSelectMarker(_markers[indexPath.Row]);
+                tableView.DeselectRow(indexPath, true);
+            }
         }
-
 
         partial void actionAddMarker(NSObject sender)
         {
@@ -111,6 +113,7 @@ namespace MPfm.iOS
 
         public Action OnAddMarker { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
+        public Action<Marker> OnSelectMarker { get; set; }
 
         public void MarkerError(Exception ex)
         {

@@ -291,6 +291,6 @@
     <Compile Include="Presenters\Interfaces\IMarkerDetailsPresenter.cs" />
     <Compile Include="Presenters\LoopDetailsPresenter.cs" />
     <Compile Include="Presenters\MarkerDetailsPresenter.cs" />
-    <Compile Include="Messages\MarkerDeletedMessage.cs" />
+    <Compile Include="Messages\MarkerUpdatedMessage.cs" />
   </ItemGroup>
 </Project>

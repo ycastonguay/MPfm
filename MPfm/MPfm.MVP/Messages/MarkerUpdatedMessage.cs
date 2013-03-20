@@ -22,13 +22,13 @@ using TinyMessenger;
 namespace MPfm.MVP.Messages
 {
     /// <summary>
-    /// Message indicating that a marker has been deleted from the database.
+    /// Message indicating that a marker has been updated or deleted from the database.
     /// </summary>
-    public class MarkerDeletedMessage : TinyMessageBase
+    public class MarkerUpdatedMessage : TinyMessageBase
     {
         public Guid MarkerId { get; set; }
 
-        public MarkerDeletedMessage(object sender) 
+        public MarkerUpdatedMessage(object sender) 
             : base(sender)
         {
         }

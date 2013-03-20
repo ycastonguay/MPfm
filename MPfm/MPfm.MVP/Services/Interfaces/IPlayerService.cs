@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using MPfm.Player;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Bass.Net;
 using MPfm.Sound.Playlists;
@@ -53,6 +54,8 @@ namespace MPfm.MVP.Services.Interfaces
         void SetPosition(long bytes);
         void SetVolume(float volume);
         void SetTimeShifting(float timeShifting);
+
+        void GoToMarker(Marker marker);
 
         void BypassEQ();
         void ResetEQ();

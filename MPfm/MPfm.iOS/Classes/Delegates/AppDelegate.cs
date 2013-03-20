@@ -113,7 +113,8 @@ namespace MPfm.iOS.Classes.Delegates
         public void HideSplash()
         {
             InvokeOnMainThread(() => {
-                _tabBarController.View.Hidden = false;            
+                _tabBarController.View.Hidden = false;
+                _splashViewController.View.RemoveFromSuperview();
             });
         }
 

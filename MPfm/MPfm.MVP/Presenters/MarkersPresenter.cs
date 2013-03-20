@@ -50,14 +50,15 @@ namespace MPfm.MVP.Presenters
         public override void BindView(IMarkersView view)
         {            
             // Subscribe to view actions
-            view.OnAddMarker = OnAddMarker;
-            view.OnEditMarker = OnEditMarker;
+            view.OnAddMarker = AddMarker;
+            view.OnEditMarker = EditMarker;
+            view.OnSelectMarker = SelectMarker;
 
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
                 _audioFileId = m.Data.AudioFileStarted.Id;
                 RefreshMarkers(_audioFileId);
             });
-            _messageHub.Subscribe<MarkerDeletedMessage>((MarkerDeletedMessage m) => {
+            _messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
                 RefreshMarkers(_audioFileId);
             });
 
@@ -70,7 +71,7 @@ namespace MPfm.MVP.Presenters
             _navigationManager.PushDialogView(view);
         }
 
-        private void OnAddMarker()
+        private void AddMarker()
         {
             try
             {
@@ -94,9 +95,22 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void OnEditMarker(Marker marker)
+        private void EditMarker(Marker marker)
         {
             CreateMarkerDetailsView(marker.MarkerId);
+        }
+
+        private void SelectMarker(Marker marker)
+        {
+            try
+            {
+                _playerService.GoToMarker(marker);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while selecting marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
         }
 
         private void RefreshMarkers(Guid audioFileId)
@@ -111,7 +125,6 @@ namespace MPfm.MVP.Presenters
                 Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
                 View.MarkerError(ex);
             }
-
         }
     }
 }
