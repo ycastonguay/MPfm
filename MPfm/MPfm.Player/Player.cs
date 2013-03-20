@@ -1395,7 +1395,7 @@ namespace MPfm.Player
             }
 
             // Stop decoding the current file (doesn't throw an exception if decode has finished)
-            Playlist.CurrentItem.CancelDecode();
+            //Playlist.CurrentItem.CancelDecode();
 
             // Remove syncs            
             RemoveSyncCallbacks();
@@ -1433,7 +1433,7 @@ namespace MPfm.Player
             currentMixPlaylistIndex = index;
 
             // Get audio file (to raise event later)
-            AudioFile audioFileStarted = Playlist.Items[index].AudioFile;
+            //AudioFile audioFileStarted = Playlist.Items[index].AudioFile;
 
             // Start playback
             Play();

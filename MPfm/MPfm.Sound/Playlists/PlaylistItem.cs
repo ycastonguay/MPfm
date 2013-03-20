@@ -401,14 +401,28 @@ namespace MPfm.Sound.Playlists
             // Check if a channel already exists
             if (channel != null)
             {
-                // Check if the channel is in use
-                if (channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
+                try
                 {
-                    // Stop and free channel                    
+                    // Stop and free channel
+                    Console.WriteLine("Freeing channel " + AudioFile.FilePath + "...");
                     channel.Stop();
                     channel.Free();
                     channel = null;
                 }
+                catch(Exception ex)
+                {
+                    if(audioFile != null)
+                        Console.WriteLine("Could not dispose channel " + AudioFile.FilePath + ": " + ex.Message);
+                }
+
+//                // Check if the channel is in use
+//                if (channel.IsActive() == BASSActive.BASS_ACTIVE_PLAYING)
+//                {
+//                    // Stop and free channel                    
+//                    channel.Stop();
+//                    channel.Free();
+//                    channel = null;
+//                }
             }
 
             // Set flags
