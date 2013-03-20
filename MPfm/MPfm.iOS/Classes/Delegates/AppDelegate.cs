@@ -37,6 +37,7 @@ namespace MPfm.iOS.Classes.Delegates
 	{		
 		MPfmWindow _window;
         UITabBarController _tabBarController;
+        public UITabBarController TabBarController { get { return _tabBarController; } }
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
         List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();

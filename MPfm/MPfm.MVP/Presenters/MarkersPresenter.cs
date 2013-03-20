@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using MPfm.Core;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -25,6 +26,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
+using System.Collections.Generic;
 
 namespace MPfm.MVP.Presenters
 {
@@ -38,6 +40,7 @@ namespace MPfm.MVP.Presenters
         readonly ILibraryService _libraryService;
         readonly IPlayerService _playerService;
         Guid _audioFileId = Guid.Empty;
+        List<Marker> _markers = new List<Marker>();
 
         public MarkersPresenter(ITinyMessengerHub messageHub, MobileNavigationManager navigationManager, ILibraryService libraryService, IPlayerService playerService)
 		{
@@ -71,13 +74,17 @@ namespace MPfm.MVP.Presenters
             _navigationManager.PushDialogView(view);
         }
 
-        private void AddMarker()
+        private void AddMarker(MarkerTemplateNameType markerTemplateNameType)
         {
             try
             {
+                // Create marker name from template type (check for markers sharing the same name)
+                List<string> similarMarkers = _markers.Select(x => x.Name).Where(x => x.ToUpper().StartsWith(markerTemplateNameType.ToString().ToUpper())).ToList();
+                string markerName = markerTemplateNameType.ToString() + " " + (similarMarkers.Count + 1).ToString();
+
                 // Create marker and add to database
                 Marker marker = new Marker();
-                marker.Name = "New Marker";           
+                marker.Name = markerName;
                 marker.PositionBytes = _playerService.GetPosition();
                 marker.PositionSamples = (uint)ConvertAudio.ToPCM(marker.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
                 int ms = (int)ConvertAudio.ToMS(marker.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
@@ -117,8 +124,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                var markers = _libraryService.SelectMarkers(audioFileId);
-                View.RefreshMarkers(markers);
+                _markers = _libraryService.SelectMarkers(audioFileId);
+                View.RefreshMarkers(_markers);
             }
             catch(Exception ex)
             {
@@ -126,6 +133,16 @@ namespace MPfm.MVP.Presenters
                 View.MarkerError(ex);
             }
         }
+    }
+
+    public enum MarkerTemplateNameType
+    {
+        Verse = 0,
+        Chorus = 1,
+        Bridge = 2,
+        Solo = 3,
+        Other = 4,
+        None = 5
     }
 }
 

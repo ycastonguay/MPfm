@@ -23,6 +23,8 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using MPfm.iOS.Classes.Delegates;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.iOS
 {
@@ -105,13 +107,28 @@ namespace MPfm.iOS
 
         partial void actionAddMarker(NSObject sender)
         {
-            if(OnAddMarker != null)
-                OnAddMarker();
+            // Show a list of templates for the marker name
+            UIActionSheet actionSheet = new UIActionSheet("Select a marker name template:", null, "Cancel", null, new string[4] { "Verse", "Chorus", "Bridge", "Solo" });
+            actionSheet.Style = UIActionSheetStyle.BlackTranslucent;
+            actionSheet.Clicked += (eventSender, e) => {
+
+                // Check for cancel
+                if(e.ButtonIndex == 4)
+                    return;
+
+                // Add marker
+                if(OnAddMarker != null)
+                    OnAddMarker((MarkerTemplateNameType)e.ButtonIndex);
+            };
+
+            // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
+            AppDelegate appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+            actionSheet.ShowFromTabBar(appDelegate.TabBarController.TabBar);
         }
 
         #region IMarkersView implementation
 
-        public Action OnAddMarker { get; set; }
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
 

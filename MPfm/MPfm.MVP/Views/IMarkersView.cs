@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Player.Objects;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.MVP.Views
 {
@@ -26,7 +27,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface IMarkersView : IBaseView
 	{
-        Action OnAddMarker { get; set; }
+        Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         Action<Marker> OnEditMarker { get; set; }
         Action<Marker> OnSelectMarker { get; set; }
 
