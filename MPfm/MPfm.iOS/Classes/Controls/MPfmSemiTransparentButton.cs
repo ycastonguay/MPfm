@@ -23,27 +23,38 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MonoTouch.CoreGraphics;
 
 namespace MPfm.iOS.Classes.Controls
 {
-    [Register("MPfmSlider")]
-    public class MPfmSlider : UISlider
+    [Register("MPfmSemiTransparentButton")]
+    public class MPfmSemiTransparentButton : UIButton
     {
         private bool _isTouchDown = false;
 
-        public Action<float> OnTouchesBegan;
-        public Action<float> OnTouchesMoved;
-        public Action<float> OnTouchesEnded;
+        public Action OnTouchesBegan;
+        public Action OnTouchesMoved;
+        public Action OnTouchesEnded;
 
-        public MPfmSlider(IntPtr handle) : base (handle)
+        public MPfmSemiTransparentButton(IntPtr handle) : base(handle)
         {
-            this.Continuous = true;
+            // Add custom background to button
+            SetTitleColor(UIColor.White, UIControlState.Normal);
+            //SetTitleColor(UIColor.DarkGray, UIControlState.Highlighted);
+            Layer.CornerRadius = 8;
+            Layer.BackgroundColor = new CGColor(0.6f, 0.6f, 0.6f, 1);
+            Alpha = 0.8f;
         }
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
             if (OnTouchesBegan != null)
-                OnTouchesBegan(this.Value);
+                OnTouchesBegan();
+
+            UIView.Animate(0.125f, () => {
+                Layer.BackgroundColor = new CGColor(0.5f, 0.5f, 0.5f, 1);
+                Alpha = 1.0f;
+            });
 
             _isTouchDown = true;
             base.TouchesBegan(touches, evt);
@@ -52,7 +63,7 @@ namespace MPfm.iOS.Classes.Controls
         public override void TouchesMoved(NSSet touches, UIEvent evt)
         {
             if (OnTouchesMoved != null)
-                OnTouchesMoved(this.Value);
+                OnTouchesMoved();
 
             base.TouchesMoved(touches, evt);
         }
@@ -60,7 +71,12 @@ namespace MPfm.iOS.Classes.Controls
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
             if (OnTouchesEnded != null)
-                OnTouchesEnded(this.Value);
+                OnTouchesEnded();
+
+            UIView.Animate(0.125f, () => {
+                Layer.BackgroundColor = new CGColor(0.6f, 0.6f, 0.6f, 1);
+                Alpha = 0.8f;
+            });
 
             _isTouchDown = false;
             base.TouchesEnded(touches, evt);
@@ -70,34 +86,5 @@ namespace MPfm.iOS.Classes.Controls
         {
             base.TouchesCancelled(touches, evt);
         }
-
-//        [Export("mouseUp:")]
-//        public override void MouseUp(NSEvent theEvent)
-//        {
-//            // Call super class
-//            base.MouseUp(theEvent);
-//            
-//            // Get value
-//            float value = this.FloatValue;
-//            
-//            // Set flag
-//            isMouseDown = false;
-//            
-//            // Set player position
-//            playerPresenter.SetPosition(value / 100);
-//        }
-//        
-//        [Export("didChangeValue:")]
-//        public override void DidChangeValue(string forKey)
-//        {
-//            base.DidChangeValue(forKey);
-//        }       
-        
-        public void SetPosition(float position)
-        {
-            if (!_isTouchDown)
-                this.Value = position;
-        }
-
     }
 }

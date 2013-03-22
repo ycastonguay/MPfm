@@ -42,6 +42,8 @@ namespace MPfm.iOS.Classes.Controllers
 	{
         private bool _isPositionChanging = false;
         private string _currentAlbumArtKey = string.Empty;
+        private MPVolumeView _volumeView;
+        private UIBarButtonItem _btnBack;
 
 		public PlayerViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
@@ -50,9 +52,10 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
+
             // Set fonts
-            lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
-            lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
+//            lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
+//            lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
 
             // Load button bitmaps
             btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous"), UIControlState.Normal);
@@ -77,22 +80,40 @@ namespace MPfm.iOS.Classes.Controllers
             pageControl.CurrentPage = 0;
 
             // TODO: Block slider when the player is paused.
+            sliderPosition.OnTouchesBegan = (position) => {
+                UIView.Animate(0.2f, () => {
+                    waveFormView.Frame = new RectangleF(0, 27 + 66, 320, 176);
+                    viewPosition.Frame = new RectangleF(0, 0, 320, 66);
+                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewMain.Frame.Y + 66 + 88, viewMain.Frame.Width, viewMain.Frame.Height); // Relative depending on iPhone4/5
+                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, _volumeView.Frame.Y + 66 + 88, _volumeView.Frame.Width, _volumeView.Frame.Height);
+                    lblSlideMessage.Alpha = 1;
+                    lblScrubbingType.Alpha = 1;
+                });
+            };
             sliderPosition.OnTouchesMoved = (position) => {
                 _isPositionChanging = true;
-                Console.WriteLine("Position: Setting value to " + position.ToString());
+                //Console.WriteLine("Position: Setting value to " + position.ToString());
                 lblPosition.Text = position.ToString();
             };
             sliderPosition.OnTouchesEnded = (position) => {
-                Console.WriteLine("Position: Setting value to " + position.ToString());
+                //Console.WriteLine("Position: Setting value to " + position.ToString());
+                UIView.Animate(0.2f, () => {
+                    waveFormView.Frame = new RectangleF(0, 27, 320, 88);
+                    viewPosition.Frame = new RectangleF(0, 0, 320, 24);
+                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewMain.Frame.Y - 66 - 88, viewMain.Frame.Width, viewMain.Frame.Height); // Relative depending on iPhone4/5
+                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, _volumeView.Frame.Y - 66 - 88, _volumeView.Frame.Width, _volumeView.Frame.Height);
+                    lblSlideMessage.Alpha = 0;
+                    lblScrubbingType.Alpha = 0;
+                });
                 OnPlayerSetPosition(position / 100);
                 _isPositionChanging = false;
             };
 
             // Create MPVolumeView (only visible on physical iOS device)
-            MPVolumeView volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 46, UIScreen.MainScreen.Bounds.Width - 16, 46));
+            _volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 50, UIScreen.MainScreen.Bounds.Width - 16, 46));
             //volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/slider_ball"), UIControlState.Normal);
             //volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slide"), UIControlState.Normal);
-            this.View.AddSubview(volumeView);
+            this.View.AddSubview(_volumeView);
 
             // Only display wave form on iPhone 5+
             if (DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone5)
@@ -100,7 +121,24 @@ namespace MPfm.iOS.Classes.Controllers
                 waveFormView.Hidden = true;
             }
 
+            // Create text attributes for navigation bar button
+            UITextAttributes attr = new UITextAttributes();
+            attr.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
+            attr.TextColor = UIColor.White;
+            attr.TextShadowColor = UIColor.DarkGray;
+            attr.TextShadowOffset = new UIOffset(0, 0);
+            
+            // Set back button for navigation bar
+            _btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
+            _btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
+            this.NavigationItem.BackBarButtonItem = _btnBack;
+
+            // Reset temporary text
+            lblLength.Text = string.Empty;
+            lblPosition.Text = string.Empty;
+
             base.ViewDidLoad();            
+            
 		}
 
         public override void ViewWillAppear(bool animated)
@@ -108,7 +146,7 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetSubtitle("Now Playing");
+            navCtrl.SetTitle("Now Playing", "");
         }
 
         public void AddScrollView(UIViewController viewController)
@@ -205,6 +243,9 @@ namespace MPfm.iOS.Classes.Controllers
                     }
 
                     lblLength.Text = audioFile.Length;
+
+                    MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+                    navCtrl.SetTitle("Now Playing", audioFile.ArtistName + " - " + audioFile.AlbumTitle + " - " + audioFile.Title);
 
                     // Load peak file in background
                     waveFormView.LoadPeakFile(audioFile);

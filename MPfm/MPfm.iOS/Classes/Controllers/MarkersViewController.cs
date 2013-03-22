@@ -41,8 +41,6 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            lblTitle.Font = UIFont.FromName("OstrichSans-Black", 28);
-
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
@@ -88,8 +86,10 @@ namespace MPfm.iOS
             cell.DetailTextLabel.Text = _markers[indexPath.Row].Position;
 
             // Set theme
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
             cell.TextLabel.TextColor = UIColor.White;
-            cell.DetailTextLabel.TextColor = UIColor.White;
+            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
+            cell.DetailTextLabel.TextColor = UIColor.LightGray;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
             
             return cell;

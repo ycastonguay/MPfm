@@ -153,19 +153,19 @@ namespace MPfm.MVP.Presenters
             switch (_browserType)
             {
                 case MobileLibraryBrowserType.Playlists:
-                    View.RefreshLibraryBrowser(_items, _browserType, "Playlists");
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "All Playlists");
                     break;
                 case MobileLibraryBrowserType.Artists:
                     _items = GetArtists().ToList();
-                    View.RefreshLibraryBrowser(_items, _browserType, "Artists");
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "All Artists");
                     break;
                 case MobileLibraryBrowserType.Albums:
                     _items = GetAlbums(_query.ArtistName).ToList();
-                    View.RefreshLibraryBrowser(_items, _browserType, (String.IsNullOrEmpty(_query.ArtistName)) ? "Albums" : _query.ArtistName);
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.ArtistName)) ? "All Albums" : _query.ArtistName);
                     break;
                 case MobileLibraryBrowserType.Songs:
                     _items = GetSongs(_query.ArtistName, _query.AlbumTitle).ToList();
-                    View.RefreshLibraryBrowser(_items, _browserType, (String.IsNullOrEmpty(_query.AlbumTitle)) ? "Songs" : _query.AlbumTitle);
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.AlbumTitle)) ? "All Songs" : _query.AlbumTitle);
                     break;
             }
         }

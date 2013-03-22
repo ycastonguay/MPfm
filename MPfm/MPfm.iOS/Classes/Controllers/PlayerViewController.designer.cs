@@ -12,6 +12,18 @@ namespace MPfm.iOS.Classes.Controllers
 	partial class PlayerViewController
 	{
 		[Outlet]
+		MonoTouch.UIKit.UIView viewMain { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblSlideMessage { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblScrubbingType { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewPosition { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UILabel lblPosition { get; set; }
 
 		[Outlet]
@@ -52,6 +64,26 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (viewMain != null) {
+				viewMain.Dispose ();
+				viewMain = null;
+			}
+
+			if (lblSlideMessage != null) {
+				lblSlideMessage.Dispose ();
+				lblSlideMessage = null;
+			}
+
+			if (lblScrubbingType != null) {
+				lblScrubbingType.Dispose ();
+				lblScrubbingType = null;
+			}
+
+			if (viewPosition != null) {
+				viewPosition.Dispose ();
+				viewPosition = null;
+			}
+
 			if (lblPosition != null) {
 				lblPosition.Dispose ();
 				lblPosition = null;

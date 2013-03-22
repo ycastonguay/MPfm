@@ -35,8 +35,10 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            lblTitle.Font = UIFont.FromName("OstrichSans-Black", 28);
-
+            // Add custom background to button
+            btnAddLoop.Layer.CornerRadius = 8;
+            btnAddLoop.Layer.BackgroundColor = UIColor.LightGray.CGColor;
+            btnAddLoop.Alpha = 0.8f;
             base.ViewDidLoad();
         }
 

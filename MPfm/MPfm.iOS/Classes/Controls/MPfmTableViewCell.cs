@@ -68,19 +68,22 @@ namespace MPfm.iOS.Classes.Controls
             SelectedBackgroundView = backViewSelected;
 
             TextLabel.BackgroundColor = UIColor.Clear;
-            TextLabel.Font = UIFont.FromName("OstrichSans-Medium", 20);
+            //TextLabel.Font = UIFont.FromName("OstrichSans-Medium", 20);
+            TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.BackgroundColor = UIColor.Clear;            
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.Font = UIFont.FromName("OstrichSans-Medium", 16);
+            //DetailTextLabel.Font = UIFont.FromName("OstrichSans-Medium", 16);
+            DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             ImageView.BackgroundColor = UIColor.White;
 
             IndexTextLabel = new UILabel();
             IndexTextLabel.BackgroundColor = UIColor.Clear;
-            IndexTextLabel.Font = UIFont.FromName("OstrichSans-Black", 20);
-            IndexTextLabel.TextColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
+            //IndexTextLabel.Font = UIFont.FromName("OstrichSans-Black", 20);
+            IndexTextLabel.Font = UIFont.FromName("HelveticaNeue-Bold", 16);
+            IndexTextLabel.TextColor = UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
             IndexTextLabel.HighlightedTextColor = UIColor.White;
             AddSubview(IndexTextLabel);
 
@@ -96,21 +99,21 @@ namespace MPfm.iOS.Classes.Controls
             // Check for subtitle
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
             {
-                TextLabel.Frame = new RectangleF(53, 4, Bounds.Width - 106, 22);
-                DetailTextLabel.Frame = new RectangleF(53, 24, Bounds.Width - 24, 16);
+                TextLabel.Frame = new RectangleF(53, 2, Bounds.Width - 86, 22);
+                DetailTextLabel.Frame = new RectangleF(53, 22, Bounds.Width - 24, 16);
             }
             if (!string.IsNullOrEmpty(IndexTextLabel.Text))
             {
-                TextLabel.Frame = new RectangleF(33, 4, Bounds.Width - 106, 22);
-                DetailTextLabel.Frame = new RectangleF(33, 24, Bounds.Width - 24, 16);
-                IndexTextLabel.Frame = new RectangleF(12, 4, 22, 38);
+                TextLabel.Frame = new RectangleF(33, 2, Bounds.Width - 86, 22);
+                DetailTextLabel.Frame = new RectangleF(33, 22, Bounds.Width - 24, 16);
+                IndexTextLabel.Frame = new RectangleF(12, 2, 22, 38);
             }
             if (RightImageView.Image != null)
             {
-                TextLabel.Frame = new RectangleF(33, 4, Bounds.Width - 106, 22);
-                DetailTextLabel.Frame = new RectangleF(33, 24, Bounds.Width - 24, 16);
-                IndexTextLabel.Frame = new RectangleF(12, 4, 22, 38);
-                RightImageView.Frame = new RectangleF(Bounds.Width - 12, 4, 24, 24);
+                TextLabel.Frame = new RectangleF(33, 2, Bounds.Width - 86, 22);
+                DetailTextLabel.Frame = new RectangleF(33, 22, Bounds.Width - 24, 16);
+                IndexTextLabel.Frame = new RectangleF(12, 2, 22, 38);
+                RightImageView.Frame = new RectangleF(Bounds.Width - 12, 2, 24, 24);
             }
         }
     }

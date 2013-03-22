@@ -39,10 +39,12 @@ namespace MPfm.iOS.Classes.Controllers
     {
         private List<LibraryBrowserEntity> _items;
         private string _cellIdentifier = "MobileLibraryBrowserCell";
-        private string _navigationBarTitle = string.Empty;
+        private string _navigationBarTitle;
+        private string _navigationBarSubtitle;
         private MobileLibraryBrowserType _browserType;
         private Task _currentTask;
         private List<KeyValuePair<string, UIImage>> _imageCache;
+        private UIBarButtonItem btnBack;
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
@@ -55,22 +57,27 @@ namespace MPfm.iOS.Classes.Controllers
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
-            lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 20);
-            lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Black", 16);
-            lblSubtitle1.Font = UIFont.FromName("OstrichSans-Black", 12);
-            lblSubtitle2.Font = UIFont.FromName("OstrichSans-Black", 12);
+            lblArtistName.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
+            lblAlbumTitle.Font = UIFont.FromName("HelveticaNeue", 14);
+            lblSubtitle1.Font = UIFont.FromName("HelveticaNeue", 12);
+            lblSubtitle2.Font = UIFont.FromName("HelveticaNeue", 12);
 
             _currentTask = Task.Factory.StartNew (() => { });
             _imageCache = new List<KeyValuePair<string, UIImage>>();
 
-            //lblArtistName.SizeToFit();
-            //lblAlbumTitle.SizeToFit();
-//            lblArtistName.Font = UIFont.FromName("LeagueGothic-Italic", 26);
-//            lblAlbumTitle.Font = UIFont.FromName("LeagueGothic-Italic", 22);
-//            lblSubtitle1.Font = UIFont.FromName("LeagueGothic-Regular", 16);
-//            lblSubtitle2.Font = UIFont.FromName("LeagueGothic-Regular", 16);
+            // Create text attributes for navigation bar button
+            UITextAttributes attr = new UITextAttributes();
+            attr.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
+            attr.TextColor = UIColor.White;
+            attr.TextShadowColor = UIColor.DarkGray;
+            attr.TextShadowOffset = new UIOffset(0, 0);
+            
+            // Set back button for navigation bar
+            btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
+            btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
+            this.NavigationItem.BackBarButtonItem = btnBack;
 
-            base.ViewDidLoad();
+            base.ViewDidLoad();            
         }
 
         public override void ViewWillAppear(bool animated)
@@ -78,7 +85,7 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetSubtitle(_navigationBarTitle);
+            navCtrl.SetTitle(_navigationBarTitle, _navigationBarSubtitle);
         }
         
         public override void ViewDidDisappear(bool animated)
@@ -214,12 +221,13 @@ namespace MPfm.iOS.Classes.Controllers
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle)
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
         {
             InvokeOnMainThread(() => {
                 _items = entities.ToList();
                 _browserType = browserType;
                 _navigationBarTitle = navigationBarTitle;
+                _navigationBarSubtitle = navigationBarSubtitle;
                 tableView.ReloadData();
 
                 // Hide album cover if not showing songs

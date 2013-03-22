@@ -184,6 +184,7 @@
     <Compile Include="Classes\Controllers\MarkerDetailsViewController.designer.cs">
       <DependentUpon>MarkerDetailsViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\MPfmSemiTransparentButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

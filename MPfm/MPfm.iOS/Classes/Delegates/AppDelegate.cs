@@ -124,16 +124,14 @@ namespace MPfm.iOS.Classes.Delegates
             InvokeOnMainThread(() => {
                 // Create text attributes for tab
                 UITextAttributes attr = new UITextAttributes();
-                //attr.Font = UIFont.FromName("Junction", 11);
-                attr.Font = UIFont.FromName("OstrichSans-Black", 12);
-                //attr.Font = UIFont.FromName("LeagueGothic-Regular", 13);
+                attr.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
                 attr.TextColor = UIColor.White;
                 attr.TextShadowColor = UIColor.DarkGray;
                 attr.TextShadowOffset = new UIOffset(1, 1);
 
                 // Create navigation controller
                 var navCtrl = new MPfmNavigationController();
-                navCtrl.SetSubtitle(title);
+                navCtrl.SetTitle(title, "");
                 //navCtrl.NavigationBar.BackgroundColor = UIColor.FromRGBA(0.5f, 1, 0.5f, 1);
                 navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
                 navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);

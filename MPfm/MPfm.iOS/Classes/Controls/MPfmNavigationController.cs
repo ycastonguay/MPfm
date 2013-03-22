@@ -23,6 +23,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MonoTouch.CoreGraphics;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -51,28 +52,21 @@ namespace MPfm.iOS.Classes.Controls
             _btnEffects = new UIButton(UIButtonType.RoundedRect);
             _btnEffects.Frame = new RectangleF(this.NavigationBar.Frame.Width - 4 - 36, 4, 36, 36);
             _btnEffects.SetBackgroundImage(UIImage.FromBundle("Images/effects.png"), UIControlState.Normal);
-            _btnEffects.TouchUpInside += (sender, e) => { 
-                // TODO: This class should never call the Navigation Manager!
-                var navMgr = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
 
-            };
-
-            _lblTitle = new UILabel(new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 100, 20));
+            _lblTitle = new UILabel(new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 120, 20));
             _lblTitle.TextColor = UIColor.White;
             _lblTitle.BackgroundColor = UIColor.Clear;
             _lblTitle.Text = "MPfm";
             _lblTitle.TextAlignment = UITextAlignment.Left;
-            _lblTitle.Font = UIFont.FromName("OstrichSans-Black", 20);
-            //_lblTitle.Font = UIFont.FromName("LeagueGothic-Regular", 20);
+            _lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
 
-            _lblSubtitle = new UILabel(new RectangleF(50, 23, UIScreen.MainScreen.Bounds.Width - 100, 20));
-            _lblSubtitle.LineBreakMode = UILineBreakMode.HeadTruncation;
+            _lblSubtitle = new UILabel(new RectangleF(50, 20, UIScreen.MainScreen.Bounds.Width - 120, 20));
+            _lblSubtitle.LineBreakMode = UILineBreakMode.TailTruncation;
             _lblSubtitle.TextColor = UIColor.LightGray;
             _lblSubtitle.BackgroundColor = UIColor.Clear;
             _lblSubtitle.Text = "Library Browser";
             _lblSubtitle.TextAlignment = UITextAlignment.Left;
-            _lblSubtitle.Font = UIFont.FromName("OstrichSans-Black", 14);
-            //_lblSubtitle.Font = UIFont.FromName("LeagueGothic-Regular", 16);
+            _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
 
             this.NavigationBar.AddSubview(_btnBack);
             this.NavigationBar.AddSubview(_btnEffects);
@@ -88,8 +82,8 @@ namespace MPfm.iOS.Classes.Controls
                 UIView.Animate(0.25, () => { 
                     _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back_wide.png"), UIControlState.Normal);
                     _btnBack.Frame = new RectangleF(4, 4, 43, 36);
-                    _lblTitle.Frame = new RectangleF(57, 6, UIScreen.MainScreen.Bounds.Width - 60, 20);
-                    _lblSubtitle.Frame = new RectangleF(57, 23, UIScreen.MainScreen.Bounds.Width - 60, 20);
+                    _lblTitle.Frame = new RectangleF(57, 6, UIScreen.MainScreen.Bounds.Width - 120, 20);//string.IsNullOrEmpty(_lblSubtitle.Text) ? 20 : 40);
+                    _lblSubtitle.Frame = new RectangleF(57, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
                 });
             }
 
@@ -104,26 +98,44 @@ namespace MPfm.iOS.Classes.Controls
                 UIView.Animate(0.25, () => { 
                     _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back.png"), UIControlState.Normal);
                     _btnBack.Frame = new RectangleF(4, 4, 36, 36);
-                    _lblTitle.Frame = new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 60, 20);
-                    _lblSubtitle.Frame = new RectangleF(50, 23, UIScreen.MainScreen.Bounds.Width - 60, 20);
+                    _lblTitle.Frame = new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 120, 20); //string.IsNullOrEmpty(_lblSubtitle.Text) ? 20 : 40);
+                    _lblSubtitle.Frame = new RectangleF(50, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
                 });
             }
 
             return true;
         }
 
-        public void SetSubtitle(string subtitle)
+        public void SetTitle(string title, string subtitle)
         {
             UIView.Animate(0.25f, delegate
-            { 
-                _lblSubtitle.Alpha = 0;
+            {
+                if(_lblTitle.Text != title)
+                    _lblTitle.Alpha = 0;
+
+                if(!string.IsNullOrEmpty(subtitle))
+                    _lblSubtitle.Alpha = 0;
+
             }, delegate
             {
+                _lblTitle.Text = title;
                 _lblSubtitle.Text = subtitle;
             });
             UIView.Animate(0.25f, delegate
-            { 
-                _lblSubtitle.Alpha = 1;
+            {
+                _lblTitle.Alpha = 1;
+                //_lblTitle.Frame = new RectangleF(50, 6, UIScreen.MainScreen.Bounds.Width - 120, string.IsNullOrEmpty(subtitle) ? 20 : 40);
+
+//                if(!string.IsNullOrEmpty(subtitle))
+//                    _lblTitle.Transform = CGAffineTransform.MakeScale(1.0f, 1.0f);
+//                    //_lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
+//                else
+//                    _lblTitle.Transform = CGAffineTransform.MakeScale(1.4f, 1.4f);
+//                    //_lblTitle.Font = UIFont.FromName("HelveticaNeue", 24);
+
+
+                if(!string.IsNullOrEmpty(subtitle))
+                    _lblSubtitle.Alpha = 1;
             });
         }
     }

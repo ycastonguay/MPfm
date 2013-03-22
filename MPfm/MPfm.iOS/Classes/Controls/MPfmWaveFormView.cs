@@ -247,7 +247,7 @@ namespace MPfm.iOS.Classes.Controls
                 NSString str = new NSString(emptyWaveFormMessage);
                 context.SetFillColor(UIColor.White.CGColor);
                 float y = (Bounds.Height - 30) / 2;
-                str.DrawString(new RectangleF(0, y, Bounds.Width, 30), UIFont.FromName("OstrichSans-Black", 16), UILineBreakMode.TailTruncation, UITextAlignment.Center);
+                str.DrawString(new RectangleF(0, y, Bounds.Width, 30), UIFont.FromName("HelveticaNeue", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
                 return;
             }
 
@@ -269,7 +269,8 @@ namespace MPfm.iOS.Classes.Controls
                 // Draw status string
                 NSString str = new NSString("Generating wave form image cache...");
                 context.SetFillColor(UIColor.White.CGColor);
-                str.DrawString(new RectangleF(0, 30, Bounds.Width, 30), UIFont.FromName("OstrichSans-Black", 16), UILineBreakMode.TailTruncation, UITextAlignment.Center);
+                float y = (Bounds.Height - 30) / 2;
+                str.DrawString(new RectangleF(0, y, Bounds.Width, 30), UIFont.FromName("HelveticaNeue", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
 
                 // Generate image in another thread
                 Task<UIImage>.Factory.StartNew(() => {

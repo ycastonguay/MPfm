@@ -35,10 +35,10 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {                
-            // Set fonts
-            lblArtistName.Font = UIFont.FromName("OstrichSans-Black", 28);
-            lblAlbumTitle.Font = UIFont.FromName("OstrichSans-Medium", 24);
-            lblTitle.Font = UIFont.FromName("OstrichSans-Medium", 18);
+            // Reset temporary text
+            lblArtistName.Text = string.Empty;
+            lblAlbumTitle.Text = string.Empty;
+            lblTitle.Text = string.Empty;
 
             base.ViewDidLoad();            
         }

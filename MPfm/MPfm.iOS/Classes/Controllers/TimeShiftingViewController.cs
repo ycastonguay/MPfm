@@ -34,15 +34,18 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            lblTitle.Font = UIFont.FromName("OstrichSans-Black", 28);
-            lblTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
-            lblOriginalTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
-            btnDetectTempo.Font = UIFont.FromName("OstrichSans-Black", 18);
-            btnReset.Font = UIFont.FromName("OstrichSans-Black", 18);
+            // Add custom background to button
+            btnReset.Layer.CornerRadius = 8;
+            btnReset.Layer.BackgroundColor = UIColor.LightGray.CGColor;
+            btnReset.Alpha = 0.8f;
+            btnDetectTempo.Layer.CornerRadius = 8;
+            btnDetectTempo.Layer.BackgroundColor = UIColor.LightGray.CGColor;
+            btnDetectTempo.Alpha = 0.8f;
+            segmentedControl.Alpha = 0.8f;
 
             // Use Appearance API (iOS 5+) for segmented control
             UITextAttributes attr = new UITextAttributes();
-            attr.Font = UIFont.FromName("OstrichSans-Black", 14);
+            attr.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
             attr.TextColor = UIColor.White;
             segmentedControl.SetTitleTextAttributes(attr, UIControlState.Normal);
 

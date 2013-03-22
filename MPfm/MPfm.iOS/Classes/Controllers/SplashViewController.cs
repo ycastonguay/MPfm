@@ -40,7 +40,7 @@ namespace MPfm.iOS.Classes.Controllers
             else
                 imageView.Image = UIImage.FromBundle("Images/Splash/Default");
 
-            lblStatus.Font = UIFont.FromName("OstrichSans-Black", 16);
+            lblStatus.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
 
             base.ViewDidLoad();
         }

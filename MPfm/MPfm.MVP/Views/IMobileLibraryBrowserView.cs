@@ -30,7 +30,7 @@ namespace MPfm.MVP.Views
         Action<int> OnItemClick { get; set; }
         Action<string, string> OnRequestAlbumArt { get; set; }
 
-        void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle);
+        void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle);
         void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile);
         void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData);
 	}
