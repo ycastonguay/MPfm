@@ -79,7 +79,7 @@ namespace MPfm.MVP.Presenters
             });
             messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) =>
             {
-                RefreshSongInformation(m.Data.AudioFileStarted);
+                View.RefreshSongInformation(m.Data.AudioFileStarted, playerService.CurrentPlaylistItem.LengthBytes);
             });
             messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) =>
             {
@@ -105,6 +105,7 @@ namespace MPfm.MVP.Presenters
             view.OnPlayerSetPosition = SetPosition;
             view.OnPlayerSetTimeShifting = SetTimeShifting;
             view.OnPlayerSetVolume = SetVolume;
+            view.OnPlayerRequestPosition = RequestPosition;
         }
 
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
@@ -127,6 +128,32 @@ namespace MPfm.MVP.Presenters
 			// Send changes to view
 			View.RefreshPlayerPosition(entity);
 		}
+
+        private PlayerPositionEntity RequestPosition(float positionPercentage)
+        {
+            try
+            {
+                // Calculate new position from 0.0f/1.0f scale
+                long lengthBytes = playerService.CurrentPlaylistItem.LengthBytes;
+                var audioFile = playerService.CurrentPlaylistItem.AudioFile;
+                long positionBytes = (long)(positionPercentage * lengthBytes);
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
+                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
+                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                
+                PlayerPositionEntity entity = new PlayerPositionEntity();
+                entity.Position = positionString;
+                entity.PositionBytes = positionBytes;
+                entity.PositionSamples = (uint)positionSamples;
+                return entity;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while calculating the player position: " + ex.Message);
+                View.PlayerError(ex);
+            }
+            return new PlayerPositionEntity();
+        }
 		
 		/// <summary>
 		/// Starts playback.
@@ -217,7 +244,7 @@ namespace MPfm.MVP.Presenters
 				
 				// Refresh view with empty information
                 Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
-			    View.RefreshSongInformation(null);
+			    View.RefreshSongInformation(null, 0);
                 View.RefreshPlayerPosition(new PlayerPositionEntity());
             }
             catch(Exception ex)
@@ -288,11 +315,6 @@ namespace MPfm.MVP.Presenters
 		/// </summary>
 		public void RepeatType()
 		{
-		}
-		
-		private void RefreshSongInformation(AudioFile audioFile)
-		{			
-            View.RefreshSongInformation(audioFile);
 		}
         
         public void SetPosition(float percentage)

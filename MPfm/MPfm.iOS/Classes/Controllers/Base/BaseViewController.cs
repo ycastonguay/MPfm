@@ -45,6 +45,12 @@ namespace MPfm.iOS.Classes.Controllers.Base
             OnViewReady = onViewReady;
         }
 
+        public override void DidReceiveMemoryWarning()
+        {
+            base.DidReceiveMemoryWarning();
+            OnViewDestroy(this);
+        }
+
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
@@ -54,7 +60,6 @@ namespace MPfm.iOS.Classes.Controllers.Base
         public override void ViewDidDisappear(bool animated)
         {
             base.ViewDidDisappear(animated);
-            OnViewDestroy(this);
         }
 
         public override void ViewDidLoad()

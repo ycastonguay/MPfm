@@ -276,6 +276,16 @@ namespace MPfm.MVP.Navigation
                 _playerView = null;
                 _playerPresenter = null;
             };
+
+//            // Re-use the same player instance as before
+//            if(_playerView == null)
+//            {
+//            }
+//            else
+//            {
+//                // Re-use the same instance
+//                onViewBindedToPresenter(_playerView);
+//            }
             return _playerView;
         }
 

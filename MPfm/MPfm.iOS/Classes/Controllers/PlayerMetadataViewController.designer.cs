@@ -19,6 +19,9 @@ namespace MPfm.iOS
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewBackground { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -35,6 +38,11 @@ namespace MPfm.iOS
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
+			}
+
+			if (viewBackground != null) {
+				viewBackground.Dispose ();
+				viewBackground = null;
 			}
 		}
 	}

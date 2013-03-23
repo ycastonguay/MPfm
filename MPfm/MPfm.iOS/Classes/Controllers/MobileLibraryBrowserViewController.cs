@@ -42,7 +42,6 @@ namespace MPfm.iOS.Classes.Controllers
         private string _navigationBarTitle;
         private string _navigationBarSubtitle;
         private MobileLibraryBrowserType _browserType;
-        private Task _currentTask;
         private List<KeyValuePair<string, UIImage>> _imageCache;
         private UIBarButtonItem btnBack;
 
@@ -50,6 +49,16 @@ namespace MPfm.iOS.Classes.Controllers
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
         {
             _items = new List<LibraryBrowserEntity>();
+        }
+
+        public override void DidReceiveMemoryWarning()
+        {
+            base.DidReceiveMemoryWarning();
+
+            // Flush image cache and table view items
+            _items.Clear();
+            _imageCache.Clear();
+            tableView.ReloadData();
         }
         
         public override void ViewDidLoad()
@@ -62,7 +71,7 @@ namespace MPfm.iOS.Classes.Controllers
             lblSubtitle1.Font = UIFont.FromName("HelveticaNeue", 12);
             lblSubtitle2.Font = UIFont.FromName("HelveticaNeue", 12);
 
-            _currentTask = Task.Factory.StartNew (() => { });
+            //_currentTask = Task.Factory.StartNew (() => { });
             _imageCache = new List<KeyValuePair<string, UIImage>>();
 
             // Create text attributes for navigation bar button

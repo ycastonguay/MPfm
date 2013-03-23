@@ -28,6 +28,8 @@ namespace MPfm.iOS
 {
     public partial class PlayerMetadataViewController : BaseViewController, IPlayerMetadataView
     {
+        NSTimer timer;
+
         public PlayerMetadataViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerMetadataViewController_iPhone" : "PlayerMetadataViewController_iPad", null)
         {
@@ -41,6 +43,50 @@ namespace MPfm.iOS
             lblTitle.Text = string.Empty;
 
             base.ViewDidLoad();            
+        }
+
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            base.TouchesBegan(touches, evt);
+
+            if(timer != null)
+            {
+                timer.Invalidate();
+                timer = null;
+            }
+
+            if(viewBackground.Alpha == 0)
+            {
+                UIView.Animate(0.2f, () => {
+                    viewBackground.Alpha = 1;
+                });
+            }
+        }
+
+        public override void TouchesEnded(NSSet touches, UIEvent evt)
+        {
+            base.TouchesEnded(touches, evt);
+
+            CreateFadeTimer();
+        }
+
+        public override void TouchesCancelled(NSSet touches, UIEvent evt)
+        {
+            base.TouchesCancelled(touches, evt);
+
+            CreateFadeTimer();
+        }
+
+        private void CreateFadeTimer()
+        {
+            if(timer != null)
+                return;
+
+            timer = NSTimer.CreateRepeatingScheduledTimer(3, () => {
+                UIView.Animate(0.5f, () => {
+                    viewBackground.Alpha = 0;
+                });
+            });
         }
 
         public void RefreshAudioFile(AudioFile audioFile)

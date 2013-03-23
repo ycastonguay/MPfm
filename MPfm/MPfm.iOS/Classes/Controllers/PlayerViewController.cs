@@ -49,10 +49,24 @@ namespace MPfm.iOS.Classes.Controllers
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
 		}
+
+        public override void DidReceiveMemoryWarning()
+        {
+            base.DidReceiveMemoryWarning();
+
+            // Flush all images and wave form cache
+            waveFormView.FlushCache();
+            if(imageViewAlbumArt.Image != null)
+            {
+                UIImage image = imageViewAlbumArt.Image;
+                imageViewAlbumArt.Image = null;                
+                image.Dispose();
+                image = null;
+            }
+        }
 		
 		public override void ViewDidLoad()
         {
-
             // Set fonts
 //            lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
 //            lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
@@ -80,7 +94,27 @@ namespace MPfm.iOS.Classes.Controllers
             pageControl.CurrentPage = 0;
 
             // TODO: Block slider when the player is paused.
-            sliderPosition.OnTouchesBegan = (position) => {
+            sliderPosition.ScrubbingTypeChanged += (sender, e) => {
+                string scrubbingType = "High-speed scrubbing";
+                switch(sliderPosition.ScrubbingType)
+                {
+                    case SliderScrubbingType.Fine:
+                        scrubbingType = "Fine scrubbing";
+                        break;
+                    case SliderScrubbingType.QuarterSpeed:
+                        scrubbingType = "Quarter-speed scrubbing";
+                        break;
+                    case SliderScrubbingType.HalfSpeed:
+                        scrubbingType = "Half-speed scrubbing";
+                        break;
+                    case SliderScrubbingType.HighSpeed:
+                        scrubbingType = "High-speed scrubbing";
+                        break;
+                }
+                lblScrubbingType.Text = scrubbingType;
+            };
+            //sliderPosition.BeginTrackingEvent += (sender, e) => {
+            sliderPosition.TouchesBeganEvent += (sender, e) => {
                 UIView.Animate(0.2f, () => {
                     waveFormView.Frame = new RectangleF(0, 27 + 66, 320, 176);
                     viewPosition.Frame = new RectangleF(0, 0, 320, 66);
@@ -90,12 +124,17 @@ namespace MPfm.iOS.Classes.Controllers
                     lblScrubbingType.Alpha = 1;
                 });
             };
-            sliderPosition.OnTouchesMoved = (position) => {
+            //sliderPosition.ContinueTrackingEvent += (sender, e) => {
+            sliderPosition.TouchesMovedEvent += (sender, e) => {
                 _isPositionChanging = true;
                 //Console.WriteLine("Position: Setting value to " + position.ToString());
-                lblPosition.Text = position.ToString();
+
+                PlayerPositionEntity entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
+                lblPosition.Text = entity.Position;
+                waveFormView.SecondaryPosition = entity.PositionBytes;
             };
-            sliderPosition.OnTouchesEnded = (position) => {
+            //sliderPosition.EndTrackingEvent += (sender, e) => {
+            sliderPosition.TouchesEndedEvent += (sender, e) => {
                 //Console.WriteLine("Position: Setting value to " + position.ToString());
                 UIView.Animate(0.2f, () => {
                     waveFormView.Frame = new RectangleF(0, 27, 320, 88);
@@ -105,7 +144,8 @@ namespace MPfm.iOS.Classes.Controllers
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;
                 });
-                OnPlayerSetPosition(position / 100);
+                OnPlayerSetPosition(sliderPosition.Value / 100);
+                waveFormView.SecondaryPosition = 0;
                 _isPositionChanging = false;
             };
 
@@ -137,8 +177,7 @@ namespace MPfm.iOS.Classes.Controllers
             lblLength.Text = string.Empty;
             lblPosition.Text = string.Empty;
 
-            base.ViewDidLoad();            
-            
+            base.ViewDidLoad();           
 		}
 
         public override void ViewWillAppear(bool animated)
@@ -197,6 +236,7 @@ namespace MPfm.iOS.Classes.Controllers
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
 
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
@@ -206,10 +246,12 @@ namespace MPfm.iOS.Classes.Controllers
                     lblPosition.Text = entity.Position;
                     sliderPosition.SetPosition(entity.PositionPercentage * 100);
                 }
+
+                waveFormView.Position = entity.PositionBytes;                
             });
         }
 
-        public void RefreshSongInformation(AudioFile audioFile)
+        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes)
         {
             InvokeOnMainThread(() => {
 
@@ -243,6 +285,7 @@ namespace MPfm.iOS.Classes.Controllers
                     }
 
                     lblLength.Text = audioFile.Length;
+                    waveFormView.Length = lengthBytes;
 
                     MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
                     navCtrl.SetTitle("Now Playing", audioFile.ArtistName + " - " + audioFile.AlbumTitle + " - " + audioFile.Title);
