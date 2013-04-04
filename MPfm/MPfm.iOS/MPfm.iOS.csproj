@@ -277,6 +277,8 @@
     <BundleResource Include="Images\Buttons\previous_on%402x.png" />
     <BundleResource Include="Images\Buttons\previous.png" />
     <BundleResource Include="Images\Buttons\previous%402x.png" />
+    <BundleResource Include="Images\media.png" />
+    <BundleResource Include="Images\media%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

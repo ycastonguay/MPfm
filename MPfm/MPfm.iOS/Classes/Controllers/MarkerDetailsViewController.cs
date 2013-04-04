@@ -41,7 +41,7 @@ namespace MPfm.iOS
         {
             // Add gradient background
             CAGradientLayer gradient = new CAGradientLayer();
-            gradient.Frame = this.View.Bounds;
+            gradient.Frame = this.View.Frame;
             gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
             this.View.Layer.InsertSublayer(gradient, 0);
 

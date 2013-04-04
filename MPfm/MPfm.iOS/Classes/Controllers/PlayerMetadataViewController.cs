@@ -67,14 +67,14 @@ namespace MPfm.iOS
         {
             base.TouchesEnded(touches, evt);
 
-            CreateFadeTimer();
+            //CreateFadeTimer();
         }
 
         public override void TouchesCancelled(NSSet touches, UIEvent evt)
         {
             base.TouchesCancelled(touches, evt);
 
-            CreateFadeTimer();
+            //CreateFadeTimer();
         }
 
         private void CreateFadeTimer()

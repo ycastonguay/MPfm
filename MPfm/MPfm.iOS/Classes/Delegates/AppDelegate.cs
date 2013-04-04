@@ -130,7 +130,7 @@ namespace MPfm.iOS.Classes.Delegates
                 attr.TextShadowOffset = new UIOffset(1, 1);
 
                 // Create navigation controller
-                var navCtrl = new MPfmNavigationController();
+                var navCtrl = new MPfmNavigationController(type);
                 navCtrl.SetTitle(title, "");
                 //navCtrl.NavigationBar.BackgroundColor = UIColor.FromRGBA(0.5f, 1, 0.5f, 1);
                 navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                

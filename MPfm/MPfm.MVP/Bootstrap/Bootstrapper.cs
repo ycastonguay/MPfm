@@ -72,6 +72,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<ITimeShiftingPresenter, TimeShiftingPresenter>().AsMultiInstance();
             container.Register<IPitchShiftingPresenter, PitchShiftingPresenter>().AsMultiInstance();
             container.Register<IPlayerMetadataPresenter, PlayerMetadataPresenter>().AsMultiInstance();
+            container.Register<IPlayerStatusPresenter, PlayerStatusPresenter>().AsMultiInstance();
         }
         
         /// <summary>
