@@ -70,13 +70,13 @@ namespace MPfm.MVP.Presenters
                 case MobileOptionsMenuType.UpdateLibrary:
                 {
                     var view = _navigationManager.CreateUpdateLibraryView();
-                    _navigationManager.PushDialogView(view);
+                    _navigationManager.PushDialogView("Update Library", view);
                     break;
                 }
                 case MobileOptionsMenuType.Effects:
                 {
                     var view = _navigationManager.CreateEffectsView();
-                    _navigationManager.PushDialogView(view);
+                    _navigationManager.PushDialogView("Effects", view);
                     break;
                 }
                 case MobileOptionsMenuType.Preferences:

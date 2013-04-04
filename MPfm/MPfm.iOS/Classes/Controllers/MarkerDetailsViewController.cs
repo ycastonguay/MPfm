@@ -25,12 +25,14 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Controls;
 
 namespace MPfm.iOS
 {
     public partial class MarkerDetailsViewController : BaseViewController, IMarkerDetailsView
     {
-        private Marker _marker = null;
+        Marker _marker = null;
+        UIBarButtonItem _btnDone;
 
         public MarkerDetailsViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MarkerDetailsViewController_iPhone" : "MarkerDetailsViewController_iPad", null)
@@ -78,6 +80,17 @@ namespace MPfm.iOS
             };
 
             sliderPosition.ValueChanged += HandleSliderPositionValueChanged;
+
+            // Add navigation controller buttons
+            _btnDone = new UIBarButtonItem(UIBarButtonSystemItem.Done);
+            _btnDone.Clicked += (sender, e) => {
+                this.DismissViewController(true, null);
+            };
+            NavigationItem.SetLeftBarButtonItem(_btnDone, true);
+            
+            var navCtrl = (MPfmNavigationController)NavigationController;
+            navCtrl.SetBackButtonVisible(false);
+            navCtrl.SetTitle("Marker Details", "");
 
             base.ViewDidLoad();
         }

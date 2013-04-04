@@ -22,6 +22,8 @@ using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Models;
+using TinyMessenger;
+using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Navigation
 {
@@ -73,7 +75,8 @@ namespace MPfm.MVP.Navigation
         public abstract void HideSplash();
         public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
-        public abstract void PushDialogView(IBaseView view);
+        public abstract void PushDialogView(string viewTitle, IBaseView view);
+        public abstract void PushDialogSubview(string viewTitle, IBaseView view);
         public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
 
         public virtual void Start()
@@ -108,6 +111,19 @@ namespace MPfm.MVP.Navigation
             Action<IBaseView> onViewReady = (view) => BindOptionsMenuView((IMobileOptionsMenuView)view);
             _optionsMenuView = Bootstrapper.GetContainer().Resolve<IMobileOptionsMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             return _optionsMenuView;
+        }
+
+        protected void ShowPlayerView(MobileNavigationTabType tabType)
+        {
+            // Show player view only if it already exists
+            if(_playerView != null)
+                PushTabView(tabType, _playerView);
+        }
+
+        protected void ShowEffectsView()
+        {
+            var view = CreateEffectsView();
+            PushDialogView("Effects", view);
         }
 
         public virtual void BindOptionsMenuView(IMobileOptionsMenuView view)
@@ -370,8 +386,8 @@ namespace MPfm.MVP.Navigation
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                var presenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads(){{"markerId", markerId}});
-                presenter.BindView((IMarkerDetailsView)view);
+                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads(){{"markerId", markerId}});
+                _markerDetailsPresenter.BindView((IMarkerDetailsView)view);
             };
             
             // Create view and manage view destruction

@@ -17,17 +17,22 @@
 
 using System;
 using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
+using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Controls;
 
 namespace MPfm.iOS
 {
     public partial class EffectsViewController : BaseViewController, IEffectsView
     {
+        UIBarButtonItem _btnAdd;
+        UIBarButtonItem _btnDone;         
+
         public EffectsViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "EffectsViewController_iPhone" : "EffectsViewController_iPad", null)
         {
@@ -35,14 +40,19 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            CAGradientLayer gradient = new CAGradientLayer();
-            gradient.Frame = this.View.Bounds;
-            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-            this.View.Layer.InsertSublayer(gradient, 0);
-
-            btnBarDone.Clicked += (sender, e) => {
+            // Add navigation controller buttons
+            _btnDone = new UIBarButtonItem(UIBarButtonSystemItem.Done);
+            _btnDone.Clicked += (sender, e) => {
                 this.DismissViewController(true, null);
             };
+            _btnAdd = new UIBarButtonItem(UIBarButtonSystemItem.Add);
+
+            NavigationItem.SetLeftBarButtonItem(_btnDone, true);
+            NavigationItem.SetRightBarButtonItem(_btnAdd, true);
+
+            var navCtrl = (MPfmNavigationController)NavigationController;
+            navCtrl.SetBackButtonVisible(false);
+            navCtrl.SetTitle("Effects", "Equalizer Presets");
 
             base.ViewDidLoad();
         }

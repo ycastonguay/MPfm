@@ -295,5 +295,6 @@
     <Compile Include="Views\IPlayerStatusView.cs" />
     <Compile Include="Presenters\Interfaces\IPlayerStatusPresenter.cs" />
     <Compile Include="Presenters\PlayerStatusPresenter.cs" />
+    <Compile Include="Messages\MobileNavigationManagerCommandMessage&#x5;.cs" />
   </ItemGroup>
 </Project>

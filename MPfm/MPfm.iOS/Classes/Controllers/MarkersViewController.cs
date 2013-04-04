@@ -18,20 +18,21 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MPfm.MVP.Presenters;
+using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
-using MPfm.MVP.Presenters;
 
 namespace MPfm.iOS
 {
     public partial class MarkersViewController : BaseViewController, IMarkersView
     {
-        private string _cellIdentifier = "MarkerCell";
-        private List<Marker> _markers;
+        string _cellIdentifier = "MarkerCell";
+        List<Marker> _markers;
 
         public MarkersViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MarkersViewController_iPhone" : "MarkersViewController_iPad", null)

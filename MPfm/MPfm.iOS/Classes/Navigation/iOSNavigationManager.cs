@@ -15,17 +15,45 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.iOS.Classes.Delegates;
-using MPfm.iOS.Classes.Controllers;
+using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using TinyMessenger;
+using MPfm.iOS.Classes.Controllers;
+using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Delegates;
 
 namespace MPfm.iOS.Classes.Navigation
 {
 	public sealed class iOSNavigationManager : MobileNavigationManager
 	{
-		public AppDelegate AppDelegate { get; set; }
+        ITinyMessengerHub _messageHub;
+
+        public AppDelegate AppDelegate { get; set; }
+
+        public iOSNavigationManager(ITinyMessengerHub messageHub)
+        {
+            _messageHub = messageHub;
+            _messageHub.Subscribe<MobileNavigationManagerCommandMessage>((m) => {
+                using(var pool = new NSAutoreleasePool())
+                {
+                    pool.InvokeOnMainThread(() => {
+                        switch(m.CommandType)
+                        {
+                            case MobileNavigationManagerCommandMessageType.ShowPlayerView:
+                                var navCtrl = (MPfmNavigationController)m.Sender;
+                                ShowPlayerView(navCtrl.TabType);
+                                break;
+                            case MobileNavigationManagerCommandMessageType.ShowEffectsView:
+                                ShowEffectsView();
+                                break;
+                        }
+                    });
+                }
+            });
+        }
 		
 		public override void ShowSplash(ISplashView view)
 		{
@@ -47,9 +75,14 @@ namespace MPfm.iOS.Classes.Navigation
 			AppDelegate.PushTabView(type, (UIViewController)view);
 		}
 
-        public override void PushDialogView(IBaseView view)
+        public override void PushDialogView(string viewTitle, IBaseView view)
         {
-            AppDelegate.PushDialogView((UIViewController)view);
+            AppDelegate.PushDialogView(viewTitle, (UIViewController)view);
+        }
+
+        public override void PushDialogSubview(string viewTitle, IBaseView view)
+        {
+            AppDelegate.PushDialogSubview(viewTitle, (UIViewController)view);
         }
 
         public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)

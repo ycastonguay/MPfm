@@ -43,7 +43,7 @@ namespace MPfm.MVP.Presenters
             //View.RefreshAudioFile(message.Data.AudioFileStarted);
         }
 
-        public override void BindView(IPlayerMetadataView view)
+        public override void BindView(IPlayerStatusView view)
         {            
             // Subscribe to view actions
             base.BindView(view);

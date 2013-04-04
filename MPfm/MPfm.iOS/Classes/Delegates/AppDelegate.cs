@@ -41,6 +41,7 @@ namespace MPfm.iOS.Classes.Delegates
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
         List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();
+        List<KeyValuePair<string, MPfmNavigationController>> _dialogNavigationControllers = new List<KeyValuePair<string, MPfmNavigationController>>();
 
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
@@ -77,6 +78,7 @@ namespace MPfm.iOS.Classes.Delegates
             // Create tab bar controller, but hide it while the splash screen is visible
             _tabBarController = new UITabBarController();
             _tabBarController.View.Hidden = true;
+            _tabBarController.TabBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
             _window.RootViewController = _tabBarController;
 
 			// Start navigation manager
@@ -129,22 +131,17 @@ namespace MPfm.iOS.Classes.Delegates
                 attr.TextShadowColor = UIColor.DarkGray;
                 attr.TextShadowOffset = new UIOffset(1, 1);
 
-                // Create navigation controller
                 var navCtrl = new MPfmNavigationController(type);
                 navCtrl.SetTitle(title, "");
-                //navCtrl.NavigationBar.BackgroundColor = UIColor.FromRGBA(0.5f, 1, 0.5f, 1);
                 navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
                 navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
                 navCtrl.TabBarItem.Title = title;
-
                 if(title.ToUpper() == "MORE")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
                 else
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/audio");
 
                 navCtrl.PushViewController(viewController, false);
-
-                // Add view controller to list
                 _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));
 
                 // Add navigation controller as a tab
@@ -169,17 +166,32 @@ namespace MPfm.iOS.Classes.Delegates
             });
         }
 
-        public void PushDialogView(UIViewController viewController)
+        public void PushDialogView(string viewTitle, UIViewController viewController)
         {
             InvokeOnMainThread(() => {
-                //if (viewController is UpdateLibraryViewController)
-                //{
-                    viewController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
-                    viewController.ModalInPopover = true;
-                    viewController.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
-                    _tabBarController.PresentViewController(viewController, true, null);
-                //}
+                var navCtrl = new MPfmNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
+                navCtrl.SetTitle(viewTitle, "");
+                navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
+                navCtrl.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+                navCtrl.ModalInPopover = true;
+                navCtrl.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
+                navCtrl.PushViewController(viewController, false);
+                _dialogNavigationControllers.Add(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
+                _tabBarController.PresentViewController(navCtrl, true, null);
+            });
+
+            // TODO: Remove navCtrl from list when dialog is closed.
+        }
+
+        public void PushDialogSubview(string viewTitle, UIViewController viewController)
+        {
+            InvokeOnMainThread(() => {
+                var navCtrl = _dialogNavigationControllers.FirstOrDefault(x => x.Key == viewTitle).Value;
+                navCtrl.PushViewController(viewController, true);
             });
         }
+
+        // pushdialogsubview (with nav mgr)/ this requires viewTitle. ex: PushDialogSubView("Effects", viewInstance)
+        // this makes a navctrl mandatory for every dialog view (update library, effects, about, etc.).
     }
 }
