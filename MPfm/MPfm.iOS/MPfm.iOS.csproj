@@ -185,6 +185,9 @@
       <DependentUpon>MarkerDetailsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controls\MPfmSemiTransparentButton.cs" />
+    <Compile Include="Classes\Managers\Events\GeneratePeakFileEventArgs.cs" />
+    <Compile Include="Classes\Managers\WaveFormCacheManager.cs" />
+    <Compile Include="Classes\Managers\Events\GenerateWaveFormEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -232,6 +235,7 @@
     <Folder Include="Classes\Helpers\" />
     <Folder Include="Images\Splash\" />
     <Folder Include="Images\Buttons\" />
+    <Folder Include="Classes\Managers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />

@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,21 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.Sound.PeakFiles
+using System;
+using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controls;
+
+namespace MPfm.iOS.Managers.Events
 {
-    /// <summary>
-    /// Defines the data used with the OnProcessStarted event.
-    /// </summary>
-    public class PeakFileStartedData
-    {
-        /// <summary>
-        /// Defines the audio file path length in bytes.
-        /// </summary>
-        public long Length { get; set; }
-        /// <summary>
-        /// Defines the total number of blocks to read.
-        /// </summary>
-        public int TotalBlocks { get; set; }
+	public class GenerateWaveFormEventArgs : EventArgs
+	{
         public string AudioFilePath { get; set; }
-    }
+        public float Zoom { get; set; }
+        public WaveFormDisplayType DisplayType { get; set; }
+        public UIImage Image { get; set; }
+
+        public GenerateWaveFormEventArgs() 
+            : base()
+        {
+        }
+	}
 }

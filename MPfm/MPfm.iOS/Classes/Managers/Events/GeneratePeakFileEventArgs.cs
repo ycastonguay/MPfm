@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,21 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.Sound.PeakFiles
+using System;
+
+namespace MPfm.iOS.Managers.Events
 {
-    /// <summary>
-    /// Defines the data used with the OnProcessStarted event.
-    /// </summary>
-    public class PeakFileStartedData
-    {
-        /// <summary>
-        /// Defines the audio file path length in bytes.
-        /// </summary>
-        public long Length { get; set; }
-        /// <summary>
-        /// Defines the total number of blocks to read.
-        /// </summary>
-        public int TotalBlocks { get; set; }
+	public class GeneratePeakFileEventArgs : EventArgs
+	{
         public string AudioFilePath { get; set; }
-    }
+        public float PercentageDone { get; set; }
+
+        public GeneratePeakFileEventArgs() 
+            : base()
+        {
+        }
+	}
 }

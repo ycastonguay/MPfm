@@ -53,11 +53,11 @@ namespace MPfm.iOS.Classes.Controls
             // Create messenger hub to listen to player changes
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
             _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
-                Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - PlayerPlaylistIndexChangedMessage");
+                //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - PlayerPlaylistIndexChangedMessage");
                 UpdateNowPlayingView();
             });
             _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
-                Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - PlayerStatusMessage - Status=" + message.Status.ToString());
+                //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - PlayerStatusMessage - Status=" + message.Status.ToString());
                 if(message.Status == PlayerStatusType.Playing)
                     _isPlayerPlaying = true;
                 else
@@ -122,7 +122,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void ViewWillLayoutSubviews()
         {
-            Console.WriteLine("MPfmNavCtrl - ViewWillLayoutSubviews");
+            //Console.WriteLine("MPfmNavCtrl - ViewWillLayoutSubviews");
 
             float x = 12;
             if(this.VisibleViewController.NavigationItem.LeftBarButtonItem != null)
@@ -163,10 +163,10 @@ namespace MPfm.iOS.Classes.Controls
 
         private void UpdateNowPlayingView()
         {
-            Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - UpdateNowPlayingView: isPlayerPlaying=" + _isPlayerPlaying.ToString() + " isViewPlayer=" + _isViewPlayer.ToString());
+            //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - UpdateNowPlayingView: isPlayerPlaying=" + _isPlayerPlaying.ToString() + " isViewPlayer=" + _isViewPlayer.ToString());
             if(_isPlayerPlaying && !_isViewPlayer)
             {
-                Console.WriteLine("NavCtrl - Showing Now Playing view...");
+                //Console.WriteLine("NavCtrl - Showing Now Playing view...");
                 UIView.Animate(0.3f, () => {
                     _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 44, 44);
                     _btnEffects.Alpha = 0;

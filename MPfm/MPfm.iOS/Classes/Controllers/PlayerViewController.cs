@@ -67,10 +67,6 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
-            // Set fonts
-//            lblPosition.Font = UIFont.FromName("OstrichSans-Black", 18);
-//            lblLength.Font = UIFont.FromName("OstrichSans-Black", 18);
-
             // Load button bitmaps
             btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous"), UIControlState.Normal);
             btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous_on"), UIControlState.Highlighted);
