@@ -12,6 +12,8 @@ For more information, go to the MPfm website: http://mp4m.org.
 Important notes:
 --
 
+__Important 2013/04/09__: I commited some files that were taken from BASS.NET using ILSpy (BassWrapper in the MPfm.Sound class library) by mistake. __This source code is (C) 2005-2013 Bernd Niedergesäß__. This source code has been removed from this repository thus making the project unbuildable for some time until this matter is resolved.
+
 I'm currently refactoring the project with version 0.7.0.0. Please consult the [Mantis bug tracker for MPfm](http://www.mp4m.org/mantis/roadmap_page.php).
 
 MPfm uses the __BASS audio library__, which is a commercial library, but available for free for open source projects. The MPfm source code repository contains the BASS static/dynamic libraries needed to build each platform. To download updated versions of the BASS library, go to the [BASS library home page](http://www.un4seen.com). Please note that newer versions might introduce breaking changes.
