@@ -26,6 +26,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -42,10 +43,11 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             // Add gradient background
-            CAGradientLayer gradient = new CAGradientLayer();
-            gradient.Frame = this.View.Frame;
-            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-            this.View.Layer.InsertSublayer(gradient, 0);
+//            CAGradientLayer gradient = new CAGradientLayer();
+//            gradient.Frame = this.View.Frame;
+//            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+//            this.View.Layer.InsertSublayer(gradient, 0);
+            this.View.BackgroundColor = GlobalTheme.BackgroundColor;
 
             // Set UI fonts
 //            lblMarkerDetails.Font = UIFont.FromName("OstrichSans-Black", 22);
@@ -82,10 +84,16 @@ namespace MPfm.iOS
             sliderPosition.ValueChanged += HandleSliderPositionValueChanged;
 
             // Add navigation controller buttons
-            _btnDone = new UIBarButtonItem(UIBarButtonSystemItem.Done);
-            _btnDone.Clicked += (sender, e) => {
+            var button = new UIButton(UIButtonType.Custom);
+            button.SetTitle("Done", UIControlState.Normal);
+            button.Layer.CornerRadius = 8;
+            button.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+            button.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
+            button.Frame = new RectangleF(0, 20, 60, 30);
+            button.TouchUpInside += (sender, e) => {
                 this.DismissViewController(true, null);
             };
+            _btnDone = new UIBarButtonItem(button);
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             
             var navCtrl = (MPfmNavigationController)NavigationController;

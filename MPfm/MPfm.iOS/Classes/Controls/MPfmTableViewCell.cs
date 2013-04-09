@@ -25,6 +25,7 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -53,18 +54,20 @@ namespace MPfm.iOS.Classes.Controls
         {
             // Create selected cell background view
             UIView backView = new UIView(Frame);
-            CAGradientLayer gradient = new CAGradientLayer();
-            gradient.Frame = Bounds;
-            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(1.0f, 1.0f, 1.0f, 1), new CGColor(0.95f, 0.95f, 0.95f, 1) };
-            backView.Layer.InsertSublayer(gradient, 0);
+//            CAGradientLayer gradient = new CAGradientLayer();
+//            gradient.Frame = Bounds;
+//            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(1.0f, 1.0f, 1.0f, 1), new CGColor(0.95f, 0.95f, 0.95f, 1) };
+//            backView.Layer.InsertSublayer(gradient, 0);
+            backView.BackgroundColor = GlobalTheme.LightColor;
             BackgroundView = backView;
             
             // Create selected cell background view
             UIView backViewSelected = new UIView(Frame);
-            CAGradientLayer gradientSelected = new CAGradientLayer();
-            gradientSelected.Frame = Bounds;
-            gradientSelected.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.6f, 0.6f, 0.6f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) };
-            backViewSelected.Layer.InsertSublayer(gradientSelected, 0);
+//            CAGradientLayer gradientSelected = new CAGradientLayer();
+//            gradientSelected.Frame = Bounds;
+//            gradientSelected.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.6f, 0.6f, 0.6f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) };
+//            backViewSelected.Layer.InsertSublayer(gradientSelected, 0);
+            backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             SelectedBackgroundView = backViewSelected;
 
             TextLabel.BackgroundColor = UIColor.Clear;

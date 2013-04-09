@@ -32,6 +32,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
 using System.Collections.Concurrent;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -269,11 +270,12 @@ namespace MPfm.iOS.Classes.Controllers
                         imageViewAlbumCover.Image = image;
                     }
                     imageViewAlbumCover.BackgroundColor = UIColor.Black;
+                    viewAlbumCover.BackgroundColor = GlobalTheme.BackgroundColor;
 
-                    CAGradientLayer gradient = new CAGradientLayer();
-                    gradient.Frame = viewAlbumCover.Bounds;
-                    gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-                    viewAlbumCover.Layer.InsertSublayer(gradient, 0);
+//                    CAGradientLayer gradient = new CAGradientLayer();
+//                    gradient.Frame = viewAlbumCover.Bounds;
+//                    gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
+//                    viewAlbumCover.Layer.InsertSublayer(gradient, 0);
                 }
             });
         }

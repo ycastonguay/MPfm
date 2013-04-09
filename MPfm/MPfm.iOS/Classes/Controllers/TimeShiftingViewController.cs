@@ -22,6 +22,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -36,7 +37,7 @@ namespace MPfm.iOS
         {
             // Add custom background to button
             btnReset.Layer.CornerRadius = 8;
-            btnReset.Layer.BackgroundColor = UIColor.LightGray.CGColor;
+            btnReset.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnReset.Alpha = 0.8f;
             btnDetectTempo.Layer.CornerRadius = 8;
             btnDetectTempo.Layer.BackgroundColor = UIColor.LightGray.CGColor;

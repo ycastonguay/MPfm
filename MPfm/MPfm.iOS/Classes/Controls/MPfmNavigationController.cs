@@ -28,6 +28,7 @@ using MonoTouch.UIKit;
 using TinyMessenger;
 using MPfm.iOS.Classes.Controllers;
 using MonoTouch.CoreAnimation;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -45,10 +46,12 @@ namespace MPfm.iOS.Classes.Controls
 
         public MobileNavigationTabType TabType { get; set; }
         
-        public MPfmNavigationController(MobileNavigationTabType tabType) : base()
+        public MPfmNavigationController(MobileNavigationTabType tabType) : base(typeof(MPfmNavigationBar), typeof(UIToolbar))
         {
             TabType = tabType;
             WeakDelegate = this;
+
+            //NavigationController.SetValueForKey(new MPfmNavigationBar(), new NSString("navigationBar"));
 
             // Create messenger hub to listen to player changes
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
@@ -94,7 +97,8 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             _btnEffects = new UIButton(UIButtonType.Custom);
-            _btnEffects.BackgroundColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
+            _btnEffects.Layer.CornerRadius = 2;
+            _btnEffects.BackgroundColor = GlobalTheme.SecondaryColor;
             _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
             _btnEffects.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 0);
             _btnEffects.SetImage(UIImage.FromBundle("Images/effects.png"), UIControlState.Normal);
@@ -104,7 +108,8 @@ namespace MPfm.iOS.Classes.Controls
             };           
 
             _btnNowPlaying = new UIButton(UIButtonType.Custom);
-            _btnNowPlaying.BackgroundColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
+            _btnNowPlaying.Layer.CornerRadius = 2;
+            _btnNowPlaying.BackgroundColor = GlobalTheme.SecondaryColor;
             _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
             _btnNowPlaying.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 0);
             _btnNowPlaying.SetImage(UIImage.FromBundle("Images/media.png"), UIControlState.Normal);

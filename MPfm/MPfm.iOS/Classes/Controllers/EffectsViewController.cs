@@ -25,6 +25,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -41,11 +42,27 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             // Add navigation controller buttons
-            _btnDone = new UIBarButtonItem(UIBarButtonSystemItem.Done);
-            _btnDone.Clicked += (sender, e) => {
+            var btnDone = new UIButton(UIButtonType.Custom);
+            btnDone.SetTitle("Done", UIControlState.Normal);
+            btnDone.Layer.CornerRadius = 8;
+            btnDone.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+            btnDone.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
+            btnDone.Frame = new RectangleF(0, 20, 60, 30);
+            btnDone.TouchUpInside += (sender, e) => {
                 this.DismissViewController(true, null);
             };
-            _btnAdd = new UIBarButtonItem(UIBarButtonSystemItem.Add);
+            _btnDone = new UIBarButtonItem(btnDone);
+
+            var btnAdd = new UIButton(UIButtonType.Custom);
+            btnAdd.SetTitle("+", UIControlState.Normal);
+            btnAdd.Layer.CornerRadius = 8;
+            btnAdd.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+            btnAdd.Font = UIFont.FromName("HelveticaNeue-Bold", 18.0f);
+            btnAdd.Frame = new RectangleF(0, 12, 60, 30);
+            btnAdd.TouchUpInside += (sender, e) => {
+                this.DismissViewController(true, null);
+            };
+            _btnAdd = new UIBarButtonItem(btnAdd);
 
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             NavigationItem.SetRightBarButtonItem(_btnAdd, true);

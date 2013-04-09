@@ -26,6 +26,8 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Navigation;
+using MPfm.iOS.Classes.Objects;
+using MonoTouch.CoreAnimation;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -36,8 +38,8 @@ namespace MPfm.iOS.Classes.Delegates
 	public partial class AppDelegate : UIApplicationDelegate
 	{		
 		MPfmWindow _window;
-        UITabBarController _tabBarController;
-        public UITabBarController TabBarController { get { return _tabBarController; } }
+        MPfmTabBarController _tabBarController;
+        public MPfmTabBarController TabBarController { get { return _tabBarController; } }
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
         List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();
@@ -72,13 +74,17 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
 
+            UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
+            UINavigationBar.Appearance.BackgroundColor = GlobalTheme.MainColor;
+            UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
+
             // Create window 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
 
             // Create tab bar controller, but hide it while the splash screen is visible
-            _tabBarController = new UITabBarController();
+            _tabBarController = new MPfmTabBarController();
             _tabBarController.View.Hidden = true;
-            _tabBarController.TabBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
+            //_tabBarController.TabBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
             _window.RootViewController = _tabBarController;
 
 			// Start navigation manager
@@ -127,19 +133,29 @@ namespace MPfm.iOS.Classes.Delegates
                 // Create text attributes for tab
                 UITextAttributes attr = new UITextAttributes();
                 attr.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
-                attr.TextColor = UIColor.White;
+                attr.TextColor = UIColor.LightGray;
                 attr.TextShadowColor = UIColor.DarkGray;
                 attr.TextShadowOffset = new UIOffset(1, 1);
+                UITextAttributes attrSelected = new UITextAttributes();
+                attrSelected.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
+                attrSelected.TextColor = UIColor.White;
+                attrSelected.TextShadowColor = UIColor.DarkGray;
+                attrSelected.TextShadowOffset = new UIOffset(1, 1);
 
                 var navCtrl = new MPfmNavigationController(type);
                 navCtrl.SetTitle(title, "");
-                navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
                 navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
+                navCtrl.TabBarItem.SetTitleTextAttributes(attrSelected, UIControlState.Selected);
                 navCtrl.TabBarItem.Title = title;
                 if(title.ToUpper() == "MORE")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
                 else
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/audio");
+
+//                CAGradientLayer gradient = new CAGradientLayer();
+//                gradient.Frame = navCtrl.View.Frame;
+//                gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { GlobalTheme.MainColor.CGColor, GlobalTheme.SecondaryColor.CGColor };
+//                navCtrl.View.Layer.InsertSublayer(gradient, 0);               
 
                 navCtrl.PushViewController(viewController, false);
                 _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));

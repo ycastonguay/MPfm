@@ -31,6 +31,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Managers.Events;
 using MPfm.iOS.Helpers;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Managers
 {
@@ -43,7 +44,7 @@ namespace MPfm.iOS.Managers
         private Dictionary<string, List<WaveDataMinMax>> _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();
         private Dictionary<Tuple<string, WaveFormDisplayType, float>, UIImage> _bitmapCache = new Dictionary<Tuple<string, WaveFormDisplayType, float>, UIImage>();
         private CGColor _colorGradient1 = new CGColor(0, 0, 0, 1);
-        private CGColor _colorGradient2 = new CGColor(0.15f, 0.15f, 0.15f, 1);
+        private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
         private float _padding = 0;
 
         public delegate void GeneratePeakFileEventHandler(object sender, GeneratePeakFileEventArgs e);
