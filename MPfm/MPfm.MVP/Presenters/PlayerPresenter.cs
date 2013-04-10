@@ -79,7 +79,8 @@ namespace MPfm.MVP.Presenters
             });
             messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) =>
             {
-                View.RefreshSongInformation(m.Data.AudioFileStarted, playerService.CurrentPlaylistItem.LengthBytes);
+                View.RefreshSongInformation(m.Data.AudioFileStarted, playerService.CurrentPlaylistItem.LengthBytes, 
+                                            playerService.CurrentPlaylist.Items.IndexOf(playerService.CurrentPlaylistItem), playerService.CurrentPlaylist.Items.Count);
             });
             messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) =>
             {
@@ -244,7 +245,7 @@ namespace MPfm.MVP.Presenters
 				
 				// Refresh view with empty information
                 Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
-			    View.RefreshSongInformation(null, 0);
+			    View.RefreshSongInformation(null, 0, 0, 0);
                 View.RefreshPlayerPosition(new PlayerPositionEntity());
             }
             catch(Exception ex)

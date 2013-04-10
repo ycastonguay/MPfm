@@ -41,6 +41,7 @@ namespace MPfm.MVP.Services
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
         public bool IsPaused { get { return _player.IsPaused; } }
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
+        public Playlist CurrentPlaylist { get { return _player.Playlist; } }
         public float Volume { get { return _player.Volume; } }
 
 		public PlayerService(ITinyMessengerHub messageHub)

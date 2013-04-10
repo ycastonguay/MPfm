@@ -32,6 +32,7 @@ namespace MPfm.MVP.Services.Interfaces
         bool IsSettingPosition { get; }
         bool IsPaused { get; }
         PlaylistItem CurrentPlaylistItem { get; }
+        Playlist CurrentPlaylist { get; }
         float Volume { get; }
 
         void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);

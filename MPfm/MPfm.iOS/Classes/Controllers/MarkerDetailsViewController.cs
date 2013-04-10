@@ -42,20 +42,19 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            // Add gradient background
-//            CAGradientLayer gradient = new CAGradientLayer();
-//            gradient.Frame = this.View.Frame;
-//            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-//            this.View.Layer.InsertSublayer(gradient, 0);
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
+            btnDeleteMarker.BackgroundColor = GlobalTheme.SecondaryColor;
+            btnDeleteMarker.Layer.CornerRadius = 8;
 
-            // Set UI fonts
-//            lblMarkerDetails.Font = UIFont.FromName("OstrichSans-Black", 22);
-//            lblTitleName.Font = UIFont.FromName("OstrichSans-Black", 14);
-//            lblTitlePosition.Font = UIFont.FromName("OstrichSans-Black", 14);
-//            lblTitleComments.Font = UIFont.FromName("OstrichSans-Black", 14);
-//            btnDeleteMarker.Font = UIFont.FromName("OstrichSans-Black", 18);
-//            btnClose.Font = UIFont.FromName("OstrichSans-Black", 18);
+            sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
+            sliderPosition.Frame = new RectangleF(90, sliderPosition.Frame.Y + 1, sliderPosition.Frame.Width * 1.4f, sliderPosition.Frame.Height);
+
+            lblTitleName.Font = UIFont.FromName("HelveticaNeue-Bold", 14);
+            lblTitlePosition.Font = UIFont.FromName("HelveticaNeue-Bold", 14);
+            lblTitleComments.Font = UIFont.FromName("HelveticaNeue-Bold", 14);
+            lblPosition.Font = UIFont.FromName("HelveticaNeue", 14);
+            lblLength.Font = UIFont.FromName("HelveticaNeue", 14);
+            btnDeleteMarker.Font = UIFont.FromName("HelveticaNeue-Bold", 16);
 
             // Add padding to text field (http://stackoverflow.com/questions/3727068/set-padding-for-uitextfield-with-uitextborderstylenone)
             UIView paddingView = new UIView(new RectangleF(0, 0, 5, 20));

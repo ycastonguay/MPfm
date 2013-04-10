@@ -43,7 +43,7 @@ namespace MPfm.iOS.Managers
         private IPeakFileService _peakFileService;
         private Dictionary<string, List<WaveDataMinMax>> _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();
         private Dictionary<Tuple<string, WaveFormDisplayType, float>, UIImage> _bitmapCache = new Dictionary<Tuple<string, WaveFormDisplayType, float>, UIImage>();
-        private CGColor _colorGradient1 = new CGColor(0, 0, 0, 1);
+        private CGColor _colorGradient1 = GlobalTheme.BackgroundColor.CGColor;
         private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
         private float _padding = 0;
 
@@ -309,7 +309,7 @@ namespace MPfm.iOS.Managers
                     
                     Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
                     
-                    context.SetStrokeColor(new CGColor(1, 1, 0.5f, 1));
+                    context.SetStrokeColor(GlobalTheme.WaveFormColor.CGColor);
                     context.SetLineWidth(0.5f);
                     //context.SetLineWidth(lineWidth);
                     

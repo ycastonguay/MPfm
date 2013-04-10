@@ -270,7 +270,7 @@ namespace MPfm.iOS.Classes.Controllers
                         imageViewAlbumCover.Image = image;
                     }
                     imageViewAlbumCover.BackgroundColor = UIColor.Black;
-                    viewAlbumCover.BackgroundColor = GlobalTheme.BackgroundColor;
+                    viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
 
 //                    CAGradientLayer gradient = new CAGradientLayer();
 //                    gradient.Frame = viewAlbumCover.Bounds;

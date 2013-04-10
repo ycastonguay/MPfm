@@ -37,8 +37,8 @@ namespace MPfm.iOS.Classes.Controls
             //base.Draw(rect);
 
             var context = UIGraphics.GetCurrentContext();
-            CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainDarkColor.CGColor);
-            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 42, 320, 2), GlobalTheme.MainColor.CGColor);
+            CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainColor.CGColor);
+            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 42, 320, 2), GlobalTheme.MainLightColor.CGColor);
         }
     }
 }

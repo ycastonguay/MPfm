@@ -34,6 +34,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Helpers;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -74,6 +75,9 @@ namespace MPfm.iOS.Classes.Controllers
             btnNext.SetImage(UIImage.FromBundle("Images/Buttons/next"), UIControlState.Normal);
             btnNext.SetImage(UIImage.FromBundle("Images/Buttons/next_on"), UIControlState.Highlighted);
 
+            viewPosition.BackgroundColor = GlobalTheme.BackgroundColor;
+            viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
+
             //sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/slider_ball"), UIControlState.Normal);
             //sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slide"), UIControlState.Normal);
 
@@ -108,18 +112,17 @@ namespace MPfm.iOS.Classes.Controllers
                 }
                 lblScrubbingType.Text = scrubbingType;
             };
-            //sliderPosition.BeginTrackingEvent += (sender, e) => {
             sliderPosition.TouchesBeganEvent += (sender, e) => {
                 UIView.Animate(0.2f, () => {
-                    waveFormView.Frame = new RectangleF(0, 27 + 66, 320, 176);
-                    viewPosition.Frame = new RectangleF(0, 0, 320, 66);
-                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewMain.Frame.Y + 66 + 88, viewMain.Frame.Width, viewMain.Frame.Height); // Relative depending on iPhone4/5
-                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, _volumeView.Frame.Y + 66 + 88, _volumeView.Frame.Width, _volumeView.Frame.Height);
+                    float offset = 42;
+                    viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height + offset);
+                    waveFormView.Frame = new RectangleF(waveFormView.Frame.X, waveFormView.Frame.Y + offset, waveFormView.Frame.Width, waveFormView.Frame.Height * 2);
+                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
+                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 1;
                     lblScrubbingType.Alpha = 1;
                 });
             };
-            //sliderPosition.ContinueTrackingEvent += (sender, e) => {
             sliderPosition.TouchesMovedEvent += (sender, e) => {
                 _isPositionChanging = true;
                 //Console.WriteLine("Position: Setting value to " + position.ToString());
@@ -128,14 +131,14 @@ namespace MPfm.iOS.Classes.Controllers
                 lblPosition.Text = entity.Position;
                 waveFormView.SecondaryPosition = entity.PositionBytes;
             };
-            //sliderPosition.EndTrackingEvent += (sender, e) => {
             sliderPosition.TouchesEndedEvent += (sender, e) => {
                 //Console.WriteLine("Position: Setting value to " + position.ToString());
                 UIView.Animate(0.2f, () => {
-                    waveFormView.Frame = new RectangleF(0, 27, 320, 88);
-                    viewPosition.Frame = new RectangleF(0, 0, 320, 24);
-                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewMain.Frame.Y - 66 - 88, viewMain.Frame.Width, viewMain.Frame.Height); // Relative depending on iPhone4/5
-                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, _volumeView.Frame.Y - 66 - 88, _volumeView.Frame.Width, _volumeView.Frame.Height);
+                    float offset = 42;
+                    viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height - offset);
+                    waveFormView.Frame = new RectangleF(waveFormView.Frame.X, waveFormView.Frame.Y - offset, waveFormView.Frame.Width, waveFormView.Frame.Height / 2);
+                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
+                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;
                 });
@@ -145,7 +148,7 @@ namespace MPfm.iOS.Classes.Controllers
             };
 
             // Create MPVolumeView (only visible on physical iOS device)
-            _volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 50, UIScreen.MainScreen.Bounds.Width - 16, 46));
+            _volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 52, UIScreen.MainScreen.Bounds.Width - 16, 46));
             //volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/slider_ball"), UIControlState.Normal);
             //volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slide"), UIControlState.Normal);
             this.View.AddSubview(_volumeView);
@@ -246,7 +249,7 @@ namespace MPfm.iOS.Classes.Controllers
             });
         }
 
-        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes)
+        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             InvokeOnMainThread(() => {
 
@@ -283,7 +286,8 @@ namespace MPfm.iOS.Classes.Controllers
                     waveFormView.Length = lengthBytes;
 
                     MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-                    navCtrl.SetTitle("Now Playing", audioFile.ArtistName + " - " + audioFile.AlbumTitle + " - " + audioFile.Title);
+                    //navCtrl.SetTitle("Now Playing", audioFile.ArtistName + " - " + audioFile.AlbumTitle + " - " + audioFile.Title);
+                    navCtrl.SetTitle("Now Playing", (playlistIndex+1).ToString() + " of " + playlistCount.ToString());
 
                     // Load peak file in background
                     waveFormView.LoadPeakFile(audioFile);

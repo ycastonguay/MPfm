@@ -42,7 +42,7 @@ namespace MPfm.MVP.Views
     
         void RefreshPlayerStatus(PlayerStatusType status);
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
-		void RefreshSongInformation(AudioFile audioFile, long lengthBytes);
+		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
         void RefreshPlayerVolume(PlayerVolumeEntity entity);
         void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
         

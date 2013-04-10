@@ -26,6 +26,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -44,6 +45,8 @@ namespace MPfm.iOS
         {
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
+
+            btnAddMarker.BackgroundColor = GlobalTheme.SecondaryColor;
 
             UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
             longPress.MinimumPressDuration = 1.0f;
@@ -92,6 +95,10 @@ namespace MPfm.iOS
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
             cell.DetailTextLabel.TextColor = UIColor.LightGray;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
+
+            UIView viewBackgroundSelected = new UIView();
+            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
+            cell.SelectedBackgroundView = viewBackgroundSelected;
             
             return cell;
         }

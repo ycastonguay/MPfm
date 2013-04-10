@@ -71,19 +71,20 @@ namespace MPfm.iOS.Classes.Controls
             });
 
             // Create controls
-            _lblTitle = new UILabel(new RectangleF(0, 6, UIScreen.MainScreen.Bounds.Width - 120, 20));
+            _lblTitle = new UILabel(new RectangleF(0, 6, UIScreen.MainScreen.Bounds.Width, 20));
             _lblTitle.TextColor = UIColor.White;
             _lblTitle.BackgroundColor = UIColor.Clear;
             _lblTitle.Text = "MPfm";
-            _lblTitle.TextAlignment = UITextAlignment.Left;
+            _lblTitle.TextAlignment = UITextAlignment.Center;
             _lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
+            //_lblTitle.Font = UIFont.FromName("HelveticaNeue-CondensedBold", 16);
             
-            _lblSubtitle = new UILabel(new RectangleF(0, 20, UIScreen.MainScreen.Bounds.Width - 120, 20));
+            _lblSubtitle = new UILabel(new RectangleF(0, 20, UIScreen.MainScreen.Bounds.Width, 20));
             _lblSubtitle.LineBreakMode = UILineBreakMode.TailTruncation;
             _lblSubtitle.TextColor = UIColor.LightGray;
             _lblSubtitle.BackgroundColor = UIColor.Clear;
             _lblSubtitle.Text = "Library Browser";
-            _lblSubtitle.TextAlignment = UITextAlignment.Left;
+            _lblSubtitle.TextAlignment = UITextAlignment.Center;
             _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
 
             _btnBack = new UIButton(UIButtonType.Custom);
@@ -127,41 +128,41 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void ViewWillLayoutSubviews()
         {
-            //Console.WriteLine("MPfmNavCtrl - ViewWillLayoutSubviews");
-
-            float x = 12;
-            if(this.VisibleViewController.NavigationItem.LeftBarButtonItem != null)
-            {
-                UIView view = (UIView)this.VisibleViewController.NavigationItem.LeftBarButtonItem.ValueForKey(new NSString("view"));
-                float width = (view != null) ? view.Frame.Size.Width : 0; 
-                x += width;
-            }
-            else if(this.ViewControllers.Length > 1)
-            {
-                x += _btnBack.Frame.Size.Width;
-            }
-            else if(this.ViewControllers.Length == 1)
-            {
-                x += _btnBack.Frame.Size.Width;
-            }
-
-            // Animate new x position only if the position has changed
-            if(x != _lblTitle.Frame.X)
-            {
-                // Do not animate the first time we are setting the position
-                if(_lblTitle.Frame.X == 0)
-                {
-                    _lblTitle.Frame = new RectangleF(x, 6, UIScreen.MainScreen.Bounds.Width - 120, 20);
-                    _lblSubtitle.Frame = new RectangleF(x, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
-                }
-                else
-                {
-                    UIView.Animate(0.25f, () => { 
-                        _lblTitle.Frame = new RectangleF(x, 6, UIScreen.MainScreen.Bounds.Width - 120, 20);
-                        _lblSubtitle.Frame = new RectangleF(x, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
-                    });
-                }
-            }
+//            float x = 12;
+//            if(this.VisibleViewController.NavigationItem.LeftBarButtonItem != null)
+//            {
+//                UIView view = (UIView)this.VisibleViewController.NavigationItem.LeftBarButtonItem.ValueForKey(new NSString("view"));
+//                float width = (view != null) ? view.Frame.Size.Width : 0; 
+//                x += width;
+//            }
+//            else if(this.ViewControllers.Length > 1)
+//            {
+//                x += _btnBack.Frame.Size.Width;
+//            }
+//            else if(this.ViewControllers.Length == 1)
+//            {
+//                x += _btnBack.Frame.Size.Width;
+//            }
+//
+//            // Animate new x position only if the position has changed
+//            if(x != _lblTitle.Frame.X)
+//            {
+//                // Do not animate the first time we are setting the position
+//                if(_lblTitle.Frame.X == 0)
+//                {
+//                    _lblTitle.Frame = new RectangleF(x, 12, UIScreen.MainScreen.Bounds.Width - 120, 20);
+//                    //_lblTitle.Frame = new RectangleF(x, 6, UIScreen.MainScreen.Bounds.Width - 120, 20);
+//                    //_lblSubtitle.Frame = new RectangleF(x, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
+//                }
+//                else
+//                {
+//                    UIView.Animate(0.25f, () => { 
+//                        _lblTitle.Frame = new RectangleF(x, 12, UIScreen.MainScreen.Bounds.Width - 120, 20);
+//                        //_lblTitle.Frame = new RectangleF(x, 6, UIScreen.MainScreen.Bounds.Width - 120, 20);
+//                        //_lblSubtitle.Frame = new RectangleF(x, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
+//                    });
+//                }
+//            }
 
             base.ViewWillLayoutSubviews();
         }
@@ -239,33 +240,18 @@ namespace MPfm.iOS.Classes.Controls
 
         public void SetTitle(string title, string subtitle)
         {
-            UIView.Animate(0.25f, delegate
-            {
-                if(_lblTitle.Text != title)
-                    _lblTitle.Alpha = 0;
+            if(_lblTitle.Text != title)
+                _lblTitle.Alpha = 0;
 
-                if(!string.IsNullOrEmpty(subtitle))
-                    _lblSubtitle.Alpha = 0;
+            if(_lblSubtitle.Text != title)
+                _lblSubtitle.Alpha = 0;
 
-            }, delegate
-            {
-                _lblTitle.Text = title;
-                _lblSubtitle.Text = subtitle;
-            });
-            UIView.Animate(0.25f, delegate
-            {
+            _lblTitle.Text = title;
+            _lblSubtitle.Text = subtitle;
+
+            UIView.Animate(0.2f, delegate() {
                 _lblTitle.Alpha = 1;
-
-//                if(!string.IsNullOrEmpty(subtitle))
-//                    _lblTitle.Transform = CGAffineTransform.MakeScale(1.0f, 1.0f);
-//                    //_lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
-//                else
-//                    _lblTitle.Transform = CGAffineTransform.MakeScale(1.4f, 1.4f);
-//                    //_lblTitle.Font = UIFont.FromName("HelveticaNeue", 24);
-
-
-                if(!string.IsNullOrEmpty(subtitle))
-                    _lblSubtitle.Alpha = 1;
+                _lblSubtitle.Alpha = 1;
             });
         }
 

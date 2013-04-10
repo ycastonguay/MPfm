@@ -21,6 +21,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -42,6 +43,7 @@ namespace MPfm.iOS
             UITextAttributes attr = new UITextAttributes();
             attr.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
             attr.TextColor = UIColor.White;
+            segmentedControl.TintColor = GlobalTheme.SecondaryColor;
             segmentedControl.SetTitleTextAttributes(attr, UIControlState.Normal);
             segmentedControl.Alpha = 0.8f;
 

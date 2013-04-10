@@ -47,9 +47,7 @@ namespace MPfm.iOS.Classes.Controls
         private UIImage _imageCache = null;
         private float _cursorX;
         private float _secondaryCursorX;
-        //private CGColor _colorGradient1 = new CGColor(0, 0, 0, 1);
-        //private CGColor _colorGradient2 = new CGColor(0.15f, 0.15f, 0.15f, 1);
-        private CGColor _colorGradient1 = new CGColor(0, 0, 0, 1);
+        private CGColor _colorGradient1 = GlobalTheme.BackgroundColor.CGColor;
         private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
 
         public WaveFormDisplayType DisplayType { get; set; }
@@ -301,9 +299,18 @@ namespace MPfm.iOS.Classes.Controls
             base.Draw(rect);
 
             if(_isLoading)
+            {
                 DrawStatus(_status);
+            }
             else if (_imageCache != null)
+            {
                 DrawWaveFormBitmap();
+            }
+            else
+            {
+                var context = UIGraphics.GetCurrentContext();
+                CoreGraphicsHelper.FillRect(context, Bounds, _colorGradient1);
+            }
         }
     }
 
