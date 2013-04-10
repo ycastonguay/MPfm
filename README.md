@@ -20,7 +20,7 @@ MPfm uses the __BASS audio library__, which is a commercial library, but availab
 
 MPfm also uses the __BASS.NET audio library__, which is a commercial library, but available for free for open source projects. The MPfm source code repository contains the BASS.NET assemblies needed to build each platform. To download updated versions of the BASS.NET library, go to the [BASS.NET library home page](http://bass.radio42.com). Please note that newer versions might introduce breaking changes. 
 
-To build MPfm successfully, you will also need a valid BASS.NET registration key which you can generate for free for open source projects [here](http://bass.radio42.com/bass_register.html). Simply uncomment the BassNetKey.cs file in MPfm.Sound and add your email address and key.
+To build MPfm successfully, you will also need a valid BASS.NET registration key which you can generate for free for open source projects [here](http://bass.radio42.com/bass_register.html). Simply uncomment the [BassNetKey.cs](MPfm/MPfm.Sound/BassNetKey.cs) file in MPfm.Sound and add your email address and key.
 
 If you want to deploy the iOS and Android versions to hardware devices, you'll need a valid Xamarin license. You can obtain a license [here](http://www.xamarin.com).
 
