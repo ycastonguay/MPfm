@@ -124,7 +124,7 @@ namespace MPfm.iOS
                             Artist = audioFile.ArtistName,
                             AlbumTitle = audioFile.AlbumTitle,
                             Title = audioFile.Title,
-                            Artwork = new MPMediaItemArtwork(image)
+                            Artwork = (image != null) ? new MPMediaItemArtwork(image) : null
                         };
                     }
                 }

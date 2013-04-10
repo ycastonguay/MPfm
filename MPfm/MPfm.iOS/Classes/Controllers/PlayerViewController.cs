@@ -78,8 +78,9 @@ namespace MPfm.iOS.Classes.Controllers
             viewPosition.BackgroundColor = GlobalTheme.BackgroundColor;
             viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
 
-            //sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/slider_ball"), UIControlState.Normal);
-            //sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slide"), UIControlState.Normal);
+            sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+            sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
+            sliderPosition.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
 
             // Reduce the song position slider size
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
@@ -149,8 +150,9 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Create MPVolumeView (only visible on physical iOS device)
             _volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 52, UIScreen.MainScreen.Bounds.Width - 16, 46));
-            //volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/slider_ball"), UIControlState.Normal);
-            //volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slide"), UIControlState.Normal);
+            _volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
+            _volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
+            _volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
             this.View.AddSubview(_volumeView);
 
             // Only display wave form on iPhone 5+

@@ -240,6 +240,7 @@
     <Folder Include="Images\Splash\" />
     <Folder Include="Images\Buttons\" />
     <Folder Include="Classes\Managers\" />
+    <Folder Include="Images\Sliders\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />
@@ -287,6 +288,14 @@
     <BundleResource Include="Images\Buttons\previous%402x.png" />
     <BundleResource Include="Images\media.png" />
     <BundleResource Include="Images\media%402x.png" />
+    <BundleResource Include="Images\Sliders\slider.png" />
+    <BundleResource Include="Images\Sliders\slider%402x.png" />
+    <BundleResource Include="Images\Sliders\slider2.png" />
+    <BundleResource Include="Images\Sliders\slider2%402x.png" />
+    <BundleResource Include="Images\Sliders\thumb.png" />
+    <BundleResource Include="Images\Sliders\thumb%402x.png" />
+    <BundleResource Include="Images\Sliders\thumbbig.png" />
+    <BundleResource Include="Images\Sliders\thumbbig%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

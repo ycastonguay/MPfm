@@ -76,7 +76,7 @@ namespace MPfm.iOS.Classes.Delegates
 
             UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
             UINavigationBar.Appearance.BackgroundColor = GlobalTheme.MainColor;
-            UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
+            //UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
 
             // Create window 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
@@ -147,6 +147,7 @@ namespace MPfm.iOS.Classes.Delegates
                 navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
                 navCtrl.TabBarItem.SetTitleTextAttributes(attrSelected, UIControlState.Selected);
                 navCtrl.TabBarItem.Title = title;
+                //navCtrl.TabBarItem.SetFinishedImages(UIImage.FromBundle("Images/Tabs/tab_selected"), UIImage.FromBundle("Images/Tabs/tab"));
                 if(title.ToUpper() == "MORE")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
                 else
