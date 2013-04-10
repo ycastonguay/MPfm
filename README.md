@@ -61,3 +61,8 @@ __iOS__:
 
 __Android__:
 + [Mono for Android](http://xamarin.com/monoforandroid)
+
+*MPfm: Music Player for Musicians is © 2011-2013 Yanick Castonguay and is released under the GPLv3 license.*
+*The BASS audio library is © 1999-2013 Un4seen Developments.*
+*The BASS.NET audio library is © 2005-2013 Bernd Niedergesäß.*
+*FamFamFam icons are © 2009-2012 Mark James.*
