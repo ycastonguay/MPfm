@@ -18,40 +18,32 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Core;
-using MPfm.Sound.BassWrapper;
-using MPfm.Sound.BassWrapper.ASIO;
-using MPfm.Sound.BassWrapper.FX;
-using MPfm.Sound.BassWrapper.Mix;
-using MPfm.Sound.BassWrapper.Wasapi;
+using Un4seen.Bass;
+using Un4seen.Bass.AddOn.Fx;
+using Un4seen.Bass.AddOn.Mix;
 
-//using Un4seen.Bass;
-//using Un4seen.BassAsio;
-//using Un4seen.BassWasapi;
-//using Un4seen.Bass.AddOn.Fx;
-//using Un4seen.Bass.AddOn.Mix;
-
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
     /// The Base class contains methods for initializing audio devices,
-    /// creating stream, and more. All methods are static.
+    /// creating stream, and more.
     /// </summary>
     public static class Base
     {
-        //#region BASS.NET Registration
+        #region BASS.NET Registration
         
-        ///// <summary>
-        ///// Registers the BASS.NET library using the email and registration key.
-        ///// </summary>
-        ///// <param name="email">Email</param>
-        ///// <param name="registrationKey">Registration key</param>
-        //public static void Register(string email, string registrationKey)
-        //{
-        //    // Set registration information
-        //    BassNet.Registration(email, registrationKey);
-        //}
+        /// <summary>
+        /// Registers the BASS.NET library using the email and registration key.
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <param name="registrationKey">Registration key</param>
+        public static void Register(string email, string registrationKey)
+        {
+            // Set registration information
+            BassNet.Registration(email, registrationKey);
+        }
 
-        //#endregion
+        #endregion
 
         #region Initialize/Free Devices
 
@@ -73,79 +65,7 @@ namespace MPfm.Sound.Bass.Net
         public static void Init(int deviceId, int frequency, BASSInit init)
         {
             // Initialize system
-            if (!BassWrapper.Bass.BASS_Init(deviceId, frequency, init, IntPtr.Zero))
-            {
-                // Check for error (throw exception if the error is found)
-                CheckForError();
-            }
-        }
-
-        /// <summary>
-        /// Initializes the default ASIO device at 44100 Hz. 
-        /// </summary>
-        public static void InitASIO()
-        {
-            InitASIO(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
-        }
-
-        /// <summary>
-        /// Initializes an ASIO device by its identifier, using the specified sample rate (frequency) 
-        /// and initialization flags. To get the deviceId, use the DeviceHelper class.
-        /// </summary>
-        /// <param name="deviceId">Device identifier</param>
-        /// <param name="frequency">Sample rate (in Hz)</param>
-        /// <param name="init">Intiailization flags</param>
-        /// <param name="asioInit">ASIO initialization flags</param>
-        public static void InitASIO(int deviceId, int frequency, BASSInit init, BASSASIOInit asioInit)
-        {
-            // Initialize base device
-            if (!BassWrapper.Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
-            {
-                // Check for error (throw exception if the error is found)
-                CheckForError();            
-            }
-
-            // Initialize ASIO device
-            if (!BassAsio.BASS_ASIO_Init(deviceId, asioInit))
-            {
-                // Check for error (throw exception if the error is found)
-                CheckForError();
-            }   
-        }
-
-        /// <summary>
-        /// Initializes the default WASAPI device at 44100 Hz. Requires a data callback.
-        /// </summary>
-        /// <param name="proc">WASAPI data callback</param>
-        public static void InitWASAPI(WASAPIPROC proc)
-        {
-            InitWASAPI(-1, 44100, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, proc);
-        }
-
-        /// <summary>
-        /// Initializes a WASAPI device by its identifier, using the specified sample rate (frequency) 
-        /// and initialization flags. To get the deviceId, use the DeviceHelper class. Requires a data callback.
-        /// </summary>
-        /// <param name="deviceId">Device identifier</param>
-        /// <param name="frequency">Sample rate (in Hz)</param>
-        /// <param name="channels">Number of channels</param>
-        /// <param name="init">Intiailization flags</param>
-        /// <param name="wasapiInit">WASAPI initialization flags</param>
-        /// <param name="buffer">Buffer size</param>
-        /// <param name="period">Update period</param>
-        /// <param name="proc">WASAPI callback</param>
-        public static void InitWASAPI(int deviceId, int frequency, int channels, BASSInit init, 
-            BASSWASAPIInit wasapiInit, float buffer, float period, WASAPIPROC proc)
-        {
-            // Initialize base device
-            if (!BassWrapper.Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
-            {
-                // Check for error (throw exception if the error is found)
-                CheckForError();  
-            }
-
-            // Initialize WASAPI device
-            if (!BassWasapi.BASS_WASAPI_Init(deviceId, frequency, 2, wasapiInit, buffer, period, proc, IntPtr.Zero))
+            if (!Bass.BASS_Init(deviceId, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -158,7 +78,7 @@ namespace MPfm.Sound.Bass.Net
         public static void Free()
         {
             // Free system
-            if(!BassWrapper.Bass.BASS_Free())
+            if(!Bass.BASS_Free())
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();            
@@ -171,19 +91,19 @@ namespace MPfm.Sound.Bass.Net
 
         public static void Start()
         {
-            if (!BassWrapper.Bass.BASS_Start())
+            if (!Bass.BASS_Start())
                 CheckForError();
         }
 
         public static void Pause()
         {
-            if (!BassWrapper.Bass.BASS_Pause())
+            if (!Bass.BASS_Pause())
                 CheckForError();
         }
 
         public static void Stop()
         {
-            if (!BassWrapper.Bass.BASS_Stop())
+            if (!Bass.BASS_Stop())
                 CheckForError();
         }
 
@@ -198,7 +118,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>Value (integer)</returns>
         public static int GetConfig(BASSConfig option)
         {
-            return BassWrapper.Bass.BASS_GetConfig(option);
+            return Bass.BASS_GetConfig(option);
         }
 
         /// <summary>
@@ -209,7 +129,7 @@ namespace MPfm.Sound.Bass.Net
         public static void SetConfig(BASSConfig option, int value)
         {
             // Set configuration value
-            if(!BassWrapper.Bass.BASS_SetConfig(option, value))
+            if(!Bass.BASS_SetConfig(option, value))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -223,7 +143,7 @@ namespace MPfm.Sound.Bass.Net
         public static BASS_INFO GetInfo()
         {
             BASS_INFO info = new BASS_INFO();
-            if (!BassWrapper.Bass.BASS_GetInfo(info))
+            if (!Bass.BASS_GetInfo(info))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -243,7 +163,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>Volume</returns>
         public static float GetVolume()
         {
-            return BassWrapper.Bass.BASS_GetVolume();
+            return Bass.BASS_GetVolume();
         }
 
         /// <summary>
@@ -254,7 +174,7 @@ namespace MPfm.Sound.Bass.Net
         public static void SetVolume(float volume)
         {
             // Set volume
-            if (!BassWrapper.Bass.BASS_SetVolume(volume))
+            if (!Bass.BASS_SetVolume(volume))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -273,7 +193,7 @@ namespace MPfm.Sound.Bass.Net
         public static int LoadPlugin(string pluginFilePath)
         {
             // Load plugins            
-            int plugin = BassWrapper.Bass.BASS_PluginLoad(pluginFilePath);
+            int plugin = Bass.BASS_PluginLoad(pluginFilePath);
             if (plugin == 0)
             {
                 // Check for error (throw exception if the error is found)
@@ -314,7 +234,7 @@ namespace MPfm.Sound.Bass.Net
         public static void FreePlugin(int handle)
         {
             // Free Flac plugin
-            if (!BassWrapper.Bass.BASS_PluginFree(handle))
+            if (!Bass.BASS_PluginFree(handle))
             {
                 // Check for error (throw exception if the error is found)
                 CheckForError();
@@ -367,10 +287,10 @@ namespace MPfm.Sound.Bass.Net
 		public static int GetBASSVersion()
 		{			
 			// Load BASS library by checking the version
-			int version = BassWrapper.Bass.BASS_GetVersion();
+			int version = Bass.BASS_GetVersion();
 			
 			// Check version with BASS.NET
-			if(Conversion.HighWord(version) != BassWrapper.Bass.BASSVERSION)
+			if(Conversion.HighWord(version) != Bass.BASSVERSION)
 			{
 				// Wrong version
 				throw new Exception("The version of the BASS library does not match with BASS.NET!");
@@ -385,7 +305,7 @@ namespace MPfm.Sound.Bass.Net
 		public static void FreeBASS()
 		{
 			// Free BASS library
-			bool success = BassWrapper.Bass.BASS_Free();
+			bool success = Bass.BASS_Free();
 			if(!success)
 			{				
 				Base.CheckForError();
@@ -459,7 +379,7 @@ namespace MPfm.Sound.Bass.Net
         public static void CheckForError()
         {
             // Get error code
-            BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+            BASSError error = Bass.BASS_ErrorGetCode();
 
             // Check if there is an error
             if(error != BASSError.BASS_OK)
@@ -467,79 +387,6 @@ namespace MPfm.Sound.Bass.Net
                 // Throw exception
                 throw new BassNetWrapperException(error.ToString());
             }
-        }
-
-        #endregion
-
-        #region ASIO Methods
-        
-        /// <summary>
-        /// Opens the ASIO control panel of the currently initialized device.
-        /// </summary>
-        public static void ASIO_ControlPanel()
-        {
-            bool success = BassAsio.BASS_ASIO_ControlPanel();
-            if (!success)
-            {
-                throw new Exception("Could not load the ASIO Control Panel for this sound card.");
-            }
-        }
-        
-        /// <summary>
-        /// Returns information about the ASIO device.
-        /// </summary>
-        /// <param name="deviceId">Device Id</param>
-        /// <param name="sampleRate">Sample rate</param>
-        /// <returns>ASIOInfo data structure</returns>
-        public static ASIOInfo GetASIOInfo(bool initializeBass, int deviceId, int sampleRate)
-        {
-            // Declare variables
-            ASIOInfo info = new ASIOInfo();
-
-            try
-            {
-                if (initializeBass)
-                {
-                    //Base.Init();
-                }
-
-                try
-                {
-                    // Initialize ASIO device
-                    if (!BassAsio.BASS_ASIO_Init(deviceId, BASSASIOInit.BASS_ASIO_DEFAULT))
-                    {
-                        // Check for error (throw exception if the error is found)
-                        CheckForError();
-                    }
-                }
-                catch
-                {
-
-                }
-
-                // Get ASIO device information                
-                info.Latency = BassAsio.BASS_ASIO_GetLatency(false);
-                info.SampleRate = (int)BassAsio.BASS_ASIO_GetRate();
-                info.Info = BassAsio.BASS_ASIO_GetInfo();
-
-                // Free ASIO device
-                //bool success = BassAsio.BASS_ASIO_Free();
-                //if (!success)
-                //{
-                //    CheckForError();
-                //}
-
-                if (initializeBass)
-                {
-                    //Base.Free();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-
-            return info;
         }
 
         #endregion

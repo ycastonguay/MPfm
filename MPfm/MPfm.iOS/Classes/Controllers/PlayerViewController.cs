@@ -27,7 +27,6 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Player;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.MediaPlayer;

@@ -16,11 +16,11 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Sound.BassWrapper;
-using MPfm.Sound.BassWrapper.FX;
-using MPfm.Sound.BassWrapper.Mix;
+using Un4seen.Bass;
+using Un4seen.Bass.AddOn.Fx;
+using Un4seen.Bass.AddOn.Mix;
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
     /// Defines a channel/stream to be used with BASS.NET.
@@ -183,7 +183,7 @@ namespace MPfm.Sound.Bass.Net
             }
 
             // Create file stream
-            int handle = BassWrapper.Bass.BASS_StreamCreate(frequency, numberOfChannels, flags, streamProc, IntPtr.Zero);
+            int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, flags, streamProc, IntPtr.Zero);
             if (handle == 0)
             {
                 // Check for error
@@ -211,7 +211,7 @@ namespace MPfm.Sound.Bass.Net
             }
 
             // Create file stream
-            int handle = BassWrapper.Bass.BASS_StreamCreateFile(filePath, 0, 0, flags);
+            int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, flags);
             if (handle == 0)
             {
                 // Check for error
@@ -271,7 +271,7 @@ namespace MPfm.Sound.Bass.Net
         public void Free()
         {
             // Free stream
-            if (!BassWrapper.Bass.BASS_StreamFree(handle))
+            if (!Bass.BASS_StreamFree(handle))
             {
                 // Check for error
                 Base.CheckForError();
@@ -284,7 +284,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>BASSActive structure</returns>
         public BASSActive IsActive()
         {
-            return BassWrapper.Bass.BASS_ChannelIsActive(handle);
+            return Bass.BASS_ChannelIsActive(handle);
         }
 
         #endregion
@@ -298,7 +298,7 @@ namespace MPfm.Sound.Bass.Net
         public void Play(bool restart)
         {
             // Start playback
-            if (!BassWrapper.Bass.BASS_ChannelPlay(handle, restart))
+            if (!Bass.BASS_ChannelPlay(handle, restart))
             {
                 // Check for error
                 Base.CheckForError();
@@ -311,7 +311,7 @@ namespace MPfm.Sound.Bass.Net
         public void Stop()
         {
             // Stop playback
-            if (!BassWrapper.Bass.BASS_ChannelStop(handle))
+            if (!Bass.BASS_ChannelStop(handle))
             {
                 // Check for error
                 Base.CheckForError();
@@ -324,7 +324,7 @@ namespace MPfm.Sound.Bass.Net
         public void Pause()
         {                        
             // Pause playback
-            if (!BassWrapper.Bass.BASS_ChannelPause(handle))
+            if (!Bass.BASS_ChannelPause(handle))
             {
                 // Check for error
                 Base.CheckForError();
@@ -343,7 +343,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>Effect handle</returns>
         public int SetFX(BASSFXType type, int priority)
         {
-            return BassWrapper.Bass.BASS_ChannelSetFX(handle, type, priority);
+            return Bass.BASS_ChannelSetFX(handle, type, priority);
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace MPfm.Sound.Bass.Net
         public void RemoveFX(int handleFX)
         {
             // Remove FX
-            if (!BassWrapper.Bass.BASS_ChannelRemoveFX(handle, handleFX))
+            if (!Bass.BASS_ChannelRemoveFX(handle, handleFX))
             {
                 // Check for error
                 Base.CheckForError();
@@ -367,7 +367,7 @@ namespace MPfm.Sound.Bass.Net
         public void ResetFX(int handleFX)
         {
             // Remove FX
-            if (!BassWrapper.Bass.BASS_FXReset(handleFX))
+            if (!Bass.BASS_FXReset(handleFX))
             {
                 // Check for error
                 Base.CheckForError();
@@ -386,7 +386,7 @@ namespace MPfm.Sound.Bass.Net
         public void SetTempo(float tempo)
         {
             // Set value
-            if (!BassWrapper.Bass.BASS_ChannelSetAttribute(handle, BASSAttribute.BASS_ATTRIB_TEMPO, tempo))
+            if (!Bass.BASS_ChannelSetAttribute(handle, BASSAttribute.BASS_ATTRIB_TEMPO, tempo))
             {
                 // Check for error
                 Base.CheckForError();
@@ -426,7 +426,7 @@ namespace MPfm.Sound.Bass.Net
         public long GetLength()
         {
             // Get length
-            long length = BassWrapper.Bass.BASS_ChannelGetLength(handle);
+            long length = Bass.BASS_ChannelGetLength(handle);
 
             //// Check for floating point
             //if (m_isFloatingPoint)
@@ -445,7 +445,7 @@ namespace MPfm.Sound.Bass.Net
         public long GetPosition()
         {
             // Get position
-            long position = BassWrapper.Bass.BASS_ChannelGetPosition(handle);
+            long position = Bass.BASS_ChannelGetPosition(handle);
 
             //// Check for floating point
             //if (m_isFloatingPoint)
@@ -471,7 +471,7 @@ namespace MPfm.Sound.Bass.Net
             //}
 
             // Set position
-            if (!BassWrapper.Bass.BASS_ChannelSetPosition(handle, position))
+            if (!Bass.BASS_ChannelSetPosition(handle, position))
             {
                 // Check for error
                 Base.CheckForError();
@@ -485,7 +485,7 @@ namespace MPfm.Sound.Bass.Net
         public void Lock(bool state)
         {
             // Set position
-            if (!BassWrapper.Bass.BASS_ChannelLock(handle, state))
+            if (!Bass.BASS_ChannelLock(handle, state))
             {
                 // Check for error
                 Base.CheckForError();
@@ -505,7 +505,7 @@ namespace MPfm.Sound.Bass.Net
         public void GetAttribute(BASSAttribute attribute, ref float value)
         {
             // Get attribute value
-            if (!BassWrapper.Bass.BASS_ChannelGetAttribute(handle, attribute, ref value))
+            if (!Bass.BASS_ChannelGetAttribute(handle, attribute, ref value))
             {
                 // Check for error
                 Base.CheckForError();
@@ -520,7 +520,7 @@ namespace MPfm.Sound.Bass.Net
         public void SetAttribute(BASSAttribute attribute, float value)
         {
             // Set attribute value
-            if (!BassWrapper.Bass.BASS_ChannelSetAttribute(handle, attribute, value))
+            if (!Bass.BASS_ChannelSetAttribute(handle, attribute, value))
             {
                 // Check for error
                 Base.CheckForError();
@@ -536,7 +536,7 @@ namespace MPfm.Sound.Bass.Net
         public BASSFlag SetFlags(BASSFlag flags, BASSFlag mask)
         {
             // Set flags
-            return BassWrapper.Bass.BASS_ChannelFlags(handle, flags, mask);
+            return Bass.BASS_ChannelFlags(handle, flags, mask);
         }
 
         #endregion
@@ -551,7 +551,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>GetData return value</returns>
         public int GetData(byte[] buffer, int length)
         {
-            return BassWrapper.Bass.BASS_ChannelGetData(handle, buffer, length);
+            return Bass.BASS_ChannelGetData(handle, buffer, length);
         }
 
         /// <summary>
@@ -562,7 +562,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>GetData return value</returns>
         public int GetData(IntPtr buffer, int length)
         {
-            return BassWrapper.Bass.BASS_ChannelGetData(handle, buffer, length);
+            return Bass.BASS_ChannelGetData(handle, buffer, length);
         }
 
         /// <summary>
@@ -573,7 +573,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>GetData return value</returns>
         public int GetData(float[] buffer, int length)
         {
-            return BassWrapper.Bass.BASS_ChannelGetData(handle, buffer, length);
+            return Bass.BASS_ChannelGetData(handle, buffer, length);
         }
 
         /// <summary>
@@ -584,7 +584,7 @@ namespace MPfm.Sound.Bass.Net
         /// </returns>
         public int GetDataAvailable()
         {
-            return BassWrapper.Bass.BASS_ChannelGetData(handle, new short[0], (int)BASSData.BASS_DATA_AVAILABLE);
+            return Bass.BASS_ChannelGetData(handle, new short[0], (int)BASSData.BASS_DATA_AVAILABLE);
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ namespace MPfm.Sound.Bass.Net
         public int SetSync(BASSSync type, long param, SYNCPROC syncProc)
         {
             // Set sync
-            int syncHandle = BassWrapper.Bass.BASS_ChannelSetSync(handle, type, param, syncProc, IntPtr.Zero);
+            int syncHandle = Bass.BASS_ChannelSetSync(handle, type, param, syncProc, IntPtr.Zero);
 
             // Check for error
             if (syncHandle == 0)
@@ -645,7 +645,7 @@ namespace MPfm.Sound.Bass.Net
         public void RemoveSync(int syncHandle)
         {
             // Remove the sync callback
-            if (!BassWrapper.Bass.BASS_ChannelRemoveSync(handle, syncHandle))
+            if (!Bass.BASS_ChannelRemoveSync(handle, syncHandle))
             {
                 // Check for error
                 Base.CheckForError();
@@ -663,7 +663,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>Position (in bytes)</returns>
         public long Seconds2Bytes2(double position)
         {
-            return BassWrapper.Bass.BASS_ChannelSeconds2Bytes(handle, position);
+            return Bass.BASS_ChannelSeconds2Bytes(handle, position);
         }
 
         /// <summary>
@@ -673,7 +673,7 @@ namespace MPfm.Sound.Bass.Net
         /// <returns>Position (in milliseconds)</returns>
         public double Bytes2Seconds(long position)
         {
-            return BassWrapper.Bass.BASS_ChannelBytes2Seconds(handle, position);
+            return Bass.BASS_ChannelBytes2Seconds(handle, position);
         }
 
         #endregion

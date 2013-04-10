@@ -15,7 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Sound.BassWrapper;
+using MPfm.Sound.BassNetWrapper;
+using Un4seen.Bass;
 
 namespace MPfm.Player.Objects
 {

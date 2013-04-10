@@ -19,8 +19,8 @@ using System.Collections.Generic;
 using MPfm.Player;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
 using MPfm.Sound.Playlists;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.MVP.Services.Interfaces
 {

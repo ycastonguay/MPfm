@@ -16,7 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Sound.Bass.Net;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Player.Exceptions
 {

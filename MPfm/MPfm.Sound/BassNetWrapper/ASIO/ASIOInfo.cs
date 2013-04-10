@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Sound.BassWrapper.ASIO;
+#if !IOS && !ANDROID
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper.ASIO
 {
     /// <summary>
     /// Defines a data structure for holding information about an ASIO device.
@@ -47,3 +47,5 @@ namespace MPfm.Sound.Bass.Net
         }
     }
 }
+
+#endif

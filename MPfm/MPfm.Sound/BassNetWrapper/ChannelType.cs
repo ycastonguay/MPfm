@@ -15,24 +15,28 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
-    /// Defines the driver type (DirectSound, ASIO or WASAPI).
+    /// Defines the types of channels found in the BASS.NET library.
     /// </summary>
-    public enum DriverType
+    public enum ChannelType
     {
         /// <summary>
-        /// DirectSound (most popular choice).
+        /// Playback channel (outputs to the sound card direcly).
         /// </summary>
-        DirectSound = 0, 
+        Playback = 0, 
         /// <summary>
-        /// ASIO (requires a compatible ASIO driver, usually for low-latency sound cards).
+        /// FX channel (can output to the sound card directly or be a decode channel).
         /// </summary>
-        ASIO = 1, 
+        FX = 1, 
         /// <summary>
-        /// WASAPI (only for Windows Vista and Windows 7).
+        /// Decode channel.
         /// </summary>
-        WASAPI = 2
+        Decode = 2, 
+        /// <summary>
+        /// Memory channel.
+        /// </summary>
+        Memory = 3
     }
 }

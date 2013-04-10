@@ -16,22 +16,25 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper.iOS
 {
-    /// <summary>
-    /// Custom exception class for the MPfm BASS.NET wrapper.
-    /// </summary>
-    [Serializable]
-    public class BassNetWrapperException : Exception
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void IOSNOTIFY(int status);
+
+    [Flags]
+    public enum BASSIOSNotify
     {
-        /// <summary>
-        /// Default constructor for the default exception class of the MPfm BASS.NET wrapper.
-        /// </summary>
-        /// <param name="message">Exception message</param>
-        public BassNetWrapperException(string message) 
-            : base("An error has occured in Bass.Net: " + message)
-        {            
-        }
+        BASS_IOSNOTIFY_INTERRUPT = 1,
+        BASS_IOSNOTIFY_INTERRUPT_END = 2
+    }
+
+    public enum BASSIOSConfig
+    {
+        BASS_CONFIG_IOS_MIXAUDIO = 34,
+        BASS_CONFIG_IOS_SPEAKER = 39,
+        BASS_CONFIG_IOS_NOTIFY = 46
     }
 }

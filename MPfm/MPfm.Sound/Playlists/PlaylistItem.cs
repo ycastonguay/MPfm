@@ -20,9 +20,9 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
+using Un4seen.Bass;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
-using MPfm.Sound.BassWrapper;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Sound.Playlists
 {
@@ -355,7 +355,7 @@ namespace MPfm.Sound.Playlists
                             dataLength = channel.GetData(bytes, tempBufferLength);
                             if(dataLength == -1)
                             {
-                                BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                                BASSError error = Bass.BASS_ErrorGetCode();
                                 if(error == BASSError.BASS_ERROR_ENDED)
                                 {
                                     break; // Decode done

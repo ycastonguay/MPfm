@@ -128,13 +128,15 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp">
       <HintPath>..\MPfm.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="monotouch" />
+    <Reference Include="Bass.Net.iphone">
+      <HintPath>..\MPfm.Sound\Lib\iOS\Bass.Net.iphone.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Bass.Net.dll" />

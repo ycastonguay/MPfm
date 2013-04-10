@@ -24,7 +24,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Sound.PeakFiles
 {

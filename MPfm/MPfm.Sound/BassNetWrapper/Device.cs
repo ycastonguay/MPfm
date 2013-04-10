@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
     /// Defines an audio device that can be used with the Player.

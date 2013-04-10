@@ -15,12 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper
 {
-    interface ITestDevice
+    /// <summary>
+    /// Defines the driver type (DirectSound, ASIO or WASAPI).
+    /// </summary>
+    public enum DriverType
     {
-        void Dispose();
-        void Play(string filePath);
-        void Stop();
+        /// <summary>
+        /// DirectSound (most popular choice).
+        /// </summary>
+        DirectSound = 0, 
+        /// <summary>
+        /// ASIO (requires a compatible ASIO driver, usually for low-latency sound cards).
+        /// </summary>
+        ASIO = 1, 
+        /// <summary>
+        /// WASAPI (only for Windows Vista and Windows 7).
+        /// </summary>
+        WASAPI = 2
     }
 }

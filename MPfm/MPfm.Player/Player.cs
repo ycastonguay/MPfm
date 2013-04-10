@@ -21,17 +21,16 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using MPfm.Core;
+using MPfm.Sound;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.BassNetWrapper.iOS;
+using MPfm.Sound.Playlists;
+using Un4seen.Bass;
+using Un4seen.Bass.AddOn.Fx;
 using MPfm.Player.Events;
 using MPfm.Player.Exceptions;
 using MPfm.Player.Objects;
-using MPfm.Sound;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
-using MPfm.Sound.BassWrapper;
-using MPfm.Sound.BassWrapper.ASIO;
-using MPfm.Sound.BassWrapper.FX;
-using MPfm.Sound.BassWrapper.Wasapi;
-using MPfm.Sound.Playlists;
 
 #if IOS
 using MonoTouch;
@@ -114,9 +113,12 @@ namespace MPfm.Player
 
         // Callbacks
         private STREAMPROC streamProc;
+        private IOSNOTIFY iosNotifyProc;
+
+#if !IOS && !ANDROID
         private ASIOPROC asioProc;
         private WASAPIPROC wasapiProc;
-        private IOSNOTIFY iosNotifyProc;
+#endif
 
         #endregion
 
@@ -271,6 +273,8 @@ namespace MPfm.Player
                     mixerChannel.Volume = value;
                 }
 
+#if !IOS && !ANDROID
+
                 // Check driver type
                 if (device.DriverType == DriverType.ASIO)
                 {
@@ -298,6 +302,8 @@ namespace MPfm.Player
                         Base.CheckForError();
                     }
                 }
+
+#endif
             }
         }
 
@@ -602,6 +608,9 @@ namespace MPfm.Player
             UseFloatingPoint = true;
 #endif
 
+            // Register BASS.NET
+            Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
+
             // Create timer
             Tracing.Log("Player init -- Creating timer...");
             timerPlayer = new System.Timers.Timer();
@@ -707,7 +716,8 @@ namespace MPfm.Player
                     Console.WriteLine("Configuring IOSNOTIFY delegate...");
                     iosNotifyProc = new IOSNOTIFY(IOSNotifyProc);
                     IntPtr ptr = Marshal.GetFunctionPointerForDelegate(iosNotifyProc);
-                    Bass.BASS_SetConfigPtr(BASSConfig.BASS_CONFIG_IOS_NOTIFY, ptr);
+                    Bass.BASS_SetConfigPtr((BASSConfig)46, ptr);
+                    //Bass.BASS_SetConfigPtr(BASSIOSConfig.BASS_CONFIG_IOS_NOTIFY, ptr);
 
                     Console.WriteLine("Configuring AirPlay and remote control...");
                     Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_IOS_MIXAUDIO, 0); // 0 = AirPlay
@@ -774,10 +784,11 @@ namespace MPfm.Player
                 // Initialize sound system                
                 Base.Init(device.Id, mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT);
             }
+#if !IOS && !ANDROID
             else if (device.DriverType == DriverType.ASIO)
             {
                 // Initialize sound system
-                Base.InitASIO(device.Id, mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
+                BaseASIO.Init(device.Id, mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);
             }
             else if (device.DriverType == DriverType.WASAPI)
             {
@@ -791,6 +802,7 @@ namespace MPfm.Player
 
                 //BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();
             }
+#endif
 
             // Default BASS.NET configuration values for Windows *AND* Linux:
             //
@@ -839,6 +851,8 @@ namespace MPfm.Player
                 return;
             }
 
+#if !IOS && !ANDROID
+
             // Check driver type
             if (device.DriverType == DriverType.ASIO)
             {
@@ -860,6 +874,7 @@ namespace MPfm.Player
                     throw new Exception("Error freeing WASAPI device: " + error.ToString());
                 }
             }
+#endif
 
             // Dispose system
             Base.Free();
@@ -1057,6 +1072,7 @@ namespace MPfm.Player
                         throw newEx;
                     }
                 }
+#if !IOS && !ANDROID
                 else if (device.DriverType == DriverType.ASIO)
                 {
                     try
@@ -1139,7 +1155,7 @@ namespace MPfm.Player
                         throw new Exception("Player.Play error: Error playing files in WASAPI: " + error.ToString());
                     }
                 }
-
+#endif
                 // Set initial volume
                 mixerChannel.Volume = Volume;
 
@@ -1294,6 +1310,7 @@ namespace MPfm.Player
                     //mixerChannel.Play(false);
                 }
             }
+#if !IOS && !ANDROID
             else if (device.DriverType == DriverType.ASIO)
             {
                 // Check if the playback is already paused
@@ -1340,6 +1357,7 @@ namespace MPfm.Player
 
                 }
             }
+#endif
 
             // Set flag
             isPaused = !isPaused;
@@ -1381,6 +1399,7 @@ namespace MPfm.Player
                 // For iOS: This is required to update the AirPlay/remote player status
                 Base.Stop();
             }
+#if !IOS && !ANDROID
             else if (device.DriverType == DriverType.ASIO)
             {
                 // Stop playback
@@ -1393,6 +1412,7 @@ namespace MPfm.Player
                 Tracing.Log("Player.Stop -- Stopping WASAPI playback...");
                 BassWasapi.BASS_WASAPI_Stop(false);
             }
+#endif
 
             // Stop decoding the current file (doesn't throw an exception if decode has finished)
             //Playlist.CurrentItem.CancelDecode();
@@ -1411,11 +1431,13 @@ namespace MPfm.Player
                 playlist.DisposeChannels();
             }
 
+#if !IOS && !ANDROID
             // Check if WASAPI
             if (device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
             }
+#endif
            
         }
 
@@ -1532,13 +1554,14 @@ namespace MPfm.Player
                 return;
             }
 
-
+#if !IOS && !ANDROID
             // Check if WASAPI
             if (device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
                 BassWasapi.BASS_WASAPI_Start();
             }
+#endif
 
             // Remove any sync callback
             RemoveSyncCallbacks();
@@ -1615,12 +1638,14 @@ namespace MPfm.Player
                     endPositionBytes = (long)((float)endPositionBytes / 1.5f);
                 }
 
+#if !IOS && !ANDROID
                 // Check if WASAPI
                 if (device.DriverType == DriverType.WASAPI)
                 {
                     BassWasapi.BASS_WASAPI_Stop(true);
                     BassWasapi.BASS_WASAPI_Start();
                 }
+#endif
 
                 // Remove any sync callback
                 RemoveSyncCallbacks();

@@ -21,11 +21,11 @@ using MPfm.Player;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
 using MPfm.Sound.Playlists;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
 using TinyMessenger;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.MVP.Services
 {

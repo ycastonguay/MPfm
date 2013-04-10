@@ -18,7 +18,7 @@
 using System.IO;
 using System.Text;
 
-namespace MPfm.Sound
+namespace MPfm.Sound.Readers
 {
     /// <summary>
     /// Reads the Xing/Info header of a MP3 file to extract information.

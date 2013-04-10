@@ -17,11 +17,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using MPfm.Sound.BassWrapper;
-using MPfm.Sound.BassWrapper.ASIO;
-using MPfm.Sound.BassWrapper.Wasapi;
+using Un4seen.Bass;
 
-namespace MPfm.Sound.Bass.Net
+#if !IOS && !ANDROID
+
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
     /// This class contains methods to help detect devices and test sounds.
@@ -38,7 +38,7 @@ namespace MPfm.Sound.Bass.Net
             List<Device> devices = new List<Device>();
 
             // Detect DirectSound devices
-            List<BASS_DEVICEINFO> devicesDirectSound = BassWrapper.Bass.BASS_GetDeviceInfos().ToList();
+            List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
             for(int a = 0; a < devicesDirectSound.Count; a++)
             {
                 // Make sure the device is usable
@@ -229,3 +229,5 @@ namespace MPfm.Sound.Bass.Net
         }
     }
 }
+
+#endif

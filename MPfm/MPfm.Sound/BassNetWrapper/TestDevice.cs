@@ -15,13 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+// Note: This call is only available on Windows/Linux/Mac because of the 
+//       use of ASIO/WASAPI which are not available in the BASS.NET mobile version.
+
+#if !IOS && !ANDROID
+
 using System;
 using System.IO;
-using MPfm.Sound.BassWrapper;
-using MPfm.Sound.BassWrapper.ASIO;
-using MPfm.Sound.BassWrapper.Wasapi;
+using Un4seen.Bass;
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
     /// Defines a simple class to test an audio file against an audio device.
@@ -317,3 +320,4 @@ namespace MPfm.Sound.Bass.Net
         #endregion
     }
 }
+#endif

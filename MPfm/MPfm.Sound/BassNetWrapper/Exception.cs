@@ -15,28 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.Sound.Bass.Net
+using System;
+
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
-    /// Defines the types of channels found in the BASS.NET library.
+    /// Custom exception class for the MPfm BASS.NET wrapper.
     /// </summary>
-    public enum ChannelType
+    [Serializable]
+    public class BassNetWrapperException : Exception
     {
         /// <summary>
-        /// Playback channel (outputs to the sound card direcly).
+        /// Default constructor for the default exception class of the MPfm BASS.NET wrapper.
         /// </summary>
-        Playback = 0, 
-        /// <summary>
-        /// FX channel (can output to the sound card directly or be a decode channel).
-        /// </summary>
-        FX = 1, 
-        /// <summary>
-        /// Decode channel.
-        /// </summary>
-        Decode = 2, 
-        /// <summary>
-        /// Memory channel.
-        /// </summary>
-        Memory = 3
+        /// <param name="message">Exception message</param>
+        public BassNetWrapperException(string message) 
+            : base("An error has occured in Bass.Net: " + message)
+        {            
+        }
     }
 }

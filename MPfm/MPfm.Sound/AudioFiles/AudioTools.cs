@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MPfm.Sound.Bass.Net;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Sound.AudioFiles
 {

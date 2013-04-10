@@ -16,10 +16,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Sound.BassWrapper;
-using MPfm.Sound.BassWrapper.Mix;
+using Un4seen.Bass;
+using Un4seen.Bass.AddOn.Mix;
 
-namespace MPfm.Sound.Bass.Net
+namespace MPfm.Sound.BassNetWrapper
 {
     /// <summary>
     /// Defines a mixer channel to be used with BASS.NET.
