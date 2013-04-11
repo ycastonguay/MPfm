@@ -140,8 +140,8 @@
     <Reference Include="taglib-sharp">
       <HintPath>Lib\iOS\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="Bass.Net.iphone">
-      <HintPath>Lib\iOS\Bass.Net.iphone.dll</HintPath>
+    <Reference Include="Bass.Net.iOS">
+      <HintPath>Lib\iOS\Bass.Net.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -158,7 +158,7 @@
     <None Include="Lib\Android\taglib-sharp.dll" />
     <None Include="Lib\iOS\taglib-sharp.dll" />
     <None Include="Lib\Bass.Net.dll" />
-    <None Include="Lib\iOS\Bass.Net.iphone.dll" />
+    <None Include="Lib\iOS\Bass.Net.iOS.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\iOS\" />
@@ -166,7 +166,6 @@
     <Folder Include="PeakFiles\" />
     <Folder Include="BassNetWrapper\ASIO\" />
     <Folder Include="BassNetWrapper\WASAPI\" />
-    <Folder Include="BassNetWrapper\iOS\" />
     <Folder Include="Readers\" />
   </ItemGroup>
   <ItemGroup>
@@ -211,7 +210,6 @@
     <Compile Include="BassNetWrapper\ASIO\ASIOInfo.cs" />
     <Compile Include="BassNetWrapper\ASIO\BaseASIO.cs" />
     <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
-    <Compile Include="BassNetWrapper\iOS\Base.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
     <Compile Include="MyBassNetKey.cs" />

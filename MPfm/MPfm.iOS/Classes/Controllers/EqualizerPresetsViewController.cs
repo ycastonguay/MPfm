@@ -49,7 +49,8 @@ namespace MPfm.iOS
             btnDone.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
             btnDone.Frame = new RectangleF(0, 20, 60, 30);
             btnDone.TouchUpInside += (sender, e) => {
-                this.DismissViewController(true, null);
+                //this.DismissViewController(true, null);
+                NavigationController.DismissViewController(true, null);
             };
             _btnDone = new UIBarButtonItem(btnDone);
 

@@ -238,6 +238,15 @@ namespace MPfm.iOS.Classes.Controls
             return true;
         }
 
+        public override bool IsBeingDismissed
+        {
+            get
+            {
+                Console.WriteLine("NavCtrl is being dismissed!!!");
+                return base.IsBeingDismissed;
+            }
+        }
+
         public void SetTitle(string title, string subtitle)
         {
             if(_lblTitle.Text != title)

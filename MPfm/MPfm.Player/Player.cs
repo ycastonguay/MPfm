@@ -24,7 +24,6 @@ using MPfm.Core;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound.BassNetWrapper.iOS;
 using MPfm.Sound.Playlists;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Fx;
@@ -113,7 +112,7 @@ namespace MPfm.Player
 
         // Callbacks
         private STREAMPROC streamProc;
-        private IOSNOTIFY iosNotifyProc;
+        private IOSNOTIFYPROC iosNotifyProc;
 
 #if !IOS && !ANDROID
         private ASIOPROC asioProc;
@@ -714,7 +713,7 @@ namespace MPfm.Player
                     mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
 
                     Console.WriteLine("Configuring IOSNOTIFY delegate...");
-                    iosNotifyProc = new IOSNOTIFY(IOSNotifyProc);
+                    iosNotifyProc = new IOSNOTIFYPROC(IOSNotifyProc);
                     IntPtr ptr = Marshal.GetFunctionPointerForDelegate(iosNotifyProc);
                     Bass.BASS_SetConfigPtr((BASSConfig)46, ptr);
                     //Bass.BASS_SetConfigPtr(BASSIOSConfig.BASS_CONFIG_IOS_NOTIFY, ptr);
@@ -2354,12 +2353,12 @@ namespace MPfm.Player
             Player.CurrentPlayer.LoopSyncProc(handle, channel, data, user);
         }
 
-        [MonoPInvokeCallback(typeof(IOSNOTIFY))]
-        private static void IOSNotifyProc(int status)
+        [MonoPInvokeCallback(typeof(IOSNOTIFYPROC))]
+        private static void IOSNotifyProc(BASSIOSNotify status)
         {
             switch(status)
             {
-                case (int)BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT:
+                case BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT:
                     Console.WriteLine("BASS_IOSNOTIFY_INTERRUPT");
 
                     // Stop playback
@@ -2369,7 +2368,7 @@ namespace MPfm.Player
                     if(Player.CurrentPlayer.OnAudioInterrupted != null)
                         Player.CurrentPlayer.OnAudioInterrupted(new AudioInterruptedData());
                     break;
-                case (int)BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT_END:
+                case BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT_END:
                     Console.WriteLine("BASS_IOSNOTIFY_INTERRUPT_END");
                     break;
             }
