@@ -21,14 +21,5 @@ namespace MPfm.MVP.Presenters.Interfaces
 {
 	public interface IEqualizerPresetsPresenter : IBasePresenter<IEqualizerPresetsView>
 	{
-        void SetEQParam(int index, float value);
-        void BypassEQ();
-        void AutoLevel();
-        void Reset();
-
-        void LoadPreset(string presetName);
-        void SavePreset(string presetName);
-        void DeletePreset(string presetName);
 	}
 }
-

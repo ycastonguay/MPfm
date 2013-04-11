@@ -74,7 +74,7 @@ namespace MPfm.iOS
             cell.TextLabel.Text = _items[indexPath.Row].Value;
             
             // Set font
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Bold", 14);
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             
             // Set chevron
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;

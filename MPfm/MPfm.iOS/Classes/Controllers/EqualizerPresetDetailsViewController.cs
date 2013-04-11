@@ -42,45 +42,42 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             // Add navigation controller buttons
-            var btnDone = new UIButton(UIButtonType.Custom);
-            btnDone.SetTitle("Done", UIControlState.Normal);
-            btnDone.Layer.CornerRadius = 8;
-            btnDone.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnDone.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            btnDone.Frame = new RectangleF(0, 20, 60, 30);
-            btnDone.TouchUpInside += (sender, e) => {
-                this.DismissViewController(true, null);
+            var btnSave = new UIButton(UIButtonType.Custom);
+            btnSave.SetTitle("Save", UIControlState.Normal);
+            btnSave.Layer.CornerRadius = 8;
+            btnSave.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+            btnSave.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
+            btnSave.Frame = new RectangleF(0, 20, 60, 30);
+            btnSave.TouchUpInside += (sender, e) => {
+                //this.DismissViewController(true, null);
+                NavigationController.PopViewControllerAnimated(true);
             };
-            _btnDone = new UIBarButtonItem(btnDone);
+            _btnDone = new UIBarButtonItem(btnSave);
             
-            var btnAdd = new UIButton(UIButtonType.Custom);
-            btnAdd.SetTitle("+", UIControlState.Normal);
-            btnAdd.Layer.CornerRadius = 8;
-            btnAdd.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnAdd.Font = UIFont.FromName("HelveticaNeue-Bold", 18.0f);
-            btnAdd.Frame = new RectangleF(0, 12, 60, 30);
-            btnAdd.TouchUpInside += (sender, e) => {
-                this.DismissViewController(true, null);
-            };
-            _btnAdd = new UIBarButtonItem(btnAdd);
+//            var btnAdd = new UIButton(UIButtonType.Custom);
+//            btnAdd.SetTitle("+", UIControlState.Normal);
+//            btnAdd.Layer.CornerRadius = 8;
+//            btnAdd.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+//            btnAdd.Font = UIFont.FromName("HelveticaNeue-Bold", 18.0f);
+//            btnAdd.Frame = new RectangleF(0, 12, 60, 30);
+//            btnAdd.TouchUpInside += (sender, e) => {
+//                this.DismissViewController(true, null);
+//            };
+//            _btnAdd = new UIBarButtonItem(btnAdd);
             
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
-            NavigationItem.SetRightBarButtonItem(_btnAdd, true);
+            //NavigationItem.SetRightBarButtonItem(_btnAdd, true);
             
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
-            navCtrl.SetTitle("Effects", "Equalizer Presets");
+            navCtrl.SetTitle("Equalizer Preset", "");
             
             base.ViewDidLoad();
         }
         
-        #region IEffectsView implementation
+        #region IEqualizerPresetDetailsView implementation
         
         public void UpdateFader(int index, float value)
-        {
-        }
-        
-        public void UpdatePresetList(System.Collections.Generic.IEnumerable<string> presets)
         {
         }
         

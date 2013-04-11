@@ -60,7 +60,7 @@ namespace MPfm.iOS
             btnAdd.Font = UIFont.FromName("HelveticaNeue-Bold", 18.0f);
             btnAdd.Frame = new RectangleF(0, 12, 60, 30);
             btnAdd.TouchUpInside += (sender, e) => {
-                this.DismissViewController(true, null);
+                OnAddPreset();
             };
             _btnAdd = new UIBarButtonItem(btnAdd);
 
@@ -69,16 +69,18 @@ namespace MPfm.iOS
 
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
-            navCtrl.SetTitle("Effects", "Equalizer Presets");
+            navCtrl.SetTitle("Equalizer", "Presets");
 
             base.ViewDidLoad();
         }
 
-        #region IEffectsView implementation
+        #region IEqualizerPresetsView implementation
 
-        public void UpdateFader(int index, float value)
-        {
-        }
+        public Action OnBypassEqualizer { get; set; }
+        public Action OnAddPreset { get; set; }
+        public Action<string> OnLoadPreset { get; set; }
+        public Action<string> OnEditPreset { get; set; }
+        public Action<string> OnDeletePreset { get; set; }
 
         public void UpdatePresetList(System.Collections.Generic.IEnumerable<string> presets)
         {

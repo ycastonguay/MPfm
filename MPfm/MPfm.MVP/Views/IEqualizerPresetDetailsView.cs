@@ -22,6 +22,5 @@ namespace MPfm.MVP.Views
 	public interface IEqualizerPresetDetailsView : IBaseView
 	{
         void UpdateFader(int index, float value);
-        void UpdatePresetList(IEnumerable<string> presets);
 	}
 }

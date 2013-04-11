@@ -207,10 +207,10 @@ namespace MPfm.iOS.Classes.Delegates
             // TODO: Remove navCtrl from list when dialog is closed.
         }
 
-        public void PushDialogSubview(string viewTitle, UIViewController viewController)
+        public void PushDialogSubview(string parentViewTitle, UIViewController viewController)
         {
             InvokeOnMainThread(() => {
-                var navCtrl = _dialogNavigationControllers.FirstOrDefault(x => x.Key == viewTitle).Value;
+                var navCtrl = _dialogNavigationControllers.FirstOrDefault(x => x.Key == parentViewTitle).Value;
                 navCtrl.PushViewController(viewController, true);
             });
         }

@@ -70,13 +70,13 @@ namespace MPfm.MVP.Presenters
                 case MobileOptionsMenuType.UpdateLibrary:
                 {
                     var view = _navigationManager.CreateUpdateLibraryView();
-                    _navigationManager.PushDialogView("Update Library", view);
+                    _navigationManager.PushDialogView("UpdateLibrary", view);
                     break;
                 }
                 case MobileOptionsMenuType.EqualizerPresets:
                 {
                     var view = _navigationManager.CreateEqualizerPresetsView();
-                    _navigationManager.PushDialogView("Equalizer Presets", view);
+                    _navigationManager.PushDialogView("EqualizerPresets", view);
                     break;
                 }
                 case MobileOptionsMenuType.Preferences:

@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
@@ -23,46 +24,52 @@ namespace MPfm.MVP.Presenters
 {
 	public class EqualizerPresetsPresenter : BasePresenter<IEqualizerPresetsView>, IEqualizerPresetsPresenter
 	{
-        readonly IPlayerService playerService;
+        readonly MobileNavigationManager _navigationManager;
+        readonly IPlayerService _playerService;
 
-        public EqualizerPresetsPresenter(IPlayerService playerService)
+        public EqualizerPresetsPresenter(MobileNavigationManager navigationManager, IPlayerService playerService)
 		{	
-            // Set properties
-            this.playerService = playerService;
+            _navigationManager = navigationManager;
+            _playerService = playerService;
 		}
 
-        public void SetEQParam(int index, float value)
+        public override void BindView(IEqualizerPresetsView view)
         {
-            // Set EQ and update UI
-            playerService.UpdateEQBand(index, value, true);
-            View.UpdateFader(index, value);
+            base.BindView(view);
+
+            view.OnBypassEqualizer = BypassEqualizer;
+            view.OnAddPreset = AddPreset;
+            view.OnLoadPreset = LoadPreset;
+            view.OnEditPreset = EditPreset;
+            view.OnDeletePreset = DeletePreset;
+            
+            RefreshPresets();
         }
 
-        public void BypassEQ()
+        private void BypassEqualizer()
         {
-            playerService.BypassEQ();
+            _playerService.BypassEQ();            
         }
 
-        public void AutoLevel()
+        private void AddPreset()
         {
+            var view = _navigationManager.CreateEqualizerPresetDetailsView();
+            _navigationManager.PushDialogSubview("EqualizerPresets", view);
         }
 
-        public void Reset()
-        {
-            playerService.ResetEQ();
-            for (int a = 0; a < 18; a++)
-                View.UpdateFader(a, 0);
-        }
-
-        public void LoadPreset(string presetName)
-        {
-        }
-
-        public void SavePreset(string presetName)
+        private void LoadPreset(string presetName)
         {
         }
 
-        public void DeletePreset(string presetName)
+        private void EditPreset(string presetName)
+        {
+        }
+
+        private void DeletePreset(string presetName)
+        {
+        }
+
+        private void RefreshPresets()
         {
         }
 	}

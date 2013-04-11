@@ -80,9 +80,9 @@ namespace MPfm.iOS.Classes.Navigation
             AppDelegate.PushDialogView(viewTitle, (UIViewController)view);
         }
 
-        public override void PushDialogSubview(string viewTitle, IBaseView view)
+        public override void PushDialogSubview(string parentViewTitle, IBaseView view)
         {
-            AppDelegate.PushDialogSubview(viewTitle, (UIViewController)view);
+            AppDelegate.PushDialogSubview(parentViewTitle, (UIViewController)view);
         }
 
         public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)

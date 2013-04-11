@@ -78,7 +78,7 @@ namespace MPfm.MVP.Navigation
         public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
         public abstract void PushDialogView(string viewTitle, IBaseView view);
-        public abstract void PushDialogSubview(string viewTitle, IBaseView view);
+        public abstract void PushDialogSubview(string parentViewTitle, IBaseView view);
         public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
 
         public virtual void Start()
@@ -458,6 +458,26 @@ namespace MPfm.MVP.Navigation
             };
             return _equalizerPresetsView;
         }
+
+        public virtual IEqualizerPresetDetailsView CreateEqualizerPresetDetailsView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>();
+                _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
+            };
+            
+            // Create view and manage view destruction
+            _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _equalizerPresetDetailsView.OnViewDestroy = (view) =>
+            {
+                _equalizerPresetDetailsView = null;
+                _equalizerPresetDetailsPresenter = null;
+            };
+            return _equalizerPresetDetailsView;
+        }
+
     }
 
     public enum MobileNavigationTabType
