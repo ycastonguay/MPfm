@@ -21,30 +21,15 @@ using MPfm.MVP.Views;
 
 namespace MPfm.MVP.Presenters
 {
-	/// <summary>
-	/// Effects presenter.
-	/// </summary>
-	public class EffectsPresenter : BasePresenter<IEffectsView>, IEffectsPresenter
+	public class EqualizerPresetsPresenter : BasePresenter<IEqualizerPresetsView>, IEqualizerPresetsPresenter
 	{
-		// Private variables
-		//IEffectsView view = null;
         readonly IPlayerService playerService;
 
-		#region Constructor and Dispose
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EffectsPresenter"/> class.
-        /// </summary>
-        /// <param name='playerService'>
-        /// Player service.
-        /// </param>
-		public EffectsPresenter(IPlayerService playerService)
+        public EqualizerPresetsPresenter(IPlayerService playerService)
 		{	
             // Set properties
             this.playerService = playerService;
 		}
-
-		#endregion
 
         public void SetEQParam(int index, float value)
         {

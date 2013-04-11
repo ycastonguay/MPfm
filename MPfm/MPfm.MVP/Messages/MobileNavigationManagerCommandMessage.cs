@@ -39,6 +39,6 @@ namespace MPfm.MVP.Messages
     public enum MobileNavigationManagerCommandMessageType
     {
         ShowPlayerView = 0,
-        ShowEffectsView = 1
+        ShowEqualizerPresetsView = 1
     }
 }

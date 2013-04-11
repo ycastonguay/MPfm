@@ -46,8 +46,8 @@ namespace MPfm.iOS.Classes.Navigation
                                 var navCtrl = (MPfmNavigationController)m.Sender;
                                 ShowPlayerView(navCtrl.TabType);
                                 break;
-                            case MobileNavigationManagerCommandMessageType.ShowEffectsView:
-                                ShowEffectsView();
+                            case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
+                                ShowEqualizerPresetsView();
                                 break;
                         }
                     });

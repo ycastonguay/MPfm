@@ -54,25 +54,8 @@ namespace MPfm.iOS.Classes.Delegates
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			// Complete IoC configuration
-			TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
-			container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
-			container.Register<ISplashView, SplashViewController>().AsMultiInstance();
-            container.Register<IMobileOptionsMenuView, MoreViewController>().AsMultiInstance();
-			container.Register<IPlayerView, PlayerViewController>().AsMultiInstance();
-			container.Register<IUpdateLibraryView, UpdateLibraryViewController>().AsMultiInstance();
-			container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserViewController>().AsMultiInstance();
-			//container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
-			//container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
-			//container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
-            container.Register<IEffectsView, EffectsViewController>().AsMultiInstance();
-            container.Register<ILoopsView, LoopsViewController>().AsMultiInstance();
-            container.Register<ILoopDetailsView, LoopDetailsViewController>().AsMultiInstance();
-            container.Register<IMarkersView, MarkersViewController>().AsMultiInstance();
-            container.Register<IMarkerDetailsView, MarkerDetailsViewController>().AsMultiInstance();
-            container.Register<ITimeShiftingView, TimeShiftingViewController>().AsMultiInstance();
-            container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
-            container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
+            TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            RegisterViews();
 
             UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
             UINavigationBar.Appearance.BackgroundColor = GlobalTheme.MainColor;
@@ -103,6 +86,30 @@ namespace MPfm.iOS.Classes.Delegates
                 MPfm.Player.Player.CurrentPlayer.Stop();
             }
             MPfm.Player.Player.CurrentPlayer.Dispose();
+        }
+
+        public void RegisterViews()
+        {
+            // Complete IoC configuration
+            TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
+            container.Register<ISplashView, SplashViewController>().AsMultiInstance();
+            container.Register<IMobileOptionsMenuView, MoreViewController>().AsMultiInstance();
+            container.Register<IPlayerView, PlayerViewController>().AsMultiInstance();
+            container.Register<IUpdateLibraryView, UpdateLibraryViewController>().AsMultiInstance();
+            container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserViewController>().AsMultiInstance();
+            //container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
+            //container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
+            //container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            container.Register<IEqualizerPresetsView, EqualizerPresetsViewController>().AsMultiInstance();
+            container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsViewController>().AsMultiInstance();
+            container.Register<ILoopsView, LoopsViewController>().AsMultiInstance();
+            container.Register<ILoopDetailsView, LoopDetailsViewController>().AsMultiInstance();
+            container.Register<IMarkersView, MarkersViewController>().AsMultiInstance();
+            container.Register<IMarkerDetailsView, MarkerDetailsViewController>().AsMultiInstance();
+            container.Register<ITimeShiftingView, TimeShiftingViewController>().AsMultiInstance();
+            container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
+            container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
         }
 
         public void ShowSplash(SplashViewController viewController)

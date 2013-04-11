@@ -60,7 +60,8 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IMobileOptionsMenuPresenter, MobileOptionsMenuPresenter>().AsSingleton();
             container.Register<ILibraryBrowserPresenter, LibraryBrowserPresenter>().AsSingleton();
             container.Register<IUpdateLibraryPresenter, UpdateLibraryPresenter>().AsSingleton();
-            container.Register<IEffectsPresenter, EffectsPresenter>().AsMultiInstance();
+            container.Register<IEqualizerPresetsPresenter, EqualizerPresetsPresenter>().AsMultiInstance();
+            container.Register<IEqualizerPresetDetailsPresenter, EqualizerPresetDetailsPresenter>().AsMultiInstance();
             container.Register<IAudioPreferencesPresenter, AudioPreferencesPresenter>().AsSingleton();
             container.Register<IGeneralPreferencesPresenter, GeneralPreferencesPresenter>().AsSingleton();
             container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsSingleton();

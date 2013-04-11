@@ -29,16 +29,16 @@ using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
-    public partial class EffectsViewController : BaseViewController, IEffectsView
+    public partial class EqualizerPresetDetailsViewController : BaseViewController, IEqualizerPresetDetailsView
     {
         UIBarButtonItem _btnAdd;
         UIBarButtonItem _btnDone;         
-
-        public EffectsViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "EffectsViewController_iPhone" : "EffectsViewController_iPad", null)
+        
+        public EqualizerPresetDetailsViewController(Action<IBaseView> onViewReady)
+            : base (onViewReady, UserInterfaceIdiomIsPhone ? "EqualizerPresetDetailsViewController_iPhone" : "EqualizerPresetDetailsViewController_iPad", null)
         {
         }
-
+        
         public override void ViewDidLoad()
         {
             // Add navigation controller buttons
@@ -52,7 +52,7 @@ namespace MPfm.iOS
                 this.DismissViewController(true, null);
             };
             _btnDone = new UIBarButtonItem(btnDone);
-
+            
             var btnAdd = new UIButton(UIButtonType.Custom);
             btnAdd.SetTitle("+", UIControlState.Normal);
             btnAdd.Layer.CornerRadius = 8;
@@ -63,27 +63,27 @@ namespace MPfm.iOS
                 this.DismissViewController(true, null);
             };
             _btnAdd = new UIBarButtonItem(btnAdd);
-
+            
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             NavigationItem.SetRightBarButtonItem(_btnAdd, true);
-
+            
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
             navCtrl.SetTitle("Effects", "Equalizer Presets");
-
+            
             base.ViewDidLoad();
         }
-
+        
         #region IEffectsView implementation
-
+        
         public void UpdateFader(int index, float value)
         {
         }
-
+        
         public void UpdatePresetList(System.Collections.Generic.IEnumerable<string> presets)
         {
         }
-
+        
         #endregion
     }
 }

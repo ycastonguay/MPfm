@@ -15,23 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Views;
+using System.Collections.Generic;
 
-namespace MPfm.MVP.Presenters.Interfaces
+namespace MPfm.MVP.Views
 {
-	/// <summary>
-	/// Effects presenter interface.
-	/// </summary>
-	public interface IEffectsPresenter : IBasePresenter<IEffectsView>
+	public interface IEqualizerPresetDetailsView : IBaseView
 	{
-        void SetEQParam(int index, float value);
-        void BypassEQ();
-        void AutoLevel();
-        void Reset();
-
-        void LoadPreset(string presetName);
-        void SavePreset(string presetName);
-        void DeletePreset(string presetName);
+        void UpdateFader(int index, float value);
+        void UpdatePresetList(IEnumerable<string> presets);
 	}
 }
-

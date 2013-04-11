@@ -34,7 +34,7 @@ namespace MPfm.MVP.Views
     {
         About = 0,
         Preferences = 1,
-        Effects = 2,
+        EqualizerPresets = 2,
         UpdateLibrary = 3
     }
 }

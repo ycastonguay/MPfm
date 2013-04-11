@@ -105,7 +105,7 @@ namespace MPfm.iOS.Classes.Controls
             _btnEffects.SetImage(UIImage.FromBundle("Images/effects.png"), UIControlState.Normal);
             _btnEffects.Alpha = 0;
             _btnEffects.TouchUpInside += (sender, e) => {
-                _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEffectsView));
+                _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView));
             };           
 
             _btnNowPlaying = new UIButton(UIButtonType.Custom);

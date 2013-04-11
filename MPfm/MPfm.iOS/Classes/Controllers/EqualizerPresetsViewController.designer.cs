@@ -9,7 +9,7 @@ using MonoTouch.Foundation;
 namespace MPfm.iOS
 {
 	[Register ("EffectsViewController")]
-	partial class EffectsViewController
+	partial class EqualizerPresetsViewController
 	{
 		[Outlet]
 		MonoTouch.UIKit.UIToolbar toolBar { get; set; }

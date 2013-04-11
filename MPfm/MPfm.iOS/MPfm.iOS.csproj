@@ -154,10 +154,6 @@
     <Compile Include="Classes\Controllers\MarkersViewController.designer.cs">
       <DependentUpon>MarkersViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Controllers\EffectsViewController.cs" />
-    <Compile Include="Classes\Controllers\EffectsViewController.designer.cs">
-      <DependentUpon>EffectsViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Classes\Controllers\TimeShiftingViewController.cs" />
     <Compile Include="Classes\Controllers\TimeShiftingViewController.designer.cs">
       <DependentUpon>TimeShiftingViewController.cs</DependentUpon>
@@ -192,6 +188,14 @@
     <Compile Include="Classes\Objects\GlobalTheme.cs" />
     <Compile Include="Classes\Controls\MPfmTabBar.cs" />
     <Compile Include="Classes\Controls\MPfmNavigationBar.cs" />
+    <Compile Include="Classes\Controllers\EqualizerPresetsViewController.cs" />
+    <Compile Include="Classes\Controllers\EqualizerPresetsViewController.designer.cs">
+      <DependentUpon>EqualizerPresetsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\EqualizerPresetDetailsViewController.cs" />
+    <Compile Include="Classes\Controllers\EqualizerPresetDetailsViewController.designer.cs">
+      <DependentUpon>EqualizerPresetDetailsViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -208,8 +212,6 @@
     <InterfaceDefinition Include="XIB\iPhone\LoopsViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\MarkersViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\MarkersViewController_iPhone.xib" />
-    <InterfaceDefinition Include="XIB\iPad\EffectsViewController_iPad.xib" />
-    <InterfaceDefinition Include="XIB\iPhone\EffectsViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\TimeShiftingViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\TimeShiftingViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\PitchShiftingViewController_iPad.xib" />
@@ -220,6 +222,10 @@
     <InterfaceDefinition Include="XIB\iPhone\LoopDetailsViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\MarkerDetailsViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\MarkerDetailsViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\EqualizerPresetsViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\EqualizerPresetsViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPad\EqualizerPresetDetailsViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\EqualizerPresetDetailsViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

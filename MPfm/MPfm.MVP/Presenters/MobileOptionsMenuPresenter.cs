@@ -53,7 +53,7 @@ namespace MPfm.MVP.Presenters
 	    {	        
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Effects, "Effects"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.EqualizerPresets, "Equalizer Presets"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Preferences, "Preferences"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About MPfm"));
             View.RefreshMenu(_items);
@@ -73,10 +73,10 @@ namespace MPfm.MVP.Presenters
                     _navigationManager.PushDialogView("Update Library", view);
                     break;
                 }
-                case MobileOptionsMenuType.Effects:
+                case MobileOptionsMenuType.EqualizerPresets:
                 {
-                    var view = _navigationManager.CreateEffectsView();
-                    _navigationManager.PushDialogView("Effects", view);
+                    var view = _navigationManager.CreateEqualizerPresetsView();
+                    _navigationManager.PushDialogView("Equalizer Presets", view);
                     break;
                 }
                 case MobileOptionsMenuType.Preferences:

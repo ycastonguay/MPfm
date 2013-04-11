@@ -40,8 +40,10 @@ namespace MPfm.MVP.Navigation
         private IMobileOptionsMenuPresenter _optionsMenuPresenter;
         private IUpdateLibraryView _updateLibraryView;
         private IUpdateLibraryPresenter _updateLibraryPresenter;
-        private IEffectsView _effectsView;
-        private IEffectsPresenter _effectsPresenter;
+        private IEqualizerPresetsView _equalizerPresetsView;
+        private IEqualizerPresetsPresenter _equalizerPresetsPresenter;
+        private IEqualizerPresetDetailsView _equalizerPresetDetailsView;
+        private IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
         private IPlayerView _playerView;
         private IPlayerPresenter _playerPresenter;
 
@@ -120,10 +122,10 @@ namespace MPfm.MVP.Navigation
                 PushTabView(tabType, _playerView);
         }
 
-        protected void ShowEffectsView()
+        protected void ShowEqualizerPresetsView()
         {
-            var view = CreateEffectsView();
-            PushDialogView("Effects", view);
+            var view = CreateEqualizerPresetsView();
+            PushDialogView("EqualizerPresets", view);
         }
 
         public virtual void BindOptionsMenuView(IMobileOptionsMenuView view)
@@ -438,23 +440,23 @@ namespace MPfm.MVP.Navigation
             return _pitchShiftingView;
         }
 
-        public virtual IEffectsView CreateEffectsView()
+        public virtual IEqualizerPresetsView CreateEqualizerPresetsView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                _effectsPresenter = Bootstrapper.GetContainer().Resolve<IEffectsPresenter>();
-                _effectsPresenter.BindView((IEffectsView)view);
+                _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
+                _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
             };
             
             // Create view and manage view destruction
-            _effectsView = Bootstrapper.GetContainer().Resolve<IEffectsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _effectsView.OnViewDestroy = (view) =>
+            _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _equalizerPresetsView.OnViewDestroy = (view) =>
             {
-                _effectsView = null;
-                _effectsPresenter = null;
+                _equalizerPresetsView = null;
+                _equalizerPresetsPresenter = null;
             };
-            return _effectsView;
+            return _equalizerPresetsView;
         }
     }
 

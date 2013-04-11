@@ -19,13 +19,9 @@ using System.Collections.Generic;
 
 namespace MPfm.MVP.Views
 {
-	/// <summary>
-	/// Effects view interface.
-	/// </summary>
-	public interface IEffectsView : IBaseView
+	public interface IEqualizerPresetsView : IBaseView
 	{
         void UpdateFader(int index, float value);
         void UpdatePresetList(IEnumerable<string> presets);
 	}
 }
-
