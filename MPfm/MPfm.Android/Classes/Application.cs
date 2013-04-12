@@ -21,19 +21,9 @@ using Android.Content.PM;
 using Android.Runtime;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
-using MPfm.Library.Database;
-using MPfm.Library.Database.Interfaces;
-using MPfm.MVP;
 using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Helpers;
 using MPfm.MVP.Navigation;
-using MPfm.MVP.Presenters;
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Services;
-using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Player;
-using MPfm.Sound.Bass.Net;
 
 namespace MPfm.Android.Classes
 {
@@ -54,6 +44,11 @@ namespace MPfm.Android.Classes
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<ISplashView, SplashFragment>().AsMultiInstance();
             container.Register<IPlayerView, PlayerFragment>().AsMultiInstance();
+            container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
+            container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
+            container.Register<ILoopsView, LoopsFragment>().AsMultiInstance();
+            container.Register<ITimeShiftingView, TimeShiftingFragment>().AsMultiInstance();
+            container.Register<IPitchShiftingView, PitchShiftingFragment>().AsMultiInstance();
             container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
             container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
             container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();

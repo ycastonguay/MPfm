@@ -80,6 +80,10 @@
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bass.Net.android, Version=2.4.10.0, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Android\Bass.Net.android.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -91,6 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lib\Android\Bass.Net.android.dll" />
+    <Content Include="Lib\Android\taglib-sharp.dll" />
     <Content Include="Lib\taglib-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -105,43 +111,9 @@
     <Compile Include="AudioFiles\AudioTools.cs" />
     <Compile Include="AudioFiles\AudioFileFormatExtension.cs" />
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
-    <Compile Include="Bass.Net\Channel.cs" />
-    <Compile Include="Bass.Net\ChannelType.cs" />
-    <Compile Include="Bass.Net\ASIOInfo.cs" />
-    <Compile Include="Bass.Net\IChannel.cs" />
-    <Compile Include="Bass.Net\IMixerChannel.cs" />
-    <Compile Include="Bass.Net\ITestDevice.cs" />
-    <Compile Include="Bass.Net\MixerChannel.cs" />
-    <Compile Include="Bass.Net\DriverType.cs" />
-    <Compile Include="Bass.Net\TestDevice.cs" />
-    <Compile Include="Bass.Net\DeviceHelper.cs" />
-    <Compile Include="Bass.Net\Device.cs" />
-    <Compile Include="Bass.Net\Exception.cs" />
-    <Compile Include="Bass.Net\Base.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
-    <Compile Include="BassWrapper\ASIO\BassASIOCallbacks.cs" />
-    <Compile Include="BassWrapper\ASIO\BassASIOEnums.cs" />
-    <Compile Include="BassWrapper\ASIO\BassASIOStructs.cs" />
-    <Compile Include="BassWrapper\ASIO\BassASIOMethods.cs" />
-    <Compile Include="BassWrapper\BassEnums.cs" />
-    <Compile Include="BassWrapper\BassStructs.cs" />
-    <Compile Include="BassWrapper\BassCallbacks.cs" />
-    <Compile Include="BassWrapper\BassMethods.cs" />
-    <Compile Include="BassWrapper\BassWrapperGlobals.cs" />
-    <Compile Include="BassWrapper\FX\BassFXCallbacks.cs" />
-    <Compile Include="BassWrapper\FX\BassFXEnums.cs" />
-    <Compile Include="BassWrapper\FX\BassFXMethods.cs" />
-    <Compile Include="BassWrapper\FX\BassFXStructs.cs" />
-    <Compile Include="BassWrapper\Mix\BassMixCallbacks.cs" />
-    <Compile Include="BassWrapper\Mix\BassMixEnums.cs" />
-    <Compile Include="BassWrapper\Mix\BassMixMethods.cs" />
-    <Compile Include="BassWrapper\Mix\BassMixStructs.cs" />
-    <Compile Include="BassWrapper\Wasapi\BassWasapiMethods.cs" />
-    <Compile Include="BassWrapper\Wasapi\BassWasapiEnums.cs" />
-    <Compile Include="BassWrapper\Wasapi\BassWasapiStructs.cs" />
-    <Compile Include="BassWrapper\Wasapi\BassWasapiCallbacks.cs" />
-    <Compile Include="PeakFiles\IPeakFileGenerator.cs" />
+    <Compile Include="MyBassNetKey.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
     <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
@@ -160,7 +132,24 @@
     <Compile Include="Tags\ID3v2Metadata.cs" />
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
-    <Compile Include="XingInfoHeaderReader.cs" />
-    <Compile Include="PeakFiles\PeakFileGenerator.cs" />
+    <Compile Include="PeakFiles\IPeakFileService.cs" />
+    <Compile Include="PeakFiles\PeakFileService.cs" />
+    <Compile Include="BassNetWrapper\Channel.cs" />
+    <Compile Include="BassNetWrapper\ChannelType.cs" />
+    <Compile Include="BassNetWrapper\IChannel.cs" />
+    <Compile Include="BassNetWrapper\IMixerChannel.cs" />
+    <Compile Include="BassNetWrapper\ITestDevice.cs" />
+    <Compile Include="BassNetWrapper\MixerChannel.cs" />
+    <Compile Include="BassNetWrapper\DriverType.cs" />
+    <Compile Include="BassNetWrapper\TestDevice.cs" />
+    <Compile Include="BassNetWrapper\DeviceHelper.cs" />
+    <Compile Include="BassNetWrapper\Device.cs" />
+    <Compile Include="BassNetWrapper\Exception.cs" />
+    <Compile Include="BassNetWrapper\Base.cs" />
+    <Compile Include="BassNetWrapper\ASIO\ASIOInfo.cs" />
+    <Compile Include="BassNetWrapper\ASIO\BaseASIO.cs" />
+    <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
+    <Compile Include="Readers\XingInfoHeaderReader.cs" />
+    <Compile Include="BassNetKey.cs" />
   </ItemGroup>
 </Project>

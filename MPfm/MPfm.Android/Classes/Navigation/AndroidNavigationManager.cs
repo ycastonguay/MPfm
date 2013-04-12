@@ -46,9 +46,14 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.PushTabView(type, (Fragment)view);
         }
 
-        public override void PushDialogView(IBaseView view)
+        public override void PushDialogView(string viewTitle, IBaseView view)
         {
             MainActivity.PushDialogView((Fragment)view);
+        }
+
+        public override void PushDialogSubview(string parentViewTitle, IBaseView view)
+        {
+            
         }
 
         public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)

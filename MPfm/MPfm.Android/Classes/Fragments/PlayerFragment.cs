@@ -17,22 +17,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using System.Timers;
-using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Android.Classes.Helpers;
-using MPfm.Core;
 using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
 using MPfm.MVP.Views;
-using MPfm.Player;
 using MPfm.Sound.AudioFiles;
-using Environment = Android.OS.Environment;
 
 namespace MPfm.Android.Classes.Fragments
 {
@@ -113,6 +108,7 @@ namespace MPfm.Android.Classes.Fragments
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
 
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
@@ -126,7 +122,7 @@ namespace MPfm.Android.Classes.Fragments
                 });
         }
 
-        public void RefreshSongInformation(AudioFile audioFile)
+        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             Activity.RunOnUiThread(() =>
                 {

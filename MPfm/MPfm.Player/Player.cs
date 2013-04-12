@@ -112,7 +112,10 @@ namespace MPfm.Player
 
         // Callbacks
         private STREAMPROC streamProc;
+
+#if IOS
         private IOSNOTIFYPROC iosNotifyProc;
+#endif
 
 #if !IOS && !ANDROID
         private ASIOPROC asioProc;
@@ -122,7 +125,7 @@ namespace MPfm.Player
         #endregion
 
         #region Events
-        
+
         /// <summary>
         /// Delegate method for the OnPlaylistIndexChanged event.
         /// </summary>

@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
+using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
@@ -70,7 +71,6 @@ namespace MPfm.Android.Classes.Fragments
             builder.Show();
         }
 
-
         #region IMobileLibraryBrowserView implementation
 
         public MobileLibraryBrowserType BrowserType { get; set; }
@@ -78,17 +78,18 @@ namespace MPfm.Android.Classes.Fragments
         public Action<int> OnItemClick { get; set; }
         public Action<string, string> OnRequestAlbumArt { get; set; }
 
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle)
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
         {
             _entities = entities;
-            var listAdapter = (MobileLibraryBrowserListAdapter) ListAdapter;
+            var listAdapter = (MobileLibraryBrowserListAdapter)ListAdapter;
 
             // Update list adapter only if the view was created
             if (listAdapter != null)
             {
-                http://stackoverflow.com/questions/6837397/updating-listview-by-notifydatasetchanged-has-to-use-runonuithread
-                Activity.RunOnUiThread(() => {
-                    listAdapter.SetData(entities);   
+                // http://stackoverflow.com/questions/6837397/updating-listview-by-notifydatasetchanged-has-to-use-runonuithread
+                Activity.RunOnUiThread(() =>
+                {
+                    listAdapter.SetData(entities);
                     listAdapter.NotifyDataSetChanged();
                 });
             }

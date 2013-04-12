@@ -22,6 +22,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 
@@ -52,9 +53,14 @@ namespace MPfm.Android.Classes.Fragments
 
         #region IMarkersView implementation
 
-        public Action OnAddMarker { get; set; }
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
-        
+        public Action<Marker> OnSelectMarker { get; set; }
+
+        public void MarkerError(Exception ex)
+        {            
+        }
+
         public void RefreshMarkers(List<Marker> markers)
         {
         }

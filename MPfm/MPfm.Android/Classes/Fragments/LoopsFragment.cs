@@ -55,6 +55,10 @@ namespace MPfm.Android.Classes.Fragments
         public Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
 
+        public void LoopError(Exception ex)
+        {            
+        }
+
         public void RefreshLoops(List<Loop> loops)
         {
         }

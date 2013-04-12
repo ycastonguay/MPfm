@@ -168,9 +168,6 @@
     <Compile Include="Config\MPfmWindowsConfig.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
-    <Compile Include="Presenters\Interfaces\IEffectsPresenter.cs" />
-    <Compile Include="Views\IEffectsView.cs" />
-    <Compile Include="Presenters\EffectsPresenter.cs" />
     <Compile Include="Views\IPreferencesView.cs" />
     <Compile Include="Presenters\Interfaces\IGeneralPreferencesPresenter.cs" />
     <Compile Include="Presenters\GeneralPreferencesPresenter.cs" />
@@ -219,5 +216,16 @@
     <Compile Include="Presenters\Interfaces\IMarkerDetailsPresenter.cs" />
     <Compile Include="Presenters\LoopDetailsPresenter.cs" />
     <Compile Include="Presenters\MarkerDetailsPresenter.cs" />
+    <Compile Include="Messages\MarkerUpdatedMessage.cs" />
+    <Compile Include="Views\IPlayerStatusView.cs" />
+    <Compile Include="Presenters\Interfaces\IPlayerStatusPresenter.cs" />
+    <Compile Include="Presenters\PlayerStatusPresenter.cs" />
+    <Compile Include="Messages\MobileNavigationManagerCommandMessage.cs" />
+    <Compile Include="Views\IEqualizerPresetsView.cs" />
+    <Compile Include="Presenters\Interfaces\IEqualizerPresetsPresenter.cs" />
+    <Compile Include="Views\IEqualizerPresetDetailsView.cs" />
+    <Compile Include="Presenters\Interfaces\IEqualizerPresetDetailsPresenter.cs" />
+    <Compile Include="Presenters\EqualizerPresetsPresenter.cs" />
+    <Compile Include="Presenters\EqualizerPresetDetailsPresenter.cs" />
   </ItemGroup>
 </Project>

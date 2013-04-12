@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: Android.Runtime.ResourceDesignerAttribute("MPfm.Android.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("MPfm.Android.Resource", IsApplication=true)]
 
 namespace MPfm.Android
 {
@@ -19,9 +19,9 @@ namespace MPfm.Android
 	public partial class Resource
 	{
 		
-		Resource()
+		static Resource()
 		{
-			global::Android.Runtime.ResourceIdManager.UpdateIdValues ();
+			global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 		}
 		
 		public static void UpdateIdValues()
@@ -43,6 +43,11 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f040003
 			public const int slide_out_right = 2130968579;
 			
+			static Animation()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
 			private Animation()
 			{
 			}
@@ -50,6 +55,11 @@ namespace MPfm.Android
 		
 		public partial class Attribute
 		{
+			
+			static Attribute()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
 			
 			private Attribute()
 			{
@@ -61,6 +71,11 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f050000
 			public const int color_black = 2131034112;
+			
+			static Color()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
 			
 			private Color()
 			{
@@ -75,6 +90,11 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f020001
 			public const int Splash = 2130837505;
+			
+			static Drawable()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
 			
 			private Drawable()
 			{
@@ -219,6 +239,11 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f090022
 			public const int splash_text = 2131296290;
 			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
 			private Id()
 			{
 			}
@@ -269,6 +294,11 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f03000d
 			public const int UpdateLibrary = 2130903053;
 			
+			static Layout()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
 			private Layout()
 			{
 			}
@@ -279,6 +309,11 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f080000
 			public const int main_menu = 2131230720;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
 			
 			private Menu()
 			{
@@ -293,6 +328,11 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f060000
 			public const int Hello = 2131099648;
+			
+			static String()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
 			
 			private String()
 			{
@@ -316,6 +356,11 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f070003
 			public const int UpdateLibraryTheme = 2131165187;
+			
+			static Style()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
 			
 			private Style()
 			{
