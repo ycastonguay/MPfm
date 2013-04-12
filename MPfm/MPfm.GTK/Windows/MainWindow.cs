@@ -31,6 +31,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Models;
 using MPfm.Library.UpdateLibrary;
 using MPfm.GTK.Helpers;
+using MPfm.MVP.Messages;
 
 namespace MPfm.GTK.Windows
 {
@@ -62,6 +63,7 @@ namespace MPfm.GTK.Windows
         public System.Action<float> OnPlayerSetTimeShifting { get; set; }
         public System.Action<float> OnPlayerSetVolume { get; set; }
         public System.Action<float> OnPlayerSetPosition { get; set; }
+		public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
         
         public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
         public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
@@ -101,7 +103,7 @@ namespace MPfm.GTK.Windows
 	
 			// Refresh other stuff
 			RefreshRepeatButton();
-			RefreshSongInformation(null);			
+			RefreshSongInformation(null, 0, 0, 0);			
 			
 			// Fill sound format combo box
 			storeAudioFileFormat = new ListStore(typeof(string));			
@@ -769,6 +771,10 @@ namespace MPfm.GTK.Windows
 				
 		#region IPlayerView implementation
 			
+		public void RefreshPlayerStatus(PlayerStatusType status)
+		{
+		}
+
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
 		{
 			Gtk.Application.Invoke(delegate{
@@ -782,7 +788,7 @@ namespace MPfm.GTK.Windows
 			});
 		}
 		
-		public void RefreshSongInformation(AudioFile audioFile)
+		public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
 		{
 			Gtk.Application.Invoke(delegate{
 				if(audioFile != null)

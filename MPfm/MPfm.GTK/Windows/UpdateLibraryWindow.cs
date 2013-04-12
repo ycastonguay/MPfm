@@ -36,7 +36,8 @@ namespace MPfm.GTK.Windows
 	/// </summary>
 	public partial class UpdateLibraryWindow : BaseWindow, IUpdateLibraryView
 	{
-		public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+		public System.Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+		public System.Action OnCancelUpdateLibrary { get; set; }
 
 		// Private variables		
 		private IUpdateLibraryPresenter presenter = null;
@@ -53,9 +54,10 @@ namespace MPfm.GTK.Windows
 			SetFontProperties();
 			
 			// Create presenter			
+			var audioFileCacheService = Bootstrapper.GetContainer().Resolve<AudioFileCacheService>();
 			var libraryService = Bootstrapper.GetContainer().Resolve<LibraryService>();
 			var updateLibraryService = Bootstrapper.GetContainer().Resolve<UpdateLibraryService>();
-			presenter = new UpdateLibraryPresenter(libraryService, updateLibraryService);
+			presenter = new UpdateLibraryPresenter(audioFileCacheService, libraryService, updateLibraryService);
 			presenter.BindView(this);
 			
 			presenter.UpdateLibrary(mode, filePaths, folderPath);
