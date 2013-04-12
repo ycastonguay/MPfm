@@ -20,6 +20,9 @@ using System.Linq;
 using Un4seen.Bass;
 
 #if !IOS && !ANDROID
+using Un4seen.BassAsio;
+using Un4seen.BassWasapi;
+#endif
 
 namespace MPfm.Sound.BassNetWrapper
 {
@@ -60,6 +63,7 @@ namespace MPfm.Sound.BassNetWrapper
                 }
             }
 
+#if !IOS && !ANDROID
             // Detect ASIO devices
             List<BASS_ASIO_DEVICEINFO> devicesASIO = BassAsio.BASS_ASIO_GetDeviceInfos().ToList();
             for (int a = 0; a < devicesASIO.Count; a++)
@@ -91,6 +95,7 @@ namespace MPfm.Sound.BassNetWrapper
                     devices.Add(device);
                 }
             }
+#endif
 
             return devices;
         }
@@ -109,7 +114,7 @@ namespace MPfm.Sound.BassNetWrapper
             if (driverType == DriverType.DirectSound)
             {
                 // Detect DirectSound devices
-                List<BASS_DEVICEINFO> devicesDirectSound = BassWrapper.Bass.BASS_GetDeviceInfos().ToList();
+                List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
                 for (int a = 0; a < devicesDirectSound.Count; a++)
                 {
                     // Check if the driver name is the same, and make sure the device is also enabled (i.e. available)
@@ -127,6 +132,7 @@ namespace MPfm.Sound.BassNetWrapper
                     }
                 }
             }
+#if !IOS && !ANDROID
             else if (driverType == DriverType.ASIO)
             {
                 // Detect ASIO devices
@@ -168,6 +174,7 @@ namespace MPfm.Sound.BassNetWrapper
                     }
                 }
             }
+#endif
 
             return null;
         }
@@ -180,7 +187,7 @@ namespace MPfm.Sound.BassNetWrapper
         public static Device GetDefaultDirectSoundOutputDevice()
         {
             // Detect DirectSound devices
-            List<BASS_DEVICEINFO> devicesDirectSound = BassWrapper.Bass.BASS_GetDeviceInfos().ToList();
+            List<BASS_DEVICEINFO> devicesDirectSound = Bass.BASS_GetDeviceInfos().ToList();
             for (int a = 0; a < devicesDirectSound.Count; a++)
             {
                 // Check if the device is the default one
@@ -200,6 +207,7 @@ namespace MPfm.Sound.BassNetWrapper
             return null;
         }
 
+#if !IOS && !ANDROID
         /// <summary>
         /// Returns the default WASAPI device.
         /// If no device was no found, the value is null.
@@ -227,7 +235,7 @@ namespace MPfm.Sound.BassNetWrapper
 
             return null;
         }
+#endif
+
     }
 }
-
-#endif

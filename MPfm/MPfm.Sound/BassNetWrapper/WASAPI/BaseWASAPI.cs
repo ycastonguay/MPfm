@@ -36,7 +36,7 @@ namespace MPfm.Sound.BassNetWrapper.WASAPI
         /// <param name="proc">WASAPI data callback</param>
         public static void Init(WASAPIPROC proc)
         {
-            InitWASAPI(-1, 44100, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, proc);
+            Init(-1, 44100, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, proc);
         }
 
         /// <summary>
@@ -58,14 +58,14 @@ namespace MPfm.Sound.BassNetWrapper.WASAPI
             if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
-                CheckForError();  
+                Base.CheckForError();  
             }
 
             // Initialize WASAPI device
             if (!BassWasapi.BASS_WASAPI_Init(deviceId, frequency, 2, wasapiInit, buffer, period, proc, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
-                CheckForError();
+                Base.CheckForError();
             }
         }
     }

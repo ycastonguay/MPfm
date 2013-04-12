@@ -31,6 +31,13 @@ using MPfm.Player.Events;
 using MPfm.Player.Exceptions;
 using MPfm.Player.Objects;
 
+#if !IOS && !ANDROID
+using Un4seen.BassAsio;
+using Un4seen.BassWasapi;
+using MPfm.Sound.BassNetWrapper.ASIO;
+using MPfm.Sound.BassNetWrapper.WASAPI;
+#endif
+
 #if IOS
 using MonoTouch;
 #endif
@@ -297,7 +304,7 @@ namespace MPfm.Player
                 else if (device.DriverType == DriverType.WASAPI)
                 {
                     // Set WASAPI volume
-                    bool success = BassWasapi.BASS_WASAPI_SetVolume(true, value);
+                    bool success = BassWasapi.BASS_WASAPI_SetVolume(BASSWASAPIVolume.BASS_WASAPI_CURVE_LINEAR, value);
                     if (!success)
                     {
                         // Check for error
@@ -799,7 +806,7 @@ namespace MPfm.Player
 
                 // Initialize sound system                
                 //Base.InitWASAPI(device.Id, mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 10.0f, 0, wasapiProc);
-                Base.InitWASAPI(device.Id, mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0.5f, 0, wasapiProc);
+                BaseWASAPI.Init(device.Id, mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0.5f, 0, wasapiProc);
                 //Base.InitWASAPI(device.Id, mixerSampleRate, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 1, 0, wasapiProc);
 
                 //BASS_WASAPI_INFO info = BassWasapi.BASS_WASAPI_GetInfo();

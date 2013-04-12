@@ -18,11 +18,16 @@
 // Note: This call is only available on Windows/Linux/Mac because of the 
 //       use of ASIO/WASAPI which are not available in the BASS.NET mobile version.
 
-#if !IOS && !ANDROID
-
 using System;
 using System.IO;
 using Un4seen.Bass;
+
+#if !IOS && !ANDROID
+using MPfm.Sound.BassNetWrapper.ASIO;
+using MPfm.Sound.BassNetWrapper.WASAPI;
+using Un4seen.BassAsio;
+using Un4seen.BassWasapi;
+#endif
 
 namespace MPfm.Sound.BassNetWrapper
 {
@@ -38,8 +43,10 @@ namespace MPfm.Sound.BassNetWrapper
         private int stream = 0;        
         private int streamDirectSound = 0;
         private STREAMPROC streamProc;
+#if !IOS && !ANDROID
         private ASIOPROC asioProc;
         private WASAPIPROC wasapiProc;
+#endif
 
         #endregion
 
@@ -84,10 +91,11 @@ namespace MPfm.Sound.BassNetWrapper
                 // Initialize sound system
                 Base.Init(device.Id, frequency, BASSInit.BASS_DEVICE_DEFAULT);
             }
+#if !IOS && !ANDROID
             else if (device.DriverType == DriverType.ASIO)
             {
                 // Initialize sound system
-                Base.InitASIO(device.Id, frequency, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);              
+                BaseASIO.Init(device.Id, frequency, BASSInit.BASS_DEVICE_DEFAULT, BASSASIOInit.BASS_ASIO_THREAD);              
             }
             else if (device.DriverType == DriverType.WASAPI)
             {
@@ -95,8 +103,9 @@ namespace MPfm.Sound.BassNetWrapper
                 wasapiProc = new WASAPIPROC(WASAPICallback);
 
                 // Initialize sound system
-                Base.InitWASAPI(device.Id, frequency, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, wasapiProc);
+                BaseWASAPI.Init(device.Id, frequency, 2, BASSInit.BASS_DEVICE_DEFAULT, BASSWASAPIInit.BASS_WASAPI_SHARED, 0, 0, wasapiProc);
             }
+#endif
         }
 
         /// <summary>
@@ -104,6 +113,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// </summary>
         public void Dispose()
         {
+#if !IOS && !ANDROID
             // Check driver type
             if (device.DriverType == DriverType.ASIO)
             {
@@ -111,7 +121,7 @@ namespace MPfm.Sound.BassNetWrapper
                 if (!BassAsio.BASS_ASIO_Free())
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error disposing TestDevice: " + error.ToString());
                 }
             }
@@ -121,13 +131,14 @@ namespace MPfm.Sound.BassNetWrapper
                 if (!BassWasapi.BASS_WASAPI_Free())
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error disposing TestDevice: " + error.ToString());
                 }
             }
+#endif
 
             // Free BASS
-            BassWrapper.Bass.BASS_Free();
+            Bass.BASS_Free();
         }
 
         #endregion
@@ -150,41 +161,40 @@ namespace MPfm.Sound.BassNetWrapper
             if (device.DriverType == DriverType.DirectSound)
             {
                 // Create stream
-                stream = BassWrapper.Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_DEFAULT);
+                stream = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_DEFAULT);
                 if (stream == 0)
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
 
                 // Get stream info
-                //BASS_CHANNELINFO channelInfo = Bass.BASS_ChannelGetInfo(stream);
-                BASS_CHANNELINFO channelInfo = new BASS_CHANNELINFO();
-                BassWrapper.Bass.BASS_ChannelGetInfo(stream, ref channelInfo);
+                BASS_CHANNELINFO channelInfo = Bass.BASS_ChannelGetInfo(stream);
 
                 // Create callback
                 streamProc = new STREAMPROC(DirectSoundCallback);
 
                 // Create master stream
-                streamDirectSound = BassWrapper.Bass.BASS_StreamCreate(channelInfo.freq, channelInfo.chans, BASSFlag.BASS_DEFAULT, streamProc, IntPtr.Zero);
+                streamDirectSound = Bass.BASS_StreamCreate(channelInfo.freq, channelInfo.chans, BASSFlag.BASS_DEFAULT, streamProc, IntPtr.Zero);
 
                 // Start playback
-                if(!BassWrapper.Bass.BASS_ChannelPlay(stream, false))
+                if(!Bass.BASS_ChannelPlay(stream, false))
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
             }
+#if !IOS && !ANDROID
             else if (device.DriverType == DriverType.ASIO)
             {
                 // Create stream
-                stream = BassWrapper.Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE);                
+                stream = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE);                
                 if (stream == 0)
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
 
@@ -199,18 +209,18 @@ namespace MPfm.Sound.BassNetWrapper
                 if (!BassAsio.BASS_ASIO_Start(0))
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
             }
             else if (device.DriverType == DriverType.WASAPI)
             {
                 // Create stream
-                stream = BassWrapper.Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT);
+                stream = Bass.BASS_StreamCreateFile(filePath, 0, 0, BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT);
                 if (stream == 0)
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
 
@@ -218,10 +228,11 @@ namespace MPfm.Sound.BassNetWrapper
                 if (!BassWasapi.BASS_WASAPI_Start())
                 {
                     // Get error
-                    BASSError error = BassWrapper.Bass.BASS_ErrorGetCode();
+                    BASSError error = Bass.BASS_ErrorGetCode();
                     throw new Exception("Error playing TestDevice: " + error.ToString());
                 }
             }
+#endif
         }
 
         /// <summary>
@@ -230,12 +241,13 @@ namespace MPfm.Sound.BassNetWrapper
         public void Stop()
         {
             // Check if the channel is still playing
-            if (BassWrapper.Bass.BASS_ChannelIsActive(stream) == BASSActive.BASS_ACTIVE_PLAYING)
+            if (Bass.BASS_ChannelIsActive(stream) == BASSActive.BASS_ACTIVE_PLAYING)
             {
                 // Stop channel
-                BassWrapper.Bass.BASS_ChannelStop(stream);                
+                Bass.BASS_ChannelStop(stream);                
             }
 
+#if !IOS && !ANDROID
             // Check driver type
             if (device.DriverType == DriverType.ASIO)
             {
@@ -247,9 +259,10 @@ namespace MPfm.Sound.BassNetWrapper
                 // Stop playback
                 BassWasapi.BASS_WASAPI_Stop(false);
             }
+#endif
 
             // Free stream
-            BassWrapper.Bass.BASS_StreamFree(stream);
+            Bass.BASS_StreamFree(stream);
         }
 
         #endregion
@@ -305,10 +318,10 @@ namespace MPfm.Sound.BassNetWrapper
         private int GetData(IntPtr buffer, int length, IntPtr user)
         {
             // Check if the channel is still playing
-            if (BassWrapper.Bass.BASS_ChannelIsActive(stream) == BASSActive.BASS_ACTIVE_PLAYING)
+            if (Bass.BASS_ChannelIsActive(stream) == BASSActive.BASS_ACTIVE_PLAYING)
             {
                 // Return data
-                return BassWrapper.Bass.BASS_ChannelGetData(stream, buffer, length);
+                return Bass.BASS_ChannelGetData(stream, buffer, length);
             }
             else
             {
@@ -320,4 +333,3 @@ namespace MPfm.Sound.BassNetWrapper
         #endregion
     }
 }
-#endif

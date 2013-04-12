@@ -49,17 +49,17 @@ namespace MPfm.Sound.BassNetWrapper.ASIO
         public static void Init(int deviceId, int frequency, BASSInit init, BASSASIOInit asioInit)
         {
             // Initialize base device
-            if (!BassWrapper.Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
+            if (!Bass.BASS_Init(-1, frequency, init, IntPtr.Zero))
             {
                 // Check for error (throw exception if the error is found)
-                CheckForError();            
+                Base.CheckForError();            
             }
 
             // Initialize ASIO device
             if (!BassAsio.BASS_ASIO_Init(deviceId, asioInit))
             {
                 // Check for error (throw exception if the error is found)
-                CheckForError();
+                Base.CheckForError();
             }   
         }
 
@@ -83,50 +83,35 @@ namespace MPfm.Sound.BassNetWrapper.ASIO
         /// <returns>ASIOInfo data structure</returns>
         public static ASIOInfo GetASIOInfo(bool initializeBass, int deviceId, int sampleRate)
         {
-            // Declare variables
             ASIOInfo info = new ASIOInfo();
 
-            try
+            if (initializeBass)
             {
-                if (initializeBass)
-                {
-                    //Base.Init();
-                }
-
-                try
-                {
-                    // Initialize ASIO device
-                    if (!BassAsio.BASS_ASIO_Init(deviceId, BASSASIOInit.BASS_ASIO_DEFAULT))
-                    {
-                        // Check for error (throw exception if the error is found)
-                        CheckForError();
-                    }
-                }
-                catch
-                {
-
-                }
-
-                // Get ASIO device information                
-                info.Latency = BassAsio.BASS_ASIO_GetLatency(false);
-                info.SampleRate = (int)BassAsio.BASS_ASIO_GetRate();
-                info.Info = BassAsio.BASS_ASIO_GetInfo();
-
-                // Free ASIO device
-                //bool success = BassAsio.BASS_ASIO_Free();
-                //if (!success)
-                //{
-                //    CheckForError();
-                //}
-
-                if (initializeBass)
-                {
-                    //Base.Free();
-                }
+                //Base.Init();
             }
-            catch (Exception ex)
+
+            // Initialize ASIO device
+            if (!BassAsio.BASS_ASIO_Init(deviceId, BASSASIOInit.BASS_ASIO_DEFAULT))
             {
-                throw;
+                // Check for error (throw exception if the error is found)
+                Base.CheckForError();
+            }
+
+            // Get ASIO device information                
+            info.Latency = BassAsio.BASS_ASIO_GetLatency(false);
+            info.SampleRate = (int)BassAsio.BASS_ASIO_GetRate();
+            info.Info = BassAsio.BASS_ASIO_GetInfo();
+
+            // Free ASIO device
+            //bool success = BassAsio.BASS_ASIO_Free();
+            //if (!success)
+            //{
+            //    CheckForError();
+            //}
+
+            if (initializeBass)
+            {
+                //Base.Free();
             }
 
             return info;

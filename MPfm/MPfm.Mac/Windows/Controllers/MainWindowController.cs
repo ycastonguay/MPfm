@@ -33,6 +33,7 @@ using MPfm.MVP.Views;
 using MPfm.MVP.Models;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Messages;
 
 namespace MPfm.Mac
 {
@@ -57,6 +58,7 @@ namespace MPfm.Mac
         public System.Action<float> OnPlayerSetTimeShifting { get; set; }
         public System.Action<float> OnPlayerSetVolume { get; set; }
         public System.Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
         
         public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
         public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
@@ -641,6 +643,10 @@ namespace MPfm.Mac
 
         #region IPlayerView implementation
 
+        public void RefreshPlayerStatus(PlayerStatusType status)
+        {
+        }
+
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
             // When setting .StringValue, use a autorelease pool to keep the warnings away
@@ -653,7 +659,7 @@ namespace MPfm.Mac
             };
 		}
 		
-		public void RefreshSongInformation(AudioFile audioFile)
+        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             InvokeOnMainThread(delegate {
                 // Set labels

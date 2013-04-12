@@ -17,6 +17,8 @@
 
 #if !IOS && !ANDROID
 
+using Un4seen.BassAsio;
+
 namespace MPfm.Sound.BassNetWrapper.ASIO
 {
     /// <summary>
