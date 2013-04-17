@@ -29,9 +29,9 @@ using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Managers.Events;
-using MPfm.iOS.Helpers;
 using MPfm.iOS.Classes.Objects;
+using MPfm.iOS.Helpers;
+using MPfm.iOS.Managers.Events;
 
 namespace MPfm.iOS.Managers
 {
@@ -47,12 +47,14 @@ namespace MPfm.iOS.Managers
         private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
         private float _padding = 0;
 
+        public delegate void LoadPeakFileEventHandler(object sender, LoadPeakFileEventArgs e);
         public delegate void GeneratePeakFileEventHandler(object sender, GeneratePeakFileEventArgs e);
         public delegate void GenerateWaveFormEventHandler(object sender, GenerateWaveFormEventArgs e);
 
         public event GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         public event GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
         public event GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
+        public event LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
@@ -82,6 +84,12 @@ namespace MPfm.iOS.Managers
                 GeneratePeakFileEndedEvent(this, e);
         }
 
+        protected virtual void OnLoadedPeakFileSuccessfully(LoadPeakFileEventArgs e)
+        {
+            if(LoadedPeakFileSuccessfullyEvent != null)
+                LoadedPeakFileSuccessfullyEvent(this, e);
+        }
+
         protected virtual void OnGenerateWaveFormBitmapBegun(GenerateWaveFormEventArgs e)
         {
             if(GenerateWaveFormBitmapBegunEvent != null)
@@ -96,11 +104,13 @@ namespace MPfm.iOS.Managers
 
         void HandleOnPeakFileProcessStarted(PeakFileStartedData data)
         {
+            Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessStarted");
             OnGeneratePeakFileBegun(new GeneratePeakFileEventArgs());
         }
         
         void HandleOnPeakFileProcessData(PeakFileProgressData data)
         {
+            Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessData");
             OnGeneratePeakFileProgress(new GeneratePeakFileEventArgs(){
                 AudioFilePath = data.AudioFilePath,
                 PercentageDone = data.PercentageDone
@@ -109,42 +119,22 @@ namespace MPfm.iOS.Managers
         
         void HandleOnPeakFileProcessDone(PeakFileDoneData data)
         {
+            Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessDone");
+
             OnGeneratePeakFileEnded(new GeneratePeakFileEventArgs(){
                 AudioFilePath = data.AudioFilePath,
                 PercentageDone = 100
             });
         }
 
-        // Flow: 
-        // LoadPeakFile(filePath)
-        // Control displays "Loading peak file"
-        //   Peak file doesn't exist
-        //     Sending GeneratingPeakFile event
-        //     Generating peak file
-        //   Peak file exists
-        //     Loads peak file
-        // Peak file is loaded. 
-
-        // Flow:
-        // Control requests bitmap at 100% zoom
-        // Generating wave form.
-        //   Is wave form in cache?
-        //     Return bitmap
-        //   No, generating bitmap
-        // Tell control the bitmap has been loaded
-
-        // Flow:
-        // User changes the zoom level on the control
-        // Same as before but specify a different zoom.
-        // Thus the bitmap always returns to the control by an event.
+        public void FlushCache()
+        {
+            _waveDataCache = null;
+            _bitmapCache = null;
+        }
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-            // Indicate peak file loading
-            bool isLoading = true;
-            string status = "Loading peak file...";
-            //SetNeedsDisplay();
-            
             // Check if another peak file is already loading
             Console.WriteLine("WaveFormCacheManager - LoadPeakFile audioFile: " + audioFile.FilePath);
             if (_peakFileService.IsLoading)
@@ -157,7 +147,7 @@ namespace MPfm.iOS.Managers
                 try
                 {
                     Console.WriteLine("WaveFormCacheManager - Creating folder " + peakFileFolder + "...");
-                    DirectoryInfo directoryInfo = Directory.CreateDirectory(peakFileFolder);
+                    Directory.CreateDirectory(peakFileFolder);
                 }
                 catch(Exception ex)
                 {
@@ -202,7 +192,7 @@ namespace MPfm.iOS.Managers
                     List<WaveDataMinMax> data = (List<WaveDataMinMax>)t.Result;
                     if (data == null)
                     {
-                        Console.WriteLine("WaveFormCacheManager - Could not load peak file succesfully.");
+                        Console.WriteLine("WaveFormCacheManager - Could not load a peak file from disk (i.e. generating a new peak file).");
                         return;
                     }
 
@@ -210,9 +200,8 @@ namespace MPfm.iOS.Managers
                     if(!_waveDataCache.ContainsKey(audioFile.FilePath))                    
                         _waveDataCache.Add(audioFile.FilePath, data);
 
-                    OnGeneratePeakFileEnded(new GeneratePeakFileEventArgs(){
-                        AudioFilePath = audioFile.FilePath,
-                        PercentageDone = 100
+                    OnLoadedPeakFileSuccessfully(new LoadPeakFileEventArgs(){
+                        AudioFile = audioFile
                     });
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -242,18 +231,27 @@ namespace MPfm.iOS.Managers
             boundsWaveForm = new RectangleF(0, 0, widthAvailable - (_padding * 2), heightAvailable - (_padding * 2));
 
             Task<UIImage>.Factory.StartNew(() => {
+                CGContext context;
                 try
                 {
                     Console.WriteLine("WaveFormCacheManager - Creating image cache...");
                     UIGraphics.BeginImageContextWithOptions(bounds.Size, false, 0);
-                    var context = UIGraphics.GetCurrentContext();
+                    context = UIGraphics.GetCurrentContext();
                     if (context == null)
                     {
                         // Error
-                        Console.WriteLine("Error initializing image cache!");
+                        Console.WriteLine("Error initializing image cache context!");
                         return null;
                     }
-                    
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Error while creating image cache context: " + ex.Message);
+                    return null;
+                }
+
+                try
+                {                   
                     // Draw gradient background
                     CoreGraphicsHelper.FillGradient(context, bounds, _colorGradient1, _colorGradient2);
                     
@@ -307,7 +305,7 @@ namespace MPfm.iOS.Managers
                         nHistoryItemsPerLine = 1;
                     }
                     
-                    Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
+                    //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
                     
                     context.SetStrokeColor(GlobalTheme.WaveFormColor.CGColor);
                     context.SetLineWidth(0.5f);
@@ -452,17 +450,18 @@ namespace MPfm.iOS.Managers
                         if (historyIndex < historyCount - 1)
                             historyIndex += nHistoryItemsPerLine;
                     }
-                    
-                    // Get image from context
-                    imageCache = UIGraphics.GetImageFromCurrentImageContext();
-                    UIGraphics.EndImageContext();
-                    return imageCache;
                 }
                 catch(Exception ex)
                 {
                     Console.WriteLine("Error while creating image cache: " + ex.Message);
                 }
-                return null;
+                finally
+                {
+                    // Get image from context (at this point, we are sure the image context has been initialized properly)
+                    imageCache = UIGraphics.GetImageFromCurrentImageContext();
+                    UIGraphics.EndImageContext();
+                }
+                return imageCache;                
             }, TaskCreationOptions.LongRunning).ContinueWith(t => {
                 Console.WriteLine("WaveFormCacheManager - Created image successfully.");
                 OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs(){

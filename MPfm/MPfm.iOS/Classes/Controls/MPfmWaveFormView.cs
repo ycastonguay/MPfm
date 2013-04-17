@@ -147,12 +147,14 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
+            Console.WriteLine("MPfmWaveFormView - Initialize");
             this.BackgroundColor = UIColor.Black;
             DisplayType = WaveFormDisplayType.Stereo;
             _waveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
             _waveFormCacheManager.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
             _waveFormCacheManager.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
             _waveFormCacheManager.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
+            _waveFormCacheManager.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
             _waveFormCacheManager.GenerateWaveFormBitmapBegunEvent += HandleGenerateWaveFormBegunEvent;
             _waveFormCacheManager.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
         }
@@ -160,6 +162,7 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
         {
             InvokeOnMainThread(() => {
+                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileBegunEvent");
                 RefreshStatus("Generating wave form (0% done)");
             });
         }
@@ -167,6 +170,7 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleGeneratePeakFileProgressEvent(object sender, GeneratePeakFileEventArgs e)
         {
             InvokeOnMainThread(() => {
+                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
                 RefreshStatus("Generating wave form (" + e.PercentageDone.ToString("0") + "% done)");
             });            
         }
@@ -174,7 +178,16 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleGeneratePeakFileEndedEvent(object sender, GeneratePeakFileEventArgs e)
         {
             InvokeOnMainThread(() => {
-                _waveFormCacheManager.RequestBitmap(e.AudioFilePath, WaveFormDisplayType.Stereo, Bounds, 1);
+                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent");
+                _waveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
+            });
+        }
+
+        private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
+        {
+            InvokeOnMainThread(() => {
+                Console.WriteLine("MPfmWaveFormView - HandleLoadedPeakFileSuccessfullyEvent");
+                _waveFormCacheManager.RequestBitmap(e.AudioFile.FilePath, WaveFormDisplayType.Stereo, Bounds, 1);
             });
         }
 
@@ -207,6 +220,8 @@ namespace MPfm.iOS.Classes.Controls
 
         public void FlushCache()
         {
+            _waveFormCacheManager.FlushCache();
+
             if(_imageCache != null)
             {
                 _imageCache.Dispose();
