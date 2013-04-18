@@ -28,6 +28,9 @@ namespace MPfm.iOS.Classes.Objects
         public static UIColor LightColor { get { return UIColor.FromRGBA(1.0f, 1.0f, 1.0f, 1); } }
         public static UIColor BackgroundColor { get { return UIColor.FromRGBA(0.1255f, 0.1569f, 0.1804f, 1); } }
         public static UIColor WaveFormColor { get { return UIColor.FromRGBA(1, 1, 0.25f, 1); } }
+
+        //public static UIColor PlayerPanelButtonColor { get { return UIColor.FromRGBA(0.2118f, 0.2706f, 0.3098f, 1); } }
+        public static UIColor PlayerPanelButtonColor { get { return UIColor.LightGray; } }
         public static UIColor PlayerPanelBackgroundColor { get { return UIColor.FromRGBA(0, 0, 0, 0.6f); } }
         public static float PlayerPanelButtonAlpha { get { return 0.8f; } }
     }

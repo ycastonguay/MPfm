@@ -38,7 +38,7 @@ namespace MPfm.iOS
         {
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
             btnAddLoop.Layer.CornerRadius = 8;
-            btnAddLoop.Layer.BackgroundColor = UIColor.LightGray.CGColor;
+            btnAddLoop.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
             btnAddLoop.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
             base.ViewDidLoad();
         }

@@ -36,7 +36,7 @@ namespace MPfm.iOS
         {
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
             btnReset.Layer.CornerRadius = 8;
-            btnReset.Layer.BackgroundColor = UIColor.LightGray.CGColor;
+            btnReset.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
             btnReset.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
@@ -47,8 +47,8 @@ namespace MPfm.iOS
             UITextAttributes attr = new UITextAttributes();
             attr.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
             attr.TextColor = UIColor.White;
-            segmentedControl.TintColor = UIColor.LightGray;
             segmentedControl.SetTitleTextAttributes(attr, UIControlState.Normal);
+            segmentedControl.TintColor = GlobalTheme.PlayerPanelButtonColor;
             segmentedControl.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             base.ViewDidLoad();

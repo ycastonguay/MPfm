@@ -35,6 +35,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Helpers;
 using MPfm.iOS.Classes.Objects;
+using System.Threading.Tasks;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -253,52 +254,71 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
-            InvokeOnMainThread(() => {
+            if(audioFile == null)
+                return;
 
-                if(audioFile != null)
-                {
-                    try
+            // Check if the album art needs to be refreshed
+            string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
+            if(_currentAlbumArtKey != key)
+            {
+                int height = 44;
+                InvokeOnMainThread(() => {
+                    height = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
+                    UIView.Animate(0.3, () => {
+                        imageViewAlbumArt.Alpha = 0;
+                    });
+                });
+
+                // Load album art + resize in another thread
+                Task<UIImage>.Factory.StartNew(() => {
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                    using (NSData imageData = NSData.FromArray(bytesImage))
                     {
-                        // Check if the album art needs to be refreshed
-                        string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
-                        if(_currentAlbumArtKey != key)
+                        using (UIImage image = UIImage.LoadFromData(imageData))
                         {
-                            // TODO: Add a memory cache and stop reloading the image from disk every time
-                            _currentAlbumArtKey = key;
-                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                            using(NSData imageData = NSData.FromArray(bytesImage))
-                            using(UIImage image = UIImage.LoadFromData(imageData))
+                            if (image != null)
                             {
-                                imageViewAlbumArt.Alpha = 0;
-                                imageViewAlbumArt.Image = image;
+                                try
+                                {
+                                    _currentAlbumArtKey = key;                                    
+                                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
+                                    return imageResized;
+                                } 
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+                                }
                             }
-
-                            UIView.Animate(0.3, () => {
-                                imageViewAlbumArt.Alpha = 1;
-                            });
                         }
                     }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine("Could not load album art: " + ex.Message);
-                    }
+                    
+                    return null;
+                }).ContinueWith(t => {
+                    UIImage image = t.Result;
+                    if(image == null)
+                        return;
+                    
+                    InvokeOnMainThread(() => {
+                        imageViewAlbumArt.Alpha = 0;
+                        imageViewAlbumArt.Image = image;              
 
-                    lblLength.Text = audioFile.Length;
-                    waveFormView.Length = lengthBytes;
+                        UIView.Animate(0.3, () => {
+                            imageViewAlbumArt.Alpha = 1;
+                        });
+                    });
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+            }
 
-                    MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-                    //navCtrl.SetTitle("Now Playing", audioFile.ArtistName + " - " + audioFile.AlbumTitle + " - " + audioFile.Title);
-                    navCtrl.SetTitle("Now Playing", (playlistIndex+1).ToString() + " of " + playlistCount.ToString());
+            // Refresh other fields
+            InvokeOnMainThread(() => {
+                lblLength.Text = audioFile.Length;
+                waveFormView.Length = lengthBytes;
 
-                    // Load peak file in background
-                    Console.WriteLine("==> PlayerViewCtrl: LoadPeakFile(" + audioFile.FilePath + ")");
-                    waveFormView.LoadPeakFile(audioFile);
-                }
-                else
-                {
-                    // TODO: If the playlist is finished, return to the Mobile Library Browser. At least that's what the iOS Music app does.
-                    lblLength.Text = string.Empty;
-                }
+                MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+                navCtrl.SetTitle("Now Playing", (playlistIndex+1).ToString() + " of " + playlistCount.ToString());
+
+                // Load peak file in background
+                waveFormView.LoadPeakFile(audioFile);
             });
         }
 

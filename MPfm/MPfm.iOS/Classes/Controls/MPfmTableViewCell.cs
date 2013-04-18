@@ -118,6 +118,7 @@ namespace MPfm.iOS.Classes.Controls
                 IndexTextLabel.Frame = new RectangleF(12, 2, 22, 38);
                 RightImageView.Frame = new RectangleF(Bounds.Width - 12, 2, 24, 24);
             }
+            ImageView.Frame = new RectangleF(0, 0, Bounds.Height, Bounds.Height);
         }
     }
 }

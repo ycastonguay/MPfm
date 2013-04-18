@@ -33,6 +33,7 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
 using System.Collections.Concurrent;
 using MPfm.iOS.Classes.Objects;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -133,8 +134,11 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Set title            
             cell.Tag = indexPath.Row;
+            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
             cell.TextLabel.Text = _items[indexPath.Row].Title;
             cell.DetailTextLabel.Text = _items[indexPath.Row].Subtitle;
+            cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
+            cell.ImageView.ClipsToBounds = true;
 
             if (_browserType == MobileLibraryBrowserType.Albums)
             {
@@ -154,10 +158,7 @@ namespace MPfm.iOS.Classes.Controllers
             else if (_browserType == MobileLibraryBrowserType.Songs)
             {
                 cell.IndexTextLabel.Text = _items[indexPath.Row].AudioFile.TrackNumber.ToString();
-            }
-            
-            // Set font
-            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            }            
             
             return cell;
         }
@@ -166,6 +167,12 @@ namespace MPfm.iOS.Classes.Controllers
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             OnItemClick(indexPath.Row);
+        }
+
+        [Export ("tableView:heightForRowAtIndexPath:")]
+        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 44;
         }
 
         private void FlushImages()
@@ -208,8 +215,11 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
         {
-            int cellHeight = 88; // TODO: 44 for iPhone 3GS-
-
+            // Note: cannot call UIScreen.MainScreen in a background thread!
+            int height = 44;
+            InvokeOnMainThread(() => {
+                height = (int)(44 * UIScreen.MainScreen.Scale);
+            });
             Task<UIImage>.Factory.StartNew(() => {
                 using (NSData imageData = NSData.FromArray(albumArtData))
                 {
@@ -219,8 +229,7 @@ namespace MPfm.iOS.Classes.Controllers
                         {
                             try
                             {
-                                // Resize image
-                                UIImage imageResized = ScaleImage(image, cellHeight);
+                                UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
                                 return imageResized;
                             } 
                             catch (Exception ex)
@@ -302,20 +311,42 @@ namespace MPfm.iOS.Classes.Controllers
                     SizeF sizeAlbumTitle = strAlbumTitle.StringSize(lblAlbumTitle.Font, new SizeF(lblAlbumTitle.Frame.Width, lblAlbumTitle.Frame.Height), UILineBreakMode.WordWrap);
                     lblAlbumTitle.Frame = new RectangleF(lblAlbumTitle.Frame.X, lblAlbumTitle.Frame.Y, sizeAlbumTitle.Width, sizeAlbumTitle.Height);
 
-                    // TODO: Add a memory cache and stop reloading the image from disk every time
-                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                    using(NSData imageData = NSData.FromArray(bytesImage))
-                    using(UIImage image = UIImage.LoadFromData(imageData))
-                    {
-                        imageViewAlbumCover.Image = image;
-                    }
+                    // Note: cannot call UIScreen.MainScreen in a background thread!
+                    int height = (int)(viewAlbumCover.Bounds.Height * UIScreen.MainScreen.Scale);
+                    Task<UIImage>.Factory.StartNew(() => {
+                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                        using (NSData imageData = NSData.FromArray(bytesImage))
+                        {
+                            using (UIImage image = UIImage.LoadFromData(imageData))
+                            {
+                                if (image != null)
+                                {
+                                    try
+                                    {
+                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
+                                        return imageResized;
+                                    } 
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        return null;
+                    }).ContinueWith(t => {
+                        UIImage image = t.Result;
+                        if(image == null)
+                            return;
+                        
+                        InvokeOnMainThread(() => {
+                            imageViewAlbumCover.Image = image;                                                                                               
+                        });
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+
                     imageViewAlbumCover.BackgroundColor = UIColor.Black;
                     viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
-
-//                    CAGradientLayer gradient = new CAGradientLayer();
-//                    gradient.Frame = viewAlbumCover.Bounds;
-//                    gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.1f, 0.1f, 0.1f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) }; //[NSArray arrayWithObjects:(id)[[UIColor blackColor] CGColor], (id)[[UIColor whiteColor] CGColor], nil];
-//                    viewAlbumCover.Layer.InsertSublayer(gradient, 0);
                 }
             });
         }
@@ -333,77 +364,6 @@ namespace MPfm.iOS.Classes.Controllers
 
         #endregion
 
-        public static UIImage ScaleImage(UIImage image, int maxSize)
-        {           
-            UIImage res;
-            
-            using (CGImage imageRef = image.CGImage)
-            {
-                CGImageAlphaInfo alphaInfo = imageRef.AlphaInfo;
-                CGColorSpace colorSpaceInfo = CGColorSpace.CreateDeviceRGB();
-                if (alphaInfo == CGImageAlphaInfo.None)
-                {
-                    alphaInfo = CGImageAlphaInfo.NoneSkipLast;
-                }
-                
-                int width, height;
-                
-                width = imageRef.Width;
-                height = imageRef.Height;
-                
-                
-                if (height >= width)
-                {
-                    width = (int)Math.Floor((double)width * ((double)maxSize / (double)height));
-                    height = maxSize;
-                }
-                else
-                {
-                    height = (int)Math.Floor((double)height * ((double)maxSize / (double)width));
-                    width = maxSize;
-                }
-                
-                
-                CGBitmapContext bitmap;
-                
-                if (image.Orientation == UIImageOrientation.Up || image.Orientation == UIImageOrientation.Down)
-                {
-                    bitmap = new CGBitmapContext(IntPtr.Zero, width, height, imageRef.BitsPerComponent, imageRef.BytesPerRow, colorSpaceInfo, alphaInfo);
-                }
-                else
-                {
-                    bitmap = new CGBitmapContext(IntPtr.Zero, height, width, imageRef.BitsPerComponent, imageRef.BytesPerRow, colorSpaceInfo, alphaInfo);
-                }
-                
-                switch (image.Orientation)
-                {
-                    case UIImageOrientation.Left:
-                        bitmap.RotateCTM((float)Math.PI / 2);
-                        bitmap.TranslateCTM(0, -height);
-                        break;
-                    case UIImageOrientation.Right:
-                        bitmap.RotateCTM(-((float)Math.PI / 2));
-                        bitmap.TranslateCTM(-width, 0);
-                        break;
-                    case UIImageOrientation.Up:
-                        break;
-                    case UIImageOrientation.Down:
-                        bitmap.TranslateCTM(width, height);
-                        bitmap.RotateCTM(-(float)Math.PI);
-                        break;
-                }
-                
-                bitmap.DrawImage(new Rectangle(0, 0, width, height), imageRef);
-                
-                
-                res = UIImage.FromImage(bitmap.ToImage());
-                bitmap = null;
-                
-            }
-            
-            
-            return res;
-        }
     }
 }
 
