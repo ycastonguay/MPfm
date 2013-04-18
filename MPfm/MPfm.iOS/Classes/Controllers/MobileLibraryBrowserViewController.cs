@@ -38,6 +38,7 @@ namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
+        private bool _viewHasAlreadyBeenShown = false;
         private List<LibraryBrowserEntity> _items;
         private string _cellIdentifier = "MobileLibraryBrowserCell";
         private string _navigationBarTitle;
@@ -96,6 +97,11 @@ namespace MPfm.iOS.Classes.Controllers
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle(_navigationBarTitle, _navigationBarSubtitle);
+
+            if(_viewHasAlreadyBeenShown)
+                ReloadImages();
+
+            _viewHasAlreadyBeenShown = true;
         }
         
         public override void ViewDidDisappear(bool animated)
@@ -103,6 +109,7 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewDidDisappear(animated);
 
             tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
+            FlushImages();
         }        
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -132,12 +139,12 @@ namespace MPfm.iOS.Classes.Controllers
             if (_browserType == MobileLibraryBrowserType.Albums)
             {
                 // Check if album art is cached
-                string key = _items [indexPath.Row].Query.ArtistName + "_" + _items [indexPath.Row].Query.AlbumTitle;
+                string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].Query.AlbumTitle;
                 KeyValuePair<string, UIImage> keyPair = _imageCache.FirstOrDefault(x => x.Key == key);
                 if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
                 {
                     cell.ImageView.Image = UIImage.FromBundle("Images/emptyalbumart");
-                    OnRequestAlbumArt(_items [indexPath.Row].Query.ArtistName, _items [indexPath.Row].Query.AlbumTitle);
+                    OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
                 } 
                 else
                 {
@@ -159,6 +166,39 @@ namespace MPfm.iOS.Classes.Controllers
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             OnItemClick(indexPath.Row);
+        }
+
+        private void FlushImages()
+        {
+            if(imageViewAlbumCover.Image != null)
+            {
+                imageViewAlbumCover.Image.Dispose();
+                imageViewAlbumCover.Image = null;
+            }
+
+            // Flush images in table view
+            for(int section = 0; section < tableView.NumberOfSections(); section++)
+            {
+                for(int row = 0; row < tableView.NumberOfRowsInSection(section); row++)
+                {
+                    NSIndexPath indexPath = NSIndexPath.FromItemSection(row, section);
+                    UITableViewCell cell = tableView.CellAt(indexPath);
+                    if(cell != null && cell.ImageView != null && cell.ImageView.Image != null)
+                    {
+                        cell.ImageView.Image.Dispose();
+                        cell.ImageView.Image = null;
+                    }
+                }
+            }
+        }
+
+        private void ReloadImages()
+        {
+            foreach(UITableViewCell cell in tableView.VisibleCells)
+            {
+                NSIndexPath indexPath = tableView.IndexPathForCell(cell);
+                OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
+            }
         }
 
         #region IMobileLibraryBrowserView implementation
