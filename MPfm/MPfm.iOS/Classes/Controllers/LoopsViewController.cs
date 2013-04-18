@@ -18,11 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Views;
-using MPfm.Player.Objects;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -35,10 +36,10 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            // Add custom background to button
+            viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
             btnAddLoop.Layer.CornerRadius = 8;
             btnAddLoop.Layer.BackgroundColor = UIColor.LightGray.CGColor;
-            btnAddLoop.Alpha = 0.8f;
+            btnAddLoop.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
             base.ViewDidLoad();
         }
 

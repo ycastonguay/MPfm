@@ -20,6 +20,9 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnAddLoop { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIView viewBackground { get; set; }
+
 		[Action ("actionAddLoop:")]
 		partial void actionAddLoop (MonoTouch.Foundation.NSObject sender);
 		
@@ -38,6 +41,11 @@ namespace MPfm.iOS
 			if (btnAddLoop != null) {
 				btnAddLoop.Dispose ();
 				btnAddLoop = null;
+			}
+
+			if (viewBackground != null) {
+				viewBackground.Dispose ();
+				viewBackground = null;
 			}
 		}
 	}

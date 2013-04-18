@@ -34,18 +34,22 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            // Add custom background to button
+            viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
             btnReset.Layer.CornerRadius = 8;
             btnReset.Layer.BackgroundColor = UIColor.LightGray.CGColor;
-            btnReset.Alpha = 0.8f;
+            btnReset.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
+
+            slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+            slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
+            slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
 
             // Use Appearance API (iOS 5+) for segmented control
             UITextAttributes attr = new UITextAttributes();
             attr.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
             attr.TextColor = UIColor.White;
-            segmentedControl.TintColor = GlobalTheme.SecondaryColor;
+            segmentedControl.TintColor = UIColor.LightGray;
             segmentedControl.SetTitleTextAttributes(attr, UIControlState.Normal);
-            segmentedControl.Alpha = 0.8f;
+            segmentedControl.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             base.ViewDidLoad();
         }

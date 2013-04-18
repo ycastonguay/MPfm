@@ -67,7 +67,6 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
-            // Load button bitmaps
             btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous"), UIControlState.Normal);
             btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous_on"), UIControlState.Highlighted);
             btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause"), UIControlState.Normal);
@@ -77,6 +76,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             viewPosition.BackgroundColor = GlobalTheme.BackgroundColor;
             viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
+            viewPageControls.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
 
             sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);

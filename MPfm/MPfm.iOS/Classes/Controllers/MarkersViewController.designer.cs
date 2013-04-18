@@ -20,6 +20,9 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnAddMarker { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIView viewBackground { get; set; }
+
 		[Action ("actionAddMarker:")]
 		partial void actionAddMarker (MonoTouch.Foundation.NSObject sender);
 		
@@ -38,6 +41,11 @@ namespace MPfm.iOS
 			if (btnAddMarker != null) {
 				btnAddMarker.Dispose ();
 				btnAddMarker = null;
+			}
+
+			if (viewBackground != null) {
+				viewBackground.Dispose ();
+				viewBackground = null;
 			}
 		}
 	}

@@ -338,7 +338,6 @@
 								<string key="NSFrame">{{214, 306}, {106, 41}}</string>
 								<reference key="NSSuperview" ref="473782587"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="727961586"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -521,6 +520,14 @@
 					<int key="connectionID">89</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">viewPageControls</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="397099332"/>
+					</object>
+					<int key="connectionID">90</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">actionPause:</string>
 						<reference key="source" ref="380727636"/>
@@ -701,7 +708,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">89</int>
+			<int key="maxID">90</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -756,6 +763,7 @@
 						<string key="scrollView">UIScrollView</string>
 						<string key="sliderPosition">MPfmSlider</string>
 						<string key="viewMain">UIView</string>
+						<string key="viewPageControls">UIView</string>
 						<string key="viewPosition">UIView</string>
 						<string key="waveFormView">MPfmWaveFormView</string>
 					</dictionary>
@@ -806,6 +814,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="viewMain">
 							<string key="name">viewMain</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="viewPageControls">
+							<string key="name">viewPageControls</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="viewPosition">

@@ -32,11 +32,14 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblOriginalTempo { get; set; }
 
-		[Action ("actionReset:")]
-		partial void actionReset (MonoTouch.Foundation.NSObject sender);
+		[Outlet]
+		MonoTouch.UIKit.UIView viewBackground { get; set; }
 
 		[Action ("actionDetectTempo:")]
 		partial void actionDetectTempo (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionReset:")]
+		partial void actionReset (MonoTouch.Foundation.NSObject sender);
 
 		[Action ("actionSegmentChanged:")]
 		partial void actionSegmentChanged (MonoTouch.Foundation.NSObject sender);
@@ -76,6 +79,11 @@ namespace MPfm.iOS
 			if (lblOriginalTempo != null) {
 				lblOriginalTempo.Dispose ();
 				lblOriginalTempo = null;
+			}
+
+			if (viewBackground != null) {
+				viewBackground.Dispose ();
+				viewBackground = null;
 			}
 		}
 	}

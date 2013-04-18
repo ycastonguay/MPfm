@@ -46,7 +46,9 @@ namespace MPfm.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
-            btnAddMarker.BackgroundColor = GlobalTheme.SecondaryColor;
+            viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
+            btnAddMarker.BackgroundColor = UIColor.LightGray;
+            btnAddMarker.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
             longPress.MinimumPressDuration = 1.0f;

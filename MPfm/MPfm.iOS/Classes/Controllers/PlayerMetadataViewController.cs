@@ -17,12 +17,13 @@
 
 using System;
 using System.Drawing;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MonoTouch.Foundation;
 using MonoTouch.MediaPlayer;
+using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -41,6 +42,7 @@ namespace MPfm.iOS
             lblArtistName.Text = string.Empty;
             lblAlbumTitle.Text = string.Empty;
             lblTitle.Text = string.Empty;
+            viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
 
             base.ViewDidLoad();            
         }

@@ -26,6 +26,9 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnReset { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIView viewBackground { get; set; }
+
 		[Action ("actionReset:")]
 		partial void actionReset (MonoTouch.Foundation.NSObject sender);
 		
@@ -54,6 +57,11 @@ namespace MPfm.iOS
 			if (btnReset != null) {
 				btnReset.Dispose ();
 				btnReset = null;
+			}
+
+			if (viewBackground != null) {
+				viewBackground.Dispose ();
+				viewBackground = null;
 			}
 		}
 	}

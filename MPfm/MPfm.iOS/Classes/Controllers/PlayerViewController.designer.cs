@@ -12,6 +12,9 @@ namespace MPfm.iOS.Classes.Controllers
 	partial class PlayerViewController
 	{
 		[Outlet]
+		MonoTouch.UIKit.UIView viewPageControls { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIView viewMain { get; set; }
 
 		[Outlet]
@@ -64,6 +67,11 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (viewPageControls != null) {
+				viewPageControls.Dispose ();
+				viewPageControls = null;
+			}
+
 			if (viewMain != null) {
 				viewMain.Dispose ();
 				viewMain = null;

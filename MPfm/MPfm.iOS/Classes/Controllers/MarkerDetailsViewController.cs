@@ -46,6 +46,10 @@ namespace MPfm.iOS
             btnDeleteMarker.BackgroundColor = GlobalTheme.SecondaryColor;
             btnDeleteMarker.Layer.CornerRadius = 8;
 
+            sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+            sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
+            sliderPosition.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
+
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
             sliderPosition.Frame = new RectangleF(90, sliderPosition.Frame.Y + 1, sliderPosition.Frame.Width * 1.4f, sliderPosition.Frame.Height);
 
