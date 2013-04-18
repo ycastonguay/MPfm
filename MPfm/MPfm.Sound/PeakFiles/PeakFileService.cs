@@ -135,6 +135,7 @@ namespace MPfm.Sound.PeakFiles
 
             // Schedule operation in a new thread
             IsLoading = true;
+            bool processSuccessful = false;
             _currentTask = Task.Factory.StartNew(() =>
             {
                 try
@@ -199,6 +200,7 @@ namespace MPfm.Sound.PeakFiles
                     do
                     {
                         // Check for cancel
+                        //Console.WriteLine("PeakFileService - Bytes read: " + bytesRead.ToString());
                         if (cancellationToken.IsCancellationRequested)
                         {
                             // Set flags, exit loop
@@ -276,7 +278,13 @@ namespace MPfm.Sound.PeakFiles
                     } while (read == chunkSize);
 
                     // Free channel
+                    Console.WriteLine("PeakFileService - Freeing channel...");
                     channelDecode.Free();
+
+                    // TODO: This should replace the IsCancelled status since cancelling the task doesn't go end well
+                    Console.WriteLine("PeakFileService - Is process successful? bytesRead: " + bytesRead.ToString() + " audioFileLength: " + audioFileLength.ToString());
+                    if(bytesRead >= audioFileLength)
+                        processSuccessful = true;
 
                     // Set nulls for garbage collection               
                     channelDecode = null;
@@ -288,10 +296,12 @@ namespace MPfm.Sound.PeakFiles
                 {
                     // Return exception
                     //e.Result = ex;
+                    Console.WriteLine("PeakFileService - Error: " + ex.Message);
                     throw ex;
                 } finally
                 {
                     // Close writer and stream
+                    Console.WriteLine("PeakFileService - Closing file stream...");
                     gzipStream.Close();
                     binaryWriter.Close();
                     fileStream.Close();
@@ -317,14 +327,15 @@ namespace MPfm.Sound.PeakFiles
                                 Tracing.Log("Could not delete peak file " + peakFilePath + ".");
                             }
                         }
-                    }                        
+                    }   
                 }
 
                 // Set completed
                 IsLoading = false;
+                Console.WriteLine("PeakFileService - ProcessDone - processSuccessful: " + processSuccessful.ToString() + " filePath: " + audioFilePath);
                 OnProcessDone(new PeakFileDoneData() {
                     AudioFilePath = audioFilePath,
-                    Cancelled = false
+                    Cancelled = !processSuccessful
                 });
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
         }

@@ -287,23 +287,23 @@ namespace MPfm.MVP.Navigation
                     onViewBindedToPresenter(view);
             };
 
-            // Create view and manage view destruction
-            _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _playerView.OnViewDestroy = (view) =>
+            // Re-use the same player instance as before
+            if(_playerView == null)
             {
-                _playerView = null;
-                _playerPresenter = null;
-            };
+                // Create view and manage view destruction
+                _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _playerView.OnViewDestroy = (view) =>
+                {
+                    _playerView = null;
+                    _playerPresenter = null;
+                };
+            }
+            else
+            {
+                // Re-use the same instance
+                onViewBindedToPresenter(_playerView);
+            }
 
-//            // Re-use the same player instance as before
-//            if(_playerView == null)
-//            {
-//            }
-//            else
-//            {
-//                // Re-use the same instance
-//                onViewBindedToPresenter(_playerView);
-//            }
             return _playerView;
         }
 

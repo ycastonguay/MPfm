@@ -162,7 +162,7 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
         {
             InvokeOnMainThread(() => {
-                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileBegunEvent");
+                //Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileBegunEvent");
                 RefreshStatus("Generating wave form (0% done)");
             });
         }
@@ -170,7 +170,7 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleGeneratePeakFileProgressEvent(object sender, GeneratePeakFileEventArgs e)
         {
             InvokeOnMainThread(() => {
-                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
+                //Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
                 RefreshStatus("Generating wave form (" + e.PercentageDone.ToString("0") + "% done)");
             });            
         }
@@ -178,15 +178,17 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleGeneratePeakFileEndedEvent(object sender, GeneratePeakFileEventArgs e)
         {
             InvokeOnMainThread(() => {
-                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent");
-                _waveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
+                // TODO: Check if cancelled? This will not fire another LoadPeakFile if the peak file gen was cancelled.
+                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
+                if(!e.Cancelled)
+                    _waveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
             });
         }
 
         private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
         {
             InvokeOnMainThread(() => {
-                Console.WriteLine("MPfmWaveFormView - HandleLoadedPeakFileSuccessfullyEvent");
+                //Console.WriteLine("MPfmWaveFormView - HandleLoadedPeakFileSuccessfullyEvent");
                 _waveFormCacheManager.RequestBitmap(e.AudioFile.FilePath, WaveFormDisplayType.Stereo, Bounds, 1);
             });
         }
@@ -231,7 +233,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-            Console.WriteLine("WaveFormView - LoadPeakFile audioFile: " + audioFile.FilePath);
+            Console.WriteLine("WaveFormView - LoadPeakFile " + audioFile.FilePath);
             RefreshStatus("Loading peak file...");
             _waveFormCacheManager.LoadPeakFile(audioFile);
         }

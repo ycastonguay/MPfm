@@ -23,6 +23,7 @@ namespace MPfm.iOS.Managers.Events
 	{
         public string AudioFilePath { get; set; }
         public float PercentageDone { get; set; }
+        public bool Cancelled { get; set; }
 
         public GeneratePeakFileEventArgs() 
             : base()

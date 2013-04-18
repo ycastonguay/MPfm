@@ -257,7 +257,6 @@ namespace MPfm.iOS.Classes.Controllers
 
                 if(audioFile != null)
                 {
-                    Console.WriteLine("PlayerViewCtrl - RefreshSongInformation - " + audioFile.FilePath);
                     try
                     {
                         // Check if the album art needs to be refreshed
@@ -292,6 +291,7 @@ namespace MPfm.iOS.Classes.Controllers
                     navCtrl.SetTitle("Now Playing", (playlistIndex+1).ToString() + " of " + playlistCount.ToString());
 
                     // Load peak file in background
+                    Console.WriteLine("==> PlayerViewCtrl: LoadPeakFile(" + audioFile.FilePath + ")");
                     waveFormView.LoadPeakFile(audioFile);
                 }
                 else
