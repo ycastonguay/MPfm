@@ -199,7 +199,10 @@ namespace MPfm.iOS.Classes.Delegates
                 navCtrl.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
                 navCtrl.ModalInPopover = true;
                 navCtrl.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
-                navCtrl.PushViewController(viewController, false);
+                navCtrl.ViewDismissedEvent += (sender, e) => {
+                    _dialogNavigationControllers.Remove(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
+                };
+                navCtrl.PushViewController(viewController, false);                
                 _dialogNavigationControllers.Add(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
                 _tabBarController.PresentViewController(navCtrl, true, null);
             });

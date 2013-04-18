@@ -45,6 +45,8 @@ namespace MPfm.iOS.Classes.Controls
         ITinyMessengerHub _messengerHub;
 
         public MobileNavigationTabType TabType { get; set; }
+
+        public event EventHandler ViewDismissedEvent;
         
         public MPfmNavigationController(MobileNavigationTabType tabType) : base(typeof(MPfmNavigationBar), typeof(UIToolbar))
         {
@@ -125,46 +127,17 @@ namespace MPfm.iOS.Classes.Controls
             this.NavigationBar.AddSubview(_lblTitle);
             this.NavigationBar.AddSubview(_lblSubtitle);
         }
-
-        public override void ViewWillLayoutSubviews()
+        
+        protected virtual void OnViewDismissed(EventArgs e)
         {
-//            float x = 12;
-//            if(this.VisibleViewController.NavigationItem.LeftBarButtonItem != null)
-//            {
-//                UIView view = (UIView)this.VisibleViewController.NavigationItem.LeftBarButtonItem.ValueForKey(new NSString("view"));
-//                float width = (view != null) ? view.Frame.Size.Width : 0; 
-//                x += width;
-//            }
-//            else if(this.ViewControllers.Length > 1)
-//            {
-//                x += _btnBack.Frame.Size.Width;
-//            }
-//            else if(this.ViewControllers.Length == 1)
-//            {
-//                x += _btnBack.Frame.Size.Width;
-//            }
-//
-//            // Animate new x position only if the position has changed
-//            if(x != _lblTitle.Frame.X)
-//            {
-//                // Do not animate the first time we are setting the position
-//                if(_lblTitle.Frame.X == 0)
-//                {
-//                    _lblTitle.Frame = new RectangleF(x, 12, UIScreen.MainScreen.Bounds.Width - 120, 20);
-//                    //_lblTitle.Frame = new RectangleF(x, 6, UIScreen.MainScreen.Bounds.Width - 120, 20);
-//                    //_lblSubtitle.Frame = new RectangleF(x, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
-//                }
-//                else
-//                {
-//                    UIView.Animate(0.25f, () => { 
-//                        _lblTitle.Frame = new RectangleF(x, 12, UIScreen.MainScreen.Bounds.Width - 120, 20);
-//                        //_lblTitle.Frame = new RectangleF(x, 6, UIScreen.MainScreen.Bounds.Width - 120, 20);
-//                        //_lblSubtitle.Frame = new RectangleF(x, 20, UIScreen.MainScreen.Bounds.Width - 120, 20);
-//                    });
-//                }
-//            }
+            if(ViewDismissedEvent != null)
+                ViewDismissedEvent(this, e);
+        }
 
-            base.ViewWillLayoutSubviews();
+        public override void DismissViewController(bool animated, NSAction completionHandler)
+        {
+            base.DismissViewController(animated, completionHandler);
+            OnViewDismissed(new EventArgs());
         }
 
         private void UpdateNowPlayingView()
@@ -236,15 +209,6 @@ namespace MPfm.iOS.Classes.Controls
             }
 
             return true;
-        }
-
-        public override bool IsBeingDismissed
-        {
-            get
-            {
-                Console.WriteLine("NavCtrl is being dismissed!!!");
-                return base.IsBeingDismissed;
-            }
         }
 
         public void SetTitle(string title, string subtitle)

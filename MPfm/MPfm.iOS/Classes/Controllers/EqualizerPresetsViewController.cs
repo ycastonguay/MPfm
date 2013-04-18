@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
@@ -32,7 +33,8 @@ namespace MPfm.iOS
     public partial class EqualizerPresetsViewController : BaseViewController, IEqualizerPresetsView
     {
         UIBarButtonItem _btnAdd;
-        UIBarButtonItem _btnDone;         
+        UIBarButtonItem _btnDone;
+
 
         public EqualizerPresetsViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "EqualizerPresetsViewController_iPhone" : "EqualizerPresetsViewController_iPad", null)
@@ -49,7 +51,6 @@ namespace MPfm.iOS
             btnDone.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
             btnDone.Frame = new RectangleF(0, 20, 60, 30);
             btnDone.TouchUpInside += (sender, e) => {
-                //this.DismissViewController(true, null);
                 NavigationController.DismissViewController(true, null);
             };
             _btnDone = new UIBarButtonItem(btnDone);
@@ -83,7 +84,7 @@ namespace MPfm.iOS
         public Action<string> OnEditPreset { get; set; }
         public Action<string> OnDeletePreset { get; set; }
 
-        public void UpdatePresetList(System.Collections.Generic.IEnumerable<string> presets)
+        public void UpdatePresetList(IEnumerable<string> presets)
         {
         }
 
