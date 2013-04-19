@@ -17,17 +17,18 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {
 	public interface IEqualizerPresetsView : IBaseView
 	{
-        Action OnBypassEqualizer { get; set; }
         Action OnAddPreset { get; set; }
-        Action<string> OnLoadPreset { get; set; }
-        Action<string> OnEditPreset { get; set; }
-        Action<string> OnDeletePreset { get; set; }
+        Action<Guid> OnLoadPreset { get; set; }
+        Action<Guid> OnEditPreset { get; set; }
+        Action<Guid> OnDeletePreset { get; set; }
 
-        void UpdatePresetList(IEnumerable<string> presets);
+        void EqualizerPresetsError(Exception ex);
+        void RefreshPresets(IEnumerable<EQPreset> presets);
 	}
 }

@@ -32,97 +32,53 @@ namespace MPfm.MVP.Services
     /// </summary>
     public class LibraryService : ILibraryService
     {
-		// Private variables
 		private readonly IDatabaseFacade gateway = null;
 		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.Library.UpdateLibraryService"/> class.
-		/// </summary>
-		/// <param name='gateway'>
-		/// MPfm Gateway.
-		/// </param>
-		/// <exception cref='ArgumentNullException'>
-		/// Is thrown when an argument passed to a method is invalid because it is <see langword="null" /> .
-		/// </exception>
 		public LibraryService(IDatabaseFacade gateway)
 		{
-			// Check for null
 			if(gateway == null)
 				throw new ArgumentNullException("The gateway parameter cannot be null!");
 				
-			// Set gateway
 			this.gateway = gateway;
 		}
 		
-		/// <summary>
-		/// Compacts the database.
-		/// </summary>
 		public void CompactDatabase()
 		{
 			gateway.CompactDatabase();
 		}
+
+        #region Audio Files
 		
-		/// <summary>
-		/// Returns the list of configured folders in the database.
-		/// </summary>
-		/// <returns>List of folders</returns>
 		public IEnumerable<Folder> SelectFolders()
 		{
 			return gateway.SelectFolders();
 		}
 		
-		/// <summary>
-		/// Returns the list of audio file paths from the Song table.
-		/// </summary>
-		/// <returns>List of file paths</returns>
 		public IEnumerable<string> SelectFilePaths()
 		{
 			return gateway.SelectFilePaths();
 		}
 		
-		/// <summary>
-		/// Selects all audio file metadata from the database.
-		/// </summary>
-		/// <returns>List of audio files</returns>
 		public IEnumerable<AudioFile> SelectAudioFiles()
 		{
 			return gateway.SelectAudioFiles();			
 		}
 		
-		/// <summary>
-		/// Selects audio file metadata from the database by creating a query based on the method parameters.
-		/// </summary>		
-		/// <param name='format'>Audio file format</param>
-		/// <param name='artistName'>Artist name</param>
-		/// <param name='albumTitle'>Album title</param>
-		/// <param name='search'>Search terms</param>
-		/// <returns>List of audio files</returns>
 		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
 		{
 			return gateway.SelectAudioFiles(format, artistName, albumTitle, search);			
 		}
 				
-		/// <summary>
-		/// Inserts an audio file into the database.
-		/// </summary>
-		/// <param name='audioFile'>Audio file to insert</param>
 		public void InsertAudioFile(AudioFile audioFile)
 		{
 			gateway.InsertAudioFile(audioFile);
 		}
 		
-		/// <summary>
-		/// Inserts a playlist file into the database.
-		/// </summary>
-		/// <param name='playlistFile'>Playlist file to insert</param>
 		public void InsertPlaylistFile(PlaylistFile playlistFile)
 		{
 			gateway.InsertPlaylistFile(playlistFile);
 		}
 		
-		/// <summary>
-		/// Removes the audio files with broken file paths (i.e. that do not exist anymore on the hard drive).
-		/// </summary>
 		public void RemoveAudioFilesWithBrokenFilePaths()
 		{
             // Get all audio files
@@ -199,6 +155,8 @@ namespace MPfm.MVP.Services
 			return gateway.SelectDistinctAlbumTitles(format, artistName);
 		}
 
+        #endregion
+
         #region Markers
 
         public void InsertMarker(Marker marker)
@@ -230,14 +188,14 @@ namespace MPfm.MVP.Services
 
         #region Loops
         
-        public void InsertLoop(Loop Loop)
+        public void InsertLoop(Loop loop)
         {
-            gateway.InsertLoop(Loop);
+            gateway.InsertLoop(loop);
         }
         
-        public Loop SelectLoop(Guid LoopId)
+        public Loop SelectLoop(Guid loopId)
         {
-            return gateway.SelectLoop(LoopId);
+            return gateway.SelectLoop(loopId);
         }
         
         public List<Loop> SelectLoops(Guid audioFileId)
@@ -245,14 +203,38 @@ namespace MPfm.MVP.Services
             return gateway.SelectLoops(audioFileId);
         }
         
-        public void UpdateLoop(Loop Loop)
+        public void UpdateLoop(Loop loop)
         {
-            gateway.UpdateLoop(Loop);
+            gateway.UpdateLoop(loop);
         }
         
-        public void DeleteLoop(Guid LoopId)
+        public void DeleteLoop(Guid loopId)
         {
-            gateway.DeleteLoop(LoopId);
+            gateway.DeleteLoop(loopId);
+        }
+        
+        #endregion
+
+        #region Equalizer Presets
+        
+        public void InsertEQPreset(EQPreset preset)
+        {
+            gateway.InsertEQPreset(preset);
+        }
+        
+        public IEnumerable<EQPreset> SelectEQPresets()
+        {
+            return gateway.SelectEQPresets();
+        }
+
+        public void UpdateEQPreset(EQPreset preset)
+        {
+            gateway.UpdateEQPreset(preset);
+        }
+        
+        public void DeleteEQPreset(Guid presetId)
+        {
+            gateway.DeleteEQPreset(presetId);
         }
         
         #endregion

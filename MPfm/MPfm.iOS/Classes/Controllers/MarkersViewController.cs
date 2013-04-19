@@ -78,22 +78,17 @@ namespace MPfm.iOS
         {
             // Request a recycled cell to save memory
             UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
-            
-            // Set cell style
-            var cellStyle = UITableViewCellStyle.Subtitle;
-            
-            // Create cell if cell could not be recycled
             if (cell == null)
+            {
+                var cellStyle = UITableViewCellStyle.Subtitle;                
                 cell = new UITableViewCell(cellStyle, _cellIdentifier);
-            
-            // Set title            
+            }
+
             cell.Tag = indexPath.Row;
             cell.TextLabel.Text = _markers[indexPath.Row].Name;
-            cell.DetailTextLabel.Text = _markers[indexPath.Row].Position;
-
-            // Set theme
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
             cell.TextLabel.TextColor = UIColor.White;
+            cell.DetailTextLabel.Text = _markers[indexPath.Row].Position;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
             cell.DetailTextLabel.TextColor = UIColor.LightGray;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;

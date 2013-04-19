@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MonoTouch.CoreAnimation;
@@ -27,6 +28,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
+using MPfm.Player.Objects;
 
 namespace MPfm.iOS
 {
@@ -34,7 +36,8 @@ namespace MPfm.iOS
     {
         UIBarButtonItem _btnAdd;
         UIBarButtonItem _btnDone;
-
+        string _cellIdentifier = "EqualizerPresetCell";
+        List<EQPreset> _presets = new List<EQPreset>();
 
         public EqualizerPresetsViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "EqualizerPresetsViewController_iPhone" : "EqualizerPresetsViewController_iPad", null)
@@ -43,7 +46,18 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            // Add navigation controller buttons
+            tableView.WeakDataSource = this;
+            tableView.WeakDelegate = this;
+
+            UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
+            longPress.MinimumPressDuration = 1.0f;
+            longPress.WeakDelegate = this;
+            tableView.AddGestureRecognizer(longPress);
+
+            viewOptions.BackgroundColor = GlobalTheme.BackgroundColor;
+            lblBypass.TextColor = UIColor.White;
+            lblBypass.Font = UIFont.FromName("HelveticaNeue", 14.0f);
+
             var btnDone = new UIButton(UIButtonType.Custom);
             btnDone.SetTitle("Done", UIControlState.Normal);
             btnDone.Layer.CornerRadius = 8;
@@ -71,21 +85,89 @@ namespace MPfm.iOS
 
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
-            navCtrl.SetTitle("Equalizer", "Presets");
 
             base.ViewDidLoad();
         }
 
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            navCtrl.SetTitle("Equalizer Presets", "All Presets");
+        }
+
+        private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
+        {
+            PointF pt = gestureRecognizer.LocationInView(tableView);
+            NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
+            if (indexPath != null)
+                if(OnEditPreset != null)
+                    OnEditPreset(_presets[indexPath.Row].EQPresetId);
+        }
+
+        [Export ("tableView:numberOfRowsInSection:")]
+        public int RowsInSection(UITableView tableview, int section)
+        {
+            return _presets.Count;
+        }
+        
+        [Export ("tableView:cellForRowAtIndexPath:")]
+        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            // Request a recycled cell to save memory
+            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+            if (cell == null)
+            {
+                var cellStyle = UITableViewCellStyle.Subtitle;
+                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+            }
+
+            cell.Tag = indexPath.Row;
+            cell.TextLabel.Text = _presets[indexPath.Row].Name;
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
+            cell.TextLabel.TextColor = UIColor.Black;
+            cell.Accessory = UITableViewCellAccessory.Checkmark;
+            cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
+            
+            UIView viewBackgroundSelected = new UIView();
+            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
+            cell.SelectedBackgroundView = viewBackgroundSelected;
+            
+            return cell;
+        }
+        
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if(OnLoadPreset != null)
+            {
+                OnLoadPreset(_presets[indexPath.Row].EQPresetId);
+                tableView.DeselectRow(indexPath, true);
+            }
+        }
+
         #region IEqualizerPresetsView implementation
 
-        public Action OnBypassEqualizer { get; set; }
         public Action OnAddPreset { get; set; }
-        public Action<string> OnLoadPreset { get; set; }
-        public Action<string> OnEditPreset { get; set; }
-        public Action<string> OnDeletePreset { get; set; }
+        public Action<Guid> OnLoadPreset { get; set; }
+        public Action<Guid> OnEditPreset { get; set; }
+        public Action<Guid> OnDeletePreset { get; set; }
 
-        public void UpdatePresetList(IEnumerable<string> presets)
+        public void EqualizerPresetsError(Exception ex)
         {
+            InvokeOnMainThread(() => {
+                UIAlertView alertView = new UIAlertView("Equalizer Presets Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
+
+        public void RefreshPresets(IEnumerable<EQPreset> presets)
+        {
+            InvokeOnMainThread(() => {
+                _presets = presets.ToList();
+                tableView.ReloadData();
+            });
         }
 
         #endregion

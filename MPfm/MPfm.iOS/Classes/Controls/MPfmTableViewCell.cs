@@ -52,39 +52,26 @@ namespace MPfm.iOS.Classes.Controls
 
         public void Initialize()
         {
-            // Create selected cell background view
             UIView backView = new UIView(Frame);
-//            CAGradientLayer gradient = new CAGradientLayer();
-//            gradient.Frame = Bounds;
-//            gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(1.0f, 1.0f, 1.0f, 1), new CGColor(0.95f, 0.95f, 0.95f, 1) };
-//            backView.Layer.InsertSublayer(gradient, 0);
             backView.BackgroundColor = GlobalTheme.LightColor;
             BackgroundView = backView;
             
-            // Create selected cell background view
             UIView backViewSelected = new UIView(Frame);
-//            CAGradientLayer gradientSelected = new CAGradientLayer();
-//            gradientSelected.Frame = Bounds;
-//            gradientSelected.Colors = new MonoTouch.CoreGraphics.CGColor[2] { new CGColor(0.6f, 0.6f, 0.6f, 1), new CGColor(0.4f, 0.4f, 0.4f, 1) };
-//            backViewSelected.Layer.InsertSublayer(gradientSelected, 0);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             SelectedBackgroundView = backViewSelected;
 
             TextLabel.BackgroundColor = UIColor.Clear;
-            //TextLabel.Font = UIFont.FromName("OstrichSans-Medium", 20);
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.BackgroundColor = UIColor.Clear;            
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
-            //DetailTextLabel.Font = UIFont.FromName("OstrichSans-Medium", 16);
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             ImageView.BackgroundColor = UIColor.White;
 
             IndexTextLabel = new UILabel();
             IndexTextLabel.BackgroundColor = UIColor.Clear;
-            //IndexTextLabel.Font = UIFont.FromName("OstrichSans-Black", 20);
             IndexTextLabel.Font = UIFont.FromName("HelveticaNeue-Bold", 16);
             IndexTextLabel.TextColor = UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
             IndexTextLabel.HighlightedTextColor = UIColor.White;
@@ -99,7 +86,6 @@ namespace MPfm.iOS.Classes.Controls
         {
             base.LayoutSubviews();
 
-            // Check for subtitle
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
             {
                 TextLabel.Frame = new RectangleF(53, 2, Bounds.Width - 86, 22);

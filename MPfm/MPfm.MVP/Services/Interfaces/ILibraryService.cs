@@ -57,5 +57,10 @@ namespace MPfm.MVP.Services.Interfaces
         List<Loop> SelectLoops(Guid audioFileId);
         void UpdateLoop(Loop Loop);
         void DeleteLoop(Guid LoopId);
+
+        void InsertEQPreset(EQPreset preset);
+        IEnumerable<EQPreset> SelectEQPresets();
+        void UpdateEQPreset(EQPreset preset);
+        void DeleteEQPreset(Guid presetId);
     }
 }

@@ -23,6 +23,7 @@ using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -62,32 +63,30 @@ namespace MPfm.iOS
         {
             // Request a recycled cell to save memory
             UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
-            
-            // Set cell style
-            var cellStyle = UITableViewCellStyle.Default;
-            
-            // Create cell if cell could not be recycled
             if (cell == null)
+            {
+                var cellStyle = UITableViewCellStyle.Default;
                 cell = new UITableViewCell(cellStyle, _cellIdentifier);
+            }
             
-            // Set title
             cell.TextLabel.Text = _items[indexPath.Row].Value;
-            
-            // Set font
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
-            
-            // Set chevron
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+
+            UIView viewBackgroundSelected = new UIView();
+            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
+            cell.SelectedBackgroundView = viewBackgroundSelected;
+
             
-            //            // Check this is the version cell (remove all user interaction)
-            //            if (viewModel.Items[indexPath.Row].ItemType == MoreItemType.Version)
-            //            {
-            //                cell.Accessory = UITableViewCellAccessory.None;
-            //                cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-            //                cell.TextLabel.TextColor = UIColor.Gray;
-            //                cell.TextLabel.TextAlignment = UITextAlignment.Center;
-            //                cell.TextLabel.Font = UIFont.FromName("Asap", 16);
-            //            }
+//            // Check this is the version cell (remove all user interaction)
+//            if (viewModel.Items[indexPath.Row].ItemType == MoreItemType.Version)
+//            {
+//                cell.Accessory = UITableViewCellAccessory.None;
+//                cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+//                cell.TextLabel.TextColor = UIColor.Gray;
+//                cell.TextLabel.TextAlignment = UITextAlignment.Center;
+//                cell.TextLabel.Font = UIFont.FromName("Asap", 16);
+//            }
             
             return cell;
         }

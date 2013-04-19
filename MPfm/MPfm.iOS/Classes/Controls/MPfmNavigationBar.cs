@@ -34,8 +34,6 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void Draw(RectangleF rect)
         {
-            //base.Draw(rect);
-
             var context = UIGraphics.GetCurrentContext();
             CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainColor.CGColor);
             CoreGraphicsHelper.FillRect(context, new RectangleF(0, 42, 320, 2), GlobalTheme.MainLightColor.CGColor);

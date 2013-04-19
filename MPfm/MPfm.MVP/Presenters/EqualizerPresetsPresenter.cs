@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MPfm.Player.Objects;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
@@ -26,18 +30,20 @@ namespace MPfm.MVP.Presenters
 	{
         readonly MobileNavigationManager _navigationManager;
         readonly IPlayerService _playerService;
+        readonly ILibraryService _libraryService;
+        List<EQPreset> _presets;
 
-        public EqualizerPresetsPresenter(MobileNavigationManager navigationManager, IPlayerService playerService)
+        public EqualizerPresetsPresenter(MobileNavigationManager navigationManager, IPlayerService playerService, ILibraryService libraryService)
 		{	
             _navigationManager = navigationManager;
             _playerService = playerService;
+            _libraryService = libraryService;
 		}
 
         public override void BindView(IEqualizerPresetsView view)
         {
             base.BindView(view);
 
-            view.OnBypassEqualizer = BypassEqualizer;
             view.OnAddPreset = AddPreset;
             view.OnLoadPreset = LoadPreset;
             view.OnEditPreset = EditPreset;
@@ -53,24 +59,58 @@ namespace MPfm.MVP.Presenters
 
         private void AddPreset()
         {
-            var view = _navigationManager.CreateEqualizerPresetDetailsView();
-            _navigationManager.PushDialogSubview("EqualizerPresets", view);
+            try
+            {
+                var view = _navigationManager.CreateEqualizerPresetDetailsView();
+                _navigationManager.PushDialogSubview("EqualizerPresets", view);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
         }
 
-        private void LoadPreset(string presetName)
+        private void LoadPreset(Guid presetId)
         {
+
         }
 
-        private void EditPreset(string presetName)
+        private void EditPreset(Guid presetId)
         {
+            try
+            {
+                var view = _navigationManager.CreateEqualizerPresetDetailsView();
+                _navigationManager.PushDialogSubview("EqualizerPresets", view);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
         }
 
-        private void DeletePreset(string presetName)
+        private void DeletePreset(Guid presetId)
         {
         }
 
         private void RefreshPresets()
         {
+            try
+            {
+
+                _presets = _libraryService.SelectEQPresets().ToList();
+                _presets.Add(new EQPreset(){
+                    EQPresetId = Guid.Empty,
+                    Name = "Bypass"
+                });
+                View.RefreshPresets(_presets);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
         }
 	}
 }

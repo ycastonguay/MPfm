@@ -135,10 +135,15 @@ namespace MPfm.iOS.Classes.Controllers
             // Set title            
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             cell.TextLabel.Text = _items[indexPath.Row].Title;
+            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             cell.DetailTextLabel.Text = _items[indexPath.Row].Subtitle;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
+
+            if(String.IsNullOrEmpty(_items[indexPath.Row].Subtitle))
+                cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
 
             if (_browserType == MobileLibraryBrowserType.Albums)
             {

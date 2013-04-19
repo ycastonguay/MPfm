@@ -23,14 +23,11 @@ using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library.Database.Interfaces
 {
-    /// <summary>
-    /// Interface for the DatabaseFacade class.
-    /// </summary>
     public interface IDatabaseFacade
     {
         void DeleteAudioFile(Guid audioFileId);
         void DeleteAudioFiles(string basePath);
-        void DeleteEqualizer(Guid eqPresetId);
+        void DeleteEQPreset(Guid eqPresetId);
         void DeleteFolder(Guid folderId);
         void DeleteFolders();
         void DeleteLoop(Guid loopId);
@@ -41,7 +38,7 @@ namespace MPfm.Library.Database.Interfaces
         DateTime? GetAudioFileLastPlayedFromHistory(Guid audioFileId);
         int GetAudioFilePlayCountFromHistory(Guid audioFileId);
         void InsertAudioFile(AudioFile audioFile);
-        void InsertEqualizer(EQPreset eq);
+        void InsertEQPreset(EQPreset eq);
         void InsertFolder(string folderPath, bool recursive);
         void InsertHistory(Guid audioFileId);
         void InsertHistory(Guid audioFileId, DateTime eventDateTime);
@@ -75,7 +72,7 @@ namespace MPfm.Library.Database.Interfaces
         Setting SelectSetting(string name);
         List<Setting> SelectSettings();
         void UpdateAudioFile(AudioFile audioFile);
-        void UpdateEqualizer(EQPreset eq);
+        void UpdateEQPreset(EQPreset eq);
         void UpdateLoop(Loop dto);
         void UpdateMarker(Marker dto);
         void UpdatePlayCount(Guid audioFileId);

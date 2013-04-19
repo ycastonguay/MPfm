@@ -463,7 +463,7 @@ namespace MPfm.Library.Database
         /// Inserts a new EQ preset into the database.
         /// </summary>
         /// <param name="eq">EQ preset to insert</param>
-        public void InsertEqualizer(EQPreset eq)
+        public void InsertEQPreset(EQPreset eq)
         {
             _gateway.Insert<EQPreset>(eq, "EQPresets");            
         }
@@ -472,7 +472,7 @@ namespace MPfm.Library.Database
         /// Updates an existing EQ preset in the database.
         /// </summary>
         /// <param name="eq">EQ preset to update</param>
-        public void UpdateEqualizer(EQPreset eq)
+        public void UpdateEQPreset(EQPreset eq)
         {
             _gateway.Update<EQPreset>(eq, "EQPresets", "EQPresetId", eq.EQPresetId);            
         }
@@ -481,7 +481,7 @@ namespace MPfm.Library.Database
         /// Deletes an EQ preset from the database.
         /// </summary>
         /// <param name="eqPresetId">EQ preset identifier</param>
-        public void DeleteEqualizer(Guid eqPresetId)
+        public void DeleteEQPreset(Guid eqPresetId)
         {
             // Delete item
             _gateway.Delete("EQPresets", "EQPresetId", eqPresetId);

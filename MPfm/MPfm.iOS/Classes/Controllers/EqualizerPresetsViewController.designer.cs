@@ -8,49 +8,41 @@ using MonoTouch.Foundation;
 
 namespace MPfm.iOS
 {
-	[Register ("EffectsViewController")]
+	[Register ("EqualizerPresetsViewController")]
 	partial class EqualizerPresetsViewController
 	{
-		[Outlet]
-		MonoTouch.UIKit.UIToolbar toolBar { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UINavigationBar navigationBar { get; set; }
-
 		[Outlet]
 		MonoTouch.UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem btnBarDone { get; set; }
+		MonoTouch.UIKit.UILabel lblBypass { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIBarButtonItem btnBarAdd { get; set; }
+		MonoTouch.UIKit.UISwitch switchBypass { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewOptions { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (toolBar != null) {
-				toolBar.Dispose ();
-				toolBar = null;
-			}
-
-			if (navigationBar != null) {
-				navigationBar.Dispose ();
-				navigationBar = null;
-			}
-
 			if (tableView != null) {
 				tableView.Dispose ();
 				tableView = null;
 			}
 
-			if (btnBarDone != null) {
-				btnBarDone.Dispose ();
-				btnBarDone = null;
+			if (lblBypass != null) {
+				lblBypass.Dispose ();
+				lblBypass = null;
 			}
 
-			if (btnBarAdd != null) {
-				btnBarAdd.Dispose ();
-				btnBarAdd = null;
+			if (switchBypass != null) {
+				switchBypass.Dispose ();
+				switchBypass = null;
+			}
+
+			if (viewOptions != null) {
+				viewOptions.Dispose ();
+				viewOptions = null;
 			}
 		}
 	}
