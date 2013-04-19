@@ -59,6 +59,8 @@ namespace MPfm.iOS.Classes.Delegates
 
             UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
             UINavigationBar.Appearance.BackgroundColor = GlobalTheme.MainColor;
+            UIToolbar.Appearance.SetBackgroundImage(new UIImage(), UIToolbarPosition.Bottom, UIBarMetrics.Default);
+            UIToolbar.Appearance.BackgroundColor = GlobalTheme.MainColor;
             //UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
 
             // Create window 

@@ -197,6 +197,7 @@
       <DependentUpon>EqualizerPresetDetailsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Managers\Events\LoadPeakFileEventArgs.cs" />
+    <Compile Include="Classes\Controls\MPfmEqualizerFaderView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

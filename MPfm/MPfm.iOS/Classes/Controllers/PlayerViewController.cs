@@ -56,7 +56,6 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.DidReceiveMemoryWarning();
 
-            // Flush all images and wave form cache
             waveFormView.FlushCache();
             if(imageViewAlbumArt.Image != null)
             {
