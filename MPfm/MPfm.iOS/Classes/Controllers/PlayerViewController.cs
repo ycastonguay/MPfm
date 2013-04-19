@@ -43,6 +43,7 @@ namespace MPfm.iOS.Classes.Controllers
 	{
         private bool _isPositionChanging = false;
         private string _currentAlbumArtKey = string.Empty;
+        private string _currentNavigationSubtitle = string.Empty;
         private MPVolumeView _volumeView;
         private UIBarButtonItem _btnBack;
 
@@ -186,7 +187,7 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Now Playing", "");
+            navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
         }
 
         public void AddScrollView(UIViewController viewController)
@@ -314,8 +315,9 @@ namespace MPfm.iOS.Classes.Controllers
                 lblLength.Text = audioFile.Length;
                 waveFormView.Length = lengthBytes;
 
+                _currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
                 MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-                navCtrl.SetTitle("Now Playing", (playlistIndex+1).ToString() + " of " + playlistCount.ToString());
+                navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
 
                 // Load peak file in background
                 waveFormView.LoadPeakFile(audioFile);

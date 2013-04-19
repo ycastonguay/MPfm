@@ -53,8 +53,6 @@ namespace MPfm.iOS.Classes.Controls
             TabType = tabType;
             WeakDelegate = this;
 
-            //NavigationController.SetValueForKey(new MPfmNavigationBar(), new NSString("navigationBar"));
-
             // Create messenger hub to listen to player changes
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
             _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
@@ -79,7 +77,6 @@ namespace MPfm.iOS.Classes.Controls
             _lblTitle.Text = "MPfm";
             _lblTitle.TextAlignment = UITextAlignment.Center;
             _lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
-            //_lblTitle.Font = UIFont.FromName("HelveticaNeue-CondensedBold", 16);
             
             _lblSubtitle = new UILabel(new RectangleF(0, 20, UIScreen.MainScreen.Bounds.Width, 20));
             _lblSubtitle.LineBreakMode = UILineBreakMode.TailTruncation;

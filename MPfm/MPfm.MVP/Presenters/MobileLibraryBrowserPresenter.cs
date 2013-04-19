@@ -37,12 +37,12 @@ namespace MPfm.MVP.Presenters
 	public class MobileLibraryBrowserPresenter : BasePresenter<IMobileLibraryBrowserView>, IMobileLibraryBrowserPresenter
 	{
         private readonly MobileNavigationManager _navigationManager;
-	    private readonly MobileNavigationTabType _tabType;
-	    private readonly MobileLibraryBrowserType _browserType;
 	    private readonly ITinyMessengerHub _messengerHub;
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
-        private readonly SongBrowserQueryEntity _query;
+        private readonly MobileNavigationTabType _tabType;
+        private readonly MobileLibraryBrowserType _browserType;
+        private SongBrowserQueryEntity _query;
 
         private Task _currentTask;
 	    private List<LibraryBrowserEntity> _items;
@@ -81,7 +81,6 @@ namespace MPfm.MVP.Presenters
 
 	    private void AudioFileCacheUpdated(AudioFileCacheUpdatedMessage message)
 	    {
-            // Refresh browser with new data
             RefreshLibraryBrowser();
 	    }
 
@@ -145,6 +144,12 @@ namespace MPfm.MVP.Presenters
             var view = _navigationManager.CreatePlayerView(onViewBindedToPresenter);
             _navigationManager.PushTabView(_tabType, view);
 	    }
+
+        public void RefreshView(SongBrowserQueryEntity query)
+        {
+            _query = query;
+            RefreshLibraryBrowser();
+        }
 
         private void RefreshLibraryBrowser()
         {

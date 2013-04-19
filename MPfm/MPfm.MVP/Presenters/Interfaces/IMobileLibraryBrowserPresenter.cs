@@ -27,14 +27,7 @@ namespace MPfm.MVP.Presenters.Interfaces
 	/// </summary>
     public interface IMobileLibraryBrowserPresenter : IBasePresenter<IMobileLibraryBrowserView>
 	{
-        //AudioFileFormat Filter { get; }
-		
-        //void AudioFileFormatFilterChanged(AudioFileFormat format);
-		
-        //void TreeNodeExpanded(LibraryBrowserEntity entity, object userData);
-        //IEnumerable<LibraryBrowserEntity> TreeNodeExpandable(LibraryBrowserEntity entity);
-        //void TreeNodeSelected(LibraryBrowserEntity entity);
-        //void TreeNodeDoubleClicked(LibraryBrowserEntity entity);
+        void RefreshView(SongBrowserQueryEntity query);
 	}
 }
 

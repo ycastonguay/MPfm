@@ -71,7 +71,7 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        private Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter> _mobileLibraryBrowserList = new Dictionary<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>();
+        private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
         public abstract void ShowSplash(ISplashView view);
         public abstract void HideSplash();
@@ -234,6 +234,8 @@ namespace MPfm.MVP.Navigation
 
         public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, SongBrowserQueryEntity query)
         {
+            var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
+            
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
@@ -243,9 +245,24 @@ namespace MPfm.MVP.Navigation
                     var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>(new NamedParameterOverloads() 
                         {{"tabType", tabType}, {"browserType", browserType}, {"query", query}});
                     presenter.BindView((IMobileLibraryBrowserView) view);
-                    _mobileLibraryBrowserList.Add((IMobileLibraryBrowserView) view, presenter);
+                    _mobileLibraryBrowserList.Add(key, new Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>((IMobileLibraryBrowserView)view, presenter));
                 }
             };
+
+            // Check if view already exists
+            if(_mobileLibraryBrowserList.ContainsKey(key))
+            {
+                Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter> viewPresenter;
+                if(_mobileLibraryBrowserList.TryGetValue(key, out viewPresenter))
+                {
+                    if(viewPresenter != null)
+                    {
+                        // Force refresh of view
+                        viewPresenter.Item2.RefreshView(query);
+                        return viewPresenter.Item1;
+                    }
+                }
+            }
 
             // Create view and manage view destruction
             IMobileLibraryBrowserView newView = null;
@@ -255,10 +272,11 @@ namespace MPfm.MVP.Navigation
                 // The view list can be accessed from different threads.
                 lock (_locker)
                 {
-                    if (_mobileLibraryBrowserList.ContainsKey((IMobileLibraryBrowserView) view))
-                        _mobileLibraryBrowserList.Remove((IMobileLibraryBrowserView) view);
+                    if (_mobileLibraryBrowserList.ContainsKey(key))
+                        _mobileLibraryBrowserList.Remove(key);
                 }
             };
+
             return newView;
         }
 

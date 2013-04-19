@@ -177,35 +177,35 @@ namespace MPfm.iOS.Classes.Controllers
 
         private void FlushImages()
         {
-            if(imageViewAlbumCover.Image != null)
-            {
-                imageViewAlbumCover.Image.Dispose();
-                imageViewAlbumCover.Image = null;
-            }
-
-            // Flush images in table view
-            for(int section = 0; section < tableView.NumberOfSections(); section++)
-            {
-                for(int row = 0; row < tableView.NumberOfRowsInSection(section); row++)
-                {
-                    NSIndexPath indexPath = NSIndexPath.FromItemSection(row, section);
-                    UITableViewCell cell = tableView.CellAt(indexPath);
-                    if(cell != null && cell.ImageView != null && cell.ImageView.Image != null)
-                    {
-                        cell.ImageView.Image.Dispose();
-                        cell.ImageView.Image = null;
-                    }
-                }
-            }
+//            if(imageViewAlbumCover.Image != null)
+//            {
+//                imageViewAlbumCover.Image.Dispose();
+//                imageViewAlbumCover.Image = null;
+//            }
+//
+//            // Flush images in table view
+//            for(int section = 0; section < tableView.NumberOfSections(); section++)
+//            {
+//                for(int row = 0; row < tableView.NumberOfRowsInSection(section); row++)
+//                {
+//                    NSIndexPath indexPath = NSIndexPath.FromItemSection(row, section);
+//                    UITableViewCell cell = tableView.CellAt(indexPath);
+//                    if(cell != null && cell.ImageView != null && cell.ImageView.Image != null)
+//                    {
+//                        cell.ImageView.Image.Dispose();
+//                        cell.ImageView.Image = null;
+//                    }
+//                }
+//            }
         }
 
         private void ReloadImages()
         {
-            foreach(UITableViewCell cell in tableView.VisibleCells)
-            {
-                NSIndexPath indexPath = tableView.IndexPathForCell(cell);
-                OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
-            }
+//            foreach(UITableViewCell cell in tableView.VisibleCells)
+//            {
+//                NSIndexPath indexPath = tableView.IndexPathForCell(cell);
+//                OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
+//            }
         }
 
         #region IMobileLibraryBrowserView implementation
@@ -301,15 +301,6 @@ namespace MPfm.iOS.Classes.Controllers
                     lblArtistName.Text = audioFile.ArtistName;
                     lblAlbumTitle.Text = audioFile.AlbumTitle;
                     lblSubtitle1.Text = _items.Count().ToString() + " songs";
-
-                    //CGSize s = [yourString sizeWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(width, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
-                    NSString strArtistName = new NSString(audioFile.ArtistName);
-                    SizeF sizeArtistName = strArtistName.StringSize(lblArtistName.Font, new SizeF(lblArtistName.Frame.Width, lblArtistName.Frame.Height), UILineBreakMode.WordWrap);
-                    lblArtistName.Frame = new RectangleF(lblArtistName.Frame.X, lblArtistName.Frame.Y, sizeArtistName.Width, sizeArtistName.Height);
-
-                    NSString strAlbumTitle = new NSString(audioFile.AlbumTitle);
-                    SizeF sizeAlbumTitle = strAlbumTitle.StringSize(lblAlbumTitle.Font, new SizeF(lblAlbumTitle.Frame.Width, lblAlbumTitle.Frame.Height), UILineBreakMode.WordWrap);
-                    lblAlbumTitle.Frame = new RectangleF(lblAlbumTitle.Frame.X, lblAlbumTitle.Frame.Y, sizeAlbumTitle.Width, sizeAlbumTitle.Height);
 
                     // Note: cannot call UIScreen.MainScreen in a background thread!
                     int height = (int)(viewAlbumCover.Bounds.Height * UIScreen.MainScreen.Scale);
