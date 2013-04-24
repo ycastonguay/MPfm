@@ -438,49 +438,34 @@ namespace MPfm.Library.Database
 
         #region Equalizers
 
-        /// <summary>
-        /// Select all EQ presets from the database.
-        /// </summary>
-        /// <returns>List of EQPresets</returns>
         public List<EQPreset> SelectEQPresets()
         {
             List<EQPreset> eqs = _gateway.Select<EQPreset>("SELECT * FROM EQPresets");
             return eqs;
         }
 
-        /// <summary>
-        /// Selects an EQ preset from the database.
-        /// </summary>
-        /// <param name="name">EQ preset name</param>
-        /// <returns>EQPreset</returns>
+        public EQPreset SelectEQPreset(Guid presetId)
+        {
+            EQPreset preset = _gateway.SelectOne<EQPreset>("SELECT * FROM EQPresets WHERE EQPresetId = '" + FormatSQLValue(presetId.ToString()) + "'");
+            return preset;
+        }
+
         public EQPreset SelectEQPreset(string name)
         {
             EQPreset preset = _gateway.SelectOne<EQPreset>("SELECT * FROM EQPresets WHERE Name = '" + FormatSQLValue(name) + "'");
             return preset;
         }
 
-        /// <summary>
-        /// Inserts a new EQ preset into the database.
-        /// </summary>
-        /// <param name="eq">EQ preset to insert</param>
         public void InsertEQPreset(EQPreset eq)
         {
             _gateway.Insert<EQPreset>(eq, "EQPresets");            
         }
 
-        /// <summary>
-        /// Updates an existing EQ preset in the database.
-        /// </summary>
-        /// <param name="eq">EQ preset to update</param>
         public void UpdateEQPreset(EQPreset eq)
         {
             _gateway.Update<EQPreset>(eq, "EQPresets", "EQPresetId", eq.EQPresetId);            
         }
 
-        /// <summary>
-        /// Deletes an EQ preset from the database.
-        /// </summary>
-        /// <param name="eqPresetId">EQ preset identifier</param>
         public void DeleteEQPreset(Guid eqPresetId)
         {
             // Delete item

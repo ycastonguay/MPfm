@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.MVP.Presenters
 {
@@ -28,22 +29,15 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class SplashPresenter : BasePresenter<ISplashView>, ISplashPresenter
 	{       
-        readonly IInitializationService initializationService;
+        readonly IInitializationService _initializationService;
+        readonly IPlayerService _playerService;
 
-		#region Constructor and Dispose
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SplashPresenter"/> class.
-		/// </summary>
-		public SplashPresenter(IInitializationService initializationService)
+		public SplashPresenter(IInitializationService initializationService, IPlayerService playerService)
 		{
-            this.initializationService = initializationService;
+            _initializationService = initializationService;
+            _playerService = playerService;
 		}
 
-		#endregion		
-		
-		#region ISplashPresenter implementation
-		
         public void Initialize(Action onInitDone)
         {
             TaskScheduler taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
@@ -53,23 +47,21 @@ namespace MPfm.MVP.Presenters
 #endif
 
             Task.Factory.StartNew(() =>
-                {
-                    Console.WriteLine("SplashPresenter - Starting initialization service...");
-                    View.RefreshStatus("Loading...");
-                    initializationService.Initialize();
-                    View.RefreshStatus("Initialization done!");
-                    Console.WriteLine("SplashPresenter - Initialization service done!");
-                }).ContinueWith((a) =>
-                    {
-                        Console.WriteLine("SplashPresenter - Notifying view...");
-                        View.InitDone();
-                        Console.WriteLine("SplashPresenter - Raising action...");
-                        onInitDone.Invoke();
-                        Console.WriteLine("SplashPresenter - Action raised successfully!");
+            {
+                View.RefreshStatus("Loading...");
+                _initializationService.Initialize();
+            }).ContinueWith((a) =>
+            {
+                // Initialize player
+                Device device = new Device(){
+                    DriverType = DriverType.DirectSound,
+                    Id = -1
+                };
+                _playerService.Initialize(device, 44100, 1000, 100);
+                    View.InitDone();
+                    onInitDone.Invoke();
+                View.RefreshStatus("Initialization done!");
             }, taskScheduler);
         }
-		
-		#endregion
-
 	}
 }

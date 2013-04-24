@@ -61,5 +61,6 @@ namespace MPfm.MVP.Services.Interfaces
         void BypassEQ();
         void ResetEQ();
         void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
+        void ApplyEQPreset(EQPreset preset);
     }
 }

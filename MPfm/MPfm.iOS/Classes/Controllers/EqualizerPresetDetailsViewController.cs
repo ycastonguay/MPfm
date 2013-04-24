@@ -16,9 +16,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
@@ -26,7 +29,6 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
-using System.Collections.Generic;
 
 namespace MPfm.iOS
 {
@@ -68,10 +70,7 @@ namespace MPfm.iOS
             btnSave.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnSave.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
             btnSave.Frame = new RectangleF(0, 20, 60, 30);
-            btnSave.TouchUpInside += (sender, e) => {
-                NavigationController.PopViewControllerAnimated(true);
-            };
-            _btnSave = new UIBarButtonItem(btnSave);
+            btnSave.TouchUpInside += HandleButtonSaveTouchUpInside;
             
             var btnCancel = new UIButton(UIButtonType.Custom);
             btnCancel.SetTitle("Cancel", UIControlState.Normal);
@@ -79,9 +78,7 @@ namespace MPfm.iOS
             btnCancel.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnCancel.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
             btnCancel.Frame = new RectangleF(0, 12, 60, 30);
-            btnCancel.TouchUpInside += (sender, e) => {
-                NavigationController.PopViewControllerAnimated(true);
-            };
+            btnCancel.TouchUpInside += HandleButtonCancelTouchUpInside;
             _btnCancel = new UIBarButtonItem(btnCancel);
 
             var btnReset = new UIButton(UIButtonType.Custom);
@@ -90,9 +87,7 @@ namespace MPfm.iOS
             btnReset.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnReset.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
             btnReset.Frame = new RectangleF(0, 12, 60, 30);
-            btnReset.TouchUpInside += (sender, e) => {
-
-            };
+            btnReset.TouchUpInside += HandleButtonResetTouchUpInside;
             _btnReset = new UIBarButtonItem(btnReset);
 
             var btnNormalize = new UIButton(UIButtonType.Custom);
@@ -101,9 +96,7 @@ namespace MPfm.iOS
             btnNormalize.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnNormalize.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
             btnNormalize.Frame = new RectangleF(0, 12, 80, 30);
-            btnNormalize.TouchUpInside += (sender, e) => {
-                
-            };
+            btnNormalize.TouchUpInside += HandleButtonNormalizeTouchUpInside;
             _btnNormalize = new UIBarButtonItem(btnNormalize);
 
             NavigationItem.SetLeftBarButtonItem(_btnCancel, true);
@@ -112,9 +105,9 @@ namespace MPfm.iOS
             
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
-            navCtrl.SetTitle("Equalizer Preset", "");
+            navCtrl.SetTitle("Equalizer Preset", "16-Band Equalizer");
 
-            for(int a = 0; a < 16; a++)
+            for(int a = 0; a < 18; a++)
             {
                 AddFaderToScrollView(a.ToString() + ".0 kHz");
             }
@@ -122,19 +115,55 @@ namespace MPfm.iOS
             base.ViewDidLoad();
         }
 
+        private void HandleButtonSaveTouchUpInside(object sender, EventArgs e)
+        {
+            NavigationController.PopViewControllerAnimated(true);            
+        }
+
+        private void HandleButtonCancelTouchUpInside(object sender, EventArgs e)
+        {
+            NavigationController.PopViewControllerAnimated(true);            
+        }
+
+        private void HandleButtonResetTouchUpInside(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HandleButtonNormalizeTouchUpInside(object sender, EventArgs e)
+        {
+        }
+
         private void AddFaderToScrollView(string frequency)
         {
-            MPfmEqualizerFaderView view = new MPfmEqualizerFaderView(frequency);
+            MPfmEqualizerFaderView view = new MPfmEqualizerFaderView();
             view.Frame = new RectangleF(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
+            view.SetValue(frequency, 0);
             scrollView.AddSubview(view);
             scrollView.ContentSize = new SizeF(scrollView.Frame.Width, (_faderViews.Count + 1) * 44);
             _faderViews.Add(view);
         }
         
         #region IEqualizerPresetDetailsView implementation
-        
-        public void UpdateFader(int index, float value)
+
+        public Action OnResetPreset { get; set; }
+        public Action OnNormalizePreset { get; set; }
+        public Action<EQPreset> OnSavePreset { get; set; }
+
+        public void EqualizerPresetDetailsError(Exception ex)
         {
+            InvokeOnMainThread(() => {
+                UIAlertView alertView = new UIAlertView("Equalizer Preset Details Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
+
+        public void RefreshFaders(List<KeyValuePair<string, float>> values)
+        {
+            for(int a = 0; a < values.Count; a++)
+            {
+                _faderViews[a].SetValue(values[a].Key, values[a].Value);
+            }
         }
         
         #endregion

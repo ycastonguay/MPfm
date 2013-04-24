@@ -50,13 +50,16 @@ namespace MPfm.iOS
             tableView.WeakDelegate = this;
 
             UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
-            longPress.MinimumPressDuration = 1.0f;
+            longPress.MinimumPressDuration = 0.7f;
             longPress.WeakDelegate = this;
             tableView.AddGestureRecognizer(longPress);
 
             viewOptions.BackgroundColor = GlobalTheme.BackgroundColor;
             lblBypass.TextColor = UIColor.White;
             lblBypass.Font = UIFont.FromName("HelveticaNeue", 14.0f);
+
+            switchBypass.On = false;
+            switchBypass.ValueChanged += HandleSwitchBypassValueChanged;
 
             var btnDone = new UIButton(UIButtonType.Custom);
             btnDone.SetTitle("Done", UIControlState.Normal);
@@ -74,7 +77,7 @@ namespace MPfm.iOS
             btnAdd.Layer.CornerRadius = 8;
             btnAdd.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnAdd.Font = UIFont.FromName("HelveticaNeue-Bold", 18.0f);
-            btnAdd.Frame = new RectangleF(0, 12, 60, 30);
+            btnAdd.Frame = new RectangleF(0, 12, 40, 30);
             btnAdd.TouchUpInside += (sender, e) => {
                 OnAddPreset();
             };
@@ -87,6 +90,11 @@ namespace MPfm.iOS
             navCtrl.SetBackButtonVisible(false);
 
             base.ViewDidLoad();
+        }
+
+        private void HandleSwitchBypassValueChanged(object sender, EventArgs e)
+        {
+            OnBypassEqualizer();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -149,6 +157,7 @@ namespace MPfm.iOS
 
         #region IEqualizerPresetsView implementation
 
+        public Action OnBypassEqualizer { get; set; }
         public Action OnAddPreset { get; set; }
         public Action<Guid> OnLoadPreset { get; set; }
         public Action<Guid> OnEditPreset { get; set; }

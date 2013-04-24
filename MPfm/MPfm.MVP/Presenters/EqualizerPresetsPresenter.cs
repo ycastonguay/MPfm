@@ -44,6 +44,7 @@ namespace MPfm.MVP.Presenters
         {
             base.BindView(view);
 
+            view.OnBypassEqualizer = BypassEqualizer;
             view.OnAddPreset = AddPreset;
             view.OnLoadPreset = LoadPreset;
             view.OnEditPreset = EditPreset;
@@ -54,7 +55,15 @@ namespace MPfm.MVP.Presenters
 
         private void BypassEqualizer()
         {
-            _playerService.BypassEQ();            
+            try
+            {
+                _playerService.BypassEQ();            
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while bypassing the equalizer: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
         }
 
         private void AddPreset()
@@ -66,14 +75,26 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                Console.WriteLine("An error occured while adding an equalizer preset: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
 
         private void LoadPreset(Guid presetId)
         {
-
+            try
+            {
+                EQPreset preset = _presets.FirstOrDefault(x => x.EQPresetId == presetId);
+                if(preset != null)
+                {
+                    _playerService.ApplyEQPreset(preset);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while loading an equalizer preset: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
         }
 
         private void EditPreset(Guid presetId)
@@ -85,7 +106,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                Console.WriteLine("An error occured while editing an equalizer preset: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -98,17 +119,12 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-
                 _presets = _libraryService.SelectEQPresets().ToList();
-                _presets.Add(new EQPreset(){
-                    EQPresetId = Guid.Empty,
-                    Name = "Bypass"
-                });
                 View.RefreshPresets(_presets);
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                Console.WriteLine("An error occured while refreshing equalizer presets: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }

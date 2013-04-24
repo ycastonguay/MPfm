@@ -46,20 +46,21 @@ namespace MPfm.MVP.Services.Interfaces
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName);
 
-        void InsertMarker(Marker marker);
         Marker SelectMarker(Guid markerId);
         List<Marker> SelectMarkers(Guid audioFileId);
+        void InsertMarker(Marker marker);
         void UpdateMarker(Marker marker);
         void DeleteMarker(Guid markerId);
 
-        void InsertLoop(Loop Loop);
         Loop SelectLoop(Guid LoopId);
         List<Loop> SelectLoops(Guid audioFileId);
+        void InsertLoop(Loop Loop);
         void UpdateLoop(Loop Loop);
         void DeleteLoop(Guid LoopId);
 
-        void InsertEQPreset(EQPreset preset);
+        EQPreset SelectEQPreset(Guid presetId);
         IEnumerable<EQPreset> SelectEQPresets();
+        void InsertEQPreset(EQPreset preset);
         void UpdateEQPreset(EQPreset preset);
         void DeleteEQPreset(Guid presetId);
     }

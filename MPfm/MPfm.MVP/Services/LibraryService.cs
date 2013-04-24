@@ -221,7 +221,12 @@ namespace MPfm.MVP.Services
         {
             gateway.InsertEQPreset(preset);
         }
-        
+
+        public EQPreset SelectEQPreset(Guid presetId)
+        {
+            return gateway.SelectEQPreset(presetId);
+        }
+
         public IEnumerable<EQPreset> SelectEQPresets()
         {
             return gateway.SelectEQPresets();

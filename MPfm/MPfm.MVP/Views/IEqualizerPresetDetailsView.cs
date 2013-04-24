@@ -15,12 +15,19 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {
 	public interface IEqualizerPresetDetailsView : IBaseView
-	{
-        void UpdateFader(int index, float value);
+    {
+        Action OnResetPreset { get; set; }
+        Action OnNormalizePreset { get; set; }
+        Action<EQPreset> OnSavePreset { get; set; }
+
+        void EqualizerPresetDetailsError(Exception ex);
+        void RefreshFaders(List<KeyValuePair<string, float>> values);
 	}
 }

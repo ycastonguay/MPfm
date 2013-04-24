@@ -51,7 +51,7 @@ namespace MPfm.iOS
             btnAddMarker.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
-            longPress.MinimumPressDuration = 1.0f;
+            longPress.MinimumPressDuration = 0.7f;
             longPress.WeakDelegate = this;
             tableView.AddGestureRecognizer(longPress);
 

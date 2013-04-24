@@ -28,45 +28,54 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmEqualizerFaderView")]
     public class MPfmEqualizerFaderView : UIView
     {
-        public MPfmEqualizerFaderView(string frequency) 
+        UISlider _slider;
+        UILabel _lblValue;
+        UILabel _lblFrequency;
+
+        public MPfmEqualizerFaderView() 
             : base()
         {
-            Initialize(frequency);
+            Initialize();
         }
 
         public MPfmEqualizerFaderView(IntPtr handle) 
             : base(handle)
         {
-            Initialize("14.4 kHz");
+            Initialize();
         }
 
-        private void Initialize(string frequency)
+        private void Initialize()
         {
             BackgroundColor = GlobalTheme.BackgroundColor;
 
-            var lblFrequency = new UILabel(new RectangleF(12, 4, 60, 36));
-            lblFrequency.BackgroundColor = UIColor.Clear;
-            lblFrequency.Text = frequency;
-            lblFrequency.TextColor = UIColor.White;
-            lblFrequency.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            _lblFrequency = new UILabel(new RectangleF(12, 4, 60, 36));
+            _lblFrequency.BackgroundColor = UIColor.Clear;
+            _lblFrequency.TextColor = UIColor.White;
+            _lblFrequency.Font = UIFont.FromName("HelveticaNeue", 12.0f);
 
-            var lblValue = new UILabel(new RectangleF(256, 4, 60, 36));
-            lblValue.BackgroundColor = UIColor.Clear;
-            lblValue.Text = "+6.0 dB";
-            lblValue.TextColor = UIColor.White;
-            lblValue.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            _lblValue = new UILabel(new RectangleF(256, 4, 60, 36));
+            _lblValue.BackgroundColor = UIColor.Clear;
+            _lblValue.Text = "+6.0 dB";
+            _lblValue.TextColor = UIColor.White;
+            _lblValue.Font = UIFont.FromName("HelveticaNeue", 12.0f);
 
-            var slider = new UISlider(new RectangleF(62, 4, 186, 36));
-            slider.MinValue = -6;
-            slider.MaxValue = 6;
-            slider.Value = 0;
-            slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
-            slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
-            slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
+            _slider = new UISlider(new RectangleF(62, 4, 186, 36));
+            _slider.MinValue = -6;
+            _slider.MaxValue = 6;
+            _slider.Value = 0;
+            _slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+            _slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
+            _slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
 
-            AddSubview(lblFrequency);
-            AddSubview(lblValue);
-            AddSubview(slider);
+            AddSubview(_lblFrequency);
+            AddSubview(_lblValue);
+            AddSubview(_slider);
+        }
+
+        public void SetValue(string frequency, float value)
+        {
+            _lblFrequency.Text = frequency;
+            _slider.Value = value;
         }
     }
 }

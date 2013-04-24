@@ -236,6 +236,11 @@ namespace MPfm.MVP.Services
             _player.UpdateEQBand(band, gain, setCurrentEQPresetValue);
         }
 
+        public void ApplyEQPreset(EQPreset preset)
+        {
+            _player.ApplyEQPreset(preset);
+        }
+
         /// <summary>
         /// Releases all resource used by the <see cref="PlayerService"/> object.
         /// </summary>

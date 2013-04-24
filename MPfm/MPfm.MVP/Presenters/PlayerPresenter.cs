@@ -56,12 +56,12 @@ namespace MPfm.MVP.Presenters
 			timerRefreshSongPosition.Interval = 100;
 			timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
 
-            // Initialize player
-            Device device = new Device(){
-                DriverType = DriverType.DirectSound,
-                Id = -1
-            };
-            playerService.Initialize(device, 44100, 1000, 100);
+//            // Initialize player
+//            Device device = new Device(){
+//                DriverType = DriverType.DirectSound,
+//                Id = -1
+//            };
+//            playerService.Initialize(device, 44100, 1000, 100);
             //playerService.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
 
             // Subscribe to events

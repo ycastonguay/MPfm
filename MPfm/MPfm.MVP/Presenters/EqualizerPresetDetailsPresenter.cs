@@ -15,55 +15,94 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Presenters
 {
 	public class EqualizerPresetDetailsPresenter : BasePresenter<IEqualizerPresetDetailsView>, IEqualizerPresetDetailsPresenter
 	{
-        readonly IPlayerService playerService;
+        readonly IPlayerService _playerService;
+        readonly ILibraryService _libraryService;
 
-        public EqualizerPresetDetailsPresenter(IPlayerService playerService)
+        public EqualizerPresetDetailsPresenter(IPlayerService playerService, ILibraryService libraryService)
 		{	
-            // Set properties
-            this.playerService = playerService;
+            _playerService = playerService;
+            _libraryService = libraryService;
 		}
 
-        public void SetEQParam(int index, float value)
+        public override void BindView(IEqualizerPresetDetailsView view)
         {
-            // Set EQ and update UI
-            playerService.UpdateEQBand(index, value, true);
-            View.UpdateFader(index, value);
+            base.BindView(view);
+
+            view.OnNormalizePreset = NormalizePreset;
+            view.OnResetPreset = ResetPreset;
+            view.OnSavePreset = SavePreset;
+            
+            ResetPreset();
         }
 
-        public void BypassEQ()
+        public void NormalizePreset()
         {
-            playerService.BypassEQ();
+            try
+            {
+                // TODO: Add from Windows code
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while normalizing the equalizer preset: " + ex.Message);
+                View.EqualizerPresetDetailsError(ex);
+            }
         }
 
-        public void AutoLevel()
+        public void ResetPreset()
         {
+            try
+            {
+                _playerService.ResetEQ();
+                View.RefreshFaders(new List<KeyValuePair<string, float>>() {
+                    new KeyValuePair<string, float>("55 Hz", 0),
+                    new KeyValuePair<string, float>("77 Hz", 0),
+                    new KeyValuePair<string, float>("110 Hz", 0),
+                    new KeyValuePair<string, float>("156 Hz", 0),
+                    new KeyValuePair<string, float>("220 Hz", 0),
+                    new KeyValuePair<string, float>("311 Hz", 0),
+                    new KeyValuePair<string, float>("440 Hz", 0),
+                    new KeyValuePair<string, float>("622 Hz", 0),
+                    new KeyValuePair<string, float>("880 Hz", 0),
+                    new KeyValuePair<string, float>("1.2 kHz", 0),
+                    new KeyValuePair<string, float>("1.8 kHz", 0),
+                    new KeyValuePair<string, float>("2.5 kHz", 0),
+                    new KeyValuePair<string, float>("3.5 kHz", 0),
+                    new KeyValuePair<string, float>("5 kHz", 0),
+                    new KeyValuePair<string, float>("7 kHz", 0),
+                    new KeyValuePair<string, float>("10 kHz", 0),
+                    new KeyValuePair<string, float>("14 kHz", 0),
+                    new KeyValuePair<string, float>("20 kHz", 0)
+                });
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while reseting the equalizer preset: " + ex.Message);
+                View.EqualizerPresetDetailsError(ex);
+            }
         }
 
-        public void Reset()
+        public void SavePreset(EQPreset preset)
         {
-            playerService.ResetEQ();
-            for (int a = 0; a < 18; a++)
-                View.UpdateFader(a, 0);
-        }
-
-        public void LoadPreset(string presetName)
-        {
-        }
-
-        public void SavePreset(string presetName)
-        {
-        }
-
-        public void DeletePreset(string presetName)
-        {
+            try
+            {
+                _libraryService.UpdateEQPreset(preset);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while saving the equalizer preset: " + ex.Message);
+                View.EqualizerPresetDetailsError(ex);
+            }
         }
 	}
 }

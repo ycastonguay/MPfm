@@ -59,6 +59,7 @@ namespace MPfm.Library.Database.Interfaces
         List<string> SelectDistinctArtistNames();
         List<string> SelectDistinctArtistNames(AudioFileFormat audioFileFormat);
         EQPreset SelectEQPreset(string name);
+        EQPreset SelectEQPreset(Guid presetId);
         List<EQPreset> SelectEQPresets();
         Folder SelectFolderByPath(string path);
         List<Folder> SelectFolders();
