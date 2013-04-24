@@ -87,8 +87,9 @@ namespace MPfm.iOS.Classes.Controls
             _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
 
             _btnBack = new UIButton(UIButtonType.Custom);
-            _btnBack.Frame = new RectangleF(4, 4, 36, 36);
-            _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back.png"), UIControlState.Normal);
+            _btnBack.Frame = new RectangleF(6, 8, 50, 29);
+            _btnBack.Alpha = 0;
+            _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/Buttons/back.png"), UIControlState.Normal);
             _btnBack.TouchUpInside += (sender, e) => { 
                 if(ViewControllers.Length > 1)
                 {
@@ -168,14 +169,14 @@ namespace MPfm.iOS.Classes.Controls
                 _isViewPlayer = true;
             else
                 _isViewPlayer = false;
-
             UpdateNowPlayingView();
 
-            if (ViewControllers.Length > 1)
+            if (ViewControllers.Length == 2)
             {
+                _btnBack.Frame = new RectangleF(56, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                 UIView.Animate(0.25, () => { 
-                    _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back_wide.png"), UIControlState.Normal);
-                    _btnBack.Frame = new RectangleF(4, 4, 43, 36);
+                    _btnBack.Frame = new RectangleF(6, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                    _btnBack.Alpha = 1;
                 });
             }
 
@@ -186,22 +187,17 @@ namespace MPfm.iOS.Classes.Controls
         public bool ShouldPopItem(UINavigationItem item)
         {
             if(this.VisibleViewController is PlayerViewController)
-            {
-                // Hide Now Playing view
                 _isViewPlayer = true;
-            }
             else
-            {
-                // Show Now Playing view
                 _isViewPlayer = false;
-            }
             UpdateNowPlayingView();
 
             if (ViewControllers.Length == 1)
             {
+                _btnBack.Frame = new RectangleF(6, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                 UIView.Animate(0.25, () => { 
-                    _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/back.png"), UIControlState.Normal);
-                    _btnBack.Frame = new RectangleF(4, 4, 36, 36);
+                    _btnBack.Frame = new RectangleF(56, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                    _btnBack.Alpha = 0;
                 });
             }
 

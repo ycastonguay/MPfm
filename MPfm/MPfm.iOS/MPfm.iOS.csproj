@@ -272,8 +272,6 @@
     <BundleResource Include="Images\effects.png" />
     <BundleResource Include="Images\Tabs\audio.png" />
     <BundleResource Include="Images\Tabs\audio%402x.png" />
-    <BundleResource Include="Images\back_wide%402x.png" />
-    <BundleResource Include="Images\back%402x.png" />
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -304,6 +302,8 @@
     <BundleResource Include="Images\Sliders\thumb%402x.png" />
     <BundleResource Include="Images\Sliders\thumbbig.png" />
     <BundleResource Include="Images\Sliders\thumbbig%402x.png" />
+    <BundleResource Include="Images\Buttons\back.png" />
+    <BundleResource Include="Images\Buttons\back%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

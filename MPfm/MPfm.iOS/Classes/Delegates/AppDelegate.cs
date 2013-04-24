@@ -143,13 +143,11 @@ namespace MPfm.iOS.Classes.Delegates
                 UITextAttributes attr = new UITextAttributes();
                 attr.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
                 attr.TextColor = UIColor.LightGray;
-                attr.TextShadowColor = UIColor.DarkGray;
-                attr.TextShadowOffset = new UIOffset(1, 1);
+                attr.TextShadowColor = UIColor.Clear;
                 UITextAttributes attrSelected = new UITextAttributes();
                 attrSelected.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
                 attrSelected.TextColor = UIColor.White;
-                attrSelected.TextShadowColor = UIColor.DarkGray;
-                attrSelected.TextShadowOffset = new UIOffset(1, 1);
+                attrSelected.TextShadowColor = UIColor.Clear;
 
                 var navCtrl = new MPfmNavigationController(type);
                 navCtrl.SetTitle(title, "");
