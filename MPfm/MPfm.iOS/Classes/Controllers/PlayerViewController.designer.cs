@@ -54,7 +54,7 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UIPageControl pageControl { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmWaveFormView waveFormView { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmWaveFormScrollView scrollViewWaveForm { get; set; }
 
 		[Action ("actionPause:")]
 		partial void actionPause (MonoTouch.Foundation.NSObject sender);
@@ -137,9 +137,9 @@ namespace MPfm.iOS.Classes.Controllers
 				pageControl = null;
 			}
 
-			if (waveFormView != null) {
-				waveFormView.Dispose ();
-				waveFormView = null;
+			if (scrollViewWaveForm != null) {
+				scrollViewWaveForm.Dispose ();
+				scrollViewWaveForm = null;
 			}
 		}
 	}

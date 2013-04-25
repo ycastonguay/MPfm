@@ -56,7 +56,7 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.DidReceiveMemoryWarning();
 
-            waveFormView.FlushCache();
+            scrollViewWaveForm.WaveFormView.FlushCache();
             if(imageViewAlbumArt.Image != null)
             {
                 UIImage image = imageViewAlbumArt.Image;
@@ -118,9 +118,10 @@ namespace MPfm.iOS.Classes.Controllers
                 UIView.Animate(0.2f, () => {
                     float offset = 42;
                     viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height + offset);
-                    waveFormView.Frame = new RectangleF(waveFormView.Frame.X, waveFormView.Frame.Y + offset, waveFormView.Frame.Width, waveFormView.Frame.Height * 2);
-                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
-                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
+                    scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y + offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height * 2);
+                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, scrollViewWaveForm.WaveFormView.Frame.Height * 2);
+                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
+                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 1;
                     lblScrubbingType.Alpha = 1;
                 });
@@ -131,21 +132,22 @@ namespace MPfm.iOS.Classes.Controllers
 
                 PlayerPositionEntity entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
                 lblPosition.Text = entity.Position;
-                waveFormView.SecondaryPosition = entity.PositionBytes;
+                scrollViewWaveForm.WaveFormView.SecondaryPosition = entity.PositionBytes;
             };
             sliderPosition.TouchesEndedEvent += (sender, e) => {
                 //Console.WriteLine("Position: Setting value to " + position.ToString());
                 UIView.Animate(0.2f, () => {
                     float offset = 42;
                     viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height - offset);
-                    waveFormView.Frame = new RectangleF(waveFormView.Frame.X, waveFormView.Frame.Y - offset, waveFormView.Frame.Width, waveFormView.Frame.Height / 2);
-                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
-                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + waveFormView.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
+                    scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y - offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height / 2);
+                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, scrollViewWaveForm.WaveFormView.Frame.Height / 2);
+                    viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
+                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;
                 });
                 OnPlayerSetPosition(sliderPosition.Value / 100);
-                waveFormView.SecondaryPosition = 0;
+                scrollViewWaveForm.WaveFormView.SecondaryPosition = 0;
                 _isPositionChanging = false;
             };
 
@@ -159,7 +161,7 @@ namespace MPfm.iOS.Classes.Controllers
             // Only display wave form on iPhone 5+
             if (DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone5)
             {
-                waveFormView.Hidden = true;
+                scrollViewWaveForm.Hidden = true;
             }
 
             // Create text attributes for navigation bar button
@@ -248,7 +250,7 @@ namespace MPfm.iOS.Classes.Controllers
                     sliderPosition.SetPosition(entity.PositionPercentage * 100);
                 }
 
-                waveFormView.Position = entity.PositionBytes;                
+                scrollViewWaveForm.WaveFormView.Position = entity.PositionBytes;                
             });
         }
 
@@ -312,14 +314,14 @@ namespace MPfm.iOS.Classes.Controllers
             // Refresh other fields
             InvokeOnMainThread(() => {
                 lblLength.Text = audioFile.Length;
-                waveFormView.Length = lengthBytes;
+                scrollViewWaveForm.WaveFormView.Length = lengthBytes;
 
                 _currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
                 MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
                 navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
 
                 // Load peak file in background
-                waveFormView.LoadPeakFile(audioFile);
+                scrollViewWaveForm.WaveFormView.LoadPeakFile(audioFile);
             });
         }
 
