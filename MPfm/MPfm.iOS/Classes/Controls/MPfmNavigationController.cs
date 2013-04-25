@@ -87,7 +87,7 @@ namespace MPfm.iOS.Classes.Controls
             _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
 
             _btnBack = new UIButton(UIButtonType.Custom);
-            _btnBack.Frame = new RectangleF(6, 8, 50, 29);
+            _btnBack.Frame = new RectangleF(6, 7, 50, 29);
             _btnBack.Alpha = 0;
             _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/Buttons/back.png"), UIControlState.Normal);
             _btnBack.TouchUpInside += (sender, e) => { 

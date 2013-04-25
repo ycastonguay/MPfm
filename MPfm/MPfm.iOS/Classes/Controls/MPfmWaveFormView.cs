@@ -27,13 +27,15 @@ using MPfm.MVP.Navigation;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
+using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
+using MonoTouch.ObjCRuntime;
 using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 using MPfm.iOS.Managers;
 using MPfm.iOS.Managers.Events;
-using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -41,7 +43,8 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmWaveFormView : UIView
     {
         private WaveFormCacheManager _waveFormCacheManager;
-        private string _status = "Initial status";
+        private AudioFile _audioFile = null;
+        private string _status = "";
         private bool _isLoading = false;
         private bool _isGeneratingImageCache = false;
         private UIImage _imageCache = null;
@@ -147,7 +150,6 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            Console.WriteLine("MPfmWaveFormView - Initialize");
             this.BackgroundColor = UIColor.Black;
             DisplayType = WaveFormDisplayType.Stereo;
             _waveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
@@ -189,7 +191,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             InvokeOnMainThread(() => {
                 //Console.WriteLine("MPfmWaveFormView - HandleLoadedPeakFileSuccessfullyEvent");
-                _waveFormCacheManager.RequestBitmap(e.AudioFile.FilePath, WaveFormDisplayType.Stereo, Bounds, 1);
+                GenerateWaveFormBitmap(e.AudioFile.FilePath, Bounds);
             });
         }
 
@@ -234,6 +236,7 @@ namespace MPfm.iOS.Classes.Controls
         public void LoadPeakFile(AudioFile audioFile)
         {
             Console.WriteLine("WaveFormView - LoadPeakFile " + audioFile.FilePath);
+            _audioFile = audioFile;
             RefreshStatus("Loading peak file...");
             _waveFormCacheManager.LoadPeakFile(audioFile);
         }
@@ -245,28 +248,25 @@ namespace MPfm.iOS.Classes.Controls
             SetNeedsDisplay();
         }
 
-        private void DrawStatus(string status)
+        private void DrawStatus(CGContext context, string status)
         {
-            var context = UIGraphics.GetCurrentContext();
-            
-            // Draw gradient background
             CoreGraphicsHelper.FillGradient(context, Bounds, _colorGradient2, _colorGradient1);
-            
-            // Draw status string
+
             NSString str = new NSString(status);
             context.SetFillColor(UIColor.White.CGColor);
             float y = (Bounds.Height - 30) / 2;
+
+            UIGraphics.PushContext(context);
             str.DrawString(new RectangleF(0, y, Bounds.Width, 30), UIFont.FromName("HelveticaNeue", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
-            return;
+            UIGraphics.PopContext();
         }
 
-        private void DrawWaveFormBitmap()
+        private void DrawWaveFormBitmap(CGContext context)
         {
             _isLoading = false;
             int heightAvailable = (int)Frame.Height;
 
             // Draw bitmap cache
-            var context = UIGraphics.GetCurrentContext();
             context.DrawImage(Bounds, _imageCache.CGImage);
             
             // Calculate position
@@ -292,40 +292,49 @@ namespace MPfm.iOS.Classes.Controls
             }
         }
 
-        private void GenerateWaveFormBitmap()
+        public void RefreshWaveFormBitmap()
         {
-            // Calculate available size
-            int widthAvailable = (int)Frame.Width;
-            int heightAvailable = (int)Frame.Height;
-            if(Zoom > 1)
-            {
-                widthAvailable = (int)(Frame.Width * Zoom);
-            }
+            GenerateWaveFormBitmap(_audioFile.FilePath, Frame);
+        }
 
+        private void GenerateWaveFormBitmap(string audioFilePath, RectangleF frame)
+        {
             var context = UIGraphics.GetCurrentContext();
             if(!_isGeneratingImageCache)
             {
-                RefreshStatus("Generating wave form image cache...");
                 _isGeneratingImageCache = true;
+                Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: " + audioFilePath.ToString());
+                _waveFormCacheManager.RequestBitmap(audioFilePath, WaveFormDisplayType.Stereo, frame, 1);
+                _isGeneratingImageCache = false;
             }
+        }
 
+        public void SetFrame(RectangleF frame)
+        {
+            Frame = frame;
+            InvokeOnMainThread(() => {
+                GenerateWaveFormBitmap(_audioFile.FilePath, frame);
+            });
         }
 
         public override void Draw(RectangleF rect)
         {
-            base.Draw(rect);
+            // Leave empty! Actual drawing is in DrawLayer
+        }
 
+        [Export ("drawLayer:inContext:")]
+        public void DrawLayer(CALayer layer, CGContext context)
+        {
             if(_isLoading)
             {
-                DrawStatus(_status);
+                DrawStatus(context, _status);
             }
             else if (_imageCache != null)
             {
-                DrawWaveFormBitmap();
+                DrawWaveFormBitmap(context);
             }
             else
             {
-                var context = UIGraphics.GetCurrentContext();
                 CoreGraphicsHelper.FillRect(context, Bounds, _colorGradient1);
             }
         }

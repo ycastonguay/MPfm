@@ -264,7 +264,7 @@ namespace MPfm.iOS.Managers
                 try
                 {                   
                     // Draw gradient background
-                    CoreGraphicsHelper.FillGradient(context, bounds, _colorGradient1, _colorGradient2);
+                    CoreGraphicsHelper.FillGradient(context, new RectangleF(0, 0, bounds.Width + 2, bounds.Height), _colorGradient1, _colorGradient2);
                     
                     // Declare variables
                     float x1 = 0;

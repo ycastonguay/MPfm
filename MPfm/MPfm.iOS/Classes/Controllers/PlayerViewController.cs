@@ -320,8 +320,7 @@ namespace MPfm.iOS.Classes.Controllers
                 MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
                 navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
 
-                // Load peak file in background
-                scrollViewWaveForm.WaveFormView.LoadPeakFile(audioFile);
+                scrollViewWaveForm.LoadPeakFile(audioFile);
             });
         }
 

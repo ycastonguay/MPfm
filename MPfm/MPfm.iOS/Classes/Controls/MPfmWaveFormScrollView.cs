@@ -40,6 +40,9 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmWaveFormScrollView")]
     public class MPfmWaveFormScrollView : UIScrollView
     {
+        private float _zoomScale;
+        private float _offsetRatio;
+
         // TODO: Make this entirely private and add methods to set wave forms
         public MPfmWaveFormView WaveFormView { get; private set; }
 
@@ -57,25 +60,53 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            ShowsHorizontalScrollIndicator = false;
+            MinimumZoomScale = 1.0f;
+            MaximumZoomScale = 8.0f;
+            ShowsHorizontalScrollIndicator = true;
             ShowsVerticalScrollIndicator = false;
+            AlwaysBounceHorizontal = false;
             BouncesZoom = true;
-            BackgroundColor = UIColor.Blue;
+            BackgroundColor = GlobalTheme.BackgroundColor;
 
             WaveFormView = new MPfmWaveFormView(Bounds);
             AddSubview(WaveFormView);
 
+            ContentSize = WaveFormView.Bounds.Size;
+
             this.ViewForZoomingInScrollView = delegate {
+                _offsetRatio = (ContentOffset.X / ContentSize.Width);
                 return WaveFormView;
             };
 
-            this.ZoomingStarted += delegate {
-                Console.WriteLine("MPfmWaveFormScrollView - ZoomingStarted");
-            };
+//            this.ZoomingStarted += delegate {
+//                Console.WriteLine("MPfmWaveFormScrollView - ZoomingStarted");
+//            };
 
             this.ZoomingEnded += delegate(object sender, ZoomingEndedEventArgs e) {
-                Console.WriteLine("MPfmWaveFormScrollView - ZoomingEnded");
+                //Console.WriteLine("MPfmWaveFormScrollView - ZoomingEnded");
+                WaveFormView.RefreshWaveFormBitmap();
             };
+
+            this.DidZoom += delegate(object sender, EventArgs e) {
+                var originalZoomScale = ZoomScale;
+                _zoomScale *= ZoomScale;
+                _zoomScale = (_zoomScale < MinimumZoomScale) ? MinimumZoomScale : _zoomScale;
+                _zoomScale = (_zoomScale > MaximumZoomScale) ? MaximumZoomScale : _zoomScale;
+                ZoomScale = 1.0f;
+                //Console.WriteLine("MPfmWaveFormScrollView - DidZoom ZoomScale: " + originalZoomScale.ToString() + " _zoomScale: " + _zoomScale.ToString());
+
+                WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, 320 * _zoomScale, WaveFormView.Frame.Height);
+                ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
+                ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
+            };
+        }
+
+        public void LoadPeakFile(AudioFile audioFile)
+        {
+            WaveFormView.Frame = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+            ContentSize = Bounds.Size;
+            ContentOffset = new PointF(0, 0);
+            WaveFormView.LoadPeakFile(audioFile);
         }
     }
 }
