@@ -42,6 +42,7 @@ namespace MPfm.iOS.Classes.Controls
     {
         private float _zoomScale;
         private float _offsetRatio;
+        private UILabel _lblZoom;
 
         // TODO: Make this entirely private and add methods to set wave forms
         public MPfmWaveFormView WaveFormView { get; private set; }
@@ -61,7 +62,7 @@ namespace MPfm.iOS.Classes.Controls
         private void Initialize()
         {
             MinimumZoomScale = 1.0f;
-            MaximumZoomScale = 8.0f;
+            MaximumZoomScale = 16.0f;
             ShowsHorizontalScrollIndicator = true;
             ShowsVerticalScrollIndicator = false;
             AlwaysBounceHorizontal = false;
@@ -70,7 +71,21 @@ namespace MPfm.iOS.Classes.Controls
 
             UITapGestureRecognizer doubleTap = new UITapGestureRecognizer((recognizer) => {
                 _zoomScale = 1.0f;
-                UpdateZoomScale();
+                _offsetRatio = 0;
+                UpdateZoomScale(0);
+                WaveFormView.RefreshWaveFormBitmap();                
+                
+                _lblZoom.Text = "100.0%";
+                UIView.Animate(0.15, () => {
+                    _lblZoom.Alpha = 0.9f;
+                }, () => {
+                    UIView.Animate(1, () => {
+                    }, () => {
+                        UIView.Animate(0.15, () => {
+                            _lblZoom.Alpha = 0;
+                        });
+                    });
+                });
             });
             doubleTap.DelaysTouchesBegan = true;
             doubleTap.NumberOfTapsRequired = 2;
@@ -79,6 +94,15 @@ namespace MPfm.iOS.Classes.Controls
             WaveFormView = new MPfmWaveFormView(Bounds);
             AddSubview(WaveFormView);
 
+            _lblZoom = new UILabel(new RectangleF(0, 0, 60, 20));
+            _lblZoom.BackgroundColor = GlobalTheme.BackgroundColor;
+            _lblZoom.TextColor = UIColor.White;
+            _lblZoom.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            _lblZoom.TextAlignment = UITextAlignment.Center;
+            _lblZoom.Text = "100.0%";
+            _lblZoom.Alpha = 0;
+            AddSubview(_lblZoom);
+
             ContentSize = WaveFormView.Bounds.Size;
 
             this.ViewForZoomingInScrollView = delegate {
@@ -86,32 +110,44 @@ namespace MPfm.iOS.Classes.Controls
                 return WaveFormView;
             };
 
-//            this.ZoomingStarted += delegate {
-//                Console.WriteLine("MPfmWaveFormScrollView - ZoomingStarted");
-//            };
+            this.ZoomingStarted += delegate {
+                UIView.Animate(0.15, () => {
+                    _lblZoom.Alpha = 0.9f;
+                });
+            };
 
             this.ZoomingEnded += delegate(object sender, ZoomingEndedEventArgs e) {
-                //Console.WriteLine("MPfmWaveFormScrollView - ZoomingEnded");
                 WaveFormView.RefreshWaveFormBitmap();
+                UIView.Animate(0.15, () => {
+                    _lblZoom.Alpha = 0;
+                });
             };
 
             this.DidZoom += delegate(object sender, EventArgs e) {
-                UpdateZoomScale();
+                UpdateZoomScale(_offsetRatio);
             };
         }
 
-        private void UpdateZoomScale()
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
+
+            _lblZoom.Frame = new RectangleF(ContentOffset.X + ((UIScreen.MainScreen.Bounds.Width - 54) / 2), (Bounds.Height - 20) / 2, 54, 20);
+        }
+
+        private void UpdateZoomScale(float offsetRatio)
         {
             var originalZoomScale = ZoomScale;
             _zoomScale *= ZoomScale;
             _zoomScale = (_zoomScale < MinimumZoomScale) ? MinimumZoomScale : _zoomScale;
             _zoomScale = (_zoomScale > MaximumZoomScale) ? MaximumZoomScale : _zoomScale;
             ZoomScale = 1.0f;
+            _lblZoom.Text = (_zoomScale * 100).ToString("0.0") + "%";
             //Console.WriteLine("MPfmWaveFormScrollView - DidZoom ZoomScale: " + originalZoomScale.ToString() + " _zoomScale: " + _zoomScale.ToString());
             
             WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, 320 * _zoomScale, WaveFormView.Frame.Height);
             ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
-            ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
+            ContentOffset = new PointF(WaveFormView.Frame.Width * offsetRatio, 0);
         }
 
         public void LoadPeakFile(AudioFile audioFile)

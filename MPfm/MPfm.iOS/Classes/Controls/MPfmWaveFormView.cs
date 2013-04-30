@@ -92,7 +92,7 @@ namespace MPfm.iOS.Classes.Controls
                     return;
                 
                 // Invalidate cursor
-                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 5, 0, 10, Frame.Height);
+                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 15, 0, 30, Frame.Height);
                 SetNeedsDisplayInRect(rectCursor);
             }
         }
