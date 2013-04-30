@@ -43,7 +43,6 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmWaveFormView : UIView
     {
         private WaveFormCacheManager _waveFormCacheManager;
-        private AudioFile _audioFile = null;
         private string _status = "";
         private bool _isLoading = false;
         private bool _isGeneratingImageCache = false;
@@ -54,6 +53,15 @@ namespace MPfm.iOS.Classes.Controls
         private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
 
         public WaveFormDisplayType DisplayType { get; set; }
+
+        private AudioFile _audioFile = null;
+        public AudioFile AudioFile
+        {
+            get
+            {
+                return _audioFile;
+            }
+        }
 
         private long _position;
         public long Position
@@ -92,7 +100,7 @@ namespace MPfm.iOS.Classes.Controls
                     return;
                 
                 // Invalidate cursor
-                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 15, 0, 30, Frame.Height);
+                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 15, 0, 0, Frame.Height);
                 SetNeedsDisplayInRect(rectCursor);
             }
         }

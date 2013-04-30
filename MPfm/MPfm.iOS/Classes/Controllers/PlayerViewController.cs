@@ -314,7 +314,7 @@ namespace MPfm.iOS.Classes.Controllers
             // Refresh other fields
             InvokeOnMainThread(() => {
                 lblLength.Text = audioFile.Length;
-                scrollViewWaveForm.WaveFormView.Length = lengthBytes;
+                scrollViewWaveForm.SetWaveFormLength(lengthBytes);
 
                 _currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
                 MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
