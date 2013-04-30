@@ -24,6 +24,7 @@ using MPfm.Library.UpdateLibrary;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -36,6 +37,17 @@ namespace MPfm.iOS
 		
         public override void ViewDidLoad()
         {
+            this.View.BackgroundColor = GlobalTheme.BackgroundColor;
+            button.BackgroundColor = GlobalTheme.SecondaryColor;
+            button.Layer.CornerRadius = 8;
+
+            lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
+            lblSubtitle.Font = UIFont.FromName("HelveticaNeue", 14);
+            button.Font = UIFont.FromName("HelveticaNeue-Bold", 16);
+
+            lblTitle.Text = "Initializing...";
+            lblSubtitle.Text = string.Empty;
+
             base.ViewDidLoad();
         }
 

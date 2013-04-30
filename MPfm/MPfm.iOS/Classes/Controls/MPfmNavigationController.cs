@@ -71,14 +71,14 @@ namespace MPfm.iOS.Classes.Controls
             });
 
             // Create controls
-            _lblTitle = new UILabel(new RectangleF(0, 6, UIScreen.MainScreen.Bounds.Width, 20));
+            _lblTitle = new UILabel(new RectangleF(60, 6, UIScreen.MainScreen.Bounds.Width - 120, 20));
             _lblTitle.TextColor = UIColor.White;
             _lblTitle.BackgroundColor = UIColor.Clear;
             _lblTitle.Text = "MPfm";
             _lblTitle.TextAlignment = UITextAlignment.Center;
             _lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
             
-            _lblSubtitle = new UILabel(new RectangleF(0, 20, UIScreen.MainScreen.Bounds.Width, 20));
+            _lblSubtitle = new UILabel(new RectangleF(60, 20, UIScreen.MainScreen.Bounds.Width - 120, 20));
             _lblSubtitle.LineBreakMode = UILineBreakMode.TailTruncation;
             _lblSubtitle.TextColor = UIColor.LightGray;
             _lblSubtitle.BackgroundColor = UIColor.Clear;

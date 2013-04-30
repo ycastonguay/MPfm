@@ -309,6 +309,7 @@ namespace MPfm.iOS.Classes.Controllers
 
                     // Note: cannot call UIScreen.MainScreen in a background thread!
                     int height = (int)(viewAlbumCover.Bounds.Height * UIScreen.MainScreen.Scale);
+                    imageViewAlbumCover.Image = UIImage.FromBundle("Images/emptyalbumart");
                     Task<UIImage>.Factory.StartNew(() => {
                         byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
                         using (NSData imageData = NSData.FromArray(bytesImage))

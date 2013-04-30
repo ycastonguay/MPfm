@@ -68,6 +68,14 @@ namespace MPfm.iOS.Classes.Controls
             BouncesZoom = true;
             BackgroundColor = GlobalTheme.BackgroundColor;
 
+            UITapGestureRecognizer doubleTap = new UITapGestureRecognizer((recognizer) => {
+                _zoomScale = 1.0f;
+                UpdateZoomScale();
+            });
+            doubleTap.DelaysTouchesBegan = true;
+            doubleTap.NumberOfTapsRequired = 2;
+            AddGestureRecognizer(doubleTap);
+
             WaveFormView = new MPfmWaveFormView(Bounds);
             AddSubview(WaveFormView);
 
@@ -88,17 +96,22 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             this.DidZoom += delegate(object sender, EventArgs e) {
-                var originalZoomScale = ZoomScale;
-                _zoomScale *= ZoomScale;
-                _zoomScale = (_zoomScale < MinimumZoomScale) ? MinimumZoomScale : _zoomScale;
-                _zoomScale = (_zoomScale > MaximumZoomScale) ? MaximumZoomScale : _zoomScale;
-                ZoomScale = 1.0f;
-                //Console.WriteLine("MPfmWaveFormScrollView - DidZoom ZoomScale: " + originalZoomScale.ToString() + " _zoomScale: " + _zoomScale.ToString());
-
-                WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, 320 * _zoomScale, WaveFormView.Frame.Height);
-                ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
-                ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
+                UpdateZoomScale();
             };
+        }
+
+        private void UpdateZoomScale()
+        {
+            var originalZoomScale = ZoomScale;
+            _zoomScale *= ZoomScale;
+            _zoomScale = (_zoomScale < MinimumZoomScale) ? MinimumZoomScale : _zoomScale;
+            _zoomScale = (_zoomScale > MaximumZoomScale) ? MaximumZoomScale : _zoomScale;
+            ZoomScale = 1.0f;
+            //Console.WriteLine("MPfmWaveFormScrollView - DidZoom ZoomScale: " + originalZoomScale.ToString() + " _zoomScale: " + _zoomScale.ToString());
+            
+            WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, 320 * _zoomScale, WaveFormView.Frame.Height);
+            ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
+            ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
         }
 
         public void LoadPeakFile(AudioFile audioFile)
