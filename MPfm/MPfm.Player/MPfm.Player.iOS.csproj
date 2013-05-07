@@ -166,7 +166,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\PlayerStreamCallbackData.cs" />
     <Compile Include="Exceptions\PlayerCreateStreamException.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Objects\PlayerSyncProc.cs" />

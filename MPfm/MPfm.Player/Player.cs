@@ -63,29 +63,24 @@ namespace MPfm.Player
         /// </value>
         public static string PluginDirectoryPath { get; set; }
 
-        /// <summary>
-        /// Defines if floating point must be used (always except for Android).
-        /// </summary>
-        public bool UseFloatingPoint { get; private set;}
+        private bool _useFloatingPoint;
+        public bool IsSettingPosition { get; private set; }
+        
+        private System.Timers.Timer _timerPlayer = null;
+        private Channel _streamChannel = null;
+        private Channel _fxChannel = null;
+        private MixerChannel _mixerChannel = null;        
 
-        private System.Timers.Timer timerPlayer = null;
-        private Channel streamChannel = null;
-
-        /// <summary>
-        /// Private value for the FXChannel property.
-        /// </summary>
-        private Channel fxChannel = null;
-
-        /// <summary>
-        /// Effects stream/channel.
-        /// </summary>
-        public Channel FXChannel
-        {
-            get
-            {
-                return fxChannel;
-            }
-        }        
+        // Plugin handles
+        private int _fxEQHandle;
+        private int _aacPluginHandle = 0;        
+        private int _apePluginHandle = 0;
+        private int _flacPluginHandle = 0;
+        private int _mpcPluginHandle = 0;
+        private int _ofrPluginHandle = 0;
+        private int _ttaPluginHandle = 0;
+        private int _wvPluginHandle = 0;
+        private int _wmaPluginHandle = 0;
 
         /// <summary>
         /// Indicates the current playlist item index used by the mixer.
@@ -93,43 +88,32 @@ namespace MPfm.Player
         /// Depending on the buffer size used, the index can be incremented a few seconds before actually hearing
         /// the song change.
         /// </summary>
-        int currentMixPlaylistIndex = 0;
+        private int _currentMixPlaylistIndex = 0;
 
-        // Plugin handles
-        private int fxEQHandle;
-        private int aacPluginHandle = 0;        
-        private int apePluginHandle = 0;
-        private int flacPluginHandle = 0;
-        private int mpcPluginHandle = 0;
-        private int ofrPluginHandle = 0;
-        private int ttaPluginHandle = 0;
-        private int wvPluginHandle = 0;
-        private int wmaPluginHandle = 0;
+        /// <summary>
+        /// Position from which to resume after pausing the stream. This allows changing the player position
+        /// while the player is paused.
+        /// </summary>
+        private long _positionAfterUnpause;
 
         /// <summary>
         /// Offset position (necessary to calculate the offset in the output stream position
         /// if the user has seeked the position in the decode stream). The output stream position
         /// is reset to 0 in these cases to clear the audio buffer.
         /// </summary>
-        private long positionOffset = 0;
+        private long _positionOffset = 0;
 
-        #region Callbacks
-
-        private List<PlayerSyncProc> syncProcs = null;
-
-        // Callbacks
-        private STREAMPROC streamProc;
+        private List<PlayerSyncProc> _syncProcs = null;
+        private STREAMPROC _streamProc;
 
 #if IOS
-        private IOSNOTIFYPROC iosNotifyProc;
+        private IOSNOTIFYPROC _iosNotifyProc;
 #endif
 
 #if !IOS && !ANDROID
         private ASIOPROC asioProc;
         private WASAPIPROC wasapiProc;
 #endif
-
-        #endregion
 
         #region Events
 
@@ -160,12 +144,7 @@ namespace MPfm.Player
 
         #region Properties
 
-        public bool IsSettingPosition { get; private set; }
-
-        /// <summary>
-        /// Private value for the IsPlaying property.
-        /// </summary>
-        private bool isPlaying = false;
+        private bool _isPlaying = false;
         /// <summary>
         /// Indicates if the player is currently playing an audio file.
         /// </summary>
@@ -173,14 +152,11 @@ namespace MPfm.Player
         {
             get
             {
-                return isPlaying;
+                return _isPlaying;
             }
         }
 
-        /// <summary>
-        /// Private value for the IsPaused property.
-        /// </summary>
-        private bool isPaused = false;
+        private bool _isPaused = false;
         /// <summary>
         /// Indicates if the player is currently paused.
         /// </summary>
@@ -188,14 +164,11 @@ namespace MPfm.Player
         {
             get
             {
-                return isPaused;
+                return _isPaused;
             }
         }
 
-        /// <summary>
-        /// Private value for the Device property.
-        /// </summary>
-        private Device device = null;
+        private Device _device = null;
         /// <summary>
         /// Defines the currently used device for playback.
         /// </summary>
@@ -203,14 +176,11 @@ namespace MPfm.Player
         {
             get
             {
-                return device;
+                return _device;
             }
         }
 
-        /// <summary>
-        /// Private value for the IsDeviceInitialized property.
-        /// </summary>
-        private bool isDeviceInitialized = false;
+        private bool _isDeviceInitialized = false;
         /// <summary>
         /// Indicates if the device (as in the Device property) is initialized.
         /// </summary>
@@ -218,14 +188,11 @@ namespace MPfm.Player
         {
             get
             {
-                return isDeviceInitialized;
+                return _isDeviceInitialized;
             }
         }       
 
-        /// <summary>
-        /// Private value for the RepeatType property.
-        /// </summary>
-        private RepeatType repeatType = RepeatType.Off;
+        private RepeatType _repeatType = RepeatType.Off;
         /// <summary>
         /// Repeat type (Off, Playlist, Song)
         /// </summary>
@@ -233,34 +200,25 @@ namespace MPfm.Player
         {
             get
             {
-                return repeatType;
+                return _repeatType;
             }
             set
             {
-                repeatType = value;
+                _repeatType = value;
 
                 // Check if the current song exists
-                if (playlist != null && playlist.CurrentItem != null)
+                if (_playlist != null && _playlist.CurrentItem != null)
                 {
-                    // Check if the repeat type is Song
-                    if (repeatType == RepeatType.Song)
-                    {
-                        // Force looping
-                        playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
-                    }
+                    // If the repeat type is Song, force song looping
+                    if (_repeatType == RepeatType.Song)
+                        _playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
                     else
-                    {
-                        // Remove looping
-                        playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
-                    }
+                        _playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_DEFAULT, BASSFlag.BASS_SAMPLE_LOOP);
                 }
             }
         }
 
-        /// <summary>
-        /// Private value for the Volume property.
-        /// </summary>
-        private float volume = 1.0f;
+        private float _volume = 1.0f;
         /// <summary>
         /// Defines the master volume (from 0 to 1).
         /// </summary>
@@ -268,18 +226,18 @@ namespace MPfm.Player
         {
             get
             {
-                return volume;
+                return _volume;
             }
             set
             {
                 // Set value
-                volume = value;
+                _volume = value;
 
                 // Check if the player is playing
-                if (mixerChannel != null)
+                if (_mixerChannel != null)
                 {
                     // Set main volume
-                    mixerChannel.Volume = value;
+                    _mixerChannel.Volume = value;
                 }
 
 #if !IOS && !ANDROID
@@ -316,10 +274,7 @@ namespace MPfm.Player
             }
         }
 
-        /// <summary>
-        /// Private value for the TimeShifting property.
-        /// </summary>
-        private float timeShifting = 0.0f;
+        private float _timeShifting = 0.0f;
         /// <summary>
         /// Defines the time shifting applied to the currently playing stream.
         /// Value range from -100.0f (-100%) to 100.0f (+100%). To reset, set to 0.0f.
@@ -328,25 +283,19 @@ namespace MPfm.Player
         {
             get
             {
-                return timeShifting;
+                return _timeShifting;
             }
             set
             {
-                timeShifting = value;
+                _timeShifting = value;
 
-                // Check if the fx channel exists
-                if (fxChannel != null)
-                {
-                    // Set time shifting
-                    fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, timeShifting);
-                }
+                // Set time shifting on FX channel
+                if (_fxChannel != null)
+                    _fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, _timeShifting);
             }           
         }
 
-        /// <summary>
-        /// Private value for the MixerSampleRate property.
-        /// </summary>
-        private int mixerSampleRate = 44100;
+        private int _mixerSampleRate = 44100;
         /// <summary>
         /// Defines the sample rate of the mixer.
         /// </summary>
@@ -354,14 +303,11 @@ namespace MPfm.Player
         {
             get
             {
-                return mixerSampleRate;
+                return _mixerSampleRate;
             }
         }
 
-        /// <summary>
-        /// Private value for the BufferSize property.
-        /// </summary>
-        private int bufferSize = 1000;
+        private int _bufferSize = 1000;
         /// <summary>
         /// Defines the buffer size (in milliseconds). Increase this value if older computers have trouble
         /// filling up the buffer in time.        
@@ -371,21 +317,16 @@ namespace MPfm.Player
         {
             get
             {
-                return bufferSize;
+                return _bufferSize;
             }
             set
             {
-                bufferSize = value;
-
-                // Set configuration
-                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize);
+                _bufferSize = value;
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, _bufferSize);
             }
         }
 
-        /// <summary>
-        /// Private value for the UpdatePeriod property.
-        /// </summary>
-        private int updatePeriod = 10;
+        private int _updatePeriod = 10;
         /// <summary>
         /// Defines how often BASS fills the buffer to make sure it is always full (in milliseconds).
         /// This affects the accuracy of the ChannelGetPosition value.
@@ -395,21 +336,16 @@ namespace MPfm.Player
         {
             get
             {
-                return updatePeriod;
+                return _updatePeriod;
             }
             set
             {
-                updatePeriod = value;
-
-                // Set configuration
-                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, updatePeriod);
+                _updatePeriod = value;
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, _updatePeriod);
             }
         }
 
-        /// <summary>
-        /// Private value for the UpdateThreads property.
-        /// </summary>
-        private int updateThreads = 1;
+        private int _updateThreads = 1;
         /// <summary>
         /// Defines how many threads BASS can use to update playback buffers in parrallel.
         /// Note: The playback engine plays perfectly with just one update thread.
@@ -419,36 +355,16 @@ namespace MPfm.Player
         {
             get
             {
-                return updateThreads;
+                return _updateThreads;
             }
             set
             {
-                updateThreads = value;
-
-                // Set configuration
-                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, updateThreads);
+                _updateThreads = value;
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATETHREADS, _updateThreads);
             }
         }
 
-        /// <summary>
-        /// Private value for the MixerChannel property.
-        /// </summary>
-        private MixerChannel mixerChannel = null;
-        /// <summary>
-        /// Pointer to the mixer channel.
-        /// </summary>
-        public MixerChannel MixerChannel
-        {
-            get
-            {
-                return mixerChannel;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the Playlist property.
-        /// </summary>
-        private Playlist playlist = null;
+        private Playlist _playlist = null;
         /// <summary>
         /// Playlist used for playback. Contains the audio file metadata and decode channels for
         /// playback.
@@ -457,33 +373,27 @@ namespace MPfm.Player
         {
             get
             {
-                return playlist;
+                return _playlist;
             }
         }
 
-        /// <summary>
-        /// Private value for the CurrentEQPreset property.
-        /// </summary>
-        private EQPreset currentEQPreset = null;
+        private EQPreset _currentEQPreset = null;
         /// <summary>
         /// Defines the current EQ preset.
         /// </summary>
-        public EQPreset CurrentEQPreset
+        public EQPreset EQPreset
         {
             get
             {
-                return currentEQPreset;
+                return _currentEQPreset;
             }
             set
             {
-                currentEQPreset = value;
+                _currentEQPreset = value;
             }
         }
 
-        /// <summary>
-        /// Private value for the IsEQEnabled property.
-        /// </summary>
-        private bool isEQEnabled = false;
+        private bool _isEQEnabled = false;
         /// <summary>
         /// Indicates if the EQ is enabled.
         /// </summary>
@@ -491,14 +401,11 @@ namespace MPfm.Player
         {
             get
             {
-                return isEQEnabled;
+                return _isEQEnabled;
             }
         }
 
-        /// <summary>
-        /// Private value for the IsEQBypassed property.
-        /// </summary>
-        private bool isEQBypassed = false;
+        private bool _isEQBypassed = false;
         /// <summary>
         /// Indicates if the EQ is bypassed.
         /// </summary>
@@ -506,58 +413,21 @@ namespace MPfm.Player
         {
             get
             {
-                return isEQBypassed;
+                return _isEQBypassed;
             }
         }
 
-        #region Loops and Markers
-        
-        /// <summary>
-        /// Private value for the Markers property.
-        /// </summary>
-        private List<Marker> markers = null;
-        /// <summary>
-        /// Defines a collection of markers.
-        /// </summary>
-        public List<Marker> Markers
-        {
-            get
-            {
-                return markers;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the Loops property.
-        /// </summary>
-        private List<Loop> loops = null;
-        /// <summary>
-        /// Defines a collection of loops.
-        /// </summary>
-        public List<Loop> Loops
-        {
-            get
-            {
-                return loops;
-            }
-        }
-
-        /// <summary>
-        /// Private value for the CurrentLoop property.
-        /// </summary>
-        private Loop currentLoop = null;
+        private Loop _currentLoop = null;
         /// <summary>
         /// Defines the currently playing loop.
         /// </summary>
-        public Loop CurrentLoop
+        public Loop Loop
         {
             get
             {
-                return currentLoop;
+                return _currentLoop;
             }
         }
-
-        #endregion
 
         #endregion
 
@@ -569,7 +439,6 @@ namespace MPfm.Player
         /// </summary>
         public Player()
         {
-            // Initialize system with default values
             Initialize(new Device(), 44100, 1000, 10, true);
         }
 
@@ -584,7 +453,6 @@ namespace MPfm.Player
         /// <param name="initializeDevice">Indicates if the device should be initialized</param>
         public Player(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
-            // Initialize system with specific values.
             Initialize(device, mixerSampleRate, bufferSize, updatePeriod, initializeDevice);
         }
 
@@ -598,34 +466,25 @@ namespace MPfm.Player
         /// <param name="initializeDevice">Indicates if the device should be initialized</param>
         private void Initialize(Device device, int mixerSampleRate, int bufferSize, int updatePeriod, bool initializeDevice)
         {
-            // Initialize system using specified values
             Player.CurrentPlayer = this;
-            this.device = device;
-            this.mixerSampleRate = mixerSampleRate;
-            this.bufferSize = bufferSize;
-            this.updatePeriod = updatePeriod;
-
-            // Create lists            
-            playlist = new Playlist();
-            markers = new List<Marker>();
-            loops = new List<Loop>();
-            syncProcs = new List<PlayerSyncProc>();
-
-            // TODO: Use preprocessor conditions only instead of trying to detect the operating system at runtime (safer).
+            _device = device;
+            _mixerSampleRate = mixerSampleRate;
+            _bufferSize = bufferSize;
+            _updatePeriod = updatePeriod;
+            _playlist = new Playlist();
+            _syncProcs = new List<PlayerSyncProc>();
 
 #if !ANDROID
-            UseFloatingPoint = true;
+            _useFloatingPoint = true;
 #endif
+
+            _timerPlayer = new System.Timers.Timer();
+            _timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(timerPlayer_Elapsed);
+            _timerPlayer.Interval = 1000;
+            _timerPlayer.Enabled = false;
 
             // Register BASS.NET
             Base.Register(BassNetKey.Email, BassNetKey.RegistrationKey);
-
-            // Create timer
-            Tracing.Log("Player init -- Creating timer...");
-            timerPlayer = new System.Timers.Timer();
-            timerPlayer.Elapsed += new System.Timers.ElapsedEventHandler(timerPlayer_Elapsed);
-            timerPlayer.Interval = 1000;
-            timerPlayer.Enabled = false;
 
             // Initialize BASS library by OS type
             if (OS.Type == OSType.Windows)
@@ -634,13 +493,13 @@ namespace MPfm.Player
                 //plugins = Base.LoadPluginDirectory(Path.GetDirectoryName((new Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath));
                 Tracing.Log("Player init -- Loading plugins...");
                 //aacPluginHandle = Base.LoadPlugin("bass_aac.dll");
-                apePluginHandle = Base.LoadPlugin("bass_ape.dll");
-                flacPluginHandle = Base.LoadPlugin("bassflac.dll");
-                mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");
+                _apePluginHandle = Base.LoadPlugin("bass_ape.dll");
+                _flacPluginHandle = Base.LoadPlugin("bassflac.dll");
+                _mpcPluginHandle = Base.LoadPlugin("bass_mpc.dll");
                 //ofrPluginHandle = Base.LoadPlugin("bass_ofr.dll"); // Requires OptimFrog.DLL
                 //ttaPluginHandle = Base.LoadPlugin("bass_tta.dll");
-                wmaPluginHandle = Base.LoadPlugin("basswma.dll");
-                wvPluginHandle = Base.LoadPlugin("basswv.dll");
+                _wmaPluginHandle = Base.LoadPlugin("basswma.dll");
+                _wvPluginHandle = Base.LoadPlugin("basswv.dll");
 
                 int bassFxVersion = Base.GetFxPluginVersion();            
             	//Base.LoadFxPlugin();
@@ -669,7 +528,6 @@ namespace MPfm.Player
                     apePluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_ape.so"));
                     flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
                     wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
-
 #else
 
                     // Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)
@@ -703,9 +561,9 @@ namespace MPfm.Player
                     }
 
                     // Load decoding plugins
-                    flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
-                    wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
-                    mpcPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_mpc.so"));
+                    _flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
+                    _wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
+                    _mpcPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_mpc.so"));
 
 #endif					
 	            }
@@ -714,17 +572,17 @@ namespace MPfm.Player
 #if IOS
                     // Load decoding plugins (http://www.un4seen.com/forum/?topic=13851.msg96559#msg96559)
                     Console.WriteLine("Loading iOS plugins (FLAC)...");
-                    flacPluginHandle = Base.LoadPlugin("BASSFLAC");
+                    _flacPluginHandle = Base.LoadPlugin("BASSFLAC");
                     Console.WriteLine("Loading iOS plugins (WV)...");
-                    wvPluginHandle = Base.LoadPlugin("BASSWV");
+                    _wvPluginHandle = Base.LoadPlugin("BASSWV");
                     Console.WriteLine("Loading iOS plugins (APE)...");
-                    apePluginHandle = Base.LoadPlugin("BASS_APE");
+                    _apePluginHandle = Base.LoadPlugin("BASS_APE");
                     Console.WriteLine("Loading iOS plugins (MPC)...");
-                    mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
+                    _mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
 
                     Console.WriteLine("Configuring IOSNOTIFY delegate...");
-                    iosNotifyProc = new IOSNOTIFYPROC(IOSNotifyProc);
-                    IntPtr ptr = Marshal.GetFunctionPointerForDelegate(iosNotifyProc);
+                    _iosNotifyProc = new IOSNOTIFYPROC(IOSNotifyProc);
+                    IntPtr ptr = Marshal.GetFunctionPointerForDelegate(_iosNotifyProc);
                     Bass.BASS_SetConfigPtr((BASSConfig)46, ptr);
                     //Bass.BASS_SetConfigPtr(BASSIOSConfig.BASS_CONFIG_IOS_NOTIFY, ptr);
 
@@ -755,9 +613,8 @@ namespace MPfm.Player
 						
             // Create default EQ
             Tracing.Log("Player init -- Creating default EQ preset...");
-            currentEQPreset = new EQPreset();
+            _currentEQPreset = new EQPreset();
 
-            // Initialize device
             if (initializeDevice)
             {
                 Tracing.Log("Player init -- Initializing device...");
@@ -770,8 +627,7 @@ namespace MPfm.Player
         /// </summary>
         public void InitializeDevice()
         {
-            // Initialize default device
-            InitializeDevice(new Device(), mixerSampleRate);
+            InitializeDevice(new Device(), _mixerSampleRate);
         }
 
         /// <summary>
@@ -781,11 +637,10 @@ namespace MPfm.Player
         /// <param name="mixerSampleRate">Mixer sample rate (in Hz)</param>
         public void InitializeDevice(Device device, int mixerSampleRate)
         {
-            // Set properties
-            this.device = device;
-            this.mixerSampleRate = mixerSampleRate;
+            _device = device;
+            _mixerSampleRate = mixerSampleRate;
 
-            Tracing.Log("Player -- Initializing device (SampleRate: " + mixerSampleRate.ToString() + " Hz, DriverType: " + device.DriverType.ToString() + ", Id: " + device.Id.ToString() + ", Name: " + device.Name + ", BufferSize: " + bufferSize.ToString() + ", UpdatePeriod: " + updatePeriod.ToString() + ")");
+            Tracing.Log("Player -- Initializing device (SampleRate: " + mixerSampleRate.ToString() + " Hz, DriverType: " + device.DriverType.ToString() + ", Id: " + device.Id.ToString() + ", Name: " + device.Name + ", BufferSize: " + _bufferSize.ToString() + ", UpdatePeriod: " + _updatePeriod.ToString() + ")");
 
             // Check driver type
             if (device.DriverType == DriverType.DirectSound)
@@ -823,14 +678,14 @@ namespace MPfm.Player
 			{
 	            // Set configuration for buffer and update period
             	// This only works for the default BASS output (http://www.un4seen.com/forum/?topic=13429.msg93740#msg93740)
-            	Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize); 
-            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, updatePeriod);	
+            	Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, _bufferSize); 
+            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, _updatePeriod);	
 			}
             else if (OS.Type == OSType.Linux)
             {				
 				// Default
 				// 10ms update period does not work under Linux. Major stuttering
-                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, _bufferSize);
                 Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);
 
 #if ANDROID
@@ -841,12 +696,11 @@ namespace MPfm.Player
             {
 				// Default
 				// 10ms update period does not work under Linux. Major stuttering
-                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, bufferSize);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, _bufferSize);
             	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);					
             }		
 
-            // Set flags            
-            isDeviceInitialized = true;
+            _isDeviceInitialized = true;
         }
 
         /// <summary>
@@ -854,11 +708,8 @@ namespace MPfm.Player
         /// </summary>
         public void FreeDevice()
         {
-            // Check if a device has been initialized
-            if (!isDeviceInitialized)
-            {
+            if (!_isDeviceInitialized)
                 return;
-            }
 
 #if !IOS && !ANDROID
 
@@ -885,21 +736,10 @@ namespace MPfm.Player
             }
 #endif
 
-            // Dispose system
             Base.Free();
-
-            // Set flags
-            mixerChannel = null;
-            device = null;
-            isDeviceInitialized = false;
-        }
-
-        /// <summary>
-        /// Loads the BASS plugins depending on the current platform.
-        /// </summary>
-        public void LoadPlugins()
-        {
-
+            _mixerChannel = null;
+            _device = null;
+            _isDeviceInitialized = false;
         }
 
         /// <summary>
@@ -911,22 +751,22 @@ namespace MPfm.Player
             //Base.FreeFxPlugin();
 			
 			// Free plugins if they have been loaded successfully
-			if(aacPluginHandle > 0)			
-            	Base.FreePlugin(aacPluginHandle);
-			if(apePluginHandle > 0)			
-            	Base.FreePlugin(apePluginHandle);
-			if(flacPluginHandle > 0)			
-            	Base.FreePlugin(flacPluginHandle);
-			if(mpcPluginHandle > 0)
-            	Base.FreePlugin(mpcPluginHandle);
-			if(ofrPluginHandle > 0)
-            	Base.FreePlugin(ofrPluginHandle);
-			if(ttaPluginHandle > 0)
-            	Base.FreePlugin(ttaPluginHandle);
-			if(wvPluginHandle > 0)
-            	Base.FreePlugin(wvPluginHandle);
-			if(wmaPluginHandle > 0)
-            	Base.FreePlugin(wmaPluginHandle);
+			if(_aacPluginHandle > 0)			
+            	Base.FreePlugin(_aacPluginHandle);
+			if(_apePluginHandle > 0)			
+            	Base.FreePlugin(_apePluginHandle);
+			if(_flacPluginHandle > 0)			
+            	Base.FreePlugin(_flacPluginHandle);
+			if(_mpcPluginHandle > 0)
+            	Base.FreePlugin(_mpcPluginHandle);
+			if(_ofrPluginHandle > 0)
+            	Base.FreePlugin(_ofrPluginHandle);
+			if(_ttaPluginHandle > 0)
+            	Base.FreePlugin(_ttaPluginHandle);
+			if(_wvPluginHandle > 0)
+            	Base.FreePlugin(_wvPluginHandle);
+			if(_wmaPluginHandle > 0)
+            	Base.FreePlugin(_wmaPluginHandle);
 			
         }        
 
@@ -935,10 +775,7 @@ namespace MPfm.Player
         /// </summary>
         public void Dispose()
         {
-            // Free device
             FreeDevice();
-
-            // Free plugins
             FreePlugins();
         }        
 
@@ -953,20 +790,16 @@ namespace MPfm.Player
         /// <param name="e">Event arguments</param>
         protected void timerPlayer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {            
-            if (timerPlayer != null)
+            if (_timerPlayer != null)
             {
-                // Reset timer
-                timerPlayer.Enabled = false;
+                _timerPlayer.Enabled = false;
 
                 // Check if the next channel needs to be loaded
-                if (playlist.CurrentItemIndex < playlist.Items.Count - 1)
+                if (_playlist.CurrentItemIndex < _playlist.Items.Count - 1)
                 {
                     // Check if the channel has already been loaded
-                    if (!playlist.Items[playlist.CurrentItemIndex + 1].IsLoaded)
-                    {
-                        // Create the next channel
-                        playlist.Items[playlist.CurrentItemIndex + 1].Load(UseFloatingPoint);
-                    }
+                    if (!_playlist.Items[_playlist.CurrentItemIndex + 1].IsLoaded)
+                        _playlist.Items[_playlist.CurrentItemIndex + 1].Load(_useFloatingPoint);
                 }
             }
 
@@ -985,53 +818,37 @@ namespace MPfm.Player
         {
             try
             {
-                // Check if the player is currently playing                
-                if (isPlaying)
+                if (_isPlaying)
                 {
-                    // Check if a loop is active
-                    if (currentLoop != null)
+                    if (_currentLoop != null)
                     {
-                        // Stop loop
                         Tracing.Log("Player.Play -- Stopping current loop...");
                         StopLoop();
                     }
 
-                    // Stop playback
                     Tracing.Log("Player.Play -- Stopping playback...");
                     Stop();
                 }
 
-                // Make sure there are no current loops                 
-                currentLoop = null;
-
-                // Make sure there are no sync procs
                 RemoveSyncCallbacks();
-
-                // Set offset
-                positionOffset = 0;
-                currentMixPlaylistIndex = Playlist.CurrentItemIndex;
+                _currentLoop = null;
+                _positionOffset = 0;
+                _currentMixPlaylistIndex = Playlist.CurrentItemIndex;
 
                 // How many channels are left?                
                 int channelsToLoad = Playlist.Items.Count - Playlist.CurrentItemIndex;                
 
                 // If there are more than 2, just limit to 2 for now. The other channels are loaded dynamically.
                 if (channelsToLoad > 2)
-                {
                     channelsToLoad = 2;
-                }
 
                 // Check for channels to load
                 if (channelsToLoad == 0)
-                {
                     throw new Exception("Error in Player.Play: There aren't any channels to play!");
-                }
 
                 // Load the current channel and the next channel if it exists
                 for (int a = Playlist.CurrentItemIndex; a < Playlist.CurrentItemIndex + channelsToLoad; a++)
-                {
-                    // Load channel and audio file metadata
-                    playlist.Items[a].Load(UseFloatingPoint);
-                }
+                    _playlist.Items[a].Load(_useFloatingPoint);
 
                 // Start decoding first playlist item
                 //playlist.Items[Playlist.CurrentItemIndex].Decode(0);
@@ -1039,17 +856,17 @@ namespace MPfm.Player
                 try
                 {
                     // Create the streaming channel (set the frequency to the first file in the list)
-                    Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
+                    Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + _playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
 
 #if IOS
-                    streamProc = new STREAMPROC(StreamCallbackIOS);
+                    _streamProc = new STREAMPROC(StreamCallbackIOS);
 #else
                     streamProc = new STREAMPROC(StreamCallback);
 #endif
 
-                    streamChannel = Channel.CreateStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, streamProc);
+                    _streamChannel = Channel.CreateStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, _streamProc);
                     Tracing.Log("Player.Play -- Creating time shifting channel...");
-                    fxChannel = Channel.CreateStreamForTimeShifting(streamChannel.Handle, true, UseFloatingPoint);
+                    _fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, true, _useFloatingPoint);
                 }
                 catch(Exception ex)
                 {
@@ -1057,19 +874,19 @@ namespace MPfm.Player
                     PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the stream channel (" + ex.Message + ").", ex);
                     newEx.Decode = true;
                     newEx.UseFloatingPoint = true;
-                    newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
+                    newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
                     throw newEx;
                 }
 
                 // Check driver type
-                if (device.DriverType == DriverType.DirectSound)
+                if (_device.DriverType == DriverType.DirectSound)
                 {
                     try
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
-                        mixerChannel = MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, false);
-                        mixerChannel.AddChannel(fxChannel.Handle);
+                        _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, false);
+                        _mixerChannel.AddChannel(_fxChannel.Handle);
                     }
                     catch (Exception ex)
                     {   
@@ -1077,7 +894,7 @@ namespace MPfm.Player
                         PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to create the time shifting channel.", ex);
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
-                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;
                     }
                 }
@@ -1166,57 +983,46 @@ namespace MPfm.Player
                 }
 #endif
                 // Set initial volume
-                mixerChannel.Volume = Volume;
+                _mixerChannel.Volume = Volume;
 
                 // Load 18-band equalizer
-                Tracing.Log("Player.Play -- Creating equalizer (Preset: " + currentEQPreset + ")...");
+                Tracing.Log("Player.Play -- Creating equalizer (Preset: " + _currentEQPreset + ")...");
                 //AddEQ(currentEQPreset); // TODO: MonoTouch doesn't like the FX implementation
 
                 // Check if EQ is bypassed
-                if (isEQBypassed)
+                if (_isEQBypassed)
                 {
                     // Reset EQ
                     Tracing.Log("Player.Play -- Equalizer is bypassed; resetting EQ...");
                     ResetEQ();
                 }
 
-                // Check if the repeat type is Song
-                if (repeatType == RepeatType.Song)
-                {
-                    // Force looping                    
-                    playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
-                }
+                // Check if the song must be looped
+                if (_repeatType == RepeatType.Song)
+                    _playlist.CurrentItem.Channel.SetFlags(BASSFlag.BASS_SAMPLE_LOOP, BASSFlag.BASS_SAMPLE_LOOP);
 
-                // Get audio file length
-                long length = playlist.CurrentItem.Channel.GetLength();
-
-                // Set sync (length already in floating point)          
+                long length = _playlist.CurrentItem.Channel.GetLength();
                 SetSyncCallback(length);
-
-                // Start playback
-                isPlaying = true;
-                isPaused = false;
+                _isPlaying = true;
+                _isPaused = false;
 
                 // Only the DirectSound mode needs to start the main channel since it's not in decode mode.
-                if (device.DriverType == DriverType.DirectSound)
+                if (_device.DriverType == DriverType.DirectSound)
                 {
                     // For iOS: This is required to update the AirPlay/remote player status
                     Base.Start();
 
                     // Start playback
                     Tracing.Log("Player.Play -- Starting DirectSound playback...");
-                    mixerChannel.Play(false);
+                    _mixerChannel.Play(false);
                 }
 
                 // Raise audio file finished event (if an event is subscribed)
                 if (OnPlaylistIndexChanged != null)
                 {
-                    // Create data
                     PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                     data.IsPlaybackStopped = false;
-                    data.AudioFileStarted = playlist.CurrentItem.AudioFile;
-                    
-                    // Raise event
+                    data.AudioFileStarted = _playlist.CurrentItem.AudioFile;
                     OnPlaylistIndexChanged(data);
                 }
             }
@@ -1237,12 +1043,10 @@ namespace MPfm.Player
             List<AudioFile> audioFiles = new List<AudioFile>();
             foreach (string filePath in filePaths)
             {
-                // Create instance and add to list
                 AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), false);
                 audioFiles.Add(audioFile);
             }
 
-            // Call method
             PlayFiles(audioFiles);
         }
 
@@ -1255,45 +1059,26 @@ namespace MPfm.Player
         /// <param name="audioFiles">List of audio files</param>
         public void PlayFiles(List<AudioFile> audioFiles)
         {
-            // Check for null or empty list of file paths
             if (audioFiles == null || audioFiles.Count == 0)
-            {
                 throw new Exception("There must be at least one file in the audioFiles parameter.");
-            }
 
             // Check if all file paths exist
             Tracing.Log("Player.PlayFiles -- Playing a list of " + audioFiles.Count.ToString() + " files.");
             foreach (AudioFile audioFile in audioFiles)
-            {
-                // Check if the file exists
                 if (!File.Exists(audioFile.FilePath))
-                {
-                    // Throw exception
                     throw new Exception("The file at " + audioFile.FilePath + " doesn't exist!");
-                }
-            }
 
-            // Check if the player is currently playing
-            if (isPlaying)
-            {
-                // Stop playback
+            // Stop playback
+            if (_isPlaying)
                 Stop();
-            }
 
-            // Reset flags                
-            playlist.Clear();
-
-            // Create playlist items
+            // Add audio files to playlist
+            _playlist.Clear();
             foreach (AudioFile audioFile in audioFiles)
-            {
-                // Add playlist item
-                playlist.AddItem(audioFile);
-            }
+                _playlist.AddItem(audioFile);
 
-            // Set playlist to first item
-            playlist.First();
-          
-            // Start playback
+            // Start playback from first item
+            _playlist.First();
             Play();
         }
 
@@ -1303,22 +1088,22 @@ namespace MPfm.Player
         public void Pause()
         {
             // Check driver type (the pause mechanism differs by driver)
-            if (device.DriverType == DriverType.DirectSound)
+            if (_device.DriverType == DriverType.DirectSound)
             {        
-                // Check if the playback is already paused
-                if (!isPaused)
+                if (!_isPaused)
                 {
-                    // Pause the playback channel
                     Base.Pause();
-                    //mixerChannel.Pause();
+                    //_mixerChannel.Pause();
                 }
                 else
                 {
-                    // Unpause the playback channel
+                    //_mixerChannel.Play(false);
                     Base.Start();
-                    //mixerChannel.Play(false);
+                    //SetPosition(_positionAfterUnpause);
+                    //_mixerChannel.Pause();
                 }
             }
+
 #if !IOS && !ANDROID
             else if (device.DriverType == DriverType.ASIO)
             {
@@ -1368,8 +1153,7 @@ namespace MPfm.Player
             }
 #endif
 
-            // Set flag
-            isPaused = !isPaused;
+            _isPaused = !_isPaused;
         }
 
         /// <summary>
@@ -1378,17 +1162,12 @@ namespace MPfm.Player
         public void Stop()
         {
             // Check if the main channel exists, and make sure the player is playing
-            if (mixerChannel == null)// || !m_isPlaying)
-            {
+            if (_mixerChannel == null)// || !m_isPlaying)
                 throw new Exception("Player.Stop error: The main channel is null!");
-            }
 
-            // Set flags
-            currentLoop = null;
-            isPlaying = false;
-
-            // Check if EQ is enabled
-            if (isEQEnabled)
+            _currentLoop = null;
+            _isPlaying = false;
+            if (_isEQEnabled)
             {
                 // Remove EQ
                 //Tracing.Log("Player.Stop -- Removing equalizer...");
@@ -1396,10 +1175,10 @@ namespace MPfm.Player
             }
 
             // Stop mixer channel
-            mixerChannel.Stop();
+            _mixerChannel.Stop();
 
             // Check driver type
-            if (device.DriverType == DriverType.DirectSound)
+            if (_device.DriverType == DriverType.DirectSound)
             {
                 // Stop main channel
                 //Tracing.Log("Player.Stop -- Stopping DirectSound channel...");                
@@ -1426,18 +1205,14 @@ namespace MPfm.Player
             // Stop decoding the current file (doesn't throw an exception if decode has finished)
             //Playlist.CurrentItem.CancelDecode();
 
-            // Remove syncs            
             RemoveSyncCallbacks();
+            _fxChannel.Free();
 
-            // Dispose FX channel
-            fxChannel.Free();
-
-            // Check if the current song exists
-            if (playlist != null && playlist.CurrentItem != null)
+            // Dispose channels
+            if (_playlist != null && _playlist.CurrentItem != null)
             {
-                // Dispose channels
                 Tracing.Log("Player.Stop -- Disposing channels...");
-                playlist.DisposeChannels();
+                _playlist.DisposeChannels();
             }
 
 #if !IOS && !ANDROID
@@ -1456,17 +1231,9 @@ namespace MPfm.Player
         /// <param name="index">Playlist item index</param>
         public void GoTo(int index)
         {
-            // Stop playback
             Stop();
-
-            // Skip to playlist item
             Playlist.GoTo(index);
-            currentMixPlaylistIndex = index;
-
-            // Get audio file (to raise event later)
-            //AudioFile audioFileStarted = Playlist.Items[index].AudioFile;
-
-            // Start playback
+            _currentMixPlaylistIndex = index;
             Play();
         }
 
@@ -1475,12 +1242,8 @@ namespace MPfm.Player
         /// </summary>
         public void Previous()
         {
-            // Check if there is a previous song
             if (Playlist.CurrentItemIndex > 0)
-            {
-                // Go to previous audio file
                 GoTo(Playlist.CurrentItemIndex - 1);
-            }
         }
 
         /// <summary>
@@ -1488,13 +1251,18 @@ namespace MPfm.Player
         /// </summary>
         public void Next()
         {
-            // Check if there is a next song
             if (Playlist.CurrentItemIndex < Playlist.Items.Count - 1)
-            {
-                // Go to next audio file
                 GoTo(Playlist.CurrentItemIndex + 1);
-            }            
-        }        
+        }       
+
+        /// <summary>
+        /// Returns the number of bytes in the custom stream buffer.
+        /// </summary>
+        /// <returns>Available data in buffer (in bytes)</returns>
+        public int GetDataAvailable()
+        {
+            return _mixerChannel.GetDataAvailable();
+        }
         
         /// <summary>
         /// Gets the position of the currently playing channel, in bytes.
@@ -1502,23 +1270,18 @@ namespace MPfm.Player
         /// <returns>Position (in bytes)</returns>
         public long GetPosition()
         {
-            // Validate player
             if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
-            {
                 return 0;
-            }
 
             if(IsSettingPosition)
                 return 0;
 
-            // Get main channel position
-            long outputPosition = mixerChannel.GetPosition(fxChannel.Handle);            
+            long outputPosition = _mixerChannel.GetPosition(_fxChannel.Handle);            
             //long outputPosition = Playlist.CurrentItem.Channel.GetPosition();
 
             // Divide by 2 (floating point)
             outputPosition /= 2;            
 
-            // Check if this is a FLAC file over 44100Hz
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {
                 // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
@@ -1526,7 +1289,7 @@ namespace MPfm.Player
             }
 
             // Add the offset position
-            outputPosition += positionOffset;
+            outputPosition += _positionOffset;
 
             return outputPosition;            
         }
@@ -1537,16 +1300,11 @@ namespace MPfm.Player
         /// <param name="percentage">Position (in percentage)</param>
         public void SetPosition(double percentage)
         {
-            // Validate player
             if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
-            {
                 throw new Exception("Error: The playlist has no current item!");
-            }
 
             // Calculate position in bytes
             long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
-
-            // Set position
             SetPosition(positionBytes);
         }
 
@@ -1557,10 +1315,76 @@ namespace MPfm.Player
         /// <param name="bytes">Position (in bytes)</param>
         public void SetPosition(long bytes)
         {
-            // Validate player
             if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
-            {
                 return;
+
+#if !IOS && !ANDROID
+            // Check if WASAPI
+            if (device.DriverType == DriverType.WASAPI)
+            {
+                BassWasapi.BASS_WASAPI_Stop(true);
+                BassWasapi.BASS_WASAPI_Start();
+            }
+#endif
+
+            if(IsPaused)
+            {
+                _positionAfterUnpause = bytes;
+                //return;
+            }
+
+            // Get as much data available before locking channel
+            RemoveSyncCallbacks();
+            long length = Playlist.CurrentItem.Channel.GetLength();
+            _mixerChannel.Lock(true);
+            IsSettingPosition = true;
+            _positionOffset = bytes;
+
+            // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)            
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+                bytes = (long)((float)bytes / 1.5f);
+
+            _mixerChannel.Stop();
+
+            Playlist.CurrentItem.Channel.SetPosition(0); // Flush buffer
+            _fxChannel.SetPosition(0);
+            _mixerChannel.SetPosition(0);
+            Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
+            SetSyncCallback((length - (bytes * 2)));
+
+            if(!IsPaused)
+                _mixerChannel.Play(false);
+
+            _mixerChannel.Lock(false);
+            IsSettingPosition = false;
+        }
+
+        /// <summary>
+        /// Go to a marker position.
+        /// </summary>
+        /// <param name="marker">Marker position</param>
+        public void GoToMarker(Marker marker)
+        {
+            SetPosition(marker.PositionBytes);
+        }
+
+        /// <summary>
+        /// Starts a loop. The playback must be activated.
+        /// </summary>
+        /// <param name="loop">Loop to apply</param>
+        public void StartLoop(Loop loop)
+        {
+            if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
+                return;
+
+            long startPositionBytes = loop.StartPositionBytes;
+            long endPositionBytes = loop.EndPositionBytes;
+
+            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
+            {
+                // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
+                startPositionBytes = (long)((float)startPositionBytes / 1.5f);
+                endPositionBytes = (long)((float)endPositionBytes / 1.5f);
             }
 
 #if !IOS && !ANDROID
@@ -1577,125 +1401,28 @@ namespace MPfm.Player
 
             // Get file length
             long length = Playlist.CurrentItem.Channel.GetLength();
-
-            // Lock channel            
-            mixerChannel.Lock(true);            
-            IsSettingPosition = true;
-
-            // Check if this is a FLAC file over 44100Hz
-            positionOffset = bytes;
-            if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
-            {
-                // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
-                bytes = (long)((float)bytes / 1.5f);
-            }
-
-            // http://www.un4seen.com/forum/?topic=10570.0;hl=decode+channel+position+mixer
-            mixerChannel.Stop();
-            //Playlist.CurrentItem.Channel.Stop();
+            _mixerChannel.Lock(true);
 
             // Set position for the decode channel (needs to be in floating point)
-            Playlist.CurrentItem.Channel.SetPosition(0); // Flush buffer
-            fxChannel.SetPosition(0);
-            mixerChannel.SetPosition(0);
-            Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
+            Playlist.CurrentItem.Channel.SetPosition(startPositionBytes * 2);
+            _fxChannel.SetPosition(0); // Clear buffer
+            _mixerChannel.SetPosition(0);
+
+            // Set sync
+#if IOS
+            Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProcIOS);
+#else
+            Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
+#endif
+            Playlist.CurrentItem.SyncProcHandle = _mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
 
             // Set new callback (length already in floating point)
-            SetSyncCallback((length - (bytes * 2))); // + buffered));
+            SetSyncCallback((length - (startPositionBytes * 2))); // + buffered));
 
-            mixerChannel.Play(false);
-
-            // Unlock channel
-            mixerChannel.Lock(false);
-
-            IsSettingPosition = false;
-        }
-
-        /// <summary>
-        /// Go to a marker position.
-        /// </summary>
-        /// <param name="marker">Marker position</param>
-        public void GoToMarker(Marker marker)
-        {
-            // Set position
-            SetPosition(marker.PositionBytes);
-        }
-
-        /// <summary>
-        /// Starts a loop. The playback must be activated.
-        /// </summary>
-        /// <param name="loop">Loop to apply</param>
-        public void StartLoop(Loop loop)
-        {
-            try
-            {
-                // Validate player
-                if (Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
-                {
-                    return;
-                }
-
-                // Get loop start/end position
-                long startPositionBytes = loop.StartPositionBytes;
-                long endPositionBytes = loop.EndPositionBytes;
-
-                // Check if this is a FLAC file over 44100Hz
-                if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
-                {
-                    // Divide by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
-                    startPositionBytes = (long)((float)startPositionBytes / 1.5f);
-                    endPositionBytes = (long)((float)endPositionBytes / 1.5f);
-                }
-
-#if !IOS && !ANDROID
-                // Check if WASAPI
-                if (device.DriverType == DriverType.WASAPI)
-                {
-                    BassWasapi.BASS_WASAPI_Stop(true);
-                    BassWasapi.BASS_WASAPI_Start();
-                }
-#endif
-
-                // Remove any sync callback
-                RemoveSyncCallbacks();
-
-                // Get file length
-                long length = Playlist.CurrentItem.Channel.GetLength();
-
-                // Lock channel            
-                mixerChannel.Lock(true);
-
-                // Set position for the decode channel (needs to be in floating point)
-                Playlist.CurrentItem.Channel.SetPosition(startPositionBytes * 2);
-
-                // Set main channel position to 0 (clear buffer)            
-                fxChannel.SetPosition(0);
-                mixerChannel.SetPosition(0);
-
-                // Set sync
-#if IOS
-                Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProcIOS);
-#else
-                Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
-#endif
-                Playlist.CurrentItem.SyncProcHandle = mixerChannel.SetSync(fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
-
-                // Set new callback (length already in floating point)
-                SetSyncCallback((length - (startPositionBytes * 2))); // + buffered));
-
-                // Set offset position (for calulating current position)
-                positionOffset = startPositionBytes;
-
-                // Unlock channel
-                mixerChannel.Lock(false);
-
-                // Set current loop
-                currentLoop = loop;
-            }
-            catch
-            {
-                throw;
-            }
+            // Set offset position (for calulating current position)
+            _positionOffset = startPositionBytes;
+            _mixerChannel.Lock(false);
+            _currentLoop = loop;
         }
 
         /// <summary>
@@ -1705,17 +1432,11 @@ namespace MPfm.Player
         {
             try
             {
-                // Make sure there is a loop to stop
-                if (currentLoop == null)
-                {
+                if (_currentLoop == null)
                     return;
-                }
 
-                // Remove sync proc
                 Tracing.Log("Player.StopLoop -- Removing sync...");
-
-                // Remove loop sync proc
-                mixerChannel.RemoveSync(fxChannel.Handle, Playlist.CurrentItem.SyncProcHandle);
+                _mixerChannel.RemoveSync(_fxChannel.Handle, Playlist.CurrentItem.SyncProcHandle);
             }
             catch
             {
@@ -1723,8 +1444,7 @@ namespace MPfm.Player
             }
             finally
             {
-                // Release loop
-                currentLoop = null;
+                _currentLoop = null;
             }
         }
 
@@ -1738,39 +1458,28 @@ namespace MPfm.Player
         /// <param name="preset">EQ preset to apply</param>
         protected void AddEQ(EQPreset preset)
         {
-            // Validate that the main channel exists
-            if (mixerChannel == null)
-            {
+            if (_mixerChannel == null)
                 throw new Exception("Error adding EQ: The mixer channel doesn't exist!");
-            }
 
-            // Check if an handle already exists
-            if (fxEQHandle != 0 || isEQEnabled)
-            {
+            if (_fxEQHandle != 0 || _isEQEnabled)
                 throw new Exception("Error adding EQ: The equalizer already exists!");
-            }
 
-            // Load 18-band equalizer
-            fxEQHandle = mixerChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
+            _fxEQHandle = _mixerChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            currentEQPreset = preset;
-            for (int a = 0; a < currentEQPreset.Bands.Count; a++)
+            _currentEQPreset = preset;
+            for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
             {
-                // Get current band
-                EQPresetBand currentBand = currentEQPreset.Bands[a];
-
-                // Set equalizer band properties
+                EQPresetBand currentBand = _currentEQPreset.Bands[a];
                 eq.lBand = a;
                 eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(fxEQHandle, eq);
+                Bass.BASS_FXSetParameters(_fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
 
-            // Set flags
-            isEQEnabled = true;
+            _isEQEnabled = true;
         }
 
         /// <summary>
@@ -1778,33 +1487,16 @@ namespace MPfm.Player
         /// </summary>
         protected void RemoveEQ()
         {
-            // Validate that the main channel exists
-            if (mixerChannel == null)
-            {
-                Tracing.Log("Player.RemoveEQ -- Error removing EQ: The main channel doesn't exist!");
+            if (_mixerChannel == null)
                 return;
-            }
 
-            // Check if the EQ is enabled
-            if (!isEQEnabled)
-            {
-                Tracing.Log("Player.RemoveEQ -- Error removing EQ: The EQ isn't activated!");
+            if (!_isEQEnabled)
                 return;
-            }
 
-            try
-            {
-                // Remove EQ 
-                Tracing.Log("Player.RemoveEQ -- Removing EQ...");
-                mixerChannel.RemoveFX(fxEQHandle);
-                fxEQHandle = 0;
-                isEQEnabled = false;
-            } 
-            catch (Exception ex)
-            {
-                // Add error to log, but this error isn't critical, so we can continue execution
-                Tracing.Log("Player.RemoveEQ -- Error removing EQ: " + ex.Message + "\n" + ex.StackTrace);
-            }
+            Tracing.Log("Player.RemoveEQ -- Removing EQ...");
+            _mixerChannel.RemoveFX(_fxEQHandle);
+            _fxEQHandle = 0;
+            _isEQEnabled = false;
         }
 
         /// <summary>
@@ -1815,7 +1507,7 @@ namespace MPfm.Player
         public BASS_BFX_PEAKEQ GetEQParams(int band)
         {
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ {lBand = band};
-            Bass.BASS_FXGetParameters(fxEQHandle, eq);            
+            Bass.BASS_FXGetParameters(_fxEQHandle, eq);            
             return eq;
         }
 
@@ -1829,14 +1521,10 @@ namespace MPfm.Player
         {
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
-            Bass.BASS_FXSetParameters(fxEQHandle, eq);
+            Bass.BASS_FXSetParameters(_fxEQHandle, eq);
 
-            // Set EQ preset value too?
             if (setCurrentEQPresetValue)
-            {
-                // Set EQ preset value
-                currentEQPreset.Bands[band].Gain = gain;
-            }
+                _currentEQPreset.Bands[band].Gain = gain;
         }
 
         /// <summary>
@@ -1848,27 +1536,14 @@ namespace MPfm.Player
             // starts, and this changes the handle to the EQ effect. This means that bypassing the EQ
             // when there is no playback does nothing.
 
-            // Reset flag
-            isEQBypassed = !isEQBypassed;
-
-            // Check if the main channel exists
-            if (mixerChannel == null)
-            {
-                // Nothing to bypass
+            if (_mixerChannel == null)
                 return;
-            }
 
-            // Check the new bypass state
-            if (isEQBypassed)
-            {
-                // Reset EQ
+            _isEQBypassed = !_isEQBypassed;
+            if (_isEQBypassed)
                 ResetEQ();
-            }
             else
-            {
-                // Reapply current EQ preset
-                ApplyEQPreset(currentEQPreset);
-            }
+                ApplyEQPreset(_currentEQPreset);
         }
 
         /// <summary>
@@ -1877,21 +1552,17 @@ namespace MPfm.Player
         /// </summary>
         public void ApplyEQPreset(EQPreset preset)
         {
-            // Load 18-band equalizer
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            currentEQPreset = preset;
-            for (int a = 0; a < currentEQPreset.Bands.Count; a++)
+            _currentEQPreset = preset;
+            for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
             {
-                // Get current band
-                EQPresetBand currentBand = currentEQPreset.Bands[a];
-
-                // Set equalizer band properties
+                EQPresetBand currentBand = _currentEQPreset.Bands[a];
                 eq.lBand = a;
                 eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(fxEQHandle, eq);
+                Bass.BASS_FXSetParameters(_fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
         }
@@ -1901,19 +1572,12 @@ namespace MPfm.Player
         /// </summary>
         public void ResetEQ()
         {
-            // Validate that the main channel exists
-            if (mixerChannel == null)
-            {
-                //throw new Exception("Error resetting EQ: The main channel doesn't exist!");
+            if (_mixerChannel == null)
                 return;
-            }
 
-            // Loop through bands
-            for (int a = 0; a < currentEQPreset.Bands.Count; a++)
+            for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
             {
-                // Reset gain
                 UpdateEQBand(a, 0.0f, false);
-                //m_currentEQPreset.Bands[a].Gain = 0.0f;
             }
         }
 
@@ -1927,7 +1591,6 @@ namespace MPfm.Player
         /// <param name="position">Sync callback position</param>
         protected PlayerSyncProc SetSyncCallback(long position)
         {                       
-            // Set sync
             PlayerSyncProc syncProc = new PlayerSyncProc();
 
 #if IOS
@@ -1936,10 +1599,9 @@ namespace MPfm.Player
             syncProc.SyncProc = new SYNCPROC(PlayerSyncProc);
 #endif
 
-            syncProc.Handle = mixerChannel.SetSync(fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);            
+            syncProc.Handle = _mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);            
 
-            // Add to list
-            syncProcs.Add(syncProc);
+            _syncProcs.Add(syncProc);
 
             return syncProc;
         }
@@ -1949,20 +1611,12 @@ namespace MPfm.Player
         /// </summary>
         protected void RemoveSyncCallbacks()
         {
-            // Loop
             while (true)
             {
-                // Are there any more sync procs to remove?
-                if (syncProcs.Count > 0)
-                {
-                    // Remove sync proc
-                    RemoveSyncCallback(syncProcs[0].Handle);                    
-                }
+                if (_syncProcs.Count > 0)
+                    RemoveSyncCallback(_syncProcs[0].Handle);                    
                 else
-                {
-                    // Exit loop
                     break;
-                }
             }
         }
 
@@ -1972,19 +1626,14 @@ namespace MPfm.Player
         /// <param name="handle">Synchronization callback handle</param>
         protected void RemoveSyncCallback(int handle)
         {
-            // Loop through sync procs
-            for (int a = 0; a < syncProcs.Count; a++)
+            for (int a = 0; a < _syncProcs.Count; a++)
             {
-                // Check handle
-                if (syncProcs[a].Handle == handle)
+                if (_syncProcs[a].Handle == handle)
                 {
-                    // Remove sync
-                    mixerChannel.RemoveSync(fxChannel.Handle, syncProcs[a].Handle);
-                    syncProcs[a].Handle = 0;
-                    syncProcs[a].SyncProc = null;
-
-                    // Remove from list and exit loop
-                    syncProcs.RemoveAt(a);
+                    _mixerChannel.RemoveSync(_fxChannel.Handle, _syncProcs[a].Handle);
+                    _syncProcs[a].Handle = 0;
+                    _syncProcs[a].SyncProc = null;
+                    _syncProcs.RemoveAt(a);
                     break;
                 }
             }
@@ -2005,28 +1654,19 @@ namespace MPfm.Player
         internal int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
             // If the current sub channel is null, end the stream            
-			if(playlist == null || playlist.CurrentItem == null || playlist.Items[currentMixPlaylistIndex] == null ||
-			   playlist.Items[currentMixPlaylistIndex].Channel == null)
-            {
-                // Return end-of-channel
+			if(_playlist == null || _playlist.CurrentItem == null || _playlist.Items[_currentMixPlaylistIndex] == null ||
+			   _playlist.Items[_currentMixPlaylistIndex].Channel == null)
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;
-            }
 
-            // Get active status            
-            BASSActive status = playlist.Items[currentMixPlaylistIndex].Channel.IsActive();
-
-            // Check the current channel status
+            BASSActive status = _playlist.Items[_currentMixPlaylistIndex].Channel.IsActive();
             if (status == BASSActive.BASS_ACTIVE_PLAYING)
             {
                 // Check if the next channel needs to be loaded
-                if (playlist.CurrentItemIndex < playlist.Items.Count - 1)                    
-                {
-                    // Create the next channel using a timer
-                    timerPlayer.Start();
-                }
+                if (_playlist.CurrentItemIndex < _playlist.Items.Count - 1)                    
+                    _timerPlayer.Start();
 
                 // Get data from the current channel since it is running
-                int data = playlist.Items[currentMixPlaylistIndex].Channel.GetData(buffer, length);
+                int data = _playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
                 return data;
 
 //                byte[] bufferData = playlist.Items[currentMixPlaylistIndex].GetData(length);
@@ -2035,78 +1675,64 @@ namespace MPfm.Player
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
-                // Clear current loop
-                currentLoop = null;
-
                 Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
-
-                // Check if this is the last item to play                
-                if (playlist.CurrentItemIndex == playlist.Items.Count - 1)
+                _currentLoop = null;
+                if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
                 {
                     // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                     if (RepeatType == RepeatType.Playlist)
                     {
                         // Set next playlist index
-                        currentMixPlaylistIndex = 0;
+                        _currentMixPlaylistIndex = 0;
 
                         // Dispose channels
                         //m_playlist.DisposeChannels();
 
                         // Load first item                        
-                        Playlist.Items[0].Load(UseFloatingPoint);
+                        Playlist.Items[0].Load(_useFloatingPoint);
                         //Playlist.Items[0].Decode(0);
 
                         // Load second item if it exists
                         if (Playlist.Items.Count > 1)
-                        {
-                            Playlist.Items[1].Load(UseFloatingPoint);
-                        }
+                            Playlist.Items[1].Load(_useFloatingPoint);
 
                         // Return data from the new channel                
                         return Playlist.CurrentItem.Channel.GetData(buffer, length);
                     }
 
-                    // This is the end of the playlist                    
                     Tracing.Log("StreamCallback -- Playlist is over!");
                     return (int)BASSStreamProc.BASS_STREAMPROC_END;
                 }
                 else
                 {
-                    // Set next playlist index
                     Tracing.Log("StreamCallback -- Setting next playlist index...");
-                    currentMixPlaylistIndex++;
+                    _currentMixPlaylistIndex++;
                 }
 
-                // Lock main channel
                 Tracing.Log("StreamCallback -- Locking channel...");
-                mixerChannel.Lock(true);
+                _mixerChannel.Lock(true);
 
-                // Get main channel position
                 Tracing.Log("StreamCallback -- Getting main channel position...");
-                long position = mixerChannel.GetPosition(fxChannel.Handle);
+                long position = _mixerChannel.GetPosition(_fxChannel.Handle);
 
                 // Get remanining data in buffer
                 Tracing.Log("StreamCallback -- Getting BASS_DATA_AVAILABLE...");
-                int buffered = mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
+                int buffered = _mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
 
-                // Get length of the next audio file to play
                 Tracing.Log("StreamCallback -- Getting current channel length (mix index)...");
-                long audioLength = Playlist.Items[currentMixPlaylistIndex].Channel.GetLength();
+                long audioLength = Playlist.Items[_currentMixPlaylistIndex].Channel.GetLength();
 
-                // Set sync                
                 Tracing.Log("StreamCallback -- Setting new sync...");
                 long syncPos = position + buffered + audioLength;
                 SetSyncCallback(syncPos);
 
-                // Unlock main channel
                 Tracing.Log("StreamCallback -- Unlocking channel...");
-                mixerChannel.Lock(false);
+                _mixerChannel.Lock(false);
 
                 // Return data from the new channel
-                return Playlist.Items[currentMixPlaylistIndex].Channel.GetData(buffer, length);
+                return Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
             }
 
-            // Return end-of-channel
             return (int)BASSStreamProc.BASS_STREAMPROC_END;
         }
 
@@ -2146,16 +1772,10 @@ namespace MPfm.Player
         private int GetData(IntPtr buffer, int length, IntPtr user)
         {
             // Check if the channel is still playing
-            if (Bass.BASS_ChannelIsActive(mixerChannel.Handle) == BASSActive.BASS_ACTIVE_PLAYING)
-            {
-                // Return data
-                return Bass.BASS_ChannelGetData(mixerChannel.Handle, buffer, length);
-            }
+            if (Bass.BASS_ChannelIsActive(_mixerChannel.Handle) == BASSActive.BASS_ACTIVE_PLAYING)
+                return Bass.BASS_ChannelGetData(_mixerChannel.Handle, buffer, length);
             else
-            {
-                // Return end of file
                 return (int)BASSStreamProc.BASS_STREAMPROC_END;
-            }
         }
 
         /// <summary>
@@ -2167,17 +1787,12 @@ namespace MPfm.Player
         /// <param name="user">User data</param>
         internal void LoopSyncProc(int handle, int channel, int data, IntPtr user)
         {
-            // Validate nulls
-            if (CurrentLoop == null || Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
-            {
+            if (Loop == null || Playlist == null || Playlist.CurrentItem == null || Playlist.CurrentItem.Channel == null)
                 return;
-            }
 
             // Get loop start position
-            long bytes = CurrentLoop.StartPositionBytes;
-
-            // Lock channel            
-            mixerChannel.Lock(true);
+            long bytes = Loop.StartPositionBytes;
+            _mixerChannel.Lock(true);
 
             // Check if this is a FLAC file over 44100Hz
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
@@ -2188,16 +1803,12 @@ namespace MPfm.Player
 
             // Set position for the decode channel (needs to be in floating point)
             Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
-
-            // Set main channel position to 0 (clear buffer)            
-            fxChannel.SetPosition(0);
-            mixerChannel.SetPosition(0);
+            _fxChannel.SetPosition(0); // Clear buffer
+            _mixerChannel.SetPosition(0);
 
             // Set offset position (for calulating current position)
-            positionOffset = bytes;
-
-            // Unlock channel
-            mixerChannel.Lock(false);
+            _positionOffset = bytes;
+            _mixerChannel.Lock(false);
         }
 
         /// <summary>
@@ -2210,22 +1821,18 @@ namespace MPfm.Player
         /// <param name="user">User data</param>
         internal void PlayerSyncProc(int handle, int channel, int data, IntPtr user)
         {
-            // Declare variables
             bool playbackStopped = false;
             bool playlistBackToStart = false;
             int nextPlaylistIndex = 0;
 
-            // Lock main channel. Do as less as possible when locking channels!
-            mixerChannel.Lock(true);
-
-            // Get main channel position
-            long position = mixerChannel.GetPosition();
+            _mixerChannel.Lock(true);
+            long position = _mixerChannel.GetPosition();
 
             // Get remanining data in buffer
             //int buffered = mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);
 
             // Check if this the last song
-            if (playlist.CurrentItemIndex == playlist.Items.Count - 1)
+            if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
             {
                 // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                 if (RepeatType == RepeatType.Playlist)
@@ -2243,48 +1850,34 @@ namespace MPfm.Player
             else
             {
                 // Set flags
-                nextPlaylistIndex = playlist.CurrentItemIndex + 1;
+                nextPlaylistIndex = _playlist.CurrentItemIndex + 1;
             }
 
             // Calculate position offset
             long offset = 0 - (position / 2);
-
-            // Check if the playback has stopped
             if (!playbackStopped)
             {
-                // Check if this is a FLAC file over 44100Hz
+                // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                 if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate > 44100)
-                {
-                    // Multiply by 1.5 (I don't really know why, but this works for 48000Hz and 96000Hz. Maybe a bug in BASS with FLAC files?)
                     offset = (long)((float)offset * 1.5f);
-                }
 
                 // Check if the sample rate needs to be changed (i.e. main channel sample rate different than the decoding file)
-                if (!playbackStopped && mixerChannel.SampleRate != Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate)
-                {
-                    // Set new sample rate
-                    mixerChannel.SetSampleRate(Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate);
-                }
+                if (!playbackStopped && _mixerChannel.SampleRate != Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate)
+                    _mixerChannel.SetSampleRate(Playlist.Items[nextPlaylistIndex].AudioFile.SampleRate);
 
                 // Set position offset
-                positionOffset = offset;
+                _positionOffset = offset;
             }
 
-            // Unlock main channel
-            mixerChannel.Lock(false);
-
-            // Remove own sync
+            _mixerChannel.Lock(false);
             RemoveSyncCallback(handle);
             
             // Check if this is the last item to play
-            if (playlist.CurrentItemIndex == playlist.Items.Count - 1)
+            if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
             {
                 // This is the end of the playlist. Check the repeat type if the playlist needs to be repeated
                 if (RepeatType == RepeatType.Playlist)
-                {
-                    // Go to first item
                     Playlist.First();
-                }
             }
             else
             {
@@ -2314,10 +1907,10 @@ namespace MPfm.Player
 //                    }
 
                     // Dispose channels
-                    playlist.DisposeChannels();
+                    _playlist.DisposeChannels();
 
                     // Set flag
-                    isPlaying = false;
+                    _isPlaying = false;
                 }
                 else
                 {
@@ -2370,8 +1963,6 @@ namespace MPfm.Player
             {
                 case BASSIOSNotify.BASS_IOSNOTIFY_INTERRUPT:
                     Console.WriteLine("BASS_IOSNOTIFY_INTERRUPT");
-
-                    // Stop playback
                     Player.CurrentPlayer.Pause();
                     
                     // Invoke delegate to notify service/presenter

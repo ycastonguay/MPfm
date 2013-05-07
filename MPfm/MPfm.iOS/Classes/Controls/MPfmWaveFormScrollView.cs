@@ -153,6 +153,7 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             this.ZoomingStarted += delegate {
+                ShowViewportPosition();
                 UIView.Animate(0.15, () => {
                     _lblZoom.Alpha = 0.9f;
                 });
@@ -187,33 +188,18 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             this.DraggingStarted += delegate(object sender, EventArgs e) {
-                UIView.Animate(0.25, () => {
-                    _viewScrollStartPosition.Alpha = 0.8f;
-                    _viewScrollStartPositionLine.Alpha = 0.8f;
-                    _viewScrollEndPosition.Alpha = 0.8f;
-                    _viewScrollEndPositionLine.Alpha = 0.8f;
-                });
+                ShowViewportPosition();
             };
 
             this.DraggingEnded += delegate(object sender, DraggingEventArgs e) {
                 if(e.Decelerate)
                     return;
 
-                UIView.Animate(0.35, () => {
-                    _viewScrollStartPosition.Alpha = 0;
-                    _viewScrollStartPositionLine.Alpha = 0;
-                    _viewScrollEndPosition.Alpha = 0;
-                    _viewScrollEndPositionLine.Alpha = 0;
-                });
+                HideViewportPosition();
             };
 
             this.DecelerationEnded += delegate(object sender, EventArgs e) {
-                UIView.Animate(0.35, () => {
-                    _viewScrollStartPosition.Alpha = 0;
-                    _viewScrollStartPositionLine.Alpha = 0;
-                    _viewScrollEndPosition.Alpha = 0;
-                    _viewScrollEndPositionLine.Alpha = 0;
-                });
+                HideViewportPosition();
             };
         }
 
@@ -248,6 +234,26 @@ namespace MPfm.iOS.Classes.Controls
             WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, 320 * _zoomScale, WaveFormView.Frame.Height);
             ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
             ContentOffset = new PointF(WaveFormView.Frame.Width * offsetRatio, 0);
+        }
+
+        private void ShowViewportPosition()
+        {
+            UIView.Animate(0.25, () => {
+                _viewScrollStartPosition.Alpha = 0.8f;
+                _viewScrollStartPositionLine.Alpha = 0.8f;
+                _viewScrollEndPosition.Alpha = 0.8f;
+                _viewScrollEndPositionLine.Alpha = 0.8f;
+            });
+        }
+
+        private void HideViewportPosition()
+        {
+            UIView.Animate(0.35, () => {
+                _viewScrollStartPosition.Alpha = 0;
+                _viewScrollStartPositionLine.Alpha = 0;
+                _viewScrollEndPosition.Alpha = 0;
+                _viewScrollEndPositionLine.Alpha = 0;
+            });
         }
 
         public void LoadPeakFile(AudioFile audioFile)

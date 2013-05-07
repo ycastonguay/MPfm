@@ -32,19 +32,15 @@ namespace MPfm.Player
     public interface IPlayer
     {
         int BufferSize { get; set; }
-        EQPreset CurrentEQPreset { get; set; }
-        Loop CurrentLoop { get; }
+        EQPreset EQPreset { get; set; }
+        Loop Loop { get; }
         Device Device { get; }
-        Channel FXChannel { get; }
         bool IsSettingPosition { get; }
         bool IsDeviceInitialized { get; }
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
         bool IsPaused { get; }
         bool IsPlaying { get; }
-        List<Loop> Loops { get; }
-        List<Marker> Markers { get; }
-        MixerChannel MixerChannel { get; }
         int MixerSampleRate { get; }
         Playlist Playlist { get; }
         RepeatType RepeatType { get; set; }
@@ -56,30 +52,34 @@ namespace MPfm.Player
         event Player.PlaylistIndexChanged OnPlaylistIndexChanged;
         event Player.AudioInterrupted OnAudioInterrupted;
 
-        void ApplyEQPreset(EQPreset preset);        
-        void BypassEQ();
+        void InitializeDevice();
+        void InitializeDevice(Device device, int mixerSampleRate);
         void Dispose();
         void FreeDevice();
         void FreePlugins();
-        BASS_BFX_PEAKEQ GetEQParams(int band);
-        long GetPosition();
-        void GoTo(int index);
-        void GoToMarker(Marker marker);
-        void InitializeDevice();
-        void InitializeDevice(Device device, int mixerSampleRate);
-        void LoadPlugins();
-        void Next();
-        void Pause();
+
         void Play();
         void PlayFiles(List<AudioFile> audioFiles);
         void PlayFiles(List<string> filePaths);        
-        void Previous();
-        void ResetEQ();
-        void SetPosition(double percentage);
-        void SetPosition(long bytes);
-        void StartLoop(Loop loop);
+        void Pause();
         void Stop();
-        void StopLoop();
+        void Previous();
+        void Next();
+        void GoTo(int index);
+
+        int GetDataAvailable();      
+        long GetPosition();
+        void SetPosition(double percentage);
+        void SetPosition(long bytes);       
+
+        void ApplyEQPreset(EQPreset preset);        
+        void BypassEQ();
+        BASS_BFX_PEAKEQ GetEQParams(int band);
+        void ResetEQ();
         void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
+
+        void GoToMarker(Marker marker);
+        void StartLoop(Loop loop);
+        void StopLoop();
     }
 }

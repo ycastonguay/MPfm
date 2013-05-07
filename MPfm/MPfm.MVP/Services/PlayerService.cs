@@ -188,7 +188,7 @@ namespace MPfm.MVP.Services
 
         public int GetDataAvailable()
         {
-            return _player.MixerChannel.GetDataAvailable();
+            return _player.GetDataAvailable();
         }
 
         public long GetPosition()
