@@ -63,9 +63,12 @@ namespace MPfm.Player
         /// </value>
         public static string PluginDirectoryPath { get; set; }
 
-        private bool _useFloatingPoint;
+        /// <summary>
+        /// Returns true if the position is currently changing.
+        /// </summary>
         public bool IsSettingPosition { get; private set; }
         
+        private bool _useFloatingPoint;
         private System.Timers.Timer _timerPlayer = null;
         private Channel _streamChannel = null;
         private Channel _fxChannel = null;
@@ -564,7 +567,6 @@ namespace MPfm.Player
                     _flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
                     _wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
                     _mpcPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_mpc.so"));
-
 #endif					
 	            }
 	            else if (OS.Type == OSType.MacOSX)
@@ -588,7 +590,6 @@ namespace MPfm.Player
 
                     Console.WriteLine("Configuring AirPlay and remote control...");
                     Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_IOS_MIXAUDIO, 0); // 0 = AirPlay
-
 #else
 
                     // Try to get the plugins in the current path
@@ -987,7 +988,7 @@ namespace MPfm.Player
 
                 // Load 18-band equalizer
                 Tracing.Log("Player.Play -- Creating equalizer (Preset: " + _currentEQPreset + ")...");
-                //AddEQ(currentEQPreset); // TODO: MonoTouch doesn't like the FX implementation
+                AddEQ(_currentEQPreset);
 
                 // Check if EQ is bypassed
                 if (_isEQBypassed)
@@ -1170,8 +1171,8 @@ namespace MPfm.Player
             if (_isEQEnabled)
             {
                 // Remove EQ
-                //Tracing.Log("Player.Stop -- Removing equalizer...");
-                //RemoveEQ();
+                Tracing.Log("Player.Stop -- Removing equalizer...");
+                RemoveEQ();
             }
 
             // Stop mixer channel
@@ -1475,7 +1476,7 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(_fxEQHandle, eq);
+                BassWrapper.BASS_FXGetParametersPeakEQ(_fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
 
@@ -1507,7 +1508,7 @@ namespace MPfm.Player
         public BASS_BFX_PEAKEQ GetEQParams(int band)
         {
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ {lBand = band};
-            Bass.BASS_FXGetParameters(_fxEQHandle, eq);            
+            BassWrapper.BASS_FXGetParametersPeakEQ(_fxEQHandle, eq);
             return eq;
         }
 
@@ -1521,7 +1522,9 @@ namespace MPfm.Player
         {
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
-            Bass.BASS_FXSetParameters(_fxEQHandle, eq);
+            bool success = BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
+            if(!success)
+                Base.CheckForError();
 
             if (setCurrentEQPresetValue)
                 _currentEQPreset.Bands[band].Gain = gain;
@@ -1562,7 +1565,7 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                Bass.BASS_FXSetParameters(_fxEQHandle, eq);
+                BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
                 UpdateEQBand(a, currentBand.Gain, true);
             }
         }
@@ -1899,12 +1902,12 @@ namespace MPfm.Player
                     eventData.AudioFileStarted = null;
                     eventData.AudioFileEnded = Playlist.CurrentItem.AudioFile;
 
-//                    // Check if EQ is enabled
-//                    if (isEQEnabled)
-//                    {
-//                        // Remove EQ
-//                        RemoveEQ();
-//                    }
+                    // Check if EQ is enabled
+                    if (_isEQEnabled)
+                    {
+                        // Remove EQ
+                        RemoveEQ();
+                    }
 
                     // Dispose channels
                     _playlist.DisposeChannels();

@@ -213,5 +213,6 @@
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
     <Compile Include="MyBassNetKey.cs" />
+    <Compile Include="BassNetWrapper\BassWrapper.cs" />
   </ItemGroup>
 </Project>
