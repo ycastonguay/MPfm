@@ -103,6 +103,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <None Include="Lib\Bass.Net.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
     <Compile Include="AudioFiles\AudioTools.cs" />
     <Compile Include="AudioFiles\AudioFileFormatExtension.cs" />
@@ -147,8 +150,6 @@
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
     <Compile Include="MyBassNetKey.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Lib\Bass.Net.dll" />
+    <Compile Include="BassNetWrapper\BassWrapper.cs" />
   </ItemGroup>
 </Project>

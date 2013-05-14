@@ -246,7 +246,7 @@ namespace MPfm.Player
 #if !IOS && !ANDROID
 
                 // Check driver type
-                if (device.DriverType == DriverType.ASIO)
+                if (_device.DriverType == DriverType.ASIO)
                 {
                     // Set ASIO channel volume on left and right channel
                     bool success = BassAsio.BASS_ASIO_ChannelSetVolume(false, 0, value);
@@ -262,7 +262,7 @@ namespace MPfm.Player
                         Base.CheckForError();
                     }
                 }
-                else if (device.DriverType == DriverType.WASAPI)
+                else if (_device.DriverType == DriverType.WASAPI)
                 {
                     // Set WASAPI volume
                     bool success = BassWasapi.BASS_WASAPI_SetVolume(BASSWASAPIVolume.BASS_WASAPI_CURVE_LINEAR, value);
@@ -605,9 +605,9 @@ namespace MPfm.Player
                     }
 
 				    // Load decoding plugins
-					flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
-                    wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
-                    mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
+					_flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
+                    _wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
+                    _mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
 #endif
 	            }
 			}
@@ -715,7 +715,7 @@ namespace MPfm.Player
 #if !IOS && !ANDROID
 
             // Check driver type
-            if (device.DriverType == DriverType.ASIO)
+            if (_device.DriverType == DriverType.ASIO)
             {
                 // Free ASIO device
                 if (!BassAsio.BASS_ASIO_Free())
@@ -725,7 +725,7 @@ namespace MPfm.Player
                     throw new Exception("Error freeing ASIO device: " + error.ToString());
                 }
             }
-            else if (device.DriverType == DriverType.WASAPI)
+            else if (_device.DriverType == DriverType.WASAPI)
             {
                 // Free WASAPI device
                 if (!BassWasapi.BASS_WASAPI_Free())
@@ -862,7 +862,7 @@ namespace MPfm.Player
 #if IOS
                     _streamProc = new STREAMPROC(StreamCallbackIOS);
 #else
-                    streamProc = new STREAMPROC(StreamCallback);
+                    _streamProc = new STREAMPROC(StreamCallback);
 #endif
 
                     _streamChannel = Channel.CreateStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, _streamProc);
@@ -900,14 +900,14 @@ namespace MPfm.Player
                     }
                 }
 #if !IOS && !ANDROID
-                else if (device.DriverType == DriverType.ASIO)
+                else if (_device.DriverType == DriverType.ASIO)
                 {
                     try
                     {
                         // Create mixer stream
                         Tracing.Log("Player.Play -- Creating mixer channel (ASIO)...");
-                        mixerChannel = MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, UseFloatingPoint, true);
-                        mixerChannel.AddChannel(fxChannel.Handle);
+                        _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, true);
+                        _mixerChannel.AddChannel(_fxChannel.Handle);
 
                     }
                     catch (Exception ex)
@@ -918,7 +918,7 @@ namespace MPfm.Player
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
                         newEx.Decode = true;
-                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;  
                     }
                     
@@ -932,21 +932,21 @@ namespace MPfm.Player
                     {
                         // Enable and join channels (for stereo output
                         Tracing.Log("Player.Play -- Enabling ASIO channels...");
-                        BassAsio.BASS_ASIO_ChannelEnable(false, 0, asioProc, new IntPtr(mixerChannel.Handle));
+                        BassAsio.BASS_ASIO_ChannelEnable(false, 0, asioProc, new IntPtr(_mixerChannel.Handle));
                         Tracing.Log("Player.Play -- Joining ASIO channels...");
                         BassAsio.BASS_ASIO_ChannelJoin(false, 1, 0);
 
                         // Set sample rate
                         Tracing.Log("Player.Play -- Set ASIO sample rates...");
-                        BassAsio.BASS_ASIO_ChannelSetRate(false, 0, playlist.CurrentItem.AudioFile.SampleRate);
-                        BassAsio.BASS_ASIO_SetRate(playlist.CurrentItem.AudioFile.SampleRate);
+                        BassAsio.BASS_ASIO_ChannelSetRate(false, 0, _playlist.CurrentItem.AudioFile.SampleRate);
+                        BassAsio.BASS_ASIO_SetRate(_playlist.CurrentItem.AudioFile.SampleRate);
                     }
                     catch (Exception ex)
                     {
                         // Raise custom exception with information (so the client application can maybe deactivate floating point for example)
                         PlayerCreateStreamException newEx = new PlayerCreateStreamException("The player has failed to enable or join ASIO channels.", ex);
                         newEx.DriverType = DriverType.ASIO;
-                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;
                     }
 
@@ -963,16 +963,16 @@ namespace MPfm.Player
                         newEx.UseFloatingPoint = true;
                         newEx.UseTimeShifting = true;
                         newEx.Decode = true;
-                        newEx.SampleRate = playlist.CurrentItem.AudioFile.SampleRate;
+                        newEx.SampleRate = _playlist.CurrentItem.AudioFile.SampleRate;
                         throw newEx;                        
                     }
                 }
-                else if (device.DriverType == DriverType.WASAPI)
+                else if (_device.DriverType == DriverType.WASAPI)
                 {
                     // Create mixer stream
                     Tracing.Log("Player.Play -- Creating mixer channel (WASAPI)...");
-                    mixerChannel = MixerChannel.CreateMixerStream(playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
-                    mixerChannel.AddChannel(fxChannel.Handle);
+                    _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, true, true);
+                    _mixerChannel.AddChannel(_fxChannel.Handle);
 
                     // Start playback
                     if (!BassWasapi.BASS_WASAPI_Start())
@@ -1106,10 +1106,10 @@ namespace MPfm.Player
             }
 
 #if !IOS && !ANDROID
-            else if (device.DriverType == DriverType.ASIO)
+            else if (_device.DriverType == DriverType.ASIO)
             {
                 // Check if the playback is already paused
-                if (!isPaused)
+                if (!_isPaused)
                 {
                     // Pause playback on ASIO (cannot pause in a decoding channel)
                     if (!BassAsio.BASS_ASIO_ChannelPause(false, 0))
@@ -1129,10 +1129,10 @@ namespace MPfm.Player
 
                 }
             }
-            else if (device.DriverType == DriverType.WASAPI)
+            else if (_device.DriverType == DriverType.WASAPI)
             {
                 // Check if the playback is already paused
-                if (!isPaused)
+                if (!_isPaused)
                 {
                     // Pause playback on WASAPI (cannot pause in a decoding channel)
                     if (!BassWasapi.BASS_WASAPI_Stop(false))
@@ -1189,13 +1189,13 @@ namespace MPfm.Player
                 Base.Stop();
             }
 #if !IOS && !ANDROID
-            else if (device.DriverType == DriverType.ASIO)
+            else if (_device.DriverType == DriverType.ASIO)
             {
                 // Stop playback
                 Tracing.Log("Player.Stop -- Stopping ASIO playback...");
                 BassAsio.BASS_ASIO_Stop();
             }
-            else if (device.DriverType == DriverType.WASAPI)
+            else if (_device.DriverType == DriverType.WASAPI)
             {
                 // Stop playback
                 Tracing.Log("Player.Stop -- Stopping WASAPI playback...");
@@ -1217,8 +1217,7 @@ namespace MPfm.Player
             }
 
 #if !IOS && !ANDROID
-            // Check if WASAPI
-            if (device.DriverType == DriverType.WASAPI)
+            if (_device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
             }
@@ -1321,7 +1320,7 @@ namespace MPfm.Player
 
 #if !IOS && !ANDROID
             // Check if WASAPI
-            if (device.DriverType == DriverType.WASAPI)
+            if (_device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
                 BassWasapi.BASS_WASAPI_Start();
@@ -1389,8 +1388,7 @@ namespace MPfm.Player
             }
 
 #if !IOS && !ANDROID
-            // Check if WASAPI
-            if (device.DriverType == DriverType.WASAPI)
+            if (_device.DriverType == DriverType.WASAPI)
             {
                 BassWasapi.BASS_WASAPI_Stop(true);
                 BassWasapi.BASS_WASAPI_Start();

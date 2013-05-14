@@ -30,7 +30,7 @@ namespace MPfm.Sound.BassNetWrapper
         #if IOS
         public const string DllImportValue = "__Internal";
         public const string DllImportValueFx = "__Internal";
-        #elif ANDROID
+        #elif ANDROID || LINUX
         public const string DllImportValue = "libbass.so";
         public const string DllImportValueFx = "libbass_fx.so";
         #endif

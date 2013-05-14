@@ -113,7 +113,6 @@
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
-    <Compile Include="MyBassNetKey.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
     <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
@@ -151,5 +150,7 @@
     <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
+    <Compile Include="MyBassNetKey.cs" />
+    <Compile Include="BassNetWrapper\BassWrapper.cs" />
   </ItemGroup>
 </Project>
