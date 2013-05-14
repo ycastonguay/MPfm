@@ -32,6 +32,18 @@ namespace MPfm.iOS.Classes.Controls
         UILabel _lblValue;
         UILabel _lblFrequency;
 
+        public delegate void ValueChangedEventHandler(object sender, MPfmEqualizerFaderValueChangedEventArgs e);
+
+        public event ValueChangedEventHandler ValueChanged;
+
+        public string Frequency
+        {
+            get
+            {
+                return _lblFrequency.Text;
+            }
+        }
+
         public MPfmEqualizerFaderView() 
             : base()
         {
@@ -55,7 +67,7 @@ namespace MPfm.iOS.Classes.Controls
 
             _lblValue = new UILabel(new RectangleF(256, 4, 60, 36));
             _lblValue.BackgroundColor = UIColor.Clear;
-            _lblValue.Text = "+6.0 dB";
+            _lblValue.Text = "0.0 dB";
             _lblValue.TextColor = UIColor.White;
             _lblValue.Font = UIFont.FromName("HelveticaNeue", 12.0f);
 
@@ -66,10 +78,29 @@ namespace MPfm.iOS.Classes.Controls
             _slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             _slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
             _slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
+            _slider.ValueChanged += HandleSliderValueChanged;
 
             AddSubview(_lblFrequency);
             AddSubview(_lblValue);
             AddSubview(_slider);
+        }
+
+        protected virtual void OnValueChanged(MPfmEqualizerFaderValueChangedEventArgs e)
+        {
+            if(ValueChanged != null)
+                ValueChanged(this, e);
+        }
+
+        private void HandleSliderValueChanged(object sender, EventArgs e)
+        {
+            if(_slider.Value > 0)
+                _lblValue.Text = "+" + _slider.Value.ToString("0.0") + " dB";
+            else
+                _lblValue.Text = _slider.Value.ToString("0.0") + " dB";
+
+            OnValueChanged(new MPfmEqualizerFaderValueChangedEventArgs(){
+                Value = _slider.Value
+            });
         }
 
         public void SetValue(string frequency, float value)

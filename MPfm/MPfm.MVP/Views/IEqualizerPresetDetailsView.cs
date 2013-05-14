@@ -26,6 +26,7 @@ namespace MPfm.MVP.Views
         Action OnResetPreset { get; set; }
         Action OnNormalizePreset { get; set; }
         Action<EQPreset> OnSavePreset { get; set; }
+        Action<string, float> OnSetFaderValue { get; set; }
 
         void EqualizerPresetDetailsError(Exception ex);
         void RefreshFaders(List<KeyValuePair<string, float>> values);

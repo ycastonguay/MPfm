@@ -201,6 +201,7 @@
     <Compile Include="Classes\Managers\IWaveFormRenderer.cs" />
     <Compile Include="Classes\Managers\iOSWaveFormRenderer.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
+    <Compile Include="Classes\Controls\Events\MPfmEqualizerFaderValueChangedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -252,6 +253,7 @@
     <Folder Include="Images\Buttons\" />
     <Folder Include="Classes\Managers\" />
     <Folder Include="Images\Sliders\" />
+    <Folder Include="Classes\Controls\Events\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />

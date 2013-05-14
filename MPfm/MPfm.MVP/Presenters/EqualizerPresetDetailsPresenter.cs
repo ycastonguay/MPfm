@@ -21,6 +21,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using System.Linq;
 
 namespace MPfm.MVP.Presenters
 {
@@ -28,11 +29,33 @@ namespace MPfm.MVP.Presenters
 	{
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
+        List<KeyValuePair<string, float>> _faderValues = new List<KeyValuePair<string, float>>();
 
         public EqualizerPresetDetailsPresenter(IPlayerService playerService, ILibraryService libraryService)
 		{	
             _playerService = playerService;
             _libraryService = libraryService;
+
+            _faderValues = new List<KeyValuePair<string, float>>() {
+                new KeyValuePair<string, float>("55 Hz", 0),
+                new KeyValuePair<string, float>("77 Hz", 0),
+                new KeyValuePair<string, float>("110 Hz", 0),
+                new KeyValuePair<string, float>("156 Hz", 0),
+                new KeyValuePair<string, float>("220 Hz", 0),
+                new KeyValuePair<string, float>("311 Hz", 0),
+                new KeyValuePair<string, float>("440 Hz", 0),
+                new KeyValuePair<string, float>("622 Hz", 0),
+                new KeyValuePair<string, float>("880 Hz", 0),
+                new KeyValuePair<string, float>("1.2 kHz", 0),
+                new KeyValuePair<string, float>("1.8 kHz", 0),
+                new KeyValuePair<string, float>("2.5 kHz", 0),
+                new KeyValuePair<string, float>("3.5 kHz", 0),
+                new KeyValuePair<string, float>("5 kHz", 0),
+                new KeyValuePair<string, float>("7 kHz", 0),
+                new KeyValuePair<string, float>("10 kHz", 0),
+                new KeyValuePair<string, float>("14 kHz", 0),
+                new KeyValuePair<string, float>("20 kHz", 0)
+            };
 		}
 
         public override void BindView(IEqualizerPresetDetailsView view)
@@ -42,6 +65,7 @@ namespace MPfm.MVP.Presenters
             view.OnNormalizePreset = NormalizePreset;
             view.OnResetPreset = ResetPreset;
             view.OnSavePreset = SavePreset;
+            view.OnSetFaderValue = SetFaderValue;
             
             ResetPreset();
         }
@@ -64,26 +88,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _playerService.ResetEQ();
-                View.RefreshFaders(new List<KeyValuePair<string, float>>() {
-                    new KeyValuePair<string, float>("55 Hz", 0),
-                    new KeyValuePair<string, float>("77 Hz", 0),
-                    new KeyValuePair<string, float>("110 Hz", 0),
-                    new KeyValuePair<string, float>("156 Hz", 0),
-                    new KeyValuePair<string, float>("220 Hz", 0),
-                    new KeyValuePair<string, float>("311 Hz", 0),
-                    new KeyValuePair<string, float>("440 Hz", 0),
-                    new KeyValuePair<string, float>("622 Hz", 0),
-                    new KeyValuePair<string, float>("880 Hz", 0),
-                    new KeyValuePair<string, float>("1.2 kHz", 0),
-                    new KeyValuePair<string, float>("1.8 kHz", 0),
-                    new KeyValuePair<string, float>("2.5 kHz", 0),
-                    new KeyValuePair<string, float>("3.5 kHz", 0),
-                    new KeyValuePair<string, float>("5 kHz", 0),
-                    new KeyValuePair<string, float>("7 kHz", 0),
-                    new KeyValuePair<string, float>("10 kHz", 0),
-                    new KeyValuePair<string, float>("14 kHz", 0),
-                    new KeyValuePair<string, float>("20 kHz", 0)
-                });
+                View.RefreshFaders(_faderValues);
             }
             catch(Exception ex)
             {
@@ -104,6 +109,27 @@ namespace MPfm.MVP.Presenters
                 View.EqualizerPresetDetailsError(ex);
             }
         }
+
+        public void SetFaderValue(string frequency, float value)
+        {
+            try
+            {
+                var faderKeyValue = _faderValues.FirstOrDefault(x => x.Key == frequency);
+                var defaultFaderKeyValue = default(KeyValuePair<string, float>);
+                if(faderKeyValue.Equals(defaultFaderKeyValue))
+                    return;
+
+                int index = _faderValues.IndexOf(faderKeyValue);
+                _faderValues[index] = new KeyValuePair<string, float>(frequency, value);
+                _playerService.UpdateEQBand(index, value, true);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while setting the equalizer preset fader value: " + ex.Message);
+                View.EqualizerPresetDetailsError(ex);
+            }
+        }
+
 	}
 }
 

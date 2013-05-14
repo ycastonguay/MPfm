@@ -80,7 +80,7 @@ namespace MPfm.Player.Objects
             FXChannel = BASSFXChan.BASS_BFX_CHANALL;
             Center = 8000.0f;
             Q = 1.0f;
-            Bandwidth = 2.5f;
+            //Bandwidth = 2.5f;
             Gain = 0.0f;
         }
     }

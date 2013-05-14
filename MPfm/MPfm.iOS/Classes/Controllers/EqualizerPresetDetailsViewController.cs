@@ -139,9 +139,17 @@ namespace MPfm.iOS
             MPfmEqualizerFaderView view = new MPfmEqualizerFaderView();
             view.Frame = new RectangleF(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
             view.SetValue(frequency, 0);
+            view.ValueChanged += HandleFaderValueChanged;
             scrollView.AddSubview(view);
             scrollView.ContentSize = new SizeF(scrollView.Frame.Width, (_faderViews.Count + 1) * 44);
             _faderViews.Add(view);
+        }
+
+        private void HandleFaderValueChanged(object sender, MPfmEqualizerFaderValueChangedEventArgs e)
+        {
+            MPfmEqualizerFaderView view = (MPfmEqualizerFaderView)sender;
+            Console.WriteLine("HandleFaderValueChanged - frequenecy: " + view.Frequency + " value: " + e.Value.ToString());
+            OnSetFaderValue(view.Frequency, e.Value);
         }
         
         #region IEqualizerPresetDetailsView implementation
@@ -149,6 +157,7 @@ namespace MPfm.iOS
         public Action OnResetPreset { get; set; }
         public Action OnNormalizePreset { get; set; }
         public Action<EQPreset> OnSavePreset { get; set; }
+        public Action<string, float> OnSetFaderValue { get; set; }
 
         public void EqualizerPresetDetailsError(Exception ex)
         {
