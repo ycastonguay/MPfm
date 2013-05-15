@@ -37,6 +37,7 @@ namespace MPfm.iOS
         UIBarButtonItem _btnAdd;
         UIBarButtonItem _btnDone;
         string _cellIdentifier = "EqualizerPresetCell";
+        NSIndexPath _lastCheckIndexPath = null;
         List<EQPreset> _presets = new List<EQPreset>();
 
         public EqualizerPresetsViewController(Action<IBaseView> onViewReady)
@@ -66,7 +67,7 @@ namespace MPfm.iOS
             btnDone.Layer.CornerRadius = 8;
             btnDone.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnDone.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            btnDone.Frame = new RectangleF(0, 20, 60, 30);
+            btnDone.Frame = new RectangleF(0, 12, 60, 30);
             btnDone.TouchUpInside += (sender, e) => {
                 NavigationController.DismissViewController(true, null);
             };
@@ -110,8 +111,10 @@ namespace MPfm.iOS
             PointF pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
             if (indexPath != null)
-                if(OnEditPreset != null)
-                    OnEditPreset(_presets[indexPath.Row].EQPresetId);
+            {
+                SetCheckMark(indexPath);
+                OnEditPreset(_presets[indexPath.Row].EQPresetId);
+            }
         }
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -135,7 +138,7 @@ namespace MPfm.iOS
             cell.TextLabel.Text = _presets[indexPath.Row].Name;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
             cell.TextLabel.TextColor = UIColor.Black;
-            cell.Accessory = UITableViewCellAccessory.Checkmark;
+            //cell.Accessory = UITableViewCellAccessory.Checkmark;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
             
             UIView viewBackgroundSelected = new UIView();
@@ -148,10 +151,27 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if(OnLoadPreset != null)
+            OnLoadPreset(_presets[indexPath.Row].EQPresetId);
+            SetCheckMark(indexPath);
+            tableView.DeselectRow(indexPath, true);
+        }
+
+        private void SetCheckMark(NSIndexPath indexPath)
+        {
+            // Reset last checkmark
+            if (_lastCheckIndexPath != null)
             {
-                OnLoadPreset(_presets[indexPath.Row].EQPresetId);
-                tableView.DeselectRow(indexPath, true);
+                var cellToRemove = tableView.CellAt(_lastCheckIndexPath);
+                if (cellToRemove != null)
+                    cellToRemove.Accessory = UITableViewCellAccessory.None;
+            }
+
+            // Set new checkmark
+            var cell = tableView.CellAt(indexPath);
+            if(cell != null)
+            {
+                _lastCheckIndexPath = indexPath;
+                cell.Accessory = UITableViewCellAccessory.Checkmark;
             }
         }
 
@@ -171,10 +191,18 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets)
+        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId)
         {
             InvokeOnMainThread(() => {
                 _presets = presets.ToList();
+
+                var preset = _presets.FirstOrDefault(x => x.EQPresetId == selectedPresetId);
+                if(preset != null)
+                {
+                    int index = _presets.IndexOf(preset);
+                    SetCheckMark(NSIndexPath.FromRowSection(index, 0));
+                }
+
                 tableView.ReloadData();
             });
         }

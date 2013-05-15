@@ -16,20 +16,20 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.Player.Objects;
+using TinyMessenger;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	public interface IEqualizerPresetDetailsView : IBaseView
+    /// <summary>
+    /// Message indicating that an equalizer preset has been updated or deleted from the database.
+    /// </summary>
+    public class EqualizerPresetUpdatedMessage : TinyMessageBase
     {
-        Action OnResetPreset { get; set; }
-        Action OnNormalizePreset { get; set; }
-        Action<string> OnSavePreset { get; set; }
-        Action<string, float> OnSetFaderGain { get; set; }
+        public Guid EQPresetId { get; set; }
 
-        void EqualizerPresetDetailsError(Exception ex);
-        void ShowMessage(string title, string message);
-        void RefreshPreset(EQPreset preset);
-	}
+        public EqualizerPresetUpdatedMessage(object sender) 
+            : base(sender)
+        {
+        }
+    }
 }

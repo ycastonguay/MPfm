@@ -23,19 +23,22 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
+using TinyMessenger;
+using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Presenters
 {
 	public class EqualizerPresetsPresenter : BasePresenter<IEqualizerPresetsView>, IEqualizerPresetsPresenter
 	{
         readonly MobileNavigationManager _navigationManager;
+        readonly ITinyMessengerHub _messageHub;
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
-        List<EQPreset> _presets;
 
-        public EqualizerPresetsPresenter(MobileNavigationManager navigationManager, IPlayerService playerService, ILibraryService libraryService)
+        public EqualizerPresetsPresenter(MobileNavigationManager navigationManager, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
             _navigationManager = navigationManager;
+            _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
 		}
@@ -49,6 +52,10 @@ namespace MPfm.MVP.Presenters
             view.OnLoadPreset = LoadPreset;
             view.OnEditPreset = EditPreset;
             view.OnDeletePreset = DeletePreset;
+
+            _messageHub.Subscribe<EqualizerPresetUpdatedMessage>((EqualizerPresetUpdatedMessage m) => {
+                RefreshPresets();
+            });
             
             RefreshPresets();
         }
@@ -70,8 +77,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                var view = _navigationManager.CreateEqualizerPresetDetailsView();
-                _navigationManager.PushDialogSubview("EqualizerPresets", view);
+                var view = _navigationManager.CreateEqualizerPresetDetailsView(new EQPreset());
+                _navigationManager.PushDialogSubview("Equalizer Presets", view);
             }
             catch(Exception ex)
             {
@@ -84,11 +91,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                EQPreset preset = _presets.FirstOrDefault(x => x.EQPresetId == presetId);
+                EQPreset preset = _libraryService.SelectEQPreset(presetId);
                 if(preset != null)
-                {
                     _playerService.ApplyEQPreset(preset);
-                }
             }
             catch(Exception ex)
             {
@@ -101,8 +106,12 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                var view = _navigationManager.CreateEqualizerPresetDetailsView();
-                _navigationManager.PushDialogSubview("EqualizerPresets", view);
+                var preset = _libraryService.SelectEQPreset(presetId);
+                if(preset == null)
+                    return;
+
+                var view = _navigationManager.CreateEqualizerPresetDetailsView(preset);
+                _navigationManager.PushDialogSubview("Equalizer Presets", view);
             }
             catch(Exception ex)
             {
@@ -119,8 +128,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _presets = _libraryService.SelectEQPresets().ToList();
-                View.RefreshPresets(_presets);
+                var presets = _libraryService.SelectEQPresets().ToList();
+                Guid selectedPresetId = (_playerService.EQPreset != null) ? _playerService.EQPreset.EQPresetId : Guid.Empty;
+                View.RefreshPresets(presets, selectedPresetId);
             }
             catch(Exception ex)
             {

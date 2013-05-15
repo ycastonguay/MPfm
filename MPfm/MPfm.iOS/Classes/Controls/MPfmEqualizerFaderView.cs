@@ -76,8 +76,8 @@ namespace MPfm.iOS.Classes.Controls
             _slider.MaxValue = 6;
             _slider.Value = 0;
             _slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
-            _slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").StretchableImage(8, 0), UIControlState.Normal);
-            _slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").StretchableImage(8, 0), UIControlState.Normal);
+            _slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            _slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             _slider.ValueChanged += HandleSliderValueChanged;
 
             AddSubview(_lblFrequency);
@@ -107,6 +107,11 @@ namespace MPfm.iOS.Classes.Controls
         {
             _lblFrequency.Text = frequency;
             _slider.Value = value;
+            if(_slider.Value > 0)
+                _lblValue.Text = "+" + _slider.Value.ToString("0.0") + " dB";
+            else
+                _lblValue.Text = _slider.Value.ToString("0.0") + " dB";
+
         }
     }
 }

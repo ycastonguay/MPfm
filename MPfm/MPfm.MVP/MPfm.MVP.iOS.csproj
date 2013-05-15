@@ -299,5 +299,6 @@
     <Compile Include="Presenters\Interfaces\IEqualizerPresetDetailsPresenter.cs" />
     <Compile Include="Presenters\EqualizerPresetsPresenter.cs" />
     <Compile Include="Presenters\EqualizerPresetDetailsPresenter.cs" />
+    <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
   </ItemGroup>
 </Project>

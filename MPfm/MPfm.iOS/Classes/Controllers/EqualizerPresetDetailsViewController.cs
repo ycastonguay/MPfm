@@ -34,7 +34,7 @@ namespace MPfm.iOS
 {
     public partial class EqualizerPresetDetailsViewController : BaseViewController, IEqualizerPresetDetailsView
     {
-        UIBarButtonItem _btnCancel;
+        UIBarButtonItem _btnBack;
         UIBarButtonItem _btnSave;       
         UIBarButtonItem _btnReset;
         UIBarButtonItem _btnNormalize;
@@ -69,17 +69,15 @@ namespace MPfm.iOS
             btnSave.Layer.CornerRadius = 8;
             btnSave.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnSave.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            btnSave.Frame = new RectangleF(0, 20, 60, 30);
+            btnSave.Frame = new RectangleF(0, 12, 60, 30);
             btnSave.TouchUpInside += HandleButtonSaveTouchUpInside;
+            _btnSave = new UIBarButtonItem(btnSave);
             
-            var btnCancel = new UIButton(UIButtonType.Custom);
-            btnCancel.SetTitle("Cancel", UIControlState.Normal);
-            btnCancel.Layer.CornerRadius = 8;
-            btnCancel.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnCancel.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            btnCancel.Frame = new RectangleF(0, 12, 60, 30);
-            btnCancel.TouchUpInside += HandleButtonCancelTouchUpInside;
-            _btnCancel = new UIBarButtonItem(btnCancel);
+            var btnBack = new UIButton(UIButtonType.Custom);
+            btnBack.Frame = new RectangleF(0, 12, 50, 29);
+            btnBack.SetBackgroundImage(UIImage.FromBundle("Images/Buttons/back.png"), UIControlState.Normal);
+            btnBack.TouchUpInside += HandleButtonBackTouchUpInside;
+            _btnBack = new UIBarButtonItem(btnBack);
 
             var btnReset = new UIButton(UIButtonType.Custom);
             btnReset.SetTitle("Reset", UIControlState.Normal);
@@ -99,7 +97,7 @@ namespace MPfm.iOS
             btnNormalize.TouchUpInside += HandleButtonNormalizeTouchUpInside;
             _btnNormalize = new UIBarButtonItem(btnNormalize);
 
-            NavigationItem.SetLeftBarButtonItem(_btnCancel, true);
+            NavigationItem.SetLeftBarButtonItem(_btnBack, true);
             NavigationItem.SetRightBarButtonItem(_btnSave, true);
             toolbar.Items = new UIBarButtonItem[2]{ _btnNormalize, _btnReset };
             
@@ -108,30 +106,29 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Equalizer Preset", "16-Band Equalizer");
 
             for(int a = 0; a < 18; a++)
-            {
                 AddFaderToScrollView(a.ToString() + ".0 kHz");
-            }
             
             base.ViewDidLoad();
         }
 
         private void HandleButtonSaveTouchUpInside(object sender, EventArgs e)
         {
-            NavigationController.PopViewControllerAnimated(true);            
+            OnSavePreset(txtPresetName.Text);
         }
 
-        private void HandleButtonCancelTouchUpInside(object sender, EventArgs e)
+        private void HandleButtonBackTouchUpInside(object sender, EventArgs e)
         {
             NavigationController.PopViewControllerAnimated(true);            
         }
 
         private void HandleButtonResetTouchUpInside(object sender, EventArgs e)
         {
-
+            OnResetPreset();
         }
 
         private void HandleButtonNormalizeTouchUpInside(object sender, EventArgs e)
         {
+            OnNormalizePreset();
         }
 
         private void AddFaderToScrollView(string frequency)
@@ -148,16 +145,15 @@ namespace MPfm.iOS
         private void HandleFaderValueChanged(object sender, MPfmEqualizerFaderValueChangedEventArgs e)
         {
             MPfmEqualizerFaderView view = (MPfmEqualizerFaderView)sender;
-            Console.WriteLine("HandleFaderValueChanged - frequenecy: " + view.Frequency + " value: " + e.Value.ToString());
-            OnSetFaderValue(view.Frequency, e.Value);
+            OnSetFaderGain(view.Frequency, e.Value);
         }
         
         #region IEqualizerPresetDetailsView implementation
 
         public Action OnResetPreset { get; set; }
         public Action OnNormalizePreset { get; set; }
-        public Action<EQPreset> OnSavePreset { get; set; }
-        public Action<string, float> OnSetFaderValue { get; set; }
+        public Action<string> OnSavePreset { get; set; }
+        public Action<string, float> OnSetFaderGain { get; set; }
 
         public void EqualizerPresetDetailsError(Exception ex)
         {
@@ -167,14 +163,23 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshFaders(List<KeyValuePair<string, float>> values)
+        public void ShowMessage(string title, string message)
         {
-            for(int a = 0; a < values.Count; a++)
-            {
-                _faderViews[a].SetValue(values[a].Key, values[a].Value);
-            }
+            InvokeOnMainThread(() => {
+                UIAlertView alertView = new UIAlertView(title, message, null, "OK", null);
+                alertView.Show();
+            });
         }
-        
+
+        public void RefreshPreset(EQPreset preset)
+        {
+            InvokeOnMainThread(() => {
+                txtPresetName.Text = preset.Name;
+                for(int a = 0; a < preset.Bands.Count; a++)
+                    _faderViews[a].SetValue(preset.Bands[a].CenterString, preset.Bands[a].Gain);
+            });
+        }
+
         #endregion
     }
 }

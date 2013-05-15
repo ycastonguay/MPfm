@@ -17,45 +17,29 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using MPfm.Player.Objects;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using System.Linq;
+using TinyMessenger;
+using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Presenters
 {
 	public class EqualizerPresetDetailsPresenter : BasePresenter<IEqualizerPresetDetailsView>, IEqualizerPresetDetailsPresenter
 	{
-        readonly IPlayerService _playerService;
-        readonly ILibraryService _libraryService;
-        List<KeyValuePair<string, float>> _faderValues = new List<KeyValuePair<string, float>>();
+        private readonly IPlayerService _playerService;
+        private readonly ILibraryService _libraryService;
+        private readonly ITinyMessengerHub _messageHub;
+        private EQPreset _preset;
 
-        public EqualizerPresetDetailsPresenter(IPlayerService playerService, ILibraryService libraryService)
+        public EqualizerPresetDetailsPresenter(EQPreset preset, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
+            _preset = preset;
+            _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
-
-            _faderValues = new List<KeyValuePair<string, float>>() {
-                new KeyValuePair<string, float>("55 Hz", 0),
-                new KeyValuePair<string, float>("77 Hz", 0),
-                new KeyValuePair<string, float>("110 Hz", 0),
-                new KeyValuePair<string, float>("156 Hz", 0),
-                new KeyValuePair<string, float>("220 Hz", 0),
-                new KeyValuePair<string, float>("311 Hz", 0),
-                new KeyValuePair<string, float>("440 Hz", 0),
-                new KeyValuePair<string, float>("622 Hz", 0),
-                new KeyValuePair<string, float>("880 Hz", 0),
-                new KeyValuePair<string, float>("1.2 kHz", 0),
-                new KeyValuePair<string, float>("1.8 kHz", 0),
-                new KeyValuePair<string, float>("2.5 kHz", 0),
-                new KeyValuePair<string, float>("3.5 kHz", 0),
-                new KeyValuePair<string, float>("5 kHz", 0),
-                new KeyValuePair<string, float>("7 kHz", 0),
-                new KeyValuePair<string, float>("10 kHz", 0),
-                new KeyValuePair<string, float>("14 kHz", 0),
-                new KeyValuePair<string, float>("20 kHz", 0)
-            };
 		}
 
         public override void BindView(IEqualizerPresetDetailsView view)
@@ -65,16 +49,18 @@ namespace MPfm.MVP.Presenters
             view.OnNormalizePreset = NormalizePreset;
             view.OnResetPreset = ResetPreset;
             view.OnSavePreset = SavePreset;
-            view.OnSetFaderValue = SetFaderValue;
-            
-            ResetPreset();
+            view.OnSetFaderGain = SetFaderGain;
+
+            _playerService.ApplyEQPreset(_preset);
+            View.RefreshPreset(_preset);
         }
 
         public void NormalizePreset()
         {
             try
             {
-                // TODO: Add from Windows code
+                // TODO: Take code from Windows
+                View.RefreshPreset(_preset);
             }
             catch(Exception ex)
             {
@@ -87,8 +73,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                _preset.LoadDefault();
                 _playerService.ResetEQ();
-                View.RefreshFaders(_faderValues);
+                View.RefreshPreset(_preset);
             }
             catch(Exception ex)
             {
@@ -97,11 +84,28 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        public void SavePreset(EQPreset preset)
+        public void SavePreset(string presetName)
         {
             try
             {
-                _libraryService.UpdateEQPreset(preset);
+                if(string.IsNullOrEmpty(presetName))
+                {
+                    View.EqualizerPresetDetailsError(new Exception("The preset name cannot be empty!"));
+                    return;
+                }
+
+                _preset.Name = presetName;
+                var preset = _libraryService.SelectEQPreset(_preset.EQPresetId);
+                if(preset == null)
+                    _libraryService.InsertEQPreset(_preset);
+                else
+                    _libraryService.UpdateEQPreset(_preset);
+
+                _messageHub.PublishAsync<EqualizerPresetUpdatedMessage>(new EqualizerPresetUpdatedMessage(this){
+                    EQPresetId = _preset.EQPresetId
+                });
+
+                View.ShowMessage("Equalizer Preset", "Preset saved successfully.");
             }
             catch(Exception ex)
             {
@@ -110,26 +114,21 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        public void SetFaderValue(string frequency, float value)
+        public void SetFaderGain(string frequency, float gain)
         {
             try
             {
-                var faderKeyValue = _faderValues.FirstOrDefault(x => x.Key == frequency);
-                var defaultFaderKeyValue = default(KeyValuePair<string, float>);
-                if(faderKeyValue.Equals(defaultFaderKeyValue))
-                    return;
-
-                int index = _faderValues.IndexOf(faderKeyValue);
-                _faderValues[index] = new KeyValuePair<string, float>(frequency, value);
-                _playerService.UpdateEQBand(index, value, true);
+                var band = _preset.Bands.FirstOrDefault(x => x.CenterString == frequency);
+                band.Gain = gain;
+                int index = _preset.Bands.IndexOf(band);
+                _playerService.UpdateEQBand(index, gain, true);
             }
             catch(Exception ex)
             {
                 Console.WriteLine("An error occured while setting the equalizer preset fader value: " + ex.Message);
                 View.EqualizerPresetDetailsError(ex);
             }
-        }
-
+        }       
 	}
 }
 

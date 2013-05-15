@@ -24,6 +24,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Models;
 using TinyMessenger;
 using MPfm.MVP.Messages;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Navigation
 {
@@ -125,7 +126,7 @@ namespace MPfm.MVP.Navigation
         protected void ShowEqualizerPresetsView()
         {
             var view = CreateEqualizerPresetsView();
-            PushDialogView("EqualizerPresets", view);
+            PushDialogView("Equalizer Presets", view);
         }
 
         public virtual void BindOptionsMenuView(IMobileOptionsMenuView view)
@@ -477,12 +478,12 @@ namespace MPfm.MVP.Navigation
             return _equalizerPresetsView;
         }
 
-        public virtual IEqualizerPresetDetailsView CreateEqualizerPresetDetailsView()
+        public virtual IEqualizerPresetDetailsView CreateEqualizerPresetDetailsView(EQPreset preset)
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>();
+                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads(){{"preset", preset}});
                 _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
             };
             

@@ -458,7 +458,7 @@ namespace MPfm.Library.Database
 
         public void InsertEQPreset(EQPreset eq)
         {
-            _gateway.Insert<EQPreset>(eq, "EQPresets");            
+            _gateway.Insert<EQPreset>(eq, "EQPresets");
         }
 
         public void UpdateEQPreset(EQPreset eq)

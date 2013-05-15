@@ -555,41 +555,41 @@ namespace MPfm.Library.Database
 
                 // Scan through properties
                 PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                bool addedOneItem = false;
                 for (int a = 0; a < propertyInfos.Length; a++)
                 {
-                    // Get property info
                     PropertyInfo propertyInfo = propertyInfos[a];
-
-                    // Make sure the property has a setter
                     if (propertyInfo.GetSetMethod() != null)
                     {
-                        // Check for map
                         string fieldName = propertyInfo.Name;                    
                         if (dictMap.ContainsValue(propertyInfo.Name))
-                        {
                             fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name); 
-                        }
+
+                        // Add comma if an item was added previously
+                        if(!addedOneItem)
+                            addedOneItem = true;
+                        else
+                            sql.Append(", ");
 
                         // Add database field name
                         sql.Append("[" + fieldName + "]=");
-
-                        // Get value and determine how to add field value
                         object value = propertyInfo.GetValue(obj, null);
                         sql.Append(FormatSQLValue(value));
-
-                        // Add a comma if this isn't the last item
-                        if (a < propertyInfos.Length - 1)
-                        {
-                            sql.Append(", ");
-                        }
                         sql.Append("\n");
                     }
                 }
 
                 // Generate where clause
                 sql.AppendLine(" WHERE ");
+                addedOneItem = false;
                 for(int a = 0; a < where.Count; a++)
                 {
+                    // Add comma if an item was added previously
+                    if(!addedOneItem)
+                        addedOneItem = true;
+                    else
+                        sql.Append(", ");
+
                     KeyValuePair<string, object> keyValue = where.ElementAt(a);
                     sql.AppendLine("[" + keyValue.Key + "]=");
                     sql.Append(FormatSQLValue(keyValue.Value));
@@ -655,59 +655,48 @@ namespace MPfm.Library.Database
 
                 // Scan through properties to set column names
                 PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                bool addedOneItem = false;
                 for (int a = 0; a < propertyInfos.Length; a++)
                 {
-                    // Get property info
                     PropertyInfo propertyInfo = propertyInfos[a];
-
-                    // Make sure the property has a setter
                     if (propertyInfo.GetSetMethod() != null)
                     {
-                        // Check for map
                         string fieldName = propertyInfo.Name;
                         if (dictMap.ContainsValue(propertyInfo.Name))
-                        {
                             fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
-                        }
 
-                        // Add database field name
-                        sql.Append("[" + fieldName + "]");
-
-                        // Add a comma if this isn't the last item
-                        if (a < propertyInfos.Length - 1)
-                        {
+                        // Add comma if an item was added previously
+                        if(!addedOneItem)
+                            addedOneItem = true;
+                        else
                             sql.Append(", ");
-                        }
+
+                        sql.Append("[" + fieldName + "]");
                         sql.Append("\n");
                     }
                 }
                 sql.AppendLine(") VALUES (");
 
                 // Scan through properties and set values
+                addedOneItem = false;
                 for (int a = 0; a < propertyInfos.Length; a++)
                 {
-                    // Get property info
                     PropertyInfo propertyInfo = propertyInfos[a];
-
-                    // Make sure the property has a setter
                     if (propertyInfo.GetSetMethod() != null)
                     {
-                        // Check for map
                         string fieldName = propertyInfo.Name;
                         if (dictMap.ContainsValue(propertyInfo.Name))
-                        {
                             fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
-                        }
+
+                        // Add comma if an item was added previously
+                        if(!addedOneItem)
+                            addedOneItem = true;
+                        else
+                            sql.Append(", ");
 
                         // Get value and determine how to add field value
                         object value = propertyInfo.GetValue(obj, null);
-                        sql.Append(FormatSQLValue(value));
-
-                        // Add a comma if this isn't the last item
-                        if (a < propertyInfos.Length - 1)
-                        {
-                            sql.Append(", ");
-                        }
+                        sql.Append(FormatSQLValue(value));                       
                         sql.Append("\n");
                     }
                 }

@@ -42,6 +42,7 @@ namespace MPfm.MVP.Services
         public bool IsPaused { get { return _player.IsPaused; } }
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
         public Playlist CurrentPlaylist { get { return _player.Playlist; } }
+        public EQPreset EQPreset { get { return _player.EQPreset; } }
         public float Volume { get { return _player.Volume; } }
 
 		public PlayerService(ITinyMessengerHub messageHub)

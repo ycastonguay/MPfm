@@ -30,7 +30,7 @@ namespace MPfm.Player.Objects
         public BASSFXChan FXChannel { get; set; }
 
         /// <summary>
-        /// Bandwidth.
+        /// Bandwidth
         /// </summary>
         public float Bandwidth { get; set; }
 
@@ -38,6 +38,11 @@ namespace MPfm.Player.Objects
         /// Center (frequency in Hz).
         /// </summary>
         public float Center { get; set; }
+
+        /// <summary>
+        /// Center (frequency in string format)
+        /// </summary>
+        public string CenterString { get; set; }
 
         /// <summary>
         /// Gain (in dB).
@@ -55,7 +60,6 @@ namespace MPfm.Player.Objects
         /// </summary>
         public EQPresetBand()
         {
-            // Set default values
             SetDefaultValues();
         }
 
@@ -64,11 +68,12 @@ namespace MPfm.Player.Objects
         /// Sets the default values for an equalizer band.
         /// </summary>
         /// <param name="center">Equalizer center (in Hz)</param>
-        public EQPresetBand(float center)
+        /// <param name="centerString">Equalizer center (in Hz, string format)</param>
+        public EQPresetBand(float center, string centerString)
         {
-            // Set default values
             SetDefaultValues();
             Center = center;
+            CenterString = centerString;
         }
 
         /// <summary>
@@ -76,9 +81,9 @@ namespace MPfm.Player.Objects
         /// </summary>
         private void SetDefaultValues()
         {
-            // Set default values
             FXChannel = BASSFXChan.BASS_BFX_CHANALL;
             Center = 8000.0f;
+            CenterString = "8kHz";
             Q = 1.0f;
             //Bandwidth = 2.5f;
             Gain = 0.0f;

@@ -30,6 +30,6 @@ namespace MPfm.MVP.Views
         Action<Guid> OnDeletePreset { get; set; }
 
         void EqualizerPresetsError(Exception ex);
-        void RefreshPresets(IEnumerable<EQPreset> presets);
+        void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId);
 	}
 }
