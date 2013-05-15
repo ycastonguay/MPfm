@@ -34,6 +34,8 @@ namespace MPfm.MVP.Services.Interfaces
         PlaylistItem CurrentPlaylistItem { get; }
         Playlist CurrentPlaylist { get; }
         EQPreset EQPreset { get; }
+        bool IsEQBypassed { get; }
+        bool IsEQEnabled { get; }
         float Volume { get; }
 
         void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);

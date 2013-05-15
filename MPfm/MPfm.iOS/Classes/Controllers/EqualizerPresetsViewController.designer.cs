@@ -12,6 +12,12 @@ namespace MPfm.iOS
 	partial class EqualizerPresetsViewController
 	{
 		[Outlet]
+		MonoTouch.UIKit.UISlider sliderMasterVolume { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblMasterVolume { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
@@ -25,6 +31,16 @@ namespace MPfm.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (sliderMasterVolume != null) {
+				sliderMasterVolume.Dispose ();
+				sliderMasterVolume = null;
+			}
+
+			if (lblMasterVolume != null) {
+				lblMasterVolume.Dispose ();
+				lblMasterVolume = null;
+			}
+
 			if (tableView != null) {
 				tableView.Dispose ();
 				tableView = null;

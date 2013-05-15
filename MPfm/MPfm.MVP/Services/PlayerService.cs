@@ -43,6 +43,8 @@ namespace MPfm.MVP.Services
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
         public Playlist CurrentPlaylist { get { return _player.Playlist; } }
         public EQPreset EQPreset { get { return _player.EQPreset; } }
+        public bool IsEQBypassed { get { return _player.IsEQBypassed; } }
+        public bool IsEQEnabled { get { return _player.IsEQEnabled; } }
         public float Volume { get { return _player.Volume; } }
 
 		public PlayerService(ITinyMessengerHub messageHub)

@@ -60,6 +60,9 @@ namespace MPfm.iOS
 
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
         {
+            if (gestureRecognizer.State != UIGestureRecognizerState.Began)
+                return;
+
             PointF pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
             if (indexPath != null)

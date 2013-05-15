@@ -122,15 +122,25 @@ namespace MPfm.MVP.Presenters
 
         private void DeletePreset(Guid presetId)
         {
+            try
+            {
+                _libraryService.DeleteEQPreset(presetId);
+                RefreshPresets();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while deleting an equalizer preset: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
         }
 
         private void RefreshPresets()
         {
             try
             {
-                var presets = _libraryService.SelectEQPresets().ToList();
+                var presets = _libraryService.SelectEQPresets().OrderBy(x => x.Name).ToList();
                 Guid selectedPresetId = (_playerService.EQPreset != null) ? _playerService.EQPreset.EQPresetId : Guid.Empty;
-                View.RefreshPresets(presets, selectedPresetId);
+                View.RefreshPresets(presets, selectedPresetId, _playerService.IsEQBypassed);
             }
             catch(Exception ex)
             {

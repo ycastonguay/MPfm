@@ -65,7 +65,9 @@ namespace MPfm.Player.Objects
         /// </summary>
         public EQPreset()
         {
-            LoadDefault();
+            Name = "Default";
+            EQPresetId = Guid.NewGuid();
+            Reset();
         }
 
         /// <summary>
@@ -97,15 +99,12 @@ namespace MPfm.Player.Objects
         }
 
         /// <summary>
-        /// Loads the default EQ preset.
+        /// Resets EQ preset bands.
         /// </summary>
-        public void LoadDefault()
+        public void Reset()
         {
-            Bands = new List<EQPresetBand>();
-            Name = "Default";
-            EQPresetId = Guid.NewGuid();
-
             // Create default list of frequencies
+            Bands = new List<EQPresetBand>();
             List<Tuple<float, string>> freqs = GetDefaultFreqs();
             for (int a = 0; a < freqs.Count; a++)
                 Bands.Add(new EQPresetBand(freqs[a].Item1, freqs[a].Item2));

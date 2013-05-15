@@ -150,7 +150,6 @@
     <Folder Include="Presenters\Interfaces\" />
     <Folder Include="Config\" />
     <Folder Include="Messages\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -258,9 +257,6 @@
     <Compile Include="Presenters\Interfaces\IBasePresenter.cs" />
     <Compile Include="Views\IBaseView.cs" />
     <Compile Include="Views\IMainView.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\SplashViewModel.cs" />
-    <Compile Include="ViewModels\LibraryBrowserViewModel.cs" />
     <Compile Include="Presenters\Interfaces\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Navigation\NavigationManager.cs" />

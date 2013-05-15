@@ -34,6 +34,7 @@ namespace MPfm.iOS
 {
     public partial class EqualizerPresetDetailsViewController : BaseViewController, IEqualizerPresetDetailsView
     {
+        bool _isPresetModified;
         UIBarButtonItem _btnBack;
         UIBarButtonItem _btnSave;       
         UIBarButtonItem _btnReset;
@@ -113,22 +114,45 @@ namespace MPfm.iOS
 
         private void HandleButtonSaveTouchUpInside(object sender, EventArgs e)
         {
+            _isPresetModified = false;
             OnSavePreset(txtPresetName.Text);
         }
 
         private void HandleButtonBackTouchUpInside(object sender, EventArgs e)
         {
-            NavigationController.PopViewControllerAnimated(true);            
+            if (_isPresetModified)
+            {
+                UIAlertView alertView = new UIAlertView("Equalizer preset has been modified", "Are you sure you wish to exit this screen without saving?", null, "OK", new string[1] {"Cancel"});
+                alertView.Dismissed += (sender2, e2) => {
+                    if(e2.ButtonIndex == 0)
+                        NavigationController.PopViewControllerAnimated(true);
+                };
+                alertView.Show();
+            }
+            else
+            {
+                NavigationController.PopViewControllerAnimated(true);
+            }
         }
 
         private void HandleButtonResetTouchUpInside(object sender, EventArgs e)
         {
-            OnResetPreset();
+            UIAlertView alertView = new UIAlertView("Equalizer preset will be reset", "Are you sure you wish to reset this equalizer preset?", null, "OK", new string[1] {"Cancel"});
+            alertView.Dismissed += (sender2, e2) => {
+                if(e2.ButtonIndex == 0)
+                    OnResetPreset();                    
+            };
+            alertView.Show();
         }
 
         private void HandleButtonNormalizeTouchUpInside(object sender, EventArgs e)
         {
-            OnNormalizePreset();
+            UIAlertView alertView = new UIAlertView("Equalizer preset will be normalized", "Are you sure you wish to normalize this equalizer preset?", null, "OK", new string[1] {"Cancel"});
+            alertView.Dismissed += (sender2, e2) => {
+                if(e2.ButtonIndex == 0)
+                    OnNormalizePreset();
+            };
+            alertView.Show();
         }
 
         private void AddFaderToScrollView(string frequency)
@@ -144,6 +168,7 @@ namespace MPfm.iOS
 
         private void HandleFaderValueChanged(object sender, MPfmEqualizerFaderValueChangedEventArgs e)
         {
+            _isPresetModified = true;
             MPfmEqualizerFaderView view = (MPfmEqualizerFaderView)sender;
             OnSetFaderGain(view.Frequency, e.Value);
         }
@@ -174,6 +199,7 @@ namespace MPfm.iOS
         public void RefreshPreset(EQPreset preset)
         {
             InvokeOnMainThread(() => {
+                _isPresetModified = false;
                 txtPresetName.Text = preset.Name;
                 for(int a = 0; a < preset.Bands.Count; a++)
                     _faderViews[a].SetValue(preset.Bands[a].CenterString, preset.Bands[a].Gain);

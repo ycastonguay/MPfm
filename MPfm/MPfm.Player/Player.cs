@@ -1474,8 +1474,10 @@ namespace MPfm.Player
                 eq.fCenter = currentBand.Center;
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
-                BassWrapper.BASS_FXGetParametersPeakEQ(_fxEQHandle, eq);
-                UpdateEQBand(a, currentBand.Gain, true);
+
+                bool success = BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
+                if(!success)
+                    Base.CheckForError();
             }
 
             _isEQEnabled = true;
@@ -1564,7 +1566,10 @@ namespace MPfm.Player
                 eq.fGain = currentBand.Gain;
                 eq.fQ = currentBand.Q;
                 BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
-                UpdateEQBand(a, currentBand.Gain, true);
+
+                bool success = BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
+                if(!success)
+                    Base.CheckForError();
             }
         }
 

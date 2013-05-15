@@ -73,7 +73,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _preset.LoadDefault();
+                _preset.Reset();
                 _playerService.ResetEQ();
                 View.RefreshPreset(_preset);
             }

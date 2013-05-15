@@ -37,8 +37,8 @@ namespace MPfm.iOS
         UIBarButtonItem _btnAdd;
         UIBarButtonItem _btnDone;
         string _cellIdentifier = "EqualizerPresetCell";
-        NSIndexPath _lastCheckIndexPath = null;
         List<EQPreset> _presets = new List<EQPreset>();
+        Guid _selectedPresetId;
 
         public EqualizerPresetsViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "EqualizerPresetsViewController_iPhone" : "EqualizerPresetsViewController_iPad", null)
@@ -56,11 +56,16 @@ namespace MPfm.iOS
             tableView.AddGestureRecognizer(longPress);
 
             viewOptions.BackgroundColor = GlobalTheme.BackgroundColor;
-            lblBypass.TextColor = UIColor.White;
             lblBypass.Font = UIFont.FromName("HelveticaNeue", 14.0f);
+            lblMasterVolume.Font = UIFont.FromName("HelveticaNeue", 14.0f);
 
+            switchBypass.OnTintColor = GlobalTheme.SecondaryColor;
             switchBypass.On = false;
             switchBypass.ValueChanged += HandleSwitchBypassValueChanged;
+
+            sliderMasterVolume.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+            sliderMasterVolume.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            sliderMasterVolume.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 
             var btnDone = new UIButton(UIButtonType.Custom);
             btnDone.SetTitle("Done", UIControlState.Normal);
@@ -79,9 +84,7 @@ namespace MPfm.iOS
             btnAdd.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnAdd.Font = UIFont.FromName("HelveticaNeue-Bold", 18.0f);
             btnAdd.Frame = new RectangleF(0, 12, 40, 30);
-            btnAdd.TouchUpInside += (sender, e) => {
-                OnAddPreset();
-            };
+            btnAdd.TouchUpInside += HandleButtonAddTouchUpInside;
             _btnAdd = new UIBarButtonItem(btnAdd);
 
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
@@ -91,6 +94,14 @@ namespace MPfm.iOS
             navCtrl.SetBackButtonVisible(false);
 
             base.ViewDidLoad();
+        }
+
+        private void HandleButtonAddTouchUpInside(object sender, EventArgs e)
+        {
+            foreach (var visibleCell in tableView.VisibleCells)
+                visibleCell.Accessory = UITableViewCellAccessory.None;
+
+            OnAddPreset();
         }
 
         private void HandleSwitchBypassValueChanged(object sender, EventArgs e)
@@ -108,17 +119,35 @@ namespace MPfm.iOS
 
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
         {
+            if (gestureRecognizer.State != UIGestureRecognizerState.Began)
+                return;
+
             PointF pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
             if (indexPath != null)
             {
-                SetCheckMark(indexPath);
+                SetCheckmarkCell(indexPath);
                 OnEditPreset(_presets[indexPath.Row].EQPresetId);
             }
         }
 
+        [Export ("tableView:commitEditingStyle:forRowAtIndexPath:")]
+        public void CommitEditingStyleForRowAtIndexPath(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+        {
+            if(editingStyle == UITableViewCellEditingStyle.Delete)
+            {
+                OnDeletePreset(_presets[indexPath.Row].EQPresetId);
+            }
+        }
+
+        [Export ("tableView:canEditRowAtIndexPath:")]
+        public bool CanEditRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            return true;
+        }
+
         [Export ("tableView:numberOfRowsInSection:")]
-        public int RowsInSection(UITableView tableview, int section)
+        public int RowsInSection(UITableView tableView, int section)
         {
             return _presets.Count;
         }
@@ -138,8 +167,11 @@ namespace MPfm.iOS
             cell.TextLabel.Text = _presets[indexPath.Row].Name;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
             cell.TextLabel.TextColor = UIColor.Black;
-            //cell.Accessory = UITableViewCellAccessory.Checkmark;
+            cell.Accessory = UITableViewCellAccessory.None;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
+
+            if (_presets[indexPath.Row].EQPresetId == _selectedPresetId)
+                cell.Accessory = UITableViewCellAccessory.Checkmark;
             
             UIView viewBackgroundSelected = new UIView();
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -151,28 +183,29 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            SetCheckmarkCell(indexPath);
             OnLoadPreset(_presets[indexPath.Row].EQPresetId);
-            SetCheckMark(indexPath);
             tableView.DeselectRow(indexPath, true);
         }
 
-        private void SetCheckMark(NSIndexPath indexPath)
+        [Export ("tableView:didDeselectRowAtIndexPath:")]
+        public void RowDeselected(UITableView tableView, NSIndexPath indexPath)
         {
-            // Reset last checkmark
-            if (_lastCheckIndexPath != null)
-            {
-                var cellToRemove = tableView.CellAt(_lastCheckIndexPath);
-                if (cellToRemove != null)
-                    cellToRemove.Accessory = UITableViewCellAccessory.None;
-            }
+            Console.WriteLine("ROW DESELECTED indexPath.row: " + indexPath.Row.ToString());
+        }
 
-            // Set new checkmark
+        private void SetCheckmarkCell(NSIndexPath indexPath)
+        {
+            _selectedPresetId = _presets[indexPath.Row].EQPresetId;
+
+            // Reset checkmarks
+            foreach (var visibleCell in tableView.VisibleCells)
+                visibleCell.Accessory = UITableViewCellAccessory.None;
+
+            // Set new checkmark (force reload row or the checkmark isn't always visible)
             var cell = tableView.CellAt(indexPath);
             if(cell != null)
-            {
-                _lastCheckIndexPath = indexPath;
-                cell.Accessory = UITableViewCellAccessory.Checkmark;
-            }
+                tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.None);
         }
 
         #region IEqualizerPresetsView implementation
@@ -191,19 +224,13 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId)
+        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
             InvokeOnMainThread(() => {
+                _selectedPresetId = selectedPresetId;
                 _presets = presets.ToList();
-
-                var preset = _presets.FirstOrDefault(x => x.EQPresetId == selectedPresetId);
-                if(preset != null)
-                {
-                    int index = _presets.IndexOf(preset);
-                    SetCheckMark(NSIndexPath.FromRowSection(index, 0));
-                }
-
                 tableView.ReloadData();
+                switchBypass.On = isEQBypassed;
             });
         }
 
