@@ -125,6 +125,8 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _libraryService.DeleteEQPreset(presetId);
+                if(_playerService.EQPreset.EQPresetId == presetId)
+                    _playerService.ResetEQ();
                 RefreshPresets();
             }
             catch(Exception ex)

@@ -33,6 +33,7 @@ namespace MPfm.MVP.Presenters
         private readonly ILibraryService _libraryService;
         private readonly ITinyMessengerHub _messageHub;
         private EQPreset _preset;
+        private List<EQPresetBand> _originalPresetBands;
 
         public EqualizerPresetDetailsPresenter(EQPreset preset, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
@@ -40,6 +41,18 @@ namespace MPfm.MVP.Presenters
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
+
+            // Clone band values to make sure we're not dealing with the same instance
+            _originalPresetBands = new List<EQPresetBand>();
+            foreach (var band in preset.Bands)
+                _originalPresetBands.Add(new EQPresetBand(){
+                    Bandwidth = band.Bandwidth,
+                    Center = band.Center,
+                    CenterString = band.CenterString,
+                    FXChannel = band.FXChannel,
+                    Gain = band.Gain,
+                    Q = band.Q
+                });
 		}
 
         public override void BindView(IEqualizerPresetDetailsView view)
@@ -50,9 +63,33 @@ namespace MPfm.MVP.Presenters
             view.OnResetPreset = ResetPreset;
             view.OnSavePreset = SavePreset;
             view.OnSetFaderGain = SetFaderGain;
+            view.OnRevertPreset = RevertPreset;
 
             _playerService.ApplyEQPreset(_preset);
             View.RefreshPreset(_preset);
+        }
+
+        public void RevertPreset()
+        {
+            try
+            {
+                for(int a = 0; a < _preset.Bands.Count; a++)
+                {
+                    _preset.Bands[a].Bandwidth = _originalPresetBands[a].Bandwidth;
+                    _preset.Bands[a].Center = _originalPresetBands[a].Center;
+                    _preset.Bands[a].CenterString = _originalPresetBands[a].CenterString;
+                    _preset.Bands[a].FXChannel = _originalPresetBands[a].FXChannel;
+                    _preset.Bands[a].Gain = _originalPresetBands[a].Gain;
+                    _preset.Bands[a].Q = _originalPresetBands[a].Q;
+                }
+                _playerService.ApplyEQPreset(_preset);
+                View.RefreshPreset(_preset);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while reverting the equalizer preset: " + ex.Message);
+                View.EqualizerPresetDetailsError(ex);
+            }
         }
 
         public void NormalizePreset()

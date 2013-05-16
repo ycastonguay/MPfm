@@ -1557,6 +1557,9 @@ namespace MPfm.Player
         {
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
             _currentEQPreset = preset;
+            if (_isEQBypassed)
+                return;
+
             for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
             {
                 EQPresetBand currentBand = _currentEQPreset.Bands[a];

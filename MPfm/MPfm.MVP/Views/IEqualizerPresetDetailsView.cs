@@ -25,6 +25,7 @@ namespace MPfm.MVP.Views
     {
         Action OnResetPreset { get; set; }
         Action OnNormalizePreset { get; set; }
+        Action OnRevertPreset { get; set; }
         Action<string> OnSavePreset { get; set; }
         Action<string, float> OnSetFaderGain { get; set; }
 

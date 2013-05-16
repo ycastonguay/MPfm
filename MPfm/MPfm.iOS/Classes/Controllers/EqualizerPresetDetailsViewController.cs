@@ -125,7 +125,10 @@ namespace MPfm.iOS
                 UIAlertView alertView = new UIAlertView("Equalizer preset has been modified", "Are you sure you wish to exit this screen without saving?", null, "OK", new string[1] {"Cancel"});
                 alertView.Dismissed += (sender2, e2) => {
                     if(e2.ButtonIndex == 0)
+                    {
+                        OnRevertPreset();
                         NavigationController.PopViewControllerAnimated(true);
+                    }
                 };
                 alertView.Show();
             }
@@ -177,6 +180,7 @@ namespace MPfm.iOS
 
         public Action OnResetPreset { get; set; }
         public Action OnNormalizePreset { get; set; }
+        public Action OnRevertPreset { get; set; }
         public Action<string> OnSavePreset { get; set; }
         public Action<string, float> OnSetFaderGain { get; set; }
 
