@@ -43,7 +43,14 @@ namespace MPfm.iOS.Classes.Controls
         public event EventHandler EndTrackingEvent;
         public SliderScrubbingType ScrubbingType { get; private set; }
 
-        public MPfmSlider(IntPtr handle) : base (handle)
+        public MPfmSlider(IntPtr handle) 
+            : base (handle)
+        {
+            this.Continuous = true;
+        }
+
+        public MPfmSlider(RectangleF frame) 
+            : base (frame)
         {
             this.Continuous = true;
         }
@@ -290,6 +297,19 @@ namespace MPfm.iOS.Classes.Controls
         public override void CancelTracking(UIEvent uievent)
         {
             base.CancelTracking(uievent);
+        }
+
+        public override UIView HitTest(PointF point, UIEvent uievent)
+        {
+            // This trick makes it easier to use the thumb button of a slider inside a scroll view
+            // http://stackoverflow.com/questions/4600290/uislider-and-uiscrollview
+            RectangleF trackRect = TrackRectForBounds(Bounds);
+            RectangleF thumbRect = ThumbRectForBounds(Bounds, trackRect, Value);
+
+            if (thumbRect.Contains(point))
+                return base.HitTest(point, uievent);
+            else
+                return Superview.HitTest(point, uievent);
         }
 
         public int IndexOfLowerScrubbingSpeed(List<float> scrubbingSpeedPositions, float verticalOffset)

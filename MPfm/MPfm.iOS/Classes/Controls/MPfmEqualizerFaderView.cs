@@ -28,7 +28,7 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmEqualizerFaderView")]
     public class MPfmEqualizerFaderView : UIView
     {
-        UISlider _slider;
+        MPfmSlider _slider;
         UILabel _lblValue;
         UILabel _lblFrequency;
 
@@ -71,7 +71,7 @@ namespace MPfm.iOS.Classes.Controls
             _lblValue.TextColor = UIColor.White;
             _lblValue.Font = UIFont.FromName("HelveticaNeue", 12.0f);
 
-            _slider = new UISlider(new RectangleF(62, 4, 186, 36));
+            _slider = new MPfmSlider(new RectangleF(62, 4, 186, 36));
             _slider.MinValue = -6;
             _slider.MaxValue = 6;
             _slider.Value = 0;

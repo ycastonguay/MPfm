@@ -90,8 +90,9 @@ namespace MPfm.iOS.Classes.Controllers
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;
             scrollView.PagingEnabled = true;
-            scrollView.ShowsHorizontalScrollIndicator = false;
+            scrollView.ShowsHorizontalScrollIndicator = true;
             scrollView.ShowsVerticalScrollIndicator = false;
+            scrollView.DelaysContentTouches = false;
             pageControl.CurrentPage = 0;
 
             // TODO: Block slider when the player is paused.
