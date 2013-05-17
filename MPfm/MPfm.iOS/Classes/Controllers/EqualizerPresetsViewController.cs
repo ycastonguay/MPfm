@@ -234,6 +234,14 @@ namespace MPfm.iOS
             });
         }
 
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        {
+            InvokeOnMainThread(() => {
+                //outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+                //outputMeter.SetNeedsDisplay();
+            });
+        }
+
         #endregion
     }
 }

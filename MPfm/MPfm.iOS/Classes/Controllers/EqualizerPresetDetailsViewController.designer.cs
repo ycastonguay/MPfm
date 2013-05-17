@@ -28,6 +28,9 @@ namespace MPfm.iOS
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewOptions { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmEqualizerPresetGraphView presetGraph { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -59,6 +62,11 @@ namespace MPfm.iOS
 			if (viewOptions != null) {
 				viewOptions.Dispose ();
 				viewOptions = null;
+			}
+
+			if (presetGraph != null) {
+				presetGraph.Dispose ();
+				presetGraph = null;
 			}
 		}
 	}

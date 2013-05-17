@@ -15,12 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using MPfm.Player;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Playlists;
 using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.MVP.Services.Interfaces
 {
@@ -30,6 +31,7 @@ namespace MPfm.MVP.Services.Interfaces
     public interface IPlayerService
     {
         bool IsSettingPosition { get; }
+        bool IsPlaying { get; }
         bool IsPaused { get; }
         PlaylistItem CurrentPlaylistItem { get; }
         Playlist CurrentPlaylist { get; }
@@ -52,6 +54,7 @@ namespace MPfm.MVP.Services.Interfaces
         void RepeatType();
 
         int GetDataAvailable();
+        Tuple<float[], float[]> GetMixerData(double seconds);
         long GetPosition();
 
         void SetPosition(double percentage);

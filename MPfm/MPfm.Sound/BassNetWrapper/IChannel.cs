@@ -47,7 +47,7 @@ namespace MPfm.Sound.BassNetWrapper
         void RemoveFX(int handleFX);
         void RemoveSync(int syncHandle);
         void ResetFX(int handleFX);
-        long Seconds2Bytes2(double position);
+        long Seconds2Bytes(double position);
         void SetAttribute(BASSAttribute attribute, float value);
         BASSFlag SetFlags(BASSFlag flags, BASSFlag mask);
         int SetFX(BASSFXType type, int priority);

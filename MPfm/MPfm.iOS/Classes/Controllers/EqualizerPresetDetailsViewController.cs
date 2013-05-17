@@ -35,6 +35,7 @@ namespace MPfm.iOS
     public partial class EqualizerPresetDetailsViewController : BaseViewController, IEqualizerPresetDetailsView
     {
         bool _isPresetModified;
+        EQPreset _preset;
         UIBarButtonItem _btnBack;
         UIBarButtonItem _btnSave;       
         UIBarButtonItem _btnReset;
@@ -171,9 +172,16 @@ namespace MPfm.iOS
 
         private void HandleFaderValueChanged(object sender, MPfmEqualizerFaderValueChangedEventArgs e)
         {
-            _isPresetModified = true;
             MPfmEqualizerFaderView view = (MPfmEqualizerFaderView)sender;
+
+            var band = _preset.Bands.FirstOrDefault(x => x.CenterString == view.Frequency);
+            band.Gain = e.Value;
+
+            _isPresetModified = true;
             OnSetFaderGain(view.Frequency, e.Value);
+
+            presetGraph.Preset = _preset;
+            presetGraph.SetNeedsDisplay();
         }
         
         #region IEqualizerPresetDetailsView implementation
@@ -204,9 +212,13 @@ namespace MPfm.iOS
         {
             InvokeOnMainThread(() => {
                 _isPresetModified = false;
+                _preset = preset;
                 txtPresetName.Text = preset.Name;
                 for(int a = 0; a < preset.Bands.Count; a++)
                     _faderViews[a].SetValue(preset.Bands[a].CenterString, preset.Bands[a].Gain);
+
+                presetGraph.Preset = _preset;
+                presetGraph.SetNeedsDisplay();
             });
         }
 

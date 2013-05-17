@@ -15,17 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MPfm.Player;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.Playlists;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
 using TinyMessenger;
-using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.MVP.Services
 {
@@ -39,6 +40,7 @@ namespace MPfm.MVP.Services
         private PlayerStatusType _status;
 
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
+        public bool IsPlaying { get { return _player.IsPlaying; } }
         public bool IsPaused { get { return _player.IsPaused; } }
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
         public Playlist CurrentPlaylist { get { return _player.Playlist; } }
@@ -114,6 +116,56 @@ namespace MPfm.MVP.Services
                     Next();
                     break;
             }
+        }
+
+        public Tuple<float[], float[]> GetMixerData(double seconds)
+        {
+            float maxL = 0f;
+            float maxR = 0f;
+
+            // length of a 20ms window in bytes
+            int lengthToFetch = (int)_player.Seconds2Bytes(seconds); //0.02);
+            // the number of 32-bit floats required (since length is in bytes!)
+            int l4 = lengthToFetch / 4; // 32-bit = 4 bytes
+
+            // create a data buffer as needed
+            float[] sampleData = new float[l4];
+            int length = _player.GetMixerData(lengthToFetch, sampleData);
+
+            // the number of 32-bit floats received
+            // as less data might be returned by BASS_ChannelGetData as requested
+            l4 = length / 4;
+            float[] left = new float[l4 / 2];
+            float[] right = new float[l4 / 2];
+            for (int a = 0; a < l4; a++)
+            {
+                float absLevel = Math.Abs(sampleData[a]);
+
+                // decide on L/R channel
+                if (a % 2 == 0)
+                {                    
+                    // Left channel
+                    left[a/2] = sampleData[a];
+                    if (absLevel > maxL)
+                        maxL = absLevel;
+                }
+                else
+                {
+                    // Right channel
+                    right[a/2] = sampleData[a];
+                    if (absLevel > maxR)
+                        maxR = absLevel;
+                }
+            }
+
+//            // Get min max info from wave block
+//            if (AudioTools.CheckForDistortion(left, right, true, -3.0f))
+//            {
+//                // Show distortion warning "LED"
+//                //picDistortionWarning.Visible = true;
+//            }
+
+            return new Tuple<float[], float[]>(left, right);
         }
 
         public void Play()

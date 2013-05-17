@@ -76,7 +76,53 @@ namespace MPfm.iOS.Helpers
             context.StrokePath();
             context.RestoreState();
         }
-        
+
+        public static void DrawLine(CGContext context, List<PointF> points, CGColor color, float lineWidth, bool closePath, bool dashed)
+        {
+            if (points == null)
+                throw new NullReferenceException();
+
+            if (points.Count == 0)
+                throw new ArgumentException("The line must have at least one point.");
+
+            context.SaveState();
+            context.SetStrokeColor(color);
+            context.SetLineWidth(lineWidth);
+            context.MoveTo(points[0].X, points[0].Y);
+            for(int a = 1; a < points.Count; a++)
+                context.AddLineToPoint(points[a].X, points[a].Y);
+            if (dashed)
+                context.SetLineDash(0, new float[2] { 1, 2 }, 2);
+            if (closePath)
+                context.ClosePath();
+            context.StrokePath();
+            context.RestoreState();
+        }
+
+        public static void DrawRoundedLine(CGContext context, List<PointF> points, CGColor color, float lineWidth, bool closePath, bool dashed)
+        {
+            if (points == null)
+                throw new NullReferenceException();
+
+            if (points.Count == 0)
+                throw new ArgumentException("The line must have at least one point.");
+
+            context.SaveState();
+            context.SetStrokeColor(color);
+            context.SetLineWidth(lineWidth);
+            context.SetLineCap(CGLineCap.Round);
+            context.SetLineJoin(CGLineJoin.Round);
+            context.MoveTo(points[0].X, points[0].Y);
+            for(int a = 1; a < points.Count; a++)
+                context.AddLineToPoint(points[a].X, points[a].Y);
+            if (dashed)
+                context.SetLineDash(0, new float[2] { 1, 2 }, 2);
+            if (closePath)
+                context.ClosePath();
+            context.StrokePath();
+            context.RestoreState();
+        }
+
         public static void FillEllipsis(CGContext context, RectangleF rect, CGColor color)
         {
             context.SaveState();
@@ -123,20 +169,38 @@ namespace MPfm.iOS.Helpers
             context.RestoreState();
         }       
         
-        public static void DrawText(CGContext context, string text, string fontName, float fontSize, float translateHeight, float x, float y)
+        public static SizeF DrawTextAtPoint(CGContext context, PointF pt, string text, string fontName, float fontSize, CGColor fontColor)
         {
             context.SaveState();
-            context.SelectFont(fontName, fontSize, CGTextEncoding.MacRoman);
-            context.SetTextDrawingMode(CGTextDrawingMode.Fill);
-            context.SetFillColor(new CGColor(1, 1));
-            context.SetStrokeColor(new CGColor(1.0f, 1.0f));
-            //context.AddRect(rectText);
-            //context.Clip();
-            context.TextMatrix = CGAffineTransform.MakeScale(1.0f, -1.0f);
-            context.TranslateCTM(0, translateHeight);
-            context.ScaleCTM(1, -1);
-            context.ShowTextAtPoint(x, y, text);
+            context.SetFillColor(fontColor);
+            NSString str = new NSString(text);
+            SizeF size = str.DrawString(pt, UIFont.FromName(fontName, fontSize));
             context.RestoreState();
+            return size;
+        }
+
+        public static SizeF DrawTextInRect(CGContext context, RectangleF rect, string text, string fontName, float fontSize, CGColor fontColor, UILineBreakMode breakMode, UITextAlignment alignment)
+        {
+            context.SaveState();
+            context.SetFillColor(fontColor);
+            NSString str = new NSString(text);
+            SizeF size = str.DrawString(rect, UIFont.FromName(fontName, fontSize), breakMode, alignment);
+            context.RestoreState();
+            return size;
+        }
+
+        public static SizeF MeasureText(CGContext context, string text, string fontName, float fontSize)
+        {
+            NSString str = new NSString(text);
+            SizeF size = str.StringSize(UIFont.FromName(fontName, fontSize));
+            return size;
+        }
+
+        public static SizeF MeasureTextWithConstraint(CGContext context, string text, string fontName, float fontSize, UILineBreakMode breakMode, SizeF constraint)
+        {
+            NSString str = new NSString(text);
+            SizeF size = str.StringSize(UIFont.FromName(fontName, fontSize), constraint, breakMode);
+            return size;
         }
 
         // TODO: Cannot use NSAttributedString in iOS5, only iOS6+

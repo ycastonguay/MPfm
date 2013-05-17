@@ -67,7 +67,9 @@ namespace MPfm.Player
         void Next();
         void GoTo(int index);
 
-        int GetDataAvailable();      
+        int GetDataAvailable();
+        long Seconds2Bytes(double value);
+        int GetMixerData(int length, float[] sampleData);
         long GetPosition();
         void SetPosition(double percentage);
         void SetPosition(long bytes);       

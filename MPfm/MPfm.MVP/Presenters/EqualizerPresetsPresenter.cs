@@ -18,13 +18,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
-using MPfm.MVP.Messages;
 
 namespace MPfm.MVP.Presenters
 {
@@ -34,6 +36,7 @@ namespace MPfm.MVP.Presenters
         readonly ITinyMessengerHub _messageHub;
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
+        Timer _timerOutputMeter;
 
         public EqualizerPresetsPresenter(MobileNavigationManager navigationManager, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
@@ -41,6 +44,9 @@ namespace MPfm.MVP.Presenters
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
+            _timerOutputMeter = new Timer();         
+            _timerOutputMeter.Interval = 20;
+            _timerOutputMeter.Elapsed += HandleOutputMeterTimerElapsed;
 		}
 
         public override void BindView(IEqualizerPresetsView view)
@@ -56,8 +62,39 @@ namespace MPfm.MVP.Presenters
             _messageHub.Subscribe<EqualizerPresetUpdatedMessage>((EqualizerPresetUpdatedMessage m) => {
                 RefreshPresets();
             });
-            
+            _messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
+                switch(m.Status)
+                {
+                    case PlayerStatusType.Playing:
+                        _timerOutputMeter.Start();
+                        break;
+                    case PlayerStatusType.Paused:
+                        _timerOutputMeter.Stop();
+                        break;
+                    case PlayerStatusType.Stopped:
+                        _timerOutputMeter.Stop();
+                        break;
+                }
+            });
+
+            if (_playerService.IsPlaying)
+                _timerOutputMeter.Start();
+
             RefreshPresets();
+        }
+
+        private void HandleOutputMeterTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                //Tuple<float[], float[]> data = _playerService.GetMixerData(0.02);
+                //View.RefreshOutputMeter(data.Item1, data.Item2);
+            }
+            catch(Exception ex)
+            {
+                // Log a soft error
+                Console.WriteLine("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
+            }
         }
 
         private void BypassEqualizer()

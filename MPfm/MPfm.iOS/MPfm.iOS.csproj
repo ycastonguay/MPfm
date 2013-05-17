@@ -202,6 +202,8 @@
     <Compile Include="Classes\Managers\iOSWaveFormRenderer.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
     <Compile Include="Classes\Controls\Events\MPfmEqualizerFaderValueChangedEventArgs.cs" />
+    <Compile Include="Classes\Controls\MPfmEqualizerPresetGraphView.cs" />
+    <Compile Include="Classes\Controls\MPfmOutputMeterView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

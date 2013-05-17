@@ -1263,6 +1263,32 @@ namespace MPfm.Player
         {
             return _mixerChannel.GetDataAvailable();
         }
+
+        /// <summary>
+        /// Converts a time value from seconds to bytes, using the current channel properties (bits per sample, sample rate, etc.)
+        /// </summary>
+        /// <returns>Value (in bytes)</returns>
+        /// <param name="value">Value (in seconds)</param>
+        public long Seconds2Bytes(double value)
+        {
+            return _mixerChannel.Seconds2Bytes(value);
+        }
+
+        /// <summary>
+        /// Returns the sample data from the mixer.
+        /// </summary>
+        /// <returns>Sample data length</returns>
+        /// <param name="length">Length of sample data to fetch</param>
+        /// <param name="sampleData">Sample data</param>
+        public int GetMixerData(int length, float[] sampleData)
+        {
+            int dataLength;
+            if (Device.DriverType != DriverType.DirectSound)
+                dataLength = _fxChannel.GetMixerData(sampleData, length);
+            else
+                dataLength = _mixerChannel.GetData(sampleData, length);
+            return dataLength;
+        }
         
         /// <summary>
         /// Gets the position of the currently playing channel, in bytes.

@@ -31,5 +31,6 @@ namespace MPfm.MVP.Views
 
         void EqualizerPresetsError(Exception ex);
         void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed);
+        void RefreshOutputMeter(float[] dataLeft, float[] dataRight);
 	}
 }

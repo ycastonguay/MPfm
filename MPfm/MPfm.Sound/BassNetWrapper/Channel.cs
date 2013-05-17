@@ -661,7 +661,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// </summary>
         /// <param name="position">Position (in milliseconds)</param>
         /// <returns>Position (in bytes)</returns>
-        public long Seconds2Bytes2(double position)
+        public long Seconds2Bytes(double position)
         {
             return Bass.BASS_ChannelSeconds2Bytes(handle, position);
         }
