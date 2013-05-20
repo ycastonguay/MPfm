@@ -122,12 +122,14 @@ namespace MPfm.iOS.Classes.Controls
             }
         }
 
-        private CGColor _colorMeter1 = new CGColor(0, 0.7f, 0);
-        private CGColor _colorMeter2 = new CGColor(0, 0.5f, 0);
+        private CGColor _colorMeter1 = new CGColor(0, 0.5f, 0);
+        private CGColor _colorMeter2 = new CGColor(0, 0.7f, 0);
+        private CGColor _colorMeterB1 = new CGColor(0, 0.525f, 0);
+        private CGColor _colorMeterB2 = new CGColor(0, 0.725f, 0);
         private CGColor _colorMeterDistortion1 = new CGColor(1, 0, 0);
         private CGColor _colorMeterDistortion2 = new CGColor(0.8f, 0, 0);
-        private CGColor _color0dBLine = new CGColor(0.6f, 0.6f, 0.6f);
-        private CGColor _colorPeakLine = new CGColor(0.9f, 0.9f, 0.9f);
+        private CGColor _color0dBLine = UIColor.FromRGBA(0.9059f, 0.2980f, 0.2353f, 0.5f).CGColor;
+        private CGColor _colorPeakLine = UIColor.Yellow.CGColor;
 
         public MPfmOutputMeterView(IntPtr handle) 
             : base (handle)
@@ -183,255 +185,124 @@ namespace MPfm.iOS.Classes.Controls
         public override void Draw(RectangleF rectToDraw)
         {
             var context = UIGraphics.GetCurrentContext();
-
-            // Draw background gradient (cover -1 pixel to fix graphic bug) 
-//            Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
-//            Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
-//            PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, theme.BackgroundGradient);            
+            CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0.1f, 0.1f, 0.1f));
 
             // If the wave data is empty, skip rendering 
             if (WaveDataHistory == null || WaveDataHistory.Count == 0)
-            {
-//                // Draw bitmap on control
-//                pe.Graphics.DrawImage(bmp, 0, 0, ClientRectangle, GraphicsUnit.Pixel);
-//
-//                // Dispose stuff
-//                g.Dispose();
-//                g = null;
-
-                CoreGraphicsHelper.FillRect(context, Bounds, UIColor.Blue.CGColor);
                 return;
-            }
 
             // By default, the bar width takes the full width of the control (except for stereo)
             float barWidth = Bounds.Width;
 
-            // Check display type
-            if (DisplayType == OutputMeterDisplayType.Stereo)
-            {
-                // Set bar width to half width since there's two bars to draw
-                barWidth = Bounds.Width / 2;
+            // Set bar width to half width since there's two bars to draw
+            barWidth = Bounds.Width / 2;
 
-                // at 10ms refresh, get last value.
-                float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax);
-                float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax);
-                //float maxLeftDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].leftMax);
-                //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
+            // at 10ms refresh, get last value.
+            float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax);
+            float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax);
+            //float maxLeftDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].leftMax);
+            //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
 
-                // Get peak for the last 1000ms
-                float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Left);
-                float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Right);
+            // Get peak for the last 1000ms
+            float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Left);
+            float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Right);
 
-                // Set the dB range to display (-100 to +10dB)
-                float dbRangeToDisplay = 110;
+            // Set the dB range to display (-100 to +10dB)
+            float dbRangeToDisplay = 110;
 
-                // Get multiplier (110 height to 330 == 3)
-                //float scaleMultiplier = Bounds.Height / dbRangeToDisplay;
+            // Get multiplier (110 height to 330 == 3)
+            float scaleMultiplier = Bounds.Height / dbRangeToDisplay;
 
-                // Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
-                //float barHeight = scaleMultiplier * (maxDB + 100);
+            // Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
+            //float barHeight = scaleMultiplier * (maxDB + 100);
 
-//                // Create brushes for displaying volume in decibels
-//                SolidBrush brushFontColor = new SolidBrush(theme.CustomFont.Color);
-//                SolidBrush brushFontShadowColor = new SolidBrush(theme.FontShadowColor);
-//
-//                // Draw 0 dB line
-//                pen = new Pen(theme.Meter0dbLineColor);
-//                g.DrawLine(pen, new Point(0, 10), new Point(Width, 10));
-//                pen.Dispose();
-//                pen = null;
-                CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                    new PointF(0, 10), 
-                    new PointF(Bounds.Width, 10)
-                }, _color0dBLine, 1, false, false);
+            // Draw 0db line
+            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
+                new PointF(0, 4), 
+                new PointF(Bounds.Width, 4)
+            }, _color0dBLine, 1, false, false);
 
-                // -----------------------------------------
-                // LEFT CHANNEL
-                //
+            // -----------------------------------------
+            // LEFT CHANNEL
+            //
 
-                // Get the VU value from audio tools
-                //float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, ChannelType.Left);
+            // Get the VU value from audio tools
+            //float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, ChannelType.Left);
 
-                // Calculate bar height
-                float barHeight = maxLeftDB + 100;
-                //float barHeight = vuLeft + 100;
-                float height = barHeight;
-                if (height == 0)
-                {
-                    // LinearBrush doesnt like 0 
-                    height = 1;
-                }
+            // Calculate bar height
+            float barHeight = maxLeftDB + 100;
+            float height = barHeight;
+            if (height < 1)
+                height = 1;
 
-                // Create rectangle for bar                
-                RectangleF rect = new RectangleF(0, Bounds.Height - barHeight, barWidth, height);
-                //RectangleF rectGradient = new RectangleF(0, Bounds.Height, barWidth, height);
-                //BackgroundGradient gradient = theme.MeterGradient;
-                // Check for distortion
-                //if (maxLeftDB >= 0.2f)
-                //{
-                //    gradient = theme.MeterDistortionGradient;
-                //}
-                //PaintHelper.RenderBackgroundGradient(g, rect, rect, rectGradient, gradient);
-                CoreGraphicsHelper.FillRect(context, rect, _colorMeter1);
-                //CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
+            // Create rectangle for bar
+            RectangleF rect = new RectangleF(0, Bounds.Height - barHeight, barWidth, height);
+            //RectangleF rectGradient = new RectangleF(0, Bounds.Height, barWidth, height);
+            //BackgroundGradient gradient = theme.MeterGradient;
+            // Check for distortion
+            //if (maxLeftDB >= 0.2f)
+            //{
+            //    gradient = theme.MeterDistortionGradient;
+            //}
+            //CoreGraphicsHelper.FillRect(context, rect, _colorMeter1);
+            CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
 
-                // Draw peak line
-//                pen = new Pen(theme.MeterPeakLineColor);
-//                g.DrawLine(pen, new PointF(0, Bounds.Height - (peakLeftDB + 100)), new PointF(barWidth, Bounds.Height - (peakLeftDB + 100)));
-//                pen.Dispose();
-//                pen = null;
-                CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                    new PointF(0, Bounds.Height - (peakLeftDB + 100)), 
-                    new PointF(barWidth, Bounds.Height - (peakLeftDB + 100))
-                }, _colorPeakLine, 1, false, false);
+            // Draw peak line
+            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
+                new PointF(0, Bounds.Height - (peakLeftDB + 100)), 
+                new PointF(barWidth, Bounds.Height - (peakLeftDB + 100))
+            }, _colorPeakLine, 1, false, false);
 
-                // Draw number of db      
-                string strDB = peakLeftDB.ToString("00.0");                
-                //string strDB = vuLeft.ToString("00.0");
-                if (maxLeftDB == -100.0f)
-                {
-                    strDB = "-inf";
-                }
+            // Draw number of db      
+            string strDB = peakLeftDB.ToString("00.0").Replace(",",".");
+            if (maxLeftDB == -100.0f)
+                strDB = "-inf";
 
-//                // barWidth - stringSize.Width = portion restante sans texte. prendre la moitie de ca
-//                SizeF stringSize = g.MeasureString(strDB, font);
-//                float newX = (barWidth - stringSize.Width) / 2;               
-//
-//                // Draw number of decibels (with font shadow to make it easier to read)
-//                g.DrawString(strDB, font, brushFontShadowColor, new PointF(newX + 1, Bounds.Height - stringSize.Height));
-//                g.DrawString(strDB, font, brushFontColor, new PointF(newX, Bounds.Height - stringSize.Height - 1));
+            // Draw text
+            SizeF sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-CondensedBold", 10);
+            float newX = (barWidth - sizeString.Width) / 2;
+//            RectangleF rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
+//            rectBackgroundText.Inflate(new SizeF(2, 0));
+//            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
+            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
+            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
 
-                // -----------------------------------------
-                // RIGHT CHANNEL
-                //
+            // -----------------------------------------
+            // RIGHT CHANNEL
+            //
 
-                // Calculate bar height
-                barHeight = maxRightDB + 100;
-                height = barHeight;
-                if (height == 0)
-                {
-                    // LinearBrush doesnt like 0 
-                    height = 1;
-                }
+            // Calculate bar height
+            barHeight = maxRightDB + 100;
+            height = barHeight;
+            if (height < 1)
+                height = 1;
 
-                // Create rectangle for bar                
-                rect = new RectangleF(barWidth, Bounds.Height - barHeight, barWidth, height);
-                //rectGradient = new RectangleF(barWidth, Bounds.Height, barWidth, height);
-                //gradient = theme.MeterGradient;
-                // Check for distortion
-                //if (maxLeftDB >= 0.2f)
-                //{
-                //    gradient = theme.MeterDistortionGradient;
-                //}
-                //PaintHelper.RenderBackgroundGradient(g, rect, rect, rectGradient, gradient);
-                CoreGraphicsHelper.FillRect(context, rect, _colorMeter1);
-                //CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
+            // Create rectangle for bar                
+            rect = new RectangleF(barWidth, Bounds.Height - barHeight, barWidth, height);
+            // Check for distortion
+            //if (maxLeftDB >= 0.2f)
+            //    gradient = theme.MeterDistortionGradient;
+            CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
 
-                // Draw number of db      
-                strDB = maxRightDB.ToString("00.0");
-                if (maxRightDB == -100.0f)
-                {
-                    strDB = "-inf";
-                }
+            // Draw number of db      
+            strDB = peakRightDB.ToString("00.0").Replace(",",".");
+            if (maxRightDB == -100.0f)
+                strDB = "-inf";
 
-//                // Draw peak line
-//                pen = new Pen(theme.MeterPeakLineColor);
-//                g.DrawLine(pen, new PointF(barWidth, Bounds.Height - (peakRightDB + 100)), new PointF(barWidth * 2, Bounds.Height - (peakRightDB + 100)));
-//                pen.Dispose();
-//                pen = null;
+            // Draw peak line
+            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
+                new PointF(barWidth, Bounds.Height - (peakRightDB + 100)), 
+                new PointF(barWidth * 2, Bounds.Height - (peakRightDB + 100))                
+            }, _colorPeakLine, 1, false, false);
 
-                CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                    new PointF(barWidth, Bounds.Height - (peakRightDB + 100)), 
-                    new PointF(barWidth * 2, Bounds.Height - (peakRightDB + 100))                
-                }, _colorPeakLine, 1, false, false);
-
-                // Draw number of db      
-                strDB = peakRightDB.ToString("00.0");
-
-//                // barWidth - stringSize.Width = portion restante sans texte. prendre la moitie de ca
-//                stringSize = g.MeasureString(strDB, font);
-//                newX = ((barWidth - stringSize.Width) / 2) + barWidth;
-//
-//                // Draw number of decibels (with font shadow to make it easier to read)                
-//                g.DrawString(strDB, font, brushFontShadowColor, new PointF(newX + 1, Bounds.Height - stringSize.Height));                
-//                g.DrawString(strDB, font, brushFontColor, new PointF(newX, Bounds.Height - stringSize.Height - 1));
-//
-//                // Dispose the font brushes
-//                brushFontColor.Dispose();
-//                brushFontColor = null;
-//                brushFontShadowColor.Dispose();
-//                brushFontShadowColor = null;
-            }
-            else
-            {
-                //float max = 0.0f;
-                //if (DisplayType == OutputMeterDisplayType.LeftChannel)
-                //{
-                //    max = WaveDataHistory[0].leftMax;
-                //}
-                //else if (DisplayType == OutputMeterDisplayType.RightChannel)
-                //{
-                //    max = WaveDataHistory[0].rightMax;
-                //}
-                //else if (DisplayType == OutputMeterDisplayType.Mix)
-                //{
-                //    max = WaveDataHistory[0].mixMax;
-                //}
-
-                //// at 10ms refresh, get last value.
-                //float maxDB = 20.0f * (float)Math.Log10(max);
-
-                //// Set the dB range to display (-100 to +10dB)
-                //float dbRangeToDisplay = 110;
-
-                //// Get the related value (+10, makes 110 possible height)
-                ////float dbDisplay = maxDB + 10;
-
-                //// Get multiplier (110 height to 330 == 3)
-                //float scaleMultiplier = ClientRectangle.Height / dbRangeToDisplay;
-
-                //// Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
-                ////float barHeight = scaleMultiplier * (maxDB + 100);
-                //float barHeight = maxDB + 100;
-
-                //float height = barHeight;
-                //if (height == 0)
-                //{
-                //    // LinearBrush doesnt like 0 
-                //    height = 1;
-                //}
-
-                //RectangleF rect = new RectangleF(0, Height - barHeight, barWidth, height);
-                //RectangleF rectGrad = new RectangleF(0, 110, barWidth, height);
-                //LinearGradientBrush brushBar = new LinearGradientBrush(rectGrad, Color.LightGreen, Color.DarkGreen, LinearGradientMode.Vertical);
-                //if (maxDB >= 0)
-                //{
-                //    brushBar = new LinearGradientBrush(rectGrad, Color.Red, Color.DarkRed, LinearGradientMode.Vertical);
-                //}
-                //g.FillRectangle(brushBar, rect);
-                //brushBar.Dispose();
-                //brushBar = null;
-
-                //g.DrawString(maxDB.ToString("0.0"), Font, Brushes.White, new PointF(0, 0));
-            }
-//
-//            // Dispose font if necessary
-//            if (font != null)
-//            {
-//                font.Dispose();
-//                font = null;
-//            }
-//
-//            // Draw bitmap on control
-//            pe.Graphics.DrawImage(bmp, 0, 0, ClientRectangle, GraphicsUnit.Pixel);
-//
-//            // Dispose graphics and bitmap
-//            bmp.Dispose();
-//            bmp = null;
-//            g.Dispose();
-//            g = null;
-//        }
-//
+            // Draw number of decibels (with font shadow to make it easier to read)                
+            sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-Bold", 10);
+            newX = ((barWidth - sizeString.Width) / 2) + barWidth;
+//            rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
+//            rectBackgroundText.Inflate(new SizeF(2, 0));
+//            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
+            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
+            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
         }
     }
 

@@ -24,6 +24,7 @@ namespace MPfm.MVP.Views
 	public interface IEqualizerPresetsView : IBaseView
 	{
         Action OnBypassEqualizer { get; set; }
+        Action<float> OnSetVolume { get; set; }
         Action OnAddPreset { get; set; }
         Action<Guid> OnLoadPreset { get; set; }
         Action<Guid> OnEditPreset { get; set; }
@@ -32,5 +33,6 @@ namespace MPfm.MVP.Views
         void EqualizerPresetsError(Exception ex);
         void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed);
         void RefreshOutputMeter(float[] dataLeft, float[] dataRight);
+        void RefreshVolume(float volume);
 	}
 }

@@ -47,7 +47,7 @@ namespace MPfm.MVP.Services
         public EQPreset EQPreset { get { return _player.EQPreset; } }
         public bool IsEQBypassed { get { return _player.IsEQBypassed; } }
         public bool IsEQEnabled { get { return _player.IsEQEnabled; } }
-        public float Volume { get { return _player.Volume; } }
+        public float Volume { get { return _player.Volume; } set { _player.Volume = value; }  }
 
 		public PlayerService(ITinyMessengerHub messageHub)
 		{
@@ -259,11 +259,6 @@ namespace MPfm.MVP.Services
         public void SetPosition(long bytes)
         {
             _player.SetPosition(bytes);
-        }
-
-        public void SetVolume(float volume)
-        {
-            _player.Volume = volume;
         }
 
         public void SetTimeShifting(float timeShifting)

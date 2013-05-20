@@ -45,7 +45,7 @@ namespace MPfm.MVP.Presenters
             _playerService = playerService;
             _libraryService = libraryService;
             _timerOutputMeter = new Timer();         
-            _timerOutputMeter.Interval = 20;
+            _timerOutputMeter.Interval = 40;
             _timerOutputMeter.Elapsed += HandleOutputMeterTimerElapsed;
 		}
 
@@ -54,6 +54,7 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
 
             view.OnBypassEqualizer = BypassEqualizer;
+            view.OnSetVolume = SetVolume;
             view.OnAddPreset = AddPreset;
             view.OnLoadPreset = LoadPreset;
             view.OnEditPreset = EditPreset;
@@ -81,14 +82,15 @@ namespace MPfm.MVP.Presenters
                 _timerOutputMeter.Start();
 
             RefreshPresets();
+            View.RefreshVolume(_playerService.Volume);
         }
 
         private void HandleOutputMeterTimerElapsed(object sender, ElapsedEventArgs e)
         {
             try
             {
-                //Tuple<float[], float[]> data = _playerService.GetMixerData(0.02);
-                //View.RefreshOutputMeter(data.Item1, data.Item2);
+                Tuple<float[], float[]> data = _playerService.GetMixerData(0.02);
+                View.RefreshOutputMeter(data.Item1, data.Item2);
             }
             catch(Exception ex)
             {
@@ -106,6 +108,19 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Console.WriteLine("An error occured while bypassing the equalizer: " + ex.Message);
+                View.EqualizerPresetsError(ex);
+            }
+        }
+
+        private void SetVolume(float volume)
+        {
+            try
+            {
+                _playerService.Volume = volume;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while setting the volume: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }

@@ -56,8 +56,8 @@ namespace MPfm.iOS
             tableView.AddGestureRecognizer(longPress);
 
             viewOptions.BackgroundColor = GlobalTheme.BackgroundColor;
-            lblBypass.Font = UIFont.FromName("HelveticaNeue", 14.0f);
-            lblMasterVolume.Font = UIFont.FromName("HelveticaNeue", 14.0f);
+            lblBypass.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            lblMasterVolume.Font = UIFont.FromName("HelveticaNeue", 12.0f);
 
             switchBypass.OnTintColor = GlobalTheme.SecondaryColor;
             switchBypass.On = false;
@@ -66,6 +66,7 @@ namespace MPfm.iOS
             sliderMasterVolume.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             sliderMasterVolume.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             sliderMasterVolume.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            sliderMasterVolume.ValueChanged += HandleSliderMasterVolumeValueChanged;
 
             var btnDone = new UIButton(UIButtonType.Custom);
             btnDone.SetTitle("Done", UIControlState.Normal);
@@ -94,6 +95,12 @@ namespace MPfm.iOS
             navCtrl.SetBackButtonVisible(false);
 
             base.ViewDidLoad();
+        }
+
+        private void HandleSliderMasterVolumeValueChanged(object sender, EventArgs e)
+        {
+            lblMasterVolumeValue.Text = sliderMasterVolume.Value.ToString("0") + " %";
+            OnSetVolume(sliderMasterVolume.Value / 100);
         }
 
         private void HandleButtonAddTouchUpInside(object sender, EventArgs e)
@@ -211,6 +218,7 @@ namespace MPfm.iOS
         #region IEqualizerPresetsView implementation
 
         public Action OnBypassEqualizer { get; set; }
+        public Action<float> OnSetVolume { get; set; }
         public Action OnAddPreset { get; set; }
         public Action<Guid> OnLoadPreset { get; set; }
         public Action<Guid> OnEditPreset { get; set; }
@@ -237,8 +245,16 @@ namespace MPfm.iOS
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
             InvokeOnMainThread(() => {
-                //outputMeter.AddWaveDataBlock(dataLeft, dataRight);
-                //outputMeter.SetNeedsDisplay();
+                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+                outputMeter.SetNeedsDisplay();
+            });
+        }
+
+        public void RefreshVolume(float volume)
+        {
+            InvokeOnMainThread(() => {
+                sliderMasterVolume.Value = volume * 100;
+                lblMasterVolumeValue.Text = (volume * 100).ToString("0") + " %";
             });
         }
 

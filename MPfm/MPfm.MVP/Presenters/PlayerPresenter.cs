@@ -344,7 +344,7 @@ namespace MPfm.MVP.Presenters
             {
                 // Set volume and refresh UI
                 Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
-                playerService.SetVolume(volume / 100);
+                playerService.Volume = volume / 100;
                 View.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
                     Volume = volume, 
                     VolumeString = volume.ToString("0") + " %" 

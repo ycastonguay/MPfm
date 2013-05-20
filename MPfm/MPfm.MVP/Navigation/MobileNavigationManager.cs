@@ -468,13 +468,17 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
             };
             
-            // Create view and manage view destruction
-            _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _equalizerPresetsView.OnViewDestroy = (view) =>
+            // Re-use the same instance as before
+            if(_equalizerPresetsView == null)
             {
-                _equalizerPresetsView = null;
-                _equalizerPresetsPresenter = null;
-            };
+                // Create view and manage view destruction
+                _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _equalizerPresetsView.OnViewDestroy = (view) =>
+                {
+                    _equalizerPresetsView = null;
+                    _equalizerPresetsPresenter = null;
+                };
+            }
             return _equalizerPresetsView;
         }
 
@@ -486,7 +490,7 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads(){{"preset", preset}});
                 _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
             };
-            
+
             // Create view and manage view destruction
             _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _equalizerPresetDetailsView.OnViewDestroy = (view) =>
@@ -496,7 +500,6 @@ namespace MPfm.MVP.Navigation
             };
             return _equalizerPresetDetailsView;
         }
-
     }
 
     public enum MobileNavigationTabType

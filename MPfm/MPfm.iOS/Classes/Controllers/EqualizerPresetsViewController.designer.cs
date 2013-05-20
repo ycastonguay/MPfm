@@ -31,6 +31,9 @@ namespace MPfm.iOS
 
 		[Outlet]
 		MPfm.iOS.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblMasterVolumeValue { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -67,6 +70,11 @@ namespace MPfm.iOS
 			if (outputMeter != null) {
 				outputMeter.Dispose ();
 				outputMeter = null;
+			}
+
+			if (lblMasterVolumeValue != null) {
+				lblMasterVolumeValue.Dispose ();
+				lblMasterVolumeValue = null;
 			}
 		}
 	}

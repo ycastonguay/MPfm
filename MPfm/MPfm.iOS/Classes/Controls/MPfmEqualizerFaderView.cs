@@ -94,9 +94,9 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleSliderValueChanged(object sender, EventArgs e)
         {
             if(_slider.Value > 0)
-                _lblValue.Text = "+" + _slider.Value.ToString("0.0") + " dB";
+                _lblValue.Text = "+" + _slider.Value.ToString("0.0").Replace(",",".") + " dB";
             else
-                _lblValue.Text = _slider.Value.ToString("0.0") + " dB";
+                _lblValue.Text = _slider.Value.ToString("0.0").Replace(",",".") + " dB";
 
             OnValueChanged(new MPfmEqualizerFaderValueChangedEventArgs(){
                 Value = _slider.Value
@@ -108,9 +108,9 @@ namespace MPfm.iOS.Classes.Controls
             _lblFrequency.Text = frequency;
             _slider.Value = value;
             if(_slider.Value > 0)
-                _lblValue.Text = "+" + _slider.Value.ToString("0.0") + " dB";
+                _lblValue.Text = "+" + _slider.Value.ToString("0.0").Replace(",",".") + " dB";
             else
-                _lblValue.Text = _slider.Value.ToString("0.0") + " dB";
+                _lblValue.Text = _slider.Value.ToString("0.0").Replace(",",".") + " dB";
 
         }
     }

@@ -90,7 +90,7 @@ namespace MPfm.iOS.Classes.Controllers
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;
             scrollView.PagingEnabled = true;
-            scrollView.ShowsHorizontalScrollIndicator = true;
+            scrollView.ShowsHorizontalScrollIndicator = false;
             scrollView.ShowsVerticalScrollIndicator = false;
             scrollView.DelaysContentTouches = false;
             pageControl.CurrentPage = 0;

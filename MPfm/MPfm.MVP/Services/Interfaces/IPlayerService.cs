@@ -38,7 +38,7 @@ namespace MPfm.MVP.Services.Interfaces
         EQPreset EQPreset { get; }
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
-        float Volume { get; }
+        float Volume { get; set; }
 
         void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
@@ -59,7 +59,6 @@ namespace MPfm.MVP.Services.Interfaces
 
         void SetPosition(double percentage);
         void SetPosition(long bytes);
-        void SetVolume(float volume);
         void SetTimeShifting(float timeShifting);
 
         void GoToMarker(Marker marker);
