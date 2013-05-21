@@ -40,6 +40,8 @@ namespace MPfm.MVP.Services.Interfaces
         bool IsEQEnabled { get; }
         float Volume { get; set; }
 
+        event PlayerService.BPMDetected OnBPMDetected;
+
         void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
 

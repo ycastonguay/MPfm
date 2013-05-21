@@ -28,11 +28,11 @@ namespace MPfm.MVP.Views
 	public interface ITimeShiftingView : IBaseView
 	{
         Action<float> OnSetTimeShifting { get; set; }
-        Action<TimeShiftingMode> OnSetTimeShiftingMode { get; set; }
         Action OnResetTimeShifting { get; set; }
-        Action OnDetectTempo { get; set; }
+        Action OnUseDetectedTempo { get; set; }
         
         void RefreshTimeShifting(PlayerTimeShiftingEntity entity);
+        void RefreshBPM(float bpm, string bpmStr);
         void TimeShiftingError(Exception ex);
 	}
 }

@@ -15,34 +15,40 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISegmentedControl segmentedControl { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UISlider slider { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTempo { get; set; }
+		MonoTouch.UIKit.UILabel lblDetectedTempoValue { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblDetectedTempo { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblReferenceTempo { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblReferenceTempoValue { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblCurrentTempo { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblCurrentTempoValue { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIButton btnReset { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnDetectTempo { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblOriginalTempo { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
 
-		[Action ("actionDetectTempo:")]
-		partial void actionDetectTempo (MonoTouch.Foundation.NSObject sender);
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnUseTempo { get; set; }
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoTouch.Foundation.NSObject sender);
 
-		[Action ("actionSegmentChanged:")]
-		partial void actionSegmentChanged (MonoTouch.Foundation.NSObject sender);
+		[Action ("actionUseTempo:")]
+		partial void actionUseTempo (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -51,19 +57,39 @@ namespace MPfm.iOS
 				lblTitle = null;
 			}
 
-			if (segmentedControl != null) {
-				segmentedControl.Dispose ();
-				segmentedControl = null;
-			}
-
 			if (slider != null) {
 				slider.Dispose ();
 				slider = null;
 			}
 
-			if (lblTempo != null) {
-				lblTempo.Dispose ();
-				lblTempo = null;
+			if (lblDetectedTempoValue != null) {
+				lblDetectedTempoValue.Dispose ();
+				lblDetectedTempoValue = null;
+			}
+
+			if (lblDetectedTempo != null) {
+				lblDetectedTempo.Dispose ();
+				lblDetectedTempo = null;
+			}
+
+			if (lblReferenceTempo != null) {
+				lblReferenceTempo.Dispose ();
+				lblReferenceTempo = null;
+			}
+
+			if (lblReferenceTempoValue != null) {
+				lblReferenceTempoValue.Dispose ();
+				lblReferenceTempoValue = null;
+			}
+
+			if (lblCurrentTempo != null) {
+				lblCurrentTempo.Dispose ();
+				lblCurrentTempo = null;
+			}
+
+			if (lblCurrentTempoValue != null) {
+				lblCurrentTempoValue.Dispose ();
+				lblCurrentTempoValue = null;
 			}
 
 			if (btnReset != null) {
@@ -71,19 +97,14 @@ namespace MPfm.iOS
 				btnReset = null;
 			}
 
-			if (btnDetectTempo != null) {
-				btnDetectTempo.Dispose ();
-				btnDetectTempo = null;
-			}
-
-			if (lblOriginalTempo != null) {
-				lblOriginalTempo.Dispose ();
-				lblOriginalTempo = null;
-			}
-
 			if (viewBackground != null) {
 				viewBackground.Dispose ();
 				viewBackground = null;
+			}
+
+			if (btnUseTempo != null) {
+				btnUseTempo.Dispose ();
+				btnUseTempo = null;
 			}
 		}
 	}

@@ -40,7 +40,6 @@ namespace MPfm.MVP.Presenters.Interfaces
   
         void SetPosition(float percentage);
         void SetVolume(float volume);
-        void SetTimeShifting(float timeShifting);
 	}
 }
 

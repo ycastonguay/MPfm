@@ -72,7 +72,7 @@ namespace MPfm.Player
         private System.Timers.Timer _timerPlayer = null;
         private Channel _streamChannel = null;
         private Channel _fxChannel = null;
-        private MixerChannel _mixerChannel = null;        
+        private MixerChannel _mixerChannel = null;       
 
         // Plugin handles
         private int _fxEQHandle;
@@ -108,6 +108,8 @@ namespace MPfm.Player
 
         private List<PlayerSyncProc> _syncProcs = null;
         private STREAMPROC _streamProc;
+        private BPMPROC _bpmProc;
+        private BPMBEATPROC _bpmBeatProc;
 
 #if IOS
         private IOSNOTIFYPROC _iosNotifyProc;
@@ -120,10 +122,6 @@ namespace MPfm.Player
 
         #region Events
 
-        /// <summary>
-        /// Delegate method for the OnPlaylistIndexChanged event.
-        /// </summary>
-        /// <param name="data">OnPlaylistIndexChanged data</param>
         public delegate void PlaylistIndexChanged(PlayerPlaylistIndexChangedData data);
         /// <summary>
         /// The OnPlaylistIndexChanged event is triggered when the playlist index changes (i.e. when an audio file
@@ -131,10 +129,6 @@ namespace MPfm.Player
         /// </summary>
         public event PlaylistIndexChanged OnPlaylistIndexChanged;
 
-        /// <summary>
-        /// Delegate method for the OnAudioInterrupted event.
-        /// </summary>
-        /// <param name="data">OnAudioInterruptedData data</param>
         public delegate void AudioInterrupted(AudioInterruptedData data);
         /// <summary>
         /// The OnAudioInterrupted event is triggered when the audio is interrupted by a system event.
@@ -142,6 +136,12 @@ namespace MPfm.Player
         /// playback using the lock screen, remote control, etc.
         /// </summary>
         public event AudioInterrupted OnAudioInterrupted;
+
+        public delegate void BPMDetected(float bpm);
+        /// <summary>
+        /// The OnBPMDetected event is triggered when the current BPM has been deteted or has changed.
+        /// </summary>
+        public event BPMDetected OnBPMDetected;
 
         #endregion
 
@@ -292,9 +292,13 @@ namespace MPfm.Player
             {
                 _timeShifting = value;
 
-                // Set time shifting on FX channel
+                Console.WriteLine("TimeShifting - RemoveBPMCallbacks");
+                RemoveBPMCallbacks();
+                Console.WriteLine("TimeShifting - Setting value");
                 if (_fxChannel != null)
                     _fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, _timeShifting);
+                Console.WriteLine("TimeShifting - AddBPMCallbacks");
+                AddBPMCallbacks();
             }           
         }
 
@@ -888,6 +892,7 @@ namespace MPfm.Player
                         Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
                         _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, false);
                         _mixerChannel.AddChannel(_fxChannel.Handle);
+                        AddBPMCallbacks();
                     }
                     catch (Exception ex)
                     {   
@@ -1207,6 +1212,7 @@ namespace MPfm.Player
             //Playlist.CurrentItem.CancelDecode();
 
             RemoveSyncCallbacks();
+            RemoveBPMCallbacks();
             _fxChannel.Free();
 
             // Dispose channels
@@ -1676,6 +1682,32 @@ namespace MPfm.Player
 
         #endregion
 
+        #region BPM Detection Methods 
+
+        protected void AddBPMCallbacks()
+        {
+#if IOS
+            _bpmProc = new BPMPROC(BPMDetectionProcIOS);
+            _bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProcIOS);
+#elif
+            _bpmProc = new BPMPROC(BPMDetectionProc);
+            _bpmBeatProc = new BPMPROC(BPMDetectionBeatProc);
+#endif
+
+            BaseFx.BPM_CallbackSet(_fxChannel.Handle, _bpmProc, 0.5, Utils.MakeLong(70, 180), BASSFXBpm.BASS_FX_BPM_MULT2, IntPtr.Zero);
+            //BaseFx.BPM_BeatCallbackSet(_fxChannel.Handle, _bpmBeatProc, IntPtr.Zero);
+        }
+
+        protected void RemoveBPMCallbacks()
+        {
+            BaseFx.BPM_CallbackReset(_fxChannel.Handle);
+            BaseFx.BPM_Free(_fxChannel.Handle);
+            //BaseFx.BPM_BeatCallbackReset(_fxChannel.Handle);
+            //BaseFx.BPM_BeatFree(_fxChannel.Handle);
+        }
+
+        #endregion
+
         #region Callback Events
         
         /// <summary>
@@ -1970,6 +2002,18 @@ namespace MPfm.Player
                 OnPlaylistIndexChanged(eventData);
             }
         }
+                       
+        internal void BPMDetectionProc(int handle, float bpm, IntPtr user)
+        {
+            //Console.WriteLine("Player BPM: " + bpm.ToString());
+            if(Player.CurrentPlayer.OnBPMDetected != null)
+                Player.CurrentPlayer.OnBPMDetected(bpm);
+        }
+
+        internal void BPMDetectionBeatProc(int handle, double beatpos, IntPtr user)
+        {
+            //Console.WriteLine("Player Beat: " + beatpos.ToString());
+        }
 
 #if IOS
 
@@ -1989,6 +2033,18 @@ namespace MPfm.Player
         private static void LoopSyncProcIOS(int handle, int channel, int data, IntPtr user)
         {
             Player.CurrentPlayer.LoopSyncProc(handle, channel, data, user);
+        }
+
+        [MonoPInvokeCallback(typeof(BPMPROC))]
+        private static void BPMDetectionProcIOS(int handle, float bpm, IntPtr user)
+        {
+            Player.CurrentPlayer.BPMDetectionProc(handle, bpm, user);
+        }
+
+        [MonoPInvokeCallback(typeof(BPMBEATPROC))]
+        private static void BPMDetectionBeatProcIOS(int handle, double beatpos, IntPtr user)
+        {
+            Player.CurrentPlayer.BPMDetectionBeatProc(handle, beatpos, user);
         }
 
         [MonoPInvokeCallback(typeof(IOSNOTIFYPROC))]

@@ -39,9 +39,9 @@ namespace MPfm.iOS
             btnReset.Layer.CornerRadius = 8;
             btnReset.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
             btnReset.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
-            btnDetectTempo.Layer.CornerRadius = 8;
-            btnDetectTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnDetectTempo.Alpha = 0.8f;
+            btnUseTempo.Layer.CornerRadius = 8;
+            btnUseTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
+            btnUseTempo.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
@@ -51,9 +51,6 @@ namespace MPfm.iOS
             UITextAttributes attr = new UITextAttributes();
             attr.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
             attr.TextColor = UIColor.White;
-            segmentedControl.SetTitleTextAttributes(attr, UIControlState.Normal);
-            segmentedControl.TintColor = GlobalTheme.PlayerPanelButtonColor;
-            segmentedControl.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             slider.ValueChanged += HandleSliderValueChanged;
 
@@ -65,53 +62,45 @@ namespace MPfm.iOS
             OnSetTimeShifting(slider.Value);
         }
 
-        partial void actionDetectTempo(NSObject sender)
-        {
-            OnDetectTempo();
-        }
-
         partial void actionReset(NSObject sender)
         {
             OnResetTimeShifting();
         }
 
-        partial void actionSegmentChanged(NSObject sender)
+        partial void actionUseTempo(NSObject sender)
         {
-            TimeShiftingMode mode = (TimeShiftingMode)segmentedControl.SelectedSegment;
-            switch(mode)
-            {
-                case TimeShiftingMode.Percentage:
-                    btnDetectTempo.Hidden = true;
-                    lblOriginalTempo.Hidden = true;
-                    break;
-                case TimeShiftingMode.Tempo:
-                    btnDetectTempo.Hidden = false;
-                    lblOriginalTempo.Hidden = false;
-                    break;
-            }
-            OnSetTimeShiftingMode(mode);
+            OnUseDetectedTempo();
         }
 
         #region ITimeShiftingView implementation
 
         public Action<float> OnSetTimeShifting { get; set; }
-        public Action<TimeShiftingMode> OnSetTimeShiftingMode { get; set; }
         public Action OnResetTimeShifting { get; set; }
         public Action OnDetectTempo { get; set; }
-
-        public void RefreshTimeShifting(MPfm.MVP.Models.PlayerTimeShiftingEntity entity)
-        {
-            InvokeOnMainThread(() => {
-                lblTempo.Text = entity.TimeShiftingString;
-                slider.Value = entity.TimeShifting;
-            });
-        }
+        public Action OnUseDetectedTempo { get; set; }
 
         public void TimeShiftingError(Exception ex)
         {
             InvokeOnMainThread(() => {
                 var alertView = new UIAlertView("Time shifting error", ex.Message, null, "OK", null);
                 alertView.Show();
+            });
+        }
+
+        public void RefreshTimeShifting(MPfm.MVP.Models.PlayerTimeShiftingEntity entity)
+        {
+            InvokeOnMainThread(() => {
+                lblCurrentTempoValue.Text = entity.CurrentTempo;
+                lblReferenceTempoValue.Text = entity.ReferenceTempo;
+                slider.Value = entity.TimeShiftingValue;
+            });
+        }
+
+        public void RefreshBPM(float bpm, string bpmStr)
+        {
+            InvokeOnMainThread(() => {
+                //Console.WriteLine("TimeShiftingVC - bpm: " + bpm.ToString() + " bpmStr: " + bpmStr);  
+                lblDetectedTempoValue.Text = bpmStr;
             });
         }
 

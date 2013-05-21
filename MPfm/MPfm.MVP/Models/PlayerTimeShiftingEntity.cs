@@ -22,15 +22,8 @@ namespace MPfm.MVP.Models
     /// </summary>
     public class PlayerTimeShiftingEntity
     {
-        /// <summary>
-        /// Player time shifting (in float format).
-        /// Value range from -100.0f (-100%) to 100.0f (+100%). To reset, set to 0.0f.
-        /// </summary>
-        public float TimeShifting { get; set; }
-        /// <summary>
-        /// Player time shifting (in string format, 50% to 150%).
-        /// </summary>
-        public string TimeShiftingString { get; set; }
+        public string CurrentTempo { get; set; }
+        public string ReferenceTempo { get; set; }
+        public float TimeShiftingValue { get; set; }
     }
 }
-

@@ -49,6 +49,12 @@ namespace MPfm.MVP.Services
         public bool IsEQEnabled { get { return _player.IsEQEnabled; } }
         public float Volume { get { return _player.Volume; } set { _player.Volume = value; }  }
 
+        public delegate void BPMDetected(float bpm);
+        /// <summary>
+        /// The OnBPMDetected event is triggered when the current BPM has been deteted or has changed.
+        /// </summary>
+        public event BPMDetected OnBPMDetected;
+
 		public PlayerService(ITinyMessengerHub messageHub)
 		{
             _messengerHub = messageHub;
@@ -60,22 +66,21 @@ namespace MPfm.MVP.Services
             _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
             _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
+            _player.OnBPMDetected += HandleOnBPMDetected;
             _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
         }
 
-        /// <summary>
-        /// This player notification is used to notify that the audio has been interrupted (only used on iOS).
-        /// </summary>
-        /// <param name="data">Event data</param>
+        void HandleOnBPMDetected(float bpm)
+        {
+            if (OnBPMDetected != null)
+                OnBPMDetected(bpm);
+        }
+
         void HandleOnAudioInterrupted(AudioInterruptedData data)
         {
             UpdatePlayerStatus(PlayerStatusType.Paused);
         }
 
-        /// <summary>
-        /// This player notification is used to notify that a new song is playing.
-        /// </summary>
-        /// <param name="data">Event data</param>
         void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
         {
             _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });

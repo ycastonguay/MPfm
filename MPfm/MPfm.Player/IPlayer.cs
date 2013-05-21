@@ -51,6 +51,7 @@ namespace MPfm.Player
 
         event Player.PlaylistIndexChanged OnPlaylistIndexChanged;
         event Player.AudioInterrupted OnAudioInterrupted;
+        event Player.BPMDetected OnBPMDetected;
 
         void InitializeDevice();
         void InitializeDevice(Device device, int mixerSampleRate);

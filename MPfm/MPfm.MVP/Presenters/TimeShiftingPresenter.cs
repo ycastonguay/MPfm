@@ -31,8 +31,10 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class TimeShiftingPresenter : BasePresenter<ITimeShiftingView>, ITimeShiftingPresenter
 	{
-        IPlayerService _playerService;
-        ITinyMessengerHub _messengerHub;
+        readonly IPlayerService _playerService;
+        readonly ITinyMessengerHub _messengerHub;
+
+        float _referenceTempo = 120;
 
         public TimeShiftingPresenter(ITinyMessengerHub messengerHub, IPlayerService playerService)
 		{
@@ -42,21 +44,40 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ITimeShiftingView view)
         {            
-            // Subscribe to view actions
             view.OnSetTimeShifting = SetTimeShifting;
-            view.OnSetTimeShiftingMode = SetTimeShiftingMode;
-            view.OnDetectTempo = DetectTempo;
             view.OnResetTimeShifting = ResetTimeShifting;
+            view.OnUseDetectedTempo = UseDetectedTempo;
 
             _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
                 // Notify view that time shifting has been reset
                 View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
-                    TimeShifting = 100,
-                    TimeShiftingString = "100 %"
+                    TimeShiftingValue = 100,
+                    ReferenceTempo = "120 bpm",
+                    CurrentTempo = "120 bpm (100%)",
                 });
             });
 
+            _playerService.OnBPMDetected += HandleOnBPMDetected;
+
             base.BindView(view);
+        }
+
+        private void HandleOnBPMDetected(float bpm)
+        {
+            string bpmStr = bpm == 0 ? "Calculating..." : bpm.ToString("0.0").Replace(",", ".") + " bpm";
+            View.RefreshBPM(bpm, bpmStr);
+        }
+
+        private void UseDetectedTempo()
+        {
+            try
+            {
+                _referenceTempo = 120;
+            }
+            catch(Exception ex)
+            {
+                View.TimeShiftingError(ex);
+            }                
         }
 
         private void SetTimeShifting(float timeShifting)
@@ -67,36 +88,28 @@ namespace MPfm.MVP.Presenters
                 float ratio = (timeShifting - 50) / 100;
                 float result = (ratio * 200) - 100;
                 
-                // Set time shifting and refresh UI
                 _playerService.SetTimeShifting(result);
                 View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
-                    TimeShifting = timeShifting,
-                    TimeShiftingString = timeShifting.ToString("0") + " %"
+                    TimeShiftingValue = timeShifting,
+                    ReferenceTempo = _referenceTempo.ToString("0.0").Replace(",",".") + " bpm", 
+                    CurrentTempo = "120 bpm (" + timeShifting.ToString("0.0").Replace(",",".") + "%)"
                 });
             }
             catch(Exception ex)
             {
                 View.TimeShiftingError(ex);
             }                
-        }
-
-        private void SetTimeShiftingMode(TimeShiftingMode mode)
-        {
-        }
-
-        private void DetectTempo()
-        {
         }
 
         private void ResetTimeShifting()
         {
             try
             {
-                // Set time shifting and refresh UI
                 _playerService.SetTimeShifting(0);
                 View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
-                    TimeShifting = 100,
-                    TimeShiftingString = "100 %"
+                    TimeShiftingValue = 100,
+                    ReferenceTempo = _referenceTempo.ToString("0.0").Replace(",",".") + " bpm", 
+                    CurrentTempo = "120 bpm (100%)"
                 });
             }
             catch(Exception ex)
@@ -105,11 +118,4 @@ namespace MPfm.MVP.Presenters
             }                
         }
     }
-
-    public enum TimeShiftingMode
-    {
-        Percentage = 0,
-        Tempo = 1
-    }
 }
-

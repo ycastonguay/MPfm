@@ -56,14 +56,6 @@ namespace MPfm.MVP.Presenters
 			timerRefreshSongPosition.Interval = 100;
 			timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
 
-//            // Initialize player
-//            Device device = new Device(){
-//                DriverType = DriverType.DirectSound,
-//                Id = -1
-//            };
-//            playerService.Initialize(device, 44100, 1000, 100);
-            //playerService.OnPlaylistIndexChanged += HandlePlayerOnPlaylistIndexChanged;
-
             // Subscribe to events
             messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
                 Play(audioFileCacheService.SelectAudioFiles(m.Query));
@@ -102,16 +94,13 @@ namespace MPfm.MVP.Presenters
             view.OnPlayerStop = Stop;
             view.OnPlayerPrevious = Previous;
             view.OnPlayerNext = Next;
-            //view.OnPlayerSetPitchShifting = (float) => { 
             view.OnPlayerSetPosition = SetPosition;
-            view.OnPlayerSetTimeShifting = SetTimeShifting;
             view.OnPlayerSetVolume = SetVolume;
             view.OnPlayerRequestPosition = RequestPosition;
         }
 
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
-            // Check player
             if(playerService.IsSettingPosition)
                 return;
 
@@ -356,28 +345,6 @@ namespace MPfm.MVP.Presenters
             }                
         }
 
-        public void SetTimeShifting(float timeShifting)
-        {
-            try
-            {
-                // Convert scale from +50/+150 to -100/+100
-                float ratio = (timeShifting - 50) / 100;
-                float result = (ratio * 200) - 100;
-                
-                // Set time shifting and refresh UI
-                Tracing.Log("PlayerPresenter.SetTimeShifting -- Setting time shifting to " + timeShifting.ToString("0.00") + "%");
-                playerService.SetTimeShifting(result);
-                View.RefreshPlayerTimeShifting(new PlayerTimeShiftingEntity(){
-                    TimeShifting = timeShifting,
-                    TimeShiftingString = timeShifting.ToString("0") + " %"
-                });
-            }
-            catch(Exception ex)
-            {
-                SetError(ex);
-            }                
-        }
-        
         private void SetError(Exception ex)
         {
             View.PlayerError(ex);
