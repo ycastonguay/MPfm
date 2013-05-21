@@ -42,6 +42,12 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
 
 		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnDecrementTempo { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnIncrementTempo { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIButton btnUseTempo { get; set; }
 
 		[Action ("actionReset:")]
@@ -49,6 +55,12 @@ namespace MPfm.iOS
 
 		[Action ("actionUseTempo:")]
 		partial void actionUseTempo (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionIncrementTempo:")]
+		partial void actionIncrementTempo (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionDecrementTempo:")]
+		partial void actionDecrementTempo (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -100,6 +112,16 @@ namespace MPfm.iOS
 			if (viewBackground != null) {
 				viewBackground.Dispose ();
 				viewBackground = null;
+			}
+
+			if (btnDecrementTempo != null) {
+				btnDecrementTempo.Dispose ();
+				btnDecrementTempo = null;
+			}
+
+			if (btnIncrementTempo != null) {
+				btnIncrementTempo.Dispose ();
+				btnIncrementTempo = null;
 			}
 
 			if (btnUseTempo != null) {

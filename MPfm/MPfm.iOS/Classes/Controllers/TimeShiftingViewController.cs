@@ -42,6 +42,12 @@ namespace MPfm.iOS
             btnUseTempo.Layer.CornerRadius = 8;
             btnUseTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
             btnUseTempo.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
+            btnDecrementTempo.Layer.CornerRadius = 8;
+            btnDecrementTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
+            btnDecrementTempo.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
+            btnIncrementTempo.Layer.CornerRadius = 8;
+            btnIncrementTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
+            btnIncrementTempo.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
@@ -72,12 +78,24 @@ namespace MPfm.iOS
             OnUseDetectedTempo();
         }
 
+        partial void actionIncrementTempo(NSObject sender)
+        {
+            OnIncrementTempo();
+        }
+
+        partial void actionDecrementTempo(NSObject sender)
+        {
+            OnDecrementTempo();
+        }
+
         #region ITimeShiftingView implementation
 
         public Action<float> OnSetTimeShifting { get; set; }
         public Action OnResetTimeShifting { get; set; }
         public Action OnDetectTempo { get; set; }
         public Action OnUseDetectedTempo { get; set; }
+        public Action OnIncrementTempo { get; set; }
+        public Action OnDecrementTempo { get; set; }
 
         public void TimeShiftingError(Exception ex)
         {
@@ -92,15 +110,8 @@ namespace MPfm.iOS
             InvokeOnMainThread(() => {
                 lblCurrentTempoValue.Text = entity.CurrentTempo;
                 lblReferenceTempoValue.Text = entity.ReferenceTempo;
+                lblDetectedTempoValue.Text = entity.DetectedTempo;
                 slider.Value = entity.TimeShiftingValue;
-            });
-        }
-
-        public void RefreshBPM(float bpm, string bpmStr)
-        {
-            InvokeOnMainThread(() => {
-                //Console.WriteLine("TimeShiftingVC - bpm: " + bpm.ToString() + " bpmStr: " + bpmStr);  
-                lblDetectedTempoValue.Text = bpmStr;
             });
         }
 

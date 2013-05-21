@@ -78,10 +78,10 @@
 							<object class="IBUISlider" id="746274806">
 								<reference key="NSNextResponder" ref="817949346"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{18, 144}, {284, 23}}</string>
+								<string key="NSFrame">{{18, 150}, {174, 23}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="680978106"/>
+								<reference key="NSNextKeyView" ref="518971293"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -266,7 +266,7 @@
 							<object class="IBUIButton" id="680978106">
 								<reference key="NSNextResponder" ref="817949346"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 178}, {280, 40}}</string>
+								<string key="NSFrame">{{20, 186}, {280, 40}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -309,9 +309,57 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<string key="IBUINormalTitle">Use Tempo</string>
+								<string key="IBUINormalTitle">Use this tempo</string>
 								<reference key="IBUIHighlightedTitleColor" ref="402452481"/>
 								<reference key="IBUINormalTitleColor" ref="402452481"/>
+								<reference key="IBUINormalTitleShadowColor" ref="924540298"/>
+								<reference key="IBUIFontDescription" ref="527987660"/>
+								<reference key="IBUIFont" ref="316034024"/>
+							</object>
+							<object class="IBUIButton" id="557376947">
+								<reference key="NSNextResponder" ref="817949346"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{250, 146}, {50, 31}}</string>
+								<reference key="NSSuperview" ref="817949346"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="680978106"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<string key="IBUINormalTitle">+</string>
+								<reference key="IBUIHighlightedTitleColor" ref="402452481"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+									<object class="NSColorSpace" key="NSCustomColorSpace" id="845255593">
+										<int key="NSID">2</int>
+									</object>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="924540298"/>
+								<reference key="IBUIFontDescription" ref="527987660"/>
+								<reference key="IBUIFont" ref="316034024"/>
+							</object>
+							<object class="IBUIButton" id="518971293">
+								<reference key="NSNextResponder" ref="817949346"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{198, 146}, {50, 31}}</string>
+								<reference key="NSSuperview" ref="817949346"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="557376947"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<string key="IBUINormalTitle">-</string>
+								<reference key="IBUIHighlightedTitleColor" ref="402452481"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+									<reference key="NSCustomColorSpace" ref="845255593"/>
+								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="924540298"/>
 								<reference key="IBUIFontDescription" ref="527987660"/>
 								<reference key="IBUIFont" ref="316034024"/>
@@ -440,6 +488,22 @@
 					<int key="connectionID">45</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">btnDecrementTempo</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="518971293"/>
+					</object>
+					<int key="connectionID">57</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">btnIncrementTempo</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="557376947"/>
+					</object>
+					<int key="connectionID">61</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">actionReset:</string>
 						<reference key="source" ref="680978106"/>
@@ -456,6 +520,24 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">actionIncrementTempo:</string>
+						<reference key="source" ref="557376947"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">59</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">actionDecrementTempo:</string>
+						<reference key="source" ref="518971293"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">58</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -499,6 +581,8 @@
 							<reference ref="14679880"/>
 							<reference ref="380238366"/>
 							<reference ref="680978106"/>
+							<reference ref="557376947"/>
+							<reference ref="518971293"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -552,6 +636,16 @@
 						<reference key="object" ref="813914206"/>
 						<reference key="parent" ref="817949346"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">49</int>
+						<reference key="object" ref="557376947"/>
+						<reference key="parent" ref="817949346"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">51</int>
+						<reference key="object" ref="518971293"/>
+						<reference key="parent" ref="817949346"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -571,14 +665,18 @@
 				<string key="31.CustomClassName">MPfmSemiTransparentButton</string>
 				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="49.CustomClassName">MPfmSemiTransparentButton</string>
+				<string key="49.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="51.CustomClassName">MPfmSemiTransparentButton</string>
+				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">47</int>
+			<int key="maxID">61</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -594,10 +692,20 @@
 					<string key="className">TimeShiftingViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="actionDecrementTempo:">id</string>
+						<string key="actionIncrementTempo:">id</string>
 						<string key="actionReset:">id</string>
 						<string key="actionUseTempo:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="actionDecrementTempo:">
+							<string key="name">actionDecrementTempo:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="actionIncrementTempo:">
+							<string key="name">actionIncrementTempo:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="actionReset:">
 							<string key="name">actionReset:</string>
 							<string key="candidateClassName">id</string>
@@ -608,6 +716,8 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="btnDecrementTempo">MPfmSemiTransparentButton</string>
+						<string key="btnIncrementTempo">MPfmSemiTransparentButton</string>
 						<string key="btnReset">UIButton</string>
 						<string key="btnUseTempo">UIButton</string>
 						<string key="lblCurrentTempo">UILabel</string>
@@ -621,6 +731,14 @@
 						<string key="viewBackground">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="btnDecrementTempo">
+							<string key="name">btnDecrementTempo</string>
+							<string key="candidateClassName">MPfmSemiTransparentButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="btnIncrementTempo">
+							<string key="name">btnIncrementTempo</string>
+							<string key="candidateClassName">MPfmSemiTransparentButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="btnReset">
 							<string key="name">btnReset</string>
 							<string key="candidateClassName">UIButton</string>

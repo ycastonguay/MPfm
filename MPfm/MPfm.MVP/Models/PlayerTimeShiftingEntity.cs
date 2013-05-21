@@ -24,6 +24,7 @@ namespace MPfm.MVP.Models
     {
         public string CurrentTempo { get; set; }
         public string ReferenceTempo { get; set; }
+        public string DetectedTempo { get; set; }
         public float TimeShiftingValue { get; set; }
     }
 }

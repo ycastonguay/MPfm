@@ -30,9 +30,10 @@ namespace MPfm.MVP.Views
         Action<float> OnSetTimeShifting { get; set; }
         Action OnResetTimeShifting { get; set; }
         Action OnUseDetectedTempo { get; set; }
+        Action OnIncrementTempo { get; set; }
+        Action OnDecrementTempo { get; set; }
         
         void RefreshTimeShifting(PlayerTimeShiftingEntity entity);
-        void RefreshBPM(float bpm, string bpmStr);
         void TimeShiftingError(Exception ex);
 	}
 }

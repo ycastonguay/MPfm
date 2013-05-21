@@ -292,12 +292,9 @@ namespace MPfm.Player
             {
                 _timeShifting = value;
 
-                Console.WriteLine("TimeShifting - RemoveBPMCallbacks");
                 RemoveBPMCallbacks();
-                Console.WriteLine("TimeShifting - Setting value");
                 if (_fxChannel != null)
                     _fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, _timeShifting);
-                Console.WriteLine("TimeShifting - AddBPMCallbacks");
                 AddBPMCallbacks();
             }           
         }
