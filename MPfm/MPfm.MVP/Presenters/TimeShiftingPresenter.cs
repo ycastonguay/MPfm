@@ -66,19 +66,26 @@ namespace MPfm.MVP.Presenters
 
         private void RefreshTimeShiftingView()
         {
-            // From -100/+100 to 50/150
-            float timeShiftingRatio = (_timeShifting + 100) / 200;
-            float timeShiftingValue = (timeShiftingRatio * 100) + 50;
-            float currentTempo = _referenceTempo * (timeShiftingValue / 100);
-//            Console.WriteLine("TimeShiftingPresenter - RefreshTimeShiftingView - timeShifting: " + _timeShifting.ToString() + " timeShiftingRatio: " + timeShiftingRatio.ToString() + 
-//                              " timeShiftingValue: " + timeShiftingValue.ToString() + " detectedTempo: " + _detectedTempo.ToString() +
-//                              " currentTempo: " + currentTempo.ToString() + " referenceTempo: " + _referenceTempo.ToString());
-            View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
-                TimeShiftingValue = timeShiftingValue,
-                ReferenceTempo = _referenceTempo.ToString("0.0").Replace(",",".") + " bpm", 
-                CurrentTempo = currentTempo.ToString("0.0").Replace(",",".") + " bpm (" + timeShiftingValue.ToString("0.0").Replace(",",".") + "%)",
-                DetectedTempo = (_detectedTempo == 0 && _detectedTempo == 0) ? "Calculating..." : _detectedTempo.ToString("0.0").Replace(",", ".") + " bpm"
-            });        
+            try
+            {
+                // From -100/+100 to 50/150
+                float timeShiftingRatio = (_timeShifting + 100) / 200;
+                float timeShiftingValue = (timeShiftingRatio * 100) + 50;
+                float currentTempo = _referenceTempo * (timeShiftingValue / 100);
+                Console.WriteLine("TimeShiftingPresenter - RefreshTimeShiftingView - timeShifting: " + _timeShifting.ToString() + " timeShiftingRatio: " + timeShiftingRatio.ToString() + 
+                                  " timeShiftingValue: " + timeShiftingValue.ToString() + " detectedTempo: " + _detectedTempo.ToString() +
+                                  " currentTempo: " + currentTempo.ToString() + " referenceTempo: " + _referenceTempo.ToString());
+                View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
+                    TimeShiftingValue = timeShiftingValue,
+                    ReferenceTempo = _referenceTempo.ToString("0.0").Replace(",",".") + " bpm", 
+                    CurrentTempo = currentTempo.ToString("0.0").Replace(",",".") + " bpm (" + timeShiftingValue.ToString("0.0").Replace(",",".") + "%)",
+                    DetectedTempo = (_detectedTempo == 0 && _detectedTempo == 0) ? "Calculating..." : _detectedTempo.ToString("0.0").Replace(",", ".") + " bpm"
+                });        
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("TimeShiftingPresenter - RefreshTimeShiftingView - Exception: " + ex.Message + "\n" + ex.StackTrace);
+            }
         }
 
         private float GetTempoFromTimeShifting(float timeShifting)

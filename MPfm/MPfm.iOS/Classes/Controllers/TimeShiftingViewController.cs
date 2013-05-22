@@ -52,12 +52,6 @@ namespace MPfm.iOS
             slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-
-            // Use Appearance API (iOS 5+) for segmented control
-            UITextAttributes attr = new UITextAttributes();
-            attr.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
-            attr.TextColor = UIColor.White;
-
             slider.ValueChanged += HandleSliderValueChanged;
 
             base.ViewDidLoad();
@@ -108,10 +102,17 @@ namespace MPfm.iOS
         public void RefreshTimeShifting(MPfm.MVP.Models.PlayerTimeShiftingEntity entity)
         {
             InvokeOnMainThread(() => {
-                lblCurrentTempoValue.Text = entity.CurrentTempo;
-                lblReferenceTempoValue.Text = entity.ReferenceTempo;
-                lblDetectedTempoValue.Text = entity.DetectedTempo;
-                slider.Value = entity.TimeShiftingValue;
+                try
+                {
+                    lblCurrentTempoValue.Text = entity.CurrentTempo;
+                    lblReferenceTempoValue.Text = entity.ReferenceTempo;
+                    lblDetectedTempoValue.Text = entity.DetectedTempo;
+                    slider.SetValue(entity.TimeShiftingValue, false);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("TimeShiftingViewController - RefreshTimeShifting - Exception: " + ex.Message + "\n" + ex.StackTrace);
+                }
             });
         }
 

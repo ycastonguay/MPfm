@@ -28,18 +28,32 @@ namespace MPfm.Sound.BassNetWrapper
     public static class BassWrapper
     {
         #if IOS
-        public const string DllImportValue = "__Internal";
-        public const string DllImportValueFx = "__Internal";
+        public const string DllImportValue_Bass = "__Internal";
+        public const string DllImportValue_BassFX = "__Internal";
+        public const string DllImportValue_BassMix = "__Internal";
         #elif ANDROID || LINUX
-        public const string DllImportValue = "libbass.so";
-        public const string DllImportValueFx = "libbass_fx.so";
+        public const string DllImportValue_Bass = "libbass.so";
+        public const string DllImportValue_BassFX = "libbass_fx.so";
+        public const string DllImportValue_BassMix = "libbassmix.so";
+        #elif MAC
+        public const string DllImportValue_Bass = "libbass.dylib";
+        public const string DllImportValue_BassFX = "libbass_fx.dylib";
+        public const string DllImportValue_BassMix = "libbassmix.dylib";
+        public const string DllImportValue_BassASIO = "libbassasio.dylib";
+        public const string DllImportValue_BassWASAPI = "libbasswasapi.dylib";
+        #else
+        public const string DllImportValue_Bass = "bass.dll";
+        public const string DllImportValue_BassFX = "bass_fx.dll";
+        public const string DllImportValue_BassMix = "bassmix.dll";
+        public const string DllImportValue_BassASIO = "bassasio.dll";
+        public const string DllImportValue_BassWASAPI = "basswasapi.dll";
         #endif
 
-        [DllImport(DllImportValue, CharSet = CharSet.Auto, EntryPoint = "BASS_FXGetParameters")]
+        [DllImport(DllImportValue_Bass, CharSet = CharSet.Auto, EntryPoint = "BASS_FXGetParameters")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BASS_FXGetParametersPeakEQ(int handle, [In, Out] BASS_BFX_PEAKEQ par);
         
-        [DllImport(DllImportValue, CharSet = CharSet.Auto, EntryPoint = "BASS_FXSetParameters")]
+        [DllImport(DllImportValue_Bass, CharSet = CharSet.Auto, EntryPoint = "BASS_FXSetParameters")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BASS_FXSetParametersPeakEQ(int handle, [In] BASS_BFX_PEAKEQ par);
 

@@ -319,14 +319,30 @@ namespace MPfm.iOS.Managers
                     //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
                     
                     context.SetStrokeColor(GlobalTheme.WaveFormColor.CGColor);
-                    context.SetLineWidth(0.5f);
-                    //context.SetLineWidth(lineWidth);
-                    
+                    //context.SetLineWidth(0.2f);
+                    context.SetLineWidth(lineWidth);
+
+                    List<float> roundValues = new List<float>();
                     for (float i = 0; i < boundsWaveForm.Width; i += lineWidth)
                     {
                         // Round to 0.5
                         //i = (float)Math.Round(i * 2) / 2;
-                        float iRound = (float)Math.Round(i * 2) / 2;
+                        //float iRound = (float)Math.Round(i);
+                        //float iRound = (float)Math.Round(i * 2) / 2;
+                        //float iRound = (float)Math.Round(i * 4) / 4;
+
+//                        // If this value has already been drawn, skip it (this happens because of the rounding, and this fixes a visual bug)
+//                        if(roundValues.Contains(iRound))
+//                        {
+//                            // Increment the history index; pad the last values if the count is about to exceed
+//                            if (historyIndex < historyCount - 1)
+//                                historyIndex += nHistoryItemsPerLine;                         
+//                            continue;
+//                        }
+//                        else
+//                        {
+//                            roundValues.Add(iRound);
+//                        }
                         
                         // Determine the maximum height of a line (+/-)
                         //Console.WriteLine("WaveForm - Rendering " + i.ToString() + " (rnd=" + iRound.ToString() + ") on " + widthAvailable.ToString());
@@ -337,6 +353,8 @@ namespace MPfm.iOS.Managers
                             heightToRenderLine = boundsWaveForm.Height / 2;
                         
                         // Determine x position
+//                        x1 = iRound; //i;
+//                        x2 = iRound; //i;
                         x1 = i;
                         x2 = i;
 

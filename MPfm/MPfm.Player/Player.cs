@@ -1686,7 +1686,7 @@ namespace MPfm.Player
 #if IOS
             _bpmProc = new BPMPROC(BPMDetectionProcIOS);
             _bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProcIOS);
-#elif
+#else
             _bpmProc = new BPMPROC(BPMDetectionProc);
             _bpmBeatProc = new BPMPROC(BPMDetectionBeatProc);
 #endif
