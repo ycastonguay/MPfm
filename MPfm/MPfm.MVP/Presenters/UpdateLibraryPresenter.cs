@@ -22,6 +22,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Events;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Library.Services.Interfaces;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;

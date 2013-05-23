@@ -88,12 +88,18 @@
     <Compile Include="Conversion.cs" />
     <Compile Include="Attributes\DatabaseFieldAttribute.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
-    <Compile Include="XMLHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tracing.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="CacheStore.cs" />
     <Compile Include="ByteArrayQueue.cs" />
     <Compile Include="Normalizer.cs" />
+    <Compile Include="Helpers\XMLHelper.cs" />
+    <Compile Include="Network\IPAddressRangeFinder.cs" />
+    <Compile Include="Network\WebClientTimeout.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Network\" />
   </ItemGroup>
 </Project>

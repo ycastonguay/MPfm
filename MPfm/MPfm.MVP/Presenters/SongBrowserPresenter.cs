@@ -24,6 +24,7 @@ using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Core;
 using TinyMessenger;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.MVP.Presenters
 {

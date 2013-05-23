@@ -153,7 +153,13 @@
     <Compile Include="UpdateLibrary\UpdateLibraryMode.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
-    <Compile Include="Sync\SyncTcpListener.cs" />
-    <Compile Include="Sync\SyncTcpClient.cs" />
+    <Compile Include="Services\LibraryService.cs" />
+    <Compile Include="Services\Interfaces\ILibraryService.cs" />
+    <Compile Include="Services\SyncDiscoveryService.cs" />
+    <Compile Include="Services\Interfaces\ISyncDiscoveryService.cs" />
+    <Compile Include="Services\SyncListenerService.cs" />
+    <Compile Include="Services\Interfaces\ISyncListenerService.cs" />
+    <Compile Include="Services\Interfaces\ISyncClientService.cs" />
+    <Compile Include="Services\SyncClientService.cs" />
   </ItemGroup>
 </Project>

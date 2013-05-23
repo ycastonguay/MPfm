@@ -23,11 +23,17 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSButton btnSyncLibraryWithDevice { get; set; }
 
-		[Action ("actionRefreshDevices:")]
-		partial void actionRefreshDevices (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblStatus { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
 
 		[Action ("actionSyncLibraryWithDevice:")]
 		partial void actionSyncLibraryWithDevice (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRefreshDevices:")]
+		partial void actionRefreshDevices (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -49,6 +55,16 @@ namespace MPfm.Mac
 			if (btnSyncLibraryWithDevice != null) {
 				btnSyncLibraryWithDevice.Dispose ();
 				btnSyncLibraryWithDevice = null;
+			}
+
+			if (lblStatus != null) {
+				lblStatus.Dispose ();
+				lblStatus = null;
+			}
+
+			if (progressIndicator != null) {
+				progressIndicator.Dispose ();
+				progressIndicator = null;
 			}
 		}
 	}

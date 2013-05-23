@@ -29,6 +29,7 @@ using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Bootstrap;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.Mac
 {

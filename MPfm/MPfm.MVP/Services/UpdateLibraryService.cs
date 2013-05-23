@@ -27,6 +27,7 @@ using MPfm.MVP.Services.Events;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using System.Text.RegularExpressions;
+using MPfm.Library.Services.Interfaces;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;

@@ -27,6 +27,7 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
 using System.Collections.Generic;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.MVP.Presenters
 {

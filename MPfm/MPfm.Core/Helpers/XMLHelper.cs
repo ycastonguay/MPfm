@@ -17,7 +17,7 @@
 
 using System.Xml.Linq;
 
-namespace MPfm.Core
+namespace MPfm.Core.Helpers
 {
     /// <summary>
     /// Helper class for XML files (based on Linq to XML).

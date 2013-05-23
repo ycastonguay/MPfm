@@ -21,7 +21,7 @@ using MPfm.Library.Objects;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP.Services.Interfaces
+namespace MPfm.Library.Services.Interfaces
 {
     /// <summary>
     /// Interface for the LibraryService class.

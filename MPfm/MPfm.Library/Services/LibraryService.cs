@@ -18,14 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
-using MPfm.MVP.Services.Interfaces;
-using MPfm.Sound.AudioFiles;
-using MPfm.Player.Objects;
+using MPfm.Library.Services.Interfaces;
 
-namespace MPfm.MVP.Services
+namespace MPfm.Library.Services
 {
     /// <summary>
     /// Service used for interacting with the library database.

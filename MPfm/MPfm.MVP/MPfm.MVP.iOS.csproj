@@ -192,7 +192,6 @@
     <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
-    <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
     <Compile Include="Views\IMobileOptionsMenuView.cs" />
@@ -220,7 +219,6 @@
     <Compile Include="Presenters\Interfaces\ISongBrowserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IUpdateLibraryPresenter.cs" />
     <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
-    <Compile Include="Services\Interfaces\ILibraryService.cs" />
     <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
     <Compile Include="Services\InitializationService.cs" />
     <Compile Include="Services\Interfaces\IInitializationService.cs" />
