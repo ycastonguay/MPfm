@@ -1688,7 +1688,7 @@ namespace MPfm.Player
             _bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProcIOS);
 #else
             _bpmProc = new BPMPROC(BPMDetectionProc);
-            _bpmBeatProc = new BPMPROC(BPMDetectionBeatProc);
+            _bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProc);
 #endif
 
             BaseFx.BPM_CallbackSet(_fxChannel.Handle, _bpmProc, 0.5, Utils.MakeLong(70, 180), BASSFXBpm.BASS_FX_BPM_MULT2, IntPtr.Zero);

@@ -51,5 +51,17 @@
 	</array>
 	<key>CFBundleDisplayName</key>
 	<string>MPfm</string>
+	<key>UIStatusBarTintParameters</key>
+	<dict>
+		<key>UINavigationBar</key>
+		<dict>
+			<key>Style</key>
+			<string>UIBarStyleBlack</string>
+			<key>Translucent</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackOpaque</string>
 </dict>
 </plist>

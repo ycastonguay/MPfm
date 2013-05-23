@@ -196,6 +196,11 @@
     <Compile Include="Windows\Controllers\BaseWindowController.cs" />
     <Compile Include="Classes\MacNavigationManager.cs" />
     <Compile Include="Classes\MPfmWindowDelegate.cs" />
+    <Compile Include="Windows\Controllers\SyncWindowController.cs" />
+    <Compile Include="Windows\SyncWindow.cs" />
+    <Compile Include="Windows\SyncWindow.designer.cs">
+      <DependentUpon>SyncWindow.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -208,11 +213,10 @@
     <InterfaceDefinition Include="Windows\XIB\MainMenu.xib" />
     <InterfaceDefinition Include="Windows\XIB\EditLoopWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\EditMarkerWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="Lib\AutoMapper.dll" />
-    <None Include="Lib\Ninject.dll" />
     <None Include="Lib\taglib-sharp.dll" />
     <None Include="Lib\MonoMac.dll" />
   </ItemGroup>

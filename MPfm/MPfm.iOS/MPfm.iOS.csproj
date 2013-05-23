@@ -204,6 +204,7 @@
     <Compile Include="Classes\Controls\Events\MPfmEqualizerFaderValueChangedEventArgs.cs" />
     <Compile Include="Classes\Controls\MPfmEqualizerPresetGraphView.cs" />
     <Compile Include="Classes\Controls\MPfmOutputMeterView.cs" />
+    <Compile Include="Classes\Helpers\ReachabilityHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

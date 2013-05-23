@@ -412,6 +412,7 @@ namespace MPfm.Library.Database
             Folder folder = new Folder();
             folder.FolderPath = folderPath;
             folder.IsRecursive = recursive;
+            //folder.LastUpdated = DateTime.Now;
             _gateway.Insert<Folder>(folder, "Folders");
         }
 

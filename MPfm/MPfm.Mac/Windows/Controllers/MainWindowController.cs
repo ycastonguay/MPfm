@@ -490,6 +490,12 @@ namespace MPfm.Mac
                 OnOpenPreferencesWindow.Invoke();
         }
 
+        partial void actionOpenSyncWindow(NSObject sender)
+        {
+            var syncCtrl = new SyncWindowController();
+            syncCtrl.ShowWindow(this);
+        }
+
         partial void actionAddSongToPlaylist(NSObject sender)
         {
         }
@@ -707,9 +713,9 @@ namespace MPfm.Mac
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
         {
             InvokeOnMainThread(delegate {
-                lblTimeShifting.StringValue = entity.TimeShiftingString;
-                if(sliderTimeShifting.FloatValue != entity.TimeShifting)
-                    sliderTimeShifting.FloatValue = entity.TimeShifting;
+//                lblTimeShifting.StringValue = entity.TimeShiftingString;
+//                if(sliderTimeShifting.FloatValue != entity.TimeShifting)
+//                    sliderTimeShifting.FloatValue = entity.TimeShifting;
             });
         }
 

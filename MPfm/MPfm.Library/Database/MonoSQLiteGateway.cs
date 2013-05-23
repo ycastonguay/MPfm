@@ -140,6 +140,10 @@ namespace MPfm.Library.Database
             {
                 return "null";
             }
+            else if (value.GetType().FullName.ToUpper() == "SYSTEM.DATETIME")
+            {
+                return "'" + value.ToString() + "'";
+            }
             else if (value.GetType().FullName.ToUpper() == "SYSTEM.BOOLEAN")
             {
                 int newValue = ((bool)value) ? 1 : 0;
@@ -656,6 +660,7 @@ namespace MPfm.Library.Database
                 for (int a = 0; a < propertyInfos.Length; a++)
                 {
                     PropertyInfo propertyInfo = propertyInfos[a];
+                    Console.WriteLine("Insert - Fields - Item {0} name: {1}", a, propertyInfo.Name);
                     if (propertyInfo.GetSetMethod() != null)
                     {
                         string fieldName = propertyInfo.Name;
@@ -679,6 +684,7 @@ namespace MPfm.Library.Database
                 for (int a = 0; a < propertyInfos.Length; a++)
                 {
                     PropertyInfo propertyInfo = propertyInfos[a];
+                    Console.WriteLine("Insert - Values - Item {0} name: {1}", a, propertyInfo.Name);
                     if (propertyInfo.GetSetMethod() != null)
                     {
                         string fieldName = propertyInfo.Name;

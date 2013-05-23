@@ -143,6 +143,10 @@ namespace MPfm.Library.Database
             {
                 return "null";
             }
+            else if (value.GetType().FullName.ToUpper() == "SYSTEM.DATETIME")
+            {
+                return "'" + value.ToString() + "'";
+            }
             else if (value.GetType().FullName.ToUpper() == "SYSTEM.BOOLEAN")
             {
                 int newValue = ((bool)value) ? 1 : 0;

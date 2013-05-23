@@ -126,18 +126,12 @@ namespace MPfm.MVP.Services
             {
                 // Check if the configured path is part of the specified path
                 if (folder.FolderPath.Contains(folderPath))
-                {
-                    // Delete this configured folder                        
                     gateway.DeleteFolder(folder.FolderId);
-                }
             }
 
             // Add the folder to the list of configured folders
             if (!folderFound)
-            {
-                // Add folder to database                    
                 gateway.InsertFolder(folderPath, true);
-			}
 		}		
 		
 		public List<string> SelectDistinctArtistNames(AudioFileFormat format)

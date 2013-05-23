@@ -196,5 +196,7 @@
     <Compile Include="UpdateLibrary\UpdateLibraryMode.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
+    <Compile Include="Sync\SyncTcpListener.cs" />
+    <Compile Include="Sync\SyncTcpClient.cs" />
   </ItemGroup>
 </Project>

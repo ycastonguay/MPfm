@@ -94,10 +94,6 @@
       <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite" />
-    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -154,5 +150,10 @@
     <Compile Include="UpdateLibrary\UpdateLibraryMode.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
+    <Compile Include="Sync\SyncTcpListener.cs" />
+    <Compile Include="Sync\SyncTcpClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sync\" />
   </ItemGroup>
 </Project>

@@ -198,9 +198,6 @@
     <Compile Include="Presenters\Interfaces\IBasePresenter.cs" />
     <Compile Include="Views\IBaseView.cs" />
     <Compile Include="Views\IMainView.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\SplashViewModel.cs" />
-    <Compile Include="ViewModels\LibraryBrowserViewModel.cs" />
     <Compile Include="Presenters\Interfaces\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Navigation\NavigationManager.cs" />
@@ -239,5 +236,6 @@
     <Compile Include="Presenters\Interfaces\IEqualizerPresetDetailsPresenter.cs" />
     <Compile Include="Presenters\EqualizerPresetsPresenter.cs" />
     <Compile Include="Presenters\EqualizerPresetDetailsPresenter.cs" />
+    <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
   </ItemGroup>
 </Project>
