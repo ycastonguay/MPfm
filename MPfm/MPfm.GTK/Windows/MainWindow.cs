@@ -53,6 +53,7 @@ namespace MPfm.GTK.Windows
         public System.Action OnOpenPreferencesWindow { get; set; }
         public System.Action OnOpenEffectsWindow { get; set; }
         public System.Action OnOpenPlaylistWindow { get; set; }
+		public System.Action OnOpenSyncWindow { get; set; }
         public System.Action OnPlayerPlay { get; set; }
         public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public System.Action OnPlayerPause { get; set; }
@@ -598,20 +599,22 @@ namespace MPfm.GTK.Windows
 
 		protected void OnActionPlaylistActivated(object sender, System.EventArgs e)
 		{
-			if(OnOpenPlaylistWindow != null)
-				OnOpenPlaylistWindow.Invoke();
+		    OnOpenPlaylistWindow();
 		}
 
 		protected void OnActionEffectsActivated(object sender, System.EventArgs e)
 		{							
-			if(OnOpenEffectsWindow != null)
-				OnOpenEffectsWindow.Invoke();
+		    OnOpenEffectsWindow();
 		}
 		
 		protected void OnActionSettingsActivated(object sender, System.EventArgs e)
 		{
-			if(OnOpenPreferencesWindow != null)
-				OnOpenPreferencesWindow.Invoke();
+			OnOpenPreferencesWindow();
+		}
+
+		protected void OnActionSyncLibrary(object sender, EventArgs e)
+		{
+            OnOpenSyncWindow();
 		}
 
 		protected void OnAboutActionActivated(object sender, System.EventArgs e)
@@ -630,7 +633,7 @@ namespace MPfm.GTK.Windows
 		{
 	
 		}
-	
+
 		protected void OnVolumeValueChanged(object sender, System.EventArgs e)
 		{
 			// Set player volume			
@@ -894,9 +897,9 @@ namespace MPfm.GTK.Windows
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
 		{
 			Gtk.Application.Invoke(delegate{			
-				lblTimeShiftingValue.Text = entity.TimeShiftingString;
-				if(entity.TimeShifting != hscaleTimeShifting.Value)
-					hscaleTimeShifting.Value = (float)entity.TimeShifting;
+//				lblTimeShiftingValue.Text = entity.TimeShiftingString;
+//				if(entity.TimeShifting != hscaleTimeShifting.Value)
+//					hscaleTimeShifting.Value = (float)entity.TimeShifting;
 			});
 		}
 			
@@ -1011,7 +1014,7 @@ namespace MPfm.GTK.Windows
 				}
 			});
 		}
-		
+
 		#endregion
 
 	}

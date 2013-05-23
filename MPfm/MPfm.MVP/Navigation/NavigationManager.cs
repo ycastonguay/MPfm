@@ -49,6 +49,9 @@ namespace MPfm.MVP.Navigation
         private IUpdateLibraryView _updateLibraryView;
         private IUpdateLibraryPresenter _updateLibraryPresenter;
 
+        private ISyncView _syncView;
+        private ISyncPresenter _syncPresenter;
+
         public virtual ISplashView CreateSplashView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
@@ -126,6 +129,31 @@ namespace MPfm.MVP.Navigation
                 _libraryPreferencesPresenter = null;
             };
             return _preferencesView;
+        }
+
+        public virtual ISyncView CreateSyncView()
+        {
+            // If the view is still visible, just make it the top level window
+            if(_syncView != null)
+            {
+                _syncView.ShowView(true);
+                return _syncView;
+            }
+            
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+                {                    
+                    _syncPresenter = Bootstrapper.GetContainer().Resolve<ISyncPresenter>();
+                    _syncPresenter.BindView((ISyncView)view);
+                };
+            
+            // Create view and manage view destruction
+            _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _syncView.OnViewDestroy = (view) => {
+                _syncView = null;
+                _syncPresenter = null;
+            };
+            return _syncView;
         }
     }
 }

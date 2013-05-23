@@ -25,6 +25,6 @@ namespace MPfm.Library.Services.Interfaces
     /// </summary>
     public interface ISyncDiscoveryService
     {
-
+        void SearchForDevices();
     }
 }

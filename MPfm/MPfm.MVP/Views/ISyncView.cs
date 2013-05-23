@@ -16,17 +16,19 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using MPfm.MVP.Models;
 
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Splash screen view interface.
+	/// Sync view interface.
 	/// </summary>
-    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView
+	public interface ISyncView : IBaseView
 	{
-        Action OnOpenPreferencesWindow { get; set; }
-        Action OnOpenEffectsWindow { get; set; }
-        Action OnOpenPlaylistWindow { get; set; }
-        Action OnOpenSyncWindow { get; set; }
+        Action OnRefreshDevices { get; set; }
+
+        void RefreshDevices(IEnumerable<SyncDeviceEntity> devices);
+        void SyncDevice(SyncDeviceEntity device);
 	}
 }

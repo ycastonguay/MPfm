@@ -45,11 +45,11 @@ namespace MPfm.MVP.Presenters
         
         public override void BindView(IMainView view)
         {            
-            // Subscribe to view actions
             view.OnOpenPlaylistWindow = OpenPlaylistWindow;
             view.OnOpenEffectsWindow = OpenEffectsWindow;
             view.OnOpenPreferencesWindow = OpenPreferencesWindow;
-            
+            view.OnOpenSyncWindow = OpenSyncWindow;
+
             base.BindView(view);
         }
         
@@ -65,7 +65,11 @@ namespace MPfm.MVP.Presenters
         {
             navigationManager.CreatePreferencesView();
         }
-        
+
+        void OpenSyncWindow()
+        {
+            navigationManager.CreateSyncView();
+        }        
     }
 }
 

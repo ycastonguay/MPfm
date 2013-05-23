@@ -33,10 +33,10 @@ namespace MPfm.Library.Services
 
         public int Port { get; private set; }
 
-        public SyncListenerService(int port, ILibraryService libraryService)
+        public SyncListenerService(ILibraryService libraryService)
         {
             _libraryService = libraryService;
-            Port = port;
+            Port = 8080;
             Initialize();
         }
 

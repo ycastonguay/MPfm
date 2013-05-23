@@ -43,6 +43,7 @@ namespace MPfm.GTK
 			Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindow>().AsMultiInstance();
 			//Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncView, SyncWindow>().AsMultiInstance();
 			
 			// Create and start navigation manager
 			navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();

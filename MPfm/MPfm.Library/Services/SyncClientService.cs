@@ -23,6 +23,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using MPfm.Library.Services.Interfaces;
+using MPfm.Core.Network;
+using System.Net.NetworkInformation;
 
 namespace MPfm.Library.Services
 {
@@ -35,6 +37,9 @@ namespace MPfm.Library.Services
 
         private void Initialize()
         {
+
         }
+
+
     }
 }

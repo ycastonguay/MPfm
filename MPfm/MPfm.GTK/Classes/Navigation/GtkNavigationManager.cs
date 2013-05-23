@@ -54,6 +54,15 @@ namespace MPfm.GTK.Navigation
 			});		
 			return view;
 		}
+
+		public override ISyncView CreateSyncView()
+		{
+			ISyncView view = null;
+			Gtk.Application.Invoke(delegate {
+				view = base.CreateSyncView();
+			});		
+			return view;
+		}
 	}
 }
 

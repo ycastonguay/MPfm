@@ -34,6 +34,7 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.Action actionAddFolder;
 		private global::Gtk.Action HelpAction;
 		private global::Gtk.Action actionPlayLoop;
+		private global::Gtk.Action connectAction;
 		private global::Gtk.VBox vboxMain;
 		private global::Gtk.MenuBar menubarMain;
 		private global::Gtk.Toolbar toolbarMain;
@@ -203,6 +204,8 @@ namespace MPfm.GTK.Windows
 			w1.Add (this.HelpAction, null);
 			this.actionPlayLoop = new global::Gtk.Action ("actionPlayLoop", null, null, "gtk-media-play");
 			w1.Add (this.actionPlayLoop, null);
+			this.connectAction = new global::Gtk.Action ("connectAction", null, null, "gtk-connect");
+			w1.Add (this.connectAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.Windows.MainWindow";
@@ -223,7 +226,7 @@ namespace MPfm.GTK.Windows
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vboxMain.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><separator/><toolitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><separator/><toolitem name='actionPlay' action='actionPlay'/><toolitem name='actionPause' action='actionPause'/><toolitem name='actionStop' action='actionStop'/><toolitem name='actionPrevious' action='actionPrevious'/><toolitem name='actionNext' action='actionNext'/><toolitem name='actionRepeatType' action='actionRepeatType'/><separator/><toolitem name='actionPlaylist' action='actionPlaylist'/><toolitem name='actionEffects' action='actionEffects'/><toolitem name='actionSettings' action='actionSettings'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><separator/><toolitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><separator/><separator/><toolitem name='actionPlay' action='actionPlay'/><toolitem name='actionPause' action='actionPause'/><toolitem name='actionStop' action='actionStop'/><toolitem name='actionPrevious' action='actionPrevious'/><toolitem name='actionNext' action='actionNext'/><toolitem name='actionRepeatType' action='actionRepeatType'/><separator/><toolitem name='actionPlaylist' action='actionPlaylist'/><toolitem name='actionEffects' action='actionEffects'/><toolitem name='actionSettings' action='actionSettings'/><separator/><toolitem name='connectAction' action='connectAction'/></toolbar></ui>");
 			this.toolbarMain = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMain")));
 			this.toolbarMain.Name = "toolbarMain";
 			this.toolbarMain.ShowArrow = false;
@@ -999,6 +1002,7 @@ namespace MPfm.GTK.Windows
 			this.actionPlaylist.Activated += new global::System.EventHandler (this.OnActionPlaylistActivated);
 			this.actionAddFiles.Activated += new global::System.EventHandler (this.OnActionAddFilesActivated);
 			this.actionAddFolder.Activated += new global::System.EventHandler (this.OnActionAddFolderActivated);
+			this.connectAction.Activated += new global::System.EventHandler (this.OnActionSyncLibrary);
 			this.cboSoundFormat.Changed += new global::System.EventHandler (this.OnSoundFormatChanged);
 			this.treeLibraryBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeLibraryBrowserRowActivated);
 			this.treeLibraryBrowser.CursorChanged += new global::System.EventHandler (this.OnTreeLibraryBrowserCursorChanged);

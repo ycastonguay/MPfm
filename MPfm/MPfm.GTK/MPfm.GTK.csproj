@@ -98,6 +98,8 @@
     <Compile Include="gtk-gui\MPfm.GTK.Windows.SplashWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.Windows.UpdateLibraryWindow.cs" />
     <Compile Include="Classes\Main.cs" />
+    <Compile Include="Windows\SyncWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.SyncWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

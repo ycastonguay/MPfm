@@ -16,28 +16,23 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.MVP;
 using MPfm.MVP.Views;
+using System.Collections.Generic;
+using MPfm.MVP.Models;
+using MPfm.GTK.Windows;
 
-namespace MPfm.GTK.Windows
+namespace MPfm.GTK
 {
-	/// <summary>
-	/// Settings window.
-	/// </summary>
-	public partial class PreferencesWindow : BaseWindow, IPreferencesView
-	{		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.GTK.PreferencesWindow"/> class.
-		/// </summary>
-		/// <param name='main'>Reference to the main window.</param>
-		public PreferencesWindow (Action<IBaseView> onViewReady) : 
-				base(Gtk.WindowType.Toplevel, onViewReady)
+	public partial class SyncWindow : BaseWindow, ISyncView
+	{
+		public SyncWindow(Action<IBaseView> onViewReady) : 
+			base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build();
-			onViewReady(this);
-			this.Show();
+            onViewReady(this);
+            this.Show();
 		}
-		
+
 		/// <summary>
 		/// Raises the delete event (when the form is closing).
 		/// Prevents the form from closing by hiding it instead.
@@ -47,12 +42,30 @@ namespace MPfm.GTK.Windows
 		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
 		{
 			// Prevent window from closing
-			//args.RetVal = true;
+			args.RetVal = true;
 			
 			// Hide window instead
-			//this.HideAll();
-			Console.WriteLine("PreferencesWindow - OnDeleteEvent");
+			this.HideAll();
 		}
+
+		protected void OnSyncRefreshDeviceList(object sender, EventArgs e)
+        {
+            OnRefreshDevices();
+        }
+
+        #region ISyncView implementation
+
+        public System.Action OnRefreshDevices { get; set; }
+
+        public void RefreshDevices(IEnumerable<MPfm.MVP.Models.SyncDeviceEntity> devices)
+        {
+        }
+
+        public void SyncDevice(SyncDeviceEntity device)
+        {
+        }
+
+        #endregion
+
 	}
 }
-

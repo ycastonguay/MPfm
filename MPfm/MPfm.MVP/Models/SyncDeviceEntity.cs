@@ -15,18 +15,33 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-	/// Splash screen view interface.
-	/// </summary>
-    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView
+    /// <summary>
+    /// Data structure repesenting a syncable device.
+    /// </summary>
+	public class SyncDeviceEntity
 	{
-        Action OnOpenPreferencesWindow { get; set; }
-        Action OnOpenEffectsWindow { get; set; }
-        Action OnOpenPlaylistWindow { get; set; }
-        Action OnOpenSyncWindow { get; set; }
+        public SyncDeviceType DeviceType { get; set; }
+
+		public SyncDeviceEntity()
+		{
+		}
+	}
+	
+	/// <summary>
+	/// Syncable device type.
+	/// </summary>
+	public enum SyncDeviceType
+	{
+		Linux = 0, 
+        OSX = 1, 
+        Windows = 2, 
+        iOS = 3, 
+        Android = 4
 	}
 }
+

@@ -200,6 +200,12 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-media-play</property>
       </action>
+      <action id="connectAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-connect</property>
+        <signal name="Activated" handler="OnActionSyncLibrary" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MPfm: Music Player for Musicians</property>
@@ -257,6 +263,7 @@
               <node type="Separator" />
               <node type="Toolitem" action="actionUpdateLibrary" />
               <node type="Separator" />
+              <node type="Separator" />
               <node type="Toolitem" action="actionPlay" />
               <node type="Toolitem" action="actionPause" />
               <node type="Toolitem" action="actionStop" />
@@ -267,6 +274,8 @@
               <node type="Toolitem" action="actionPlaylist" />
               <node type="Toolitem" action="actionEffects" />
               <node type="Toolitem" action="actionSettings" />
+              <node type="Separator" />
+              <node type="Toolitem" action="connectAction" />
             </node>
           </widget>
           <packing>
@@ -3455,6 +3464,114 @@
             <property name="Expand">False</property>
             <property name="Fill">False</property>
             <property name="Padding">2</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="MPfm.GTK.SyncWindow" design-size="428 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">SyncWindow</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <widget class="Gtk.VBox" id="vbox1">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.Label" id="lblTitle">
+            <property name="MemberName" />
+            <property name="Xalign">0</property>
+            <property name="LabelProp" translatable="yes">Sync library with other devices</property>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="lblSubtitle">
+            <property name="MemberName" />
+            <property name="Xalign">0</property>
+            <property name="LabelProp" translatable="yes">My IP address is: 192.168.1.101</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="ShadowType">In</property>
+            <child>
+              <widget class="Gtk.TreeView" id="treeViewDevices">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">True</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox1">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Gtk.Button" id="btnRefreshDeviceList">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">Refresh device list</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnSyncRefreshDeviceList" />
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Label" id="lblStatus">
+                <property name="MemberName" />
+                <property name="Xalign">0</property>
+                <property name="LabelProp" translatable="yes">Refreshing device list...</property>
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="btnSyncLibraryWithDevice">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">Sync library with device</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">3</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
           </packing>
         </child>
       </widget>

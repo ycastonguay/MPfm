@@ -52,6 +52,9 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
             container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();
             container.Register<IPeakFileService, PeakFileService>().AsSingleton();
+            container.Register<ISyncClientService, SyncClientService>().AsMultiInstance();
+            container.Register<ISyncListenerService, SyncListenerService>().AsMultiInstance();
+            container.Register<ISyncDiscoveryService, SyncDiscoveryService>().AsMultiInstance();
 
             // Register presenters
             container.Register<ISplashPresenter, SplashPresenter>().AsSingleton();
@@ -76,6 +79,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IPitchShiftingPresenter, PitchShiftingPresenter>().AsMultiInstance();
             container.Register<IPlayerMetadataPresenter, PlayerMetadataPresenter>().AsMultiInstance();
             container.Register<IPlayerStatusPresenter, PlayerStatusPresenter>().AsMultiInstance();
+            container.Register<ISyncPresenter, SyncPresenter>().AsMultiInstance();
         }
         
         /// <summary>

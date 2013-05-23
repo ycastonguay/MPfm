@@ -15,18 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
-	/// <summary>
-	/// Splash screen view interface.
-	/// </summary>
-    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView
+	public interface ISyncPresenter : IBasePresenter<ISyncView>
 	{
-        Action OnOpenPreferencesWindow { get; set; }
-        Action OnOpenEffectsWindow { get; set; }
-        Action OnOpenPlaylistWindow { get; set; }
-        Action OnOpenSyncWindow { get; set; }
 	}
 }

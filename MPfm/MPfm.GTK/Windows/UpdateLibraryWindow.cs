@@ -28,6 +28,7 @@ using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Services;
 using MPfm.MVP.Bootstrap;
+using MPfm.Library.Services;
 
 namespace MPfm.GTK.Windows
 {
@@ -104,13 +105,9 @@ namespace MPfm.GTK.Windows
 		
 		public void RefreshStatus(UpdateLibraryEntity entity)
 		{
-			// Invoke UI changes
 			Gtk.Application.Invoke(delegate{
-				
-				// Check for error
 				if(entity.Exception != null)
 				{
-					// Add error to log				
 					TextIter textIter = textviewErrorLog.Buffer.EndIter;
 					textviewErrorLog.Buffer.Insert(ref textIter, entity.FilePath + "\n");					
 					textviewErrorLog.ScrollToIter(textviewErrorLog.Buffer.EndIter, 0, false, 0, 0);
