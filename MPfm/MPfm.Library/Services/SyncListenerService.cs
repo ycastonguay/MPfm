@@ -75,7 +75,7 @@ namespace MPfm.Library.Services
                     HttpListenerContext context = _httpListener.GetContext();
                     Task.Factory.StartNew((ctx) => {
                         var httpContext = (HttpListenerContext)ctx;
-                        Console.WriteLine("SyncListenerService - url: {0}", httpContext.Request.Url.ToString());
+                        Console.WriteLine("SyncListenerService - command: {0} url: {1}", httpContext.Request.HttpMethod, httpContext.Request.Url.ToString());
 
                         string command = httpContext.Request.Url.PathAndQuery;
 
@@ -147,9 +147,18 @@ namespace MPfm.Library.Services
                                 }
                             }
                         }
-                        else if(httpContext.Request.HttpMethod.ToUpper() == "PUT" || httpContext.Request.HttpMethod.ToUpper() == "POST")
+                        else if(httpContext.Request.HttpMethod.ToUpper() == "PUT" || httpContext.Request.HttpMethod.ToUpper() == "OPTIONS" ||
+                                httpContext.Request.HttpMethod.ToUpper() == "POST")
                         {
-                            ReadFileBinaryResponse(httpContext);
+                            if(httpContext.Request.ContentType.ToUpper().Contains("MULTIPART/FORM-DATA"))
+                            {
+                                ReadFileMultiPartFormData(httpContext.Request.ContentEncoding, GetBoundary(httpContext.Request.ContentType), httpContext.Request.InputStream);
+                                WriteHTMLResponse(httpContext, "Success");
+                            }
+                            else
+                            {
+                                ReadFileBinaryResponse(httpContext);
+                            }
                         }
                     }, context,TaskCreationOptions.LongRunning);
                 }
@@ -321,6 +330,111 @@ namespace MPfm.Library.Services
                 Console.WriteLine("GetIPAddress Exception: {0}", ex);
             }
             return address;
+        }
+        
+        private String GetBoundary(String ctype)
+        {
+            return "--" + ctype.Split(';')[1].Split('=')[1];
+        }
+
+        private void ReadFileMultiPartFormData(Encoding enc, String boundary, Stream input)
+        {
+            // http://stackoverflow.com/questions/8466703/httplistener-and-file-upload
+            Byte[] boundaryBytes = enc.GetBytes(boundary);
+            Int32 boundaryLen = boundaryBytes.Length;
+
+            using (FileStream output = new FileStream("/Users/ycastonguay/Desktop/test.txt", FileMode.Create, FileAccess.Write))
+            {
+                Byte[] buffer = new Byte[1024];
+                Int32 len = input.Read(buffer, 0, 1024);
+                Int32 startPos = -1;
+
+                // Find start boundary
+                while (true)
+                {
+                    if (len == 0)
+                    {
+                        throw new Exception("Start Boundaray Not Found");
+                    }
+
+                    startPos = IndexOf(buffer, len, boundaryBytes);
+                    if (startPos >= 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Array.Copy(buffer, len - boundaryLen, buffer, 0, boundaryLen);
+                        len = input.Read(buffer, boundaryLen, 1024 - boundaryLen);
+                    }
+                }
+
+                // Skip four lines (Boundary, Content-Disposition, Content-Type, and a blank)
+                for (Int32 i = 0; i < 4; i++)
+                {
+                    while (true)
+                    {
+                        if (len == 0)
+                        {
+                            throw new Exception("Preamble not Found.");
+                        }
+
+                        startPos = Array.IndexOf(buffer, enc.GetBytes("\n")[0], startPos);
+                        if (startPos >= 0)
+                        {
+                            startPos++;
+                            break;
+                        }
+                        else
+                        {
+                            len = input.Read(buffer, 0, 1024);
+                        }
+                    }
+                }
+
+                Array.Copy(buffer, startPos, buffer, 0, len - startPos);
+                len = len - startPos;
+
+                while (true)
+                {
+                    Int32 endPos = IndexOf(buffer, len, boundaryBytes);
+                    if (endPos >= 0)
+                    {
+                        if (endPos > 0) output.Write(buffer, 0, endPos);
+                        break;
+                    }
+                    else if (len <= boundaryLen)
+                    {
+                        throw new Exception("End Boundaray Not Found");
+                    }
+                    else
+                    {
+                        output.Write(buffer, 0, len - boundaryLen);
+                        Array.Copy(buffer, len - boundaryLen, buffer, 0, boundaryLen);
+                        len = input.Read(buffer, boundaryLen, 1024 - boundaryLen) + boundaryLen;
+                    }
+                }
+            }
+            input.Close();
+        }
+
+        private Int32 IndexOf(Byte[] buffer, Int32 len, Byte[] boundaryBytes)
+        {
+            for (Int32 i = 0; i <= len - boundaryBytes.Length; i++)
+            {
+                Boolean match = true;
+                for (Int32 j = 0; j < boundaryBytes.Length && match; j++)
+                {
+                    match = buffer[i + j] == boundaryBytes[j];
+                }
+
+                if (match)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
     }
 }
