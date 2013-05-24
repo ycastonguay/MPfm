@@ -33,35 +33,83 @@ namespace MPfm.Library.Services
         public int Port { get; private set; }
 
         public delegate void DeviceFound(SyncDevice device);
-        /// <summary>
-        /// The OnBPMDetected event is triggered when the current BPM has been deteted or has changed.
-        /// </summary>
         public event DeviceFound OnDeviceFound;
+
+        public delegate void DiscoveryEnded(IEnumerable<SyncDevice> devices);
+        public event DiscoveryEnded OnDiscoveryEnded;
 
         public SyncDiscoveryService()
         {
             Port = 53551;
         }
 
-        public void SearchForDevices()
+        /// <summary>
+        /// Searches for the 50 most common IP addresses in a subnet (i.e. 192.168.1.0 to 192.168.1.25, 192.168.1.100 to 192.168.1.125).
+        /// Searches for uncommon IP addresses in a subnet (i.e. 192.168.1.26 to 192.168.1.99, 192.168.1.126 to 192.168.1.255).
+        /// </summary>
+        /// <param name="baseIP">Base IP address (i.e. 192.168.1)</param>
+        public void SearchForDevices(string baseIP)
+        {
+            Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
+            var commonIPs = new List<string>();
+            commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".0"), IPAddress.Parse(baseIP + ".25")).ToList());
+            commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".100"), IPAddress.Parse(baseIP + ".125")).ToList());
+            SearchForDevices(commonIPs, (commonDevices) => {
+                Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
+                var uncommonIPs = new List<string>();
+                uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".26"), IPAddress.Parse(baseIP + ".99")).ToList());
+                uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".126"), IPAddress.Parse(baseIP + ".255")).ToList());
+                SearchForDevices(uncommonIPs, (uncommonDevices) => {
+                    Console.WriteLine("SyncDiscoveryService - SearchForDevices - Discovery ended!");
+                    var allDevices = new List<SyncDevice>();
+                    allDevices.AddRange(commonDevices);
+                    allDevices.AddRange(uncommonDevices);
+                    if(OnDiscoveryEnded != null)
+                        OnDiscoveryEnded(allDevices);
+                });
+            });
+        }
+
+        /// <summary>
+        /// Searches for devices in the IP addresses passed in parameter.
+        /// </summary>
+        /// <param name="ips">IP addresses to search</param>
+        public void SearchForDevices(List<string> ips)
+        {
+            SearchForDevices(ips, (devices) => {
+                if(OnDiscoveryEnded != null)
+                    OnDiscoveryEnded(devices);
+            });
+        }
+
+        /// <summary>
+        /// Searches for devices in the IP addresses passed in parameter.
+        /// </summary>
+        /// <param name="ips">IP addresses to search</param>
+        /// <param name="actionDiscoveryEnded">This action will be triggered when the discovery has ended</param> 
+        private void SearchForDevices(List<string> ips, Action<ConcurrentBag<SyncDevice>> actionDiscoveryEnded)
         {
             Task.Factory.StartNew(() => {
-                var ips = IPAddressRangeFinder.GetIPRange(IPAddress.Parse("192.168.1.100"), IPAddress.Parse("192.168.1.255")).ToList();
-                ConcurrentBag<string> validIps = new ConcurrentBag<string>();
+                ConcurrentBag<SyncDevice> devices = new ConcurrentBag<SyncDevice>();
                 Parallel.For(1, ips.Count, (index, state) => {
                     try
                     {
-                        Console.WriteLine("Pinging {0}...", ips[index]);
-                        WebClientTimeout client = new WebClientTimeout(500); // maybe 100 is too short!
-                        string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsappversion", ips[index], Port));
-                        Console.WriteLine("Got version from {0}: {1}", ips[index], content);
+                        Console.WriteLine("SyncDiscoveryService - Pinging {0}...", ips[index]);
+                        WebClientTimeout client = new WebClientTimeout(800);
+                        string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port));
+                        Console.WriteLine("SyncDiscoveryService - Got version from {0}: {1}", ips[index], content);
                         if(content.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
                         {
-                            validIps.Add(ips[index]);
+                            var device = new SyncDevice(){
+                                Name = "Device",
+                                DeviceType = SyncDeviceType.iOS,
+                                Url = String.Format("http://{0}:{1}/", ips[index], Port)
+                            };
+                            devices.Add(device);
+                            Console.WriteLine("SyncDiscoveryService - Raising OnDeviceFound event...");
                             if(OnDeviceFound != null)
-                                OnDeviceFound(new SyncDevice(){
-                                });
-                            Console.WriteLine("The following host is available: {0}", ips[index]);
+                                OnDeviceFound(device);
+                            Console.WriteLine("SyncDiscoveryService - The following host is available: {0}", ips[index]);
                         }
                     }
                     catch(Exception ex)
@@ -69,6 +117,10 @@ namespace MPfm.Library.Services
                         // Ignore IP address
                     }
                 });
+
+                Console.WriteLine("SyncDiscoveryService - Discovery done!");
+                if(actionDiscoveryEnded != null)
+                    actionDiscoveryEnded(devices);
             });
         }
     }

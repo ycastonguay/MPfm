@@ -89,7 +89,7 @@ namespace MPfm.Library.Services
                             {
                                 // This returns information about this web service
                                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MPfm.Library.WebApp.index.html"))
-                                    WriteFileResponse(httpContext, stream);
+                                    WriteFileResponse(httpContext, stream, "index.html");
                             }
                             else if(command.ToUpper().StartsWith("/INDEX"))
                             {
@@ -107,7 +107,7 @@ namespace MPfm.Library.Services
                                     WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
                                 }
                             }
-                            else if(command.ToUpper().StartsWith("/SESSIONSAPPVERSION"))
+                            else if(command.ToUpper().StartsWith("/SESSIONSAPP.VERSION"))
                             {
                                 // This is used to know this is a Sessions web service
                                 WriteHTMLResponse(httpContext, SyncVersionId);
@@ -139,7 +139,7 @@ namespace MPfm.Library.Services
                                 if(info != null)
                                 {
                                     using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-                                        WriteFileResponse(httpContext, stream);
+                                        WriteFileResponse(httpContext, stream, info.FileName);
                                 }
                                 else
                                 {
@@ -224,9 +224,17 @@ namespace MPfm.Library.Services
             }
         }
 
-        private void WriteFileResponse(HttpListenerContext context, Stream stream)
+        private void WriteFileResponse(HttpListenerContext context, Stream stream, string fileName)
         {
+            Console.WriteLine("SyncListenerService - WriteFileResponse - fileName: {0}", fileName);
             var response = context.Response;
+//            string extension = Path.GetExtension(fileName);
+//            if (extension.ToUpper().Contains("CSS"))
+//                response.ContentType = "text/css";
+//            else if (extension.ToUpper().Contains("HTML"))
+//                response.ContentType = "text/html";
+//            else if (extension.ToUpper().Contains("JS"))
+//                response.ContentType = "text/plain";
             response.ContentLength64 = stream.Length;
             response.SendChunked = false;
 
@@ -300,38 +308,6 @@ namespace MPfm.Library.Services
             reader.Close();
         }
 
-        // Good for desktop
-        public static IPAddress LocalIPAddress()
-        {
-            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
-                return null;
-
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-        }
-
-        // Good for mobile
-        public static string GetIPAddress()
-        {
-            string address = "Not Connected";
-            try
-            {
-                // For simulator: address = IPAddress.FileStyleUriParser("127.0.0.1"); 
-                string str = Dns.GetHostName() + ".local";
-                IPHostEntry hostEntry = Dns.GetHostEntry(str);
-                address = (
-                    from addr in hostEntry.AddressList
-                    where addr.AddressFamily == AddressFamily.InterNetwork
-                    select addr.ToString()
-                    ).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("GetIPAddress Exception: {0}", ex);
-            }
-            return address;
-        }
-        
         private String GetBoundary(String ctype)
         {
             return "--" + ctype.Split(';')[1].Split('=')[1];
@@ -340,6 +316,8 @@ namespace MPfm.Library.Services
         private void ReadFileMultiPartFormData(Encoding enc, String boundary, Stream input)
         {
             // http://stackoverflow.com/questions/8466703/httplistener-and-file-upload
+
+            // TODO: Add multiple files...
             Byte[] boundaryBytes = enc.GetBytes(boundary);
             Int32 boundaryLen = boundaryBytes.Length;
 
@@ -380,6 +358,7 @@ namespace MPfm.Library.Services
                         }
 
                         startPos = Array.IndexOf(buffer, enc.GetBytes("\n")[0], startPos);
+                        Console.WriteLine("Multipart - skip 4 lines - startPos: {0}", startPos);
                         if (startPos >= 0)
                         {
                             startPos++;
@@ -436,5 +415,38 @@ namespace MPfm.Library.Services
 
             return -1;
         }
+        
+        // Good for desktop
+        public static IPAddress LocalIPAddress()
+        {
+            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+                return null;
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+        }
+
+        // Good for mobile
+        public static string GetIPAddress()
+        {
+            string address = "Not Connected";
+            try
+            {
+                // For simulator: address = IPAddress.FileStyleUriParser("127.0.0.1"); 
+                string str = Dns.GetHostName() + ".local";
+                IPHostEntry hostEntry = Dns.GetHostEntry(str);
+                address = (
+                    from addr in hostEntry.AddressList
+                    where addr.AddressFamily == AddressFamily.InterNetwork
+                    select addr.ToString()
+                    ).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("GetIPAddress Exception: {0}", ex);
+            }
+            return address;
+        }
+
     }
 }

@@ -299,6 +299,9 @@
     <Content Include="Resources\16x16\fam\add.png" />
     <Content Include="Resources\32x32\tango\network-wireless.png" />
     <Content Include="Resources\16x16\tango\network-wireless.png" />
+    <Content Include="Resources\16x16\icomoon\android.png" />
+    <Content Include="Resources\16x16\icomoon\apple.png" />
+    <Content Include="Resources\16x16\icomoon\laptop.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -317,6 +320,7 @@
     <Folder Include="Resources\16x16\tango\" />
     <Folder Include="Resources\32x32\tango\" />
     <Folder Include="Classes\" />
+    <Folder Include="Resources\16x16\icomoon\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

@@ -69,6 +69,11 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("pencil", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_pencil" },
                 new NSImage(NSBundle.MainBundle.PathForResource("accept", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_accept" },
                 new NSImage(NSBundle.MainBundle.PathForResource("add", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_add" },
+
+                new NSImage(NSBundle.MainBundle.PathForResource("android", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_android" },
+                new NSImage(NSBundle.MainBundle.PathForResource("apple", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_apple" },
+                new NSImage(NSBundle.MainBundle.PathForResource("laptop", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_laptop" },
+
             };
 
             // Load 32x32px images

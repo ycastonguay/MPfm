@@ -423,7 +423,7 @@
 							</object>
 						</object>
 					</object>
-					<object class="NSMutableArray" key="NSToolbarIBAllowedItems">
+					<object class="NSArray" key="NSToolbarIBAllowedItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="138611742"/>
 						<reference ref="797602594"/>
@@ -441,7 +441,7 @@
 						<reference ref="271922043"/>
 						<reference ref="841298689"/>
 					</object>
-					<object class="NSMutableArray" key="NSToolbarIBDefaultItems">
+					<object class="NSArray" key="NSToolbarIBDefaultItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="1054465936"/>
 						<reference ref="138611742"/>
@@ -2043,7 +2043,7 @@
 																							<string key="NSFrameSize">{400, 167}</string>
 																							<reference key="NSSuperview" ref="497439405"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="841670270"/>
+																							<reference key="NSNextKeyView" ref="1018308452"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2302,7 +2302,7 @@
 																			<string key="NSFrame">{{0, -5}, {402, 185}}</string>
 																			<reference key="NSSuperview" ref="556046785"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="1018308452"/>
+																			<reference key="NSNextKeyView" ref="497439405"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133682</int>
 																			<reference key="NSVScroller" ref="658394144"/>
@@ -2485,7 +2485,7 @@
 																							<string key="NSFrameSize">{375, 165}</string>
 																							<reference key="NSSuperview" ref="36467682"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="976484741"/>
+																							<reference key="NSNextKeyView" ref="759208895"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2676,7 +2676,7 @@
 																			<string key="NSFrame">{{0, -3}, {377, 183}}</string>
 																			<reference key="NSSuperview" ref="421545823"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="759208895"/>
+																			<reference key="NSNextKeyView" ref="36467682"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133682</int>
 																			<reference key="NSVScroller" ref="688644208"/>
@@ -2748,7 +2748,7 @@
 																							<string key="NSFrameSize">{254, 145}</string>
 																							<reference key="NSSuperview" ref="146891087"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="515224985"/>
+																							<reference key="NSNextKeyView" ref="133870497"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2879,7 +2879,7 @@
 																			<string key="NSFrameSize">{256, 163}</string>
 																			<reference key="NSSuperview" ref="504268879"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="133870497"/>
+																			<reference key="NSNextKeyView" ref="146891087"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133682</int>
 																			<reference key="NSVScroller" ref="2893183"/>
@@ -2924,7 +2924,7 @@
 																							<string key="NSFrameSize">{521, 145}</string>
 																							<reference key="NSSuperview" ref="628665911"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="553973200"/>
+																							<reference key="NSNextKeyView" ref="234049385"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -3173,7 +3173,6 @@
 																					<string key="NSFrame">{{1, 161}, {422, 15}}</string>
 																					<reference key="NSSuperview" ref="901815034"/>
 																					<reference key="NSWindow"/>
-																					<reference key="NSNextKeyView"/>
 																					<string key="NSReuseIdentifierKey">_NS:60</string>
 																					<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																					<int key="NSsFlags">1</int>
@@ -3202,7 +3201,7 @@
 																			<string key="NSFrameSize">{523, 163}</string>
 																			<reference key="NSSuperview" ref="917780088"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="234049385"/>
+																			<reference key="NSNextKeyView" ref="628665911"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133682</int>
 																			<reference key="NSVScroller" ref="679588447"/>
@@ -8449,14 +8448,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MainWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableRowView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/NSTableRowView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

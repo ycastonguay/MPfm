@@ -21,6 +21,8 @@ namespace MPfm.Mac
 {
     public partial class SyncWindowController : BaseWindowController, ISyncView
     {
+        List<SyncDevice> _items = new List<SyncDevice>();
+
         // Called when created from unmanaged code
         public SyncWindowController(IntPtr handle) : base (handle)
         {
@@ -40,14 +42,17 @@ namespace MPfm.Mac
             this.Window.Center();
             this.Window.MakeKeyAndOrderFront(this);
         }
-        
-        public override void AwakeFromNib()
+
+        public override void WindowDidLoad()
         {
-            base.AwakeFromNib();
+            base.WindowDidLoad();
 
 //            lblIPAddress.StringValue = "My IP address is: " + SyncListenerService.().ToString();
-            progressIndicator.Hidden = true;
-            lblStatus.Hidden = true;
+            progressIndicator.StartAnimation(this);
+            //progressIndicator.Hidden = true;
+            //lblStatus.Hidden = true;
+            tableViewDevices.WeakDelegate = this;
+            tableViewDevices.WeakDataSource = this;
 
             OnViewReady.Invoke(this);
         }
@@ -62,11 +67,65 @@ namespace MPfm.Mac
         partial void actionRefreshDevices(NSObject sender)
         {
             lblStatus.StringValue = "Refreshing device list...";
-            progressIndicator.StartAnimation(this);
             progressIndicator.Hidden = false;
             lblStatus.Hidden = false;
 
+            Console.WriteLine("SyncWindowCtrl - actionRefreshDevices");
             OnRefreshDevices();
+        }
+
+        [Export ("numberOfRowsInTableView:")]
+        public int GetRowCount(NSTableView tableView)
+        {
+            return _items.Count;
+        }
+
+        [Export ("tableView:heightOfRow:")]
+        public float GetRowHeight(NSTableView tableView, int row)
+        {
+            return 20;
+        }
+
+        [Export ("tableView:viewForTableColumn:row:")]
+        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            NSTableCellView view;
+            if(tableColumn.Identifier.ToString() == "columnDeviceName")
+            {
+                view = (NSTableCellView)tableView.MakeView("cellDeviceName", this);
+                view.TextField.StringValue = _items[row].Name;
+            }
+            else
+            {
+                view = (NSTableCellView)tableView.MakeView("cellDeviceDescription", this);
+                view.TextField.StringValue = _items[row].Url;
+            }
+            view.TextField.Font = NSFont.FromFontName("HelveticaNeue", 12);
+
+            if (view.ImageView != null)
+            {
+                string iconName = string.Empty;
+                switch (_items[row].DeviceType)
+                {
+                    case SyncDeviceType.iOS:
+                        iconName = "16_icomoon_apple";
+                        break;
+                    case SyncDeviceType.Android:
+                        iconName = "16_icomoon_android";
+                        break;
+                    default:
+                        iconName = "16_icomoon_laptop";
+                        break;
+                }
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == iconName);
+            }
+            return view;
+        }
+
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            return new NSString("Stuff");
         }
 
         #region ISyncView implementation
@@ -77,6 +136,17 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 Console.WriteLine("SyncWindowCtrl - RefreshDevices");
+                _items = devices.ToList();
+                tableViewDevices.ReloadData();
+            });
+        }
+
+        public void RefreshDevicesEnded()
+        {
+            InvokeOnMainThread(() => {
+                Console.WriteLine("SyncWindowCtrl - RefreshDevicesEnded");
+                progressIndicator.Hidden = true;
+                lblStatus.Hidden = true;
             });
         }
 

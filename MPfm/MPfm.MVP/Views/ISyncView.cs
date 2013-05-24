@@ -30,6 +30,7 @@ namespace MPfm.MVP.Views
         Action OnRefreshDevices { get; set; }
 
         void RefreshDevices(IEnumerable<SyncDevice> devices);
+        void RefreshDevicesEnded();
         void SyncDevice(SyncDevice device);
 	}
 }

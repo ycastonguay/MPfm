@@ -26,11 +26,13 @@ namespace MPfm.Library.Objects
 	public class SyncDevice
 	{
         public SyncDeviceType DeviceType { get; set; }
+        public string Name { get; set; }
         public string Url { get; set; }
         public List<AudioFile> AudioFiles { get; set; }
 
 		public SyncDevice()
 		{
+            AudioFiles = new List<AudioFile>();
 		}
 	}
 	
@@ -39,11 +41,12 @@ namespace MPfm.Library.Objects
 	/// </summary>
 	public enum SyncDeviceType
 	{
-		Linux = 0, 
-        OSX = 1, 
-        Windows = 2, 
-        iOS = 3, 
-        Android = 4
+        Unknown = 0,
+		Linux = 1, 
+        OSX = 2, 
+        Windows = 3, 
+        iOS = 4, 
+        Android = 5
 	}
 }
 
