@@ -36,8 +36,7 @@ namespace MPfm.Mac
             ISplashView view = null;
             using (var pool = new NSAutoreleasePool())
             {
-                pool.InvokeOnMainThread(delegate
-                                        {
+                pool.InvokeOnMainThread(delegate {
                     view = base.CreateSplashView();
                 });
             }
@@ -49,8 +48,7 @@ namespace MPfm.Mac
             IMainView view = null;
             using (var pool = new NSAutoreleasePool())
             {
-                pool.InvokeOnMainThread(delegate
-                                        {
+                pool.InvokeOnMainThread(delegate {
                     view = base.CreateMainView();
                 });
             }
@@ -62,9 +60,20 @@ namespace MPfm.Mac
             IPreferencesView view = null;
             using (var pool = new NSAutoreleasePool())
             {
-                pool.InvokeOnMainThread(delegate
-                                        {
+                pool.InvokeOnMainThread(delegate {
                     view = base.CreatePreferencesView();
+                });
+            }
+            return view;
+        }
+
+        public override ISyncView CreateSyncView()
+        {
+            ISyncView view = null;
+            using (var pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(delegate {
+                    view = base.CreateSyncView();
                 });
             }
             return view;

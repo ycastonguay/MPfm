@@ -297,6 +297,8 @@
     <Content Include="Resources\16x16\fam\pencil.png" />
     <Content Include="Resources\16x16\fam\accept.png" />
     <Content Include="Resources\16x16\fam\add.png" />
+    <Content Include="Resources\32x32\tango\network-wireless.png" />
+    <Content Include="Resources\16x16\tango\network-wireless.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

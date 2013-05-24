@@ -49,7 +49,7 @@
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{131, 74}, {606, 268}}</string>
-				<int key="NSWTFlags">611844096</int>
+				<int key="NSWTFlags">611845120</int>
 				<string key="NSWindowTitle">Sync Library</string>
 				<string key="NSWindowClass">SyncWindow</string>
 				<nil key="NSViewClass"/>
@@ -446,7 +446,7 @@
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
-				<bool key="NSWindowIsRestorable">YES</bool>
+				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">

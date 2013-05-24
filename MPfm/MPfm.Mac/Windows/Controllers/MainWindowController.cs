@@ -48,6 +48,7 @@ namespace MPfm.Mac
         public System.Action OnOpenPreferencesWindow { get; set; }
         public System.Action OnOpenEffectsWindow { get; set; }
         public System.Action OnOpenPlaylistWindow { get; set; }
+        public System.Action OnOpenSyncWindow { get; set; }
         public System.Action OnPlayerPlay { get; set; }
         public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public System.Action OnPlayerPause { get; set; }
@@ -71,10 +72,6 @@ namespace MPfm.Mac
         #endregion
 
 		UpdateLibraryWindowController updateLibraryWindowController = null;
-        PlaylistWindowController playlistWindowController = null;
-        EffectsWindowController effectsWindowController = null;
-        PreferencesWindowController preferencesWindowController = null;
-
         LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource libraryBrowserDataSource = null;
         SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
@@ -319,6 +316,7 @@ namespace MPfm.Mac
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_preferences-desktop");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_audio-x-generic");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_preferences-system");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarSync").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_network-wireless");
 
             // Load button images
             btnAddLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_add");
@@ -411,8 +409,7 @@ namespace MPfm.Mac
 				////playerPresenter.Player.Playlist.Clear();
 				////playerPresenter.Player.Playlist.AddItems(filePaths.ToList());
 				//playerPresenter.Play(filePaths);
-                if(OnPlayerPlayFiles != null)
-                    OnPlayerPlayFiles(filePaths);
+                OnPlayerPlayFiles(filePaths);
 			}
 		}
 
@@ -423,42 +420,34 @@ namespace MPfm.Mac
 
         partial void actionSoundFormatChanged(NSObject sender)
         {
-            // Set audio file format filter in presenter
             AudioFileFormat format;
             Enum.TryParse<AudioFileFormat>(cboSoundFormat.TitleOfSelectedItem, out format);
-            //libraryBrowserPresenter.AudioFileFormatFilterChanged(format);
-            if(OnAudioFileFormatFilterChanged != null)
-                OnAudioFileFormatFilterChanged.Invoke(format);
+            OnAudioFileFormatFilterChanged(format);
         }
 
 		partial void actionPlay(NSObject sender)
 		{
-            if(OnPlayerPlay != null)
-                OnPlayerPlay.Invoke();
+            OnPlayerPlay();
 		}
 
 		partial void actionPause(NSObject sender)
 		{
-            if(OnPlayerPause != null)
-                OnPlayerPause.Invoke();
+            OnPlayerPause();
 		}
 
 		partial void actionStop(NSObject sender)
 		{
-            if(OnPlayerStop != null)
-                OnPlayerStop.Invoke();
+            OnPlayerStop();
 		}
 
 		partial void actionPrevious(NSObject sender)
 		{
-            if(OnPlayerPrevious != null)
-                OnPlayerPrevious.Invoke();
+            OnPlayerPrevious();
         }
 
 		partial void actionNext(NSObject sender)
 		{
-            if(OnPlayerNext != null)
-                OnPlayerNext.Invoke();
+            OnPlayerNext();
         }
 
 		partial void actionRepeatType(NSObject sender)
@@ -468,32 +457,27 @@ namespace MPfm.Mac
 
         partial void actionOpenMainWindow(NSObject sender)
         {
-            // Show window
             this.Window.MakeKeyAndOrderFront(this);
         }
 
 		partial void actionOpenPlaylistWindow(NSObject sender)
 		{
-            if(OnOpenPlaylistWindow != null)
-                OnOpenPlaylistWindow.Invoke();
+            OnOpenPlaylistWindow();
 		}
 
 		partial void actionOpenEffectsWindow(NSObject sender)
 		{
-            if(OnOpenEffectsWindow != null)
-                OnOpenEffectsWindow.Invoke();
+            OnOpenEffectsWindow();
         }
 
 		partial void actionOpenPreferencesWindow(NSObject sender)
 		{
-            if(OnOpenPreferencesWindow != null)
-                OnOpenPreferencesWindow.Invoke();
+            OnOpenPreferencesWindow();
         }
 
         partial void actionOpenSyncWindow(NSObject sender)
         {
-            var syncCtrl = new SyncWindowController();
-            syncCtrl.ShowWindow(this);
+            OnOpenSyncWindow();
         }
 
         partial void actionAddSongToPlaylist(NSObject sender)

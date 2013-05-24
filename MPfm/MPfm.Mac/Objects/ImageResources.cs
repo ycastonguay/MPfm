@@ -57,6 +57,7 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("user", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_user" },
                 new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_document-save" },
                 new NSImage(NSBundle.MainBundle.PathForResource("emblem-important", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_emblem-important" },
+                new NSImage(NSBundle.MainBundle.PathForResource("network-wireless", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_network-wireless" },
 
                 new NSImage(NSBundle.MainBundle.PathForResource("cancel", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_cancel" },
                 new NSImage(NSBundle.MainBundle.PathForResource("delete", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_delete" },
@@ -67,7 +68,7 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("time", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_time" },
                 new NSImage(NSBundle.MainBundle.PathForResource("pencil", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_pencil" },
                 new NSImage(NSBundle.MainBundle.PathForResource("accept", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_accept" },
-                new NSImage(NSBundle.MainBundle.PathForResource("add", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_add" }
+                new NSImage(NSBundle.MainBundle.PathForResource("add", "png", "Resources/16x16/fam", string.Empty)) { Name = "16_fam_add" },
             };
 
             // Load 32x32px images
@@ -85,7 +86,8 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("preferences-system", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_preferences-system" },
                 new NSImage(NSBundle.MainBundle.PathForResource("document-new", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-new" },
                 new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-save" },
-                new NSImage(NSBundle.MainBundle.PathForResource("document-save-as", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-save-as" }
+                new NSImage(NSBundle.MainBundle.PathForResource("document-save-as", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-save-as" },
+                new NSImage(NSBundle.MainBundle.PathForResource("network-wireless", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_network-wireless" }
             };
 
             // Load splash image

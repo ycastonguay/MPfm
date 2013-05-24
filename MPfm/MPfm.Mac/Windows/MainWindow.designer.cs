@@ -266,9 +266,6 @@ namespace MPfm.Mac
 		[Action ("actionOpenMainWindow:")]
 		partial void actionOpenMainWindow (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionOpenSyncWindow:")]
-		partial void actionOpenSyncWindow (MonoMac.Foundation.NSObject sender);
-
 		[Action ("actionOpenPlaylistWindow:")]
 		partial void actionOpenPlaylistWindow (MonoMac.Foundation.NSObject sender);
 
@@ -277,6 +274,9 @@ namespace MPfm.Mac
 
 		[Action ("actionOpenPreferencesWindow:")]
 		partial void actionOpenPreferencesWindow (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionOpenSyncWindow:")]
+		partial void actionOpenSyncWindow (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionAddSongToPlaylist:")]
 		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);

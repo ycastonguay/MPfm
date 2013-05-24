@@ -22,6 +22,8 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using MPfm.Core.Network;
 using MPfm.Library.Services.Interfaces;
+using System.Collections.Concurrent;
+using System.Linq;
 
 namespace MPfm.Library.Services
 {
@@ -36,49 +38,21 @@ namespace MPfm.Library.Services
 
         public void SearchForDevices()
         {
-            var ips = IPAddressRangeFinder.GetIPRange(IPAddress.Parse("192.168.1.100"), IPAddress.Parse("192.168.1.255"));
+            var ips = IPAddressRangeFinder.GetIPRange(IPAddress.Parse("192.168.1.100"), IPAddress.Parse("192.168.1.150")).ToList();
             var validIps = new List<string>();
 
+            var ping2 = new Ping();
+            var reply2 = ping2.Send("192.168.1.102", 1000);
 
-
-            //Parallel.For(
-
-//            Task.Factory.StartNew(() => {
-//                foreach(var ip in ips)
-//                {
-//                    bool successful = false;
-//                    //lblStatus.StringValue = String.Format("Querying {0}...", ip);
-//                    Console.WriteLine("Querying {0}...", ip);
-//                    try
-//                    {
-//                        var ping = new Ping();
-//                        ping.PingCompleted += HandlePingCompleted;
-//
-//                        //ping.SendAsync(ip, 100, ip);
-//                        var reply = ping.Send(IPAddress.Parse(ip), 1000);
-//                        Console.WriteLine("Ping result - reply_address: {0} reply_roundtripTime: {1} reply_status: {2}", reply.Address.ToString(), reply.RoundtripTime, reply.Status);
-////                        var client = new WebClientTimeout(3000);
-////                        string data = client.DownloadString("http://" + ip + ":8080/hello");
-////                        if(!String.IsNullOrEmpty(data))
-////                        {
-////                            successful = true;
-////                            Console.WriteLine("Successfully connected to {0}", ip);
-////                        }
-//                    }
-//                    catch(Exception ex)
-//                    {
-//                        Console.WriteLine("Failed to connect to {0}: {1}", ip, ex);
-//                    }
-//
-//                    if(successful)
-//                        validIps.Add(ip);
-//                }
-//            });
-        }
-
-        private void HandlePingCompleted(object sender, PingCompletedEventArgs e)
-        {
-            Console.WriteLine("Ping result - ip: {0} reply_address: {1} reply_roundtripTime: {2} reply_status: {3} cancelled: {4}", e.UserState.ToString(), e.Reply.Address.ToString(), e.Reply.RoundtripTime, e.Reply.Status, e.Cancelled);
+            ConcurrentBag<double> values = new ConcurrentBag<double>();
+            Parallel.For(1, ips.Count, (index, state) => {
+                Console.WriteLine("Task {0}: Pinging {1}...", index, ips[index]);
+                var ping = new Ping();
+                var reply = ping.Send(ips[index], 1000);
+                Console.WriteLine("Task {0}: Pinging {1} - received status: {2}", index, ips[index], reply.Status.ToString());
+                if (reply.Status == IPStatus.Success)
+                    validIps.Add(ips[index]);
+            });
         }
     }
 }
