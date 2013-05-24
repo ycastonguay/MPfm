@@ -8,20 +8,19 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Core.Network;
+using MPfm.Library.Objects;
 using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Models;
+using MPfm.MVP.Views;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
-using MPfm.MVP.Views;
-using MPfm.MVP.Models;
 
 namespace MPfm.Mac
 {
     public partial class SyncWindowController : BaseWindowController, ISyncView
     {
-        SyncListenerService _syncService;
-
         // Called when created from unmanaged code
         public SyncWindowController(IntPtr handle) : base (handle)
         {
@@ -74,14 +73,14 @@ namespace MPfm.Mac
 
         public Action OnRefreshDevices { get; set; }
 
-        public void RefreshDevices(IEnumerable<SyncDeviceEntity> devices)
+        public void RefreshDevices(IEnumerable<SyncDevice> devices)
         {
             InvokeOnMainThread(() => {
                 Console.WriteLine("SyncWindowCtrl - RefreshDevices");
             });
         }
 
-        public void SyncDevice(SyncDeviceEntity device)
+        public void SyncDevice(SyncDevice device)
         {
         }
 

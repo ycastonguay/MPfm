@@ -178,6 +178,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Messages\" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />
     <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
@@ -208,8 +211,6 @@
     <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
     <Compile Include="Objects\LibraryQuery.cs" />
     <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messages\" />
+    <Compile Include="Objects\SyncDevice.cs" />
   </ItemGroup>
 </Project>

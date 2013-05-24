@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using MPfm.MVP.Models;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Views
 {
@@ -28,7 +29,7 @@ namespace MPfm.MVP.Views
 	{
         Action OnRefreshDevices { get; set; }
 
-        void RefreshDevices(IEnumerable<SyncDeviceEntity> devices);
-        void SyncDevice(SyncDeviceEntity device);
+        void RefreshDevices(IEnumerable<SyncDevice> devices);
+        void SyncDevice(SyncDevice device);
 	}
 }

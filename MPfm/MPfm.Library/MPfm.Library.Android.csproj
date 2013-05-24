@@ -165,5 +165,6 @@
     <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
     <Compile Include="Objects\LibraryQuery.cs" />
     <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
+    <Compile Include="Objects\SyncDevice.cs" />
   </ItemGroup>
 </Project>

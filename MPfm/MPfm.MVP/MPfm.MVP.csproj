@@ -218,7 +218,6 @@
     <Compile Include="Presenters\EqualizerPresetDetailsPresenter.cs" />
     <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
     <Compile Include="Views\ISyncView.cs" />
-    <Compile Include="Models\SyncDeviceEntity.cs" />
     <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
     <Compile Include="Presenters\SyncPresenter.cs" />
   </ItemGroup>

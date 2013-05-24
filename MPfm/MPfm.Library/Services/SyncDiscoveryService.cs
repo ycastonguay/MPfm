@@ -16,14 +16,15 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using MPfm.Core.Network;
+using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
-using System.Collections.Concurrent;
-using System.Linq;
 
 namespace MPfm.Library.Services
 {
@@ -31,32 +32,43 @@ namespace MPfm.Library.Services
     {
         public int Port { get; private set; }
 
+        public delegate void DeviceFound(SyncDevice device);
+        /// <summary>
+        /// The OnBPMDetected event is triggered when the current BPM has been deteted or has changed.
+        /// </summary>
+        public event DeviceFound OnDeviceFound;
+
         public SyncDiscoveryService()
         {
-            Port = 8080;
+            Port = 53551;
         }
 
         public void SearchForDevices()
         {
-            var ips = IPAddressRangeFinder.GetIPRange(IPAddress.Parse("192.168.1.100"), IPAddress.Parse("192.168.1.255")).ToList();
-            ConcurrentBag<string> validIps = new ConcurrentBag<string>();
-            Parallel.For(1, ips.Count, (index, state) => {
-                try
-                {
-                    Console.WriteLine("Pinging {0}...", ips[index]);
-                    WebClientTimeout client = new WebClientTimeout(100);
-                    string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsappversion", ips[index], Port));
-                    Console.WriteLine("Got version from {0}: {1}", ips[index], content);
-                    if(content.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+            Task.Factory.StartNew(() => {
+                var ips = IPAddressRangeFinder.GetIPRange(IPAddress.Parse("192.168.1.100"), IPAddress.Parse("192.168.1.255")).ToList();
+                ConcurrentBag<string> validIps = new ConcurrentBag<string>();
+                Parallel.For(1, ips.Count, (index, state) => {
+                    try
                     {
-                        validIps.Add(ips[index]);
-                        Console.WriteLine("The following host is available: {0}", ips[index]);
+                        Console.WriteLine("Pinging {0}...", ips[index]);
+                        WebClientTimeout client = new WebClientTimeout(500); // maybe 100 is too short!
+                        string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsappversion", ips[index], Port));
+                        Console.WriteLine("Got version from {0}: {1}", ips[index], content);
+                        if(content.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                        {
+                            validIps.Add(ips[index]);
+                            if(OnDeviceFound != null)
+                                OnDeviceFound(new SyncDevice(){
+                                });
+                            Console.WriteLine("The following host is available: {0}", ips[index]);
+                        }
                     }
-                }
-                catch(Exception ex)
-                {
-                    // Ignore IP address
-                }
+                    catch(Exception ex)
+                    {
+                        // Ignore IP address
+                    }
+                });
             });
         }
     }

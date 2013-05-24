@@ -18,16 +18,18 @@
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP.Models
+namespace MPfm.Library.Objects
 {
     /// <summary>
     /// Data structure repesenting a syncable device.
     /// </summary>
-	public class SyncDeviceEntity
+	public class SyncDevice
 	{
         public SyncDeviceType DeviceType { get; set; }
+        public string Url { get; set; }
+        public List<AudioFile> AudioFiles { get; set; }
 
-		public SyncDeviceEntity()
+		public SyncDevice()
 		{
 		}
 	}
