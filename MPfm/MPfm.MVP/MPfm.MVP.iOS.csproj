@@ -213,16 +213,13 @@
     <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Presenters\SongBrowserPresenter.cs" />
     <Compile Include="Views\ISongBrowserView.cs" />
-    <Compile Include="Services\AudioFileCacheService.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryBrowserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IPlayerPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISongBrowserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IUpdateLibraryPresenter.cs" />
-    <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
     <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
     <Compile Include="Services\InitializationService.cs" />
     <Compile Include="Services\Interfaces\IInitializationService.cs" />
-    <Compile Include="Models\SongBrowserQueryEntity.cs" />
     <Compile Include="Models\PlayerVolumeEntity.cs" />
     <Compile Include="Models\PlayerTimeShiftingEntity.cs" />
     <Compile Include="Presenters\SplashPresenter.cs" />
@@ -244,8 +241,6 @@
     <Compile Include="Views\IPlaylistView.cs" />
     <Compile Include="Presenters\PlaylistPresenter.cs" />
     <Compile Include="Helpers\EQPresetHelper.cs" />
-    <Compile Include="TinyIoC\TinyIoC.cs" />
-    <Compile Include="TinyIoC\TinyMessenger.cs" />
     <Compile Include="Messages\PlayerStatusMessage.cs" />
     <Compile Include="Messages\PlayerStatusType.cs" />
     <Compile Include="Messages\LibraryBrowserItemSelectedMessage.cs" />
@@ -258,7 +253,6 @@
     <Compile Include="Presenters\Interfaces\IMainPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="Navigation\NavigationManager.cs" />
-    <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
     <Compile Include="Views\ILoopsView.cs" />
     <Compile Include="Views\IMarkersView.cs" />
     <Compile Include="Views\IPitchShiftingView.cs" />
@@ -294,5 +288,9 @@
     <Compile Include="Presenters\EqualizerPresetsPresenter.cs" />
     <Compile Include="Presenters\EqualizerPresetDetailsPresenter.cs" />
     <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
+    <Compile Include="Views\ISyncView.cs" />
+    <Compile Include="Models\SyncDeviceEntity.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
+    <Compile Include="Presenters\SyncPresenter.cs" />
   </ItemGroup>
 </Project>

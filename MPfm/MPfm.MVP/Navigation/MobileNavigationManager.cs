@@ -25,6 +25,7 @@ using MPfm.MVP.Models;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 using MPfm.Player.Objects;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Navigation
 {
@@ -87,10 +88,10 @@ namespace MPfm.MVP.Navigation
             Action onInitDone = () =>
             {                
                 // Create 4 main tabs
-                var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new SongBrowserQueryEntity());
-                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new SongBrowserQueryEntity());
-                var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new SongBrowserQueryEntity());
-                var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new SongBrowserQueryEntity());
+                var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
+                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
+                var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
+                var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
                 AddTab(MobileNavigationTabType.Playlists, "Playlists", playlistsView);
                 AddTab(MobileNavigationTabType.Artists, "Artists", artistsView);
                 AddTab(MobileNavigationTabType.Albums, "Albums", albumsView);
@@ -233,7 +234,7 @@ namespace MPfm.MVP.Navigation
             return _libraryPreferencesView;
         }
 
-        public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, SongBrowserQueryEntity query)
+        public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
         {
             var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
             

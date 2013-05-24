@@ -19,15 +19,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Services.Interfaces;
-using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
-using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
+using TinyMessenger;
+using MPfm.Library.Objects;
+using MPfm.Library.Messages;
 
-namespace MPfm.MVP.Services
+namespace MPfm.Library.Services
 {	
 	/// <summary>
 	/// Service used for interacting with the audio file metadata cache.
@@ -62,7 +60,7 @@ namespace MPfm.MVP.Services
         /// </summary>
         /// <param name="query">Song browser query</param>
         /// <returns>List of AudioFiles</returns>
-        public IEnumerable<AudioFile> SelectAudioFiles(SongBrowserQueryEntity query)
+        public IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query)
         {
             try
             {

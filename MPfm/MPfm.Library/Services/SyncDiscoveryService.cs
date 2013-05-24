@@ -38,20 +38,25 @@ namespace MPfm.Library.Services
 
         public void SearchForDevices()
         {
-            var ips = IPAddressRangeFinder.GetIPRange(IPAddress.Parse("192.168.1.100"), IPAddress.Parse("192.168.1.150")).ToList();
-            var validIps = new List<string>();
-
-            var ping2 = new Ping();
-            var reply2 = ping2.Send("192.168.1.102", 1000);
-
-            ConcurrentBag<double> values = new ConcurrentBag<double>();
+            var ips = IPAddressRangeFinder.GetIPRange(IPAddress.Parse("192.168.1.100"), IPAddress.Parse("192.168.1.255")).ToList();
+            ConcurrentBag<string> validIps = new ConcurrentBag<string>();
             Parallel.For(1, ips.Count, (index, state) => {
-                Console.WriteLine("Task {0}: Pinging {1}...", index, ips[index]);
-                var ping = new Ping();
-                var reply = ping.Send(ips[index], 1000);
-                Console.WriteLine("Task {0}: Pinging {1} - received status: {2}", index, ips[index], reply.Status.ToString());
-                if (reply.Status == IPStatus.Success)
-                    validIps.Add(ips[index]);
+                try
+                {
+                    Console.WriteLine("Pinging {0}...", ips[index]);
+                    WebClientTimeout client = new WebClientTimeout(100);
+                    string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsappversion", ips[index], Port));
+                    Console.WriteLine("Got version from {0}: {1}", ips[index], content);
+                    if(content.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                    {
+                        validIps.Add(ips[index]);
+                        Console.WriteLine("The following host is available: {0}", ips[index]);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    // Ignore IP address
+                }
             });
         }
     }

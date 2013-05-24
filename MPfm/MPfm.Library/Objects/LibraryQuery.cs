@@ -17,12 +17,12 @@
 
 using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP.Models
+namespace MPfm.Library.Objects
 {
 	/// <summary>
-	/// Data structure representing a song browser query.
+	/// Data structure representing a library query.
 	/// </summary>
-	public class SongBrowserQueryEntity
+	public class LibraryQuery
 	{
 		public AudioFileFormat Format { get; set; }
 		public string OrderBy { get; set; }
@@ -31,7 +31,7 @@ namespace MPfm.MVP.Models
 		public string AlbumTitle { get; set ; }
 		public string SearchTerms { get; set ; }
 		
-		public SongBrowserQueryEntity()
+		public LibraryQuery()
 		{
 			Format = AudioFileFormat.All;
 			OrderByAscending = true;

@@ -18,6 +18,7 @@
 using MPfm.MVP.Models;
 using MPfm.Sound.AudioFiles;
 using TinyMessenger;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Messages
 {
@@ -27,7 +28,7 @@ namespace MPfm.MVP.Messages
     public class SongBrowserItemDoubleClickedMessage : TinyMessageBase
     {
         public AudioFile Item { get; set; }
-        public SongBrowserQueryEntity Query { get; set; }
+        public LibraryQuery Query { get; set; }
 
         public SongBrowserItemDoubleClickedMessage(object sender) 
             : base(sender)

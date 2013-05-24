@@ -24,13 +24,15 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using MPfm.Core;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.Core;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.iOS
 {
@@ -97,7 +99,7 @@ namespace MPfm.iOS
             
             return cell;
         }
-        
+
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
@@ -108,8 +110,8 @@ namespace MPfm.iOS
                 var localWifiStatus = ReachabilityHelper.LocalWifiConnectionStatus ();
                 Console.WriteLine("remoteHostStatus: {0} - internetStatus: {1} - localWifiStatus: {2}", remoteHostStatus, internetStatus, localWifiStatus);
 
-//                var webClient = new WebClient();
-//                webClient.DownloadFile("http://192.168.1.101:8080/", Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "test.mp3"));
+                var syncDiscoveryService = Bootstrapper.GetContainer().Resolve<ISyncDiscoveryService>();
+                syncDiscoveryService.SearchForDevices();
                 return;
             }
 

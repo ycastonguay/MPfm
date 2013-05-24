@@ -132,6 +132,10 @@
   </Target>
   -->
   <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />
     <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
@@ -158,9 +162,9 @@
     <Compile Include="Services\Interfaces\ISyncListenerService.cs" />
     <Compile Include="Services\Interfaces\ISyncClientService.cs" />
     <Compile Include="Services\SyncClientService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Services\Interfaces\" />
+    <Compile Include="Services\AudioFileCacheService.cs" />
+    <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
+    <Compile Include="Objects\LibraryQuery.cs" />
+    <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
   </ItemGroup>
 </Project>

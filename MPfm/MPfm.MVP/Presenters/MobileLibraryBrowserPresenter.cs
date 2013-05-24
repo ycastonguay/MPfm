@@ -29,6 +29,8 @@ using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
+using MPfm.Library.Messages;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters
 {
@@ -43,14 +45,14 @@ namespace MPfm.MVP.Presenters
         private readonly IAudioFileCacheService _audioFileCacheService;
         private readonly MobileNavigationTabType _tabType;
         private readonly MobileLibraryBrowserType _browserType;
-        private SongBrowserQueryEntity _query;
+        private LibraryQuery _query;
 
         private Task _currentTask;
 	    private List<LibraryBrowserEntity> _items;
 
 	    public AudioFileFormat Filter { get; private set; }
 		
-        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, SongBrowserQueryEntity query,
+        public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query,
                                              ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
                                              ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
 		{
@@ -146,7 +148,7 @@ namespace MPfm.MVP.Presenters
             _navigationManager.PushTabView(_tabType, view);
 	    }
 
-        public void RefreshView(SongBrowserQueryEntity query)
+        public void RefreshView(LibraryQuery query)
         {
             _query = query;
             RefreshLibraryBrowser();
@@ -187,7 +189,7 @@ namespace MPfm.MVP.Presenters
                 {
                     Title = artist,
                     Type = LibraryBrowserEntityType.Artist,
-                    Query = new SongBrowserQueryEntity()
+                    Query = new LibraryQuery()
                     {
                         Format = format,
                         ArtistName = artist
@@ -226,7 +228,7 @@ namespace MPfm.MVP.Presenters
 					Title = album.Value,
                     Subtitle = album.Key,
 					Type = LibraryBrowserEntityType.Album,
-					Query = new SongBrowserQueryEntity(){
+                    Query = new LibraryQuery(){
 						Format = format,
 						ArtistName = artistName,
 						AlbumTitle = album.Value						
@@ -263,7 +265,7 @@ namespace MPfm.MVP.Presenters
                     Subtitle = audioFile.Length,
                     AudioFile = audioFile,
                     Type = LibraryBrowserEntityType.Song,
-                    Query = new SongBrowserQueryEntity()
+                    Query = new LibraryQuery()
                     {
                         Format = format,                        
                         ArtistName = artistName,

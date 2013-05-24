@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Models
 {
@@ -37,7 +38,7 @@ namespace MPfm.MVP.Models
 		/// <summary>
 		/// Item filter.
 		/// </summary>
-		public SongBrowserQueryEntity Query { get; set; }
+		public LibraryQuery Query { get; set; }
 		/// <summary>
 		/// Sub items (to create a tree view hierarchy).
 		/// </summary>
@@ -47,7 +48,7 @@ namespace MPfm.MVP.Models
 		
 		public LibraryBrowserEntity()
 		{
-			Query = new SongBrowserQueryEntity();
+            Query = new LibraryQuery();
 			SubItems = new List<LibraryBrowserEntity>();
 		}
 	}

@@ -55,9 +55,9 @@ namespace MPfm.Mac
 
         partial void actionSyncLibraryWithDevice(NSObject sender)
         {
-            var libraryService = Bootstrapper.GetContainer().Resolve<ILibraryService>();
-            _syncService = new SyncListenerService(libraryService);
-            _syncService.Start();
+//            var libraryService = Bootstrapper.GetContainer().Resolve<ILibraryService>();
+//            _syncService = new SyncListenerService(libraryService);
+//            _syncService.Start();
         }
 
         partial void actionRefreshDevices(NSObject sender)

@@ -22,20 +22,23 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.Library.Services
 {
     public class SyncListenerService : ISyncListenerService
     {
-        private readonly ILibraryService _libraryService;
+        private readonly IAudioFileCacheService _audioFileCacheService;
         private HttpListener _httpListener;
+
+        public const string SyncVersionId = "sessions_app_sync_version_1";
 
         public int Port { get; private set; }
 
-        public SyncListenerService(ILibraryService libraryService)
+        public SyncListenerService(IAudioFileCacheService audioFileCacheService)
         {
-            _libraryService = libraryService;
+            _audioFileCacheService = audioFileCacheService;
             Port = 8080;
             Initialize();
         }
@@ -55,37 +58,107 @@ namespace MPfm.Library.Services
                     HttpListenerContext context = _httpListener.GetContext();
                     Task.Factory.StartNew((ctx) => {
                         var httpContext = (HttpListenerContext)ctx;
-                        Console.WriteLine("HttpListener - WriteFile - url {0} {1}", httpContext.Request.Url.ToString(), httpContext.Request.Url.PathAndQuery);
+                        Console.WriteLine("SyncListenerService - url: {0}", httpContext.Request.Url.ToString());
 
                         string command = httpContext.Request.Url.PathAndQuery;
 
                         // /index           ==> Returns an XML file with the list of audio files in the library
                         // /audioFile/id/   ==> Returns the audio file in binary format
 
-                        if(command.ToUpper().StartsWith("/INDEX"))
+                        string agent = String.Format("MPfm: Music Player for Musicians version {0} running on {1}", "0.7.0.0", OS.Type.ToString());
+                        if(command == "/")
                         {
-
+                            // This returns information about this web service
+                            WriteHTML(httpContext, String.Format("<h2>Hello world!</h2><p>This web service is used for syncing content between devices.</p><p>{0}</p>", agent));
+                        }
+                        else if(command.ToUpper().StartsWith("/INDEX"))
+                        {
+                            // This returns the index of all audio files
+                            // TODO: Add cache. Add AudioFileCacheUpdated message to flush cache.
+                            // TODO: Add put audio file. this would enable a web interface to add audio files from a dir. ACTUALLY... /web could have a nice web-based interface for this
+                            //
+                            try
+                            {
+                                string xml = XmlSerialization.Serialize(_audioFileCacheService.AudioFiles);
+                                WriteXML(httpContext, xml);
+                            }
+                            catch(Exception ex)
+                            {
+                                WriteHTML(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                            }
+                        }
+                        else if(command.ToUpper().StartsWith("/SESSIONSAPPVERSION"))
+                        {
+                            // This is used to know this is a Sessions web service
+                            WriteHTML(httpContext, SyncVersionId);
                         }
                         else if(command.ToUpper().StartsWith("/AUDIOFILE"))
                         {
+                            try
+                            {
+                                // This returns audio files in binary format
+                                string[] split = command.Split('/');
+                                var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(split[2]));
+                                if(audioFile == null)
+                                {
+                                    WriteHTML(httpContext, String.Format("<h2>Content could not be found.</h2><p>{0}</p>", agent), HttpStatusCode.NotFound);
+                                    return;
+                                }
+                                WriteFile(httpContext, audioFile.FilePath);
+                            }
+                            catch(Exception ex)
+                            {
+                                WriteHTML(httpContext, String.Format("<h2>An error occured.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                            }
                         }
-
-                        WriteFile(httpContext);
+                        else
+                        {
+                            WriteHTML(httpContext, String.Format("<h2>Content could not be found.</h2><p>{0}</p>", agent), HttpStatusCode.NotFound);
+                        }
                     }, context,TaskCreationOptions.LongRunning);
                 }
             },TaskCreationOptions.LongRunning);
         }
-        
-        void WriteFile(HttpListenerContext ctx)
+
+        public void Stop()
         {
-            var response = ctx.Response;
-            using (FileStream fs = File.OpenRead(@"/Users/ycastonguay/Documents/hello.mp3"))
+            _httpListener.Stop();
+        }
+
+        private void WriteHTML(HttpListenerContext context, string response)
+        {
+            WriteHTML(context, response, HttpStatusCode.OK);
+        }
+
+        private void WriteHTML(HttpListenerContext context, string response, HttpStatusCode statusCode)
+        {
+            byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(response);
+            context.Response.ContentType = "text/html";
+            context.Response.StatusCode = (int)statusCode;
+            context.Response.ContentLength64 = responseBytes.Length;
+            context.Response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
+            context.Response.OutputStream.Close();
+        }
+
+        private void WriteXML(HttpListenerContext context, string response)
+        {
+            byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(response);
+            context.Response.ContentType = "text/xml";
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            context.Response.ContentLength64 = responseBytes.Length;
+            context.Response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
+            context.Response.OutputStream.Close();
+        }
+
+        private void WriteFile(HttpListenerContext context, string filePath)
+        {
+            var response = context.Response;
+            using (FileStream fs = File.OpenRead(filePath))
             {
-                //response is HttpListenerContext.Response...
                 response.ContentLength64 = fs.Length;
                 response.SendChunked = false;
                 response.ContentType = System.Net.Mime.MediaTypeNames.Application.Octet;
-                response.AddHeader("Content-disposition", "attachment; filename=hello.mp3");
+                response.AddHeader("Content-disposition", "attachment; filename=" + Path.GetFileName(filePath));
 
                 byte[] buffer = new byte[64 * 1024];
                 int read;
@@ -94,9 +167,8 @@ namespace MPfm.Library.Services
                     while ((read = fs.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         bw.Write(buffer, 0, read);
-                        bw.Flush(); //seems to have no effect
+                        bw.Flush();
                     }
-
                     bw.Close();
                 }
 
@@ -106,46 +178,14 @@ namespace MPfm.Library.Services
             }
         }
 
-        private void HandleRequest(IAsyncResult result) {
-            //if (!listenerRunning) return;
-
-            //Get the listener context
-            HttpListenerContext context = _httpListener.EndGetContext(result);
-            //Start listening for the next request
-            _httpListener.BeginGetContext(new AsyncCallback(HandleRequest), _httpListener);
-
-//            //Update status on the UI thread
-//            InvokeOnMainThread( delegate {
-//                lblIPAddress.StringValue = context.Request.UserHostAddress;                
-//            });
-
-            //Here you can create any response that you want. You can serve text or a file or whatever else you need.
-            string response = "<html><head><title>Sample Response</title></head><body>Response from mtouchwebserver.</body></html>";
-            byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(response);
-
-            //Set some response information
-            context.Response.ContentType = "text/html";
-            context.Response.StatusCode = (int)HttpStatusCode.OK;
-            context.Response.ContentLength64 = responseBytes.Length;
-
-            //Write the response.
-            context.Response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
-            context.Response.OutputStream.Close();
-        }
-
         // Good for desktop
         public static IPAddress LocalIPAddress()
         {
             if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
-            {
                 return null;
-            }
 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-
-            return host
-                .AddressList
-                    .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+            return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
         }
 
         // Good for mobile
@@ -169,7 +209,5 @@ namespace MPfm.Library.Services
             }
             return address;
         }
-
-
     }
 }

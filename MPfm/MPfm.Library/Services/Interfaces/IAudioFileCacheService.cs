@@ -16,18 +16,20 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using MPfm.MVP.Models;
 using MPfm.Sound.AudioFiles;
+using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Services.Interfaces
+namespace MPfm.Library.Services.Interfaces
 {
 	/// <summary>
 	/// Interface for the AudioFileCacheService class.
 	/// </summary>
 	public interface IAudioFileCacheService
 	{
+        List<AudioFile> AudioFiles { get; }
+
 		void RefreshCache();
-		IEnumerable<AudioFile> SelectAudioFiles(SongBrowserQueryEntity query);    
+		IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query);    
 	}
 }
 

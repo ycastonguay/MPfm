@@ -17,6 +17,7 @@
 
 using MPfm.MVP.Models;
 using TinyMessenger;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Messages
 {
@@ -25,7 +26,7 @@ namespace MPfm.MVP.Messages
     /// </summary>
     public class LibraryBrowserItemDoubleClickedMessage : TinyMessageBase
     {
-        public SongBrowserQueryEntity Query { get; set; }
+        public LibraryQuery Query { get; set; }
 
         public LibraryBrowserItemDoubleClickedMessage(object sender) 
             : base(sender)

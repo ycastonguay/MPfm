@@ -23,6 +23,7 @@ using MPfm.Core;
 using MPfm.MVP.Config;
 using MPfm.MVP.Helpers;
 using MPfm.MVP.Services.Interfaces;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.MVP.Services
 {	
@@ -32,21 +33,18 @@ namespace MPfm.MVP.Services
 	public class InitializationService : IInitializationService
 	{
 		// Private variables		
-		private Stream fileTracing = null;
-        private IAudioFileCacheService audioFileCacheService = null;
+		private Stream _fileTracing;
+        private IAudioFileCacheService _audioFileCacheService;
+        private ISyncListenerService _syncListenerService;
 
 #if (!IOS && !ANDROID)
         private TextWriterTraceListener textTraceListener = null;
 #endif
         
-		#region Constructor and Dispose
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="InitializationService"/> class.
-		/// </summary>
-		public InitializationService(IAudioFileCacheService audioFileCacheService)
+		public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService)
 		{
-            this.audioFileCacheService = audioFileCacheService;
+            _audioFileCacheService = audioFileCacheService;
+            _syncListenerService = syncListenerService;
 		}
         
         /// <summary>
@@ -78,7 +76,7 @@ namespace MPfm.MVP.Services
             // Load data needed to start the application
             LoadConfiguration();
             LoadLibrary();
-            audioFileCacheService.RefreshCache();
+            _audioFileCacheService.RefreshCache();
         }
 
         void CreateTraceListener()
@@ -86,16 +84,10 @@ namespace MPfm.MVP.Services
 #if (!IOS && !ANDROID)
             // Check if trace file exists
             if (!File.Exists(ConfigurationHelper.LogFilePath))
-            {
-                // Create file
-                fileTracing = File.Create(ConfigurationHelper.LogFilePath);
-            }
+                _fileTracing = File.Create(ConfigurationHelper.LogFilePath);
             else
-            {
-                // Open file
-                fileTracing = File.Open(ConfigurationHelper.LogFilePath, FileMode.Append);
-            }
-            textTraceListener = new TextWriterTraceListener(fileTracing);
+                _fileTracing = File.Open(ConfigurationHelper.LogFilePath, FileMode.Append);
+            textTraceListener = new TextWriterTraceListener(_fileTracing);
             Trace.Listeners.Add(textTraceListener);
 #endif
         }
@@ -165,12 +157,16 @@ namespace MPfm.MVP.Services
             catch (Exception ex)
             {
                 throw new Exception("Error initializing MPfm: The MPfm database could not be updated!", ex);
-            }			
+            }		
+
+            try
+            {
+                _syncListenerService.Start();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error initializing MPfm: The sync listener could not be started!", ex);
+            }       
 		}
-
-		#endregion
-		
 	}
-	
 }
-

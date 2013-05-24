@@ -25,6 +25,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Core;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters
 {
@@ -38,7 +39,7 @@ namespace MPfm.MVP.Presenters
 		readonly IAudioFileCacheService audioFileCacheService;
 		readonly ILibraryService libraryService;
 		
-		public SongBrowserQueryEntity Query { get; private set; }
+        public LibraryQuery Query { get; private set; }
 		
 		#region Constructor and Dispose
 
@@ -55,7 +56,7 @@ namespace MPfm.MVP.Presenters
             this.messageHub = messageHub;
 
             // Create default query
-            Query = new SongBrowserQueryEntity();
+            Query = new LibraryQuery();
 
             // Subscribe to events
             messageHub.Subscribe<LibraryBrowserItemSelectedMessage>((LibraryBrowserItemSelectedMessage m) => {
@@ -87,7 +88,7 @@ namespace MPfm.MVP.Presenters
 		/// Changes the Song Browser query and updates the Song Browser view.
 		/// </summary>
 		/// <param name='query'>New query</param>
-		public void ChangeQuery(SongBrowserQueryEntity query)
+		public void ChangeQuery(LibraryQuery query)
 		{
 			// Set query
 			this.Query = query;

@@ -102,5 +102,8 @@
     <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Network\IPAddressRangeFinder.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
+    <Compile Include="TinyIoC\TinyIoC.cs" />
+    <Compile Include="TinyIoC\TinyMessenger.cs" />
+    <Compile Include="XmlSerialization.cs" />
   </ItemGroup>
 </Project>

@@ -26,6 +26,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Core;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters
 {
@@ -234,7 +235,7 @@ namespace MPfm.MVP.Presenters
 				list.Add(new LibraryBrowserEntity(){
 					Title = artist,
 					Type = LibraryBrowserEntityType.Artist,
-					Query = new SongBrowserQueryEntity(){
+                    Query = new LibraryQuery(){
 						Format = format,
 						ArtistName = artist
 					},
@@ -288,7 +289,7 @@ namespace MPfm.MVP.Presenters
 				list.Add(new LibraryBrowserEntity(){
 					Title = album,
 					Type = LibraryBrowserEntityType.Album,
-					Query = new SongBrowserQueryEntity(){
+                    Query = new LibraryQuery(){
 						Format = format,
 						ArtistName = artistName,
 						AlbumTitle = album						

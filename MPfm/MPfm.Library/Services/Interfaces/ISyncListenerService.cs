@@ -25,6 +25,7 @@ namespace MPfm.Library.Services.Interfaces
     /// </summary>
     public interface ISyncListenerService
     {
-
+        void Start();
+        void Stop();
     }
 }

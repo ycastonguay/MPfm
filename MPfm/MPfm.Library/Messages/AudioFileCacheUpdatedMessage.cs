@@ -15,10 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Models;
 using TinyMessenger;
 
-namespace MPfm.MVP.Messages
+namespace MPfm.Library.Messages
 {
     /// <summary>
     /// Message indicating an item has been double-clicked in the Library Browser.

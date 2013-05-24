@@ -29,6 +29,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Core;
 using TinyMessenger;
 using MPfm.Sound.BassNetWrapper;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.MVP.Presenters
 {

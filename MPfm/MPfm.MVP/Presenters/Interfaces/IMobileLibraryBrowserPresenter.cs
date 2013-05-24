@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {
@@ -27,7 +28,7 @@ namespace MPfm.MVP.Presenters.Interfaces
 	/// </summary>
     public interface IMobileLibraryBrowserPresenter : IBasePresenter<IMobileLibraryBrowserView>
 	{
-        void RefreshView(SongBrowserQueryEntity query);
+        void RefreshView(LibraryQuery query);
 	}
 }
 

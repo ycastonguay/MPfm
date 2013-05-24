@@ -18,6 +18,7 @@
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {
@@ -26,9 +27,9 @@ namespace MPfm.MVP.Presenters.Interfaces
 	/// </summary>
     public interface ISongBrowserPresenter : IBasePresenter<ISongBrowserView>
 	{	
-		SongBrowserQueryEntity Query { get; }
+        LibraryQuery Query { get; }
 		
-		void ChangeQuery(SongBrowserQueryEntity query);
+        void ChangeQuery(LibraryQuery query);
 		void TableRowDoubleClicked(AudioFile audioFile);
 	}
 }

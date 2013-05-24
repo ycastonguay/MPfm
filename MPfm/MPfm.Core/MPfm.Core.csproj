@@ -85,6 +85,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Network\" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Conversion.cs" />
     <Compile Include="Attributes\DatabaseFieldAttribute.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
@@ -97,9 +101,8 @@
     <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Network\IPAddressRangeFinder.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="Network\" />
+    <Compile Include="TinyIoC\TinyIoC.cs" />
+    <Compile Include="TinyIoC\TinyMessenger.cs" />
+    <Compile Include="XmlSerialization.cs" />
   </ItemGroup>
 </Project>
