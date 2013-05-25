@@ -313,6 +313,9 @@
     <Content Include="Resources\16x16\icomoon\quill.png" />
     <Content Include="Resources\16x16\icomoon\arrow-right.png" />
     <Content Include="Resources\16x16\icomoon\close.png" />
+    <Content Include="Resources\16x16\icomoon\drawer.png" />
+    <Content Include="Resources\16x16\icomoon\refresh.png" />
+    <Content Include="Resources\16x16\icomoon\cabinet.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

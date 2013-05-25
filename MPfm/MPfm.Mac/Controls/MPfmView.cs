@@ -39,6 +39,7 @@ namespace MPfm.Mac
         public CGColor GradientColor2 { get; set; }
         public CGColor HeaderGradientColor1 { get; set; }
         public CGColor HeaderGradientColor2 { get; set; }
+        public CGColor BorderColor { get; set; }
 
         [Export("init")]
         public MPfmView() : base(NSObjectFlag.Empty)
@@ -69,38 +70,27 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-//            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
-//            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
-//            HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-//            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
-
             GradientColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
             GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
             //GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
             //HeaderGradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
             HeaderGradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
             HeaderGradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            BorderColor = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
       }
 
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)
         {
-            // Set flag
             isMouseDown = true;
-
             base.MouseDown(theEvent);
-
-            // Call mouse up 
             this.MouseUp(theEvent);
         }
 
         [Export("mouseUp:")]
         public override void MouseUp(NSEvent theEvent)
         {
-            // Call super class
             base.MouseUp(theEvent);
-
-            // Set flag
             isMouseDown = false;
         }
 
@@ -139,18 +129,12 @@ namespace MPfm.Mac
                 context.Clip();
                 context.DrawLinearGradient(gradientHeader, new PointF(0, Bounds.Height - 24), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
                 context.RestoreState();
-                           
-//                context.SaveState();
-//                context.SetStrokeColor(new CGColor(0.4f, 1.0f));
-//                context.StrokeRect(Get1pxRect(new RectangleF(0, 0, Bounds.Width, Bounds.Height - 24)));
-//                context.RestoreState();
             }
 
             context.SaveState();
-            context.SetStrokeColor(new CGColor(0.35f, 1.0f));
+            context.SetStrokeColor(BorderColor);
             context.StrokeRect(Get1pxRect(Bounds));
             context.RestoreState();
-
         }
 
         RectangleF Get1pxRect(RectangleF rect)
@@ -158,6 +142,5 @@ namespace MPfm.Mac
             RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
             return newRect;
         }
-           
     }
 }

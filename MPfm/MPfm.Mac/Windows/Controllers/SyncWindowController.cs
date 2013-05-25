@@ -55,6 +55,10 @@ namespace MPfm.Mac
             tableViewDevices.WeakDelegate = this;
             tableViewDevices.WeakDataSource = this;
 
+            btnAddDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
+            btnRefreshDevices.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_refresh");
+            btnSyncLibraryWithDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
+
             OnViewReady.Invoke(this);
         }
 
