@@ -117,9 +117,6 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSSearchField searchSongBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblTimeShifting { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSSlider sliderVolume { get; set; }
 
 		[Outlet]
@@ -150,16 +147,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblLength { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblBpm { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSPopUpButton popupTimeShifting { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSButton btnDetectTempo { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblOriginalTempo { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSPopUpButton cboSoundFormat { get; set; }
@@ -216,18 +204,6 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblSubtitlePitchShifting { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtOriginalTempo { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblResetTimeShifting { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField txtTimeShiftingValue { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblResetPitchShifting { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSTextField txtPitchShiftingValue { get; set; }
 
 		[Outlet]
@@ -238,6 +214,24 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.MPfmView viewSongBrowserHeader { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblDetectedTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblDetectedTempoValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblCurrentTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtCurrentTempoValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblReferenceTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblReferenceTempoValue { get; set; }
 
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
@@ -509,11 +503,6 @@ namespace MPfm.Mac
 				searchSongBrowser = null;
 			}
 
-			if (lblTimeShifting != null) {
-				lblTimeShifting.Dispose ();
-				lblTimeShifting = null;
-			}
-
 			if (sliderVolume != null) {
 				sliderVolume.Dispose ();
 				sliderVolume = null;
@@ -564,24 +553,9 @@ namespace MPfm.Mac
 				lblLength = null;
 			}
 
-			if (lblBpm != null) {
-				lblBpm.Dispose ();
-				lblBpm = null;
-			}
-
-			if (popupTimeShifting != null) {
-				popupTimeShifting.Dispose ();
-				popupTimeShifting = null;
-			}
-
 			if (btnDetectTempo != null) {
 				btnDetectTempo.Dispose ();
 				btnDetectTempo = null;
-			}
-
-			if (lblOriginalTempo != null) {
-				lblOriginalTempo.Dispose ();
-				lblOriginalTempo = null;
 			}
 
 			if (cboSoundFormat != null) {
@@ -674,26 +648,6 @@ namespace MPfm.Mac
 				lblSubtitlePitchShifting = null;
 			}
 
-			if (txtOriginalTempo != null) {
-				txtOriginalTempo.Dispose ();
-				txtOriginalTempo = null;
-			}
-
-			if (lblResetTimeShifting != null) {
-				lblResetTimeShifting.Dispose ();
-				lblResetTimeShifting = null;
-			}
-
-			if (txtTimeShiftingValue != null) {
-				txtTimeShiftingValue.Dispose ();
-				txtTimeShiftingValue = null;
-			}
-
-			if (lblResetPitchShifting != null) {
-				lblResetPitchShifting.Dispose ();
-				lblResetPitchShifting = null;
-			}
-
 			if (txtPitchShiftingValue != null) {
 				txtPitchShiftingValue.Dispose ();
 				txtPitchShiftingValue = null;
@@ -712,6 +666,36 @@ namespace MPfm.Mac
 			if (viewSongBrowserHeader != null) {
 				viewSongBrowserHeader.Dispose ();
 				viewSongBrowserHeader = null;
+			}
+
+			if (lblDetectedTempo != null) {
+				lblDetectedTempo.Dispose ();
+				lblDetectedTempo = null;
+			}
+
+			if (lblDetectedTempoValue != null) {
+				lblDetectedTempoValue.Dispose ();
+				lblDetectedTempoValue = null;
+			}
+
+			if (lblCurrentTempo != null) {
+				lblCurrentTempo.Dispose ();
+				lblCurrentTempo = null;
+			}
+
+			if (txtCurrentTempoValue != null) {
+				txtCurrentTempoValue.Dispose ();
+				txtCurrentTempoValue = null;
+			}
+
+			if (lblReferenceTempo != null) {
+				lblReferenceTempo.Dispose ();
+				lblReferenceTempo = null;
+			}
+
+			if (lblReferenceTempoValue != null) {
+				lblReferenceTempoValue.Dispose ();
+				lblReferenceTempoValue = null;
 			}
 		}
 	}

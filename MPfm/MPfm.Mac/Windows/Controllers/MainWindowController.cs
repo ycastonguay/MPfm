@@ -140,9 +140,6 @@ namespace MPfm.Mac
             popupPitchShifting.RemoveAllItems();
             popupPitchShifting.AddItem("Semitones");
             popupPitchShifting.AddItem("Cents");
-            popupTimeShifting.RemoveAllItems();
-            popupTimeShifting.AddItem("Tempo");
-            popupTimeShifting.AddItem("Percent");
 
             // Initialize and configure Library Browser
             libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
@@ -221,33 +218,31 @@ namespace MPfm.Mac
             lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11f);
             lblFilterBySoundFormat.Font = NSFont.FromFontName("Junction", 11f);
 
-            lblOriginalTempo.Font = NSFont.FromFontName("Junction", 11f);
-            lblBpm.Font = NSFont.FromFontName("Junction", 11f);
-
             lblTitleLibraryBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
             lblTitleCurrentSong.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
             lblTitleLoops.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
             lblTitleMarkers.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
             lblTitleSongBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
 
-            lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
-            lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
-            lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
-            lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
-            lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
+            lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
 
-            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);//16f);
-            lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);//16f);
+            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
+            lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);
             lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
-            txtOriginalTempo.Font = NSFont.FromFontName("DroidSansMono", 10f);
             txtPitchShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            txtTimeShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            lblDetectedTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            lblReferenceTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            txtCurrentTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
 
-            lblResetTimeShifting.Font = NSFont.FromFontName("Junction", 11);
-            lblResetPitchShifting.Font = NSFont.FromFontName("Junction", 11);
+            lblDetectedTempo.Font = NSFont.FromFontName("Junction", 11);
+            lblCurrentTempo.Font = NSFont.FromFontName("Junction", 11);
+            lblReferenceTempo.Font = NSFont.FromFontName("Junction", 11);
 
             popupPitchShifting.Font = NSFont.FromFontName("Junction", 10);
-            popupTimeShifting.Font = NSFont.FromFontName("Junction", 10);
             cboSoundFormat.Font = NSFont.FromFontName("Junction", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Junction", 12);
 
@@ -344,7 +339,6 @@ namespace MPfm.Mac
             btnPlaySelectedSong.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-start");
             btnStopLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-stop");
             btnGoToMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_go-last");
-            btnDetectTempo.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_time");
         }
 
 		#endregion
