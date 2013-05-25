@@ -53,9 +53,10 @@ namespace MPfm.Android.Classes.Fragments
         #region ITimeShiftingView implementation
 
         public Action<float> OnSetTimeShifting { get; set; }
-        public Action<TimeShiftingMode> OnSetTimeShiftingMode { get; set; }
         public Action OnResetTimeShifting { get; set; }
-        public Action OnDetectTempo { get; set; }
+        public Action OnUseDetectedTempo { get; set; }
+        public Action OnIncrementTempo { get; set; }
+        public Action OnDecrementTempo { get; set; }
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
         {

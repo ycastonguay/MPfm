@@ -16,13 +16,30 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Android.App;
+using MPfm.Library;
 using MPfm.Library.Objects;
 
-namespace MPfm.Library
+namespace MPfm.Android.Classes.Helpers
 {
-    public interface ISyncDeviceSpecifications
+    /// <summary>
+    /// Device specifications for iOS. Used for identifying sync devices.
+    /// </summary>
+    public class AndroidSyncDeviceSpecifications : ISyncDeviceSpecifications
     {
-        SyncDeviceType GetDeviceType();
-        string GetDeviceName();
+        public SyncDeviceType GetDeviceType()
+        {
+            return SyncDeviceType.Android;
+        }
+
+        string _deviceName = string.Empty;
+        public string GetDeviceName()
+        {
+            if (String.IsNullOrEmpty(_deviceName))
+            {
+                _deviceName = String.Format("{0} {1} ({2})", global::Android.OS.Build.Manufacturer, global::Android.OS.Build.Product, global::Android.OS.Build.Model);
+            }
+            return _deviceName;
+        }
     }
 }

@@ -527,11 +527,11 @@ namespace MPfm.Player
 
 #if ANDROID
                     pluginPath = PluginDirectoryPath;
-                    aacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_aac.so"));
-                    //alacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_alac.so"));
-                    apePluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_ape.so"));
-                    flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
-                    wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
+                    _aacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_aac.so"));
+                    //_alacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_alac.so"));
+                    _apePluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_ape.so"));
+                    _flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
+                    _wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
 #else
 
                     // Find plugins either in current directory (i.e. development) or in a system directory (ex: /usr/lib/mpfm or /opt/lib/mpfm)

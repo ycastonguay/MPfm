@@ -76,6 +76,7 @@
     <Compile Include="Classes\Fragments\UpdateLibraryFragment.cs" />
     <Compile Include="Classes\Fragments\MobileLibraryBrowserFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerFragment.cs" />
+    <Compile Include="Classes\Helpers\AndroidSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Helpers\BitmapHelper.cs" />
     <Compile Include="Classes\Helpers\BitmapCache.cs" />
     <Compile Include="Classes\Listeners\TabListener.cs" />
