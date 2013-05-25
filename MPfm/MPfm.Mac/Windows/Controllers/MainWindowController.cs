@@ -181,15 +181,28 @@ namespace MPfm.Mac
 
         private void SetTheme()
         {
-            // Set colors
-//            viewLeftHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewLeftHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-//            viewRightHeader.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewRightHeader.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-//            viewLibraryBrowser.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewLibraryBrowser.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-//            viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
-//            viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
+            viewLeftHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewLeftHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewRightHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewRightHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewLoopsHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewLoopsHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewMarkersHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewMarkersHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewSongBrowserHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewSongBrowserHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+
+//            viewLeftHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+//            viewLeftHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewRightHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+//            viewRightHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLoopsHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+//            viewLoopsHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewMarkersHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+//            viewMarkersHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewSongBrowserHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+//            viewSongBrowserHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);           
+
             viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
             viewVolume.IsHeaderVisible = true;
@@ -223,8 +236,8 @@ namespace MPfm.Mac
             lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
             lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13);
 
-            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 16f);
-            lblLength.Font = NSFont.FromFontName("DroidSansMono", 16f);
+            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);//16f);
+            lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);//16f);
             lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
             txtOriginalTempo.Font = NSFont.FromFontName("DroidSansMono", 10f);
             txtPitchShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);

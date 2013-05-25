@@ -84,6 +84,12 @@ namespace MPfm.Mac
             return 20;
         }
 
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            return new NSString();
+        }
+
         [Export ("tableView:viewForTableColumn:row:")]
         public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
@@ -119,10 +125,10 @@ namespace MPfm.Mac
             return view;
         }
 
-        [Export ("tableView:dataCellForTableColumn:row:")]
-        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
-        {
-            return new NSString("Stuff");
+        [Export ("tableViewSelectionDidChange:")]
+        public void SelectionDidChange(NSNotification notification)
+        {         
+            btnSyncLibraryWithDevice.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
         }
 
         #region ISyncView implementation

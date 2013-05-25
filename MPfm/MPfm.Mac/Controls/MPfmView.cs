@@ -75,8 +75,10 @@ namespace MPfm.Mac
 //            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
 
             GradientColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
-            GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            HeaderGradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+            GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
+            //GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            //HeaderGradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+            HeaderGradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
             HeaderGradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
       }
 
@@ -102,7 +104,7 @@ namespace MPfm.Mac
             isMouseDown = false;
         }
 
-        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
+        public override void DrawRect(RectangleF dirtyRect)
         {
             base.DrawRect(dirtyRect);
 

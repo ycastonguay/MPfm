@@ -230,6 +230,15 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtPitchShiftingValue { get; set; }
 
+		[Outlet]
+		MPfm.Mac.MPfmView viewLoopsHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewMarkersHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.MPfmView viewSongBrowserHeader { get; set; }
+
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
 
@@ -688,6 +697,21 @@ namespace MPfm.Mac
 			if (txtPitchShiftingValue != null) {
 				txtPitchShiftingValue.Dispose ();
 				txtPitchShiftingValue = null;
+			}
+
+			if (viewLoopsHeader != null) {
+				viewLoopsHeader.Dispose ();
+				viewLoopsHeader = null;
+			}
+
+			if (viewMarkersHeader != null) {
+				viewMarkersHeader.Dispose ();
+				viewMarkersHeader = null;
+			}
+
+			if (viewSongBrowserHeader != null) {
+				viewSongBrowserHeader.Dispose ();
+				viewSongBrowserHeader = null;
 			}
 		}
 	}
