@@ -111,7 +111,7 @@ namespace MPfm.iOS
                 Console.WriteLine("remoteHostStatus: {0} - internetStatus: {1} - localWifiStatus: {2}", remoteHostStatus, internetStatus, localWifiStatus);
 
                 var syncDiscoveryService = Bootstrapper.GetContainer().Resolve<ISyncDiscoveryService>();
-                syncDiscoveryService.SearchForDevices();
+                syncDiscoveryService.SearchForDevices("192.168.1");
                 return;
             }
 

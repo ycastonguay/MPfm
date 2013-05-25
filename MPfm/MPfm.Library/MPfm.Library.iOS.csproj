@@ -212,5 +212,6 @@
     <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
     <Compile Include="Objects\SyncDevice.cs" />
     <Compile Include="Services\SyncListenerService.cs" />
+    <Compile Include="ISyncDeviceSpecifications.cs" />
   </ItemGroup>
 </Project>

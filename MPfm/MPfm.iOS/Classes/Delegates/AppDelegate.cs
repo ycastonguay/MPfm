@@ -18,16 +18,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Classes.Controllers;
+using MPfm.Library;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MonoTouch.CoreAnimation;
+using MonoTouch.Foundation;
+using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controllers;
+using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Navigation;
 using MPfm.iOS.Classes.Objects;
-using MonoTouch.CoreAnimation;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -94,6 +96,7 @@ namespace MPfm.iOS.Classes.Delegates
         {
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
             container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
             container.Register<ISplashView, SplashViewController>().AsMultiInstance();
             container.Register<IMobileOptionsMenuView, MoreViewController>().AsMultiInstance();
