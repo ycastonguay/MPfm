@@ -51,7 +51,7 @@
 			<object class="NSWindowTemplate" id="748157544">
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{131, 74}, {606, 243}}</string>
+				<string key="NSWindowRect">{{131, 74}, {606, 236}}</string>
 				<int key="NSWTFlags">611845120</int>
 				<string key="NSWindowTitle">Sync Devices</string>
 				<string key="NSWindowClass">SyncWindow</string>
@@ -65,7 +65,7 @@
 						<object class="NSTextField" id="669623782">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{12, 205}, {572, 29}}</string>
+							<string key="NSFrame">{{12, 198}, {572, 29}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="979780188"/>
@@ -104,7 +104,7 @@
 						<object class="NSTextField" id="979780188">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{12, 192}, {572, 17}}</string>
+							<string key="NSFrame">{{12, 185}, {572, 17}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="752371164"/>
@@ -132,7 +132,7 @@
 						<object class="NSButton" id="493901108">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{15, 11}, {123, 24}}</string>
+							<string key="NSFrame">{{15, 9}, {123, 24}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="845099831"/>
@@ -157,7 +157,7 @@
 						<object class="NSButton" id="752371164">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{485, 183}, {106, 24}}</string>
+							<string key="NSFrame">{{485, 181}, {106, 24}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="424219834"/>
@@ -187,7 +187,7 @@
 						<object class="NSButton" id="287372609">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{423, 11}, {168, 24}}</string>
+							<string key="NSFrame">{{423, 9}, {168, 24}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -419,7 +419,7 @@
 								</object>
 								<reference ref="43029219"/>
 							</object>
-							<string key="NSFrame">{{15, 42}, {576, 135}}</string>
+							<string key="NSFrame">{{15, 40}, {576, 135}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="497363935"/>
@@ -438,7 +438,7 @@
 						<object class="NSProgressIndicator" id="845099831">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{148, 17}, {264, 12}}</string>
+							<string key="NSFrame">{{148, 15}, {264, 12}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="287372609"/>
@@ -447,7 +447,7 @@
 							<double key="NSMaxValue">100</double>
 						</object>
 					</object>
-					<string key="NSFrameSize">{606, 243}</string>
+					<string key="NSFrameSize">{606, 236}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="669623782"/>
@@ -539,6 +539,14 @@
 						<reference key="destination" ref="752371164"/>
 					</object>
 					<int key="connectionID">60</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">lblTitle</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="669623782"/>
+					</object>
+					<int key="connectionID">62</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1038,7 +1046,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">61</int>
+			<int key="maxID">62</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1117,6 +1125,7 @@
 							<string>btnRefreshDevices</string>
 							<string>btnSyncLibraryWithDevice</string>
 							<string>lblLibraryUrl</string>
+							<string>lblTitle</string>
 							<string>progressIndicator</string>
 							<string>tableViewDevices</string>
 						</object>
@@ -1125,6 +1134,7 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSProgressIndicator</string>
 							<string>NSTableView</string>
@@ -1138,6 +1148,7 @@
 							<string>btnRefreshDevices</string>
 							<string>btnSyncLibraryWithDevice</string>
 							<string>lblLibraryUrl</string>
+							<string>lblTitle</string>
 							<string>progressIndicator</string>
 							<string>tableViewDevices</string>
 						</object>
@@ -1157,6 +1168,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">lblLibraryUrl</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lblTitle</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">

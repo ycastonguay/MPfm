@@ -43,21 +43,30 @@ namespace MPfm.Mac
             this.Window.MakeKeyAndOrderFront(this);
         }
 
-        public override void WindowDidLoad()
+        public override void AwakeFromNib()
         {
-            base.WindowDidLoad();
+            base.AwakeFromNib();
 
             //lblIPAddress.StringValue = "My IP address is: " + SyncListenerService.().ToString();
             //lblLibraryUrl.attr
             progressIndicator.StartAnimation(this);
             //progressIndicator.Hidden = true;
             //lblStatus.Hidden = true;
-            tableViewDevices.WeakDelegate = this;
-            tableViewDevices.WeakDataSource = this;
+
+            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
+            lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
 
             btnAddDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnRefreshDevices.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_refresh");
             btnSyncLibraryWithDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
+        }
+
+        public override void WindowDidLoad()
+        {
+            base.WindowDidLoad();
+
+            tableViewDevices.WeakDelegate = this;
+            tableViewDevices.WeakDataSource = this;
 
             OnViewReady.Invoke(this);
         }
@@ -108,6 +117,7 @@ namespace MPfm.Mac
                 view = (NSTableCellView)tableView.MakeView("cellDeviceDescription", this);
                 view.TextField.StringValue = _items[row].Url;
             }
+            //view.TextField.Font = NSFont.FromFontName("Junction", 11);
 
             if (view.ImageView != null)
             {

@@ -29,14 +29,17 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSButton btnAddDevice { get; set; }
 
-		[Action ("actionAddDevice:")]
-		partial void actionAddDevice (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
 		[Action ("actionSyncLibraryWithDevice:")]
 		partial void actionSyncLibraryWithDevice (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRefreshDevices:")]
 		partial void actionRefreshDevices (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAddDevice:")]
+		partial void actionAddDevice (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -68,6 +71,11 @@ namespace MPfm.Mac
 			if (btnAddDevice != null) {
 				btnAddDevice.Dispose ();
 				btnAddDevice = null;
+			}
+
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
 			}
 		}
 	}

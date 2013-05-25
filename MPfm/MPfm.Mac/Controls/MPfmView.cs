@@ -74,8 +74,13 @@ namespace MPfm.Mac
             GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
             //GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
             //HeaderGradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
-            HeaderGradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            HeaderGradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+
+            //HeaderGradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            //HeaderGradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            HeaderGradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            HeaderGradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            HeaderGradientColor1 = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+//            HeaderGradientColor2 = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
             BorderColor = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
       }
 
@@ -131,10 +136,10 @@ namespace MPfm.Mac
                 context.RestoreState();
             }
 
-            context.SaveState();
-            context.SetStrokeColor(BorderColor);
-            context.StrokeRect(Get1pxRect(Bounds));
-            context.RestoreState();
+//            context.SaveState();
+//            context.SetStrokeColor(BorderColor);
+//            context.StrokeRect(Get1pxRect(Bounds));
+//            context.RestoreState();
         }
 
         RectangleF Get1pxRect(RectangleF rect)

@@ -173,45 +173,56 @@ namespace MPfm.Mac
 
         private void SetTheme()
         {
-            viewLeftHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewLeftHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewRightHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewRightHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewLoopsHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewLoopsHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewMarkersHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewMarkersHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewSongBrowserHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            viewSongBrowserHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            viewLeftHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewLeftHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewRightHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewRightHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewLoopsHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewLoopsHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewMarkersHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewMarkersHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewSongBrowserHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            viewSongBrowserHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
 
-            btnPlayLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnPlayLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnPlayLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnStopLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnStopLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnStopLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnAddLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnAddLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnAddLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnEditLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnEditLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnEditLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnRemoveLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnRemoveLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnRemoveLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            viewLeftHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLeftHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewRightHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewRightHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLoopsHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLoopsHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewMarkersHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewMarkersHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewSongBrowserHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewSongBrowserHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
 
-            btnGoToMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnGoToMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnGoToMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnAddMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnAddMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnAddMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnEditMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnEditMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnEditMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnRemoveMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            btnRemoveMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-            btnRemoveMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnPlayLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnPlayLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnPlayLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnStopLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnStopLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnStopLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnAddLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnAddLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnAddLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnEditLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnEditLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnEditLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnRemoveLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnRemoveLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnRemoveLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//
+//            btnGoToMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnGoToMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnGoToMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnAddMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnAddMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnAddMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnEditMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnEditMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnEditMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnRemoveMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            btnRemoveMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnRemoveMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 
             viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
@@ -692,11 +703,11 @@ namespace MPfm.Mac
                     if (image != null)
                         imageAlbumCover.Image = image;
                     else
-                        imageAlbumCover.Image = NSImage.ImageNamed("NSUser");
+                        imageAlbumCover.Image = null;//NSImage.ImageNamed("NSUser");
                 } 
                 else
                 {
-                    imageAlbumCover.Image = NSImage.ImageNamed("NSUser");
+                    imageAlbumCover.Image = null;//NSImage.ImageNamed("NSUser");
                 }
 
                 // Refresh which song is playing in the Song Browser

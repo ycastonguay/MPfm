@@ -53,9 +53,15 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            BackgroundColor = new CGColor(60f/255f, 76f/255f, 88f/255f, 1);
+            //BackgroundColor = new CGColor(60f/255f, 76f/255f, 88f/255f, 1);
+            BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
             BackgroundOverColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
             BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+
+//            BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+
             TextColor = new CGColor(1, 1, 1, 1);
         }
 
