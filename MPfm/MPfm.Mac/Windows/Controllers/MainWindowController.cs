@@ -136,11 +136,6 @@ namespace MPfm.Mac
             cboSoundFormat.AddItem("WAV");
             cboSoundFormat.AddItem("WV");
 
-            // Add items to Time Shifting and Pitch Shifting popup buttons
-            popupPitchShifting.RemoveAllItems();
-            popupPitchShifting.AddItem("Semitones");
-            popupPitchShifting.AddItem("Cents");
-
             // Initialize and configure Library Browser
             libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
             outlineLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
@@ -189,22 +184,40 @@ namespace MPfm.Mac
             viewSongBrowserHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
             viewSongBrowserHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
 
-//            viewLeftHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
-//            viewLeftHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewRightHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
-//            viewRightHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewLoopsHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
-//            viewLoopsHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewMarkersHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
-//            viewMarkersHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewSongBrowserHeader.GradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
-//            viewSongBrowserHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);           
+            btnPlayLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnPlayLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnPlayLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnStopLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnStopLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnStopLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnAddLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnAddLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnAddLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnEditLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnEditLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnEditLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnRemoveLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnRemoveLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnRemoveLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+
+            btnGoToMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnGoToMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnGoToMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnAddMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnAddMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnAddMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnEditMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnEditMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnEditMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnRemoveMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            btnRemoveMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnRemoveMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 
             viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
             viewVolume.IsHeaderVisible = true;
             viewTimeShifting.IsHeaderVisible = true;
-            viewPitchShifting.IsHeaderVisible = true;
+            viewPitchShifting.IsHeaderVisible = true;           
 
             // Set label fonts
             lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 22);
@@ -241,8 +254,8 @@ namespace MPfm.Mac
             lblDetectedTempo.Font = NSFont.FromFontName("Junction", 11);
             lblCurrentTempo.Font = NSFont.FromFontName("Junction", 11);
             lblReferenceTempo.Font = NSFont.FromFontName("Junction", 11);
+            lblSemitones.Font = NSFont.FromFontName("Junction", 11);
 
-            popupPitchShifting.Font = NSFont.FromFontName("Junction", 10);
             cboSoundFormat.Font = NSFont.FromFontName("Junction", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Junction", 12);
 
@@ -327,18 +340,18 @@ namespace MPfm.Mac
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarSync").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_network-wireless");
 
             // Load button images
-            btnAddLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_add");
-            btnAddMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_add");
-            btnAddSongToPlaylist.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_add");
-            btnEditLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_pencil");
-            btnEditMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_pencil");
-            btnEditSongMetadata.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_pencil");
-            btnRemoveLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_delete");
-            btnRemoveMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_delete");
-            btnPlayLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-start");
-            btnPlaySelectedSong.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-start");
-            btnStopLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_media-playback-stop");
-            btnGoToMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_go-last");
+            btnAddLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
+            btnAddMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
+            btnAddSongToPlaylist.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
+            btnEditLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_quill");
+            btnEditMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_quill");
+            btnEditSongMetadata.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_quill");
+            btnRemoveLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_close");
+            btnRemoveMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_close");
+            btnPlayLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_play");
+            btnPlaySelectedSong.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_play");
+            btnStopLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_stop");
+            btnGoToMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_arrow-right");
         }
 
 		#endregion

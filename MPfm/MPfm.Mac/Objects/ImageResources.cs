@@ -73,7 +73,15 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("android", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_android" },
                 new NSImage(NSBundle.MainBundle.PathForResource("apple", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_apple" },
                 new NSImage(NSBundle.MainBundle.PathForResource("laptop", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_laptop" },
-
+                new NSImage(NSBundle.MainBundle.PathForResource("play", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_play" },
+                new NSImage(NSBundle.MainBundle.PathForResource("stop", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_stop" },
+                new NSImage(NSBundle.MainBundle.PathForResource("plus", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_plus" },
+                new NSImage(NSBundle.MainBundle.PathForResource("pencil", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_pencil" },
+                new NSImage(NSBundle.MainBundle.PathForResource("quill", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_quill" },
+                new NSImage(NSBundle.MainBundle.PathForResource("delete", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_delete" },
+                new NSImage(NSBundle.MainBundle.PathForResource("goto", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_goto" },
+                new NSImage(NSBundle.MainBundle.PathForResource("close", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_close" },
+                new NSImage(NSBundle.MainBundle.PathForResource("arrow-right", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_arrow-right" }
             };
 
             // Load 32x32px images

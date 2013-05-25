@@ -60,37 +60,34 @@ namespace MPfm.Mac
 		MPfm.Mac.MPfmView viewPitchShifting { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSPopUpButton popupPitchShifting { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnPlayLoop { get; set; }
+		MPfm.Mac.MPfmButton btnPlayLoop { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnStopLoop { get; set; }
+		MPfm.Mac.MPfmButton btnStopLoop { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnAddLoop { get; set; }
+		MPfm.Mac.MPfmButton btnAddLoop { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnEditLoop { get; set; }
+		MPfm.Mac.MPfmButton btnEditLoop { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnRemoveLoop { get; set; }
+		MPfm.Mac.MPfmButton btnRemoveLoop { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnGoToMarker { get; set; }
+		MPfm.Mac.MPfmButton btnGoToMarker { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnAddMarker { get; set; }
+		MPfm.Mac.MPfmButton btnAddMarker { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnEditMarker { get; set; }
+		MPfm.Mac.MPfmButton btnEditMarker { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnRemoveMarker { get; set; }
+		MPfm.Mac.MPfmButton btnRemoveMarker { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableLoops { get; set; }
@@ -232,6 +229,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblReferenceTempoValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSemitones { get; set; }
 
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
@@ -406,11 +406,6 @@ namespace MPfm.Mac
 			if (viewPitchShifting != null) {
 				viewPitchShifting.Dispose ();
 				viewPitchShifting = null;
-			}
-
-			if (popupPitchShifting != null) {
-				popupPitchShifting.Dispose ();
-				popupPitchShifting = null;
 			}
 
 			if (sliderPitchShifting != null) {
@@ -696,6 +691,11 @@ namespace MPfm.Mac
 			if (lblReferenceTempoValue != null) {
 				lblReferenceTempoValue.Dispose ();
 				lblReferenceTempoValue = null;
+			}
+
+			if (lblSemitones != null) {
+				lblSemitones.Dispose ();
+				lblSemitones = null;
 			}
 		}
 	}

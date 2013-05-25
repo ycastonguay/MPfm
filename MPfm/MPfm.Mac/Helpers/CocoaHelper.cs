@@ -70,6 +70,17 @@ namespace MPfm.Mac
             return pos2.X - pos.X;
         }
 
+        public static void DrawRect(CGContext context, RectangleF rect, CGColor color)
+        {
+            context.SaveState();
+            context.AddRect(rect);
+            context.Clip();
+            context.SetLineWidth(2);
+            context.SetStrokeColor(color);
+            context.StrokeRect(rect);
+            context.RestoreState();
+        }
+
         public static void FillRect(CGContext context, RectangleF rect, CGColor color)
         {
             context.SaveState();

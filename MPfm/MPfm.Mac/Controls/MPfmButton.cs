@@ -34,11 +34,10 @@ namespace MPfm.Mac
     {
         private bool isMouseDown = false;
 
-        public bool IsHeaderVisible { get; set; }
-        public CGColor GradientColor1 { get; set; }
-        public CGColor GradientColor2 { get; set; }
-        public CGColor HeaderGradientColor1 { get; set; }
-        public CGColor HeaderGradientColor2 { get; set; }
+        public CGColor TextColor { get; set; }
+        public CGColor BackgroundColor { get; set; }
+        public CGColor BackgroundOverColor { get; set; }
+        public CGColor BorderColor { get; set; }
 
         [Export("init")]
         public MPfmButton() : base(NSObjectFlag.Empty)
@@ -54,92 +53,64 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
-            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
-            HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
-            //GradientColor1 = new CGColor(0.0f, 1.0f, 0.0f);
-            //GradientColor2 = new CGColor(1.0f, 0.0f, 1.0f);
-            //HeaderGradientColor1 = new CGColor(1.0f, 0.0f, 0.0f);
-            //HeaderGradientColor2 = new CGColor(0.0f, 0.0f, 1.0f);
+            BackgroundColor = new CGColor(60f/255f, 76f/255f, 88f/255f, 1);
+            BackgroundOverColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
+            BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            TextColor = new CGColor(1, 1, 1, 1);
         }
 
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)
         {
-            // Set flag
             isMouseDown = true;
-
             base.MouseDown(theEvent);
-
-            // Call mouse up 
             this.MouseUp(theEvent);
         }
 
         [Export("mouseUp:")]
         public override void MouseUp(NSEvent theEvent)
         {
-            // Call super class
             base.MouseUp(theEvent);
-
-            // Set flag
             isMouseDown = false;
+            SetNeedsDisplay();
         }
-//
-//        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
-//        {
-//            base.DrawRect(dirtyRect);
-//
-//            CGGradient gradientBackground;
-//            CGGradient gradientHeader;
-//            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-//
-//            float[] locationListBackground = new float[] { 1.0f, 0.0f };
-//            List<float> colorListBackground = new List<float>();
-//            colorListBackground.AddRange(GradientColor1.Components);
-//            colorListBackground.AddRange(GradientColor2.Components);
-//            float[] locationListHeader = new float[] { 1.0f, 0.0f };
-//            List<float> colorListHeader = new List<float>();
-//            colorListHeader.AddRange(HeaderGradientColor1.Components);
-//            colorListHeader.AddRange(HeaderGradientColor2.Components);
-//            gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
-//            gradientHeader = new CGGradient(colorSpace, colorListHeader.ToArray(), locationListHeader);
-//            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-//
-//            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-//            context.SaveState();
-//            context.AddRect(rectBackground);
-//            context.Clip();
-//            context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-//            context.RestoreState();
-//
-//            if (IsHeaderVisible)
-//            {
-//                RectangleF rectHeader = new RectangleF(0, Bounds.Height - 24, Bounds.Width, 24);
-//                context.SaveState();
-//                context.AddRect(rectHeader);
-//                context.Clip();
-//                context.DrawLinearGradient(gradientHeader, new PointF(0, Bounds.Height - 24), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-//                context.RestoreState();
-//                           
-////                context.SaveState();
-////                context.SetStrokeColor(new CGColor(0.4f, 1.0f));
-////                context.StrokeRect(Get1pxRect(new RectangleF(0, 0, Bounds.Width, Bounds.Height - 24)));
-////                context.RestoreState();
-//            }
-//
-//            context.SaveState();
-//            context.SetStrokeColor(new CGColor(0.35f, 1.0f));
-//            context.StrokeRect(Get1pxRect(Bounds));
-//            context.RestoreState();
-//
-//        }
-//
-//        RectangleF Get1pxRect(RectangleF rect)
-//        {
-//            RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
-//            return newRect;
-//        }
+
+        public override void DrawRect(RectangleF dirtyRect)
+        {
+            float padding = 4;
+            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+
+            if (isMouseDown)
+                CocoaHelper.FillRect(context, Bounds, BackgroundOverColor);
+            else
+                CocoaHelper.FillRect(context, Bounds, BackgroundColor);
+
+            CocoaHelper.DrawRect(context, Bounds, BorderColor);
+            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
+
+            RectangleF rectText;
+            if (Image != null)
+            {
+                float xImage = ((Bounds.Width - rectTextSize.Width - (padding * 2) - Image.Size.Width) / 2);
+                RectangleF rectImage = new RectangleF(xImage, (Bounds.Height - Image.Size.Height) / 2, Image.Size.Width, Image.Size.Height);
+                Image.DrawInRect(rectImage, new RectangleF(0, 0, Image.Size.Width, Image.Size.Height), NSCompositingOperation.SourceOver, 1.0f);
+
+                float xText = xImage + padding + Image.Size.Width + padding;
+                rectText = new RectangleF(xText, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
+            } 
+            else
+            {
+                rectText = new RectangleF((Bounds.Width - rectTextSize.Width) / 2, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
+            }
+
+            CocoaHelper.DrawText(rectText, 0, 0, Title, "Junction", 11, NSColor.White);
+        }
+
+        RectangleF Get1pxRect(RectangleF rect)
+        {
+            RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
+            return newRect;
+        }
            
     }
 }

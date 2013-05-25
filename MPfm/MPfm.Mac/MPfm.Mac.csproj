@@ -304,6 +304,15 @@
     <Content Include="Resources\16x16\icomoon\android.png" />
     <Content Include="Resources\16x16\icomoon\apple.png" />
     <Content Include="Resources\16x16\icomoon\laptop.png" />
+    <Content Include="Resources\16x16\icomoon\play.png" />
+    <Content Include="Resources\16x16\icomoon\stop.png" />
+    <Content Include="Resources\16x16\icomoon\pencil.png" />
+    <Content Include="Resources\16x16\icomoon\plus.png" />
+    <Content Include="Resources\16x16\icomoon\goto.png" />
+    <Content Include="Resources\16x16\icomoon\delete.png" />
+    <Content Include="Resources\16x16\icomoon\quill.png" />
+    <Content Include="Resources\16x16\icomoon\arrow-right.png" />
+    <Content Include="Resources\16x16\icomoon\close.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
