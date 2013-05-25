@@ -47,7 +47,8 @@ namespace MPfm.Mac
         {
             base.WindowDidLoad();
 
-//            lblIPAddress.StringValue = "My IP address is: " + SyncListenerService.().ToString();
+            //lblIPAddress.StringValue = "My IP address is: " + SyncListenerService.().ToString();
+            //lblLibraryUrl.attr
             progressIndicator.StartAnimation(this);
             //progressIndicator.Hidden = true;
             //lblStatus.Hidden = true;
@@ -66,11 +67,8 @@ namespace MPfm.Mac
 
         partial void actionRefreshDevices(NSObject sender)
         {
-            lblStatus.StringValue = "Refreshing device list...";
             progressIndicator.Hidden = false;
-            lblStatus.Hidden = false;
-
-            Console.WriteLine("SyncWindowCtrl - actionRefreshDevices");
+            btnRefreshDevices.Enabled = false;
             OnRefreshDevices();
         }
 
@@ -100,7 +98,6 @@ namespace MPfm.Mac
                 view = (NSTableCellView)tableView.MakeView("cellDeviceDescription", this);
                 view.TextField.StringValue = _items[row].Url;
             }
-            view.TextField.Font = NSFont.FromFontName("HelveticaNeue", 12);
 
             if (view.ImageView != null)
             {
@@ -146,7 +143,7 @@ namespace MPfm.Mac
             InvokeOnMainThread(() => {
                 Console.WriteLine("SyncWindowCtrl - RefreshDevicesEnded");
                 progressIndicator.Hidden = true;
-                lblStatus.Hidden = true;
+                btnRefreshDevices.Enabled = true;
             });
         }
 

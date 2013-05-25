@@ -69,15 +69,16 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
-            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
-            HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
-            //GradientColor1 = new CGColor(0.0f, 1.0f, 0.0f);
-            //GradientColor2 = new CGColor(1.0f, 0.0f, 1.0f);
-            //HeaderGradientColor1 = new CGColor(1.0f, 0.0f, 0.0f);
-            //HeaderGradientColor2 = new CGColor(0.0f, 0.0f, 1.0f);
-        }
+//            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
+//            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
+//            HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
+//            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
+
+            GradientColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
+            GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            HeaderGradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
+            HeaderGradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+      }
 
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)

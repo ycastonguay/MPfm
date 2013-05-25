@@ -15,7 +15,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTableView tableViewDevices { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblIPAddress { get; set; }
+		MonoMac.AppKit.NSTextField lblLibraryUrl { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnRefreshDevices { get; set; }
@@ -24,10 +24,13 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSButton btnSyncLibraryWithDevice { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblStatus { get; set; }
+		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
+		MonoMac.AppKit.NSButton btnAddDevice { get; set; }
+
+		[Action ("actionAddDevice:")]
+		partial void actionAddDevice (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionSyncLibraryWithDevice:")]
 		partial void actionSyncLibraryWithDevice (MonoMac.Foundation.NSObject sender);
@@ -42,9 +45,9 @@ namespace MPfm.Mac
 				tableViewDevices = null;
 			}
 
-			if (lblIPAddress != null) {
-				lblIPAddress.Dispose ();
-				lblIPAddress = null;
+			if (lblLibraryUrl != null) {
+				lblLibraryUrl.Dispose ();
+				lblLibraryUrl = null;
 			}
 
 			if (btnRefreshDevices != null) {
@@ -57,14 +60,14 @@ namespace MPfm.Mac
 				btnSyncLibraryWithDevice = null;
 			}
 
-			if (lblStatus != null) {
-				lblStatus.Dispose ();
-				lblStatus = null;
-			}
-
 			if (progressIndicator != null) {
 				progressIndicator.Dispose ();
 				progressIndicator = null;
+			}
+
+			if (btnAddDevice != null) {
+				btnAddDevice.Dispose ();
+				btnAddDevice = null;
 			}
 		}
 	}

@@ -36,11 +36,12 @@ namespace MPfm.iOS.Helpers
         string _deviceName = string.Empty;
         public string GetDeviceName()
         {
-            // Very lenghty process on iOS... maybe use something else.
-            this.InvokeOnMainThread(() => {
-                //_deviceName = NSProcessInfo.ProcessInfo.HostName;
-                _deviceName = UIDevice.CurrentDevice.Name;
-            });
+            if (String.IsNullOrEmpty(_deviceName))
+            {
+                this.InvokeOnMainThread(() => {
+                    _deviceName = UIDevice.CurrentDevice.Name;
+                });
+            }
             return _deviceName;
         }
     }

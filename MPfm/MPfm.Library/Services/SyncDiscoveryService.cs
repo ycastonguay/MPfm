@@ -22,6 +22,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using MPfm.Core;
 using MPfm.Core.Network;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
@@ -98,13 +99,10 @@ namespace MPfm.Library.Services
                         WebClientTimeout client = new WebClientTimeout(800);
                         string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port));
                         Console.WriteLine("SyncDiscoveryService - Got version from {0}: {1}", ips[index], content);
-                        if(content.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                        var device = XmlSerialization.Deserialize<SyncDevice>(content);
+                        if(device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
                         {
-                            var device = new SyncDevice(){
-                                Name = "Device",
-                                DeviceType = SyncDeviceType.iOS,
-                                Url = String.Format("http://{0}:{1}/", ips[index], Port)
-                            };
+                            device.Url = String.Format("http://{0}:{1}/", ips[index], Port);
                             devices.Add(device);
                             Console.WriteLine("SyncDiscoveryService - Raising OnDeviceFound event...");
                             if(OnDeviceFound != null)

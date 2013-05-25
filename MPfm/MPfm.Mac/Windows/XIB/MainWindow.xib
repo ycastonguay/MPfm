@@ -799,9 +799,9 @@
 														<int key="NSCellFlags">67108864</int>
 														<int key="NSCellFlags2">272629760</int>
 														<string key="NSContents">Library Browser</string>
-														<object class="NSFont" key="NSSupport" id="29">
-															<string key="NSName">LucidaGrande-Bold</string>
-															<double key="NSSize">12</double>
+														<object class="NSFont" key="NSSupport" id="340117320">
+															<string key="NSName">HelveticaNeue-Bold</string>
+															<double key="NSSize">13</double>
 															<int key="NSfFlags">16</int>
 														</object>
 														<string key="NSCellIdentifier">_NS:1505</string>
@@ -856,7 +856,7 @@
 														<int key="NSCellFlags">67108864</int>
 														<int key="NSCellFlags2">272629760</int>
 														<string key="NSContents">Current Song</string>
-														<reference key="NSSupport" ref="29"/>
+														<reference key="NSSupport" ref="340117320"/>
 														<string key="NSCellIdentifier">_NS:1505</string>
 														<reference key="NSControlView" ref="284559767"/>
 														<reference key="NSBackgroundColor" ref="850125547"/>
@@ -1185,7 +1185,11 @@
 																<int key="NSCellFlags">68157504</int>
 																<int key="NSCellFlags2">272630784</int>
 																<string key="NSContents">[Bitrate]</string>
-																<reference key="NSSupport" ref="309747087"/>
+																<object class="NSFont" key="NSSupport" id="664007981">
+																	<string key="NSName">HelveticaNeue</string>
+																	<double key="NSSize">11</double>
+																	<int key="NSfFlags">16</int>
+																</object>
 																<string key="NSCellIdentifier">_NS:1505</string>
 																<reference key="NSControlView" ref="1050320652"/>
 																<reference key="NSBackgroundColor" ref="429694360"/>
@@ -1209,7 +1213,7 @@
 																<int key="NSCellFlags">68157504</int>
 																<int key="NSCellFlags2">272630784</int>
 																<string key="NSContents">[Sample Rate]</string>
-																<reference key="NSSupport" ref="309747087"/>
+																<reference key="NSSupport" ref="664007981"/>
 																<string key="NSCellIdentifier">_NS:1505</string>
 																<reference key="NSControlView" ref="268066031"/>
 																<reference key="NSBackgroundColor" ref="429694360"/>
@@ -1230,7 +1234,7 @@
 																<int key="NSCellFlags">68157504</int>
 																<int key="NSCellFlags2">272630784</int>
 																<string key="NSContents">[Bits/sample]</string>
-																<reference key="NSSupport" ref="309747087"/>
+																<reference key="NSSupport" ref="664007981"/>
 																<string key="NSCellIdentifier">_NS:1505</string>
 																<reference key="NSControlView" ref="916913620"/>
 																<reference key="NSBackgroundColor" ref="429694360"/>
@@ -1251,7 +1255,7 @@
 																<int key="NSCellFlags">68157504</int>
 																<int key="NSCellFlags2">272630784</int>
 																<string key="NSContents">[File Type]</string>
-																<reference key="NSSupport" ref="309747087"/>
+																<reference key="NSSupport" ref="664007981"/>
 																<string key="NSCellIdentifier">_NS:1505</string>
 																<reference key="NSControlView" ref="764457392"/>
 																<reference key="NSBackgroundColor" ref="429694360"/>
@@ -1272,7 +1276,11 @@
 																<int key="NSCellFlags">67108864</int>
 																<int key="NSCellFlags2">4194304</int>
 																<string key="NSContents">Information</string>
-																<reference key="NSSupport" ref="1060837190"/>
+																<object class="NSFont" key="NSSupport">
+																	<string key="NSName">Helvetica-Bold</string>
+																	<double key="NSSize">12</double>
+																	<int key="NSfFlags">16</int>
+																</object>
 																<string key="NSCellIdentifier">_NS:1505</string>
 																<reference key="NSControlView" ref="613197730"/>
 																<reference key="NSBackgroundColor" ref="850125547"/>
@@ -1556,7 +1564,11 @@
 																<int key="NSCellFlags">67108864</int>
 																<int key="NSCellFlags2">4194304</int>
 																<string key="NSContents">Time Shifting</string>
-																<reference key="NSSupport" ref="1060837190"/>
+																<object class="NSFont" key="NSSupport" id="71436346">
+																	<string key="NSName">HelveticaNeue-Bold</string>
+																	<double key="NSSize">12</double>
+																	<int key="NSfFlags">16</int>
+																</object>
 																<string key="NSCellIdentifier">_NS:1505</string>
 																<reference key="NSControlView" ref="314820465"/>
 																<reference key="NSBackgroundColor" ref="850125547"/>
@@ -1585,7 +1597,11 @@
 														<int key="NSCellFlags">67108928</int>
 														<int key="NSCellFlags2">272631808</int>
 														<string key="NSContents">[Song Path]</string>
-														<reference key="NSSupport" ref="309747087"/>
+														<object class="NSFont" key="NSSupport">
+															<string key="NSName">HelveticaNeue</string>
+															<double key="NSSize">12</double>
+															<int key="NSfFlags">16</int>
+														</object>
 														<string key="NSCellIdentifier">_NS:1505</string>
 														<reference key="NSControlView" ref="674473322"/>
 														<object class="NSColor" key="NSBackgroundColor">
@@ -1613,8 +1629,8 @@
 														<int key="NSCellFlags2">272631808</int>
 														<string key="NSContents">[Song Title]</string>
 														<object class="NSFont" key="NSSupport">
-															<string key="NSName">LucidaGrande</string>
-															<double key="NSSize">14</double>
+															<string key="NSName">HelveticaNeue</string>
+															<double key="NSSize">16</double>
 															<int key="NSfFlags">16</int>
 														</object>
 														<string key="NSCellIdentifier">_NS:1505</string>
@@ -1644,8 +1660,8 @@
 														<int key="NSCellFlags2">272631808</int>
 														<string key="NSContents">[Album Title]</string>
 														<object class="NSFont" key="NSSupport">
-															<string key="NSName">LucidaGrande</string>
-															<double key="NSSize">16</double>
+															<string key="NSName">HelveticaNeue</string>
+															<double key="NSSize">19</double>
 															<int key="NSfFlags">16</int>
 														</object>
 														<string key="NSCellIdentifier">_NS:1505</string>
@@ -1675,7 +1691,7 @@
 														<int key="NSCellFlags2">272631808</int>
 														<string key="NSContents">[Artist Name]</string>
 														<object class="NSFont" key="NSSupport">
-															<string key="NSName">LucidaGrande</string>
+															<string key="NSName">HelveticaNeue</string>
 															<double key="NSSize">22</double>
 															<int key="NSfFlags">16</int>
 														</object>
@@ -2008,7 +2024,7 @@
 																						<int key="NSCellFlags">67108864</int>
 																						<int key="NSCellFlags2">272629760</int>
 																						<string key="NSContents">Loops</string>
-																						<reference key="NSSupport" ref="29"/>
+																						<reference key="NSSupport" ref="71436346"/>
 																						<string key="NSCellIdentifier">_NS:1505</string>
 																						<reference key="NSControlView" ref="838126812"/>
 																						<reference key="NSBackgroundColor" ref="850125547"/>
@@ -2450,7 +2466,7 @@
 																						<int key="NSCellFlags">67108864</int>
 																						<int key="NSCellFlags2">272629760</int>
 																						<string key="NSContents">Markers</string>
-																						<reference key="NSSupport" ref="29"/>
+																						<reference key="NSSupport" ref="71436346"/>
 																						<string key="NSCellIdentifier">_NS:1505</string>
 																						<reference key="NSControlView" ref="597029490"/>
 																						<reference key="NSBackgroundColor" ref="850125547"/>
@@ -3395,7 +3411,7 @@
 																		<int key="NSCellFlags">67108864</int>
 																		<int key="NSCellFlags2">272629760</int>
 																		<string key="NSContents">Song Browser</string>
-																		<reference key="NSSupport" ref="29"/>
+																		<reference key="NSSupport" ref="340117320"/>
 																		<string key="NSCellIdentifier">_NS:1505</string>
 																		<reference key="NSControlView" ref="899761493"/>
 																		<reference key="NSBackgroundColor" ref="850125547"/>
@@ -8448,6 +8464,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MainWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSTableRowView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSTableRowView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
