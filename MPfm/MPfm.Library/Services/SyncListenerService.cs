@@ -33,27 +33,17 @@ namespace MPfm.Library.Services
     public class SyncListenerService : ISyncListenerService
     {
         private readonly IAudioFileCacheService _audioFileCacheService;
+        private readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
         private HttpListener _httpListener;
 
         public const string SyncVersionId = "sessions_app_sync_version_1";
 
-#if IOS
-        public const SyncDeviceType DeviceType = SyncDeviceType.iOS;
-#elif ANDROID
-        public const SyncDeviceType DeviceType = SyncDeviceType.Android;
-#elif MACOSX
-        public const SyncDeviceType DeviceType = SyncDeviceType.OSX;
-#elif LINUX
-        public const SyncDeviceType DeviceType = SyncDeviceType.Linux;
-#else
-        public const SyncDeviceType DeviceType = SyncDeviceType.Windows;
-#endif
-
         public int Port { get; private set; }
 
-        public SyncListenerService(IAudioFileCacheService audioFileCacheService)
+        public SyncListenerService(IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications syncDeviceSpecifications)
         {
             _audioFileCacheService = audioFileCacheService;
+            _syncDeviceSpecifications = syncDeviceSpecifications;
             Port = 53551;
             Initialize();
         }
@@ -82,7 +72,7 @@ namespace MPfm.Library.Services
                         // /index           ==> Returns an XML file with the list of audio files in the library
                         // /audioFile/id/   ==> Returns the audio file in binary format
 
-                        string agent = String.Format("MPfm: Music Player for Musicians version {0} running on {1}", Assembly.GetExecutingAssembly().GetName().Version.ToString(), DeviceType.ToString());
+                        string agent = String.Format("MPfm: Music Player for Musicians version {0} running on {1}", Assembly.GetExecutingAssembly().GetName().Version.ToString(), GetInternalSyncDevice().DeviceType.ToString());
                         if(httpContext.Request.HttpMethod.ToUpper() == "GET")
                         {
                             if(command == "/")
@@ -109,8 +99,15 @@ namespace MPfm.Library.Services
                             }
                             else if(command.ToUpper().StartsWith("/SESSIONSAPP.VERSION"))
                             {
-                                // This is used to know this is a Sessions web service
-                                WriteHTMLResponse(httpContext, SyncVersionId);
+                                try
+                                {
+                                    string xml = XmlSerialization.Serialize(GetInternalSyncDevice());
+                                    WriteXMLResponse(httpContext, xml);
+                                }
+                                catch(Exception ex)
+                                {
+                                    WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                                }
                             }
                             else if(command.ToUpper().StartsWith("/AUDIOFILE"))
                             {
@@ -124,7 +121,7 @@ namespace MPfm.Library.Services
                                         WriteHTMLResponse(httpContext, String.Format("<h2>Content could not be found.</h2><p>{0}</p>", agent), HttpStatusCode.NotFound);
                                         return;
                                     }
-                                    WriteFileResponse(httpContext, audioFile.FilePath);
+                                    WriteFileResponse(httpContext, audioFile.FilePath, true);
                                 }
                                 catch(Exception ex)
                                 {
@@ -196,7 +193,7 @@ namespace MPfm.Library.Services
             context.Response.OutputStream.Close();
         }
 
-        private void WriteFileResponse(HttpListenerContext context, string filePath)
+        private void WriteFileResponse(HttpListenerContext context, string filePath, bool isAttachment)
         {
             var response = context.Response;
             using (FileStream fs = File.OpenRead(filePath))
@@ -204,7 +201,9 @@ namespace MPfm.Library.Services
                 response.ContentLength64 = fs.Length;
                 response.SendChunked = false;
                 response.ContentType = System.Net.Mime.MediaTypeNames.Application.Octet;
-                response.AddHeader("Content-disposition", "attachment; filename=" + Path.GetFileName(filePath));
+
+                if(isAttachment)
+                    response.AddHeader("Content-disposition", "attachment; filename=" + Path.GetFileName(filePath));
 
                 byte[] buffer = new byte[64 * 1024];
                 int read;
@@ -447,6 +446,31 @@ namespace MPfm.Library.Services
             }
             return address;
         }
+
+        public SyncDevice GetInternalSyncDevice()
+        {
+            var device = new SyncDevice();
+            device.SyncVersionId = SyncVersionId;
+            device.Name = _syncDeviceSpecifications.GetDeviceName();
+            device.DeviceType = _syncDeviceSpecifications.GetDeviceType();
+
+//            device.Name = "Generic";
+//
+//            #if IOS
+//            device.DeviceType = SyncDeviceType.iOS;
+//            #elif ANDROID
+//            device.DeviceType = SyncDeviceType.Android;
+//            #elif MACOSX
+//            device.DeviceType = SyncDeviceType.OSX;
+//            #elif LINUX
+//            device.DeviceType = SyncDeviceType.Linux;
+//            #else
+//            device.DeviceType = SyncDeviceType.Windows;
+//            #endif
+
+            return device;
+        }
+
 
     }
 }

@@ -25,6 +25,7 @@ using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
+using MPfm.Library;
 using MPfm.MVP;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
@@ -46,7 +47,7 @@ namespace MPfm.Mac
 
 		public override void FinishedLaunching(NSObject notification)
 		{
-            // Add view implementations to IoC
+            Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, MacSyncDeviceSpecifications>().AsSingleton();   
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, MainWindowController>().AsMultiInstance();
@@ -55,6 +56,8 @@ namespace MPfm.Mac
             //Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
+
+            Console.WriteLine("HHHHHHHHHHHHHHHHHHHHOST NAME {0}", NSProcessInfo.ProcessInfo.HostName);
 
             // Create and start navigation manager
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();

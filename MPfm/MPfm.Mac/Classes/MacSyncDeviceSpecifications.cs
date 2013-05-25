@@ -15,37 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using MPfm.Sound.AudioFiles;
+using System;
+using MPfm.Library;
+using MonoMac.Foundation;
+using MPfm.Library.Objects;
 
-namespace MPfm.Library.Objects
+namespace MPfm.Mac
 {
     /// <summary>
-    /// Data structure repesenting a syncable device.
+    /// Device specifications for Mac. Used for identifying sync devices.
     /// </summary>
-	public class SyncDevice
-	{
-        public string SyncVersionId { get; set; }
-        public SyncDeviceType DeviceType { get; set; }
-        public string Name { get; set; }
-        public string Url { get; set; }
+    public class MacSyncDeviceSpecifications : NSObject, ISyncDeviceSpecifications
+    {
+        public SyncDeviceType GetDeviceType()
+        {
+            return SyncDeviceType.OSX;
+        }
 
-		public SyncDevice()
-		{
-		}
-	}
-	
-	/// <summary>
-	/// Syncable device type.
-	/// </summary>
-	public enum SyncDeviceType
-	{
-        Unknown = 0,
-		Linux = 1, 
-        OSX = 2, 
-        Windows = 3, 
-        iOS = 4, 
-        Android = 5
-	}
+        string _deviceName = string.Empty;
+        public string GetDeviceName()
+        {
+            this.InvokeOnMainThread(() => {
+                _deviceName = NSProcessInfo.ProcessInfo.HostName;
+            });
+            return _deviceName;
+        }
+    }
 }
-

@@ -201,6 +201,7 @@
     <Compile Include="Windows\SyncWindow.designer.cs">
       <DependentUpon>SyncWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\MacSyncDeviceSpecifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
