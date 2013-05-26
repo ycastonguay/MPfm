@@ -224,7 +224,7 @@
 											<object class="NSMutableArray" key="NSSubviews">
 												<bool key="EncodedWithXMLCoder">YES</bool>
 											</object>
-											<string key="NSFrameSize">{574, 117}</string>
+											<string key="NSFrameSize">{576, 118}</string>
 											<reference key="NSSuperview" ref="497363935"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="321433343"/>
@@ -235,7 +235,7 @@
 											<object class="NSTableHeaderView" key="NSHeaderView" id="1025290995">
 												<reference key="NSNextResponder" ref="321433343"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrameSize">{574, 17}</string>
+												<string key="NSFrameSize">{576, 17}</string>
 												<reference key="NSSuperview" ref="321433343"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="43029219"/>
@@ -311,7 +311,7 @@
 												</object>
 												<object class="NSTableColumn" id="617426632">
 													<string key="NSIdentifier">columnDescription</string>
-													<double key="NSWidth">365</double>
+													<double key="NSWidth">367</double>
 													<double key="NSMinWidth">40</double>
 													<double key="NSMaxWidth">1000</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -364,7 +364,7 @@
 											<int key="NSTableViewGroupRowStyle">1</int>
 										</object>
 									</object>
-									<string key="NSFrame">{{1, 17}, {574, 117}}</string>
+									<string key="NSFrame">{{0, 17}, {576, 118}}</string>
 									<reference key="NSSuperview" ref="424219834"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="184680605"/>
@@ -408,7 +408,7 @@
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<reference ref="1025290995"/>
 									</object>
-									<string key="NSFrame">{{1, 0}, {574, 17}}</string>
+									<string key="NSFrameSize">{576, 17}</string>
 									<reference key="NSSuperview" ref="424219834"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1025290995"/>
@@ -424,7 +424,7 @@
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="497363935"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
-							<int key="NSsFlags">133682</int>
+							<int key="NSsFlags">133680</int>
 							<reference key="NSVScroller" ref="247912235"/>
 							<reference key="NSHScroller" ref="413257560"/>
 							<reference key="NSContentView" ref="497363935"/>
@@ -641,7 +641,7 @@
 								<object class="NSTextField" id="784839729">
 									<reference key="NSNextResponder" ref="163844835"/>
 									<int key="NSvFlags">266</int>
-									<string key="NSFrame">{{0, 3}, {365, 17}}</string>
+									<string key="NSFrame">{{0, 3}, {367, 17}}</string>
 									<reference key="NSSuperview" ref="163844835"/>
 									<reference key="NSNextKeyView" ref="247912235"/>
 									<string key="NSReuseIdentifierKey">_NS:20</string>
@@ -660,7 +660,7 @@
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								</object>
 							</object>
-							<string key="NSFrame">{{207, 1}, {365, 20}}</string>
+							<string key="NSFrame">{{207, 1}, {367, 20}}</string>
 							<reference key="NSNextKeyView" ref="784839729"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 						</object>
@@ -942,6 +942,7 @@
 					<string>14.IBPluginDependency</string>
 					<string>14.ibExternalAutomaticallyCalculatesRowSizeFromViewHeight</string>
 					<string>15.IBPluginDependency</string>
+					<string>16.CustomClassName</string>
 					<string>16.IBPluginDependency</string>
 					<string>17.IBPluginDependency</string>
 					<string>18.IBPluginDependency</string>
@@ -991,6 +992,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>MPfmTableHeaderView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1057,6 +1059,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MPfmButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MPfmTableHeaderView</string>
+					<string key="superclassName">NSTableHeaderView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MPfmTableHeaderView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

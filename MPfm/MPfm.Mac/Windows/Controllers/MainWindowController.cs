@@ -173,16 +173,34 @@ namespace MPfm.Mac
 
         private void SetTheme()
         {
-            viewLeftHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewLeftHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewRightHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewRightHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewLoopsHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewLoopsHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewMarkersHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewMarkersHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewSongBrowserHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            viewSongBrowserHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            //BackgroundColor = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLeftHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLeftHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewRightHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewRightHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLoopsHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLoopsHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewMarkersHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewMarkersHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewSongBrowserHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewSongBrowserHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+
+            lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
+            //lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(175f/255f, 206f/255f, 227f/255f, 1);
+            //lblSongTitle.TextColor = NSColor.FromDeviceRgba(175f/255f, 206f/255f, 227f/255f, 1);
+            //lblSongTitle.TextColor = NSColor.FromDeviceRgba(136f/255f, 174f/255f, 200f/255f, 1);
+            lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
+            lblSongPath.TextColor = NSColor.FromDeviceRgba(97f/255f, 122f/255f, 140f/255f, 1);
+//            viewLeftHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewLeftHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewRightHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewRightHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewLoopsHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewLoopsHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewMarkersHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewMarkersHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewSongBrowserHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            viewSongBrowserHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
 
 //            viewLeftHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
 //            viewLeftHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
@@ -231,9 +249,13 @@ namespace MPfm.Mac
             viewPitchShifting.IsHeaderVisible = true;           
 
             // Set label fonts
-            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 22);
-            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 19);
-            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 16);
+//            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 22);
+//            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 19);
+//            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 16);
+//            lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
+            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 24);
+            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
+            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 17);
             lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
 
             lblSampleRate.Font = NSFont.FromFontName("Junction", 11f);
@@ -351,6 +373,7 @@ namespace MPfm.Mac
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarSync").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_network-wireless");
 
             // Load button images
+            cboSoundFormat.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnAddLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnAddMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnAddSongToPlaylist.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
@@ -692,9 +715,9 @@ namespace MPfm.Mac
                 lblLength.StringValue = audioFile.Length;
 
                 lblFileType.StringValue = audioFile.FileType.ToString();
-                lblBitrate.StringValue = audioFile.Bitrate.ToString();
-                lblBitsPerSample.StringValue = audioFile.BitsPerSample.ToString();
-                lblSampleRate.StringValue = audioFile.SampleRate.ToString();
+                lblBitrate.StringValue = audioFile.Bitrate.ToString() + " kbit/s";
+                lblBitsPerSample.StringValue = audioFile.BitsPerSample.ToString() + " bits";
+                lblSampleRate.StringValue = audioFile.SampleRate.ToString() + " Hz";
 
                 // Set album cover
                 if (!String.IsNullOrEmpty(audioFile.FilePath))

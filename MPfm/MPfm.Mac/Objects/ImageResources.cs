@@ -84,6 +84,8 @@ namespace MPfm.Mac
                 new NSImage(NSBundle.MainBundle.PathForResource("refresh", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_refresh" },
                 new NSImage(NSBundle.MainBundle.PathForResource("drawer", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_drawer" },
                 new NSImage(NSBundle.MainBundle.PathForResource("cabinet", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_cabinet" },
+                new NSImage(NSBundle.MainBundle.PathForResource("user", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_user" },
+                new NSImage(NSBundle.MainBundle.PathForResource("users", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_users" },
                 new NSImage(NSBundle.MainBundle.PathForResource("arrow-right", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_arrow-right" }
             };
 

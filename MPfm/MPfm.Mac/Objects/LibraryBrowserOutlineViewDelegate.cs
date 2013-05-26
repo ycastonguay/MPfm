@@ -75,11 +75,11 @@ namespace MPfm.Mac
             // Check icon
             if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.AllSongs)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_database");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
             } 
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artists)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_group");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_users");
             } 
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Album ||
                      libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Albums)
@@ -88,7 +88,7 @@ namespace MPfm.Mac
             } 
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artist)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_user");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_user");
             } 
 
             return view;

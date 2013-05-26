@@ -26,11 +26,8 @@ using MonoMac.Foundation;
 
 namespace MPfm.Mac
 {
-    /// <summary>
-    /// Custom button based on NSButton.
-    /// </summary>
-    [Register("MPfmButton")]
-    public class MPfmButton : NSButton
+    [Register("MPfmPopUpButton")]
+    public class MPfmPopUpButton : NSPopUpButton
     {
         bool _isMouseDown = false;
         bool _isMouseOver = false;
@@ -42,13 +39,13 @@ namespace MPfm.Mac
         public CGColor BorderColor { get; set; }
 
         [Export("init")]
-        public MPfmButton() : base(NSObjectFlag.Empty)
+        public MPfmPopUpButton() : base(NSObjectFlag.Empty)
         {
             Initialize();
         }
 
         // Called when created from unmanaged code
-        public MPfmButton(IntPtr handle) : base (handle)
+        public MPfmPopUpButton(IntPtr handle) : base (handle)
         {
             Initialize();
         }

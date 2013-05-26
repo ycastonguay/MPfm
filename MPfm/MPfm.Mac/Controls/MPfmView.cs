@@ -70,15 +70,21 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
-            GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
+            GradientColor1 = new CGColor(54f/255f, 69f/255f, 79f/255f);
+            GradientColor2 = new CGColor(54f/255f, 69f/255f, 79f/255f);
+            //GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
             //GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
             //HeaderGradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
 
             //HeaderGradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
             //HeaderGradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            HeaderGradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            HeaderGradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+
+            HeaderGradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            HeaderGradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+
+            //HeaderGradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+            //HeaderGradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+
 //            HeaderGradientColor1 = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
 //            HeaderGradientColor2 = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
             BorderColor = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
@@ -103,37 +109,13 @@ namespace MPfm.Mac
         {
             base.DrawRect(dirtyRect);
 
-            CGGradient gradientBackground;
-            CGGradient gradientHeader;
-            CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
-
-            float[] locationListBackground = new float[] { 1.0f, 0.0f };
-            List<float> colorListBackground = new List<float>();
-            colorListBackground.AddRange(GradientColor1.Components);
-            colorListBackground.AddRange(GradientColor2.Components);
-            float[] locationListHeader = new float[] { 1.0f, 0.0f };
-            List<float> colorListHeader = new List<float>();
-            colorListHeader.AddRange(HeaderGradientColor1.Components);
-            colorListHeader.AddRange(HeaderGradientColor2.Components);
-            gradientBackground = new CGGradient(colorSpace, colorListBackground.ToArray(), locationListBackground);
-            gradientHeader = new CGGradient(colorSpace, colorListHeader.ToArray(), locationListHeader);
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-
-            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-            context.SaveState();
-            context.AddRect(rectBackground);
-            context.Clip();
-            context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-            context.RestoreState();
+            CocoaHelper.FillRect(context, Bounds, GradientColor1);
 
             if (IsHeaderVisible)
             {
                 RectangleF rectHeader = new RectangleF(0, Bounds.Height - 24, Bounds.Width, 24);
-                context.SaveState();
-                context.AddRect(rectHeader);
-                context.Clip();
-                context.DrawLinearGradient(gradientHeader, new PointF(0, Bounds.Height - 24), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
-                context.RestoreState();
+                CocoaHelper.FillRect(context, rectHeader, HeaderGradientColor1);
             }
 
 //            context.SaveState();

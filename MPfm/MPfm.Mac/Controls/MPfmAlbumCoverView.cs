@@ -54,8 +54,10 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
+//            GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
+//            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
+            GradientColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
+            GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
 
             //this.FocusRingType = NSFocusRingType.None;
         }

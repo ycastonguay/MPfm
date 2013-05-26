@@ -57,8 +57,6 @@ namespace MPfm.Mac
             Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
 
-            Console.WriteLine("HHHHHHHHHHHHHHHHHHHHOST NAME {0}", NSProcessInfo.ProcessInfo.HostName);
-
             // Create and start navigation manager
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
             //navigationManager.Start();

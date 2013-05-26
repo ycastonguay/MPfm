@@ -203,6 +203,8 @@
     </Compile>
     <Compile Include="Classes\MacSyncDeviceSpecifications.cs" />
     <Compile Include="Controls\MPfmSliderCell.cs" />
+    <Compile Include="Controls\MPfmTableHeaderView.cs" />
+    <Compile Include="Controls\MPfmPopUpButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -316,6 +318,8 @@
     <Content Include="Resources\16x16\icomoon\drawer.png" />
     <Content Include="Resources\16x16\icomoon\refresh.png" />
     <Content Include="Resources\16x16\icomoon\cabinet.png" />
+    <Content Include="Resources\16x16\icomoon\user.png" />
+    <Content Include="Resources\16x16\icomoon\users.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
