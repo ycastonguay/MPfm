@@ -24,6 +24,7 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.Mac.Classes.Helpers;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -34,12 +35,12 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmView : NSView
     {
         private bool isMouseDown = false;
-
         public bool IsHeaderVisible { get; set; }
-        public CGColor GradientColor1 { get; set; }
-        public CGColor GradientColor2 { get; set; }
-        public CGColor HeaderGradientColor1 { get; set; }
-        public CGColor HeaderGradientColor2 { get; set; }
+
+        public CGColor BackgroundColor1 { get; set; }
+        public CGColor BackgroundColor2 { get; set; }
+        public CGColor HeaderColor1 { get; set; }
+        public CGColor HeaderColor2 { get; set; }
         public CGColor BorderColor { get; set; }
 
         [Export("init")]
@@ -71,25 +72,12 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(54f/255f, 69f/255f, 79f/255f);
-            GradientColor2 = new CGColor(54f/255f, 69f/255f, 79f/255f);
-            //GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
-            //GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            //HeaderGradientColor1 = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
-
-            //HeaderGradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-            //HeaderGradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-
-            HeaderGradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            HeaderGradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-
-            //HeaderGradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-            //HeaderGradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-
-//            HeaderGradientColor1 = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
-//            HeaderGradientColor2 = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
-            BorderColor = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
-      }
+            BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
+            BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
+            HeaderColor1 = GlobalTheme.PanelHeaderColor1;
+            HeaderColor2 = GlobalTheme.PanelHeaderColor2;
+            BorderColor = GlobalTheme.PanelBorderColor;
+        }
 
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)
@@ -111,12 +99,12 @@ namespace MPfm.Mac.Classes.Controls
             base.DrawRect(dirtyRect);
 
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            CocoaHelper.FillRect(context, Bounds, GradientColor1);
+            CocoaHelper.FillRect(context, Bounds, BackgroundColor1);
 
             if (IsHeaderVisible)
             {
                 RectangleF rectHeader = new RectangleF(0, Bounds.Height - 24, Bounds.Width, 24);
-                CocoaHelper.FillRect(context, rectHeader, HeaderGradientColor1);
+                CocoaHelper.FillRect(context, rectHeader, HeaderColor1);
             }
 
 //            context.SaveState();

@@ -26,20 +26,10 @@ using MonoMac.Foundation;
 
 namespace MPfm.Mac.Classes.Controls
 {
-    /// <summary>
-    /// Custom button based on NSButton.
-    /// </summary>
     [Register("MPfmScrollView")]
     public class MPfmScrollView : NSScrollView
     {
-        bool isMouseDown = false;
         MPfmScrollView synchronizedScrollView;
-
-        public bool IsHeaderVisible { get; set; }
-        public CGColor GradientColor1 { get; set; }
-        public CGColor GradientColor2 { get; set; }
-        public CGColor HeaderGradientColor1 { get; set; }
-        public CGColor HeaderGradientColor2 { get; set; }
 
         [Export("init")]
         public MPfmScrollView() : base(NSObjectFlag.Empty)
@@ -55,36 +45,6 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
-            GradientColor1 = new CGColor(0.1f, 0.1f, 0.1f);
-            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
-            HeaderGradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-            HeaderGradientColor2 = new CGColor(0.4f, 0.4f, 0.4f);
-            //GradientColor1 = new CGColor(0.0f, 1.0f, 0.0f);
-            //GradientColor2 = new CGColor(1.0f, 0.0f, 1.0f);
-            //HeaderGradientColor1 = new CGColor(1.0f, 0.0f, 0.0f);
-            //HeaderGradientColor2 = new CGColor(0.0f, 0.0f, 1.0f);
-        }
-
-        [Export("mouseDown:")]
-        public override void MouseDown(NSEvent theEvent)
-        {
-            // Set flag
-            isMouseDown = true;
-
-            base.MouseDown(theEvent);
-
-            // Call mouse up 
-            this.MouseUp(theEvent);
-        }
-
-        [Export("mouseUp:")]
-        public override void MouseUp(NSEvent theEvent)
-        {
-            // Call super class
-            base.MouseUp(theEvent);
-
-            // Set flag
-            isMouseDown = false;
         }
 
         public void SetSynchronizedScrollView(MPfmScrollView scrollView)

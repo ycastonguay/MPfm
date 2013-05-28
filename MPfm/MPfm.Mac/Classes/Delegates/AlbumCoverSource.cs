@@ -26,8 +26,9 @@ using MPfm.Sound;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 using MPfm.Mac.Classes.Controls;
+using MPfm.Mac.Classes.Objects;
 
-namespace MPfm.Mac.Classes.Objects
+namespace MPfm.Mac.Classes.Delegates
 {
     /// <summary>
     /// Album Cover table view source.

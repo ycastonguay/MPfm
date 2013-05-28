@@ -176,7 +176,6 @@
     </Compile>
     <Compile Include="Classes\MacSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Navigation\MacNavigationManager.cs" />
-    <Compile Include="Classes\Controls\SongPositionSlider.cs" />
     <Compile Include="Classes\Controls\MPfmView.cs" />
     <Compile Include="Classes\Controls\MPfmButton.cs" />
     <Compile Include="Classes\Controls\MPfmTableCellView.cs" />
@@ -190,9 +189,6 @@
     <Compile Include="Classes\Objects\LibraryBrowserItem.cs" />
     <Compile Include="Classes\Objects\ImageResources.cs" />
     <Compile Include="Classes\Objects\SongBrowserItem.cs" />
-    <Compile Include="Classes\Objects\SongBrowserSource.cs" />
-    <Compile Include="Classes\Objects\AlbumCoverSource.cs" />
-    <Compile Include="Classes\Objects\AlbumCoverCacheService.cs" />
     <Compile Include="Classes\Helpers\CocoaHelper.cs" />
     <Compile Include="Classes\Helpers\AlbumCoverHelper.cs" />
     <Compile Include="Classes\Delegates\LibraryBrowserDataSource.cs" />
@@ -205,6 +201,11 @@
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Main.cs" />
+    <Compile Include="Classes\Services\AlbumCoverCacheService.cs" />
+    <Compile Include="Classes\Objects\GlobalTheme.cs" />
+    <Compile Include="Classes\Delegates\AlbumCoverSource.cs" />
+    <Compile Include="Classes\Controls\MPfmSongPositionSlider.cs" />
+    <Compile Include="Classes\Delegates\SongBrowserSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -338,6 +339,7 @@
     <Folder Include="Resources\16x16\icomoon\" />
     <Folder Include="Classes\Navigation\" />
     <Folder Include="Classes\Delegates\" />
+    <Folder Include="Classes\Services\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

@@ -30,22 +30,22 @@ namespace MPfm.Mac.Classes.Controls
     /// <summary>
     /// Main Window: Song Position slider.
     /// </summary>
-    [Register("SongPositionSlider")]
-    public class SongPositionSlider : NSSlider
+    [Register("MPfmSongPositionSlider")]
+    public class MPfmSongPositionSlider : NSSlider
     {
         private IPlayerPresenter playerPresenter = null;
 
         private bool isMouseDown = false;
 
         [Export("init")]
-        public SongPositionSlider() : base(NSObjectFlag.Empty)
+        public MPfmSongPositionSlider() : base(NSObjectFlag.Empty)
         {
             playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
             this.Continuous = true;
         }
 
         // Called when created from unmanaged code
-        public SongPositionSlider(IntPtr handle) : base (handle)
+        public MPfmSongPositionSlider(IntPtr handle) : base (handle)
         {
             playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
             this.Continuous = true;
@@ -54,28 +54,17 @@ namespace MPfm.Mac.Classes.Controls
         [Export("mouseDown:")]
         public override void MouseDown(NSEvent theEvent)
         {
-            // Set flag
             isMouseDown = true;
-
             base.MouseDown(theEvent);
-
-            // Call mouse up 
             this.MouseUp(theEvent);
         }
 
         [Export("mouseUp:")]
         public override void MouseUp(NSEvent theEvent)
         {
-            // Call super class
             base.MouseUp(theEvent);
-
-            // Get value
             float value = this.FloatValue;
-
-            // Set flag
             isMouseDown = false;
-
-            // Set player position
             playerPresenter.SetPosition(value / 100);
         }
 

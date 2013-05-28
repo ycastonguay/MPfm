@@ -37,10 +37,9 @@ namespace MPfm.Mac.Classes.Controls
     {
         SongBrowserItem item;
         NSImage imageAlbumCover;
-        bool isMouseDown = false;
 
-        public CGColor GradientColor1 { get; set; }
-        public CGColor GradientColor2 { get; set; }
+        public CGColor BackgroundColor1 { get; set; }
+        public CGColor BackgroundColor2 { get; set; }
 
         [Export("init")]
         public MPfmAlbumCoverView() : base(NSObjectFlag.Empty)
@@ -56,12 +55,8 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
-//            GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f);
-//            GradientColor2 = new CGColor(0.3f, 0.3f, 0.3f);
-            GradientColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
-            GradientColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
-
-            //this.FocusRingType = NSFocusRingType.None;
+            BackgroundColor1 = GlobalTheme.AlbumCoverBackgroundColor1;
+            BackgroundColor2 = GlobalTheme.AlbumCoverBackgroundColor1;
         }
 
         public void SetItem(SongBrowserItem item, NSImage imageAlbumCover)
@@ -70,38 +65,15 @@ namespace MPfm.Mac.Classes.Controls
             this.imageAlbumCover = imageAlbumCover;
         }
 
-        [Export("mouseDown:")]
-        public override void MouseDown(NSEvent theEvent)
-        {
-            // Set flag
-            isMouseDown = true;
-
-            base.MouseDown(theEvent);
-
-            // Call mouse up 
-            this.MouseUp(theEvent);
-        }
-
-        [Export("mouseUp:")]
-        public override void MouseUp(NSEvent theEvent)
-        {
-            // Call super class
-            base.MouseUp(theEvent);
-
-            // Set flag
-            isMouseDown = false;
-        }
-
         public override void DrawRect(System.Drawing.RectangleF dirtyRect)
         {
             base.DrawRect(dirtyRect);
-
             float padding = 6;
 
             // Draw background
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
             RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-            CocoaHelper.FillGradient(context, rectBackground, GradientColor1, GradientColor2);
+            CocoaHelper.FillGradient(context, rectBackground, BackgroundColor1, BackgroundColor2);
 
             // Check if an album cover is available
             if (imageAlbumCover != null)

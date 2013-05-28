@@ -2025,7 +2025,7 @@
 																							<string key="NSFrameSize">{402, 152}</string>
 																							<reference key="NSSuperview" ref="497439405"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="841670270"/>
+																							<reference key="NSNextKeyView" ref="1018308452"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2280,7 +2280,7 @@
 																			<string key="NSFrame">{{0, -5}, {402, 169}}</string>
 																			<reference key="NSSuperview" ref="556046785"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="1018308452"/>
+																			<reference key="NSNextKeyView" ref="497439405"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="658394144"/>
@@ -2463,7 +2463,7 @@
 																							<string key="NSFrameSize">{377, 150}</string>
 																							<reference key="NSSuperview" ref="36467682"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="976484741"/>
+																							<reference key="NSNextKeyView" ref="759208895"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2654,7 +2654,7 @@
 																			<string key="NSFrame">{{0, -3}, {377, 167}}</string>
 																			<reference key="NSSuperview" ref="421545823"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="759208895"/>
+																			<reference key="NSNextKeyView" ref="36467682"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="688644208"/>
@@ -2726,7 +2726,7 @@
 																							<string key="NSFrameSize">{256, 143}</string>
 																							<reference key="NSSuperview" ref="146891087"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="515224985"/>
+																							<reference key="NSNextKeyView" ref="133870497"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2857,7 +2857,7 @@
 																			<string key="NSFrameSize">{256, 160}</string>
 																			<reference key="NSSuperview" ref="504268879"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="133870497"/>
+																			<reference key="NSNextKeyView" ref="146891087"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="2893183"/>
@@ -2902,7 +2902,7 @@
 																							<string key="NSFrameSize">{523, 143}</string>
 																							<reference key="NSSuperview" ref="628665911"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="553973200"/>
+																							<reference key="NSNextKeyView" ref="234049385"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -3179,7 +3179,7 @@
 																			<string key="NSFrameSize">{523, 160}</string>
 																			<reference key="NSSuperview" ref="917780088"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="234049385"/>
+																			<reference key="NSNextKeyView" ref="628665911"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="679588447"/>
@@ -7632,7 +7632,7 @@
 					<string>toolbarPause</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>SongPositionSlider</string>
+					<string>MPfmSongPositionSlider</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>MPfmSliderCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7703,6 +7703,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MPfmSliderCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MPfmSongPositionSlider</string>
+					<string key="superclassName">NSSlider</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MPfmSongPositionSlider.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -8105,7 +8113,7 @@
 							<string>MPfmScrollView</string>
 							<string>NSSearchField</string>
 							<string>NSSlider</string>
-							<string>SongPositionSlider</string>
+							<string>MPfmSongPositionSlider</string>
 							<string>NSSlider</string>
 							<string>NSSlider</string>
 							<string>NSSplitView</string>
@@ -8411,7 +8419,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">sliderPosition</string>
-								<string key="candidateClassName">SongPositionSlider</string>
+								<string key="candidateClassName">MPfmSongPositionSlider</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">sliderTimeShifting</string>
@@ -8514,14 +8522,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MainWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SongPositionSlider</string>
-					<string key="superclassName">NSSlider</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SongPositionSlider.h</string>
 					</object>
 				</object>
 			</object>

@@ -26,9 +26,6 @@ using MonoMac.Foundation;
 
 namespace MPfm.Mac.Classes.Controls
 {
-    /// <summary>
-    /// Custom view based on NSView.
-    /// </summary>
     [Register("MPfmSliderCell")]
     public class MPfmSliderCell : NSSliderCell
     {
@@ -43,11 +40,6 @@ namespace MPfm.Mac.Classes.Controls
         {
             Initialize();
         }
-
-//        public MPfmSliderCell(RectangleF frameRect) : base(frameRect)
-//        {
-//            Initialize();
-//        }
 
         public MPfmSliderCell(NSObjectFlag t) : base(t)
         {

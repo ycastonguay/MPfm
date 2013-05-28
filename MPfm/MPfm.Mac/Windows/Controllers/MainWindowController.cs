@@ -177,16 +177,16 @@ namespace MPfm.Mac
         private void SetTheme()
         {
             //BackgroundColor = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewLeftHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewLeftHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewRightHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewRightHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewLoopsHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewLoopsHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewMarkersHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewMarkersHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewSongBrowserHeader.GradientColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
-            viewSongBrowserHeader.GradientColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLeftHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLeftHeader.BackgroundColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewRightHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewRightHeader.BackgroundColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLoopsHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewLoopsHeader.BackgroundColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewMarkersHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewMarkersHeader.BackgroundColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewSongBrowserHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            viewSongBrowserHeader.BackgroundColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
 
             lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
             //lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(175f/255f, 206f/255f, 227f/255f, 1);

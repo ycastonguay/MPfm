@@ -138,7 +138,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSSplitView splitMain { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.SongPositionSlider sliderPosition { get; set; }
+        MPfm.Mac.Classes.Controls.MPfmSongPositionSlider sliderPosition { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLength { get; set; }

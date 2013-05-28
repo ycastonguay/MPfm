@@ -38,8 +38,6 @@ namespace MPfm.Mac.Classes.Controls
         NSTimer timer;
 
         public bool IsPlaying { get; private set; }
-        public bool IsMouseDown { get; private set; }
-
         public CGColor GradientColor1 { get; set; }
         public CGColor GradientColor2 { get; set; }
 
@@ -141,28 +139,6 @@ namespace MPfm.Mac.Classes.Controls
 //                    });
 //                }
 //            }
-        }
-
-        [Export("mouseDown:")]
-        public override void MouseDown(NSEvent theEvent)
-        {
-            // Set flag
-            IsMouseDown = true;
-
-            base.MouseDown(theEvent);
-
-            // Call mouse up 
-            this.MouseUp(theEvent);
-        }
-
-        [Export("mouseUp:")]
-        public override void MouseUp(NSEvent theEvent)
-        {
-            // Call super class
-            base.MouseUp(theEvent);
-
-            // Set flag
-            IsMouseDown = false;
         }
 
         public override void DrawRect(System.Drawing.RectangleF dirtyRect)
