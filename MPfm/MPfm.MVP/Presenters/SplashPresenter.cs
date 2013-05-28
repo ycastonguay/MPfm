@@ -60,7 +60,7 @@ namespace MPfm.MVP.Presenters
                 _playerService.Initialize(device, 44100, 1000, 100);
                     View.InitDone();
                     onInitDone.Invoke();
-                View.RefreshStatus("Initialization done!");
+                View.RefreshStatus("Opening app...");
             }, taskScheduler);
         }
 	}

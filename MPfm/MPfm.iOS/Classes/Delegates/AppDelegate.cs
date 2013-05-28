@@ -134,15 +134,19 @@ namespace MPfm.iOS.Classes.Delegates
         public void HideSplash()
         {
             InvokeOnMainThread(() => {
+                _window.BringSubviewToFront(_splashViewController.View);
                 _tabBarController.View.Hidden = false;
-                _splashViewController.View.RemoveFromSuperview();
+                UIView.Animate(0.25f, () => {
+                    _splashViewController.View.Alpha = 0.0f;
+                }, () => {
+                    _splashViewController.View.RemoveFromSuperview();
+                });
             });
         }
 
         public void AddTab(MobileNavigationTabType type, string title, UIViewController viewController)
         {
             InvokeOnMainThread(() => {
-                // Create text attributes for tab
                 UITextAttributes attr = new UITextAttributes();
                 attr.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
                 attr.TextColor = UIColor.LightGray;

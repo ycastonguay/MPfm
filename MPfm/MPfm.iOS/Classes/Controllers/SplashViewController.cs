@@ -40,9 +40,33 @@ namespace MPfm.iOS.Classes.Controllers
             else
                 imageView.Image = UIImage.FromBundle("Images/Splash/Default");
 
-            lblStatus.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
+            imageViewLogo.Image = UIImage.FromBundle("Images/Splash/app_logo");
+            lblStatus.Font = UIFont.FromName("HelveticaNeue-Bold", 13);
+
+            imageViewLogo.Alpha = 0;
+            lblStatus.Alpha = 0;
+            activityIndicator.Alpha = 0;
+            activityIndicator.StartAnimating();
+
+            imageViewLogo.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width - imageViewLogo.Bounds.Width) / 2.0f, (UIScreen.MainScreen.Bounds.Height - imageViewLogo.Bounds.Height) / 2.0f, imageViewLogo.Bounds.Width, imageViewLogo.Bounds.Height);
+            activityIndicator.Frame = new RectangleF(activityIndicator.Frame.X, imageViewLogo.Frame.Y + imageViewLogo.Frame.Height + 28, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
+            lblStatus.Frame = new RectangleF(lblStatus.Frame.X, activityIndicator.Frame.Y, lblStatus.Frame.Width, lblStatus.Frame.Height);
 
             base.ViewDidLoad();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y + 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
+            UIView.Animate(0.5, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+
+                imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y - 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
+
+                imageViewLogo.Alpha = 1;
+                lblStatus.Alpha = 1;
+                activityIndicator.Alpha = 1;
+            }, null);
         }
 
         #region ISplashView implementation

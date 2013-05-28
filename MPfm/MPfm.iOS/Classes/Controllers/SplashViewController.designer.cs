@@ -16,6 +16,12 @@ namespace MPfm.iOS.Classes.Controllers
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblStatus { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView imageViewLogo { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -27,6 +33,16 @@ namespace MPfm.iOS.Classes.Controllers
 			if (lblStatus != null) {
 				lblStatus.Dispose ();
 				lblStatus = null;
+			}
+
+			if (imageViewLogo != null) {
+				imageViewLogo.Dispose ();
+				imageViewLogo = null;
+			}
+
+			if (activityIndicator != null) {
+				activityIndicator.Dispose ();
+				activityIndicator = null;
 			}
 		}
 	}

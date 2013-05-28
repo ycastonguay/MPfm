@@ -273,9 +273,6 @@
     <Content Include="Fonts\LeagueGothic-CondensedRegular.otf" />
     <Content Include="Fonts\LeagueGothic-Italic.otf" />
     <Content Include="Fonts\LeagueGothic-Regular.otf" />
-    <Content Include="Images\Splash\Default.png" />
-    <Content Include="Images\Splash\Default%402x.png" />
-    <Content Include="Images\Splash\Default-568h%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Images\effects.png" />
@@ -313,6 +310,10 @@
     <BundleResource Include="Images\Sliders\thumbbig%402x.png" />
     <BundleResource Include="Images\Buttons\back.png" />
     <BundleResource Include="Images\Buttons\back%402x.png" />
+    <BundleResource Include="Images\Splash\app_logo%402x.png" />
+    <BundleResource Include="Images\Splash\Default.png" />
+    <BundleResource Include="Images\Splash\Default-568h%402x.png" />
+    <BundleResource Include="Images\Splash\Default%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
