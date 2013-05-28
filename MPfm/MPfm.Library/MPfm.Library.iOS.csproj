@@ -181,6 +181,13 @@
     <Folder Include="Messages\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="WebApp\css\app.css" />
+    <EmbeddedResource Include="WebApp\js\app.js" />
+    <EmbeddedResource Include="WebApp\js\jquery-1.9.1.min.js" />
+    <EmbeddedResource Include="WebApp\index.html" />
+    <EmbeddedResource Include="WebApp\js\jquery.upload-1.0.2.min.js" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />
     <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
@@ -213,10 +220,10 @@
     <Compile Include="Objects\SyncDevice.cs" />
     <Compile Include="Services\SyncListenerService.cs" />
     <Compile Include="ISyncDeviceSpecifications.cs" />
-	<EmbeddedResource Include="WebApp\css\app.css" />
-    <EmbeddedResource Include="WebApp\js\app.js" />
-    <EmbeddedResource Include="WebApp\js\jquery-1.9.1.min.js" />
-    <EmbeddedResource Include="WebApp\index.html" />
-    <EmbeddedResource Include="WebApp\js\jquery.upload-1.0.2.min.js" />
+    <Compile Include="Services\UpdateLibraryService.cs" />
+    <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
+    <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
+    <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
+    <Compile Include="Objects\UpdateLibraryEntity.cs" />
   </ItemGroup>
 </Project>

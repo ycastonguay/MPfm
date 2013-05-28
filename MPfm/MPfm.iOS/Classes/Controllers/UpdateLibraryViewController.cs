@@ -25,6 +25,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Objects;
+using MPfm.Library.Objects;
 
 namespace MPfm.iOS
 {

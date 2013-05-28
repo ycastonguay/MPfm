@@ -22,12 +22,10 @@ using System.IO;
 using System.Linq;
 using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Models;
-using MPfm.MVP.Services.Events;
-using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using System.Text.RegularExpressions;
 using MPfm.Library.Services.Interfaces;
+using MPfm.Library.Services.Events;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;

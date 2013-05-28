@@ -19,10 +19,10 @@ using System;
 using System.Collections.Generic;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Services.Events;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
+using MPfm.Library.Services.Events;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;

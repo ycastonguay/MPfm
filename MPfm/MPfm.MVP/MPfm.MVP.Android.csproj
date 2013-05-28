@@ -145,11 +145,7 @@
     <Compile Include="Views\IGeneralPreferencesView.cs" />
     <Compile Include="Views\IAudioPreferencesView.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
-    <Compile Include="Models\UpdateLibraryEntity.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
-    <Compile Include="Services\UpdateLibraryService.cs" />
-    <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
-    <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
     <Compile Include="Presenters\PlayerPresenter.cs" />
     <Compile Include="Views\IPlayerView.cs" />
     <Compile Include="Models\LibraryBrowserEntity.cs" />
@@ -162,7 +158,6 @@
     <Compile Include="Presenters\Interfaces\IPlayerPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISongBrowserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IUpdateLibraryPresenter.cs" />
-    <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
     <Compile Include="Services\InitializationService.cs" />
     <Compile Include="Services\Interfaces\IInitializationService.cs" />
     <Compile Include="Models\PlayerVolumeEntity.cs" />

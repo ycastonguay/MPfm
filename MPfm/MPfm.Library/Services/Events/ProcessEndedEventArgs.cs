@@ -17,7 +17,7 @@
 
 using System;
 
-namespace MPfm.MVP.Services.Events
+namespace MPfm.Library.Services.Events
 {
 	/// <summary>
 	/// Process ended event arguments.

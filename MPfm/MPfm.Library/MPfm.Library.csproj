@@ -94,6 +94,7 @@
       <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -142,6 +143,7 @@
     <Folder Include="WebApp\" />
     <Folder Include="WebApp\js\" />
     <Folder Include="WebApp\css\" />
+    <Folder Include="Services\Events\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />
@@ -176,5 +178,10 @@
     <Compile Include="Objects\SyncDevice.cs" />
     <Compile Include="Services\SyncListenerService.cs" />
     <Compile Include="ISyncDeviceSpecifications.cs" />
+    <Compile Include="Services\UpdateLibraryService.cs" />
+    <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
+    <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
+    <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
+    <Compile Include="Objects\UpdateLibraryEntity.cs" />
   </ItemGroup>
 </Project>

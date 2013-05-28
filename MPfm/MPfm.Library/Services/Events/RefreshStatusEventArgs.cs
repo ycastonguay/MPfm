@@ -16,9 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.MVP.Models;
+using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Services.Events
+namespace MPfm.Library.Services.Events
 {
 	/// <summary>
 	/// Refresh status event arguments.
