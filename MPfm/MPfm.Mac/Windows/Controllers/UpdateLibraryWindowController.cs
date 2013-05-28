@@ -38,13 +38,8 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class UpdateLibraryWindowController : BaseWindowController, IUpdateLibraryView
 	{
-		MainWindowController mainWindowController = null;
-		ILibraryService libraryService = null;
-		IUpdateLibraryService updateLibraryService = null;
-		IUpdateLibraryPresenter presenter = null;
-        
-        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
-        public Action OnCancelUpdateLibrary { get; set; }
+		MainWindowController _mainWindowController = null;
+		IUpdateLibraryPresenter _presenter = null;
 
 		#region Constructors
 		
@@ -59,69 +54,48 @@ namespace MPfm.Mac
 		public UpdateLibraryWindowController(MainWindowController mainWindowController, Action<IBaseView> onViewReady) 
             : base ("UpdateLibraryWindow", onViewReady)
 		{
-            this.mainWindowController = mainWindowController;
+            _mainWindowController = mainWindowController;
 			Initialize();
 		}
 		
 		// Shared initialization code
 		void Initialize()
 		{
-			// Custom types cannot be used in the constructors under Mac.
-			string database = "/Users/animal/.MPfm/MPfm.Database.db";
-//			gateway = new MPfmGateway(database);
-//			libraryService = new LibraryService(gateway);
-//			updateLibraryService = new UpdateLibraryService(libraryService);
-//
-//			// Create presenter
-//			presenter = new UpdateLibraryPresenter(
-//				libraryService,
-//				updateLibraryService
-//			);
-
-            presenter = Bootstrapper.GetContainer().Resolve<UpdateLibraryPresenter>();
-
-			presenter.BindView(this);
-
-			// Center window
+            _presenter = Bootstrapper.GetContainer().Resolve<UpdateLibraryPresenter>();
+			_presenter.BindView(this);
 			Window.Center();
 		}
 
 		public override void AwakeFromNib()
 		{
+            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 16);
+            lblSubtitle.Font = NSFont.FromFontName("Junction", 11);
+            lblPercentageDone.Font = NSFont.FromFontName("Junction", 11);
+
 			lblTitle.StringValue = string.Empty;
 			lblSubtitle.StringValue = string.Empty;
-
 			btnOK.Enabled = false;
 			btnCancel.Enabled = true;
 			btnSaveLog.Enabled = false;
-
-			textViewErrorLog.InsertText(new NSString("Test\nTest"));
 			textViewErrorLog.Editable = false;
 		}
 		
 		#endregion
 		
-		//strongly typed window accessor
-		public new UpdateLibraryWindow Window {
-			get {
-				return (UpdateLibraryWindow)base.Window;
-			}
-		}
-
 		public void StartProcess(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
 		{
-			presenter.UpdateLibrary(mode, filePaths, folderPath);
+			_presenter.UpdateLibrary(mode, filePaths, folderPath);
 		}
 
 		partial void btnOK_Click(NSObject sender)
 		{
-            mainWindowController.RefreshAll();
+            _mainWindowController.RefreshAll();
 			this.Close();
 		}
 
 		partial void btnCancel_Click(NSObject sender)
 		{
-			presenter.Cancel();
+			_presenter.Cancel();
 		}
 
 		partial void btnSaveLog_Click(NSObject sender)
@@ -131,12 +105,17 @@ namespace MPfm.Mac
 
 		#region IUpdateLibraryView implementation
 
+        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action OnCancelUpdateLibrary { get; set; }
+
 		public void RefreshStatus(UpdateLibraryEntity entity)
 		{
-			lblTitle.StringValue = entity.Title;
-			lblSubtitle.StringValue = entity.Subtitle;
-			lblPercentageDone.StringValue = (entity.PercentageDone * 100).ToString() + " %";
-			progressBar.DoubleValue = (double)entity.PercentageDone * 100;
+            InvokeOnMainThread(() => {
+        		lblTitle.StringValue = entity.Title;
+        		lblSubtitle.StringValue = entity.Subtitle;
+        		lblPercentageDone.StringValue = (entity.PercentageDone * 100).ToString("0.0") + " %";
+        		progressBar.DoubleValue = (double)entity.PercentageDone * 100;
+            });
 		}
 
 		public void AddToLog(string entry)
@@ -146,17 +125,22 @@ namespace MPfm.Mac
 
 		public void ProcessEnded(bool canceled)
 		{
-			if(canceled) {
-				lblTitle.StringValue = "Library update canceled by user.";
-				lblSubtitle.StringValue = string.Empty;
-			} else {
-				lblTitle.StringValue = "Library updated successfully.";
-				lblSubtitle.StringValue = string.Empty;
-			}
+            InvokeOnMainThread(() => {
+    			if(canceled) 
+                {
+    				lblTitle.StringValue = "Library update canceled by user.";
+    				lblSubtitle.StringValue = string.Empty;
+    			} 
+                else 
+                {
+    				lblTitle.StringValue = "Library updated successfully.";
+    				lblSubtitle.StringValue = string.Empty;
+    			}
 
-			btnCancel.Enabled = false;
-			btnOK.Enabled = true;
-			btnSaveLog.Enabled = true;
+    			btnCancel.Enabled = false;
+    			btnOK.Enabled = true;
+    			btnSaveLog.Enabled = true;
+            });
 		}
 
 		#endregion

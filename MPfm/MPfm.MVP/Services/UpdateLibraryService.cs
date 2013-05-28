@@ -217,8 +217,10 @@ namespace MPfm.MVP.Services
                 }
                 else if (arg.Mode == UpdateLibraryMode.SpecificFolder)
                 {
-                    // Search the files in the specified folder                    
+                    // Search the files in the specified folder                 
+                    Console.WriteLine("UpdateLibraryService - Looking for audio files in {0}...", arg.FolderPath);
                     filePaths = SearchMediaFilesInFolders(arg.FolderPath, true);
+                    Console.WriteLine("UpdateLibraryService - Found {0} audio files in {0}", filePaths.Count, arg.FolderPath);
                 }
 				
 				// Cancel update library process if necessary
@@ -382,20 +384,24 @@ namespace MPfm.MVP.Services
 				{
 					// Make sure this isn't an Apple index directory
 					if(!fileInfo.Name.StartsWith(".Apple"))
-					{					
-                    	// Search for media filess in that directory                    
-                		List<string> listMediaFiles = SearchMediaFilesInFolders(fileInfo.FullName, true);
-                		arrayFiles.AddRange(listMediaFiles);					
+					{
+                        Console.WriteLine("UpdateLibraryService - SearchMediaFilesInFolders {0}", fileInfo.FullName);
+                        try
+                        {
+                    		List<string> listMediaFiles = SearchMediaFilesInFolders(fileInfo.FullName, true);
+                    		arrayFiles.AddRange(listMediaFiles);					
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine("UpdateLibraryService - SearchMediaFilesInFolders {0} - Exception {1}", fileInfo.FullName, ex);
+                        }
 					}
 				}
 				
-				// Does the file match a supported extension
+				// If the extension matches, add file to list
 				Match match = Regex.Match(fileInfo.FullName, extensionsSupported, RegexOptions.IgnoreCase);
 				if(match.Success)
-				{
-					// Add file
                     arrayFiles.Add(fileInfo.FullName);
-				}				
             }
             
 #else

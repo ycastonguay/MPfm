@@ -36,18 +36,15 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
 	{
-	    private readonly IAudioFileCacheService _audioFileCacheService;
+	    readonly IAudioFileCacheService _audioFileCacheService;
 		readonly ILibraryService _libraryService;		
 		readonly IUpdateLibraryService _updateLibraryService;
 		
 		public UpdateLibraryPresenter(IAudioFileCacheService audioFileCacheService, ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
 		{
-			// Set properties
 		    _audioFileCacheService = audioFileCacheService;
 		    _libraryService = libraryService;
 			_updateLibraryService = updateLibraryService;
-			
-			// Set events
             _updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
             _updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);
 		}
@@ -69,7 +66,6 @@ namespace MPfm.MVP.Presenters
         /// <param name="e">Event arguments</param>
         protected void updateLibraryService_RaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
         {
-            // Refresh audio file cache service
             _audioFileCacheService.RefreshCache();
             View.ProcessEnded(e.Canceled);   
         }

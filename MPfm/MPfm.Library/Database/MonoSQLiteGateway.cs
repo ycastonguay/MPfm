@@ -135,7 +135,6 @@ namespace MPfm.Library.Database
         /// <returns>Formatted value</returns>
         public string FormatSQLValue(object value)
         {           
-            Console.WriteLine("=======> FormatSQLValue: " + value.GetType().FullName);
             if (value == null)
             {
                 return "null";
@@ -660,7 +659,7 @@ namespace MPfm.Library.Database
                 for (int a = 0; a < propertyInfos.Length; a++)
                 {
                     PropertyInfo propertyInfo = propertyInfos[a];
-                    Console.WriteLine("Insert - Fields - Item {0} name: {1}", a, propertyInfo.Name);
+                    //Console.WriteLine("Insert - Fields - Item {0} name: {1}", a, propertyInfo.Name);
                     if (propertyInfo.GetSetMethod() != null)
                     {
                         string fieldName = propertyInfo.Name;
@@ -684,7 +683,7 @@ namespace MPfm.Library.Database
                 for (int a = 0; a < propertyInfos.Length; a++)
                 {
                     PropertyInfo propertyInfo = propertyInfos[a];
-                    Console.WriteLine("Insert - Values - Item {0} name: {1}", a, propertyInfo.Name);
+                    //Console.WriteLine("Insert - Values - Item {0} name: {1}", a, propertyInfo.Name);
                     if (propertyInfo.GetSetMethod() != null)
                     {
                         string fieldName = propertyInfo.Name;
@@ -704,7 +703,7 @@ namespace MPfm.Library.Database
                     }
                 }
                 sql.AppendLine(") ");
-                Console.WriteLine(sql);
+                //Console.WriteLine(sql);
 
                 // Create and open connection
                 connection = GenerateConnection();

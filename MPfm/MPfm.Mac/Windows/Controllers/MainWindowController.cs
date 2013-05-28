@@ -729,11 +729,11 @@ namespace MPfm.Mac
                     if (image != null)
                         imageAlbumCover.Image = image;
                     else
-                        imageAlbumCover.Image = null;//NSImage.ImageNamed("NSUser");
+                        imageAlbumCover.Image = new NSImage();
                 } 
                 else
                 {
-                    imageAlbumCover.Image = null;//NSImage.ImageNamed("NSUser");
+                    imageAlbumCover.Image = new NSImage();
                 }
 
                 // Refresh which song is playing in the Song Browser

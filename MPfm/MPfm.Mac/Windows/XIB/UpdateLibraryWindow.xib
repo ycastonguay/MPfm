@@ -261,7 +261,7 @@
 						<object class="NSTextField" id="258715889">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 316}, {572, 17}}</string>
+							<string key="NSFrame">{{15, 316}, {572, 24}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="167593312"/>
@@ -272,8 +272,8 @@
 								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents">Label</string>
 								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">12</double>
+									<string key="NSName">HelveticaNeue-Bold</string>
+									<double key="NSSize">16</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<string key="NSCellIdentifier">_NS:1505</string>
@@ -297,7 +297,7 @@
 						<object class="NSTextField" id="167593312">
 							<reference key="NSNextResponder" ref="312036702"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 293}, {572, 17}}</string>
+							<string key="NSFrame">{{15, 296}, {572, 17}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1020714831"/>
@@ -308,8 +308,8 @@
 								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents">Label</string>
 								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">10</double>
+									<string key="NSName">HelveticaNeue</string>
+									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<string key="NSCellIdentifier">_NS:1505</string>
