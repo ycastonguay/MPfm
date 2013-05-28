@@ -43,11 +43,8 @@ namespace MPfm.Mac
     /// <summary>
     /// Main window controller.
     /// </summary>
-    //[Register("NSWindow")]
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
-        #region View Actions
-        
         public System.Action OnOpenPreferencesWindow { get; set; }
         public System.Action OnOpenEffectsWindow { get; set; }
         public System.Action OnOpenPlaylistWindow { get; set; }
@@ -72,8 +69,6 @@ namespace MPfm.Mac
         
         public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
         
-        #endregion
-
 		UpdateLibraryWindowController updateLibraryWindowController = null;
         LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource libraryBrowserDataSource = null;
@@ -89,8 +84,6 @@ namespace MPfm.Mac
 			}
 		}
 		
-		#region Constructors
-		
 		// Called when created from unmanaged code
 		public MainWindowController(IntPtr handle) 
             : base (handle)
@@ -100,9 +93,7 @@ namespace MPfm.Mac
 		// Call to load from the XIB/NIB file
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
-            // Set properties
             this.albumCoverCacheService = new AlbumCoverCacheService();
-
             this.Window.AlphaValue = 0;
             this.Window.MakeKeyAndOrderFront(this);
 
@@ -122,14 +113,11 @@ namespace MPfm.Mac
 
 		public override void AwakeFromNib()
         {
-            // Set main window title
-            this.Window.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
             Tracing.Log("MainWindowController.AwakeFromNib -- Initializing user interface...");
+            this.Window.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 
-            // Create split delegate
             splitMain.Delegate = new MainSplitViewDelegate();
 
-            // Add items to Sound Format combo box
             cboSoundFormat.RemoveAllItems();
             cboSoundFormat.AddItem("All");
             cboSoundFormat.AddItem("FLAC");
@@ -139,26 +127,18 @@ namespace MPfm.Mac
             cboSoundFormat.AddItem("WAV");
             cboSoundFormat.AddItem("WV");
 
-            // Initialize and configure Library Browser
             libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
             outlineLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
             outlineLibraryBrowser.AllowsMultipleSelection = false;
             outlineLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
 
-            // Initialize and configure Song Browser
             songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate();
             tableSongBrowser.Delegate = songBrowserOutlineViewDelegate;
             tableSongBrowser.AllowsMultipleSelection = true;
             tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
 
-            // Load images and set theme
             LoadImages();
             SetTheme();
-
-            // Create controllers
-            //playlistWindowController = new PlaylistWindowController();
-            //effectsWindowController = new EffectsWindowController();
-            //preferencesWindowController = new PreferencesWindowController();
 
             tableAlbumCovers.FocusRingType = NSFocusRingType.None;
             tableSongBrowser.FocusRingType = NSFocusRingType.None;
@@ -170,13 +150,12 @@ namespace MPfm.Mac
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
 
-            // Set view as ready
             OnViewReady.Invoke(this);
 		}
 
         private void SetTheme()
         {
-            //BackgroundColor = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+            // Set view headers light blue
             viewLeftHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
             viewLeftHeader.BackgroundColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
             viewRightHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
@@ -188,62 +167,82 @@ namespace MPfm.Mac
             viewSongBrowserHeader.BackgroundColor1 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
             viewSongBrowserHeader.BackgroundColor2 = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
 
-            lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
-            //lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(175f/255f, 206f/255f, 227f/255f, 1);
-            //lblSongTitle.TextColor = NSColor.FromDeviceRgba(175f/255f, 206f/255f, 227f/255f, 1);
-            //lblSongTitle.TextColor = NSColor.FromDeviceRgba(136f/255f, 174f/255f, 200f/255f, 1);
-            lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
-            lblSongPath.TextColor = NSColor.FromDeviceRgba(97f/255f, 122f/255f, 140f/255f, 1);
-//            viewLeftHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewLeftHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewRightHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewRightHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewLoopsHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewLoopsHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewMarkersHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewMarkersHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewSongBrowserHeader.GradientColor1 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
-//            viewSongBrowserHeader.GradientColor2 = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
+//            // Set view headers orange
+//            viewLeftHeader.BackgroundColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLeftHeader.BackgroundColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewRightHeader.BackgroundColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewRightHeader.BackgroundColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLoopsHeader.BackgroundColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLoopsHeader.BackgroundColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewLoopsHeader.BorderColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewMarkersHeader.BackgroundColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewMarkersHeader.BackgroundColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewMarkersHeader.BorderColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewSongBrowserHeader.BackgroundColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewSongBrowserHeader.BackgroundColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+//            viewSongBrowserHeader.BorderColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
 
-//            viewLeftHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewLeftHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewRightHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewRightHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewLoopsHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewLoopsHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewMarkersHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewMarkersHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewSongBrowserHeader.GradientColor1 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            viewSongBrowserHeader.GradientColor2 = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+            // Set toolbar buttons light blue
+            btnPlayLoop.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnPlayLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnPlayLoop.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnStopLoop.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnStopLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnStopLoop.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnAddLoop.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnAddLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnAddLoop.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnEditLoop.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnEditLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnEditLoop.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnRemoveLoop.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnRemoveLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnRemoveLoop.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnGoToMarker.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnGoToMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnGoToMarker.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnAddMarker.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnAddMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnAddMarker.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnEditMarker.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnEditMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnEditMarker.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+            btnRemoveMarker.BackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+            btnRemoveMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+            btnRemoveMarker.BorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
 
+//            // Set toolbar buttons orange
 //            btnPlayLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnPlayLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnPlayLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnPlayLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnStopLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnStopLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnStopLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnStopLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnAddLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnAddLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnAddLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnAddLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnEditLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnEditLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnEditLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnEditLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnRemoveLoop.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnRemoveLoop.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnRemoveLoop.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnRemoveLoop.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
-//
 //            btnGoToMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnGoToMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnGoToMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnGoToMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnAddMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnAddMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnAddMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnAddMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnEditMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnEditMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnEditMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnEditMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnRemoveMarker.BackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
-//            btnRemoveMarker.BackgroundOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+//            btnRemoveMarker.BackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
 //            btnRemoveMarker.BorderColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+
+            lblAlbumTitle.TextColor = NSColor.FromDeviceRgba(196f/255f, 213f/255f, 225f/255f, 1);
+            lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
+            lblSongPath.TextColor = NSColor.FromDeviceRgba(97f/255f, 122f/255f, 140f/255f, 1);
 
             viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
@@ -251,11 +250,6 @@ namespace MPfm.Mac
             viewTimeShifting.IsHeaderVisible = true;
             viewPitchShifting.IsHeaderVisible = true;           
 
-            // Set label fonts
-//            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 22);
-//            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 19);
-//            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 16);
-//            lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
             lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 24);
             lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
             lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 17);
@@ -342,18 +336,15 @@ namespace MPfm.Mac
             columnMarkerComments.DataCell.Font = NSFont.FromFontName("Junction", 11f);
 
             btnDetectTempo.Font = NSFont.FromFontName("Junction", 11f);
-
             btnPlayLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnStopLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnAddLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnEditLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnRemoveLoop.Font = NSFont.FromFontName("Junction", 11f);
-
             btnGoToMarker.Font = NSFont.FromFontName("Junction", 11f);
             btnAddMarker.Font = NSFont.FromFontName("Junction", 11f);
             btnEditMarker.Font = NSFont.FromFontName("Junction", 11f);
             btnRemoveMarker.Font = NSFont.FromFontName("Junction", 11f);
-
         }
 
         /// <summary>
@@ -391,8 +382,6 @@ namespace MPfm.Mac
             btnGoToMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_arrow-right");
         }
 
-		#endregion
-
 		partial void actionAddFilesToLibrary(NSObject sender)
 		{
 			// Open panel to choose audio files
@@ -407,20 +396,15 @@ namespace MPfm.Mac
                 openPanel.Title = "Please select audio files to add to the library";
 				openPanel.Prompt = "Add to library";
 				openPanel.RunModal();
-
 				filePaths = openPanel.Urls.Select(x => x.Path);
 			}
 
-			// Check if files were found
 			if(filePaths != null && filePaths.Count() > 0)
-			{
 				StartUpdateLibrary(UpdateLibraryMode.SpecificFiles, filePaths.ToList(), null);
-			}
 		}
 
 		partial void actionAddFolderLibrary(NSObject sender)
 		{
-			// Open panel to choose folder
 			string folderPath = string.Empty;
 			using(NSOpenPanel openPanel = new NSOpenPanel())
 			{
@@ -431,20 +415,15 @@ namespace MPfm.Mac
 				openPanel.Title = "Please select a folder to add to the library";
 				openPanel.Prompt = "Add to library";	
 				openPanel.RunModal();
-
 				folderPath = openPanel.Url.Path;
 			}
 
-			// Check if the folder is valid
 			if(!String.IsNullOrEmpty(folderPath))
-			{
 				StartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, folderPath);
-			}
 		}
 
 		partial void actionOpenAudioFiles(NSObject sender)
 		{
-			// Open panel to choose audio files to play
 			IEnumerable<string> filePaths = null;
 			using(NSOpenPanel openPanel = new NSOpenPanel())
 			{
@@ -456,18 +435,11 @@ namespace MPfm.Mac
 				openPanel.Title = "Please select audio files to play";
 				openPanel.Prompt = "Add to playlist";	
 				openPanel.RunModal();
-
 				filePaths = openPanel.Urls.Select(x => x.Path);
 			}
 
-			// Check if files were found
 			if(filePaths != null && filePaths.Count() > 0)
-			{
-				////playerPresenter.Player.Playlist.Clear();
-				////playerPresenter.Player.Playlist.AddItems(filePaths.ToList());
-				//playerPresenter.Play(filePaths);
                 OnPlayerPlayFiles(filePaths);
-			}
 		}
 
 		partial void actionUpdateLibrary(NSObject sender)
@@ -509,7 +481,6 @@ namespace MPfm.Mac
 
 		partial void actionRepeatType(NSObject sender)
 		{
-			//playerPresenter.RepeatType();
 		}
 
         partial void actionOpenMainWindow(NSObject sender)
@@ -553,9 +524,7 @@ namespace MPfm.Mac
 
         partial void actionChangeTimeShifting(NSObject sender)
         {
-            if(OnPlayerSetTimeShifting != null)
-                OnPlayerSetTimeShifting.Invoke(sliderTimeShifting.FloatValue);
-
+            OnPlayerSetTimeShifting(sliderTimeShifting.FloatValue);
         }
 
         partial void actionChangeSongPosition(NSObject sender)
@@ -565,8 +534,7 @@ namespace MPfm.Mac
 
         partial void actionChangeVolume(NSObject sender)
         {
-            if(OnPlayerSetVolume != null)
-                OnPlayerSetVolume.Invoke(sliderVolume.FloatValue);
+            OnPlayerSetVolume(sliderVolume.FloatValue);
         }
 
         partial void actionPlayLoop(NSObject sender)
@@ -607,11 +575,8 @@ namespace MPfm.Mac
         
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
         {
-            // Check for selection
             if(outlineLibraryBrowser.SelectedRow == -1)
-            {
                 return;
-            }
 
             try
             {
@@ -639,11 +604,8 @@ namespace MPfm.Mac
 
         protected void HandleSongBrowserDoubleClick(object sender, EventArgs e)
         {
-            // Check for selection
             if (tableSongBrowser.SelectedRow == -1)
-            {
                 return;
-            }
 
             try
             {
@@ -654,14 +616,12 @@ namespace MPfm.Mac
             } 
             catch (Exception ex)
             {
-                // Build text
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("An error occured in the Main Window Controller component (when double-clicking on an item in the Song Browser):");
                 sb.AppendLine(ex.Message);
                 sb.AppendLine();
                 sb.AppendLine(ex.StackTrace);
 
-                // Show alert
                 Tracing.Log(sb.ToString());
                 CocoaHelper.ShowCriticalAlert(sb.ToString());
             }
@@ -669,10 +629,8 @@ namespace MPfm.Mac
 
         void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
         {
-            // Create window and start process
-            if(updateLibraryWindowController != null) {
+            if(updateLibraryWindowController != null)
                 updateLibraryWindowController.Dispose();
-            }
 
             updateLibraryWindowController = new UpdateLibraryWindowController(this, null);
             updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
@@ -681,11 +639,7 @@ namespace MPfm.Mac
 
         public void RefreshAll()
         {
-            //libraryBrowserPresenter.AudioFileFormatFilterChanged(AudioFileFormat.All);
-            //songBrowserPresenter.ChangeQuery(songBrowserPresenter.Query);
-
-            if(OnAudioFileFormatFilterChanged != null)
-                OnAudioFileFormatFilterChanged(AudioFileFormat.All);
+            OnAudioFileFormatFilterChanged(AudioFileFormat.All);
         }
 
         #region IPlayerView implementation
@@ -708,15 +662,13 @@ namespace MPfm.Mac
 		
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
-            InvokeOnMainThread(delegate {
-                // Set labels
+            InvokeOnMainThread(() => {
                 lblArtistName.StringValue = audioFile.ArtistName;
                 lblAlbumTitle.StringValue = audioFile.AlbumTitle;
                 lblSongTitle.StringValue = audioFile.Title;
                 lblSongPath.StringValue = audioFile.FilePath;
                 //lblPosition.StringValue = audioFile.Position;
                 lblLength.StringValue = audioFile.Length;
-
                 lblFileType.StringValue = audioFile.FileType.ToString();
                 lblBitrate.StringValue = audioFile.Bitrate.ToString() + " kbit/s";
                 lblBitsPerSample.StringValue = audioFile.BitsPerSample.ToString() + " bits";
@@ -736,7 +688,6 @@ namespace MPfm.Mac
                     imageAlbumCover.Image = new NSImage();
                 }
 
-                // Refresh which song is playing in the Song Browser
                 if(songBrowserSource != null)
                     songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
             });
@@ -744,7 +695,7 @@ namespace MPfm.Mac
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
         {
-            InvokeOnMainThread(delegate {
+            InvokeOnMainThread(() => {
                 lblVolume.StringValue = entity.VolumeString;
                 if(sliderVolume.FloatValue != entity.Volume)
                     sliderVolume.FloatValue = entity.Volume;
@@ -753,8 +704,8 @@ namespace MPfm.Mac
 
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
         {
-            InvokeOnMainThread(delegate {
-//                lblTimeShifting.StringValue = entity.TimeShiftingString;
+            InvokeOnMainThread(() => {
+//                lblTimeShifting.StingValue = entity.TimeShiftingString;
 //                if(sliderTimeShifting.FloatValue != entity.TimeShifting)
 //                    sliderTimeShifting.FloatValue = entity.TimeShifting;
             });
@@ -763,14 +714,12 @@ namespace MPfm.Mac
         public void PlayerError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                // Build text
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("An error occured in the Player component:");
                 sb.AppendLine(ex.Message);
                 sb.AppendLine();
                 sb.AppendLine(ex.StackTrace);
 
-                // Show alert
                 Tracing.Log(sb.ToString());
                 CocoaHelper.ShowCriticalAlert(sb.ToString());
             });
@@ -782,8 +731,7 @@ namespace MPfm.Mac
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
-            InvokeOnMainThread(delegate {
-                // Set data source
+            InvokeOnMainThread(() => {
                 songBrowserSource = new SongBrowserSource(audioFiles);
                 tableSongBrowser.Source = songBrowserSource;
                 albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
@@ -791,18 +739,13 @@ namespace MPfm.Mac
             });
 		}
 
-//        public void RefreshCurrentlyPlayingSong(AudioFile audioFile)
-//        {
-//            songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile);
-//        }
-
 		#endregion
 
 		#region ILibraryBrowserView implementation
 
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
-            InvokeOnMainThread(delegate {
+            InvokeOnMainThread(() => {
                 libraryBrowserDataSource = new LibraryBrowserDataSource(entities, (entity) => { return this.OnTreeNodeExpandable(entity); });
     			outlineLibraryBrowser.DataSource = libraryBrowserDataSource;
             });
@@ -817,4 +760,3 @@ namespace MPfm.Mac
 
 	}
 }
-
