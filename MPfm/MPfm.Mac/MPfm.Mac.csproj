@@ -125,11 +125,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
-    <Compile Include="AppDelegate.cs" />
-    <Compile Include="AppDelegate.designer.cs">
-      <DependentUpon>AppDelegate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Windows\UpdateLibraryWindow.cs" />
     <Compile Include="Windows\UpdateLibraryWindow.designer.cs">
       <DependentUpon>UpdateLibraryWindow.cs</DependentUpon>
@@ -139,14 +134,6 @@
     <Compile Include="Views\LibraryBrowser.designer.cs">
       <DependentUpon>LibraryBrowser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Objects\LibraryBrowserDataSource.cs" />
-    <Compile Include="Objects\LibraryBrowserItem.cs" />
-    <Compile Include="Controls\SongPositionSlider.cs" />
-    <Compile Include="Objects\LibraryBrowserOutlineViewDelegate.cs" />
-    <Compile Include="Objects\MainSplitViewDelegate.cs" />
-    <Compile Include="Objects\ImageResources.cs" />
-    <Compile Include="Objects\SongBrowserItem.cs" />
-    <Compile Include="Objects\SongBrowserTableViewDelegate.cs" />
     <Compile Include="Windows\Controllers\UpdateLibraryWindowController.cs" />
     <Compile Include="Windows\PlaylistWindow.cs" />
     <Compile Include="Windows\PlaylistWindow.designer.cs">
@@ -163,24 +150,12 @@
     <Compile Include="Windows\Controllers\EffectsWindowController.cs" />
     <Compile Include="Windows\Controllers\PlaylistWindowController.cs" />
     <Compile Include="Windows\Controllers\PreferencesWindowController.cs" />
-    <Compile Include="Helpers\CocoaHelper.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Controls\MPfmView.cs" />
     <Compile Include="Windows\SplashWindow.cs" />
     <Compile Include="Windows\SplashWindow.designer.cs">
       <DependentUpon>SplashWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Controllers\SplashWindowController.cs" />
-    <Compile Include="Controls\MPfmButton.cs" />
-    <Compile Include="Objects\SongBrowserSource.cs" />
-    <Compile Include="Controls\MPfmTableCellView.cs" />
-    <Compile Include="Controls\MPfmScrollView.cs" />
-    <Compile Include="Objects\AlbumCoverSource.cs" />
-    <Compile Include="Controls\MPfmAlbumCoverView.cs" />
-    <Compile Include="Objects\AlbumCoverCacheService.cs" />
-    <Compile Include="Helpers\AlbumCoverHelper.cs" />
-    <Compile Include="Controls\MPfmTableRowView.cs" />
-    <Compile Include="Controls\MPfmIsPlayingTableCellView.cs" />
     <Compile Include="Windows\MainWindow.cs" />
     <Compile Include="Windows\Controllers\MainWindowController.cs" />
     <Compile Include="Windows\MainWindow.designer.cs">
@@ -194,17 +169,42 @@
     <Compile Include="Windows\Controllers\EditMarkerWindowController.cs" />
     <Compile Include="Windows\EditMarkerWindow.cs" />
     <Compile Include="Windows\Controllers\BaseWindowController.cs" />
-    <Compile Include="Classes\MacNavigationManager.cs" />
-    <Compile Include="Classes\MPfmWindowDelegate.cs" />
     <Compile Include="Windows\Controllers\SyncWindowController.cs" />
     <Compile Include="Windows\SyncWindow.cs" />
     <Compile Include="Windows\SyncWindow.designer.cs">
       <DependentUpon>SyncWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\MacSyncDeviceSpecifications.cs" />
-    <Compile Include="Controls\MPfmSliderCell.cs" />
-    <Compile Include="Controls\MPfmTableHeaderView.cs" />
-    <Compile Include="Controls\MPfmPopUpButton.cs" />
+    <Compile Include="Classes\Navigation\MacNavigationManager.cs" />
+    <Compile Include="Classes\Controls\SongPositionSlider.cs" />
+    <Compile Include="Classes\Controls\MPfmView.cs" />
+    <Compile Include="Classes\Controls\MPfmButton.cs" />
+    <Compile Include="Classes\Controls\MPfmTableCellView.cs" />
+    <Compile Include="Classes\Controls\MPfmScrollView.cs" />
+    <Compile Include="Classes\Controls\MPfmAlbumCoverView.cs" />
+    <Compile Include="Classes\Controls\MPfmTableRowView.cs" />
+    <Compile Include="Classes\Controls\MPfmIsPlayingTableCellView.cs" />
+    <Compile Include="Classes\Controls\MPfmSliderCell.cs" />
+    <Compile Include="Classes\Controls\MPfmTableHeaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmPopUpButton.cs" />
+    <Compile Include="Classes\Objects\LibraryBrowserItem.cs" />
+    <Compile Include="Classes\Objects\ImageResources.cs" />
+    <Compile Include="Classes\Objects\SongBrowserItem.cs" />
+    <Compile Include="Classes\Objects\SongBrowserSource.cs" />
+    <Compile Include="Classes\Objects\AlbumCoverSource.cs" />
+    <Compile Include="Classes\Objects\AlbumCoverCacheService.cs" />
+    <Compile Include="Classes\Helpers\CocoaHelper.cs" />
+    <Compile Include="Classes\Helpers\AlbumCoverHelper.cs" />
+    <Compile Include="Classes\Delegates\LibraryBrowserDataSource.cs" />
+    <Compile Include="Classes\Delegates\LibraryBrowserOutlineViewDelegate.cs" />
+    <Compile Include="Classes\Delegates\MainSplitViewDelegate.cs" />
+    <Compile Include="Classes\Delegates\SongBrowserTableViewDelegate.cs" />
+    <Compile Include="Classes\Delegates\MPfmWindowDelegate.cs" />
+    <Compile Include="Classes\Delegates\AppDelegate.cs" />
+    <Compile Include="Classes\Delegates\AppDelegate.designer.cs">
+      <DependentUpon>AppDelegate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Main.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -325,10 +325,7 @@
     <Folder Include="Lib\" />
     <Folder Include="Windows\" />
     <Folder Include="Views\" />
-    <Folder Include="Objects\" />
-    <Folder Include="Controls\" />
     <Folder Include="Resources\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Resources\32x32\" />
     <Folder Include="Resources\16x16\" />
     <Folder Include="Windows\XIB\" />
@@ -339,6 +336,8 @@
     <Folder Include="Resources\32x32\tango\" />
     <Folder Include="Classes\" />
     <Folder Include="Resources\16x16\icomoon\" />
+    <Folder Include="Classes\Navigation\" />
+    <Folder Include="Classes\Delegates\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

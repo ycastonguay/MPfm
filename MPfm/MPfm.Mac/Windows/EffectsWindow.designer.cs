@@ -206,13 +206,13 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSButton btnReset { get; set; }
 
 		[Outlet]
-		MPfm.Mac.MPfmView viewBackground { get; set; }
+        MPfm.Mac.Classes.Controls.MPfmView viewBackground { get; set; }
 
 		[Outlet]
-		MPfm.Mac.MPfmView viewBackgroundPreset { get; set; }
+        MPfm.Mac.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
 
 		[Outlet]
-		MPfm.Mac.MPfmView viewBackgroundInformation { get; set; }
+        MPfm.Mac.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitlePreset { get; set; }

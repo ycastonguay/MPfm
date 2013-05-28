@@ -23,6 +23,7 @@ using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {

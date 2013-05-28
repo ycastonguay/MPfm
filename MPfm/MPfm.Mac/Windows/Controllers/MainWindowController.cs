@@ -34,6 +34,9 @@ using MPfm.MVP.Models;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Messages;
+using MPfm.Mac.Classes.Objects;
+using MPfm.Mac.Classes.Helpers;
+using MPfm.Mac.Classes.Delegates;
 
 namespace MPfm.Mac
 {

@@ -16,6 +16,7 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {
