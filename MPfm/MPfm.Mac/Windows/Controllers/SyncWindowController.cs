@@ -17,6 +17,7 @@ using MPfm.MVP.Views;
 using MonoMac.AppKit;
 using MonoMac.Foundation;
 using MPfm.Mac.Classes.Objects;
+using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac
 {
@@ -48,11 +49,7 @@ namespace MPfm.Mac
         {
             base.AwakeFromNib();
 
-            //lblIPAddress.StringValue = "My IP address is: " + SyncListenerService.().ToString();
-            //lblLibraryUrl.attr
             progressIndicator.StartAnimation(this);
-            //progressIndicator.Hidden = true;
-            //lblStatus.Hidden = true;
 
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
             lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
@@ -74,15 +71,13 @@ namespace MPfm.Mac
 
         partial void actionSyncLibraryWithDevice(NSObject sender)
         {
-//            var libraryService = Bootstrapper.GetContainer().Resolve<ILibraryService>();
-//            _syncService = new SyncListenerService(libraryService);
-//            _syncService.Start();
         }
 
         partial void actionRefreshDevices(NSObject sender)
         {
             progressIndicator.Hidden = false;
             btnRefreshDevices.Enabled = false;
+            btnRefreshDevices.StringValue = "Cancel refresh";
             OnRefreshDevices();
         }
 
@@ -150,6 +145,27 @@ namespace MPfm.Mac
 
         public Action OnRefreshDevices { get; set; }
 
+        public void SyncError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                CocoaHelper.ShowCriticalAlert(ex.Message + "\n" + ex.StackTrace);
+            });
+        }
+
+        public void RefreshIPAddress(string address)
+        {
+            InvokeOnMainThread(() => {
+                lblLibraryUrl.StringValue = address;
+            });
+        }
+
+        public void RefreshDiscoveryProgress(float percentageDone, string status)
+        {
+            InvokeOnMainThread(() => {
+                progressIndicator.DoubleValue = (double)percentageDone;
+            });
+        }
+
         public void RefreshDevices(IEnumerable<SyncDevice> devices)
         {
             InvokeOnMainThread(() => {
@@ -163,6 +179,7 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 Console.WriteLine("SyncWindowCtrl - RefreshDevicesEnded");
+                btnRefreshDevices.StringValue = "Refresh devices";
                 progressIndicator.Hidden = true;
                 btnRefreshDevices.Enabled = true;
             });

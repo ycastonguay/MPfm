@@ -48,6 +48,8 @@ namespace MPfm.MVP.Navigation
         private IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
         private IPlayerView _playerView;
         private IPlayerPresenter _playerPresenter;
+        private ISyncView _syncView;
+        private ISyncPresenter _syncPresenter;
 
         // Player sub views
         private IPlayerMetadataView _playerMetadataView;
@@ -500,6 +502,29 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetDetailsPresenter = null;
             };
             return _equalizerPresetDetailsView;
+        }
+
+        public virtual ISyncView CreateSyncView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _syncPresenter = Bootstrapper.GetContainer().Resolve<ISyncPresenter>();
+                _syncPresenter.BindView((ISyncView)view);
+            };
+
+            // Re-use the same instance as before
+            if(_syncView == null)
+            {
+                // Create view and manage view destruction
+                _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _syncView.OnViewDestroy = (view) =>
+                {
+                    _syncView = null;
+                    _syncPresenter = null;
+                };
+            }
+            return _syncView;
         }
     }
 

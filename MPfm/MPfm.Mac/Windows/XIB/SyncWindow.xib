@@ -113,7 +113,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="340699166">
 								<int key="NSCellFlags">68157504</int>
 								<int key="NSCellFlags2">272630784</int>
-								<string key="NSContents">My library url is: http://localhost:53551/</string>
+								<string key="NSContents">My IP address is:</string>
 								<object class="NSFont" key="NSSupport" id="470112485">
 									<string key="NSName">HelveticaNeue</string>
 									<double key="NSSize">12</double>
@@ -190,6 +190,7 @@
 							<string key="NSFrame">{{423, 9}, {168, 24}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="243234358">
@@ -227,7 +228,7 @@
 											<string key="NSFrameSize">{576, 118}</string>
 											<reference key="NSSuperview" ref="497363935"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="321433343"/>
+											<reference key="NSNextKeyView" ref="678662998"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -422,7 +423,7 @@
 							<string key="NSFrame">{{15, 40}, {576, 135}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="497363935"/>
+							<reference key="NSNextKeyView" ref="321433343"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133680</int>
 							<reference key="NSVScroller" ref="247912235"/>
@@ -443,7 +444,7 @@
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="287372609"/>
 							<string key="NSReuseIdentifierKey">_NS:945</string>
-							<int key="NSpiFlags">16650</int>
+							<int key="NSpiFlags">16648</int>
 							<double key="NSMaxValue">100</double>
 						</object>
 					</object>

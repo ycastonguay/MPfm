@@ -29,6 +29,9 @@ namespace MPfm.MVP.Views
 	{
         Action OnRefreshDevices { get; set; }
 
+        void SyncError(Exception ex);
+        void RefreshIPAddress(string address);
+        void RefreshDiscoveryProgress(float percentageDone, string status);
         void RefreshDevices(IEnumerable<SyncDevice> devices);
         void RefreshDevicesEnded();
         void SyncDevice(SyncDevice device);

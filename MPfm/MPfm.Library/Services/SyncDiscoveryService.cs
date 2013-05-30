@@ -33,6 +33,9 @@ namespace MPfm.Library.Services
     {
         public int Port { get; private set; }
 
+        public delegate void DiscoveryProgress(float percentageDone, string status);
+        public event DiscoveryProgress OnDiscoveryProgress;
+
         public delegate void DeviceFound(SyncDevice device);
         public event DeviceFound OnDeviceFound;
 
@@ -90,6 +93,9 @@ namespace MPfm.Library.Services
         /// <param name="actionDiscoveryEnded">This action will be triggered when the discovery has ended</param> 
         private void SearchForDevices(List<string> ips, Action<ConcurrentBag<SyncDevice>> actionDiscoveryEnded)
         {
+            // TODO: Add cancelling
+            int ipCount = 0;
+
             Task.Factory.StartNew(() => {
                 ConcurrentBag<SyncDevice> devices = new ConcurrentBag<SyncDevice>();
                 Parallel.For(1, ips.Count, (index, state) => {
@@ -98,6 +104,7 @@ namespace MPfm.Library.Services
                         Console.WriteLine("SyncDiscoveryService - Pinging {0}...", ips[index]);
                         WebClientTimeout client = new WebClientTimeout(800);
                         string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port));
+
                         Console.WriteLine("SyncDiscoveryService - Got version from {0}: {1}", ips[index], content);
                         var device = XmlSerialization.Deserialize<SyncDevice>(content);
                         if(device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
@@ -113,6 +120,13 @@ namespace MPfm.Library.Services
                     catch(Exception ex)
                     {
                         // Ignore IP address
+                    }
+                    finally
+                    {
+                        ipCount++;
+                        float percentageDone = ((float)ipCount / (float)ips.Count) * 100;
+                        if(OnDiscoveryProgress != null)
+                            OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
                     }
                 });
 

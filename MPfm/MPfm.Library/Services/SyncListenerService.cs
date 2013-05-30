@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
+using System.Net.NetworkInformation;
 
 namespace MPfm.Library.Services
 {
@@ -414,35 +415,52 @@ namespace MPfm.Library.Services
 
             return -1;
         }
-        
-        // Good for desktop
-        public static IPAddress LocalIPAddress()
-        {
-            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
-                return null;
 
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-        }
+        // Alternative that doesnt work under MonoTouch though!
+//        public static IPAddress GetIPAddressForDesktop()
+//        {
+//            if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+//                return null;
+//
+//            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+//            return host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+//        }
 
-        // Good for mobile
-        public static string GetIPAddress()
+        public static string GetLocalIPAddress()
         {
             string address = "Not Connected";
             try
             {
-                // For simulator: address = IPAddress.FileStyleUriParser("127.0.0.1"); 
-                string str = Dns.GetHostName() + ".local";
-                IPHostEntry hostEntry = Dns.GetHostEntry(str);
-                address = (
-                    from addr in hostEntry.AddressList
-                    where addr.AddressFamily == AddressFamily.InterNetwork
-                    select addr.ToString()
-                    ).FirstOrDefault();
+                Console.WriteLine("GetIPAddress - Detecting IP address...");
+                foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    Console.WriteLine("GetIPAddress - NetworkInterface: {0} {1}", ni.Name, ni.NetworkInterfaceType.ToString());
+                    if(ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
+                       ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                    {
+                        IPAddress ip = null;
+                        foreach (var a in ni.GetIPProperties().UnicastAddresses)
+                        {
+                            Console.WriteLine("GetIPAddress - Address: {0} {1}", a.Address, a.Address.AddressFamily.ToString());
+                            if(a.Address.AddressFamily == AddressFamily.InterNetwork)
+                            {
+                                Console.WriteLine("GetIPAddress - Address **FOUND**: {0} {1}", a.Address, a.Address.AddressFamily.ToString());
+                                ip = a.Address;
+                                break;
+                            }
+                        }
+
+                        if(ip != null)
+                        {
+                            address = ip.ToString();
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("GetIPAddress Exception: {0}", ex);
+                Console.WriteLine("GetIPAddress - Exception: {0}", ex);
             }
             return address;
         }
@@ -453,24 +471,7 @@ namespace MPfm.Library.Services
             device.SyncVersionId = SyncVersionId;
             device.Name = _syncDeviceSpecifications.GetDeviceName();
             device.DeviceType = _syncDeviceSpecifications.GetDeviceType();
-
-//            device.Name = "Generic";
-//
-//            #if IOS
-//            device.DeviceType = SyncDeviceType.iOS;
-//            #elif ANDROID
-//            device.DeviceType = SyncDeviceType.Android;
-//            #elif MACOSX
-//            device.DeviceType = SyncDeviceType.OSX;
-//            #elif LINUX
-//            device.DeviceType = SyncDeviceType.Linux;
-//            #else
-//            device.DeviceType = SyncDeviceType.Windows;
-//            #endif
-
             return device;
         }
-
-
     }
 }

@@ -195,12 +195,6 @@ namespace MPfm.iOS
             tableView.DeselectRow(indexPath, true);
         }
 
-        [Export ("tableView:didDeselectRowAtIndexPath:")]
-        public void RowDeselected(UITableView tableView, NSIndexPath indexPath)
-        {
-            Console.WriteLine("ROW DESELECTED indexPath.row: " + indexPath.Row.ToString());
-        }
-
         private void SetCheckmarkCell(NSIndexPath indexPath)
         {
             _selectedPresetId = _presets[indexPath.Row].EQPresetId;

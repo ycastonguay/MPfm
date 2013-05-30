@@ -26,6 +26,7 @@ namespace MPfm.Library.Services.Interfaces
     public interface ISyncDiscoveryService
     {
         event SyncDiscoveryService.DeviceFound OnDeviceFound;
+        event SyncDiscoveryService.DiscoveryProgress OnDiscoveryProgress;
         event SyncDiscoveryService.DiscoveryEnded OnDiscoveryEnded;
 
         void SearchForDevices(List<string> ips);

@@ -32,8 +32,8 @@ namespace MPfm.MVP.Views
         Action OnUseDetectedTempo { get; set; }
         Action OnIncrementTempo { get; set; }
         Action OnDecrementTempo { get; set; }
-        
-        void RefreshTimeShifting(PlayerTimeShiftingEntity entity);
+
         void TimeShiftingError(Exception ex);
+        void RefreshTimeShifting(PlayerTimeShiftingEntity entity);
 	}
 }

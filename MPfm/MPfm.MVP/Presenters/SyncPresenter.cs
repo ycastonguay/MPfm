@@ -38,6 +38,7 @@ namespace MPfm.MVP.Presenters
 		{
             _syncDiscoveryService = syncDiscoveryService;
             _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
+            _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
             _syncDiscoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
 		}
 
@@ -71,6 +72,12 @@ namespace MPfm.MVP.Presenters
             View.RefreshDevices(_devices);
         }
 
+        private void HandleOnDiscoveryProgress(float percentageDone, string status)
+        {
+            Console.WriteLine("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
+            View.RefreshDiscoveryProgress(percentageDone, status);
+        }
+
         private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
         {
             Console.WriteLine("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
@@ -79,12 +86,23 @@ namespace MPfm.MVP.Presenters
 
         private void RefreshDevices()
         {
-            // Desktop
-            string ip = SyncListenerService.LocalIPAddress().ToString();
-            var split = ip.Split('.');
-            string baseIP = split[0] + "." + split[1] + "." + split[2];
-            Console.WriteLine("SyncPresenter - RefreshDevices with baseIP {0}", baseIP);
-            _syncDiscoveryService.SearchForDevices(baseIP);
+            try
+            {
+                // Get IP address
+                string ip = SyncListenerService.GetLocalIPAddress().ToString();
+                View.RefreshIPAddress("My IP address is: " + ip);
+
+                // Search for devices in subnet
+                var split = ip.Split('.');
+                string baseIP = split[0] + "." + split[1] + "." + split[2];
+                Console.WriteLine("SyncPresenter - RefreshDevices with baseIP {0}", baseIP);
+                _syncDiscoveryService.SearchForDevices(baseIP);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("SyncPresenter - RefreshDevices - Failed to refresh devices: {0}", ex);
+                View.SyncError(ex);
+            }
         }
     }
 }

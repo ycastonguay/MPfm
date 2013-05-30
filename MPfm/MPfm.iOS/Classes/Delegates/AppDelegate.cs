@@ -41,11 +41,12 @@ namespace MPfm.iOS.Classes.Delegates
 	{		
 		MPfmWindow _window;
         MPfmTabBarController _tabBarController;
-        public MPfmTabBarController TabBarController { get { return _tabBarController; } }
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
         List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();
         List<KeyValuePair<string, MPfmNavigationController>> _dialogNavigationControllers = new List<KeyValuePair<string, MPfmNavigationController>>();
+
+        public MPfmTabBarController TabBarController { get { return _tabBarController; } }
 
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
@@ -63,15 +64,12 @@ namespace MPfm.iOS.Classes.Delegates
             UINavigationBar.Appearance.BackgroundColor = GlobalTheme.MainColor;
             UIToolbar.Appearance.SetBackgroundImage(new UIImage(), UIToolbarPosition.Bottom, UIBarMetrics.Default);
             UIToolbar.Appearance.BackgroundColor = GlobalTheme.MainColor;
-            //UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
 
-            // Create window 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
 
             // Create tab bar controller, but hide it while the splash screen is visible
             _tabBarController = new MPfmTabBarController();
             _tabBarController.View.Hidden = true;
-            //_tabBarController.TabBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);
             _window.RootViewController = _tabBarController;
 
 			// Start navigation manager
@@ -84,11 +82,8 @@ namespace MPfm.iOS.Classes.Delegates
 
         public override void WillTerminate(UIApplication application)
         {
-            // Clean up player
             if (MPfm.Player.Player.CurrentPlayer.IsPlaying)
-            {
                 MPfm.Player.Player.CurrentPlayer.Stop();
-            }
             MPfm.Player.Player.CurrentPlayer.Dispose();
         }
 
@@ -115,6 +110,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<ITimeShiftingView, TimeShiftingViewController>().AsMultiInstance();
             container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
+            container.Register<ISyncView, SyncViewController>().AsMultiInstance();
         }
 
         public void ShowSplash(SplashViewController viewController)
@@ -161,21 +157,14 @@ namespace MPfm.iOS.Classes.Delegates
                 navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
                 navCtrl.TabBarItem.SetTitleTextAttributes(attrSelected, UIControlState.Selected);
                 navCtrl.TabBarItem.Title = title;
-                //navCtrl.TabBarItem.SetFinishedImages(UIImage.FromBundle("Images/Tabs/tab_selected"), UIImage.FromBundle("Images/Tabs/tab"));
                 if(title.ToUpper() == "MORE")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
                 else
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/audio");
 
-//                CAGradientLayer gradient = new CAGradientLayer();
-//                gradient.Frame = navCtrl.View.Frame;
-//                gradient.Colors = new MonoTouch.CoreGraphics.CGColor[2] { GlobalTheme.MainColor.CGColor, GlobalTheme.SecondaryColor.CGColor };
-//                navCtrl.View.Layer.InsertSublayer(gradient, 0);               
-
                 navCtrl.PushViewController(viewController, false);
                 _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));
 
-                // Add navigation controller as a tab
                 var list = new List<UIViewController>();
                 if (_tabBarController.ViewControllers != null)
                     list = _tabBarController.ViewControllers.ToList();
@@ -188,9 +177,7 @@ namespace MPfm.iOS.Classes.Delegates
         {
             InvokeOnMainThread(() => {
                 if (viewController is PlayerViewController)
-                {
                     viewController.HidesBottomBarWhenPushed = true;
-                }
 
                 var navCtrl = _navigationControllers.FirstOrDefault(x => x.Key == type).Value;
                 navCtrl.PushViewController(viewController, true);
@@ -224,8 +211,5 @@ namespace MPfm.iOS.Classes.Delegates
                 navCtrl.PushViewController(viewController, true);
             });
         }
-
-        // pushdialogsubview (with nav mgr)/ this requires viewTitle. ex: PushDialogSubView("Effects", viewInstance)
-        // this makes a navctrl mandatory for every dialog view (update library, effects, about, etc.).
     }
 }

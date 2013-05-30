@@ -206,6 +206,10 @@
     <Compile Include="Classes\Controls\MPfmOutputMeterView.cs" />
     <Compile Include="Classes\Helpers\ReachabilityHelper.cs" />
     <Compile Include="Classes\Helpers\iOSSyncDeviceSpecifications.cs" />
+    <Compile Include="Classes\Controllers\SyncViewController.cs" />
+    <Compile Include="Classes\Controllers\SyncViewController.designer.cs">
+      <DependentUpon>SyncViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -236,6 +240,8 @@
     <InterfaceDefinition Include="XIB\iPad\EqualizerPresetsViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPad\EqualizerPresetDetailsViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\EqualizerPresetDetailsViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\SyncViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\SyncViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
