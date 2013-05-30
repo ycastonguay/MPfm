@@ -50,7 +50,7 @@ namespace MPfm.MVP.Presenters
                     Bandwidth = band.Bandwidth,
                     Center = band.Center,
                     CenterString = band.CenterString,
-                    FXChannel = band.FXChannel,
+                    //FXChannel = band.FXChannel,
                     Gain = band.Gain,
                     Q = band.Q
                 });
@@ -79,7 +79,7 @@ namespace MPfm.MVP.Presenters
                     _preset.Bands[a].Bandwidth = _originalPresetBands[a].Bandwidth;
                     _preset.Bands[a].Center = _originalPresetBands[a].Center;
                     _preset.Bands[a].CenterString = _originalPresetBands[a].CenterString;
-                    _preset.Bands[a].FXChannel = _originalPresetBands[a].FXChannel;
+                    //_preset.Bands[a].FXChannel = _originalPresetBands[a].FXChannel;
                     _preset.Bands[a].Gain = _originalPresetBands[a].Gain;
                     _preset.Bands[a].Q = _originalPresetBands[a].Q;
                 }

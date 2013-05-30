@@ -122,14 +122,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Ninject">
-      <HintPath>..\MPfm.Mac\Lib\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper">
-      <HintPath>Lib\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="Mono.Posix" />
     <Reference Include="System.Data.SQLite">
       <HintPath>..\MPfm.Library\Lib\System.Data.SQLite.dll</HintPath>
     </Reference>
