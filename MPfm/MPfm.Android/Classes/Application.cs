@@ -60,24 +60,16 @@ namespace MPfm.Android.Classes
 
             // Set player plugin directory path
             ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
-            string nativeDir = appInfo.NativeLibraryDir;
             Player.Player.PluginDirectoryPath = appInfo.NativeLibraryDir;
-        }
-
-        public override void OnLowMemory()
-        {
-            base.OnLowMemory();
         }
 
         public override void OnTerminate()
         {
             base.OnTerminate();
 
-            // Clean up player
+            // Stop and clean up player
             if (MPfm.Player.Player.CurrentPlayer.IsPlaying)
-            {
                 MPfm.Player.Player.CurrentPlayer.Stop();
-            }
             MPfm.Player.Player.CurrentPlayer.Dispose();
         }
     }

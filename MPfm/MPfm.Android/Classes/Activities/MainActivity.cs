@@ -52,9 +52,11 @@ namespace MPfm.Android
 
             // Request features
             RequestWindowFeature(WindowFeatures.ActionBar);
+            //ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
             SetContentView(Resource.Layout.Main);
-            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            // TODO: Try to find a way to display only one tab at a time (similar to Google Play Music)
+
+            string externalDir = global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+            string internalDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
 
             // Get controls
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
@@ -67,7 +69,8 @@ namespace MPfm.Android
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
-            // Bind this activity to splash and update library views
+            // Start navigation manager
+            Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _navigationManager.MainActivity = this;
             _navigationManager.Start();
@@ -75,11 +78,13 @@ namespace MPfm.Android
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
+            Console.WriteLine("MainActivity - OnCreate - Adding tab {0}", title);
             _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(type, fragment));
-            var tab = ActionBar.NewTab();
-            tab.SetTabListener(_tabPagerAdapter);
-            tab.SetText(title);
-            ActionBar.AddTab(tab);
+            _tabPagerAdapter.NotifyDataSetChanged();
+            //var tab = ActionBar.NewTab();
+            //tab.SetTabListener(_tabPagerAdapter);
+            //tab.SetText(title);
+            //ActionBar.AddTab(tab);
         }
 
         public void PushTabView(MobileNavigationTabType type, Fragment fragment)

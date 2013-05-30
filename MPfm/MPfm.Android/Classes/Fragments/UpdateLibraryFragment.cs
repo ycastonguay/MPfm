@@ -22,6 +22,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;

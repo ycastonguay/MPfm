@@ -29,8 +29,8 @@ namespace MPfm.Android.Classes.Adapters
     public class TabPagerAdapter : FragmentPagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
     {
         private readonly List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
-        private ViewPager _viewPager;
-        private ActionBar _actionBar;
+        private readonly ViewPager _viewPager;
+        private readonly ActionBar _actionBar;
 
         public TabPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
@@ -51,16 +51,12 @@ namespace MPfm.Android.Classes.Adapters
 
         public void OnTabSelected(ActionBar.Tab tab, FragmentTransaction ft)
         {
+            Console.WriteLine("TabPagerAdapter - OnTabSelected tab: {0}", tab.Text);
             _viewPager.SetCurrentItem(tab.Position, true);
         }
 
         public void OnTabUnselected(ActionBar.Tab tab, FragmentTransaction ft)
         {
-        }
-
-        public override int GetItemPosition(Java.Lang.Object p0)
-        {
-            return base.GetItemPosition(p0);
         }
 
         public override Fragment GetItem(int index)
@@ -83,7 +79,13 @@ namespace MPfm.Android.Classes.Adapters
 
         public void OnPageSelected(int position)
         {
-            _actionBar.SetSelectedNavigationItem(position);
+            Console.WriteLine("TabPagerAdapter - OnPageSelected position: {0}", position);
+            //_actionBar.SetSelectedNavigationItem(position);
+        }
+
+        public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
+        {
+            return new Java.Lang.String(_fragments[position].Key.ToString());
         }
     }
 }
