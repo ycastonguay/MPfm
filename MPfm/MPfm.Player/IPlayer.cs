@@ -45,6 +45,7 @@ namespace MPfm.Player
         Playlist Playlist { get; }
         RepeatType RepeatType { get; set; }
         float TimeShifting { get; set; }
+        int PitchShifting { get; set; }
         int UpdatePeriod { get; set; }
         int UpdateThreads { get; set; }
         float Volume { get; set; }

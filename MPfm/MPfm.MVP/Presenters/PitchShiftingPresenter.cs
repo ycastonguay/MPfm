@@ -19,13 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TinyMessenger;
-using TinyMessenger;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
-using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
+using MPfm.MVP.Views;
 
 namespace MPfm.MVP.Presenters
 {
@@ -47,18 +46,18 @@ namespace MPfm.MVP.Presenters
             _playerService = playerService;
 
             _keys = new List<Tuple<int, string>>(){
-                new Tuple<int, string>(1, "C#/Db (minor: A#/Bb)"), 
-                new Tuple<int, string>(8, "G#/Ab (minor: F)"), 
-                new Tuple<int, string>(3, "D#/Eb (minor: C)"), 
-                new Tuple<int, string>(10, "A#/Bb (minor: G)"), 
-                new Tuple<int, string>(5, "F (minor: D)"), 
-                new Tuple<int, string>(0, "C (minor: A)"), 
-                new Tuple<int, string>(7, "G (minor: E)"), 
-                new Tuple<int, string>(2, "D (minor: B)"), 
-                new Tuple<int, string>(9, "A (minor: F#/Gb)"),
-                new Tuple<int, string>(4, "E (minor: C#/Db)"), 
-                new Tuple<int, string>(11, "B (minor: G#/Ab)"), 
-                new Tuple<int, string>(6, "F#/Gb (minor: D#/Eb)")
+                new Tuple<int, string>(1, "C#/Db (A#m/Bbm)"), 
+                new Tuple<int, string>(8, "G#/Ab (Fm)"), 
+                new Tuple<int, string>(3, "D#/Eb (Cm)"), 
+                new Tuple<int, string>(10, "A#/Bb (Gm)"), 
+                new Tuple<int, string>(5, "F (Dm)"), 
+                new Tuple<int, string>(0, "C (Am)"), 
+                new Tuple<int, string>(7, "G (Em)"), 
+                new Tuple<int, string>(2, "D (Bm)"), 
+                new Tuple<int, string>(9, "A (F#m/Gbm)"),
+                new Tuple<int, string>(4, "E (C#m/Dbm)"), 
+                new Tuple<int, string>(11, "B (G#m/Abm)"), 
+                new Tuple<int, string>(6, "F#/Gb (D#m/Ebm)")
             };
 		}
 
@@ -85,32 +84,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                // ex: referenceKey = 10. interval=+12 k+i = 22.     referencekey - re
-
-                // Remove 12 until < 12.
-
-                // -12 = 0
-                // -11 = 1
-                // -10 = 2
-                // -9 = 3
-                // -8 = 4
-                // -7 = 5 
-                // -6 = 6
-                // -5 = 7
-                // -4 = 8
-                // -3 = 9
-                // -2 = 10
-                // -1 = 11
-
-                // 12 = 0
-                // 13 = 1, etc.
-                // ...
-                // 24 = 0
-                // 25 = 1, etc.
-
-                int newKey = _referenceKey + _interval;
-
                 // Make sure new key value is from 0/+12
+                int newKey = _referenceKey + _interval;
                 while(newKey > 11)
                     newKey -= 12;
                 while(newKey < 0)
@@ -119,9 +94,50 @@ namespace MPfm.MVP.Presenters
                 var tupleReferenceKey = _keys.FirstOrDefault(x => x.Item1 == _referenceKey);
                 var tupleNewKey = _keys.FirstOrDefault(x => x.Item1 == newKey);
 
+                string intervalName = string.Empty;
+                switch(Math.Abs(_interval))
+                {
+                    case 1:
+                        intervalName = " (minor 2nd)";
+                        break;
+                    case 2:
+                        intervalName = " (major 2nd)";
+                        break;
+                    case 3:
+                        intervalName = " (minor 3rd)";
+                        break;
+                    case 4:
+                        intervalName = " (major 3rd)";
+                        break;
+                    case 5:
+                        intervalName = " (perfect 4th)";
+                        break;
+                    case 6:
+                        intervalName = " (diminished 5th)";
+                        break;
+                    case 7:
+                        intervalName = " (perfect 5th)";
+                        break;
+                    case 8:
+                        intervalName = " (minor 6th)";
+                        break;
+                    case 9:
+                        intervalName = " (major 6th)";
+                        break;
+                    case 10:
+                        intervalName = " (minor 7th)";
+                        break;
+                    case 11:
+                        intervalName = " (major 7th)";
+                        break;
+                    case 12:
+                        intervalName = " (octave)";
+                        break;
+                }
+
                 Console.WriteLine("PitchShiftingPresenter - RefreshPitchShiftingView");
                 View.RefreshPitchShifting(new PlayerPitchShiftingEntity(){
-                    Interval = _interval.ToString("+#;-#;0"),
+                    Interval = _interval.ToString("+#;-#;0") + intervalName,
                     IntervalValue = _interval,
                     NewKey = tupleNewKey,
                     ReferenceKey = tupleReferenceKey
@@ -151,6 +167,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _interval = interval;
+                _playerService.SetPitchShifting(_interval);
                 RefreshPitchShiftingView();
             }
             catch(Exception ex)
@@ -164,6 +181,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _interval = 0;
+                _playerService.SetPitchShifting(_interval);
                 RefreshPitchShiftingView();
             }
             catch(Exception ex)
@@ -180,6 +198,7 @@ namespace MPfm.MVP.Presenters
                 if(_interval + 1 > 12)
                     return;
                 _interval += 1;
+                _playerService.SetPitchShifting(_interval);
                 RefreshPitchShiftingView();
             }
             catch(Exception ex)
@@ -196,6 +215,7 @@ namespace MPfm.MVP.Presenters
                 if(_interval - 1 < -12)
                     return;
                 _interval -= 1;
+                _playerService.SetPitchShifting(_interval);
                 RefreshPitchShiftingView();
             }
             catch(Exception ex)

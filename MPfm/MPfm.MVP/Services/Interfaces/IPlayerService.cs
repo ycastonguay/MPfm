@@ -62,6 +62,7 @@ namespace MPfm.MVP.Services.Interfaces
         void SetPosition(double percentage);
         void SetPosition(long bytes);
         void SetTimeShifting(float timeShifting);
+        void SetPitchShifting(int pitchShifting);
 
         void GoToMarker(Marker marker);
 

@@ -108,8 +108,9 @@ namespace MPfm.Player
 
         private List<PlayerSyncProc> _syncProcs = null;
         private STREAMPROC _streamProc;
+
         private BPMPROC _bpmProc;
-        private BPMBEATPROC _bpmBeatProc;
+        //private BPMBEATPROC _bpmBeatProc;
 
 #if IOS
         private IOSNOTIFYPROC _iosNotifyProc;
@@ -295,6 +296,28 @@ namespace MPfm.Player
                 RemoveBPMCallbacks();
                 if (_fxChannel != null)
                     _fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO, _timeShifting);
+                AddBPMCallbacks();
+            }           
+        }
+
+        private int _pitchShifting = 0;
+        /// <summary>
+        /// Defines the pitch shifting applied to the currently playing stream.
+        /// Value range from -12 to +12 semitones. To reset, set to 0.
+        /// </summary>
+        public int PitchShifting
+        {
+            get
+            {
+                return _pitchShifting;
+            }
+            set
+            {
+                _pitchShifting = value;
+
+                RemoveBPMCallbacks();
+                if (_fxChannel != null)
+                    _fxChannel.SetAttribute(BASSAttribute.BASS_ATTRIB_TEMPO_PITCH, _pitchShifting);
                 AddBPMCallbacks();
             }           
         }
@@ -612,7 +635,15 @@ namespace MPfm.Player
 #endif
 	            }
 			}
-						
+
+#if IOS
+            _bpmProc = new BPMPROC(BPMDetectionProcIOS);
+            //bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProcIOS);
+#else
+            _bpmProc = new BPMPROC(BPMDetectionProc);
+            //bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProc);
+#endif
+					
             // Create default EQ
             Tracing.Log("Player init -- Creating default EQ preset...");
             _currentEQPreset = new EQPreset();
@@ -1683,15 +1714,8 @@ namespace MPfm.Player
         protected void AddBPMCallbacks()
         {
             Console.WriteLine("Player - AddBPMCallbacks - Adding callback...");
-#if IOS
-            _bpmProc = new BPMPROC(BPMDetectionProcIOS);
-            _bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProcIOS);
-#else
-            _bpmProc = new BPMPROC(BPMDetectionProc);
-            _bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProc);
-#endif
 
-            BaseFx.BPM_CallbackSet(_fxChannel.Handle, _bpmProc, 0.5, Utils.MakeLong(70, 180), BASSFXBpm.BASS_FX_BPM_MULT2, IntPtr.Zero);
+            BaseFx.BPM_CallbackSet(_fxChannel.Handle, _bpmProc, 2.0, Utils.MakeLong(70, 180), BASSFXBpm.BASS_FX_BPM_MULT2, IntPtr.Zero);
             //BaseFx.BPM_BeatCallbackSet(_fxChannel.Handle, _bpmBeatProc, IntPtr.Zero);
         }
 

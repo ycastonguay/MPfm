@@ -88,7 +88,7 @@ namespace MPfm.MVP.Services
 
         private void UpdatePlayerStatus(PlayerStatusType status)
         {
-            this._status = status;
+            _status = status;
             _messengerHub.PublishAsync(new PlayerStatusMessage(this){
                 Status = status
             });
@@ -269,6 +269,11 @@ namespace MPfm.MVP.Services
         public void SetTimeShifting(float timeShifting)
         {
             _player.TimeShifting = timeShifting;
+        }
+
+        public void SetPitchShifting(int pitchShifting)
+        {
+            _player.PitchShifting = pitchShifting;
         }
 
         public void GoToMarker(Marker marker)
