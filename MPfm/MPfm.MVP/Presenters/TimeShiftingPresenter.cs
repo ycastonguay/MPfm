@@ -75,12 +75,13 @@ namespace MPfm.MVP.Presenters
                 Console.WriteLine("TimeShiftingPresenter - RefreshTimeShiftingView - timeShifting: " + _timeShifting.ToString() + " timeShiftingRatio: " + timeShiftingRatio.ToString() + 
                                   " timeShiftingValue: " + timeShiftingValue.ToString() + " detectedTempo: " + _detectedTempo.ToString() +
                                   " currentTempo: " + currentTempo.ToString() + " referenceTempo: " + _referenceTempo.ToString());
+
                 View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
                     TimeShiftingValue = timeShiftingValue,
-                    ReferenceTempo = _referenceTempo.ToString("0.0").Replace(",",".") + " bpm", 
-                    CurrentTempo = currentTempo.ToString("0.0").Replace(",",".") + " bpm (" + timeShiftingValue.ToString("0.0").Replace(",",".") + "%)",
-                    DetectedTempo = (_detectedTempo == 0 && _detectedTempo == 0) ? "Calculating..." : _detectedTempo.ToString("0.0").Replace(",", ".") + " bpm"
-                });        
+                    ReferenceTempo = String.Format("{0:0.0} bpm", _referenceTempo),
+                    CurrentTempo = String.Format("{0:0.0} bpm ({1:0.0}%)", currentTempo, timeShiftingValue),
+                    DetectedTempo = (_detectedTempo == 0) ? "Calculating..." : String.Format("{0:0.0} bpm", _detectedTempo)
+                });
             }
             catch(Exception ex)
             {
@@ -180,7 +181,7 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 View.TimeShiftingError(ex);
-            }                
+            }
         }
 
         private void ResetTimeShifting()

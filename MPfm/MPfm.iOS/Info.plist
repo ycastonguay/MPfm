@@ -63,5 +63,7 @@
 	<string>UIStatusBarStyleBlackOpaque</string>
 	<key>CFBundleDisplayName</key>
 	<string>Sessions</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 </dict>
 </plist>

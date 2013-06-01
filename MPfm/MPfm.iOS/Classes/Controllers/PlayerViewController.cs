@@ -266,33 +266,47 @@ namespace MPfm.iOS.Classes.Controllers
             {
                 int height = 44;
                 InvokeOnMainThread(() => {
-                    height = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
-                    UIView.Animate(0.3, () => {
-                        imageViewAlbumArt.Alpha = 0;
-                    });
+                    try
+                    {
+                        height = (int)(imageViewAlbumArt.Bounds.Height * UIScreen.MainScreen.Scale);
+                        UIView.Animate(0.3, () => {
+                            imageViewAlbumArt.Alpha = 0;
+                        });
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image view album art alpha: {0}", ex);
+                    }
                 });
 
                 // Load album art + resize in another thread
                 Task<UIImage>.Factory.StartNew(() => {
-                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
-                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    try
                     {
-                        using (UIImage image = UIImage.LoadFromData(imageData))
+                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                        using (NSData imageData = NSData.FromArray(bytesImage))
                         {
-                            if (image != null)
+                            using (UIImage image = UIImage.LoadFromData(imageData))
                             {
-                                try
+                                if (image != null)
                                 {
-                                    _currentAlbumArtKey = key;                                    
-                                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
-                                    return imageResized;
-                                } 
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+                                    try
+                                    {
+                                        _currentAlbumArtKey = key;                                    
+                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
+                                        return imageResized;
+                                    } 
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+                                    }
                                 }
                             }
                         }
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
                     }
                     
                     return null;
@@ -302,26 +316,40 @@ namespace MPfm.iOS.Classes.Controllers
                         return;
                     
                     InvokeOnMainThread(() => {
-                        imageViewAlbumArt.Alpha = 0;
-                        imageViewAlbumArt.Image = image;              
+                        try
+                        {
+                            imageViewAlbumArt.Alpha = 0;
+                            imageViewAlbumArt.Image = image;              
 
-                        UIView.Animate(0.3, () => {
-                            imageViewAlbumArt.Alpha = 1;
-                        });
+                            UIView.Animate(0.3, () => {
+                                imageViewAlbumArt.Alpha = 1;
+                            });
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                        }
                     });
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
 
             // Refresh other fields
             InvokeOnMainThread(() => {
-                lblLength.Text = audioFile.Length;
-                scrollViewWaveForm.SetWaveFormLength(lengthBytes);
+                try
+                {
+                    lblLength.Text = audioFile.Length;
+                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
 
-                _currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
-                MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-                navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
+                    _currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
+                    MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+                    navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
 
-                scrollViewWaveForm.LoadPeakFile(audioFile);
+                    scrollViewWaveForm.LoadPeakFile(audioFile);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set wave form information: {0}", ex);
+                }
             });
         }
 

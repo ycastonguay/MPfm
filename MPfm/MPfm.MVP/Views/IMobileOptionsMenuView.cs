@@ -36,6 +36,8 @@ namespace MPfm.MVP.Views
         Preferences = 1,
         EqualizerPresets = 2,
         UpdateLibrary = 3,
-        SyncLibrary = 4
+        SyncLibrary = 4,
+        SyncLibraryDropbox = 5,
+        SyncLibraryGoogleDrive = 6
     }
 }

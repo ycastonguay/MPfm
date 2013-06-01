@@ -25,14 +25,15 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using MPfm.Core;
+using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.iOS
 {
@@ -60,6 +61,14 @@ namespace MPfm.iOS
             tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
             base.ViewDidDisappear(animated);
         }        
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            navCtrl.SetTitle("More Options", "");
+        }
         
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableview, int section)
