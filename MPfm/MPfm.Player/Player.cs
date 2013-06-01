@@ -1493,10 +1493,29 @@ namespace MPfm.Player
                 throw new Exception("Error adding EQ: The equalizer already exists!");
 
             _fxEQHandle = _mixerChannel.SetFX(BASSFXType.BASS_FX_BFX_PEAKEQ, 0);
+            ApplyEQPreset(preset);
+            _isEQEnabled = true;
+        }
+
+        /// <summary>
+        /// Applies a preset on the 18-band equalizer. 
+        /// The equalizer needs to be created using the AddEQ method.
+        /// </summary>
+        public void ApplyEQPreset(EQPreset preset)
+        {
+            Console.WriteLine("Player - ApplyEQPreset name: {0}", preset.Name);
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
             _currentEQPreset = preset;
+            if (_isEQBypassed)
+                return;
+
+            Console.WriteLine("Player - ApplyEQPreset - Removing BPM callbacks...");
+            RemoveBPMCallbacks();
+
+            Console.WriteLine("Player - ApplyEQPreset - Looping through bands");
             for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
             {
+                Console.WriteLine("Player - ApplyEQPreset name: {0} - Applying band {1}", preset.Name, a);
                 EQPresetBand currentBand = _currentEQPreset.Bands[a];
                 eq.lBand = a;
                 eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
@@ -1509,7 +1528,8 @@ namespace MPfm.Player
                     Base.CheckForError();
             }
 
-            _isEQEnabled = true;
+            Console.WriteLine("Player - ApplyEQPreset - Readding BPM callbacks...");
+            AddBPMCallbacks();
         }
 
         /// <summary>
@@ -1549,6 +1569,8 @@ namespace MPfm.Player
         /// <param name="setCurrentEQPresetValue">If true, the current EQ preset value will be updated</param>
         public void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue)
         {
+            RemoveBPMCallbacks();
+
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
             bool success = BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
@@ -1557,6 +1579,8 @@ namespace MPfm.Player
 
             if (setCurrentEQPresetValue)
                 _currentEQPreset.Bands[band].Gain = gain;
+
+            AddBPMCallbacks();
         }
 
         /// <summary>
@@ -1578,32 +1602,7 @@ namespace MPfm.Player
                 ApplyEQPreset(_currentEQPreset);
         }
 
-        /// <summary>
-        /// Applies a preset on the 18-band equalizer. 
-        /// The equalizer needs to be created using the AddEQ method.
-        /// </summary>
-        public void ApplyEQPreset(EQPreset preset)
-        {
-            BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
-            _currentEQPreset = preset;
-            if (_isEQBypassed)
-                return;
 
-            for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
-            {
-                EQPresetBand currentBand = _currentEQPreset.Bands[a];
-                eq.lBand = a;
-                eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
-                eq.fCenter = currentBand.Center;
-                eq.fGain = currentBand.Gain;
-                eq.fQ = currentBand.Q;
-                BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
-
-                bool success = BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
-                if(!success)
-                    Base.CheckForError();
-            }
-        }
 
         /// <summary>
         /// Resets the gain of every EQ band.
@@ -1683,6 +1682,7 @@ namespace MPfm.Player
 
         protected void AddBPMCallbacks()
         {
+            Console.WriteLine("Player - AddBPMCallbacks - Adding callback...");
 #if IOS
             _bpmProc = new BPMPROC(BPMDetectionProcIOS);
             _bpmBeatProc = new BPMBEATPROC(BPMDetectionBeatProcIOS);
@@ -1697,7 +1697,9 @@ namespace MPfm.Player
 
         protected void RemoveBPMCallbacks()
         {
-            BaseFx.BPM_CallbackReset(_fxChannel.Handle);
+            //Console.WriteLine("Player - RemoveBPMCallbacks - Resetting callback...");
+            //BaseFx.BPM_CallbackReset(_fxChannel.Handle); // <-- this crashes when trying to remove a callback that's being used.
+            Console.WriteLine("Player - RemoveBPMCallbacks - Freeing resources...");
             BaseFx.BPM_Free(_fxChannel.Handle);
             //BaseFx.BPM_BeatCallbackReset(_fxChannel.Handle);
             //BaseFx.BPM_BeatFree(_fxChannel.Handle);
