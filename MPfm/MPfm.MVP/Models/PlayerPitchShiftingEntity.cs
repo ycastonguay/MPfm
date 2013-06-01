@@ -16,24 +16,17 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.MVP.Models;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-	/// Pitch shifting view interface.
-	/// </summary>
-	public interface IPitchShiftingView : IBaseView
-	{
-        Action<int> OnChangeKey { get; set; }
-        Action<int> OnSetInterval { get; set; }
-        Action OnResetInterval { get; set; }
-        Action OnIncrementInterval { get; set; }
-        Action OnDecrementInterval { get; set; }
-
-        void PitchShiftingError(Exception ex);
-        void RefreshKeys(List<Tuple<int, string>> keys);
-        void RefreshPitchShifting(PlayerPitchShiftingEntity entity);
-	}
+    /// <summary>
+    /// Data structure repesenting the current player pitch shifting.
+    /// </summary>
+    public class PlayerPitchShiftingEntity
+    {
+        public int IntervalValue { get; set; }
+        public string Interval { get; set; }
+        public Tuple<int, string> ReferenceKey { get; set; }
+        public Tuple<int, string> NewKey { get; set; }
+    }
 }

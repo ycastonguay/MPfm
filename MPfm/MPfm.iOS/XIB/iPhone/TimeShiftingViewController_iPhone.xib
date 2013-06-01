@@ -46,7 +46,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{0, 4}, {320, 32}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="373375632"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -78,9 +77,8 @@
 							<object class="IBUISlider" id="746274806">
 								<reference key="NSNextResponder" ref="817949346"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{18, 150}, {174, 23}}</string>
+								<string key="NSFrame">{{18, 150}, {284, 23}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="518971293"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -96,7 +94,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 43}, {119, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="844253638"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -132,7 +129,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 64}, {119, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="813914206"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -166,7 +162,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 94}, {119, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="14679880"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -191,7 +186,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 115}, {186, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="380238366"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -216,7 +210,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{181, 94}, {119, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1064145089"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -242,7 +235,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{181, 115}, {119, 21}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="746274806"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -266,10 +258,8 @@
 							<object class="IBUIButton" id="680978106">
 								<reference key="NSNextResponder" ref="817949346"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 186}, {280, 40}}</string>
+								<string key="NSFrame">{{136, 186}, {164, 40}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -302,7 +292,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{147, 45}, {153, 40}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="421852568"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -319,9 +308,8 @@
 							<object class="IBUIButton" id="557376947">
 								<reference key="NSNextResponder" ref="817949346"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{250, 146}, {50, 31}}</string>
+								<string key="NSFrame">{{78, 186}, {50, 40}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="680978106"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -344,9 +332,8 @@
 							<object class="IBUIButton" id="518971293">
 								<reference key="NSNextResponder" ref="817949346"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{198, 146}, {50, 31}}</string>
+								<string key="NSFrame">{{20, 186}, {50, 40}}</string>
 								<reference key="NSSuperview" ref="817949346"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="557376947"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -367,7 +354,6 @@
 						</array>
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="489727067"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -379,7 +365,6 @@
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="817949346"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -678,119 +663,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">61</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">MPfmSemiTransparentButton</string>
-					<string key="superclassName">UIButton</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MPfmSemiTransparentButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">TimeShiftingViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="actionDecrementTempo:">id</string>
-						<string key="actionIncrementTempo:">id</string>
-						<string key="actionReset:">id</string>
-						<string key="actionUseTempo:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="actionDecrementTempo:">
-							<string key="name">actionDecrementTempo:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="actionIncrementTempo:">
-							<string key="name">actionIncrementTempo:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="actionReset:">
-							<string key="name">actionReset:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="actionUseTempo:">
-							<string key="name">actionUseTempo:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="btnDecrementTempo">MPfmSemiTransparentButton</string>
-						<string key="btnIncrementTempo">MPfmSemiTransparentButton</string>
-						<string key="btnReset">UIButton</string>
-						<string key="btnUseTempo">UIButton</string>
-						<string key="lblCurrentTempo">UILabel</string>
-						<string key="lblCurrentTempoValue">UILabel</string>
-						<string key="lblDetectedTempo">UILabel</string>
-						<string key="lblDetectedTempoValue">UILabel</string>
-						<string key="lblReferenceTempo">UILabel</string>
-						<string key="lblReferenceTempoValue">UILabel</string>
-						<string key="lblTitle">UILabel</string>
-						<string key="slider">UISlider</string>
-						<string key="viewBackground">UIView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="btnDecrementTempo">
-							<string key="name">btnDecrementTempo</string>
-							<string key="candidateClassName">MPfmSemiTransparentButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="btnIncrementTempo">
-							<string key="name">btnIncrementTempo</string>
-							<string key="candidateClassName">MPfmSemiTransparentButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="btnReset">
-							<string key="name">btnReset</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="btnUseTempo">
-							<string key="name">btnUseTempo</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lblCurrentTempo">
-							<string key="name">lblCurrentTempo</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lblCurrentTempoValue">
-							<string key="name">lblCurrentTempoValue</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lblDetectedTempo">
-							<string key="name">lblDetectedTempo</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lblDetectedTempoValue">
-							<string key="name">lblDetectedTempoValue</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lblReferenceTempo">
-							<string key="name">lblReferenceTempo</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lblReferenceTempoValue">
-							<string key="name">lblReferenceTempoValue</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lblTitle">
-							<string key="name">lblTitle</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="slider">
-							<string key="name">slider</string>
-							<string key="candidateClassName">UISlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="viewBackground">
-							<string key="name">viewBackground</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/TimeShiftingViewController.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

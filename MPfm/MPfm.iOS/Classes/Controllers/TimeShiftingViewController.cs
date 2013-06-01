@@ -86,7 +86,6 @@ namespace MPfm.iOS
 
         public Action<float> OnSetTimeShifting { get; set; }
         public Action OnResetTimeShifting { get; set; }
-        public Action OnDetectTempo { get; set; }
         public Action OnUseDetectedTempo { get; set; }
         public Action OnIncrementTempo { get; set; }
         public Action OnDecrementTempo { get; set; }
@@ -111,7 +110,7 @@ namespace MPfm.iOS
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine("TimeShiftingViewController - RefreshTimeShifting - Exception: " + ex.Message + "\n" + ex.StackTrace);
+                    Console.WriteLine("TimeShiftingViewController - RefreshTimeShifting - Exception: {0}", ex);
                 }
             });
         }

@@ -279,5 +279,6 @@
     <Compile Include="Views\ISyncView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
     <Compile Include="Presenters\SyncPresenter.cs" />
+    <Compile Include="Models\PlayerPitchShiftingEntity.cs" />
   </ItemGroup>
 </Project>

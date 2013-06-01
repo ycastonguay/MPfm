@@ -12,9 +12,6 @@ namespace MPfm.iOS
 	partial class PitchShiftingViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UISegmentedControl segmentedControl { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
@@ -24,21 +21,40 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblInterval { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UILabel lblNewKey { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblKey { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIButton btnReset { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnDecrementInterval { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnIncrementInterval { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnChangeKey { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionDecrementInterval:")]
+		partial void actionDecrementInterval (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionIncrementInterval:")]
+		partial void actionIncrementInterval (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionChangeKey:")]
+		partial void actionChangeKey (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (segmentedControl != null) {
-				segmentedControl.Dispose ();
-				segmentedControl = null;
-			}
-
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
@@ -54,9 +70,34 @@ namespace MPfm.iOS
 				lblInterval = null;
 			}
 
+			if (lblNewKey != null) {
+				lblNewKey.Dispose ();
+				lblNewKey = null;
+			}
+
+			if (lblKey != null) {
+				lblKey.Dispose ();
+				lblKey = null;
+			}
+
 			if (btnReset != null) {
 				btnReset.Dispose ();
 				btnReset = null;
+			}
+
+			if (btnDecrementInterval != null) {
+				btnDecrementInterval.Dispose ();
+				btnDecrementInterval = null;
+			}
+
+			if (btnIncrementInterval != null) {
+				btnIncrementInterval.Dispose ();
+				btnIncrementInterval = null;
+			}
+
+			if (btnChangeKey != null) {
+				btnChangeKey.Dispose ();
+				btnChangeKey = null;
 			}
 
 			if (viewBackground != null) {
