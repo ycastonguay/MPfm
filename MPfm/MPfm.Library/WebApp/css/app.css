@@ -4,6 +4,8 @@ body {
     color: #CCCCCC;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10pt;
+    padding: 0;
+    margin: 0;
 }
 
 h2 {
@@ -12,8 +14,62 @@ h2 {
     font-size: 14pt;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 2px;
+}
+
+.sectionHeader {
+    padding: 6px;
+    background-color: #6a7882;
+    color: white;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+tr:nth-child(odd) {
+    background-color:#36454f;
+}
+
+tr:nth-child(even) {
+    background-color:#45535c;
+}
+
+a {
+    display: block;
+    padding: 4px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 9pt;
+    text-decoration: none;
+    text-align: center;
+}
+
+a:hover {
+    background-color: #e76f63;
+}
+
 .spacer {
     width: 60px;
+}
+
+.header {
+    background-color: #465966;
+}
+
+.headerTitle {
+    color: white;
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.headerSubtitle {
+    padding-top: 2px;
+    font-size: 10pt;
 }
 
 .centerBlock {

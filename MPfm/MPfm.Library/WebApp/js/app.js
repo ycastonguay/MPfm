@@ -5,11 +5,18 @@ $(document).ready(function() {
         $.getJSON(hostUrl + '/api/index/json', function(data) {
             var tbl_body = "";
             console.log('Received json from /api/index/json');
+            var artist = "";
             $.each(data, function(key, item) {
-                tbl_body += "<tr><td>" + item.ArtistName + "</td><td>" + item.AlbumTitle + "</td><td>" + item.Title + "</td></tr>";
+
+                if(artist !== item.ArtistName) {
+                    tbl_body += "<tr><td colspan='4' class='sectionHeader'>" + item.ArtistName + "</td></tr>";
+                    artist = item.ArtistName;
+                }
+
+                tbl_body += "<tr><td>" + item.ArtistName + "</td><td>" + item.AlbumTitle + "</td><td>" + item.Title + "</td>" +
+                            "<td><a href='/api/audiofile/" + item.Id + "'>Download</a></td></tr>";
             });
-            //console.log(tbl_body);
-            $("#theTable").html(tbl_body);
+            $("#tableIndex").html(tbl_body);
         });
     });
 

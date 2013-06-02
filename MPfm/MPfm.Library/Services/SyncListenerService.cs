@@ -111,7 +111,7 @@ namespace MPfm.Library.Services
                                     //
                                     try
                                     {
-                                        string xml = XmlSerialization.Serialize(_audioFileCacheService.AudioFiles);
+                                        string xml = XmlSerialization.Serialize(_audioFileCacheService.AudioFiles.OrderBy(x => x.ArtistName).ThenBy(x => x.AlbumTitle).ThenBy(x => x.DiscNumber).ThenBy(x => x.TrackNumber).ToList());
                                         WriteXMLResponse(httpContext, xml);
                                     }
                                     catch(Exception ex)
@@ -127,7 +127,7 @@ namespace MPfm.Library.Services
                                     //
                                     try
                                     {
-                                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(_audioFileCacheService.AudioFiles);
+                                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(_audioFileCacheService.AudioFiles.OrderBy(x => x.ArtistName).ThenBy(x => x.AlbumTitle).ThenBy(x => x.DiscNumber).ThenBy(x => x.TrackNumber).ToList());
                                         WriteJSONResponse(httpContext, json);
                                     }
                                     catch(Exception ex)
@@ -140,7 +140,7 @@ namespace MPfm.Library.Services
                                     try
                                     {
                                         // This returns audio files in binary format
-                                        string[] split = command.Split('/');
+                                        string[] split = command.Split(new char[1]{'/'}, StringSplitOptions.RemoveEmptyEntries);
                                         var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(split[2]));
                                         if(audioFile == null)
                                         {
@@ -161,7 +161,7 @@ namespace MPfm.Library.Services
                                     bool isAuthenticated = IsAuthenticated(httpContext);
 
                                     // Remove query string
-                                    string[] commandSplit = command.Split('?');
+                                    string[] commandSplit = command.Split(new char[1]{'?'}, StringSplitOptions.RemoveEmptyEntries);
                                     string resourceName = "MPfm.Library.WebApp" + commandSplit[0].Replace("/", ".");
 
                                     if(commandSplit[0].ToUpper().StartsWith("/LOGIN.HTML"))
