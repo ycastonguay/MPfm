@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using MPfm.Core;
 using MPfm.Core.Attributes;
 using MPfm.Sound.Tags;

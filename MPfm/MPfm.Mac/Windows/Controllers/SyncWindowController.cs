@@ -52,7 +52,7 @@ namespace MPfm.Mac
             progressIndicator.StartAnimation(this);
 
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-            lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
+            //lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
 
             btnAddDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnRefreshDevices.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_refresh");

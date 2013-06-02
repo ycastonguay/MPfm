@@ -135,6 +135,9 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\MPfm.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Lib\iOS\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -148,6 +151,7 @@
     <Content Include="Lib\SQLite.Interop.dll" />
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
+    <EmbeddedResource Include="WebApp\login.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -179,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Messages\" />
+    <Folder Include="Lib\iOS\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="WebApp\css\app.css" />
@@ -186,6 +191,7 @@
     <EmbeddedResource Include="WebApp\js\jquery-1.9.1.min.js" />
     <EmbeddedResource Include="WebApp\index.html" />
     <EmbeddedResource Include="WebApp\js\jquery.upload-1.0.2.min.js" />
+    <EmbeddedResource Include="WebApp\images\app_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />
@@ -225,5 +231,8 @@
     <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lib\iOS\Newtonsoft.Json.dll" />
   </ItemGroup>
 </Project>

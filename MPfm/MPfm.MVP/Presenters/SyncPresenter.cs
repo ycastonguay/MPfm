@@ -44,22 +44,22 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ISyncView view)
         {
-            base.BindView(view);
             view.OnRefreshDevices = RefreshDevices;
-            
+            base.BindView(view);
+
             Initialize();
-        }
+        }       
 
         private void Initialize()
         {
             RefreshDevices();
+            //View.RefreshIPAddress(String.Format("Authentication code: {0} ", SyncListenerService.AuthenticationCode));
         }
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
         {
             Console.WriteLine("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
             var device = _devices.FirstOrDefault(x => x.Url == deviceFound.Url);
-            Console.WriteLine("------------------------------------");
             if(device == null)
             {
                 Console.WriteLine("SyncPresenter - HandleOnDeviceFound - Device added to list");
@@ -88,9 +88,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                // Get IP address
                 string ip = SyncListenerService.GetLocalIPAddress().ToString();
-                View.RefreshIPAddress("My IP address is: " + ip);
+                View.RefreshIPAddress(String.Format("IP: {0} - Auth. code: {1} ", ip, SyncListenerService.AuthenticationCode));
 
                 // Search for devices in subnet
                 var split = ip.Split('.');

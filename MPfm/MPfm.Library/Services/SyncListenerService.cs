@@ -20,14 +20,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MPfm.Core;
+using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
-using System.Net.NetworkInformation;
 
 namespace MPfm.Library.Services
 {
@@ -38,6 +39,8 @@ namespace MPfm.Library.Services
         private HttpListener _httpListener;
 
         public const string SyncVersionId = "sessions_app_sync_version_1";
+        private static string _authenticationCode = Guid.NewGuid().ToString().Substring(0, 4);
+        public static string AuthenticationCode { get { return _authenticationCode; } }
 
         public int Port { get; private set; }
 
@@ -45,6 +48,7 @@ namespace MPfm.Library.Services
         {
             _audioFileCacheService = audioFileCacheService;
             _syncDeviceSpecifications = syncDeviceSpecifications;
+            Console.WriteLine("SyncListenerService - AuthenticationCode is {0}", AuthenticationCode);
             Port = 53551;
             Initialize();
         }
@@ -68,95 +72,172 @@ namespace MPfm.Library.Services
                         var httpContext = (HttpListenerContext)ctx;
                         Console.WriteLine("SyncListenerService - command: {0} url: {1}", httpContext.Request.HttpMethod, httpContext.Request.Url.ToString());
 
-                        string command = httpContext.Request.Url.PathAndQuery;
-
-                        // /index           ==> Returns an XML file with the list of audio files in the library
-                        // /audioFile/id/   ==> Returns the audio file in binary format
-
-                        string agent = String.Format("MPfm: Music Player for Musicians version {0} running on {1}", Assembly.GetExecutingAssembly().GetName().Version.ToString(), GetInternalSyncDevice().DeviceType.ToString());
-                        if(httpContext.Request.HttpMethod.ToUpper() == "GET")
+                        try
                         {
-                            if(command == "/")
+                            string command = httpContext.Request.Url.PathAndQuery;
+
+                            // /index           ==> Returns an XML file with the list of audio files in the library
+                            // /audioFile/id/   ==> Returns the audio file in binary format
+
+                            string agent = String.Format("MPfm: Music Player for Musicians version {0} running on {1}", Assembly.GetExecutingAssembly().GetName().Version.ToString(), GetInternalSyncDevice().DeviceType.ToString());
+                            if(httpContext.Request.HttpMethod.ToUpper() == "GET")
                             {
-                                // This returns information about this web service
-                                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MPfm.Library.WebApp.index.html"))
-                                    WriteFileResponse(httpContext, stream, "index.html");
-                            }
-                            else if(command.ToUpper().StartsWith("/INDEX"))
-                            {
-                                // This returns the index of all audio files
-                                // TODO: Add cache. Add AudioFileCacheUpdated message to flush cache.
-                                // TODO: Add put audio file. this would enable a web interface to add audio files from a dir. ACTUALLY... /web could have a nice web-based interface for this
-                                //
-                                try
+                                if(command == "/")
                                 {
-                                    string xml = XmlSerialization.Serialize(_audioFileCacheService.AudioFiles);
-                                    WriteXMLResponse(httpContext, xml);
+                                    // TODO: Get query string code for authentication. Maybe redirect to login.html? Make sure you have the name of the file
+                                    //       in the url. i.e. login.html?authenticationCode=AAAA
+                                    // This returns information about this web service
+
+                                    // Check the cookies (or local storage) for code. If not found, redirect to login.
+                                    WriteRedirect(httpContext, "login.html"); 
                                 }
-                                catch(Exception ex)
+                                else if(command.ToUpper().StartsWith("/SESSIONSAPP.VERSION"))
                                 {
-                                    WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
-                                }
-                            }
-                            else if(command.ToUpper().StartsWith("/SESSIONSAPP.VERSION"))
-                            {
-                                try
-                                {
-                                    string xml = XmlSerialization.Serialize(GetInternalSyncDevice());
-                                    WriteXMLResponse(httpContext, xml);
-                                }
-                                catch(Exception ex)
-                                {
-                                    WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
-                                }
-                            }
-                            else if(command.ToUpper().StartsWith("/AUDIOFILE"))
-                            {
-                                try
-                                {
-                                    // This returns audio files in binary format
-                                    string[] split = command.Split('/');
-                                    var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(split[2]));
-                                    if(audioFile == null)
+                                    try
                                     {
-                                        WriteHTMLResponse(httpContext, String.Format("<h2>Content could not be found.</h2><p>{0}</p>", agent), HttpStatusCode.NotFound);
-                                        return;
+                                        string xml = XmlSerialization.Serialize(GetInternalSyncDevice());
+                                        WriteXMLResponse(httpContext, xml);
                                     }
-                                    WriteFileResponse(httpContext, audioFile.FilePath, true);
+                                    catch(Exception ex)
+                                    {
+                                        WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                                    }
                                 }
-                                catch(Exception ex)
+                                else if(command.ToUpper() == "/API/INDEX/XML")
                                 {
-                                    WriteHTMLResponse(httpContext, String.Format("<h2>An error occured.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                                    // This returns the index of all audio files
+                                    // TODO: Add cache. Add AudioFileCacheUpdated message to flush cache.
+                                    // TODO: Add put audio file. this would enable a web interface to add audio files from a dir. ACTUALLY... /web could have a nice web-based interface for this
+                                    //
+                                    try
+                                    {
+                                        string xml = XmlSerialization.Serialize(_audioFileCacheService.AudioFiles);
+                                        WriteXMLResponse(httpContext, xml);
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                // Try to serve file from WebApp (/WebApp/css/app.css ==> MPfm.Library.WebApp.css.app.css)
-                                string resourceName = "MPfm.Library.WebApp" + command.Replace("/", ".");
-                                var info = Assembly.GetExecutingAssembly().GetManifestResourceInfo(resourceName);
-                                if(info != null)
+                                else if(command.ToUpper() == "/API/INDEX/JSON")
                                 {
-                                    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-                                        WriteFileResponse(httpContext, stream, info.FileName);
+                                    // This returns the index of all audio files
+                                    // TODO: Add cache. Add AudioFileCacheUpdated message to flush cache.
+                                    // TODO: Add put audio file. this would enable a web interface to add audio files from a dir. ACTUALLY... /web could have a nice web-based interface for this
+                                    //
+                                    try
+                                    {
+                                        string json = Newtonsoft.Json.JsonConvert.SerializeObject(_audioFileCacheService.AudioFiles);
+                                        WriteJSONResponse(httpContext, json);
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        WriteHTMLResponse(httpContext, String.Format("<h2>An error occured while parsing the library.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                                    }
+                                }
+                                else if(command.ToUpper().StartsWith("/API/AUDIOFILE"))
+                                {
+                                    try
+                                    {
+                                        // This returns audio files in binary format
+                                        string[] split = command.Split('/');
+                                        var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(split[2]));
+                                        if(audioFile == null)
+                                        {
+                                            WriteHTMLResponse(httpContext, String.Format("<h2>Content could not be found.</h2><p>{0}</p>", agent), HttpStatusCode.NotFound);
+                                            return;
+                                        }
+                                        WriteFileResponse(httpContext, audioFile.FilePath, true);
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        WriteHTMLResponse(httpContext, String.Format("<h2>An error occured.</h2><p>{0}</p>", ex, agent), HttpStatusCode.InternalServerError);
+                                    }
                                 }
                                 else
                                 {
-                                    WriteHTMLResponse(httpContext, String.Format("<h2>Content could not be found.</h2><p>{0}</p>", agent), HttpStatusCode.NotFound);
+                                    // Try to serve file from WebApp (/WebApp/css/app.css ==> MPfm.Library.WebApp.css.app.css)
+
+                                    bool isAuthenticated = IsAuthenticated(httpContext);
+
+                                    // Remove query string
+                                    string[] commandSplit = command.Split('?');
+                                    string resourceName = "MPfm.Library.WebApp" + commandSplit[0].Replace("/", ".");
+
+                                    if(commandSplit[0].ToUpper().StartsWith("/LOGIN.HTML"))
+                                    {
+                                        if(isAuthenticated)
+                                        {
+                                            WriteRedirect(httpContext, "index.html");
+                                        }
+                                        else
+                                        {
+                                            // Prevent doing a redirect loop.
+                                            string redirectFail = "/login.html?loginStatus=failed";
+                                            if(command != redirectFail)
+                                            {
+                                                WriteRedirect(httpContext, redirectFail);
+                                                return;
+                                            }
+                                        }
+                                    }
+
+                                    // If trying to access index.html without authentication, redirect to login.html
+                                    if(commandSplit[0].ToUpper().StartsWith("/INDEX.HTML") && !isAuthenticated)
+                                    {
+                                        WriteRedirect(httpContext, "/login.html?loginStatus=failed");
+                                        return;
+                                    }
+
+
+                                    // if index.html and not authenticated; redirect to login.html.
+
+
+    //                                if(commandSplit[0].ToUpper() == "/LOGIN.HTML" && commandSplit.Length > 1)
+    //                                {
+    //                                    string queryString = commandSplit[1];
+    //                                    // authenticationCode=value&whatever=true
+    //                                    string[] queryStringItems = queryString.Split('&');
+    //                                    foreach(string queryStringItem in queryStringItems)
+    //                                    {
+    //                                        string[] queryStringEquals = queryStringItem.Split('=');
+    //                                        if(queryStringEquals[0].ToUpper() == "AUTHENTICATIONCODE" && queryStringEquals.Length > 1)
+    //                                        {
+    //                                            string authenticationCode = queryStringEquals[1];
+    //                                        }
+    //                                    }
+    //                                    return;
+    //                                }
+
+                                    var info = Assembly.GetExecutingAssembly().GetManifestResourceInfo(resourceName);
+                                    if(info != null)
+                                    {
+                                        using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+                                            WriteFileResponse(httpContext, stream, info.FileName);
+                                    }
+                                    else
+                                    {
+                                        WriteHTMLResponse(httpContext, String.Format("<h2>Content could not be found.</h2><p>{0}</p>", agent), HttpStatusCode.NotFound);
+                                    }
+                                }
+                            }
+                            else if(httpContext.Request.HttpMethod.ToUpper() == "PUT" || httpContext.Request.HttpMethod.ToUpper() == "OPTIONS" ||
+                                    httpContext.Request.HttpMethod.ToUpper() == "POST")
+                            {
+                                if(httpContext.Request.ContentType.ToUpper().Contains("MULTIPART/FORM-DATA"))
+                                {
+                                    ReadFileMultiPartFormData(httpContext.Request.ContentEncoding, GetBoundary(httpContext.Request.ContentType), httpContext.Request.InputStream);
+                                    WriteHTMLResponse(httpContext, "Success");
+                                }
+                                else
+                                {
+                                    ReadFileBinaryResponse(httpContext);
                                 }
                             }
                         }
-                        else if(httpContext.Request.HttpMethod.ToUpper() == "PUT" || httpContext.Request.HttpMethod.ToUpper() == "OPTIONS" ||
-                                httpContext.Request.HttpMethod.ToUpper() == "POST")
+                        catch(Exception ex)
                         {
-                            if(httpContext.Request.ContentType.ToUpper().Contains("MULTIPART/FORM-DATA"))
-                            {
-                                ReadFileMultiPartFormData(httpContext.Request.ContentEncoding, GetBoundary(httpContext.Request.ContentType), httpContext.Request.InputStream);
-                                WriteHTMLResponse(httpContext, "Success");
-                            }
-                            else
-                            {
-                                ReadFileBinaryResponse(httpContext);
-                            }
+                            Console.WriteLine("SyncListenerService - Failed to respond to {0} {1} - Exception: {2}", httpContext.Request.HttpMethod, httpContext.Request.Url.ToString(), ex);
                         }
                     }, context,TaskCreationOptions.LongRunning);
                 }
@@ -169,6 +250,31 @@ namespace MPfm.Library.Services
             _httpListener.Stop();
         }
 
+        private bool IsAuthenticated(HttpListenerContext context)
+        {
+            var authenticationCodeCookie = context.Request.Cookies["authenticationCode"];
+            if(authenticationCodeCookie != null)
+            {
+                string authenticationCode = authenticationCodeCookie.Value;
+                if(AuthenticationCode.ToUpper() == authenticationCode.ToUpper())
+                    return true;
+                else
+                    return false;
+            }
+            return false;
+        }
+
+        private void WriteRedirect(HttpListenerContext context, string url)
+        {
+            byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes("redirect");
+            context.Response.RedirectLocation = url;
+            context.Response.StatusCode = 302;
+            context.Response.ContentType = "text/html";
+            context.Response.ContentLength64 = responseBytes.Length;
+            context.Response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
+            context.Response.OutputStream.Close();
+        }
+
         private void WriteHTMLResponse(HttpListenerContext context, string response)
         {
             WriteHTMLResponse(context, response, HttpStatusCode.OK);
@@ -176,19 +282,24 @@ namespace MPfm.Library.Services
 
         private void WriteHTMLResponse(HttpListenerContext context, string response, HttpStatusCode statusCode)
         {
-            byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(response);
-            context.Response.ContentType = "text/html";
-            context.Response.StatusCode = (int)statusCode;
-            context.Response.ContentLength64 = responseBytes.Length;
-            context.Response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
-            context.Response.OutputStream.Close();
+            WriteResponse(context, response, statusCode, "text/html");
         }
 
         private void WriteXMLResponse(HttpListenerContext context, string response)
         {
+            WriteResponse(context, response, HttpStatusCode.OK, "text/html");        
+        }
+
+        private void WriteJSONResponse(HttpListenerContext context, string response)
+        {
+            WriteResponse(context, response, HttpStatusCode.OK, "text/html");
+        }
+
+        private void WriteResponse(HttpListenerContext context, string response, HttpStatusCode statusCode, string contentType)
+        {
             byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(response);
-            context.Response.ContentType = "text/xml";
-            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            context.Response.ContentType = contentType;
+            context.Response.StatusCode = (int)statusCode;
             context.Response.ContentLength64 = responseBytes.Length;
             context.Response.OutputStream.Write(responseBytes, 0, responseBytes.Length);
             context.Response.OutputStream.Close();
@@ -282,7 +393,9 @@ namespace MPfm.Library.Services
 
         private void ReadFileBinaryResponse(HttpListenerContext context)
         {
+            string fileName = "/Users/ycastonguay/Desktop/hello.mp3";
             var request = context.Request;
+            Console.WriteLine("SyncListenerService - ReadFileBinaryResponse fileName: {0}", fileName);
             if (!request.HasEntityBody)
             {
                 Console.WriteLine("No client data was sent with the request.");
@@ -294,7 +407,7 @@ namespace MPfm.Library.Services
 
             Stream stream = request.InputStream;
             BinaryReader reader = new BinaryReader(stream);
-            using (FileStream writeStream = File.OpenWrite("/Users/ycastonguay/Desktop/hello.mp3"))
+            using (FileStream writeStream = File.OpenWrite(fileName))
             {
                 byte[] buffer = new byte[1024];
                 int bytesRead;
@@ -317,11 +430,14 @@ namespace MPfm.Library.Services
         {
             // http://stackoverflow.com/questions/8466703/httplistener-and-file-upload
 
+            string fileName = "/Users/ycastonguay/Desktop/test.txt";
+            Console.WriteLine("SyncListenerService - ReadFileMultiPartFormData fileName: {0}", fileName);
+
             // TODO: Add multiple files...
             Byte[] boundaryBytes = enc.GetBytes(boundary);
             Int32 boundaryLen = boundaryBytes.Length;
 
-            using (FileStream output = new FileStream("/Users/ycastonguay/Desktop/test.txt", FileMode.Create, FileAccess.Write))
+            using (FileStream output = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 Byte[] buffer = new Byte[1024];
                 Int32 len = input.Read(buffer, 0, 1024);

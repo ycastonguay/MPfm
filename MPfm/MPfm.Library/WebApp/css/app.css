@@ -1,4 +1,55 @@
-body
-{
-    background-color: deepskyblue;
+body {
+    background-color: #36454f;
+    /*background-color: #62737e;*/
+    color: #CCCCCC;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+}
+
+h2 {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+}
+
+.spacer {
+    width: 60px;
+}
+
+.centerBlock {
+    /*width: 400px;*/
+    display: block;
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    text-align: center;
+}
+
+.inputCode {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12pt;
+    width: 80px;
+}
+
+input[type=button] {
+    display: inline-block;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -webkit-appearance:none; /* removes gradient on iOS */
+    border-radius: 8px;
+    border: 0px;
+    background-color: #e74c3c;
+    padding: 8px 24px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: hand;
+    cursor: pointer;
+}
+input[type=button]:hover {
+    background-color: #e76f63;
+}
+input[type=button]:active {
+    position: relative;
+    top: 1px;
 }

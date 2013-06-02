@@ -140,6 +140,7 @@
     <EmbeddedResource Include="WebApp\js\jquery-1.9.1.min.js" />
     <EmbeddedResource Include="WebApp\index.html" />
     <EmbeddedResource Include="WebApp\js\jquery.upload-1.0.2.min.js" />
+    <EmbeddedResource Include="WebApp\images\app_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />

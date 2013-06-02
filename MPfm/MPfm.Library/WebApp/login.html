@@ -14,22 +14,19 @@
         <h2>
             Welcome to Sessions App Sync!
         </h2>
-        <ul>
-            <li>Home</li>
-            <li>Library</li>
-            <li>Upload</li>
-        </ul>
         <p>
-            Library name: Yanick's Library
-            <br />
-            Number of files: 1405
-            <br />
-            Library size: 14459 MB
+            To access the web interface of Sessions, you need to enter the authentication code shown on your device.
         </p>
-        <table id="theTable"></table>
-        <input type="file" multiple="multiple" id="fileUpload" name="fileUpload" />
-        <input type="button" id="btnUpload" value="Upload" />
-        <input type="button" id="btnDownloadIndex" value="Download index" />
+        <form name="formLogin" id="formLogin">
+            <p>
+                <label for="authenticationCode">Authentication code:</label>
+                <span class="spacer">&nbsp;</span>
+                <input type="text" class="inputCode" name="authenticationCode" id="authenticationCode">
+            </p>
+            <p>
+                <input type="button" class="button" value="Login" name="authenticationCodeSubmit" id="authenticationCodeSubmit" onclick="submitLoginForm();return false;">
+            </p>
+        </form>
     </div>
 </body>
 </html>
