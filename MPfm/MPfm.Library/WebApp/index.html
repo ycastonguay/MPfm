@@ -23,11 +23,7 @@
             <img src="images/app_logo.png" style="width: 44px; height: 44px;" />
         </div>
         <div style="float: left; padding: 4px; margin-top: 6px;">
-            <!--<div class="headerTitle">Library name:</div>-->
             <div class="headerTitle">Yanick Castonguay's Library (iOS)</div>
-            <!--<div class="headerTitle">Platform</div>-->
-            <!--<div class="headerSubtitle">iOS</div>-->
-            <!--<div class="headerTitle">Number of files:</div>-->
             <div class="headerSubtitle">1049 files (14459 MB total)</div>
 
             <!--<table>-->
@@ -48,10 +44,18 @@
         <div style="clear: both;"></div>
     </div>
     <div>
-        <table id="tableIndex"></table>
-        <input type="file" multiple="multiple" id="fileUpload" name="fileUpload" />
-        <input type="button" id="btnUpload" value="Upload" />
-        <input type="button" id="btnDownloadIndex" value="Download index" />
+        <div class="tabs">
+            <div id="tabDownload" class="tab tabSelected">Download files</div>
+            <div id="tabUpload" class="tab">Upload files</div>
+            <div style="clear: both;"></div>
+        </div>
+        <div id="tabDownloadContents" class="tabContainer">
+            <input type="button" id="btnDownloadIndex" value="Download index" />
+        </div>
+        <div id="tabUploadContents" class="tabContainer" style="display: none;">
+            <input type="file" multiple="multiple" id="fileUpload" name="fileUpload" />
+            <input type="button" id="btnUpload" value="Upload" />
+        </div>
     </div>
 </body>
 </html>

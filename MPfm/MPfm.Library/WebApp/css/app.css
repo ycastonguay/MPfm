@@ -1,5 +1,5 @@
 body {
-    background-color: #36454f;
+    background-color: #20282e;
     /*background-color: #62737e;*/
     color: #CCCCCC;
     font-family: Arial, Helvetica, sans-serif;
@@ -23,21 +23,58 @@ td {
     padding: 2px;
 }
 
-.sectionHeader {
-    padding: 6px;
-    background-color: #6a7882;
+.sectionArtistName {
+    border-top: solid 1px #68757e;
+    background-color: #36454f;
     color: white;
-    font-size: 10pt;
-    font-weight: bold;
+    font-size: 11pt;
 }
 
-tr:nth-child(odd) {
-    background-color:#36454f;
+.sectionArtistNameTitle {
+    height: 22px;
+    line-height: 22px;
+    padding: 4px;
+    cursor: hand;
+    cursor: pointer;
 }
 
-tr:nth-child(even) {
-    background-color:#45535c;
+.sectionArtistNameTitle:hover {
+    background-color: #465966;
 }
+
+.sectionAlbumTitle {
+    margin-left: 4px;
+    margin-right: 4px;
+    border-top: solid 1px #465966;
+    background-color: #20282e;
+    color: white;
+    font-size: 9pt;
+}
+
+.sectionAlbumTitleTitle {
+    height: 22px;
+    line-height: 22px;
+    padding: 4px;
+    cursor: hand;
+    cursor: pointer;
+}
+
+.sectionAlbumTitleTitle:hover {
+    background-color: #313a41;
+}
+
+.songs {
+    color: #CCCCCC;
+    margin-left: 4px;
+}
+
+/*tr:nth-child(odd) {*/
+    /*background-color:#36454f;*/
+/*}*/
+
+/*tr:nth-child(even) {*/
+    /*background-color:#45535c;*/
+/*}*/
 
 a {
     display: block;
@@ -59,6 +96,10 @@ a:hover {
 
 .header {
     background-color: #465966;
+    width: 100%;
+    height: 54px;
+    top: 0;
+    position: fixed;
 }
 
 .headerTitle {
@@ -86,6 +127,39 @@ a:hover {
     width: 80px;
 }
 
+.tabs {
+    position: fixed;
+    top: 54px;
+    width: 100%;
+    height: 31px;
+    background-color: #20282e;
+}
+
+.tab {
+    float: left;
+    width: 150px;
+    height: 22px;
+    line-height: 22px;
+    padding: 4px;
+    background-color: #36454f;
+    border-top: 1px solid #68757e;
+    border-left: 1px solid #68757e;
+    border-right: 1px solid #68757e;
+    font-size: 10pt;
+    font-weight: bold;
+    cursor: hand;
+    cursor: pointer;
+}
+
+.tabSelected {
+    color: white;
+    background-color: #465966;
+}
+
+.tabContainer {
+    margin-top: 85px;
+}
+
 input[type=button] {
     display: inline-block;
     -moz-border-radius: 8px;
@@ -96,7 +170,7 @@ input[type=button] {
     background-color: #e74c3c;
     padding: 8px 24px;
     color: white;
-    font-size: 14px;
+    font-size: 10pt;
     font-weight: bold;
     text-decoration: none;
     cursor: hand;
@@ -108,4 +182,24 @@ input[type=button]:hover {
 input[type=button]:active {
     position: relative;
     top: 1px;
+}
+
+/* Enlarge button height for mobile devices */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 768px)
+{
+    body {
+        font-size: 14px !important;
+    }
+    .a, .tab, .sectionAlbumTitleTitle, .sectionArtistNameTitle {
+        height: 44px;
+        line-height: 44px;
+    }
+    .input[type=button] {
+        height: 44px;
+    }
+    .tabContainer {
+        margin-top: 107px;
+    }
 }

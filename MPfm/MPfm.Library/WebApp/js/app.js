@@ -3,20 +3,39 @@ $(document).ready(function() {
 
     $('#btnDownloadIndex').click(function (){
         $.getJSON(hostUrl + '/api/index/json', function(data) {
-            var tbl_body = "";
             console.log('Received json from /api/index/json');
+            var body = "";
             var artist = "";
+            var album = "";
+            var counterArtist = 0;
+            var counterAlbum = 0;
             $.each(data, function(key, item) {
 
+                var isNewArtist = false;
                 if(artist !== item.ArtistName) {
-                    tbl_body += "<tr><td colspan='4' class='sectionHeader'>" + item.ArtistName + "</td></tr>";
+                    isNewArtist = true;
+                    counterArtist++;
+                    if(counterArtist > 1) {
+                        body += "</table></div></div>";
+                    }
+                    body += "<div class='sectionArtistName'><div class='sectionArtistNameTitle'>" + item.ArtistName + "</div>";
                     artist = item.ArtistName;
                 }
 
-                tbl_body += "<tr><td>" + item.ArtistName + "</td><td>" + item.AlbumTitle + "</td><td>" + item.Title + "</td>" +
-                            "<td><a href='/api/audiofile/" + item.Id + "'>Download</a></td></tr>";
+                if(album !== item.AlbumTitle) {
+                    counterAlbum++;
+                    if(counterAlbum > 1 && !isNewArtist) {
+                        body += "</table></div>";
+                    }
+                    body += "<div class='sectionAlbumTitle' style='display: none;'><div class='sectionAlbumTitleTitle'>" + item.AlbumTitle + "</div><table class='songs' style='display: none;'>";
+                    album = item.AlbumTitle;
+                }
+
+                body += "<tr class='song'><td style='width: 20px;'>" + item.TrackNumber + "</td><td>" + item.Title + "</td><td style='width: 80px;'>" + item.Length + "</td>" +
+                    "<td style='width: 84px; padding-right: 6px;'><a href='/api/audiofile/" + item.Id + "'>Download</a></td></tr>";
             });
-            $("#tableIndex").html(tbl_body);
+            body += "</div></div>";
+            $("#tabDownloadContents").html(body);
         });
     });
 
@@ -24,6 +43,30 @@ $(document).ready(function() {
         $('input[type=file]').upload(hostUrl + '/upload', function(res) {
             alert('File uploaded');
         });
+    });
+
+    $('#tabDownload').click(function (){
+        $('#tabDownload').toggleClass('tabSelected');
+        $('#tabUpload').toggleClass('tabSelected');
+        $('#tabDownloadContents').toggle();
+        $('#tabUploadContents').toggle();
+    });
+
+    $('#tabUpload').click(function (){
+        $('#tabDownload').toggleClass('tabSelected');
+        $('#tabUpload').toggleClass('tabSelected');
+        $('#tabDownloadContents').toggle();
+        $('#tabUploadContents').toggle();
+    });
+
+    $('#tabDownloadContents').on('click', 'div.sectionArtistName div.sectionArtistNameTitle', function() {
+        console.log('hello artist');
+        jQuery(this).siblings('.sectionAlbumTitle').toggle();  //.css('display', 'block');
+    });
+
+    $('#tabDownloadContents').on('click', 'div.sectionAlbumTitle div.sectionAlbumTitleTitle', function() {
+        console.log('hello album');
+        jQuery(this).siblings('.songs').toggle();
     });
 });
 
@@ -58,4 +101,9 @@ function readCookie(name) {
 
 function eraseCookie(name) {
     createCookie(name, "", -1);
+}
+
+function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length-size);
 }

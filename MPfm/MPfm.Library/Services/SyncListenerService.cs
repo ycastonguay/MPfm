@@ -39,7 +39,8 @@ namespace MPfm.Library.Services
         private HttpListener _httpListener;
 
         public const string SyncVersionId = "sessions_app_sync_version_1";
-        private static string _authenticationCode = Guid.NewGuid().ToString().Substring(0, 4);
+        //private static string _authenticationCode = Guid.NewGuid().ToString().Substring(0, 4);
+        private static string _authenticationCode = "a";
         public static string AuthenticationCode { get { return _authenticationCode; } }
 
         public int Port { get; private set; }
