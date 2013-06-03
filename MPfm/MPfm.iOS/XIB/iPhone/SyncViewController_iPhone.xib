@@ -45,7 +45,7 @@
 						<string key="NSFrame">{{0, 60}, {320, 350}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="922071009"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="1065237174">
 							<int key="NSColorSpace">3</int>
@@ -100,7 +100,7 @@
 					<object class="IBUIButton" id="922071009">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{166, 418}, {134, 35}}</string>
+						<string key="NSFrame">{{20, 418}, {280, 35}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -109,51 +109,28 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUINormalTitle">Add device</string>
+						<string key="IBUINormalTitle">Connect to a device manually</string>
 						<reference key="IBUIHighlightedTitleColor" ref="1065237174"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
 							<reference key="NSCustomColorSpace" ref="83561890"/>
 						</object>
-						<object class="NSColor" key="IBUINormalTitleShadowColor" id="780018556">
+						<object class="NSColor" key="IBUINormalTitleShadowColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="747980488">
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<string key="name">HelveticaNeue-Bold</string>
 							<string key="family">Helvetica Neue</string>
 							<int key="traits">2</int>
 							<double key="pointSize">14</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="1020536462">
+						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">HelveticaNeue-Bold</string>
 							<double key="NSSize">14</double>
 							<int key="NSfFlags">16</int>
 						</object>
-					</object>
-					<object class="IBUIButton" id="389516475">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{20, 418}, {134, 35}}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="922071009"/>
-						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<bool key="IBUIOpaque">NO</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIContentHorizontalAlignment">0</int>
-						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUINormalTitle">Refresh devices</string>
-						<reference key="IBUIHighlightedTitleColor" ref="1065237174"/>
-						<object class="NSColor" key="IBUINormalTitleColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-							<reference key="NSCustomColorSpace" ref="83561890"/>
-						</object>
-						<reference key="IBUINormalTitleShadowColor" ref="780018556"/>
-						<reference key="IBUIFontDescription" ref="747980488"/>
-						<reference key="IBUIFont" ref="1020536462"/>
 					</object>
 					<object class="IBUIView" id="123486378">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -267,22 +244,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">btnAddDevice</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="922071009"/>
-					</object>
-					<int key="connectionID">10</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">btnRefreshDevices</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="389516475"/>
-					</object>
-					<int key="connectionID">15</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">lblStatus</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="932693665"/>
@@ -314,22 +275,21 @@
 					<int key="connectionID">23</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">btnConnectDeviceManually</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="922071009"/>
+					</object>
+					<int key="connectionID">25</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">actionAddDevice:</string>
+						<string key="label">actionConnectDeviceManually:</string>
 						<reference key="source" ref="922071009"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">16</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">actionRefreshDevices:</string>
-						<reference key="source" ref="389516475"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">17</int>
+					<int key="connectionID">24</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -346,7 +306,6 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="179665323"/>
 							<reference ref="139109385"/>
-							<reference ref="389516475"/>
 							<reference ref="123486378"/>
 							<reference ref="922071009"/>
 						</array>
@@ -377,11 +336,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
 						<reference key="object" ref="922071009"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="389516475"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -417,37 +371,32 @@
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">25</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">SyncViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="actionAddDevice:">id</string>
-						<string key="actionRefreshDevices:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="actionAddDevice:">
-							<string key="name">actionAddDevice:</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">actionConnectDeviceManually:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">actionConnectDeviceManually:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">actionConnectDeviceManually:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="actionRefreshDevices:">
-							<string key="name">actionRefreshDevices:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="activityIndicator">UIActivityIndicatorView</string>
-						<string key="btnAddDevice">UIButton</string>
-						<string key="btnRefreshDevices">UIButton</string>
+						<string key="btnConnectDeviceManually">UIButton</string>
 						<string key="lblIPAddress">UILabel</string>
 						<string key="lblStatus">UILabel</string>
 						<string key="tableView">UITableView</string>
@@ -458,12 +407,8 @@
 							<string key="name">activityIndicator</string>
 							<string key="candidateClassName">UIActivityIndicatorView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="btnAddDevice">
-							<string key="name">btnAddDevice</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="btnRefreshDevices">
-							<string key="name">btnRefreshDevices</string>
+						<object class="IBToOneOutletInfo" key="btnConnectDeviceManually">
+							<string key="name">btnConnectDeviceManually</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="lblIPAddress">

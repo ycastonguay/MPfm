@@ -44,7 +44,7 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ISyncView view)
         {
-            view.OnRefreshDevices = RefreshDevices;
+            view.OnConnectDeviceManually = ConnectDeviceManually;
             base.BindView(view);
 
             Initialize();
@@ -84,12 +84,16 @@ namespace MPfm.MVP.Presenters
             View.RefreshDevicesEnded();
         }
 
+        private void ConnectDeviceManually(string url)
+        {
+        }
+
         private void RefreshDevices()
         {
             try
             {
                 string ip = SyncListenerService.GetLocalIPAddress().ToString();
-                View.RefreshIPAddress(String.Format("IP: {0} - Auth. code: {1} ", ip, SyncListenerService.AuthenticationCode));
+                View.RefreshIPAddress(String.Format("My IP address is {0}", ip));
 
                 // Search for devices in subnet
                 var split = ip.Split('.');

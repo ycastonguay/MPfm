@@ -152,6 +152,10 @@
     <Content Include="Lib\System.Data.SQLite.dll" />
     <Content Include="Lib\System.Data.SQLite.Linq.dll" />
     <EmbeddedResource Include="WebApp\login.html" />
+    <EmbeddedResource Include="WebApp\images\icon_album.png" />
+    <EmbeddedResource Include="WebApp\images\icon_artist.png" />
+    <EmbeddedResource Include="WebApp\images\icon_download.png" />
+    <EmbeddedResource Include="WebApp\images\icon_upload.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

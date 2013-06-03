@@ -31,6 +31,9 @@ namespace MPfm.iOS.Classes.Controllers
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblSubtitle2 { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -67,6 +70,11 @@ namespace MPfm.iOS.Classes.Controllers
 			if (lblSubtitle2 != null) {
 				lblSubtitle2.Dispose ();
 				lblSubtitle2 = null;
+			}
+
+			if (scrollView != null) {
+				scrollView.Dispose ();
+				scrollView = null;
 			}
 		}
 	}

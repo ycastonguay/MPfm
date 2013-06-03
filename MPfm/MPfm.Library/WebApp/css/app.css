@@ -81,6 +81,9 @@ a {
     padding: 4px;
     background-color: #e74c3c;
     color: white;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
     font-size: 9pt;
     text-decoration: none;
     text-align: center;

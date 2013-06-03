@@ -27,7 +27,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ISyncView : IBaseView
 	{
-        Action OnRefreshDevices { get; set; }
+        Action<string> OnConnectDeviceManually { get; set; }
 
         void SyncError(Exception ex);
         void RefreshIPAddress(string address);

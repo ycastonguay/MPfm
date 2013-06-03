@@ -18,7 +18,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblIPAddress { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnAddDevice { get; set; }
+		MonoTouch.UIKit.UIButton btnConnectDeviceManually { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblStatus { get; set; }
@@ -27,16 +27,10 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnRefreshDevices { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UIView viewRefresh { get; set; }
 
-		[Action ("actionAddDevice:")]
-		partial void actionAddDevice (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionRefreshDevices:")]
-		partial void actionRefreshDevices (MonoTouch.Foundation.NSObject sender);
+		[Action ("actionConnectDeviceManually:")]
+		partial void actionConnectDeviceManually (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -50,9 +44,9 @@ namespace MPfm.iOS
 				lblIPAddress = null;
 			}
 
-			if (btnAddDevice != null) {
-				btnAddDevice.Dispose ();
-				btnAddDevice = null;
+			if (btnConnectDeviceManually != null) {
+				btnConnectDeviceManually.Dispose ();
+				btnConnectDeviceManually = null;
 			}
 
 			if (lblStatus != null) {
@@ -63,11 +57,6 @@ namespace MPfm.iOS
 			if (activityIndicator != null) {
 				activityIndicator.Dispose ();
 				activityIndicator = null;
-			}
-
-			if (btnRefreshDevices != null) {
-				btnRefreshDevices.Dispose ();
-				btnRefreshDevices = null;
 			}
 
 			if (viewRefresh != null) {

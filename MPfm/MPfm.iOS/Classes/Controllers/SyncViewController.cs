@@ -47,10 +47,8 @@ namespace MPfm.iOS
 
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
             viewRefresh.BackgroundColor = GlobalTheme.MainLightColor;
-            btnAddDevice.BackgroundColor = GlobalTheme.SecondaryColor;
-            btnAddDevice.Layer.CornerRadius = 8;
-            btnRefreshDevices.BackgroundColor = GlobalTheme.SecondaryColor;
-            btnRefreshDevices.Layer.CornerRadius = 8;
+            btnConnectDeviceManually.BackgroundColor = GlobalTheme.SecondaryColor;
+            btnConnectDeviceManually.Layer.CornerRadius = 8;
 
             activityIndicator.StartAnimating();
 
@@ -107,23 +105,15 @@ namespace MPfm.iOS
             tableView.DeselectRow(indexPath, true);
         }
 
-        partial void actionAddDevice(NSObject sender)
+        partial void actionConnectDeviceManually(NSObject sender)
         {
-
-        }
-
-        partial void actionRefreshDevices(NSObject sender)
-        {
-            btnRefreshDevices.SetTitle("Cancel refresh", UIControlState.Normal);
-            UIView.Animate(0.25, () => {
-                viewRefresh.Alpha = 1;
-            });
-            OnRefreshDevices();
+            // TODO: Popup window asking for host and port.
+            //OnConnectDeviceManually("");
         }
 
         #region ISyncView implementation
 
-        public Action OnRefreshDevices { get; set; }
+        public Action<string> OnConnectDeviceManually { get; set; }
 
         public void SyncError(Exception ex)
         {
@@ -159,7 +149,6 @@ namespace MPfm.iOS
         {
             InvokeOnMainThread(() => {
                 activityIndicator.StopAnimating();
-                btnRefreshDevices.SetTitle("Refresh devices", UIControlState.Normal);
                 UIView.Animate(0.25, () => {
                     viewRefresh.Alpha = 0;
                 });

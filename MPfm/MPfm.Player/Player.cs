@@ -1715,7 +1715,7 @@ namespace MPfm.Player
         {
             Console.WriteLine("Player - AddBPMCallbacks - Adding callback...");
 
-            BaseFx.BPM_CallbackSet(_fxChannel.Handle, _bpmProc, 2.0, Utils.MakeLong(70, 180), BASSFXBpm.BASS_FX_BPM_MULT2, IntPtr.Zero);
+            //BaseFx.BPM_CallbackSet(_fxChannel.Handle, _bpmProc, 2.0, Utils.MakeLong(70, 180), BASSFXBpm.BASS_FX_BPM_MULT2, IntPtr.Zero);
             //BaseFx.BPM_BeatCallbackSet(_fxChannel.Handle, _bpmBeatProc, IntPtr.Zero);
         }
 
@@ -1723,8 +1723,8 @@ namespace MPfm.Player
         {
             //Console.WriteLine("Player - RemoveBPMCallbacks - Resetting callback...");
             //BaseFx.BPM_CallbackReset(_fxChannel.Handle); // <-- this crashes when trying to remove a callback that's being used.
-            Console.WriteLine("Player - RemoveBPMCallbacks - Freeing resources...");
-            BaseFx.BPM_Free(_fxChannel.Handle);
+//            Console.WriteLine("Player - RemoveBPMCallbacks - Freeing resources...");
+//            BaseFx.BPM_Free(_fxChannel.Handle);
             //BaseFx.BPM_BeatCallbackReset(_fxChannel.Handle);
             //BaseFx.BPM_BeatFree(_fxChannel.Handle);
         }
