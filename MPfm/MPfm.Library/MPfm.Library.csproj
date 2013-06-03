@@ -115,6 +115,10 @@
     <EmbeddedResource Include="WebApp\js\jquery.upload-1.0.2.min.js" />
     <EmbeddedResource Include="WebApp\images\app_logo.png" />
     <EmbeddedResource Include="WebApp\login.html" />
+    <EmbeddedResource Include="WebApp\images\icon_album.png" />
+    <EmbeddedResource Include="WebApp\images\icon_artist.png" />
+    <EmbeddedResource Include="WebApp\images\icon_download.png" />
+    <EmbeddedResource Include="WebApp\images\icon_upload.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
@@ -145,6 +149,9 @@
     <Folder Include="WebApp\js\" />
     <Folder Include="WebApp\css\" />
     <Folder Include="Services\Events\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lib\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\MonoSQLiteGateway.cs" />
@@ -184,8 +191,5 @@
     <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Lib\Newtonsoft.Json.dll" />
   </ItemGroup>
 </Project>

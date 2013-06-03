@@ -184,6 +184,14 @@ input[type=button]:active {
     top: 1px;
 }
 
+.icon {
+    width: 22px;
+    height: 22px;
+    float: left;
+    padding: 4px;
+    margin-right: 6px;
+}
+
 /* Enlarge button height for mobile devices */
 @media only screen
 and (min-device-width : 320px)
@@ -197,6 +205,10 @@ and (max-device-width : 768px)
         line-height: 44px;
     }
     .input[type=button] {
+        height: 44px;
+    }
+    .icon {
+        width: 44px;
         height: 44px;
     }
     .tabContainer {

@@ -17,11 +17,11 @@
         <p>
             To access the web interface of Sessions, you need to enter the authentication code shown on your device.
         </p>
-        <form name="formLogin" id="formLogin">
+        <form name="formLogin" id="formLogin" onsubmit="submitLoginForm()">
             <p>
                 <label for="authenticationCode">Authentication code:</label>
                 <span class="spacer">&nbsp;</span>
-                <input type="text" class="inputCode" name="authenticationCode" id="authenticationCode">
+                <input type="number" class="inputCode" name="authenticationCode" id="authenticationCode">
             </p>
             <p>
                 <input type="button" class="button" value="Login" name="authenticationCodeSubmit" id="authenticationCodeSubmit" onclick="submitLoginForm();return false;">

@@ -86,6 +86,32 @@ namespace MPfm.iOS
                 var cellStyle = UITableViewCellStyle.Default;
                 cell = new UITableViewCell(cellStyle, _cellIdentifier);
             }
+
+//            cell.ImageView.Alpha = 0.7f;
+//            switch (_items[indexPath.Row].Key)
+//            {
+//                case MobileOptionsMenuType.About:
+//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_info");
+//                    break;
+//                case MobileOptionsMenuType.EqualizerPresets:
+//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_eq");
+//                    break;
+//                case MobileOptionsMenuType.Preferences:
+//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_settings");
+//                    break;
+//                case MobileOptionsMenuType.SyncLibrary:
+//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_mobile");
+//                    break;
+//                case MobileOptionsMenuType.SyncLibraryBrowser:
+//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_web");
+//                    break;
+//                case MobileOptionsMenuType.SyncLibraryCloud:
+//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_cloud");
+//                    break;
+//                case MobileOptionsMenuType.SyncLibraryFileSharing:
+//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_share");
+//                    break;
+//            }
             
             cell.TextLabel.Text = _items[indexPath.Row].Value;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
@@ -112,18 +138,6 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if(indexPath.Row == 3)
-            {
-                var remoteHostStatus = ReachabilityHelper.RemoteHostStatus ();
-                var internetStatus = ReachabilityHelper.InternetConnectionStatus ();
-                var localWifiStatus = ReachabilityHelper.LocalWifiConnectionStatus ();
-                Console.WriteLine("remoteHostStatus: {0} - internetStatus: {1} - localWifiStatus: {2}", remoteHostStatus, internetStatus, localWifiStatus);
-
-                var syncDiscoveryService = Bootstrapper.GetContainer().Resolve<ISyncDiscoveryService>();
-                syncDiscoveryService.SearchForDevices("192.168.1");
-                return;
-            }
-
             OnItemClick(_items[indexPath.Row].Key);
         }
 

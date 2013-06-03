@@ -18,7 +18,7 @@ $(document).ready(function() {
                     if(counterArtist > 1) {
                         body += "</table></div></div>";
                     }
-                    body += "<div class='sectionArtistName'><div class='sectionArtistNameTitle'>" + item.ArtistName + "</div>";
+                    body += "<div class='sectionArtistName'><img src='/images/icon_artist.png' class='icon' /><div class='sectionArtistNameTitle'>" + item.ArtistName + "</div>";
                     artist = item.ArtistName;
                 }
 
@@ -27,7 +27,7 @@ $(document).ready(function() {
                     if(counterAlbum > 1 && !isNewArtist) {
                         body += "</table></div>";
                     }
-                    body += "<div class='sectionAlbumTitle' style='display: none;'><div class='sectionAlbumTitleTitle'>" + item.AlbumTitle + "</div><table class='songs' style='display: none;'>";
+                    body += "<div class='sectionAlbumTitle' style='display: none;'><img src='/images/icon_album.png' class='icon' /><div class='sectionAlbumTitleTitle'>" + item.AlbumTitle + "</div><table class='songs' style='display: none;'>";
                     album = item.AlbumTitle;
                 }
 

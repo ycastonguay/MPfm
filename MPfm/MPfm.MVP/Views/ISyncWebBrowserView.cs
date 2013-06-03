@@ -17,28 +17,17 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.MVP.Models;
+using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Options menu view interface for mobile devices.
+	/// Sync web browser view interface.
 	/// </summary>
-    public interface IMobileOptionsMenuView : IBaseView
+	public interface ISyncWebBrowserView : IBaseView
 	{
-        Action<MobileOptionsMenuType> OnItemClick { get; set; }
-
-	    void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options);
+        void SyncWebBrowserError(Exception ex);
+        void RefreshContent(string url, string authenticationCode);
 	}
-
-    public enum MobileOptionsMenuType
-    {
-        About = 0,
-        Preferences = 1,
-        EqualizerPresets = 2,
-        UpdateLibrary = 3,
-        SyncLibrary = 4,
-        SyncLibraryFileSharing = 5,
-        SyncLibraryWebBrowser = 6,
-        SyncLibraryCloud = 7
-    }
 }

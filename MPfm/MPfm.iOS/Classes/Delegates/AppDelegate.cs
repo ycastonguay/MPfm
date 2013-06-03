@@ -111,6 +111,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
             container.Register<ISyncView, SyncViewController>().AsMultiInstance();
+            container.Register<ISyncWebBrowserView, SyncWebBrowserViewController>().AsMultiInstance();
         }
 
         public void ShowSplash(SplashViewController viewController)

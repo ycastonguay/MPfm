@@ -210,6 +210,10 @@
     <Compile Include="Classes\Controllers\SyncViewController.designer.cs">
       <DependentUpon>SyncViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controllers\SyncWebBrowserViewController.cs" />
+    <Compile Include="Classes\Controllers\SyncWebBrowserViewController.designer.cs">
+      <DependentUpon>SyncWebBrowserViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -242,6 +246,8 @@
     <InterfaceDefinition Include="XIB\iPhone\EqualizerPresetDetailsViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\SyncViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\SyncViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\SyncWebBrowserViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\SyncWebBrowserViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -264,6 +270,7 @@
     <Folder Include="Classes\Managers\" />
     <Folder Include="Images\Sliders\" />
     <Folder Include="Classes\Controls\Events\" />
+    <Folder Include="Images\Icons\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icon57.png" />
@@ -320,6 +327,22 @@
     <BundleResource Include="Images\Splash\Default.png" />
     <BundleResource Include="Images\Splash\Default-568h%402x.png" />
     <BundleResource Include="Images\Splash\Default%402x.png" />
+    <BundleResource Include="Images\Icons\icon_cloud.png" />
+    <BundleResource Include="Images\Icons\icon_cloud%402x.png" />
+    <BundleResource Include="Images\Icons\icon_eq.png" />
+    <BundleResource Include="Images\Icons\icon_eq%402x.png" />
+    <BundleResource Include="Images\Icons\icon_info.png" />
+    <BundleResource Include="Images\Icons\icon_info%402x.png" />
+    <BundleResource Include="Images\Icons\icon_mobile.png" />
+    <BundleResource Include="Images\Icons\icon_mobile%402x.png" />
+    <BundleResource Include="Images\Icons\icon_settings.png" />
+    <BundleResource Include="Images\Icons\icon_settings%402x.png" />
+    <BundleResource Include="Images\Icons\icon_share.png" />
+    <BundleResource Include="Images\Icons\icon_share%402x.png" />
+    <BundleResource Include="Images\Icons\icon_web.png" />
+    <BundleResource Include="Images\Icons\icon_web%402x.png" />
+    <BundleResource Include="Images\Sliders\slider_gray.png" />
+    <BundleResource Include="Images\Sliders\slider_gray%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

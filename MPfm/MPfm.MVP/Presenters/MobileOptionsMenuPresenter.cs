@@ -52,10 +52,17 @@ namespace MPfm.MVP.Presenters
 	    private void Initialize()
 	    {	        
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync Library With Other Devices"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryDropbox, "Sync Library With Dropbox"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryGoogleDrive, "Sync Library With Google Drive"));
+            //_items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync Library with Other Devices"));
+
+#if IOS
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync Library with iTunes"));
+#elif ANDROID
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync Library with File Sharing"));
+#endif
+
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryCloud, "Sync Library with Cloud Services"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryWebBrowser, "Sync Library with Web Browser"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.EqualizerPresets, "Equalizer Presets"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Preferences, "Preferences"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About MPfm"));
@@ -79,6 +86,12 @@ namespace MPfm.MVP.Presenters
                 case MobileOptionsMenuType.SyncLibrary:
                 {
                     var view = _navigationManager.CreateSyncView();
+                    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                    break;
+                }
+                case MobileOptionsMenuType.SyncLibraryWebBrowser:
+                {
+                    var view = _navigationManager.CreateSyncWebBrowserView();
                     _navigationManager.PushTabView(MobileNavigationTabType.More, view);
                     break;
                 }

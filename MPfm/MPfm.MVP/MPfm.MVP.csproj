@@ -216,5 +216,8 @@
     <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
     <Compile Include="Presenters\SyncPresenter.cs" />
     <Compile Include="Models\PlayerPitchShiftingEntity.cs" />
+    <Compile Include="Views\ISyncWebBrowserView.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
+    <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
   </ItemGroup>
 </Project>
