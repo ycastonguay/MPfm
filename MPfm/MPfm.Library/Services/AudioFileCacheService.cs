@@ -48,13 +48,11 @@ namespace MPfm.Library.Services
 		/// </summary>
 		public void RefreshCache()
 		{
-            // Update cache
-			AudioFiles = _libraryService.SelectAudioFiles().ToList();
-
             // Warn any subscribers that the audio file cache has been updated (i.e. library/song browser presenters)
+            AudioFiles = _libraryService.SelectAudioFiles().ToList();
             _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
 		}
-        
+
 		/// <summary>
         /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>

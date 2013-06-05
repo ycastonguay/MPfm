@@ -21,23 +21,12 @@ using MPfm.MVP.Views;
 namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-    /// Preferences presenter.
+    /// Audio preferences presenter.
 	/// </summary>
     public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
 	{
-		// Private variables
-
-		#region Constructor and Dispose
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AudioPreferencesPresenter"/> class.
-        /// </summary>
         public AudioPreferencesPresenter()
 		{	
 		}
-
-		#endregion
-		
 	}
 }
-

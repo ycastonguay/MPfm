@@ -17,6 +17,8 @@
 
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Library.Services.Interfaces;
+using System;
 
 namespace MPfm.MVP.Presenters
 {
@@ -25,19 +27,73 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class LibraryPreferencesPresenter : BasePresenter<ILibraryPreferencesView>, ILibraryPreferencesPresenter
 	{
-		// Private variables
+        readonly ISyncListenerService _syncListenerService;
+        readonly ILibraryService _libraryService;
+        readonly IAudioFileCacheService _audioFileCacheService;
 
-		#region Constructor and Dispose
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LibraryPreferencesPresenter"/> class.
-        /// </summary>
-        public LibraryPreferencesPresenter()
+        public LibraryPreferencesPresenter(ISyncListenerService syncListenerService, ILibraryService libraryService, 
+                                           IAudioFileCacheService audioFileCacheService)
 		{	
+            _syncListenerService = syncListenerService;
+            _libraryService = libraryService;
+            _audioFileCacheService = audioFileCacheService;
 		}
 
-		#endregion
-		
+        public override void BindView(ILibraryPreferencesView view)
+        {
+            view.OnResetLibrary = ResetLibrary;
+            view.OnEnableSyncListener = EnableSyncListener;
+            view.OnSetSyncListenerPort = SetSyncListenerPort;
+            base.BindView(view);
+            
+            Initialize();
+        }       
+        
+        private void Initialize()
+        {
+        }
+
+        private void ResetLibrary()
+        {
+            try
+            {
+                _libraryService.ResetLibrary();
+                _audioFileCacheService.RefreshCache();               
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("LibraryPreferencesPresenter - ResetLibrary - Failed to reset library: {0}", ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
+
+        private void EnableSyncListener()
+        {
+            try
+            {
+                if(_syncListenerService.IsRunning)
+                    _syncListenerService.Stop();
+                else 
+                    _syncListenerService.Start();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("LibraryPreferencesPresenter - EnableSyncListener - Failed to enable/disable sync listener: {0}", ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
+
+        private void SetSyncListenerPort(int port)
+        {
+            try
+            {
+                _syncListenerService.SetPort(port);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("LibraryPreferencesPresenter - SetSyncListenerPort - Failed to set sync listener port: {0}", ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
 	}
 }
-

@@ -75,6 +75,8 @@ namespace MPfm.MVP.Presenters
             {
                 case MobileOptionsMenuType.About:
                 {
+                    var view = _navigationManager.CreateAboutView();
+                    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
                     break;
                 }
                 case MobileOptionsMenuType.UpdateLibrary:
@@ -103,6 +105,8 @@ namespace MPfm.MVP.Presenters
                 }
                 case MobileOptionsMenuType.Preferences:
                 {
+                    var view = _navigationManager.CreatePreferencesView();
+                    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
                     break;
                 }
             }

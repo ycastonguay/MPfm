@@ -21,11 +21,11 @@ using MPfm.MVP.Views;
 namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-    /// General preferences presenter.
+    /// About preferences presenter.
 	/// </summary>
-    public class GeneralPreferencesPresenter : BasePresenter<IGeneralPreferencesView>, IGeneralPreferencesPresenter
+    public class AboutPresenter : BasePresenter<IAboutView>, IAboutPresenter
 	{
-        public GeneralPreferencesPresenter()
+        public AboutPresenter()
 		{	
 		}
 	}

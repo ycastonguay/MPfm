@@ -282,8 +282,6 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void EndTracking(UITouch uitouch, UIEvent uievent)
         {
-            Console.WriteLine("EndTracking");
-
             if(Tracking)
             {
                 scrubbingSpeed = _scrubbingSpeeds[0];

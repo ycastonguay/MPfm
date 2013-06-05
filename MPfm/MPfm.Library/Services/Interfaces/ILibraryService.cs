@@ -31,6 +31,7 @@ namespace MPfm.Library.Services.Interfaces
 		IEnumerable<string> SelectFilePaths();
 		IEnumerable<Folder> SelectFolders();
 		void RemoveAudioFilesWithBrokenFilePaths();
+        void ResetLibrary();
 		
 		IEnumerable<AudioFile> SelectAudioFiles();
 		IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);

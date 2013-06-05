@@ -15,13 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-    /// Preferences view interface.
+    /// Preferences view interface (menu for mobile devices).
 	/// </summary>
-    public interface IPreferencesView : IAudioPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
-	{        
-	}
-}
+    public interface IPreferencesView : IBaseView
+	{
+        Action<string> OnSelectItem { get; set; }
 
+        void RefreshItems(List<string> items);
+    }
+}

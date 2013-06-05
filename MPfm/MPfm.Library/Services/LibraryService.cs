@@ -47,6 +47,11 @@ namespace MPfm.Library.Services
 			gateway.CompactDatabase();
 		}
 
+        public void ResetLibrary()
+        {
+            gateway.ResetLibrary();
+        }
+
         #region Audio Files
 		
 		public IEnumerable<Folder> SelectFolders()

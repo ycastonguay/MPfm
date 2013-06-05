@@ -49,6 +49,7 @@ namespace MPfm.Library.Services
         }
 
         public int Port { get; private set; }
+        public bool IsRunning { get; private set; }
 
         public SyncListenerService(IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications syncDeviceSpecifications)
         {
@@ -73,6 +74,7 @@ namespace MPfm.Library.Services
             Task.Factory.StartNew(() => {
                 while (true)
                 {
+                    IsRunning = true;
                     HttpListenerContext context = _httpListener.GetContext();
                     Task.Factory.StartNew((ctx) => {
                         var httpContext = (HttpListenerContext)ctx;
@@ -254,6 +256,16 @@ namespace MPfm.Library.Services
         {
             Console.WriteLine("SyncListenerService - Stopping listener...");
             _httpListener.Stop();
+            IsRunning = false;
+        }
+
+        public void SetPort(int port)
+        {
+            if(IsRunning)
+                Stop();
+
+            Port = port;
+            Initialize();
         }
 
         private bool IsAuthenticated(HttpListenerContext context)

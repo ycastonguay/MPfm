@@ -1540,6 +1540,9 @@ namespace MPfm.Player
             if (_isEQBypassed)
                 return;
 
+            if(!_isPlaying)
+                return;
+
             Console.WriteLine("Player - ApplyEQPreset - Removing BPM callbacks...");
             RemoveBPMCallbacks();
 
@@ -1600,16 +1603,19 @@ namespace MPfm.Player
         /// <param name="setCurrentEQPresetValue">If true, the current EQ preset value will be updated</param>
         public void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue)
         {
-            RemoveBPMCallbacks();
+            if (setCurrentEQPresetValue)
+                _currentEQPreset.Bands[band].Gain = gain;
 
+            if(!_isPlaying)
+                return;
+
+            RemoveBPMCallbacks();
+            
             BASS_BFX_PEAKEQ eq = GetEQParams(band);
             eq.fGain = gain;
             bool success = BassWrapper.BASS_FXSetParametersPeakEQ(_fxEQHandle, eq);
             if(!success)
                 Base.CheckForError();
-
-            if (setCurrentEQPresetValue)
-                _currentEQPreset.Bands[band].Gain = gain;
 
             AddBPMCallbacks();
         }

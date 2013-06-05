@@ -283,5 +283,11 @@
     <Compile Include="Views\ISyncWebBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
     <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
+    <Compile Include="Presenters\PreferencesPresenter.cs" />
+    <Compile Include="Views\IPreferencesUnifiedView.cs" />
+    <Compile Include="Presenters\Interfaces\IPreferencesPresenter.cs" />
+    <Compile Include="Presenters\AboutPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAboutPresenter.cs" />
+    <Compile Include="Views\IAboutView.cs" />
   </ItemGroup>
 </Project>

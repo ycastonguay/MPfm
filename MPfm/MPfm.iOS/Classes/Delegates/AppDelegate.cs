@@ -98,9 +98,10 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPlayerView, PlayerViewController>().AsMultiInstance();
             container.Register<IUpdateLibraryView, UpdateLibraryViewController>().AsMultiInstance();
             container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserViewController>().AsMultiInstance();
-            //container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
-            //container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
-            //container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            container.Register<IPreferencesView, PreferencesViewController>().AsMultiInstance();
+            container.Register<IAudioPreferencesView, AudioPreferencesViewController>().AsMultiInstance();
+            container.Register<IGeneralPreferencesView, GeneralPreferencesViewController>().AsMultiInstance();
+            container.Register<ILibraryPreferencesView, LibraryPreferencesViewController>().AsMultiInstance();
             container.Register<IEqualizerPresetsView, EqualizerPresetsViewController>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsViewController>().AsMultiInstance();
             container.Register<ILoopsView, LoopsViewController>().AsMultiInstance();
@@ -112,6 +113,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
             container.Register<ISyncView, SyncViewController>().AsMultiInstance();
             container.Register<ISyncWebBrowserView, SyncWebBrowserViewController>().AsMultiInstance();
+            container.Register<IAboutView, AboutViewController>().AsMultiInstance();
         }
 
         public void ShowSplash(SplashViewController viewController)

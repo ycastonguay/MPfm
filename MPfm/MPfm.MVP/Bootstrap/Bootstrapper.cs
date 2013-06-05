@@ -67,6 +67,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IUpdateLibraryPresenter, UpdateLibraryPresenter>().AsSingleton();
             container.Register<IEqualizerPresetsPresenter, EqualizerPresetsPresenter>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsPresenter, EqualizerPresetDetailsPresenter>().AsMultiInstance();
+            container.Register<IPreferencesPresenter, PreferencesPresenter>().AsSingleton();
             container.Register<IAudioPreferencesPresenter, AudioPreferencesPresenter>().AsSingleton();
             container.Register<IGeneralPreferencesPresenter, GeneralPreferencesPresenter>().AsSingleton();
             container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsSingleton();
@@ -81,6 +82,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IPlayerStatusPresenter, PlayerStatusPresenter>().AsMultiInstance();
             container.Register<ISyncPresenter, SyncPresenter>().AsMultiInstance();
             container.Register<ISyncWebBrowserPresenter, SyncWebBrowserPresenter>().AsMultiInstance();
+            container.Register<IAboutPresenter, AboutPresenter>().AsSingleton();
         }
         
         /// <summary>

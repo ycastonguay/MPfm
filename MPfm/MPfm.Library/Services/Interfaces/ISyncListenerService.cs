@@ -25,7 +25,11 @@ namespace MPfm.Library.Services.Interfaces
     /// </summary>
     public interface ISyncListenerService
     {
+        bool IsRunning { get; }
+        int Port { get; }
+
         void Start();
         void Stop();
+        void SetPort(int port);
     }
 }

@@ -38,6 +38,8 @@ namespace MPfm.MVP.Navigation
 
         private ISplashView _splashView;
         private ISplashPresenter _splashPresenter;
+        private IAboutView _aboutView;
+        private IAboutPresenter _aboutPresenter;
         private IMobileOptionsMenuView _optionsMenuView;
         private IMobileOptionsMenuPresenter _optionsMenuPresenter;
         private IUpdateLibraryView _updateLibraryView;
@@ -70,9 +72,11 @@ namespace MPfm.MVP.Navigation
         private IPitchShiftingPresenter _pitchShiftingPresenter;
 
         // Preferences sub views
+        private IPreferencesView _preferencesView;
         private IAudioPreferencesView _audioPreferencesView;
         private IGeneralPreferencesView _generalPreferencesView;
         private ILibraryPreferencesView _libraryPreferencesView;
+        private IPreferencesPresenter _preferencesPresenter;
         private IAudioPreferencesPresenter _audioPreferencesPresenter;
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
@@ -180,6 +184,28 @@ namespace MPfm.MVP.Navigation
             };
             return _updateLibraryView;
         }
+
+        public virtual IPreferencesView CreatePreferencesView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
+                _preferencesPresenter.BindView((IPreferencesView)view);
+            };
+            
+            // Create view and manage view destruction
+            if(_preferencesView == null)
+            {
+                _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _preferencesView.OnViewDestroy = (view) =>
+                {
+                    _libraryPreferencesView = null;
+                    _preferencesPresenter = null;
+                };
+            }
+            return _preferencesView;
+        }
         
         public virtual IAudioPreferencesView CreateAudioPreferencesView()
         {
@@ -191,12 +217,15 @@ namespace MPfm.MVP.Navigation
                 };
 
             // Create view and manage view destruction
-            _audioPreferencesView = Bootstrapper.GetContainer().Resolve<IAudioPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _audioPreferencesView.OnViewDestroy = (view) =>
+            if(_audioPreferencesView == null)
             {
-                _audioPreferencesView = null;
-                _audioPreferencesPresenter = null;
-            };
+                _audioPreferencesView = Bootstrapper.GetContainer().Resolve<IAudioPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _audioPreferencesView.OnViewDestroy = (view) =>
+                {
+                    _audioPreferencesView = null;
+                    _audioPreferencesPresenter = null;
+                };
+            }
             return _audioPreferencesView;
         }
 
@@ -210,12 +239,15 @@ namespace MPfm.MVP.Navigation
             };
 
             // Create view and manage view destruction
-            _generalPreferencesView = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _generalPreferencesView.OnViewDestroy = (view) =>
+            if(_generalPreferencesView == null)
             {
-                _generalPreferencesView = null;
-                _generalPreferencesPresenter = null;
-            };
+                _generalPreferencesView = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _generalPreferencesView.OnViewDestroy = (view) =>
+                {
+                    _generalPreferencesView = null;
+                    _generalPreferencesPresenter = null;
+                };
+            }
             return _generalPreferencesView;
         }
 
@@ -229,12 +261,15 @@ namespace MPfm.MVP.Navigation
             };
 
             // Create view and manage view destruction
-            _libraryPreferencesView = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _libraryPreferencesView.OnViewDestroy = (view) =>
+            if(_libraryPreferencesView == null)
             {
-                _libraryPreferencesView = null;
-                _libraryPreferencesPresenter = null;
-            };
+                _libraryPreferencesView = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _libraryPreferencesView.OnViewDestroy = (view) =>
+                {
+                    _libraryPreferencesView = null;
+                    _libraryPreferencesPresenter = null;
+                };
+            }
             return _libraryPreferencesView;
         }
 
@@ -550,6 +585,29 @@ namespace MPfm.MVP.Navigation
                 };
             }
             return _syncWebBrowserView;
+        }
+
+        public virtual IAboutView CreateAboutView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _aboutPresenter = Bootstrapper.GetContainer().Resolve<IAboutPresenter>();
+                _aboutPresenter.BindView((IAboutView)view);
+            };
+            
+            // Re-use the same instance as before
+            if(_aboutView == null)
+            {
+                // Create view and manage view destruction
+                _aboutView = Bootstrapper.GetContainer().Resolve<IAboutView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _aboutView.OnViewDestroy = (view) =>
+                {
+                    _aboutView = null;
+                    _aboutPresenter = null;
+                };
+            }
+            return _aboutView;
         }
     }
 

@@ -15,18 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Presenters
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-    /// General preferences presenter.
+    /// About presenter interface.
 	/// </summary>
-    public class GeneralPreferencesPresenter : BasePresenter<IGeneralPreferencesView>, IGeneralPreferencesPresenter
+    public interface IAboutPresenter : IBasePresenter<IAboutView>
 	{
-        public GeneralPreferencesPresenter()
-		{	
-		}
 	}
 }
+
