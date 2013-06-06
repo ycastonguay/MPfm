@@ -19,22 +19,22 @@ using System;
 using System.Collections.Generic;
 using MPfm.MVP.Models;
 using MPfm.Library.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Sync view interface.
+	/// Sync menu view interface.
 	/// </summary>
-	public interface ISyncView : IBaseView
+	public interface ISyncMenuView : IBaseView
 	{
-        Action<string> OnConnectDevice { get; set; }
-        Action<string> OnConnectDeviceManually { get; set; }
+        Action<SyncMenuItemEntity> OnExpandItem { get; set; }
+        Action<SyncMenuItemEntity> OnSelectItem { get; set; }
 
-        void SyncError(Exception ex);
-        void RefreshIPAddress(string address);
-        void RefreshDiscoveryProgress(float percentageDone, string status);
-        void RefreshDevices(IEnumerable<SyncDevice> devices);
-        void RefreshDevicesEnded();
-        void SyncDevice(SyncDevice device);
+        void SyncMenuError(Exception ex);
+        void RefreshLoading(bool isLoading, int progressPercentage);
+        void RefreshItems(List<SyncMenuItemEntity> items);
+        void InsertItems(int index, List<SyncMenuItemEntity> items);
+        void RemoveItems(int index, int count);
 	}
 }

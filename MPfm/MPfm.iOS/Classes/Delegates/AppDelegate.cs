@@ -113,6 +113,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
             container.Register<ISyncView, SyncViewController>().AsMultiInstance();
             container.Register<ISyncWebBrowserView, SyncWebBrowserViewController>().AsMultiInstance();
+            container.Register<ISyncMenuView, SyncMenuViewController>().AsMultiInstance();
             container.Register<IAboutView, AboutViewController>().AsMultiInstance();
         }
 

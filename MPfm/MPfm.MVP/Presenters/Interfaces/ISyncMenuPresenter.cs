@@ -15,26 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.Library.Objects;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
-	/// <summary>
-	/// Sync view interface.
-	/// </summary>
-	public interface ISyncView : IBaseView
+	public interface ISyncMenuPresenter : IBasePresenter<ISyncMenuView>
 	{
-        Action<string> OnConnectDevice { get; set; }
-        Action<string> OnConnectDeviceManually { get; set; }
-
-        void SyncError(Exception ex);
-        void RefreshIPAddress(string address);
-        void RefreshDiscoveryProgress(float percentageDone, string status);
-        void RefreshDevices(IEnumerable<SyncDevice> devices);
-        void RefreshDevicesEnded();
-        void SyncDevice(SyncDevice device);
+        void SetUrl(string url);
 	}
 }

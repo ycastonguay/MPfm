@@ -140,26 +140,28 @@ namespace MPfm.iOS.Classes.Controls
 
         private void UpdateNowPlayingView()
         {
-            //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - UpdateNowPlayingView: isPlayerPlaying=" + _isPlayerPlaying.ToString() + " isViewPlayer=" + _isViewPlayer.ToString());
-            if(_isPlayerPlaying && !_isViewPlayer)
-            {
-                //Console.WriteLine("NavCtrl - Showing Now Playing view...");
-                UIView.Animate(0.3f, () => {
-                    _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 44, 44);
-                    _btnEffects.Alpha = 0;
-                    _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
-                    _btnNowPlaying.Alpha = 1;
-                });
-            }
-            else if(_isViewPlayer)
-            {
-                UIView.Animate(0.3f, () => {
-                    _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
-                    _btnEffects.Alpha = 1;
-                    _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 44, 44);
-                    _btnNowPlaying.Alpha = 0;
-                });
-            }
+            InvokeOnMainThread(() => {
+                //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - UpdateNowPlayingView: isPlayerPlaying=" + _isPlayerPlaying.ToString() + " isViewPlayer=" + _isViewPlayer.ToString());
+                if(_isPlayerPlaying && !_isViewPlayer)
+                {
+                    //Console.WriteLine("NavCtrl - Showing Now Playing view...");
+                    UIView.Animate(0.3f, () => {
+                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 44, 44);
+                        _btnEffects.Alpha = 0;
+                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
+                        _btnNowPlaying.Alpha = 1;
+                    });
+                }
+                else if(_isViewPlayer)
+                {
+                    UIView.Animate(0.3f, () => {
+                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
+                        _btnEffects.Alpha = 1;
+                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 44, 44);
+                        _btnNowPlaying.Alpha = 0;
+                    });
+                }
+            });
         }
 
         [Export("navigationBar:shouldPushItem:")]

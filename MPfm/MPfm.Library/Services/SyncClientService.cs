@@ -18,18 +18,23 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Sockets;
-using System.Threading.Tasks;
-using System.IO;
-using System.Linq;
-using MPfm.Library.Services.Interfaces;
 using MPfm.Core.Network;
-using System.Net.NetworkInformation;
+using MPfm.Library.Services.Interfaces;
+using MPfm.Sound.AudioFiles;
+using MPfm.Core;
+using System.Linq;
 
 namespace MPfm.Library.Services
 {
     public class SyncClientService : ISyncClientService
     {
+        WebClientTimeout _webClient;
+        List<AudioFile> _audioFiles = new List<AudioFile>();
+
+        public delegate void DownloadIndexProgress(int progressPercentage, long bytesReceived, long totalBytesToReceive);
+        public event DownloadIndexProgress OnDownloadIndexProgress;
+        public event EventHandler OnReceivedIndex;
+
         public SyncClientService()
         {
             Initialize();
@@ -37,9 +42,65 @@ namespace MPfm.Library.Services
 
         private void Initialize()
         {
-
+            _webClient = new WebClientTimeout(3000);
+            _webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
+            _webClient.DownloadStringCompleted += HandleDownloadStringCompleted;
         }
 
+        private void HandleDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            if (OnDownloadIndexProgress != null)
+                OnDownloadIndexProgress(e.ProgressPercentage, e.BytesReceived, e.TotalBytesToReceive);
+        }
 
+        private void HandleDownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+                return;
+
+            if (e.Error != null)
+            {
+                Console.WriteLine("SyncClientService - Error on DownloadStringAsync: {0}", e.Error);
+                return;
+            }
+
+            string url = e.UserState.ToString();
+            Console.WriteLine("SyncClientService - Finished downloading index from {0}.", url);
+            _audioFiles = XmlSerialization.Deserialize<List<AudioFile>>(e.Result);
+
+            if (OnReceivedIndex != null)
+                OnReceivedIndex(this, new EventArgs());
+        }
+
+        public void Cancel()
+        {
+            Console.WriteLine("SyncClientService - Cancelling...");
+            if (_webClient.IsBusy)
+                _webClient.CancelAsync();
+        }
+
+        public void DownloadIndex(string baseUrl)
+        {
+            var url = new Uri(new Uri(baseUrl), "/api/index/xml");
+            Cancel();
+
+            Console.WriteLine("SyncClientService - Downloading index from {0}...", url);
+            _webClient.DownloadStringAsync(url, url);
+        }
+
+        public List<string> GetDistinctArtistNames()
+        {
+            return _audioFiles.Select(x => x.ArtistName).Distinct().ToList();
+        }
+
+        public List<string> GetDistinctAlbumTitles(string artistName)
+        {
+            return _audioFiles.Where(x => x.ArtistName.ToUpper() == artistName.ToUpper()).Select(x => x.AlbumTitle).Distinct().ToList();
+        }
+
+        public List<AudioFile> GetAudioFiles(string artistName, string albumTitle)
+        {
+            return _audioFiles.Where(x => x.ArtistName.ToUpper() == artistName.ToUpper() && x.AlbumTitle.ToUpper() == albumTitle.ToUpper()).ToList();
+        }
     }
 }

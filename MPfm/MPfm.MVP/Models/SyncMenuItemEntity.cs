@@ -15,26 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using MPfm.MVP.Models;
+using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-	/// Sync view interface.
-	/// </summary>
-	public interface ISyncView : IBaseView
+	public class SyncMenuItemEntity
 	{
-        Action<string> OnConnectDevice { get; set; }
-        Action<string> OnConnectDeviceManually { get; set; }
-
-        void SyncError(Exception ex);
-        void RefreshIPAddress(string address);
-        void RefreshDiscoveryProgress(float percentageDone, string status);
-        void RefreshDevices(IEnumerable<SyncDevice> devices);
-        void RefreshDevicesEnded();
-        void SyncDevice(SyncDevice device);
+        public SyncMenuItemEntityType ItemType { get; set; }
+        public bool IsExpanded { get; set; }
+        public string ArtistName { get; set; }
+        public string AlbumTitle { get; set; }
+        public AudioFile Song { get; set; }
+	}
+	
+    public enum SyncMenuItemEntityType
+	{
+		Artist = 0, Album = 1, Song = 2
 	}
 }

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library.Services.Interfaces
 {
@@ -25,6 +26,13 @@ namespace MPfm.Library.Services.Interfaces
     /// </summary>
     public interface ISyncClientService
     {
+        event SyncClientService.DownloadIndexProgress OnDownloadIndexProgress;
+        event EventHandler OnReceivedIndex;
 
+        void Cancel();
+        void DownloadIndex(string baseUrl);
+        List<string> GetDistinctArtistNames();
+        List<string> GetDistinctAlbumTitles(string artistName);
+        List<AudioFile> GetAudioFiles(string artistName, string albumTitle);
     }
 }

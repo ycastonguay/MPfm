@@ -23,6 +23,7 @@ using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.MVP.Presenters
 {
@@ -32,10 +33,12 @@ namespace MPfm.MVP.Presenters
 	public class SyncPresenter : BasePresenter<ISyncView>, ISyncPresenter
 	{
         readonly ISyncDiscoveryService _syncDiscoveryService;
+        readonly MobileNavigationManager _navigationManager;
         List<SyncDevice> _devices = new List<SyncDevice>();
 
-        public SyncPresenter(ISyncDiscoveryService syncDiscoveryService)
+        public SyncPresenter(MobileNavigationManager navigationManager, ISyncDiscoveryService syncDiscoveryService)
 		{
+            _navigationManager = navigationManager;
             _syncDiscoveryService = syncDiscoveryService;
             _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
             _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
@@ -44,6 +47,7 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ISyncView view)
         {
+            view.OnConnectDevice = ConnectDevice;
             view.OnConnectDeviceManually = ConnectDeviceManually;
             base.BindView(view);
 
@@ -82,6 +86,12 @@ namespace MPfm.MVP.Presenters
         {
             Console.WriteLine("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
             View.RefreshDevicesEnded();
+        }
+
+        private void ConnectDevice(string url)
+        {
+            var view = _navigationManager.CreateSyncMenuView(url);
+            _navigationManager.PushTabView(MobileNavigationTabType.More, view);
         }
 
         private void ConnectDeviceManually(string url)

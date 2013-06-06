@@ -54,6 +54,8 @@ namespace MPfm.MVP.Navigation
         private ISyncPresenter _syncPresenter;
         private ISyncWebBrowserView _syncWebBrowserView;
         private ISyncWebBrowserPresenter _syncWebBrowserPresenter;
+        private ISyncMenuView _syncMenuView;
+        private ISyncMenuPresenter _syncMenuPresenter;
 
         // Player sub views
         private IPlayerMetadataView _playerMetadataView;
@@ -587,6 +589,33 @@ namespace MPfm.MVP.Navigation
             return _syncWebBrowserView;
         }
 
+        public virtual ISyncMenuView CreateSyncMenuView(string url)
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>();
+                _syncMenuPresenter.BindView((ISyncMenuView)view);
+                _syncMenuPresenter.SetUrl(url);
+            };
+
+            // Re-use the same instance as before
+            if (_syncMenuView == null)
+            {
+                // Create view and manage view destruction
+                _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _syncMenuView.OnViewDestroy = (view) =>
+                {
+                    _syncMenuView = null;
+                    _syncMenuPresenter = null;
+                };
+            } 
+            else
+            {
+                _syncMenuPresenter.SetUrl(url);
+            }
+            return _syncMenuView;
+        }
         public virtual IAboutView CreateAboutView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.

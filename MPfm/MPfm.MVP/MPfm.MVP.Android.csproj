@@ -235,5 +235,8 @@
     <Compile Include="Views\ISyncWebBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
     <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
+    <Compile Include="Presenters\SyncMenuPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncMenuPresenter.cs" />
+    <Compile Include="Views\ISyncMenuView.cs" />
   </ItemGroup>
 </Project>

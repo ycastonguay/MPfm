@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -283,6 +283,10 @@
     <Compile Include="Views\ISyncWebBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
     <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
+    <Compile Include="Presenters\SyncMenuPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncMenuPresenter.cs" />
+    <Compile Include="Views\ISyncMenuView.cs" />
+    <Compile Include="Models\SyncMenuItemEntity.cs" />
     <Compile Include="Presenters\PreferencesPresenter.cs" />
     <Compile Include="Views\IPreferencesUnifiedView.cs" />
     <Compile Include="Presenters\Interfaces\IPreferencesPresenter.cs" />

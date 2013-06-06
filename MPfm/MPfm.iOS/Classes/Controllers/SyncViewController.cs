@@ -18,14 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.iOS.Classes.Objects;
-using System.Linq;
 using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
@@ -72,7 +72,6 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            // Request a recycled cell to save memory
             UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
@@ -87,9 +86,6 @@ namespace MPfm.iOS
             cell.Accessory = UITableViewCellAccessory.None;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
 
-//            if (_presets[indexPath.Row].EQPresetId == _selectedPresetId)
-//                cell.Accessory = UITableViewCellAccessory.Checkmark;
-
             UIView viewBackgroundSelected = new UIView();
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             cell.SelectedBackgroundView = viewBackgroundSelected;
@@ -100,9 +96,8 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-//            SetCheckmarkCell(indexPath);
-//            OnLoadPreset(_presets[indexPath.Row].EQPresetId);
             tableView.DeselectRow(indexPath, true);
+            OnConnectDevice(_devices[indexPath.Row].Url);
         }
 
         partial void actionConnectDeviceManually(NSObject sender)
@@ -113,6 +108,7 @@ namespace MPfm.iOS
 
         #region ISyncView implementation
 
+        public Action<string> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
 
         public void SyncError(Exception ex)
