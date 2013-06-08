@@ -379,6 +379,16 @@
     <BundleResource Include="Images\Icons\icon_web%402x.png" />
     <BundleResource Include="Images\Sliders\slider_gray.png" />
     <BundleResource Include="Images\Sliders\slider_gray%402x.png" />
+    <BundleResource Include="Images\Icons\icon_checkbox_checked.png" />
+    <BundleResource Include="Images\Icons\icon_checkbox_checked%402x.png" />
+    <BundleResource Include="Images\Icons\icon_checkbox_partial.png" />
+    <BundleResource Include="Images\Icons\icon_checkbox_partial%402x.png" />
+    <BundleResource Include="Images\Icons\icon_checkbox_unchecked.png" />
+    <BundleResource Include="Images\Icons\icon_checkbox_unchecked%402x.png" />
+    <BundleResource Include="Images\Icons\icon_user.png" />
+    <BundleResource Include="Images\Icons\icon_user%402x.png" />
+    <BundleResource Include="Images\Icons\icon_vinyl.png" />
+    <BundleResource Include="Images\Icons\icon_vinyl%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
@@ -407,7 +417,7 @@
       <Properties>
         <Policies>
           <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
-          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" WhileNewLinePlacement="DoNotCare" ArrayInitializerWrapping="DoNotChange" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" SpacesBeforeBrackets="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
         </Policies>
       </Properties>
     </MonoDevelop>

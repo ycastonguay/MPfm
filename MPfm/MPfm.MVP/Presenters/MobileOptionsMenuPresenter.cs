@@ -31,14 +31,10 @@ namespace MPfm.MVP.Presenters
         readonly MobileNavigationManager _navigationManager;
         List<KeyValuePair<MobileOptionsMenuType, string>> _items;
         
-		#region Constructor and Dispose
-
         public MobileOptionsMenuPresenter(MobileNavigationManager navigationManager)
 		{
             _navigationManager = navigationManager;          
 		}
-
-		#endregion
 
         public override void BindView(IMobileOptionsMenuView view)
         {
@@ -53,19 +49,19 @@ namespace MPfm.MVP.Presenters
 	    {	        
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
             //_items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync Library with Other Devices"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync Library (Other Devices)"));
 
 #if IOS
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync Library with iTunes"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync Library (iTunes)"));
 #elif ANDROID
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync Library with File Sharing"));
 #endif
 
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryCloud, "Sync Library with Cloud Services"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryWebBrowser, "Sync Library with Web Browser"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryCloud, "Sync Library (Cloud Services)"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryWebBrowser, "Sync Library (Web Browser)"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.EqualizerPresets, "Equalizer Presets"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Preferences, "Preferences"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About MPfm"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About Sessions"));
             View.RefreshMenu(_items);
 	    }
 

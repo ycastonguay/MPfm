@@ -25,6 +25,8 @@ namespace MPfm.MVP.Models
 	{
         public SyncMenuItemEntityType ItemType { get; set; }
         public bool IsExpanded { get; set; }
+        public bool IsSelected { get; set; }
+        public bool IsPartlySelected { get; set; }
         public string ArtistName { get; set; }
         public string AlbumTitle { get; set; }
         public AudioFile Song { get; set; }

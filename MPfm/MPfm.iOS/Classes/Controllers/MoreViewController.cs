@@ -79,39 +79,46 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            // Request a recycled cell to save memory
-            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+//            // Request a recycled cell to save memory
+//            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+//            if (cell == null)
+//            {
+//                var cellStyle = UITableViewCellStyle.Default;
+//                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+//            }
+
+            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
-                var cellStyle = UITableViewCellStyle.Default;
-                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+                var cellStyle = UITableViewCellStyle.Subtitle;
+                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
             }
 
-//            cell.ImageView.Alpha = 0.7f;
-//            switch (_items[indexPath.Row].Key)
-//            {
-//                case MobileOptionsMenuType.About:
-//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_info");
-//                    break;
-//                case MobileOptionsMenuType.EqualizerPresets:
-//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_eq");
-//                    break;
-//                case MobileOptionsMenuType.Preferences:
-//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_settings");
-//                    break;
-//                case MobileOptionsMenuType.SyncLibrary:
-//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_mobile");
-//                    break;
-//                case MobileOptionsMenuType.SyncLibraryBrowser:
-//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_web");
-//                    break;
-//                case MobileOptionsMenuType.SyncLibraryCloud:
-//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_cloud");
-//                    break;
-//                case MobileOptionsMenuType.SyncLibraryFileSharing:
-//                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_share");
-//                    break;
-//            }
+            cell.ImageView.Alpha = 0.7f;
+            switch (_items[indexPath.Row].Key)
+            {
+                case MobileOptionsMenuType.About:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_info");
+                    break;
+                case MobileOptionsMenuType.EqualizerPresets:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_eq");
+                    break;
+                case MobileOptionsMenuType.Preferences:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_settings");
+                    break;
+                case MobileOptionsMenuType.SyncLibrary:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_mobile");
+                    break;
+                case MobileOptionsMenuType.SyncLibraryWebBrowser:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_web");
+                    break;
+                case MobileOptionsMenuType.SyncLibraryCloud:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_cloud");
+                    break;
+                case MobileOptionsMenuType.SyncLibraryFileSharing:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_share");
+                    break;
+            }
             
             cell.TextLabel.Text = _items[indexPath.Row].Value;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
@@ -121,17 +128,6 @@ namespace MPfm.iOS
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             cell.SelectedBackgroundView = viewBackgroundSelected;
 
-            
-//            // Check this is the version cell (remove all user interaction)
-//            if (viewModel.Items[indexPath.Row].ItemType == MoreItemType.Version)
-//            {
-//                cell.Accessory = UITableViewCellAccessory.None;
-//                cell.SelectionStyle = UITableViewCellSelectionStyle.None;
-//                cell.TextLabel.TextColor = UIColor.Gray;
-//                cell.TextLabel.TextAlignment = UITextAlignment.Center;
-//                cell.TextLabel.Font = UIFont.FromName("Asap", 16);
-//            }
-            
             return cell;
         }
 

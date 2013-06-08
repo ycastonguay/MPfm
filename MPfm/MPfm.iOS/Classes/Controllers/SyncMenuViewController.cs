@@ -25,6 +25,7 @@ using MPfm.iOS.Classes.Objects;
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Models;
+using MPfm.iOS.Classes.Controls;
 
 namespace MPfm.iOS
 {
@@ -92,31 +93,46 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
-                var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+                cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+                cell.OnRightButtonTap += HandleOnRightButtonTap;
             }
 
             cell.Tag = indexPath.Row;
             cell.TextLabel.TextColor = UIColor.Black;
-            cell.Accessory = UITableViewCellAccessory.None;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
+            cell.ImageView.Alpha = 0.7f;
+            cell.RightButton.Alpha = 0.7f;
+            cell.RightButton.Hidden = false;
+
+            if(_items[indexPath.Row].IsSelected)
+                cell.RightButton.SetImage(UIImage.FromBundle("Images/Icons/icon_checkbox_checked"), UIControlState.Normal);
+            else if(_items[indexPath.Row].IsPartlySelected)
+                cell.RightButton.SetImage(UIImage.FromBundle("Images/Icons/icon_checkbox_partial"), UIControlState.Normal);
+            else
+                cell.RightButton.SetImage(UIImage.FromBundle("Images/Icons/icon_checkbox_unchecked"), UIControlState.Normal);
 
             switch(_items[indexPath.Row].ItemType)
             {
                 case SyncMenuItemEntityType.Artist:
                     cell.TextLabel.Text = _items[indexPath.Row].ArtistName;
                     cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
+                    cell.IndexTextLabel.Text = string.Empty;
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_user");
                     break;
                 case SyncMenuItemEntityType.Album:
                     cell.TextLabel.Text = _items[indexPath.Row].AlbumTitle;
                     cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 16);
+                    cell.IndexTextLabel.Text = string.Empty;
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_vinyl");
                     break;
                 case SyncMenuItemEntityType.Song:
                     cell.TextLabel.Text = _items[indexPath.Row].Song.Title;
                     cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
+                    cell.IndexTextLabel.Text = _items[indexPath.Row].Song.TrackNumber.ToString();
+                    cell.ImageView.Image = null;
                     break;
             }
 
@@ -127,11 +143,20 @@ namespace MPfm.iOS
             return cell;
         }
 
+        private void HandleOnRightButtonTap(MPfmTableViewCell cell)
+        {
+            Console.WriteLine("=========> SyncMenuViewController - HandleOnRightButtonTap");
+            int row = cell.Tag;
+            _items[row].IsSelected = !_items[row].IsSelected;
+
+            tableView.BeginUpdates();
+            tableView.ReloadRows(new NSIndexPath[1] { NSIndexPath.FromRowSection(row, 0) }, UITableViewRowAnimation.None);
+            tableView.EndUpdates();
+        }
+
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            tableView.DeselectRow(indexPath, true);
-
             switch(_items[indexPath.Row].ItemType)
             {
                 case SyncMenuItemEntityType.Artist:
@@ -145,16 +170,14 @@ namespace MPfm.iOS
                     OnSelectItem(_items[indexPath.Row]);
                     break;
             }
+
+            tableView.DeselectRow(indexPath, true);
         }
 
         private void SetCheckmarkCell(NSIndexPath indexPath)
         {
-            foreach (var visibleCell in tableView.VisibleCells)
-                visibleCell.Accessory = (visibleCell.Accessory == UITableViewCellAccessory.None) ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
-
-            var cell = tableView.CellAt(indexPath);
-            if(cell != null)
-                tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.None);
+            _items[indexPath.Row].IsSelected = !_items[indexPath.Row].IsSelected;
+            tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.Automatic);
         }
 
         #region ISyncMenuView implementation

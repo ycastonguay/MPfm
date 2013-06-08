@@ -33,7 +33,10 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmTableViewCell : UITableViewCell
     {
         public UILabel IndexTextLabel { get; private set; }
-        public UIImageView RightImageView { get; private set; }
+        public UIButton RightButton { get; private set; }
+
+        public delegate void RightButtonTap(MPfmTableViewCell cell);
+        public event RightButtonTap OnRightButtonTap;
 
         public MPfmTableViewCell() : base()
         {
@@ -74,37 +77,65 @@ namespace MPfm.iOS.Classes.Controls
             IndexTextLabel.BackgroundColor = UIColor.Clear;
             IndexTextLabel.Font = UIFont.FromName("HelveticaNeue-Bold", 16);
             IndexTextLabel.TextColor = UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
+            IndexTextLabel.TextAlignment = UITextAlignment.Center;
             IndexTextLabel.HighlightedTextColor = UIColor.White;
             AddSubview(IndexTextLabel);
 
-            RightImageView = new UIImageView();
-            RightImageView.Hidden = true;
-            AddSubview(RightImageView);
+            RightButton = new UIButton(UIButtonType.Custom);
+            RightButton.Hidden = true;
+            RightButton.Frame = new RectangleF(Bounds.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
+            RightButton.TouchUpInside += HandleRightButtonTouchUpInside;
+            AddSubview(RightButton);
+        }
+
+        private void HandleRightButtonTouchUpInside(object sender, EventArgs e)
+        {
+            if (OnRightButtonTap != null)
+                OnRightButtonTap(this);
         }
 
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
 
-            if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-            {
-                TextLabel.Frame = new RectangleF(53, 2, Bounds.Width - 86, 22);
-                DetailTextLabel.Frame = new RectangleF(53, 22, Bounds.Width - 24, 16);
-            }
+            float padding = 8;
+
+            // Determine width available for text
+            float textWidth = Bounds.Width - 44; // 44 = chevron
+            if (ImageView.Image != null)
+                textWidth -= Bounds.Height + padding;
+            if (RightButton.ImageView.Image != null)
+                textWidth -= Bounds.Height + padding;
             if (!string.IsNullOrEmpty(IndexTextLabel.Text))
+                textWidth -= 22 + padding + padding;
+
+            float x = 0;
+            if (ImageView.Image != null)
             {
-                TextLabel.Frame = new RectangleF(33, 2, Bounds.Width - 86, 22);
-                DetailTextLabel.Frame = new RectangleF(33, 22, Bounds.Width - 24, 16);
-                IndexTextLabel.Frame = new RectangleF(12, 2, 22, 38);
-            }
-            if (RightImageView.Image != null)
+                ImageView.Frame = new RectangleF(x, 0, Bounds.Height, Bounds.Height);
+                x += Bounds.Height + padding;
+            } 
+            else if (!string.IsNullOrEmpty(IndexTextLabel.Text))
             {
-                TextLabel.Frame = new RectangleF(33, 2, Bounds.Width - 86, 22);
-                DetailTextLabel.Frame = new RectangleF(33, 22, Bounds.Width - 24, 16);
-                IndexTextLabel.Frame = new RectangleF(12, 2, 22, 38);
-                RightImageView.Frame = new RectangleF(Bounds.Width - 12, 2, 24, 24);
+                x += padding;
+                IndexTextLabel.Frame = new RectangleF(x, 2, 22, 38);
+                x += 22 + padding;
+            } 
+            else
+            {
+                x += padding;
             }
-            ImageView.Frame = new RectangleF(0, 0, Bounds.Height, Bounds.Height);
+
+            float titleY = 10;
+            if (!string.IsNullOrEmpty(DetailTextLabel.Text))
+                titleY = 2;
+
+            TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
+            if (!string.IsNullOrEmpty(DetailTextLabel.Text))
+                DetailTextLabel.Frame = new RectangleF(x, 22, textWidth, 16);
+
+            if (RightButton.ImageView.Image != null)
+                RightButton.Frame = new RectangleF(Bounds.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
         }
     }
 }
