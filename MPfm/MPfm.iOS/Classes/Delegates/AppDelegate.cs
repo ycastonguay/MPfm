@@ -194,7 +194,7 @@ namespace MPfm.iOS.Classes.Delegates
                 var navCtrl = new MPfmNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
                 navCtrl.SetTitle(viewTitle, "");
                 navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
-                navCtrl.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+                navCtrl.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 navCtrl.ModalInPopover = true;
                 navCtrl.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
                 navCtrl.ViewDismissedEvent += (sender, e) => {

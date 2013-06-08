@@ -4,13 +4,15 @@
 <dict>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>Images/icon57.png</string>
-		<string>Images/icon114.png</string>
+		<string>Images/Icons/app_icon_57</string>
+		<string>Images/Icons/app_icon_114</string>
+		<string>Images/Icons/app_icon_72</string>
+		<string>Images/Icons/app_icon_144</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>org.mp4m.ios</string>
 	<key>CFBundleName</key>
-	<string>MP4M</string>
+	<string>Sessions</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>MinimumOSVersion</key>

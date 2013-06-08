@@ -34,13 +34,17 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
-            // Check for iPhone 5 resolution (1136x640)
+            Console.WriteLine("SplashViewController - UIScreen width: {0} height: {1}", UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
             if (UIScreen.MainScreen.Bounds.Height == 568)
-                imageView.Image = UIImage.FromBundle("Images/Splash/Default-568h");
+                imageView.Image = UIImage.FromBundle("Images/Splash/splash_default-568h");
+            else if (UIScreen.MainScreen.Bounds.Height == 768)
+                imageView.Image = UIImage.FromBundle("Images/Splash/splash_landscape");
+            else if (UIScreen.MainScreen.Bounds.Height == 1024)
+                imageView.Image = UIImage.FromBundle("Images/Splash/splash_portrait");
             else
-                imageView.Image = UIImage.FromBundle("Images/Splash/Default");
+                imageView.Image = UIImage.FromBundle("Images/Splash/splash_default");
 
-            imageViewLogo.Image = UIImage.FromBundle("Images/Splash/app_logo");
+            imageViewLogo.Image = UIImage.FromBundle("Images/Splash/app_badge");
             lblStatus.Font = UIFont.FromName("HelveticaNeue-Bold", 13);
 
             imageViewLogo.Alpha = 0;

@@ -309,8 +309,6 @@
     <Folder Include="Images\Icons\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\icon57.png" />
-    <Content Include="Images\icon114.png" />
     <Content Include="Fonts\Junction.otf" />
     <Content Include="Images\Tabs\more.png" />
     <Content Include="Images\Tabs\more%402x.png" />
@@ -359,10 +357,6 @@
     <BundleResource Include="Images\Sliders\thumbbig%402x.png" />
     <BundleResource Include="Images\Buttons\back.png" />
     <BundleResource Include="Images\Buttons\back%402x.png" />
-    <BundleResource Include="Images\Splash\app_logo%402x.png" />
-    <BundleResource Include="Images\Splash\Default.png" />
-    <BundleResource Include="Images\Splash\Default-568h%402x.png" />
-    <BundleResource Include="Images\Splash\Default%402x.png" />
     <BundleResource Include="Images\Icons\icon_cloud.png" />
     <BundleResource Include="Images\Icons\icon_cloud%402x.png" />
     <BundleResource Include="Images\Icons\icon_eq.png" />
@@ -389,6 +383,23 @@
     <BundleResource Include="Images\Icons\icon_user%402x.png" />
     <BundleResource Include="Images\Icons\icon_vinyl.png" />
     <BundleResource Include="Images\Icons\icon_vinyl%402x.png" />
+    <BundleResource Include="Images\Icons\app_icon_57.png" />
+    <BundleResource Include="Images\Icons\app_icon_72.png" />
+    <BundleResource Include="Images\Icons\app_icon_114.png" />
+    <BundleResource Include="Images\Icons\app_icon_144.png" />
+    <BundleResource Include="Resources\Default-Portrait.png" />
+    <BundleResource Include="Resources\Default-Landscape.png" />
+    <BundleResource Include="Resources\Default-Portrait%402x.png" />
+    <BundleResource Include="Resources\Default-Landscape%402x.png" />
+    <BundleResource Include="Images\Splash\app_badge%402x.png" />
+    <BundleResource Include="Images\Splash\app_badge.png" />
+    <BundleResource Include="Images\Splash\splash_default%402x.png" />
+    <BundleResource Include="Images\Splash\splash_default.png" />
+    <BundleResource Include="Images\Splash\splash_default-568h%402x.png" />
+    <BundleResource Include="Images\Splash\splash_landscape%402x.png" />
+    <BundleResource Include="Images\Splash\splash_landscape.png" />
+    <BundleResource Include="Images\Splash\splash_portrait%402x.png" />
+    <BundleResource Include="Images\Splash\splash_portrait.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
@@ -422,4 +433,8 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ITunesArtwork Include="iTunesArtwork" />
+    <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
 </Project>
