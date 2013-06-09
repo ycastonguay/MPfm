@@ -260,7 +260,7 @@ namespace MPfm.MVP.Services
 						// Display update
 						OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
 							Title = "Adding media file to the library",
-							Subtitle = "Adding " + filePath,
+							Subtitle = "Adding " + Path.GetFileName(filePath),
 							FilePath = filePath,
 							PercentageDone = percentCompleted,
 							FileIndex = a,
@@ -270,11 +270,15 @@ namespace MPfm.MVP.Services
 					catch (Exception ex)
 					{
 						//view.AddToLog("File could not be added: " + filePath);
+                        Console.WriteLine("UpdateLibraryService - Could not add {0}: {1}", filePath, ex);
 						OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
 							Title = "Adding media file to the library",
 							Subtitle = "Adding " + filePath,
 							FilePath = filePath,
-							Exception = ex
+                            PercentageDone = percentCompleted,
+                            FileIndex = a,
+                            FileCount = filePathsToUpdate.Count(),
+                            Exception = ex
 						});
 					}
 		        }
@@ -441,9 +445,4 @@ namespace MPfm.MVP.Services
             return arrayFiles;
         }
 	}
-	
-
-	
-
 }
-

@@ -118,7 +118,7 @@ namespace MPfm.Library
         static Library()
         {
             DatabaseVersionMajor = 1;
-            DatabaseVersionMinor = 4;
+            DatabaseVersionMinor = 5;
         }
 
         #endregion

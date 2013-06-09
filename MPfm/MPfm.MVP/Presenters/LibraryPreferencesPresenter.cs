@@ -19,6 +19,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using System;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.MVP.Presenters
 {
@@ -27,21 +28,24 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class LibraryPreferencesPresenter : BasePresenter<ILibraryPreferencesView>, ILibraryPreferencesPresenter
 	{
+        readonly MobileNavigationManager _navigationManager;
         readonly ISyncListenerService _syncListenerService;
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
 
         public LibraryPreferencesPresenter(ISyncListenerService syncListenerService, ILibraryService libraryService, 
-                                           IAudioFileCacheService audioFileCacheService)
+                                           IAudioFileCacheService audioFileCacheService, MobileNavigationManager navigationManager)
 		{	
             _syncListenerService = syncListenerService;
             _libraryService = libraryService;
             _audioFileCacheService = audioFileCacheService;
+            _navigationManager = navigationManager;
 		}
 
         public override void BindView(ILibraryPreferencesView view)
         {
             view.OnResetLibrary = ResetLibrary;
+            view.OnUpdateLibrary = UpdateLibrary;
             view.OnEnableSyncListener = EnableSyncListener;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
             base.BindView(view);
@@ -63,6 +67,20 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Console.WriteLine("LibraryPreferencesPresenter - ResetLibrary - Failed to reset library: {0}", ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
+
+        private void UpdateLibrary()
+        {
+            try
+            {
+                var view = _navigationManager.CreateUpdateLibraryView();
+                _navigationManager.PushDialogView("Update Library", view);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("LibraryPreferencesPresenter - UpdateLibrary - Failed to reset library: {0}", ex);
                 View.LibraryPreferencesError(ex);
             }
         }

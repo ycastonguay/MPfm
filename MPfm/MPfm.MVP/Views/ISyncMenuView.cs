@@ -34,7 +34,7 @@ namespace MPfm.MVP.Views
         void SyncMenuError(Exception ex);
         void RefreshLoading(bool isLoading, int progressPercentage);
         void RefreshItems(List<SyncMenuItemEntity> items);
-        void RefreshSyncTotal(string title, string subtitle);
+        void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
         void InsertItems(int index, List<SyncMenuItemEntity> items);
         void RemoveItems(int index, int count);
 	}

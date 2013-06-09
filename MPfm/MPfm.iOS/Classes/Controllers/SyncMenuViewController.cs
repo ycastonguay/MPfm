@@ -45,7 +45,7 @@ namespace MPfm.iOS
             tableView.WeakDelegate = this;
 
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
-            viewSync.BackgroundColor = GlobalTheme.MainLightColor;
+            viewSync.BackgroundColor = GlobalTheme.MainColor;
             btnSync.BackgroundColor = GlobalTheme.SecondaryColor;
             btnSync.Layer.CornerRadius = 8;
 
@@ -107,7 +107,6 @@ namespace MPfm.iOS
             cell.RightButton.Alpha = 0.7f;
             cell.RightButton.Hidden = false;
 
-            Console.WriteLine("======> Cell row {0} isSelected {1} itemType {2}", indexPath.Row, _items[indexPath.Row].Selection.ToString(), _items[indexPath.Row].ItemType.ToString());
             if(_items[indexPath.Row].Selection == StateSelectionType.Selected)
                 cell.RightButton.SetImage(UIImage.FromBundle("Images/Icons/icon_checkbox_checked"), UIControlState.Normal);
             else if(_items[indexPath.Row].Selection == StateSelectionType.PartlySelected)
@@ -212,11 +211,16 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshSyncTotal(string title, string subtitle)
+        public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
             InvokeOnMainThread(() => {
                 lblTotal.Text = title;
                 lblFreeSpace.Text = subtitle;
+
+                if(enoughFreeSpace)
+                    lblFreeSpace.TextColor = UIColor.White;
+                else
+                    lblFreeSpace.TextColor = UIColor.Red;
             });
         }
 

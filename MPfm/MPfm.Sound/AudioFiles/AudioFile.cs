@@ -43,11 +43,7 @@ namespace MPfm.Sound.AudioFiles
 	/// </summary>
 	public class AudioFile
 	{
-		/// <summary>
-		/// Private value for the Id property.
-		/// </summary>
 		private Guid id = Guid.Empty;
-
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
 		/// </summary>
@@ -64,9 +60,6 @@ namespace MPfm.Sound.AudioFiles
             }
 		}
 
-        /// <summary>
-        /// Private value for the SV7Tag property.
-        /// </summary>
         private SV7Tag sv7Tag = null;
         /// <summary>
         /// Defines the SV7 tag associated with this audio file. 
@@ -82,9 +75,6 @@ namespace MPfm.Sound.AudioFiles
             }
         }
 
-        /// <summary>
-        /// Private value for the SV8Tag property.
-        /// </summary>
         private SV8Tag sv8Tag = null;
         /// <summary>
         /// Defines the SV8 tag associated with this audio file. 
@@ -100,9 +90,6 @@ namespace MPfm.Sound.AudioFiles
             }
         }
 
-        /// <summary>
-        /// Private value for the APETag property.
-        /// </summary>
         private APETag apeTag = null;
         /// <summary>
         /// Defines the APEv1/APEv2 tag associated with this audio file.
@@ -120,11 +107,7 @@ namespace MPfm.Sound.AudioFiles
 
 		#region File Information Properties
 		
-		/// <summary>
-		/// Private value for the FilePath property.
-		/// </summary>
 		private string filePath = null;
-
 		/// <summary>
 		/// Full path to the audio file.
 		/// </summary>
@@ -141,11 +124,24 @@ namespace MPfm.Sound.AudioFiles
             }
 		}
 
-		/// <summary>
-		/// Private value for the FileType property.
-		/// </summary>
-        private AudioFileFormat fileType = AudioFileFormat.Unknown;
+        private long fileSize = 0;
+        /// <summary>
+        /// File size (in bytes) of the audio file.
+        /// </summary>
+        [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("File size (in bytes).")]
+        public long FileSize
+        {
+            get
+            {
+                return fileSize;
+            }
+            set
+            {
+                fileSize = value;
+            }
+        }
 
+        private AudioFileFormat fileType = AudioFileFormat.Unknown;
 		/// <summary>
 		/// Type of audio file (FLAC, MP3, OGG, WAV, WV, MPC, OFR, TTA).
 		/// </summary>
@@ -179,11 +175,7 @@ namespace MPfm.Sound.AudioFiles
 			}
 		}
 
-		/// <summary>
-		/// Private value for the LastBlockPosition property.
-		/// </summary>
 		private long lastBlockPosition = 0;
-
 		/// <summary>
 		/// Position of the last block of data.
 		/// </summary>
@@ -200,11 +192,7 @@ namespace MPfm.Sound.AudioFiles
 
 		#region Audio Properties
 	   
-		/// <summary>
-		/// Private value for the Bitrate property.
-		/// </summary>        
 		private int bitrate = 0;
-
 		/// <summary>
 		/// Audio bitrate. Indicates the average bitrate for VBR MP3 files.
 		/// </summary>
@@ -221,11 +209,7 @@ namespace MPfm.Sound.AudioFiles
             }
 		}
 
-		/// <summary>
-		/// Private value for the BitsPerSample property.
-		/// </summary>
 		private int bitsPerSample = 0;
-
 		/// <summary>
 		/// Audio bits per sample. Usually 16-bit or 24-bit.
 		/// </summary>
@@ -238,11 +222,7 @@ namespace MPfm.Sound.AudioFiles
 			}
 		}
 
-		/// <summary>
-		/// Private value for the ChannelMode property.
-		/// </summary>
 		private TagLib.Mpeg.ChannelMode channelMode;
-
 		/// <summary>
 		/// Channel mode (only for MP3 files).
 		/// </summary>
@@ -255,11 +235,7 @@ namespace MPfm.Sound.AudioFiles
 			}
 		}
 
-		/// <summary>
-		/// Private value for the SampleRate property.
-		/// </summary>
 		private int sampleRate = 0;
-
 		/// <summary>
 		/// Sample rate (in Hz).
 		/// </summary>
@@ -276,11 +252,7 @@ namespace MPfm.Sound.AudioFiles
             }
 		}
 
-		/// <summary>
-		/// Private value for the AudioChannels property.
-		/// </summary>
 		private int audioChannels = 0;
-
 		/// <summary>
 		/// Number of audio channels.
 		/// </summary>
@@ -293,11 +265,7 @@ namespace MPfm.Sound.AudioFiles
 			}
 		}
 
-		/// <summary>
-		/// Private value for the FrameLength property.
-		/// </summary>
 		private int frameLength = 0;
-
 		/// <summary>
 		/// Frame length.
 		/// </summary>
@@ -310,11 +278,7 @@ namespace MPfm.Sound.AudioFiles
 			}
 		}
 
-		/// <summary>
-		/// Private value for the AudioLayer property.
-		/// </summary>
 		private int audioLayer = 0;
-
 		/// <summary>
 		/// Audio layer type.
 		/// </summary>
@@ -327,11 +291,7 @@ namespace MPfm.Sound.AudioFiles
 			}
 		}
 
-		/// <summary>
-		/// Private value for the Length property.
-		/// </summary>
 		private string length;
-
 		/// <summary>
 		/// Audio file length (in 00:00.000 format).
 		/// </summary>
@@ -342,21 +302,17 @@ namespace MPfm.Sound.AudioFiles
 			{
 				return length;
 			}
-			set
-			{
-				length = value;
-			}
+            set
+            {
+                length = value;
+            }
 		}
 
         #endregion
 
         #region MP3 Properties
 
-        /// <summary>
-        /// Private value for the MP3HeaderType property.
-        /// </summary>
         private string mp3HeaderType = string.Empty;
-
         /// <summary>
         /// Indicates the type of header for the MP3 file.
         /// The XING header is found on MP3 files encoded using LAME and VBR/ABR settings.
@@ -372,11 +328,7 @@ namespace MPfm.Sound.AudioFiles
             }
         }
 
-        /// <summary>
-        /// Private value for the MP3EncoderVersion property.
-        /// </summary>
         private string mp3EncoderVersion = string.Empty;
-
         /// <summary>
         /// MP3 Encoder version.
         /// Ex: LAME3.98
@@ -390,11 +342,7 @@ namespace MPfm.Sound.AudioFiles
             }
         }
 
-        /// <summary>
-        /// Private value for the MP3EncoderDelay property.
-        /// </summary>
         private int? mp3EncoderDelay = null;
-
         /// <summary>
         /// MP3 Encoder delay.
         /// Ex: 576
@@ -408,11 +356,7 @@ namespace MPfm.Sound.AudioFiles
             }
         }
 
-        /// <summary>
-        /// Private value for the MP3EncoderDelay property.
-        /// </summary>
         private int? mp3EncoderPadding = null;
-
         /// <summary>
         /// MP3 Encoder padding.
         /// Ex: 1800
@@ -648,6 +592,10 @@ namespace MPfm.Sound.AudioFiles
 		/// </summary>
 		public void RefreshMetadata()
 		{
+            // Get file size
+            var fileInfo = new FileInfo(filePath);
+            fileSize = fileInfo.Length;
+
 			// Check what is the type of the audio file
             if (fileType == AudioFileFormat.MP3)
 			{

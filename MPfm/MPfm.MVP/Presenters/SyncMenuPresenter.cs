@@ -77,6 +77,7 @@ namespace MPfm.MVP.Presenters
                     });
 
                 View.RefreshLoading(false, 0);
+                RefreshSyncTotal();
                 View.RefreshItems(_items);
             }
             catch(Exception ex)
@@ -330,9 +331,14 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                string title = string.Format("Total: {0} files ({1} MB)", _audioFilesToSync.Count, "Unknown");
-                string subtitle = string.Format("Free space: {0:0.0} MB", ((float)_syncDeviceSpecifications.GetFreeSpace() / 1000000f));
-                View.RefreshSyncTotal(title, subtitle);
+                long totalSize = 0;
+                long freeSpace = _syncDeviceSpecifications.GetFreeSpace();
+                foreach(var audioFile in _audioFilesToSync)
+                    totalSize += audioFile.FileSize;
+
+                string title = string.Format("Total: {0} files ({1:0.0} MB)", _audioFilesToSync.Count, ((float)totalSize / 1000000f));
+                string subtitle = string.Format("Free space: {0:0.0} MB", ((float)freeSpace / 1000000f));
+                View.RefreshSyncTotal(title, subtitle, (totalSize < freeSpace));
             }
             catch(Exception ex)
             {

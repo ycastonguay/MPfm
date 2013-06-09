@@ -45,9 +45,25 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Library Preferences", "Menu");
         }
 
+        partial void actionResetLibrary(NSObject sender)
+        {
+            var alertView = new UIAlertView("Reset Library", "Are you sure you wish to reset your library?", null, "OK", new string[1]{"Cancel"});
+            alertView.Clicked += (sender2, e) => {
+                if(e.ButtonIndex == 0)
+                    OnResetLibrary();
+            };
+            alertView.Show();
+        }
+
+        partial void actionUpdateLibrary(NSObject sender)
+        {
+            OnUpdateLibrary();
+        }
+
         #region ILibraryPreferencesView implementation
 
         public Action OnResetLibrary { get; set; }
+        public Action OnUpdateLibrary { get; set; }
         public Action OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
 

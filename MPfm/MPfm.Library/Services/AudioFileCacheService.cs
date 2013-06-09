@@ -49,7 +49,9 @@ namespace MPfm.Library.Services
 		public void RefreshCache()
 		{
             // Warn any subscribers that the audio file cache has been updated (i.e. library/song browser presenters)
+            Console.WriteLine("AudioFileCacheService - Refreshing cache...");
             AudioFiles = _libraryService.SelectAudioFiles().ToList();
+            Console.WriteLine("AudioFileCacheService - Cache has {0} files.", AudioFiles.Count);
             _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
 		}
 

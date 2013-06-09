@@ -69,6 +69,9 @@ namespace MPfm.iOS.Classes.Controllers
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
+            imageViewAlbumCover.BackgroundColor = UIColor.Black;
+            viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
+
             lblArtistName.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
             lblAlbumTitle.Font = UIFont.FromName("HelveticaNeue", 14);
             lblSubtitle1.Font = UIFont.FromName("HelveticaNeue", 12);
@@ -302,6 +305,9 @@ namespace MPfm.iOS.Classes.Controllers
                 }
                 else
                 {
+                    if(_items.Count == 0)
+                        return;
+
                     var audioFile = _items[0].AudioFile;
                     lblArtistName.Text = audioFile.ArtistName;
                     lblAlbumTitle.Text = audioFile.AlbumTitle;
@@ -341,9 +347,6 @@ namespace MPfm.iOS.Classes.Controllers
                             imageViewAlbumCover.Image = image;                                                                                               
                         });
                     }, TaskScheduler.FromCurrentSynchronizationContext());
-
-                    imageViewAlbumCover.BackgroundColor = UIColor.Black;
-                    viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
                 }
             });
         }

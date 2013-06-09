@@ -24,6 +24,7 @@ namespace MPfm.MVP.Views
     public interface ILibraryPreferencesView : IBaseView
 	{        
         Action OnResetLibrary { get; set; }
+        Action OnUpdateLibrary { get; set; }
         Action OnEnableSyncListener { get; set; }
         Action<int> OnSetSyncListenerPort { get; set; }
 
