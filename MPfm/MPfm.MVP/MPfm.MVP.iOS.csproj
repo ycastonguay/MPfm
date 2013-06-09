@@ -293,5 +293,8 @@
     <Compile Include="Presenters\AboutPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAboutPresenter.cs" />
     <Compile Include="Views\IAboutView.cs" />
+    <Compile Include="Views\ISyncDownloadView.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncDownloadPresenter.cs" />
+    <Compile Include="Presenters\SyncDownloadPresenter.cs" />
   </ItemGroup>
 </Project>

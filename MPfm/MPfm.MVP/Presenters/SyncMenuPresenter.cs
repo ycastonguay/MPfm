@@ -26,6 +26,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.MVP.Models;
 using MPfm.Library;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.MVP.Presenters
 {
@@ -34,6 +35,7 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class SyncMenuPresenter : BasePresenter<ISyncMenuView>, ISyncMenuPresenter
 	{
+        readonly MobileNavigationManager _navigationManager;
         readonly ISyncClientService _syncClientService;
         readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
 
@@ -41,8 +43,9 @@ namespace MPfm.MVP.Presenters
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
         List<AudioFile> _audioFilesToSync = new List<AudioFile>();
 
-        public SyncMenuPresenter(ISyncClientService syncClientService, ISyncDeviceSpecifications syncDeviceSpecifications)
+        public SyncMenuPresenter(MobileNavigationManager navigationManager, ISyncClientService syncClientService, ISyncDeviceSpecifications syncDeviceSpecifications)
 		{
+            _navigationManager = navigationManager;
             _syncClientService = syncClientService;
             _syncDeviceSpecifications = syncDeviceSpecifications;
             _syncClientService.OnDownloadIndexProgress += HandleOnDownloadIndexProgress;
@@ -53,6 +56,7 @@ namespace MPfm.MVP.Presenters
         {
             view.OnSelectItem = SelectItem;
             view.OnExpandItem = ExpandItem;
+            view.OnSync = Sync;
             base.BindView(view);
 
             Initialize();
@@ -95,6 +99,19 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Console.WriteLine("SyncMenuPresenter - HandleOnDownloadIndexProgress - Exception: {0}", ex);
+            }
+        }
+
+        private void Sync()
+        {
+            try
+            {
+                var view = _navigationManager.CreateSyncDownloadView(_url, _audioFilesToSync);
+                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("SyncMenuPresenter - Sync - Exception: {0}", ex);
             }
         }
 

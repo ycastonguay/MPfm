@@ -114,6 +114,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<ISyncView, SyncViewController>().AsMultiInstance();
             container.Register<ISyncWebBrowserView, SyncWebBrowserViewController>().AsMultiInstance();
             container.Register<ISyncMenuView, SyncMenuViewController>().AsMultiInstance();
+            container.Register<ISyncDownloadView, SyncDownloadViewController>().AsMultiInstance();
             container.Register<IAboutView, AboutViewController>().AsMultiInstance();
         }
 

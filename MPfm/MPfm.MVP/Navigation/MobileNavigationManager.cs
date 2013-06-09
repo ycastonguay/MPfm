@@ -26,6 +26,7 @@ using TinyMessenger;
 using MPfm.MVP.Messages;
 using MPfm.Player.Objects;
 using MPfm.Library.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Navigation
 {
@@ -56,6 +57,8 @@ namespace MPfm.MVP.Navigation
         private ISyncWebBrowserPresenter _syncWebBrowserPresenter;
         private ISyncMenuView _syncMenuView;
         private ISyncMenuPresenter _syncMenuPresenter;
+        private ISyncDownloadView _syncDownloadView;
+        private ISyncDownloadPresenter _syncDownloadPresenter;
 
         // Player sub views
         private IPlayerMetadataView _playerMetadataView;
@@ -616,6 +619,35 @@ namespace MPfm.MVP.Navigation
             }
             return _syncMenuView;
         }
+
+        public virtual ISyncDownloadView CreateSyncDownloadView(string url,  IEnumerable<AudioFile> audioFiles)
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _syncDownloadPresenter = Bootstrapper.GetContainer().Resolve<ISyncDownloadPresenter>();
+                _syncDownloadPresenter.BindView((ISyncDownloadView)view);
+                _syncDownloadPresenter.StartSync(url, audioFiles);
+            };
+
+            // Re-use the same instance as before
+            if (_syncDownloadView == null)
+            {
+                // Create view and manage view destruction
+                _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _syncDownloadView.OnViewDestroy = (view) =>
+                {
+                    _syncDownloadView = null;
+                    _syncDownloadPresenter = null;
+                };
+            } 
+            else
+            {
+                _syncDownloadPresenter.StartSync(url, audioFiles);
+            }
+            return _syncDownloadView;
+        }
+
         public virtual IAboutView CreateAboutView()
         {
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.

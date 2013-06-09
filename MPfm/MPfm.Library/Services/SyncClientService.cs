@@ -23,6 +23,7 @@ using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using MPfm.Core;
 using System.Linq;
+using System.IO;
 
 namespace MPfm.Library.Services
 {
@@ -32,8 +33,10 @@ namespace MPfm.Library.Services
         List<AudioFile> _audioFiles = new List<AudioFile>();
 
         public delegate void DownloadIndexProgress(int progressPercentage, long bytesReceived, long totalBytesToReceive);
-        public event DownloadIndexProgress OnDownloadIndexProgress;
+        public delegate void DownloadAudioFilesProgress(float percentageDone, int filesDownloaded, int totalFiles, int errors, string log);
         public event EventHandler OnReceivedIndex;
+        public event DownloadIndexProgress OnDownloadIndexProgress;
+        public event DownloadAudioFilesProgress OnDownloadAudioFilesProgress;
 
         public SyncClientService()
         {
@@ -106,6 +109,23 @@ namespace MPfm.Library.Services
         public List<AudioFile> GetAudioFiles(string artistName, string albumTitle)
         {
             return _audioFiles.Where(x => x.ArtistName.ToUpper() == artistName.ToUpper() && x.AlbumTitle.ToUpper() == albumTitle.ToUpper()).ToList();
+        }
+
+        public void DownloadAudioFiles(string baseUrl, IEnumerable<AudioFile> audioFiles)
+        {
+            if (_webClient.IsBusy)
+                return;
+
+            if (OnDownloadAudioFilesProgress != null)
+                OnDownloadAudioFilesProgress(0, 0, audioFiles.Count(), 0, string.Empty);
+
+            foreach (var audioFile in audioFiles)
+            {
+                var url = new Uri(new Uri(baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
+                string fileName = Path.GetFileName(audioFile.FilePath);
+                Console.WriteLine("SyncClientService - DownloadAudioFiles - url: {0} fileName: {1}", url.ToString(), fileName);
+                //_webClient.DownloadFileAsync(url, fileName);
+            }
         }
     }
 }

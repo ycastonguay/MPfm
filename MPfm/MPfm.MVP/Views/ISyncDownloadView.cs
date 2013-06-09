@@ -24,19 +24,13 @@ using MPfm.Sound.AudioFiles;
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Sync menu view interface.
+	/// Sync download view interface.
 	/// </summary>
-	public interface ISyncMenuView : IBaseView
+	public interface ISyncDownloadView : IBaseView
 	{
-        Action<SyncMenuItemEntity> OnExpandItem { get; set; }
-        Action<SyncMenuItemEntity> OnSelectItem { get; set; }
-        Action OnSync { get; set; }
+        Action OnButtonPressed { get; set; }
 
-        void SyncMenuError(Exception ex);
-        void RefreshLoading(bool isLoading, int progressPercentage);
-        void RefreshItems(List<SyncMenuItemEntity> items);
-        void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
-        void InsertItems(int index, List<SyncMenuItemEntity> items);
-        void RemoveItems(int index, int count);
+        void SyncDownloadError(Exception ex);
+        void RefreshStatus(float percentageDone, int filesDownloaded, int totalFiles, int errors, string log);
 	}
 }

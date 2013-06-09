@@ -63,6 +63,14 @@ namespace MPfm.iOS
             tableView.Hidden = true;
         }
 
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            navCtrl.SetTitle("Sync Library", "Choose audio files to sync");
+        }
+
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
         {
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)
@@ -82,6 +90,7 @@ namespace MPfm.iOS
 
         partial void actionSync(NSObject sender)
         {
+            OnSync();
         }
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -183,6 +192,7 @@ namespace MPfm.iOS
 
         public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
         public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        public Action OnSync { get; set; }
 
         public void SyncMenuError(Exception ex)
         {

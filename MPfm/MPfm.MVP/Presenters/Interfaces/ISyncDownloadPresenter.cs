@@ -15,28 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
-	/// <summary>
-	/// Sync menu view interface.
-	/// </summary>
-	public interface ISyncMenuView : IBaseView
+	public interface ISyncDownloadPresenter : IBasePresenter<ISyncDownloadView>
 	{
-        Action<SyncMenuItemEntity> OnExpandItem { get; set; }
-        Action<SyncMenuItemEntity> OnSelectItem { get; set; }
-        Action OnSync { get; set; }
-
-        void SyncMenuError(Exception ex);
-        void RefreshLoading(bool isLoading, int progressPercentage);
-        void RefreshItems(List<SyncMenuItemEntity> items);
-        void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
-        void InsertItems(int index, List<SyncMenuItemEntity> items);
-        void RemoveItems(int index, int count);
+        void StartSync(string url, IEnumerable<AudioFile> audioFiles);
 	}
 }

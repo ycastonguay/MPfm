@@ -238,6 +238,10 @@
     <Compile Include="Classes\Controllers\AboutViewController.designer.cs">
       <DependentUpon>AboutViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controllers\SyncDownloadViewController.cs" />
+    <Compile Include="Classes\Controllers\SyncDownloadViewController.designer.cs">
+      <DependentUpon>SyncDownloadViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -284,6 +288,8 @@
     <InterfaceDefinition Include="XIB\iPhone\LibraryPreferencesViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\AboutViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\AboutViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\SyncDownloadViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\SyncDownloadViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
