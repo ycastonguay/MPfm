@@ -62,29 +62,23 @@ namespace MPfm.MVP.Presenters
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
         {
-            Console.WriteLine("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+            //Console.WriteLine("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
             var device = _devices.FirstOrDefault(x => x.Url == deviceFound.Url);
             if(device == null)
-            {
-                Console.WriteLine("SyncPresenter - HandleOnDeviceFound - Device added to list");
                 _devices.Add(deviceFound);
-            }
-            else
-            {
-                Console.WriteLine("SyncPresenter - HandleOnDeviceFound - Device already in list");
-            }
+
             View.RefreshDevices(_devices);
         }
 
         private void HandleOnDiscoveryProgress(float percentageDone, string status)
         {
-            Console.WriteLine("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
+            //Console.WriteLine("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
             View.RefreshDiscoveryProgress(percentageDone, status);
         }
 
         private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
         {
-            Console.WriteLine("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
+            //Console.WriteLine("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
             View.RefreshDevicesEnded();
         }
 

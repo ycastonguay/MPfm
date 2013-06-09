@@ -44,5 +44,15 @@ namespace MPfm.iOS.Helpers
             }
             return _deviceName;
         }
+
+        public long GetFreeSpace()
+        {
+            long freeSpace = 0;
+            this.InvokeOnMainThread(() => {
+                var attributes = NSFileManager.DefaultManager.GetFileSystemAttributes(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+                freeSpace = (long)attributes.FreeSize;
+            });
+            return freeSpace;
+        }
     }
 }

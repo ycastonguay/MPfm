@@ -33,6 +33,7 @@ namespace MPfm.Library.Services.Interfaces
         void DownloadIndex(string baseUrl);
         List<string> GetDistinctArtistNames();
         List<string> GetDistinctAlbumTitles(string artistName);
+        List<AudioFile> GetAudioFiles(string artistName);
         List<AudioFile> GetAudioFiles(string artistName, string albumTitle);
     }
 }

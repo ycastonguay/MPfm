@@ -75,7 +75,7 @@ namespace MPfm.iOS
                 if(OnSelectItem != null)
                 {
                     OnSelectItem(_items[indexPath.Row]);
-                    SetCheckmarkCell(indexPath);
+                    RefreshCell(indexPath);
                 }
             }
         }
@@ -107,9 +107,10 @@ namespace MPfm.iOS
             cell.RightButton.Alpha = 0.7f;
             cell.RightButton.Hidden = false;
 
-            if(_items[indexPath.Row].IsSelected)
+            Console.WriteLine("======> Cell row {0} isSelected {1} itemType {2}", indexPath.Row, _items[indexPath.Row].Selection.ToString(), _items[indexPath.Row].ItemType.ToString());
+            if(_items[indexPath.Row].Selection == StateSelectionType.Selected)
                 cell.RightButton.SetImage(UIImage.FromBundle("Images/Icons/icon_checkbox_checked"), UIControlState.Normal);
-            else if(_items[indexPath.Row].IsPartlySelected)
+            else if(_items[indexPath.Row].Selection == StateSelectionType.PartlySelected)
                 cell.RightButton.SetImage(UIImage.FromBundle("Images/Icons/icon_checkbox_partial"), UIControlState.Normal);
             else
                 cell.RightButton.SetImage(UIImage.FromBundle("Images/Icons/icon_checkbox_unchecked"), UIControlState.Normal);
@@ -147,7 +148,6 @@ namespace MPfm.iOS
         {
             Console.WriteLine("SyncMenuViewController - HandleOnRightButtonTap");
             int row = cell.Tag;
-            //_items[row].IsSelected = !_items[row].IsSelected;
             OnSelectItem(_items[row]);
 
             tableView.BeginUpdates();
@@ -167,18 +167,17 @@ namespace MPfm.iOS
                     OnExpandItem(_items[indexPath.Row]);
                     break;
                 case SyncMenuItemEntityType.Song:
-                    SetCheckmarkCell(indexPath);
                     OnSelectItem(_items[indexPath.Row]);
+                    RefreshCell(indexPath);
                     break;
             }
 
             tableView.DeselectRow(indexPath, true);
         }
 
-        private void SetCheckmarkCell(NSIndexPath indexPath)
+        private void RefreshCell(NSIndexPath indexPath)
         {
-            _items[indexPath.Row].IsSelected = !_items[indexPath.Row].IsSelected;
-            tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.Automatic);
+            tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.None);
         }
 
         #region ISyncMenuView implementation
@@ -210,6 +209,14 @@ namespace MPfm.iOS
             InvokeOnMainThread(() => {
                 _items = items;
                 tableView.ReloadData();
+            });
+        }
+
+        public void RefreshSyncTotal(string title, string subtitle)
+        {
+            InvokeOnMainThread(() => {
+                lblTotal.Text = title;
+                lblFreeSpace.Text = subtitle;
             });
         }
 

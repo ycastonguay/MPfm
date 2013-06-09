@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.MVP.Models
 {
@@ -25,8 +26,7 @@ namespace MPfm.MVP.Models
 	{
         public SyncMenuItemEntityType ItemType { get; set; }
         public bool IsExpanded { get; set; }
-        public bool IsSelected { get; set; }
-        public bool IsPartlySelected { get; set; }
+        public StateSelectionType Selection { get; set; }
         public string ArtistName { get; set; }
         public string AlbumTitle { get; set; }
         public AudioFile Song { get; set; }
@@ -36,4 +36,11 @@ namespace MPfm.MVP.Models
 	{
 		Artist = 0, Album = 1, Song = 2
 	}
+
+    public enum StateSelectionType
+    {
+        None = 0,
+        Selected = 1,
+        PartlySelected = 2
+    }
 }

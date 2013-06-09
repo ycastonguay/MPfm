@@ -24,5 +24,6 @@ namespace MPfm.Library
     {
         SyncDeviceType GetDeviceType();
         string GetDeviceName();
+        long GetFreeSpace();
     }
 }

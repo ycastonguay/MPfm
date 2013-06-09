@@ -25,6 +25,7 @@ using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.MVP.Models;
+using MPfm.Library;
 
 namespace MPfm.MVP.Presenters
 {
@@ -34,13 +35,16 @@ namespace MPfm.MVP.Presenters
     public class SyncMenuPresenter : BasePresenter<ISyncMenuView>, ISyncMenuPresenter
 	{
         readonly ISyncClientService _syncClientService;
+        readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
+
         string _url;
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
         List<AudioFile> _audioFilesToSync = new List<AudioFile>();
 
-        public SyncMenuPresenter(ISyncClientService syncClientService)
+        public SyncMenuPresenter(ISyncClientService syncClientService, ISyncDeviceSpecifications syncDeviceSpecifications)
 		{
             _syncClientService = syncClientService;
+            _syncDeviceSpecifications = syncDeviceSpecifications;
             _syncClientService.OnDownloadIndexProgress += HandleOnDownloadIndexProgress;
             _syncClientService.OnReceivedIndex += HandleOnReceivedIndex;
 		}
@@ -99,27 +103,93 @@ namespace MPfm.MVP.Presenters
             {
                 if(item.ItemType == SyncMenuItemEntityType.Artist)
                 {
-                    // Get all audio files from artist
-                    //item.IsSelected = true;
+                    var selection = IsArtistSelected(item.ArtistName);
+                    if(selection == StateSelectionType.None)
+                    {
+                        // Add all songs from artist
+                        var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName);
+                        foreach(var songToAdd in songsToAdd)
+                            if(!_audioFilesToSync.Contains(songToAdd))
+                                _audioFilesToSync.Add(songToAdd);
+
+                        // Update items
+                        var itemsToUpdate = _items.Where(x => x.ArtistName == item.ArtistName).ToList();
+                        foreach(var itemToUpdate in itemsToUpdate)
+                            itemToUpdate.Selection = StateSelectionType.Selected;
+                    }
+                    else
+                    {
+                        // Remove all songs from artist
+                        _audioFilesToSync.RemoveAll(x => x.ArtistName == item.ArtistName);
+
+                        // Update items
+                        var itemsToUpdate = _items.Where(x => x.ArtistName == item.ArtistName).ToList();
+                        foreach(var itemToUpdate in itemsToUpdate)
+                            itemToUpdate.Selection = StateSelectionType.None;
+                    }
                 }
                 else if(item.ItemType == SyncMenuItemEntityType.Album)
                 {
-                    // 1) Nothing is selected; all the album is selected
-                    // 2) Everything is selected; all the album is deselected
-                    // 3) One or several songs of the album are selected; all the album is deselected
-
-                    // Check if at least one song has been already selected
-                    var subitems = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
-                    foreach(var subitem in subitems)
+                    // Determine if at least one song of this album is already selected
+                    var songsToSync = _audioFilesToSync.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                    if(songsToSync == null || songsToSync.Count == 0)
                     {
+                        // Select the whole album
+                        item.Selection = StateSelectionType.Selected;
+                        var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName, item.AlbumTitle);
+                        foreach(var songToAdd in songsToAdd)
+                            if(!_audioFilesToSync.Contains(songToAdd))
+                                _audioFilesToSync.Add(songToAdd);
 
+                        // Update song selection
+                        var itemsToSelect = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                        foreach(var itemToSelect in itemsToSelect)
+                            itemToSelect.Selection = StateSelectionType.Selected;
                     }
+                    else
+                    {
+                        // Deselect the album
+                        item.Selection = StateSelectionType.None;
+                        foreach(var song in songsToSync)
+                            _audioFilesToSync.Remove(song);
+
+                        // Update song selection
+                        var itemsToSelect = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                        foreach(var itemToSelect in itemsToSelect)
+                            itemToSelect.Selection = StateSelectionType.None;
+                    }
+
+                    // Update artist selection
+                    var selection = IsArtistSelected(item.ArtistName);
+                    var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
+                    itemArtist.Selection = selection;
                 }
                 else if(item.ItemType == SyncMenuItemEntityType.Song)
                 {
-                    item.IsSelected = !item.IsSelected;
-                    _audioFilesToSync.Add(item.Song);
+                    // Update song selection
+                    if(item.Selection == StateSelectionType.Selected)
+                        item.Selection = StateSelectionType.None;
+                    else
+                        item.Selection = StateSelectionType.Selected;
+
+                    if(_audioFilesToSync.Contains(item.Song))
+                        _audioFilesToSync.Remove(item.Song);
+                    else
+                        _audioFilesToSync.Add(item.Song);
+
+                    // Update artist selection
+                    var selectionArtist = IsArtistSelected(item.ArtistName);
+                    var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
+                    itemArtist.Selection = selectionArtist;
+
+                    // Update album selection
+                    var selectionAlbum = IsAlbumSelected(item.ArtistName, item.AlbumTitle);
+                    var itemAlbum = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle && x.ItemType == SyncMenuItemEntityType.Album);
+                    itemAlbum.Selection = selectionAlbum;
                 }
+
+                RefreshSyncTotal();
+                View.RefreshItems(_items);
             }
             catch(Exception ex)
             {
@@ -137,7 +207,8 @@ namespace MPfm.MVP.Presenters
                         if(item.IsExpanded)
                         {
                             int index = _items.FindIndex(x => x.ItemType == SyncMenuItemEntityType.Album && x.ArtistName == item.ArtistName);
-                            int lastIndex = _items.FindLastIndex(x => x.ItemType == SyncMenuItemEntityType.Album && x.ArtistName == item.ArtistName);
+                            int lastIndex = _items.FindLastIndex(x => x.ItemType == SyncMenuItemEntityType.Album || x.ItemType == SyncMenuItemEntityType.Song && 
+                                                                       x.ArtistName == item.ArtistName);
                             if(index == -1 || lastIndex == -1)
                                 return;
 
@@ -152,11 +223,15 @@ namespace MPfm.MVP.Presenters
                             var items = new List<SyncMenuItemEntity>();
                             var albumTitles = _syncClientService.GetDistinctAlbumTitles(item.ArtistName);
                             foreach(string albumTitle in albumTitles)
+                            {
+                                var selection = IsAlbumSelected(item.ArtistName, albumTitle);
                                 items.Add(new SyncMenuItemEntity(){
                                     ItemType = SyncMenuItemEntityType.Album,
                                     ArtistName = item.ArtistName,
-                                    AlbumTitle = albumTitle
+                                    AlbumTitle = albumTitle,
+                                    Selection = selection
                                 });
+                            }
 
                             View.InsertItems(index + 1, items);
                         }
@@ -180,13 +255,16 @@ namespace MPfm.MVP.Presenters
                             var items = new List<SyncMenuItemEntity>();
                             var songs = _syncClientService.GetAudioFiles(item.ArtistName, item.AlbumTitle);
                             foreach(AudioFile song in songs)
+                            {
+                                int selectionCount = _audioFilesToSync.Count(x => x.Id == song.Id);
                                 items.Add(new SyncMenuItemEntity(){
                                     ItemType = SyncMenuItemEntityType.Song,
                                     ArtistName = item.ArtistName,
                                     AlbumTitle = item.AlbumTitle,
-                                    Song = song
+                                    Song = song,
+                                    Selection = (selectionCount == 0) ? StateSelectionType.None : StateSelectionType.Selected
                                 });
-
+                            }
                             View.InsertItems(index + 1, items);
                         }
                         break;
@@ -202,6 +280,38 @@ namespace MPfm.MVP.Presenters
             }
         }
 
+        private StateSelectionType IsArtistSelected(string artistName)
+        {
+            StateSelectionType selection = StateSelectionType.None;
+            int audioFilesSelected = _audioFilesToSync.Count(x => x.ArtistName == artistName);
+            var audioFilesArtist = _syncClientService.GetAudioFiles(artistName);
+
+            if (audioFilesSelected == 0)  
+                selection = StateSelectionType.None;
+            else if (audioFilesSelected != audioFilesArtist.Count)                                
+                selection = StateSelectionType.PartlySelected;
+            else if (audioFilesSelected == audioFilesArtist.Count)
+                selection = StateSelectionType.Selected;
+
+            return selection;
+        }
+
+        private StateSelectionType IsAlbumSelected(string artistName, string albumTitle)
+        {
+            StateSelectionType selection = StateSelectionType.None;
+            int audioFilesSelected = _audioFilesToSync.Count(x => x.ArtistName == artistName && x.AlbumTitle == albumTitle);
+            var audioFilesAlbum = _syncClientService.GetAudioFiles(artistName, albumTitle);
+
+            if (audioFilesSelected == 0)  
+                selection = StateSelectionType.None;
+            else if (audioFilesSelected != audioFilesAlbum.Count)                                
+                selection = StateSelectionType.PartlySelected;
+            else if (audioFilesSelected == audioFilesAlbum.Count)
+                selection = StateSelectionType.Selected;
+
+            return selection;
+        }
+
         public void SetUrl(string url)
         {
             try
@@ -213,6 +323,20 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Console.WriteLine("SyncMenuPresenter - SetUrl - Exception: {0}", ex);
+            }
+        }
+
+        private void RefreshSyncTotal()
+        {
+            try
+            {
+                string title = string.Format("Total: {0} files ({1} MB)", _audioFilesToSync.Count, "Unknown");
+                string subtitle = string.Format("Free space: {0:0.0} MB", ((float)_syncDeviceSpecifications.GetFreeSpace() / 1000000f));
+                View.RefreshSyncTotal(title, subtitle);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("SyncMenuPresenter - RefreshSyncTotal - Exception: {0}", ex);
             }
         }
     }

@@ -101,7 +101,7 @@ namespace MPfm.Library.Services
                 Parallel.For(1, ips.Count, (index, state) => {
                     try
                     {
-                        Console.WriteLine("SyncDiscoveryService - Pinging {0}...", ips[index]);
+                        //Console.WriteLine("SyncDiscoveryService - Pinging {0}...", ips[index]);
                         WebClientTimeout client = new WebClientTimeout(800);
                         string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port));
 

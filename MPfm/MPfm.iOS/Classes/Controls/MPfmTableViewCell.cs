@@ -63,7 +63,6 @@ namespace MPfm.iOS.Classes.Controls
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             SelectedBackgroundView = backViewSelected;
 
-            TextLabel.BackgroundColor = UIColor.Clear;
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
@@ -101,7 +100,9 @@ namespace MPfm.iOS.Classes.Controls
             float padding = 8;
 
             // Determine width available for text
-            float textWidth = Bounds.Width - 44; // 44 = chevron
+            float textWidth = Bounds.Width;
+            if (Accessory != UITableViewCellAccessory.None)
+                textWidth -= 44;
             if (ImageView.Image != null)
                 textWidth -= Bounds.Height + padding;
             if (RightButton.ImageView.Image != null)

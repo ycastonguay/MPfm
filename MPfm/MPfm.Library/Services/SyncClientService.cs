@@ -98,6 +98,11 @@ namespace MPfm.Library.Services
             return _audioFiles.Where(x => x.ArtistName.ToUpper() == artistName.ToUpper()).Select(x => x.AlbumTitle).Distinct().ToList();
         }
 
+        public List<AudioFile> GetAudioFiles(string artistName)
+        {
+            return _audioFiles.Where(x => x.ArtistName.ToUpper() == artistName.ToUpper()).ToList();
+        }
+
         public List<AudioFile> GetAudioFiles(string artistName, string albumTitle)
         {
             return _audioFiles.Where(x => x.ArtistName.ToUpper() == artistName.ToUpper() && x.AlbumTitle.ToUpper() == albumTitle.ToUpper()).ToList();
