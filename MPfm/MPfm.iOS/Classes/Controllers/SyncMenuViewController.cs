@@ -145,9 +145,10 @@ namespace MPfm.iOS
 
         private void HandleOnRightButtonTap(MPfmTableViewCell cell)
         {
-            Console.WriteLine("=========> SyncMenuViewController - HandleOnRightButtonTap");
+            Console.WriteLine("SyncMenuViewController - HandleOnRightButtonTap");
             int row = cell.Tag;
-            _items[row].IsSelected = !_items[row].IsSelected;
+            //_items[row].IsSelected = !_items[row].IsSelected;
+            OnSelectItem(_items[row]);
 
             tableView.BeginUpdates();
             tableView.ReloadRows(new NSIndexPath[1] { NSIndexPath.FromRowSection(row, 0) }, UITableViewRowAnimation.None);

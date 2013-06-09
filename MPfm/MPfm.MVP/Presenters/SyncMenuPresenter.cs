@@ -100,12 +100,24 @@ namespace MPfm.MVP.Presenters
                 if(item.ItemType == SyncMenuItemEntityType.Artist)
                 {
                     // Get all audio files from artist
+                    //item.IsSelected = true;
                 }
                 else if(item.ItemType == SyncMenuItemEntityType.Album)
                 {
+                    // 1) Nothing is selected; all the album is selected
+                    // 2) Everything is selected; all the album is deselected
+                    // 3) One or several songs of the album are selected; all the album is deselected
+
+                    // Check if at least one song has been already selected
+                    var subitems = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                    foreach(var subitem in subitems)
+                    {
+
+                    }
                 }
                 else if(item.ItemType == SyncMenuItemEntityType.Song)
                 {
+                    item.IsSelected = !item.IsSelected;
                     _audioFilesToSync.Add(item.Song);
                 }
             }
