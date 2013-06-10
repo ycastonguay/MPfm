@@ -36,6 +36,15 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblTotalFilesValue { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UILabel lblCurrentFileValue { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblCurrentFile { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblFileNameValue { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UILabel lblErrorsValue { get; set; }
 
 		[Outlet]
@@ -90,6 +99,21 @@ namespace MPfm.iOS
 			if (lblTotalFilesValue != null) {
 				lblTotalFilesValue.Dispose ();
 				lblTotalFilesValue = null;
+			}
+
+			if (lblCurrentFileValue != null) {
+				lblCurrentFileValue.Dispose ();
+				lblCurrentFileValue = null;
+			}
+
+			if (lblCurrentFile != null) {
+				lblCurrentFile.Dispose ();
+				lblCurrentFile = null;
+			}
+
+			if (lblFileNameValue != null) {
+				lblFileNameValue.Dispose ();
+				lblFileNameValue = null;
 			}
 
 			if (lblErrorsValue != null) {

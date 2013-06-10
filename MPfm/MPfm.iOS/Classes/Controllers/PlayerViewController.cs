@@ -85,7 +85,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Reduce the song position slider size
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
-            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, 180, sliderPosition.Frame.Height);
+            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
 
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;
@@ -153,14 +153,22 @@ namespace MPfm.iOS.Classes.Controllers
             };
 
             // Create MPVolumeView (only visible on physical iOS device)
-            _volumeView = new MPVolumeView(new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 52, UIScreen.MainScreen.Bounds.Width - 16, 46));
+
+            RectangleF rectVolume;
+            if (UserInterfaceIdiomIsPhone)
+                rectVolume = new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 52, UIScreen.MainScreen.Bounds.Width - 16, 46);
+            else
+                rectVolume = new RectangleF(8 + 320, UIScreen.MainScreen.Bounds.Height - 44 - 50, UIScreen.MainScreen.Bounds.Width - 16 - 320, 46);
+            _volumeView = new MPVolumeView(rectVolume);
             _volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
             _volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             _volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             this.View.AddSubview(_volumeView);
 
-            // Only display wave form on iPhone 5+
-            if (DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone5)
+            // Only display wave form on iPhone 5+ and iPad
+            if (DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone3GS ||
+                DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone4 ||
+                DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone4S)
             {
                 scrollViewWaveForm.Hidden = true;
             }
@@ -194,10 +202,30 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void AddScrollView(UIViewController viewController)
         {
-            viewController.View.Frame = new RectangleF(scrollView.Subviews.Length * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
-            scrollView.AddSubview(viewController.View);
-            pageControl.Pages = scrollView.Subviews.Length;
-            scrollView.ContentSize = new SizeF(scrollView.Subviews.Length * scrollView.Frame.Width, scrollView.Frame.Height);
+            if (UserInterfaceIdiomIsPhone)
+            {
+                viewController.View.Frame = new RectangleF(scrollView.Subviews.Length * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+                scrollView.AddSubview(viewController.View);
+                pageControl.Pages = scrollView.Subviews.Length;
+                scrollView.ContentSize = new SizeF(scrollView.Subviews.Length * scrollView.Frame.Width, scrollView.Frame.Height);
+            }
+            else
+            {
+                if (viewController is PlayerMetadataViewController)
+                    viewController.View.Frame = new RectangleF(0, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+                else if(viewController is MarkersViewController)
+                    viewController.View.Frame = new RectangleF(scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                else if(viewController is LoopsViewController)
+                    viewController.View.Frame = new RectangleF(scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                else if(viewController is TimeShiftingViewController)
+                    viewController.View.Frame = new RectangleF(2 * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                else if(viewController is PitchShiftingViewController)
+                    viewController.View.Frame = new RectangleF(2 * scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+
+                scrollView.AddSubview(viewController.View);
+                pageControl.Pages = 3;
+                scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
+            }
         }
 
         [Export("scrollViewDidScroll:")]

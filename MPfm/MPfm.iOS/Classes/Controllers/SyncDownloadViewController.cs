@@ -23,6 +23,7 @@ using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Controls;
+using MPfm.Library.Objects;
 
 namespace MPfm.iOS
 {
@@ -66,20 +67,21 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshStatus(float percentageDone, int filesDownloaded, int totalFiles, int errors, string log)
+        public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
             // Maybe add download speed? total download size?
             InvokeOnMainThread(() => {
-                progressView.Progress = percentageDone / 100f;
-                lblPercentageDoneValue.Text = string.Format("{0:0.0}%", percentageDone);
-                lblFilesDownloadedValue.Text = string.Format("{0}", filesDownloaded);
-                lblTotalFilesValue.Text = string.Format("{0}", totalFiles);
-                lblErrorsValue.Text = string.Format("{0}", errors);
-                textViewLog.Text = log;
+                progressView.Progress = entity.PercentageDone / 100f;
+                lblPercentageDoneValue.Text = string.Format("{0:0.0}%", entity.PercentageDone);
+                lblCurrentFileValue.Text = string.Format("{0:0.0}%", entity.DownloadPercentageDone);
+                lblFilesDownloadedValue.Text = string.Format("{0}", entity.FilesDownloaded);
+                lblTotalFilesValue.Text = string.Format("{0}", entity.TotalFiles);
+                lblErrorsValue.Text = string.Format("{0}", entity.Errors);
+                lblFileNameValue.Text = entity.DownloadFileName;
+                textViewLog.Text = entity.Log;
             });
         }
 
         #endregion
     }
 }
-

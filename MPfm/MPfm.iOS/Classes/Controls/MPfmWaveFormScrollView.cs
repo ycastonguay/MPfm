@@ -231,7 +231,7 @@ namespace MPfm.iOS.Classes.Controls
             _lblZoom.Text = (_zoomScale * 100).ToString("0.0") + "%";
             //Console.WriteLine("MPfmWaveFormScrollView - DidZoom ZoomScale: " + originalZoomScale.ToString() + " _zoomScale: " + _zoomScale.ToString());
             
-            WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, 320 * _zoomScale, WaveFormView.Frame.Height);
+            WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, WaveFormView.Frame.Height);
             ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
             ContentOffset = new PointF(WaveFormView.Frame.Width * offsetRatio, 0);
         }

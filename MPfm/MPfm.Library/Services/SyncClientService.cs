@@ -24,22 +24,33 @@ using MPfm.Sound.AudioFiles;
 using MPfm.Core;
 using System.Linq;
 using System.IO;
+using MPfm.Library.Objects;
 
 namespace MPfm.Library.Services
 {
     public class SyncClientService : ISyncClientService
     {
+        readonly ILibraryService _libraryService;
+        readonly IAudioFileCacheService _audioFileCacheService;
+
         WebClientTimeout _webClient;
+        int _filesDownloaded = 0;
+        int _errorCount = 0;
+        string _baseUrl = string.Empty;
         List<AudioFile> _audioFiles = new List<AudioFile>();
 
         public delegate void DownloadIndexProgress(int progressPercentage, long bytesReceived, long totalBytesToReceive);
-        public delegate void DownloadAudioFilesProgress(float percentageDone, int filesDownloaded, int totalFiles, int errors, string log);
+        public delegate void DownloadAudioFileStatus(SyncClientDownloadAudioFileProgressEntity entity);
         public event EventHandler OnReceivedIndex;
         public event DownloadIndexProgress OnDownloadIndexProgress;
-        public event DownloadAudioFilesProgress OnDownloadAudioFilesProgress;
+        public event DownloadAudioFileStatus OnDownloadAudioFileStarted;
+        public event DownloadAudioFileStatus OnDownloadAudioFileProgress;
+        public event DownloadAudioFileStatus OnDownloadAudioFileCompleted;
 
-        public SyncClientService()
+        public SyncClientService(ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
         {
+            _libraryService = libraryService;
+            _audioFileCacheService = audioFileCacheService;
             Initialize();
         }
 
@@ -48,12 +59,32 @@ namespace MPfm.Library.Services
             _webClient = new WebClientTimeout(3000);
             _webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
             _webClient.DownloadStringCompleted += HandleDownloadStringCompleted;
+            _webClient.DownloadFileCompleted += HandleDownloadFileCompleted;
         }
 
         private void HandleDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
+            //Console.WriteLine("SyncClientService - HandleDownloadProgressChanged - progressPercentage: {0} bytesReceived: {1} totalBytesToReceive: {2}", e.ProgressPercentage, e.BytesReceived, e.TotalBytesToReceive);
+
+            string fileName = string.Empty;
+            if(_audioFiles != null && _audioFiles.Count >= _filesDownloaded+1)
+                fileName = Path.GetFileName(_audioFiles[_filesDownloaded].FilePath);
+
             if (OnDownloadIndexProgress != null)
                 OnDownloadIndexProgress(e.ProgressPercentage, e.BytesReceived, e.TotalBytesToReceive);
+
+            if (OnDownloadAudioFileProgress != null)
+                OnDownloadAudioFileProgress(new SyncClientDownloadAudioFileProgressEntity(){
+                    PercentageDone = ((float)_filesDownloaded / (float)_audioFiles.Count()) * 100f, 
+                    FilesDownloaded = _filesDownloaded, 
+                    TotalFiles = _audioFiles.Count(),
+                    DownloadBytesReceived = e.BytesReceived,
+                    DownloadTotalBytesToReceive = e.TotalBytesToReceive,
+                    DownloadPercentageDone = ((float)e.BytesReceived / (float)e.TotalBytesToReceive) * 100f,
+                    Errors = _errorCount, 
+                    DownloadFileName = fileName,
+                    Log = string.Empty
+                });
         }
 
         private void HandleDownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
@@ -63,7 +94,7 @@ namespace MPfm.Library.Services
 
             if (e.Error != null)
             {
-                Console.WriteLine("SyncClientService - Error on DownloadStringAsync: {0}", e.Error);
+                Console.WriteLine("SyncClientService - HandleDownloadStringCompleted - Error: {0}", e.Error);
                 return;
             }
 
@@ -73,6 +104,52 @@ namespace MPfm.Library.Services
 
             if (OnReceivedIndex != null)
                 OnReceivedIndex(this, new EventArgs());
+        }
+
+        private void HandleDownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+                return;
+
+            if (e.Error != null)
+            {
+                Console.WriteLine("SyncClientService - HandleDownloadFileCompleted - Error: {0}", e.Error);
+                _errorCount++;
+            }
+            else
+            {
+                // TODO: Check if the ID is already in the database! If yes, that means the insert statement will fail.
+                Console.WriteLine("SyncClientService - HandleDownloadFileCompleted - File downloaded; inserting audio file into database...");
+                var audioFile = _audioFiles[_filesDownloaded];
+                string fileName = Path.GetFileName(audioFile.FilePath);
+                string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string localFilePath = Path.Combine(folderPath, fileName);
+                audioFile.FilePath = localFilePath;
+                _libraryService.InsertAudioFile(audioFile);
+            }
+
+            _filesDownloaded++;
+
+            if (OnDownloadAudioFileCompleted != null)
+                OnDownloadAudioFileCompleted(new SyncClientDownloadAudioFileProgressEntity(){
+                    PercentageDone = ((float)_filesDownloaded / (float)_audioFiles.Count()) * 100f, 
+                    FilesDownloaded = _filesDownloaded, 
+                    TotalFiles = _audioFiles.Count(), 
+                    Errors = _errorCount, 
+                    Log = string.Empty
+                });
+
+            // Download the next file
+            if(_filesDownloaded < _audioFiles.Count)
+            {
+                Console.WriteLine("SyncClientService - HandleDownloadFileCompleted - Downloading next file {0}...", _audioFiles[_filesDownloaded].FilePath);
+                DownloadAudioFile(_audioFiles[_filesDownloaded]);
+                return;
+            }
+
+            // Process is over; refresh cache
+            Console.WriteLine("SyncClientService - HandleDownloadFileCompleted - Process is over, refreshing audio file cache...");
+            _audioFileCacheService.RefreshCache();
         }
 
         public void Cancel()
@@ -116,16 +193,43 @@ namespace MPfm.Library.Services
             if (_webClient.IsBusy)
                 return;
 
-            if (OnDownloadAudioFilesProgress != null)
-                OnDownloadAudioFilesProgress(0, 0, audioFiles.Count(), 0, string.Empty);
+            _filesDownloaded = 0;
+            _errorCount = 0;
+            _baseUrl = baseUrl;
+            _audioFiles = audioFiles.ToList();
 
-            foreach (var audioFile in audioFiles)
-            {
-                var url = new Uri(new Uri(baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
-                string fileName = Path.GetFileName(audioFile.FilePath);
-                Console.WriteLine("SyncClientService - DownloadAudioFiles - url: {0} fileName: {1}", url.ToString(), fileName);
-                //_webClient.DownloadFileAsync(url, fileName);
-            }
+            if (OnDownloadAudioFileProgress != null)
+                OnDownloadAudioFileProgress(new SyncClientDownloadAudioFileProgressEntity(){
+                    PercentageDone = 0,
+                    FilesDownloaded = 0,
+                    TotalFiles = _audioFiles.Count(), 
+                    Errors = _errorCount, 
+                    Log = string.Empty
+                });
+
+            var audioFile = _audioFiles[0];
+            DownloadAudioFile(audioFile);
+        }
+
+        private void DownloadAudioFile(AudioFile audioFile)
+        {
+            var url = new Uri(new Uri(_baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
+            string fileName = Path.GetFileName(audioFile.FilePath);
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string localFilePath = Path.Combine(folderPath, fileName);
+
+            if (OnDownloadAudioFileStarted != null)
+                OnDownloadAudioFileStarted(new SyncClientDownloadAudioFileProgressEntity(){
+                    PercentageDone = ((float)_filesDownloaded / (float)_audioFiles.Count()) * 100f, 
+                    FilesDownloaded = _filesDownloaded, 
+                    DownloadFileName = fileName, 
+                    TotalFiles = _audioFiles.Count(), 
+                    Errors = _errorCount, 
+                    Log = string.Empty
+                });
+
+            Console.WriteLine("SyncClientService - DownloadAudioFile - url: {0} fileName: {1} localFilePath: {2}", url.ToString(), fileName, localFilePath);
+            _webClient.DownloadFileAsync(url, localFilePath);
         }
     }
 }

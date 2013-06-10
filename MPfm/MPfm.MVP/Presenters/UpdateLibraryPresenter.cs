@@ -37,13 +37,11 @@ namespace MPfm.MVP.Presenters
 	public class UpdateLibraryPresenter : BasePresenter<IUpdateLibraryView>, IUpdateLibraryPresenter
 	{
 	    readonly IAudioFileCacheService _audioFileCacheService;
-		readonly ILibraryService _libraryService;		
 		readonly IUpdateLibraryService _updateLibraryService;
 		
-		public UpdateLibraryPresenter(IAudioFileCacheService audioFileCacheService, ILibraryService libraryService, IUpdateLibraryService updateLibraryService)
+		public UpdateLibraryPresenter(IAudioFileCacheService audioFileCacheService, IUpdateLibraryService updateLibraryService)
 		{
 		    _audioFileCacheService = audioFileCacheService;
-		    _libraryService = libraryService;
 			_updateLibraryService = updateLibraryService;
             _updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
             _updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);

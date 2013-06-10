@@ -29,10 +29,6 @@ namespace MPfm.Library.Objects
         public SyncDeviceType DeviceType { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
-
-		public SyncDevice()
-		{
-		}
 	}
 	
 	/// <summary>
@@ -48,4 +44,3 @@ namespace MPfm.Library.Objects
         Android = 5
 	}
 }
-

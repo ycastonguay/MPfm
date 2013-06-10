@@ -31,6 +31,6 @@ namespace MPfm.MVP.Views
         Action OnButtonPressed { get; set; }
 
         void SyncDownloadError(Exception ex);
-        void RefreshStatus(float percentageDone, int filesDownloaded, int totalFiles, int errors, string log);
+        void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity);
 	}
 }

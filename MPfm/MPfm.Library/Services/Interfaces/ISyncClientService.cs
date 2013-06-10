@@ -28,7 +28,9 @@ namespace MPfm.Library.Services.Interfaces
     {
         event EventHandler OnReceivedIndex;
         event SyncClientService.DownloadIndexProgress OnDownloadIndexProgress;
-        event SyncClientService.DownloadAudioFilesProgress OnDownloadAudioFilesProgress;
+        event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileStarted;
+        event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileProgress;
+        event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileCompleted;
 
         void Cancel();
         void DownloadIndex(string baseUrl);

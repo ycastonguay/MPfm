@@ -39,12 +39,10 @@ namespace MPfm.MVP.Services
 	/// </summary>
 	public class UpdateLibraryService : IUpdateLibraryService
 	{
-		// Private variables
 		private ILibraryService libraryService = null;		
 		private BackgroundWorker workerUpdateLibrary = null;
 		private bool cancelUpdateLibrary = false;
 		
-		// Events
 		public event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;	
 		public event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
 		
@@ -55,15 +53,11 @@ namespace MPfm.MVP.Services
 		/// </summary>
 		public UpdateLibraryService(ILibraryService libraryService)
 		{
-			// Check for null
 			if(libraryService == null)
 				throw new ArgumentNullException("The libraryService parameter cannot be null!");
 
-			// Set properties
 			this.libraryService = libraryService;
-			
 					
-			// Create worker
 			workerUpdateLibrary = new BackgroundWorker();
             workerUpdateLibrary.WorkerReportsProgress = true;
             workerUpdateLibrary.WorkerSupportsCancellation = true;
@@ -71,15 +65,6 @@ namespace MPfm.MVP.Services
             workerUpdateLibrary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateLibrary_RunWorkerCompleted);
 		}
 
-		/// <summary>
-		/// Releases all resources used by the <see cref="MPfm.UI.UpdateLibraryPresenter"/> object.
-		/// </summary>
-		/// <remarks>
-		/// Call <see cref="Dispose"/> when you are finished using the <see cref="MPfm.UI.UpdateLibraryPresenter"/>. The
-		/// <see cref="Dispose"/> method leaves the <see cref="MPfm.UI.UpdateLibraryPresenter"/> in an unusable state. After
-		/// calling <see cref="Dispose"/>, you must release all references to the <see cref="MPfm.UI.UpdateLibraryPresenter"/>
-		/// so the garbage collector can reclaim the memory that the <see cref="MPfm.UI.UpdateLibraryPresenter"/> was occupying.
-		/// </remarks>
 		public void Dispose()
 		{
 		}
@@ -96,11 +81,8 @@ namespace MPfm.MVP.Services
 		protected virtual void OnRaiseRefreshStatusEvent(UpdateLibraryEntity entity)
 		{
 			EventHandler<RefreshStatusEventArgs> handler = RaiseRefreshStatusEvent;
-			
 			if(handler != null)
-			{
 				handler(this, new RefreshStatusEventArgs(entity));
-			}
 		}
 		
 		/// <summary>
@@ -110,11 +92,8 @@ namespace MPfm.MVP.Services
 		protected virtual void OnRaiseProcessEndedEvent(ProcessEndedEventArgs e)
 		{
 			EventHandler<ProcessEndedEventArgs> handler = RaiseProcessEndedEvent;
-			
 			if(handler != null)
-			{
 				handler(this, e);
-			}
 		}
 		
 		#endregion
@@ -148,28 +127,19 @@ namespace MPfm.MVP.Services
 		/// <param name='folderPath'>Folder path to add to the database</param>
 		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
 		{					
-            // Create argument
             UpdateLibraryArgument arg = new UpdateLibraryArgument();
             arg.Mode = mode;
             arg.FilePaths = filePaths;
             arg.FolderPath = folderPath;
 			
-			// Make sure all private variables are reset
 			cancelUpdateLibrary = false;
 
-			// If the mode is SpecificFolder
             if (mode == UpdateLibraryMode.SpecificFolder)
-            {
-				// Add folder to library
 				libraryService.AddFolder(folderPath, true);
-            }
 			else if(mode == UpdateLibraryMode.SpecificFiles)
-			{
-				// Add files to library
 				libraryService.AddFiles(filePaths);
-			}
 
-            // Start the background process using the arguments
+            // Start the background process
             workerUpdateLibrary.RunWorkerAsync(arg);
 		}		
 		
@@ -180,18 +150,12 @@ namespace MPfm.MVP.Services
 		/// <param name='e'>Event arguments</param>
         protected void workerUpdateLibrary_DoWork(object sender, DoWorkEventArgs e)
         {
-			// Declare variables
             List<string> filePaths = new List<string>();    
-			
-            // Get argument
             UpdateLibraryArgument arg = (UpdateLibraryArgument)e.Argument;
 						
 			try
 			{			
-				// Cancel update library process if necessary
             	if (cancelUpdateLibrary) throw new UpdateLibraryException();
-				
-				// Determine the update library mode
                 if (arg.Mode == UpdateLibraryMode.WholeLibrary)
                 {
                     // Remove broken songs from the library
@@ -202,10 +166,8 @@ namespace MPfm.MVP.Services
 					});
                     libraryService.RemoveAudioFilesWithBrokenFilePaths();
 
-                    // Cancel update library process if necessary
                     if (cancelUpdateLibrary) throw new UpdateLibraryException();
 
-                    // Search for new media in the library folders                    
                     filePaths = SearchMediaFilesInFolders();
                 }
                 else if (arg.Mode == UpdateLibraryMode.SpecificFiles)
@@ -221,17 +183,14 @@ namespace MPfm.MVP.Services
                     Console.WriteLine("UpdateLibraryService - Found {0} audio files in {0}", filePaths.Count, arg.FolderPath);
                 }
 				
-				// Cancel update library process if necessary
                 if (cancelUpdateLibrary) throw new UpdateLibraryException();
 				
 				// Get the list of audio files from the database
 				IEnumerable<string> filePathsDatabase = libraryService.SelectFilePaths();				
 				IEnumerable<string> filePathsToUpdate = filePaths.Except(filePathsDatabase);
 					
-		        // Loop through files
 		        for(int a = 0; a < filePathsToUpdate.Count(); a++)
 		        {
-					// Cancel update library process if necessary
 	                if (cancelUpdateLibrary) throw new UpdateLibraryException();							           				
 						
 					// Get current file path and calculate stats
@@ -246,13 +205,11 @@ namespace MPfm.MVP.Services
 		                    filePath.ToUpper().Contains(".PLS") ||
 		                    filePath.ToUpper().Contains(".XSPF"))
 		                {
-		                    // Get playlist file and insert into database
 		                    PlaylistFile playlistFile = new PlaylistFile(filePath);
 	                    	libraryService.InsertPlaylistFile(playlistFile);							
 		                }
 		                else
 		                {
-		                    // Get audio file metadata and insert into database
 		                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
 	                    	libraryService.InsertAudioFile(audioFile);
 		                }
@@ -318,7 +275,6 @@ namespace MPfm.MVP.Services
         /// <param name="e">Event argument</param>
         private void workerUpdateLibrary_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {	
-			// Update view
 			OnRaiseProcessEndedEvent(new ProcessEndedEventArgs(e.Cancelled));
         }
 				
@@ -328,16 +284,11 @@ namespace MPfm.MVP.Services
         /// <returns>List of songs (file paths)</returns>
         public List<string> SearchMediaFilesInFolders()
         {
-            // List of files
             List<string> files = new List<string>();            
-
-            // Get registered folders            
             IEnumerable<Folder> folders = libraryService.SelectFolders();
 
-            // For each registered folder
             foreach (Folder folder in folders)
             {
-				// Search for media files
                 List<string> newFiles = SearchMediaFilesInFolders(folder.FolderPath, (bool)folder.IsRecursive);
                 files.AddRange(newFiles);
             }

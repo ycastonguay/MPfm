@@ -41,7 +41,9 @@ namespace MPfm.MVP.Presenters
         public SyncDownloadPresenter(ISyncClientService syncClientService)
 		{
             _syncClientService = syncClientService;
-            _syncClientService.OnDownloadAudioFilesProgress += HandleOnDownloadAudioFilesProgress;
+            _syncClientService.OnDownloadAudioFileStarted += HandleOnDownloadAudioFileStarted;
+            _syncClientService.OnDownloadAudioFileProgress += HandleOnDownloadAudioFileProgress;
+            _syncClientService.OnDownloadAudioFileCompleted += HandleOnDownloadAudioFileCompleted;
 		}
 
         public override void BindView(ISyncDownloadView view)
@@ -56,15 +58,32 @@ namespace MPfm.MVP.Presenters
         {
 
         }
-
-        private void HandleOnDownloadAudioFilesProgress(float percentageDone, int filesDownloaded, int totalFiles, int errors, string log)
+                
+        private void HandleOnDownloadAudioFileStarted(SyncClientDownloadAudioFileProgressEntity entity)
         {
-            View.RefreshStatus(percentageDone, filesDownloaded, totalFiles, errors, log);
+            View.RefreshStatus(entity);
+        }
+
+        private void HandleOnDownloadAudioFileProgress(SyncClientDownloadAudioFileProgressEntity entity)
+        {
+            View.RefreshStatus(entity);
+        }
+
+        private void HandleOnDownloadAudioFileCompleted(SyncClientDownloadAudioFileProgressEntity entity)
+        {
+            View.RefreshStatus(entity);
         }
 
         private void ButtonPressed()
         {
-
+            try
+            {
+                _syncClientService.Cancel();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("SyncDownloadPresenter - ButtonPressed - Exception: {0}", ex);
+            }
         }
 
         public void StartSync(string url, IEnumerable<AudioFile> audioFiles)
