@@ -32,5 +32,6 @@ namespace MPfm.MVP.Views
 
         void SyncDownloadError(Exception ex);
         void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity);
+        void SyncCompleted();
 	}
 }

@@ -26,17 +26,19 @@ namespace MPfm.Library.Services.Interfaces
     /// </summary>
     public interface ISyncClientService
     {
-        event EventHandler OnReceivedIndex;
+        event SyncClientService.ReceivedIndex OnReceivedIndex;
         event SyncClientService.DownloadIndexProgress OnDownloadIndexProgress;
         event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileStarted;
         event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileProgress;
         event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileCompleted;
+        event EventHandler OnDownloadAudioFilesCompleted;
 
         void Cancel();
         void DownloadIndex(string baseUrl);
         void DownloadAudioFiles(string baseUrl, IEnumerable<AudioFile> audioFiles);
         List<string> GetDistinctArtistNames();
         List<string> GetDistinctAlbumTitles(string artistName);
+        List<AudioFile> GetAudioFiles();
         List<AudioFile> GetAudioFiles(string artistName);
         List<AudioFile> GetAudioFiles(string artistName, string albumTitle);
     }

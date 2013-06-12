@@ -21,9 +21,6 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblFreeSpace { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnSync { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UIView viewSync { get; set; }
 
 		[Outlet]
@@ -35,8 +32,11 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
-		[Action ("actionSync:")]
-		partial void actionSync (MonoTouch.Foundation.NSObject sender);
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnSelect { get; set; }
+
+		[Action ("actionSelect:")]
+		partial void actionSelect (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -53,11 +53,6 @@ namespace MPfm.iOS
 			if (lblFreeSpace != null) {
 				lblFreeSpace.Dispose ();
 				lblFreeSpace = null;
-			}
-
-			if (btnSync != null) {
-				btnSync.Dispose ();
-				btnSync = null;
 			}
 
 			if (viewSync != null) {
@@ -78,6 +73,11 @@ namespace MPfm.iOS
 			if (activityIndicator != null) {
 				activityIndicator.Dispose ();
 				activityIndicator = null;
+			}
+
+			if (btnSelect != null) {
+				btnSelect.Dispose ();
+				btnSelect = null;
 			}
 		}
 	}

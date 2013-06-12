@@ -44,6 +44,7 @@ namespace MPfm.MVP.Presenters
             _syncClientService.OnDownloadAudioFileStarted += HandleOnDownloadAudioFileStarted;
             _syncClientService.OnDownloadAudioFileProgress += HandleOnDownloadAudioFileProgress;
             _syncClientService.OnDownloadAudioFileCompleted += HandleOnDownloadAudioFileCompleted;
+            _syncClientService.OnDownloadAudioFilesCompleted += HandleOnDownloadAudioFilesCompleted;
 		}
 
         public override void BindView(ISyncDownloadView view)
@@ -74,6 +75,11 @@ namespace MPfm.MVP.Presenters
             View.RefreshStatus(entity);
         }
 
+        private void HandleOnDownloadAudioFilesCompleted(object sender, EventArgs e)
+        {
+            View.SyncCompleted();
+        }
+
         private void ButtonPressed()
         {
             try
@@ -90,6 +96,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                Console.WriteLine("SyncDownloadPresenter - StartSync - url: {0}", url);
                 _url = url;
                 _audioFiles = audioFiles.ToList();
                 _syncClientService.DownloadAudioFiles(url, audioFiles);

@@ -24,14 +24,21 @@ namespace MPfm.Library.Objects
     /// </summary>
     public class SyncClientDownloadAudioFileProgressEntity
     {
+        public string Status { get; set; }
         public float PercentageDone { get; set; }
         public int FilesDownloaded { get; set; }
         public int TotalFiles { get; set; }
         public string DownloadFileName { get; set; }
+        public string DownloadSpeed { get; set; }
         public float DownloadPercentageDone { get; set; }
         public long DownloadBytesReceived { get; set; }
         public long DownloadTotalBytesToReceive { get; set; }
         public int Errors { get; set; }
         public string Log { get; set; }
+
+        public SyncClientDownloadAudioFileProgressEntity()
+        {
+            DownloadSpeed = "0kb/sec";
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace MPfm.iOS
     public partial class SyncMenuViewController : BaseViewController, ISyncMenuView
     {
         string _cellIdentifier = "SyncMenuCell";
+        UIBarButtonItem _btnSync;
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
 
         public SyncMenuViewController(Action<IBaseView> onViewReady)
@@ -46,9 +47,10 @@ namespace MPfm.iOS
 
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
             viewSync.BackgroundColor = GlobalTheme.MainColor;
-            btnSync.BackgroundColor = GlobalTheme.SecondaryColor;
-            btnSync.Layer.CornerRadius = 8;
+            btnSelect.BackgroundColor = GlobalTheme.SecondaryColor;
+            btnSelect.Layer.CornerRadius = 8;
 
+            btnSelect.SetTitle("Select all", UIControlState.Normal);
             activityIndicator.StartAnimating();
 
             UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
@@ -56,11 +58,21 @@ namespace MPfm.iOS
             longPress.WeakDelegate = this;
             tableView.AddGestureRecognizer(longPress);
 
-            base.ViewDidLoad();
+            var btnSync = new UIButton(UIButtonType.Custom);
+            btnSync.SetTitle("Sync", UIControlState.Normal);
+            btnSync.Layer.CornerRadius = 8;
+            btnSync.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+            btnSync.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
+            btnSync.Frame = new RectangleF(0, 12, 60, 30);
+            btnSync.TouchUpInside += HandleButtonSyncTouchUpInside;
+            _btnSync = new UIBarButtonItem(btnSync);
+            //NavigationItem.SetRightBarButtonItem(_btnSync, true);
 
             viewLoading.Hidden = false;
             viewSync.Hidden = true;
             tableView.Hidden = true;
+
+            base.ViewDidLoad();
         }
 
         public override void ViewWillAppear(bool animated)
@@ -88,9 +100,14 @@ namespace MPfm.iOS
             }
         }
 
-        partial void actionSync(NSObject sender)
+        private void HandleButtonSyncTouchUpInside(object sender, EventArgs e)
         {
             OnSync();
+        }
+
+        partial void actionSelect(NSObject sender)
+        {
+            OnSelectButtonClick();
         }
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -193,6 +210,7 @@ namespace MPfm.iOS
         public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
         public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
         public Action OnSync { get; set; }
+        public Action OnSelectButtonClick { get; set; }
 
         public void SyncMenuError(Exception ex)
         {
@@ -208,8 +226,22 @@ namespace MPfm.iOS
                 tableView.Hidden = isLoading;
                 viewLoading.Hidden = !isLoading;
                 viewSync.Hidden = isLoading;
+                if(isLoading)
+                    NavigationItem.SetRightBarButtonItem(null, true);
+                else
+                    NavigationItem.SetRightBarButtonItem(_btnSync, true);                   
 
-                lblLoading.Text = String.Format("Loading index ({0}%)...", progressPercentage);
+                if(progressPercentage < 100)
+                    lblLoading.Text = String.Format("Loading index ({0}%)...", progressPercentage);
+                else
+                    lblLoading.Text = "Processing index...";
+            });
+        }
+
+        public void RefreshSelectButton(string text)
+        {
+            InvokeOnMainThread(() => {
+                btnSelect.SetTitle(text, UIControlState.Normal);
             });
         }
 

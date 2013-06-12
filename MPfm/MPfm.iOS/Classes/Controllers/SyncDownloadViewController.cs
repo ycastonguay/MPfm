@@ -37,8 +37,9 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
-            btnCancel.BackgroundColor = GlobalTheme.SecondaryColor;
-            btnCancel.Layer.CornerRadius = 8;
+
+            // TODO: Detect back button press when the process is currently running. Ask the user if he wants to cancel the operation.
+            Console.WriteLine("SyncDownloadViewController - ViewDidLoad");
 
             base.ViewDidLoad();
         }
@@ -47,12 +48,10 @@ namespace MPfm.iOS
         {
             base.ViewWillAppear(animated);
 
+            Console.WriteLine("SyncDownloadViewController - ViewWillAppear");
+
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Sync Library", "Downloading audio files");
-        }
-
-        partial void actionCancel(NSObject sender)
-        {
         }
 
         #region ISyncDownloadView implementation
@@ -69,16 +68,30 @@ namespace MPfm.iOS
 
         public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
-            // Maybe add download speed? total download size?
             InvokeOnMainThread(() => {
                 progressView.Progress = entity.PercentageDone / 100f;
+                lblTitle.Text = entity.Status;
                 lblPercentageDoneValue.Text = string.Format("{0:0.0}%", entity.PercentageDone);
                 lblCurrentFileValue.Text = string.Format("{0:0.0}%", entity.DownloadPercentageDone);
                 lblFilesDownloadedValue.Text = string.Format("{0}", entity.FilesDownloaded);
                 lblTotalFilesValue.Text = string.Format("{0}", entity.TotalFiles);
+                lblDownloadSpeedValue.Text = entity.DownloadSpeed;
                 lblErrorsValue.Text = string.Format("{0}", entity.Errors);
                 lblFileNameValue.Text = entity.DownloadFileName;
                 textViewLog.Text = entity.Log;
+            });
+        }
+
+        public void SyncCompleted()
+        {
+            InvokeOnMainThread(() => {
+                lblTitle.Text = "Sync completed";
+                var alertView = new UIAlertView("Sync", "Sync completed successfully.", null, "OK", null);
+                alertView.Clicked += (sender, e) => { 
+                    Console.WriteLine("SyncDownloadViewController - Sync completed; dismissing views");
+                    NavigationController.PopToRootViewController(true);
+                };
+                alertView.Show();
             });
         }
 

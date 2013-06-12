@@ -33,6 +33,12 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblTotalFiles { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UILabel lblDownloadSpeedValue { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblDownloadSpeed { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UILabel lblTotalFilesValue { get; set; }
 
 		[Outlet]
@@ -51,13 +57,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblErrors { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnCancel { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UITextView textViewLog { get; set; }
-
-		[Action ("actionCancel:")]
-		partial void actionCancel (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -96,6 +96,16 @@ namespace MPfm.iOS
 				lblTotalFiles = null;
 			}
 
+			if (lblDownloadSpeedValue != null) {
+				lblDownloadSpeedValue.Dispose ();
+				lblDownloadSpeedValue = null;
+			}
+
+			if (lblDownloadSpeed != null) {
+				lblDownloadSpeed.Dispose ();
+				lblDownloadSpeed = null;
+			}
+
 			if (lblTotalFilesValue != null) {
 				lblTotalFilesValue.Dispose ();
 				lblTotalFilesValue = null;
@@ -124,11 +134,6 @@ namespace MPfm.iOS
 			if (lblErrors != null) {
 				lblErrors.Dispose ();
 				lblErrors = null;
-			}
-
-			if (btnCancel != null) {
-				btnCancel.Dispose ();
-				btnCancel = null;
 			}
 
 			if (textViewLog != null) {

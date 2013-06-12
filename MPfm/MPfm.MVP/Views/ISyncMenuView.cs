@@ -31,9 +31,11 @@ namespace MPfm.MVP.Views
         Action<SyncMenuItemEntity> OnExpandItem { get; set; }
         Action<SyncMenuItemEntity> OnSelectItem { get; set; }
         Action OnSync { get; set; }
+        Action OnSelectButtonClick { get; set; }
 
         void SyncMenuError(Exception ex);
         void RefreshLoading(bool isLoading, int progressPercentage);
+        void RefreshSelectButton(string text);
         void RefreshItems(List<SyncMenuItemEntity> items);
         void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
         void InsertItems(int index, List<SyncMenuItemEntity> items);

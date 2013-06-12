@@ -57,6 +57,7 @@ namespace MPfm.MVP.Presenters
             view.OnSelectItem = SelectItem;
             view.OnExpandItem = ExpandItem;
             view.OnSync = Sync;
+            view.OnSelectButtonClick = SelectButtonClick;
             base.BindView(view);
 
             Initialize();
@@ -67,11 +68,18 @@ namespace MPfm.MVP.Presenters
 
         }
 
-        private void HandleOnReceivedIndex(object sender, EventArgs e)
+        private void HandleOnReceivedIndex(Exception exception)
         {
             try
             {
+                if(exception != null)
+                {
+                    View.SyncMenuError(exception);
+                    return;
+                }
+
                 // TODO: Check if this takes much memory with Instruments.
+                Console.WriteLine("SyncMenuPresenter - HandleOnReceivedIndex - Creating list of items...");
                 var artistNames = _syncClientService.GetDistinctArtistNames();
                 _items = new List<SyncMenuItemEntity>();
                 foreach (string artistName in artistNames)
@@ -80,6 +88,7 @@ namespace MPfm.MVP.Presenters
                         ArtistName = artistName
                     });
 
+                Console.WriteLine("SyncMenuPresenter - HandleOnReceivedIndex - Refrehsing view and sync totals...");
                 View.RefreshLoading(false, 0);
                 RefreshSyncTotal();
                 View.RefreshItems(_items);
@@ -99,6 +108,36 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Console.WriteLine("SyncMenuPresenter - HandleOnDownloadIndexProgress - Exception: {0}", ex);
+            }
+        }
+
+        private void SelectButtonClick()
+        {
+            try
+            {
+                if(_audioFilesToSync.Count > 0)
+                {
+                    // Reset selection
+                    foreach(var item in _items)
+                        item.Selection = StateSelectionType.None;
+                    _audioFilesToSync.Clear();
+                    View.RefreshSelectButton("Select all");
+                }
+                else
+                {
+                    // Select all items
+                    foreach(var item in _items)
+                        item.Selection = StateSelectionType.Selected;
+                    _audioFilesToSync.AddRange(_syncClientService.GetAudioFiles());
+                    View.RefreshSelectButton("Reset selection");
+                }
+
+                View.RefreshItems(_items);
+                RefreshSyncTotal();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("SyncMenuPresenter - SelectButton - Exception: {0}", ex);
             }
         }
 
@@ -335,6 +374,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _url = url;
+                _audioFilesToSync.Clear();
                 _syncClientService.DownloadIndex(url);
                 View.RefreshLoading(true, 0);
             }
