@@ -55,6 +55,27 @@ namespace MPfm.Library.Services
             _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
 		}
 
+        /// <summary>
+        /// Removes the audio files of an artist and/or album from the cache. This does not delete the files from the database.
+        /// </summary>
+        /// <param name="artistName">Artist name</param>
+        /// <param name="albumTitle">Album title</param>
+        public void RemoveAudioFiles(string artistName, string albumTitle)
+        {
+            AudioFiles.RemoveAll(x => x.ArtistName.ToUpper() == artistName.ToUpper() && x.AlbumTitle.ToUpper() == albumTitle.ToUpper());
+            _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
+        }
+
+        /// <summary>
+        /// Removes a single audio file from the cache.
+        /// </summary>
+        /// <param name="audioFileId">Audio file identifier</param>
+        public void RemoveAudioFile(Guid audioFileId)
+        {
+            AudioFiles.RemoveAll(x => x.Id == audioFileId);
+            _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
+        }
+
 		/// <summary>
         /// Selects audio files from the song cache, filtered by different parameters.
         /// </summary>
@@ -62,99 +83,45 @@ namespace MPfm.Library.Services
         /// <returns>List of AudioFiles</returns>
         public IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query)
         {
-            try
-            {
-                IEnumerable<AudioFile> queryAudioFiles = null;
+            IEnumerable<AudioFile> queryAudioFiles = null;
 
-                // Check for default order by (ignore ascending)
-                if (String.IsNullOrEmpty(query.OrderBy))
-                {
-                    // Set query
+            if (String.IsNullOrEmpty(query.OrderBy))
+            {
+                queryAudioFiles = from s in AudioFiles
+                                  orderby s.ArtistName, s.AlbumTitle, s.FileType, s.DiscNumber, s.TrackNumber
+                                  select s;
+            }
+            else
+            {
+                if (query.OrderByAscending)
                     queryAudioFiles = from s in AudioFiles
-                                      orderby s.ArtistName, s.AlbumTitle, s.FileType, s.DiscNumber, s.TrackNumber
+                                      orderby GetPropertyValue(s, query.OrderBy)
                                       select s;
-                }
                 else
-                {
-                    // Check for orderby ascending/descending
-                    if (query.OrderByAscending)
-                    {
-                        // Set query
-                        queryAudioFiles = from s in AudioFiles
-                                          orderby GetPropertyValue(s, query.OrderBy)
-                                          select s;
-                    }
-                    else
-                    {
-                        // Set query
-                        queryAudioFiles = from s in AudioFiles
-                                          orderby GetPropertyValue(s, query.OrderBy) descending
-                                          select s;                        
-                    }
-                }
-
-                // Check if artistName is null
-                if (!String.IsNullOrEmpty(query.ArtistName))
-                {
-                    // Add the artist condition to the query
-                    queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName == query.ArtistName);                    
-                }
-
-                // Check if albumTitle is null
-                if (!String.IsNullOrEmpty(query.AlbumTitle))
-                {
-                    // Add the artist condition to the query
-                    queryAudioFiles = queryAudioFiles.Where(s => s.AlbumTitle == query.AlbumTitle);                    
-                }
-
-                // Check if searchTerms is null
-                if (!String.IsNullOrEmpty(query.SearchTerms))
-                {
-                    // Split search terms
-                    string[] searchTermsSplit = query.SearchTerms.Split(new string[] { " " }, StringSplitOptions.None);
-                    
-                    // Loop through search terms
-                    foreach (string searchTerm in searchTermsSplit)
-                    {
-                        // Add the artist condition to the query
-                        queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName.ToUpper().Contains(searchTerm.ToUpper()) ||
-                                                                     s.AlbumTitle.ToUpper().Contains(searchTerm.ToUpper()) ||
-                                                                     s.Title.ToUpper().Contains(searchTerm.ToUpper()));
-                    }
-                }
-
-                // Check for audio file format filter
-                if (query.Format == AudioFileFormat.All)
-                {
-                    // 
-                }
-                else
-                {
-                    // Set filter by file type
-                    queryAudioFiles = queryAudioFiles.Where(s => s.FileType == query.Format);
-                }
-
-                //// Check for default order by
-                //if (String.IsNullOrEmpty(orderBy))
-                //{
-                //    // Add order by
-                //    querySongs = querySongs.OrderBy(s => s.ArtistName).ThenBy(s => s.AlbumTitle).ThenBy(s => s.DiscNumber).ThenBy(s => s.TrackNumber);
-                //}
-                //else
-                //{
-                //    // Custom order by
-                //    querySongs = querySongs.OrderBy("");
-                //}
-
-                // Execute query
-                var test = queryAudioFiles.ToList();
-                return queryAudioFiles.ToList();
+                    queryAudioFiles = from s in AudioFiles
+                                      orderby GetPropertyValue(s, query.OrderBy) descending
+                                      select s;                        
             }
-            catch (Exception ex)
+
+            if (!String.IsNullOrEmpty(query.ArtistName))
+                queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName == query.ArtistName);                    
+
+            if (!String.IsNullOrEmpty(query.AlbumTitle))
+                queryAudioFiles = queryAudioFiles.Where(s => s.AlbumTitle == query.AlbumTitle);                    
+
+            if (!String.IsNullOrEmpty(query.SearchTerms))
             {
-                //Tracing.Log(ex);
-                throw;
+                string[] searchTermsSplit = query.SearchTerms.Split(new string[] { " " }, StringSplitOptions.None);
+                foreach (string searchTerm in searchTermsSplit)
+                    queryAudioFiles = queryAudioFiles.Where(s => s.ArtistName.ToUpper().Contains(searchTerm.ToUpper()) ||
+                                                                 s.AlbumTitle.ToUpper().Contains(searchTerm.ToUpper()) ||
+                                                                 s.Title.ToUpper().Contains(searchTerm.ToUpper()));
             }
+
+            if (query.Format != AudioFileFormat.All)
+                queryAudioFiles = queryAudioFiles.Where(s => s.FileType == query.Format);
+
+            return queryAudioFiles.ToList();
         }
 					
 		/// <summary>

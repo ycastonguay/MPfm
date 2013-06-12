@@ -201,6 +201,17 @@ namespace MPfm.Library.Database
         }
 
         /// <summary>
+        /// Deletes audio files from the database based on their artist name and/or album title.
+        /// </summary>
+        public void DeleteAudioFiles(string artistName, string albumTitle)
+        {
+            string whereClause = string.Format("ArtistName LIKE '{0}'", FormatSQLValue(artistName));
+            if (!string.IsNullOrEmpty(albumTitle))
+                whereClause += string.Format(" AND AlbumTitle LIKE '{0}'", FormatSQLValue(albumTitle));
+            _gateway.Delete("AudioFiles", whereClause);
+        }
+
+        /// <summary>
         /// Returns the distinct list of artist names from the database.        
         /// </summary>        
         /// <returns>List of distinct artist names</returns>

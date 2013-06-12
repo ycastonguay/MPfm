@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -31,7 +32,6 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
-using System.Collections.Concurrent;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 
@@ -77,7 +77,6 @@ namespace MPfm.iOS.Classes.Controllers
             lblSubtitle1.Font = UIFont.FromName("HelveticaNeue", 12);
             lblSubtitle2.Font = UIFont.FromName("HelveticaNeue", 12);
 
-            //_currentTask = Task.Factory.StartNew (() => { });
             _imageCache = new List<KeyValuePair<string, UIImage>>();
 
             // Create text attributes for navigation bar button
@@ -87,7 +86,6 @@ namespace MPfm.iOS.Classes.Controllers
             attr.TextShadowColor = UIColor.DarkGray;
             attr.TextShadowOffset = new UIOffset(0, 0);
             
-            // Set back button for navigation bar
             btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
             btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
             this.NavigationItem.BackBarButtonItem = btnBack;
@@ -116,6 +114,27 @@ namespace MPfm.iOS.Classes.Controllers
             FlushImages();
         }        
 
+        [Export ("tableView:commitEditingStyle:forRowAtIndexPath:")]
+        public void CommitEditingStyleForRowAtIndexPath(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+        {
+            if (editingStyle == UITableViewCellEditingStyle.Delete)
+            {
+                var alertView = new UIAlertView("Delete confirmation", string.Format("Are you sure you wish to delete {0}?", 
+                                                                                     _items[indexPath.Row].Title), null, "OK", new string[1]{"Cancel"});
+                alertView.Clicked += (sender, e) => {
+                    if(e.ButtonIndex == 0)
+                        OnDeleteItem(indexPath.Row);
+                };
+                alertView.Show();
+            }
+        }
+
+        [Export ("tableView:canEditRowAtIndexPath:")]
+        public bool CanEditRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            return true;
+        }
+
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableview, int section)
         {
@@ -125,15 +144,9 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            // Request a recycled cell to save memory
             MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
-            
-            // Set cell style
-            var cellStyle = UITableViewCellStyle.Subtitle;
-            
-            // Create cell if cell could not be recycled
             if (cell == null)
-                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
+                cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
             // Set title            
             cell.Tag = indexPath.Row;
@@ -219,7 +232,16 @@ namespace MPfm.iOS.Classes.Controllers
         #region IMobileLibraryBrowserView implementation
         
         public Action<int> OnItemClick { get; set; }
+        public Action<int> OnDeleteItem { get; set; }
         public Action<string, string> OnRequestAlbumArt { get; set; }
+
+        public void MobileLibraryBrowserError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                var alertView = new UIAlertView("MobileLibraryBrowser Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
 
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
         {

@@ -27,6 +27,7 @@ namespace MPfm.Library.Database.Interfaces
     {
         void DeleteAudioFile(Guid audioFileId);
         void DeleteAudioFiles(string basePath);
+        void DeleteAudioFiles(string artistName, string albumTitle);
         void DeleteEQPreset(Guid eqPresetId);
         void DeleteFolder(Guid folderId);
         void DeleteFolders();

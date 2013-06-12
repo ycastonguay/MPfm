@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
@@ -29,7 +30,8 @@ namespace MPfm.Library.Services.Interfaces
         List<AudioFile> AudioFiles { get; }
 
 		void RefreshCache();
+        void RemoveAudioFiles(string artistName, string albumTitle);
+        void RemoveAudioFile(Guid audioFileId);
 		IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query);    
 	}
 }
-

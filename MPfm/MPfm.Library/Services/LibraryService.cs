@@ -83,6 +83,21 @@ namespace MPfm.Library.Services
 		{
 			gateway.InsertPlaylistFile(playlistFile);
 		}
+
+        public void DeleteAudioFile(Guid audioFileId)
+        {
+            gateway.DeleteAudioFile(audioFileId);
+        }
+
+        public void DeleteAudioFiles(string basePath)
+        {
+            gateway.DeleteAudioFiles(basePath);
+        }
+
+        public void DeleteAudioFiles(string artistName, string albumTitle)
+        {
+            gateway.DeleteAudioFiles(artistName, albumTitle);
+        }
 		
 		public void RemoveAudioFilesWithBrokenFilePaths()
 		{

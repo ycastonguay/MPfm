@@ -34,11 +34,13 @@ namespace MPfm.Library.Services.Interfaces
         void ResetLibrary();
 		
 		IEnumerable<AudioFile> SelectAudioFiles();
-		IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);
-		
+		IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);		
 		void InsertAudioFile(AudioFile audioFile);
 		void InsertPlaylistFile(PlaylistFile playlistFile);
-		
+        void DeleteAudioFile(Guid audioFileId);
+        void DeleteAudioFiles(string basePath);
+        void DeleteAudioFiles(string artistName, string albumTitle);
+
 		void CompactDatabase();
 		void AddFiles(List<string> filePaths);
 		void AddFolder(string folderPath, bool recursive);
