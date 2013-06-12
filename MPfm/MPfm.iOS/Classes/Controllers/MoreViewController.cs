@@ -121,7 +121,7 @@ namespace MPfm.iOS
             }
             
             cell.TextLabel.Text = _items[indexPath.Row].Value;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 
             UIView viewBackgroundSelected = new UIView();

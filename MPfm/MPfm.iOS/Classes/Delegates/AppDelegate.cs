@@ -64,6 +64,7 @@ namespace MPfm.iOS.Classes.Delegates
             UINavigationBar.Appearance.BackgroundColor = GlobalTheme.MainColor;
             UIToolbar.Appearance.SetBackgroundImage(new UIImage(), UIToolbarPosition.Bottom, UIBarMetrics.Default);
             UIToolbar.Appearance.BackgroundColor = GlobalTheme.MainColor;
+            UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
 
@@ -149,11 +150,11 @@ namespace MPfm.iOS.Classes.Delegates
         {
             InvokeOnMainThread(() => {
                 UITextAttributes attr = new UITextAttributes();
-                attr.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
+                attr.Font = UIFont.FromName("HelveticaNeue-Light", 11);
                 attr.TextColor = UIColor.LightGray;
                 attr.TextShadowColor = UIColor.Clear;
                 UITextAttributes attrSelected = new UITextAttributes();
-                attrSelected.Font = UIFont.FromName("HelveticaNeue-Medium", 11);
+                attrSelected.Font = UIFont.FromName("HelveticaNeue-Light", 11);
                 attrSelected.TextColor = UIColor.White;
                 attrSelected.TextShadowColor = UIColor.Clear;
 

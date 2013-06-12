@@ -313,6 +313,7 @@
     <Folder Include="Images\Sliders\" />
     <Folder Include="Classes\Controls\Events\" />
     <Folder Include="Images\Icons\" />
+    <Folder Include="Images\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
@@ -406,6 +407,8 @@
     <BundleResource Include="Images\Splash\splash_landscape.png" />
     <BundleResource Include="Images\Splash\splash_portrait%402x.png" />
     <BundleResource Include="Images\Splash\splash_portrait.png" />
+    <BundleResource Include="Images\Tables\chevron.png" />
+    <BundleResource Include="Images\Tables\chevron%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

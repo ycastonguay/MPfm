@@ -81,7 +81,7 @@ namespace MPfm.iOS
 
             cell.Tag = indexPath.Row;
             cell.TextLabel.Text = _devices[indexPath.Row].Name;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             cell.TextLabel.TextColor = UIColor.Black;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;

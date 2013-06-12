@@ -45,7 +45,7 @@ namespace MPfm.iOS.Classes.Controllers
                 imageView.Image = UIImage.FromBundle("Images/Splash/splash_default");
 
             imageViewLogo.Image = UIImage.FromBundle("Images/Splash/app_badge");
-            lblStatus.Font = UIFont.FromName("HelveticaNeue-Bold", 13);
+            lblStatus.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 
             imageViewLogo.Alpha = 0;
             lblStatus.Alpha = 0;

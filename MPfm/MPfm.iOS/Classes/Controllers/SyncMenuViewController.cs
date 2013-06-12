@@ -144,19 +144,19 @@ namespace MPfm.iOS
             {
                 case SyncMenuItemEntityType.Artist:
                     cell.TextLabel.Text = _items[indexPath.Row].ArtistName;
-                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
+                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 16);
                     cell.IndexTextLabel.Text = string.Empty;
                     cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_user");
                     break;
                 case SyncMenuItemEntityType.Album:
                     cell.TextLabel.Text = _items[indexPath.Row].AlbumTitle;
-                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 16);
+                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
                     cell.IndexTextLabel.Text = string.Empty;
                     cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_vinyl");
                     break;
                 case SyncMenuItemEntityType.Song:
                     cell.TextLabel.Text = _items[indexPath.Row].Song.Title;
-                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
+                    cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
                     cell.IndexTextLabel.Text = _items[indexPath.Row].Song.TrackNumber.ToString();
                     cell.ImageView.Image = null;
                     break;
