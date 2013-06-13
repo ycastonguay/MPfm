@@ -53,13 +53,6 @@ namespace MPfm.iOS
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
             sliderPosition.Frame = new RectangleF(90, sliderPosition.Frame.Y + 1, sliderPosition.Frame.Width * 1.4f, sliderPosition.Frame.Height);
 
-            lblTitleName.Font = UIFont.FromName("HelveticaNeue-Bold", 14);
-            lblTitlePosition.Font = UIFont.FromName("HelveticaNeue-Bold", 14);
-            lblTitleComments.Font = UIFont.FromName("HelveticaNeue-Bold", 14);
-            lblPosition.Font = UIFont.FromName("HelveticaNeue", 14);
-            lblLength.Font = UIFont.FromName("HelveticaNeue", 14);
-            btnDeleteMarker.Font = UIFont.FromName("HelveticaNeue-Bold", 16);
-
             // Add padding to text field (http://stackoverflow.com/questions/3727068/set-padding-for-uitextfield-with-uitextborderstylenone)
             UIView paddingView = new UIView(new RectangleF(0, 0, 5, 20));
             txtName.LeftView = paddingView;

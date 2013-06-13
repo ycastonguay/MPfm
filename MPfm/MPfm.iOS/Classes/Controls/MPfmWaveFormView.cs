@@ -265,7 +265,7 @@ namespace MPfm.iOS.Classes.Controls
             float y = (Bounds.Height - 30) / 2;
 
             UIGraphics.PushContext(context);
-            str.DrawString(new RectangleF(0, y, Bounds.Width, 30), UIFont.FromName("HelveticaNeue", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
+            str.DrawString(new RectangleF(0, y, Bounds.Width, 30), UIFont.FromName("HelveticaNeue-Light", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
             UIGraphics.PopContext();
         }
 

@@ -75,11 +75,6 @@ namespace MPfm.iOS.Classes.Controllers
             imageViewAlbumCover.BackgroundColor = UIColor.Black;
             viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
 
-            lblArtistName.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
-            lblAlbumTitle.Font = UIFont.FromName("HelveticaNeue", 14);
-            lblSubtitle1.Font = UIFont.FromName("HelveticaNeue", 12);
-            lblSubtitle2.Font = UIFont.FromName("HelveticaNeue", 12);
-
             _btnDelete = new UIButton(UIButtonType.Custom);
             _btnDelete.Alpha = 0;
             _btnDelete.Font = UIFont.FromName("HelveticaNeue-Light", 15);

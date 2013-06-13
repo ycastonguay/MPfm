@@ -16,7 +16,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>MinimumOSVersion</key>
-	<string>5.0</string>
+	<string>6.1</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fonts/Junction.otf</string>

@@ -63,14 +63,14 @@ namespace MPfm.iOS.Classes.Controls
             _lblFrequency = new UILabel(new RectangleF(12, 4, 60, 36));
             _lblFrequency.BackgroundColor = UIColor.Clear;
             _lblFrequency.TextColor = UIColor.White;
-            _lblFrequency.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            _lblFrequency.Font = UIFont.FromName("HelveticaNeue-Light", 12.0f);
 
             _lblValue = new UILabel(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60 - 14, 4, 60, 36));
             _lblValue.BackgroundColor = UIColor.Clear;
             _lblValue.Text = "0.0 dB";
             _lblValue.TextColor = UIColor.White;
             _lblValue.TextAlignment = UITextAlignment.Right;
-            _lblValue.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            _lblValue.Font = UIFont.FromName("HelveticaNeue-Light", 12.0f);
 
             _slider = new MPfmSlider(new RectangleF(62, 4, UIScreen.MainScreen.Bounds.Width - 120 - 14, 36));
             _slider.MinValue = -6;

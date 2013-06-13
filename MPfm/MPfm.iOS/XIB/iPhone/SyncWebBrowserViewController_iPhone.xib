@@ -42,7 +42,6 @@
 						<string key="NSFrame">{{112, 224}, {97, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -60,14 +59,14 @@
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="340796009">
-							<string key="name">HelveticaNeue-CondensedBold</string>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="917330175">
+							<string key="name">HelveticaNeue</string>
 							<string key="family">Helvetica Neue</string>
-							<int key="traits">2</int>
+							<int key="traits">0</int>
 							<double key="pointSize">18</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="837298511">
-							<string key="NSName">HelveticaNeue-Bold</string>
+						<object class="NSFont" key="IBUIFont" id="77009561">
+							<string key="NSName">HelveticaNeue-Medium</string>
 							<double key="NSSize">18</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -93,8 +92,8 @@
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
-						<reference key="IBUIFontDescription" ref="340796009"/>
-						<reference key="IBUIFont" ref="837298511"/>
+						<reference key="IBUIFontDescription" ref="917330175"/>
+						<reference key="IBUIFont" ref="77009561"/>
 					</object>
 					<object class="IBUILabel" id="834712672">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -114,8 +113,8 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="1018341816">
-							<string key="name">HelveticaNeue-Medium</string>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="88469428">
+							<string key="name">HelveticaNeue</string>
 							<string key="family">Helvetica Neue</string>
 							<int key="traits">0</int>
 							<double key="pointSize">16</double>
@@ -146,7 +145,7 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
-						<reference key="IBUIFontDescription" ref="1018341816"/>
+						<reference key="IBUIFontDescription" ref="88469428"/>
 						<reference key="IBUIFont" ref="277209536"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<double key="preferredMaxLayoutWidth">92</double>
@@ -172,8 +171,8 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="781268706">
-							<string key="name">HelveticaNeue</string>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="1009030879">
+							<string key="name">HelveticaNeue-Light</string>
 							<string key="family">Helvetica Neue</string>
 							<int key="traits">0</int>
 							<double key="pointSize">12</double>
@@ -204,7 +203,7 @@
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<int key="IBUINumberOfLines">2</int>
-						<reference key="IBUIFontDescription" ref="781268706"/>
+						<reference key="IBUIFontDescription" ref="1009030879"/>
 						<reference key="IBUIFont" ref="82793809"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 						<double key="preferredMaxLayoutWidth">280</double>

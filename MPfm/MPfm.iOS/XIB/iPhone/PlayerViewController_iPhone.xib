@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12C54</string>
+		<string key="IBDocument.SystemVersion">12D78</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -66,8 +66,8 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 								<int key="IBUILineBreakMode">2</int>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="1032280058">
-									<string key="name">HelveticaNeue-Medium</string>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="222439100">
+									<string key="name">HelveticaNeue</string>
 									<string key="family">Helvetica Neue</string>
 									<int key="traits">0</int>
 									<double key="pointSize">13</double>
@@ -103,8 +103,8 @@
 								<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 								<int key="IBUITextAlignment">1</int>
 								<int key="IBUILineBreakMode">2</int>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="827498692">
-									<string key="name">HelveticaNeue-Medium</string>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="482524241">
+									<string key="name">HelveticaNeue-Light</string>
 									<string key="family">Helvetica Neue</string>
 									<int key="traits">0</int>
 									<double key="pointSize">12</double>
@@ -140,7 +140,7 @@
 								<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 								<int key="IBUITextAlignment">1</int>
 								<int key="IBUILineBreakMode">2</int>
-								<reference key="IBUIFontDescription" ref="827498692"/>
+								<reference key="IBUIFontDescription" ref="482524241"/>
 								<reference key="IBUIFont" ref="672340862"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
@@ -177,7 +177,7 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 								<int key="IBUITextAlignment">2</int>
-								<reference key="IBUIFontDescription" ref="1032280058"/>
+								<reference key="IBUIFontDescription" ref="222439100"/>
 								<reference key="IBUIFont" ref="833446841"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
@@ -320,7 +320,6 @@
 								<string key="NSFrame">{{214, 306}, {106, 41}}</string>
 								<reference key="NSSuperview" ref="473782587"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="727961586"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -755,7 +754,7 @@
 						<string key="lblSlideMessage">UILabel</string>
 						<string key="pageControl">UIPageControl</string>
 						<string key="scrollView">UIScrollView</string>
-						<string key="scrollViewWaveForm">UIScrollView</string>
+						<string key="scrollViewWaveForm">MPfmWaveFormScrollView</string>
 						<string key="sliderPosition">MPfmSlider</string>
 						<string key="viewMain">UIView</string>
 						<string key="viewPageControls">UIView</string>
@@ -804,7 +803,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="scrollViewWaveForm">
 							<string key="name">scrollViewWaveForm</string>
-							<string key="candidateClassName">UIScrollView</string>
+							<string key="candidateClassName">MPfmWaveFormScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="sliderPosition">
 							<string key="name">sliderPosition</string>

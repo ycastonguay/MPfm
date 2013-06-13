@@ -150,11 +150,11 @@ namespace MPfm.iOS.Classes.Delegates
         {
             InvokeOnMainThread(() => {
                 UITextAttributes attr = new UITextAttributes();
-                attr.Font = UIFont.FromName("HelveticaNeue-Light", 11);
+                attr.Font = UIFont.FromName("HelveticaNeue", 11);
                 attr.TextColor = UIColor.LightGray;
                 attr.TextShadowColor = UIColor.Clear;
                 UITextAttributes attrSelected = new UITextAttributes();
-                attrSelected.Font = UIFont.FromName("HelveticaNeue-Light", 11);
+                attrSelected.Font = UIFont.FromName("HelveticaNeue", 11);
                 attrSelected.TextColor = UIColor.White;
                 attrSelected.TextShadowColor = UIColor.Clear;
 

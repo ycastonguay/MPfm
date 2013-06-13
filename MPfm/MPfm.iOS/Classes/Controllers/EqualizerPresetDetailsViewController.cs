@@ -53,7 +53,6 @@ namespace MPfm.iOS
             toolbar.BackgroundColor = GlobalTheme.MainColor;
             viewOptions.BackgroundColor = GlobalTheme.BackgroundColor;
             lblPresetName.TextColor = UIColor.White;
-            lblPresetName.Font = UIFont.FromName("HelveticaNeue", 14.0f);
             
             // Add padding to text field (http://stackoverflow.com/questions/3727068/set-padding-for-uitextfield-with-uitextborderstylenone)
             UIView paddingView = new UIView(new RectangleF(0, 0, 5, 20));
