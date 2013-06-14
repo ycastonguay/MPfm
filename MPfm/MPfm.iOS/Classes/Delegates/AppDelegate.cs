@@ -165,8 +165,14 @@ namespace MPfm.iOS.Classes.Delegates
                 navCtrl.TabBarItem.Title = title;
                 if(title.ToUpper() == "MORE")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
-                else
-                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/audio");
+                else if(title.ToUpper() == "ARTISTS")
+                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/artist");
+                else if(title.ToUpper() == "ALBUMS")
+                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/album");
+                else if(title.ToUpper() == "SONGS")
+                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/song");
+                else if(title.ToUpper() == "SESSIONS")
+                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/sessions");
 
                 navCtrl.PushViewController(viewController, false);
                 _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));

@@ -39,11 +39,13 @@ namespace MPfm.iOS.Classes.Controls
         bool _isViewPlayer;
         UILabel _lblTitle;
         UILabel _lblSubtitle;
-        UIButton _btnBack;
-        UIButton _btnEffects;
-        UIButton _btnNowPlaying;
+        MPfmFlatButton _btnBack;
+        MPfmFlatButton _btnEffects;
+        MPfmFlatButton _btnNowPlaying;
         ITinyMessengerHub _messengerHub;
 
+        public MPfmFlatButton BtnEffects { get { return _btnEffects; } }
+        public MPfmFlatButton BtnNowPlaying { get { return _btnNowPlaying; } }
         public MobileNavigationTabType TabType { get; set; }
 
         public event EventHandler ViewDismissedEvent;
@@ -71,12 +73,12 @@ namespace MPfm.iOS.Classes.Controls
             });
 
             // Create controls
-            _lblTitle = new UILabel(new RectangleF(60, 6, UIScreen.MainScreen.Bounds.Width - 120, 20));
+            _lblTitle = new UILabel(new RectangleF(60, 4, UIScreen.MainScreen.Bounds.Width - 120, 20));
             _lblTitle.TextColor = UIColor.White;
             _lblTitle.BackgroundColor = UIColor.Clear;
             _lblTitle.Text = "MPfm";
             _lblTitle.TextAlignment = UITextAlignment.Center;
-            _lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
+            _lblTitle.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             
             _lblSubtitle = new UILabel(new RectangleF(60, 20, UIScreen.MainScreen.Bounds.Width - 120, 20));
             _lblSubtitle.LineBreakMode = UILineBreakMode.TailTruncation;
@@ -84,38 +86,37 @@ namespace MPfm.iOS.Classes.Controls
             _lblSubtitle.BackgroundColor = UIColor.Clear;
             _lblSubtitle.Text = "Library Browser";
             _lblSubtitle.TextAlignment = UITextAlignment.Center;
-            _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
+            _lblSubtitle.Font = UIFont.FromName("HelveticaNeue", 12);
 
-            _btnBack = new UIButton(UIButtonType.Custom);
-            _btnBack.Frame = new RectangleF(6, 7, 50, 29);
+            _btnBack = new MPfmFlatButton();
             _btnBack.Alpha = 0;
-            _btnBack.SetBackgroundImage(UIImage.FromBundle("Images/Buttons/back.png"), UIControlState.Normal);
-            _btnBack.TouchUpInside += (sender, e) => { 
+            _btnBack.Frame = new RectangleF(0, 0, 70, 44);
+            _btnBack.OnButtonClick += () =>  {
                 if(ViewControllers.Length > 1)
-                {
                     PopViewControllerAnimated(true);
-                }
             };
 
-            _btnEffects = new UIButton(UIButtonType.Custom);
-            _btnEffects.Layer.CornerRadius = 2;
-            _btnEffects.BackgroundColor = GlobalTheme.SecondaryColor;
-            _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
-            _btnEffects.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 0);
-            _btnEffects.SetImage(UIImage.FromBundle("Images/effects.png"), UIControlState.Normal);
+            _btnEffects = new MPfmFlatButton();
+            _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
             _btnEffects.Alpha = 0;
-            _btnEffects.TouchUpInside += (sender, e) => {
+            _btnEffects.Label.TextAlignment = UITextAlignment.Right;
+            _btnEffects.Label.Text = "Effects";
+            _btnEffects.Label.Frame = new RectangleF(0, 0, 44, 44);
+            _btnEffects.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
+            _btnEffects.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
+            _btnEffects.OnButtonClick += () => {
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView));
-            };           
+            };
 
-            _btnNowPlaying = new UIButton(UIButtonType.Custom);
-            _btnNowPlaying.Layer.CornerRadius = 2;
-            _btnNowPlaying.BackgroundColor = GlobalTheme.SecondaryColor;
-            _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
-            _btnNowPlaying.ImageEdgeInsets = new UIEdgeInsets(0, 0, 0, 0);
-            _btnNowPlaying.SetImage(UIImage.FromBundle("Images/media.png"), UIControlState.Normal);
+            _btnNowPlaying = new MPfmFlatButton();
+            _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
             _btnNowPlaying.Alpha = 0;
-            _btnNowPlaying.TouchUpInside += (sender, e) => {
+            _btnNowPlaying.Label.TextAlignment = UITextAlignment.Right;
+            _btnNowPlaying.Label.Frame = new RectangleF(0, 0, 44, 44);
+            _btnNowPlaying.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
+            _btnNowPlaying.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
+            _btnNowPlaying.Label.Text = "Player";
+            _btnNowPlaying.OnButtonClick += () => {
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             };
 
@@ -145,19 +146,19 @@ namespace MPfm.iOS.Classes.Controls
                 if(_isPlayerPlaying && !_isViewPlayer)
                 {
                     //Console.WriteLine("NavCtrl - Showing Now Playing view...");
-                    UIView.Animate(0.3f, () => {
-                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 44, 44);
+                    UIView.Animate(0.2f, () => {
+                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
                         _btnEffects.Alpha = 0;
-                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
+                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
                         _btnNowPlaying.Alpha = 1;
                     });
                 }
                 else if(_isViewPlayer)
                 {
-                    UIView.Animate(0.3f, () => {
-                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
+                    UIView.Animate(0.2f, () => {
+                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
                         _btnEffects.Alpha = 1;
-                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 44, 44);
+                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
                         _btnNowPlaying.Alpha = 0;
                     });
                 }
@@ -175,9 +176,9 @@ namespace MPfm.iOS.Classes.Controls
 
             if (ViewControllers.Length == 2)
             {
-                _btnBack.Frame = new RectangleF(56, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
-                UIView.Animate(0.25, () => { 
-                    _btnBack.Frame = new RectangleF(6, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                _btnBack.Frame = new RectangleF(50, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                UIView.Animate(0.2, () => { 
+                    _btnBack.Frame = new RectangleF(0, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                     _btnBack.Alpha = 1;
                 });
             }
@@ -196,9 +197,9 @@ namespace MPfm.iOS.Classes.Controls
 
             if (ViewControllers.Length == 1)
             {
-                _btnBack.Frame = new RectangleF(6, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
-                UIView.Animate(0.25, () => { 
-                    _btnBack.Frame = new RectangleF(56, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                _btnBack.Frame = new RectangleF(0, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
+                UIView.Animate(0.2, () => { 
+                    _btnBack.Frame = new RectangleF(50, _btnBack.Frame.Y, _btnBack.Frame.Width, _btnBack.Frame.Height);
                     _btnBack.Alpha = 0;
                 });
             }

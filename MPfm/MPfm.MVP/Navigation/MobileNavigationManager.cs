@@ -105,7 +105,7 @@ namespace MPfm.MVP.Navigation
                 var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
                 var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
                 var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
-                AddTab(MobileNavigationTabType.Playlists, "Playlists", playlistsView);
+                AddTab(MobileNavigationTabType.Playlists, "Sessions", playlistsView);
                 AddTab(MobileNavigationTabType.Artists, "Artists", artistsView);
                 AddTab(MobileNavigationTabType.Albums, "Albums", albumsView);
                 AddTab(MobileNavigationTabType.Songs, "Songs", songsView);

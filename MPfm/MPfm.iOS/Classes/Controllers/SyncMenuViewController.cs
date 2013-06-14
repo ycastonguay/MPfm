@@ -34,6 +34,7 @@ namespace MPfm.iOS
         string _cellIdentifier = "SyncMenuCell";
         UIBarButtonItem _btnSync;
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
+        float _nowPlayingButtonPreviousAlpha = 0;
 
         public SyncMenuViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncMenuViewController_iPhone" : "SyncMenuViewController_iPad", null)
@@ -58,15 +59,30 @@ namespace MPfm.iOS
             longPress.WeakDelegate = this;
             tableView.AddGestureRecognizer(longPress);
 
-            var btnSync = new UIButton(UIButtonType.Custom);
-            btnSync.SetTitle("Sync", UIControlState.Normal);
-            btnSync.Layer.CornerRadius = 8;
-            btnSync.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnSync.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
-            btnSync.Frame = new RectangleF(0, 12, 60, 30);
-            btnSync.TouchUpInside += HandleButtonSyncTouchUpInside;
-            _btnSync = new UIBarButtonItem(btnSync);
-            //NavigationItem.SetRightBarButtonItem(_btnSync, true);
+            var btnSync = new MPfmFlatButton();
+            btnSync.Label.Text = "Sync";
+            btnSync.Label.TextAlignment = UITextAlignment.Right;
+            btnSync.Label.Frame = new RectangleF(0, 0, 44, 44);
+            btnSync.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
+            btnSync.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
+            btnSync.Frame = new RectangleF(0, 0, 70, 44);
+            btnSync.OnButtonClick += HandleButtonSyncTouchUpInside;
+            var btnSyncView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
+            var rect2 = new RectangleF(btnSyncView.Bounds.X - 5, btnSyncView.Bounds.Y, btnSyncView.Bounds.Width, btnSyncView.Bounds.Height);
+            btnSyncView.Bounds = rect2;
+            btnSyncView.AddSubview(btnSync);
+            _btnSync = new UIBarButtonItem(btnSyncView);
+
+//            var btnSync = new UIButton(UIButtonType.Custom);
+//            btnSync.SetTitle("Sync", UIControlState.Normal);
+//            btnSync.Layer.CornerRadius = 8;
+//            btnSync.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+//            btnSync.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
+//            btnSync.Frame = new RectangleF(0, 12, 60, 30);
+//            btnSync.TouchUpInside += HandleButtonSyncTouchUpInside;
+//            _btnSync = new UIBarButtonItem(btnSync);
+
+            NavigationItem.SetRightBarButtonItem(_btnSync, true);
 
             viewLoading.Hidden = false;
             viewSync.Hidden = true;
@@ -81,6 +97,17 @@ namespace MPfm.iOS
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Sync Library", "Choose audio files to sync");
+
+            _nowPlayingButtonPreviousAlpha = navCtrl.BtnNowPlaying.Alpha;
+            navCtrl.BtnNowPlaying.Alpha = 0;
+        }
+
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            navCtrl.BtnNowPlaying.Alpha = _nowPlayingButtonPreviousAlpha;
         }
 
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
@@ -100,7 +127,7 @@ namespace MPfm.iOS
             }
         }
 
-        private void HandleButtonSyncTouchUpInside(object sender, EventArgs e)
+        private void HandleButtonSyncTouchUpInside()
         {
             OnSync();
         }

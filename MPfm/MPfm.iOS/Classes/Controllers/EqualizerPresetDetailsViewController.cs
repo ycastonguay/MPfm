@@ -65,26 +65,34 @@ namespace MPfm.iOS
                 return true;
             };
 
-            var btnSave = new UIButton(UIButtonType.Custom);
-            btnSave.SetTitle("Save", UIControlState.Normal);
-            btnSave.Layer.CornerRadius = 8;
-            btnSave.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnSave.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            btnSave.Frame = new RectangleF(0, 12, 60, 30);
-            btnSave.TouchUpInside += HandleButtonSaveTouchUpInside;
-            _btnSave = new UIBarButtonItem(btnSave);
-            
-            var btnBack = new UIButton(UIButtonType.Custom);
-            btnBack.Frame = new RectangleF(0, 12, 50, 29);
-            btnBack.SetBackgroundImage(UIImage.FromBundle("Images/Buttons/back.png"), UIControlState.Normal);
-            btnBack.TouchUpInside += HandleButtonBackTouchUpInside;
-            _btnBack = new UIBarButtonItem(btnBack);
+            var btnBack = new MPfmFlatButton();
+            btnBack.Label.Text = "Back";
+            btnBack.Frame = new RectangleF(0, 0, 70, 44);
+            btnBack.OnButtonClick += HandleButtonBackClick;
+            var btnBackView = new UIView(new RectangleF(0, 0, 70, 44));
+            var rect = new RectangleF(btnBackView.Bounds.X + 5, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
+            btnBackView.Bounds = rect;
+            btnBackView.AddSubview(btnBack);
+            _btnBack = new UIBarButtonItem(btnBackView);
+
+            var btnSave = new MPfmFlatButton();
+            btnSave.Label.Text = "Save";
+            btnSave.Label.TextAlignment = UITextAlignment.Right;
+            btnSave.Label.Frame = new RectangleF(0, 0, 44, 44);
+            btnSave.ImageChevron.Hidden = true;
+            btnSave.Frame = new RectangleF(0, 0, 60, 44);
+            btnSave.OnButtonClick += HandleButtonSaveTouchUpInside;
+            var btnSaveView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
+            var rect2 = new RectangleF(btnSaveView.Bounds.X - 5, btnSaveView.Bounds.Y, btnSaveView.Bounds.Width, btnSaveView.Bounds.Height);
+            btnSaveView.Bounds = rect2;
+            btnSaveView.AddSubview(btnSave);
+            _btnSave = new UIBarButtonItem(btnSaveView);
 
             var btnReset = new UIButton(UIButtonType.Custom);
             btnReset.SetTitle("Reset", UIControlState.Normal);
             btnReset.Layer.CornerRadius = 8;
             btnReset.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnReset.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
+            btnReset.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnReset.Frame = new RectangleF(0, 12, 60, 30);
             btnReset.TouchUpInside += HandleButtonResetTouchUpInside;
             _btnReset = new UIBarButtonItem(btnReset);
@@ -93,7 +101,7 @@ namespace MPfm.iOS
             btnNormalize.SetTitle("Normalize", UIControlState.Normal);
             btnNormalize.Layer.CornerRadius = 8;
             btnNormalize.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnNormalize.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
+            btnNormalize.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnNormalize.Frame = new RectangleF(0, 12, 80, 30);
             btnNormalize.TouchUpInside += HandleButtonNormalizeTouchUpInside;
             _btnNormalize = new UIBarButtonItem(btnNormalize);
@@ -112,13 +120,13 @@ namespace MPfm.iOS
             base.ViewDidLoad();
         }
 
-        private void HandleButtonSaveTouchUpInside(object sender, EventArgs e)
+        private void HandleButtonSaveTouchUpInside()
         {
             _isPresetModified = false;
             OnSavePreset(txtPresetName.Text);
         }
 
-        private void HandleButtonBackTouchUpInside(object sender, EventArgs e)
+        private void HandleButtonBackClick()
         {
             if (_isPresetModified)
             {

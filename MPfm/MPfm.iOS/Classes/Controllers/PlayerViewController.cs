@@ -68,6 +68,9 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
+            btnPrevious.BackgroundColor = GlobalTheme.BackgroundColor;
+            btnPlayPause.BackgroundColor = GlobalTheme.BackgroundColor;
+            btnNext.BackgroundColor = GlobalTheme.BackgroundColor;
             btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous"), UIControlState.Normal);
             btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous_on"), UIControlState.Highlighted);
             btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause"), UIControlState.Normal);
@@ -85,7 +88,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Reduce the song position slider size
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
-            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
+            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 3, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
 
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;

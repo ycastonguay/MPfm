@@ -34,8 +34,8 @@ namespace MPfm.iOS
 {
     public partial class EqualizerPresetsViewController : BaseViewController, IEqualizerPresetsView
     {
-        UIBarButtonItem _btnAdd;
         UIBarButtonItem _btnDone;
+        UIBarButtonItem _btnAdd;
         string _cellIdentifier = "EqualizerPresetCell";
         List<EQPreset> _presets = new List<EQPreset>();
         Guid _selectedPresetId;
@@ -56,9 +56,6 @@ namespace MPfm.iOS
             tableView.AddGestureRecognizer(longPress);
 
             viewOptions.BackgroundColor = GlobalTheme.BackgroundColor;
-            lblBypass.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-            lblMasterVolume.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-
             switchBypass.OnTintColor = GlobalTheme.SecondaryColor;
             switchBypass.On = false;
             switchBypass.ValueChanged += HandleSwitchBypassValueChanged;
@@ -68,25 +65,31 @@ namespace MPfm.iOS
             sliderMasterVolume.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             sliderMasterVolume.ValueChanged += HandleSliderMasterVolumeValueChanged;
 
-            var btnDone = new UIButton(UIButtonType.Custom);
-            btnDone.SetTitle("Done", UIControlState.Normal);
-            btnDone.Layer.CornerRadius = 8;
-            btnDone.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnDone.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            btnDone.Frame = new RectangleF(0, 12, 60, 30);
-            btnDone.TouchUpInside += (sender, e) => {
+            var btnDone = new MPfmFlatButton();
+            btnDone.Label.Text = "Done";
+            btnDone.Frame = new RectangleF(0, 0, 70, 44);
+            btnDone.OnButtonClick += () => {
                 NavigationController.DismissViewController(true, null);
             };
-            _btnDone = new UIBarButtonItem(btnDone);
+            var btnDoneView = new UIView(new RectangleF(0, 0, 70, 44));
+            var rect = new RectangleF(btnDoneView.Bounds.X + 5, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
+            btnDoneView.Bounds = rect;
+            btnDoneView.AddSubview(btnDone);
+            _btnDone = new UIBarButtonItem(btnDoneView);
 
-            var btnAdd = new UIButton(UIButtonType.Custom);
-            btnAdd.SetTitle("+", UIControlState.Normal);
-            btnAdd.Layer.CornerRadius = 8;
-            btnAdd.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            btnAdd.Font = UIFont.FromName("HelveticaNeue-Bold", 18.0f);
-            btnAdd.Frame = new RectangleF(0, 12, 40, 30);
-            btnAdd.TouchUpInside += HandleButtonAddTouchUpInside;
-            _btnAdd = new UIBarButtonItem(btnAdd);
+            var btnAdd = new MPfmFlatButton();
+            btnAdd.Label.Text = "Add";
+            btnAdd.Label.TextAlignment = UITextAlignment.Right;
+            btnAdd.Label.Frame = new RectangleF(0, 0, 44, 44);
+            btnAdd.ImageChevron.Image = UIImage.FromBundle("Images/Tables/plus_blue");
+            btnAdd.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
+            btnAdd.Frame = new RectangleF(0, 0, 70, 44);
+            btnAdd.OnButtonClick += HandleButtonAddTouchUpInside;
+            var btnAddView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
+            var rect2 = new RectangleF(btnAddView.Bounds.X - 5, btnAddView.Bounds.Y, btnAddView.Bounds.Width, btnAddView.Bounds.Height);
+            btnAddView.Bounds = rect2;
+            btnAddView.AddSubview(btnAdd);
+            _btnAdd = new UIBarButtonItem(btnAddView);
 
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             NavigationItem.SetRightBarButtonItem(_btnAdd, true);
@@ -103,7 +106,7 @@ namespace MPfm.iOS
             OnSetVolume(sliderMasterVolume.Value / 100);
         }
 
-        private void HandleButtonAddTouchUpInside(object sender, EventArgs e)
+        private void HandleButtonAddTouchUpInside()
         {
             foreach (var visibleCell in tableView.VisibleCells)
                 visibleCell.Accessory = UITableViewCellAccessory.None;

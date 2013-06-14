@@ -117,16 +117,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             _imageCache = new List<KeyValuePair<string, UIImage>>();
 
-            // Create text attributes for navigation bar button
-            UITextAttributes attr = new UITextAttributes();
-            attr.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
-            attr.TextColor = UIColor.White;
-            attr.TextShadowColor = UIColor.DarkGray;
-            attr.TextShadowOffset = new UIOffset(0, 0);
-            
-            btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
-            btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
-            this.NavigationItem.BackBarButtonItem = btnBack;
+            this.NavigationItem.HidesBackButton = true;
 
             UISwipeGestureRecognizer swipe = new UISwipeGestureRecognizer(HandleSwipe);
             swipe.Direction = UISwipeGestureRecognizerDirection.Right;

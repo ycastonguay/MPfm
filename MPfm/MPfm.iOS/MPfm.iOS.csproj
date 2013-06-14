@@ -241,6 +241,7 @@
     <Compile Include="Classes\Controllers\SyncDownloadViewController.designer.cs">
       <DependentUpon>SyncDownloadViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\MPfmFlatButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -329,8 +330,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Images\effects.png" />
-    <BundleResource Include="Images\Tabs\audio.png" />
-    <BundleResource Include="Images\Tabs\audio%402x.png" />
     <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -408,6 +407,22 @@
     <BundleResource Include="Images\Splash\splash_portrait.png" />
     <BundleResource Include="Images\Tables\chevron.png" />
     <BundleResource Include="Images\Tables\chevron%402x.png" />
+    <BundleResource Include="Images\Tables\chevron_blue.png" />
+    <BundleResource Include="Images\Tables\chevron_blue%402x.png" />
+    <BundleResource Include="Images\Tables\chevron_left_blue.png" />
+    <BundleResource Include="Images\Tables\chevron_left_blue%402x.png" />
+    <BundleResource Include="Images\Buttons\plus_blue.png" />
+    <BundleResource Include="Images\Buttons\plus_blue%402x.png" />
+    <BundleResource Include="Images\Tables\plus_blue.png" />
+    <BundleResource Include="Images\Tables\plus_blue%402x.png" />
+    <BundleResource Include="Images\Tabs\artist.png" />
+    <BundleResource Include="Images\Tabs\artist%402x.png" />
+    <BundleResource Include="Images\Tabs\album.png" />
+    <BundleResource Include="Images\Tabs\album%402x.png" />
+    <BundleResource Include="Images\Tabs\song.png" />
+    <BundleResource Include="Images\Tabs\song%402x.png" />
+    <BundleResource Include="Images\Tabs\sessions.png" />
+    <BundleResource Include="Images\Tabs\sessions%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
