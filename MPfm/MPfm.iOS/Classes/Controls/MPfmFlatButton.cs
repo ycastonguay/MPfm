@@ -31,6 +31,8 @@ namespace MPfm.iOS.Classes.Controls
         public UIImageView ImageChevron { get; private set; }
         public UILabel Label { get; private set; }
 
+        public UIControlContentHorizontalAlignment LabelAlignment { get; set; }
+
         public delegate void ButtonClick();
         public event ButtonClick OnButtonClick;
 
@@ -48,7 +50,7 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            //BackgroundColor = GlobalTheme.BackgroundColor;
+            LabelAlignment = UIControlContentHorizontalAlignment.Left;
             BackgroundColor = UIColor.Clear;
 
             Label = new UILabel(new RectangleF(26, 5, 80, 32));
@@ -59,6 +61,7 @@ namespace MPfm.iOS.Classes.Controls
             Label.Font = UIFont.FromName("HelveticaNeue", 14.0f);
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron_left_blue"));
+            ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Frame = new RectangleF(0, 0, 22, 44);
 
             AddSubview(Label);
@@ -67,27 +70,54 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
-            Console.WriteLine("FlatButton - TouchesBegan");
-
-            UIView.Animate(0.2, () => {
-                BackgroundColor = GlobalTheme.BackgroundColor;
-            });
-
+            AnimatePress(true);
             base.TouchesBegan(touches, evt);
         }
 
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
-            Console.WriteLine("FlatButton - TouchesEnded");
-
-            UIView.Animate(0.2, () => {
-                BackgroundColor = UIColor.Clear;
-            });
+            AnimatePress(false);
 
             if (OnButtonClick != null)
                 OnButtonClick();
 
             base.TouchesEnded(touches, evt);
+        }
+
+        public override void TouchesCancelled(NSSet touches, UIEvent evt)
+        {
+            AnimatePress(false);
+            base.TouchesCancelled(touches, evt);
+        }
+
+        private void AnimatePress(bool on)
+        {
+            if (!on)
+            {
+                UIView.Animate(0.1, () => {
+                    BackgroundColor = UIColor.Clear;
+                    if (LabelAlignment == UIControlContentHorizontalAlignment.Left)
+                        Label.Frame = new RectangleF(Label.Frame.X + 8, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+                    else if (LabelAlignment == UIControlContentHorizontalAlignment.Right)
+                        Label.Frame = new RectangleF(Label.Frame.X - 4, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+
+                    Label.Transform = CGAffineTransform.MakeScale(1, 1);
+                    ImageChevron.Transform = CGAffineTransform.MakeScale(1, 1);
+                });
+            }
+            else
+            {
+                UIView.Animate(0.1, () => {
+                    BackgroundColor = GlobalTheme.BackgroundColor;
+                    Label.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+                    ImageChevron.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+
+                    if(LabelAlignment == UIControlContentHorizontalAlignment.Left)
+                        Label.Frame = new RectangleF(Label.Frame.X - 8, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+                    else if(LabelAlignment == UIControlContentHorizontalAlignment.Right)
+                        Label.Frame = new RectangleF(Label.Frame.X + 4, Label.Frame.Y, Label.Frame.Width, Label.Frame.Height);
+                });
+            }
         }
     }
 }

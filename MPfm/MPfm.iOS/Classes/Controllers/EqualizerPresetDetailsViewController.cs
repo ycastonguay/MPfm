@@ -76,6 +76,7 @@ namespace MPfm.iOS
             _btnBack = new UIBarButtonItem(btnBackView);
 
             var btnSave = new MPfmFlatButton();
+            btnSave.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnSave.Label.Text = "Save";
             btnSave.Label.TextAlignment = UITextAlignment.Right;
             btnSave.Label.Frame = new RectangleF(0, 0, 44, 44);

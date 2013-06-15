@@ -31,6 +31,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Controls.Layouts;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
@@ -42,12 +43,11 @@ namespace MPfm.iOS.Classes.Controllers
         private bool _viewHasAlreadyBeenShown = false;
         private List<LibraryBrowserEntity> _items;
         private string _cellIdentifier = "MobileLibraryBrowserCell";
+        private NSString _collectionCellIdentifier = new NSString("MobileLibraryBrowserCollectionCell");
         private string _navigationBarTitle;
         private string _navigationBarSubtitle;
         private MobileLibraryBrowserType _browserType;
         private List<KeyValuePair<string, UIImage>> _imageCache;
-        private UIBarButtonItem btnBack;
-
         private UIButton _btnDelete;
         private int _deleteCellIndex = -1;
 
@@ -71,6 +71,14 @@ namespace MPfm.iOS.Classes.Controllers
         {
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
+
+            collectionView.CollectionViewLayout = new MPfmCollectionViewFlowLayout();
+            collectionView.BackgroundColor = GlobalTheme.BackgroundColor;
+            collectionView.WeakDataSource = this;
+            collectionView.WeakDelegate = this;
+            collectionView.Alpha = 1;
+            collectionView.ContentSize = new SizeF(160, 160);
+            collectionView.RegisterClassForCell(typeof(MPfmCollectionAlbumViewCell), _collectionCellIdentifier);
 
             imageViewAlbumCover.BackgroundColor = UIColor.Black;
             viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
@@ -200,13 +208,106 @@ namespace MPfm.iOS.Classes.Controllers
                     });
                 });
             }
+        }
+
+        [Export ("collectionView:cellForItemAtIndexPath:")]
+        public UICollectionViewCell CellForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmCollectionAlbumViewCell)collectionView.DequeueReusableCell(_collectionCellIdentifier, indexPath);
+            cell.BackgroundColor = UIColor.Blue;
+
+            cell.Tag = indexPath.Row;
+
+            // Do not refresh the cell if the contents are the same.
+            if (cell.Title == _items[indexPath.Row].Title && cell.Subtitle == _items[indexPath.Row].Subtitle)
+                return cell;
+
+            // Refresh cell contents
+            cell.Title = _items[indexPath.Row].Title;
+            cell.Subtitle = _items[indexPath.Row].Subtitle;
+            if (_browserType == MobileLibraryBrowserType.Albums)
+            {
+                // Check if album art is cached
+                string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].Query.AlbumTitle;
+                KeyValuePair<string, UIImage> keyPair = _imageCache.FirstOrDefault(x => x.Key == key);
+                if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
+                {
+                    cell.Image = null;
+                    OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
+                } 
+                else
+                {
+                    cell.SetImage(keyPair.Value);
+                }
+            } 
+
+            return cell;
+        }
+
+        [Export ("collectionView:numberOfItemsInSection:")]
+        public int NumberOfItemsInSection(UICollectionView collectionView, int section)
+        {
+            // Prevent loading table view cells when using a collection view
+            if (_browserType == MobileLibraryBrowserType.Albums)
+                return _items.Count;
+            else
+                return 0;
 
         }
+
+        [Export ("numberOfSectionsInCollectionView:")]
+        public int NumberOfSectionsInCollectionView(UICollectionView collectionView)
+        {
+            return 1;
+        }
+
+        [Export ("collectionView:didSelectItemAtIndexPath:")]
+        public void CollectionDidSelectItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            OnItemClick(indexPath.Row);
+        }
+
+//        [Export ("collectionView:didDeselectItemAtIndexPath:")]
+//        public void CollectionDidDeselectItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
+//        {
+//        }
+
+        [Export ("collectionView:didHighlightItemAtIndexPath:")]
+        public void CollectionDidHighlightItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+            cell.SetHighlight(true);
+        }
+
+        [Export ("collectionView:didUnhighlightItemAtIndexPath:")]
+        public void CollectionDidUnhighlightItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+            cell.SetHighlight(false);
+        }
+
+        [Export ("collectionView:shouldShowMenuForItemAtIndexPath:")]
+        public bool CollectionShouldShowMenuForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            return true;
+        }
+
+//        [Export ("collectionView:viewForSupplementaryElementOfKind:atIndexPath:")]
+//        public UICollectionReusableView ViewForSupplementaryElement(UICollectionView collectionView, string viewForSupplementaryElementOfKind, NSIndexPath indexPath)
+//        {
+//            return null;
+//        }
+
+        #region UITableView DataSource/Delegate
 
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableview, int section)
         {
-            return _items.Count;
+            // Prevent loading cells when using a collection view
+            if (_browserType == MobileLibraryBrowserType.Albums)
+                return 0;
+            else
+                return _items.Count;
         }
 
         [Export ("tableView:cellForRowAtIndexPath:")]
@@ -216,7 +317,6 @@ namespace MPfm.iOS.Classes.Controllers
             if (cell == null)
                 cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
-            // Set title            
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
@@ -235,22 +335,7 @@ namespace MPfm.iOS.Classes.Controllers
             if(String.IsNullOrEmpty(_items[indexPath.Row].Subtitle))
                 cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 
-            if (_browserType == MobileLibraryBrowserType.Albums)
-            {
-                // Check if album art is cached
-                string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].Query.AlbumTitle;
-                KeyValuePair<string, UIImage> keyPair = _imageCache.FirstOrDefault(x => x.Key == key);
-                if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
-                {
-                    cell.ImageView.Image = UIImage.FromBundle("Images/emptyalbumart");
-                    OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
-                } 
-                else
-                {
-                    cell.ImageView.Image = keyPair.Value;
-                }
-            } 
-            else if (_browserType == MobileLibraryBrowserType.Songs)
+            if (_browserType == MobileLibraryBrowserType.Songs)
             {
                 cell.IndexTextLabel.Text = _items[indexPath.Row].AudioFile.TrackNumber.ToString();
             }            
@@ -278,6 +363,8 @@ namespace MPfm.iOS.Classes.Controllers
         {
             return 44;
         }
+
+        #endregion
 
         private void FlushImages()
         {
@@ -329,9 +416,13 @@ namespace MPfm.iOS.Classes.Controllers
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
         {
             // Note: cannot call UIScreen.MainScreen in a background thread!
-            int height = 44;
+//            int height = 44;
+//            InvokeOnMainThread(() => {
+//                height = (int)(44 * UIScreen.MainScreen.Scale);
+//            });
+            int height = 160;
             InvokeOnMainThread(() => {
-                height = (int)(44 * UIScreen.MainScreen.Scale);
+                height = (int)(160 * UIScreen.MainScreen.Scale);
             });
             Task<UIImage>.Factory.StartNew(() => {
                 using (NSData imageData = NSData.FromArray(albumArtData))
@@ -372,23 +463,34 @@ namespace MPfm.iOS.Classes.Controllers
                     var item = _items.FirstOrDefault(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
                     if (item == null)
                         return;
-                    
+  
                     // Get cell from item
                     int index = _items.IndexOf(item);
-                    var cell = tableView.VisibleCells.FirstOrDefault(x => x.Tag == index);
+                    var cell = (MPfmCollectionAlbumViewCell)collectionView.VisibleCells.FirstOrDefault(x => x.Tag == index);
                     if (cell == null)
                         return;
 
-                    // Make sure cell is available
-                    if(cell != null && cell.ImageView != null)
+                    if(cell.Image != image)
                     {
-                        cell.ImageView.Alpha = 0;
-                        cell.ImageView.Image = image;
-                        cell.ImageView.Frame = new RectangleF(0, 0, 44, 44);
-                        UIView.Animate(0.1, () => {
-                            cell.ImageView.Alpha = 1;
-                        });
+                        cell.SetImage(image);
                     }
+
+//                    // Get cell from item
+//                    int index = _items.IndexOf(item);
+//                    var cell = tableView.VisibleCells.FirstOrDefault(x => x.Tag == index);
+//                    if (cell == null)
+//                        return;
+//
+//                    // Make sure cell is available
+//                    if(cell != null && cell.ImageView != null)
+//                    {
+//                        cell.ImageView.Alpha = 0;
+//                        cell.ImageView.Image = image;
+//                        cell.ImageView.Frame = new RectangleF(0, 0, 44, 44);
+//                        UIView.Animate(0.1, () => {
+//                            cell.ImageView.Alpha = 1;
+//                        });
+//                    }
                 });
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
@@ -400,7 +502,25 @@ namespace MPfm.iOS.Classes.Controllers
                 _browserType = browserType;
                 _navigationBarTitle = navigationBarTitle;
                 _navigationBarSubtitle = navigationBarSubtitle;
-                tableView.ReloadData();
+
+                if(browserType == MobileLibraryBrowserType.Albums)
+                {
+                    tableView.Hidden = true;
+                    if(!collectionView.Hidden)
+                    {
+                        // Prevent the first useless refresh (this "flashes" the album art image views")
+                        Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing collection view...");
+                        collectionView.ReloadData();
+                    }
+                    collectionView.Hidden = false;
+                }
+                else
+                {
+                    tableView.Hidden = false;
+                    collectionView.Hidden = true;
+                    Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing table view...");
+                    tableView.ReloadData();
+                }
 
                 // Hide album cover if not showing songs
                 if(browserType != MobileLibraryBrowserType.Songs)

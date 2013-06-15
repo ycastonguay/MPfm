@@ -97,6 +97,7 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             _btnEffects = new MPfmFlatButton();
+            _btnEffects.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
             _btnEffects.Alpha = 0;
             _btnEffects.Label.TextAlignment = UITextAlignment.Right;
@@ -109,6 +110,7 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             _btnNowPlaying = new MPfmFlatButton();
+            _btnNowPlaying.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
             _btnNowPlaying.Alpha = 0;
             _btnNowPlaying.Label.TextAlignment = UITextAlignment.Right;
@@ -125,6 +127,24 @@ namespace MPfm.iOS.Classes.Controls
             this.NavigationBar.AddSubview(_btnNowPlaying);
             this.NavigationBar.AddSubview(_lblTitle);
             this.NavigationBar.AddSubview(_lblSubtitle);
+        }
+
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+
+            Console.WriteLine("NavigationController - LayoutSubviews");
+
+            float width = UIScreen.MainScreen.Bounds.Width;
+            if (UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeLeft ||
+                UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeRight)
+                width = UIScreen.MainScreen.Bounds.Height;
+
+            _lblTitle.Frame = new RectangleF(60, 4, width - 120, 20);
+            _lblSubtitle.Frame = new RectangleF(60, 20, width - 120, 20);
+            _btnBack.Frame = new RectangleF(0, 0, 70, 44);
+            _btnEffects.Frame = new RectangleF(width - 70, 0, 70, 44);
+            _btnNowPlaying.Frame = new RectangleF(width - 70, 0, 70, 44);
         }
         
         protected virtual void OnViewDismissed(EventArgs e)

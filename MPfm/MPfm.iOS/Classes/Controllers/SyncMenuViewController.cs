@@ -60,6 +60,7 @@ namespace MPfm.iOS
             tableView.AddGestureRecognizer(longPress);
 
             var btnSync = new MPfmFlatButton();
+            btnSync.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnSync.Label.Text = "Sync";
             btnSync.Label.TextAlignment = UITextAlignment.Right;
             btnSync.Label.Frame = new RectangleF(0, 0, 44, 44);

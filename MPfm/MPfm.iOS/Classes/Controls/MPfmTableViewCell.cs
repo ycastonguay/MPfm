@@ -93,7 +93,7 @@ namespace MPfm.iOS.Classes.Controls
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
             ImageChevron.Hidden = true;
-            ImageChevron.Frame = new RectangleF(Bounds.Width - 22, 0, 22, 44);
+            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 0, 22, 44);
             AddSubview(ImageChevron);
         }
 
@@ -147,6 +147,8 @@ namespace MPfm.iOS.Classes.Controls
 
             if (RightButton.ImageView.Image != null)
                 RightButton.Frame = new RectangleF(Bounds.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
+
+            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 0, 22, 44);
         }
 
 //        public override void TouchesBegan(NSSet touches, UIEvent evt)

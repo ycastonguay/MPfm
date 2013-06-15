@@ -169,7 +169,9 @@
     <Compile Include="Classes\Controls\MPfmWindow.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
     <Compile Include="Classes\Helpers\DarwinHardwareHelper.cs" />
-    <Compile Include="Classes\Controls\MPfmTableViewCell.cs" />
+    <Compile Include="Classes\Controls\MPfmTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
     <Compile Include="Classes\Controllers\LoopDetailsViewController.cs" />
     <Compile Include="Classes\Controllers\LoopDetailsViewController.designer.cs">
@@ -242,6 +244,9 @@
       <DependentUpon>SyncDownloadViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controls\MPfmFlatButton.cs" />
+    <Compile Include="Classes\Controls\Layouts\MPfmCollectionViewFlowLayout.cs" />
+    <Compile Include="Classes\Controls\MPfmCollectionAlbumViewCell.cs" />
+    <Compile Include="Classes\Controls\MPfmCollectionArtistViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -314,6 +319,7 @@
     <Folder Include="Classes\Controls\Events\" />
     <Folder Include="Images\Icons\" />
     <Folder Include="Images\Tables\" />
+    <Folder Include="Classes\Controls\Layouts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />

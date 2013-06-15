@@ -78,6 +78,7 @@ namespace MPfm.iOS
             _btnDone = new UIBarButtonItem(btnDoneView);
 
             var btnAdd = new MPfmFlatButton();
+            btnAdd.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             btnAdd.Label.Text = "Add";
             btnAdd.Label.TextAlignment = UITextAlignment.Right;
             btnAdd.Label.Frame = new RectangleF(0, 0, 44, 44);
