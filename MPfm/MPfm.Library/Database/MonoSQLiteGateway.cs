@@ -607,7 +607,6 @@ namespace MPfm.Library.Database
                 connection.Open();
 
                 // Create command
-                Console.WriteLine("=======> UPDATE sql: " + sql.ToString());
                 command = connection.CreateCommand();
                 command.CommandText = sql.ToString();
                 command.Connection = connection;

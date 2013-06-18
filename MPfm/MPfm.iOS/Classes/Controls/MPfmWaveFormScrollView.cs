@@ -34,6 +34,7 @@ using MPfm.iOS.Helpers;
 using MPfm.iOS.Managers;
 using MPfm.iOS.Managers.Events;
 using MPfm.iOS.Classes.Objects;
+using MPfm.Player.Objects;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -267,6 +268,11 @@ namespace MPfm.iOS.Classes.Controls
         public void SetWaveFormLength(long lengthBytes)
         {
             WaveFormView.Length = lengthBytes;
+        }
+
+        public void SetMarkers(IEnumerable<Marker> markers)
+        {
+            WaveFormView.SetMarkers(markers);
         }
     }
 }

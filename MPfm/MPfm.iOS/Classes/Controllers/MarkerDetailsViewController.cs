@@ -79,17 +79,21 @@ namespace MPfm.iOS
 
             sliderPosition.ValueChanged += HandleSliderPositionValueChanged;
 
-            // Add navigation controller buttons
-            var button = new UIButton(UIButtonType.Custom);
-            button.SetTitle("Done", UIControlState.Normal);
-            button.Layer.CornerRadius = 8;
-            button.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-            button.Font = UIFont.FromName("HelveticaNeue-Bold", 12.0f);
-            button.Frame = new RectangleF(0, 20, 60, 30);
-            button.TouchUpInside += (sender, e) => {
+            var btnDone = new MPfmFlatButton();
+            btnDone.Label.Text = "Done";
+            btnDone.Frame = new RectangleF(0, 0, 70, 44);
+            btnDone.OnButtonClick += () => {
+                _marker.Name = txtName.Text;
+                _marker.Comments = textViewComments.Text;
+                _marker.Position = lblPosition.Text;
+                OnUpdateMarker(_marker);
                 this.DismissViewController(true, null);
             };
-            _btnDone = new UIBarButtonItem(button);
+            var btnBackView = new UIView(new RectangleF(0, 0, 70, 44));
+            var rect = new RectangleF(btnBackView.Bounds.X + 5, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
+            btnBackView.Bounds = rect;
+            btnBackView.AddSubview(btnDone);
+            _btnDone = new UIBarButtonItem(btnBackView);
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             
             var navCtrl = (MPfmNavigationController)NavigationController;
@@ -103,15 +107,6 @@ namespace MPfm.iOS
         {
             // Calculate new position by sending a request to the presenter
             OnChangePosition(sliderPosition.Value);
-        }
-
-        partial void actionClose(NSObject sender)
-        {
-            // TODO: Calculate position from slider
-            _marker.Name = txtName.Text;
-            _marker.Comments = textViewComments.Text;
-            _marker.Position = lblPosition.Text;
-            OnUpdateMarker(_marker);
         }
 
         partial void actionDeleteMarker(NSObject sender)

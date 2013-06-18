@@ -152,7 +152,7 @@ namespace MPfm.iOS.Classes.Controls
                     _imageView.Frame = new RectangleF(8, 8, Frame.Width - 16, Frame.Height - 16);
                     _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X - 8, _labelBackgroundView.Frame.Y - 2, _labelBackgroundView.Frame.Width + 16, _labelBackgroundView.Frame.Height - 2);
                     _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y - 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height - 1);
-                    _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y - 2, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height - 2);
+                    _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y - 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height - 2);
                 });
             }
             else
@@ -161,7 +161,7 @@ namespace MPfm.iOS.Classes.Controls
                     // Don't change the order, it is important to set the frame before transform!
                     _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X + 8, _labelBackgroundView.Frame.Y + 2, _labelBackgroundView.Frame.Width - 16, _labelBackgroundView.Frame.Height + 2);
                     _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y + 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height + 1);
-                    _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y + 2, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height + 2);
+                    _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y + 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height + 2);
 
                     _labelBackgroundView.Transform = CGAffineTransform.MakeScale(1, 1);
                     _lblTitle.Transform = CGAffineTransform.MakeScale(1, 1);

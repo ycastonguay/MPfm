@@ -36,12 +36,14 @@ using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 using MPfm.iOS.Managers;
 using MPfm.iOS.Managers.Events;
+using MPfm.Player.Objects;
 
 namespace MPfm.iOS.Classes.Controls
 {
     [Register("MPfmWaveFormView")]
     public class MPfmWaveFormView : UIView
     {
+        private List<Marker> _markers = new List<Marker>();
         private WaveFormCacheManager _waveFormCacheManager;
         private string _status = "";
         private bool _isLoading = false;
@@ -100,7 +102,7 @@ namespace MPfm.iOS.Classes.Controls
                     return;
                 
                 // Invalidate cursor
-                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 15, 0, 0, Frame.Height);
+                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 15, 0, 30, Frame.Height);
                 SetNeedsDisplayInRect(rectCursor);
             }
         }
@@ -230,6 +232,12 @@ namespace MPfm.iOS.Classes.Controls
         {
         }
 
+        public void SetMarkers(IEnumerable<Marker> markers)
+        {
+            _markers = markers.ToList();
+            SetNeedsDisplay();
+        }
+
         public void FlushCache()
         {
             _waveFormCacheManager.FlushCache();
@@ -281,18 +289,37 @@ namespace MPfm.iOS.Classes.Controls
             float positionPercentage = (float)Position / (float)Length;
             _cursorX = (positionPercentage * Bounds.Width) - ScrollX;
             
+            // Draw markers
+            for(int a = 0; a < _markers.Count; a++)
+            {
+                float xPct = (float)_markers[a].PositionBytes / (float)Length;
+                float x = (xPct * Bounds.Width) - ScrollX;
+
+                // Draw cursor line
+                context.SetStrokeColor(new CGColor(1, 0, 0, 1));
+                context.SetLineWidth(1.0f);
+                context.StrokeLineSegments(new PointF[2] { new PointF(x, 0), new PointF(x, heightAvailable) });
+
+                // Draw text
+                var rectText = new RectangleF(x, 0, 12, 12);
+                CoreGraphicsHelper.FillRect(context, rectText, new CGColor(1, 0, 0, 0.7f));
+                string letter = Conversion.IndexToLetter(a).ToString();
+                UIGraphics.PushContext(context);
+                CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(x+2, 0), letter, "HelveticaNeue", 10, new CGColor(1, 1, 1, 1));
+                UIGraphics.PopContext();
+            }
+
             // Draw cursor line
             context.SetStrokeColor(new CGColor(0, 0.5f, 1, 1));
             context.SetLineWidth(1.0f);
             context.StrokeLineSegments(new PointF[2] { new PointF(_cursorX, 0), new PointF(_cursorX, heightAvailable) });
-            
-            // Check if a secondary cursor must be drawn
+
+            // Check if a secondary cursor must be drawn (i.e. when changing position)
             if(_secondaryPosition > 0)
             {
-                // Calculate position
                 float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
                 _secondaryCursorX = (secondaryPositionPercentage * Bounds.Width) - ScrollX;
-                
+
                 // Draw cursor line
                 context.SetStrokeColor(new CGColor(1, 1, 1, 1));
                 context.SetLineWidth(1.0f);
@@ -307,7 +334,6 @@ namespace MPfm.iOS.Classes.Controls
 
         private void GenerateWaveFormBitmap(string audioFilePath, RectangleF frame)
         {
-            var context = UIGraphics.GetCurrentContext();
             if(!_isGeneratingImageCache)
             {
                 _isGeneratingImageCache = true;

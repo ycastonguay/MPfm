@@ -98,7 +98,7 @@
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<string key="name">HelveticaNeue-Medium</string>
+									<string key="name">HelveticaNeue</string>
 									<string key="family">Helvetica Neue</string>
 									<int key="traits">0</int>
 									<double key="pointSize">14</double>
@@ -126,8 +126,8 @@
 								<reference key="IBUITextColor" ref="1001509043"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="922968907">
-									<string key="name">HelveticaNeue</string>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="989220286">
+									<string key="name">HelveticaNeue-Light</string>
 									<string key="family">Helvetica Neue</string>
 									<int key="traits">0</int>
 									<double key="pointSize">14</double>
@@ -197,7 +197,7 @@
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">1</int>
-								<reference key="IBUIFontDescription" ref="922968907"/>
+								<reference key="IBUIFontDescription" ref="989220286"/>
 								<reference key="IBUIFont" ref="530951544"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>

@@ -93,7 +93,10 @@ namespace MPfm.MVP.Presenters
                 marker.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
                 _libraryService.InsertMarker(marker);
 
-                // Refresh marker list
+                _messageHub.PublishAsync(new MarkerUpdatedMessage(this){ 
+                    AudioFileId = marker.AudioFileId,
+                    MarkerId = marker.MarkerId
+                });
                 RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
             }
             catch(Exception ex)

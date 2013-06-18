@@ -26,6 +26,7 @@ namespace MPfm.MVP.Messages
     /// </summary>
     public class MarkerUpdatedMessage : TinyMessageBase
     {
+        public Guid AudioFileId { get; set; }
         public Guid MarkerId { get; set; }
 
         public MarkerUpdatedMessage(object sender) 

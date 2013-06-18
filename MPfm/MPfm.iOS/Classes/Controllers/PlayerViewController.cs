@@ -36,6 +36,7 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Helpers;
 using MPfm.iOS.Classes.Objects;
 using System.Threading.Tasks;
+using MPfm.Player.Objects;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -284,6 +285,17 @@ namespace MPfm.iOS.Classes.Controllers
 
                 scrollViewWaveForm.WaveFormView.Position = entity.PositionBytes;                
             });
+        }
+
+        public void RefreshMarkers(IEnumerable<Marker> markers)
+        {
+            InvokeOnMainThread(() => {
+                scrollViewWaveForm.SetMarkers(markers);
+            });
+        }
+
+        public void RefreshLoops(IEnumerable<Loop> loops)
+        {
         }
 
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)

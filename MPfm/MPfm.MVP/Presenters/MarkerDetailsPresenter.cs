@@ -104,6 +104,7 @@ namespace MPfm.MVP.Presenters
                 // Update marker and close view
                 _libraryService.UpdateMarker(_marker);
                 _messageHub.PublishAsync(new MarkerUpdatedMessage(this){ 
+                    AudioFileId = _audioFile.Id,
                     MarkerId = _markerId
                 });
                 View.DismissView();
@@ -121,6 +122,7 @@ namespace MPfm.MVP.Presenters
             {
                 _libraryService.DeleteMarker(_markerId);
                 _messageHub.PublishAsync(new MarkerUpdatedMessage(this){ 
+                    AudioFileId = _audioFile.Id,
                     MarkerId = _markerId
                 });
                 View.DismissView();

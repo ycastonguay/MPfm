@@ -133,8 +133,6 @@ namespace MPfm.iOS.Classes.Controls
         {
             base.ViewDidLayoutSubviews();
 
-            Console.WriteLine("NavigationController - LayoutSubviews");
-
             float width = UIScreen.MainScreen.Bounds.Width;
             if (UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeLeft ||
                 UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeRight)

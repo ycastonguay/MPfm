@@ -27,6 +27,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
+using MPfm.Core;
 
 namespace MPfm.iOS
 {
@@ -79,22 +80,25 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            // Request a recycled cell to save memory
-            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;                
-                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
             }
 
             cell.Tag = indexPath.Row;
+            cell.BackgroundColor = UIColor.Clear;
+            cell.BackgroundView = null;
+            cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
+            cell.IndexTextLabel.BackgroundColor = UIColor.FromRGBA(1, 0, 0, 0.7f);
+            cell.IndexTextLabel.TextColor = UIColor.White;
             cell.TextLabel.Text = _markers[indexPath.Row].Name;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
             cell.TextLabel.TextColor = UIColor.White;
             cell.DetailTextLabel.Text = _markers[indexPath.Row].Position;
-            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 12);
+            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             cell.DetailTextLabel.TextColor = UIColor.LightGray;
-            cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
 
             UIView viewBackgroundSelected = new UIView();
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;

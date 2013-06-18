@@ -40,50 +40,53 @@ namespace MPfm.MVP.Presenters
 	{
 		// Private variables
 		//IPlayerView view;
-		Timer timerRefreshSongPosition;
-        readonly IPlayerService playerService;
-        readonly IAudioFileCacheService audioFileCacheService;
-        readonly ITinyMessengerHub messageHub;
+		Timer _timerRefreshSongPosition;
+        readonly IPlayerService _playerService;
+        readonly ILibraryService _libraryService;
+        readonly IAudioFileCacheService _audioFileCacheService;
+        readonly ITinyMessengerHub _messageHub;
 
-		public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService)
+		public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService)
 		{	
-            // Set properties
-            this.messageHub = messageHub;
-            this.playerService = playerService;
-            this.audioFileCacheService = audioFileCacheService;
+            _messageHub = messageHub;
+            _playerService = playerService;
+            _audioFileCacheService = audioFileCacheService;
+            _libraryService = libraryService;
 
-			// Create update position timer
-			timerRefreshSongPosition = new Timer();			
-			timerRefreshSongPosition.Interval = 100;
-			timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
+			_timerRefreshSongPosition = new Timer();			
+			_timerRefreshSongPosition.Interval = 100;
+			_timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
 
             // Subscribe to events
             messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
                 Play(audioFileCacheService.SelectAudioFiles(m.Query));
             });
-            messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) =>
-            {
+            messageHub.Subscribe<SongBrowserItemDoubleClickedMessage>((SongBrowserItemDoubleClickedMessage m) => {
                 string filePath = m != null ? m.Item.FilePath : null;
                 Play(audioFileCacheService.SelectAudioFiles(m.Query), filePath);
             });
-            messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) =>
-            {
+            messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) => {
                 Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
             });
-            messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) =>
-            {
+            messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
                 View.RefreshSongInformation(m.Data.AudioFileStarted, playerService.CurrentPlaylistItem.LengthBytes, 
                                             playerService.CurrentPlaylist.Items.IndexOf(playerService.CurrentPlaylistItem), playerService.CurrentPlaylist.Items.Count);
+
+                var markers = libraryService.SelectMarkers(m.Data.AudioFileStarted.Id);
+                View.RefreshMarkers(markers);
             });
-            messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) =>
-            {
+            messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
                 View.RefreshPlayerStatus(m.Status);
+            });
+            messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
+                var markers = libraryService.SelectMarkers(m.AudioFileId);
+                View.RefreshMarkers(markers);
             });
         }
         
         public void Dispose()
         {
-            playerService.Dispose();
+            _playerService.Dispose();
         }
         
         public override void BindView(IPlayerView view)
@@ -102,19 +105,19 @@ namespace MPfm.MVP.Presenters
 
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
-            if(playerService.IsSettingPosition)
+            if(_playerService.IsSettingPosition)
                 return;
 
             //int available = playerService.GetDataAvailable();
             
 			// Create entity
 			PlayerPositionEntity entity = new PlayerPositionEntity();
-            entity.PositionBytes = playerService.GetPosition();
-            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)playerService.CurrentPlaylistItem.AudioFile.SampleRate);
+            entity.PositionBytes = _playerService.GetPosition();
+            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
     		//entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
             entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-            entity.PositionPercentage = ((float)playerService.GetPosition() / (float)playerService.CurrentPlaylistItem.LengthBytes) * 100;
+            entity.PositionPercentage = ((float)_playerService.GetPosition() / (float)_playerService.CurrentPlaylistItem.LengthBytes) * 100;
 
 			// Send changes to view
 			View.RefreshPlayerPosition(entity);
@@ -125,8 +128,8 @@ namespace MPfm.MVP.Presenters
             try
             {
                 // Calculate new position from 0.0f/1.0f scale
-                long lengthBytes = playerService.CurrentPlaylistItem.LengthBytes;
-                var audioFile = playerService.CurrentPlaylistItem.AudioFile;
+                long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                 long positionBytes = (long)(positionPercentage * lengthBytes);
                 long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
                 int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
@@ -153,9 +156,9 @@ namespace MPfm.MVP.Presenters
 		{            
             try
             {
-                playerService.Play();
+                _playerService.Play();
                 //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
-    			timerRefreshSongPosition.Start();
+    			_timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -171,9 +174,9 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-                playerService.Play(audioFiles);
+                _playerService.Play(audioFiles);
                 //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
-                timerRefreshSongPosition.Start();
+                _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -189,9 +192,9 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-                playerService.Play(filePaths);
+                _playerService.Play(filePaths);
                 //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
-                timerRefreshSongPosition.Start();
+                _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -208,9 +211,9 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-                playerService.Play(audioFiles, startAudioFilePath);
+                _playerService.Play(audioFiles, startAudioFilePath);
                 //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
-                timerRefreshSongPosition.Start();
+                _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -227,11 +230,11 @@ namespace MPfm.MVP.Presenters
             {
 				// Stop timer
                 Tracing.Log("PlayerPresenter.Stop -- Stopping timer...");
-				timerRefreshSongPosition.Stop();
+				_timerRefreshSongPosition.Stop();
 				
 				// Stop player
                 Tracing.Log("PlayerPresenter.Stop -- Stopping playback...");
-                playerService.Stop();
+                _playerService.Stop();
 				
 				// Refresh view with empty information
                 Tracing.Log("PlayerPresenter.Stop -- Refresh song information and position with empty entity...");
@@ -251,7 +254,7 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-                playerService.Pause();
+                _playerService.Pause();
             }
             catch(Exception ex)
             {
@@ -268,7 +271,7 @@ namespace MPfm.MVP.Presenters
             {
     			// Go to next song
                 Tracing.Log("PlayerPresenter.Next -- Skipping to next item in playlist...");
-                playerService.Next();
+                _playerService.Next();
     	
     			// Refresh controls
                 Tracing.Log("PlayerPresenter.Next -- Refreshing song information...");
@@ -289,7 +292,7 @@ namespace MPfm.MVP.Presenters
             {
     			// Go to previous song
                 Tracing.Log("PlayerPresenter.Previous -- Skipping to previous item in playlist...");
-                playerService.Previous();
+                _playerService.Previous();
     	
     			// Refresh controls
                 //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
@@ -318,9 +321,9 @@ namespace MPfm.MVP.Presenters
                     pct = 99.9;
 
                 Tracing.Log("PlayerPresenter.SetPosition -- Setting position to " + percentage.ToString("0.00") + "%");
-                timerRefreshSongPosition.Stop();
-                playerService.SetPosition(pct);
-                timerRefreshSongPosition.Start();
+                _timerRefreshSongPosition.Stop();
+                _playerService.SetPosition(pct);
+                _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
             {
@@ -334,7 +337,7 @@ namespace MPfm.MVP.Presenters
             {
                 // Set volume and refresh UI
                 Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
-                playerService.Volume = volume / 100;
+                _playerService.Volume = volume / 100;
                 View.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
                     Volume = volume, 
                     VolumeString = volume.ToString("0") + " %" 

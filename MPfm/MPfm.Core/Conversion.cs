@@ -278,5 +278,12 @@ namespace MPfm.Core
         {
             return 20.0 * Math.Log10(level / maxLevel);
         }
+
+        public static char IndexToLetter(int index)
+        {
+            int indexModulo = index % 26;
+            char[] alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+            return alpha[indexModulo];
+        }
 	}
 }

@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using MPfm.MVP.Models;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Messages;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {
@@ -43,6 +44,8 @@ namespace MPfm.MVP.Views
         void RefreshPlayerStatus(PlayerStatusType status);
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
 		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
+        void RefreshMarkers(IEnumerable<Marker> markers);
+        void RefreshLoops(IEnumerable<Loop> loops);
         void RefreshPlayerVolume(PlayerVolumeEntity entity);
         void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
         
