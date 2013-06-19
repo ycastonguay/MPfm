@@ -29,14 +29,25 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class PlayerMetadataPresenter : BasePresenter<IPlayerMetadataView>, IPlayerMetadataPresenter
 	{
-        ITinyMessengerHub messageHub;
-        IPlayerService playerService;
+        MobileNavigationManager _navigationManager;
+        ITinyMessengerHub _messageHub;
+        IPlayerService _playerService;
+        bool _isShuffle;
 
-        public PlayerMetadataPresenter(ITinyMessengerHub messageHub, IPlayerService playerService)
+        public PlayerMetadataPresenter(ITinyMessengerHub messageHub, MobileNavigationManager navigationManager, IPlayerService playerService)
 		{
-            this.playerService = playerService;
-            this.messageHub = messageHub;
+            _messageHub = messageHub;
+            _navigationManager = navigationManager;
+            _playerService = playerService;
+        }
 
+        public override void BindView(IPlayerMetadataView view)
+        {            
+            view.OnClickPlaylist = ClickPlaylist;
+            view.OnToggleRepeat = ToggleRepeat;
+            view.OnToggleShuffle = ToggleShuffle;
+            _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
+            base.BindView(view);
         }
 
         private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
@@ -44,13 +55,23 @@ namespace MPfm.MVP.Presenters
             View.RefreshAudioFile(message.Data.AudioFileStarted);
         }
 
-        public override void BindView(IPlayerMetadataView view)
-        {            
-            // Subscribe to view actions
-            base.BindView(view);
+        private void ClickPlaylist()
+        {
+            var view = _navigationManager.CreatePlaylistView();
+            _navigationManager.PushDialogView("Playlist", view);
+        }
 
-            messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
+        private void ToggleRepeat()
+        {
+            _playerService.ToggleRepeatType();
+            View.RefreshRepeat(_playerService.RepeatType);
+        }
+
+        private void ToggleShuffle()
+        {
+            // TODO: Actually implement shuffling
+            _isShuffle = !_isShuffle;
+            View.RefreshShuffle(_isShuffle);
         }
     }
 }
-

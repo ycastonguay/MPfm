@@ -209,6 +209,7 @@ namespace MPfm.Player
             set
             {
                 _repeatType = value;
+                Console.WriteLine("Player - RepeatType: {0}", value.ToString());
 
                 // Check if the current song exists
                 if (_playlist != null && _playlist.CurrentItem != null)

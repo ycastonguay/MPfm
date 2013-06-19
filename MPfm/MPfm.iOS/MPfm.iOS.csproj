@@ -435,6 +435,22 @@
     <BundleResource Include="Images\Tabs\song%402x.png" />
     <BundleResource Include="Images\Tabs\sessions.png" />
     <BundleResource Include="Images\Tabs\sessions%402x.png" />
+    <BundleResource Include="Images\Buttons\playlist_on.png" />
+    <BundleResource Include="Images\Buttons\playlist_on%402x.png" />
+    <BundleResource Include="Images\Buttons\playlist.png" />
+    <BundleResource Include="Images\Buttons\playlist%402x.png" />
+    <BundleResource Include="Images\Buttons\repeat_on.png" />
+    <BundleResource Include="Images\Buttons\repeat_on%402x.png" />
+    <BundleResource Include="Images\Buttons\repeat_song_on.png" />
+    <BundleResource Include="Images\Buttons\repeat_song_on%402x.png" />
+    <BundleResource Include="Images\Buttons\repeat.png" />
+    <BundleResource Include="Images\Buttons\repeat%402x.png" />
+    <BundleResource Include="Images\Buttons\shuffle_on.png" />
+    <BundleResource Include="Images\Buttons\shuffle_on%402x.png" />
+    <BundleResource Include="Images\Buttons\shuffle.png" />
+    <BundleResource Include="Images\Buttons\shuffle%402x.png" />
+    <BundleResource Include="Images\Tables\chevron_white.png" />
+    <BundleResource Include="Images\Tables\chevron_white%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

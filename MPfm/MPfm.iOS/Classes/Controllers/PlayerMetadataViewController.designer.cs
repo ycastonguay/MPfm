@@ -22,6 +22,24 @@ namespace MPfm.iOS
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnPlaylist { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnShuffle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIButton btnRepeat { get; set; }
+
+		[Action ("actionRepeat:")]
+		partial void actionRepeat (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionShuffle:")]
+		partial void actionShuffle (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionPlaylist:")]
+		partial void actionPlaylist (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -43,6 +61,21 @@ namespace MPfm.iOS
 			if (viewBackground != null) {
 				viewBackground.Dispose ();
 				viewBackground = null;
+			}
+
+			if (btnPlaylist != null) {
+				btnPlaylist.Dispose ();
+				btnPlaylist = null;
+			}
+
+			if (btnShuffle != null) {
+				btnShuffle.Dispose ();
+				btnShuffle = null;
+			}
+
+			if (btnRepeat != null) {
+				btnRepeat.Dispose ();
+				btnRepeat = null;
 			}
 		}
 	}

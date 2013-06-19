@@ -71,18 +71,19 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
+            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
-                var cellStyle = UITableViewCellStyle.Subtitle;                
-                cell = new UITableViewCell(cellStyle, _cellIdentifier);
+                var cellStyle = UITableViewCellStyle.Subtitle;
+                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
             }
             
             cell.Tag = indexPath.Row;
             cell.TextLabel.Text = _items[indexPath.Row];
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 16);
-            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-            cell.SelectionStyle = UITableViewCellSelectionStyle.Gray;
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            cell.Accessory = UITableViewCellAccessory.None;
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
+            cell.ImageChevron.Hidden = false;
             
             UIView viewBackgroundSelected = new UIView();
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -95,6 +96,20 @@ namespace MPfm.iOS
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             OnSelectItem(_items[indexPath.Row]);
+        }
+
+        [Export ("tableView:didHighlightRowAtIndexPath:")]
+        public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
+        }
+
+        [Export ("tableView:didUnhighlightRowAtIndexPath:")]
+        public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 
         #region IPreferencesView implementation

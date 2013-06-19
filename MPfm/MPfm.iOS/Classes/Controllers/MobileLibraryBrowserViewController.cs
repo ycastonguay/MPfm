@@ -325,6 +325,7 @@ namespace MPfm.iOS.Classes.Controllers
             cell.DetailTextLabel.Text = _items[indexPath.Row].Subtitle;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.ImageChevron.Hidden = false;
 
             if(indexPath.Row == _deleteCellIndex)
@@ -336,9 +337,7 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 
             if (_browserType == MobileLibraryBrowserType.Songs)
-            {
                 cell.IndexTextLabel.Text = _items[indexPath.Row].AudioFile.TrackNumber.ToString();
-            }            
             
             return cell;
         }
@@ -356,6 +355,20 @@ namespace MPfm.iOS.Classes.Controllers
                 });
 
             OnItemClick(indexPath.Row);
+        }
+
+        [Export ("tableView:didHighlightRowAtIndexPath:")]
+        public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
+        }
+
+        [Export ("tableView:didUnhighlightRowAtIndexPath:")]
+        public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 
         [Export ("tableView:heightForRowAtIndexPath:")]

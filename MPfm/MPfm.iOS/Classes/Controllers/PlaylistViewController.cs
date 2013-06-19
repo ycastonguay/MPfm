@@ -28,6 +28,8 @@ namespace MPfm.iOS
 {
     public partial class PlaylistViewController : BaseViewController, IPlaylistView
     {
+        UIBarButtonItem _btnDone;
+
         public PlaylistViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "PlaylistViewController_iPhone" : "PlaylistViewController_iPad", null)
         {
@@ -35,13 +37,18 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
-            btnRepeat.Layer.CornerRadius = 8;
-            btnRepeat.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnRepeat.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
-            btnShuffle.Layer.CornerRadius = 8;
-            btnShuffle.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnShuffle.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
+            var btnDone = new MPfmFlatButton();
+            btnDone.Label.Text = "Done";
+            btnDone.Frame = new RectangleF(0, 0, 70, 44);
+            btnDone.OnButtonClick += () => {
+                NavigationController.DismissViewController(true, null);
+            };
+            var btnDoneView = new UIView(new RectangleF(0, 0, 70, 44));
+            var rect = new RectangleF(btnDoneView.Bounds.X + 5, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
+            btnDoneView.Bounds = rect;
+            btnDoneView.AddSubview(btnDone);
+            _btnDone = new UIBarButtonItem(btnDoneView);
+            NavigationItem.SetLeftBarButtonItem(_btnDone, true);
 
             base.ViewDidLoad();
         }

@@ -36,6 +36,7 @@ namespace MPfm.MVP.Services.Interfaces
         PlaylistItem CurrentPlaylistItem { get; }
         Playlist CurrentPlaylist { get; }
         EQPreset EQPreset { get; }
+        RepeatType RepeatType { get; }
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
         float Volume { get; set; }
@@ -53,7 +54,7 @@ namespace MPfm.MVP.Services.Interfaces
         void Pause();
         void Next();
         void Previous();
-        void RepeatType();
+        void ToggleRepeatType();
 
         int GetDataAvailable();
         Tuple<float[], float[]> GetMixerData(double seconds);

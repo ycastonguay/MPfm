@@ -79,14 +79,6 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-//            // Request a recycled cell to save memory
-//            UITableViewCell cell = tableView.DequeueReusableCell(_cellIdentifier);
-//            if (cell == null)
-//            {
-//                var cellStyle = UITableViewCellStyle.Default;
-//                cell = new UITableViewCell(cellStyle, _cellIdentifier);
-//            }
-
             MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
@@ -122,7 +114,9 @@ namespace MPfm.iOS
             
             cell.TextLabel.Text = _items[indexPath.Row].Value;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
-            cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+            cell.Accessory = UITableViewCellAccessory.None;
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
+            cell.ImageChevron.Hidden = false;
 
             UIView viewBackgroundSelected = new UIView();
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -135,6 +129,20 @@ namespace MPfm.iOS
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             OnItemClick(_items[indexPath.Row].Key);
+        }
+
+        [Export ("tableView:didHighlightRowAtIndexPath:")]
+        public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
+        }
+
+        [Export ("tableView:didUnhighlightRowAtIndexPath:")]
+        public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 
         #region IMobileOptionsMenuView implementation

@@ -20,12 +20,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using MPfm.Core;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Player;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
@@ -33,20 +35,20 @@ using MonoTouch.MediaPlayer;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
-using MPfm.iOS.Helpers;
 using MPfm.iOS.Classes.Objects;
-using System.Threading.Tasks;
-using MPfm.Player.Objects;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controllers
 {
 	public partial class PlayerViewController : BaseViewController, IPlayerView
 	{
-        private bool _isPositionChanging = false;
-        private string _currentAlbumArtKey = string.Empty;
-        private string _currentNavigationSubtitle = string.Empty;
-        private MPVolumeView _volumeView;
-        private UIBarButtonItem _btnBack;
+        NSTimer _timerHidePlayerMetadata;
+        bool _isPositionChanging = false;
+        string _currentAlbumArtKey = string.Empty;
+        string _currentNavigationSubtitle = string.Empty;
+        MPVolumeView _volumeView;
+        UIBarButtonItem _btnBack;
+        PlayerMetadataViewController _playerMetadataViewController;
 
 		public PlayerViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
@@ -97,6 +99,12 @@ namespace MPfm.iOS.Classes.Controllers
             scrollView.ShowsHorizontalScrollIndicator = false;
             scrollView.ShowsVerticalScrollIndicator = false;
             scrollView.DelaysContentTouches = false;
+            UISwipeGestureRecognizer swipeDown = new UISwipeGestureRecognizer(HandleScrollViewSwipeDown);
+            swipeDown.Direction = UISwipeGestureRecognizerDirection.Down;
+            scrollView.AddGestureRecognizer(swipeDown);
+            UISwipeGestureRecognizer swipeUp = new UISwipeGestureRecognizer(HandleScrollViewSwipeUp);
+            swipeUp.Direction = UISwipeGestureRecognizerDirection.Up;
+            scrollView.AddGestureRecognizer(swipeUp);
 
             // TODO: Block slider when the player is paused.
             sliderPosition.ScrubbingTypeChanged += (sender, e) => {
@@ -203,8 +211,28 @@ namespace MPfm.iOS.Classes.Controllers
             navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
         }
 
+        private void HandleScrollViewSwipeDown(UISwipeGestureRecognizer gestureRecognizer)
+        {
+            if(pageControl.CurrentPage == 0)
+                ShowPlayerMetadata(false, false);
+        }
+
+        private void HandleScrollViewSwipeUp(UISwipeGestureRecognizer gestureRecognizer)
+        {
+            if(pageControl.CurrentPage == 0)
+                ShowPlayerMetadata(true, true);
+        }
+
         public void AddScrollView(UIViewController viewController)
         {
+            // No other choice than to add vc to a list of vc to notify them when child views become visible.
+            // i.e. make sure the player metadata panel is visible when it is scrolled into the scrollview.
+            // or use tiny messenger... but that would suck sending hundreds of messages if you want smooth 
+            // actually add the timer here... so no need to calculate when the player metadata view is visible! also easier to hide the page control.
+
+            if (viewController is PlayerMetadataViewController)
+                _playerMetadataViewController = (PlayerMetadataViewController)viewController;
+
             if (UserInterfaceIdiomIsPhone)
             {
                 viewController.View.Frame = new RectangleF(scrollView.Subviews.Length * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
@@ -229,10 +257,6 @@ namespace MPfm.iOS.Classes.Controllers
                 pageControl.Pages = 3;
                 scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
             }
-
-            // Set default view to player metadata (second screen)
-            pageControl.CurrentPage = 1;
-            scrollView.ContentOffset = new PointF(scrollView.Frame.Width, 0);
         }
 
         [Export("scrollViewDidScroll:")]
@@ -241,11 +265,70 @@ namespace MPfm.iOS.Classes.Controllers
             float pageWidth = scrollView.Frame.Size.Width;
             int page = (int)Math.Floor((scrollView.ContentOffset.X - pageWidth / 2) / pageWidth) + 1;
             pageControl.CurrentPage = page;
+
+            if(_timerHidePlayerMetadata != null)
+            {
+                Console.WriteLine("PlayerMetadataVC - ScrollViewDidScroll - Invalidating timer...");
+                _timerHidePlayerMetadata.Invalidate();
+                _timerHidePlayerMetadata = null;
+            }
+
+            if(pageControl.Alpha == 0)
+                ShowPlayerMetadata(true, false);
         }
 
         [Export("scrollViewDidEndDecelerating:")]
         public void ScrollViewDidEndDecelerating(UIScrollView scrollView)
         {
+            CreateHidePlayerMetadataTimer();
+        }
+
+        private void ShowPlayerMetadata(bool show, bool swipeUp)
+        {
+            Console.WriteLine("PlayerVC - ShowPlayerMetadata: {0}", show);
+
+            if (_playerMetadataViewController != null)
+                _playerMetadataViewController.ShowPanel(show, swipeUp);
+
+            if(show && !swipeUp)
+            {
+                //viewPageControls.Frame = new RectangleF(viewPageControls.Frame.X, scrollView.Frame.Y + scrollView.Frame.Height - viewPageControls.Frame.Height, viewPageControls.Frame.Width, viewPageControls.Frame.Height);
+                //viewPageControls.Frame = new RectangleF(viewPageControls.Frame.X, scrollView.Frame.Y + scrollView.Frame.Height, viewPageControls.Frame.Width, viewPageControls.Frame.Height);
+                UIView.Animate(0.2f, () => {
+                    viewPageControls.Alpha = 1;
+                    pageControl.Alpha = 1;
+                });
+            }
+            else if(show && swipeUp)
+            {
+                UIView.Animate(0.4f, () => {
+                    viewPageControls.Alpha = 1;
+                    pageControl.Alpha = 1;
+                });
+            }
+            else
+            {
+                UIView.Animate(0.4f, () => {
+                    //viewPageControls.Frame = new RectangleF(viewPageControls.Frame.X, scrollView.Frame.Y + scrollView.Frame.Height, viewPageControls.Frame.Width, viewPageControls.Frame.Height);
+                    //viewPageControls.Frame = new RectangleF(viewPageControls.Frame.X, scrollView.Frame.Y + scrollView.Frame.Height + viewPageControls.Frame.Height, viewPageControls.Frame.Width, viewPageControls.Frame.Height);
+                    viewPageControls.Alpha = 0;
+                    pageControl.Alpha = 0;
+                });
+            }
+        }
+
+        private void CreateHidePlayerMetadataTimer()
+        {
+//            if(_timerHidePlayerMetadata != null)
+//                return;
+//
+//            Console.WriteLine("PlayerVC - CreateHidePlayerMetadataTimer - Setting up timer...");
+//            _timerHidePlayerMetadata = NSTimer.CreateRepeatingScheduledTimer(30, () => {
+//                Console.WriteLine("PlayerVC - CreateHidePlayerMetadataTimer - Timer elasped! Hiding view...");
+//
+//                if(pageControl.CurrentPage == 0)
+//                    ShowPlayerMetadata(false);
+//            });
         }
 
         partial void actionPause(NSObject sender)
@@ -383,13 +466,13 @@ namespace MPfm.iOS.Classes.Controllers
             InvokeOnMainThread(() => {
                 try
                 {
-                    lblLength.Text = audioFile.Length;
-                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
-
                     _currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
                     MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
                     navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
 
+                    ShowPlayerMetadata(true, false);
+                    lblLength.Text = audioFile.Length;
+                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                     scrollViewWaveForm.LoadPeakFile(audioFile);
                 }
                 catch(Exception ex)

@@ -42,6 +42,7 @@ namespace MPfm.MVP.Services
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
         public bool IsPlaying { get { return _player.IsPlaying; } }
         public bool IsPaused { get { return _player.IsPaused; } }
+        public RepeatType RepeatType { get { return _player.RepeatType; } }
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
         public Playlist CurrentPlaylist { get { return _player.Playlist; } }
         public EQPreset EQPreset { get { return _player.EQPreset; } }
@@ -240,10 +241,14 @@ namespace MPfm.MVP.Services
             UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 
-        public void RepeatType()
+        public void ToggleRepeatType()
         {
-            // TODO: Cycle through repeat types
-            //_player.RepeatType
+            if (_player.RepeatType == RepeatType.Off)
+                _player.RepeatType = RepeatType.Playlist;
+            else if (_player.RepeatType == RepeatType.Playlist)
+                _player.RepeatType = RepeatType.Song;
+            else
+                _player.RepeatType = RepeatType.Off;
         }
 
         public int GetDataAvailable()

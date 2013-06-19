@@ -12,19 +12,16 @@ namespace MPfm.iOS
 	partial class PlaylistViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIView viewBackground { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UITableView tableView { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
 		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnRepeat { get; set; }
 
 		[Outlet]
 		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnShuffle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIToolbar toolbar { get; set; }
 
 		[Action ("actionRepeat:")]
 		partial void actionRepeat (MonoTouch.Foundation.NSObject sender);
@@ -34,19 +31,9 @@ namespace MPfm.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (viewBackground != null) {
-				viewBackground.Dispose ();
-				viewBackground = null;
-			}
-
 			if (tableView != null) {
 				tableView.Dispose ();
 				tableView = null;
-			}
-
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
 			}
 
 			if (btnRepeat != null) {
@@ -57,6 +44,11 @@ namespace MPfm.iOS
 			if (btnShuffle != null) {
 				btnShuffle.Dispose ();
 				btnShuffle = null;
+			}
+
+			if (toolbar != null) {
+				toolbar.Dispose ();
+				toolbar = null;
 			}
 		}
 	}

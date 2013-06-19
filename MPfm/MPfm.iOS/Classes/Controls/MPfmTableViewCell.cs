@@ -32,9 +32,6 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmTableViewCell")]
     public class MPfmTableViewCell : UITableViewCell
     {
-//        private PointF _pointOrigin;
-//        private RectangleF _frameOrigin;
-
         public UILabel IndexTextLabel { get; private set; }
         public UIButton RightButton { get; private set; }
         public UIImageView ImageChevron { get; private set; }
@@ -158,8 +155,6 @@ namespace MPfm.iOS.Classes.Controls
 //            UITouch touch = touches.AnyObject as UITouch;
 //            var pt = touch.LocationInView(this);
 //            var ptPrevious = touch.PreviousLocationInView(this);
-//            _pointOrigin = pt;
-//            _frameOrigin = this.Frame;
 //            Console.WriteLine("====> Cell - TouchesBegan - pt: {0} ptPrevious: {1}", pt, ptPrevious);
 //        }
 //
@@ -170,13 +165,6 @@ namespace MPfm.iOS.Classes.Controls
 //            UITouch touch = touches.AnyObject as UITouch;
 //            var pt = touch.LocationInView(this);
 //            var ptPrevious = touch.PreviousLocationInView(this);
-//
-//            float delta = pt.X - _pointOrigin.X;
-//            float delta2 = pt.X - ptPrevious.X;
-//            //float x = _frameOrigin.X + delta2;
-//            float x = Frame.X + delta2;
-//            this.Frame = new RectangleF(x, _frameOrigin.Y, _frameOrigin.Width, _frameOrigin.Height);
-//
 //            Console.WriteLine("====> Cell - TouchesMoved - pt {0} ptPrevious {1} frameOrigin.X {2} pointOrigin.X {3} delta {4} delta2 {5} x {6}", pt, ptPrevious, _frameOrigin.X, _pointOrigin.X, delta, delta2, x);
 //        }
 //
