@@ -247,6 +247,10 @@
     <Compile Include="Classes\Controls\Layouts\MPfmCollectionViewFlowLayout.cs" />
     <Compile Include="Classes\Controls\MPfmCollectionAlbumViewCell.cs" />
     <Compile Include="Classes\Controls\MPfmCollectionArtistViewCell.cs" />
+    <Compile Include="Classes\Controllers\PlaylistViewController.cs" />
+    <Compile Include="Classes\Controllers\PlaylistViewController.designer.cs">
+      <DependentUpon>PlaylistViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -295,6 +299,8 @@
     <InterfaceDefinition Include="XIB\iPhone\AboutViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\SyncDownloadViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\SyncDownloadViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\PlaylistViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\PlaylistViewController_iPad.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

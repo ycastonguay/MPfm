@@ -63,6 +63,8 @@ namespace MPfm.MVP.Navigation
         // Player sub views
         private IPlayerMetadataView _playerMetadataView;
         private IPlayerMetadataPresenter _playerMetadataPresenter;
+        private IPlaylistView _playlistView;
+        private IPlaylistPresenter _playlistPresenter;
         private ILoopsView _loopsView;
         private ILoopsPresenter _loopsPresenter;
         private ILoopDetailsView _loopDetailsView;
@@ -335,12 +337,15 @@ namespace MPfm.MVP.Navigation
                 _playerPresenter.BindView((IPlayerView)view);
 
                 // Add scroll view items
+
                 var playerMetadata = CreatePlayerMetadataView();
+                var playlist = CreatePlaylistView();
                 var loops = CreateLoopsView();
                 var markers = CreateMarkersView();
                 var timeShifting = CreateTimeShiftingView();
                 var pitchShifting = CreatePitchShiftingView();
 
+                PushPlayerSubview(_playerView, playlist);
                 PushPlayerSubview(_playerView, playerMetadata);
                 PushPlayerSubview(_playerView, loops);
                 PushPlayerSubview(_playerView, markers);
@@ -388,6 +393,25 @@ namespace MPfm.MVP.Navigation
                 _playerMetadataPresenter = null;
             };
             return _playerMetadataView;
+        }
+
+        public virtual IPlaylistView CreatePlaylistView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _playlistPresenter = Bootstrapper.GetContainer().Resolve<IPlaylistPresenter>();
+                _playlistPresenter.BindView((IPlaylistView)view);
+            };
+
+            // Create view and manage view destruction
+            _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _playlistView.OnViewDestroy = (view) =>
+            {
+                _playlistView = null;
+                _playlistPresenter = null;
+            };
+            return _playlistView;
         }
 
         public virtual ILoopsView CreateLoopsView()

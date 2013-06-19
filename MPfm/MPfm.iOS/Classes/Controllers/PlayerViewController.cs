@@ -97,7 +97,6 @@ namespace MPfm.iOS.Classes.Controllers
             scrollView.ShowsHorizontalScrollIndicator = false;
             scrollView.ShowsVerticalScrollIndicator = false;
             scrollView.DelaysContentTouches = false;
-            pageControl.CurrentPage = 0;
 
             // TODO: Block slider when the player is paused.
             sliderPosition.ScrubbingTypeChanged += (sender, e) => {
@@ -230,6 +229,10 @@ namespace MPfm.iOS.Classes.Controllers
                 pageControl.Pages = 3;
                 scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
             }
+
+            // Set default view to player metadata (second screen)
+            pageControl.CurrentPage = 1;
+            scrollView.ContentOffset = new PointF(scrollView.Frame.Width, 0);
         }
 
         [Export("scrollViewDidScroll:")]

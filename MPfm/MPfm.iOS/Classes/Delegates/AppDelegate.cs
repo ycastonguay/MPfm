@@ -105,6 +105,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<ILibraryPreferencesView, LibraryPreferencesViewController>().AsMultiInstance();
             container.Register<IEqualizerPresetsView, EqualizerPresetsViewController>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsViewController>().AsMultiInstance();
+            container.Register<IPlaylistView, PlaylistViewController>().AsMultiInstance();
             container.Register<ILoopsView, LoopsViewController>().AsMultiInstance();
             container.Register<ILoopDetailsView, LoopDetailsViewController>().AsMultiInstance();
             container.Register<IMarkersView, MarkersViewController>().AsMultiInstance();
