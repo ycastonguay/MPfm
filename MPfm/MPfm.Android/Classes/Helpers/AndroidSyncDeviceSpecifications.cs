@@ -41,5 +41,10 @@ namespace MPfm.Android.Classes.Helpers
             }
             return _deviceName;
         }
+
+        public long GetFreeSpace()
+        {
+            return 0;
+        }
     }
 }

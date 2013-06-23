@@ -49,5 +49,18 @@ namespace MPfm.Android.Classes.Fragments
         {
             
         }
+
+        #region ILibraryPreferencesView implementation
+
+        public Action OnResetLibrary { get; set; }
+        public Action OnUpdateLibrary { get; set; }
+        public Action OnEnableSyncListener { get; set; }
+        public Action<int> OnSetSyncListenerPort { get; set; }
+
+        public void LibraryPreferencesError(Exception ex)
+        {
+        }
+
+        #endregion
     }
 }

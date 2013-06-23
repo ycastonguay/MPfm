@@ -22,6 +22,7 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
@@ -51,7 +52,19 @@ namespace MPfm.Android.Classes.Fragments
 
         #region IPlayerMetadataView implementation
 
+        public Action OnClickPlaylist { get; set; }
+        public Action OnToggleShuffle { get; set; }
+        public Action OnToggleRepeat { get; set; }
+
         public void RefreshAudioFile(AudioFile audioFile)
+        {
+        }
+
+        public void RefreshShuffle(bool shuffle)
+        {
+        }
+
+        public void RefreshRepeat(RepeatType repeatType)
         {
         }
 

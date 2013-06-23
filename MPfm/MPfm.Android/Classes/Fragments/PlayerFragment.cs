@@ -27,6 +27,7 @@ using MPfm.Android.Classes.Helpers;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
@@ -144,11 +145,19 @@ namespace MPfm.Android.Classes.Fragments
                 });            
         }
 
-        public void RefreshPlayerVolume(MVP.Models.PlayerVolumeEntity entity)
+        public void RefreshMarkers(IEnumerable<Marker> markers)
         {
         }
 
-        public void RefreshPlayerTimeShifting(MVP.Models.PlayerTimeShiftingEntity entity)
+        public void RefreshLoops(IEnumerable<Loop> loops)
+        {
+        }
+
+        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        {
+        }
+
+        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
         {
         }
 

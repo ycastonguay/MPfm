@@ -76,23 +76,30 @@ namespace MPfm.Android.Classes.Fragments
         public MobileLibraryBrowserType BrowserType { get; set; }
         public string Filter { get; set; }
         public Action<int> OnItemClick { get; set; }
+        public Action<int> OnDeleteItem { get; set; }
         public Action<string, string> OnRequestAlbumArt { get; set; }
+
+        public void MobileLibraryBrowserError(Exception ex)
+        {
+        }
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
         {
-            _entities = entities;
-            var listAdapter = (MobileLibraryBrowserListAdapter)ListAdapter;
+            Activity.RunOnUiThread(() => {
+                _entities = entities;
+                var listAdapter = (MobileLibraryBrowserListAdapter)ListAdapter;
 
-            // Update list adapter only if the view was created
-            if (listAdapter != null)
-            {
-                // http://stackoverflow.com/questions/6837397/updating-listview-by-notifydatasetchanged-has-to-use-runonuithread
-                Activity.RunOnUiThread(() =>
+                // Update list adapter only if the view was created
+                if (listAdapter != null)
                 {
-                    listAdapter.SetData(entities);
-                    listAdapter.NotifyDataSetChanged();
-                });
-            }
+                    // http://stackoverflow.com/questions/6837397/updating-listview-by-notifydatasetchanged-has-to-use-runonuithread
+                    Activity.RunOnUiThread(() =>
+                    {
+                        listAdapter.SetData(entities);
+                        listAdapter.NotifyDataSetChanged();
+                    });
+                }
+            });
         }
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
