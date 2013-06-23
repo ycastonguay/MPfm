@@ -180,5 +180,6 @@
     <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
+    <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
   </ItemGroup>
 </Project>

@@ -222,5 +222,14 @@
     <Compile Include="Presenters\SyncMenuPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISyncMenuPresenter.cs" />
     <Compile Include="Views\ISyncMenuView.cs" />
+    <Compile Include="Models\SyncMenuItemEntity.cs" />
+    <Compile Include="Presenters\PreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPreferencesPresenter.cs" />
+    <Compile Include="Presenters\AboutPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAboutPresenter.cs" />
+    <Compile Include="Views\IAboutView.cs" />
+    <Compile Include="Views\ISyncDownloadView.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncDownloadPresenter.cs" />
+    <Compile Include="Presenters\SyncDownloadPresenter.cs" />
   </ItemGroup>
 </Project>
