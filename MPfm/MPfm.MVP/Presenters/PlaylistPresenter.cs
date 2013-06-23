@@ -17,41 +17,117 @@
 
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using TinyMessenger;
+using MPfm.MVP.Messages;
+using System;
+using MPfm.MVP.Services.Interfaces;
 
 namespace MPfm.MVP.Presenters
 {
-	/// <summary>
-	/// Playlist presenter.
-	/// </summary>
 	public class PlaylistPresenter : BasePresenter<IPlaylistView>, IPlaylistPresenter
 	{
-		// Private variables
-		//IPlaylistView view = null;
+        readonly ITinyMessengerHub _messageHub;
+        readonly IPlayerService _playerService;
 
-		#region Constructor and Dispose
+        public PlaylistPresenter(ITinyMessengerHub messageHub, IPlayerService playerService)
+		{
+            _messageHub = messageHub;
+            _playerService = playerService;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PlaylistPresenter"/> class.
-        /// </summary>
-		public PlaylistPresenter()
-		{	
+            _messageHub.Subscribe<PlayerPlaylistUpdatedMessage>((PlayerPlaylistUpdatedMessage m) => {
+                Console.WriteLine("PlaylistPresenter - PlayerPlaylistUpdated - Refreshing items...");
+                RefreshItems();
+            });
+            _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(PlayerPlaylistIndexChanged);
 		}
+ 
+        public override void BindView(IPlaylistView view)
+        {
+            view.OnNewPlaylist = NewPlaylist;
+            view.OnLoadPlaylist = LoadPlaylist;
+            view.OnSavePlaylist = SavePlaylist;
+            view.OnShufflePlaylist = ShufflePlaylist;
+            view.OnChangePlaylistItemOrder = ChangePlaylistItemOrder;
+            view.OnRemovePlaylistItem = RemovePlaylistItem;
+            view.OnSelectPlaylistItem = SelectPlaylistItem;
 
-		#endregion
-		
-//		/// <summary>
-//		/// Binds the view to its implementation.
-//		/// </summary>
-//		/// <param name='view'>Playlist view implementation</param>		
-//		public void BindView(IPlaylistView view)
-//		{
-//			// Validate parameters
-//			if(view == null)			
-//				throw new ArgumentNullException("The view parameter is null!");			
-//						
-//			// Set properties
-//			this.view = view;	
-//		}
+            base.BindView(view);
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            RefreshItems();
+
+            if(_playerService.IsPlaying)
+                View.RefreshCurrentlyPlayingSong(_playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.CurrentItem.AudioFile);
+        }
+
+        private void PlayerPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
+        {
+            View.RefreshCurrentlyPlayingSong(_playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.CurrentItem.AudioFile);
+        }
+
+        private void RefreshItems()
+        {
+            try
+            {
+                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("PlaylistPresenter - RefreshItems - Exception: {0}", ex);
+                View.PlaylistError(ex);
+            }        
+        }
+
+        private void NewPlaylist()
+        {
+            try
+            {
+                if(_playerService.IsPlaying)
+                    _playerService.Stop();
+
+                _playerService.CurrentPlaylist.Clear();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("PlaylistPresenter - NewPlaylist - Exception: {0}", ex);
+                View.PlaylistError(ex);
+            }        
+        }
+
+        private void LoadPlaylist(string filePath)
+        {
+        }
+
+        private void SavePlaylist()
+        {
+        }
+
+        private void ShufflePlaylist()
+        {
+        }
+
+        private void ChangePlaylistItemOrder(Guid playlistItemId, int newIndex)
+        {
+        }
+
+        private void SelectPlaylistItem(Guid playlistItemId)
+        {
+            try
+            {
+                _playerService.GoTo(playlistItemId);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("PlaylistPresenter - SelectPlaylistItem - Exception: {0}", ex);
+                View.PlaylistError(ex);
+            }
+        }
+
+        private void RemovePlaylistItem(Guid playlistItemId)
+        {
+        }
 	}
 }
-

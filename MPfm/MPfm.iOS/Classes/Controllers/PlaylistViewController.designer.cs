@@ -15,35 +15,13 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnRepeat { get; set; }
-
-		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnShuffle { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UIToolbar toolbar { get; set; }
-
-		[Action ("actionRepeat:")]
-		partial void actionRepeat (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionShuffle:")]
-		partial void actionShuffle (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
 			if (tableView != null) {
 				tableView.Dispose ();
 				tableView = null;
-			}
-
-			if (btnRepeat != null) {
-				btnRepeat.Dispose ();
-				btnRepeat = null;
-			}
-
-			if (btnShuffle != null) {
-				btnShuffle.Dispose ();
-				btnShuffle = null;
 			}
 
 			if (toolbar != null) {

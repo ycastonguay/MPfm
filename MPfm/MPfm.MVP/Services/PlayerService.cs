@@ -178,6 +178,7 @@ namespace MPfm.MVP.Services
         {
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
+            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
         }
 
         public void Play(IEnumerable<AudioFile> audioFiles)
@@ -186,6 +187,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.AddItems(audioFiles.ToList());
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
+            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
         }
 
         public void Play(IEnumerable<string> filePaths)
@@ -194,6 +196,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.AddItems(filePaths.ToList());
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
+            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
         }
 
         public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
@@ -203,6 +206,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.GoTo(startAudioFilePath);
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
+            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
         }
 
         public void Stop()
@@ -238,6 +242,18 @@ namespace MPfm.MVP.Services
         public void Previous()
         {
             _player.Previous();
+            UpdatePlayerStatus(PlayerStatusType.Playing);
+        }
+
+        public void GoTo(int index)
+        {
+            _player.GoTo(index);
+            UpdatePlayerStatus(PlayerStatusType.Playing);
+        }
+
+        public void GoTo(Guid playlistItemId)
+        {
+            _player.GoTo(playlistItemId);
             UpdatePlayerStatus(PlayerStatusType.Playing);
         }
 

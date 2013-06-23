@@ -23,12 +23,22 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Controls;
+using MPfm.Sound.Playlists;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.iOS
 {
     public partial class PlaylistViewController : BaseViewController, IPlaylistView
     {
+        string _cellIdentifier = "PlaylistItemCell";
+        bool _isEditingTableView = false;
+        Guid _currentlyPlayingSongId;
+        Playlist _playlist;
         UIBarButtonItem _btnDone;
+        UIBarButtonItem _btnEdit;
+        MPfmFlatButton _btnFlatEdit;
+        UIBarButtonItem _btnNew;
+        UIBarButtonItem _btnShuffle;
 
         public PlaylistViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "PlaylistViewController_iPhone" : "PlaylistViewController_iPad", null)
@@ -37,6 +47,9 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
+            tableView.WeakDataSource = this;
+            tableView.WeakDelegate = this;
+
             var btnDone = new MPfmFlatButton();
             btnDone.Label.Text = "Done";
             btnDone.Frame = new RectangleF(0, 0, 70, 44);
@@ -48,17 +61,188 @@ namespace MPfm.iOS
             btnDoneView.Bounds = rect;
             btnDoneView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnDoneView);
+
+            _btnFlatEdit = new MPfmFlatButton();
+            _btnFlatEdit.LabelAlignment = UIControlContentHorizontalAlignment.Right;
+            _btnFlatEdit.Label.Text = "Edit";
+            _btnFlatEdit.Label.TextAlignment = UITextAlignment.Right;
+            _btnFlatEdit.Label.Frame = new RectangleF(0, 0, 44, 44);
+            _btnFlatEdit.ImageChevron.Hidden = true;
+            _btnFlatEdit.Frame = new RectangleF(0, 0, 60, 44);
+            _btnFlatEdit.OnButtonClick += HandleEditTouchUpInside;
+            var btnEditView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
+            var rect2 = new RectangleF(btnEditView.Bounds.X - 5, btnEditView.Bounds.Y, btnEditView.Bounds.Width, btnEditView.Bounds.Height);
+            btnEditView.Bounds = rect2;
+            btnEditView.AddSubview(_btnFlatEdit);
+            _btnEdit = new UIBarButtonItem(btnEditView);           
+
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
+            NavigationItem.SetRightBarButtonItem(_btnEdit, true);
+
+            var btnNew = new UIButton(UIButtonType.Custom);
+            btnNew.SetTitle("New", UIControlState.Normal);
+            btnNew.Layer.CornerRadius = 8;
+            btnNew.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+            btnNew.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            btnNew.Frame = new RectangleF(0, 12, 50, 30);
+            btnNew.TouchUpInside += HandleNewTouchUpInside;
+            _btnNew = new UIBarButtonItem(btnNew);
+
+            var btnShuffle = new UIButton(UIButtonType.Custom);
+            btnShuffle.SetTitle("Shuffle", UIControlState.Normal);
+            btnShuffle.Layer.CornerRadius = 8;
+            btnShuffle.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
+            btnShuffle.Font = UIFont.FromName("HelveticaNeue", 12.0f);
+            btnShuffle.Frame = new RectangleF(0, 12, 70, 30);
+            btnShuffle.TouchUpInside += HandleShuffleTouchUpInside;
+            _btnShuffle = new UIBarButtonItem(btnShuffle);
+
+            toolbar.Items = new UIBarButtonItem[2]{ _btnNew, _btnShuffle };
 
             base.ViewDidLoad();
         }
 
-        partial void actionRepeat(NSObject sender)
+        [Export ("tableView:numberOfRowsInSection:")]
+        public int RowsInSection(UITableView tableview, int section)
         {
+            return _playlist.Items.Count;
         }
 
-        partial void actionShuffle(NSObject sender)
+        [Export ("tableView:cellForRowAtIndexPath:")]
+        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
+            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            if (cell == null)
+                cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
+
+            cell.Tag = indexPath.Row;
+            cell.Accessory = UITableViewCellAccessory.None;
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
+            cell.TextLabel.Text = _playlist.Items[indexPath.Row].AudioFile.Title;
+            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
+            cell.DetailTextLabel.Text = _playlist.Items[indexPath.Row].AudioFile.ArtistName;
+            cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
+            cell.ImageView.ClipsToBounds = true;
+            cell.ImageChevron.Hidden = true;
+            cell.IndexTextLabel.Text = (indexPath.Row+1).ToString();
+
+            if (_currentlyPlayingSongId == _playlist.Items[indexPath.Row].AudioFile.Id)
+                cell.RightImage.Hidden = false;
+            else
+                cell.RightImage.Hidden = true;
+
+            return cell;
         }
+
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            OnSelectPlaylistItem(_playlist.Items[indexPath.Row].Id);
+            tableView.DeselectRow(indexPath, true);
+        }
+
+        [Export ("tableView:didHighlightRowAtIndexPath:")]
+        public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker_white");
+        }
+
+        [Export ("tableView:didUnhighlightRowAtIndexPath:")]
+        public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker");
+        }
+
+        [Export ("tableView:canMoveRowAtIndexPath:")]
+        public bool CanMoveRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
+        {
+            return true;
+        }
+
+        [Export ("tableView:moveRowAtIndexPath:toIndexPath:")]
+        public void MoveRowAtIndexPath(UITableView tableView, NSIndexPath fromIndexPath, NSIndexPath toIndexPath)
+        {
+            Console.WriteLine("PlaylistViewController - Move playlist item from {0} to {1}", fromIndexPath.Row, toIndexPath.Row);
+        }
+
+        private void HandleEditTouchUpInside()
+        {
+            _isEditingTableView = !_isEditingTableView;
+            tableView.SetEditing(_isEditingTableView, true);
+            if (_isEditingTableView)
+                _btnFlatEdit.Label.Text = "Done";
+            else
+                _btnFlatEdit.Label.Text = "Edit";
+        }
+
+        private void HandleNewTouchUpInside(object sender, EventArgs e)
+        {
+            UIAlertView alertView = new UIAlertView("Playlist will be empty", "Are you sure you wish to create a new playlist?", null, "OK", new string[1] {"Cancel"});
+            alertView.Dismissed += (sender2, e2) => {
+                if(e2.ButtonIndex == 0)
+                    OnNewPlaylist();
+            };
+            alertView.Show();
+        }
+
+        private void HandleShuffleTouchUpInside(object sender, EventArgs e)
+        {
+            OnShufflePlaylist();
+        }
+
+        #region IPlaylistView implementation
+
+        public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
+        public Action<Guid> OnSelectPlaylistItem { get; set; }
+        public Action<Guid> OnRemovePlaylistItem { get; set; }
+        public Action OnNewPlaylist { get; set; }
+        public Action<string> OnLoadPlaylist { get; set; }
+        public Action OnSavePlaylist { get; set; }
+        public Action OnShufflePlaylist { get; set; }
+
+        public void PlaylistError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                var alertView = new UIAlertView("Playlist Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
+
+        public void RefreshPlaylist(Playlist playlist)
+        {
+            InvokeOnMainThread(() => {
+                _playlist = playlist;
+                tableView.ReloadData();
+            });
+        }
+
+        public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
+        {
+            Console.WriteLine("PlaylistViewController - RefreshCurrentlyPlayingSong index: {0} audioFile: {1}", index, audioFile.FilePath);
+
+            if (audioFile != null)
+                _currentlyPlayingSongId = audioFile.Id;
+            else
+                _currentlyPlayingSongId = Guid.Empty;
+
+            InvokeOnMainThread(() => {
+                foreach(var cell in tableView.VisibleCells)
+                {
+                    if(_playlist.Items[cell.Tag].AudioFile != null)
+                    {
+                        var id = _playlist.Items[cell.Tag].AudioFile.Id;
+                        var customCell = (MPfmTableViewCell)cell;
+                        if(id == audioFile.Id)
+                            customCell.RightImage.Hidden = false;
+                        else
+                            customCell.RightImage.Hidden = true;
+                    }
+                }
+            });
+        }
+
+        #endregion
     }
 }

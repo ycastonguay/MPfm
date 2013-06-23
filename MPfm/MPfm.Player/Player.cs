@@ -1273,6 +1273,18 @@ namespace MPfm.Player
         }
 
         /// <summary>
+        /// Stops the playback and starts playback at a specific playlist song.
+        /// </summary>
+        /// <param name="playlistItemId">Playlist item identifier</param>
+        public void GoTo(Guid playlistItemId)
+        {
+            Stop();
+            Playlist.GoTo(playlistItemId);
+            _currentMixPlaylistIndex = Playlist.CurrentItemIndex;
+            Play();
+        }
+
+        /// <summary>
         /// Goes back to the previous channel in the list.
         /// </summary>
         public void Previous()

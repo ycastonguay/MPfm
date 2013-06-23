@@ -157,7 +157,6 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _playerService.Play();
-                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
     			_timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -175,7 +174,6 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _playerService.Play(audioFiles);
-                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
                 _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -193,7 +191,6 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _playerService.Play(filePaths);
-                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
                 _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -212,7 +209,6 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _playerService.Play(audioFiles, startAudioFilePath);
-                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
                 _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)

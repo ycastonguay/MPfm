@@ -54,6 +54,8 @@ namespace MPfm.MVP.Services.Interfaces
         void Pause();
         void Next();
         void Previous();
+        void GoTo(int index);
+        void GoTo(Guid playlistItemId);
         void ToggleRepeatType();
 
         int GetDataAvailable();

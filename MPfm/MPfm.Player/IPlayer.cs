@@ -68,6 +68,7 @@ namespace MPfm.Player
         void Previous();
         void Next();
         void GoTo(int index);
+        void GoTo(Guid playlistItemId);
 
         int GetDataAvailable();
         long Seconds2Bytes(double value);

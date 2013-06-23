@@ -15,6 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
+
 namespace MPfm.MVP.Views
 {
 	/// <summary>
@@ -22,6 +27,17 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IPlaylistView : IBaseView
 	{
+        // Note: These actions use the PlaylistItemId, not AudioFileId!
+        Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
+        Action<Guid> OnSelectPlaylistItem { get; set; }
+        Action<Guid> OnRemovePlaylistItem { get; set; }
+        Action OnNewPlaylist { get; set; }
+        Action<string> OnLoadPlaylist { get; set; }
+        Action OnSavePlaylist { get; set; }
+        Action OnShufflePlaylist { get; set; }
+
+        void PlaylistError(Exception ex);
+        void RefreshPlaylist(Playlist playlist);
+        void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile);
 	}
 }
-

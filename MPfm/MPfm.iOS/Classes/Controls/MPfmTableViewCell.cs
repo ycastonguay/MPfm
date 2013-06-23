@@ -158,7 +158,11 @@ namespace MPfm.iOS.Classes.Controls
                 RightButton.Frame = new RectangleF(Bounds.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
 
             ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 0, 22, 44);
-            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 0, 44, 44);
+
+            if(ImageChevron.Hidden)
+                RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
+            else
+                RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 0, 44, 44);
         }
     }
 }

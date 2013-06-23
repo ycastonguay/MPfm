@@ -36,7 +36,8 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmNavigationController : UINavigationController
     {
         bool _isPlayerPlaying;
-        bool _isViewPlayer;
+        bool _viewShouldShowPlayerButton;
+        bool _viewShouldShowEffectsButton;
         UILabel _lblTitle;
         UILabel _lblSubtitle;
         MPfmFlatButton _btnBack;
@@ -160,24 +161,35 @@ namespace MPfm.iOS.Classes.Controls
         private void UpdateNowPlayingView()
         {
             InvokeOnMainThread(() => {
-                //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - UpdateNowPlayingView: isPlayerPlaying=" + _isPlayerPlaying.ToString() + " isViewPlayer=" + _isViewPlayer.ToString());
-                if(_isPlayerPlaying && !_isViewPlayer)
+                //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - UpdateNowPlayingView: isPlayerPlaying=" + _isPlayerPlaying.ToString() + " viewShouldShowPlayerButton=" + _viewShouldShowPlayerButton.ToString());
+
+                if(_isPlayerPlaying && _viewShouldShowPlayerButton)
                 {
-                    //Console.WriteLine("NavCtrl - Showing Now Playing view...");
                     UIView.Animate(0.2f, () => {
-                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
-                        _btnEffects.Alpha = 0;
                         _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
                         _btnNowPlaying.Alpha = 1;
                     });
                 }
-                else if(_isViewPlayer)
+                else if(!_viewShouldShowPlayerButton)
+                {
+                    UIView.Animate(0.2f, () => {
+                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
+                        _btnNowPlaying.Alpha = 0;
+                    });
+                }
+
+                if(_viewShouldShowEffectsButton)
                 {
                     UIView.Animate(0.2f, () => {
                         _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
                         _btnEffects.Alpha = 1;
-                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
-                        _btnNowPlaying.Alpha = 0;
+                    });
+                }
+                else
+                {
+                    UIView.Animate(0.2f, () => {
+                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
+                        _btnEffects.Alpha = 0;
                     });
                 }
             });
@@ -186,10 +198,8 @@ namespace MPfm.iOS.Classes.Controls
         [Export("navigationBar:shouldPushItem:")]
         public bool ShouldPushItem(UINavigationItem item)
         {
-            if(this.VisibleViewController is PlayerViewController)
-                _isViewPlayer = true;
-            else
-                _isViewPlayer = false;
+            Console.WriteLine("NavCtrl - ShouldPushItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
+            SetButtonVisibility();
             UpdateNowPlayingView();
 
             if (ViewControllers.Length == 2)
@@ -207,10 +217,8 @@ namespace MPfm.iOS.Classes.Controls
         [Export("navigationBar:shouldPopItem:")]
         public bool ShouldPopItem(UINavigationItem item)
         {
-            if(this.VisibleViewController is PlayerViewController)
-                _isViewPlayer = true;
-            else
-                _isViewPlayer = false;
+            Console.WriteLine("NavCtrl - ShouldPopItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
+            SetButtonVisibility();
             UpdateNowPlayingView();
 
             if (ViewControllers.Length == 1)
@@ -223,6 +231,22 @@ namespace MPfm.iOS.Classes.Controls
             }
 
             return true;
+        }
+
+        private void SetButtonVisibility()
+        {
+            if(VisibleViewController is PlayerViewController ||
+               VisibleViewController is PlaylistViewController ||
+               VisibleViewController is SyncViewController ||
+               VisibleViewController is SyncMenuViewController)
+                _viewShouldShowPlayerButton = false;
+            else
+                _viewShouldShowPlayerButton = true;
+
+            if(VisibleViewController is PlayerViewController)
+                _viewShouldShowEffectsButton = true;
+            else
+                _viewShouldShowEffectsButton = false;
         }
 
         public void SetTitle(string title, string subtitle)
