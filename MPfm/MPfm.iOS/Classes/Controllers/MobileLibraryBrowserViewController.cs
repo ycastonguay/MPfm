@@ -72,7 +72,6 @@ namespace MPfm.iOS.Classes.Controllers
         {
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
-
             collectionView.CollectionViewLayout = new MPfmCollectionViewFlowLayout();
             collectionView.BackgroundColor = GlobalTheme.BackgroundColor;
             collectionView.WeakDataSource = this;
@@ -123,9 +122,7 @@ namespace MPfm.iOS.Classes.Controllers
                 alertView.Show();
             };
             tableView.AddSubview(_btnDelete);
-
             _imageCache = new List<KeyValuePair<string, UIImage>>();
-
             this.NavigationItem.HidesBackButton = true;
 
             UISwipeGestureRecognizer swipe = new UISwipeGestureRecognizer(HandleSwipe);
@@ -215,8 +212,6 @@ namespace MPfm.iOS.Classes.Controllers
         public UICollectionViewCell CellForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = (MPfmCollectionAlbumViewCell)collectionView.DequeueReusableCell(_collectionCellIdentifier, indexPath);
-            cell.BackgroundColor = UIColor.Blue;
-
             cell.Tag = indexPath.Row;
 
             // Do not refresh the cell if the contents are the same.
@@ -527,7 +522,7 @@ namespace MPfm.iOS.Classes.Controllers
                     if(!collectionView.Hidden)
                     {
                         // Prevent the first useless refresh (this "flashes" the album art image views")
-                        Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing collection view...");
+                        //Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing collection view...");
                         collectionView.ReloadData();
                     }
                     collectionView.Hidden = false;
@@ -536,7 +531,7 @@ namespace MPfm.iOS.Classes.Controllers
                 {
                     tableView.Hidden = false;
                     collectionView.Hidden = true;
-                    Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing table view...");
+                    //Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing table view...");
                     tableView.ReloadData();
                 }
 

@@ -144,7 +144,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             if (highlighted)
             {
-                UIView.Animate(0.1, () => {
+                UIView.Animate(0.1, 0.2, UIViewAnimationOptions.CurveEaseIn, () => {
                     _labelBackgroundView.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                     _lblTitle.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                     _lblSubtitle.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
@@ -153,11 +153,14 @@ namespace MPfm.iOS.Classes.Controls
                     _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X - 8, _labelBackgroundView.Frame.Y - 2, _labelBackgroundView.Frame.Width + 16, _labelBackgroundView.Frame.Height - 2);
                     _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y - 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height - 1);
                     _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y - 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height - 2);
+                }, () => {
+                    Console.WriteLine("CollAlbumViewCell - SetHighlight=true animation completed!");
                 });
             }
             else
             {
-                UIView.Animate(0.1, () => {
+                // TODO: When quick tapping the cell, the animation will start right away from the "pressed" state. Try to find a way to not animate the cell.
+                UIView.Animate(0.1, 0.2, UIViewAnimationOptions.CurveEaseIn, () => {
                     // Don't change the order, it is important to set the frame before transform!
                     _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X + 8, _labelBackgroundView.Frame.Y + 2, _labelBackgroundView.Frame.Width - 16, _labelBackgroundView.Frame.Height + 2);
                     _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y + 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height + 1);
@@ -168,6 +171,8 @@ namespace MPfm.iOS.Classes.Controls
                     _lblSubtitle.Transform = CGAffineTransform.MakeScale(1, 1);
 
                     _imageView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+                }, () => {
+                    Console.WriteLine("CollAlbumViewCell - SetHighlight=false animation completed!");
                 });
             }
         }

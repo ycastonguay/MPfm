@@ -138,8 +138,8 @@ namespace MPfm.iOS.Classes.Controls
                 UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeRight)
                 width = UIScreen.MainScreen.Bounds.Height;
 
-            _lblTitle.Frame = new RectangleF(60, 4, width - 120, 20);
-            _lblSubtitle.Frame = new RectangleF(60, 20, width - 120, 20);
+            _lblTitle.Frame = new RectangleF(78, 4, width - 156, 20);
+            _lblSubtitle.Frame = new RectangleF(78, 20, width - 156, 20);
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
             _btnEffects.Frame = new RectangleF(width - 70, 0, 70, 44);
             _btnNowPlaying.Frame = new RectangleF(width - 70, 0, 70, 44);
