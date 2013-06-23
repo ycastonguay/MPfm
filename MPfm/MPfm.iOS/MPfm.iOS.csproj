@@ -451,6 +451,10 @@
     <BundleResource Include="Images\Buttons\shuffle%402x.png" />
     <BundleResource Include="Images\Tables\chevron_white.png" />
     <BundleResource Include="Images\Tables\chevron_white%402x.png" />
+    <BundleResource Include="Images\Icons\icon_speaker.png" />
+    <BundleResource Include="Images\Icons\icon_speaker%402x.png" />
+    <BundleResource Include="Images\Icons\icon_speaker_white.png" />
+    <BundleResource Include="Images\Icons\icon_speaker_white%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

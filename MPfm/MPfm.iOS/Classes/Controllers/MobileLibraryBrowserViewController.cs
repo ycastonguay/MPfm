@@ -40,16 +40,17 @@ namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
-        private bool _viewHasAlreadyBeenShown = false;
-        private List<LibraryBrowserEntity> _items;
-        private string _cellIdentifier = "MobileLibraryBrowserCell";
-        private NSString _collectionCellIdentifier = new NSString("MobileLibraryBrowserCollectionCell");
-        private string _navigationBarTitle;
-        private string _navigationBarSubtitle;
-        private MobileLibraryBrowserType _browserType;
-        private List<KeyValuePair<string, UIImage>> _imageCache;
-        private UIButton _btnDelete;
-        private int _deleteCellIndex = -1;
+        Guid _currentlyPlayingSongId;
+        bool _viewHasAlreadyBeenShown = false;
+        List<LibraryBrowserEntity> _items;
+        string _cellIdentifier = "MobileLibraryBrowserCell";
+        NSString _collectionCellIdentifier = new NSString("MobileLibraryBrowserCollectionCell");
+        string _navigationBarTitle;
+        string _navigationBarSubtitle;
+        MobileLibraryBrowserType _browserType;
+        List<KeyValuePair<string, UIImage>> _imageCache;
+        UIButton _btnDelete;
+        int _deleteCellIndex = -1;
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
@@ -252,7 +253,6 @@ namespace MPfm.iOS.Classes.Controllers
                 return _items.Count;
             else
                 return 0;
-
         }
 
         [Export ("numberOfSectionsInCollectionView:")]
@@ -337,8 +337,13 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 
             if (_browserType == MobileLibraryBrowserType.Songs)
+            {
                 cell.IndexTextLabel.Text = _items[indexPath.Row].AudioFile.TrackNumber.ToString();
-            
+                if (_currentlyPlayingSongId == _items[indexPath.Row].AudioFile.Id)
+                    cell.RightImage.Hidden = false;
+                else
+                    cell.RightImage.Hidden = true;
+            }
             return cell;
         }
 
@@ -362,6 +367,7 @@ namespace MPfm.iOS.Classes.Controllers
         {
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
+            cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker_white");
         }
 
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
@@ -369,6 +375,7 @@ namespace MPfm.iOS.Classes.Controllers
         {
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
+            cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker");
         }
 
         [Export ("tableView:heightForRowAtIndexPath:")]
@@ -484,9 +491,7 @@ namespace MPfm.iOS.Classes.Controllers
                         return;
 
                     if(cell.Image != image)
-                    {
                         cell.SetImage(image);
-                    }
 
 //                    // Get cell from item
 //                    int index = _items.IndexOf(item);
@@ -591,11 +596,25 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
         {
-            InvokeOnMainThread(() => {
-                MPfmTableViewCell cell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(index, 0));
-                if(cell != null)
-                {
+            Console.WriteLine("MLBVC - RefreshCurrentlyPlayingSong index: {0} audioFile: {1}", index, audioFile.FilePath);
 
+            if (audioFile != null)
+                _currentlyPlayingSongId = audioFile.Id;
+            else
+                _currentlyPlayingSongId = Guid.Empty;
+
+            InvokeOnMainThread(() => {
+                foreach(var cell in tableView.VisibleCells)
+                {
+                    if(_items[cell.Tag].AudioFile != null)
+                    {
+                        var id = _items[cell.Tag].AudioFile.Id;
+                        var customCell = (MPfmTableViewCell)cell;
+                        if(id == audioFile.Id)
+                            customCell.RightImage.Hidden = false;
+                        else
+                            customCell.RightImage.Hidden = true;
+                    }
                 }
             });
         }
@@ -604,4 +623,3 @@ namespace MPfm.iOS.Classes.Controllers
 
     }
 }
-

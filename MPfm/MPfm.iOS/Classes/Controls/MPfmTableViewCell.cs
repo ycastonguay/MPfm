@@ -34,6 +34,7 @@ namespace MPfm.iOS.Classes.Controls
     {
         public UILabel IndexTextLabel { get; private set; }
         public UIButton RightButton { get; private set; }
+        public UIImageView RightImage { get; private set; }
         public UIImageView ImageChevron { get; private set; }
 
         public delegate void RightButtonTap(MPfmTableViewCell cell);
@@ -68,7 +69,6 @@ namespace MPfm.iOS.Classes.Controls
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.BackgroundColor = UIColor.Clear;            
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
@@ -89,9 +89,17 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(RightButton);
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
+            ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Hidden = true;
             ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 0, 22, 44);
             AddSubview(ImageChevron);
+
+            RightImage = new UIImageView(UIImage.FromBundle("Images/Icons/icon_speaker"));
+            RightImage.Alpha = 0.7f;
+            RightImage.BackgroundColor = UIColor.Clear;
+            RightImage.Hidden = true;
+            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 0, 44, 44);
+            AddSubview(RightImage);
         }
 
         private void HandleRightButtonTouchUpInside(object sender, EventArgs e)
@@ -110,12 +118,16 @@ namespace MPfm.iOS.Classes.Controls
             float textWidth = Bounds.Width;
             if (Accessory != UITableViewCellAccessory.None)
                 textWidth -= 44;
-            if (ImageView.Image != null)
+            if (ImageView.Image != null && !ImageView.Hidden)
                 textWidth -= Bounds.Height + padding;
             if (RightButton.ImageView.Image != null)
                 textWidth -= Bounds.Height + padding;
             if (!string.IsNullOrEmpty(IndexTextLabel.Text))
                 textWidth -= 22 + padding + padding;
+            if (ImageChevron.Image != null && !ImageChevron.Hidden)
+                textWidth -= 22;
+            if (RightImage.Image != null && !RightImage.Hidden)
+                textWidth -= 44;
 
             float x = 0;
             if (ImageView.Image != null)
@@ -146,36 +158,7 @@ namespace MPfm.iOS.Classes.Controls
                 RightButton.Frame = new RectangleF(Bounds.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
 
             ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 0, 22, 44);
+            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 0, 44, 44);
         }
-
-//        public override void TouchesBegan(NSSet touches, UIEvent evt)
-//        {
-//            base.TouchesBegan(touches, evt);
-//
-//            UITouch touch = touches.AnyObject as UITouch;
-//            var pt = touch.LocationInView(this);
-//            var ptPrevious = touch.PreviousLocationInView(this);
-//            Console.WriteLine("====> Cell - TouchesBegan - pt: {0} ptPrevious: {1}", pt, ptPrevious);
-//        }
-//
-//        public override void TouchesMoved(NSSet touches, UIEvent evt)
-//        {
-//            base.TouchesMoved(touches, evt);
-//
-//            UITouch touch = touches.AnyObject as UITouch;
-//            var pt = touch.LocationInView(this);
-//            var ptPrevious = touch.PreviousLocationInView(this);
-//            Console.WriteLine("====> Cell - TouchesMoved - pt {0} ptPrevious {1} frameOrigin.X {2} pointOrigin.X {3} delta {4} delta2 {5} x {6}", pt, ptPrevious, _frameOrigin.X, _pointOrigin.X, delta, delta2, x);
-//        }
-//
-//        public override void TouchesEnded(NSSet touches, UIEvent evt)
-//        {
-//            base.TouchesEnded(touches, evt);
-//
-//            UITouch touch = touches.AnyObject as UITouch;
-//            var pt = touch.LocationInView(this);
-//            var ptPrevious = touch.PreviousLocationInView(this);
-//            Console.WriteLine("====> Cell - TouchesEnded - pt: {0} ptPrevious: {1}", pt, ptPrevious);
-//        }
     }
 }
