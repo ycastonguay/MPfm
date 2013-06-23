@@ -25,7 +25,7 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Mac
 {
-    public partial class PreferencesWindowController : BaseWindowController, IPreferencesView
+    public partial class PreferencesWindowController : BaseWindowController
     {
         #region Constructors
         
@@ -68,4 +68,3 @@ namespace MPfm.Mac
         }
     }
 }
-

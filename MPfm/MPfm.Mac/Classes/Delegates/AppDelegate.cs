@@ -55,7 +55,7 @@ namespace MPfm.Mac.Classes.Delegates
             Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindowController>().AsMultiInstance();
             //Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindowController>().AsMultiInstance();
-            Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
+            //Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
 
             // Create and start navigation manager

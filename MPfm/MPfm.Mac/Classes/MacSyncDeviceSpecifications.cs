@@ -40,5 +40,10 @@ namespace MPfm.Mac
             });
             return _deviceName;
         }
+
+        public long GetFreeSpace()
+        {
+            return 0;
+        }
     }
 }

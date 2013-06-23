@@ -37,6 +37,7 @@ using MPfm.MVP.Messages;
 using MPfm.Mac.Classes.Objects;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Delegates;
+using MPfm.Player.Objects;
 
 namespace MPfm.Mac
 {
@@ -692,6 +693,14 @@ namespace MPfm.Mac
                     songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
             });
 		}
+
+        public void RefreshMarkers(IEnumerable<Marker> markers)
+        {
+        }
+
+        public void RefreshLoops(IEnumerable<Loop> loops)
+        {
+        }
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
         {
