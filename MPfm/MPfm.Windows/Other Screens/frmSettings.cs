@@ -23,7 +23,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Library.Objects;
-using MPfm.Sound.Bass.Net;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm
 {

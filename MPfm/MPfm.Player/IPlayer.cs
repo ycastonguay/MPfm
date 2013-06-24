@@ -35,6 +35,8 @@ namespace MPfm.Player
         EQPreset EQPreset { get; set; }
         Loop Loop { get; }
         Device Device { get; }
+        Channel FXChannel { get; } // TODO: Remove when Windows will be refactored with MVP
+        MixerChannel MixerChannel { get; } // TODO: Remove when Windows will be refactored with MVP
         bool IsSettingPosition { get; }
         bool IsDeviceInitialized { get; }
         bool IsEQBypassed { get; }

@@ -29,9 +29,9 @@ using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
-using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.Bass.Net;
+using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.PeakFiles;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -991,7 +991,7 @@ namespace MPfm
             float maxR = 0f;
 
             // length of a 20ms window in bytes
-            int length20ms = (int)player.MixerChannel.Seconds2Bytes2(0.02);   //(int)Bass.BASS_ChannelSeconds2Bytes(channel, 0.02);
+            int length20ms = (int)player.MixerChannel.Seconds2Bytes(0.02);   //(int)Bass.BASS_ChannelSeconds2Bytes(channel, 0.02);
             // the number of 32-bit floats required (since length is in bytes!)
             int l4 = length20ms / 4; // 32-bit = 4 bytes
 
@@ -1975,7 +1975,7 @@ namespace MPfm
             if (peakFileDisplayWarning.HasValue && peakFileDisplayWarning.Value && peakFileDisplayWarningThreshold.HasValue)
             {
                 // Check peak file directory size
-                long size = PeakFile.CheckDirectorySize(peakFileFolderPath);
+                long size = PeakFileService.CheckDirectorySize(peakFileFolderPath);
 
                 // Check free space
                 long freeSpace = 0;
@@ -2337,7 +2337,7 @@ namespace MPfm
                 item.SubItems.Add(loop.EndPosition);
 
                 // Check if this is the currently playing loop
-                if (Player.CurrentLoop != null && Player.CurrentLoop.Name == loop.Name)
+                if (Player.Loop != null && Player.Loop.Name == loop.Name)
                 {
                     item.ImageIndex = 7;
                 }
@@ -3998,10 +3998,10 @@ namespace MPfm
                 btnRemoveLoop.Enabled = true;
 
                 // Check if the loop is currently playing
-                if (Player.CurrentLoop != null)
+                if (Player.Loop != null)
                 {
                     // Check if the loop matches
-                    if (new Guid(viewLoops.SelectedItems[0].Tag.ToString()) == Player.CurrentLoop.LoopId)
+                    if (new Guid(viewLoops.SelectedItems[0].Tag.ToString()) == Player.Loop.LoopId)
                     {
                         // Set buttons
                         btnPlayLoop.Enabled = false;
@@ -4026,7 +4026,7 @@ namespace MPfm
             }
 
             // Check if the player is already playing a loop
-            if (Player.CurrentLoop != null)
+            if (Player.Loop != null)
             {
                 return;
             }

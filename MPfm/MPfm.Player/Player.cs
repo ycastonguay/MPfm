@@ -72,7 +72,10 @@ namespace MPfm.Player
         private System.Timers.Timer _timerPlayer = null;
         private Channel _streamChannel = null;
         private Channel _fxChannel = null;
-        private MixerChannel _mixerChannel = null;       
+        private MixerChannel _mixerChannel = null;
+
+        public Channel FXChannel { get { return _fxChannel; } }
+        public MixerChannel MixerChannel { get { return _mixerChannel; } }
 
         // Plugin handles
         private int _fxEQHandle;

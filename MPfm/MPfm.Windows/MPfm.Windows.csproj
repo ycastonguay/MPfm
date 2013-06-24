@@ -257,6 +257,22 @@
     <Content Include="Configuration\ExampleConfig.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Lib\bass.dll" />
+    <None Include="Lib\bassenc.dll" />
+    <None Include="Lib\bassflac.dll" />
+    <None Include="Lib\bassmix.dll" />
+    <None Include="Lib\basswasapi.dll" />
+    <None Include="Lib\basswma.dll" />
+    <None Include="Lib\basswv.dll" />
+    <None Include="Lib\bass_aac.dll" />
+    <None Include="Lib\bass_ac3.dll" />
+    <None Include="Lib\bass_alac.dll" />
+    <None Include="Lib\bass_ape.dll" />
+    <None Include="Lib\bass_fx.dll" />
+    <None Include="Lib\bass_mpc.dll" />
+    <None Include="Lib\bass_ofr.dll" />
+    <None Include="Lib\bass_tta.dll" />
+    <None Include="Lib\bass_vst.dll" />
     <Content Include="MPFM.ico" />
     <Content Include="MPfm_SmallOnly.ico" />
     <None Include="Resources\bullet_go.png" />
@@ -376,9 +392,7 @@
       <Name>MPfm.WindowsControls</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lib\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem copy $(ProjectDir)\Lib\taglib-sharp.dll $(TargetDir)

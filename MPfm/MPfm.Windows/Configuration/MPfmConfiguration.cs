@@ -22,8 +22,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using MPfm.Core;
+using MPfm.Core.Helpers;
 using MPfm.Sound;
-using MPfm.Sound.Bass.Net;
+using MPfm.Sound.BassNetWrapper;
 using MPfm.WindowsControls;
 
 namespace MPfm

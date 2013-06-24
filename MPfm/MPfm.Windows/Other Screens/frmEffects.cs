@@ -342,7 +342,7 @@ namespace MPfm
                 if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {                    
                     //DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
-                    main.Library.Facade.DeleteEqualizer(equalizerExists.EQPresetId);
+                    main.Library.Facade.DeleteEQPreset(equalizerExists.EQPresetId);
 
                     RefreshEQPresets();
                     ResetEQ();
@@ -393,7 +393,7 @@ namespace MPfm
             if (equalizerExists == null)
             {
                 //DataAccess.InsertEqualizer(eq);
-                main.Library.Facade.InsertEqualizer(eq);
+                main.Library.Facade.InsertEQPreset(eq);
             }
             else
             {
@@ -401,7 +401,7 @@ namespace MPfm
                 {
                     // Update ID and EQ
                     eq.EQPresetId = equalizerExists.EQPresetId;
-                    main.Library.Facade.UpdateEqualizer(eq);
+                    main.Library.Facade.UpdateEQPreset(eq);
                 }
             }
 

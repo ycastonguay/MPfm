@@ -86,6 +86,7 @@ namespace MPfm.Sound.BassNetWrapper
         /// <summary>
         /// Returns the current position of a mixer channel in bytes.        
         /// <para>
+        /// <para>
         /// Note: The handle of the decode channel must be passed in parameter.        
         /// </para>
         /// </summary>

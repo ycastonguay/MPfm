@@ -71,6 +71,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bass.Net">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Bass.Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -86,9 +90,6 @@
     <Reference Include="Mono.Posix" />
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Bass.Net">
-      <HintPath>Lib\Bass.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

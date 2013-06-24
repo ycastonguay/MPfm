@@ -26,6 +26,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.PeakFiles;
 
 namespace MPfm.WindowsControls
 {
@@ -45,7 +46,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// PeakFile instance used for generating and reading peak files.
         /// </summary>
-        private PeakFile peakFile = null;
+        private IPeakFileService peakFileService = null;
 
         /// <summary>
         /// Timer refreshing the control while a peak file is generating.
@@ -604,10 +605,10 @@ namespace MPfm.WindowsControls
             peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
 
             // Create PeakFile class instance 
-            peakFile = new PeakFile(1);
-            peakFile.OnProcessStarted += new PeakFile.ProcessStarted(peakFile_OnProcessStarted);
-            peakFile.OnProcessData += new PeakFile.ProcessData(peakFile_OnProcessData);
-            peakFile.OnProcessDone += new PeakFile.ProcessDone(peakFile_OnProcessDone);
+            peakFileService = new PeakFileService();
+            peakFileService.OnProcessStarted += new PeakFileService.ProcessStarted(peakFile_OnProcessStarted);
+            peakFileService.OnProcessData += new PeakFileService.ProcessData(peakFile_OnProcessData);
+            peakFileService.OnProcessDone += new PeakFileService.ProcessDone(peakFile_OnProcessDone);
 
             // Create timer for refresh
             timerLoadPeakFile = new Timer();
@@ -913,7 +914,7 @@ namespace MPfm.WindowsControls
                 scrollX = 0;
 
                 // Read peak file (using data based on the progress event sometimes causes problems)
-                waveDataHistory = peakFile.ReadPeakFile(peakFilePath);
+                waveDataHistory = peakFileService.ReadPeakFile(peakFilePath);
 
                 // Do a last refresh
                 needToRefreshBitmapCache = true;
@@ -946,10 +947,10 @@ namespace MPfm.WindowsControls
             if (isLoading)
             {
                 // Cancel wave form generation
-                if (peakFile.IsProcessing)
+                if (peakFileService.IsProcessing)
                 {
                     // Cancel operation
-                    peakFile.Cancel();
+                    peakFileService.Cancel();
                 }
             }
 
@@ -985,7 +986,7 @@ namespace MPfm.WindowsControls
                 if (readFile)
                 {                    
                     // Load peaks from file
-                    waveDataHistory = peakFile.ReadPeakFile(peakFilePath);
+                    waveDataHistory = peakFileService.ReadPeakFile(peakFilePath);
 
                     // Set flags
                     isLoading = false;
@@ -1015,7 +1016,7 @@ namespace MPfm.WindowsControls
             timerLoadPeakFile.Start();
 
             // Generate peak file and start timer for updating progress
-            peakFile.GeneratePeakFile(filePath, peakFilePath);            
+            peakFileService.GeneratePeakFile(filePath, peakFilePath);            
         }
 
         /// <summary>
@@ -1024,7 +1025,7 @@ namespace MPfm.WindowsControls
         public void CancelWaveFormLoading()
         {
             // Cancel the operation asynchronously            
-            peakFile.Cancel();
+            peakFileService.Cancel();
         }
 
         #endregion
