@@ -85,6 +85,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
         {
+            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0}", entities.Count());
             Activity.RunOnUiThread(() => {
                 _entities = entities;
                 var listAdapter = (MobileLibraryBrowserListAdapter)ListAdapter;
