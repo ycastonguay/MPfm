@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {
@@ -46,10 +47,13 @@ namespace MPfm.Mac
 		// Shared initialization code
 		void Initialize()
 		{
-			//Toolbar.Items
 		}
 		
 		#endregion
+
+        public override void AwakeFromNib()
+        {
+            BackgroundColor = GlobalTheme.MainWindowColor;
+        }
 	}
 }
-

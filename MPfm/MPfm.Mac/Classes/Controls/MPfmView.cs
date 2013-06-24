@@ -96,10 +96,8 @@ namespace MPfm.Mac.Classes.Controls
 
         public override void DrawRect(RectangleF dirtyRect)
         {
-            base.DrawRect(dirtyRect);
-
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            CocoaHelper.FillRect(context, Bounds, BackgroundColor1);
+            CocoaHelper.FillRect(context, dirtyRect, BackgroundColor1);
 
             if (IsHeaderVisible)
             {
