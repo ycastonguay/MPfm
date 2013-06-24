@@ -83,6 +83,7 @@ namespace MPfm.iOS.Classes.Controllers
             imageViewAlbumCover.BackgroundColor = UIColor.Black;
             viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
 
+            // TODO: Move this to a custom table view instead.
             _btnDelete = new UIButton(UIButtonType.Custom);
             _btnDelete.Alpha = 0;
             _btnDelete.Font = UIFont.FromName("HelveticaNeue-Light", 15);
@@ -151,12 +152,40 @@ namespace MPfm.iOS.Classes.Controllers
 
             tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
             FlushImages();
-        }        
+        } 
+
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+
+            var screenSize = UIKitHelper.GetDeviceSize();
+
+            if(_deleteCellIndex >= 0)
+            {
+                _btnDelete.Frame = new RectangleF(screenSize.Width - 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
+
+                var cell = tableView.CellAt(NSIndexPath.FromRowSection(_deleteCellIndex, 0));
+                if(cell != null)
+                {
+                    var customCell = (MPfmTableViewCell)cell;
+                    customCell.ImageChevron.Frame = new RectangleF(customCell.Frame.Width - customCell.ImageChevron.Bounds.Width - 60, 0, customCell.ImageChevron.Bounds.Width, customCell.ImageChevron.Bounds.Height);
+                }
+            }
+            else
+            {
+                _btnDelete.Frame = new RectangleF(screenSize.Width + 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
+            }
+        }
 
         private void HandleSwipe(UISwipeGestureRecognizer gestureRecognizer)
         {
             var point = gestureRecognizer.LocationInView(tableView);
             var indexPath = tableView.IndexPathForRowAtPoint(point);
+
+            // IndexPath is null when swiping an empty cell
+            if (indexPath == null)
+                return;
+
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
 
             Console.WriteLine("MobileLibraryBrowserViewController - HandleSwipe - row: {0} deleteCellIndex: {1}", indexPath.Row, _deleteCellIndex);
@@ -323,10 +352,10 @@ namespace MPfm.iOS.Classes.Controllers
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.ImageChevron.Hidden = false;
 
-            if(indexPath.Row == _deleteCellIndex)
-                cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width - 60, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
+            if (indexPath.Row == _deleteCellIndex)
+                cell.RightOffset = 60;
             else
-                cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
+                cell.RightOffset = 0;
 
             if(String.IsNullOrEmpty(_items[indexPath.Row].Subtitle))
                 cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
@@ -345,7 +374,8 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if(indexPath.Row == _deleteCellIndex)            
+            if(_deleteCellIndex >= 0)
+            {
                 UIView.Animate(0.2, () => {
                     var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
                     _deleteCellIndex = -1;
@@ -353,6 +383,7 @@ namespace MPfm.iOS.Classes.Controllers
                     _btnDelete.Frame = new RectangleF(cell.Frame.Width + 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
                     cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
                 });
+            }
 
             OnItemClick(indexPath.Row);
         }
