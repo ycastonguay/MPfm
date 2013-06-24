@@ -119,6 +119,7 @@
     <EmbeddedResource Include="WebApp\images\icon_artist.png" />
     <EmbeddedResource Include="WebApp\images\icon_download.png" />
     <EmbeddedResource Include="WebApp\images\icon_upload.png" />
+    <EmbeddedResource Include="Scripts\1.04-1.05.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">

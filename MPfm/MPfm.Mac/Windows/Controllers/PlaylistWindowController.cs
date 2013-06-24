@@ -27,7 +27,7 @@ using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {
-    public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
+    public partial class PlaylistWindowController : BaseWindowController
     {
         readonly IPlaylistPresenter playlistPresenter;
 
