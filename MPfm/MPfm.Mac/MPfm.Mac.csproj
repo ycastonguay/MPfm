@@ -115,9 +115,6 @@
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper">
-      <HintPath>Lib\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Posix" />
     <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="MonoMac">
@@ -157,7 +154,6 @@
     </Compile>
     <Compile Include="Windows\Controllers\SplashWindowController.cs" />
     <Compile Include="Windows\MainWindow.cs" />
-    <Compile Include="Windows\Controllers\MainWindowController.cs" />
     <Compile Include="Windows\MainWindow.designer.cs">
       <DependentUpon>Windows\MainWindow.cs</DependentUpon>
     </Compile>
@@ -206,6 +202,7 @@
     <Compile Include="Classes\Delegates\AlbumCoverSource.cs" />
     <Compile Include="Classes\Controls\MPfmSongPositionSlider.cs" />
     <Compile Include="Classes\Delegates\SongBrowserSource.cs" />
+    <Compile Include="Windows\Controllers\MainWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -224,6 +221,7 @@
     <None Include="Info.plist" />
     <None Include="Lib\taglib-sharp.dll" />
     <None Include="Lib\MonoMac.dll" />
+    <None Include="Resources\16x16\custom\vinyl%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
@@ -321,6 +319,31 @@
     <Content Include="Resources\16x16\icomoon\cabinet.png" />
     <Content Include="Resources\16x16\icomoon\user.png" />
     <Content Include="Resources\16x16\icomoon\users.png" />
+    <Content Include="Resources\32x32\icomoon\folder-open%402x.png" />
+    <Content Include="Resources\32x32\icomoon\folder-open.png" />
+    <Content Include="Resources\32x32\icomoon\equalizer%402x.png" />
+    <Content Include="Resources\32x32\icomoon\equalizer.png" />
+    <Content Include="Resources\32x32\icomoon\settings.png" />
+    <Content Include="Resources\32x32\icomoon\next%402x.png" />
+    <Content Include="Resources\32x32\icomoon\pause.png" />
+    <Content Include="Resources\32x32\icomoon\pause%402x.png" />
+    <Content Include="Resources\32x32\icomoon\play.png" />
+    <Content Include="Resources\32x32\icomoon\play%402x.png" />
+    <Content Include="Resources\32x32\icomoon\playlist.png" />
+    <Content Include="Resources\32x32\icomoon\playlist%402x.png" />
+    <Content Include="Resources\32x32\icomoon\previous.png" />
+    <Content Include="Resources\32x32\icomoon\previous%402x.png" />
+    <Content Include="Resources\32x32\icomoon\repeat.png" />
+    <Content Include="Resources\32x32\icomoon\repeat%402x.png" />
+    <Content Include="Resources\32x32\icomoon\settings%402x.png" />
+    <Content Include="Resources\32x32\icomoon\stop.png" />
+    <Content Include="Resources\32x32\icomoon\stop%402x.png" />
+    <Content Include="Resources\32x32\icomoon\sync.png" />
+    <Content Include="Resources\32x32\icomoon\sync%402x.png" />
+    <Content Include="Resources\32x32\icomoon\update.png" />
+    <Content Include="Resources\32x32\icomoon\update%402x.png" />
+    <Content Include="Resources\32x32\icomoon\next.png" />
+    <Content Include="Resources\16x16\custom\vinyl.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -340,6 +363,8 @@
     <Folder Include="Classes\Navigation\" />
     <Folder Include="Classes\Delegates\" />
     <Folder Include="Classes\Services\" />
+    <Folder Include="Resources\32x32\icomoon\" />
+    <Folder Include="Resources\16x16\custom\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

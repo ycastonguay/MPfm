@@ -85,7 +85,7 @@ namespace MPfm.Mac.Classes.Delegates
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Album ||
                      libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Albums)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_tango_cd");
+                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
             } 
             else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artist)
             {

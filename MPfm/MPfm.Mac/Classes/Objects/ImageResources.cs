@@ -86,7 +86,9 @@ namespace MPfm.Mac.Classes.Objects
                 new NSImage(NSBundle.MainBundle.PathForResource("cabinet", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_cabinet" },
                 new NSImage(NSBundle.MainBundle.PathForResource("user", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_user" },
                 new NSImage(NSBundle.MainBundle.PathForResource("users", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_users" },
-                new NSImage(NSBundle.MainBundle.PathForResource("arrow-right", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_arrow-right" }
+                new NSImage(NSBundle.MainBundle.PathForResource("arrow-right", "png", "Resources/16x16/icomoon", string.Empty)) { Name = "16_icomoon_arrow-right" },
+
+                new NSImage(NSBundle.MainBundle.PathForResource("vinyl", "png", "Resources/16x16/custom", string.Empty)) { Name = "16_custom_vinyl" }
             };
 
             // Load 32x32px images
@@ -105,7 +107,20 @@ namespace MPfm.Mac.Classes.Objects
                 new NSImage(NSBundle.MainBundle.PathForResource("document-new", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-new" },
                 new NSImage(NSBundle.MainBundle.PathForResource("document-save", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-save" },
                 new NSImage(NSBundle.MainBundle.PathForResource("document-save-as", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-save-as" },
-                new NSImage(NSBundle.MainBundle.PathForResource("network-wireless", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_network-wireless" }
+                new NSImage(NSBundle.MainBundle.PathForResource("network-wireless", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_network-wireless" },
+
+                new NSImage(NSBundle.MainBundle.PathForResource("equalizer", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_equalizer" },
+                new NSImage(NSBundle.MainBundle.PathForResource("folder-open", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_folder-open" },
+                new NSImage(NSBundle.MainBundle.PathForResource("next", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_next" },
+                new NSImage(NSBundle.MainBundle.PathForResource("pause", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_pause" },
+                new NSImage(NSBundle.MainBundle.PathForResource("play", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_play" },
+                new NSImage(NSBundle.MainBundle.PathForResource("playlist", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_playlist" },
+                new NSImage(NSBundle.MainBundle.PathForResource("previous", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_previous" },
+                new NSImage(NSBundle.MainBundle.PathForResource("repeat", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_repeat" },
+                new NSImage(NSBundle.MainBundle.PathForResource("settings", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_settings" },
+                new NSImage(NSBundle.MainBundle.PathForResource("stop", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_stop" },
+                new NSImage(NSBundle.MainBundle.PathForResource("sync", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_sync" },
+                new NSImage(NSBundle.MainBundle.PathForResource("update", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_update" }
             };
 
             // Load splash image

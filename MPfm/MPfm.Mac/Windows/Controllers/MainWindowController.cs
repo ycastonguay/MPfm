@@ -115,7 +115,7 @@ namespace MPfm.Mac
 		public override void AwakeFromNib()
         {
             Tracing.Log("MainWindowController.AwakeFromNib -- Initializing user interface...");
-            this.Window.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
+            //this.Window.Title = "Sessions " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 
             splitMain.Delegate = new MainSplitViewDelegate();
 
@@ -317,18 +317,18 @@ namespace MPfm.Mac
         private void LoadImages()
         {
             // Load images in toolbar
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_document-open");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_view-refresh");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-playback-start");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-playback-pause");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-playback-stop");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-skip-backward");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_media-skip-forward");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_view-refresh");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_preferences-desktop");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_audio-x-generic");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_preferences-system");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarSync").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_tango_network-wireless");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_folder-open");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_update");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_stop");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_previous");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_next");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_equalizer");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_playlist");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_settings");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarSync").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_sync");
 
             // Load button images
             cboSoundFormat.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
