@@ -29,6 +29,7 @@ using TinyMessenger;
 using MPfm.iOS.Classes.Controllers;
 using MonoTouch.CoreAnimation;
 using MPfm.iOS.Classes.Objects;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -134,16 +135,12 @@ namespace MPfm.iOS.Classes.Controls
         {
             base.ViewDidLayoutSubviews();
 
-            float width = UIScreen.MainScreen.Bounds.Width;
-            if (UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeLeft ||
-                UIApplication.SharedApplication.StatusBarOrientation == UIInterfaceOrientation.LandscapeRight)
-                width = UIScreen.MainScreen.Bounds.Height;
-
-            _lblTitle.Frame = new RectangleF(78, 4, width - 156, 20);
-            _lblSubtitle.Frame = new RectangleF(78, 20, width - 156, 20);
+            var screenSize = UIKitHelper.GetDeviceSize();
+            _lblTitle.Frame = new RectangleF(78, 4, screenSize.Width - 156, 20);
+            _lblSubtitle.Frame = new RectangleF(78, 20, screenSize.Width - 156, 20);
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
-            _btnEffects.Frame = new RectangleF(width - 70, 0, 70, 44);
-            _btnNowPlaying.Frame = new RectangleF(width - 70, 0, 70, 44);
+            _btnEffects.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
+            _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
         }
         
         protected virtual void OnViewDismissed(EventArgs e)
@@ -162,18 +159,18 @@ namespace MPfm.iOS.Classes.Controls
         {
             InvokeOnMainThread(() => {
                 //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - UpdateNowPlayingView: isPlayerPlaying=" + _isPlayerPlaying.ToString() + " viewShouldShowPlayerButton=" + _viewShouldShowPlayerButton.ToString());
-
+                var screenSize = UIKitHelper.GetDeviceSize();
                 if(_isPlayerPlaying && _viewShouldShowPlayerButton)
                 {
                     UIView.Animate(0.2f, () => {
-                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
+                        _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
                         _btnNowPlaying.Alpha = 1;
                     });
                 }
                 else if(!_viewShouldShowPlayerButton)
                 {
                     UIView.Animate(0.2f, () => {
-                        _btnNowPlaying.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
+                        _btnNowPlaying.Frame = new RectangleF(screenSize.Width, 0, 70, 44);
                         _btnNowPlaying.Alpha = 0;
                     });
                 }
@@ -181,14 +178,14 @@ namespace MPfm.iOS.Classes.Controls
                 if(_viewShouldShowEffectsButton)
                 {
                     UIView.Animate(0.2f, () => {
-                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
+                        _btnEffects.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
                         _btnEffects.Alpha = 1;
                     });
                 }
                 else
                 {
                     UIView.Animate(0.2f, () => {
-                        _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 70, 44);
+                        _btnEffects.Frame = new RectangleF(screenSize.Width, 0, 70, 44);
                         _btnEffects.Alpha = 0;
                     });
                 }

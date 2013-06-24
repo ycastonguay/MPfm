@@ -91,7 +91,7 @@
 							</object>
 							<object class="IBUILabel" id="455836031">
 								<reference key="NSNextResponder" ref="725986805"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">289</int>
 								<string key="NSFrame">{{706, 25}, {43, 18}}</string>
 								<reference key="NSSuperview" ref="725986805"/>
 								<reference key="NSWindow"/>
@@ -138,7 +138,7 @@
 							</object>
 							<object class="IBUISlider" id="815691340">
 								<reference key="NSNextResponder" ref="725986805"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{74, 23}, {632, 23}}</string>
 								<reference key="NSSuperview" ref="725986805"/>
 								<reference key="NSWindow"/>
@@ -183,6 +183,7 @@
 						<string key="NSFrame">{{0, 110}, {768, 1004}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="185421300"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -199,6 +200,7 @@
 				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="725986805"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -230,14 +232,6 @@
 						<reference key="destination" ref="815691340"/>
 					</object>
 					<int key="connectionID">12</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">lblMasterVolume</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="455836031"/>
-					</object>
-					<int key="connectionID">13</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -281,11 +275,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">lblMasterVolumeValue</string>
+						<string key="label">lblMasterVolume</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="217192363"/>
 					</object>
-					<int key="connectionID">19</int>
+					<int key="connectionID">21</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">lblMasterVolumeValue</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="455836031"/>
+					</object>
+					<int key="connectionID">22</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -386,7 +388,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">19</int>
+			<int key="maxID">22</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -361,6 +361,9 @@ namespace MPfm.iOS.Classes.Controllers
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            if (cell == null)
+                return;
+
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker_white");
         }
@@ -369,6 +372,9 @@ namespace MPfm.iOS.Classes.Controllers
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            if (cell == null)
+                return;
+
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker");
         }

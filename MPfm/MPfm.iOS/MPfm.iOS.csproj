@@ -251,6 +251,7 @@
     <Compile Include="Classes\Controllers\PlaylistViewController.designer.cs">
       <DependentUpon>PlaylistViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Helpers\UIKitHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

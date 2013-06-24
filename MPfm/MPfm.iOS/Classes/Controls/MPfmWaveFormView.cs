@@ -266,6 +266,7 @@ namespace MPfm.iOS.Classes.Controls
 
         private void DrawStatus(CGContext context, string status)
         {
+            var screenSize = UIKitHelper.GetDeviceSize();
             CoreGraphicsHelper.FillGradient(context, Bounds, _colorGradient2, _colorGradient1);
 
             NSString str = new NSString(status);
@@ -273,7 +274,7 @@ namespace MPfm.iOS.Classes.Controls
             float y = (Bounds.Height - 30) / 2;
 
             UIGraphics.PushContext(context);
-            str.DrawString(new RectangleF(0, y, Bounds.Width, 30), UIFont.FromName("HelveticaNeue-Light", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
+            str.DrawString(new RectangleF(0, y, screenSize.Width, 30), UIFont.FromName("HelveticaNeue-Light", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
             UIGraphics.PopContext();
         }
 

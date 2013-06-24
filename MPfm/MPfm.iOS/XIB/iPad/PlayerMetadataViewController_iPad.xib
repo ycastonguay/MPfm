@@ -42,8 +42,8 @@
 						<array class="NSMutableArray" key="NSSubviews">
 							<object class="IBUILabel" id="927491184">
 								<reference key="NSNextResponder" ref="783304805"/>
-								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{224, 53}, {320, 27}}</string>
+								<int key="NSvFlags">266</int>
+								<string key="NSFrame">{{20, 53}, {728, 27}}</string>
 								<reference key="NSSuperview" ref="783304805"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="872286393"/>
@@ -76,8 +76,8 @@
 							</object>
 							<object class="IBUILabel" id="614618511">
 								<reference key="NSNextResponder" ref="783304805"/>
-								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{224, 0}, {320, 32}}</string>
+								<int key="NSvFlags">266</int>
+								<string key="NSFrame">{{20, 0}, {728, 32}}</string>
 								<reference key="NSSuperview" ref="783304805"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="895565973"/>
@@ -107,8 +107,8 @@
 							</object>
 							<object class="IBUILabel" id="895565973">
 								<reference key="NSNextResponder" ref="783304805"/>
-								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{224, 28}, {320, 28}}</string>
+								<int key="NSvFlags">266</int>
+								<string key="NSFrame">{{20, 28}, {728, 28}}</string>
 								<reference key="NSSuperview" ref="783304805"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="927491184"/>
@@ -142,7 +142,6 @@
 								<string key="NSFrame">{{438, 80}, {106, 41}}</string>
 								<reference key="NSSuperview" ref="783304805"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="23303765">
 									<int key="NSColorSpace">3</int>

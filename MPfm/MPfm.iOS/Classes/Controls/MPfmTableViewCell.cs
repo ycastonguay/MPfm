@@ -26,6 +26,7 @@ using MPfm.MVP.Navigation;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MPfm.iOS.Classes.Objects;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -112,6 +113,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             base.LayoutSubviews();
 
+            var screenSize = UIKitHelper.GetDeviceSize();
             float padding = 8;
 
             // Determine width available for text
@@ -157,12 +159,12 @@ namespace MPfm.iOS.Classes.Controls
             if (RightButton.ImageView.Image != null)
                 RightButton.Frame = new RectangleF(Bounds.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
 
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 0, 22, 44);
+            ImageChevron.Frame = new RectangleF(screenSize.Width - 22, 0, 22, 44);
 
             if(ImageChevron.Hidden)
-                RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 44, 0, 44, 44);
+                RightImage.Frame = new RectangleF(screenSize.Width - 44, 0, 44, 44);
             else
-                RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 0, 44, 44);
+                RightImage.Frame = new RectangleF(screenSize.Width - 66, 0, 44, 44);
         }
     }
 }

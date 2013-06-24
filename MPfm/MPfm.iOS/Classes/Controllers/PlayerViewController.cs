@@ -71,6 +71,8 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
+            var screenSize = UIKitHelper.GetDeviceSize();
+
             btnPrevious.BackgroundColor = GlobalTheme.BackgroundColor;
             btnPlayPause.BackgroundColor = GlobalTheme.BackgroundColor;
             btnNext.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -89,9 +91,12 @@ namespace MPfm.iOS.Classes.Controllers
             sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             sliderPosition.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 
-            // Reduce the song position slider size
-            sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
-            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 3, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
+            // Reduce the song position slider size for iPhone
+            if(UserInterfaceIdiomIsPhone)
+            {
+                sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
+                sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 3, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
+            }
 
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;
@@ -167,9 +172,9 @@ namespace MPfm.iOS.Classes.Controllers
 
             RectangleF rectVolume;
             if (UserInterfaceIdiomIsPhone)
-                rectVolume = new RectangleF(8, UIScreen.MainScreen.Bounds.Height - 44 - 52, UIScreen.MainScreen.Bounds.Width - 16, 46);
+                rectVolume = new RectangleF(8, screenSize.Height - 44 - 52, screenSize.Width - 16, 46);
             else
-                rectVolume = new RectangleF(8 + 320, UIScreen.MainScreen.Bounds.Height - 44 - 50, UIScreen.MainScreen.Bounds.Width - 16 - 320, 46);
+                rectVolume = new RectangleF(8 + 320, screenSize.Height - 44 - 50, screenSize.Width - 16 - 320, 46);
             _volumeView = new MPVolumeView(rectVolume);
             _volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
             _volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
@@ -209,6 +214,40 @@ namespace MPfm.iOS.Classes.Controllers
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
+        }
+
+        public override void ViewDidLayoutSubviews()
+        {
+            base.ViewDidLayoutSubviews();
+
+            var screenSize = UIKitHelper.GetDeviceSize();
+            if (UserInterfaceIdiomIsPhone)
+            {
+                _volumeView.Frame = new RectangleF(8, screenSize.Height - 44 - 52, screenSize.Width - 16, 46);
+            }
+            else
+            {
+                _volumeView.Frame = new RectangleF(8 + 320, screenSize.Height - 44 - 50, screenSize.Width - 16 - 320, 46);
+
+                // Resize scrollview subviews.
+                for (int a = 0; a < scrollView.Subviews.Count(); a++)
+                {
+                    var view = scrollView.Subviews[a];
+
+                    if (a == 0)
+                        view.Frame = new RectangleF(0, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+                    else if (a == 1)
+                        view.Frame = new RectangleF(scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                    else if (a == 2)
+                        view.Frame = new RectangleF(scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                    else if (a == 3)
+                        view.Frame = new RectangleF(2 * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                    else if (a == 4)
+                        view.Frame = new RectangleF(2 * scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                }
+
+                scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
+            }
         }
 
         private void HandleScrollViewSwipeDown(UISwipeGestureRecognizer gestureRecognizer)
