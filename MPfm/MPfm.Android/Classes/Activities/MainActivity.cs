@@ -106,7 +106,11 @@ namespace MPfm.Android
                 //_viewPager.Visibility = ViewStates.Gone;
 
                 var transaction = FragmentManager.BeginTransaction();
-                transaction.Replace(Resource.Id.main_fragment_container, fragment);
+                //transaction.Replace(Resource.Id.main_fragment_container, fragment);
+                //transaction.Hide()      
+                var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
+                transaction.Hide(currentFragment);
+                transaction.Add(Resource.Id.main_fragment_container, fragment);
                 transaction.AddToBackStack(null);
                 transaction.Commit();
             }

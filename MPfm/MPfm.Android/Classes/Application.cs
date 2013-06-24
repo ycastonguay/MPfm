@@ -29,7 +29,7 @@ using MPfm.Android.Classes.Helpers;
 
 namespace MPfm.Android.Classes
 {
-    [Application (Name="my.App", Debuggable=true, Label="MPfm: Music Player for Musicians")]
+    [Application (Name="my.App", Debuggable=true, Label="Sessions")]
     public class MPfmApplication : Application
     {
         public MPfmApplication(IntPtr javaReference, JniHandleOwnership transfer) 

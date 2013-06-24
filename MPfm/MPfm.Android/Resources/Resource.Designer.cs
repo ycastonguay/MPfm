@@ -348,8 +348,8 @@ namespace MPfm.Android
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f070004
-			public const int DialogAnimation = 2131165188;
+			// aapt resource value: 0x7f070005
+			public const int DialogAnimation = 2131165189;
 			
 			// aapt resource value: 0x7f070001
 			public const int MyActionBar = 2131165185;
@@ -358,10 +358,13 @@ namespace MPfm.Android
 			public const int MyAppTheme = 2131165184;
 			
 			// aapt resource value: 0x7f070002
-			public const int SplashTheme = 2131165186;
+			public const int MyAppTheme_ActionBar_TitleTextStyle = 2131165186;
 			
 			// aapt resource value: 0x7f070003
-			public const int UpdateLibraryTheme = 2131165187;
+			public const int SplashTheme = 2131165187;
+			
+			// aapt resource value: 0x7f070004
+			public const int UpdateLibraryTheme = 2131165188;
 			
 			static Style()
 			{

@@ -175,12 +175,16 @@
     <AndroidResource Include="Resources\Menu\main_menu.xml" />
     <AndroidResource Include="Resources\Values\Styles.xml" />
     <AndroidResource Include="Resources\Values\Colors.xml" />
-    <AndroidResource Include="Resources\Drawable\Splash.png" />
-    <AndroidResource Include="Resources\Drawable\Icon.png" />
+    <AndroidResource Include="Resources\drawable\Splash.png" />
+    <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\Anim\fade_in.xml" />
     <AndroidResource Include="Resources\Anim\fade_out.xml" />
     <AndroidResource Include="Resources\Anim\slide_out_right.xml" />
     <AndroidResource Include="Resources\Anim\slide_in_left.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
