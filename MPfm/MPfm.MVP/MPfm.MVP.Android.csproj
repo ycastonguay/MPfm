@@ -247,5 +247,6 @@
     <Compile Include="Views\ISyncDownloadView.cs" />
     <Compile Include="Presenters\Interfaces\ISyncDownloadPresenter.cs" />
     <Compile Include="Presenters\SyncDownloadPresenter.cs" />
+    <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
   </ItemGroup>
 </Project>
