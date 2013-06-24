@@ -37,9 +37,6 @@ namespace MPfm.Android.Classes.Fragments
         private BitmapCache _bitmapCache;
         private View _view;
         private ImageView _imageViewAlbumArt;
-        private TextView _lblArtistName;
-        private TextView _lblAlbumTitle;
-        private TextView _lblSongTitle;
         private TextView _lblPosition;
         private TextView _lblLength;
         private Button _btnPlayPause;
@@ -59,9 +56,6 @@ namespace MPfm.Android.Classes.Fragments
         {
             _view = inflater.Inflate(Resource.Layout.Player, container, false);
             _imageViewAlbumArt = _view.FindViewById<ImageView>(Resource.Id.fragment_player_imageViewAlbumArt);
-            _lblArtistName = _view.FindViewById<TextView>(Resource.Id.fragment_player_lblArtistName);
-            _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.fragment_player_lblAlbumTitle);
-            _lblSongTitle = _view.FindViewById<TextView>(Resource.Id.fragment_player_lblSongTitle);
             _lblPosition = _view.FindViewById<TextView>(Resource.Id.fragment_player_lblPosition);
             _lblLength = _view.FindViewById<TextView>(Resource.Id.fragment_player_lblLength);
             _btnPlayPause = _view.FindViewById<Button>(Resource.Id.fragment_player_btnPlayPause);
@@ -136,9 +130,6 @@ namespace MPfm.Android.Classes.Fragments
                                 _bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageViewAlbumArt);
                             });
 
-                        _lblArtistName.Text = audioFile.ArtistName;
-                        _lblAlbumTitle.Text = audioFile.AlbumTitle;
-                        _lblSongTitle.Text = audioFile.Title;
                         _lblLength.Text = audioFile.Length;
                         //sliderPosition.MaxValue = player.Playlist.CurrentItem.LengthMilliseconds;
                     }

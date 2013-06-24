@@ -38,7 +38,10 @@ namespace MPfm.Android.Classes.Fragments
         private IEnumerable<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
         // Leave an empty constructor or the application will crash at runtime
-        public MobileLibraryBrowserFragment() : base(null) { }
+        public MobileLibraryBrowserFragment() : base(null)
+        {
+            Console.WriteLine("MobileLibraryBrowserFragment - Empty constructor");
+        }
 
         public MobileLibraryBrowserFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
@@ -69,6 +72,48 @@ namespace MPfm.Android.Classes.Fragments
             //builder.SetPositiveButton("Yes");// this);
             var dialog = builder.Create();
             builder.Show();
+        }
+
+        public override void OnResume()
+        {
+            Console.WriteLine("MLBFragment - OnResume");
+            base.OnResume();
+        }
+
+        public override void OnStart()
+        {
+            Console.WriteLine("MLBFragment - OnStart");
+            base.OnStart();
+        }
+
+        public override void OnStop()
+        {
+            Console.WriteLine("MLBFragment - OnStop");
+            base.OnStop();
+        }
+
+        public override void OnDestroyView()
+        {
+            Console.WriteLine("MLBFragment - OnDestroyView");
+            base.OnDestroyView();
+        }
+
+        public override void OnPause()
+        {
+            Console.WriteLine("MLBFragment - OnPause");
+            base.OnPause();
+        }
+
+        public override void OnDestroy()
+        {
+            Console.WriteLine("MLBFragment - OnDestroy");
+            base.OnDestroy();
+        }
+
+        public override void OnSaveInstanceState(global::Android.OS.Bundle outState)
+        {
+            Console.WriteLine("MLBFragment - OnSaveInstanceState");
+            base.OnSaveInstanceState(outState);
         }
 
         #region IMobileLibraryBrowserView implementation

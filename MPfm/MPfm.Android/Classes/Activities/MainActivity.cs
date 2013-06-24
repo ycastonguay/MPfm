@@ -35,14 +35,12 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android
 {
-    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait, Theme = "@style/MyAppTheme")]
+    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class MainActivity : BaseActivity, IMobileOptionsMenuView
     {
-        private ViewPager _viewPager;
-        private TabPagerAdapter _tabPagerAdapter;
-        private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
-        private SplashFragment _splashFragment;
         private AndroidNavigationManager _navigationManager;
+        private SplashFragment _splashFragment;
+        private MainFragment _mainFragment;
         private LinearLayout _miniPlayer;
 
         protected override void OnCreate(Bundle bundle)
@@ -50,57 +48,65 @@ namespace MPfm.Android
             Console.WriteLine("MainActivity - OnCreate");
             base.OnCreate(bundle);
 
-            // Request features
+            //string externalDir = global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+            //string internalDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+
             RequestWindowFeature(WindowFeatures.ActionBar);
-            //ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            SetContentView(Resource.Layout.Main);
+            SetContentView(Resource.Layout.MainActivity);
 
-            string externalDir = global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-            string internalDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-
-            // Get controls
-            _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
             _miniPlayer = FindViewById<LinearLayout>(Resource.Id.main_miniplayer);
             _miniPlayer.Visibility = ViewStates.Gone;
 
-            // Create view pager adapter
-            _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
-            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
-            _viewPager.Adapter = _tabPagerAdapter;
-            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+            if (bundle == null || !bundle.GetBoolean("applicationStarted"))
+            {
+                Console.WriteLine("MainActivity - OnCreate - Creating main fragment...");
+                _mainFragment = new MainFragment();
+                var transaction = FragmentManager.BeginTransaction();
+                transaction.Add(Resource.Id.main_fragment_container, _mainFragment);
+                transaction.Commit();
 
-            // Start navigation manager
-            Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
-            _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            _navigationManager.MainActivity = this;
-            _navigationManager.Start();
+                Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
+                _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+                _navigationManager.MainActivity = this;
+                _navigationManager.Start();
+            }
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+
+            Console.WriteLine("MainActivity - OnSaveInstanceState - Saving state...");
+            outState.PutBoolean("applicationStarted", true);
+        }
+
+        public override void OnConfigurationChanged(global::Android.Content.Res.Configuration newConfig)
+        {
+            Console.WriteLine("MainActivity - OnConfigurationChanged - newConfig: {0}", newConfig.Orientation.ToString());
+            base.OnConfigurationChanged(newConfig);
         }
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
             Console.WriteLine("MainActivity - OnCreate - Adding tab {0}", title);
-            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(type, fragment));
-            _tabPagerAdapter.NotifyDataSetChanged();
-            //var tab = ActionBar.NewTab();
-            //tab.SetTabListener(_tabPagerAdapter);
-            //tab.SetText(title);
-            //ActionBar.AddTab(tab);
+            _mainFragment.AddTab(type, title, fragment);
         }
 
         public void PushTabView(MobileNavigationTabType type, Fragment fragment)
         {
-            // Check fragment type
+            Console.WriteLine("MainActivity - PushTabView type: {0}", type.ToString());
             if (fragment is PlayerFragment)
             {
                 // This fragment should completely hide the view pager
-                //_miniPlayer.Alpha = 1;
+                //_miniPlayer.Alpha = 1;                
                 _miniPlayer.Visibility = ViewStates.Visible;
                 Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
                 _miniPlayer.StartAnimation(anim);
-                ActionBar.NavigationMode = ActionBarNavigationMode.Standard;
-                _viewPager.Visibility = ViewStates.Gone;
+                //ActionBar.NavigationMode = ActionBarNavigationMode.Standard;
+                //_viewPager.Visibility = ViewStates.Gone;
+
                 var transaction = FragmentManager.BeginTransaction();
-                transaction.Add(Resource.Id.main_fragment_container, fragment);
+                transaction.Replace(Resource.Id.main_fragment_container, fragment);
                 transaction.AddToBackStack(null);
                 transaction.Commit();
             }
@@ -113,15 +119,25 @@ namespace MPfm.Android
 
         public override void OnBackPressed()
         {
-            base.OnBackPressed();
-            _viewPager.Visibility = ViewStates.Visible;
-            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
-            anim.AnimationEnd += (sender, args) =>
-                {
+            Console.WriteLine("MainActivity - OnBackPressed");
+            var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
+            Console.WriteLine("OnBackPressed - fragment: {0}", currentFragment.GetType().FullName);
+
+            if (FragmentManager.BackStackEntryCount > 0)
+            {
+                Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
+                anim.AnimationEnd += (sender, args) => {
                     _miniPlayer.Visibility = ViewStates.Gone;
                 };
-            _miniPlayer.StartAnimation(anim);
+                _miniPlayer.StartAnimation(anim);
+
+                FragmentManager.PopBackStack();
+            }
+            else
+            {
+                // Go back to springboard
+                base.OnBackPressed();
+            }
         }
 
         protected override void OnStart()
@@ -193,13 +209,14 @@ namespace MPfm.Android
 
         public void ShowSplash(SplashFragment fragment)
         {
-            // Display fragment in a dialog
+            Console.WriteLine("MainActivity - ShowSplash");
             _splashFragment = fragment;
             _splashFragment.Show(FragmentManager, "Splash");
         }
 
         public void HideSplash()
         {
+            Console.WriteLine("MainActivity - HideSplash");
             _splashFragment.Dialog.Dismiss();
         }
 

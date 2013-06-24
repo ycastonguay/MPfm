@@ -42,10 +42,10 @@ namespace MPfm.Android.Classes.Fragments.Base
             if (OnViewReady != null) OnViewReady(this);
         }
 
-        public override void OnDestroy()
+        public override void OnDestroyView()
         {
-            base.OnDestroy();
-            if (OnViewReady != null) OnViewDestroy(this);
+            base.OnDestroyView();
+            if (OnViewDestroy != null) OnViewDestroy(this);
         }
     }
 }

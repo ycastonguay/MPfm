@@ -102,7 +102,6 @@ namespace MPfm.MVP.Navigation
         {
             Action onInitDone = () =>
             {                
-                // Create 4 main tabs
                 var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
                 var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
                 var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
@@ -272,7 +271,7 @@ namespace MPfm.MVP.Navigation
             {
                 _libraryPreferencesView = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
                 _libraryPreferencesView.OnViewDestroy = (view) =>
-                {
+                {                    
                     _libraryPreferencesView = null;
                     _libraryPreferencesPresenter = null;
                 };
@@ -320,6 +319,7 @@ namespace MPfm.MVP.Navigation
                 // The view list can be accessed from different threads.
                 lock (_locker)
                 {
+                    Console.WriteLine("MobileNavigationManager - CreateMobileLibraryBrowserView - Destroying view - type: {0}", tabType.ToString());
                     if (_mobileLibraryBrowserList.ContainsKey(key))
                         _mobileLibraryBrowserList.Remove(key);
                 }

@@ -122,47 +122,47 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f090006
 			public const int fragment_librarySettings_mainLayout = 2131296262;
 			
-			// aapt resource value: 0x7f09001f
-			public const int fragment_player_btnNext = 2131296287;
+			// aapt resource value: 0x7f09001c
+			public const int fragment_player_btnNext = 2131296284;
 			
-			// aapt resource value: 0x7f09001e
-			public const int fragment_player_btnPlayPause = 2131296286;
-			
-			// aapt resource value: 0x7f09001d
-			public const int fragment_player_btnPrevious = 2131296285;
-			
-			// aapt resource value: 0x7f090013
-			public const int fragment_player_frameLayout = 2131296275;
-			
-			// aapt resource value: 0x7f090015
-			public const int fragment_player_imageViewAlbumArt = 2131296277;
-			
-			// aapt resource value: 0x7f090017
-			public const int fragment_player_lblAlbumTitle = 2131296279;
-			
-			// aapt resource value: 0x7f090016
-			public const int fragment_player_lblArtistName = 2131296278;
+			// aapt resource value: 0x7f09001b
+			public const int fragment_player_btnPlayPause = 2131296283;
 			
 			// aapt resource value: 0x7f09001a
-			public const int fragment_player_lblLength = 2131296282;
-			
-			// aapt resource value: 0x7f090019
-			public const int fragment_player_lblPosition = 2131296281;
+			public const int fragment_player_btnPrevious = 2131296282;
 			
 			// aapt resource value: 0x7f090018
-			public const int fragment_player_lblSongTitle = 2131296280;
+			public const int fragment_player_imageViewAlbumArt = 2131296280;
+			
+			// aapt resource value: 0x7f090013
+			public const int fragment_player_layoutPosition = 2131296275;
+			
+			// aapt resource value: 0x7f09001e
+			public const int fragment_player_lblAlbumTitle = 2131296286;
+			
+			// aapt resource value: 0x7f09001d
+			public const int fragment_player_lblArtistName = 2131296285;
+			
+			// aapt resource value: 0x7f090016
+			public const int fragment_player_lblLength = 2131296278;
 			
 			// aapt resource value: 0x7f090014
-			public const int fragment_player_linearLayout = 2131296276;
+			public const int fragment_player_lblPosition = 2131296276;
 			
-			// aapt resource value: 0x7f09001c
-			public const int fragment_player_linearLayoutButtons = 2131296284;
+			// aapt resource value: 0x7f09001f
+			public const int fragment_player_lblSongTitle = 2131296287;
+			
+			// aapt resource value: 0x7f090019
+			public const int fragment_player_linearLayoutButtons = 2131296281;
+			
+			// aapt resource value: 0x7f090017
+			public const int fragment_player_linearLayoutSubviews = 2131296279;
 			
 			// aapt resource value: 0x7f090012
 			public const int fragment_player_mainLayout = 2131296274;
 			
-			// aapt resource value: 0x7f09001b
-			public const int fragment_player_seekBar = 2131296283;
+			// aapt resource value: 0x7f090015
+			public const int fragment_player_seekBar = 2131296277;
 			
 			// aapt resource value: 0x7f090029
 			public const int fragment_updateLibrary_button = 2131296297;
@@ -188,29 +188,29 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f090005
 			public const int genericcell_title = 2131296261;
 			
-			// aapt resource value: 0x7f090011
-			public const int main_fragment_container = 2131296273;
-			
 			// aapt resource value: 0x7f090008
-			public const int main_layout = 2131296264;
+			public const int main_fragment_container = 2131296264;
+			
+			// aapt resource value: 0x7f09000c
+			public const int main_layout = 2131296268;
 			
 			// aapt resource value: 0x7f09000a
 			public const int main_miniplayer = 2131296266;
 			
-			// aapt resource value: 0x7f09000c
-			public const int main_miniplayer_imageView = 2131296268;
-			
-			// aapt resource value: 0x7f09000f
-			public const int main_miniplayer_lblAlbumTitle = 2131296271;
-			
-			// aapt resource value: 0x7f09000e
-			public const int main_miniplayer_lblArtistName = 2131296270;
-			
 			// aapt resource value: 0x7f09000d
-			public const int main_miniplayer_lblNowPlaying = 2131296269;
+			public const int main_miniplayer_imageView = 2131296269;
 			
 			// aapt resource value: 0x7f090010
-			public const int main_miniplayer_lblSongTitle = 2131296272;
+			public const int main_miniplayer_lblAlbumTitle = 2131296272;
+			
+			// aapt resource value: 0x7f09000f
+			public const int main_miniplayer_lblArtistName = 2131296271;
+			
+			// aapt resource value: 0x7f09000e
+			public const int main_miniplayer_lblNowPlaying = 2131296270;
+			
+			// aapt resource value: 0x7f090011
+			public const int main_miniplayer_lblSongTitle = 2131296273;
 			
 			// aapt resource value: 0x7f090009
 			public const int main_pager = 2131296265;
@@ -274,28 +274,31 @@ namespace MPfm.Android
 			public const int Main = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int Markers = 2130903046;
+			public const int MainActivity = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int PitchShifting = 2130903047;
+			public const int Markers = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int Player = 2130903048;
+			public const int PitchShifting = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int PlayerMetadata = 2130903049;
+			public const int Player = 2130903049;
 			
 			// aapt resource value: 0x7f03000a
-			public const int Settings = 2130903050;
+			public const int PlayerMetadata = 2130903050;
 			
 			// aapt resource value: 0x7f03000b
-			public const int Splash = 2130903051;
+			public const int Settings = 2130903051;
 			
 			// aapt resource value: 0x7f03000c
-			public const int TimeShifting = 2130903052;
+			public const int Splash = 2130903052;
 			
 			// aapt resource value: 0x7f03000d
-			public const int UpdateLibrary = 2130903053;
+			public const int TimeShifting = 2130903053;
+			
+			// aapt resource value: 0x7f03000e
+			public const int UpdateLibrary = 2130903054;
 			
 			static Layout()
 			{

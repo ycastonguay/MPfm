@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FF0000">
+    <LinearLayout
+        android:id="@+id/main_miniplayer"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF333333"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true">
+        <ImageView
+            android:id="@+id/main_miniplayer_imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/icon" />
+        <LinearLayout
+            android:id="@+id/main_miniplayer"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/main_miniplayer_lblNowPlaying"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFFFF"
+                android:text="Now Playing"
+                android:textSize="14dip" />
+            <TextView
+                android:id="@+id/main_miniplayer_lblArtistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFCCCCCC"
+                android:text="[Artist Name]"
+                android:textSize="11dip" />
+            <TextView
+                android:id="@+id/main_miniplayer_lblAlbumTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[Album Title]"
+                android:textColor="#FFCCCCCC"
+                android:textSize="11dip" />
+            <TextView
+                android:id="@+id/main_miniplayer_lblSongTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[Song Title]"
+                android:textColor="#FFCCCCCC"
+                android:textSize="11dip" />
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>
