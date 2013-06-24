@@ -21,20 +21,16 @@ namespace MPfm.Mac.Classes.Objects
 {
     public static class GlobalTheme
     {
-//        public static CGColor MainColor { get { return new CGColor(0.2118f, 0.2706f, 0.3098f, 1); } }
-//        public static CGColor MainDarkColor { get { return new CGColor(0.1490f, 0.1843f, 0.2118f, 1); } }
-//        public static CGColor MainLightColor { get { return new CGColor(0.2745f, 0.3490f, 0.4f, 1); } }
-//        public static CGColor SecondaryColor { get { return new CGColor(0.9059f, 0.2980f, 0.2353f, 1); } }
-//        public static CGColor SecondaryDarkColor { get { return new CGColor(0.7529f, 0.2235f, 0.1686f, 1); } }
-//        public static CGColor LightColor { get { return new CGColor(1.0f, 1.0f, 1.0f, 1); } }
-
-        public static CGColor ButtonBackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1); // blue
-        //public static CGColor ButtonBackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1); // orange
-        public static CGColor ButtonBackgroundMouseDownColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
-        public static CGColor ButtonBackgroundMouseOverColor = new CGColor(130f/255f, 158f/255f, 177f/255f, 1);
-        public static CGColor ButtonBorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1); // blue
-        //public static CGColor ButtonBorderColor = new CGColor(0.7529f, 0.2235f, 0.1686f, 1); // orange
+        public static CGColor ButtonBackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+        public static CGColor ButtonBackgroundMouseDownColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
+        public static CGColor ButtonBackgroundMouseOverColor = new CGColor(0.9559f, 0.3480f, 0.2853f, 1);
+        public static CGColor ButtonBorderColor = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
         public static CGColor ButtonTextColor = new CGColor(1, 1, 1, 1);
+
+        public static CGColor ButtonToolbarBackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+        public static CGColor ButtonToolbarBackgroundMouseDownColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);// new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
+        public static CGColor ButtonToolbarBackgroundMouseOverColor = new CGColor(130f/255f, 158f/255f, 177f/255f, 1);
+        public static CGColor ButtonToolbarBorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
 
         public static CGColor PanelBackgroundColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
         public static CGColor PanelBackgroundColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);

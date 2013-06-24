@@ -24,6 +24,7 @@ using MonoMac.AppKit;
 using MonoMac.CoreAnimation;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -38,8 +39,6 @@ namespace MPfm.Mac.Classes.Controls
         NSTimer timer;
 
         public bool IsPlaying { get; private set; }
-        public CGColor GradientColor1 { get; set; }
-        public CGColor GradientColor2 { get; set; }
 
         [Export("init")]
         public MPfmIsPlayingTableCellView() : base(NSObjectFlag.Empty)
@@ -55,11 +54,6 @@ namespace MPfm.Mac.Classes.Controls
 
         void Initialize()
         {
-            // Set default colors
-            GradientColor1 = new CGColor(1.0f, 1.0f, 1.0f);
-            GradientColor2 = new CGColor(0.8f, 0.8f, 0.8f);
-
-            // Activate layers
             this.WantsLayer = true;
             //this.Layer.BackgroundColor = new CGColor(0.9f, 0.9f, 0.9f);
         }
@@ -157,10 +151,8 @@ namespace MPfm.Mac.Classes.Controls
             float circleRadius = (size - 4) / 2;
             RectangleF rect = new RectangleF(padding / 2, padding / 2, size - padding, size - padding);
 
-            //CGColor color1 = new CGColor(0.0f, 0.5f, 0.0f);
-            //CGColor color2 = new CGColor(0.0f, 1.0f, 0.0f);
-            CGColor color1 = new CGColor(0.0f, 0.3f, 0.0f);
-            CGColor color2 = new CGColor(0.65f, 1.0f, 0.65f);
+            CGColor color1 = GlobalTheme.PanelBackgroundColor1;
+            CGColor color2 = GlobalTheme.PanelBackgroundColor2;
             CGGradient gradientBackground;
             CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();            
             float[] locationListBackground = new float[] { 1.0f, 0.0f };
@@ -179,8 +171,7 @@ namespace MPfm.Mac.Classes.Controls
 
             // Draw outline
             context.SetLineWidth(1.5f);
-            //context.SetStrokeColor(new CGColor(0.35f, 0.6f, 0.35f));
-            context.SetStrokeColor(new CGColor(0.65f, 0.65f, 0.65f));
+            context.SetStrokeColor(GlobalTheme.PanelBorderColor);
             context.StrokePath();
 
             // Clip path and draw gradient inside
@@ -188,16 +179,6 @@ namespace MPfm.Mac.Classes.Controls
             context.EOClip();
             context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, Bounds.Height), CGGradientDrawingOptions.DrawsAfterEndLocation);
 
-//            // Draw outline
-//            context.AddPath(path);
-//            //context.SetLineWidth(1.5f);
-//            context.SetLineWidth(1.25f);
-//            //context.SetStrokeColor(new CGColor(0.0f, 0.25f, 0.0f));
-//            //context.SetStrokeColor(new CGColor(0.0f, 0.0f, 0.0f));
-//            context.SetStrokeColor(new CGColor(0.65f, 0.65f, 0.65f));
-//            context.StrokePath();
-
-            // Restore state
             context.RestoreState();
         }
     }
