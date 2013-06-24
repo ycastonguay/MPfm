@@ -30,6 +30,9 @@ namespace MPfm.Android.Classes.Fragments
     public class PlayerMetadataFragment : BaseFragment, IPlayerMetadataView, View.IOnClickListener
     {        
         private View _view;
+        private TextView _lblArtistName;
+        private TextView _lblAlbumTitle;
+        private TextView _lblSongTitle;
 
         // Leave an empty constructor or the application will crash at runtime
         public PlayerMetadataFragment() : base(null) { }
@@ -41,7 +44,11 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            _view = inflater.Inflate(Resource.Layout.GeneralPreferences, container, false);
+            Console.WriteLine("PlayerMetadataFragment - OnCreateView");
+            _view = inflater.Inflate(Resource.Layout.PlayerMetadata, container, false);
+            _lblArtistName = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblArtistName);
+            _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblAlbumTitle);
+            _lblSongTitle = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblSongTitle);
             return _view;
         }
 
@@ -57,7 +64,23 @@ namespace MPfm.Android.Classes.Fragments
         public Action OnToggleRepeat { get; set; }
 
         public void RefreshAudioFile(AudioFile audioFile)
-        {
+        {            
+            Activity.RunOnUiThread(() => {
+                if (audioFile != null)
+                {
+                    Console.WriteLine("PlayerMetadataFragment - RefreshAudioFile - {0}", audioFile.FilePath);
+                    _lblArtistName.Text = audioFile.ArtistName;
+                    _lblAlbumTitle.Text = audioFile.AlbumTitle;
+                    _lblSongTitle.Text = audioFile.Title;
+                }
+                else
+                {
+                    Console.WriteLine("PlayerMetadataFragment - RefreshAudioFile (null)");
+                    _lblArtistName.Text = string.Empty;
+                    _lblAlbumTitle.Text = string.Empty;
+                    _lblSongTitle.Text = string.Empty;
+                }
+            });
         }
 
         public void RefreshShuffle(bool shuffle)

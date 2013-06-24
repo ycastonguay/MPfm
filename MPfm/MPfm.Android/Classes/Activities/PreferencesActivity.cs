@@ -37,7 +37,7 @@ namespace MPfm.Android
     public class PreferencesActivity : BaseActivity, View.IOnClickListener
     {
         private ViewPager _viewPager;
-        private TabPagerAdapter _tabPagerAdapter;
+        private MainTabPagerAdapter _tabPagerAdapter;
         private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
         private MobileNavigationManager _navigationManager;
 
@@ -69,7 +69,7 @@ namespace MPfm.Android
 
             // Create view pager (for lateral navigation)
             _viewPager = FindViewById<ViewPager>(Resource.Id.settings_pager);
-            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
+            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 

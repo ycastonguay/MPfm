@@ -1422,8 +1422,13 @@ namespace MPfm.Player
             Playlist.CurrentItem.Channel.SetPosition(0); // Flush buffer
             _fxChannel.SetPosition(0);
             _mixerChannel.SetPosition(0);
-            Playlist.CurrentItem.Channel.SetPosition(bytes * 2);
-            SetSyncCallback((length - (bytes * 2)));
+
+            long bytesPosition = bytes;
+            if (_useFloatingPoint)
+                bytesPosition *= 2;
+
+            Playlist.CurrentItem.Channel.SetPosition(bytesPosition);
+            SetSyncCallback(length - bytesPosition);
 
             if(!IsPaused)
                 _mixerChannel.Play(false);

@@ -16,32 +16,32 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Models;
+using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class PitchShiftingFragment : BaseFragment, IPitchShiftingView, View.IOnClickListener
+    public class TimeShiftingFragment : BaseFragment, ITimeShiftingView, View.IOnClickListener
     {        
         private View _view;
 
         // Leave an empty constructor or the application will crash at runtime
-        public PitchShiftingFragment() : base(null) { }
+        public TimeShiftingFragment() : base(null) { }
 
-        public PitchShiftingFragment(Action<IBaseView> onViewReady) 
+        public TimeShiftingFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            _view = inflater.Inflate(Resource.Layout.GeneralPreferences, container, false);
+            _view = inflater.Inflate(Resource.Layout.TimeShifting, container, false);
             return _view;
         }
 
@@ -50,26 +50,23 @@ namespace MPfm.Android.Classes.Fragments
             
         }
 
-        #region IPitchShiftingView implementation
+        #region ITimeShiftingView implementation
 
-        public Action<int> OnChangeKey { get; set; }
-        public Action<int> OnSetInterval { get; set; }
-        public Action OnResetInterval { get; set; }
-        public Action OnIncrementInterval { get; set; }
-        public Action OnDecrementInterval { get; set; }
+        public Action<float> OnSetTimeShifting { get; set; }
+        public Action OnResetTimeShifting { get; set; }
+        public Action OnUseDetectedTempo { get; set; }
+        public Action OnIncrementTempo { get; set; }
+        public Action OnDecrementTempo { get; set; }
 
-        public void PitchShiftingError(Exception ex)
+        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
         {
-        }
+        }   
 
-        public void RefreshKeys(List<Tuple<int, string>> keys)
-        {
-        }
-
-        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        public void TimeShiftingError(Exception ex)
         {
         }
 
         #endregion
+
     }
 }

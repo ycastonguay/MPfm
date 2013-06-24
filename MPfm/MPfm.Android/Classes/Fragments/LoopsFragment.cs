@@ -41,7 +41,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            _view = inflater.Inflate(Resource.Layout.GeneralPreferences, container, false);
+            _view = inflater.Inflate(Resource.Layout.Loops, container, false);
             return _view;
         }
 

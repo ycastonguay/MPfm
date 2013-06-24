@@ -53,11 +53,12 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void PushDialogSubview(string parentViewTitle, IBaseView view)
         {
-            
+            MainActivity.PushDialogSubview(parentViewTitle, view);   
         }
 
         public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)
         {
+            MainActivity.PushPlayerSubview(playerView, view);
         }
     }
 }

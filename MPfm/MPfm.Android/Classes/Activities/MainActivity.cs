@@ -97,20 +97,22 @@ namespace MPfm.Android
             Console.WriteLine("MainActivity - PushTabView type: {0}", type.ToString());
             if (fragment is PlayerFragment)
             {
-                // This fragment should completely hide the view pager
-                //_miniPlayer.Alpha = 1;                
                 _miniPlayer.Visibility = ViewStates.Visible;
                 Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
                 _miniPlayer.StartAnimation(anim);
-                //ActionBar.NavigationMode = ActionBarNavigationMode.Standard;
-                //_viewPager.Visibility = ViewStates.Gone;
 
                 var transaction = FragmentManager.BeginTransaction();
-                //transaction.Replace(Resource.Id.main_fragment_container, fragment);
-                //transaction.Hide()      
                 var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
-                transaction.Hide(currentFragment);
-                transaction.Add(Resource.Id.main_fragment_container, fragment);
+                if (currentFragment is MainFragment)
+                {
+                    transaction.Hide(currentFragment);
+                    transaction.Add(Resource.Id.main_fragment_container, fragment);
+                }
+                else
+                {
+                    transaction.Replace(Resource.Id.main_fragment_container, fragment);
+                }
+
                 transaction.AddToBackStack(null);
                 transaction.Commit();
             }
@@ -119,6 +121,18 @@ namespace MPfm.Android
         public void PushDialogView(Fragment fragment)
         {
             
+        }
+
+        public void PushDialogSubview(string parentViewTitle, IBaseView view)
+        {
+
+        }
+
+        public void PushPlayerSubview(IPlayerView playerView, IBaseView view)
+        {
+            Console.WriteLine("MainActivity - PushPlayerSubview - view: {0}", view.GetType().FullName);
+            PlayerFragment fragment = (PlayerFragment)playerView;
+            fragment.AddSubview(view);
         }
 
         public override void OnBackPressed()

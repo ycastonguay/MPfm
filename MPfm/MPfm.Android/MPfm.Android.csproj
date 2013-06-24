@@ -58,6 +58,7 @@
     <Compile Include="Classes\Activities\BaseActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
+    <Compile Include="Classes\Adapters\MainTabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
@@ -69,8 +70,8 @@
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />
     <Compile Include="Classes\Fragments\LoopsFragment.cs" />
-    <Compile Include="Classes\Fragments\PitchShiftingFragment.cs" />
     <Compile Include="Classes\Fragments\TimeShiftingFragment.cs" />
+    <Compile Include="Classes\Fragments\PitchShiftingFragment.cs" />
     <Compile Include="Classes\Fragments\SplashFragment.cs" />
     <Compile Include="Classes\Fragments\LibraryPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\GeneralPreferencesFragment.cs" />

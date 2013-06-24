@@ -35,7 +35,7 @@ namespace MPfm.Android.Classes.Fragments
         private View _view;
         private ViewPager _viewPager;
         private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
-        private TabPagerAdapter _tabPagerAdapter;
+        private MainTabPagerAdapter _tabPagerAdapter;
 
         // Leave an empty constructor or the application will crash at runtime
         public MainFragment() : base()
@@ -48,7 +48,7 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.Main, container, false);
             _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
             _viewPager = _view.FindViewById<ViewPager>(Resource.Id.main_pager);
-            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, Activity.ActionBar);
+            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, Activity.ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 

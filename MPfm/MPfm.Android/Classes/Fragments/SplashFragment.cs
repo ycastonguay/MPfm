@@ -43,13 +43,15 @@ namespace MPfm.Android.Classes.Fragments
         {
             _view = inflater.Inflate(Resource.Layout.Splash, container, false);
             _textView = _view.FindViewById<TextView>(Resource.Id.splash_text);
+            Dialog.RequestWindowFeature((int) WindowFeatures.NoTitle);
             return _view;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetStyle(DialogFragmentStyle.NoFrame, Resource.Style.SplashTheme);
+            //SetStyle(DialogFragmentStyle.NoFrame, Resource.Style.SplashTheme);
+            SetStyle(DialogFragmentStyle.Normal, Resource.Style.SplashTheme);
         }
 
         public void OnClick(View v)
