@@ -97,15 +97,15 @@ namespace MPfm.Android
 
         public void PushTabView(MobileNavigationTabType type, Fragment fragment)
         {
-            Console.WriteLine("MainActivity - PushTabView type: {0}", type.ToString());
+            Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1}", type.ToString(), fragment.GetType().FullName);
+            var transaction = FragmentManager.BeginTransaction();
+            var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
             if (fragment is PlayerFragment)
             {
                 _miniPlayer.Visibility = ViewStates.Visible;
                 Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
                 _miniPlayer.StartAnimation(anim);
-
-                var transaction = FragmentManager.BeginTransaction();
-                var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
+                                
                 if (currentFragment is MainFragment)
                 {
                     transaction.Hide(currentFragment);
@@ -115,20 +115,32 @@ namespace MPfm.Android
                 {
                     transaction.Replace(Resource.Id.main_fragment_container, fragment);
                 }
-
-                transaction.AddToBackStack(null);
-                transaction.Commit();
             }
+            else
+            {
+                transaction.Hide(currentFragment);
+                transaction.Add(Resource.Id.main_fragment_container, fragment);
+            }
+
+            transaction.SetCustomAnimations(Resource.Animator.slide_in, Resource.Animator.fade_out);
+            transaction.AddToBackStack(null);
+            transaction.Commit();
         }
 
         public void PushDialogView(Fragment fragment)
         {
-            
+            Console.WriteLine("MainActivity - PushDialogView fragment: {0}", fragment.GetType().FullName);
+            var transaction = FragmentManager.BeginTransaction();
+            var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);            
+            transaction.Hide(currentFragment);
+            transaction.Add(Resource.Id.main_fragment_container, fragment);
+            transaction.AddToBackStack(null);
+            transaction.Commit();
         }
 
         public void PushDialogSubview(string parentViewTitle, IBaseView view)
         {
-
+            Console.WriteLine("MainActivity - PushDialogSubview parentViewTitle: {0} view: {1}", parentViewTitle, view.GetType().FullName);
         }
 
         public void PushPlayerSubview(IPlayerView playerView, IBaseView view)
@@ -240,26 +252,27 @@ namespace MPfm.Android
         public override bool OnOptionsItemSelected(IMenuItem menuItem)
         {
             var option = _options.FirstOrDefault(x => x.Value == menuItem.TitleFormatted.ToString());
-            switch (option.Key)
-            {
-                case MobileOptionsMenuType.About:
-                    break;
-                case MobileOptionsMenuType.EqualizerPresets:
-                    break;
-                case MobileOptionsMenuType.Preferences:
-                    Intent intent = new Intent(this, typeof(PreferencesActivity));
-                    StartActivity(intent);
-                    break;
-                case MobileOptionsMenuType.SyncLibrary:
-                    break;
-                case MobileOptionsMenuType.SyncLibraryCloud:
-                    break;
-                case MobileOptionsMenuType.SyncLibraryFileSharing:
-                    ShowUpdateLibrary((UpdateLibraryFragment)_navigationManager.CreateUpdateLibraryView());
-                    break;
-                case MobileOptionsMenuType.SyncLibraryWebBrowser:
-                    break;
-            }
+            OnItemClick(option.Key);
+            //switch (option.Key)
+            //{
+            //    case MobileOptionsMenuType.About:                    
+            //        break;
+            //    case MobileOptionsMenuType.EqualizerPresets:
+            //        break;
+            //    case MobileOptionsMenuType.Preferences:
+            //        Intent intent = new Intent(this, typeof(PreferencesActivity));
+            //        StartActivity(intent);
+            //        break;
+            //    case MobileOptionsMenuType.SyncLibrary:
+            //        break;
+            //    case MobileOptionsMenuType.SyncLibraryCloud:
+            //        break;
+            //    case MobileOptionsMenuType.SyncLibraryFileSharing:
+            //        ShowUpdateLibrary((UpdateLibraryFragment)_navigationManager.CreateUpdateLibraryView());
+            //        break;
+            //    case MobileOptionsMenuType.SyncLibraryWebBrowser:
+            //        break;
+            //}
             return base.OnOptionsItemSelected(menuItem);
         }
 

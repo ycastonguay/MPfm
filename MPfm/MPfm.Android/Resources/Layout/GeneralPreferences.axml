@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-
   <TextView
     android:id="@+id/fragment_generalSettings_lblTitle"
     android:text="[Title]"
@@ -12,5 +11,4 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:padding="6dip" />
-  />
 </LinearLayout>

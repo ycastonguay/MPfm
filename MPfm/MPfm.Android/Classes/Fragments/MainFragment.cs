@@ -77,6 +77,7 @@ namespace MPfm.Android.Classes.Fragments
         {
             Console.WriteLine("MainFragment - OnResume");
             base.OnResume();
+            Activity.ActionBar.Title = "Sessions";
         }
 
         public override void OnStart()

@@ -66,6 +66,12 @@
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
+    <Compile Include="Classes\Fragments\PreferencesFragment.cs" />
+    <Compile Include="Classes\Fragments\EqualizerPresetDetailsFragment.cs" />
+    <Compile Include="Classes\Fragments\EqualizerPresetsFragment.cs" />
+    <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
+    <Compile Include="Classes\Fragments\SyncMenuFragment.cs" />
+    <Compile Include="Classes\Fragments\SyncFragment.cs" />
     <Compile Include="Classes\Fragments\MainFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />
@@ -138,6 +144,24 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\MainActivity.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Sync.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\SyncDownload.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\SyncMenu.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\EqualizerPresets.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\EqualizerPresetDetails.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Preferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -217,6 +241,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_mobile.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_settings.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_share.png" />
+    <AndroidResource Include="Resources\animator\fade_out.xml" />
+    <AndroidResource Include="Resources\animator\slide_in.xml" />
+    <AndroidResource Include="Resources\animator\slide_out.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
