@@ -177,7 +177,6 @@
     <AndroidResource Include="Resources\Values\Styles.xml" />
     <AndroidResource Include="Resources\Values\Colors.xml" />
     <AndroidResource Include="Resources\drawable\Splash.png" />
-    <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\Anim\fade_in.xml" />
     <AndroidResource Include="Resources\Anim\fade_out.xml" />
     <AndroidResource Include="Resources\Anim\slide_out_right.xml" />
@@ -186,6 +185,38 @@
     <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_cloud.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_cloud.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_cloud.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_cloud.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_transparent.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_earth.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_info.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_mobile.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_settings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_share.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_earth.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_info.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_mobile.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_settings.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_share.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_earth.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_info.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_mobile.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_settings.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_share.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_earth.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_info.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_mobile.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_settings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_share.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

@@ -45,6 +45,7 @@ namespace MPfm.Android.Classes
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
+            container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
             container.Register<ISplashView, SplashFragment>().AsMultiInstance();
             container.Register<IPlayerView, PlayerFragment>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();

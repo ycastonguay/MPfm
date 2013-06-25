@@ -41,12 +41,12 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
 
             view.OnItemClick = OnItemClick;
-            
             Initialize();
         }
 
 	    private void Initialize()
-	    {	        
+	    {
+            Console.WriteLine("MobileOptionsMenuPresenter - Initialize");
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
             //_items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync Library (Other Devices)"));

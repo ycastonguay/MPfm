@@ -89,7 +89,31 @@ namespace MPfm.Android
 			public const int Icon = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int Splash = 2130837505;
+			public const int icon_cloud = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int icon_earth = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int icon_equalizer = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int icon_info = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int icon_mobile = 2130837509;
+			
+			// aapt resource value: 0x7f020006
+			public const int icon_settings = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int icon_share = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int icon_transparent = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int Splash = 2130837513;
 			
 			static Drawable()
 			{
@@ -175,18 +199,6 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f09000b
 			public const int main_pager_title_strip = 2131296267;
-			
-			// aapt resource value: 0x7f09002f
-			public const int menu_item_about = 2131296303;
-			
-			// aapt resource value: 0x7f09002c
-			public const int menu_item_effects = 2131296300;
-			
-			// aapt resource value: 0x7f09002e
-			public const int menu_item_preferences = 2131296302;
-			
-			// aapt resource value: 0x7f09002d
-			public const int menu_item_updateLibrary = 2131296301;
 			
 			// aapt resource value: 0x7f090020
 			public const int playerMetadata_lblAlbumTitle = 2131296288;

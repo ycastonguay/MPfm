@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -42,6 +43,7 @@ namespace MPfm.Android
         private SplashFragment _splashFragment;
         private MainFragment _mainFragment;
         private LinearLayout _miniPlayer;
+        private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -68,6 +70,7 @@ namespace MPfm.Android
                 Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
                 _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
                 _navigationManager.MainActivity = this;
+                _navigationManager.BindOptionsMenuView(this);
                 _navigationManager.Start();
             }
         }
@@ -197,30 +200,65 @@ namespace MPfm.Android
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.main_menu, menu);
+            Console.WriteLine("MainActivity - OnCreateOptionsMenu");
+
+            foreach (var option in _options)
+            {
+                var menuItem = menu.Add(new Java.Lang.String(option.Value));
+                switch (option.Key)
+                {
+                    case MobileOptionsMenuType.About:
+                        menuItem.SetIcon(Resource.Drawable.icon_info);
+                        break;
+                    case MobileOptionsMenuType.EqualizerPresets:
+                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+                        menuItem.SetIcon(Resource.Drawable.icon_equalizer);
+                        break;
+                    case MobileOptionsMenuType.Preferences:
+                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+                        menuItem.SetIcon(Resource.Drawable.icon_settings);
+                        break;
+                    case MobileOptionsMenuType.SyncLibrary:
+                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+                        menuItem.SetIcon(Resource.Drawable.icon_mobile);
+                        break;
+                    case MobileOptionsMenuType.SyncLibraryCloud:
+                        menuItem.SetIcon(Resource.Drawable.icon_cloud);
+                        break;
+                    case MobileOptionsMenuType.SyncLibraryFileSharing:
+                        menuItem.SetIcon(Resource.Drawable.icon_share);
+                        break;
+                    case MobileOptionsMenuType.SyncLibraryWebBrowser:
+                        menuItem.SetIcon(Resource.Drawable.icon_earth);
+                        break;
+                }
+            }
+
             return true;
         }
 
         public override bool OnOptionsItemSelected(IMenuItem menuItem)
         {
-            string text = menuItem.TitleFormatted.ToString();
-            if (text.ToUpper() == "EFFECTS")
+            var option = _options.FirstOrDefault(x => x.Value == menuItem.TitleFormatted.ToString());
+            switch (option.Key)
             {
-                
-            }
-            else if (text.ToUpper() == "UPDATE LIBRARY")
-            {
-                ShowUpdateLibrary((UpdateLibraryFragment)_navigationManager.CreateUpdateLibraryView());
-            }
-            else if (text.ToUpper() == "PREFERENCES")
-            {
-                Intent intent = new Intent(this, typeof(PreferencesActivity));
-                StartActivity(intent);
-            }
-            else if (text.ToUpper() == "ABOUT MPFM")
-            {
-                //ShowSplashScreen();
-                //var dialog = new DialogTest();
-                //dialog.Show(FragmentManager, "tagnumber");
+                case MobileOptionsMenuType.About:
+                    break;
+                case MobileOptionsMenuType.EqualizerPresets:
+                    break;
+                case MobileOptionsMenuType.Preferences:
+                    Intent intent = new Intent(this, typeof(PreferencesActivity));
+                    StartActivity(intent);
+                    break;
+                case MobileOptionsMenuType.SyncLibrary:
+                    break;
+                case MobileOptionsMenuType.SyncLibraryCloud:
+                    break;
+                case MobileOptionsMenuType.SyncLibraryFileSharing:
+                    ShowUpdateLibrary((UpdateLibraryFragment)_navigationManager.CreateUpdateLibraryView());
+                    break;
+                case MobileOptionsMenuType.SyncLibraryWebBrowser:
+                    break;
             }
             return base.OnOptionsItemSelected(menuItem);
         }
@@ -248,7 +286,8 @@ namespace MPfm.Android
         public Action<MobileOptionsMenuType> OnItemClick { get; set; }
         public void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options)
         {
-            
+            Console.WriteLine("MainActivity - RefreshMenu");
+            _options = options;
         }
 
         #endregion
