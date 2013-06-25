@@ -99,38 +99,36 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1}", type.ToString(), fragment.GetType().FullName);
             var transaction = FragmentManager.BeginTransaction();
+            transaction.SetCustomAnimations(Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.fade_in, Resource.Animator.fade_out);
             var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
+            if (currentFragment is MainFragment)
+            {
+                Console.WriteLine("MainActivity - PushTabView - Hiding main fragment...");
+                transaction.Hide(currentFragment);
+                transaction.Add(Resource.Id.main_fragment_container, fragment);
+            }
+            else
+            {
+                Console.WriteLine("MainActivity - PushTabView - Replacing fragment...");
+                transaction.Replace(Resource.Id.main_fragment_container, fragment);
+            }
+
+            transaction.AddToBackStack(null);
+            transaction.Commit();
+
             if (fragment is PlayerFragment)
             {
                 _miniPlayer.Visibility = ViewStates.Visible;
                 Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
                 _miniPlayer.StartAnimation(anim);
-                                
-                if (currentFragment is MainFragment)
-                {
-                    transaction.Hide(currentFragment);
-                    transaction.Add(Resource.Id.main_fragment_container, fragment);
-                }
-                else
-                {
-                    transaction.Replace(Resource.Id.main_fragment_container, fragment);
-                }
             }
-            else
-            {
-                transaction.Hide(currentFragment);
-                transaction.Add(Resource.Id.main_fragment_container, fragment);
-            }
-
-            transaction.SetCustomAnimations(Resource.Animator.slide_in, Resource.Animator.fade_out);
-            transaction.AddToBackStack(null);
-            transaction.Commit();
         }
 
         public void PushDialogView(Fragment fragment)
         {
             Console.WriteLine("MainActivity - PushDialogView fragment: {0}", fragment.GetType().FullName);
             var transaction = FragmentManager.BeginTransaction();
+
             var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);            
             transaction.Hide(currentFragment);
             transaction.Add(Resource.Id.main_fragment_container, fragment);
@@ -146,7 +144,14 @@ namespace MPfm.Android
         public void PushPlayerSubview(IPlayerView playerView, IBaseView view)
         {
             Console.WriteLine("MainActivity - PushPlayerSubview - view: {0}", view.GetType().FullName);
-            PlayerFragment fragment = (PlayerFragment)playerView;
+            var fragment = (PlayerFragment)playerView;
+            fragment.AddSubview(view);
+        }
+
+        public void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
+        {
+            Console.WriteLine("MainActivity - PushPreferencesSubview - view: {0}", view.GetType().FullName);
+            var fragment = (PreferencesFragment)preferencesView;
             fragment.AddSubview(view);
         }
 
@@ -154,7 +159,7 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - OnBackPressed");
             var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
-            Console.WriteLine("OnBackPressed - fragment: {0}", currentFragment.GetType().FullName);
+            Console.WriteLine("OnBackPressed - fragmentCount: {0} fragment: {1}", FragmentManager.BackStackEntryCount, currentFragment.GetType().FullName);
 
             if (FragmentManager.BackStackEntryCount > 0)
             {

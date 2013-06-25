@@ -4,11 +4,19 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-  <TextView
-    android:id="@+id/preferences_lblTitle"
-    android:text="[Title]"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:padding="6dip" />
+  <android.support.v4.view.ViewPager
+      android:id="@+id/preferences_pager"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:layout_above="@+id/main_miniplayer">
+    <android.support.v4.view.PagerTitleStrip
+          android:id="@+id/preferences_pager_title_strip"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="top"
+          android:background="#465966"
+          android:textColor="#fff"
+          android:paddingTop="4dp"
+          android:paddingBottom="4dp" />
+  </android.support.v4.view.ViewPager>
 </LinearLayout>

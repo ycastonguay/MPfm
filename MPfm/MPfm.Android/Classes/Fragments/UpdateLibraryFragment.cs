@@ -48,7 +48,9 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Dialog.SetTitle("Update Library");
+            if(Dialog != null)
+                Dialog.SetTitle("Update Library");
+
             _view = inflater.Inflate(Resource.Layout.UpdateLibrary, container, false);
             _button = _view.FindViewById<Button>(Resource.Id.fragment_updateLibrary_button);
             _lblTitle = _view.FindViewById<TextView>(Resource.Id.fragment_updateLibrary_lblTitle);

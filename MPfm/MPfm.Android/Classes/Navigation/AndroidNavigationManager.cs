@@ -28,7 +28,7 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void ShowSplash(ISplashView view)
         {
-            MainActivity.ShowSplash((SplashFragment)view);
+            MainActivity.ShowSplash((SplashFragment) view);
         }
 
         public override void HideSplash()
@@ -38,27 +38,32 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
         {
-            MainActivity.AddTab(type, title, (Fragment)view);
+            MainActivity.AddTab(type, title, (Fragment) view);
         }
 
         public override void PushTabView(MobileNavigationTabType type, IBaseView view)
         {
-            MainActivity.PushTabView(type, (Fragment)view);
+            MainActivity.PushTabView(type, (Fragment) view);
         }
 
         public override void PushDialogView(string viewTitle, IBaseView view)
         {
-            MainActivity.PushDialogView((Fragment)view);
+            MainActivity.PushDialogView((Fragment) view);
         }
 
         public override void PushDialogSubview(string parentViewTitle, IBaseView view)
         {
-            MainActivity.PushDialogSubview(parentViewTitle, view);   
+            MainActivity.PushDialogSubview(parentViewTitle, view);
         }
 
         public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)
         {
             MainActivity.PushPlayerSubview(playerView, view);
         }
+
+        public override void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
+        {
+            MainActivity.PushPreferencesSubview(preferencesView, view);
+        }    
     }
 }

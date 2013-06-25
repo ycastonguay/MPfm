@@ -97,6 +97,7 @@ namespace MPfm.MVP.Navigation
         public abstract void PushDialogView(string viewTitle, IBaseView view);
         public abstract void PushDialogSubview(string parentViewTitle, IBaseView view);
         public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
+        public abstract void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view);
 
         public virtual void Start()
         {
@@ -198,6 +199,17 @@ namespace MPfm.MVP.Navigation
             {
                 _preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
                 _preferencesPresenter.BindView((IPreferencesView)view);
+
+                // On Android, push subviews for preferences since there's generally more space on screen and swiping horizontally is more natural.
+#if ANDROID
+                // Add scroll view items
+                var general = CreateGeneralPreferencesView();
+                var audio = CreateAudioPreferencesView();
+                var library = CreateLibraryPreferencesView();
+                PushPreferencesSubview(_preferencesView, general);
+                PushPreferencesSubview(_preferencesView, audio);
+                PushPreferencesSubview(_preferencesView, library);
+#endif
             };
             
             // Create view and manage view destruction
@@ -337,7 +349,6 @@ namespace MPfm.MVP.Navigation
                 _playerPresenter.BindView((IPlayerView)view);
 
                 // Add scroll view items
-
                 var playerMetadata = CreatePlayerMetadataView();
                 var loops = CreateLoopsView();
                 var markers = CreateMarkersView();

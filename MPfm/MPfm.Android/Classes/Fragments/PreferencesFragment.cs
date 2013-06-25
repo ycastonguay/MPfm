@@ -19,8 +19,10 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.OS;
+using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
+using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Views;
 
@@ -29,24 +31,46 @@ namespace MPfm.Android.Classes.Fragments
     public class PreferencesFragment : BaseFragment, IPreferencesView, View.IOnClickListener
     {        
         private View _view;
+        private List<Fragment> _fragments;
+        private ViewPager _viewPager;
+        private TabPagerAdapter _tabPagerAdapter;
 
         // Leave an empty constructor or the application will crash at runtime
-        public PreferencesFragment() : base(null) { }
+        public PreferencesFragment() : base(null)
+        {
+            _fragments = new List<Fragment>();
+        }
 
         public PreferencesFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
-        {            
+        {
+            _fragments = new List<Fragment>();
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             _view = inflater.Inflate(Resource.Layout.Preferences, container, false);
+            _viewPager = _view.FindViewById<ViewPager>(Resource.Id.preferences_pager);
+            _viewPager.OffscreenPageLimit = 2;
+            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, Activity.ActionBar);
+            _viewPager.Adapter = _tabPagerAdapter;
+            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+
             return _view;
+        }
+
+        public void AddSubview(IBaseView view)
+        {
+            Console.WriteLine("PreferencesFragment - AddSubview view: {0}", view.GetType().FullName);
+            _fragments.Add((Fragment)view);
+
+            if (_tabPagerAdapter != null)
+                _tabPagerAdapter.NotifyDataSetChanged();
         }
 
         public void OnClick(View v)
         {
-            
+
         }
 
         #region IPreferencesView implementation

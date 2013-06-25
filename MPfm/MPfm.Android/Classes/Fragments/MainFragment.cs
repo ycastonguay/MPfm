@@ -48,6 +48,7 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.Main, container, false);
             _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
             _viewPager = _view.FindViewById<ViewPager>(Resource.Id.main_pager);
+            _viewPager.OffscreenPageLimit = 4;
             _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, Activity.ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);

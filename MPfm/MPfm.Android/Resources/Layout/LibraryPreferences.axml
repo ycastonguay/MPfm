@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_librarySettings_mainLayout"
+    android:id="@+id/libraryPreferences_mainLayout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-  <TextView
-    android:id="@+id/fragment_librarySettings_lblTitle"
-    android:text="[Title]"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:padding="6dip" />
+    <TextView
+        android:id="@+id/libraryPreferences_lblTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Library Preferences"
+        android:textSize="16dp"
+        android:padding="6dip" />
+    <TextView
+        android:id="@+id/libraryPreferences_lblEnableSync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enable other users to sync with this library:"
+        android:textSize="12dp"
+        android:padding="6dip" />
+    <ToggleButton
+        android:id="@+id/libraryPreferences_btnEnableSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dip" />
+    <TextView
+        android:id="@+id/libraryPreferences_lblHTTPPort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sync server HTTP port:"
+        android:textSize="12dp"
+        android:padding="6dip" />
+    <EditText
+        android:id="@+id/libraryPreferences_txtHTTPPort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:padding="6dip" />
+    <Button
+        android:id="@+id/libraryPreferences_btnResetLibrary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset Library"
+        android:padding="6dip" />
+    <Button
+        android:id="@+id/libraryPreferences_btnUpdateLibrary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Library"
+        android:padding="6dip" />
 </LinearLayout>

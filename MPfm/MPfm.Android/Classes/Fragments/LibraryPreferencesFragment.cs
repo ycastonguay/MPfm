@@ -25,10 +25,11 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class LibraryPreferencesFragment : BaseFragment, ILibraryPreferencesView, View.IOnClickListener
+    public class LibraryPreferencesFragment : BaseFragment, ILibraryPreferencesView
     {        
         private View _view;
-        private TextView _lblTitle;
+        private Button _btnResetLibrary;
+        private Button _btnUpdateLibrary;
 
         // Leave an empty constructor or the application will crash at runtime
         public LibraryPreferencesFragment() : base(null) { }
@@ -41,13 +42,24 @@ namespace MPfm.Android.Classes.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             _view = inflater.Inflate(Resource.Layout.LibraryPreferences, container, false);
-            _lblTitle = _view.FindViewById<TextView>(Resource.Id.fragment_librarySettings_lblTitle);
+            _btnResetLibrary = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnResetLibrary);
+            _btnUpdateLibrary = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnUpdateLibrary);
+            _btnResetLibrary.Click += BtnResetLibraryOnClick;
+            _btnUpdateLibrary.Click += (sender, args) => OnUpdateLibrary();
             return _view;
         }
 
-        public void OnClick(View v)
+        private void BtnResetLibraryOnClick(object sender, EventArgs eventArgs)
         {
-            
+            AlertDialog ad = new AlertDialog.Builder(Activity)
+                .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+                .SetTitle("Reset Library")
+                .SetMessage("Are you sure you wish to reset your library?")
+                .SetCancelable(true)
+                .SetPositiveButton("OK", (sender2, args) => OnResetLibrary())
+                .SetNegativeButton("Cancel", (sender2, args) => { })
+                .Create();
+            ad.Show();
         }
 
         #region ILibraryPreferencesView implementation
