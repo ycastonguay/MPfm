@@ -101,8 +101,7 @@ namespace MPfm.MVP.Presenters
                 }
                 case MobileOptionsMenuType.Preferences:
                 {
-                    var view = _navigationManager.CreatePreferencesView();
-                    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                    _navigationManager.CreatePreferencesView();                    
                     break;
                 }
             }

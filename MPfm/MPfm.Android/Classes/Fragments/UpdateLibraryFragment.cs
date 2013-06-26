@@ -66,7 +66,7 @@ namespace MPfm.Android.Classes.Fragments
         {
             base.OnCreate(savedInstanceState);
             Cancelable = false;
-            SetStyle(DialogFragmentStyle.Normal, Resource.Style.UpdateLibraryTheme);
+            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.UpdateLibraryTheme);
         }
 
         public override void OnStart()

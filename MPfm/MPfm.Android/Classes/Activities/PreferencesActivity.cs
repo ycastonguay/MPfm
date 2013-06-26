@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.Support.V4.View;
 using Android.Views;
@@ -29,12 +30,12 @@ using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
-using TagLib.Riff;
+using MPfm.MVP.Views;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "MPfm: Preferences")]
-    public class PreferencesActivity : BaseActivity, View.IOnClickListener
+    [Activity(Label = "Preferences")]
+    public class PreferencesActivity : BaseActivity, IPreferencesView
     {
         private ViewPager _viewPager;
         private MainTabPagerAdapter _tabPagerAdapter;
@@ -46,13 +47,11 @@ namespace MPfm.Android
             Console.WriteLine("PreferencesActivity - OnCreate");
             base.OnCreate(bundle);
 
-            // Load navigation manager and other important stuff before showing splash screen
             RequestWindowFeature(WindowFeatures.ActionBar);
-            SetContentView(Resource.Layout.Settings);
+            SetContentView(Resource.Layout.Preferences);
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-
-            // Bind view to presenter
-            //AndroidNavigationManager.Instance.BindPreferencesView(this);
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
         }
 
         protected override void OnStart()
@@ -60,20 +59,13 @@ namespace MPfm.Android
             Console.WriteLine("PreferencesActivity - OnStart");
             base.OnStart();
 
-            // Create fragments
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
-            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.PreferencesGeneral, (Fragment)_navigationManager.CreateGeneralPreferencesView()));
-            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.PreferencesAudio, (Fragment)_navigationManager.CreateAudioPreferencesView()));
-            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.PreferencesLibrary, (Fragment)_navigationManager.CreateLibraryPreferencesView()));
-
-            // Create view pager (for lateral navigation)
-            _viewPager = FindViewById<ViewPager>(Resource.Id.settings_pager);
+            _viewPager = FindViewById<ViewPager>(Resource.Id.preferences_pager);
             _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
-            // Create tabs
             var generalTab = ActionBar.NewTab();
             generalTab.SetTabListener(_tabPagerAdapter);
             generalTab.SetText("General");
@@ -86,6 +78,18 @@ namespace MPfm.Android
             libraryTab.SetTabListener(_tabPagerAdapter);
             libraryTab.SetText("Library");
             ActionBar.AddTab(libraryTab);
+
+            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
+            ((AndroidNavigationManager)_navigationManager).SetPreferencesActivityInstance(this);            
+        }
+
+        public void AddSubview(IBaseView view)
+        {
+            Console.WriteLine("PreferencesActivity - AddSubview view: {0}", view.GetType().FullName);
+            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
+
+            if (_tabPagerAdapter != null)
+                _tabPagerAdapter.NotifyDataSetChanged();
         }
 
         protected override void OnRestart()
@@ -118,14 +122,31 @@ namespace MPfm.Android
             base.OnDestroy();
         }
 
-        public void OnClick(View v)
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case global::Android.Resource.Id.Home:
+                    var intent = new Intent(this, typeof (MainActivity));
+                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask); // For some reason, this doesn't behave like the back button... 
+                    StartActivity(intent);
+                    //Finish();
+                    return true;
+                    break;
+                default:
+                    return base.OnOptionsItemSelected(item);
+                    break;
+            }
+        }
+
+        #region IPreferencesView implementation
+
+        public Action<string> OnSelectItem { get; set; }
+        public void RefreshItems(List<string> items)
         {
         }
 
-        //public override void OnBackPressed()
-        //{
-        //    // Close activity
-        //    Finish();
-        //}
+        #endregion
+
     }
 }

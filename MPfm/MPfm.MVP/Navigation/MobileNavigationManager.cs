@@ -192,37 +192,38 @@ namespace MPfm.MVP.Navigation
             return _updateLibraryView;
         }
 
-        public virtual IPreferencesView CreatePreferencesView()
+        protected virtual void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
+            _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+        }
+
+        public virtual void CreatePreferencesView()
+        {
+            Action<IBaseView> onViewReady = (view) => {
+                _preferencesView = (IPreferencesView)view;
+                _preferencesView.OnViewDestroy = (view2) =>
+                {
+                    _preferencesView = null;
+                    _preferencesPresenter = null;
+                };
                 _preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
                 _preferencesPresenter.BindView((IPreferencesView)view);
-
-                // On Android, push subviews for preferences since there's generally more space on screen and swiping horizontally is more natural.
+                
 #if ANDROID
-                // Add scroll view items
+                // On Android, push subviews for preferences since there's generally more space on screen and swiping horizontally is more natural.
                 var general = CreateGeneralPreferencesView();
                 var audio = CreateAudioPreferencesView();
                 var library = CreateLibraryPreferencesView();
                 PushPreferencesSubview(_preferencesView, general);
                 PushPreferencesSubview(_preferencesView, audio);
                 PushPreferencesSubview(_preferencesView, library);
+#else
+                PushTabView(MobileNavigationTabType.More, view);
 #endif
             };
             
-            // Create view and manage view destruction
             if(_preferencesView == null)
-            {
-                _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _preferencesView.OnViewDestroy = (view) =>
-                {
-                    _libraryPreferencesView = null;
-                    _preferencesPresenter = null;
-                };
-            }
-            return _preferencesView;
+                CreatePreferencesViewInternal(onViewReady);
         }
         
         public virtual IAudioPreferencesView CreateAudioPreferencesView()

@@ -56,8 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
-    <Compile Include="Classes\Activities\PreferencesActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
+    <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\PreferencesFragmentPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MainTabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
-    <Compile Include="Classes\Fragments\PreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\EqualizerPresetDetailsFragment.cs" />
     <Compile Include="Classes\Fragments\EqualizerPresetsFragment.cs" />
     <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
@@ -114,9 +114,6 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\Splash.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Settings.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\AudioPreferences.axml">

@@ -49,5 +49,41 @@ namespace MPfm.Android.Classes.Fragments
         {
             
         }
+
+        public override void OnResume()
+        {
+            Console.WriteLine("GeneralPreferencesFragment - OnResume");
+            base.OnResume();
+        }
+
+        public override void OnStart()
+        {
+            Console.WriteLine("GeneralPreferencesFragment - OnStart");
+            base.OnStart();
+        }
+
+        public override void OnStop()
+        {
+            Console.WriteLine("GeneralPreferencesFragment - OnStop");
+            base.OnStop();
+        }
+
+        public override void OnDestroyView()
+        {
+            Console.WriteLine("GeneralPreferencesFragment - OnDestroyView");
+            base.OnDestroyView();
+        }
+
+        public override void OnPause()
+        {
+            Console.WriteLine("GeneralPreferencesFragment - OnPause");
+            base.OnPause();
+        }
+
+        public override void OnDestroy()
+        {
+            Console.WriteLine("GeneralPreferencesFragment - OnDestroy");
+            base.OnDestroy();
+        }
     }
 }

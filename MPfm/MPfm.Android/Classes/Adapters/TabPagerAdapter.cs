@@ -22,6 +22,7 @@ using Android.App;
 using Android.Runtime;
 using Android.Support.V13.App;
 using Android.Support.V4.View;
+using MPfm.Android.Classes.Fragments;
 using MPfm.MVP.Navigation;
 
 namespace MPfm.Android.Classes.Adapters
@@ -31,6 +32,7 @@ namespace MPfm.Android.Classes.Adapters
         private readonly List<Fragment> _fragments;
         private readonly ViewPager _viewPager;
         private readonly ActionBar _actionBar;
+        private readonly FragmentManager _fragmentManager;
 
         public TabPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
@@ -40,10 +42,29 @@ namespace MPfm.Android.Classes.Adapters
         public TabPagerAdapter(FragmentManager fm, List<Fragment> fragments, ViewPager viewPager, ActionBar actionBar)
             : base(fm)
         {
+            _fragmentManager = fm;
             _fragments = fragments;
             _viewPager = viewPager;
             _actionBar = actionBar;
         }
+
+        public void Clear()
+        {
+            Console.WriteLine("TabPagerAdapter - Clear");
+            foreach (var fragment in _fragments)
+            {
+                Console.WriteLine("TabPagerAdapter - Clear - Removing fragment {0}", fragment.GetType().FullName);
+                //var fragmentManager = fragment.FragmentManager;
+                var fragmentManager = _fragmentManager;
+                var transaction = fragmentManager.BeginTransaction();
+                transaction.Remove(fragment);
+                transaction.Commit();
+            }
+
+            Console.WriteLine("TabPagerAdapter - Clear - Finished removing fragments from fragment manager, clearing list...");
+            _fragments.Clear();
+            NotifyDataSetChanged();
+        }    
 
         public void OnTabReselected(ActionBar.Tab tab, FragmentTransaction ft)
         {
@@ -61,12 +82,18 @@ namespace MPfm.Android.Classes.Adapters
 
         public override Fragment GetItem(int index)
         {
-            return _fragments[index];
+            return new GeneralPreferencesFragment();
+            //return _fragments[index];
         }
 
         public override int Count
         {
-            get { return _fragments.Count; }
+            get
+            {
+                Console.WriteLine("TabPagerAdapter - Count");
+                //return _fragments.Count;
+                return 2;
+            }
         }
 
         public void OnPageScrollStateChanged(int p0)
@@ -81,6 +108,19 @@ namespace MPfm.Android.Classes.Adapters
         {
             Console.WriteLine("TabPagerAdapter - OnPageSelected position: {0}", position);
             //_actionBar.SetSelectedNavigationItem(position);
+        }
+
+        public override void DestroyItem(global::Android.Views.ViewGroup container, int position, Java.Lang.Object obj)
+        {
+            Console.WriteLine("TabPagerAdapter - Destroy item - index: {0}", position);
+            if (position >= Count)
+            {
+                Console.WriteLine("TabPagerAdapter - Destroy item (removing item) - index: {0}", position);
+                var fragmentManager = ((Fragment) obj).FragmentManager;
+                var transaction = fragmentManager.BeginTransaction();
+                transaction.Remove((Fragment) obj);
+                transaction.Commit();
+            }
         }
     }
 }

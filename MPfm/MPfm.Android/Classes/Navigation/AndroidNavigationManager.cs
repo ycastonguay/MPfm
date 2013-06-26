@@ -15,15 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using Android.App;
+using Android.Content;
+using Android.OS;
 using MPfm.Android.Classes.Fragments;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using TinyIoC;
 
 namespace MPfm.Android.Classes.Navigation
 {
     public sealed class AndroidNavigationManager : MobileNavigationManager
     {
+        private Action<IBaseView> _onPreferencesViewReady;
+
         public MainActivity MainActivity { get; set; }
 
         public override void ShowSplash(ISplashView view)
@@ -64,6 +71,21 @@ namespace MPfm.Android.Classes.Navigation
         public override void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
         {
             MainActivity.PushPreferencesSubview(preferencesView, view);
-        }    
+        }
+
+        protected override void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
+        {
+            // Why is this method necessary on Android? No way to get the activity instance when starting a new activity.
+            // No way to create an activity instance other than using intents. No way to pass an object (other than serializable) in intent (i.e. Action onViewReady).
+            _onPreferencesViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof (PreferencesActivity));
+            MainActivity.StartActivity(intent);                           
+        }
+
+        public void SetPreferencesActivityInstance(PreferencesActivity activity)
+        {
+            if (_onPreferencesViewReady != null)
+                _onPreferencesViewReady(activity);
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace MPfm.Android.Classes.Fragments
         {
             base.OnCreate(savedInstanceState);
             //SetStyle(DialogFragmentStyle.NoFrame, Resource.Style.SplashTheme);
-            SetStyle(DialogFragmentStyle.Normal, Resource.Style.SplashTheme);
+            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.SplashTheme);
         }
 
         public void OnClick(View v)
@@ -63,6 +63,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshStatus(string message)
         {
+            Console.WriteLine("SplashFragment - RefreshStatus");
             Activity.RunOnUiThread(() =>
             {
                 _textView.Text = message;
