@@ -97,7 +97,7 @@ namespace MPfm.MVP.Navigation
         public abstract void HideSplash();
         public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
-        public abstract void PushDialogView(string viewTitle, IBaseView view);
+        public abstract void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view);
         public abstract void PushDialogSubview(string parentViewTitle, IBaseView view);
         public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
         public abstract void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view);
@@ -134,19 +134,6 @@ namespace MPfm.MVP.Navigation
             _optionsMenuView = Bootstrapper.GetContainer().Resolve<IMobileOptionsMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             return _optionsMenuView;
         }
-
-//        protected void ShowPlayerView(MobileNavigationTabType tabType)
-//        {
-//            // Show player view only if it already exists
-//            if(_playerView != null)
-//                PushTabView(tabType, _playerView);
-//        }
-
-//        protected void ShowEqualizerPresetsView()
-//        {
-//            var view = CreateEqualizerPresetsView();
-//            PushDialogView("Equalizer Presets", view);
-//        }
 
         public virtual void BindOptionsMenuView(IMobileOptionsMenuView view)
         {
@@ -220,7 +207,7 @@ namespace MPfm.MVP.Navigation
                 PushPreferencesSubview(_preferencesView, general);
                 PushPreferencesSubview(_preferencesView, audio);
                 PushPreferencesSubview(_preferencesView, library);
-#else
+#elif IOS
                 PushTabView(MobileNavigationTabType.More, view);
 #endif
             };
@@ -522,27 +509,27 @@ namespace MPfm.MVP.Navigation
             return _pitchShiftingView;
         }
 
-        public virtual IEqualizerPresetsView CreateEqualizerPresetsView()
+        protected virtual void CreateEqualizerPresetsViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+        }
+
+        public virtual void CreateEqualizerPresetsView()
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
-                _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
-                _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
-            };
-            
-            // Re-use the same instance as before
-            if(_equalizerPresetsView == null)
-            {
-                // Create view and manage view destruction
-                _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _equalizerPresetsView.OnViewDestroy = (view) =>
+                _equalizerPresetsView = (IEqualizerPresetsView)view;
+                _equalizerPresetsView.OnViewDestroy = (view2) =>
                 {
                     _equalizerPresetsView = null;
                     _equalizerPresetsPresenter = null;
                 };
-            }
-            return _equalizerPresetsView;
+                _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
+                _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
+            };
+
+            if (_equalizerPresetsView == null)
+                CreateEqualizerPresetsViewInternal(onViewReady);
         }
 
         public virtual IEqualizerPresetDetailsView CreateEqualizerPresetDetailsView(EQPreset preset)

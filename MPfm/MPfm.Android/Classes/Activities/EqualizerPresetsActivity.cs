@@ -19,87 +19,68 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
-using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
-using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Preferences")]
-    public class PreferencesActivity : BaseActivity, IPreferencesView
+    [Activity(Label = "Equalizer Presets")]
+    public class EqualizerPresetsActivity : BaseActivity, IEqualizerPresetsView
     {
-        private MobileNavigationManager _navigationManager; 
-        private ViewPager _viewPager;
-        private MainTabPagerAdapter _tabPagerAdapter;
-        private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;        
+        private MobileNavigationManager _navigationManager;
 
         protected override void OnCreate(Bundle bundle)
         {
-            Console.WriteLine("PreferencesActivity - OnCreate");
+            Console.WriteLine("EqualizerPresetsActivity - OnCreate");
             base.OnCreate(bundle);
 
-            SetContentView(Resource.Layout.Preferences);
+            _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            SetContentView(Resource.Layout.EqualizerPresets);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
-
-            _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
-            _viewPager = FindViewById<ViewPager>(Resource.Id.preferences_pager);
-            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
-            _viewPager.Adapter = _tabPagerAdapter;
-            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
         }
 
         protected override void OnStart()
         {
-            Console.WriteLine("PreferencesActivity - OnStart");
+            Console.WriteLine("EqualizerPresetsActivity - OnStart");
             base.OnStart();
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetPreferencesActivityInstance(this);            
-        }
-
-        public void AddSubview(IBaseView view)
-        {
-            Console.WriteLine("PreferencesActivity - AddSubview view: {0}", view.GetType().FullName);
-            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
-
-            if (_tabPagerAdapter != null)
-                _tabPagerAdapter.NotifyDataSetChanged();
+            ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);            
         }
 
         protected override void OnRestart()
         {
-            Console.WriteLine("PreferencesActivity - OnRestart");
+            Console.WriteLine("EqualizerPresetsActivity - OnRestart");
             base.OnRestart();
         }
 
         protected override void OnPause()
         {
-            Console.WriteLine("PreferencesActivity - OnPause");
+            Console.WriteLine("EqualizerPresetsActivity - OnPause");
             base.OnPause();
         }
 
         protected override void OnResume()
         {
-            Console.WriteLine("PreferencesActivity - OnResume");
+            Console.WriteLine("EqualizerPresetsActivity - OnResume");
             base.OnResume();
         }
 
         protected override void OnStop()
         {
-            Console.WriteLine("PreferencesActivity - OnStop");
+            Console.WriteLine("EqualizerPresetsActivity - OnStop");
             base.OnStop();
         }
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("PreferencesActivity - OnDestroy");
+            Console.WriteLine("EqualizerPresetsActivity - OnDestroy");
             base.OnDestroy();
         }
 
@@ -120,10 +101,28 @@ namespace MPfm.Android
             }
         }
 
-        #region IPreferencesView implementation
+        #region IEqualizerPresetsView implementation
 
-        public Action<string> OnSelectItem { get; set; }
-        public void RefreshItems(List<string> items)
+        public Action OnBypassEqualizer { get; set; }
+        public Action<float> OnSetVolume { get; set; }
+        public Action OnAddPreset { get; set; }
+        public Action<Guid> OnLoadPreset { get; set; }
+        public Action<Guid> OnEditPreset { get; set; }
+        public Action<Guid> OnDeletePreset { get; set; }
+
+        public void EqualizerPresetsError(Exception ex)
+        {
+        }
+
+        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        {
+        }
+
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        {
+        }
+
+        public void RefreshVolume(float volume)
         {
         }
 

@@ -58,7 +58,7 @@ namespace MPfm.MVP.Presenters
         private void ClickPlaylist()
         {
             var view = _navigationManager.CreatePlaylistView();
-            _navigationManager.PushDialogView("Playlist", view);
+            _navigationManager.PushDialogView("Playlist", View, view);
         }
 
         private void ToggleRepeat()

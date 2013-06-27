@@ -177,23 +177,23 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0a0006
 			public const int fragment_generalSettings_mainLayout = 2131361798;
 			
+			// aapt resource value: 0x7f0a003f
+			public const int fragment_updateLibrary_button = 2131361855;
+			
 			// aapt resource value: 0x7f0a003e
-			public const int fragment_updateLibrary_button = 2131361854;
+			public const int fragment_updateLibrary_lblSubtitle = 2131361854;
 			
 			// aapt resource value: 0x7f0a003d
-			public const int fragment_updateLibrary_lblSubtitle = 2131361853;
-			
-			// aapt resource value: 0x7f0a003c
-			public const int fragment_updateLibrary_lblTitle = 2131361852;
-			
-			// aapt resource value: 0x7f0a0039
-			public const int fragment_updateLibrary_mainLayout = 2131361849;
-			
-			// aapt resource value: 0x7f0a003b
-			public const int fragment_updateLibrary_progressBar = 2131361851;
+			public const int fragment_updateLibrary_lblTitle = 2131361853;
 			
 			// aapt resource value: 0x7f0a003a
-			public const int fragment_updateLibrary_relativeLayout = 2131361850;
+			public const int fragment_updateLibrary_mainLayout = 2131361850;
+			
+			// aapt resource value: 0x7f0a003c
+			public const int fragment_updateLibrary_progressBar = 2131361852;
+			
+			// aapt resource value: 0x7f0a003b
+			public const int fragment_updateLibrary_relativeLayout = 2131361851;
 			
 			// aapt resource value: 0x7f0a0008
 			public const int genericcell_image = 2131361800;
@@ -310,37 +310,40 @@ namespace MPfm.Android
 			public const int preferences_pager = 2131361837;
 			
 			// aapt resource value: 0x7f0a002e
-			public const int splash_layout = 2131361838;
+			public const int preferences_pager_title_strip = 2131361838;
 			
 			// aapt resource value: 0x7f0a002f
-			public const int splash_text = 2131361839;
-			
-			// aapt resource value: 0x7f0a0036
-			public const int syncDownload_lblTitle = 2131361846;
-			
-			// aapt resource value: 0x7f0a0035
-			public const int syncDownload_mainLayout = 2131361845;
-			
-			// aapt resource value: 0x7f0a0038
-			public const int syncMenu_lblTitle = 2131361848;
-			
-			// aapt resource value: 0x7f0a0037
-			public const int syncMenu_mainLayout = 2131361847;
-			
-			// aapt resource value: 0x7f0a0034
-			public const int sync_btnConnectManually = 2131361844;
-			
-			// aapt resource value: 0x7f0a0031
-			public const int sync_lblIPAddress = 2131361841;
-			
-			// aapt resource value: 0x7f0a0033
-			public const int sync_lblStatus = 2131361843;
+			public const int splash_layout = 2131361839;
 			
 			// aapt resource value: 0x7f0a0030
-			public const int sync_mainLayout = 2131361840;
+			public const int splash_text = 2131361840;
+			
+			// aapt resource value: 0x7f0a0037
+			public const int syncDownload_lblTitle = 2131361847;
+			
+			// aapt resource value: 0x7f0a0036
+			public const int syncDownload_mainLayout = 2131361846;
+			
+			// aapt resource value: 0x7f0a0039
+			public const int syncMenu_lblTitle = 2131361849;
+			
+			// aapt resource value: 0x7f0a0038
+			public const int syncMenu_mainLayout = 2131361848;
+			
+			// aapt resource value: 0x7f0a0035
+			public const int sync_btnConnectManually = 2131361845;
 			
 			// aapt resource value: 0x7f0a0032
-			public const int sync_progressBar = 2131361842;
+			public const int sync_lblIPAddress = 2131361842;
+			
+			// aapt resource value: 0x7f0a0034
+			public const int sync_lblStatus = 2131361844;
+			
+			// aapt resource value: 0x7f0a0031
+			public const int sync_mainLayout = 2131361841;
+			
+			// aapt resource value: 0x7f0a0033
+			public const int sync_progressBar = 2131361843;
 			
 			static Id()
 			{

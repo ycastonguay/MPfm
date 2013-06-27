@@ -69,7 +69,7 @@ namespace MPfm.Android
 
                 Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
                 _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-                _navigationManager.MainActivity = this;
+                _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
                 _navigationManager.BindOptionsMenuView(this);
                 _navigationManager.Start();
             }
@@ -125,16 +125,25 @@ namespace MPfm.Android
             }
         }
 
-        public void PushDialogView(Fragment fragment)
+        public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
         {
-            Console.WriteLine("MainActivity - PushDialogView fragment: {0} fragmentCount: {1}", fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
-            var transaction = FragmentManager.BeginTransaction();
-            transaction.SetCustomAnimations(Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.fade_in, Resource.Animator.fade_out);
-            var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);            
-            transaction.Hide(currentFragment);
-            transaction.Add(Resource.Id.main_fragment_container, fragment);
-            transaction.AddToBackStack(null);
-            transaction.Commit();
+            Console.WriteLine("MainActivity - PushDialogView view: {0} fragmentCount: {1}", view.GetType().FullName, FragmentManager.BackStackEntryCount);
+            if (view is DialogFragment)
+            {
+                var dialogFragment = (DialogFragment) view;
+                dialogFragment.Show(FragmentManager, viewTitle);
+            }
+            //else
+            //{
+            //    var fragment = (Fragment)view;
+            //    var transaction = FragmentManager.BeginTransaction();
+            //    transaction.SetCustomAnimations(Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.fade_in, Resource.Animator.fade_out);
+            //    var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
+            //    transaction.Hide(currentFragment);
+            //    transaction.Add(Resource.Id.main_fragment_container, fragment);
+            //    transaction.AddToBackStack(null);
+            //    transaction.Commit();
+            //}
         }
 
         public void PushDialogSubview(string parentViewTitle, IBaseView view)

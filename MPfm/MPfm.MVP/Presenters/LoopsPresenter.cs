@@ -46,7 +46,7 @@ namespace MPfm.MVP.Presenters
         private void CreateLoopDetailsView()
         {
             var view = _navigationManager.CreateLoopDetailsView();
-            _navigationManager.PushDialogView("Loop Details", view);
+            _navigationManager.PushDialogView("Loop Details", View, view);
         }
 
         private void OnAddLoop()

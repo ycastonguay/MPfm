@@ -30,6 +30,7 @@ namespace MPfm.Android.Classes.Navigation
     public sealed class AndroidNavigationManager : MobileNavigationManager
     {
         private Action<IBaseView> _onPreferencesViewReady;
+        private Action<IBaseView> _onEqualizerPresetsViewReady;
 
         public MainActivity MainActivity { get; set; }
 
@@ -53,9 +54,9 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.PushTabView(type, (Fragment) view);
         }
 
-        public override void PushDialogView(string viewTitle, IBaseView view)
+        public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
         {
-            MainActivity.PushDialogView((Fragment) view);
+            MainActivity.PushDialogView(viewTitle, sourceView, view);
         }
 
         public override void PushDialogSubview(string parentViewTitle, IBaseView view)
@@ -82,10 +83,23 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);                           
         }
 
+        protected override void CreateEqualizerPresetsViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onEqualizerPresetsViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(EqualizerPresetsActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         public void SetPreferencesActivityInstance(PreferencesActivity activity)
         {
             if (_onPreferencesViewReady != null)
                 _onPreferencesViewReady(activity);
+        }
+
+        public void SetEqualizerPresetsActivityInstance(EqualizerPresetsActivity activity)
+        {
+            if (_onEqualizerPresetsViewReady != null)
+                _onEqualizerPresetsViewReady(activity);
         }
     }
 }

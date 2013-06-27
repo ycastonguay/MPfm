@@ -58,7 +58,7 @@ namespace MPfm.Android.Classes
             container.Register<ISyncView, SyncFragment>().AsMultiInstance();
             container.Register<ISyncDownloadView, SyncDownloadFragment>().AsMultiInstance();
             container.Register<ISyncMenuView, SyncMenuFragment>().AsMultiInstance();
-            container.Register<IEqualizerPresetsView, EqualizerPresetsFragment>().AsMultiInstance();
+            container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsFragment>().AsMultiInstance();
             container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();
             container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();

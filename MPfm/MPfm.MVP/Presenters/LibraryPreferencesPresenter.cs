@@ -76,11 +76,11 @@ namespace MPfm.MVP.Presenters
             try
             {
                 var view = _navigationManager.CreateUpdateLibraryView();
-                _navigationManager.PushDialogView("Update Library", view);
+                _navigationManager.PushDialogView("Update Library", View, view);
             }
             catch(Exception ex)
             {
-                Console.WriteLine("LibraryPreferencesPresenter - UpdateLibrary - Failed to reset library: {0}", ex);
+                Console.WriteLine("LibraryPreferencesPresenter - UpdateLibrary - Failed to create and push update library view: {0}", ex);
                 View.LibraryPreferencesError(ex);
             }
         }
