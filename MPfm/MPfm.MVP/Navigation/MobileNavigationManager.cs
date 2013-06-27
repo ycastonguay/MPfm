@@ -88,6 +88,9 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
+        protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
+        protected IPlayerView PlayerView { get { return _playerView; } }
+
         private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
         public abstract void ShowSplash(ISplashView view);
@@ -132,18 +135,18 @@ namespace MPfm.MVP.Navigation
             return _optionsMenuView;
         }
 
-        protected void ShowPlayerView(MobileNavigationTabType tabType)
-        {
-            // Show player view only if it already exists
-            if(_playerView != null)
-                PushTabView(tabType, _playerView);
-        }
+//        protected void ShowPlayerView(MobileNavigationTabType tabType)
+//        {
+//            // Show player view only if it already exists
+//            if(_playerView != null)
+//                PushTabView(tabType, _playerView);
+//        }
 
-        protected void ShowEqualizerPresetsView()
-        {
-            var view = CreateEqualizerPresetsView();
-            PushDialogView("Equalizer Presets", view);
-        }
+//        protected void ShowEqualizerPresetsView()
+//        {
+//            var view = CreateEqualizerPresetsView();
+//            PushDialogView("Equalizer Presets", view);
+//        }
 
         public virtual void BindOptionsMenuView(IMobileOptionsMenuView view)
         {

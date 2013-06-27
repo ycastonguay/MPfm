@@ -44,10 +44,12 @@ namespace MPfm.iOS.Classes.Navigation
                         {
                             case MobileNavigationManagerCommandMessageType.ShowPlayerView:
                                 var navCtrl = (MPfmNavigationController)m.Sender;
-                                ShowPlayerView(navCtrl.TabType);
+                                if(PlayerView != null)
+                                    PushTabView(navCtrl.TabType, PlayerView);
                                 break;
                             case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
-                                ShowEqualizerPresetsView();
+                                if(EqualizerPresetsView != null)
+                                    PushDialogView("Equalizer Presets", EqualizerPresetsView);
                                 break;
                         }
                     });
@@ -89,6 +91,11 @@ namespace MPfm.iOS.Classes.Navigation
         {
             var playerViewController = (PlayerViewController)playerView;
             playerViewController.AddScrollView((UIViewController)view);
+        }
+
+        public override void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
+        {
+            // Not necessary on iOS.
         }
 	}
 }
