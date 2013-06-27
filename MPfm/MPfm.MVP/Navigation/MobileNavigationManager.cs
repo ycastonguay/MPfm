@@ -184,7 +184,13 @@ namespace MPfm.MVP.Navigation
 
         protected virtual void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
         {
-            _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            if(_preferencesView == null)
+                _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+            // Android activities are started by an intent and cannot be pushed like iOS
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _preferencesView);
+#endif
         }
 
         public virtual void CreatePreferencesView()
@@ -207,13 +213,10 @@ namespace MPfm.MVP.Navigation
                 PushPreferencesSubview(_preferencesView, general);
                 PushPreferencesSubview(_preferencesView, audio);
                 PushPreferencesSubview(_preferencesView, library);
-#elif IOS
-                PushTabView(MobileNavigationTabType.More, view);
 #endif
             };
             
-            if(_preferencesView == null)
-                CreatePreferencesViewInternal(onViewReady);
+            CreatePreferencesViewInternal(onViewReady);
         }
         
         public virtual IAudioPreferencesView CreateAudioPreferencesView()
@@ -511,7 +514,12 @@ namespace MPfm.MVP.Navigation
 
         protected virtual void CreateEqualizerPresetsViewInternal(Action<IBaseView> onViewReady)
         {
-            _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            if(_equalizerPresetsView == null)
+                _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            
+#if !ANDROID
+            PushDialogView("Equalizer Presets", null, _equalizerPresetsView);
+#endif
         }
 
         public virtual void CreateEqualizerPresetsView()
@@ -528,8 +536,7 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
             };
 
-            if (_equalizerPresetsView == null)
-                CreateEqualizerPresetsViewInternal(onViewReady);
+            CreateEqualizerPresetsViewInternal(onViewReady);
         }
 
         public virtual IEqualizerPresetDetailsView CreateEqualizerPresetDetailsView(EQPreset preset)

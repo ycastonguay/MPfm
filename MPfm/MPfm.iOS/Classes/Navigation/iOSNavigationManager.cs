@@ -49,7 +49,7 @@ namespace MPfm.iOS.Classes.Navigation
                                 break;
                             case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
                                 if(EqualizerPresetsView != null)
-                                    PushDialogView("Equalizer Presets", EqualizerPresetsView);
+                                    PushDialogView("Equalizer Presets", null, EqualizerPresetsView);
                                 break;
                         }
                     });
@@ -77,7 +77,7 @@ namespace MPfm.iOS.Classes.Navigation
 			AppDelegate.PushTabView(type, (UIViewController)view);
 		}
 
-        public override void PushDialogView(string viewTitle, IBaseView view)
+        public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
         {
             AppDelegate.PushDialogView(viewTitle, (UIViewController)view);
         }
