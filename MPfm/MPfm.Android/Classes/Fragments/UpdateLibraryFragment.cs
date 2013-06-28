@@ -48,7 +48,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            if(Dialog != null)
+            if (Dialog != null)
                 Dialog.SetTitle("Update Library");
 
             _view = inflater.Inflate(Resource.Layout.UpdateLibrary, container, false);
@@ -56,7 +56,6 @@ namespace MPfm.Android.Classes.Fragments
             _lblTitle = _view.FindViewById<TextView>(Resource.Id.fragment_updateLibrary_lblTitle);
             _lblSubtitle = _view.FindViewById<TextView>(Resource.Id.fragment_updateLibrary_lblSubtitle);
             _progressBar = _view.FindViewById<ProgressBar>(Resource.Id.fragment_updateLibrary_progressBar);
-            
             _button.Click += ButtonOnClick;
 
             return _view;
@@ -66,7 +65,7 @@ namespace MPfm.Android.Classes.Fragments
         {
             base.OnCreate(savedInstanceState);
             Cancelable = false;
-            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.UpdateLibraryTheme);
+            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.UpdateLibraryTheme);            
         }
 
         public override void OnStart()

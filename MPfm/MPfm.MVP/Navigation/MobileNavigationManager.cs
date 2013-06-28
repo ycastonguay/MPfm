@@ -334,15 +334,28 @@ namespace MPfm.MVP.Navigation
             return newView;
         }
 
-        public virtual IPlayerView CreatePlayerView(Action<IBaseView> onViewBindedToPresenter)
+        protected virtual void CreatePlayerViewInternal(MobileNavigationTabType tabType, Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
+            if (_playerView == null)
+                _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(tabType, _playerView);
+#endif
+        }
+
+        public virtual void CreatePlayerView(MobileNavigationTabType tabType, Action<IBaseView> onViewBindedToPresenter)
+        {
+            Action<IBaseView> onViewReady = (view) => {
+                _playerView = (IPlayerView) view;
+                _playerView.OnViewDestroy = (view2) =>
+                {
+                    _playerView = null;
+                    _playerPresenter = null;
+                };
                 _playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
                 _playerPresenter.BindView((IPlayerView)view);
 
-                // Add scroll view items
                 var playerMetadata = CreatePlayerMetadataView();
                 var loops = CreateLoopsView();
                 var markers = CreateMarkersView();
@@ -359,24 +372,15 @@ namespace MPfm.MVP.Navigation
                     onViewBindedToPresenter(view);
             };
 
-            // Re-use the same player instance as before
             if(_playerView == null)
             {
-                // Create view and manage view destruction
-                _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _playerView.OnViewDestroy = (view) =>
-                {
-                    _playerView = null;
-                    _playerPresenter = null;
-                };
+                CreatePlayerViewInternal(tabType, onViewReady);
             }
             else
             {
-                // Re-use the same instance
                 onViewBindedToPresenter(_playerView);
+                PushTabView(tabType, _playerView);
             }
-
-            return _playerView;
         }
 
         public virtual IPlayerMetadataView CreatePlayerMetadataView()

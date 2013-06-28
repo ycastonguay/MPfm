@@ -47,7 +47,7 @@ namespace MPfm.Android.Classes
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
             container.Register<ISplashView, SplashFragment>().AsMultiInstance();
-            container.Register<IPlayerView, PlayerFragment>().AsMultiInstance();
+            container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
             container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
             container.Register<ILoopsView, LoopsFragment>().AsMultiInstance();

@@ -29,6 +29,7 @@ namespace MPfm.Android.Classes.Navigation
 {
     public sealed class AndroidNavigationManager : MobileNavigationManager
     {
+        private Action<IBaseView> _onPlayerViewReady;
         private Action<IBaseView> _onPreferencesViewReady;
         private Action<IBaseView> _onEqualizerPresetsViewReady;
 
@@ -74,10 +75,17 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.PushPreferencesSubview(preferencesView, view);
         }
 
-        protected override void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
+        protected override void CreatePlayerViewInternal(MobileNavigationTabType tabType, Action<IBaseView> onViewReady)
         {
             // Why is this method necessary on Android? No way to get the activity instance when starting a new activity.
             // No way to create an activity instance other than using intents. No way to pass an object (other than serializable) in intent (i.e. Action onViewReady).
+            _onPlayerViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(PlayerActivity));
+            MainActivity.StartActivity(intent);
+        }
+
+        protected override void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
+        {
             _onPreferencesViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof (PreferencesActivity));
             MainActivity.StartActivity(intent);                           
@@ -88,6 +96,12 @@ namespace MPfm.Android.Classes.Navigation
             _onEqualizerPresetsViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(EqualizerPresetsActivity));
             MainActivity.StartActivity(intent);
+        }
+
+        public void SetPlayerActivityInstance(PlayerActivity activity)
+        {
+            if (_onPlayerViewReady != null)
+                _onPlayerViewReady(activity);
         }
 
         public void SetPreferencesActivityInstance(PreferencesActivity activity)

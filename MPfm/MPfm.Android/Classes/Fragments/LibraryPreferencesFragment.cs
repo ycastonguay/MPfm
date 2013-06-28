@@ -71,6 +71,13 @@ namespace MPfm.Android.Classes.Fragments
 
         public void LibraryPreferencesError(Exception ex)
         {
+            Activity.RunOnUiThread(() => {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured in LibraryPreferences: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            }); 
         }
 
         #endregion

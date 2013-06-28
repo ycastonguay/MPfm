@@ -26,6 +26,7 @@ using Android.Views;
 using Android.OS;
 using Android.Views.Animations;
 using Android.Widget;
+using Java.Lang;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
@@ -116,34 +117,21 @@ namespace MPfm.Android
             transaction.AddToBackStack(null);
             transaction.Commit();
 
-            if (fragment is PlayerFragment)
-            {
-                Console.WriteLine("MainActivity - PushTabView - Showing mini player...");
-                _miniPlayer.Visibility = ViewStates.Visible;
-                Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
-                _miniPlayer.StartAnimation(anim);
-            }
+            //if (fragment is PlayerFragment)
+            //{
+            //    Console.WriteLine("MainActivity - PushTabView - Showing mini player...");
+            //    _miniPlayer.Visibility = ViewStates.Visible;
+            //    Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
+            //    _miniPlayer.StartAnimation(anim);
+            //}
         }
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
         {
             Console.WriteLine("MainActivity - PushDialogView view: {0} fragmentCount: {1}", view.GetType().FullName, FragmentManager.BackStackEntryCount);
-            if (view is DialogFragment)
-            {
-                var dialogFragment = (DialogFragment) view;
-                dialogFragment.Show(FragmentManager, viewTitle);
-            }
-            //else
-            //{
-            //    var fragment = (Fragment)view;
-            //    var transaction = FragmentManager.BeginTransaction();
-            //    transaction.SetCustomAnimations(Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.fade_in, Resource.Animator.fade_out);
-            //    var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
-            //    transaction.Hide(currentFragment);
-            //    transaction.Add(Resource.Id.main_fragment_container, fragment);
-            //    transaction.AddToBackStack(null);
-            //    transaction.Commit();
-            //}
+            var sourceFragment = (Fragment) sourceView;
+            var dialogFragment = (DialogFragment)view;
+            dialogFragment.Show(sourceFragment.Activity.FragmentManager, viewTitle);
         }
 
         public void PushDialogSubview(string parentViewTitle, IBaseView view)
@@ -154,8 +142,8 @@ namespace MPfm.Android
         public void PushPlayerSubview(IPlayerView playerView, IBaseView view)
         {
             Console.WriteLine("MainActivity - PushPlayerSubview - view: {0}", view.GetType().FullName);
-            var fragment = (PlayerFragment)playerView;
-            fragment.AddSubview(view);
+            var activity = (PlayerActivity)playerView;
+            activity.AddSubview(view);
         }
 
         public void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
@@ -301,11 +289,6 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - HideSplash");
             _splashFragment.Dialog.Dismiss();
-        }
-
-        private void ShowUpdateLibrary(UpdateLibraryFragment fragment)
-        {
-            fragment.Show(FragmentManager, "UpdateLibrary");
         }
 
         #region IMobileOptionsMenuView implementation

@@ -72,7 +72,6 @@ namespace MPfm.Android.Classes.Adapters
 
         public void OnTabSelected(ActionBar.Tab tab, FragmentTransaction ft)
         {
-            Console.WriteLine("TabPagerAdapter - OnTabSelected tab: {0}", tab.Text);
             _viewPager.SetCurrentItem(tab.Position, true);
         }
 
@@ -82,17 +81,14 @@ namespace MPfm.Android.Classes.Adapters
 
         public override Fragment GetItem(int index)
         {
-            return new GeneralPreferencesFragment();
-            //return _fragments[index];
+            return _fragments[index];
         }
 
         public override int Count
         {
             get
             {
-                Console.WriteLine("TabPagerAdapter - Count");
-                //return _fragments.Count;
-                return 2;
+                return _fragments.Count;
             }
         }
 
@@ -106,21 +102,21 @@ namespace MPfm.Android.Classes.Adapters
 
         public void OnPageSelected(int position)
         {
-            Console.WriteLine("TabPagerAdapter - OnPageSelected position: {0}", position);
+            //Console.WriteLine("TabPagerAdapter - OnPageSelected position: {0}", position);
             //_actionBar.SetSelectedNavigationItem(position);
         }
 
-        public override void DestroyItem(global::Android.Views.ViewGroup container, int position, Java.Lang.Object obj)
-        {
-            Console.WriteLine("TabPagerAdapter - Destroy item - index: {0}", position);
-            if (position >= Count)
-            {
-                Console.WriteLine("TabPagerAdapter - Destroy item (removing item) - index: {0}", position);
-                var fragmentManager = ((Fragment) obj).FragmentManager;
-                var transaction = fragmentManager.BeginTransaction();
-                transaction.Remove((Fragment) obj);
-                transaction.Commit();
-            }
-        }
+        //public override void DestroyItem(global::Android.Views.ViewGroup container, int position, Java.Lang.Object obj)
+        //{
+        //    Console.WriteLine("TabPagerAdapter - Destroy item - index: {0}", position);
+        //    if (position >= Count)
+        //    {
+        //        Console.WriteLine("TabPagerAdapter - Destroy item (removing item) - index: {0}", position);
+        //        var fragmentManager = ((Fragment) obj).FragmentManager;
+        //        var transaction = fragmentManager.BeginTransaction();
+        //        transaction.Remove((Fragment) obj);
+        //        transaction.Commit();
+        //    }
+        //}
     }
 }

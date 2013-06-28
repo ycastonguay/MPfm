@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\PlayerActivity.cs" />
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Classes\Fragments\GeneralPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\UpdateLibraryFragment.cs" />
     <Compile Include="Classes\Fragments\MobileLibraryBrowserFragment.cs" />
-    <Compile Include="Classes\Fragments\PlayerFragment.cs" />
     <Compile Include="Classes\Helpers\AndroidSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Helpers\BitmapHelper.cs" />
     <Compile Include="Classes\Helpers\BitmapCache.cs" />

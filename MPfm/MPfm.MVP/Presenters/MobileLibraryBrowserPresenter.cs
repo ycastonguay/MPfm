@@ -192,9 +192,7 @@ namespace MPfm.MVP.Presenters
                         FilePath = _items[index].AudioFile.FilePath
     	            });
 
-                // Create player view
-                var view = _navigationManager.CreatePlayerView(onViewBindedToPresenter);
-                _navigationManager.PushTabView(_tabType, view);
+                _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);                
             }
             catch(Exception ex)
             {
