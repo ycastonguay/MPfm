@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\SyncActivity.cs" />
     <Compile Include="Classes\Activities\PlayerActivity.cs" />
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="Classes\Fragments\EqualizerPresetDetailsFragment.cs" />
     <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
     <Compile Include="Classes\Fragments\SyncMenuFragment.cs" />
-    <Compile Include="Classes\Fragments\SyncFragment.cs" />
     <Compile Include="Classes\Fragments\MainFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />

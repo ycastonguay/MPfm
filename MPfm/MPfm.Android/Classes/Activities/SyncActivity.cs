@@ -23,6 +23,7 @@ using Android.Content.PM;
 using Android.Views;
 using Android.OS;
 using MPfm.Android.Classes.Navigation;
+using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
@@ -30,58 +31,58 @@ using MPfm.Player.Objects;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Equalizer Presets", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class EqualizerPresetsActivity : BaseActivity, IEqualizerPresetsView
+    [Activity(Label = "Sync", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    public class SyncActivity : BaseActivity, ISyncView
     {
         private MobileNavigationManager _navigationManager;
 
         protected override void OnCreate(Bundle bundle)
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnCreate");
+            Console.WriteLine("SyncActivity - OnCreate");
             base.OnCreate(bundle);
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            SetContentView(Resource.Layout.EqualizerPresets);
+            SetContentView(Resource.Layout.Sync);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
         }
 
         protected override void OnStart()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnStart");
+            Console.WriteLine("SyncActivity - OnStart");
             base.OnStart();
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);            
+            ((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);            
         }
 
         protected override void OnRestart()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnRestart");
+            Console.WriteLine("SyncActivity - OnRestart");
             base.OnRestart();
         }
 
         protected override void OnPause()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnPause");
+            Console.WriteLine("SyncActivity - OnPause");
             base.OnPause();
         }
 
         protected override void OnResume()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnResume");
+            Console.WriteLine("SyncActivity - OnResume");
             base.OnResume();
         }
 
         protected override void OnStop()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnStop");
+            Console.WriteLine("SyncActivity - OnStop");
             base.OnStop();
         }
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnDestroy");
+            Console.WriteLine("SyncActivity - OnDestroy");
             base.OnDestroy();
         }
 
@@ -102,35 +103,39 @@ namespace MPfm.Android
             }
         }
 
-        #region IEqualizerPresetsView implementation
+        #region ISyncView implementation
 
-        public Action OnBypassEqualizer { get; set; }
-        public Action<float> OnSetVolume { get; set; }
-        public Action OnAddPreset { get; set; }
-        public Action<Guid> OnLoadPreset { get; set; }
-        public Action<Guid> OnEditPreset { get; set; }
-        public Action<Guid> OnDeletePreset { get; set; }
-
-        public void EqualizerPresetsError(Exception ex)
+        public Action<string> OnConnectDevice { get; set; }
+        public Action<string> OnConnectDeviceManually { get; set; }
+        
+        public void SyncError(Exception ex)
         {
             RunOnUiThread(() => {
                 AlertDialog ad = new AlertDialog.Builder(this).Create();
                 ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in EqualizerPresets: {0}", ex));
+                ad.SetMessage(string.Format("An error has occured in Sync: {0}", ex));
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void RefreshIPAddress(string address)
         {
         }
 
-        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        public void RefreshDiscoveryProgress(float percentageDone, string status)
         {
         }
 
-        public void RefreshVolume(float volume)
+        public void RefreshDevices(IEnumerable<SyncDevice> devices)
+        {
+        }
+
+        public void RefreshDevicesEnded()
+        {
+        }
+
+        public void SyncDevice(SyncDevice device)
         {
         }
 

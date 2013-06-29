@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
@@ -39,12 +40,11 @@ using Exception = System.Exception;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Player")]
+    [Activity(Label = "Player", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class PlayerActivity : BaseActivity, IPlayerView
     {
         private bool _isPositionChanging;
         private BitmapCache _bitmapCache;
-        private View _view;
         private ImageView _imageViewAlbumArt;
         private TextView _lblPosition;
         private TextView _lblLength;
@@ -94,6 +94,16 @@ namespace MPfm.Android
 
             // Match height with width (cannot do that in xml)
             //_imageViewAlbumArt.LayoutParameters = new ViewGroup.LayoutParams(_imageViewAlbumArt.Width, _imageViewAlbumArt.Width);
+
+            if (bundle != null)
+            {
+                string state = bundle.GetString("key", "value");
+                Console.WriteLine("MainActivity - OnCreate - State is {0}", state);
+            }
+            else
+            {
+                Console.WriteLine("MainActivity - OnCreate - State is null");
+            }
         }
 
         protected override void OnStart()
@@ -142,6 +152,13 @@ namespace MPfm.Android
         {
             Console.WriteLine("PlayerActivity - OnDestroy");
             base.OnDestroy();
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            Console.WriteLine("PlayerActivity - OnSaveInstanceState");
+            base.OnSaveInstanceState(outState);
+            outState.PutString("key", DateTime.Now.ToLongTimeString());
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

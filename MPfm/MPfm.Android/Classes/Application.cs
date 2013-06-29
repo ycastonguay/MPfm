@@ -55,7 +55,7 @@ namespace MPfm.Android.Classes
             container.Register<IPitchShiftingView, PitchShiftingFragment>().AsMultiInstance();
             container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
             container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
-            container.Register<ISyncView, SyncFragment>().AsMultiInstance();
+            container.Register<ISyncView, SyncActivity>().AsMultiInstance();
             container.Register<ISyncDownloadView, SyncDownloadFragment>().AsMultiInstance();
             container.Register<ISyncMenuView, SyncMenuFragment>().AsMultiInstance();
             container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();

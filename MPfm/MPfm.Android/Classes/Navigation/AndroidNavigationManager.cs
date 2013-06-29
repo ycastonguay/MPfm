@@ -32,6 +32,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onPlayerViewReady;
         private Action<IBaseView> _onPreferencesViewReady;
         private Action<IBaseView> _onEqualizerPresetsViewReady;
+        private Action<IBaseView> _onSyncViewReady;
 
         public MainActivity MainActivity { get; set; }
 
@@ -98,6 +99,13 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
+        protected override void CreateSyncViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onSyncViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(SyncActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         public void SetPlayerActivityInstance(PlayerActivity activity)
         {
             if (_onPlayerViewReady != null)
@@ -114,6 +122,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onEqualizerPresetsViewReady != null)
                 _onEqualizerPresetsViewReady(activity);
+        }
+
+        public void SetSyncActivityInstance(SyncActivity activity)
+        {
+            if (_onSyncViewReady != null)
+                _onSyncViewReady(activity);
         }
     }
 }

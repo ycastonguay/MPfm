@@ -562,27 +562,31 @@ namespace MPfm.MVP.Navigation
             return _equalizerPresetDetailsView;
         }
 
-        public virtual ISyncView CreateSyncView()
+        protected virtual void CreateSyncViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            if (_syncView == null)
+                _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _equalizerPresetsView);
+#endif
+        }
+
+        public virtual void CreateSyncView()
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
-                _syncPresenter = Bootstrapper.GetContainer().Resolve<ISyncPresenter>();
-                _syncPresenter.BindView((ISyncView)view);
-            };
-
-            // Re-use the same instance as before
-            if(_syncView == null)
-            {
-                // Create view and manage view destruction
-                _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _syncView.OnViewDestroy = (view) =>
+                _syncView = (ISyncView)view;
+                _syncView.OnViewDestroy = (view2) =>
                 {
                     _syncView = null;
                     _syncPresenter = null;
                 };
-            }
-            return _syncView;
+                _syncPresenter = Bootstrapper.GetContainer().Resolve<ISyncPresenter>();
+                _syncPresenter.BindView((ISyncView)view);
+            };
+
+            CreateSyncViewInternal(onViewReady);
         }
 
         public virtual ISyncWebBrowserView CreateSyncWebBrowserView()

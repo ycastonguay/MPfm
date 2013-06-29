@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
@@ -30,7 +31,7 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Preferences")]
+    [Activity(Label = "Preferences", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class PreferencesActivity : BaseActivity, IPreferencesView
     {
         private MobileNavigationManager _navigationManager; 
