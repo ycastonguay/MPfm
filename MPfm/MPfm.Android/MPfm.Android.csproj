@@ -73,7 +73,6 @@
     <Compile Include="Classes\Fragments\EqualizerPresetDetailsFragment.cs" />
     <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
     <Compile Include="Classes\Fragments\SyncMenuFragment.cs" />
-    <Compile Include="Classes\Fragments\MainFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />
     <Compile Include="Classes\Fragments\LoopsFragment.cs" />
@@ -159,11 +158,6 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\Preferences.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\Layout\Main.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

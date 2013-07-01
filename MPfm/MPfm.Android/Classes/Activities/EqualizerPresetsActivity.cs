@@ -44,15 +44,15 @@ namespace MPfm.Android
             SetContentView(Resource.Layout.EqualizerPresets);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
+
+            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
+            ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);
         }
 
         protected override void OnStart()
         {
             Console.WriteLine("EqualizerPresetsActivity - OnStart");
             base.OnStart();
-
-            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);            
         }
 
         protected override void OnRestart()

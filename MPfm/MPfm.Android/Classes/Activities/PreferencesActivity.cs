@@ -54,15 +54,15 @@ namespace MPfm.Android
             _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+
+            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
+            ((AndroidNavigationManager) _navigationManager).SetPreferencesActivityInstance(this);
         }
 
         protected override void OnStart()
         {
             Console.WriteLine("PreferencesActivity - OnStart");
             base.OnStart();
-
-            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetPreferencesActivityInstance(this);            
         }
 
         public void AddSubview(IBaseView view)

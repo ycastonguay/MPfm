@@ -41,12 +41,6 @@ namespace MPfm.Android
             this.OnViewReady = onViewReady;
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            if (OnViewReady != null) OnViewReady(this);
-        }
-
         protected override void OnDestroy()
         {
             base.OnDestroy();

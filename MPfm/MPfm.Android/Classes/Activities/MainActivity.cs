@@ -32,19 +32,28 @@ using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Objects;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using TinyMessenger;
 
 namespace MPfm.Android
 {
     [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class MainActivity : BaseActivity, IMobileOptionsMenuView
     {
+        private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
         private SplashFragment _splashFragment;
-        private MainFragment _mainFragment;
+        //private MainFragment _mainFragment;
         private LinearLayout _miniPlayer;
         private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
+        private ViewPager _viewPager;
+        private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
+        private MainTabPagerAdapter _tabPagerAdapter;
+        private TextView _lblArtistName;
+        private TextView _lblAlbumTitle;
+        private TextView _lblSongTitle;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -57,17 +66,61 @@ namespace MPfm.Android
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.MainActivity);
 
+            // Setup view pager
+            _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
+            _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
+            _viewPager.OffscreenPageLimit = 4;
+            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
+            _viewPager.Adapter = _tabPagerAdapter;
+            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+
+            // Setup mini player
             _miniPlayer = FindViewById<LinearLayout>(Resource.Id.main_miniplayer);
+            _lblArtistName = FindViewById<TextView>(Resource.Id.main_miniplayer_lblArtistName);
+            _lblAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblAlbumTitle);
+            _lblSongTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblSongTitle);
             _miniPlayer.Visibility = ViewStates.Gone;
+            _miniPlayer.Click += (sender, args) => {
+                Console.WriteLine("MainActivity - Mini player click - Showing player view...");
+                _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
+            };
+
+            // Listen to player changes to show/hide the mini player
+            _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
+                Console.WriteLine("MainActivity - PlayerPlaylistIndexChangedMessage");
+                RunOnUiThread(() => {
+                    // Make sure the UI is available
+                    if (_lblArtistName != null)
+                    {
+                        _lblArtistName.Text = message.Data.AudioFileStarted.ArtistName;
+                        _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
+                        _lblSongTitle.Text = message.Data.AudioFileStarted.Title;
+                    }
+                });                
+            });
+            _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
+                Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
+                RunOnUiThread(() => {
+                    if (message.Status == PlayerStatusType.Stopped || message.Status == PlayerStatusType.Initialized)
+                    {
+                        Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
+                        anim.AnimationEnd += (sender, args) => {
+                            _miniPlayer.Visibility = ViewStates.Gone;
+                        };
+                        _miniPlayer.StartAnimation(anim);
+                    }
+                    else
+                    {
+                        _miniPlayer.Visibility = ViewStates.Visible;
+                        Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
+                        _miniPlayer.StartAnimation(anim);  
+                    }
+                });
+            });
 
             if (bundle == null || !bundle.GetBoolean("applicationStarted"))
             {
-                Console.WriteLine("MainActivity - OnCreate - Creating main fragment...");
-                _mainFragment = new MainFragment();
-                var transaction = FragmentManager.BeginTransaction();
-                transaction.Add(Resource.Id.main_fragment_container, _mainFragment);
-                transaction.Commit();
-
                 Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
                 _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
                 _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
@@ -93,37 +146,14 @@ namespace MPfm.Android
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
             Console.WriteLine("MainActivity - OnCreate - Adding tab {0}", title);
-            _mainFragment.AddTab(type, title, fragment);
+            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(type, fragment));
+            _tabPagerAdapter.NotifyDataSetChanged();
         }
 
         public void PushTabView(MobileNavigationTabType type, Fragment fragment)
         {
             Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1} fragmentCount: {2}", type.ToString(), fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
-            var transaction = FragmentManager.BeginTransaction();            
-            transaction.SetCustomAnimations(Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.fade_in, Resource.Animator.fade_out);
-            var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
-            if (currentFragment is MainFragment)
-            {
-                Console.WriteLine("MainActivity - PushTabView - Hiding main fragment...");
-                transaction.Hide(currentFragment);
-                transaction.Add(Resource.Id.main_fragment_container, fragment);
-            }
-            else
-            {
-                Console.WriteLine("MainActivity - PushTabView - Replacing fragment...");
-                transaction.Replace(Resource.Id.main_fragment_container, fragment);
-            }
-
-            transaction.AddToBackStack(null);
-            transaction.Commit();
-
-            //if (fragment is PlayerFragment)
-            //{
-            //    Console.WriteLine("MainActivity - PushTabView - Showing mini player...");
-            //    _miniPlayer.Visibility = ViewStates.Visible;
-            //    Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
-            //    _miniPlayer.StartAnimation(anim);
-            //}
+            // Not used on Android
         }
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
@@ -151,28 +181,6 @@ namespace MPfm.Android
             Console.WriteLine("MainActivity - PushPreferencesSubview - view: {0}", view.GetType().FullName);
             var activity = (PreferencesActivity)preferencesView;
             activity.AddSubview(view);
-        }
-
-        public override void OnBackPressed()
-        {
-            var currentFragment = FragmentManager.FindFragmentById(Resource.Id.main_fragment_container);
-            Console.WriteLine("MainActivity - OnBackPressed - fragmentCount: {0} fragment: {1}", FragmentManager.BackStackEntryCount, currentFragment.GetType().FullName);
-
-            if (FragmentManager.BackStackEntryCount > 0)
-            {
-                Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
-                anim.AnimationEnd += (sender, args) => {
-                    _miniPlayer.Visibility = ViewStates.Gone;
-                };
-                _miniPlayer.StartAnimation(anim);
-
-                FragmentManager.PopBackStack();
-            }
-            else
-            {
-                // Go back to springboard
-                base.OnBackPressed();
-            }
         }
 
         protected override void OnStart()
@@ -255,26 +263,6 @@ namespace MPfm.Android
         {
             var option = _options.FirstOrDefault(x => x.Value == menuItem.TitleFormatted.ToString());
             OnItemClick(option.Key);
-            //switch (option.Key)
-            //{
-            //    case MobileOptionsMenuType.About:                    
-            //        break;
-            //    case MobileOptionsMenuType.EqualizerPresets:
-            //        break;
-            //    case MobileOptionsMenuType.Preferences:
-            //        Intent intent = new Intent(this, typeof(PreferencesActivity));
-            //        StartActivity(intent);
-            //        break;
-            //    case MobileOptionsMenuType.SyncLibrary:
-            //        break;
-            //    case MobileOptionsMenuType.SyncLibraryCloud:
-            //        break;
-            //    case MobileOptionsMenuType.SyncLibraryFileSharing:
-            //        ShowUpdateLibrary((UpdateLibraryFragment)_navigationManager.CreateUpdateLibraryView());
-            //        break;
-            //    case MobileOptionsMenuType.SyncLibraryWebBrowser:
-            //        break;
-            //}
             return base.OnOptionsItemSelected(menuItem);
         }
 

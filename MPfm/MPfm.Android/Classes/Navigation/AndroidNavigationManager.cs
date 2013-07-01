@@ -21,20 +21,39 @@ using Android.Content;
 using Android.OS;
 using MPfm.Android.Classes.Fragments;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using TinyIoC;
+using TinyMessenger;
 
 namespace MPfm.Android.Classes.Navigation
 {
     public sealed class AndroidNavigationManager : MobileNavigationManager
     {
+        private readonly ITinyMessengerHub _messageHub;
         private Action<IBaseView> _onPlayerViewReady;
         private Action<IBaseView> _onPreferencesViewReady;
         private Action<IBaseView> _onEqualizerPresetsViewReady;
-        private Action<IBaseView> _onSyncViewReady;
+        private Action<IBaseView> _onSyncViewReady;        
 
         public MainActivity MainActivity { get; set; }
+
+        public AndroidNavigationManager(ITinyMessengerHub messageHub)
+        {
+            _messageHub = messageHub;
+            _messageHub.Subscribe<MobileNavigationManagerCommandMessage>((m) =>
+            {
+                switch (m.CommandType)
+                {
+                    case MobileNavigationManagerCommandMessageType.ShowPlayerView:
+                        CreatePlayerView(MobileNavigationTabType.More, null);
+                        break;
+                    case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
+                        break;
+                }
+            });
+        }
 
         public override void ShowSplash(ISplashView view)
         {

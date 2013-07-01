@@ -45,15 +45,15 @@ namespace MPfm.Android
             SetContentView(Resource.Layout.Sync);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
+
+            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
+            ((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);
         }
 
         protected override void OnStart()
         {
             Console.WriteLine("SyncActivity - OnStart");
             base.OnStart();
-
-            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);            
         }
 
         protected override void OnRestart()
