@@ -48,7 +48,7 @@ namespace MPfm.Android
         private LinearLayout _miniPlayer;
         private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
         private ViewPager _viewPager;
-        private MainTabPagerAdapter _tabPagerAdapter;
+        private MainTabStatePagerAdapter _tabPagerAdapter;
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
@@ -67,7 +67,7 @@ namespace MPfm.Android
             // Setup view pager
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
             _viewPager.OffscreenPageLimit = 4;
-            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _viewPager, ActionBar);
+            _tabPagerAdapter = new MainTabStatePagerAdapter(FragmentManager, _viewPager, ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 

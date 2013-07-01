@@ -26,18 +26,18 @@ using MPfm.MVP.Navigation;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class MainTabPagerAdapter : FragmentStatePagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
+    public class MainTabStatePagerAdapter : FragmentStatePagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
     {
         private readonly List<Tuple<MobileNavigationTabType, List<Fragment>>> _fragments;
         private readonly ViewPager _viewPager;
         private readonly ActionBar _actionBar;
 
-        public MainTabPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer)
+        public MainTabStatePagerAdapter(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         {
         }
 
-        public MainTabPagerAdapter(FragmentManager fm, ViewPager viewPager, ActionBar actionBar)
+        public MainTabStatePagerAdapter(FragmentManager fm, ViewPager viewPager, ActionBar actionBar)
             : base(fm)
         {
             _fragments = new List<Tuple<MobileNavigationTabType, List<Fragment>>>();
@@ -100,7 +100,6 @@ namespace MPfm.Android.Classes.Adapters
 
         public override Fragment GetItem(int index)
         {
-            Console.WriteLine("MainTabPagerAdapter - GetItem - index: {0}", index);
             return _fragments[index].Item2.Last();
         }
 
@@ -117,7 +116,6 @@ namespace MPfm.Android.Classes.Adapters
                     break;
                 }
             }
-            Console.WriteLine("MainTabPagerAdapter - GetItemPosition - obj: {0} - foundItem: {1}", obj.GetType().FullName, foundItem);
             return foundItem ? PositionUnchanged : PositionNone;
         }
 
@@ -125,7 +123,6 @@ namespace MPfm.Android.Classes.Adapters
         {
             get
             {
-                Console.WriteLine("MainTabPagerAdapter - GetCount");
                 return _fragments.Count;
             }
         }

@@ -10,8 +10,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#FF333333"
-        android:gravity="bottom"
+        android:background="#36454F"
+        android:gravity="center_vertical"
         android:layout_alignParentBottom="true">
         <ImageView
             android:id="@+id/main_miniplayer_imageView"
@@ -19,33 +19,38 @@
             android:layout_height="70dp"
             android:src="@drawable/icon" />
         <LinearLayout
-            android:id="@+id/main_miniplayer_text"
-            android:orientation="vertical"
+            android:id="@+id/main_miniplayer_text"            
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="8dp"
-            android:background="#36454F">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"            
+            android:paddingLeft="8dp">
             <TextView
                 android:id="@+id/main_miniplayer_lblArtistName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
                 android:text=""
-                android:textSize="14dip" />
+                android:textSize="14dip"
+                android:ellipsize="end"
+                android:singleLine="true" />                
             <TextView
                 android:id="@+id/main_miniplayer_lblAlbumTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#EEEEEE"
-                android:textSize="12dip" />
+                android:textSize="12dip"
+                android:ellipsize="end"
+                android:singleLine="true" />
             <TextView
                 android:id="@+id/main_miniplayer_lblSongTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#CCCCCC"
-                android:textSize="11dip" />
+                android:textSize="11dip"
+                android:ellipsize="end"
+                android:singleLine="true" />                
         </LinearLayout>
     </LinearLayout>
   <android.support.v4.view.ViewPager
