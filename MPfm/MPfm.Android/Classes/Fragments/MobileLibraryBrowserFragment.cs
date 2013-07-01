@@ -50,6 +50,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, global::Android.OS.Bundle savedInstanceState)
         {
+            Console.WriteLine("MLBFragment - OnCreateView");
             ListAdapter = new MobileLibraryBrowserListAdapter(Activity, _entities.ToList());
             return base.OnCreateView(inflater, container, savedInstanceState);
         }
@@ -58,20 +59,6 @@ namespace MPfm.Android.Classes.Fragments
         {
             base.OnListItemClick(l, v, position, id);
             OnItemClick(position);
-        }
-
-        public void OnClick(View v)
-        {
-            if (v == null)
-                return;
-
-            var builder = new AlertDialog.Builder(Activity);
-            //builder.SetIconAttribute(Android.Resource.Attribute.icon)
-            builder.SetTitle("Yeah");
-            //builder.SetMessage("You have typed: " + _editText.Text);
-            //builder.SetPositiveButton("Yes");// this);
-            var dialog = builder.Create();
-            builder.Show();
         }
 
         public override void OnResume()

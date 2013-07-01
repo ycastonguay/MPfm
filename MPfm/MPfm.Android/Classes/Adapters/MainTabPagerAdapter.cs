@@ -26,9 +26,9 @@ using MPfm.MVP.Navigation;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class MainTabPagerAdapter : FragmentPagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
+    public class MainTabPagerAdapter : FragmentStatePagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
     {
-        private readonly List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
+        private readonly List<Tuple<MobileNavigationTabType, List<Fragment>>> _fragments;
         private readonly ViewPager _viewPager;
         private readonly ActionBar _actionBar;
 
@@ -37,12 +37,51 @@ namespace MPfm.Android.Classes.Adapters
         {
         }
 
-        public MainTabPagerAdapter(FragmentManager fm, List<KeyValuePair<MobileNavigationTabType, Fragment>> fragments, ViewPager viewPager, ActionBar actionBar)
+        public MainTabPagerAdapter(FragmentManager fm, ViewPager viewPager, ActionBar actionBar)
             : base(fm)
         {
-            _fragments = fragments;
+            _fragments = new List<Tuple<MobileNavigationTabType, List<Fragment>>>();
             _viewPager = viewPager;
             _actionBar = actionBar;
+        }
+
+        public void SetFragment(MobileNavigationTabType tabType, Fragment fragment)
+        {
+            Console.WriteLine("MainTabPagerAdapter - SetFragment - tabType: {0}", tabType.ToString());
+            int index = _fragments.FindIndex(x => x.Item1 == tabType);
+            if (index == -1)
+            {
+                // This tab isn't yet in the list; add to list
+                _fragments.Add(new Tuple<MobileNavigationTabType, List<Fragment>>(tabType, new List<Fragment>(){ fragment }));
+                return;
+            }
+
+            var fragments = _fragments.FirstOrDefault(x => x.Item1 == tabType);
+            fragments.Item2.Add(fragment);
+            NotifyDataSetChanged();
+        }
+
+        public MobileNavigationTabType GetCurrentTab()
+        {
+            return _fragments[_viewPager.CurrentItem].Item1;
+        }
+
+        public bool CanRemoveFragmentFromStack(MobileNavigationTabType tabType, int index)
+        {
+            var fragmentList = _fragments.FirstOrDefault(x => x.Item1 == tabType);
+            if (fragmentList != null)
+                return fragmentList.Item2.Count > 1;
+
+            return false;
+        }
+
+        public void RemoveFragmentFromStack(MobileNavigationTabType tabType, int index)
+        {
+            var fragmentList = _fragments.FirstOrDefault(x => x.Item1 == tabType);
+            if (fragmentList != null)
+                fragmentList.Item2.RemoveAt(fragmentList.Item2.Count - 1);
+
+            NotifyDataSetChanged();
         }
 
         public void OnTabReselected(ActionBar.Tab tab, FragmentTransaction ft)
@@ -61,12 +100,34 @@ namespace MPfm.Android.Classes.Adapters
 
         public override Fragment GetItem(int index)
         {
-            return _fragments[index].Value;
+            Console.WriteLine("MainTabPagerAdapter - GetItem - index: {0}", index);
+            return _fragments[index].Item2.Last();
+        }
+
+        public override int GetItemPosition(Java.Lang.Object obj)
+        {
+            // If the fragment is different, tell Android to refresh this item            
+            bool foundItem = false;
+            foreach (var fragmentList in _fragments)
+            {
+                bool foundItemInList = fragmentList.Item2.Last() == (Fragment) obj;
+                if (foundItemInList)
+                {
+                    foundItem = true;
+                    break;
+                }
+            }
+            Console.WriteLine("MainTabPagerAdapter - GetItemPosition - obj: {0} - foundItem: {1}", obj.GetType().FullName, foundItem);
+            return foundItem ? PositionUnchanged : PositionNone;
         }
 
         public override int Count
         {
-            get { return _fragments.Count; }
+            get
+            {
+                Console.WriteLine("MainTabPagerAdapter - GetCount");
+                return _fragments.Count;
+            }
         }
 
         public void OnPageScrollStateChanged(int p0)
@@ -85,7 +146,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
         {
-            return new Java.Lang.String(_fragments[position].Key.ToString());
+            return new Java.Lang.String(_fragments[position].Item1.ToString());
         }
     }
 }

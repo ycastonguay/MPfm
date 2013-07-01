@@ -36,8 +36,9 @@ namespace MPfm.Android
     {
         private MobileNavigationManager _navigationManager; 
         private ViewPager _viewPager;
-        private MainTabPagerAdapter _tabPagerAdapter;
-        private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;        
+        private TabPagerAdapter _tabPagerAdapter;
+        //private List<Tuple<MobileNavigationTabType, Fragment>> _fragments;        
+        private List<Fragment> _fragments;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -49,9 +50,10 @@ namespace MPfm.Android
             ActionBar.SetHomeButtonEnabled(true);
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
+            //_fragments = new List<Tuple<MobileNavigationTabType, Fragment>>();
+            _fragments = new List<Fragment>();
             _viewPager = FindViewById<ViewPager>(Resource.Id.preferences_pager);
-            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
+            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
@@ -68,7 +70,8 @@ namespace MPfm.Android
         public void AddSubview(IBaseView view)
         {
             Console.WriteLine("PreferencesActivity - AddSubview view: {0}", view.GetType().FullName);
-            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
+            //_fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
+            _fragments.Add((Fragment)view);
 
             if (_tabPagerAdapter != null)
                 _tabPagerAdapter.NotifyDataSetChanged();

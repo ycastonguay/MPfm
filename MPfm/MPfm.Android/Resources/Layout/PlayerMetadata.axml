@@ -6,7 +6,7 @@
     android:gravity="bottom">
   <TextView
     android:id="@+id/playerMetadata_lblArtistName"
-    android:text="[ArtistName]"
+    android:text=""
     android:textSize="20dp"
     android:background="#00000000"
     android:textColor="#ffffffff"
@@ -16,7 +16,7 @@
     android:padding="6dip" />
   <TextView
       android:id="@+id/playerMetadata_lblAlbumTitle"
-      android:text="[AlbumTitle]"
+      android:text=""
       android:background="#00000000"
       android:textColor="#ffffffff"
       android:textSize="18dp"
@@ -26,7 +26,7 @@
       android:padding="6dip" />
   <TextView
       android:id="@+id/playerMetadata_lblSongTitle"
-      android:text="[SongTitle]"
+      android:text=""
       android:textSize="14dp"
       android:background="#00000000"
       android:textColor="#ffffffff"

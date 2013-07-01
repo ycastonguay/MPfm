@@ -45,11 +45,9 @@ namespace MPfm.Android
         private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
         private SplashFragment _splashFragment;
-        //private MainFragment _mainFragment;
         private LinearLayout _miniPlayer;
         private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
         private ViewPager _viewPager;
-        private List<KeyValuePair<MobileNavigationTabType, Fragment>> _fragments;
         private MainTabPagerAdapter _tabPagerAdapter;
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
@@ -64,13 +62,12 @@ namespace MPfm.Android
             //string internalDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
 
             RequestWindowFeature(WindowFeatures.ActionBar);
-            SetContentView(Resource.Layout.MainActivity);
+            SetContentView(Resource.Layout.Main);
 
             // Setup view pager
-            _fragments = new List<KeyValuePair<MobileNavigationTabType, Fragment>>();
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
             _viewPager.OffscreenPageLimit = 4;
-            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
+            _tabPagerAdapter = new MainTabPagerAdapter(FragmentManager, _viewPager, ActionBar);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
@@ -146,14 +143,14 @@ namespace MPfm.Android
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
             Console.WriteLine("MainActivity - OnCreate - Adding tab {0}", title);
-            _fragments.Add(new KeyValuePair<MobileNavigationTabType, Fragment>(type, fragment));
+            _tabPagerAdapter.SetFragment(type, fragment);
             _tabPagerAdapter.NotifyDataSetChanged();
         }
 
         public void PushTabView(MobileNavigationTabType type, Fragment fragment)
         {
             Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1} fragmentCount: {2}", type.ToString(), fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
-            // Not used on Android
+            _tabPagerAdapter.SetFragment(type, fragment);
         }
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
@@ -217,6 +214,21 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - OnDestroy");
             base.OnDestroy();
+        }
+
+        public override void OnBackPressed()
+        {
+            // Check if the history has another tab
+            if (_tabPagerAdapter.CanRemoveFragmentFromStack(_tabPagerAdapter.GetCurrentTab(), _viewPager.CurrentItem))
+            {
+                Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
+                _tabPagerAdapter.RemoveFragmentFromStack(_tabPagerAdapter.GetCurrentTab(), _viewPager.CurrentItem);
+            }
+            else
+            {
+                Console.WriteLine("MainActivity - OnBackPressed - CannotRemoveFragment");
+                base.OnBackPressed();
+            }
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
