@@ -89,6 +89,8 @@
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Objects\ApplicationState.cs" />
     <Compile Include="Classes\Objects\GenericListItem.cs" />
+    <Compile Include="Classes\Services\WidgetService.cs" />
+    <Compile Include="Classes\Widgets\PlayerWidget.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -160,6 +162,8 @@
     <AndroidResource Include="Resources\Layout\Preferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\Layout\WidgetPlayer.axml" />
+    <AndroidResource Include="Resources\Layout\WidgetPlayerLoading.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -236,6 +240,7 @@
     <AndroidResource Include="Resources\animator\slide_in.xml" />
     <AndroidResource Include="Resources\animator\slide_out.xml" />
     <AndroidResource Include="Resources\animator\fade_in.xml" />
+    <AndroidResource Include="Resources\xml\widget_player.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
