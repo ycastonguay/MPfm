@@ -91,7 +91,9 @@ namespace MPfm.Android
             {
                 case global::Android.Resource.Id.Home:
                     var intent = new Intent(this, typeof (MainActivity));
-                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                    // TODO: If this activity is opened from the PlayerActivity, this returns to the MainActivity because of SingleTop. 
+                    //       But if SingleTop isn't added, the view returns to a new MainActivity. The standard back button works properly though. ARGH!!!
+                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop); 
                     this.StartActivity(intent);
                     this.Finish();
                     return true;

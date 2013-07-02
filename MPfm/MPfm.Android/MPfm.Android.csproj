@@ -241,6 +241,7 @@
     <AndroidResource Include="Resources\animator\slide_out.xml" />
     <AndroidResource Include="Resources\animator\fade_in.xml" />
     <AndroidResource Include="Resources\xml\widget_player.xml" />
+    <AndroidResource Include="Resources\Menu\player_menu.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

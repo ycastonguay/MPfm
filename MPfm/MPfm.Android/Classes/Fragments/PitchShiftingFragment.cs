@@ -27,9 +27,17 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class PitchShiftingFragment : BaseFragment, IPitchShiftingView, View.IOnClickListener
+    public class PitchShiftingFragment : BaseFragment, IPitchShiftingView
     {        
         private View _view;
+        private TextView _lblCurrentKeyValue;
+        private TextView _lblReferenceKeyValue;
+        private TextView _lblNewKeyValue;
+        private SeekBar _seekBar;
+        private Button _btnReset;
+        private Button _btnIncrement;
+        private Button _btnDecrement;
+        private Tuple<int, string> _currentKey;
 
         // Leave an empty constructor or the application will crash at runtime
         public PitchShiftingFragment() : base(null) { }
@@ -42,12 +50,28 @@ namespace MPfm.Android.Classes.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             _view = inflater.Inflate(Resource.Layout.PitchShifting, container, false);
+            _lblCurrentKeyValue = _view.FindViewById<TextView>(Resource.Id.pitchShifting_lblCurrentIntervalValue);
+            _lblReferenceKeyValue = _view.FindViewById<TextView>(Resource.Id.pitchShifting_lblReferenceKeyValue);
+            _lblNewKeyValue = _view.FindViewById<TextView>(Resource.Id.pitchShifting_lblNewKeyValue);
+            _seekBar = _view.FindViewById<SeekBar>(Resource.Id.pitchShifting_seekBar);
+            _btnReset = _view.FindViewById<Button>(Resource.Id.pitchShifting_btnReset);
+            _btnIncrement = _view.FindViewById<Button>(Resource.Id.pitchShifting_btnIncrement);
+            _btnDecrement = _view.FindViewById<Button>(Resource.Id.pitchShifting_btnDecrement);
+
+            _btnReset.Click += (sender, args) => OnResetInterval();
+            _btnIncrement.Click += (sender, args) => OnIncrementInterval();
+            _btnDecrement.Click += (sender, args) => OnDecrementInterval();
+
+            _seekBar.ProgressChanged += SeekBarOnProgressChanged;
             return _view;
         }
 
-        public void OnClick(View v)
+        private void SeekBarOnProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
-            
+            // Pitch shifting range: -12 to +12. Seek bar range: 0-23
+            int interval = _seekBar.Progress - 12;
+            Console.WriteLine("SeekBarProgressChanged progress: {0} interval: {1}", _seekBar.Progress, interval);
+            OnSetInterval(interval);
         }
 
         #region IPitchShiftingView implementation
@@ -60,6 +84,13 @@ namespace MPfm.Android.Classes.Fragments
 
         public void PitchShiftingError(Exception ex)
         {
+            Activity.RunOnUiThread(() => {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured in PitchShifting: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
         }
 
         public void RefreshKeys(List<Tuple<int, string>> keys)
@@ -68,6 +99,24 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
         {
+            try
+            {
+                Activity.RunOnUiThread(() => {
+                    _currentKey = entity.ReferenceKey;
+                    _lblReferenceKeyValue.Text = entity.ReferenceKey.Item2;
+                    _lblNewKeyValue.Text = entity.NewKey.Item2;
+                    _lblCurrentKeyValue.Text = entity.Interval;
+
+                    // Pitch shifting range: -12 to +12. Seek bar range: 0-23
+                    int seekBarProgress = entity.IntervalValue + 12;
+                    Console.WriteLine("PitchShiftingFragment - RefreshPitchShifting - interval: {0} seekBarProgress: {1}", entity.IntervalValue, seekBarProgress);
+                    _seekBar.Progress = seekBarProgress;
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("PitchShiftingFragment - RefreshTimeShifting - Exception: {0}", ex);
+            }
         }
 
         #endregion

@@ -42,14 +42,14 @@ namespace MPfm.Android.Classes.Navigation
         public AndroidNavigationManager(ITinyMessengerHub messageHub)
         {
             _messageHub = messageHub;
-            _messageHub.Subscribe<MobileNavigationManagerCommandMessage>((m) =>
-            {
+            _messageHub.Subscribe<MobileNavigationManagerCommandMessage>((m) => {
                 switch (m.CommandType)
                 {
                     case MobileNavigationManagerCommandMessageType.ShowPlayerView:
                         CreatePlayerView(MobileNavigationTabType.More, null);
                         break;
                     case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
+                        CreateEqualizerPresetsView();
                         break;
                 }
             });

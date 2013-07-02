@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
   <TextView
     android:id="@+id/timeShifting_lblTitle"
     android:layout_width="match_parent"
@@ -12,6 +12,44 @@
     android:textSize="20dp"
     android:textColor="#ffffffff"
     android:padding="6dip" />
+  <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"      
+      android:orientation="vertical">
+      <TextView
+        android:id="@+id/timeShifting_lblDetectedTempo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"        
+        android:gravity="left"
+        android:text="Detected tempo:"
+        android:textSize="14dp"
+        android:textColor="#ffffffff"
+        android:textStyle="bold" />
+      <TextView
+        android:id="@+id/timeShifting_lblDetectedTempoValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="120 bpm"
+        android:textSize="14dp"
+        android:textColor="#ffffffff" />
+    </LinearLayout>
+    <Button
+      android:id="@+id/timeShifting_btnDetectTempo"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:text="Detect tempo"
+      android:textColor="#ffffffff"
+      android:textSize="14dp"
+      android:padding="12dp" />
+  </RelativeLayout>
   <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -72,7 +110,7 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"      
-      android:max="100" />
+      android:max="1000" />
   </LinearLayout>
   <LinearLayout
     android:layout_width="fill_parent"
@@ -80,21 +118,23 @@
     android:gravity="center_horizontal"    
     android:padding="8dp">
     <Button
-      android:id="@+id/timeShifting_btnIncrement"
+      android:id="@+id/timeShifting_btnDecrement"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
       android:text="-"
       android:textColor="#ffffffff"
-      android:padding="8dp" />
+      android:textSize="14dp"
+      android:padding="12dp" />
     <Button
-      android:id="@+id/timeShifting_btnDecrement"
+      android:id="@+id/timeShifting_btnIncrement"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
       android:text="+"
       android:textColor="#ffffffff"
-      android:padding="8dp" />
+      android:textSize="14dp"
+      android:padding="12dp" />
     <Button
       android:id="@+id/timeShifting_btnReset"
       android:layout_width="wrap_content"
@@ -102,6 +142,7 @@
       android:layout_alignParentRight="true"
       android:text="Reset"
       android:textColor="#ffffffff"
-      android:padding="8dp" />
+      android:textSize="14dp"
+      android:padding="12dp" />
   </LinearLayout>
 </LinearLayout>

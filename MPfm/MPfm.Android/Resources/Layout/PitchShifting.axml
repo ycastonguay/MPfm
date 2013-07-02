@@ -17,6 +17,44 @@
     android:layout_height="wrap_content"
     android:paddingLeft="8dp"
     android:paddingRight="8dp">
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:orientation="vertical">
+      <TextView
+        android:id="@+id/pitchShifting_lblReferenceKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Reference key:"
+        android:textSize="14dp"
+        android:textColor="#ffffffff"
+        android:textStyle="bold" />
+      <TextView
+        android:id="@+id/pitchShifting_lblReferenceKeyValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="C (Am)"
+        android:textSize="14dp"
+        android:textColor="#ffffffff" />
+    </LinearLayout>
+    <Button
+      android:id="@+id/pitchShifting_btnChangeKey"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:text="Change key"
+      android:textColor="#ffffffff"
+      android:textSize="14dp"
+      android:padding="12dp" />
+  </RelativeLayout>
+  <RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
     <TextView
       android:id="@+id/pitchShifting_lblCurrentInterval"
       android:layout_width="match_parent"
@@ -72,7 +110,7 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:max="100" />
+      android:max="24" />
   </LinearLayout>
   <LinearLayout
     android:layout_width="fill_parent"
@@ -80,20 +118,22 @@
     android:gravity="center_horizontal"
     android:padding="8dp">
     <Button
-      android:id="@+id/pitchShifting_btnIncrement"
+      android:id="@+id/pitchShifting_btnDecrement"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
       android:text="-"
       android:textColor="#ffffffff"
+      android:textSize="14dp"
       android:padding="8dp" />
     <Button
-      android:id="@+id/pitchShifting_btnDecrement"
+      android:id="@+id/pitchShifting_btnIncrement"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
       android:text="+"
       android:textColor="#ffffffff"
+      android:textSize="14dp"
       android:padding="8dp" />
     <Button
       android:id="@+id/pitchShifting_btnReset"
@@ -102,6 +142,7 @@
       android:layout_alignParentRight="true"
       android:text="Reset"
       android:textColor="#ffffffff"
+      android:textSize="14dp"
       android:padding="8dp" />
   </LinearLayout>
 </LinearLayout>

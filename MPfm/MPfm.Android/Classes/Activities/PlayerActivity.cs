@@ -36,6 +36,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using TinyMessenger;
 using Exception = System.Exception;
 
 namespace MPfm.Android
@@ -43,7 +44,7 @@ namespace MPfm.Android
     [Activity(Label = "Player", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class PlayerActivity : BaseActivity, IPlayerView
     {
-        private bool _isPositionChanging;
+        private ITinyMessengerHub _messengerHub;
         private BitmapCache _bitmapCache;
         private ImageView _imageViewAlbumArt;
         private TextView _lblPosition;
@@ -56,11 +57,14 @@ namespace MPfm.Android
         private ViewPager _viewPager;
         private TabPagerAdapter _tabPagerAdapter;
         private MobileNavigationManager _navigationManager;
+        private bool _isPositionChanging;
 
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("PlayerActivity - OnCreate");
+            _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>(); 
             base.OnCreate(bundle);
+
             SetContentView(Resource.Layout.Player);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
@@ -161,6 +165,13 @@ namespace MPfm.Android
             outState.PutString("key", DateTime.Now.ToLongTimeString());
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.player_menu, menu);
+            Console.WriteLine("PlayerActivity - OnCreateOptionsMenu");
+            return true;
+        }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -170,6 +181,11 @@ namespace MPfm.Android
                     intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
                     this.StartActivity(intent);
                     this.Finish();
+                    return true;
+                    break;
+                case Resource.Id.playerMenu_item_effects:
+                    Console.WriteLine("PlayerActivity - Menu item click - Showing equalizer presets view...");
+                    _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView));
                     return true;
                     break;
                 default:
