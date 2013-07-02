@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="internalOnly">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="internalOnly" android:versionCode="1" android:versionName="Alpha" package="org.sessionsapp.android">
 	<uses-sdk android:targetSdkVersion="17" />
 	<application android:label="Sessions" android:theme="@style/MyAppTheme" android:icon="@drawable/icon"></application>
 	<uses-permission android:name="android.permission.INTERNET" />

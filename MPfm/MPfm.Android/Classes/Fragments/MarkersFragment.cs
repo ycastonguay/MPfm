@@ -21,6 +21,7 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
@@ -28,9 +29,13 @@ using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class MarkersFragment : BaseFragment, IMarkersView, View.IOnClickListener
+    public class MarkersFragment : BaseFragment, IMarkersView
     {        
         private View _view;
+        private ListView _listView;
+        private Button _btnAdd;
+        private MarkersListAdapter _listAdapter;
+        private List<Marker> _markers; 
 
         // Leave an empty constructor or the application will crash at runtime
         public MarkersFragment() : base(null) { }
@@ -43,12 +48,28 @@ namespace MPfm.Android.Classes.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             _view = inflater.Inflate(Resource.Layout.Markers, container, false);
+            _listView = _view.FindViewById<ListView>(Resource.Id.markers_listView);
+            _btnAdd = _view.FindViewById<Button>(Resource.Id.markers_btnAdd);
+            _btnAdd.Click += (sender, args) => OnAddMarker(MarkerTemplateNameType.Verse);
+
+            _listAdapter = new MarkersListAdapter(Activity, new List<Marker>());
+            _listView.SetAdapter(_listAdapter);            
+            _listView.ItemClick += ListViewOnItemClick;
+            _listView.ItemLongClick += ListViewOnItemLongClick;
+            
             return _view;
         }
 
-        public void OnClick(View v)
+        private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            
+            Console.WriteLine("MarkersFragment - ItemClick - itemPosition: {0}", itemClickEventArgs.Position);
+            OnSelectMarker(_markers[itemClickEventArgs.Position]);
+        }
+
+        private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
+        {
+            Console.WriteLine("MarkersFragment - ItemLongClick - itemPosition: {0}", itemLongClickEventArgs.Position);
+            OnEditMarker(_markers[itemLongClickEventArgs.Position]);
         }
 
         #region IMarkersView implementation
@@ -58,11 +79,22 @@ namespace MPfm.Android.Classes.Fragments
         public Action<Marker> OnSelectMarker { get; set; }
 
         public void MarkerError(Exception ex)
-        {            
+        {
+            Activity.RunOnUiThread(() => {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured in Markers: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
         }
 
         public void RefreshMarkers(List<Marker> markers)
         {
+            Activity.RunOnUiThread(() => {
+                _markers = markers;
+                _listAdapter.SetData(markers);
+            });
         }
 
         #endregion

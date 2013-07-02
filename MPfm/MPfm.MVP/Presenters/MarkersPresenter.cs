@@ -71,8 +71,7 @@ namespace MPfm.MVP.Presenters
 
         private void CreateMarkerDetailsView(Guid markerId)
         {
-            var view = _navigationManager.CreateMarkerDetailsView(markerId);
-            _navigationManager.PushDialogView("Marker Details", View, view);
+            _navigationManager.CreateMarkerDetailsView(View, markerId);
         }
 
         private void AddMarker(MarkerTemplateNameType markerTemplateNameType)

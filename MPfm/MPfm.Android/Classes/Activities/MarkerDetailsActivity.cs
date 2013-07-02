@@ -23,65 +23,67 @@ using Android.Content.PM;
 using Android.Views;
 using Android.OS;
 using MPfm.Android.Classes.Navigation;
+using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Equalizer Presets", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class EqualizerPresetsActivity : BaseActivity, IEqualizerPresetsView
+    [Activity(Label = "Marker Details", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    public class MarkerDetailsActivity : BaseActivity, IMarkerDetailsView
     {
         private MobileNavigationManager _navigationManager;
 
         protected override void OnCreate(Bundle bundle)
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnCreate");
+            Console.WriteLine("MarkerDetailsActivity - OnCreate");
             base.OnCreate(bundle);
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            SetContentView(Resource.Layout.EqualizerPresets);
+            SetContentView(Resource.Layout.MarkerDetails);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);
+            ((AndroidNavigationManager)_navigationManager).SetMarkerDetailsActivityInstance(this);
         }
 
         protected override void OnStart()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnStart");
+            Console.WriteLine("MarkerDetailsActivity - OnStart");
             base.OnStart();
         }
 
         protected override void OnRestart()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnRestart");
+            Console.WriteLine("MarkerDetailsActivity - OnRestart");
             base.OnRestart();
         }
 
         protected override void OnPause()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnPause");
+            Console.WriteLine("MarkerDetailsActivity - OnPause");
             base.OnPause();
         }
 
         protected override void OnResume()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnResume");
+            Console.WriteLine("MarkerDetailsActivity - OnResume");
             base.OnResume();
         }
 
         protected override void OnStop()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnStop");
+            Console.WriteLine("MarkerDetailsActivity - OnStop");
             base.OnStop();
         }
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("EqualizerPresetsActivity - OnDestroy");
+            Console.WriteLine("MarkerDetailsActivity - OnDestroy");
             base.OnDestroy();
         }
 
@@ -90,11 +92,8 @@ namespace MPfm.Android
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
-                    // TODO: If this activity is opened from the PlayerActivity, this returns to the MainActivity because of SingleTop. 
-                    //       But if SingleTop isn't added, the view returns to a new MainActivity. The standard back button works properly though. ARGH!!!
-                    // Idea: This is because in AndroidNavigationManager, the MainActivity spawns the view!
-                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop); 
+                    var intent = new Intent(this, typeof(PlayerActivity));
+                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
                     this.StartActivity(intent);
                     this.Finish();
                     return true;
@@ -105,39 +104,35 @@ namespace MPfm.Android
             }
         }
 
-        #region IEqualizerPresetsView implementation
+        #region IMarkerDetailsView implementation
 
-        public Action OnBypassEqualizer { get; set; }
-        public Action<float> OnSetVolume { get; set; }
-        public Action OnAddPreset { get; set; }
-        public Action<Guid> OnLoadPreset { get; set; }
-        public Action<Guid> OnEditPreset { get; set; }
-        public Action<Guid> OnDeletePreset { get; set; }
+        public Action<float> OnChangePosition { get; set; }
+        public Action<Marker> OnUpdateMarker { get; set; }
+        public Action OnDeleteMarker { get; set; }
 
-        public void EqualizerPresetsError(Exception ex)
+        public void MarkerDetailsError(Exception ex)
         {
             RunOnUiThread(() => {
                 AlertDialog ad = new AlertDialog.Builder(this).Create();
                 ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in EqualizerPresets: {0}", ex));
+                ad.SetMessage(string.Format("An error has occured in MarkerDetails: {0}", ex));
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });
         }
 
-        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        public void DismissView()
         {
         }
 
-        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        public void RefreshMarker(Marker marker, AudioFile audioFile)
         {
         }
 
-        public void RefreshVolume(float volume)
+        public void RefreshMarkerPosition(string position, float positionPercentage)
         {
         }
 
         #endregion
-
     }
 }

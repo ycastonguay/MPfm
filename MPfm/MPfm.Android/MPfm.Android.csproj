@@ -56,16 +56,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\MarkerDetailsActivity.cs" />
     <Compile Include="Classes\Activities\SyncActivity.cs" />
     <Compile Include="Classes\Activities\PlayerActivity.cs" />
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\MarkersListAdapter.cs" />
     <Compile Include="Classes\Adapters\PreferencesFragmentPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MainTabStatePagerAdapter.cs" />
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
+    <Compile Include="Classes\Controls\WaveFormView.cs" />
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
@@ -164,6 +167,12 @@
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\WidgetPlayer.axml" />
     <AndroidResource Include="Resources\Layout\WidgetPlayerLoading.axml" />
+    <AndroidResource Include="Resources\Layout\MarkerCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\MarkerDetails.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />

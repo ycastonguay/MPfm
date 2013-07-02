@@ -35,7 +35,8 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onPlayerViewReady;
         private Action<IBaseView> _onPreferencesViewReady;
         private Action<IBaseView> _onEqualizerPresetsViewReady;
-        private Action<IBaseView> _onSyncViewReady;        
+        private Action<IBaseView> _onSyncViewReady;
+        private Action<IBaseView> _onMarkerDetailsViewReady;
 
         public MainActivity MainActivity { get; set; }
 
@@ -95,6 +96,22 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.PushPreferencesSubview(preferencesView, view);
         }
 
+        private Activity GetActivityFromView(IBaseView view)
+        {
+            if (view is Activity)
+                return (Activity)view;
+            else if (view is Fragment)
+                return ((Fragment) view).Activity;
+            else
+                return null;
+        }
+
+        private void StartActivity(Activity sourceActivity, Type activityType)
+        {
+            var intent = new Intent(sourceActivity, activityType);
+            sourceActivity.StartActivity(intent);
+        }
+
         protected override void CreatePlayerViewInternal(MobileNavigationTabType tabType, Action<IBaseView> onViewReady)
         {
             // Why is this method necessary on Android? No way to get the activity instance when starting a new activity.
@@ -116,6 +133,13 @@ namespace MPfm.Android.Classes.Navigation
             _onEqualizerPresetsViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(EqualizerPresetsActivity));
             MainActivity.StartActivity(intent);
+        }
+
+        protected override void CreateMarkerDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
+        {
+            _onMarkerDetailsViewReady = onViewReady;
+            var activity = GetActivityFromView(sourceView);
+            StartActivity(activity, typeof(MarkerDetailsActivity));
         }
 
         protected override void CreateSyncViewInternal(Action<IBaseView> onViewReady)
@@ -141,6 +165,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onEqualizerPresetsViewReady != null)
                 _onEqualizerPresetsViewReady(activity);
+        }
+
+        public void SetMarkerDetailsActivityInstance(MarkerDetailsActivity activity)
+        {
+            if (_onMarkerDetailsViewReady != null)
+                _onMarkerDetailsViewReady(activity);
         }
 
         public void SetSyncActivityInstance(SyncActivity activity)

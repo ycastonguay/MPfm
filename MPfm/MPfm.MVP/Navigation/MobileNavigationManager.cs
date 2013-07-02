@@ -459,23 +459,31 @@ namespace MPfm.MVP.Navigation
             return _markersView;
         }
 
-        public virtual IMarkerDetailsView CreateMarkerDetailsView(Guid markerId)
+        protected virtual void CreateMarkerDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            if (_markerDetailsView == null)
+                _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushDialogView("Marker Details", sourceView, _markerDetailsView);
+#endif
+        }
+
+        public virtual void CreateMarkerDetailsView(IBaseView sourceView, Guid markerId)
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
-                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads(){{"markerId", markerId}});
+                _markerDetailsView = (IMarkerDetailsView)view;
+                _markerDetailsView.OnViewDestroy = (view2) =>
+                {
+                    _markerDetailsView = null;
+                    _markerDetailsPresenter = null;
+                };
+                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads() { { "markerId", markerId } });
                 _markerDetailsPresenter.BindView((IMarkerDetailsView)view);
             };
-            
-            // Create view and manage view destruction
-            _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _markerDetailsView.OnViewDestroy = (view) =>
-            {
-                _markerDetailsView = null;
-                _markerDetailsPresenter = null;
-            };
-            return _markerDetailsView;
+
+            CreateMarkerDetailsViewInternal(sourceView, onViewReady);
         }
 
         public virtual ITimeShiftingView CreateTimeShiftingView()

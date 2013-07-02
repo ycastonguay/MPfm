@@ -21,23 +21,23 @@ using Android.App;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using MPfm.Android.Classes.Objects;
-using MPfm.MVP.Models;
+using MPfm.Core;
+using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class MobileLibraryBrowserListAdapter : BaseAdapter<LibraryBrowserEntity>
+    public class MarkersListAdapter : BaseAdapter<Marker>
     {
         readonly Activity _context;
-        List<LibraryBrowserEntity> _items;
+        List<Marker> _items;
 
-        public MobileLibraryBrowserListAdapter(Activity context, List<LibraryBrowserEntity> items)
+        public MarkersListAdapter(Activity context, List<Marker> items)
         {
             _context = context;
             _items = items;
         }
 
-        public void SetData(IEnumerable<LibraryBrowserEntity> items)
+        public void SetData(IEnumerable<Marker> items)
         {
             _items = items.ToList();
             NotifyDataSetChanged();
@@ -48,7 +48,7 @@ namespace MPfm.Android.Classes.Adapters
             return position;
         }
 
-        public override LibraryBrowserEntity this[int position]
+        public override Marker this[int position]
         {
             get { return _items[position]; }
         }
@@ -63,15 +63,14 @@ namespace MPfm.Android.Classes.Adapters
             var item = _items[position];
             View view = convertView;
             if (view == null) // no view to re-use, create new
-                view = _context.LayoutInflater.Inflate(Resource.Layout.GenericCell, null);
+                view = _context.LayoutInflater.Inflate(Resource.Layout.MarkerCell, null);
 
-            //view.SetBackgroundColor(Color.White);
-
-            var title = view.FindViewById<TextView>(Resource.Id.genericcell_title);
-            title.Text = _items[position].Title;
-
-            var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);           
-            image.SetBackgroundColor(Color.White);
+            var txtName = view.FindViewById<TextView>(Resource.Id.markerCell_name);
+            var txtPosition = view.FindViewById<TextView>(Resource.Id.markerCell_position);
+            var txtLetter = view.FindViewById<TextView>(Resource.Id.markerCell_letter);
+            txtName.Text = item.Name;
+            txtPosition.Text = item.Position;
+            txtLetter.Text = Conversion.IndexToLetter(position).ToString();
 
             return view;
         }

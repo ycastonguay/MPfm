@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
-   android:layout_height="44dp"              
+   android:layout_height="44dp"
    android:orientation="horizontal">
   <ImageView
     android:id="@+id/genericcell_image"
@@ -12,7 +12,7 @@
   <TextView
       android:id="@+id/genericcell_title"
       android:layout_width="fill_parent"
-      android:layout_height="fill_parent"      
+      android:layout_height="fill_parent"
       android:gravity="center_vertical"
       android:textColor="#000000"
       android:textSize="14dp" />

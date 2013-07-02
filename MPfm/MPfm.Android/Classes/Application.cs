@@ -50,6 +50,7 @@ namespace MPfm.Android.Classes
             container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
             container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
+            container.Register<IMarkerDetailsView, MarkerDetailsActivity>().AsMultiInstance();
             container.Register<ILoopsView, LoopsFragment>().AsMultiInstance();
             container.Register<ITimeShiftingView, TimeShiftingFragment>().AsMultiInstance();
             container.Register<IPitchShiftingView, PitchShiftingFragment>().AsMultiInstance();

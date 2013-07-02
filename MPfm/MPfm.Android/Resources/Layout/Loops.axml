@@ -21,8 +21,9 @@
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
       android:background="#33000000"
-      android:text="Add"
+      android:text="+"
       android:textColor="#ffffffff"
+      android:textSize="14dp"
       android:padding="8dp" />
   </RelativeLayout>
   <ListView
