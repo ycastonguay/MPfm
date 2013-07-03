@@ -69,6 +69,7 @@
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
+    <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
     <Compile Include="Classes\Controls\OutputMeterView.cs" />
     <Compile Include="Classes\Controls\WaveFormView.cs" />
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />

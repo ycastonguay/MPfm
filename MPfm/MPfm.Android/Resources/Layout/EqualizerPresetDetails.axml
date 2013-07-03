@@ -4,11 +4,51 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-  <TextView
-    android:id="@+id/equalizerPresetDetails_lblTitle"
-    android:text="[Title]"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:padding="6dip" />
+  <org.sessionsapp.android.EqualizerPresetGraphView
+      android:id="@+id/equalizerPresetDetails_graphView"
+      android:orientation="horizontal"
+      android:background="#000000"
+      android:layout_width="fill_parent"
+      android:layout_height="140dp">
+  </org.sessionsapp.android.EqualizerPresetGraphView>
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
+    <LinearLayout      
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:padding="8dp">
+      <TextView
+        android:id="@+id/equalizerPresetDetails_lblPresetName"        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"        
+        android:text="Preset Name:"
+        android:textSize="14dp"
+        android:padding="8dp" />
+      <EditText
+        android:id="@+id/equalizerPresetDetails_txtPresetName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="14dp"
+        android:padding="8dp" />
+    </LinearLayout>
+    <ScrollView
+      android:id="@+id/equalizerPresetDetails_scrollView"      
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1">
+      <!-- Scroll view can only have one child -->
+      <LinearLayout
+        android:id="@+id/equalizerPresetDetails_scrollViewLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+      </LinearLayout>
+      </ScrollView>
+  </LinearLayout>
 </LinearLayout>
