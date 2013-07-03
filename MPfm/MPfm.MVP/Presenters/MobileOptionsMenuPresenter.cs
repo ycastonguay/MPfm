@@ -94,7 +94,7 @@ namespace MPfm.MVP.Presenters
                 }
                 case MobileOptionsMenuType.EqualizerPresets:
                 {
-                    _navigationManager.CreateEqualizerPresetsView();
+                    _navigationManager.CreateEqualizerPresetsView(View);
                     break;
                 }
                 case MobileOptionsMenuType.Preferences:

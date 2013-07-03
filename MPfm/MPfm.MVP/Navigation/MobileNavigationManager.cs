@@ -524,7 +524,7 @@ namespace MPfm.MVP.Navigation
             return _pitchShiftingView;
         }
 
-        protected virtual void CreateEqualizerPresetsViewInternal(Action<IBaseView> onViewReady)
+        protected virtual void CreateEqualizerPresetsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
         {
             if(_equalizerPresetsView == null)
                 _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
@@ -534,7 +534,7 @@ namespace MPfm.MVP.Navigation
 #endif
         }
 
-        public virtual void CreateEqualizerPresetsView()
+        public virtual void CreateEqualizerPresetsView(IBaseView sourceView)
         {
             Action<IBaseView> onViewReady = (view) =>
             {
@@ -548,7 +548,7 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
             };
 
-            CreateEqualizerPresetsViewInternal(onViewReady);
+            CreateEqualizerPresetsViewInternal(sourceView, onViewReady);
         }
 
         public virtual IEqualizerPresetDetailsView CreateEqualizerPresetDetailsView(EQPreset preset)

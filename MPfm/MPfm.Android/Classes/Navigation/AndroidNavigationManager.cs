@@ -50,7 +50,8 @@ namespace MPfm.Android.Classes.Navigation
                         CreatePlayerView(MobileNavigationTabType.More, null);
                         break;
                     case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
-                        CreateEqualizerPresetsView();
+                        var sourceView = (IBaseView) m.Sender;
+                        CreateEqualizerPresetsView(sourceView);
                         break;
                 }
             });
@@ -109,6 +110,7 @@ namespace MPfm.Android.Classes.Navigation
         private void StartActivity(Activity sourceActivity, Type activityType)
         {
             var intent = new Intent(sourceActivity, activityType);
+            intent.PutExtra("sourceActivity", sourceActivity.GetType().FullName);
             sourceActivity.StartActivity(intent);
         }
 
@@ -128,11 +130,13 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);                           
         }
 
-        protected override void CreateEqualizerPresetsViewInternal(Action<IBaseView> onViewReady)
+        protected override void CreateEqualizerPresetsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
         {
             _onEqualizerPresetsViewReady = onViewReady;
-            var intent = new Intent(MainActivity, typeof(EqualizerPresetsActivity));
-            MainActivity.StartActivity(intent);
+            var activity = GetActivityFromView(sourceView);
+            StartActivity(activity, typeof(EqualizerPresetsActivity));
+            //var intent = new Intent(MainActivity, typeof(EqualizerPresetsActivity));
+            //MainActivity.StartActivity(intent);
         }
 
         protected override void CreateMarkerDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)

@@ -17,9 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.OS;
 using MPfm.Android.Classes.Navigation;
@@ -34,6 +36,7 @@ namespace MPfm.Android
     public class EqualizerPresetsActivity : BaseActivity, IEqualizerPresetsView
     {
         private MobileNavigationManager _navigationManager;
+        private string _sourceActivityType;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -44,6 +47,9 @@ namespace MPfm.Android
             SetContentView(Resource.Layout.EqualizerPresets);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
+
+            // Save the source activity type for later (for providing Up navigation)
+            _sourceActivityType = Intent.GetStringExtra("sourceActivity");
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);
@@ -90,10 +96,8 @@ namespace MPfm.Android
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
-                    // TODO: If this activity is opened from the PlayerActivity, this returns to the MainActivity because of SingleTop. 
-                    //       But if SingleTop isn't added, the view returns to a new MainActivity. The standard back button works properly though. ARGH!!!
-                    // Idea: This is because in AndroidNavigationManager, the MainActivity spawns the view!
+                    var type = Type.GetType(_sourceActivityType);
+                    var intent = new Intent(this, type);
                     intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop); 
                     this.StartActivity(intent);
                     this.Finish();
