@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\EqualizerPresetDetailsActivity.cs" />
     <Compile Include="Classes\Activities\MarkerDetailsActivity.cs" />
     <Compile Include="Classes\Activities\SyncActivity.cs" />
     <Compile Include="Classes\Activities\PlayerActivity.cs" />
@@ -68,12 +69,12 @@
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
+    <Compile Include="Classes\Controls\OutputMeterView.cs" />
     <Compile Include="Classes\Controls\WaveFormView.cs" />
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
-    <Compile Include="Classes\Fragments\EqualizerPresetDetailsFragment.cs" />
     <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
     <Compile Include="Classes\Fragments\SyncMenuFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
@@ -251,6 +252,7 @@
     <AndroidResource Include="Resources\animator\fade_in.xml" />
     <AndroidResource Include="Resources\xml\widget_player.xml" />
     <AndroidResource Include="Resources\Menu\player_menu.xml" />
+    <AndroidResource Include="Resources\Menu\equalizerpresets_menu.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

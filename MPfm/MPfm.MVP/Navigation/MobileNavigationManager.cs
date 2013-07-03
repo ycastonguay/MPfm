@@ -551,23 +551,31 @@ namespace MPfm.MVP.Navigation
             CreateEqualizerPresetsViewInternal(sourceView, onViewReady);
         }
 
-        public virtual IEqualizerPresetDetailsView CreateEqualizerPresetDetailsView(EQPreset preset)
+        protected virtual void CreateEqualizerPresetDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            if (_equalizerPresetDetailsView == null)
+                _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushDialogSubview("Equalizer Presets", _equalizerPresetDetailsView);
+#endif
+        }
+
+        public virtual void CreateEqualizerPresetDetailsView(IBaseView sourceView, EQPreset preset)
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
+                _equalizerPresetDetailsView = (IEqualizerPresetDetailsView)view;
+                _equalizerPresetDetailsView.OnViewDestroy = (view2) =>
+                {
+                    _equalizerPresetDetailsView = null;
+                    _equalizerPresetDetailsPresenter = null;
+                };
                 _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads(){{"preset", preset}});
                 _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
             };
 
-            // Create view and manage view destruction
-            _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _equalizerPresetDetailsView.OnViewDestroy = (view) =>
-            {
-                _equalizerPresetDetailsView = null;
-                _equalizerPresetDetailsPresenter = null;
-            };
-            return _equalizerPresetDetailsView;
+            CreateEqualizerPresetDetailsViewInternal(sourceView, onViewReady);
         }
 
         protected virtual void CreateSyncViewInternal(Action<IBaseView> onViewReady)

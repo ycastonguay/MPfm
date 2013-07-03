@@ -4,11 +4,52 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-  <TextView
-    android:id="@+id/equalizerPresets_lblTitle"
-    android:text="[Title]"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:padding="6dip" />
+  <LinearLayout
+      android:id="@+id/equalizerPresets_topLayout"
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="140dp">
+    <org.sessionsapp.android.OutputMeterView
+        android:id="@+id/equalizerPresets_outputMeterView"
+        android:orientation="horizontal"
+        android:background="#000000"
+        android:layout_width="80dp"
+        android:layout_height="fill_parent">
+    </org.sessionsapp.android.OutputMeterView>
+    <LinearLayout        
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:padding="8dp">
+      <TextView
+          android:id="@+id/equalizerPresets_lblMasterVolume"
+          android:text="Master Volume:"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content" />
+      <SeekBar
+          android:id="@+id/equalizerPresets_seekBarVolume"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:max="100" />
+      <TextView
+          android:id="@+id/equalizerPresets_lblBypass"
+          android:text="Equalizer Bypass:"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content" />
+      <ToggleButton
+          android:id="@+id/equalizerPresets_btnBypass"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+    </LinearLayout>
+  </LinearLayout>
+  <ListView
+    android:id="@+id/equalizerPresets_listView"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:background="#FFFFFF"
+    android:cacheColorHint="#333333"
+    android:divider="#CCCCCC"
+    android:listSelector="#CCCCCC" />  
 </LinearLayout>

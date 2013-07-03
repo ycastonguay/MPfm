@@ -130,8 +130,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                var view = _navigationManager.CreateEqualizerPresetDetailsView(new EQPreset());
-                _navigationManager.PushDialogSubview("Equalizer Presets", view);
+                _navigationManager.CreateEqualizerPresetDetailsView(View, new EQPreset());
             }
             catch(Exception ex)
             {
@@ -163,8 +162,7 @@ namespace MPfm.MVP.Presenters
                 if(preset == null)
                     return;
 
-                var view = _navigationManager.CreateEqualizerPresetDetailsView(preset);
-                _navigationManager.PushDialogSubview("Equalizer Presets", view);
+                _navigationManager.CreateEqualizerPresetDetailsView(View, preset);
             }
             catch(Exception ex)
             {

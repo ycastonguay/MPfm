@@ -37,6 +37,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onEqualizerPresetsViewReady;
         private Action<IBaseView> _onSyncViewReady;
         private Action<IBaseView> _onMarkerDetailsViewReady;
+        private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
 
         public MainActivity MainActivity { get; set; }
 
@@ -135,8 +136,13 @@ namespace MPfm.Android.Classes.Navigation
             _onEqualizerPresetsViewReady = onViewReady;
             var activity = GetActivityFromView(sourceView);
             StartActivity(activity, typeof(EqualizerPresetsActivity));
-            //var intent = new Intent(MainActivity, typeof(EqualizerPresetsActivity));
-            //MainActivity.StartActivity(intent);
+        }
+
+        protected override void CreateEqualizerPresetDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
+        {
+            _onEqualizerPresetDetailsViewReady = onViewReady;
+            var activity = GetActivityFromView(sourceView);
+            StartActivity(activity, typeof(EqualizerPresetDetailsActivity));
         }
 
         protected override void CreateMarkerDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
@@ -169,6 +175,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onEqualizerPresetsViewReady != null)
                 _onEqualizerPresetsViewReady(activity);
+        }
+
+        public void SetEqualizerPresetDetailsActivityInstance(EqualizerPresetDetailsActivity activity)
+        {
+            if (_onEqualizerPresetDetailsViewReady != null)
+                _onEqualizerPresetDetailsViewReady(activity);
         }
 
         public void SetMarkerDetailsActivityInstance(MarkerDetailsActivity activity)
