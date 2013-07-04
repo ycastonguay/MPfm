@@ -48,7 +48,9 @@ namespace MPfm.iOS.Classes.Navigation
                                     PushTabView(navCtrl.TabType, PlayerView);
                                 break;
                             case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
-                                if(EqualizerPresetsView != null)
+                                if(EqualizerPresetsView == null)
+                                    CreateEqualizerPresetsView(null);
+                                else
                                     PushDialogView("Equalizer Presets", null, EqualizerPresetsView);
                                 break;
                         }

@@ -553,6 +553,9 @@ namespace MPfm.iOS.Classes.Controllers
                 _navigationBarTitle = navigationBarTitle;
                 _navigationBarSubtitle = navigationBarSubtitle;
 
+                // Reset scroll bar
+                tableView.ScrollRectToVisible(new RectangleF(0, 0, 1, 1), false);
+
                 if(browserType == MobileLibraryBrowserType.Albums)
                 {
                     tableView.Hidden = true;

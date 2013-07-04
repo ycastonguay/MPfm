@@ -584,7 +584,7 @@ namespace MPfm.MVP.Navigation
                 _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
 
 #if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _equalizerPresetsView);
+            PushTabView(MobileNavigationTabType.More, _syncView);
 #endif
         }
 
