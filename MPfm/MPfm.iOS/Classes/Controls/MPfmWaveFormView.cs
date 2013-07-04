@@ -201,7 +201,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             InvokeOnMainThread(() => {
                 //Console.WriteLine("MPfmWaveFormView - HandleLoadedPeakFileSuccessfullyEvent");
-                GenerateWaveFormBitmap(e.AudioFile.FilePath, Bounds);
+                GenerateWaveFormBitmap(e.AudioFile, Bounds);
             });
         }
 
@@ -330,16 +330,16 @@ namespace MPfm.iOS.Classes.Controls
 
         public void RefreshWaveFormBitmap()
         {
-            GenerateWaveFormBitmap(_audioFile.FilePath, Frame);
+            GenerateWaveFormBitmap(_audioFile, Frame);
         }
 
-        private void GenerateWaveFormBitmap(string audioFilePath, RectangleF frame)
+        private void GenerateWaveFormBitmap(AudioFile audioFile, RectangleF frame)
         {
             if(!_isGeneratingImageCache)
             {
                 _isGeneratingImageCache = true;
-                Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: " + audioFilePath.ToString());
-                _waveFormCacheManager.RequestBitmap(audioFilePath, WaveFormDisplayType.Stereo, frame, 1);
+                Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
+                _waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, frame, 1, _length);
                 _isGeneratingImageCache = false;
             }
         }
@@ -348,7 +348,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             Frame = frame;
             InvokeOnMainThread(() => {
-                GenerateWaveFormBitmap(_audioFile.FilePath, frame);
+                GenerateWaveFormBitmap(_audioFile, frame);
             });
         }
 

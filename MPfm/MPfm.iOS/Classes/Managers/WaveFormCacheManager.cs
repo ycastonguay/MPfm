@@ -225,7 +225,7 @@ namespace MPfm.iOS.Managers
             }
         }
 
-        public void RequestBitmap(string audioFilePath, WaveFormDisplayType displayType, RectangleF bounds, float zoom)
+        public void RequestBitmap(AudioFile audioFile, WaveFormDisplayType displayType, RectangleF bounds, float zoom, long audioFileLength)
         {
             UIImage imageCache;
             RectangleF boundsWaveForm;
@@ -248,9 +248,12 @@ namespace MPfm.iOS.Managers
                     Console.WriteLine("WaveFormCacheManager - Creating image cache...");
                     UIGraphics.BeginImageContextWithOptions(bounds.Size, false, 0);
                     context = UIGraphics.GetCurrentContext();
+
+                    // Quartz2D uses a different coordinate system; the origin is in the lower left corner. Change origin to top left corner.
+                    context.TranslateCTM(0, bounds.Height);
+                    context.ScaleCTM(1, -1);
                     if (context == null)
                     {
-                        // Error
                         Console.WriteLine("Error initializing image cache context!");
                         return null;
                     }
@@ -269,6 +272,7 @@ namespace MPfm.iOS.Managers
                     // Declare variables
                     float x1 = 0;
                     float x2 = 0;
+                    float timeScaleHeight = 22f;
                     float leftMin = 0;
                     float leftMax = 0;
                     float rightMin = 0;
@@ -289,7 +293,7 @@ namespace MPfm.iOS.Managers
                     float desiredLineWidth = 0.5f;
                     WaveDataMinMax[] subset = null;      
                     
-                    historyCount = _waveDataCache[audioFilePath].Count;
+                    historyCount = _waveDataCache[audioFile.FilePath].Count;
                     
                     // Find out how many samples are represented by each line of the wave form, depending on its width.
                     // For example, if the history has 45000 items, and the control has a width of 1000px, 45 items will need to be averaged by line.
@@ -315,9 +319,90 @@ namespace MPfm.iOS.Managers
                         lineWidth = lineWidthPerHistoryItem;
                         nHistoryItemsPerLine = 1;
                     }
-                    
                     //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
-                    
+
+                    float heightToRenderLine = 0;
+                    if (displayType == WaveFormDisplayType.Stereo)
+                        heightToRenderLine = (boundsWaveForm.Height / 4) - (timeScaleHeight / 4);
+                    else
+                        heightToRenderLine = (boundsWaveForm.Height / 2) - (timeScaleHeight / 2);
+
+                    // Check which scale to take depending on song length and wave form length
+                    // The scale doesn't have to fit right at the end, it must only show 'major' positions
+                    // Scale majors: 1 minute > 30 secs > 10 secs > 5 secs > 1 sec
+                    // 10 'ticks' between each major scale; the left, central and right ticks are higher than the others
+                    long lengthSamples = ConvertAudio.ToPCM(audioFileLength, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
+                    long lengthMilliseconds = ConvertAudio.ToMS(lengthSamples, (uint)audioFile.SampleRate);
+                    float totalSeconds = (float)lengthMilliseconds / 1000f;
+                    float totalMinutes = totalSeconds / 60f;
+
+                    // Scale down total seconds/minutes
+                    float totalSecondsScaled = totalSeconds * (100 / zoom);
+                    float totalMinutesScaled = totalMinutes * (100 / zoom);
+
+                    // If the song duration is short, use a smaller scale right away
+                    var scaleType = WaveFormScaleType._1minute;
+                    if(totalSecondsScaled < 10)
+                        scaleType = WaveFormScaleType._1second;
+                    else if(totalSecondsScaled < 30)
+                        scaleType = WaveFormScaleType._10seconds;
+                    else if(totalMinutesScaled < 1)
+                        scaleType = WaveFormScaleType._30seconds;
+
+                    Console.WriteLine("WaveFormView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
+
+                    // Draw scale borders
+                    CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, timeScaleHeight), new PointF(boundsWaveForm.Width, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
+                    //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, 0), new PointF(0, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
+                    //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(boundsWaveForm.Width, 0), new PointF(boundsWaveForm.Width, timeScaleHeight) }, UIColor.Gray.CGColor, 1, false, false);
+
+                    // TODO: Maybe reduce the number of ticks between major ticks if the width between ticks is too low.
+
+                    float minuteWidth = 0;
+                    int tickCount = 0;
+                    switch(scaleType)
+                    {
+                        case WaveFormScaleType._1minute:
+                            minuteWidth = boundsWaveForm.Width / totalMinutes;
+                            int majorTickCount = (int)Math.Floor(totalMinutes) + 1; // +1 because of minute 0
+
+                            // Calculate how many minor/major ticks fit in the area showing "full" minutes
+                            int minorTickCount = ((int)Math.Floor(totalMinutes)) * 10;
+
+                            // Calculate how many minor ticks are in the last minute; minor tick scale = 6 seconds.
+                            float lastMinuteSeconds = totalSeconds - ((float)Math.Floor(totalMinutes) * 60);
+                            int lastMinuteTickCount = (int)Math.Floor(lastMinuteSeconds / 6f);
+                            tickCount = minorTickCount + lastMinuteTickCount + 1; // +1 because of line at 0:00.000
+                            Console.WriteLine("WaveFormView - Scale - majorTickCount: {0} minorTickCount: {1} lastMinuteSeconds: {2} lastMinuteTickCount: {3} tickCount: {4}", majorTickCount, minorTickCount, lastMinuteSeconds, lastMinuteTickCount, tickCount);
+                            break;
+                    }
+
+                    float tickX = 0;
+                    int minute = 0;
+                    for(int a = 0; a < tickCount; a++)
+                    {
+                        bool isMajorTick = ((a % 10) == 0);
+                        //Console.WriteLine("####> WaveFormView - Scale - tick {0} x: {1} isMajorTick: {2} tickCount: {3}", a, tickX, isMajorTick, tickCount);
+
+                        // Draw scale line
+                        if(isMajorTick)
+                            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, timeScaleHeight - (timeScaleHeight / 1.25f)), new PointF(tickX, timeScaleHeight) }, UIColor.LightGray.CGColor, 1, false, false);
+                        else
+                            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, timeScaleHeight - (timeScaleHeight / 6)), new PointF(tickX, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
+
+                        if(isMajorTick)
+                        {
+                            // Draw dashed traversal line for major ticks
+                            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, timeScaleHeight), new PointF(tickX, bounds.Height) }, UIColor.LightGray.CGColor, 1, false, true);
+
+                            // Draw text at every major tick (minute count)
+                            CoreGraphicsHelper.DrawTextInRect(context, new RectangleF(tickX + 4, timeScaleHeight - (timeScaleHeight / 1.25f), minuteWidth, timeScaleHeight / 2), minute.ToString() + ":00", "HelveticaNeue", 10f, UIColor.White.CGColor, UILineBreakMode.TailTruncation, UITextAlignment.Left);
+                            minute++;
+                        }
+
+                        tickX += minuteWidth / 10;
+                    }
+
                     context.SetStrokeColor(GlobalTheme.WaveFormColor.CGColor);
                     //context.SetLineWidth(0.2f);
                     context.SetLineWidth(lineWidth);
@@ -346,11 +431,6 @@ namespace MPfm.iOS.Managers
                         
                         // Determine the maximum height of a line (+/-)
                         //Console.WriteLine("WaveForm - Rendering " + i.ToString() + " (rnd=" + iRound.ToString() + ") on " + widthAvailable.ToString());
-                        float heightToRenderLine = 0;
-                        if (displayType == WaveFormDisplayType.Stereo)
-                            heightToRenderLine = boundsWaveForm.Height / 4;
-                        else
-                            heightToRenderLine = boundsWaveForm.Height / 2;
                         
                         // Determine x position
 //                        x1 = iRound; //i;
@@ -364,12 +444,12 @@ namespace MPfm.iOS.Managers
                             {
                                 // Create subset with remaining data
                                 subset = new WaveDataMinMax[historyCount - historyIndex];
-                                _waveDataCache[audioFilePath].CopyTo(historyIndex, subset, 0, historyCount - historyIndex);
+                                _waveDataCache[audioFile.FilePath].CopyTo(historyIndex, subset, 0, historyCount - historyIndex);
                             }
                             else
                             {
                                 subset = new WaveDataMinMax[nHistoryItemsPerLine];
-                                _waveDataCache[audioFilePath].CopyTo(historyIndex, subset, 0, nHistoryItemsPerLine);
+                                _waveDataCache[audioFile.FilePath].CopyTo(historyIndex, subset, 0, nHistoryItemsPerLine);
                             }
                             
                             leftMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Left);
@@ -381,12 +461,12 @@ namespace MPfm.iOS.Managers
                         }
                         else
                         {
-                            leftMin = _waveDataCache[audioFilePath][historyIndex].leftMin;
-                            leftMax = _waveDataCache[audioFilePath][historyIndex].leftMax;
-                            rightMin = _waveDataCache[audioFilePath][historyIndex].rightMin;
-                            rightMax = _waveDataCache[audioFilePath][historyIndex].rightMax;
-                            mixMin = _waveDataCache[audioFilePath][historyIndex].mixMin;
-                            mixMax = _waveDataCache[audioFilePath][historyIndex].mixMax;
+                            leftMin = _waveDataCache[audioFile.FilePath][historyIndex].leftMin;
+                            leftMax = _waveDataCache[audioFile.FilePath][historyIndex].leftMax;
+                            rightMin = _waveDataCache[audioFile.FilePath][historyIndex].rightMin;
+                            rightMax = _waveDataCache[audioFile.FilePath][historyIndex].rightMax;
+                            mixMin = _waveDataCache[audioFile.FilePath][historyIndex].mixMin;
+                            mixMax = _waveDataCache[audioFile.FilePath][historyIndex].mixMax;
                         }
                         
                         leftMaxHeight = leftMax * heightToRenderLine;
@@ -396,7 +476,6 @@ namespace MPfm.iOS.Managers
                         mixMaxHeight = mixMax * heightToRenderLine;
                         mixMinHeight = mixMin * heightToRenderLine;
                         
-                        // Determine display type
                         if (displayType == WaveFormDisplayType.LeftChannel ||
                             displayType == WaveFormDisplayType.RightChannel ||
                             displayType == WaveFormDisplayType.Mix)
@@ -446,7 +525,7 @@ namespace MPfm.iOS.Managers
                             
                             // Draw positive value (y: middle to top)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine - leftMaxHeight)
+                                new PointF(x1, heightToRenderLine + timeScaleHeight), new PointF(x2, heightToRenderLine - leftMaxHeight + timeScaleHeight)
                             });
                             
                             // -----------------------------------------
@@ -454,7 +533,7 @@ namespace MPfm.iOS.Managers
                             
                             // Draw negative value (y: middle to height)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine + (-leftMinHeight))
+                                new PointF(x1, heightToRenderLine + timeScaleHeight), new PointF(x2, heightToRenderLine + (-leftMinHeight) + timeScaleHeight)
                             });
                             
                             // -----------------------------------------
@@ -463,7 +542,7 @@ namespace MPfm.iOS.Managers
                             // Multiply by 3 to get the new center line for right channel
                             // Draw positive value (y: middle to top)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) - rightMaxHeight)
+                                new PointF(x1, (heightToRenderLine * 3) + timeScaleHeight), new PointF(x2, (heightToRenderLine * 3) - rightMaxHeight + timeScaleHeight)
                             });
                             
                             // -----------------------------------------
@@ -471,7 +550,7 @@ namespace MPfm.iOS.Managers
                             
                             // Draw negative value (y: middle to height)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) + (-rightMinHeight))
+                                new PointF(x1, (heightToRenderLine * 3) + timeScaleHeight), new PointF(x2, (heightToRenderLine * 3) + (-rightMinHeight) + timeScaleHeight)
                             });
                         }
                         
@@ -494,7 +573,7 @@ namespace MPfm.iOS.Managers
             }, TaskCreationOptions.LongRunning).ContinueWith(t => {
                 Console.WriteLine("WaveFormCacheManager - Created image successfully.");
                 OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs(){
-                    AudioFilePath = audioFilePath,
+                    AudioFilePath = audioFile.FilePath,
                     Zoom = zoom,
                     DisplayType = displayType,
                     Image = t.Result
@@ -502,5 +581,13 @@ namespace MPfm.iOS.Managers
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
         }
+    }
+
+    public enum WaveFormScaleType
+    {
+        _1minute = 0,
+        _30seconds = 1,
+        _10seconds = 2,
+        _1second = 3
     }
 }
