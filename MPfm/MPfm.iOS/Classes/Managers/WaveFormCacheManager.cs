@@ -272,7 +272,6 @@ namespace MPfm.iOS.Managers
                     // Declare variables
                     float x1 = 0;
                     float x2 = 0;
-                    float timeScaleHeight = 22f;
                     float leftMin = 0;
                     float leftMax = 0;
                     float rightMin = 0;
@@ -323,85 +322,9 @@ namespace MPfm.iOS.Managers
 
                     float heightToRenderLine = 0;
                     if (displayType == WaveFormDisplayType.Stereo)
-                        heightToRenderLine = (boundsWaveForm.Height / 4) - (timeScaleHeight / 4);
+                        heightToRenderLine = (boundsWaveForm.Height / 4);
                     else
-                        heightToRenderLine = (boundsWaveForm.Height / 2) - (timeScaleHeight / 2);
-
-                    // Check which scale to take depending on song length and wave form length
-                    // The scale doesn't have to fit right at the end, it must only show 'major' positions
-                    // Scale majors: 1 minute > 30 secs > 10 secs > 5 secs > 1 sec
-                    // 10 'ticks' between each major scale; the left, central and right ticks are higher than the others
-                    long lengthSamples = ConvertAudio.ToPCM(audioFileLength, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
-                    long lengthMilliseconds = ConvertAudio.ToMS(lengthSamples, (uint)audioFile.SampleRate);
-                    float totalSeconds = (float)lengthMilliseconds / 1000f;
-                    float totalMinutes = totalSeconds / 60f;
-
-                    // Scale down total seconds/minutes
-                    float totalSecondsScaled = totalSeconds * (100 / zoom);
-                    float totalMinutesScaled = totalMinutes * (100 / zoom);
-
-                    // If the song duration is short, use a smaller scale right away
-                    var scaleType = WaveFormScaleType._1minute;
-                    if(totalSecondsScaled < 10)
-                        scaleType = WaveFormScaleType._1second;
-                    else if(totalSecondsScaled < 30)
-                        scaleType = WaveFormScaleType._10seconds;
-                    else if(totalMinutesScaled < 1)
-                        scaleType = WaveFormScaleType._30seconds;
-
-                    Console.WriteLine("WaveFormView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
-
-                    // Draw scale borders
-                    CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, timeScaleHeight), new PointF(boundsWaveForm.Width, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
-                    //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, 0), new PointF(0, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
-                    //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(boundsWaveForm.Width, 0), new PointF(boundsWaveForm.Width, timeScaleHeight) }, UIColor.Gray.CGColor, 1, false, false);
-
-                    // TODO: Maybe reduce the number of ticks between major ticks if the width between ticks is too low.
-
-                    float minuteWidth = 0;
-                    int tickCount = 0;
-                    switch(scaleType)
-                    {
-                        case WaveFormScaleType._1minute:
-                            minuteWidth = boundsWaveForm.Width / totalMinutes;
-                            int majorTickCount = (int)Math.Floor(totalMinutes) + 1; // +1 because of minute 0
-
-                            // Calculate how many minor/major ticks fit in the area showing "full" minutes
-                            int minorTickCount = ((int)Math.Floor(totalMinutes)) * 10;
-
-                            // Calculate how many minor ticks are in the last minute; minor tick scale = 6 seconds.
-                            float lastMinuteSeconds = totalSeconds - ((float)Math.Floor(totalMinutes) * 60);
-                            int lastMinuteTickCount = (int)Math.Floor(lastMinuteSeconds / 6f);
-                            tickCount = minorTickCount + lastMinuteTickCount + 1; // +1 because of line at 0:00.000
-                            Console.WriteLine("WaveFormView - Scale - majorTickCount: {0} minorTickCount: {1} lastMinuteSeconds: {2} lastMinuteTickCount: {3} tickCount: {4}", majorTickCount, minorTickCount, lastMinuteSeconds, lastMinuteTickCount, tickCount);
-                            break;
-                    }
-
-                    float tickX = 0;
-                    int minute = 0;
-                    for(int a = 0; a < tickCount; a++)
-                    {
-                        bool isMajorTick = ((a % 10) == 0);
-                        //Console.WriteLine("####> WaveFormView - Scale - tick {0} x: {1} isMajorTick: {2} tickCount: {3}", a, tickX, isMajorTick, tickCount);
-
-                        // Draw scale line
-                        if(isMajorTick)
-                            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, timeScaleHeight - (timeScaleHeight / 1.25f)), new PointF(tickX, timeScaleHeight) }, UIColor.LightGray.CGColor, 1, false, false);
-                        else
-                            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, timeScaleHeight - (timeScaleHeight / 6)), new PointF(tickX, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
-
-                        if(isMajorTick)
-                        {
-                            // Draw dashed traversal line for major ticks
-                            CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, timeScaleHeight), new PointF(tickX, bounds.Height) }, UIColor.LightGray.CGColor, 1, false, true);
-
-                            // Draw text at every major tick (minute count)
-                            CoreGraphicsHelper.DrawTextInRect(context, new RectangleF(tickX + 4, timeScaleHeight - (timeScaleHeight / 1.25f), minuteWidth, timeScaleHeight / 2), minute.ToString() + ":00", "HelveticaNeue", 10f, UIColor.White.CGColor, UILineBreakMode.TailTruncation, UITextAlignment.Left);
-                            minute++;
-                        }
-
-                        tickX += minuteWidth / 10;
-                    }
+                        heightToRenderLine = (boundsWaveForm.Height / 2);
 
                     context.SetStrokeColor(GlobalTheme.WaveFormColor.CGColor);
                     //context.SetLineWidth(0.2f);
@@ -525,7 +448,7 @@ namespace MPfm.iOS.Managers
                             
                             // Draw positive value (y: middle to top)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, heightToRenderLine + timeScaleHeight), new PointF(x2, heightToRenderLine - leftMaxHeight + timeScaleHeight)
+                                new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine - leftMaxHeight)
                             });
                             
                             // -----------------------------------------
@@ -533,7 +456,7 @@ namespace MPfm.iOS.Managers
                             
                             // Draw negative value (y: middle to height)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, heightToRenderLine + timeScaleHeight), new PointF(x2, heightToRenderLine + (-leftMinHeight) + timeScaleHeight)
+                                new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine + (-leftMinHeight))
                             });
                             
                             // -----------------------------------------
@@ -542,7 +465,7 @@ namespace MPfm.iOS.Managers
                             // Multiply by 3 to get the new center line for right channel
                             // Draw positive value (y: middle to top)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, (heightToRenderLine * 3) + timeScaleHeight), new PointF(x2, (heightToRenderLine * 3) - rightMaxHeight + timeScaleHeight)
+                                new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) - rightMaxHeight)
                             });
                             
                             // -----------------------------------------
@@ -550,7 +473,7 @@ namespace MPfm.iOS.Managers
                             
                             // Draw negative value (y: middle to height)
                             context.StrokeLineSegments(new PointF[2] {
-                                new PointF(x1, (heightToRenderLine * 3) + timeScaleHeight), new PointF(x2, (heightToRenderLine * 3) + (-rightMinHeight) + timeScaleHeight)
+                                new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) + (-rightMinHeight))
                             });
                         }
                         

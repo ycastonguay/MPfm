@@ -99,7 +99,8 @@ namespace MPfm.iOS.Classes.Controls
                 _zoomScale = 1.0f;
                 _offsetRatio = 0;
                 UpdateZoomScale(0);
-                WaveFormView.RefreshWaveFormBitmap();                
+                WaveFormView.RefreshWaveFormBitmap();
+                WaveFormScaleView.SetNeedsDisplay();
                 
                 _lblZoom.Text = "100.0%";
                 UIView.Animate(0.15, () => {
@@ -154,6 +155,7 @@ namespace MPfm.iOS.Classes.Controls
 
             this.ZoomingEnded += delegate(object sender, ZoomingEndedEventArgs e) {
                 WaveFormView.RefreshWaveFormBitmap();
+                WaveFormScaleView.SetNeedsDisplay();
                 UIView.Animate(0.25, () => {
                     _lblZoom.Alpha = 0;
                 });
@@ -161,6 +163,7 @@ namespace MPfm.iOS.Classes.Controls
 
             this.DidZoom += delegate(object sender, EventArgs e) {
                 UpdateZoomScale(_offsetRatio);
+                WaveFormScaleView.SetNeedsDisplay();
             };
 
 //            this.Scrolled += delegate(object sender, EventArgs e) {
@@ -233,12 +236,13 @@ namespace MPfm.iOS.Classes.Controls
                 ContentOffset = new PointF(0, 0);
             }
             WaveFormView.LoadPeakFile(audioFile);
+            WaveFormScaleView.AudioFile = audioFile;
         }
 
         public void SetWaveFormLength(long lengthBytes)
         {
             WaveFormView.Length = lengthBytes;
-            WaveFormScaleView.Length = lengthBytes;
+            WaveFormScaleView.AudioFileLength = lengthBytes;
         }
 
         public void SetMarkers(IEnumerable<Marker> markers)
