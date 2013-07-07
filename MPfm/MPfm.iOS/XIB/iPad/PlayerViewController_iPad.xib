@@ -224,8 +224,8 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 								<int key="IBUILineBreakMode">2</int>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="618910869">
-									<string key="name">HelveticaNeue-Medium</string>
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="435022877">
+									<string key="name">HelveticaNeue</string>
 									<string key="family">Helvetica Neue</string>
 									<int key="traits">0</int>
 									<double key="pointSize">13</double>
@@ -329,7 +329,7 @@
 								<int key="IBUIBaselineAdjustment">0</int>
 								<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 								<int key="IBUITextAlignment">2</int>
-								<reference key="IBUIFontDescription" ref="618910869"/>
+								<reference key="IBUIFontDescription" ref="435022877"/>
 								<reference key="IBUIFont" ref="598914303"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>

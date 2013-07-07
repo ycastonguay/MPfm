@@ -45,6 +45,7 @@ namespace MPfm.iOS.Classes.Controls
         private float _offsetRatio;
         private UILabel _lblZoom;
         private UIView _viewCenterLine;
+        private float _scaleHeight = 22f;
 
         private WaveFormScrollViewMode _scrollViewMode = WaveFormScrollViewMode.SelectPosition;
         public WaveFormScrollViewMode ScrollViewMode
@@ -70,6 +71,7 @@ namespace MPfm.iOS.Classes.Controls
 
         // TODO: Make this entirely private and add methods to set wave forms
         public MPfmWaveFormView WaveFormView { get; private set; }
+        public MPfmWaveFormScaleView WaveFormScaleView { get; private set; }
 
         public MPfmWaveFormScrollView(IntPtr handle) 
             : base (handle)
@@ -116,8 +118,12 @@ namespace MPfm.iOS.Classes.Controls
             doubleTap.NumberOfTapsRequired = 2;
             AddGestureRecognizer(doubleTap);
 
-            WaveFormView = new MPfmWaveFormView(Bounds);
+            //WaveFormView = new MPfmWaveFormView(Bounds);
+            WaveFormView = new MPfmWaveFormView(new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight));
             AddSubview(WaveFormView);
+
+            WaveFormScaleView = new MPfmWaveFormScaleView(new RectangleF(0, 0, Bounds.Width, _scaleHeight));
+            AddSubview(WaveFormScaleView);
 
             _lblZoom = new UILabel(new RectangleF(0, 0, 60, 20));
             _lblZoom.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -192,13 +198,17 @@ namespace MPfm.iOS.Classes.Controls
             
             if(ScrollViewMode == WaveFormScrollViewMode.Standard)
             {
+                //WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, WaveFormView.Frame.Height);
                 WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, WaveFormView.Frame.Height);
+                WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, _scaleHeight);
                 ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
                 ContentOffset = new PointF(WaveFormView.Frame.Width * offsetRatio, 0);
             }
             else if(ScrollViewMode == WaveFormScrollViewMode.SelectPosition)
             {
+                //WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, WaveFormView.Frame.Height);
                 WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, WaveFormView.Frame.Height);
+                WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, _scaleHeight);
                 ContentSize = new SizeF(WaveFormView.Frame.Width + Bounds.Width, Bounds.Height);
                 ContentOffset = new PointF(WaveFormView.Frame.Width * offsetRatio, 0);
             }
@@ -208,13 +218,17 @@ namespace MPfm.iOS.Classes.Controls
         {
             if(ScrollViewMode == WaveFormScrollViewMode.Standard)
             {
-                WaveFormView.Frame = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+                WaveFormView.Frame = new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
+                WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, _scaleHeight);
+                //WaveFormScaleView.Hidden = true;
                 ContentSize = Bounds.Size;
                 ContentOffset = new PointF(0, 0);
             }
             else if(ScrollViewMode == WaveFormScrollViewMode.SelectPosition)
             {
-                WaveFormView.Frame = new RectangleF(Bounds.Width / 2, 0, Bounds.Width, Bounds.Height);
+                WaveFormView.Frame = new RectangleF(Bounds.Width / 2, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
+                WaveFormScaleView.Frame = new RectangleF(Bounds.Width / 2, 0, Bounds.Width, _scaleHeight);
+                //WaveFormScaleView.Hidden = true;
                 ContentSize = new SizeF(Bounds.Width * 2, Bounds.Height);
                 ContentOffset = new PointF(0, 0);
             }
@@ -224,6 +238,7 @@ namespace MPfm.iOS.Classes.Controls
         public void SetWaveFormLength(long lengthBytes)
         {
             WaveFormView.Length = lengthBytes;
+            WaveFormScaleView.Length = lengthBytes;
         }
 
         public void SetMarkers(IEnumerable<Marker> markers)
