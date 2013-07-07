@@ -40,11 +40,16 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void Draw(RectangleF rect)
         {
-            //base.Draw(rect);
-
+            var screenSize = UIKitHelper.GetDeviceSize();
             var context = UIGraphics.GetCurrentContext();
             CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainDarkColor.CGColor);
-            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 2), GlobalTheme.MainLightColor.CGColor);
+            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 0, screenSize.Width, 2), GlobalTheme.MainLightColor.CGColor);
+        }
+
+        public override void LayoutSubviews()
+        {
+            base.LayoutSubviews();
+            SetNeedsDisplay();
         }
     }
 }

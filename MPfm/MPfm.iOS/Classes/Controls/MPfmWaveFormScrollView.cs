@@ -230,6 +230,12 @@ namespace MPfm.iOS.Classes.Controls
         {
             WaveFormView.SetMarkers(markers);
         }
+
+        public override void Draw(RectangleF rect)
+        {
+            var context = UIGraphics.GetCurrentContext();
+            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 22, Bounds.Width, Bounds.Height), new CGColor(0, 0, 0, 0.25f));
+        }
     }
 
     public enum WaveFormScrollViewMode
