@@ -44,7 +44,6 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmWaveFormView : UIView
     {
         private List<Marker> _markers = new List<Marker>();
-        private WaveFormCacheManager _waveFormCacheManager;
         private string _status = "";
         private bool _isLoading = false;
         private bool _isGeneratingImageCache = false;
@@ -55,6 +54,15 @@ namespace MPfm.iOS.Classes.Controls
         private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
 
         public WaveFormDisplayType DisplayType { get; set; }
+
+        private WaveFormCacheManager _waveFormCacheManager;
+        public WaveFormCacheManager WaveFormCacheManager
+        {
+            get
+            {
+                return _waveFormCacheManager;
+            }
+        }
 
         private AudioFile _audioFile = null;
         public AudioFile AudioFile

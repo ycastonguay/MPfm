@@ -505,12 +505,4 @@ namespace MPfm.iOS.Managers
 
         }
     }
-
-    public enum WaveFormScaleType
-    {
-        _1minute = 0,
-        _30seconds = 1,
-        _10seconds = 2,
-        _1second = 3
-    }
 }

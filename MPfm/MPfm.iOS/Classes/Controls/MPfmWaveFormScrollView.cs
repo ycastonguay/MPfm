@@ -119,8 +119,15 @@ namespace MPfm.iOS.Classes.Controls
             doubleTap.NumberOfTapsRequired = 2;
             AddGestureRecognizer(doubleTap);
 
-            //WaveFormView = new MPfmWaveFormView(Bounds);
             WaveFormView = new MPfmWaveFormView(new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight));
+            WaveFormView.WaveFormCacheManager.GeneratePeakFileEndedEvent += (object sender, GeneratePeakFileEventArgs e) => {
+                WaveFormScaleView.Hidden = false;
+                UserInteractionEnabled = true;
+            };
+            WaveFormView.WaveFormCacheManager.LoadedPeakFileSuccessfullyEvent += (object sender, LoadPeakFileEventArgs e) => {
+                WaveFormScaleView.Hidden = false;
+                UserInteractionEnabled = true;
+            };
             AddSubview(WaveFormView);
 
             WaveFormScaleView = new MPfmWaveFormScaleView(new RectangleF(0, 0, Bounds.Width, _scaleHeight));
@@ -219,11 +226,12 @@ namespace MPfm.iOS.Classes.Controls
 
         public void LoadPeakFile(AudioFile audioFile)
         {
+            WaveFormScaleView.Hidden = true;
+            UserInteractionEnabled = false;
             if(ScrollViewMode == WaveFormScrollViewMode.Standard)
             {
                 WaveFormView.Frame = new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
                 WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, _scaleHeight);
-                //WaveFormScaleView.Hidden = true;
                 ContentSize = Bounds.Size;
                 ContentOffset = new PointF(0, 0);
             }
@@ -231,7 +239,6 @@ namespace MPfm.iOS.Classes.Controls
             {
                 WaveFormView.Frame = new RectangleF(Bounds.Width / 2, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
                 WaveFormScaleView.Frame = new RectangleF(Bounds.Width / 2, 0, Bounds.Width, _scaleHeight);
-                //WaveFormScaleView.Hidden = true;
                 ContentSize = new SizeF(Bounds.Width * 2, Bounds.Height);
                 ContentOffset = new PointF(0, 0);
             }

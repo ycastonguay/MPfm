@@ -100,7 +100,7 @@ namespace MPfm.iOS.Classes.Controls
             if (_audioFile == null || _audioFileLength == 0)
                 return;
 
-            Console.WriteLine("===> WaveFormScaleView - DrawLayer - Drawing scale...");
+            //Console.WriteLine("===> WaveFormScaleView - DrawLayer - Drawing scale...");
 
             // Check which scale to take depending on song length and wave form length
             // The scale doesn't have to fit right at the end, it must only show 'major' positions
@@ -124,27 +124,34 @@ namespace MPfm.iOS.Classes.Controls
             else if(totalMinutesScaled < 1)
                 scaleType = WaveFormScaleType._30seconds;
 
-            Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
+            //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
 
             // Draw scale borders
             CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, _timeScaleHeight), new PointF(Bounds.Width, _timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
             //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, 0), new PointF(0, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
             //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(boundsWaveForm.Width, 0), new PointF(boundsWaveForm.Width, timeScaleHeight) }, UIColor.Gray.CGColor, 1, false, false);
 
-            // TODO: Maybe reduce the number of ticks between major ticks if the width between ticks is too low.
-
             float tickWidth = 0;
             int tickCount = 0;
             bool foundScale = false;
             int majorTickCount = 0;
             int minorTickCount = 0;
-            float lastMinuteSeconds = 0;
+            float lastMinuteSeconds = totalSeconds - ((float)Math.Floor(totalMinutes) * 60);
             int lastMinuteTickCount = 0;
             float scaleMultiplier = 1;
             while (!foundScale)
             {
                 switch (scaleType)
                 {
+                    case WaveFormScaleType._10minutes:
+                        scaleMultiplier = 1f / 10f;
+                        break;
+                    case WaveFormScaleType._5minutes:
+                        scaleMultiplier = 1f / 5f;
+                        break;
+                    case WaveFormScaleType._2minutes:
+                        scaleMultiplier = 1f / 2f;
+                        break;
                     case WaveFormScaleType._1minute:
                         scaleMultiplier = 1f;
                         break;
@@ -154,6 +161,9 @@ namespace MPfm.iOS.Classes.Controls
                     case WaveFormScaleType._10seconds:
                         scaleMultiplier = 6f;
                         break;
+                    case WaveFormScaleType._5seconds:
+                        scaleMultiplier = 12f;
+                        break;
                     case WaveFormScaleType._1second:
                         scaleMultiplier = 60f;
                         break;
@@ -162,18 +172,14 @@ namespace MPfm.iOS.Classes.Controls
                 tickWidth = (Bounds.Width / totalMinutes / scaleMultiplier) / 10;
                 majorTickCount = (int)(Math.Floor(totalMinutes) * scaleMultiplier) + 1; // +1 because of minute 0
                 minorTickCount = (int)((Math.Floor(totalMinutes) * 10) * scaleMultiplier);
-
-                // Calculate how many minor ticks are in the last minute; minor tick scale = 6 seconds.
-                lastMinuteSeconds = totalSeconds - ((float)Math.Floor(totalMinutes / scaleMultiplier) * 60);
-                lastMinuteTickCount = (int)Math.Floor(lastMinuteSeconds / scaleMultiplier / 6f);
+                lastMinuteTickCount = (int)Math.Floor(lastMinuteSeconds / (6f / scaleMultiplier)); // 6 = 6seconds (60/10) // 12
                 tickCount = minorTickCount + lastMinuteTickCount + 1; // +1 because of line at 0:00.000
-                Console.WriteLine("WaveFormScaleView - Scale type: {0} - scaleMultiplier: {1} majorTickCount: {2} minorTickCount: {3} lastMinuteSeconds: {4} lastMinuteTickCount: {5} tickCount: {6} tickWidth: {7}", scaleType.ToString(), scaleMultiplier, majorTickCount, minorTickCount, lastMinuteSeconds, lastMinuteTickCount, tickCount, tickWidth);
+                //Console.WriteLine("WaveFormScaleView - Scale type: {0} - scaleMultipl52ier: {1} majorTickCount: {2} minorTickCount: {3} totalSeconds: {4} lastMinuteSeconds: {5} lastMinuteTickCount: {6} tickCount: {7} tickWidth: {8}", scaleType.ToString(), scaleMultiplier, majorTickCount, minorTickCount, totalSeconds, lastMinuteSeconds, lastMinuteTickCount, tickCount, tickWidth);
 
                 // Check if the right scale was found
                 if (tickWidth > 20f)
                 {
-                    Console.WriteLine("WaveFormScaleView - tickWidth: {0} - tickWidth > 20; Moving scale down...", tickWidth);
-
+                    //Console.WriteLine("WaveFormScaleView - tickWidth: {0} - tickWidth > 20; Moving scale down...", tickWidth);
                     switch (scaleType)
                     {
                         case WaveFormScaleType._1minute:
@@ -183,19 +189,39 @@ namespace MPfm.iOS.Classes.Controls
                             scaleType = WaveFormScaleType._10seconds;
                             break;
                         case WaveFormScaleType._10seconds:
+                            scaleType = WaveFormScaleType._5seconds;
+                            break;
+                        case WaveFormScaleType._5seconds:
                             scaleType = WaveFormScaleType._1second;
+                            break;
+                        default:
+                            foundScale = true;
                             break;
                     }
                 }
                 else if (tickWidth < 5f)
                 {
-                    Console.WriteLine("WaveFormScaleView - tickWidth: {0} - tickWidth < 5f; Moving scale up...", tickWidth);
-                    break;
+                    //Console.WriteLine("WaveFormScaleView - tickWidth: {0} - tickWidth < 5f; Moving scale up...", tickWidth);
+                    switch (scaleType)
+                    {
+                        case WaveFormScaleType._1minute:
+                            scaleType = WaveFormScaleType._2minutes;
+                            break;
+                        case WaveFormScaleType._2minutes:
+                            scaleType = WaveFormScaleType._5minutes;
+                            break;
+                        case WaveFormScaleType._5minutes:
+                            scaleType = WaveFormScaleType._10minutes;
+                            break;
+                        default:
+                            foundScale = true;
+                            break;
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("WaveFormScaleView - tickWidth: {0} - Found right scale; exiting loop...", tickWidth);
-                    break;
+                    //Console.WriteLine("WaveFormScaleView - tickWidth: {0} - Found right scale; exiting loop...", tickWidth);
+                    foundScale = true;
                 }
             }
 
@@ -222,6 +248,18 @@ namespace MPfm.iOS.Classes.Controls
                     int seconds = 0;
                     switch(scaleType)
                     {
+                        case WaveFormScaleType._10minutes:
+                            minutes = majorTickIndex * 10;
+                            seconds = 0;
+                            break;
+                        case WaveFormScaleType._5minutes:
+                            minutes = majorTickIndex * 5;
+                            seconds = 0;
+                            break;
+                        case WaveFormScaleType._2minutes:
+                            minutes = majorTickIndex * 2;
+                            seconds = 0;
+                            break;
                         case WaveFormScaleType._1minute:
                             minutes = majorTickIndex;
                             seconds = 0;
@@ -233,6 +271,10 @@ namespace MPfm.iOS.Classes.Controls
                         case WaveFormScaleType._10seconds:
                             minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
                             seconds = ((int)Math.Floor(majorTickIndex % scaleMultiplier)) * 10;
+                            break;
+                        case WaveFormScaleType._5seconds:
+                            minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
+                            seconds = ((int)Math.Floor(majorTickIndex % scaleMultiplier)) * 5;
                             break;
                         case WaveFormScaleType._1second:
                             minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
@@ -249,5 +291,17 @@ namespace MPfm.iOS.Classes.Controls
                 tickX += tickWidth;
             }
         }
+    }
+
+    public enum WaveFormScaleType
+    {
+        _10minutes = 0,
+        _5minutes = 1,
+        _2minutes = 2,
+        _1minute = 3,
+        _30seconds = 4,
+        _10seconds = 5,
+        _5seconds = 6,
+        _1second = 7
     }
 }
