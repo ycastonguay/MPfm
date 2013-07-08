@@ -273,12 +273,17 @@ namespace MPfm.iOS.Classes.Controllers
             if (viewController is PlayerMetadataViewController)
                 _playerMetadataViewController = (PlayerMetadataViewController)viewController;
 
+            // Hot fix for iOS 7 Beta 3
+            int scrollSubviewsLength = 0;
+            if (scrollView.Subviews != null)
+                scrollSubviewsLength = scrollView.Subviews.Length;
+
             if (UserInterfaceIdiomIsPhone)
             {
-                viewController.View.Frame = new RectangleF(scrollView.Subviews.Length * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+                viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
                 scrollView.AddSubview(viewController.View);
-                pageControl.Pages = scrollView.Subviews.Length;
-                scrollView.ContentSize = new SizeF(scrollView.Subviews.Length * scrollView.Frame.Width, scrollView.Frame.Height);
+                pageControl.Pages = scrollSubviewsLength;
+                scrollView.ContentSize = new SizeF(scrollSubviewsLength * scrollView.Frame.Width, scrollView.Frame.Height);
             }
             else
             {
