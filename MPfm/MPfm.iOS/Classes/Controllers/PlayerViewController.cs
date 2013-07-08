@@ -136,11 +136,12 @@ namespace MPfm.iOS.Classes.Controllers
                     float offset = 42;
                     viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height + offset);
                     scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y + offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height * 2);
-                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, scrollViewWaveForm.WaveFormView.Frame.Height * 2);
+                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, (scrollViewWaveForm.WaveFormView.Frame.Height * 2) + 22);
                     viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
                     _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 1;
                     lblScrubbingType.Alpha = 1;
+                    scrollViewWaveForm.ShowSecondaryPosition(true);
                 });
             };
             sliderPosition.TouchesMovedEvent += (sender, e) => {
@@ -149,7 +150,7 @@ namespace MPfm.iOS.Classes.Controllers
 
                 PlayerPositionEntity entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
                 lblPosition.Text = entity.Position;
-                scrollViewWaveForm.WaveFormView.SecondaryPosition = entity.PositionBytes;
+                scrollViewWaveForm.SetSecondaryPosition(entity.PositionBytes);
             };
             sliderPosition.TouchesEndedEvent += (sender, e) => {
                 //Console.WriteLine("Position: Setting value to " + position.ToString());
@@ -157,14 +158,14 @@ namespace MPfm.iOS.Classes.Controllers
                     float offset = 42;
                     viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height - offset);
                     scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y - offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height / 2);
-                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, scrollViewWaveForm.WaveFormView.Frame.Height / 2);
+                    scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, (scrollViewWaveForm.WaveFormView.Frame.Height - 22) / 2);
                     viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
                     _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;
                 });
                 OnPlayerSetPosition(sliderPosition.Value / 100);
-                scrollViewWaveForm.WaveFormView.SecondaryPosition = 0;
+                scrollViewWaveForm.ShowSecondaryPosition(false);
                 _isPositionChanging = false;
             };
 
@@ -223,7 +224,7 @@ namespace MPfm.iOS.Classes.Controllers
             var screenSize = UIKitHelper.GetDeviceSize();
             if (UserInterfaceIdiomIsPhone)
             {
-                _volumeView.Frame = new RectangleF(8, screenSize.Height - 44 - 52, screenSize.Width - 16, 46);
+                //_volumeView.Frame = new RectangleF(8, screenSize.Height - 44 - 52, screenSize.Width - 16, 46);
             }
             else
             {
@@ -408,7 +409,7 @@ namespace MPfm.iOS.Classes.Controllers
                     sliderPosition.SetPosition(entity.PositionPercentage * 100);
                 }
 
-                scrollViewWaveForm.WaveFormView.Position = entity.PositionBytes;                
+                scrollViewWaveForm.SetPosition(entity.PositionBytes);
             });
         }
 

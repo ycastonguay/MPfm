@@ -115,6 +115,19 @@ namespace MPfm.iOS.Classes.Controls
             }
         }
 
+        private bool _showSecondaryPosition = false;
+        public bool ShowSecondaryPosition
+        {
+            get
+            {
+                return _showSecondaryPosition;
+            }
+            set
+            {
+                _showSecondaryPosition = value;
+            }
+        }
+
         private long _length;
         public long Length
         {
@@ -125,19 +138,6 @@ namespace MPfm.iOS.Classes.Controls
             set
             {
                 _length = value;
-            }
-        }
-
-        private float _scrollX;
-        public float ScrollX
-        {
-            get
-            {
-                return _scrollX;
-            }
-            set
-            {
-                _scrollX = value;
             }
         }
 
@@ -296,13 +296,13 @@ namespace MPfm.iOS.Classes.Controls
             
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;
-            _cursorX = (positionPercentage * Bounds.Width) - ScrollX;
+            _cursorX = positionPercentage * Bounds.Width;
             
             // Draw markers
             for(int a = 0; a < _markers.Count; a++)
             {
                 float xPct = (float)_markers[a].PositionBytes / (float)Length;
-                float x = (xPct * Bounds.Width) - ScrollX;
+                float x = xPct * Bounds.Width;
 
                 // Draw cursor line
                 context.SetStrokeColor(new CGColor(1, 0, 0, 1));
@@ -324,10 +324,10 @@ namespace MPfm.iOS.Classes.Controls
             context.StrokeLineSegments(new PointF[2] { new PointF(_cursorX, 0), new PointF(_cursorX, heightAvailable) });
 
             // Check if a secondary cursor must be drawn (i.e. when changing position)
-            if(_secondaryPosition > 0)
+            if(_showSecondaryPosition)
             {
                 float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
-                _secondaryCursorX = (secondaryPositionPercentage * Bounds.Width) - ScrollX;
+                _secondaryCursorX = secondaryPositionPercentage * Bounds.Width;
 
                 // Draw cursor line
                 context.SetStrokeColor(new CGColor(1, 1, 1, 1));

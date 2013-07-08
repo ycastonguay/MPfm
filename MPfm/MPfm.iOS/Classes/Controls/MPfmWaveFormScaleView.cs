@@ -89,7 +89,7 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            this.BackgroundColor = UIColor.Blue;
+            BackgroundColor = GlobalTheme.BackgroundColor;
         }
 
         public override void Draw(RectangleF rect)
