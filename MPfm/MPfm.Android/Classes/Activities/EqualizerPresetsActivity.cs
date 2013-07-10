@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Android.App;
 using Android.Content;
@@ -24,6 +25,8 @@ using Android.Content.PM;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.OS;
+using Android.Widget;
+using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
@@ -37,6 +40,11 @@ namespace MPfm.Android
     {
         private MobileNavigationManager _navigationManager;
         private string _sourceActivityType;
+        private SeekBar _seekBarVolume;
+        private ToggleButton _btnBypass;
+        private ListView _listView;
+        private EqualizerPresetsListAdapter _listAdapter;
+        private List<EQPreset> _presets;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -48,11 +56,33 @@ namespace MPfm.Android
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
 
+            _seekBarVolume = FindViewById<SeekBar>(Resource.Id.equalizerPresets_seekBarVolume);
+            _seekBarVolume.ProgressChanged += (sender, args) => OnSetVolume(1);
+
+            _btnBypass = FindViewById<ToggleButton>(Resource.Id.equalizerPresets_btnBypass);
+            _btnBypass.Click += (sender, args) => OnBypassEqualizer();
+
+            _listView = FindViewById<ListView>(Resource.Id.equalizerPresets_listView);
+            _listAdapter = new EqualizerPresetsListAdapter(this, new List<EQPreset>());
+            _listView.SetAdapter(_listAdapter);
+            _listView.ItemClick += ListViewOnItemClick;
+            _listView.ItemLongClick += ListViewOnItemLongClick;
+
             // Save the source activity type for later (for providing Up navigation)
             _sourceActivityType = Intent.GetStringExtra("sourceActivity");
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);
+        }
+
+        private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
+        {
+            OnLoadPreset(_presets[itemClickEventArgs.Position].EQPresetId);
+        }
+
+        private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
+        {
+            OnEditPreset(_presets[itemLongClickEventArgs.Position].EQPresetId);
         }
 
         protected override void OnStart()
@@ -143,6 +173,12 @@ namespace MPfm.Android
 
         public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
+            RunOnUiThread(() => {
+                _btnBypass.Checked = isEQBypassed;
+                _presets = presets.ToList();
+                _listAdapter.SetData(_presets);
+                _listAdapter.SetSelected(selectedPresetId);
+            });
         }
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)

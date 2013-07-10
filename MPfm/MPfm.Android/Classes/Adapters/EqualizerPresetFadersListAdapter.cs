@@ -32,7 +32,7 @@ namespace MPfm.Android.Classes.Adapters
         private readonly EqualizerPresetDetailsActivity _context;
         private EQPreset _preset;
 
-        public bool HasPresetChanged { get; private set; }
+        public bool HasPresetChanged { get; set; }
 
         public EqualizerPresetFadersListAdapter(EqualizerPresetDetailsActivity context, EQPreset preset)
         {
@@ -42,6 +42,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public void SetData(EQPreset preset)
         {
+            _preset = preset;
             NotifyDataSetChanged();
         }
 

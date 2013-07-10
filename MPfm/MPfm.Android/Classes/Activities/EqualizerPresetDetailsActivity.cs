@@ -16,12 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Support.V4.App;
 using Android.Views;
 using Android.OS;
 using Android.Widget;
@@ -29,7 +26,6 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 
@@ -138,6 +134,7 @@ namespace MPfm.Android
                 case Resource.Id.equalizerPresetDetailsMenu_item_save:
                     Console.WriteLine("EqualizerPresetDetailsActivity - Menu item click - Saving preset...");
                     OnSavePreset(_txtPresetName.Text);
+                    _listAdapter.HasPresetChanged = false;
                     return true;
                     break;
                 default:

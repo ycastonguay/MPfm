@@ -63,6 +63,7 @@
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\EqualizerPresetsListAdapter.cs" />
     <Compile Include="Classes\Adapters\EqualizerPresetFadersListAdapter.cs" />
     <Compile Include="Classes\Adapters\MarkersListAdapter.cs" />
     <Compile Include="Classes\Adapters\PreferencesFragmentPagerAdapter.cs" />
@@ -177,6 +178,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\EqualizerPresetFaderCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\EqualizerPresetCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
