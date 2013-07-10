@@ -63,6 +63,7 @@
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\EqualizerPresetFadersListAdapter.cs" />
     <Compile Include="Classes\Adapters\MarkersListAdapter.cs" />
     <Compile Include="Classes\Adapters\PreferencesFragmentPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MainTabStatePagerAdapter.cs" />
@@ -175,6 +176,9 @@
     <AndroidResource Include="Resources\Layout\MarkerDetails.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\Layout\EqualizerPresetFaderCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -254,6 +258,7 @@
     <AndroidResource Include="Resources\xml\widget_player.xml" />
     <AndroidResource Include="Resources\Menu\player_menu.xml" />
     <AndroidResource Include="Resources\Menu\equalizerpresets_menu.xml" />
+    <AndroidResource Include="Resources\Menu\equalizerpresetdetails_menu.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

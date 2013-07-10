@@ -3,7 +3,8 @@
     android:id="@+id/equalizerPresets_mainLayout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/background">
   <LinearLayout
       android:id="@+id/equalizerPresets_topLayout"
       android:orientation="horizontal"
@@ -23,20 +24,22 @@
         android:layout_weight="1"
         android:padding="8dp">
       <TextView
-          android:id="@+id/equalizerPresets_lblMasterVolume"
-          android:text="Master Volume:"
+          android:id="@+id/equalizerPresets_lblMasterVolume"          
           android:layout_width="fill_parent"
-          android:layout_height="wrap_content" />
+          android:layout_height="wrap_content"
+          android:text="Master Volume:"
+          android:textColor="#FFFFFF" />
       <SeekBar
           android:id="@+id/equalizerPresets_seekBarVolume"
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
           android:max="100" />
       <TextView
-          android:id="@+id/equalizerPresets_lblBypass"
-          android:text="Equalizer Bypass:"
+          android:id="@+id/equalizerPresets_lblBypass"          
           android:layout_width="fill_parent"
-          android:layout_height="wrap_content" />
+          android:layout_height="wrap_content"
+          android:text="Equalizer Bypass:"
+          android:textColor="#FFFFFF" />
       <ToggleButton
           android:id="@+id/equalizerPresets_btnBypass"
           android:layout_width="wrap_content"

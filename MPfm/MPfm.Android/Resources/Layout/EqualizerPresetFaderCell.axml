@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="56dp"
+   android:padding="8dp"
+   android:gravity="center_vertical"
+   android:orientation="horizontal">
+  <TextView
+    android:id="@+id/equalizerPresetFaderCell_lblFrequency"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content"   
+    android:gravity="left"
+    android:text="55 Hz"
+    android:textColor="#FFFFFF"
+    android:textSize="14dp" />
+  <SeekBar
+    android:id="@+id/equalizerPresetFaderCell_seekBar"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:paddingLeft="8dp"   
+    android:paddingRight="8dp"
+    android:gravity="center_vertical"
+    android:max="120" />  
+  <TextView
+    android:id="@+id/equalizerPresetFaderCell_lblValue"
+    android:layout_width="60dp"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:text="0.0dB"
+    android:textColor="#FFFFFF"
+    android:textSize="14dp" />
+</LinearLayout>

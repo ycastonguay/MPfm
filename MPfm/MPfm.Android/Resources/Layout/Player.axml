@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#20282E">
+    android:background="@color/background">
   <LinearLayout
       android:id="@+id/player_layoutPosition"
       android:orientation="horizontal"
