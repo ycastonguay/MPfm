@@ -19,6 +19,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using MPfm.Library;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
+using MPfm.Windows.Classes;
+using MPfm.Windows.Classes.Navigation;
+using MPfm.Windows.Classes.Specifications;
 
 namespace MPfm
 {
@@ -27,6 +34,8 @@ namespace MPfm
     /// </summary>
     static class Program
     {
+        private static NavigationManager _navigationManager;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -59,13 +68,19 @@ namespace MPfm
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Show splash screen (in a different thread)
-            frmSplash.ShowSplash();
+            Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, WindowsSyncDeviceSpecifications>().AsSingleton();
+            Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
+            Bootstrapper.GetContainer().Register<ISplashView, frmSplash>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IMainView, frmMain>().AsMultiInstance();
+            //Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindowController>().AsMultiInstance();
+            //Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindowController>().AsMultiInstance();
+            //Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindowController>().AsMultiInstance();
+            //Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
+            //Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
 
-            // Start the main window
-            Application.Run(new frmMain());
-
-            // Last code to be run when application exits here.
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+            _navigationManager.CreateSplashView();
+            Application.Run();
         }
     }
 }

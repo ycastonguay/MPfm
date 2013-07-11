@@ -25,6 +25,9 @@ using System.Text;
 using System.Threading;
 using System.Reflection;
 using System.Windows.Forms;
+using MPfm.MVP.Views;
+using MPfm.Windows.Classes;
+using MPfm.Windows.Classes.Forms;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -34,7 +37,7 @@ namespace MPfm
     /// credits. This is used for the unskippable splash screen at the start of the application and for
     /// the About screen.
     /// </summary>
-    public partial class frmSplash : MPfm.WindowsControls.Form
+    public partial class frmSplash : BaseForm, ISplashView
     {
         // Private variables
         private static frmSplash windowSplash = null;
@@ -47,32 +50,15 @@ namespace MPfm
         private string error = "";
         private bool InitDone { get; set; }
 
-        /// <summary>
-        /// Constructor for the Splash screen window. A timer can be activated using the
-        /// timerEnabled parameter.
-        /// </summary>
-        /// <param name="timerEnabled">If true, the timer is enabled.</param>
-        public frmSplash(bool timerEnabled)
+        public frmSplash(Action<IBaseView> onViewReady) : base (onViewReady)
         {
             InitDone = false;
             InitializeComponent();
 
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
+            Console.WriteLine("End of frmSplash ctor");
 
-        /// <summary>
-        /// Constructor for the Splash screen window. A timer can be activated using the
-        /// timerEnabled parameter. The initialization phase can be skipped.
-        /// </summary>
-        /// <param name="timerEnabled">If true, the timer is enabled.</param>
-        /// <param name="initDone">Is the initialization done?</param>
-        public frmSplash(bool timerEnabled, bool initDone)
-        {
-            InitDone = initDone;
-            InitializeComponent();
-
-            // Display the assembly version in the top label
-            lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            ViewIsReady();
         }
 
         /// <summary>
@@ -92,8 +78,8 @@ namespace MPfm
         /// </summary>
         private static void ShowForm()
         {
-            windowSplash = new frmSplash(true);
-            Application.Run(windowSplash);
+            //windowSplash = new frmSplash(true);
+            //Application.Run(windowSplash);
         }
 
         /// <summary>
@@ -318,6 +304,28 @@ namespace MPfm
                     //windowSplash.Hide();
                 }
             }
+        }
+
+        #endregion
+
+        #region ISplashView implementation
+
+        public Action<IBaseView> OnViewDestroy { get; set; }
+
+        public void ShowView(bool shown)
+        {
+        }
+
+        public void RefreshStatus(string message)
+        {
+            BeginInvoke((MethodInvoker)(delegate {
+                lblStatus.Text = message;
+            }));
+        }
+
+        void ISplashView.InitDone()
+        {
+            BeginInvoke((MethodInvoker) Close);
         }
 
         #endregion

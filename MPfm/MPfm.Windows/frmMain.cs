@@ -27,11 +27,19 @@ using System.Reflection;
 using System.Web;
 using System.Windows.Forms;
 using MPfm.Core;
+using MPfm.Library;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.PeakFiles;
+using MPfm.Windows.Classes;
+using MPfm.Windows.Classes.Forms;
 using MPfm.WindowsControls;
 
 namespace MPfm
@@ -40,7 +48,7 @@ namespace MPfm
     /// Main form for the MPfm application. Contains the Artist Browser, Song Browser,
     /// Current Song Panel, Playback controls, etc.
     /// </summary>
-    public partial class frmMain : MPfm.WindowsControls.Form
+    public partial class frmMain : BaseForm, IMainView
     {
         // Private variables
         private Stream fileTracing = null;
@@ -223,12 +231,10 @@ namespace MPfm
 
         #region Initialization
 
-        /// <summary>
-        /// Default constructor for the main form.
-        /// </summary>
-        public frmMain()
+        public frmMain(Action<IBaseView> onViewReady) : base (onViewReady)
         {
             InitializeComponent();
+            ViewIsReady();
         }    
 
         /// <summary>
@@ -1696,9 +1702,9 @@ namespace MPfm
             }
             else
             {
-                // Show splash screen
-                formSplashAbout = new frmSplash(false, true);
-                formSplashAbout.Show(this);
+                //// Show splash screen
+                //formSplashAbout = new frmSplash(false, true);
+                //formSplashAbout.Show(this);
             }
         }
 
@@ -4130,6 +4136,82 @@ namespace MPfm
             querySongBrowser = new SongQuery();
             RefreshAll();
         }
+
+        #region IMainView implementation
+
+        public Action<IBaseView> OnViewDestroy { get; set; }
+        public void ShowView(bool shown)
+        {
+        }
+
+        public Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
+        public Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
+        public Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
+        public Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
+        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
+        {
+        }
+
+        public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
+        {
+        }
+
+        public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
+        {
+        }
+
+        public Action OnPlayerPlay { get; set; }
+        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public Action OnPlayerPause { get; set; }
+        public Action OnPlayerStop { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; }
+        public Action<float> OnPlayerSetVolume { get; set; }
+        public Action<float> OnPlayerSetPitchShifting { get; set; }
+        public Action<float> OnPlayerSetTimeShifting { get; set; }
+        public Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public void RefreshPlayerStatus(PlayerStatusType status)
+        {
+        }
+
+        public void RefreshPlayerPosition(PlayerPositionEntity entity)
+        {
+        }
+
+        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
+        {
+        }
+
+        public void RefreshMarkers(IEnumerable<Marker> markers)
+        {
+        }
+
+        public void RefreshLoops(IEnumerable<Loop> loops)
+        {
+        }
+
+        public void RefreshPlayerVolume(PlayerVolumeEntity entity)
+        {
+        }
+
+        public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        public void PlayerError(Exception ex)
+        {
+        }
+
+        public Action OnOpenPreferencesWindow { get; set; }
+        public Action OnOpenEffectsWindow { get; set; }
+        public Action OnOpenPlaylistWindow { get; set; }
+        public Action OnOpenSyncWindow { get; set; }
+     
+        #endregion
+
     }
 
     #region Classes and enums
