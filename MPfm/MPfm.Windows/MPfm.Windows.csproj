@@ -96,145 +96,145 @@
     <Compile Include="Classes\Misc\DriverComboBoxItem.cs" />
     <Compile Include="Classes\Navigation\WindowsNavigationManager.cs" />
     <Compile Include="Classes\Misc\SongQuery.cs" />
-    <Compile Include="Configuration\Audio\AudioConfigurationSection.cs" />
-    <Compile Include="Configuration\Audio\AudioMixerConfigurationSection.cs" />
-    <Compile Include="Configuration\Audio\AudioEQConfigurationSection.cs" />
-    <Compile Include="Configuration\Controls\ControlsSongGridViewConfigurationSection.cs" />
-    <Compile Include="Configuration\Controls\ControlsConfigurationSection.cs" />
-    <Compile Include="Configuration\Controls\ControlsSongGridViewQueryConfigurationSection.cs" />
-    <Compile Include="Configuration\General\GeneralConfigurationKeyValue.cs" />
-    <Compile Include="Configuration\General\GeneralConfigurationSection.cs" />
-    <Compile Include="Configuration\IMPfmConfiguration.cs" />
-    <Compile Include="Configuration\MPfmConfiguration.cs" />
-    <Compile Include="Configuration\Windows\WindowConfiguration.cs" />
-    <Compile Include="Configuration\Windows\WindowsConfigurationSection.cs" />
-    <Compile Include="Other Screens\frmThemes.cs">
+    <Compile Include="Classes\Configuration\Audio\AudioConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Audio\AudioMixerConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Audio\AudioEQConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Controls\ControlsSongGridViewConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Controls\ControlsConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Controls\ControlsSongGridViewQueryConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\General\GeneralConfigurationKeyValue.cs" />
+    <Compile Include="Classes\Configuration\General\GeneralConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\IMPfmConfiguration.cs" />
+    <Compile Include="Classes\Configuration\MPfmConfiguration.cs" />
+    <Compile Include="Classes\Configuration\Windows\WindowConfiguration.cs" />
+    <Compile Include="Classes\Configuration\Windows\WindowsConfigurationSection.cs" />
+    <Compile Include="Classes\Forms\frmThemes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmThemes.Designer.cs">
+    <Compile Include="Classes\Forms\frmThemes.Designer.cs">
       <DependentUpon>frmThemes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmLoadPlaylist.cs">
+    <Compile Include="Classes\Forms\frmLoadPlaylist.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmLoadPlaylist.Designer.cs">
+    <Compile Include="Classes\Forms\frmLoadPlaylist.Designer.cs">
       <DependentUpon>frmLoadPlaylist.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmAddEditLoop.cs">
+    <Compile Include="Classes\Forms\frmAddEditLoop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmAddEditLoop.Designer.cs">
+    <Compile Include="Classes\Forms\frmAddEditLoop.Designer.cs">
       <DependentUpon>frmAddEditLoop.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmAddEditMarker.cs">
+    <Compile Include="Classes\Forms\frmAddEditMarker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmAddEditMarker.Designer.cs">
+    <Compile Include="Classes\Forms\frmAddEditMarker.Designer.cs">
       <DependentUpon>frmAddEditMarker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmEditSongMetadata.cs">
+    <Compile Include="Classes\Forms\frmEditSongMetadata.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmEditSongMetadata.Designer.cs">
+    <Compile Include="Classes\Forms\frmEditSongMetadata.Designer.cs">
       <DependentUpon>frmEditSongMetadata.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmFirstRun.cs">
+    <Compile Include="Classes\Forms\frmFirstRun.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFirstRun.Designer.cs">
+    <Compile Include="Classes\Forms\frmFirstRun.Designer.cs">
       <DependentUpon>frmFirstRun.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmVisualizer.cs">
+    <Compile Include="Classes\Forms\frmVisualizer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmVisualizer.Designer.cs">
+    <Compile Include="Classes\Forms\frmVisualizer.Designer.cs">
       <DependentUpon>frmVisualizer.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmUpdateLibraryStatus.cs">
+    <Compile Include="Classes\Forms\frmUpdateLibraryStatus.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmUpdateLibraryStatus.Designer.cs">
+    <Compile Include="Classes\Forms\frmUpdateLibraryStatus.Designer.cs">
       <DependentUpon>frmUpdateLibraryStatus.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmEffects.cs">
+    <Compile Include="Classes\Forms\frmEffects.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmEffects.Designer.cs">
+    <Compile Include="Classes\Forms\frmEffects.Designer.cs">
       <DependentUpon>frmEffects.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMain.cs">
+    <Compile Include="Classes\Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.cs">
+    <Compile Include="Classes\Forms\frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmPlaylist.cs">
+    <Compile Include="Classes\Forms\frmPlaylist.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmPlaylist.Designer.cs">
+    <Compile Include="Classes\Forms\frmPlaylist.Designer.cs">
       <DependentUpon>frmPlaylist.cs</DependentUpon>
     </Compile>
-    <Compile Include="Other Screens\frmSettings.cs">
+    <Compile Include="Classes\Forms\frmSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Other Screens\frmSettings.Designer.cs">
+    <Compile Include="Classes\Forms\frmSettings.Designer.cs">
       <DependentUpon>frmSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmSplash.cs">
+    <Compile Include="Classes\Forms\frmSplash.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSplash.Designer.cs">
+    <Compile Include="Classes\Forms\frmSplash.Designer.cs">
       <DependentUpon>frmSplash.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmFirstRun.resx">
+    <EmbeddedResource Include="Classes\Forms\frmFirstRun.resx">
       <DependentUpon>frmFirstRun.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUpdateLibraryStatus.resx">
+    <EmbeddedResource Include="Classes\Forms\frmUpdateLibraryStatus.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmUpdateLibraryStatus.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmThemes.resx">
+    <EmbeddedResource Include="Classes\Forms\frmThemes.resx">
       <DependentUpon>frmThemes.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmLoadPlaylist.resx">
+    <EmbeddedResource Include="Classes\Forms\frmLoadPlaylist.resx">
       <DependentUpon>frmLoadPlaylist.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmAddEditLoop.resx">
+    <EmbeddedResource Include="Classes\Forms\frmAddEditLoop.resx">
       <DependentUpon>frmAddEditLoop.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmAddEditMarker.resx">
+    <EmbeddedResource Include="Classes\Forms\frmAddEditMarker.resx">
       <DependentUpon>frmAddEditMarker.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmEditSongMetadata.resx">
+    <EmbeddedResource Include="Classes\Forms\frmEditSongMetadata.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmEditSongMetadata.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmVisualizer.resx">
+    <EmbeddedResource Include="Classes\Forms\frmVisualizer.resx">
       <DependentUpon>frmVisualizer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmEffects.resx">
+    <EmbeddedResource Include="Classes\Forms\frmEffects.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmEffects.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="Classes\Forms\frmMain.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmPlaylist.resx">
+    <EmbeddedResource Include="Classes\Forms\frmPlaylist.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmPlaylist.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Other Screens\frmSettings.resx">
+    <EmbeddedResource Include="Classes\Forms\frmSettings.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSplash.resx">
+    <EmbeddedResource Include="Classes\Forms\frmSplash.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSplash.cs</DependentUpon>
     </EmbeddedResource>
@@ -258,7 +258,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configuration\ExampleConfig.xml">
+    <Content Include="Classes\Configuration\ExampleConfig.xml">
       <SubType>Designer</SubType>
     </Content>
     <None Include="Lib\bass.dll" />
@@ -339,9 +339,6 @@
     <None Include="Resources\door_in.png" />
     <None Include="Resources\cancel.png" />
     <None Include="Resources\sound.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
