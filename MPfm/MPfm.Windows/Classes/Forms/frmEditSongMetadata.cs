@@ -56,16 +56,16 @@ namespace MPfm.Windows.Classes.Forms
             this.main = main;
             this.filePaths = filePaths;
 
-            // Get TagLib information about the file
-            if (filePaths.Count > 0)
-            {
-                // Get TagLib information                
-                audioFile = new AudioFile(filePaths[0]);
+            //// Get TagLib information about the file
+            //if (filePaths.Count > 0)
+            //{
+            //    // Get TagLib information                
+            //    audioFile = new AudioFile(filePaths[0]);
 
-                // Update property grid
-                propertyGridTags.SelectedObject = audioFile;
-                lblEditing.Text = "Editing " + filePaths[0];
-            }
+            //    // Update property grid
+            //    propertyGridTags.SelectedObject = audioFile;
+            //    lblEditing.Text = "Editing " + filePaths[0];
+            //}
         }
 
         /// <summary>
@@ -86,28 +86,28 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Check if the player is playing
-            if (Main.Player.IsPlaying)
-            {
-                // Check if the file is currently playing
-                if (Main.Player.Playlist.CurrentItem.AudioFile.FilePath == audioFile.FilePath)
-                {
-                    // Warn user that this will stop playback.
-                    if (MessageBox.Show("This audio file is currently playing. Do you wish to stop the playback to save this audio file metadata?", "Must stop playback to save audio file metadata", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK)
-                    {
-                        // Stop playback
-                        Main.Stop();
-                    }
-                    else
-                    {
-                        // Cancel operation
-                        return;
-                    }
-                }
-            }
+        //    // Check if the player is playing
+        //    if (Main.Player.IsPlaying)
+        //    {
+        //        // Check if the file is currently playing
+        //        if (Main.Player.Playlist.CurrentItem.AudioFile.FilePath == audioFile.FilePath)
+        //        {
+        //            // Warn user that this will stop playback.
+        //            if (MessageBox.Show("This audio file is currently playing. Do you wish to stop the playback to save this audio file metadata?", "Must stop playback to save audio file metadata", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK)
+        //            {
+        //                // Stop playback
+        //                Main.Stop();
+        //            }
+        //            else
+        //            {
+        //                // Cancel operation
+        //                return;
+        //            }
+        //        }
+        //    }
 
-            // Save metadata
-            audioFile.SaveMetadata();
+        //    // Save metadata
+        //    audioFile.SaveMetadata();
         }
     }
 }

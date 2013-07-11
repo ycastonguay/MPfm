@@ -131,19 +131,19 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void RefreshEQPresets()
         {
-            // Clear combo
-            comboEQPreset.Items.Clear();
+            //// Clear combo
+            //comboEQPreset.Items.Clear();
 
-            // Select presets
-            //List<Equalizer> eqs = DataAccess.SelectEqualizers();
-            List<EQPreset> eqs = main.Library.Facade.SelectEQPresets();
+            //// Select presets
+            ////List<Equalizer> eqs = DataAccess.SelectEqualizers();
+            //List<EQPreset> eqs = main.Library.Facade.SelectEQPresets();
 
-            // For each EQ
-            foreach (EQPreset eq in eqs)
-            {
-                // Add the preset
-                comboEQPreset.Items.Add(eq.Name);
-            }
+            //// For each EQ
+            //foreach (EQPreset eq in eqs)
+            //{
+            //    // Add the preset
+            //    comboEQPreset.Items.Add(eq.Name);
+            //}
         }
 
         /// <summary>
@@ -151,26 +151,26 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void ResetEQ()
         {
-            comboEQPreset.SelectedItem = null;
-            txtEQPresetName.Text = "";
-            fader0.Value = 0;
-            fader1.Value = 0;
-            fader2.Value = 0;
-            fader3.Value = 0;
-            fader4.Value = 0;
-            fader5.Value = 0;
-            fader6.Value = 0;
-            fader7.Value = 0;
-            fader8.Value = 0;
-            fader9.Value = 0;
-            fader10.Value = 0;
-            fader11.Value = 0;
-            fader12.Value = 0;
-            fader13.Value = 0;
-            fader14.Value = 0;
-            fader15.Value = 0;
-            fader16.Value = 0;
-            fader17.Value = 0;            
+            //comboEQPreset.SelectedItem = null;
+            //txtEQPresetName.Text = "";
+            //fader0.Value = 0;
+            //fader1.Value = 0;
+            //fader2.Value = 0;
+            //fader3.Value = 0;
+            //fader4.Value = 0;
+            //fader5.Value = 0;
+            //fader6.Value = 0;
+            //fader7.Value = 0;
+            //fader8.Value = 0;
+            //fader9.Value = 0;
+            //fader10.Value = 0;
+            //fader11.Value = 0;
+            //fader12.Value = 0;
+            //fader13.Value = 0;
+            //fader14.Value = 0;
+            //fader15.Value = 0;
+            //fader16.Value = 0;
+            //fader17.Value = 0;            
         }
 
         #endregion
@@ -185,144 +185,144 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnAutoLevel_Click(object sender, EventArgs e)
         {
-            // Declare variables
-            int highestValue = -30;                     
-            int value = 0;
+            //// Declare variables
+            //int highestValue = -30;                     
+            //int value = 0;
 
-            #region Find highest value
+            //#region Find highest value
 
-            // Find the highest and lowest value in the equalizer            
-            value = fader0.Value;            
+            //// Find the highest and lowest value in the equalizer            
+            //value = fader0.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader1.Value;            
+            //value = fader1.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader2.Value;
+            //value = fader2.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader3.Value;            
+            //value = fader3.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader4.Value;           
+            //value = fader4.Value;           
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader5.Value;            
+            //value = fader5.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader6.Value;            
+            //value = fader6.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader7.Value;
+            //value = fader7.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader8.Value;            
+            //value = fader8.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader9.Value;
+            //value = fader9.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader10.Value;            
+            //value = fader10.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader11.Value;            
+            //value = fader11.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader12.Value;
+            //value = fader12.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader13.Value;            
+            //value = fader13.Value;            
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader14.Value;
+            //value = fader14.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader15.Value;
+            //value = fader15.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader16.Value;
+            //value = fader16.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            value = fader17.Value;
+            //value = fader17.Value;
 
-            // Check for high
-            if (value > highestValue)
-                highestValue = value;
+            //// Check for high
+            //if (value > highestValue)
+            //    highestValue = value;
 
-            #endregion
+            //#endregion
 
-            // Substract value for every fader
-            fader0.Value = fader0.Value - highestValue;
-            fader1.Value = fader1.Value - highestValue;
-            fader2.Value = fader2.Value - highestValue;
-            fader3.Value = fader3.Value - highestValue;
-            fader4.Value = fader4.Value - highestValue;
-            fader5.Value = fader5.Value - highestValue;
-            fader6.Value = fader6.Value - highestValue;
-            fader7.Value = fader7.Value - highestValue;
-            fader8.Value = fader8.Value - highestValue;
-            fader9.Value = fader9.Value - highestValue;
-            fader10.Value = fader10.Value - highestValue;
-            fader11.Value = fader11.Value - highestValue;
-            fader12.Value = fader12.Value - highestValue;
-            fader13.Value = fader13.Value - highestValue;
-            fader14.Value = fader14.Value - highestValue;
-            fader15.Value = fader15.Value - highestValue;
-            fader16.Value = fader16.Value - highestValue;
-            fader17.Value = fader17.Value - highestValue;
+            //// Substract value for every fader
+            //fader0.Value = fader0.Value - highestValue;
+            //fader1.Value = fader1.Value - highestValue;
+            //fader2.Value = fader2.Value - highestValue;
+            //fader3.Value = fader3.Value - highestValue;
+            //fader4.Value = fader4.Value - highestValue;
+            //fader5.Value = fader5.Value - highestValue;
+            //fader6.Value = fader6.Value - highestValue;
+            //fader7.Value = fader7.Value - highestValue;
+            //fader8.Value = fader8.Value - highestValue;
+            //fader9.Value = fader9.Value - highestValue;
+            //fader10.Value = fader10.Value - highestValue;
+            //fader11.Value = fader11.Value - highestValue;
+            //fader12.Value = fader12.Value - highestValue;
+            //fader13.Value = fader13.Value - highestValue;
+            //fader14.Value = fader14.Value - highestValue;
+            //fader15.Value = fader15.Value - highestValue;
+            //fader16.Value = fader16.Value - highestValue;
+            //fader17.Value = fader17.Value - highestValue;
 
-            //MessageBox.Show("highest: " + highestValue.ToString());
+            ////MessageBox.Show("highest: " + highestValue.ToString());
         }
 
         /// <summary>
@@ -332,23 +332,22 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnDeletePreset_Click(object sender, EventArgs e)
         {
-            // Check if equalizer exists            
-            //Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
-            EQPreset equalizerExists = main.Library.Facade.SelectEQPreset(txtEQPresetName.Text);
+            //// Check if equalizer exists            
+            ////Equalizer equalizerExists = DataAccess.SelectEqualizer(txtEQPresetName.Text);
+            //EQPreset equalizerExists = main.Library.Facade.SelectEQPreset(txtEQPresetName.Text);
 
-            if (equalizerExists != null)
-            {
-                // Are you sure?
-                if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                {                    
-                    //DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
-                    main.Library.Facade.DeleteEQPreset(equalizerExists.EQPresetId);
+            //if (equalizerExists != null)
+            //{
+            //    // Are you sure?
+            //    if (MessageBox.Show("Are you sure you wish to delete this equalizer?", "Delete equalizer", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            //    {                    
+            //        //DataAccess.DeleteEqualizer(new Guid(equalizerExists.EqualizerId));
+            //        main.Library.Facade.DeleteEQPreset(equalizerExists.EQPresetId);
 
-                    RefreshEQPresets();
-                    ResetEQ();
-                }
-            }
-            
+            //        RefreshEQPresets();
+            //        ResetEQ();
+            //    }
+            //}            
         }
 
         /// <summary>
@@ -358,56 +357,56 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e"></param>
         private void btnSavePreset_Click(object sender, EventArgs e)
         {
-            // Check if EQ has a name
-            if (txtEQPresetName.Text.Length == 0)
-            {
-                MessageBox.Show("You must give a name to your equalizer preset.", "Cannot save equalizer preset", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //// Check if EQ has a name
+            //if (txtEQPresetName.Text.Length == 0)
+            //{
+            //    MessageBox.Show("You must give a name to your equalizer preset.", "Cannot save equalizer preset", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
-            // Build preset
-            EQPreset eq = new EQPreset();
-            eq.Name = txtEQPresetName.Text;
-            eq.Bands[0].Gain = (float)fader0.Value / 10;
-            eq.Bands[1].Gain = (float)fader1.Value / 10;
-            eq.Bands[2].Gain = (float)fader2.Value / 10;
-            eq.Bands[3].Gain = (float)fader3.Value / 10;
-            eq.Bands[4].Gain = (float)fader4.Value / 10;
-            eq.Bands[5].Gain = (float)fader5.Value / 10;
-            eq.Bands[6].Gain = (float)fader6.Value / 10;
-            eq.Bands[7].Gain = (float)fader7.Value / 10;
-            eq.Bands[8].Gain = (float)fader8.Value / 10;
-            eq.Bands[9].Gain = (float)fader9.Value / 10;
-            eq.Bands[10].Gain = (float)fader10.Value / 10;
-            eq.Bands[11].Gain = (float)fader11.Value / 10;
-            eq.Bands[12].Gain = (float)fader12.Value / 10;
-            eq.Bands[13].Gain = (float)fader13.Value / 10;
-            eq.Bands[14].Gain = (float)fader14.Value / 10;
-            eq.Bands[15].Gain = (float)fader15.Value / 10;
-            eq.Bands[16].Gain = (float)fader16.Value / 10;
-            eq.Bands[17].Gain = (float)fader17.Value / 10;            
+            //// Build preset
+            //EQPreset eq = new EQPreset();
+            //eq.Name = txtEQPresetName.Text;
+            //eq.Bands[0].Gain = (float)fader0.Value / 10;
+            //eq.Bands[1].Gain = (float)fader1.Value / 10;
+            //eq.Bands[2].Gain = (float)fader2.Value / 10;
+            //eq.Bands[3].Gain = (float)fader3.Value / 10;
+            //eq.Bands[4].Gain = (float)fader4.Value / 10;
+            //eq.Bands[5].Gain = (float)fader5.Value / 10;
+            //eq.Bands[6].Gain = (float)fader6.Value / 10;
+            //eq.Bands[7].Gain = (float)fader7.Value / 10;
+            //eq.Bands[8].Gain = (float)fader8.Value / 10;
+            //eq.Bands[9].Gain = (float)fader9.Value / 10;
+            //eq.Bands[10].Gain = (float)fader10.Value / 10;
+            //eq.Bands[11].Gain = (float)fader11.Value / 10;
+            //eq.Bands[12].Gain = (float)fader12.Value / 10;
+            //eq.Bands[13].Gain = (float)fader13.Value / 10;
+            //eq.Bands[14].Gain = (float)fader14.Value / 10;
+            //eq.Bands[15].Gain = (float)fader15.Value / 10;
+            //eq.Bands[16].Gain = (float)fader16.Value / 10;
+            //eq.Bands[17].Gain = (float)fader17.Value / 10;            
 
-            // Check if equalizer exists                        
-            EQPreset equalizerExists = main.Library.Facade.SelectEQPreset(txtEQPresetName.Text);
+            //// Check if equalizer exists                        
+            //EQPreset equalizerExists = main.Library.Facade.SelectEQPreset(txtEQPresetName.Text);
 
-            if (equalizerExists == null)
-            {
-                //DataAccess.InsertEqualizer(eq);
-                main.Library.Facade.InsertEQPreset(eq);
-            }
-            else
-            {
-                if (MessageBox.Show("Are you sure you wish to overwrite the " + equalizerExists.Name + " equalizer preset?", "Overwrite equalizer preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                {
-                    // Update ID and EQ
-                    eq.EQPresetId = equalizerExists.EQPresetId;
-                    main.Library.Facade.UpdateEQPreset(eq);
-                }
-            }
+            //if (equalizerExists == null)
+            //{
+            //    //DataAccess.InsertEqualizer(eq);
+            //    main.Library.Facade.InsertEQPreset(eq);
+            //}
+            //else
+            //{
+            //    if (MessageBox.Show("Are you sure you wish to overwrite the " + equalizerExists.Name + " equalizer preset?", "Overwrite equalizer preset", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            //    {
+            //        // Update ID and EQ
+            //        eq.EQPresetId = equalizerExists.EQPresetId;
+            //        main.Library.Facade.UpdateEQPreset(eq);
+            //    }
+            //}
 
-            // Refresh
-            RefreshEQPresets();
-            comboEQPreset.SelectedItem = eq.Name;
+            //// Refresh
+            //RefreshEQPresets();
+            //comboEQPreset.SelectedItem = eq.Name;
         }
 
         /// <summary>
@@ -418,18 +417,18 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void chkEQOn_CheckedChanged(object sender, EventArgs e)
         {
-            // Check if the form has loaded
-            if (!isFormLoaded)
-            {
-                return;
-            }
+            //// Check if the form has loaded
+            //if (!isFormLoaded)
+            //{
+            //    return;
+            //}
 
-            // Bypass EQ
-            main.Player.BypassEQ();
+            //// Bypass EQ
+            //main.Player.BypassEQ();
 
-            // Set configuration and save
-            main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
-            main.Config.Save();
+            //// Set configuration and save
+            //main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
+            //main.Config.Save();
         }        
 
         /// <summary>
@@ -450,29 +449,29 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="name">Preset name</param>
         private void SetPreset(string name)
         {
-            // Get equalizer                    
-            EQPreset equalizer = main.Library.Facade.SelectEQPreset(name);
+            //// Get equalizer                    
+            //EQPreset equalizer = main.Library.Facade.SelectEQPreset(name);
 
-            // Set values
-            txtEQPresetName.Text = equalizer.Name;
-            fader0.Value = (Int32)(equalizer.Bands[0].Gain * 10);
-            fader1.Value = (Int32)(equalizer.Bands[1].Gain * 10);
-            fader2.Value = (Int32)(equalizer.Bands[2].Gain * 10);
-            fader3.Value = (Int32)(equalizer.Bands[3].Gain * 10);
-            fader4.Value = (Int32)(equalizer.Bands[4].Gain * 10);
-            fader5.Value = (Int32)(equalizer.Bands[5].Gain * 10);
-            fader6.Value = (Int32)(equalizer.Bands[6].Gain * 10);
-            fader7.Value = (Int32)(equalizer.Bands[7].Gain * 10);
-            fader8.Value = (Int32)(equalizer.Bands[8].Gain * 10);
-            fader9.Value = (Int32)(equalizer.Bands[9].Gain * 10);
-            fader10.Value = (Int32)(equalizer.Bands[10].Gain * 10);
-            fader11.Value = (Int32)(equalizer.Bands[11].Gain * 10);
-            fader12.Value = (Int32)(equalizer.Bands[12].Gain * 10);
-            fader13.Value = (Int32)(equalizer.Bands[13].Gain * 10);
-            fader14.Value = (Int32)(equalizer.Bands[14].Gain * 10);
-            fader15.Value = (Int32)(equalizer.Bands[15].Gain * 10);
-            fader16.Value = (Int32)(equalizer.Bands[16].Gain * 10);
-            fader17.Value = (Int32)(equalizer.Bands[17].Gain * 10);
+            //// Set values
+            //txtEQPresetName.Text = equalizer.Name;
+            //fader0.Value = (Int32)(equalizer.Bands[0].Gain * 10);
+            //fader1.Value = (Int32)(equalizer.Bands[1].Gain * 10);
+            //fader2.Value = (Int32)(equalizer.Bands[2].Gain * 10);
+            //fader3.Value = (Int32)(equalizer.Bands[3].Gain * 10);
+            //fader4.Value = (Int32)(equalizer.Bands[4].Gain * 10);
+            //fader5.Value = (Int32)(equalizer.Bands[5].Gain * 10);
+            //fader6.Value = (Int32)(equalizer.Bands[6].Gain * 10);
+            //fader7.Value = (Int32)(equalizer.Bands[7].Gain * 10);
+            //fader8.Value = (Int32)(equalizer.Bands[8].Gain * 10);
+            //fader9.Value = (Int32)(equalizer.Bands[9].Gain * 10);
+            //fader10.Value = (Int32)(equalizer.Bands[10].Gain * 10);
+            //fader11.Value = (Int32)(equalizer.Bands[11].Gain * 10);
+            //fader12.Value = (Int32)(equalizer.Bands[12].Gain * 10);
+            //fader13.Value = (Int32)(equalizer.Bands[13].Gain * 10);
+            //fader14.Value = (Int32)(equalizer.Bands[14].Gain * 10);
+            //fader15.Value = (Int32)(equalizer.Bands[15].Gain * 10);
+            //fader16.Value = (Int32)(equalizer.Bands[16].Gain * 10);
+            //fader17.Value = (Int32)(equalizer.Bands[17].Gain * 10);
         }
 
         /// <summary>
@@ -482,29 +481,29 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e"></param>
         private void comboEQPreset_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Check if the form has loaded
-            if (!isFormLoaded)
-            {
-                return;
-            }
+            //// Check if the form has loaded
+            //if (!isFormLoaded)
+            //{
+            //    return;
+            //}
 
-            try
-            {
-                // Check if selection is valid
-                if (comboEQPreset.SelectedItem != null && !String.IsNullOrEmpty(comboEQPreset.SelectedItem.ToString()))
-                {
-                    // Set preset
-                    SetPreset(comboEQPreset.SelectedItem.ToString());
+            //try
+            //{
+            //    // Check if selection is valid
+            //    if (comboEQPreset.SelectedItem != null && !String.IsNullOrEmpty(comboEQPreset.SelectedItem.ToString()))
+            //    {
+            //        // Set preset
+            //        SetPreset(comboEQPreset.SelectedItem.ToString());
 
-                    // Set config                    
-                    Main.Config.Audio.EQ.Preset = comboEQPreset.SelectedItem.ToString();
-                    Main.Config.Save();
-                }
-            }
-            catch
-            {
-                throw;
-            }
+            //        // Set config                    
+            //        Main.Config.Audio.EQ.Preset = comboEQPreset.SelectedItem.ToString();
+            //        Main.Config.Save();
+            //    }
+            //}
+            //catch
+            //{
+            //    throw;
+            //}
         }
 
         /// <summary>
@@ -532,29 +531,29 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void fader_ValueChanged(object sender, EventArgs e)
         {
-            // Get control
-            Fader fader = sender as Fader;
-            int index = 0;
-            int.TryParse(fader.Tag.ToString(), out index);
+            //// Get control
+            //Fader fader = sender as Fader;
+            //int index = 0;
+            //int.TryParse(fader.Tag.ToString(), out index);
 
-            // Get label
-            FieldInfo infoLabel = this.GetType().GetField("lblGain" + index.ToString(), BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-            MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
+            //// Get label
+            //FieldInfo infoLabel = this.GetType().GetField("lblGain" + index.ToString(), BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+            //MPfm.WindowsControls.Label label = infoLabel.GetValue(this) as MPfm.WindowsControls.Label;
 
-            float gain = (float)fader.Value / 10;            
-            main.Player.UpdateEQBand(index, gain, true);
+            //float gain = (float)fader.Value / 10;            
+            //main.Player.UpdateEQBand(index, gain, true);
 
-            // Update dB display
-            string strDB = "";
-            if (gain > 0)
-            {
-                strDB = "+" + gain.ToString("0.0") + " dB";
-            }
-            else
-            {
-                strDB = gain.ToString("0.0") + " dB";
-            }
-            label.Text = strDB;
+            //// Update dB display
+            //string strDB = "";
+            //if (gain > 0)
+            //{
+            //    strDB = "+" + gain.ToString("0.0") + " dB";
+            //}
+            //else
+            //{
+            //    strDB = gain.ToString("0.0") + " dB";
+            //}
+            //label.Text = strDB;
         }
 
         #endregion

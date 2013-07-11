@@ -147,8 +147,8 @@ namespace MPfm.Windows.Classes.Forms
             //lblSongTitle.Text = string.Empty;
 
             // Set update library events
-            main.Library.OnUpdateLibraryProgress += new MPfm.Library.Library.UpdateLibraryProgress(Library_OnUpdateLibraryProgress);
-            main.Library.OnUpdateLibraryFinished += new MPfm.Library.Library.UpdateLibraryFinished(Library_OnUpdateLibraryFinished);
+            //main.Library.OnUpdateLibraryProgress += new MPfm.Library.Library.UpdateLibraryProgress(Library_OnUpdateLibraryProgress);
+            //main.Library.OnUpdateLibraryFinished += new MPfm.Library.Library.UpdateLibraryFinished(Library_OnUpdateLibraryFinished);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace MPfm.Windows.Classes.Forms
             lblEstimatedTimeLeft.Text = "Estimated time left: Calculating...";
 
             // Start the update process
-            Main.Library.UpdateLibrary(mode, FilePaths, FolderPath);
+            //Main.Library.UpdateLibrary(mode, FilePaths, FolderPath);
         }
 
         #region Control Events
@@ -214,12 +214,12 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Arguments</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            // Set the cancel update library flag to true
-            Main.Library.CancelUpdateLibrary = true;
+            //// Set the cancel update library flag to true
+            //Main.Library.CancelUpdateLibrary = true;
 
-            // Reset buttons
-            btnOK.Enabled = true;
-            btnCancel.Enabled = false;
+            //// Reset buttons
+            //btnOK.Enabled = true;
+            //btnCancel.Enabled = false;
         }
 
         /// <summary>
@@ -230,33 +230,33 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnSaveLog_Click(object sender, EventArgs e)
         {
-            // Generate the name of the log
-            saveLogDialog.FileName = "MPfm_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
+            //// Generate the name of the log
+            //saveLogDialog.FileName = "MPfm_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
 
-            // Display the save dialog
-            if (saveLogDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                TextWriter tw = null;
-                try
-                {
-                    // Open text writer
-                    tw = new StreamWriter(saveLogDialog.FileName);
+            //// Display the save dialog
+            //if (saveLogDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    TextWriter tw = null;
+            //    try
+            //    {
+            //        // Open text writer
+            //        tw = new StreamWriter(saveLogDialog.FileName);
 
-                    foreach (String item in lbLog.Items)
-                    {
-                        tw.WriteLine(item);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Display error
-                    MessageBox.Show("Failed to save the file to " + saveLogDialog.FileName + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    tw.Close();
-                }
-            }
+            //        foreach (String item in lbLog.Items)
+            //        {
+            //            tw.WriteLine(item);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Display error
+            //        MessageBox.Show("Failed to save the file to " + saveLogDialog.FileName + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //    finally
+            //    {
+            //        tw.Close();
+            //    }
+            //}
         }
 
         #endregion
@@ -268,44 +268,44 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         private void Library_OnUpdateLibraryFinished(UpdateLibraryFinishedData data)
         {
-            if (data.Successful)
-            {
-                // Success
-                lblProgress.Text = "100%";
-                progressBar.Value = 100;
-                lblMessage.Text = "The update library process has finished successfully.";
-                lblTitle.Text = "Update library successful";
-            }
-            else if (data.Cancelled)
-            {
-                // Cancel
-                lblProgress.Text = "0%";
-                progressBar.Value = 0;
-                lblMessage.Text = "The update library process was cancelled by the user.";
-                lblTitle.Text = "Update library process cancelled";
-            }
-            else if (!data.Successful)
-            {
-                // Fail
-                lblProgress.Text = "0%";
-                progressBar.Value = 0;
-                lblMessage.Text = "The update library process has failed.";
-                lblTitle.Text = "Update library failed";
-            }
+            //if (data.Successful)
+            //{
+            //    // Success
+            //    lblProgress.Text = "100%";
+            //    progressBar.Value = 100;
+            //    lblMessage.Text = "The update library process has finished successfully.";
+            //    lblTitle.Text = "Update library successful";
+            //}
+            //else if (data.Cancelled)
+            //{
+            //    // Cancel
+            //    lblProgress.Text = "0%";
+            //    progressBar.Value = 0;
+            //    lblMessage.Text = "The update library process was cancelled by the user.";
+            //    lblTitle.Text = "Update library process cancelled";
+            //}
+            //else if (!data.Successful)
+            //{
+            //    // Fail
+            //    lblProgress.Text = "0%";
+            //    progressBar.Value = 0;
+            //    lblMessage.Text = "The update library process has failed.";
+            //    lblTitle.Text = "Update library failed";
+            //}
 
-            lblEstimatedTimeLeft.Text = "Estimated time left: N/A";
+            //lblEstimatedTimeLeft.Text = "Estimated time left: N/A";
 
-            // Stop timer
-            timerEnabled = false;
-            //workerTimer.CancelAsync();
+            //// Stop timer
+            //timerEnabled = false;
+            ////workerTimer.CancelAsync();
 
-            // Refresh song cache
-            Main.Library.RefreshCache();
+            //// Refresh song cache
+            //Main.Library.RefreshCache();
 
-            // Set buttons
-            btnCancel.Enabled = false;
-            btnOK.Enabled = true;
-            btnSaveLog.Enabled = true;
+            //// Set buttons
+            //btnCancel.Enabled = false;
+            //btnOK.Enabled = true;
+            //btnSaveLog.Enabled = true;
         }
 
         /// <summary>

@@ -180,31 +180,31 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void PlaySelectedSong()
         {
-            // Make sure there is a selected item
-            if (viewSongs2.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// Make sure there is a selected item
+            //if (viewSongs2.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get the playlist item identifier from the selected item
-            Guid playlistItemId = viewSongs2.SelectedItems[0].PlaylistItemId;
-            PlaylistItem item = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == playlistItemId);
-            int index = Main.Player.Playlist.Items.IndexOf(item);
+            //// Get the playlist item identifier from the selected item
+            //Guid playlistItemId = viewSongs2.SelectedItems[0].PlaylistItemId;
+            //PlaylistItem item = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == playlistItemId);
+            //int index = Main.Player.Playlist.Items.IndexOf(item);
 
-            // Check if the player is playing
-            if (Main.Player.IsPlaying)
-            {
-                // Skip to new song
-                Main.Player.GoTo(index);
-            }
-            else
-            {
-                // Set playlist index
-                Main.Player.Playlist.GoTo(index);
+            //// Check if the player is playing
+            //if (Main.Player.IsPlaying)
+            //{
+            //    // Skip to new song
+            //    Main.Player.GoTo(index);
+            //}
+            //else
+            //{
+            //    // Set playlist index
+            //    Main.Player.Playlist.GoTo(index);
 
-                // Start playback
-                Main.Play();
-            }
+            //    // Start playback
+            //    Main.Play();
+            //}
         }
 
         #region Refresh Methods
@@ -214,15 +214,15 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void RefreshTitle()
         {
-            // Display playlist file path in form title if available
-            if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
-            {                
-                this.Text = Main.Player.Playlist.FilePath;
-            }
-            else
-            {                
-                this.Text = "Unsaved playlist";
-            }
+            //// Display playlist file path in form title if available
+            //if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
+            //{                
+            //    this.Text = Main.Player.Playlist.FilePath;
+            //}
+            //else
+            //{                
+            //    this.Text = "Unsaved playlist";
+            //}
         }
 
         /// <summary>
@@ -230,17 +230,17 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void RefreshPlaylist()
         {
-            // Make sure the playlist is valid
-            if (Main.Player.Playlist == null)
-            {
-                return;
-            }
+            //// Make sure the playlist is valid
+            //if (Main.Player.Playlist == null)
+            //{
+            //    return;
+            //}
 
-            // Import songs into the control
-            viewSongs2.ImportPlaylist(Main.Player.Playlist);
+            //// Import songs into the control
+            //viewSongs2.ImportPlaylist(Main.Player.Playlist);
 
-            // Refresh window title
-            RefreshTitle();
+            //// Refresh window title
+            //RefreshTitle();
         }
 
         /// <summary>
@@ -290,29 +290,29 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnNewPlaylist_Click(object sender, EventArgs e)
         {
-            // Check if the playlist has at least one item
-            if (viewSongs2.Items.Count > 0)
-            {
-                // Warn user
-                if (MessageBox.Show("Are you sure you wish to create a new playlist?\nYou will lose the contents of the current playlist. This will also stop playback.", "Create a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
-                {
-                    // The user said no; exit method
-                    return;
-                }
-            }
+            //// Check if the playlist has at least one item
+            //if (viewSongs2.Items.Count > 0)
+            //{
+            //    // Warn user
+            //    if (MessageBox.Show("Are you sure you wish to create a new playlist?\nYou will lose the contents of the current playlist. This will also stop playback.", "Create a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+            //    {
+            //        // The user said no; exit method
+            //        return;
+            //    }
+            //}
 
-            // Is the player running?
-            if (Main.Player.IsPlaying)
-            {
-                // Stop playback
-                Main.Stop();
-            }
+            //// Is the player running?
+            //if (Main.Player.IsPlaying)
+            //{
+            //    // Stop playback
+            //    Main.Stop();
+            //}
 
-            // Empty current playlist
-            Main.Player.Playlist.Clear();            
+            //// Empty current playlist
+            //Main.Player.Playlist.Clear();            
 
-            // Refresh playlist
-            RefreshPlaylist();
+            //// Refresh playlist
+            //RefreshPlaylist();
         }
 
         /// <summary>
@@ -333,25 +333,25 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnSavePlaylist_Click(object sender, EventArgs e)
         {
-            // Check if playlist file is valid
-            if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
-            {
-                // Check if file exists
-                if (File.Exists(Main.Player.Playlist.FilePath))
-                {
-                    // Warn user is he wants to save
-                    if(MessageBox.Show("Warning: The playlist file already exists. Do you wish to overwrite this file?", "The playlist file already exists", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        // The user wants to save
-                        SavePlaylist(Main.Player.Playlist.FilePath);
-                    }
-                }
-            }
-            else
-            {
-                // Ask user for file path
-                SavePlaylistAs();
-            }
+            //// Check if playlist file is valid
+            //if (!String.IsNullOrEmpty(Main.Player.Playlist.FilePath))
+            //{
+            //    // Check if file exists
+            //    if (File.Exists(Main.Player.Playlist.FilePath))
+            //    {
+            //        // Warn user is he wants to save
+            //        if(MessageBox.Show("Warning: The playlist file already exists. Do you wish to overwrite this file?", "The playlist file already exists", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+            //        {
+            //            // The user wants to save
+            //            SavePlaylist(Main.Player.Playlist.FilePath);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    // Ask user for file path
+            //    SavePlaylistAs();
+            //}
         }
 
         /// <summary>
@@ -372,52 +372,52 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnRemoveSongs_Click(object sender, EventArgs e)
         {
-            // Create a list of songs to remove
-            //List<Guid> removedSongs = new List<Guid>();
+            //// Create a list of songs to remove
+            ////List<Guid> removedSongs = new List<Guid>();
 
-            // Check if there is at least one item selected
-            if (viewSongs2.SelectedItems.Count > 0)
-            {
-                // Go through list view items (use a while loop so we can remove items from a collection we are iterating through)
-                while (true)
-                {
-                    // Are there selected items left?
-                    if (viewSongs2.SelectedItems.Count == 0)
-                    {
-                        // Exit loop
-                        break;
-                    }
+            //// Check if there is at least one item selected
+            //if (viewSongs2.SelectedItems.Count > 0)
+            //{
+            //    // Go through list view items (use a while loop so we can remove items from a collection we are iterating through)
+            //    while (true)
+            //    {
+            //        // Are there selected items left?
+            //        if (viewSongs2.SelectedItems.Count == 0)
+            //        {
+            //            // Exit loop
+            //            break;
+            //        }
 
-                    // Get item
-                    SongGridViewItem item = viewSongs2.SelectedItems[0];
+            //        // Get item
+            //        SongGridViewItem item = viewSongs2.SelectedItems[0];
 
-                    // Check if the selected song is playing
-                    if (item.PlaylistItemId == Main.Player.Playlist.CurrentItem.Id)
-                    {
-                        // Warn the user
-                        MessageBox.Show("You cannot remove the current song from the playlist!", "Error removing song from playlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        break;
-                    }
+            //        // Check if the selected song is playing
+            //        if (item.PlaylistItemId == Main.Player.Playlist.CurrentItem.Id)
+            //        {
+            //            // Warn the user
+            //            MessageBox.Show("You cannot remove the current song from the playlist!", "Error removing song from playlist", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //            break;
+            //        }
 
-                    // Remove playlist item
-                    PlaylistItem playlistItem = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == item.PlaylistItemId);
-                    Main.Player.Playlist.Items.Remove(playlistItem);
+            //        // Remove playlist item
+            //        PlaylistItem playlistItem = Main.Player.Playlist.Items.FirstOrDefault(x => x.Id == item.PlaylistItemId);
+            //        Main.Player.Playlist.Items.Remove(playlistItem);
 
-                    // Remove grid view item
-                    viewSongs2.Items.Remove(item);
-                }
+            //        // Remove grid view item
+            //        viewSongs2.Items.Remove(item);
+            //    }
 
-                // Set playlist as modified
-                //Main.Player.CurrentPlaylist.PlaylistModified = true;
-                //Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
+            //    // Set playlist as modified
+            //    //Main.Player.CurrentPlaylist.PlaylistModified = true;
+            //    //Main.Player.CurrentPlaylist.PlaylistType = PlaylistType.Custom;
 
-                // Refresh the window title
-                RefreshTitle();
+            //    // Refresh the window title
+            //    RefreshTitle();
 
-                // Refresh grid view
-                viewSongs2.InvalidateSongCache();
-                viewSongs2.Refresh();
-            }
+            //    // Refresh grid view
+            //    viewSongs2.InvalidateSongCache();
+            //    viewSongs2.Refresh();
+            //}
         }
 
         #endregion
@@ -456,29 +456,29 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void miLoadPlaylistBrowse_Click(object sender, EventArgs e)
         {
-            // Display the open playlist file dialog
-            if (dialogLoadPlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-            {
-                // The user has canceled the operation
-                return;
-            }
+            //// Display the open playlist file dialog
+            //if (dialogLoadPlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // The user has canceled the operation
+            //    return;
+            //}
 
-            // Check if the player is playing
-            if (Main.Player.IsPlaying)
-            {
-                // Warn user
-                if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
-                {
-                    // The user said no; exit method
-                    return;
-                }
+            //// Check if the player is playing
+            //if (Main.Player.IsPlaying)
+            //{
+            //    // Warn user
+            //    if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+            //    {
+            //        // The user said no; exit method
+            //        return;
+            //    }
 
-                // Stop playback
-                Main.Stop();
-            }
+            //    // Stop playback
+            //    Main.Stop();
+            //}
 
-            // Load playlist
-            LoadPlaylist(dialogLoadPlaylist.FileName);
+            //// Load playlist
+            //LoadPlaylist(dialogLoadPlaylist.FileName);
         }
 
         /// <summary>
@@ -488,25 +488,25 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         protected void miLoadPlaylistLibraryItem_Click(object sender, EventArgs e)
         {
-            // Cast sender
-            ToolStripItem item = (ToolStripItem)sender;
+            //// Cast sender
+            //ToolStripItem item = (ToolStripItem)sender;
 
-            // Check if the player is playing
-            if (Main.Player.IsPlaying)
-            {
-                // Warn user
-                if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
-                {
-                    // The user said no; exit method
-                    return;
-                }
+            //// Check if the player is playing
+            //if (Main.Player.IsPlaying)
+            //{
+            //    // Warn user
+            //    if (MessageBox.Show("Loading a new playlist will stop playback. Are you sure you wish to do this?", "Load a new playlist", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+            //    {
+            //        // The user said no; exit method
+            //        return;
+            //    }
 
-                // Stop playback
-                Main.Stop();
-            }
+            //    // Stop playback
+            //    Main.Stop();
+            //}
 
-            // Load playlist
-            LoadPlaylist(item.Tag.ToString());
+            //// Load playlist
+            //LoadPlaylist(item.Tag.ToString());
         }
 
         #endregion
@@ -519,89 +519,89 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="playlistFilePath">Playlist file path</param>
         public void LoadPlaylist(string playlistFilePath)
         {
-            try
-            {
-                // Create window
-                formLoadPlaylist = new frmLoadPlaylist(Main, playlistFilePath);
+            //try
+            //{
+            //    // Create window
+            //    formLoadPlaylist = new frmLoadPlaylist(Main, playlistFilePath);
 
-                // Show Load playlist dialog (progress bar)
-                DialogResult dialogResult = formLoadPlaylist.ShowDialog(this);
-                if (dialogResult == System.Windows.Forms.DialogResult.OK)
-                {
-                    // Get audio files
-                    List<AudioFile> audioFiles = formLoadPlaylist.AudioFiles;
+            //    // Show Load playlist dialog (progress bar)
+            //    DialogResult dialogResult = formLoadPlaylist.ShowDialog(this);
+            //    if (dialogResult == System.Windows.Forms.DialogResult.OK)
+            //    {
+            //        // Get audio files
+            //        List<AudioFile> audioFiles = formLoadPlaylist.AudioFiles;
 
-                    // Check if any audio files have failed loading
-                    List<string> failedAudioFilePaths = formLoadPlaylist.FailedAudioFilePaths;
+            //        // Check if any audio files have failed loading
+            //        List<string> failedAudioFilePaths = formLoadPlaylist.FailedAudioFilePaths;
 
-                    // Clear player playlist
-                    Main.Player.Playlist.Clear();
-                    Main.Player.Playlist.FilePath = playlistFilePath;
+            //        // Clear player playlist
+            //        Main.Player.Playlist.Clear();
+            //        Main.Player.Playlist.FilePath = playlistFilePath;
 
-                    // Make sure there are audio files to add to the player playlist
-                    if (audioFiles.Count > 0)
-                    {
-                        // Add audio files                        
-                        Main.Player.Playlist.AddItems(audioFiles);
-                        Main.Player.Playlist.First();
-                    }
+            //        // Make sure there are audio files to add to the player playlist
+            //        if (audioFiles.Count > 0)
+            //        {
+            //            // Add audio files                        
+            //            Main.Player.Playlist.AddItems(audioFiles);
+            //            Main.Player.Playlist.First();
+            //        }
                                        
-                    // Refresh song browser
-                    RefreshTitle();
-                    RefreshPlaylist();                    
-                    RefreshPlaylistPlayIcon(Guid.Empty);
+            //        // Refresh song browser
+            //        RefreshTitle();
+            //        RefreshPlaylist();                    
+            //        RefreshPlaylistPlayIcon(Guid.Empty);
 
-                    // Check if any files could not be loaded
-                    if (failedAudioFilePaths != null && failedAudioFilePaths.Count > 0)
-                    {
-                        // Check if the user wants to see the list of files
-                        if (MessageBox.Show("Some files in the playlist could not be loaded. Do you wish to see the list of files in a text editor?", "Some files could not be loaded", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
-                        {
-                            // Get temp file path
-                            string tempFilePath = Path.GetTempPath() + "MPfm_PlaylistLog_" + Conversion.DateTimeToUnixTimestamp(DateTime.Now).ToString("0.0000000").Replace(".", "") + ".txt";
+            //        // Check if any files could not be loaded
+            //        if (failedAudioFilePaths != null && failedAudioFilePaths.Count > 0)
+            //        {
+            //            // Check if the user wants to see the list of files
+            //            if (MessageBox.Show("Some files in the playlist could not be loaded. Do you wish to see the list of files in a text editor?", "Some files could not be loaded", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+            //            {
+            //                // Get temp file path
+            //                string tempFilePath = Path.GetTempPath() + "MPfm_PlaylistLog_" + Conversion.DateTimeToUnixTimestamp(DateTime.Now).ToString("0.0000000").Replace(".", "") + ".txt";
 
-                            // Create temporary file
-                            TextWriter tw = null;
-                            try
-                            {
-                                // Open text writer
-                                tw = new StreamWriter(tempFilePath);
-                                foreach (string item in failedAudioFilePaths)
-                                {
-                                    tw.WriteLine(item);
-                                }                                
-                            }
-                            catch (Exception ex)
-                            {
-                                // Display error
-                                MessageBox.Show("Failed to save the file to " + tempFilePath + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                            finally
-                            {
-                                tw.Close();
-                            }
+            //                // Create temporary file
+            //                TextWriter tw = null;
+            //                try
+            //                {
+            //                    // Open text writer
+            //                    tw = new StreamWriter(tempFilePath);
+            //                    foreach (string item in failedAudioFilePaths)
+            //                    {
+            //                        tw.WriteLine(item);
+            //                    }                                
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    // Display error
+            //                    MessageBox.Show("Failed to save the file to " + tempFilePath + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //                }
+            //                finally
+            //                {
+            //                    tw.Close();
+            //                }
 
-                            // Start notepad
-                            Process.Start(tempFilePath);
-                        }
-                    }
+            //                // Start notepad
+            //                Process.Start(tempFilePath);
+            //            }
+            //        }
                     
-                    // Check if the playlist is empty
-                    if (audioFiles.Count == 0)
-                    {
-                        // Warn user that the playlist is empty
-                        MessageBox.Show("The playlist file is empty or does not contain any valid file!", "Playlist is empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
+            //        // Check if the playlist is empty
+            //        if (audioFiles.Count == 0)
+            //        {
+            //            // Warn user that the playlist is empty
+            //            MessageBox.Show("The playlist file is empty or does not contain any valid file!", "Playlist is empty", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        }
+            //    }
 
-                // Dispose form
-                formLoadPlaylist.Dispose();
-                formLoadPlaylist = null;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error loading playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //    // Dispose form
+            //    formLoadPlaylist.Dispose();
+            //    formLoadPlaylist = null;
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message, "Error loading playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         /// <summary>
@@ -609,23 +609,23 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void SavePlaylistAs()
         {
-            // Check if the playlist is empty
-            if (Main.Player.Playlist.Items.Count == 0)
-            {
-                // Display error
-                MessageBox.Show("Error: You cannot save an empty playlist!", "Error saving playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //// Check if the playlist is empty
+            //if (Main.Player.Playlist.Items.Count == 0)
+            //{
+            //    // Display error
+            //    MessageBox.Show("Error: You cannot save an empty playlist!", "Error saving playlist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
-            // Display dialog
-            if (dialogSavePlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-            {
-                // The user has cancelled the operation
-                return;
-            }
+            //// Display dialog
+            //if (dialogSavePlaylist.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            //{
+            //    // The user has cancelled the operation
+            //    return;
+            //}
 
-            // Save playlist
-            SavePlaylist(dialogSavePlaylist.FileName);
+            //// Save playlist
+            //SavePlaylist(dialogSavePlaylist.FileName);
         }
 
         /// <summary>
@@ -634,63 +634,63 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="playlistFilePath">Playlist file path</param>        
         public void SavePlaylist(string playlistFilePath)
         {
-            bool relativePath = false;
+            //bool relativePath = false;
 
-            // Change cursor
-            Cursor.Current = Cursors.WaitCursor;
+            //// Change cursor
+            //Cursor.Current = Cursors.WaitCursor;
 
-            // Set playlist file path
-            Main.Player.Playlist.FilePath = playlistFilePath;
+            //// Set playlist file path
+            //Main.Player.Playlist.FilePath = playlistFilePath;
 
-            // Check if the path is in the same 
-            DialogResult dialogResult = MessageBox.Show("Do you wish to use relative paths instead of absolute paths when possible?\n\nA full path or absolute path is a path that points to the same location on one file system regardless of the working directory or combined paths.\n\nA relative path is a path relative to the working directory of the user or application, so the full absolute path will not have to be given.", "Use relative paths", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            //// Check if the path is in the same 
+            //DialogResult dialogResult = MessageBox.Show("Do you wish to use relative paths instead of absolute paths when possible?\n\nA full path or absolute path is a path that points to the same location on one file system regardless of the working directory or combined paths.\n\nA relative path is a path relative to the working directory of the user or application, so the full absolute path will not have to be given.", "Use relative paths", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-            // Check result
-            if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-            {
-                // Cancel
-                return;
-            }
-            else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-            {
-                // Save playlist
-                //SavePlaylist(dialogSavePlaylist.FileName, true);
-                relativePath = true;
-            }
-            else if (dialogResult == System.Windows.Forms.DialogResult.No)
-            {
-                // Save playlist
-                //SavePlaylist(dialogSavePlaylist.FileName, false);
-                relativePath = false;
-            }
+            //// Check result
+            //if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+            //{
+            //    // Cancel
+            //    return;
+            //}
+            //else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+            //{
+            //    // Save playlist
+            //    //SavePlaylist(dialogSavePlaylist.FileName, true);
+            //    relativePath = true;
+            //}
+            //else if (dialogResult == System.Windows.Forms.DialogResult.No)
+            //{
+            //    // Save playlist
+            //    //SavePlaylist(dialogSavePlaylist.FileName, false);
+            //    relativePath = false;
+            //}
 
-            // Determine what format the user has chosen
-            if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
-            {
-                // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, true);
-            }
-            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
-            {
-                // Save playlist
-                PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, false);
-            }
-            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
-            {
-                // Save playlist
-                PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
-            }
-            else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
-            {
-                // Save playlist
-                PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
-            }
+            //// Determine what format the user has chosen
+            //if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U8"))
+            //{
+            //    // Save playlist
+            //    PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, true);
+            //}
+            //else if (dialogSavePlaylist.FileName.ToUpper().Contains(".M3U"))
+            //{
+            //    // Save playlist
+            //    PlaylistTools.SaveM3UPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath, false);
+            //}
+            //else if (dialogSavePlaylist.FileName.ToUpper().Contains(".PLS"))
+            //{
+            //    // Save playlist
+            //    PlaylistTools.SavePLSPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
+            //}
+            //else if (dialogSavePlaylist.FileName.ToUpper().Contains(".XSPF"))
+            //{
+            //    // Save playlist
+            //    PlaylistTools.SaveXSPFPlaylist(dialogSavePlaylist.FileName, Main.Player.Playlist, relativePath);
+            //}
 
-            // Change cursor
-            Cursor.Current = Cursors.Default;
+            //// Change cursor
+            //Cursor.Current = Cursors.Default;
 
-            // Refresh title
-            RefreshTitle();
+            //// Refresh title
+            //RefreshTitle();
         }
 
         #endregion

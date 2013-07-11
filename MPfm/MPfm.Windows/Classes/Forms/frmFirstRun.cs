@@ -235,70 +235,70 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnTestAudioSettings_Click(object sender, EventArgs e)
         {
-            // Get selected driver
-            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            // Get selected device
-            Device device = (Device)cboOutputDevices.SelectedItem;
+            //// Get selected device
+            //Device device = (Device)cboOutputDevices.SelectedItem;
 
-            // Get sample rate
-            int frequency = 44100;
-            int.TryParse(cboSampleRate.Text, out frequency);            
+            //// Get sample rate
+            //int frequency = 44100;
+            //int.TryParse(cboSampleRate.Text, out frequency);            
 
-            try
-            {
-                // Display the open file dialog (set filepath first)
-                Tracing.Log("User selects a file.");
-                openFile.FileName = filePath;
-                if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-                {
-                    return;
-                }
+            //try
+            //{
+            //    // Display the open file dialog (set filepath first)
+            //    Tracing.Log("User selects a file.");
+            //    openFile.FileName = filePath;
+            //    if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            //    {
+            //        return;
+            //    }
 
-                // Log 
-                Tracing.Log("Starting audio settings test with the following settings: ");
-                Tracing.Log("Driver Type: " + driver.DriverType.ToString());
-                Tracing.Log("Output Device Id: " + device.Id);
-                Tracing.Log("Output Device Name: " + device.Name);
-                Tracing.Log("Output Device Driver: " + device.Driver);
-                Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
+            //    // Log 
+            //    Tracing.Log("Starting audio settings test with the following settings: ");
+            //    Tracing.Log("Driver Type: " + driver.DriverType.ToString());
+            //    Tracing.Log("Output Device Id: " + device.Id);
+            //    Tracing.Log("Output Device Name: " + device.Name);
+            //    Tracing.Log("Output Device Driver: " + device.Driver);
+            //    Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
-                // Create test device
-                Tracing.Log("Creating test device...");
-                Main.Player.InitializeDevice(device, frequency);
+            //    // Create test device
+            //    Tracing.Log("Creating test device...");
+            //    Main.Player.InitializeDevice(device, frequency);
 
-                // Play sound file                
-                Tracing.Log("Starting playback...");                
-                Main.Player.PlayFiles(openFile.FileNames.ToList());
-                Tracing.Log("The audio file is playing...");
+            //    // Play sound file                
+            //    Tracing.Log("Starting playback...");                
+            //    Main.Player.PlayFiles(openFile.FileNames.ToList());
+            //    Tracing.Log("The audio file is playing...");
 
-                // Display info
-                MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    // Display info
+            //    MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Stop and dispose the device
-                Tracing.Log("User stops playback.");                
-                Main.Player.Stop();
+            //    // Stop and dispose the device
+            //    Tracing.Log("User stops playback.");                
+            //    Main.Player.Stop();
 
-                // Dispose test device
-                Tracing.Log("Disposing test device...");                
-                Main.Player.FreeDevice();                          
+            //    // Dispose test device
+            //    Tracing.Log("Disposing test device...");                
+            //    Main.Player.FreeDevice();                          
 
-                // The test is successful, enable Next button
-                btnNext.Enabled = true;
-                Tracing.Log("The audio settings test is successful!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(this, "Error testing sound configuration!\nThis configuration will not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Tracing.Log("The audio settings test has failed!");
-                Tracing.Log("Exception message: " + ex.Message);
-                Tracing.Log("Stack trace: " + ex.StackTrace);
+            //    // The test is successful, enable Next button
+            //    btnNext.Enabled = true;
+            //    Tracing.Log("The audio settings test is successful!");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(this, "Error testing sound configuration!\nThis configuration will not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    Tracing.Log("The audio settings test has failed!");
+            //    Tracing.Log("Exception message: " + ex.Message);
+            //    Tracing.Log("Stack trace: " + ex.StackTrace);
 
-                // The test is successful, enable Next button
-                btnNext.Enabled = false;
-            }
+            //    // The test is successful, enable Next button
+            //    btnNext.Enabled = false;
+            //}
 
-            Tracing.Log("End of audio settings test.");
+            //Tracing.Log("End of audio settings test.");
         }
 
         #endregion

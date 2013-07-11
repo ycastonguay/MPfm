@@ -68,42 +68,42 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         private void Initialize()
         {            
-            // Set song labels
-            lblArtistNameValue.Text = audioFile.ArtistName;
-            lblAlbumTitleValue.Text = audioFile.AlbumTitle;
-            lblSongTitleValue.Text = audioFile.Title;
+            //// Set song labels
+            //lblArtistNameValue.Text = audioFile.ArtistName;
+            //lblAlbumTitleValue.Text = audioFile.AlbumTitle;
+            //lblSongTitleValue.Text = audioFile.Title;
 
-            // Set labels depending on mode
-            if (mode == AddEditMarkerWindowMode.Add)
-            {
-                panelEditMarker.HeaderTitle = "Add Marker";
-                Text = "Add Marker";
-            }
-            else if (mode == AddEditMarkerWindowMode.Edit)
-            {
-                panelEditMarker.HeaderTitle = "Edit Marker";
-                panelEditMarker.Refresh();
-                Text = "Edit Marker";
+            //// Set labels depending on mode
+            //if (mode == AddEditMarkerWindowMode.Add)
+            //{
+            //    panelEditMarker.HeaderTitle = "Add Marker";
+            //    Text = "Add Marker";
+            //}
+            //else if (mode == AddEditMarkerWindowMode.Edit)
+            //{
+            //    panelEditMarker.HeaderTitle = "Edit Marker";
+            //    panelEditMarker.Refresh();
+            //    Text = "Edit Marker";
 
-                // Fetch marker from database                
-                Marker marker = Main.Library.Facade.SelectMarker(markerId);
+            //    // Fetch marker from database                
+            //    Marker marker = Main.Library.Facade.SelectMarker(markerId);
 
-                // Check if the marker was found
-                if(marker == null)
-                {
-                    return;
-                }
+            //    // Check if the marker was found
+            //    if(marker == null)
+            //    {
+            //        return;
+            //    }
 
-                // Update fields
-                txtName.Text = marker.Name;
-                txtComments.Text = marker.Comments;
-                txtPosition.Text = marker.Position;
-                lblMarkerPositionSamplesValue.Text = marker.PositionSamples.ToString();
-                lblMarkerPositionBytesValue.Text = marker.PositionBytes.ToString();
-            }
+            //    // Update fields
+            //    txtName.Text = marker.Name;
+            //    txtComments.Text = marker.Comments;
+            //    txtPosition.Text = marker.Position;
+            //    lblMarkerPositionSamplesValue.Text = marker.PositionSamples.ToString();
+            //    lblMarkerPositionBytesValue.Text = marker.PositionBytes.ToString();
+            //}
 
-            // Validate form
-            ValidateForm();
+            //// Validate form
+            //ValidateForm();
         }
 
         /// <summary>
@@ -116,6 +116,7 @@ namespace MPfm.Windows.Classes.Forms
             // Hide the form
             this.Close();
         }
+
         /// <summary>
         /// Occurs when the user clicks on the "Save" button.
         /// </summary>
@@ -123,53 +124,53 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // Get PCM and PCM bytes values
-            long pcm = 0;
-            long.TryParse(lblMarkerPositionSamplesValue.Text, out pcm);
-            long pcmBytes = 0;
-            long.TryParse(lblMarkerPositionBytesValue.Text, out pcmBytes);
+            //// Get PCM and PCM bytes values
+            //long pcm = 0;
+            //long.TryParse(lblMarkerPositionSamplesValue.Text, out pcm);
+            //long pcmBytes = 0;
+            //long.TryParse(lblMarkerPositionBytesValue.Text, out pcmBytes);
 
-            // Create a new marker or fetch the existing marker from the database            
-            Marker marker = null;
-            if (mode == AddEditMarkerWindowMode.Add)
-            {
-                // Insert the new marker into the database
-                marker = new Marker();
-                marker.MarkerId = Guid.NewGuid();
-            }
-            else if (mode == AddEditMarkerWindowMode.Edit)
-            {
-                // Select the existing marker from the database
-                marker = Main.Library.Facade.SelectMarker(markerId);
-            }
+            //// Create a new marker or fetch the existing marker from the database            
+            //Marker marker = null;
+            //if (mode == AddEditMarkerWindowMode.Add)
+            //{
+            //    // Insert the new marker into the database
+            //    marker = new Marker();
+            //    marker.MarkerId = Guid.NewGuid();
+            //}
+            //else if (mode == AddEditMarkerWindowMode.Edit)
+            //{
+            //    // Select the existing marker from the database
+            //    marker = Main.Library.Facade.SelectMarker(markerId);
+            //}
 
-            // Set properties            
-            marker.AudioFileId = audioFile.Id;
-            marker.Name = txtName.Text;
-            marker.Comments = txtComments.Text;
-            marker.Position = txtPosition.Text;
-            marker.PositionBytes = pcm;
-            marker.PositionBytes = pcmBytes;
+            //// Set properties            
+            //marker.AudioFileId = audioFile.Id;
+            //marker.Name = txtName.Text;
+            //marker.Comments = txtComments.Text;
+            //marker.Position = txtPosition.Text;
+            //marker.PositionBytes = pcm;
+            //marker.PositionBytes = pcmBytes;
 
-            // Determine if an INSERT or an UPDATE is necessary
-            if (mode == AddEditMarkerWindowMode.Add)
-            {
-                // Insert marker
-                Main.Library.Facade.InsertMarker(marker);
+            //// Determine if an INSERT or an UPDATE is necessary
+            //if (mode == AddEditMarkerWindowMode.Add)
+            //{
+            //    // Insert marker
+            //    Main.Library.Facade.InsertMarker(marker);
 
-                // Refresh window as Edit Marker
-                markerId = marker.MarkerId;
-                mode = AddEditMarkerWindowMode.Edit;
-                Initialize();
-            }
-            else if (mode == AddEditMarkerWindowMode.Edit)
-            {
-                // Update marker
-                Main.Library.Facade.UpdateMarker(marker);
-            }
+            //    // Refresh window as Edit Marker
+            //    markerId = marker.MarkerId;
+            //    mode = AddEditMarkerWindowMode.Edit;
+            //    Initialize();
+            //}
+            //else if (mode == AddEditMarkerWindowMode.Edit)
+            //{
+            //    // Update marker
+            //    Main.Library.Facade.UpdateMarker(marker);
+            //}
 
-            // Refresh main window marker list
-            Main.RefreshMarkers();
+            //// Refresh main window marker list
+            //Main.RefreshMarkers();
         }
 
         /// <summary>
@@ -180,27 +181,26 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnPunchIn_Click(object sender, EventArgs e)
         {
-            // Check if the player is currently playing
-            // test
-            if (!Main.Player.IsPlaying)
-            {
-                return;
-            }
+            //// Check if the player is currently playing
+            //if (!Main.Player.IsPlaying)
+            //{
+            //    return;
+            //}
 
-            // Get position
-            //long positionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
-            //long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
-            //string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);
+            //// Get position
+            ////long positionBytes = Main.Player.Playlist.CurrentItem.Channel.GetPosition();
+            ////long positionSamples = ConvertAudio.ToPCM(positionBytes, 16, 2);
+            ////string position = ConvertAudio.ToTimeString(positionBytes, 16, 2, 44100);
 
-            // Get position
-            long positionBytes = Main.Player.GetPosition();
-            long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-            string position = ConvertAudio.ToTimeString(positionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)Main.Player.Playlist.CurrentItem.AudioFile.SampleRate);
+            //// Get position
+            //long positionBytes = Main.Player.GetPosition();
+            //long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
+            //string position = ConvertAudio.ToTimeString(positionBytes, (uint)Main.Player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2, (uint)Main.Player.Playlist.CurrentItem.AudioFile.SampleRate);
 
-            // Update controls
-            txtPosition.Text = position;
-            lblMarkerPositionSamplesValue.Text = positionSamples.ToString();
-            lblMarkerPositionBytesValue.Text = positionBytes.ToString();
+            //// Update controls
+            //txtPosition.Text = position;
+            //lblMarkerPositionSamplesValue.Text = positionSamples.ToString();
+            //lblMarkerPositionBytesValue.Text = positionBytes.ToString();
         }
 
         /// <summary>
@@ -211,16 +211,16 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnGoTo_Click(object sender, EventArgs e)
         {
-            // Check if the player is currently playing
-            if (!Main.Player.IsPlaying)
-            {
-                return;
-            }
+            //// Check if the player is currently playing
+            //if (!Main.Player.IsPlaying)
+            //{
+            //    return;
+            //}
 
-            // Set position
-            uint position = 0;
-            uint.TryParse(lblMarkerPositionBytesValue.Text, out position);            
-            Main.Player.SetPosition(position);
+            //// Set position
+            //uint position = 0;
+            //uint.TryParse(lblMarkerPositionBytesValue.Text, out position);            
+            //Main.Player.SetPosition(position);
         }
 
         /// <summary>
@@ -231,8 +231,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-            // Validate form
-            ValidateForm();
+            //// Validate form
+            //ValidateForm();
         }
 
         /// <summary>
@@ -242,18 +242,18 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void txtPosition_TextChanged(object sender, EventArgs e)
         {
-            // Convert 0:00.000 to MS
-            uint totalMS = ConvertAudio.ToMS(txtPosition.Text);
-            uint samples = ConvertAudio.ToPCM(totalMS, 44100); // Sample rate of the song, not of the mixer!
-            uint bytes = ConvertAudio.ToPCMBytes(samples, 16, 2);
+            //// Convert 0:00.000 to MS
+            //uint totalMS = ConvertAudio.ToMS(txtPosition.Text);
+            //uint samples = ConvertAudio.ToPCM(totalMS, 44100); // Sample rate of the song, not of the mixer!
+            //uint bytes = ConvertAudio.ToPCMBytes(samples, 16, 2);
 
-            // Set new values
-            lblMarkerPositionMSValue.Text = totalMS.ToString();
-            lblMarkerPositionSamplesValue.Text = samples.ToString();
-            lblMarkerPositionBytesValue.Text = bytes.ToString();
+            //// Set new values
+            //lblMarkerPositionMSValue.Text = totalMS.ToString();
+            //lblMarkerPositionSamplesValue.Text = samples.ToString();
+            //lblMarkerPositionBytesValue.Text = bytes.ToString();
 
-            // Validate form
-            ValidateForm();
+            //// Validate form
+            //ValidateForm();
         }
 
         /// <summary>
@@ -261,34 +261,34 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void ValidateForm()
         {
-            // Declare variables
-            bool isValid = true;
-            string warningMessage = string.Empty;
+            //// Declare variables
+            //bool isValid = true;
+            //string warningMessage = string.Empty;
 
-            // Check if name is empty
-            if (String.IsNullOrEmpty(txtName.Text))
-            {
-                isValid = false;
-                warningMessage = "The marker must have a valid name.";
-            }
+            //// Check if name is empty
+            //if (String.IsNullOrEmpty(txtName.Text))
+            //{
+            //    isValid = false;
+            //    warningMessage = "The marker must have a valid name.";
+            //}
 
-            // Get song length in MS
-            uint msTotal = ConvertAudio.ToMS(audioFile.Length);
-            uint msMarker = ConvertAudio.ToMS(txtPosition.Text);
+            //// Get song length in MS
+            //uint msTotal = ConvertAudio.ToMS(audioFile.Length);
+            //uint msMarker = ConvertAudio.ToMS(txtPosition.Text);
 
-            // Check if the position exceeds the song length
-            if (msMarker > msTotal)
-            {
-                isValid = false;
-                warningMessage = "The marker position cannot exceed the audio file length (" + audioFile.Length + ").";
-            }
+            //// Check if the position exceeds the song length
+            //if (msMarker > msTotal)
+            //{
+            //    isValid = false;
+            //    warningMessage = "The marker position cannot exceed the audio file length (" + audioFile.Length + ").";
+            //}
 
-            // Set warning
-            panelWarning.Visible = !isValid;
-            lblWarning.Text = warningMessage;
+            //// Set warning
+            //panelWarning.Visible = !isValid;
+            //lblWarning.Text = warningMessage;
 
-            // Enable/disable save button
-            btnSave.Enabled = isValid;
+            //// Enable/disable save button
+            //btnSave.Enabled = isValid;
         }
     }
 

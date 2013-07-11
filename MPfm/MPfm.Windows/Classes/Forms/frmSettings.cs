@@ -162,104 +162,104 @@ namespace MPfm.Windows.Classes.Forms
                 return;
             }
 
-            // Get selected driver
-            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            // Get selected device
-            Device device = (Device)cboOutputDevices.SelectedItem;
+            //// Get selected device
+            //Device device = (Device)cboOutputDevices.SelectedItem;
 
-            // Check if the settings have changed
-            if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.Tested)
-            {
-                string messageBoxText = string.Empty;
-                string messageBoxTitle = string.Empty;
+            //// Check if the settings have changed
+            //if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.Tested)
+            //{
+            //    string messageBoxText = string.Empty;
+            //    string messageBoxTitle = string.Empty;
 
-                // Check state
-                if (audioSettingsState == AudioSettingsState.NotTested)
-                {
-                    messageBoxText = "The audio settings have changed but haven't been tested.\nDo you still wish to exit the Settings window?\n\nClick OK to continue without saving.\nClick Cancel to go back.";
-                    messageBoxTitle = "Audio settings have changed";
-                }
-                else if (audioSettingsState == AudioSettingsState.Tested)
-                {
-                    messageBoxText = "The audio settings have been tested but haven't been saved.\nDo you still wish to exit the Settings window?\n\nClick OK to continue without saving.\nClick Cancel to go back.";
-                    messageBoxTitle = "Audio settings have been tested";
-                }
+            //    // Check state
+            //    if (audioSettingsState == AudioSettingsState.NotTested)
+            //    {
+            //        messageBoxText = "The audio settings have changed but haven't been tested.\nDo you still wish to exit the Settings window?\n\nClick OK to continue without saving.\nClick Cancel to go back.";
+            //        messageBoxTitle = "Audio settings have changed";
+            //    }
+            //    else if (audioSettingsState == AudioSettingsState.Tested)
+            //    {
+            //        messageBoxText = "The audio settings have been tested but haven't been saved.\nDo you still wish to exit the Settings window?\n\nClick OK to continue without saving.\nClick Cancel to go back.";
+            //        messageBoxTitle = "Audio settings have been tested";
+            //    }
 
-                // Display message box
-                DialogResult dialogResult = MessageBox.Show(Main, messageBoxText, messageBoxTitle, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
-                {
-                    // Cancel 
-                    e.Cancel = true;
-                    return;
-                }
-            }
+            //    // Display message box
+            //    DialogResult dialogResult = MessageBox.Show(Main, messageBoxText, messageBoxTitle, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            //    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+            //    {
+            //        // Cancel 
+            //        e.Cancel = true;
+            //        return;
+            //    }
+            //}
 
-            // Check if the original audio settings need to be restored            
-            if(!Main.Player.IsDeviceInitialized)
-            {
-                // Do not save settings; restore original configuration                
-                Device originalDevice = null;
-                if (Main.Config.Audio.DriverType == DriverType.DirectSound)
-                {
-                    // Loop through devices
-                    for (int a = 0; a < devicesDirectSound.Count; a++)
-                    {
-                        // Check if the device matches
-                        if (devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
-                        {
-                            // Set device
-                            originalDevice = devicesDirectSound[a];
-                            break;
-                        }
-                    }
-                }
-                else if (Main.Config.Audio.DriverType == DriverType.ASIO)
-                {
-                    // Loop through devices
-                    for (int a = 0; a < devicesASIO.Count; a++)
-                    {
-                        // Check if the device matches
-                        if (devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
-                        {
-                            // Set device
-                            originalDevice = devicesASIO[a];
-                            break;
-                        }
-                    }
-                }
-                else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
-                {
-                    // Loop through devices
-                    for (int a = 0; a < devicesWASAPI.Count; a++)
-                    {
-                        // Check if the device matches
-                        if (devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
-                        {
-                            // Set device
-                            originalDevice = devicesWASAPI[a];
-                            break;
-                        }
-                    }
-                }
+            //// Check if the original audio settings need to be restored            
+            //if(!Main.Player.IsDeviceInitialized)
+            //{
+            //    // Do not save settings; restore original configuration                
+            //    Device originalDevice = null;
+            //    if (Main.Config.Audio.DriverType == DriverType.DirectSound)
+            //    {
+            //        // Loop through devices
+            //        for (int a = 0; a < devicesDirectSound.Count; a++)
+            //        {
+            //            // Check if the device matches
+            //            if (devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+            //            {
+            //                // Set device
+            //                originalDevice = devicesDirectSound[a];
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    else if (Main.Config.Audio.DriverType == DriverType.ASIO)
+            //    {
+            //        // Loop through devices
+            //        for (int a = 0; a < devicesASIO.Count; a++)
+            //        {
+            //            // Check if the device matches
+            //            if (devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+            //            {
+            //                // Set device
+            //                originalDevice = devicesASIO[a];
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
+            //    {
+            //        // Loop through devices
+            //        for (int a = 0; a < devicesWASAPI.Count; a++)
+            //        {
+            //            // Check if the device matches
+            //            if (devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+            //            {
+            //                // Set device
+            //                originalDevice = devicesWASAPI[a];
+            //                break;
+            //            }
+            //        }
+            //    }
 
-                // Check if the device has been initialized
-                if (!Main.Player.IsDeviceInitialized)
-                {
-                    // Initialize new device
-                    Main.Player.InitializeDevice(originalDevice, Main.Config.Audio.Mixer.Frequency);
+            //    // Check if the device has been initialized
+            //    if (!Main.Player.IsDeviceInitialized)
+            //    {
+            //        // Initialize new device
+            //        Main.Player.InitializeDevice(originalDevice, Main.Config.Audio.Mixer.Frequency);
 
-                    // Set original properties
-                    Main.Player.BufferSize = Main.Config.Audio.Mixer.BufferSize;
-                    Main.Player.UpdatePeriod = Main.Config.Audio.Mixer.UpdatePeriod;
-                }
-            }
+            //        // Set original properties
+            //        Main.Player.BufferSize = Main.Config.Audio.Mixer.BufferSize;
+            //        Main.Player.UpdatePeriod = Main.Config.Audio.Mixer.UpdatePeriod;
+            //    }
+            //}
 
-            // Hide form            
-            //Main.BringToFront();
-            Main.Focus();
-            //this.Close();
+            //// Hide form            
+            ////Main.BringToFront();
+            //Main.Focus();
+            ////this.Close();
 
             e.Cancel = true;
             this.Hide();         
@@ -414,57 +414,57 @@ namespace MPfm.Windows.Classes.Forms
         /// <returns>Indicates if the save was successful</returns>
         private bool SaveGeneralConfig()
         {
-            // Validate peak file directory if custom
-            if (radioPeakFileCustomDirectory.Checked)
-            {
-                // Validate directory existence
-                if (!Directory.Exists(txtPeakFileCustomDirectory.Text))
-                {
-                    MessageBox.Show("Error: The custom peak file directory does not exist.\nPlease select the default peak file directory or use the Browse button to create a custom directory.", "Peak file directory does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-            }
-
-            // Check if the peak file directory has changed    
-            string peakFileFolderPath = (radioPeakFileCustomDirectory.Checked) ? txtPeakFileCustomDirectory.Text : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm\\Peak Files";
-            //if (Main.PeakFileFolderPath != peakFileFolderPath)
+            //// Validate peak file directory if custom
+            //if (radioPeakFileCustomDirectory.Checked)
             //{
-            //    // Ask user if he wants to delete the peak files in the original folder (or move them?)
-            //    DialogResult dialogResult = MessageBox.Show("The peak file directory has changed.\nDo you wish to delete the existing peak files in the older directory?\n\nClick YES to delete peak files in the older directory.\nClick NO to keep the peak files in the older directory.\nClick CANCEL to go back to the Settings window.", "Delete peak files", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-            //    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+            //    // Validate directory existence
+            //    if (!Directory.Exists(txtPeakFileCustomDirectory.Text))
             //    {
+            //        MessageBox.Show("Error: The custom peak file directory does not exist.\nPlease select the default peak file directory or use the Browse button to create a custom directory.", "Peak file directory does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //        return false;
             //    }
-            //    else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-            //    {
-            //        // Delete peak files
-            //        PeakFile.DeletePeakFiles(Main.PeakFileFolderPath);
-            //    }
-            //}            
+            //}
 
-            // Save user interface options
-            Main.Config.SetKeyValue<bool>("ShowTooltips", chkShowTooltips.Checked);
-            Main.Config.SetKeyValue<bool>("HideTray", chkHideTray.Checked);
-            Main.Config.SetKeyValue<bool>("ShowTray", chkShowTray.Checked);
+            //// Check if the peak file directory has changed    
+            //string peakFileFolderPath = (radioPeakFileCustomDirectory.Checked) ? txtPeakFileCustomDirectory.Text : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm\\Peak Files";
+            ////if (Main.PeakFileFolderPath != peakFileFolderPath)
+            ////{
+            ////    // Ask user if he wants to delete the peak files in the original folder (or move them?)
+            ////    DialogResult dialogResult = MessageBox.Show("The peak file directory has changed.\nDo you wish to delete the existing peak files in the older directory?\n\nClick YES to delete peak files in the older directory.\nClick NO to keep the peak files in the older directory.\nClick CANCEL to go back to the Settings window.", "Delete peak files", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            ////    if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+            ////    {
+            ////        return false;
+            ////    }
+            ////    else if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+            ////    {
+            ////        // Delete peak files
+            ////        PeakFile.DeletePeakFiles(Main.PeakFileFolderPath);
+            ////    }
+            ////}            
 
-            // Save update frequency
-            Main.Config.SetKeyValue<int>("PositionUpdateFrequency", (int)numericPositionUpdateFrequency.Value);
-            Main.Config.SetKeyValue<int>("OutputMeterUpdateFrequency", (int)numericOutputMeterUpdateFrequency.Value);
+            //// Save user interface options
+            //Main.Config.SetKeyValue<bool>("ShowTooltips", chkShowTooltips.Checked);
+            //Main.Config.SetKeyValue<bool>("HideTray", chkHideTray.Checked);
+            //Main.Config.SetKeyValue<bool>("ShowTray", chkShowTray.Checked);
 
-            // Save peak file options
-            Main.Config.SetKeyValue<bool>("PeakFile_UseCustomDirectory", radioPeakFileCustomDirectory.Checked);
-            Main.Config.SetKeyValue("PeakFile_CustomDirectory", txtPeakFileCustomDirectory.Text);
-            Main.Config.SetKeyValue<bool>("PeakFile_DisplayWarning", chkPeakFileDisplayWarning.Checked);
-            Main.Config.SetKeyValue<int>("PeakFile_DisplayWarningThreshold", (int)txtPeakFileDisplayWarningThreshold.Value);
+            //// Save update frequency
+            //Main.Config.SetKeyValue<int>("PositionUpdateFrequency", (int)numericPositionUpdateFrequency.Value);
+            //Main.Config.SetKeyValue<int>("OutputMeterUpdateFrequency", (int)numericOutputMeterUpdateFrequency.Value);
 
-            // Set current peak file folder
-            Main.PeakFileFolderPath = peakFileFolderPath;
+            //// Save peak file options
+            //Main.Config.SetKeyValue<bool>("PeakFile_UseCustomDirectory", radioPeakFileCustomDirectory.Checked);
+            //Main.Config.SetKeyValue("PeakFile_CustomDirectory", txtPeakFileCustomDirectory.Text);
+            //Main.Config.SetKeyValue<bool>("PeakFile_DisplayWarning", chkPeakFileDisplayWarning.Checked);
+            //Main.Config.SetKeyValue<int>("PeakFile_DisplayWarningThreshold", (int)txtPeakFileDisplayWarningThreshold.Value);
 
-            // Refresh peak file warning
-            Main.RefreshPeakFileDirectorySizeWarning();
+            //// Set current peak file folder
+            //Main.PeakFileFolderPath = peakFileFolderPath;
 
-            // Save configuration file
-            Main.Config.Save();
+            //// Refresh peak file warning
+            //Main.RefreshPeakFileDirectorySizeWarning();
+
+            //// Save configuration file
+            //Main.Config.Save();
 
             return true;
         }
@@ -478,25 +478,25 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         public void RefreshFolders()
         {
-            // Get the list of folders from the database            
-            List<Folder> folders = main.Library.Facade.SelectFolders();
+            //// Get the list of folders from the database            
+            //List<Folder> folders = main.Library.Facade.SelectFolders();
 
-            // Check if the list is null
-            if (folders != null)
-            {
-                // Clear items                 
-                listViewFolders.Items.Clear();
+            //// Check if the list is null
+            //if (folders != null)
+            //{
+            //    // Clear items                 
+            //    listViewFolders.Items.Clear();
 
-                // Loop through folders
-                foreach (Folder folder in folders)
-                {
-                    // Add item
-                    ListViewItem item = new ListViewItem(folder.FolderPath);
-                    item.Tag = folder.FolderId;
-                    item.SubItems.Add(folder.IsRecursive.ToString());                                        
-                    listViewFolders.Items.Add(item);
-                }
-            }
+            //    // Loop through folders
+            //    foreach (Folder folder in folders)
+            //    {
+            //        // Add item
+            //        ListViewItem item = new ListViewItem(folder.FolderPath);
+            //        item.Tag = folder.FolderId;
+            //        item.SubItems.Add(folder.IsRecursive.ToString());                                        
+            //        listViewFolders.Items.Add(item);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -551,40 +551,40 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnAddFolder_Click(object sender, EventArgs e)
         {
-            if (dialogAddFolder.ShowDialog() == DialogResult.OK)
-            {
-                // Check if folder already exists
-                //Folder folder = DataAccess.SelectFolderByPath(dialogAddFolder.SelectedPath);
-                Folder folder = main.Library.Facade.SelectFolderByPath(dialogAddFolder.SelectedPath);
+            //if (dialogAddFolder.ShowDialog() == DialogResult.OK)
+            //{
+            //    // Check if folder already exists
+            //    //Folder folder = DataAccess.SelectFolderByPath(dialogAddFolder.SelectedPath);
+            //    Folder folder = main.Library.Facade.SelectFolderByPath(dialogAddFolder.SelectedPath);
 
-                // Cancel if folder already exists
-                if (folder != null)
-                {
-                    MessageBox.Show("The folder has already been added to your list!", "Error adding folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            //    // Cancel if folder already exists
+            //    if (folder != null)
+            //    {
+            //        MessageBox.Show("The folder has already been added to your list!", "Error adding folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
 
-                // Ask user for recursive value
-                bool recursive = false;
-                DialogResult result = MessageBox.Show("Do you want MPfm to search the folder recursively (e.g. it will search sub-folders)?", "Folder recursivity", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    recursive = true;
-                }
-                else if (result == DialogResult.Cancel)
-                {
-                    return;
-                }
+            //    // Ask user for recursive value
+            //    bool recursive = false;
+            //    DialogResult result = MessageBox.Show("Do you want MPfm to search the folder recursively (e.g. it will search sub-folders)?", "Folder recursivity", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            //    if (result == DialogResult.Yes)
+            //    {
+            //        recursive = true;
+            //    }
+            //    else if (result == DialogResult.Cancel)
+            //    {
+            //        return;
+            //    }
 
-                // Create new folder
-                //DataAccess.InsertFolder(dialogAddFolder.SelectedPath, recursive);
-                main.Library.Facade.InsertFolder(dialogAddFolder.SelectedPath, recursive);
-                RefreshFolders();
+            //    // Create new folder
+            //    //DataAccess.InsertFolder(dialogAddFolder.SelectedPath, recursive);
+            //    main.Library.Facade.InsertFolder(dialogAddFolder.SelectedPath, recursive);
+            //    RefreshFolders();
 
-                //ArrayList list = db.GetFolderNewSongs(dialogAddFolder.SelectedPath);
-                //StopSong();
-                //formAddFolderStatus.ShowDialog(this);                
-            }
+            //    //ArrayList list = db.GetFolderNewSongs(dialogAddFolder.SelectedPath);
+            //    //StopSong();
+            //    //formAddFolderStatus.ShowDialog(this);                
+            //}
 
         }
 
@@ -597,56 +597,56 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnRemoveFolder_Click(object sender, EventArgs e)
         {
-            // If no items are selected, return immediately
-            if (listViewFolders.SelectedItems.Count == 0)
-            {
-                return;
-            }
+            //// If no items are selected, return immediately
+            //if (listViewFolders.SelectedItems.Count == 0)
+            //{
+            //    return;
+            //}
 
-            // Get user confirmation
-            if (MessageBox.Show("Are you sure you wish to remove the selected folders from your library?", "Removing folders from your library", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
-            {
-                return;
-            }
+            //// Get user confirmation
+            //if (MessageBox.Show("Are you sure you wish to remove the selected folders from your library?", "Removing folders from your library", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            //{
+            //    return;
+            //}
 
-            // Ask the user if he/she wants to remove the songs from his/her library
-            bool removeSongsFromLibrary = false;
-            DialogResult result = MessageBox.Show("Do you want to remove the songs of this folder from your library?", "Remove songs from library", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (result == System.Windows.Forms.DialogResult.Yes)
-            {
-                removeSongsFromLibrary = true;
-            }
-            else if (result == System.Windows.Forms.DialogResult.Cancel)
-            {
-                return;
-            }
+            //// Ask the user if he/she wants to remove the songs from his/her library
+            //bool removeSongsFromLibrary = false;
+            //DialogResult result = MessageBox.Show("Do you want to remove the songs of this folder from your library?", "Remove songs from library", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            //if (result == System.Windows.Forms.DialogResult.Yes)
+            //{
+            //    removeSongsFromLibrary = true;
+            //}
+            //else if (result == System.Windows.Forms.DialogResult.Cancel)
+            //{
+            //    return;
+            //}
 
-            // Delete selected folders
-            foreach (ListViewItem item in listViewFolders.SelectedItems)
-            {
-                // Check if the tag is null
-                if (item.Tag != null)
-                {
-                    // Get the folder id
-                    Guid folderId = new Guid(item.Tag.ToString());
+            //// Delete selected folders
+            //foreach (ListViewItem item in listViewFolders.SelectedItems)
+            //{
+            //    // Check if the tag is null
+            //    if (item.Tag != null)
+            //    {
+            //        // Get the folder id
+            //        Guid folderId = new Guid(item.Tag.ToString());
 
-                    // Remove songs that match the path
-                    if (removeSongsFromLibrary)
-                    {
-                        Main.Library.RemoveSongsFromLibrary(item.SubItems[0].Text);
-                    }
+            //        // Remove songs that match the path
+            //        if (removeSongsFromLibrary)
+            //        {
+            //            Main.Library.RemoveSongsFromLibrary(item.SubItems[0].Text);
+            //        }
 
-                    // Delete the folder from the list of configured folders                    
-                    Main.Library.Facade.DeleteFolder(folderId);
+            //        // Delete the folder from the list of configured folders                    
+            //        Main.Library.Facade.DeleteFolder(folderId);
 
-                    // Remove item from list view
-                    item.Remove();
-                }
-            }
+            //        // Remove item from list view
+            //        item.Remove();
+            //    }
+            //}
 
-            // Refresh cache
-            Main.Library.RefreshCache();
-            Main.RefreshAll();
+            //// Refresh cache
+            //Main.Library.RefreshCache();
+            //Main.RefreshAll();
         }
 
         /// <summary>
@@ -668,7 +668,7 @@ namespace MPfm.Windows.Classes.Forms
         private void btnUpdateLibrary_Click(object sender, EventArgs e)
         {
             // Display the update library window and update the whole library
-            Main.UpdateLibrary();
+            //Main.UpdateLibrary();
         }
 
 
@@ -679,22 +679,22 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Arguments</param>
         private void btnResetLibrary_Click(object sender, EventArgs e)
         {
-            // Confirm operation
-            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all the songs, loops, markers and playlists from your library.\nThis will *NOT* delete the actual files from your hard disk.", "Reset Library Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
-            {
-                // Stop the song if one is playing
-                if (Main.Player.IsPlaying)
-                {
-                    // Stop playback
-                    Main.Player.Stop();
-                }
+            //// Confirm operation
+            //if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all the songs, loops, markers and playlists from your library.\nThis will *NOT* delete the actual files from your hard disk.", "Reset Library Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            //{
+            //    // Stop the song if one is playing
+            //    if (Main.Player.IsPlaying)
+            //    {
+            //        // Stop playback
+            //        Main.Player.Stop();
+            //    }
 
-                // Reset library
-                Main.Library.ResetLibrary();
+            //    // Reset library
+            //    Main.Library.ResetLibrary();
 
-                // Refresh everything
-                Main.RefreshAll();
-            }
+            //    // Refresh everything
+            //    Main.RefreshAll();
+            //}
         }
 
         #endregion
@@ -708,73 +708,73 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void cboDrivers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Get selected driver
-            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            // Check driver type
-            if (driver.DriverType == DriverType.DirectSound)
-            {
-                // Show the appropriate panel
-                panelAudioSettingsMixerDirectSound.Height = 76;
-                panelAudioSettingsMixerASIO.Height = 20;
-                //panelAudioSettingsMixerASIO.Visible = false;     
+            //// Check driver type
+            //if (driver.DriverType == DriverType.DirectSound)
+            //{
+            //    // Show the appropriate panel
+            //    panelAudioSettingsMixerDirectSound.Height = 76;
+            //    panelAudioSettingsMixerASIO.Height = 20;
+            //    //panelAudioSettingsMixerASIO.Visible = false;     
 
-                // Set combo box data source
-                cboOutputDevices.DataSource = devicesDirectSound;
+            //    // Set combo box data source
+            //    cboOutputDevices.DataSource = devicesDirectSound;
 
-                // Find default device
-                Device defaultDevice = devicesDirectSound.FirstOrDefault(x => x.IsDefault);
-            }
-            else if (driver.DriverType == DriverType.ASIO)
-            {
-                // Show the appropriate panel
-                panelAudioSettingsMixerASIO.Height = 76;
-                panelAudioSettingsMixerDirectSound.Height = 20;
-                //panelAudioSettingsMixerDirectSound.Visible = false;
-                //panelAudioSettingsMixerASIO.Visible = true;                
+            //    // Find default device
+            //    Device defaultDevice = devicesDirectSound.FirstOrDefault(x => x.IsDefault);
+            //}
+            //else if (driver.DriverType == DriverType.ASIO)
+            //{
+            //    // Show the appropriate panel
+            //    panelAudioSettingsMixerASIO.Height = 76;
+            //    panelAudioSettingsMixerDirectSound.Height = 20;
+            //    //panelAudioSettingsMixerDirectSound.Visible = false;
+            //    //panelAudioSettingsMixerASIO.Visible = true;                
 
-                // Check the number of devices
-                if (devicesASIO.Count == 0)
-                {
-                    // Show warning and reset selection to DirectSound
-                    MessageBox.Show("No ASIO output devices were found on this system.", "No ASIO output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cboDrivers.SelectedIndex = 0;
-                    return;
-                }
+            //    // Check the number of devices
+            //    if (devicesASIO.Count == 0)
+            //    {
+            //        // Show warning and reset selection to DirectSound
+            //        MessageBox.Show("No ASIO output devices were found on this system.", "No ASIO output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        cboDrivers.SelectedIndex = 0;
+            //        return;
+            //    }
 
-                // Set combo box data source
-                cboOutputDevices.DataSource = devicesASIO;
+            //    // Set combo box data source
+            //    cboOutputDevices.DataSource = devicesASIO;
 
-                // Find default device
-                Device defaultDevice = devicesASIO.FirstOrDefault(x => x.IsDefault);
+            //    // Find default device
+            //    Device defaultDevice = devicesASIO.FirstOrDefault(x => x.IsDefault);
 
-                // Refresh ASIO panel
-                //RefreshASIOPanel();
-            }
-            else if (driver.DriverType == DriverType.WASAPI)
-            {
-                // Check the number of devices
-                if (devicesWASAPI.Count == 0)
-                {
-                    // Show warning and reset selection to DirectSound
-                    MessageBox.Show("No WASAPI output devices were found on this system.", "No WASAPI output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cboDrivers.SelectedIndex = 0;
-                    return;
-                }
+            //    // Refresh ASIO panel
+            //    //RefreshASIOPanel();
+            //}
+            //else if (driver.DriverType == DriverType.WASAPI)
+            //{
+            //    // Check the number of devices
+            //    if (devicesWASAPI.Count == 0)
+            //    {
+            //        // Show warning and reset selection to DirectSound
+            //        MessageBox.Show("No WASAPI output devices were found on this system.", "No WASAPI output devices detected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        cboDrivers.SelectedIndex = 0;
+            //        return;
+            //    }
 
-                // Set combo box data source
-                cboOutputDevices.DataSource = devicesWASAPI;
+            //    // Set combo box data source
+            //    cboOutputDevices.DataSource = devicesWASAPI;
 
-                // Find default device
-                Device defaultDevice = devicesWASAPI.FirstOrDefault(x => x.IsDefault);
-            }
+            //    // Find default device
+            //    Device defaultDevice = devicesWASAPI.FirstOrDefault(x => x.IsDefault);
+            //}
 
-            // Set state 
-            if (!initializing)
-            {
-                audioSettingsState = AudioSettingsState.NotTested;
-                RefreshAudioSettingsState();
-            }
+            //// Set state 
+            //if (!initializing)
+            //{
+            //    audioSettingsState = AudioSettingsState.NotTested;
+            //    RefreshAudioSettingsState();
+            //}
         }
 
         /// <summary>
@@ -784,22 +784,22 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void cboOutputDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Get selected driver
-            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            // Check if driver is ASIO
-            if (driver.DriverType == DriverType.ASIO)
-            {
-                // Refresh ASIO panel
-                RefreshASIOPanel();
-            }
+            //// Check if driver is ASIO
+            //if (driver.DriverType == DriverType.ASIO)
+            //{
+            //    // Refresh ASIO panel
+            //    RefreshASIOPanel();
+            //}
 
-            // Set state 
-            if (!initializing)
-            {
-                audioSettingsState = AudioSettingsState.NotTested;
-                RefreshAudioSettingsState();
-            }
+            //// Set state 
+            //if (!initializing)
+            //{
+            //    audioSettingsState = AudioSettingsState.NotTested;
+            //    RefreshAudioSettingsState();
+            //}
         }
 
         /// <summary>
@@ -824,125 +824,125 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnTestSaveAudioSettings_Click(object sender, EventArgs e)
         {
-            // Check state
-            if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.NotChanged)
-            {
-                // Get selected driver
-                DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+            //// Check state
+            //if (audioSettingsState == AudioSettingsState.NotTested || audioSettingsState == AudioSettingsState.NotChanged)
+            //{
+            //    // Get selected driver
+            //    DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-                // Get selected device
-                Device device = (Device)cboOutputDevices.SelectedItem;
+            //    // Get selected device
+            //    Device device = (Device)cboOutputDevices.SelectedItem;
 
-                // Get sample rate
-                int frequency = 44100;
-                int.TryParse(cboSampleRate.Text, out frequency);                
+            //    // Get sample rate
+            //    int frequency = 44100;
+            //    int.TryParse(cboSampleRate.Text, out frequency);                
 
-                try
-                {
-                    // Warn user if system is already playing a song
-                    if (Main.Player.IsPlaying)
-                    {
-                        // Display message box                    
-                        if (MessageBox.Show(this, "Testing an audio file will stop the current playback. Click OK to continue or click Cancel to cancel the test.", "Interrupt playback", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
-                        {
-                            // The user cancelled
-                            return;
-                        }
+            //    try
+            //    {
+            //        // Warn user if system is already playing a song
+            //        if (Main.Player.IsPlaying)
+            //        {
+            //            // Display message box                    
+            //            if (MessageBox.Show(this, "Testing an audio file will stop the current playback. Click OK to continue or click Cancel to cancel the test.", "Interrupt playback", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Cancel)
+            //            {
+            //                // The user cancelled
+            //                return;
+            //            }
 
-                        // Stop player
-                        Main.Stop();
-                    }
+            //            // Stop player
+            //            Main.Stop();
+            //        }
 
-                    // Log 
-                    Tracing.Log("Starting audio settings test with the following settings: ");
-                    Tracing.Log("Driver Type: " + driver.DriverType.ToString());
-                    Tracing.Log("Output Device Id: " + device.Id);
-                    Tracing.Log("Output Device Name: " + device.Name);
-                    Tracing.Log("Output Device Driver: " + device.Driver);
-                    Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
+            //        // Log 
+            //        Tracing.Log("Starting audio settings test with the following settings: ");
+            //        Tracing.Log("Driver Type: " + driver.DriverType.ToString());
+            //        Tracing.Log("Output Device Id: " + device.Id);
+            //        Tracing.Log("Output Device Name: " + device.Name);
+            //        Tracing.Log("Output Device Driver: " + device.Driver);
+            //        Tracing.Log("Output Device IsDefault: " + device.IsDefault.ToString());
 
-                    // Create test device
-                    Tracing.Log("Creating test device...");
+            //        // Create test device
+            //        Tracing.Log("Creating test device...");
 
-                    // Display the open file dialog (set filepath first)
-                    Tracing.Log("User selects a file.");
-                    dialogOpenFile.FileName = filePath;
-                    if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-                    {
-                        return;
-                    }
+            //        // Display the open file dialog (set filepath first)
+            //        Tracing.Log("User selects a file.");
+            //        dialogOpenFile.FileName = filePath;
+            //        if (dialogOpenFile.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+            //        {
+            //            return;
+            //        }
 
-                    // Set flags
-                    //settingsTested = true;
+            //        // Set flags
+            //        //settingsTested = true;
 
-                    // Check if device needs to be freed
-                    if (Main.Player.IsDeviceInitialized)
-                    {
-                        // Free device                
-                        Main.Player.FreeDevice();
-                    }
+            //        // Check if device needs to be freed
+            //        if (Main.Player.IsDeviceInitialized)
+            //        {
+            //            // Free device                
+            //            Main.Player.FreeDevice();
+            //        }
 
-                    // Disable output meter timer
-                    Main.timerUpdateOutputMeter.Enabled = false;
-                    Main.timerSongPosition.Enabled = false;
+            //        // Disable output meter timer
+            //        Main.timerUpdateOutputMeter.Enabled = false;
+            //        Main.timerSongPosition.Enabled = false;
 
-                    // Create test device
-                    Tracing.Log("Creating test device...");
-                    Main.Player.InitializeDevice(device, frequency);
+            //        // Create test device
+            //        Tracing.Log("Creating test device...");
+            //        Main.Player.InitializeDevice(device, frequency);
 
-                    // Set player properties
-                    Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
-                    Main.Player.BufferSize = (int)numericBufferSize.Value;
+            //        // Set player properties
+            //        Main.Player.UpdatePeriod = (int)numericUpdatePeriod.Value;
+            //        Main.Player.BufferSize = (int)numericBufferSize.Value;
 
-                    // Play sound file                
-                    Tracing.Log("Starting playback...");
-                    Main.Player.PlayFiles(dialogOpenFile.FileNames.ToList());
-                    Tracing.Log("The audio file is playing...");
+            //        // Play sound file                
+            //        Tracing.Log("Starting playback...");
+            //        Main.Player.PlayFiles(dialogOpenFile.FileNames.ToList());
+            //        Tracing.Log("The audio file is playing...");
 
-                    // Display info
-                    MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //        // Display info
+            //        MessageBox.Show(this, "The sound system was initialized successfully.\nYou should now hear the file you have selected in the previous dialog.\nIf you do not hear a sound, your configuration might not working.\nIn that case, check the volume of your sound card mixer, or try changing the driver and/or output device.", "Sound system is working", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Stop and dispose the device
-                    Tracing.Log("User stops playback.");
-                    Main.Player.Stop();
+            //        // Stop and dispose the device
+            //        Tracing.Log("User stops playback.");
+            //        Main.Player.Stop();
 
-                    // Dispose test device
-                    Tracing.Log("Disposing test device...");
-                    Main.Player.FreeDevice();
+            //        // Dispose test device
+            //        Tracing.Log("Disposing test device...");
+            //        Main.Player.FreeDevice();
 
-                    // Re-enaable output meter timer
-                    Main.timerUpdateOutputMeter.Enabled = true;
-                    Main.timerSongPosition.Enabled = true;
+            //        // Re-enaable output meter timer
+            //        Main.timerUpdateOutputMeter.Enabled = true;
+            //        Main.timerSongPosition.Enabled = true;
 
-                    // The test is successful           
-                    Tracing.Log("The audio settings test is successful!");
+            //        // The test is successful           
+            //        Tracing.Log("The audio settings test is successful!");
 
-                    // Set flags
-                    //testSuccessful = true;
-                    audioSettingsState = AudioSettingsState.Tested;
-                    RefreshAudioSettingsState();
-                }
-                catch (Exception ex)
-                {
-                    // Show error
-                    MessageBox.Show(this, "Error testing sound configuration!\nThis audio configuration might not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Tracing.Log("The audio settings test has failed!");
-                    Tracing.Log("Exception message: " + ex.Message);
-                    Tracing.Log("Stack trace: " + ex.StackTrace);
-                }
+            //        // Set flags
+            //        //testSuccessful = true;
+            //        audioSettingsState = AudioSettingsState.Tested;
+            //        RefreshAudioSettingsState();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Show error
+            //        MessageBox.Show(this, "Error testing sound configuration!\nThis audio configuration might not work on your system.\n\nException information:\nMessage: " + ex.Message + "\nStack trace: " + ex.StackTrace, "Error testing sound configuration!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        Tracing.Log("The audio settings test has failed!");
+            //        Tracing.Log("Exception message: " + ex.Message);
+            //        Tracing.Log("Stack trace: " + ex.StackTrace);
+            //    }
 
-                Tracing.Log("End of audio settings test.");
-            }
-            else if (audioSettingsState == AudioSettingsState.Tested)
-            {                
-                // Save audio configuration
-                SaveAudioConfig();
+            //    Tracing.Log("End of audio settings test.");
+            //}
+            //else if (audioSettingsState == AudioSettingsState.Tested)
+            //{                
+            //    // Save audio configuration
+            //    SaveAudioConfig();
 
-                // Set state and show message
-                audioSettingsState = AudioSettingsState.Saved;
-                RefreshAudioSettingsState();
-                MessageBox.Show("The new audio settings has been applied and saved successfully.", "New audio settings saved successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            //    // Set state and show message
+            //    audioSettingsState = AudioSettingsState.Saved;
+            //    RefreshAudioSettingsState();
+            //    MessageBox.Show("The new audio settings has been applied and saved successfully.", "New audio settings saved successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
         }
 
         /// <summary>
@@ -952,31 +952,31 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnResetToDefault_Click(object sender, EventArgs e)
         {
-            // Select DirectSound driver
-            cboDrivers.SelectedIndex = 0;            
+            //// Select DirectSound driver
+            //cboDrivers.SelectedIndex = 0;            
 
-            // Loop through DirectSound devices to get the default device
-            for (int a = 0; a < devicesDirectSound.Count; a++)
-            {
-                // Is this the default device?
-                if (devicesDirectSound[a].IsDefault)
-                {
-                    // Set default device and exit loop
-                    cboOutputDevices.SelectedIndex = a;
-                    break;
-                }
-            }
+            //// Loop through DirectSound devices to get the default device
+            //for (int a = 0; a < devicesDirectSound.Count; a++)
+            //{
+            //    // Is this the default device?
+            //    if (devicesDirectSound[a].IsDefault)
+            //    {
+            //        // Set default device and exit loop
+            //        cboOutputDevices.SelectedIndex = a;
+            //        break;
+            //    }
+            //}
 
-            // Set default values
-            cboSampleRate.SelectedIndex = 0;
-            numericBufferSize.Value = 1000;
-            trackBufferSize.Value = 1000;
-            numericUpdatePeriod.Value = 10;
-            trackUpdatePeriod.Value = 10;
+            //// Set default values
+            //cboSampleRate.SelectedIndex = 0;
+            //numericBufferSize.Value = 1000;
+            //trackBufferSize.Value = 1000;
+            //numericUpdatePeriod.Value = 10;
+            //trackUpdatePeriod.Value = 10;
 
-            // Set state
-            audioSettingsState = AudioSettingsState.NotTested;
-            RefreshAudioSettingsState();
+            //// Set state
+            //audioSettingsState = AudioSettingsState.NotTested;
+            //RefreshAudioSettingsState();
         }
 
         #endregion
