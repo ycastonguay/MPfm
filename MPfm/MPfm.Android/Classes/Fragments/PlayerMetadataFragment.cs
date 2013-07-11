@@ -27,7 +27,7 @@ using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class PlayerMetadataFragment : BaseFragment, IPlayerMetadataView, View.IOnClickListener
+    public class PlayerMetadataFragment : BaseFragment, IPlayerMetadataView
     {        
         private View _view;
         private TextView _lblArtistName;
@@ -50,11 +50,6 @@ namespace MPfm.Android.Classes.Fragments
             _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblAlbumTitle);
             _lblSongTitle = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblSongTitle);
             return _view;
-        }
-
-        public void OnClick(View v)
-        {
-            
         }
 
         #region IPlayerMetadataView implementation

@@ -101,6 +101,17 @@ namespace MPfm.MVP.Presenters
             view.OnPlayerSetPosition = SetPosition;
             view.OnPlayerSetVolume = SetVolume;
             view.OnPlayerRequestPosition = RequestPosition;
+
+            // If the player is already playing, refresh initial data
+            if (_playerService.IsPlaying)
+            {
+                View.RefreshSongInformation(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylistItem.LengthBytes,
+                            _playerService.CurrentPlaylist.Items.IndexOf(_playerService.CurrentPlaylistItem), _playerService.CurrentPlaylist.Items.Count);
+
+                var markers = _libraryService.SelectMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
+                View.RefreshMarkers(markers);
+
+            }
         }
 
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
@@ -265,13 +276,8 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-    			// Go to next song
                 Tracing.Log("PlayerPresenter.Next -- Skipping to next item in playlist...");
                 _playerService.Next();
-    	
-    			// Refresh controls
-                Tracing.Log("PlayerPresenter.Next -- Refreshing song information...");
-                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
             }
             catch(Exception ex)
             {
@@ -286,13 +292,8 @@ namespace MPfm.MVP.Presenters
 		{            
             try
             {
-    			// Go to previous song
                 Tracing.Log("PlayerPresenter.Previous -- Skipping to previous item in playlist...");
                 _playerService.Previous();
-    	
-    			// Refresh controls
-                //RefreshSongInformation(playerService.CurrentPlaylistItem.AudioFile);
-                Tracing.Log("PlayerPresenter.Previous -- Refreshing song information...");
             }
             catch(Exception ex)
             {

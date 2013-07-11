@@ -24,13 +24,6 @@ namespace MPfm.Android.Classes.Fragments.Base
 {
     public class BaseFragment : Fragment, IBaseView
     {
-        protected Action<IBaseView> OnViewReady { get; set; }
-        public Action<IBaseView> OnViewDestroy { get; set; }
-        public void ShowView(bool shown)
-        {
-            // Ignore on Android
-        }
-
         public BaseFragment(Action<IBaseView> onViewReady)
         {
             this.OnViewReady = onViewReady;
@@ -39,6 +32,12 @@ namespace MPfm.Android.Classes.Fragments.Base
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            //if (OnViewReady != null) OnViewReady(this);
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
             if (OnViewReady != null) OnViewReady(this);
         }
 
@@ -47,5 +46,16 @@ namespace MPfm.Android.Classes.Fragments.Base
             base.OnDestroyView();
             if (OnViewDestroy != null) OnViewDestroy(this);
         }
+
+        #region IBaseView implementation
+
+        protected Action<IBaseView> OnViewReady { get; set; }
+        public Action<IBaseView> OnViewDestroy { get; set; }
+        public void ShowView(bool shown)
+        {
+            // Ignore on Android
+        }
+
+        #endregion
     }
 }

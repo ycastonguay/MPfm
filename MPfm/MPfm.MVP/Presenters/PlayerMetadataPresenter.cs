@@ -42,12 +42,21 @@ namespace MPfm.MVP.Presenters
         }
 
         public override void BindView(IPlayerMetadataView view)
-        {            
+        {
+            base.BindView(view);
+
             view.OnClickPlaylist = ClickPlaylist;
             view.OnToggleRepeat = ToggleRepeat;
             view.OnToggleShuffle = ToggleShuffle;
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
-            base.BindView(view);
+
+            // Refresh initial data if player is already playing
+            if (_playerService.IsPlaying)
+            {
+                View.RefreshAudioFile(_playerService.CurrentPlaylistItem.AudioFile);
+                View.RefreshRepeat(_playerService.RepeatType);
+                View.RefreshShuffle(_isShuffle);
+            }
         }
 
         private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
