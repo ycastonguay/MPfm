@@ -49,6 +49,7 @@ namespace MPfm.iOS.Classes.Controllers
         MPVolumeView _volumeView;
         UIBarButtonItem _btnBack;
         PlayerMetadataViewController _playerMetadataViewController;
+        float _lastSliderPositionValue = 0;
 
 		public PlayerViewController(Action<IBaseView> onViewReady)
 			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
@@ -146,14 +147,12 @@ namespace MPfm.iOS.Classes.Controllers
             };
             sliderPosition.TouchesMovedEvent += (sender, e) => {
                 _isPositionChanging = true;
-                //Console.WriteLine("Position: Setting value to " + position.ToString());
-
+                _lastSliderPositionValue = sliderPosition.Value / 100;
                 PlayerPositionEntity entity = OnPlayerRequestPosition(sliderPosition.Value / 10000);
                 lblPosition.Text = entity.Position;
                 scrollViewWaveForm.SetSecondaryPosition(entity.PositionBytes);
             };
             sliderPosition.TouchesEndedEvent += (sender, e) => {
-                //Console.WriteLine("Position: Setting value to " + position.ToString());
                 UIView.Animate(0.2f, () => {
                     float offset = 42;
                     viewPosition.Frame = new RectangleF(viewPosition.Frame.X, viewPosition.Frame.Y, viewPosition.Frame.Width, viewPosition.Frame.Height - offset);
@@ -164,7 +163,10 @@ namespace MPfm.iOS.Classes.Controllers
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;
                 });
-                OnPlayerSetPosition(sliderPosition.Value / 100);
+
+                // Sometimes the position from TouchesEnded is different than the last position returned by TouchesMoved.
+                // This gives the user the impression that the selected position is different.
+                OnPlayerSetPosition(_lastSliderPositionValue);
                 scrollViewWaveForm.ShowSecondaryPosition(false);
                 _isPositionChanging = false;
             };
@@ -282,7 +284,8 @@ namespace MPfm.iOS.Classes.Controllers
             {
                 viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
                 scrollView.AddSubview(viewController.View);
-                pageControl.Pages = scrollSubviewsLength;
+                //pageControl.Pages = scrollSubviewsLength;
+                pageControl.Pages = 5;
                 scrollView.ContentSize = new SizeF(scrollSubviewsLength * scrollView.Frame.Width, scrollView.Frame.Height);
             }
             else
@@ -299,7 +302,7 @@ namespace MPfm.iOS.Classes.Controllers
                     viewController.View.Frame = new RectangleF(2 * scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
 
                 scrollView.AddSubview(viewController.View);
-                pageControl.Pages = 3;
+                //pageControl.Pages = 3;
                 scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
             }
         }
