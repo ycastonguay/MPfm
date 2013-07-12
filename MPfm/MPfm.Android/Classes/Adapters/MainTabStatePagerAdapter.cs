@@ -47,7 +47,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public void SetFragment(MobileNavigationTabType tabType, Fragment fragment)
         {
-            Console.WriteLine("MainTabPagerAdapter - SetFragment - tabType: {0}", tabType.ToString());
+            //Console.WriteLine("MainTabPagerAdapter - SetFragment - tabType: {0}", tabType.ToString());
             int index = _fragments.FindIndex(x => x.Item1 == tabType);
             if (index == -1)
             {
@@ -90,7 +90,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public void OnTabSelected(ActionBar.Tab tab, FragmentTransaction ft)
         {
-            Console.WriteLine("TabPagerAdapter - OnTabSelected tab: {0}", tab.Text);
+            //Console.WriteLine("TabPagerAdapter - OnTabSelected tab: {0}", tab.Text);
             _viewPager.SetCurrentItem(tab.Position, true);
         }
 

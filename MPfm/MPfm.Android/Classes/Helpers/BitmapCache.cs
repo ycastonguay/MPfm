@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
@@ -62,9 +63,13 @@ namespace MPfm.Android.Classes.Helpers
             else
             {
                 Task.Factory.StartNew(() => {
+                    Console.WriteLine("BitmapCache - Adding bitmap to cache...");
                     bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
                     AddBitmapToMemoryCache(key, bitmap);
-                    activity.RunOnUiThread(() => imageView.SetImageBitmap(bitmap));
+                    activity.RunOnUiThread(() => {
+                        Console.WriteLine("BitmapCache - Setting album art on image view...");
+                        imageView.SetImageBitmap(bitmap);
+                    });
                 });
             }
         }

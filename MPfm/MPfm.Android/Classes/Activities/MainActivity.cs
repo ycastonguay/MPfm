@@ -53,7 +53,8 @@ namespace MPfm.Android
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
-        private BitmapCache _bitmapCache;
+
+        public BitmapCache BitmapCache { get; private set; }
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -87,7 +88,7 @@ namespace MPfm.Android
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             int cacheSize = maxMemory / 8;
-            _bitmapCache = new BitmapCache(this, cacheSize, 800, 800);
+            BitmapCache = new BitmapCache(this, cacheSize, 400, 400);
 
             // Listen to player changes to show/hide the mini player
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
@@ -137,32 +138,32 @@ namespace MPfm.Android
         {
             base.OnSaveInstanceState(outState);
 
-            Console.WriteLine("MainActivity - OnSaveInstanceState - Saving state...");
+            //Console.WriteLine("MainActivity - OnSaveInstanceState - Saving state...");
             outState.PutBoolean("applicationStarted", true);
         }
 
-        public override void OnConfigurationChanged(global::Android.Content.Res.Configuration newConfig)
-        {
-            Console.WriteLine("MainActivity - OnConfigurationChanged - newConfig: {0}", newConfig.Orientation.ToString());
-            base.OnConfigurationChanged(newConfig);
-        }
+        //public override void OnConfigurationChanged(global::Android.Content.Res.Configuration newConfig)
+        //{
+        //    Console.WriteLine("MainActivity - OnConfigurationChanged - newConfig: {0}", newConfig.Orientation.ToString());
+        //    base.OnConfigurationChanged(newConfig);
+        //}
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
-            Console.WriteLine("MainActivity - OnCreate - Adding tab {0}", title);
+            //Console.WriteLine("MainActivity - OnCreate - Adding tab {0}", title);
             _tabPagerAdapter.SetFragment(type, fragment);
             _tabPagerAdapter.NotifyDataSetChanged();
         }
 
         public void PushTabView(MobileNavigationTabType type, Fragment fragment)
         {
-            Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1} fragmentCount: {2}", type.ToString(), fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
+            //Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1} fragmentCount: {2}", type.ToString(), fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
             _tabPagerAdapter.SetFragment(type, fragment);
         }
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
         {
-            Console.WriteLine("MainActivity - PushDialogView view: {0} fragmentCount: {1}", view.GetType().FullName, FragmentManager.BackStackEntryCount);
+            //Console.WriteLine("MainActivity - PushDialogView view: {0} fragmentCount: {1}", view.GetType().FullName, FragmentManager.BackStackEntryCount);
             var sourceFragment = (Fragment) sourceView;
             var dialogFragment = (DialogFragment)view;
             dialogFragment.Show(sourceFragment.Activity.FragmentManager, viewTitle);
@@ -170,19 +171,19 @@ namespace MPfm.Android
 
         public void PushDialogSubview(string parentViewTitle, IBaseView view)
         {
-            Console.WriteLine("MainActivity - PushDialogSubview parentViewTitle: {0} view: {1}", parentViewTitle, view.GetType().FullName);
+            //Console.WriteLine("MainActivity - PushDialogSubview parentViewTitle: {0} view: {1}", parentViewTitle, view.GetType().FullName);
         }
 
         public void PushPlayerSubview(IPlayerView playerView, IBaseView view)
         {
-            Console.WriteLine("MainActivity - PushPlayerSubview - view: {0}", view.GetType().FullName);
+            //Console.WriteLine("MainActivity - PushPlayerSubview - view: {0}", view.GetType().FullName);
             var activity = (PlayerActivity)playerView;
             activity.AddSubview(view);
         }
 
         public void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
         {
-            Console.WriteLine("MainActivity - PushPreferencesSubview - view: {0}", view.GetType().FullName);
+            //Console.WriteLine("MainActivity - PushPreferencesSubview - view: {0}", view.GetType().FullName);
             var activity = (PreferencesActivity)preferencesView;
             activity.AddSubview(view);
         }
@@ -228,12 +229,12 @@ namespace MPfm.Android
             // Check if the history has another tab
             if (_tabPagerAdapter.CanRemoveFragmentFromStack(_tabPagerAdapter.GetCurrentTab(), _viewPager.CurrentItem))
             {
-                Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
+                //Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
                 _tabPagerAdapter.RemoveFragmentFromStack(_tabPagerAdapter.GetCurrentTab(), _viewPager.CurrentItem);
             }
             else
             {
-                Console.WriteLine("MainActivity - OnBackPressed - CannotRemoveFragment");
+                //Console.WriteLine("MainActivity - OnBackPressed - CannotRemoveFragment");
                 base.OnBackPressed();
             }
         }
@@ -241,7 +242,7 @@ namespace MPfm.Android
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.main_menu, menu);
-            Console.WriteLine("MainActivity - OnCreateOptionsMenu");
+            //Console.WriteLine("MainActivity - OnCreateOptionsMenu");
 
             foreach (var option in _options)
             {
@@ -287,14 +288,14 @@ namespace MPfm.Android
 
         public void ShowSplash(SplashFragment fragment)
         {
-            Console.WriteLine("MainActivity - ShowSplash");
+            //Console.WriteLine("MainActivity - ShowSplash");
             _splashFragment = fragment;
             _splashFragment.Show(FragmentManager, "Splash");
         }
 
         public void HideSplash()
         {
-            Console.WriteLine("MainActivity - HideSplash");
+            //Console.WriteLine("MainActivity - HideSplash");
             _splashFragment.Dialog.Dismiss();
         }
 

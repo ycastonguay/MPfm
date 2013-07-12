@@ -63,7 +63,7 @@ namespace MPfm.Android.Classes.Fragments
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
 
-            _gridAdapter = new MobileLibraryBrowserGridAdapter(Activity, _entities.ToList());
+            _gridAdapter = new MobileLibraryBrowserGridAdapter(Activity, this, _gridView, _entities.ToList());
             _gridView.SetAdapter(_gridAdapter);
             _gridView.ItemClick += GridViewOnItemClick;
             _gridView.ItemLongClick += GridViewOnItemLongClick;            
@@ -95,23 +95,23 @@ namespace MPfm.Android.Classes.Fragments
             base.OnResume();
         }
 
-        public override void OnStart()
-        {
-            Console.WriteLine("MLBFragment - OnStart");
-            base.OnStart();
-        }
+        //public override void OnStart()
+        //{
+        //    Console.WriteLine("MLBFragment - OnStart");
+        //    base.OnStart();
+        //}
 
-        public override void OnStop()
-        {
-            Console.WriteLine("MLBFragment - OnStop");
-            base.OnStop();
-        }
+        //public override void OnStop()
+        //{
+        //    Console.WriteLine("MLBFragment - OnStop");
+        //    base.OnStop();
+        //}
 
-        public override void OnPause()
-        {
-            Console.WriteLine("MLBFragment - OnPause");
-            base.OnPause();
-        }
+        //public override void OnPause()
+        //{
+        //    Console.WriteLine("MLBFragment - OnPause");
+        //    base.OnPause();
+        //}
 
         public override void OnDestroy()
         {
@@ -139,7 +139,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
         {
-            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0}", entities.Count());
+            //Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0}", entities.Count());
             Activity.RunOnUiThread(() => {
                 _entities = entities.ToList();
 
@@ -184,6 +184,9 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
         {
+            Activity.RunOnUiThread(() => {
+                _gridAdapter.RefreshAlbumArtCell(artistName, albumTitle, albumArtData);
+            });
         }
 
         #endregion

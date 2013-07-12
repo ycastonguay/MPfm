@@ -94,7 +94,7 @@ namespace MPfm.Android
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             int cacheSize = maxMemory / 8;
-            _bitmapCache = new BitmapCache(this, cacheSize, 400, 400);
+            _bitmapCache = new BitmapCache(this, cacheSize, 800, 800);
 
             // Match height with width (cannot do that in xml)
             //_imageViewAlbumArt.LayoutParameters = new ViewGroup.LayoutParams(_imageViewAlbumArt.Width, _imageViewAlbumArt.Width);

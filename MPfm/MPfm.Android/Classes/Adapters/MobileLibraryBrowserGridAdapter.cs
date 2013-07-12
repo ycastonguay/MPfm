@@ -15,13 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using MPfm.Android.Classes.Objects;
+using MPfm.Android.Classes.Fragments;
 using MPfm.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters
@@ -29,11 +31,15 @@ namespace MPfm.Android.Classes.Adapters
     public class MobileLibraryBrowserGridAdapter : BaseAdapter<LibraryBrowserEntity>
     {
         readonly Activity _context;
+        MobileLibraryBrowserFragment _fragment;
+        GridView _gridView;
         List<LibraryBrowserEntity> _items;
 
-        public MobileLibraryBrowserGridAdapter(Activity context, List<LibraryBrowserEntity> items)
+        public MobileLibraryBrowserGridAdapter(Activity context, MobileLibraryBrowserFragment fragment, GridView gridView, List<LibraryBrowserEntity> items)
         {
             _context = context;
+            _fragment = fragment;
+            _gridView = gridView;
             _items = items;
         }
 
@@ -59,21 +65,54 @@ namespace MPfm.Android.Classes.Adapters
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
-        {
+        {            
+            Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - GetView - position: {0}", position);
             var item = _items[position];
             View view = convertView;
             if (view == null) // no view to re-use, create new
                 view = _context.LayoutInflater.Inflate(Resource.Layout.AlbumCell, null);
 
-            //view.SetBackgroundColor(Color.White);
+            var artistName = view.FindViewById<TextView>(Resource.Id.albumCell_artistName);
+            var albumTitle = view.FindViewById<TextView>(Resource.Id.albumCell_albumTitle);
+            var image = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
 
-            var title = view.FindViewById<TextView>(Resource.Id.genericcell_title);
-            title.Text = _items[position].Title;
-
-            var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);           
+            artistName.Text = _items[position].Title;
+            albumTitle.Text = _items[position].Subtitle;
             image.SetBackgroundColor(Color.White);
 
+            Task.Factory.StartNew(() => {
+                // WTF Android #549381: GetView position 0 gets called extremely often for no reason. Another job well done, Google. Why can't you optimize your code!?!?
+                Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - Loading album art - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
+                
+                // Check if bitmap is in cache before requesting album art (Android likes to request GetView extremely often for no good reason)
+                //_fragment.OnRequestAlbumArt(_items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
+            });
+
             return view;
+        }
+
+        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
+        {
+            try
+            {
+                var mainActivity = (MainActivity)_context;
+                Console.WriteLine("MobileLibraryBrowserGridAdapter - Received album art for {0}/{1}", artistName, albumTitle);
+
+                int index = _items.FindIndex(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
+                if (index >= 0)
+                {
+                    var view = _gridView.GetChildAt(index);
+                    if (view != null)
+                    {
+                        var image = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
+                        mainActivity.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
+                    }
+                }                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MobileLibraryBrowserGridAdapter - Failed to load album art: {0}", ex);
+            }
         }
     }
 }
