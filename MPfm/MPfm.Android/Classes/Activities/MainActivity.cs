@@ -29,6 +29,7 @@ using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
+using MPfm.Android.Classes.Helpers;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Objects;
 using MPfm.MVP.Bootstrap;
@@ -52,6 +53,7 @@ namespace MPfm.Android
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
+        private BitmapCache _bitmapCache;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -81,6 +83,11 @@ namespace MPfm.Android
                 Console.WriteLine("MainActivity - Mini player click - Showing player view...");
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             };
+
+            // Create bitmap cache
+            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
+            int cacheSize = maxMemory / 8;
+            _bitmapCache = new BitmapCache(this, cacheSize, 800, 800);
 
             // Listen to player changes to show/hide the mini player
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();

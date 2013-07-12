@@ -18,29 +18,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.App;
-using Android.Graphics;
+using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
-using MPfm.Android.Classes.Objects;
+using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class MobileLibraryBrowserFragment : BaseListFragment, IMobileLibraryBrowserView
+    public class MobileLibraryBrowserFragment : BaseFragment, IMobileLibraryBrowserView
     {
         private View _view;
-        private Button _button;
-        private EditText _editText;
-        private IEnumerable<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
+        private ListView _listView;
+        private GridView _gridView;
+        private MobileLibraryBrowserListAdapter _listAdapter;
+        private MobileLibraryBrowserGridAdapter _gridAdapter;
+        private List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base(null)
         {
-            Console.WriteLine("MobileLibraryBrowserFragment - Empty constructor");
         }
 
         public MobileLibraryBrowserFragment(Action<IBaseView> onViewReady) 
@@ -48,17 +48,45 @@ namespace MPfm.Android.Classes.Fragments
         {
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, global::Android.OS.Bundle savedInstanceState)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             Console.WriteLine("MLBFragment - OnCreateView");
-            ListAdapter = new MobileLibraryBrowserListAdapter(Activity, _entities.ToList());
-            return base.OnCreateView(inflater, container, savedInstanceState);
+
+            _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
+            _listView = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listView);
+            _listView.Visibility = ViewStates.Gone;
+            _gridView = _view.FindViewById<GridView>(Resource.Id.mobileLibraryBrowser_gridView);
+            _gridView.Visibility = ViewStates.Gone;
+
+            _listAdapter = new MobileLibraryBrowserListAdapter(Activity, _entities.ToList());
+            _listView.SetAdapter(_listAdapter);
+            _listView.ItemClick += ListViewOnItemClick;
+            _listView.ItemLongClick += ListViewOnItemLongClick;
+
+            _gridAdapter = new MobileLibraryBrowserGridAdapter(Activity, _entities.ToList());
+            _gridView.SetAdapter(_gridAdapter);
+            _gridView.ItemClick += GridViewOnItemClick;
+            _gridView.ItemLongClick += GridViewOnItemLongClick;            
+
+            return _view;
         }
 
-        public override void OnListItemClick(ListView l, View v, int position, long id)
+        private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            base.OnListItemClick(l, v, position, id);
-            OnItemClick(position);
+            OnItemClick(itemClickEventArgs.Position);
+        }
+
+        private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
+        {
+        }
+
+        private void GridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
+        {
+            OnItemClick(itemClickEventArgs.Position);
+        }
+
+        private void GridViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
+        {
         }
 
         public override void OnResume()
@@ -79,12 +107,6 @@ namespace MPfm.Android.Classes.Fragments
             base.OnStop();
         }
 
-        public override void OnDestroyView()
-        {
-            Console.WriteLine("MLBFragment - OnDestroyView");
-            base.OnDestroyView();
-        }
-
         public override void OnPause()
         {
             Console.WriteLine("MLBFragment - OnPause");
@@ -97,10 +119,10 @@ namespace MPfm.Android.Classes.Fragments
             base.OnDestroy();
         }
 
-        public override void OnSaveInstanceState(global::Android.OS.Bundle outState)
+        public override void OnDestroyView()
         {
-            Console.WriteLine("MLBFragment - OnSaveInstanceState");
-            base.OnSaveInstanceState(outState);
+            Console.WriteLine("MLBFragment - OnDestroyView");
+            base.OnDestroyView();
         }
 
         #region IMobileLibraryBrowserView implementation
@@ -119,18 +141,39 @@ namespace MPfm.Android.Classes.Fragments
         {
             Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0}", entities.Count());
             Activity.RunOnUiThread(() => {
-                _entities = entities;
-                var listAdapter = (MobileLibraryBrowserListAdapter)ListAdapter;
+                _entities = entities.ToList();
 
-                // Update list adapter only if the view was created
-                if (listAdapter != null)
+                switch (browserType)
                 {
-                    // http://stackoverflow.com/questions/6837397/updating-listview-by-notifydatasetchanged-has-to-use-runonuithread
-                    Activity.RunOnUiThread(() =>
+                    case MobileLibraryBrowserType.Artists:
+                        _listView.Visibility = ViewStates.Visible;
+                        break;
+                    case MobileLibraryBrowserType.Albums:
+                        _gridView.Visibility = ViewStates.Visible;
+                        break;
+                    case MobileLibraryBrowserType.Songs:
+                        _listView.Visibility = ViewStates.Visible;
+                        break;
+                    case MobileLibraryBrowserType.Playlists:
+                        _listView.Visibility = ViewStates.Visible;
+                        break;
+                }
+
+                if (browserType == MobileLibraryBrowserType.Albums)
+                {
+                    if (_gridView != null)
                     {
-                        listAdapter.SetData(entities);
-                        listAdapter.NotifyDataSetChanged();
-                    });
+                        _gridAdapter.SetData(entities);
+                        _gridAdapter.NotifyDataSetChanged();
+                    }                                       
+                }
+                else
+                {
+                    if (_listView != null)
+                    {
+                        _listAdapter.SetData(entities);
+                        _listAdapter.NotifyDataSetChanged();
+                    }
                 }
             });
         }

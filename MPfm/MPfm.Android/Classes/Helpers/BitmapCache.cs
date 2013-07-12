@@ -61,12 +61,11 @@ namespace MPfm.Android.Classes.Helpers
             }
             else
             {
-                Task.Factory.StartNew(() =>
-                    {
-                        bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
-                        AddBitmapToMemoryCache(key, bitmap);
-                        activity.RunOnUiThread(() => imageView.SetImageBitmap(bitmap));
-                    });
+                Task.Factory.StartNew(() => {
+                    bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
+                    AddBitmapToMemoryCache(key, bitmap);
+                    activity.RunOnUiThread(() => imageView.SetImageBitmap(bitmap));
+                });
             }
         }
 

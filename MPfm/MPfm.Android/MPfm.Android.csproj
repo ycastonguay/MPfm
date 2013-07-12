@@ -63,6 +63,7 @@
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\MobileLibraryBrowserGridAdapter.cs" />
     <Compile Include="Classes\Adapters\EqualizerPresetsListAdapter.cs" />
     <Compile Include="Classes\Adapters\EqualizerPresetFadersListAdapter.cs" />
     <Compile Include="Classes\Adapters\MarkersListAdapter.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="Classes\Controls\WaveFormView.cs" />
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
-    <Compile Include="Classes\Fragments\Base\BaseListFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
     <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
     <Compile Include="Classes\Fragments\SyncMenuFragment.cs" />
@@ -181,6 +181,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\EqualizerPresetCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\MobileLibraryBrowser.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\AlbumCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
