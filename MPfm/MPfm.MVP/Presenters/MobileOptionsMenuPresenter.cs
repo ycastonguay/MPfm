@@ -88,8 +88,7 @@ namespace MPfm.MVP.Presenters
                 }
                 case MobileOptionsMenuType.SyncLibraryWebBrowser:
                 {
-                    var view = _navigationManager.CreateSyncWebBrowserView();
-                    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                    _navigationManager.CreateSyncWebBrowserView();
                     break;
                 }
                 case MobileOptionsMenuType.EqualizerPresets:

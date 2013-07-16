@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\SyncWebBrowserActivity.cs" />
     <Compile Include="Classes\Activities\SyncMenuActivity.cs" />
     <Compile Include="Classes\Activities\EqualizerPresetDetailsActivity.cs" />
     <Compile Include="Classes\Activities\MarkerDetailsActivity.cs" />
@@ -189,6 +190,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\AlbumCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\SyncWebBrowser.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

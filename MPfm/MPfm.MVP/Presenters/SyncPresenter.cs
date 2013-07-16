@@ -35,7 +35,7 @@ namespace MPfm.MVP.Presenters
 	{
         readonly ISyncDiscoveryService _syncDiscoveryService;
         readonly MobileNavigationManager _navigationManager;
-	    ISyncDeviceSpecifications _deviceSpecifications;
+	    readonly ISyncDeviceSpecifications _deviceSpecifications;
         List<SyncDevice> _devices = new List<SyncDevice>();
 
         public SyncPresenter(MobileNavigationManager navigationManager, ISyncDiscoveryService syncDiscoveryService, ISyncDeviceSpecifications deviceSpecifications)
@@ -60,7 +60,6 @@ namespace MPfm.MVP.Presenters
         private void Initialize()
         {
             RefreshDevices();
-            //View.RefreshIPAddress(String.Format("Authentication code: {0} ", SyncListenerService.AuthenticationCode));
         }
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)

@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
@@ -31,9 +32,12 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class SyncWebBrowserPresenter : BasePresenter<ISyncWebBrowserView>, ISyncWebBrowserPresenter
 	{
-        public SyncWebBrowserPresenter()
-		{
-		}
+        readonly ISyncDeviceSpecifications _deviceSpecifications;
+
+        public SyncWebBrowserPresenter(ISyncDeviceSpecifications deviceSpecifications)
+        {
+            _deviceSpecifications = deviceSpecifications;
+        }
 
         public override void BindView(ISyncWebBrowserView view)
         {
@@ -46,7 +50,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                string ip = SyncListenerService.GetLocalIPAddress().ToString();
+                //string ip = SyncListenerService.GetLocalIPAddress().ToString();
+                string ip = _deviceSpecifications.GetIPAddress();
                 string url = String.Format("http://{0}:53551", ip);
                 View.RefreshContent(url, SyncListenerService.AuthenticationCode);
             }

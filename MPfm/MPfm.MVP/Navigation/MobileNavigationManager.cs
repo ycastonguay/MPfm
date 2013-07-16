@@ -605,27 +605,31 @@ namespace MPfm.MVP.Navigation
             CreateSyncViewInternal(onViewReady);
         }
 
-        public virtual ISyncWebBrowserView CreateSyncWebBrowserView()
+        protected virtual void CreateSyncWebBrowserViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            if (_syncWebBrowserView == null)
+                _syncWebBrowserView = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _syncWebBrowserView);
+#endif
+        }
+        
+        public virtual void CreateSyncWebBrowserView()
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
-                _syncWebBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserPresenter>();
-                _syncWebBrowserPresenter.BindView((ISyncWebBrowserView)view);
-            };
-
-            // Re-use the same instance as before
-            if(_syncWebBrowserView == null)
-            {
-                // Create view and manage view destruction
-                _syncWebBrowserView = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _syncWebBrowserView.OnViewDestroy = (view) =>
+                _syncWebBrowserView = (ISyncWebBrowserView)view;
+                _syncWebBrowserView.OnViewDestroy = (view2) =>
                 {
                     _syncWebBrowserView = null;
                     _syncWebBrowserPresenter = null;
                 };
-            }
-            return _syncWebBrowserView;
+                _syncWebBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserPresenter>();
+                _syncWebBrowserPresenter.BindView((ISyncWebBrowserView)view);
+            };
+
+            CreateSyncWebBrowserViewInternal(onViewReady);
         }
 
         protected virtual void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady)

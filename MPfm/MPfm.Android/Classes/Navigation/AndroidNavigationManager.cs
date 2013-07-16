@@ -37,6 +37,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onEqualizerPresetsViewReady;
         private Action<IBaseView> _onSyncViewReady;
         private Action<IBaseView> _onSyncMenuViewReady;
+        private Action<IBaseView> _onSyncWebBrowserViewReady;
         private Action<IBaseView> _onMarkerDetailsViewReady;
         private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
 
@@ -155,6 +156,7 @@ namespace MPfm.Android.Classes.Navigation
 
         protected override void CreateSyncViewInternal(Action<IBaseView> onViewReady)
         {
+            // TODO: Add source view
             _onSyncViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncActivity));
             MainActivity.StartActivity(intent);
@@ -164,6 +166,13 @@ namespace MPfm.Android.Classes.Navigation
         {
             _onSyncMenuViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncMenuActivity));
+            MainActivity.StartActivity(intent);
+        }
+
+        protected override void CreateSyncWebBrowserViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onSyncWebBrowserViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(SyncWebBrowserActivity));
             MainActivity.StartActivity(intent);
         }
 
@@ -207,6 +216,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onSyncMenuViewReady != null)
                 _onSyncMenuViewReady(activity);
+        }
+
+        public void SetSyncWebBrowserActivityInstance(SyncWebBrowserActivity activity)
+        {
+            if (_onSyncWebBrowserViewReady != null)
+                _onSyncWebBrowserViewReady(activity);
         }
     }
 }

@@ -36,7 +36,7 @@ using MPfm.Player.Objects;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Sync", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    [Activity(Label = "Sync Menu", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class SyncMenuActivity : BaseActivity, ISyncMenuView
     {
         private MobileNavigationManager _navigationManager;
