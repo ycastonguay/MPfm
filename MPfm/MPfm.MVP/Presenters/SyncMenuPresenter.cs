@@ -145,8 +145,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                var view = _navigationManager.CreateSyncDownloadView(_url, _audioFilesToSync);
-                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                _navigationManager.CreateSyncDownloadView(_url, _audioFilesToSync);                
             }
             catch(Exception ex)
             {

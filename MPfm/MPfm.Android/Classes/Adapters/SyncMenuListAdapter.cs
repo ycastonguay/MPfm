@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using Android.Graphics;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MPfm.MVP.Models;
@@ -60,13 +61,35 @@ namespace MPfm.Android.Classes.Adapters
             var item = _items[position];
             View view = convertView;
             if (view == null) // no view to re-use, create new
-                view = _context.LayoutInflater.Inflate(Resource.Layout.GenericCell, null);
+                view = _context.LayoutInflater.Inflate(Resource.Layout.SyncMenuCell, null);
 
-            var title = view.FindViewById<TextView>(Resource.Id.genericcell_title);
-            title.Text = _items[position].ArtistName;
+            var title = view.FindViewById<TextView>(Resource.Id.syncMenuCell_title);
+            var index = view.FindViewById<TextView>(Resource.Id.syncMenuCell_index);
+            var image = view.FindViewById<ImageView>(Resource.Id.syncMenuCell_image);
+            var checkmark = view.FindViewById<ImageView>(Resource.Id.syncMenuCell_checkmark);
 
-            var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);
-            image.SetBackgroundColor(Color.White);
+            switch (_items[position].ItemType)
+            {
+                case SyncMenuItemEntityType.Artist:
+                    //cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_user");
+                    title.Text = item.ArtistName;
+                    title.SetTextSize(ComplexUnitType.Sp, 16);
+                    index.Visibility = ViewStates.Gone;                   
+                    break;
+                case SyncMenuItemEntityType.Album:
+                    //cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_vinyl");
+                    title.Text = item.AlbumTitle;
+                    title.SetTextSize(ComplexUnitType.Sp, 14);
+                    index.Visibility = ViewStates.Gone;
+                    break;
+                case SyncMenuItemEntityType.Song:
+                    title.Text = item.Song.Title;
+                    title.SetTextSize(ComplexUnitType.Sp, 14);
+                    index.Visibility = ViewStates.Visible;
+                    index.Text = item.Song.TrackNumber.ToString();
+                    image.SetImageResource(0);
+                    break;
+            }
 
             return view;
         }

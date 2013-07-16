@@ -109,7 +109,6 @@ namespace MPfm.Android
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.equalizerpresetdetails_menu, menu);
-            Console.WriteLine("EqualizerPresetDetailsActivity - OnCreateOptionsMenu");
             return true;
         }
 

@@ -66,11 +66,13 @@ namespace MPfm.Android
             _lblTotal = FindViewById<TextView>(Resource.Id.syncMenu_lblTotal);
             _lblFreeSpace = FindViewById<TextView>(Resource.Id.syncMenu_lblFreeSpace);
             _btnSelectAll = FindViewById<Button>(Resource.Id.syncMenu_btnSelectAll);
-            _listView = FindViewById<ListView>(Resource.Id.syncMenu_listView);
+            _btnSelectAll.Click += (sender, args) => OnSelectButtonClick();
 
+            _listView = FindViewById<ListView>(Resource.Id.syncMenu_listView);
             _listAdapter = new SyncMenuListAdapter(this, new List<SyncMenuItemEntity>());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
+            _listView.ItemLongClick += ListViewOnItemLongClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetSyncMenuActivityInstance(this);
@@ -78,6 +80,12 @@ namespace MPfm.Android
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
+            OnExpandItem(_items[itemClickEventArgs.Position]);
+        }
+
+        private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
+        {
+            OnSelectItem(_items[itemLongClickEventArgs.Position]);
         }
 
         protected override void OnStart()
@@ -116,6 +124,12 @@ namespace MPfm.Android
             base.OnDestroy();
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.syncmenu_menu, menu);
+            return true;
+        }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -125,6 +139,11 @@ namespace MPfm.Android
                     intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
                     this.StartActivity(intent);
                     this.Finish();
+                    return true;
+                    break;
+                case Resource.Id.syncMenuMenu_item_sync:
+                    Console.WriteLine("SyncMenu - Menu item click - Syncing library...");
+                    OnSync();
                     return true;
                     break;
                 default:
@@ -153,7 +172,6 @@ namespace MPfm.Android
 
         public void RefreshLoading(bool isLoading, int progressPercentage)
         {
-            Console.WriteLine(">>>>>>>>>>>>>> SyncMenuActivity - RefreshLoading - isLoading: {0} progress: {1}", isLoading, progressPercentage);
             RunOnUiThread(() => {
                 if (isLoading)
                 {
@@ -195,10 +213,18 @@ namespace MPfm.Android
 
         public void InsertItems(int index, List<SyncMenuItemEntity> items)
         {
+            RunOnUiThread(() => {
+                _items.InsertRange(index, items);
+                _listAdapter.SetData(_items);
+            });
         }
 
         public void RemoveItems(int index, int count)
         {
+            RunOnUiThread(() => {
+                _items.RemoveRange(index, count);
+                _listAdapter.SetData(_items);
+            });
         }
 
         #endregion

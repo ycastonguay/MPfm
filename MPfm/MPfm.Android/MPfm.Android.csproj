@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\SyncDownloadActivity.cs" />
     <Compile Include="Classes\Activities\SyncWebBrowserActivity.cs" />
     <Compile Include="Classes\Activities\SyncMenuActivity.cs" />
     <Compile Include="Classes\Activities\EqualizerPresetDetailsActivity.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
-    <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />
     <Compile Include="Classes\Fragments\LoopsFragment.cs" />
@@ -195,6 +195,9 @@
     <AndroidResource Include="Resources\Layout\SyncWebBrowser.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\Layout\SyncMenuCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -275,6 +278,7 @@
     <AndroidResource Include="Resources\Menu\player_menu.xml" />
     <AndroidResource Include="Resources\Menu\equalizerpresets_menu.xml" />
     <AndroidResource Include="Resources\Menu\equalizerpresetdetails_menu.xml" />
+    <AndroidResource Include="Resources\Menu\syncmenu_menu.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

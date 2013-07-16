@@ -660,32 +660,32 @@ namespace MPfm.MVP.Navigation
             CreateSyncMenuViewInternal(onViewReady);
         }
 
-        public virtual ISyncDownloadView CreateSyncDownloadView(string url,  IEnumerable<AudioFile> audioFiles)
+        protected virtual void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            if (_syncDownloadView == null)
+                _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _syncDownloadView);
+#endif
+        }
+
+        public virtual void CreateSyncDownloadView(string url, IEnumerable<AudioFile> audioFiles)
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
+                _syncDownloadView = (ISyncDownloadView)view;
+                _syncDownloadView.OnViewDestroy = (view2) =>
+                {
+                    _syncDownloadView = null;
+                    _syncDownloadPresenter = null;
+                };
                 _syncDownloadPresenter = Bootstrapper.GetContainer().Resolve<ISyncDownloadPresenter>();
                 _syncDownloadPresenter.BindView((ISyncDownloadView)view);
                 _syncDownloadPresenter.StartSync(url, audioFiles);
             };
 
-            // Re-use the same instance as before
-            if (_syncDownloadView == null)
-            {
-                // Create view and manage view destruction
-                _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _syncDownloadView.OnViewDestroy = (view) =>
-                {
-                    _syncDownloadView = null;
-                    _syncDownloadPresenter = null;
-                };
-            } 
-            else
-            {
-                _syncDownloadPresenter.StartSync(url, audioFiles);
-            }
-            return _syncDownloadView;
+            CreateSyncDownloadViewInternal(onViewReady);
         }
 
         public virtual IAboutView CreateAboutView()
