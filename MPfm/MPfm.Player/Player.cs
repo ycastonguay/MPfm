@@ -1380,7 +1380,9 @@ namespace MPfm.Player
                 throw new Exception("Error: The playlist has no current item!");
 
             // Calculate position in bytes
-            long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
+            //long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
+            //long positionBytes = (long)(positionPercentage * lengthBytes);
+            long positionBytes = (long)(Playlist.CurrentItem.LengthBytes * (percentage / 100f));
             SetPosition(positionBytes);
         }
 

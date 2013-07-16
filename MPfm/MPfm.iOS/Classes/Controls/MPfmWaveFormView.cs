@@ -109,8 +109,9 @@ namespace MPfm.iOS.Classes.Controls
                 if(_isLoading)
                     return;
                 
-                // Invalidate cursor
-                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 15, 0, 30, Frame.Height);
+                // Invalidate cursor. TODO: When the cursor is moving quickly, it dispappears because of the invalidation.
+                //                          Maybe the cursor shouldn't be rendered, but instead be a simple rect over this control?
+                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 25, 0, 50, Frame.Height);
                 SetNeedsDisplayInRect(rectCursor);
             }
         }
@@ -328,6 +329,7 @@ namespace MPfm.iOS.Classes.Controls
             {
                 float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
                 _secondaryCursorX = secondaryPositionPercentage * Bounds.Width;
+                _secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
 
                 // Draw cursor line
                 context.SetStrokeColor(new CGColor(1, 1, 1, 1));

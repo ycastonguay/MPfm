@@ -133,32 +133,6 @@ namespace MPfm.MVP.Presenters
 			// Send changes to view
 			View.RefreshPlayerPosition(entity);
 		}
-
-        private PlayerPositionEntity RequestPosition(float positionPercentage)
-        {
-            try
-            {
-                // Calculate new position from 0.0f/1.0f scale
-                long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-                long positionBytes = (long)(positionPercentage * lengthBytes);
-                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
-                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
-                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
-                
-                PlayerPositionEntity entity = new PlayerPositionEntity();
-                entity.Position = positionString;
-                entity.PositionBytes = positionBytes;
-                entity.PositionSamples = (uint)positionSamples;
-                return entity;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine("An error occured while calculating the player position: " + ex.Message);
-                View.PlayerError(ex);
-            }
-            return new PlayerPositionEntity();
-        }
 		
 		/// <summary>
 		/// Starts playback.
@@ -307,6 +281,32 @@ namespace MPfm.MVP.Presenters
 		public void RepeatType()
 		{
 		}
+
+        private PlayerPositionEntity RequestPosition(float positionPercentage)
+        {
+            try
+            {
+                // Calculate new position from 0.0f/1.0f scale
+                long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                long positionBytes = (long)(positionPercentage * lengthBytes);
+                //long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
+                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
+                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                PlayerPositionEntity entity = new PlayerPositionEntity();
+                entity.Position = positionString;
+                entity.PositionBytes = positionBytes;
+                entity.PositionSamples = (uint)positionSamples;
+                return entity;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("An error occured while calculating the player position: " + ex.Message);
+                View.PlayerError(ex);
+            }
+            return new PlayerPositionEntity();
+        }
         
         public void SetPosition(float percentage)
         {
