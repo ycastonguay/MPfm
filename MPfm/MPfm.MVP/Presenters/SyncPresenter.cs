@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
@@ -34,11 +35,13 @@ namespace MPfm.MVP.Presenters
 	{
         readonly ISyncDiscoveryService _syncDiscoveryService;
         readonly MobileNavigationManager _navigationManager;
+	    ISyncDeviceSpecifications _deviceSpecifications;
         List<SyncDevice> _devices = new List<SyncDevice>();
 
-        public SyncPresenter(MobileNavigationManager navigationManager, ISyncDiscoveryService syncDiscoveryService)
+        public SyncPresenter(MobileNavigationManager navigationManager, ISyncDiscoveryService syncDiscoveryService, ISyncDeviceSpecifications deviceSpecifications)
 		{
             _navigationManager = navigationManager;
+            _deviceSpecifications = deviceSpecifications;
             _syncDiscoveryService = syncDiscoveryService;
             _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
             _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
@@ -84,8 +87,7 @@ namespace MPfm.MVP.Presenters
 
         private void ConnectDevice(string url)
         {
-            var view = _navigationManager.CreateSyncMenuView(url);
-            _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+            _navigationManager.CreateSyncMenuView(url);            
         }
 
         private void ConnectDeviceManually(string url)
@@ -96,7 +98,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                string ip = SyncListenerService.GetLocalIPAddress().ToString();
+                //string ip = SyncListenerService.GetLocalIPAddress().ToString();
+                string ip = _deviceSpecifications.GetIPAddress();
                 View.RefreshIPAddress(String.Format("My IP address is {0}", ip));
 
                 // Search for devices in subnet

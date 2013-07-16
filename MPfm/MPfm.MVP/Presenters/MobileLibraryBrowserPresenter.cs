@@ -40,16 +40,20 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class MobileLibraryBrowserPresenter : BasePresenter<IMobileLibraryBrowserView>, IMobileLibraryBrowserPresenter
 	{
-        private readonly MobileNavigationManager _navigationManager;
-	    private readonly ITinyMessengerHub _messengerHub;
-        private readonly ILibraryService _libraryService;
-        private readonly IAudioFileCacheService _audioFileCacheService;
-        private readonly MobileNavigationTabType _tabType;
-        private readonly MobileLibraryBrowserType _browserType;
-        private LibraryQuery _query;
+        readonly MobileNavigationManager _navigationManager;
+	    readonly ITinyMessengerHub _messengerHub;
+        readonly ILibraryService _libraryService;
+        readonly IAudioFileCacheService _audioFileCacheService;
+        readonly MobileNavigationTabType _tabType;
+        readonly MobileLibraryBrowserType _browserType;
+        LibraryQuery _query;
 
-        private Task _currentTask;
-	    private List<LibraryBrowserEntity> _items;
+        Task _currentTask;
+	    List<LibraryBrowserEntity> _items;
+
+        CancellationTokenSource _cancellationTokenSource = null;
+        CancellationToken _cancellationToken;
+	    List<Tuple<Task, string, string>> _tasks = new List<Tuple<Task, string, string>>();
 
 	    public AudioFileFormat Filter { get; private set; }
 		
@@ -105,6 +109,8 @@ namespace MPfm.MVP.Presenters
 
         private void RequestAlbumArt(string artistName, string albumTitle)
         {
+            // TODO: Add canceling, add detection to not request the same album art multiple times
+
             // Only run one task at a time.
             _currentTask = _currentTask.ContinueWith(t => {
                 // Get the file path of the first file in the album

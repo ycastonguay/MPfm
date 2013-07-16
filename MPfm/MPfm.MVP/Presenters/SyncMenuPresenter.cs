@@ -393,8 +393,8 @@ namespace MPfm.MVP.Presenters
                 foreach(var audioFile in _audioFilesToSync)
                     totalSize += audioFile.FileSize;
 
-                string title = string.Format("Total: {0} files ({1:0.0} MB)", _audioFilesToSync.Count, ((float)totalSize / 1000000f));
-                string subtitle = string.Format("Free space: {0:0.0} MB", ((float)freeSpace / 1000000f));
+                string title = string.Format("Total: {0} files ({1:0.0} MB)", _audioFilesToSync.Count, ((float)totalSize / 1048576f));
+                string subtitle = string.Format("Free space: {0:0.0} MB", ((float)freeSpace / 1048576f));
                 View.RefreshSyncTotal(title, subtitle, (totalSize < freeSpace));
             }
             catch(Exception ex)

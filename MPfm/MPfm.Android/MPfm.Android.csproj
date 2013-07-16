@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\SyncMenuActivity.cs" />
     <Compile Include="Classes\Activities\EqualizerPresetDetailsActivity.cs" />
     <Compile Include="Classes\Activities\MarkerDetailsActivity.cs" />
     <Compile Include="Classes\Activities\SyncActivity.cs" />
@@ -63,6 +64,8 @@
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\SyncMenuListAdapter.cs" />
+    <Compile Include="Classes\Adapters\SyncListAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserGridAdapter.cs" />
     <Compile Include="Classes\Adapters\EqualizerPresetsListAdapter.cs" />
     <Compile Include="Classes\Adapters\EqualizerPresetFadersListAdapter.cs" />
@@ -79,7 +82,6 @@
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
     <Compile Include="Classes\Fragments\SyncDownloadFragment.cs" />
-    <Compile Include="Classes\Fragments\SyncMenuFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />
     <Compile Include="Classes\Fragments\LoopsFragment.cs" />

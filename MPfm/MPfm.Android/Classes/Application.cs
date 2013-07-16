@@ -17,6 +17,7 @@
 
 using System;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.Runtime;
 using MPfm.Android.Classes.Fragments;
@@ -29,9 +30,15 @@ using MPfm.Android.Classes.Helpers;
 
 namespace MPfm.Android.Classes
 {
-    [Application (Name="my.App", Debuggable=true, Label="Sessions")]
+#if DEBUG
+    [Application(Name = "my.App", Debuggable = true, Label = "Sessions")]
+#else
+    [Application (Name="my.App", Debuggable=false, Label="Sessions")]
+#endif
     public class MPfmApplication : Application
     {
+        private static Context _context;
+
         public MPfmApplication(IntPtr javaReference, JniHandleOwnership transfer) 
             : base(javaReference, transfer) 
         { 
@@ -40,6 +47,8 @@ namespace MPfm.Android.Classes
         public override void OnCreate()
         {
             base.OnCreate();
+
+            _context = ApplicationContext;
 
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
@@ -58,7 +67,7 @@ namespace MPfm.Android.Classes
             container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
             container.Register<ISyncView, SyncActivity>().AsMultiInstance();
             container.Register<ISyncDownloadView, SyncDownloadFragment>().AsMultiInstance();
-            container.Register<ISyncMenuView, SyncMenuFragment>().AsMultiInstance();
+            container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
             container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();
             container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();
@@ -79,6 +88,11 @@ namespace MPfm.Android.Classes
             if (MPfm.Player.Player.CurrentPlayer.IsPlaying)
                 MPfm.Player.Player.CurrentPlayer.Stop();
             MPfm.Player.Player.CurrentPlayer.Dispose();
+        }
+
+        public static Context GetApplicationContext()
+        {
+            return _context;
         }
     }
 }

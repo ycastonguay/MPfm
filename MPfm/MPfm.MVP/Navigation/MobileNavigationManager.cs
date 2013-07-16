@@ -628,32 +628,32 @@ namespace MPfm.MVP.Navigation
             return _syncWebBrowserView;
         }
 
-        public virtual ISyncMenuView CreateSyncMenuView(string url)
+        protected virtual void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            if (_syncMenuView == null)
+                _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _syncMenuView);
+#endif
+        }
+
+        public virtual void CreateSyncMenuView(string url)
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
+                _syncMenuView = (ISyncMenuView)view;
+                _syncMenuView.OnViewDestroy = (view2) =>
+                {
+                    _syncMenuView = null;
+                    _syncMenuPresenter = null;
+                };
                 _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>();
                 _syncMenuPresenter.BindView((ISyncMenuView)view);
                 _syncMenuPresenter.SetUrl(url);
             };
 
-            // Re-use the same instance as before
-            if (_syncMenuView == null)
-            {
-                // Create view and manage view destruction
-                _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _syncMenuView.OnViewDestroy = (view) =>
-                {
-                    _syncMenuView = null;
-                    _syncMenuPresenter = null;
-                };
-            } 
-            else
-            {
-                _syncMenuPresenter.SetUrl(url);
-            }
-            return _syncMenuView;
+            CreateSyncMenuViewInternal(onViewReady);
         }
 
         public virtual ISyncDownloadView CreateSyncDownloadView(string url,  IEnumerable<AudioFile> audioFiles)

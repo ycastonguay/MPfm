@@ -17,8 +17,13 @@
 
 using System;
 using Android.App;
+using Android.Content;
+using Android.Net.Wifi;
+using Android.OS;
+using Android.Text.Format;
 using MPfm.Library;
 using MPfm.Library.Objects;
+using Environment = System.Environment;
 
 namespace MPfm.Android.Classes.Helpers
 {
@@ -27,6 +32,13 @@ namespace MPfm.Android.Classes.Helpers
     /// </summary>
     public class AndroidSyncDeviceSpecifications : ISyncDeviceSpecifications
     {
+        private readonly Context _context;
+
+        public AndroidSyncDeviceSpecifications()
+        {
+            _context = MPfmApplication.GetApplicationContext();
+        }
+
         public SyncDeviceType GetDeviceType()
         {
             return SyncDeviceType.Android;
@@ -44,7 +56,16 @@ namespace MPfm.Android.Classes.Helpers
 
         public long GetFreeSpace()
         {
-            return 0;
+            StatFs stat = new StatFs(global::Android.OS.Environment.ExternalStorageDirectory.ToString());
+            long bytesAvailable = (long)stat.BlockSize * (long)stat.AvailableBlocks;
+            return bytesAvailable;
+        }
+
+        public string GetIPAddress()
+        {
+            WifiManager wifiManager = (WifiManager)_context.GetSystemService(Context.WifiService);
+            int ip = wifiManager.ConnectionInfo.IpAddress;
+            return Formatter.FormatIpAddress(ip);
         }
     }
 }

@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sync_mainLayout"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+  android:id="@+id/sync_mainLayout"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@color/background">
   <TextView
     android:id="@+id/sync_lblIPAddress"
     android:text="My IP address is:"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+    android:textColor="#FFFFFF"    
     android:padding="6dip" />
-  <ProgressBar
-    android:id="@+id/sync_progressBar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:indeterminate="true" />
-  <TextView
-    android:id="@+id/sync_lblStatus"
-    android:text="Refreshing devices..."
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:padding="6dip" />  
-  <Button
-    android:id="@+id/sync_btnConnectManually"
-    android:text="Connect manually to device"
+  <LinearLayout
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+    <ProgressBar
+      android:id="@+id/sync_progressBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"      
+      android:indeterminate="true" />
+    <TextView
+      android:id="@+id/sync_lblStatus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"     
+      android:layout_marginLeft="8dp"      
+      android:padding="6dip"            
+      android:text="Refreshing devices..."
+      android:textColor="#FFFFFF" />
+  </LinearLayout>
+  <ListView
+    android:id="@+id/sync_listView"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:background="#FFFFFF"
+    android:cacheColorHint="#333333"
+    android:divider="#FFFFFF"
+    android:listSelector="#CCCCCC" />
+  <Button
+    android:id="@+id/sync_btnConnectManually"    
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Connect manually to device"
+    android:textColor="#FFFFFF" />
 </LinearLayout>

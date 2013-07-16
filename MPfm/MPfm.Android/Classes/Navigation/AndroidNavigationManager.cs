@@ -36,6 +36,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onPreferencesViewReady;
         private Action<IBaseView> _onEqualizerPresetsViewReady;
         private Action<IBaseView> _onSyncViewReady;
+        private Action<IBaseView> _onSyncMenuViewReady;
         private Action<IBaseView> _onMarkerDetailsViewReady;
         private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
 
@@ -159,6 +160,13 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
+        protected override void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onSyncMenuViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(SyncMenuActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         public void SetPlayerActivityInstance(PlayerActivity activity)
         {
             if (_onPlayerViewReady != null)
@@ -193,6 +201,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onSyncViewReady != null)
                 _onSyncViewReady(activity);
+        }
+
+        public void SetSyncMenuActivityInstance(SyncMenuActivity activity)
+        {
+            if (_onSyncMenuViewReady != null)
+                _onSyncMenuViewReady(activity);
         }
     }
 }

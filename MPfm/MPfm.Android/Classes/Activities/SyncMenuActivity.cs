@@ -21,6 +21,7 @@ using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.Views;
 using Android.OS;
 using Android.Widget;
@@ -28,6 +29,7 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
@@ -35,77 +37,82 @@ using MPfm.Player.Objects;
 namespace MPfm.Android
 {
     [Activity(Label = "Sync", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class SyncActivity : BaseActivity, ISyncView
+    public class SyncMenuActivity : BaseActivity, ISyncMenuView
     {
         private MobileNavigationManager _navigationManager;
-        TextView _lblIPAddress;
+        LinearLayout _loadingLayout;
+        LinearLayout _mainLayout;
         TextView _lblStatus;
-        Button _btnConnectManually;
+        TextView _lblTotal;
+        TextView _lblFreeSpace;
+        Button _btnSelectAll;
         ListView _listView;
-        SyncListAdapter _listAdapter;
-        List<SyncDevice> _devices;
+        SyncMenuListAdapter _listAdapter;
+        List<SyncMenuItemEntity> _items;
 
         protected override void OnCreate(Bundle bundle)
         {
-            Console.WriteLine("SyncActivity - OnCreate");
+            Console.WriteLine("SyncMenuActivity - OnCreate");
             base.OnCreate(bundle);
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            SetContentView(Resource.Layout.Sync);
+            SetContentView(Resource.Layout.SyncMenu);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
 
-            _lblIPAddress = FindViewById<TextView>(Resource.Id.sync_lblIPAddress);
-            _lblStatus = FindViewById<TextView>(Resource.Id.sync_lblStatus);
-            _btnConnectManually = FindViewById<Button>(Resource.Id.sync_btnConnectManually);
-            _listView = FindViewById<ListView>(Resource.Id.sync_listView);
+            _loadingLayout = FindViewById<LinearLayout>(Resource.Id.syncMenu_loadingLayout);
+            _mainLayout = FindViewById<LinearLayout>(Resource.Id.syncMenu_mainLayout);
+            _lblStatus = FindViewById<TextView>(Resource.Id.syncMenu_lblStatus);
+            _lblTotal = FindViewById<TextView>(Resource.Id.syncMenu_lblTotal);
+            _lblFreeSpace = FindViewById<TextView>(Resource.Id.syncMenu_lblFreeSpace);
+            _btnSelectAll = FindViewById<Button>(Resource.Id.syncMenu_btnSelectAll);
+            _listView = FindViewById<ListView>(Resource.Id.syncMenu_listView);
 
-            _listAdapter = new SyncListAdapter(this, new List<SyncDevice>());
+            _listAdapter = new SyncMenuListAdapter(this, new List<SyncMenuItemEntity>());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);
+            ((AndroidNavigationManager)_navigationManager).SetSyncMenuActivityInstance(this);
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            OnConnectDevice(_devices[itemClickEventArgs.Position].Url);
         }
 
         protected override void OnStart()
         {
-            Console.WriteLine("SyncActivity - OnStart");
+            Console.WriteLine("SyncMenuActivity - OnStart");
             base.OnStart();
         }
 
         protected override void OnRestart()
         {
-            Console.WriteLine("SyncActivity - OnRestart");
+            Console.WriteLine("SyncMenuActivity - OnRestart");
             base.OnRestart();
         }
 
         protected override void OnPause()
         {
-            Console.WriteLine("SyncActivity - OnPause");
+            Console.WriteLine("SyncMenuActivity - OnPause");
             base.OnPause();
         }
 
         protected override void OnResume()
         {
-            Console.WriteLine("SyncActivity - OnResume");
+            Console.WriteLine("SyncMenuActivity - OnResume");
             base.OnResume();
         }
 
         protected override void OnStop()
         {
-            Console.WriteLine("SyncActivity - OnStop");
+            Console.WriteLine("SyncMenuActivity - OnStop");
             base.OnStop();
         }
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("SyncActivity - OnDestroy");
+            Console.WriteLine("SyncMenuActivity - OnDestroy");
             base.OnDestroy();
         }
 
@@ -114,7 +121,7 @@ namespace MPfm.Android
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
+                    var intent = new Intent(this, typeof (SyncActivity));
                     intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
                     this.StartActivity(intent);
                     this.Finish();
@@ -126,53 +133,74 @@ namespace MPfm.Android
             }
         }
 
-        #region ISyncView implementation
+        #region ISyncMenuView implementation
 
-        public Action<string> OnConnectDevice { get; set; }
-        public Action<string> OnConnectDeviceManually { get; set; }
-        
-        public void SyncError(Exception ex)
+        public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
+        public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        public Action OnSync { get; set; }
+        public Action OnSelectButtonClick { get; set; }
+
+        public void SyncMenuError(Exception ex)
         {
             RunOnUiThread(() => {
                 AlertDialog ad = new AlertDialog.Builder(this).Create();
                 ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in Sync: {0}", ex));
+                ad.SetMessage(string.Format("An error has occured in SyncMenu: {0}", ex));
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });
         }
 
-        public void RefreshIPAddress(string address)
+        public void RefreshLoading(bool isLoading, int progressPercentage)
         {
+            Console.WriteLine(">>>>>>>>>>>>>> SyncMenuActivity - RefreshLoading - isLoading: {0} progress: {1}", isLoading, progressPercentage);
             RunOnUiThread(() => {
-                _lblIPAddress.Text = address;
+                if (isLoading)
+                {
+                    _loadingLayout.Visibility = ViewStates.Visible;
+                    _mainLayout.Visibility = ViewStates.Gone;
+                    _lblStatus.Text = progressPercentage < 100 ? String.Format("Loading index ({0}%)...", progressPercentage) : "Processing index...";
+                }
+                else
+                {
+                    _loadingLayout.Visibility = ViewStates.Gone;
+                    _mainLayout.Visibility = ViewStates.Visible;                    
+                }
             });
         }
 
-        public void RefreshDiscoveryProgress(float percentageDone, string status)
+        public void RefreshSelectButton(string text)
         {
             RunOnUiThread(() => {
-                _lblStatus.Text = status;
+                _btnSelectAll.Text = text;
             });
         }
 
-        public void RefreshDevices(IEnumerable<SyncDevice> devices)
+        public void RefreshItems(List<SyncMenuItemEntity> items)
         {
             RunOnUiThread(() => {
-                _devices = devices.ToList();
-                _listAdapter.SetData(_devices);
+                _items = items;
+                _listAdapter.SetData(items);
             });
         }
 
-        public void RefreshDevicesEnded()
+        public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
+        {
+            RunOnUiThread(() => {
+                _lblTotal.Text = title;
+                _lblFreeSpace.Text = subtitle;
+                _lblFreeSpace.SetTextColor(enoughFreeSpace ? Color.White : Color.Red);
+            });
+        }
+
+        public void InsertItems(int index, List<SyncMenuItemEntity> items)
         {
         }
 
-        public void SyncDevice(SyncDevice device)
+        public void RemoveItems(int index, int count)
         {
         }
 
         #endregion
-
     }
 }
