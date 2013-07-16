@@ -50,7 +50,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Console.WriteLine("MLBFragment - OnCreateView");
+            Console.WriteLine("##############>> MLBFragment - OnCreateView");
 
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
             _listView = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listView);
@@ -91,37 +91,37 @@ namespace MPfm.Android.Classes.Fragments
 
         public override void OnResume()
         {
-            Console.WriteLine("MLBFragment - OnResume");
+            Console.WriteLine("##############>> MLBFragment - OnResume");
             base.OnResume();
         }
 
-        //public override void OnStart()
-        //{
-        //    Console.WriteLine("MLBFragment - OnStart");
-        //    base.OnStart();
-        //}
+        public override void OnStart()
+        {
+            Console.WriteLine("##############>> MLBFragment - OnStart");
+            base.OnStart();
+        }
 
-        //public override void OnStop()
-        //{
-        //    Console.WriteLine("MLBFragment - OnStop");
-        //    base.OnStop();
-        //}
+        public override void OnStop()
+        {
+            Console.WriteLine("##############>> MLBFragment - OnStop");
+            base.OnStop();
+        }
 
-        //public override void OnPause()
-        //{
-        //    Console.WriteLine("MLBFragment - OnPause");
-        //    base.OnPause();
-        //}
+        public override void OnPause()
+        {
+            Console.WriteLine("##############>> MLBFragment - OnPause");
+            base.OnPause();
+        }
 
         public override void OnDestroy()
         {
-            Console.WriteLine("MLBFragment - OnDestroy");
+            Console.WriteLine("##############>> MLBFragment - OnDestroy");
             base.OnDestroy();
         }
 
         public override void OnDestroyView()
         {
-            Console.WriteLine("MLBFragment - OnDestroyView");
+            Console.WriteLine("##############>> MLBFragment - OnDestroyView");
             base.OnDestroyView();
         }
 

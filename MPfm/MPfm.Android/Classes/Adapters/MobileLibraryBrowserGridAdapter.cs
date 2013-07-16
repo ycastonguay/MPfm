@@ -66,7 +66,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {            
-            Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - GetView - position: {0}", position);
+            //Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - GetView - position: {0}", position);
             var item = _items[position];
             View view = convertView;
             if (view == null) // no view to re-use, create new
@@ -82,7 +82,7 @@ namespace MPfm.Android.Classes.Adapters
 
             Task.Factory.StartNew(() => {
                 // WTF Android #549381: GetView position 0 gets called extremely often for no reason. Another job well done, Google. Why can't you optimize your code!?!?
-                Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - Loading album art - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
+                //Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - Loading album art - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
                 
                 // Check if bitmap is in cache before requesting album art (Android likes to request GetView extremely often for no good reason)
                 //_fragment.OnRequestAlbumArt(_items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
@@ -96,7 +96,7 @@ namespace MPfm.Android.Classes.Adapters
             try
             {
                 var mainActivity = (MainActivity)_context;
-                Console.WriteLine("MobileLibraryBrowserGridAdapter - Received album art for {0}/{1}", artistName, albumTitle);
+                //Console.WriteLine("MobileLibraryBrowserGridAdapter - Received album art for {0}/{1}", artistName, albumTitle);
 
                 int index = _items.FindIndex(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
                 if (index >= 0)
@@ -111,7 +111,7 @@ namespace MPfm.Android.Classes.Adapters
             }
             catch (Exception ex)
             {
-                Console.WriteLine("MobileLibraryBrowserGridAdapter - Failed to load album art: {0}", ex);
+                //Console.WriteLine("MobileLibraryBrowserGridAdapter - Failed to load album art: {0}", ex);
             }
         }
     }
