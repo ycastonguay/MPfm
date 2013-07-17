@@ -279,6 +279,26 @@
     <AndroidResource Include="Resources\Menu\equalizerpresets_menu.xml" />
     <AndroidResource Include="Resources\Menu\equalizerpresetdetails_menu.xml" />
     <AndroidResource Include="Resources\Menu\syncmenu_menu.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\checkbox_checked.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\checkbox_partial.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\checkbox_unchecked.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\checkbox_checked.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\checkbox_partial.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\checkbox_unchecked.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\checkbox_checked.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\checkbox_partial.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\checkbox_unchecked.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\checkbox_checked.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\checkbox_partial.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\checkbox_unchecked.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_artist.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_vinyl.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_artist.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_vinyl.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_artist.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_vinyl.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_artist.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_vinyl.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

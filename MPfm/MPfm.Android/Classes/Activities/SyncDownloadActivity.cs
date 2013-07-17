@@ -45,7 +45,7 @@ namespace MPfm.Android
             base.OnCreate(bundle);
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            SetContentView(Resource.Layout.Sync);
+            SetContentView(Resource.Layout.SyncDownload);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
 

@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using Android.Graphics;
 using Android.Util;
@@ -24,7 +25,7 @@ using MPfm.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class SyncMenuListAdapter : BaseAdapter<SyncMenuItemEntity>
+    public class SyncMenuListAdapter : BaseAdapter<SyncMenuItemEntity>, View.IOnClickListener
     {
         private readonly SyncMenuActivity _context;
         private List<SyncMenuItemEntity> _items;
@@ -58,6 +59,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
+            //Console.WriteLine("SyncMenuListAdapter - GetView - position {0}", position);
             var item = _items[position];
             View view = convertView;
             if (view == null) // no view to re-use, create new
@@ -65,22 +67,31 @@ namespace MPfm.Android.Classes.Adapters
 
             var title = view.FindViewById<TextView>(Resource.Id.syncMenuCell_title);
             var index = view.FindViewById<TextView>(Resource.Id.syncMenuCell_index);
-            var image = view.FindViewById<ImageView>(Resource.Id.syncMenuCell_image);
+            var image = view.FindViewById<ImageView>(Resource.Id.syncMenuCell_image);            
             var checkmark = view.FindViewById<ImageView>(Resource.Id.syncMenuCell_checkmark);
+            checkmark.Tag = position;
+            checkmark.SetOnClickListener(this);
+
+            if (item.Selection == StateSelectionType.Selected)
+                checkmark.SetImageResource(Resource.Drawable.checkbox_checked);
+            else if (item.Selection == StateSelectionType.PartlySelected)
+                checkmark.SetImageResource(Resource.Drawable.checkbox_partial);
+            else
+                checkmark.SetImageResource(Resource.Drawable.checkbox_unchecked);
 
             switch (_items[position].ItemType)
             {
                 case SyncMenuItemEntityType.Artist:
-                    //cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_user");
                     title.Text = item.ArtistName;
                     title.SetTextSize(ComplexUnitType.Sp, 16);
-                    index.Visibility = ViewStates.Gone;                   
+                    index.Visibility = ViewStates.Gone;                                   
+                    image.SetImageResource(Resource.Drawable.icon_artist);
                     break;
-                case SyncMenuItemEntityType.Album:
-                    //cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_vinyl");
+                case SyncMenuItemEntityType.Album:                    
                     title.Text = item.AlbumTitle;
                     title.SetTextSize(ComplexUnitType.Sp, 14);
                     index.Visibility = ViewStates.Gone;
+                    image.SetImageResource(Resource.Drawable.icon_vinyl);
                     break;
                 case SyncMenuItemEntityType.Song:
                     title.Text = item.Song.Title;
@@ -92,6 +103,22 @@ namespace MPfm.Android.Classes.Adapters
             }
 
             return view;
+        }
+
+        public void OnClick(View v)
+        {
+            int position = (int)v.Tag;
+            var item = _items[position];
+            var checkmark = (ImageView) v;
+            Console.WriteLine("Click on checkmark {0} tag {1}", position, v.Tag);
+            _context.OnSelectItem(item);
+
+            if (item.Selection == StateSelectionType.Selected)
+                checkmark.SetImageResource(Resource.Drawable.checkbox_checked);
+            else if (item.Selection == StateSelectionType.PartlySelected)
+                checkmark.SetImageResource(Resource.Drawable.checkbox_partial);
+            else
+                checkmark.SetImageResource(Resource.Drawable.checkbox_unchecked);
         }
     }
 }

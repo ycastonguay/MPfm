@@ -197,6 +197,7 @@ namespace MPfm.Android
         public void RefreshItems(List<SyncMenuItemEntity> items)
         {
             RunOnUiThread(() => {
+                Console.WriteLine("SyncMenuActivity - RefreshItems - count: {0}", items.Count);
                 _items = items;
                 _listAdapter.SetData(items);
             });
