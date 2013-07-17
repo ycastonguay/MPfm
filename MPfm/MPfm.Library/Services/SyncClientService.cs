@@ -34,6 +34,7 @@ namespace MPfm.Library.Services
     {
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
+        readonly ISyncDeviceSpecifications _deviceSpecifications;
 
         Stopwatch _stopwatch;
         WebClientTimeout _webClient;
@@ -55,10 +56,11 @@ namespace MPfm.Library.Services
         public event DownloadAudioFileStatus OnDownloadAudioFileCompleted;
         public event EventHandler OnDownloadAudioFilesCompleted;
 
-        public SyncClientService(ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
+        public SyncClientService(ILibraryService libraryService, IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications deviceSpecifications)
         {
             _libraryService = libraryService;
             _audioFileCacheService = audioFileCacheService;
+            _deviceSpecifications = deviceSpecifications;
             Initialize();
         }
 
@@ -145,7 +147,8 @@ namespace MPfm.Library.Services
                 Console.WriteLine("SyncClientService - HandleDownloadFileCompleted - File downloaded; inserting audio file into database...");
                 var audioFile = _audioFiles[_filesDownloaded];
                 string fileName = Path.GetFileName(audioFile.FilePath);
-                string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                //string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string folderPath = _deviceSpecifications.GetMusicFolderPath();
                 string localFilePath = Path.Combine(folderPath, fileName);
                 audioFile.FilePath = localFilePath;
                 _libraryService.InsertAudioFile(audioFile);
@@ -253,7 +256,8 @@ namespace MPfm.Library.Services
         {
             var url = new Uri(new Uri(_baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
             string fileName = Path.GetFileName(audioFile.FilePath);
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string folderPath = _deviceSpecifications.GetMusicFolderPath();
             string localFilePath = Path.Combine(folderPath, fileName);
             _lastBytesReceived = 0;
 

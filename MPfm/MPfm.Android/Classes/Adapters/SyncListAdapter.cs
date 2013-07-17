@@ -63,10 +63,31 @@ namespace MPfm.Android.Classes.Adapters
                 view = _context.LayoutInflater.Inflate(Resource.Layout.GenericCell, null);
 
             var title = view.FindViewById<TextView>(Resource.Id.genericcell_title);
+            var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);
+
             title.Text = _devices[position].Name;
 
-            var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);
-            image.SetBackgroundColor(Color.White);
+            switch (item.DeviceType)
+            {
+                case SyncDeviceType.Android:
+                    image.SetImageResource(Resource.Drawable.icon_android);
+                    break;
+                case SyncDeviceType.Linux:
+                    image.SetImageResource(Resource.Drawable.icon_linux);
+                    break;
+                case SyncDeviceType.OSX:
+                    image.SetImageResource(Resource.Drawable.icon_osx);
+                    break;
+                case SyncDeviceType.Windows:
+                    image.SetImageResource(Resource.Drawable.icon_windows);
+                    break;
+                case SyncDeviceType.iOS:
+                    image.SetImageResource(Resource.Drawable.icon_phone);
+                    break;
+                default:
+                    image.SetImageResource(0);
+                    break;
+            }
 
             return view;
         }

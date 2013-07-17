@@ -49,7 +49,7 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ISyncDownloadView view)
         {
-            view.OnButtonPressed = ButtonPressed;
+            view.OnCancelDownload = CancelDownload;
             base.BindView(view);
 
             Initialize();
@@ -80,7 +80,7 @@ namespace MPfm.MVP.Presenters
             View.SyncCompleted();
         }
 
-        private void ButtonPressed()
+        private void CancelDownload()
         {
             try
             {

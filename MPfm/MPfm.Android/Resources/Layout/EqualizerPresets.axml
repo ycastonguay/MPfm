@@ -53,7 +53,7 @@
     android:layout_weight="1"
     android:background="#FFFFFF"
     android:cacheColorHint="#333333"
-    android:divider="#333333"
+    android:divider="#BBBBBB"
     android:dividerHeight="1px"
     android:listSelector="#999999" />  
 </LinearLayout>

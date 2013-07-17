@@ -32,6 +32,7 @@
     android:layout_height="fill_parent"    
     android:background="@android:color/transparent"
     android:cacheColorHint="#333333"
-    android:divider="#FFFFFF"
-    android:listSelector="#CCCCCC" />
+    android:divider="#999999"
+    android:dividerHeight="1px"
+    android:listSelector="#66CCCCCC" />
 </LinearLayout>

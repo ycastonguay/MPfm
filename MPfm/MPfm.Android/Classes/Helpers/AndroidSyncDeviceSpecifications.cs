@@ -21,6 +21,7 @@ using Android.Content;
 using Android.Net.Wifi;
 using Android.OS;
 using Android.Text.Format;
+using Java.IO;
 using MPfm.Library;
 using MPfm.Library.Objects;
 using Environment = System.Environment;
@@ -66,6 +67,11 @@ namespace MPfm.Android.Classes.Helpers
             WifiManager wifiManager = (WifiManager)_context.GetSystemService(Context.WifiService);
             int ip = wifiManager.ConnectionInfo.IpAddress;
             return Formatter.FormatIpAddress(ip);
+        }
+
+        public string GetMusicFolderPath()
+        {
+            return global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryMusic).ToString();
         }
     }
 }

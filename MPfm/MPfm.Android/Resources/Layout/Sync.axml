@@ -38,12 +38,14 @@
     android:layout_weight="1"
     android:background="#FFFFFF"
     android:cacheColorHint="#333333"
-    android:divider="#FFFFFF"
+    android:divider="#BBBBBB"
+    android:dividerHeight="1px"
     android:listSelector="#CCCCCC" />
   <Button
     android:id="@+id/sync_btnConnectManually"    
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:text="Connect manually to device"
-    android:textColor="#FFFFFF" />
+    android:textColor="#FFFFFF"
+    android:textSize="16dp" />
 </LinearLayout>

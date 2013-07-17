@@ -38,6 +38,14 @@ namespace MPfm.Android
     public class SyncDownloadActivity : BaseActivity, ISyncDownloadView
     {
         private MobileNavigationManager _navigationManager;
+        TextView _lblTitle;
+        TextView _lblFileName;
+        TextView _lblCompletedValue;
+        TextView _lblCurrentFileProgressValue;
+        TextView _lblDownloadSpeedValue;
+        TextView _lblErrorsValue;
+        TextView _lblFilesDownloadedValue;
+        TextView _lblTotalFilesValue;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -48,6 +56,16 @@ namespace MPfm.Android
             SetContentView(Resource.Layout.SyncDownload);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
+
+            _lblTitle = FindViewById<TextView>(Resource.Id.syncDownload_lblTitle);
+            _lblFileName = FindViewById<TextView>(Resource.Id.syncDownload_lblFileName);
+            _lblCompletedValue = FindViewById<TextView>(Resource.Id.syncDownload_lblCompletedValue);
+            _lblCurrentFileProgressValue = FindViewById<TextView>(Resource.Id.syncDownload_lblCurrentFileProgressValue);
+            _lblDownloadSpeedValue = FindViewById<TextView>(Resource.Id.syncDownload_lblDownloadSpeedValue);            
+            _lblErrorsValue = FindViewById<TextView>(Resource.Id.syncDownload_lblErrorsValue); 
+            _lblFilesDownloadedValue = FindViewById<TextView>(Resource.Id.syncDownload_lblFilesDownloadedValue);            
+            _lblTotalFilesValue = FindViewById<TextView>(Resource.Id.syncDownload_lblTotalFilesValue);
+            
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetSyncDownloadActivityInstance(this);
@@ -94,11 +112,14 @@ namespace MPfm.Android
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
-                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-                    this.StartActivity(intent);
-                    this.Finish();
+                    ConfirmExitActivity();
                     return true;
+
+                    //var intent = new Intent(this, typeof (MainActivity));
+                    //intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                    //this.StartActivity(intent);
+                    //this.Finish();
+                    //return true;
                     break;
                 default:
                     return base.OnOptionsItemSelected(item);
@@ -106,9 +127,30 @@ namespace MPfm.Android
             }        
         }
 
+        public override void OnBackPressed()
+        {
+            ConfirmExitActivity();
+        }
+
+        private void ConfirmExitActivity()
+        {
+            AlertDialog ad = new AlertDialog.Builder(this)
+                .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+                .SetTitle("Sync download will be canceled")
+                .SetMessage("Are you sure you wish to exit this screen and cancel the download?")
+                .SetCancelable(true)
+                .SetPositiveButton("OK", (sender, args) => {
+                    OnCancelDownload();
+                    Finish();
+                })
+                .SetNegativeButton("Cancel", (sender, args) => {})
+                .Create();
+            ad.Show();
+        }
+
         #region ISyncDownloadView implementation
 
-        public Action OnButtonPressed { get; set; }
+        public Action OnCancelDownload { get; set; }
 
         public void SyncDownloadError(Exception ex)
         {
@@ -123,10 +165,33 @@ namespace MPfm.Android
 
         public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
+            RunOnUiThread(() => {
+                //progressView.Progress = entity.PercentageDone/100f;
+                _lblTitle.Text = entity.Status;
+                _lblCompletedValue.Text = string.Format("{0:0.0}%", entity.PercentageDone);
+                _lblCurrentFileProgressValue.Text = string.Format("{0:0.0}%", entity.DownloadPercentageDone);
+                _lblFilesDownloadedValue.Text = string.Format("{0}", entity.FilesDownloaded);
+                _lblTotalFilesValue.Text = string.Format("{0}", entity.TotalFiles);
+                _lblDownloadSpeedValue.Text = entity.DownloadSpeed;
+                _lblErrorsValue.Text = string.Format("{0}", entity.Errors);
+                _lblFileName.Text = entity.DownloadFileName;
+                //textViewLog.Text = entity.Log;
+            });
         }
 
         public void SyncCompleted()
         {
+            RunOnUiThread(() => {
+                _lblTitle.Text = "Sync completed";
+                AlertDialog ad = new AlertDialog.Builder(this).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage("Sync has completed successfully.");
+                ad.SetButton("OK", (sender, args) => {
+                    ad.Dismiss();
+                    Finish();
+                });
+                ad.Show();
+            });
         }
 
         #endregion

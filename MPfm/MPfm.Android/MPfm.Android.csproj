@@ -299,6 +299,30 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon_vinyl.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_artist.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_vinyl.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_android.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_linux.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_osx.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_phone.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_tablet.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_windows.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_android.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_linux.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_osx.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_phone.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_tablet.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_windows.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_android.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_linux.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_osx.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_phone.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_tablet.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_windows.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_android.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_linux.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_osx.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_phone.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_tablet.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_windows.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

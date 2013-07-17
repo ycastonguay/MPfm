@@ -28,7 +28,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ISyncDownloadView : IBaseView
 	{
-        Action OnButtonPressed { get; set; }
+        Action OnCancelDownload { get; set; }
 
         void SyncDownloadError(Exception ex);
         void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity);

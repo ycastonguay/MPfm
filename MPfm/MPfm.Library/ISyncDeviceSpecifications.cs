@@ -26,5 +26,6 @@ namespace MPfm.Library
         string GetDeviceName();
         long GetFreeSpace();
         string GetIPAddress();
+        string GetMusicFolderPath();
     }
 }
