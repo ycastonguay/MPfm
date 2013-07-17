@@ -31,5 +31,6 @@ namespace MPfm.Library.Services.Interfaces
 
         void SearchForDevices(List<string> ips);
         void SearchForDevices(string baseIP);
+        void Cancel();
     }
 }

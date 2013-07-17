@@ -52,6 +52,7 @@ namespace MPfm.MVP.Presenters
         {
             view.OnConnectDevice = ConnectDevice;
             view.OnConnectDeviceManually = ConnectDeviceManually;
+            view.OnCancelDiscovery = CancelDiscovery;
             base.BindView(view);
 
             Initialize();
@@ -91,6 +92,12 @@ namespace MPfm.MVP.Presenters
 
         private void ConnectDeviceManually(string url)
         {
+        }
+
+        private void CancelDiscovery()
+        {
+            Console.WriteLine("SyncPresenter - CancelDiscovery");
+            _syncDiscoveryService.Cancel();
         }
 
         private void RefreshDevices()

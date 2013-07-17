@@ -70,6 +70,7 @@ namespace MPfm.Android
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
+            OnCancelDiscovery();
             OnConnectDevice(_devices[itemClickEventArgs.Position].Url);
         }
 
@@ -116,6 +117,7 @@ namespace MPfm.Android
                 case global::Android.Resource.Id.Home:
                     var intent = new Intent(this, typeof (MainActivity));
                     intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                    OnCancelDiscovery();
                     this.StartActivity(intent);
                     this.Finish();
                     return true;
@@ -126,10 +128,17 @@ namespace MPfm.Android
             }
         }
 
+        public override void OnBackPressed()
+        {
+            OnCancelDiscovery();
+            base.OnBackPressed();
+        }
+
         #region ISyncView implementation
 
         public Action<string> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
+        public Action OnCancelDiscovery { get; set; }
         
         public void SyncError(Exception ex)
         {

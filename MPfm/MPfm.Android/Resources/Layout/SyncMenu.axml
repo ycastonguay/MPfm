@@ -38,8 +38,9 @@
       android:layout_weight="1"
       android:background="#FFFFFF"
       android:cacheColorHint="#333333"
-      android:divider="#FFFFFF"
-      android:listSelector="#CCCCCC" />
+      android:divider="#333333"
+      android:dividerHeight="1px"
+      android:listSelector="#999999" />
     <LinearLayout    
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"

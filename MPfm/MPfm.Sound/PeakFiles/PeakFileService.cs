@@ -33,20 +33,20 @@ namespace MPfm.Sound.PeakFiles
     /// </summary>
     public class PeakFileService : IPeakFileService
     {
-        private Task _currentTask;
-        private CancellationTokenSource cancellationTokenSource = null;
-        private CancellationToken cancellationToken;
-
-        /// <summary>
-        /// Indicates if a peak file is generating.
-        /// </summary>
-        public bool IsLoading { get; private set; }
+        Task _currentTask;
+        CancellationTokenSource _cancellationTokenSource = null;
+        CancellationToken _cancellationToken;
 
         /// <summary>
         /// Defines the current peak file version. Used when reading peak files to make sure
         /// the format is compatible.
         /// </summary>
-        private string version = "1.00";
+        const string _version = "1.00";
+
+        /// <summary>
+        /// Indicates if a peak file is generating.
+        /// </summary>
+        public bool IsLoading { get; private set; }
 
         /// <summary>
         /// Delegate for the OnProcessStarted event.
@@ -115,7 +115,6 @@ namespace MPfm.Sound.PeakFiles
         /// <param name="peakFilePath">Peak file path</param>
         public void GeneratePeakFile(string audioFilePath, string peakFilePath)
         {
-            // Declare variables         
             bool cancelled = false;
             FileStream fileStream = null;
             BinaryWriter binaryWriter = null;
@@ -133,28 +132,20 @@ namespace MPfm.Sound.PeakFiles
             WaveDataMinMax minMax = null;
             List<WaveDataMinMax> listMinMaxForProgressData = new List<WaveDataMinMax>();
 
-            // Schedule operation in a new thread
             IsLoading = true;
             bool processSuccessful = false;
             _currentTask = Task.Factory.StartNew(() =>
             {
                 try
                 {
-                    // Create a channel for decoding
+                    // Get audio file length and divide it by two since we're using floating point
                     Channel channelDecode = Channel.CreateFileStreamForDecoding(audioFilePath, true);
-
-                    // Get audio file length
                     audioFileLength = channelDecode.GetLength();
-
-                    // Divide it by two since we're using floating point
                     audioFileLength /= 2;
 
-                    // Check if peak file exists
+                    // Delete any previous peak file
                     if (File.Exists(peakFilePath))
-                    {
-                        // Delete peak file
                         File.Delete(peakFilePath);
-                    }
 
                     // Create streams and binary writer
                     fileStream = new FileStream(peakFilePath, FileMode.Create, FileAccess.Write);
@@ -170,13 +161,11 @@ namespace MPfm.Sound.PeakFiles
                     // Write file header (30 characters)                       
                     // 123456789012345678901234567890
                     // MPfm Peak File (version# 1.00)
-                    string version = "MPfm Peak File (version# " + this.version + ")";
+                    string version = "MPfm Peak File (version# " + _version + ")";
                     binaryWriter.Write(version);
 
                     // Write audio file length
                     binaryWriter.Write(audioFileLength);
-                    
-                    // Write chunk size and number of blocks
                     binaryWriter.Write((Int32)chunkSize);
                     binaryWriter.Write((Int32)blocks);                      
 
@@ -187,7 +176,6 @@ namespace MPfm.Sound.PeakFiles
                     // Is an event binded to OnProcessData?
                     if (OnProcessStarted != null)
                     {
-                        // Report progress (started)
                         PeakFileStartedData dataStarted = new PeakFileStartedData(){
                             Length = audioFileLength,
                             TotalBlocks = (Int32)blocks
@@ -201,7 +189,7 @@ namespace MPfm.Sound.PeakFiles
                     {
                         // Check for cancel
                         //Console.WriteLine("PeakFileService - Bytes read: " + bytesRead.ToString());
-                        if (cancellationToken.IsCancellationRequested)
+                        if (_cancellationToken.IsCancellationRequested)
                         {
                             // Set flags, exit loop
                             Console.WriteLine("PeakFileGenerator - Cancelling...");
@@ -214,10 +202,8 @@ namespace MPfm.Sound.PeakFiles
                             break;
                         }
 
-                        // Get data
+                        // Get data and increment bytes read
                         read = channelDecode.GetData(buffer, chunkSize);
-
-                        // Increment bytes read
                         bytesRead += read;
 
                         // Create arrays for left and right channel
@@ -229,14 +215,9 @@ namespace MPfm.Sound.PeakFiles
                         {
                             // Check if left or right channel
                             if (a % 2 == 0)
-                            {
-                                // Left channel
-                                floatLeft [a / 2] = buffer [a];
-                            } else
-                            {
-                                // Left channel
-                                floatRight [a / 2] = buffer [a];
-                            }
+                                floatLeft[a / 2] = buffer[a];
+                            else
+                                floatRight[a / 2] = buffer[a];
                         }
 
                         // Calculate min/max and add it to the min/max list for event progress
@@ -272,8 +253,6 @@ namespace MPfm.Sound.PeakFiles
                             // Reset min/max list
                             listMinMaxForProgressData = new List<WaveDataMinMax>();
                         }
-
-                        // Increment current block
                         currentBlock++;
                     } while (read == chunkSize);
 
@@ -337,7 +316,7 @@ namespace MPfm.Sound.PeakFiles
                     AudioFilePath = audioFilePath,
                     Cancelled = !processSuccessful
                 });
-            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
+            }, _cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
         }
 
         /// <summary>
@@ -346,8 +325,8 @@ namespace MPfm.Sound.PeakFiles
         public void Cancel()
         {
             if (IsLoading)
-                if(cancellationTokenSource != null)
-                    cancellationTokenSource.Cancel();
+                if(_cancellationTokenSource != null)
+                    _cancellationTokenSource.Cancel();
         }
 
         /// <summary>
@@ -366,18 +345,13 @@ namespace MPfm.Sound.PeakFiles
             long audioFileLength = 0;
             int chunkSize = 0;
             int numberOfBlocks = 0;
-         
             int currentBlock = 0;
 
             try
             {
                 // Create file stream
                 fileStream = new FileStream(peakFilePath, FileMode.Open, FileAccess.Read);
-
-                // Open binary reader
                 binaryReader = new BinaryReader(fileStream);
-
-                // Create GZip stream
                 gzipStream = new GZipStream(fileStream, CompressionMode.Decompress);
 
                 // Read file header (30 characters) 
@@ -386,22 +360,17 @@ namespace MPfm.Sound.PeakFiles
 
                 // Extract version and validate
                 string version = fileHeader.Substring(fileHeader.Length - 5, 4);
-                if (version != this.version)
-                {
-                    throw new PeakFileFormatIncompatibleException("Error: The peak file format is not compatible. Expecting version " + this.version + " instead of version " + version + ".", null);
-                }
+                if (version != _version)
+                    throw new PeakFileFormatIncompatibleException("Error: The peak file format is not compatible. Expecting version " + _version + " instead of version " + version + ".", null);
 
                 // Read audio file length
                 audioFileLength = binaryReader.ReadInt64();
-
-                // Read chunk size and number of blocks
                 chunkSize = binaryReader.ReadInt32();
                 numberOfBlocks = binaryReader.ReadInt32();
 
                 // Loop through data
                 while (binaryReader.PeekChar() != -1)
                 {
-                    // Increment block
                     currentBlock++;
 
                     // Read peak information and add to list
@@ -417,9 +386,7 @@ namespace MPfm.Sound.PeakFiles
 
                 // Validate number of blocks read
                 if (currentBlock < numberOfBlocks - 1)
-                {
                     throw new PeakFileCorruptedException("Error: The peak file is corrupted (the number of blocks didn't match)!", null);
-                }
             }
             catch (Exception ex)
             {
@@ -427,7 +394,6 @@ namespace MPfm.Sound.PeakFiles
             }
             finally
             {
-                // Close stream and reader
                 gzipStream.Close();
                 binaryReader.Close();
                 fileStream.Close();
@@ -450,10 +416,7 @@ namespace MPfm.Sound.PeakFiles
             long length = 0;
             foreach (string file in files)
             {
-                // Get file information
                 FileInfo fileInfo = new FileInfo(file);
-
-                // Increment length
                 length += fileInfo.Length;
             }
 
@@ -466,13 +429,9 @@ namespace MPfm.Sound.PeakFiles
         /// <param name="path">Path</param>        
         public static void DeletePeakFiles(string path)
         {
-            // Get list of files
             string[] files = Directory.GetFiles(path, "*.mpfmPeak");
-
-            // Loop through files            
             foreach (string file in files)
             {
-                // Delete file
                 File.Delete(file);
             }
         }
