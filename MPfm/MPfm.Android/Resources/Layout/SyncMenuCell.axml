@@ -14,6 +14,7 @@
     android:id="@+id/syncMenuCell_index"
     android:layout_width="22dp"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
     android:textColor="#333333"
     android:textSize="14dp" />
   <TextView

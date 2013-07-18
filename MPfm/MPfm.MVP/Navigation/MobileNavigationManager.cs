@@ -688,27 +688,31 @@ namespace MPfm.MVP.Navigation
             CreateSyncDownloadViewInternal(onViewReady);
         }
 
-        public virtual IAboutView CreateAboutView()
+        protected virtual void CreateAboutViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            if (_aboutView == null)
+                _aboutView = Bootstrapper.GetContainer().Resolve<IAboutView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _aboutView);
+#endif
+        }
+
+        public virtual void CreateAboutView()
+        {
             Action<IBaseView> onViewReady = (view) =>
             {
-                _aboutPresenter = Bootstrapper.GetContainer().Resolve<IAboutPresenter>();
-                _aboutPresenter.BindView((IAboutView)view);
-            };
-            
-            // Re-use the same instance as before
-            if(_aboutView == null)
-            {
-                // Create view and manage view destruction
-                _aboutView = Bootstrapper.GetContainer().Resolve<IAboutView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _aboutView.OnViewDestroy = (view) =>
+                _aboutView = (IAboutView)view;
+                _aboutView.OnViewDestroy = (view2) =>
                 {
                     _aboutView = null;
                     _aboutPresenter = null;
                 };
-            }
-            return _aboutView;
+                _aboutPresenter = Bootstrapper.GetContainer().Resolve<IAboutPresenter>();
+                _aboutPresenter.BindView((IAboutView)view);
+            };
+
+            CreateAboutViewInternal(onViewReady);
         }
 
         public virtual IPlaylistView CreatePlaylistView()

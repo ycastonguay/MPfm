@@ -32,6 +32,7 @@ namespace MPfm.Android.Classes.Navigation
     public sealed class AndroidNavigationManager : MobileNavigationManager
     {
         private readonly ITinyMessengerHub _messageHub;
+        private Action<IBaseView> _onAboutViewReady;
         private Action<IBaseView> _onPlayerViewReady;
         private Action<IBaseView> _onPreferencesViewReady;
         private Action<IBaseView> _onEqualizerPresetsViewReady;
@@ -118,6 +119,13 @@ namespace MPfm.Android.Classes.Navigation
             sourceActivity.StartActivity(intent);
         }
 
+        protected override void CreateAboutViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onAboutViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(AboutActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         protected override void CreatePlayerViewInternal(MobileNavigationTabType tabType, Action<IBaseView> onViewReady)
         {
             // Why is this method necessary on Android? No way to get the activity instance when starting a new activity.
@@ -182,6 +190,12 @@ namespace MPfm.Android.Classes.Navigation
             _onSyncDownloadViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncDownloadActivity));
             MainActivity.StartActivity(intent);
+        }
+
+        public void SetAboutActivityInstance(AboutActivity activity)
+        {
+            if (_onAboutViewReady != null)
+                _onAboutViewReady(activity);
         }
 
         public void SetPlayerActivityInstance(PlayerActivity activity)

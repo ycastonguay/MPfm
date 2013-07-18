@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/sync_mainLayout"
-  android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
+  android:orientation="vertical"
   android:background="@color/background">
   <TextView
     android:id="@+id/sync_lblIPAddress"
-    android:text="My IP address is:"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="#FFFFFF"    
-    android:padding="6dip" />
+    android:padding="6dp"
+    android:text="My IP address is:"
+    android:textColor="#CCCCCC" />
   <LinearLayout
-    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:orientation="horizontal"
     android:gravity="center_vertical">
     <ProgressBar
       android:id="@+id/sync_progressBar"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"      
+      style="@android:style/Widget.ProgressBar.Small"
       android:indeterminate="true" />
     <TextView
       android:id="@+id/sync_lblStatus"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"     
       android:layout_marginLeft="8dp"      
-      android:padding="6dip"            
       android:text="Refreshing devices..."
       android:textColor="#FFFFFF" />
   </LinearLayout>
@@ -45,7 +46,9 @@
     android:id="@+id/sync_btnConnectManually"    
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@color/button_background"
     android:text="Connect manually to device"
-    android:textColor="#FFFFFF"
-    android:textSize="16dp" />
+    android:textColor="@color/button_textcolor"
+    android:textSize="14dp" />
 </LinearLayout>

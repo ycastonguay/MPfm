@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\AboutActivity.cs" />
     <Compile Include="Classes\Activities\SyncDownloadActivity.cs" />
     <Compile Include="Classes\Activities\SyncWebBrowserActivity.cs" />
     <Compile Include="Classes\Activities\SyncMenuActivity.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
+    <Compile Include="Classes\Clients\MyWebViewClient.cs" />
     <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
     <Compile Include="Classes\Controls\OutputMeterView.cs" />
     <Compile Include="Classes\Controls\WaveFormView.cs" />
@@ -196,6 +198,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\SyncMenuCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\About.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -323,6 +328,14 @@
     <AndroidResource Include="Resources\drawable-hdpi\icon_phone.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon_tablet.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon_windows.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_download.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_download.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_download.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_download.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

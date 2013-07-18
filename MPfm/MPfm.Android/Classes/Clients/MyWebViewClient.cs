@@ -1,4 +1,4 @@
-// Copyright Â© 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,25 +15,27 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
+using System;
+using Android.Webkit;
 
-namespace MPfm.MVP.Presenters
+namespace MPfm.Android.Classes.Clients
 {
-	/// <summary>
-    /// About preferences presenter.
-	/// </summary>
-    public class AboutPresenter : BasePresenter<IAboutView>, IAboutPresenter
-	{
-        public AboutPresenter()
-		{	
-		}
+    public class MyWebViewClient : WebViewClient
+    {
+        public delegate void PageFinishedHandler(object sender, EventArgs e);
 
-        public override void BindView(IAboutView view)
+        public event PageFinishedHandler PageFinished;
+
+        protected virtual void OnPageFinishedEvent(EventArgs e)
         {
-            base.BindView(view);
-            string html = "Extract from file";
-            view.RefreshHTML(html);
-        }     
-	}
+            if (PageFinished != null)
+                PageFinished(this, e);
+        }
+
+        public override void OnPageFinished(WebView view, string url)
+        {
+            base.OnPageFinished(view, url);
+            OnPageFinishedEvent(new EventArgs());
+        }
+    }
 }

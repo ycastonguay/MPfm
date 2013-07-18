@@ -75,6 +75,7 @@ namespace MPfm.Android.Classes
             container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
             container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
             container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            container.Register<IAboutView, AboutActivity>().AsMultiInstance();
 
             // Set player plugin directory path
             ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);

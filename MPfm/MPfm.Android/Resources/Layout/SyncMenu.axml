@@ -8,7 +8,7 @@
   <LinearLayout
     android:id="@+id/syncMenu_loadingLayout"    
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="wrap_content"    
     android:orientation="horizontal"
     android:gravity="center">
     <ProgressBar
@@ -30,6 +30,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     android:visibility="gone">
     <ListView
       android:id="@+id/syncMenu_listView"
@@ -45,34 +46,40 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
+      android:background="@color/background"
       android:gravity="center_vertical">
       <LinearLayout      
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginLeft="6dp"
         android:orientation="vertical"
         android:gravity="center_vertical">
         <TextView
           android:id="@+id/syncMenu_lblTotal"
-          android:text="Total: 0 files (0.0 MB)"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:textColor="#FFFFFF"
-          android:padding="6dip" />
+          android:text="Total: 0 files (0.0 MB)"
+          android:textSize="16dp"
+          android:textColor="#CCCCCC" />
         <TextView
           android:id="@+id/syncMenu_lblFreeSpace"
-          android:text="Free space: 0 MB"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:textColor="#FFFFFF"
-          android:padding="6dip" />
+          android:text="Free space: 0 MB"
+          android:textSize="14dp"
+          android:textColor="#FFFFFF" />
       </LinearLayout>
       <Button
         android:id="@+id/syncMenu_btnSelectAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="6dp"
+        android:background="@color/button_background"
         android:text="Select all"
-        android:textColor="#FFFFFF" />
+        android:textSize="14dp"
+        android:textColor="@color/button_textcolor" />
     </LinearLayout>
   </LinearLayout>
 </LinearLayout>

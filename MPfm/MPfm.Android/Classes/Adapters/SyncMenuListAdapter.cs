@@ -86,12 +86,14 @@ namespace MPfm.Android.Classes.Adapters
                     title.SetTextSize(ComplexUnitType.Sp, 16);
                     index.Visibility = ViewStates.Gone;                                   
                     image.SetImageResource(Resource.Drawable.icon_artist);
+                    image.Visibility = ViewStates.Visible;
                     break;
                 case SyncMenuItemEntityType.Album:                    
                     title.Text = item.AlbumTitle;
                     title.SetTextSize(ComplexUnitType.Sp, 14);
                     index.Visibility = ViewStates.Gone;
                     image.SetImageResource(Resource.Drawable.icon_vinyl);
+                    image.Visibility = ViewStates.Visible;
                     break;
                 case SyncMenuItemEntityType.Song:
                     title.Text = item.Song.Title;
@@ -99,6 +101,7 @@ namespace MPfm.Android.Classes.Adapters
                     index.Visibility = ViewStates.Visible;
                     index.Text = item.Song.TrackNumber.ToString();
                     image.SetImageResource(0);
+                    image.Visibility = ViewStates.Gone;
                     break;
             }
 

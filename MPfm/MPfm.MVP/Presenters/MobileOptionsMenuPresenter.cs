@@ -71,8 +71,7 @@ namespace MPfm.MVP.Presenters
             {
                 case MobileOptionsMenuType.About:
                 {
-                    var view = _navigationManager.CreateAboutView();
-                    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                    _navigationManager.CreateAboutView();
                     break;
                 }
                 case MobileOptionsMenuType.UpdateLibrary:
