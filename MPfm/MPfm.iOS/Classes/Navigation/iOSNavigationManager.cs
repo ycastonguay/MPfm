@@ -24,6 +24,7 @@ using TinyMessenger;
 using MPfm.iOS.Classes.Controllers;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
+using MPfm.Library.Objects;
 
 namespace MPfm.iOS.Classes.Navigation
 {
@@ -73,11 +74,21 @@ namespace MPfm.iOS.Classes.Navigation
 		{
             AppDelegate.AddTab(type, title, (UIViewController)view);
 		}
+
+        public override void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
+        {
+            AppDelegate.AddTab(type, title, (UIViewController)view);
+        }
 		
 		public override void PushTabView(MobileNavigationTabType type, IBaseView view)
 		{
 			AppDelegate.PushTabView(type, (UIViewController)view);
 		}
+
+        public override void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
+        {
+            AppDelegate.PushTabView(type, (UIViewController)view);
+        }
 
         public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
         {

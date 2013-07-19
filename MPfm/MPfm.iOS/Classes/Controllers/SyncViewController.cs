@@ -50,8 +50,6 @@ namespace MPfm.iOS
             btnConnectDeviceManually.BackgroundColor = GlobalTheme.SecondaryColor;
             btnConnectDeviceManually.Layer.CornerRadius = 8;
 
-            activityIndicator.StartAnimating();
-
             base.ViewDidLoad();
         }
 
@@ -61,6 +59,16 @@ namespace MPfm.iOS
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Sync Library", "Connect to a device");
+
+            OnStartDiscovery();
+            activityIndicator.StartAnimating();
+        }
+
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+
+            OnCancelDiscovery();
         }
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -97,6 +105,7 @@ namespace MPfm.iOS
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             tableView.DeselectRow(indexPath, true);
+            OnCancelDiscovery();
             OnConnectDevice(_devices[indexPath.Row].Url);
         }
 
@@ -108,6 +117,8 @@ namespace MPfm.iOS
 
         #region ISyncView implementation
 
+        public Action OnStartDiscovery { get; set; }
+        public Action OnCancelDiscovery { get; set; }
         public Action<string> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
 
@@ -145,9 +156,9 @@ namespace MPfm.iOS
         {
             InvokeOnMainThread(() => {
                 activityIndicator.StopAnimating();
-                UIView.Animate(0.25, () => {
-                    viewRefresh.Alpha = 0;
-                });
+//                UIView.Animate(0.25, () => {
+//                    viewRefresh.Alpha = 0;
+//                });
             });
         }
 

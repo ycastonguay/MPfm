@@ -74,15 +74,6 @@ namespace MPfm.iOS
             btnSyncView.AddSubview(btnSync);
             _btnSync = new UIBarButtonItem(btnSyncView);
 
-//            var btnSync = new UIButton(UIButtonType.Custom);
-//            btnSync.SetTitle("Sync", UIControlState.Normal);
-//            btnSync.Layer.CornerRadius = 8;
-//            btnSync.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
-//            btnSync.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
-//            btnSync.Frame = new RectangleF(0, 12, 60, 30);
-//            btnSync.TouchUpInside += HandleButtonSyncTouchUpInside;
-//            _btnSync = new UIBarButtonItem(btnSync);
-
             NavigationItem.SetRightBarButtonItem(_btnSync, true);
 
             viewLoading.Hidden = false;
@@ -90,7 +81,7 @@ namespace MPfm.iOS
             tableView.Hidden = true;
 
             base.ViewDidLoad();
-        }
+        }       
 
         public override void ViewWillAppear(bool animated)
         {
@@ -250,10 +241,12 @@ namespace MPfm.iOS
 
         public void RefreshLoading(bool isLoading, int progressPercentage)
         {
+            //Console.WriteLine("SyncMenuViewController - isLoading: {0} progressPercentage: {1}", isLoading, progressPercentage);
             InvokeOnMainThread(() => {
                 tableView.Hidden = isLoading;
                 viewLoading.Hidden = !isLoading;
                 viewSync.Hidden = isLoading;
+
                 if(isLoading)
                     NavigationItem.SetRightBarButtonItem(null, true);
                 else

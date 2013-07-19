@@ -35,6 +35,10 @@ namespace MPfm.iOS.Classes.Controllers.Base
 
         public Action<IBaseView> OnViewDestroy { get; set; }
 
+        public bool ConfirmBackButton = false;
+        public string ConfirmBackButtonTitle = string.Empty;
+        public string ConfirmBackButtonMessage = string.Empty;
+
         #endregion
 
         protected Action<IBaseView> OnViewReady { get; set; }
@@ -43,6 +47,10 @@ namespace MPfm.iOS.Classes.Controllers.Base
             : base(nibName, bundle)
         {
             OnViewReady = onViewReady;
+        }
+
+        public virtual void ConfirmedBackButton()
+        {
         }
 
         public override void DidReceiveMemoryWarning()

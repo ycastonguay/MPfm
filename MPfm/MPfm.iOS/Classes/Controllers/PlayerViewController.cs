@@ -199,10 +199,10 @@ namespace MPfm.iOS.Classes.Controllers
             attr.TextShadowColor = UIColor.DarkGray;
             attr.TextShadowOffset = new UIOffset(0, 0);
             
-            // Set back button for navigation bar
-            _btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
-            _btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
-            this.NavigationItem.BackBarButtonItem = _btnBack;
+//            // Set back button for navigation bar
+//            _btnBack = new UIBarButtonItem("Back", UIBarButtonItemStyle.Plain, null, null);
+//            _btnBack.SetTitleTextAttributes(attr, UIControlState.Normal);
+//            this.NavigationItem.BackBarButtonItem = _btnBack;
 
             // Reset temporary text
             lblLength.Text = string.Empty;

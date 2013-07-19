@@ -44,5 +44,13 @@ namespace MPfm.iOS
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("About Sessions", "");
         }
+
+        #region IAboutView implementation
+
+        public void RefreshHTML(string html)
+        {
+        }
+
+        #endregion
     }
 }

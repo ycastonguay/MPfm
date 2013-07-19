@@ -37,6 +37,9 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
+            ConfirmBackButton = true;
+            ConfirmBackButtonTitle = "Sync download will be canceled";
+            ConfirmBackButtonMessage = "Are you sure you wish to exit this screen and cancel the download?";
 
             // TODO: Detect back button press when the process is currently running. Ask the user if he wants to cancel the operation.
             Console.WriteLine("SyncDownloadViewController - ViewDidLoad");
@@ -54,8 +57,15 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Sync Library", "Downloading audio files");
         }
 
+        public override void ConfirmedBackButton()
+        {
+            Console.WriteLine("SyncDownloadViewController - ConfirmedBackButton");
+            OnCancelDownload();
+        }
+
         #region ISyncDownloadView implementation
 
+        public Action OnCancelDownload { get; set; }
         public Action OnButtonPressed { get; set; }
 
         public void SyncDownloadError(Exception ex)
@@ -89,7 +99,7 @@ namespace MPfm.iOS
                 var alertView = new UIAlertView("Sync", "Sync completed successfully.", null, "OK", null);
                 alertView.Clicked += (sender, e) => { 
                     Console.WriteLine("SyncDownloadViewController - Sync completed; dismissing views");
-                    NavigationController.PopToRootViewController(true);
+                    NavigationController.PopViewControllerAnimated(true);
                 };
                 alertView.Show();
             });

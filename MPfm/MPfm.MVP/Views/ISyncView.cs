@@ -29,6 +29,7 @@ namespace MPfm.MVP.Views
 	{
         Action<string> OnConnectDevice { get; set; }
         Action<string> OnConnectDeviceManually { get; set; }
+        Action OnStartDiscovery { get; set; }
         Action OnCancelDiscovery { get; set; }
 
         void SyncError(Exception ex);

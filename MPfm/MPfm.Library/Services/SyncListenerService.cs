@@ -565,20 +565,20 @@ namespace MPfm.Library.Services
             string address = "Not Connected";
             try
             {
-                Console.WriteLine("GetIPAddress - Detecting IP address...");
+                //Console.WriteLine("GetIPAddress - Detecting IP address...");
                 foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
                 {
-                    Console.WriteLine("GetIPAddress - NetworkInterface: {0} {1}", ni.Name, ni.NetworkInterfaceType.ToString());
+                    //Console.WriteLine("GetIPAddress - NetworkInterface: {0} {1}", ni.Name, ni.NetworkInterfaceType.ToString());
                     if(ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
                        ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
                     {
                         IPAddress ip = null;
                         foreach (var a in ni.GetIPProperties().UnicastAddresses)
                         {
-                            Console.WriteLine("GetIPAddress - Address: {0} {1}", a.Address, a.Address.AddressFamily.ToString());
+                            //Console.WriteLine("GetIPAddress - Address: {0} {1}", a.Address, a.Address.AddressFamily.ToString());
                             if(a.Address.AddressFamily == AddressFamily.InterNetwork)
                             {
-                                Console.WriteLine("GetIPAddress - Address **FOUND**: {0} {1}", a.Address, a.Address.AddressFamily.ToString());
+                                //Console.WriteLine("GetIPAddress - Address **FOUND**: {0} {1}", a.Address, a.Address.AddressFamily.ToString());
                                 ip = a.Address;
                                 break;
                             }

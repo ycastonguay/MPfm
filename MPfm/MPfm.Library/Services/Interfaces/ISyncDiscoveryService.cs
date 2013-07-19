@@ -29,6 +29,8 @@ namespace MPfm.Library.Services.Interfaces
         event SyncDiscoveryService.DiscoveryProgress OnDiscoveryProgress;
         event SyncDiscoveryService.DiscoveryEnded OnDiscoveryEnded;
 
+        bool IsRunning { get; }
+
         void SearchForDevices(List<string> ips);
         void SearchForDevices(string baseIP);
         void Cancel();

@@ -53,6 +53,7 @@ namespace MPfm.MVP.Presenters
             view.OnConnectDevice = ConnectDevice;
             view.OnConnectDeviceManually = ConnectDeviceManually;
             view.OnCancelDiscovery = CancelDiscovery;
+            view.OnStartDiscovery = RefreshDevices;
             base.BindView(view);
 
             Initialize();
@@ -104,7 +105,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                //string ip = SyncListenerService.GetLocalIPAddress().ToString();
+                if(_syncDiscoveryService.IsRunning)
+                    return;
+
                 string ip = _deviceSpecifications.GetIPAddress();
                 View.RefreshIPAddress(String.Format("My IP address is {0}", ip));
 

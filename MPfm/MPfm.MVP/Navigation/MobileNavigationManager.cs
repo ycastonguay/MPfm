@@ -95,7 +95,9 @@ namespace MPfm.MVP.Navigation
 
         public abstract void ShowSplash(ISplashView view);
         public abstract void HideSplash();
+        public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
         public abstract void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
+        public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
         public abstract void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view);
         public abstract void PushDialogSubview(string parentViewTitle, IBaseView view);
@@ -632,10 +634,12 @@ namespace MPfm.MVP.Navigation
             CreateSyncWebBrowserViewInternal(onViewReady);
         }
 
-        protected virtual void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady)
+        protected virtual void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, string url)
         {
             if (_syncMenuView == null)
                 _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            else
+                _syncMenuPresenter.SetUrl(url);
             
 #if !ANDROID
             PushTabView(MobileNavigationTabType.More, _syncMenuView);
@@ -657,13 +661,15 @@ namespace MPfm.MVP.Navigation
                 _syncMenuPresenter.SetUrl(url);
             };
 
-            CreateSyncMenuViewInternal(onViewReady);
+            CreateSyncMenuViewInternal(onViewReady, url);
         }
 
-        protected virtual void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady)
+        protected virtual void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, string url, IEnumerable<AudioFile> audioFiles)
         {
             if (_syncDownloadView == null)
                 _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            else
+                _syncDownloadPresenter.StartSync(url, audioFiles);
 
 #if !ANDROID
             PushTabView(MobileNavigationTabType.More, _syncDownloadView);
@@ -685,7 +691,7 @@ namespace MPfm.MVP.Navigation
                 _syncDownloadPresenter.StartSync(url, audioFiles);
             };
 
-            CreateSyncDownloadViewInternal(onViewReady);
+            CreateSyncDownloadViewInternal(onViewReady, url, audioFiles);
         }
 
         protected virtual void CreateAboutViewInternal(Action<IBaseView> onViewReady)

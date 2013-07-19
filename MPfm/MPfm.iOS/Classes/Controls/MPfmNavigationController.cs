@@ -30,6 +30,7 @@ using MPfm.iOS.Classes.Controllers;
 using MonoTouch.CoreAnimation;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using MPfm.iOS.Classes.Controllers.Base;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -39,6 +40,7 @@ namespace MPfm.iOS.Classes.Controls
         bool _isPlayerPlaying;
         bool _viewShouldShowPlayerButton;
         bool _viewShouldShowEffectsButton;
+        bool _confirmedViewPop;
         UILabel _lblTitle;
         UILabel _lblSubtitle;
         MPfmFlatButton _btnBack;
@@ -94,6 +96,29 @@ namespace MPfm.iOS.Classes.Controls
             _btnBack.Alpha = 0;
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
             _btnBack.OnButtonClick += () =>  {
+
+                var viewController = (BaseViewController)VisibleViewController;
+                if (viewController.ConfirmBackButton && !_confirmedViewPop)
+                {
+                    var alertView = new UIAlertView(viewController.ConfirmBackButtonTitle, viewController.ConfirmBackButtonMessage, null, "OK", new string[1] { "Cancel" });
+                    alertView.Clicked += (object sender, UIButtonEventArgs e) => {
+                        Console.WriteLine(">>>>>>>> AlertView button index: {0}", e.ButtonIndex);
+                        switch(e.ButtonIndex)
+                        {
+                            case 0:
+                                viewController.ConfirmedBackButton();
+                                _confirmedViewPop = true;
+                                PopViewControllerAnimated(true);
+                                break;
+                                default:
+                                break;
+                        }
+                    };
+                    alertView.Show();
+                    return;
+                }
+
+                _confirmedViewPop = false;
                 if(ViewControllers.Length > 1)
                     PopViewControllerAnimated(true);
             };

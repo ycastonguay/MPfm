@@ -20,6 +20,7 @@ using MonoTouch.Foundation;
 using MPfm.Library;
 using MPfm.Library.Objects;
 using MonoTouch.UIKit;
+using MPfm.Library.Services;
 
 namespace MPfm.iOS.Helpers
 {
@@ -53,6 +54,16 @@ namespace MPfm.iOS.Helpers
                 freeSpace = (long)attributes.FreeSize;
             });
             return freeSpace;
+        }
+
+        public string GetIPAddress()
+        {
+             return SyncListenerService.GetLocalIPAddress().ToString();
+        }
+
+        public string GetMusicFolderPath()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
     }
 }

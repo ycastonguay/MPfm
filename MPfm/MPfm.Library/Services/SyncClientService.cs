@@ -256,20 +256,20 @@ namespace MPfm.Library.Services
         {
             var url = new Uri(new Uri(_baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
             string fileName = Path.GetFileName(audioFile.FilePath);
-            //string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string folderPath = _deviceSpecifications.GetMusicFolderPath();
 
             // Add artist name to the path (create folder if necessary)
-            folderPath += Path.Combine(folderPath, audioFile.ArtistName);
+            folderPath = Path.Combine(folderPath, audioFile.ArtistName);
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
 
             // Add album title to the path (create folder if necessary)
-            folderPath += Path.Combine(folderPath, audioFile.AlbumTitle);
+            folderPath = Path.Combine(folderPath, audioFile.AlbumTitle);
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
 
             string localFilePath = Path.Combine(folderPath, fileName);
+            Console.WriteLine("SyncClientService - DownloadAudioFile - folderPath: {0} fileName: {1} localFilePath: {2}", folderPath, fileName, localFilePath);
             _lastBytesReceived = 0;
 
             if (OnDownloadAudioFileStarted != null)
