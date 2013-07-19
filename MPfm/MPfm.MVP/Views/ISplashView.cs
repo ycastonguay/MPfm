@@ -22,9 +22,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface ISplashView : IBaseView
 	{
-        //Action OnViewReady { get; set; }           
-        
         void RefreshStatus(string message);
-        void InitDone();
+        void InitDone(bool isAppFirstStart);
 	}
 }

@@ -40,12 +40,17 @@ namespace MPfm.MVP.Presenters
 
         public void Initialize(Action onInitDone)
         {
+            if (_playerService.IsInitialized)
+            {
+                onInitDone.Invoke();
+                return;
+            }
+
             TaskScheduler taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 #if LINUX
             // Mono on Linux crashes for some reason if FromCurrentSynchronizationContext is used... weird!            
             taskScheduler = TaskScheduler.Default;
 #endif
-
             Task.Factory.StartNew(() =>
             {
                 View.RefreshStatus("Loading...");
@@ -58,7 +63,7 @@ namespace MPfm.MVP.Presenters
                     Id = -1
                 };
                 _playerService.Initialize(device, 44100, 1000, 100);
-                    View.InitDone();
+                    View.InitDone(true);
                     onInitDone.Invoke();
                 View.RefreshStatus("Opening app...");
             }, taskScheduler);

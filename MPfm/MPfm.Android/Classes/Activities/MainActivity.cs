@@ -297,7 +297,9 @@ namespace MPfm.Android
         public void HideSplash()
         {
             //Console.WriteLine("MainActivity - HideSplash");
-            _splashFragment.Dialog.Dismiss();
+
+            if(_splashFragment.Dialog != null)
+                _splashFragment.Dialog.Dismiss();
         }
 
         #region IMobileOptionsMenuView implementation

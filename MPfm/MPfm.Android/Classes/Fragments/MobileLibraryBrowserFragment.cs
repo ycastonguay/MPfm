@@ -213,16 +213,18 @@ namespace MPfm.Android.Classes.Fragments
                         _listView.Visibility = ViewStates.Visible;
                         _gridView.Visibility = ViewStates.Gone;
 
-                        var audioFile = _entities[0].AudioFile;
-                        _lblArtistName.Text = audioFile.ArtistName;
-                        _lblAlbumTitle.Text = audioFile.AlbumTitle;
-                        _lblAlbumSongCount.Text = _entities.Count.ToString() + " songs";
-
-                        Task.Factory.StartNew(() =>
+                        if (_entities.Count > 0)
                         {
-                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                            _bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageAlbum);
-                        });
+                            var audioFile = _entities[0].AudioFile;
+                            _lblArtistName.Text = audioFile.ArtistName;
+                            _lblAlbumTitle.Text = audioFile.AlbumTitle;
+                            _lblAlbumSongCount.Text = _entities.Count.ToString() + " songs";
+
+                            Task.Factory.StartNew(() => {
+                                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                                _bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageAlbum);
+                            });
+                        }
                         break;
                     case MobileLibraryBrowserType.Playlists:
                         _layoutAlbum.Visibility = ViewStates.Gone;

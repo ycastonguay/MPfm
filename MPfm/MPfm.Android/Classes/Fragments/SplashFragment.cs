@@ -70,9 +70,8 @@ namespace MPfm.Android.Classes.Fragments
             });
         }
 
-        public void InitDone()
+        public void InitDone(bool isFirstAppStart)
         {
-            //this.Dismiss();
         }
 
         #endregion

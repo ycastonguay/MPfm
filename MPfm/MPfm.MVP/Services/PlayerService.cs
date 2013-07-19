@@ -39,6 +39,7 @@ namespace MPfm.MVP.Services
         private IPlayer _player;
         private PlayerStatusType _status;
 
+        public bool IsInitialized { get; private set; }
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
         public bool IsPlaying { get { return _player.IsPlaying; } }
         public bool IsPaused { get { return _player.IsPaused; } }
@@ -69,6 +70,7 @@ namespace MPfm.MVP.Services
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
             _player.OnBPMDetected += HandleOnBPMDetected;
             _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
+            IsInitialized = true;
         }
 
         void HandleOnBPMDetected(float bpm)
