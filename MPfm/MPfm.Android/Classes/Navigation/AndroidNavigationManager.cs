@@ -16,15 +16,15 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Content;
-using Android.OS;
 using MPfm.Android.Classes.Fragments;
-using MPfm.MVP.Bootstrap;
+using MPfm.Library.Objects;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using TinyIoC;
 using TinyMessenger;
 
 namespace MPfm.Android.Classes.Navigation
@@ -42,11 +42,13 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onSyncWebBrowserViewReady;
         private Action<IBaseView> _onMarkerDetailsViewReady;
         private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
+        private List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>> _tabHistory;
 
         public MainActivity MainActivity { get; set; }
 
         public AndroidNavigationManager(ITinyMessengerHub messageHub)
         {
+            _tabHistory = new List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>>();
             _messageHub = messageHub;
             _messageHub.Subscribe<MobileNavigationManagerCommandMessage>((m) => {
                 switch (m.CommandType)
@@ -62,6 +64,24 @@ namespace MPfm.Android.Classes.Navigation
             });
         }
 
+        public bool CanRemoveMobileLibraryBrowserFragmentFromBackstack(MobileNavigationTabType tabType)
+        {
+            var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+            if (tab != null)
+                return tab.Item2.Count > 1;
+            return false;
+        }
+
+        public void RecreateMobileLibraryBrowserFragment(MobileNavigationTabType tabType)
+        {
+            var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+            var tabItem = tab.Item2.Last();
+            tab.Item2.Remove(tabItem);
+            tabItem = tab.Item2.Last();
+            var view = CreateMobileLibraryBrowserView(tabType, tabItem.Item1, tabItem.Item2);
+            MainActivity.PushTabView(tabType, (Fragment) view);
+        }
+
         public override void ShowSplash(ISplashView view)
         {
             MainActivity.ShowSplash((SplashFragment) view);
@@ -72,14 +92,19 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.HideSplash();
         }
 
-        public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
+        public override void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
         {
+            _tabHistory.Add(new Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>(type, new List<Tuple<MobileLibraryBrowserType, LibraryQuery>>() {
+               new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query)
+            }));
             MainActivity.AddTab(type, title, (Fragment) view);
         }
 
-        public override void PushTabView(MobileNavigationTabType type, IBaseView view)
+        public override void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
         {
-            MainActivity.PushTabView(type, (Fragment) view);
+            var tab = _tabHistory.FirstOrDefault(x => x.Item1 == type);
+            tab.Item2.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
+            MainActivity.PushTabView(type, (Fragment)view);
         }
 
         public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)

@@ -95,8 +95,8 @@ namespace MPfm.MVP.Navigation
 
         public abstract void ShowSplash(ISplashView view);
         public abstract void HideSplash();
-        public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
-        public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
+        public abstract void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
+        public abstract void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
         public abstract void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view);
         public abstract void PushDialogSubview(string parentViewTitle, IBaseView view);
         public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
@@ -110,10 +110,10 @@ namespace MPfm.MVP.Navigation
                 var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
                 var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
                 var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
-                AddTab(MobileNavigationTabType.Playlists, "Sessions", playlistsView);
-                AddTab(MobileNavigationTabType.Artists, "Artists", artistsView);
-                AddTab(MobileNavigationTabType.Albums, "Albums", albumsView);
-                AddTab(MobileNavigationTabType.Songs, "Songs", songsView);
+                AddTab(MobileNavigationTabType.Playlists, "Sessions", MobileLibraryBrowserType.Playlists, new LibraryQuery(), playlistsView);
+                AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
+                AddTab(MobileNavigationTabType.Albums, "Albums", MobileLibraryBrowserType.Albums, new LibraryQuery(), albumsView);
+                AddTab(MobileNavigationTabType.Songs, "Songs", MobileLibraryBrowserType.Songs, new LibraryQuery(), songsView);
 
                 // iOS has one more tab, the More tab (Options Menu equivalent on Android).
 #if IOS
@@ -379,7 +379,7 @@ namespace MPfm.MVP.Navigation
             else
             {
                 onViewBindedToPresenter(_playerView);
-                PushTabView(tabType, _playerView);
+                PushTabView(tabType, MobileLibraryBrowserType.Artists, new LibraryQuery(), _playerView);
             }
         }
 

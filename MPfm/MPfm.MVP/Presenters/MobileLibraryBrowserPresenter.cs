@@ -186,7 +186,7 @@ namespace MPfm.MVP.Presenters
                 {
                     var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
                     var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, _items[index].Query);
-                    _navigationManager.PushTabView(_tabType, newView);
+                    _navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
                     return;
                 }
 

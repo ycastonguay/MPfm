@@ -61,16 +61,13 @@ namespace MPfm.Android
             Console.WriteLine("MainActivity - OnCreate");
             base.OnCreate(bundle);
 
-            //string externalDir = global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
-            //string internalDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
 
             // Setup view pager
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
             _viewPager.OffscreenPageLimit = 4;
-            _tabPagerAdapter = new MainTabStatePagerAdapter(FragmentManager, _viewPager, ActionBar);
+            _tabPagerAdapter = new MainTabStatePagerAdapter(FragmentManager, _viewPager);
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
@@ -138,19 +135,13 @@ namespace MPfm.Android
         {
             base.OnSaveInstanceState(outState);
 
-            //Console.WriteLine("MainActivity - OnSaveInstanceState - Saving state...");
+            Console.WriteLine("MainActivity - OnSaveInstanceState - Saving state...");
             outState.PutBoolean("applicationStarted", true);
         }
 
-        //public override void OnConfigurationChanged(global::Android.Content.Res.Configuration newConfig)
-        //{
-        //    Console.WriteLine("MainActivity - OnConfigurationChanged - newConfig: {0}", newConfig.Orientation.ToString());
-        //    base.OnConfigurationChanged(newConfig);
-        //}
-
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
-            //Console.WriteLine("MainActivity - OnCreate - Adding tab {0}", title);
+            //Console.WriteLine("MainActivity - Adding tab {0}", title);
             _tabPagerAdapter.SetFragment(type, fragment);
             _tabPagerAdapter.NotifyDataSetChanged();
         }
@@ -227,14 +218,14 @@ namespace MPfm.Android
         public override void OnBackPressed()
         {
             // Check if the history has another tab
-            if (_tabPagerAdapter.CanRemoveFragmentFromStack(_tabPagerAdapter.GetCurrentTab(), _viewPager.CurrentItem))
+            if (_navigationManager.CanRemoveMobileLibraryBrowserFragmentFromBackstack(_tabPagerAdapter.GetCurrentTab()))
             {
-                //Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
-                _tabPagerAdapter.RemoveFragmentFromStack(_tabPagerAdapter.GetCurrentTab(), _viewPager.CurrentItem);
+                Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
+                _navigationManager.RecreateMobileLibraryBrowserFragment(_tabPagerAdapter.GetCurrentTab());
             }
             else
             {
-                //Console.WriteLine("MainActivity - OnBackPressed - CannotRemoveFragment");
+                Console.WriteLine("MainActivity - OnBackPressed - CannotRemoveFragment");
                 base.OnBackPressed();
             }
         }

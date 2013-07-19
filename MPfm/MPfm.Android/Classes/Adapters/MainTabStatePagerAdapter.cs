@@ -28,60 +28,36 @@ namespace MPfm.Android.Classes.Adapters
 {
     public class MainTabStatePagerAdapter : FragmentStatePagerAdapter, ActionBar.ITabListener, ViewPager.IOnPageChangeListener
     {
-        private readonly List<Tuple<MobileNavigationTabType, List<Fragment>>> _fragments;
-        private readonly ViewPager _viewPager;
-        private readonly ActionBar _actionBar;
+        readonly List<Tuple<MobileNavigationTabType, Fragment>> _fragments;
+        readonly ViewPager _viewPager;
 
         public MainTabStatePagerAdapter(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
         {
         }
 
-        public MainTabStatePagerAdapter(FragmentManager fm, ViewPager viewPager, ActionBar actionBar)
+        public MainTabStatePagerAdapter(FragmentManager fm, ViewPager viewPager)
             : base(fm)
         {
-            _fragments = new List<Tuple<MobileNavigationTabType, List<Fragment>>>();
+            _fragments = new List<Tuple<MobileNavigationTabType, Fragment>>();
             _viewPager = viewPager;
-            _actionBar = actionBar;
         }
 
         public void SetFragment(MobileNavigationTabType tabType, Fragment fragment)
         {
-            //Console.WriteLine("MainTabPagerAdapter - SetFragment - tabType: {0}", tabType.ToString());
             int index = _fragments.FindIndex(x => x.Item1 == tabType);
             if (index == -1)
             {
-                // This tab isn't yet in the list; add to list
-                _fragments.Add(new Tuple<MobileNavigationTabType, List<Fragment>>(tabType, new List<Fragment>(){ fragment }));
-                return;
+                _fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(tabType, fragment));
             }
-
-            var fragments = _fragments.FirstOrDefault(x => x.Item1 == tabType);
-            fragments.Item2.Add(fragment);
+            index = _fragments.FindIndex(x => x.Item1 == tabType);
+            _fragments[index] = new Tuple<MobileNavigationTabType, Fragment>(tabType, fragment);
             NotifyDataSetChanged();
         }
 
         public MobileNavigationTabType GetCurrentTab()
         {
             return _fragments[_viewPager.CurrentItem].Item1;
-        }
-
-        public bool CanRemoveFragmentFromStack(MobileNavigationTabType tabType, int index)
-        {
-            var fragmentList = _fragments.FirstOrDefault(x => x.Item1 == tabType);
-            if (fragmentList != null)
-                return fragmentList.Item2.Count > 1;
-
-            return false;
-        }
-
-        public void RemoveFragmentFromStack(MobileNavigationTabType tabType, int index)
-        {
-            var fragmentList = _fragments.FirstOrDefault(x => x.Item1 == tabType);
-            if (fragmentList != null)
-                fragmentList.Item2.RemoveAt(fragmentList.Item2.Count - 1);
-
-            NotifyDataSetChanged();
         }
 
         public void OnTabReselected(ActionBar.Tab tab, FragmentTransaction ft)
@@ -100,16 +76,15 @@ namespace MPfm.Android.Classes.Adapters
 
         public override Fragment GetItem(int index)
         {
-            return _fragments[index].Item2.Last();
+            return _fragments[index].Item2;
         }
 
         public override int GetItemPosition(Java.Lang.Object obj)
         {
-            // If the fragment is different, tell Android to refresh this item            
             bool foundItem = false;
             foreach (var fragmentList in _fragments)
             {
-                bool foundItemInList = fragmentList.Item2.Last() == (Fragment) obj;
+                bool foundItemInList = fragmentList.Item2 == (Fragment)obj;
                 if (foundItemInList)
                 {
                     foundItem = true;
@@ -137,7 +112,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public void OnPageSelected(int position)
         {
-            Console.WriteLine("MainTabPagerAdapter - OnPageSelected position: {0}", position);
+            //Console.WriteLine("MainTabPagerAdapter - OnPageSelected position: {0}", position);
             //_actionBar.SetSelectedNavigationItem(position);
         }
 

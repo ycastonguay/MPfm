@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -38,20 +39,24 @@ namespace MPfm.Android.Classes.Fragments
         private MobileLibraryBrowserGridAdapter _gridAdapter;
         private List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
+        bool _isTest = false;
+
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base(null)
         {
+            Console.WriteLine("MobileLibraryBrowserFragment - Empty ctor");
         }
 
         public MobileLibraryBrowserFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {
+            Console.WriteLine("MobileLibraryBrowserFragment - OnViewReady ctor");
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Console.WriteLine("MLBFragment - OnCreateView");
-
+            Console.WriteLine("MLBFragment - OnCreateView - isTest: {0}", _isTest);
+            _isTest = true;
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
             _listView = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listView);
             _listView.Visibility = ViewStates.Gone;
@@ -87,6 +92,12 @@ namespace MPfm.Android.Classes.Fragments
 
         private void GridViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
+        }
+
+        public override void OnSaveInstanceState(Bundle outState)
+        {
+            Console.WriteLine("MLBFragment - OnSaveInstanceState");
+            base.OnSaveInstanceState(outState);
         }
 
         public override void OnResume()
@@ -125,6 +136,12 @@ namespace MPfm.Android.Classes.Fragments
             base.OnDestroyView();
         }
 
+        public override void OnDetach()
+        {
+            Console.WriteLine("MLBFragment - OnDetach");
+            base.OnDetach();
+        }
+
         #region IMobileLibraryBrowserView implementation
 
         public MobileLibraryBrowserType BrowserType { get; set; }
@@ -135,11 +152,18 @@ namespace MPfm.Android.Classes.Fragments
 
         public void MobileLibraryBrowserError(Exception ex)
         {
+            Activity.RunOnUiThread(() => {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured in MobileLibraryBrowser: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
         }
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
         {
-            //Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0}", entities.Count());
+            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0}", entities.Count());
             Activity.RunOnUiThread(() => {
                 _entities = entities.ToList();
 
