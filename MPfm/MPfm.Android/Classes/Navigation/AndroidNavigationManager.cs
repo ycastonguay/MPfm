@@ -92,12 +92,22 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.HideSplash();
         }
 
+        public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
+        {
+            // Not used on Android
+        }
+
         public override void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
         {
             _tabHistory.Add(new Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>(type, new List<Tuple<MobileLibraryBrowserType, LibraryQuery>>() {
                new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query)
             }));
             MainActivity.AddTab(type, title, (Fragment) view);
+        }
+
+        public override void PushTabView(MobileNavigationTabType type, IBaseView view)
+        {
+            // Not used on Android
         }
 
         public override void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
@@ -196,7 +206,7 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
-        protected override void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady)
+        protected override void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, string url)
         {
             _onSyncMenuViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncMenuActivity));
@@ -210,7 +220,7 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
-        protected override void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady)
+        protected override void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, string url, IEnumerable<Sound.AudioFiles.AudioFile> audioFiles)
         {
             _onSyncDownloadViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncDownloadActivity));
