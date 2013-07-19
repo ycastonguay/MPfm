@@ -34,7 +34,7 @@ using MPfm.Player.Objects;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Sync", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    [Activity(Label = "Sync Library With Other Devices", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class SyncActivity : BaseActivity, ISyncView
     {
         private MobileNavigationManager _navigationManager;
@@ -71,7 +71,7 @@ namespace MPfm.Android
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
             OnCancelDiscovery();
-            OnConnectDevice(_devices[itemClickEventArgs.Position].Url);
+            OnConnectDevice(_devices[itemClickEventArgs.Position]);
         }
 
         protected override void OnStart()
@@ -136,7 +136,7 @@ namespace MPfm.Android
 
         #region ISyncView implementation
 
-        public Action<string> OnConnectDevice { get; set; }
+        public Action<SyncDevice> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
         public Action OnStartDiscovery { get; set; }
         public Action OnCancelDiscovery { get; set; }

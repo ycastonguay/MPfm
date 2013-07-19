@@ -14,10 +14,10 @@
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true">
         <ImageView
-            android:id="@+id/main_miniplayer_imageView"
+            android:id="@+id/main_miniplayer_imageAlbum"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/icon" />
+            android:background="@android:color/transparent" />
         <LinearLayout
             android:id="@+id/main_miniplayer_text"            
             android:layout_width="fill_parent"

@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -36,6 +37,7 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 using TinyMessenger;
 
 namespace MPfm.Android
@@ -53,12 +55,13 @@ namespace MPfm.Android
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
+        private ImageView _imageAlbum;
 
         public BitmapCache BitmapCache { get; private set; }
 
         protected override void OnCreate(Bundle bundle)
         {
-            Console.WriteLine("MainActivity - OnCreate");
+            Console.WriteLine("%%%%%%%%%%%%%%%%%%>>> MainActivity - OnCreate");
             base.OnCreate(bundle);
 
             RequestWindowFeature(WindowFeatures.ActionBar);
@@ -76,6 +79,7 @@ namespace MPfm.Android
             _lblArtistName = FindViewById<TextView>(Resource.Id.main_miniplayer_lblArtistName);
             _lblAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblAlbumTitle);
             _lblSongTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblSongTitle);
+            _imageAlbum = FindViewById<ImageView>(Resource.Id.main_miniplayer_imageAlbum);
             _miniPlayer.Visibility = ViewStates.Gone;
             _miniPlayer.Click += (sender, args) => {
                 Console.WriteLine("MainActivity - Mini player click - Showing player view...");
@@ -98,6 +102,12 @@ namespace MPfm.Android
                         _lblArtistName.Text = message.Data.AudioFileStarted.ArtistName;
                         _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
                         _lblSongTitle.Text = message.Data.AudioFileStarted.Title;
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(message.Data.AudioFileStarted.FilePath);
+                            BitmapCache.LoadBitmapFromByteArray(bytesImage, message.Data.AudioFileStarted.FilePath, _imageAlbum);
+                        });
                     }
                 });                
             });
@@ -135,7 +145,7 @@ namespace MPfm.Android
         {
             base.OnSaveInstanceState(outState);
 
-            Console.WriteLine("MainActivity - OnSaveInstanceState - Saving state...");
+            Console.WriteLine("%%%%%%%%%%%%%%%%%%>>> MainActivity - OnSaveInstanceState - Saving state...");
             outState.PutBoolean("applicationStarted", true);
         }
 
@@ -181,37 +191,37 @@ namespace MPfm.Android
 
         protected override void OnStart()
         {
-            Console.WriteLine("MainActivity - OnStart");
+            Console.WriteLine("%%%%%%%%%%%%>>> MainActivity - OnStart");
             base.OnStart();
         }
 
         protected override void OnRestart()
         {
-            Console.WriteLine("MainActivity - OnRestart");
+            Console.WriteLine("%%%%%%%%%%%%>>> MainActivity - OnRestart");
             base.OnRestart();
         }
 
         protected override void OnPause()
         {
-            Console.WriteLine("MainActivity - OnPause");
+            Console.WriteLine("%%%%%%%%%%%%>>> MainActivity - OnPause");
             base.OnPause();
         }
 
         protected override void OnResume()
         {
-            Console.WriteLine("MainActivity - OnResume");
+            Console.WriteLine("%%%%%%%%%%%%>>> MainActivity - OnResume");
             base.OnResume();
         }
 
         protected override void OnStop()
         {
-            Console.WriteLine("MainActivity - OnStop");
+            Console.WriteLine("%%%%%%%%%%%%>>> MainActivity - OnStop");
             base.OnStop();
         }
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("MainActivity - OnDestroy");
+            Console.WriteLine("%%%%%%%%%%%%>>> MainActivity - OnDestroy");
             base.OnDestroy();
         }
 

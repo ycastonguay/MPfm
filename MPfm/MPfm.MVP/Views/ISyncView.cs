@@ -27,7 +27,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ISyncView : IBaseView
 	{
-        Action<string> OnConnectDevice { get; set; }
+        Action<SyncDevice> OnConnectDevice { get; set; }
         Action<string> OnConnectDeviceManually { get; set; }
         Action OnStartDiscovery { get; set; }
         Action OnCancelDiscovery { get; set; }

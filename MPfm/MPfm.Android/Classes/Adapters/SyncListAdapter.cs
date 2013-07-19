@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using Android.Graphics;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using MPfm.Library.Objects;
 
@@ -65,8 +66,11 @@ namespace MPfm.Android.Classes.Adapters
             var title = view.FindViewById<TextView>(Resource.Id.genericcell_title);
             var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);
 
-            title.Text = _devices[position].Name;
+            // For some strange reason sometimes the item is null... is view being modified during refresh?
+            if (item == null)
+                return view;
 
+            title.Text = item.Name;
             switch (item.DeviceType)
             {
                 case SyncDeviceType.Android:
@@ -88,6 +92,9 @@ namespace MPfm.Android.Classes.Adapters
                     image.SetImageResource(0);
                     break;
             }
+
+            //Animation animation = AnimationUtils.LoadAnimation(_context, Resource.Animation.fade_in);
+            //view.StartAnimation(animation);
 
             return view;
         }

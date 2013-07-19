@@ -206,7 +206,7 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
-        protected override void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, string url)
+        protected override void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, SyncDevice device)
         {
             _onSyncMenuViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncMenuActivity));
@@ -220,7 +220,7 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
-        protected override void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, string url, IEnumerable<Sound.AudioFiles.AudioFile> audioFiles)
+        protected override void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, SyncDevice device, IEnumerable<Sound.AudioFiles.AudioFile> audioFiles)
         {
             _onSyncDownloadViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncDownloadActivity));

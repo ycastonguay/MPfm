@@ -31,6 +31,7 @@ namespace MPfm.MVP.Views
         Action OnCancelDownload { get; set; }
 
         void SyncDownloadError(Exception ex);
+        void RefreshDevice(SyncDevice device);
         void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity);
         void SyncCompleted();
 	}

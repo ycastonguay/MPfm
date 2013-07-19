@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Views;
 
@@ -23,6 +24,6 @@ namespace MPfm.MVP.Presenters.Interfaces
 {
 	public interface ISyncDownloadPresenter : IBasePresenter<ISyncDownloadView>
 	{
-        void StartSync(string url, IEnumerable<AudioFile> audioFiles);
+        void StartSync(SyncDevice device, IEnumerable<AudioFile> audioFiles);
 	}
 }

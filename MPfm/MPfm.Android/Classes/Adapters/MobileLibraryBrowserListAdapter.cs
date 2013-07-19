@@ -63,15 +63,38 @@ namespace MPfm.Android.Classes.Adapters
             var item = _items[position];
             View view = convertView;
             if (view == null) // no view to re-use, create new
-                view = _context.LayoutInflater.Inflate(Resource.Layout.GenericCell, null);
+                view = _context.LayoutInflater.Inflate(Resource.Layout.MobileLibraryBrowserCell, null);
 
-            //view.SetBackgroundColor(Color.White);
+            var layoutSubtitle = view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowserCell_layoutSubtitle);
+            var lblTitle = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_lblTitle);
+            var lblTitleWithSubtitle = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_lblTitleWithSubtitle);
+            var lblSubtitle = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_lblSubtitle);
+            var index = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_index);
+            var imageNowPlaying = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageNowPlaying);
+            imageNowPlaying.Visibility = ViewStates.Invisible;
 
-            var title = view.FindViewById<TextView>(Resource.Id.genericcell_title);
-            title.Text = _items[position].Title;
+            lblTitle.Text = item.Title;
+            lblTitleWithSubtitle.Text = item.Title;
+            lblSubtitle.Text = string.Empty;
+            if (item.AudioFile != null)
+            {
+                index.Text = item.AudioFile.TrackNumber.ToString();
+                lblSubtitle.Text = item.AudioFile.Length;
+            }
 
-            var image = view.FindViewById<ImageView>(Resource.Id.genericcell_image);           
-            image.SetBackgroundColor(Color.White);
+            switch (item.Type)
+            {
+                case LibraryBrowserEntityType.Song:
+                    index.Visibility = ViewStates.Visible;
+                    lblTitle.Visibility = ViewStates.Gone;            
+                    layoutSubtitle.Visibility = ViewStates.Visible;
+                    break;
+                default:
+                    index.Visibility = ViewStates.Gone;
+                    lblTitle.Visibility = ViewStates.Visible;            
+                    layoutSubtitle.Visibility = ViewStates.Gone;
+                    break;
+            }
 
             return view;
         }

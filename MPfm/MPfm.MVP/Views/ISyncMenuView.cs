@@ -34,6 +34,8 @@ namespace MPfm.MVP.Views
         Action OnSelectButtonClick { get; set; }
 
         void SyncMenuError(Exception ex);
+	    void SyncEmptyError(Exception ex);
+	    void RefreshDevice(SyncDevice device);
         void RefreshLoading(bool isLoading, int progressPercentage);
         void RefreshSelectButton(string text);
         void RefreshItems(List<SyncMenuItemEntity> items);

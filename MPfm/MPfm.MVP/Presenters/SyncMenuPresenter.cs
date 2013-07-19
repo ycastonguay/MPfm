@@ -39,7 +39,7 @@ namespace MPfm.MVP.Presenters
         readonly ISyncClientService _syncClientService;
         readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
 
-        string _url;
+	    SyncDevice _device;
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
         List<AudioFile> _audioFilesToSync = new List<AudioFile>();
 
@@ -145,7 +145,13 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _navigationManager.CreateSyncDownloadView(_url, _audioFilesToSync);                
+                if (_audioFilesToSync.Count == 0)
+                {
+                    View.SyncEmptyError(new Exception("You must select at least one file to continue!"));
+                    return;
+                }
+
+                _navigationManager.CreateSyncDownloadView(_device, _audioFilesToSync);
             }
             catch(Exception ex)
             {
@@ -368,13 +374,14 @@ namespace MPfm.MVP.Presenters
             return selection;
         }
 
-        public void SetUrl(string url)
+        public void SetSyncDevice(SyncDevice device)
         {
             try
             {
-                _url = url;
+                _device = device;
                 _audioFilesToSync.Clear();
-                _syncClientService.DownloadIndex(url);
+                _syncClientService.DownloadIndex(_device.Url);
+                View.RefreshDevice(device);
                 View.RefreshLoading(true, 0);
             }
             catch(Exception ex)

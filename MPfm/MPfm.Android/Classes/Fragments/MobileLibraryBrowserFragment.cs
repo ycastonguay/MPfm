@@ -18,15 +18,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.Android.Classes.Helpers;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using Exception = System.Exception;
 
 namespace MPfm.Android.Classes.Fragments
 {
@@ -40,6 +44,13 @@ namespace MPfm.Android.Classes.Fragments
         private List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
         bool _isTest = false;
+        ImageView _imageAlbum;
+        LinearLayout _layoutAlbum;
+        TextView _lblArtistName;
+        TextView _lblAlbumTitle;
+        TextView _lblAlbumLength;
+        TextView _lblAlbumSongCount;
+        BitmapCache _bitmapCache;
 
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base(null)
@@ -58,9 +69,21 @@ namespace MPfm.Android.Classes.Fragments
             Console.WriteLine("MLBFragment - OnCreateView - isTest: {0}", _isTest);
             _isTest = true;
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
+
+            // Create bitmap cache
+            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
+            int cacheSize = maxMemory / 8;
+            _bitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
+
+            _imageAlbum = _view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
+            _layoutAlbum = _view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowser_layoutAlbum);
+            _lblArtistName = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblArtistName);
+            _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumTitle);
+            _lblAlbumLength = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumLength);
+            _lblAlbumSongCount = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumSongCount);
             _listView = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listView);
-            _listView.Visibility = ViewStates.Gone;
             _gridView = _view.FindViewById<GridView>(Resource.Id.mobileLibraryBrowser_gridView);
+            _listView.Visibility = ViewStates.Gone;
             _gridView.Visibility = ViewStates.Gone;
 
             _listAdapter = new MobileLibraryBrowserListAdapter(Activity, _entities.ToList());
@@ -170,34 +193,48 @@ namespace MPfm.Android.Classes.Fragments
                 switch (browserType)
                 {
                     case MobileLibraryBrowserType.Artists:
+                        _layoutAlbum.Visibility = ViewStates.Gone;
                         _listView.Visibility = ViewStates.Visible;
+                        _gridView.Visibility = ViewStates.Gone;
                         break;
                     case MobileLibraryBrowserType.Albums:
+                        _layoutAlbum.Visibility = ViewStates.Gone;
+                        _listView.Visibility = ViewStates.Gone;
                         _gridView.Visibility = ViewStates.Visible;
+
+                        if (_gridView != null)
+                        {
+                            _gridAdapter.SetData(entities);
+                            _gridAdapter.NotifyDataSetChanged();
+                        }                                       
                         break;
                     case MobileLibraryBrowserType.Songs:
+                        _layoutAlbum.Visibility = ViewStates.Visible;                        
                         _listView.Visibility = ViewStates.Visible;
+                        _gridView.Visibility = ViewStates.Gone;
+
+                        var audioFile = _entities[0].AudioFile;
+                        _lblArtistName.Text = audioFile.ArtistName;
+                        _lblAlbumTitle.Text = audioFile.AlbumTitle;
+                        _lblAlbumSongCount.Text = _entities.Count.ToString() + " songs";
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                            _bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageAlbum);
+                        });
                         break;
                     case MobileLibraryBrowserType.Playlists:
+                        _layoutAlbum.Visibility = ViewStates.Gone;
                         _listView.Visibility = ViewStates.Visible;
+                        _gridView.Visibility = ViewStates.Gone;
                         break;
                 }
 
-                if (browserType == MobileLibraryBrowserType.Albums)
-                {
-                    if (_gridView != null)
-                    {
-                        _gridAdapter.SetData(entities);
-                        _gridAdapter.NotifyDataSetChanged();
-                    }                                       
-                }
-                else
+                if (browserType != MobileLibraryBrowserType.Albums)
                 {
                     if (_listView != null)
-                    {
-                        _listAdapter.SetData(entities);
-                        _listAdapter.NotifyDataSetChanged();
-                    }
+                        _listAdapter.SetData(_entities);
                 }
             });
         }

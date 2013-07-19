@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
 using Android.Util;
+using Android.Views.Animations;
 using Android.Widget;
 using Java.Lang;
 
@@ -69,6 +70,8 @@ namespace MPfm.Android.Classes.Helpers
                     activity.RunOnUiThread(() => {
                         Console.WriteLine("BitmapCache - Setting album art on image view...");
                         imageView.SetImageBitmap(bitmap);
+                        Animation animation = AnimationUtils.LoadAnimation(activity, Resource.Animation.fade_in);
+                        imageView.StartAnimation(animation);
                     });
                 });
             }

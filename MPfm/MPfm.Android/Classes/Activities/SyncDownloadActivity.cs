@@ -190,6 +190,14 @@ namespace MPfm.Android
             });
         }
 
+        public void RefreshDevice(SyncDevice device)
+        {
+            RunOnUiThread(() =>
+            {
+                ActionBar.Title = "Sync With " + device.Name;
+            });
+        }
+
         public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
             _currentProgress = entity;

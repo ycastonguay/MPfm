@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="52dp"   
+   android:paddingLeft="8dp"
+   android:gravity="center_vertical"
+   android:orientation="horizontal">
+  <TextView
+    android:id="@+id/mobileLibraryBrowserCell_index"
+    android:layout_width="32dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textColor="#666666"
+    android:textSize="18dp" />
+  <TextView
+    android:id="@+id/mobileLibraryBrowserCell_lblTitle"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"    
+    android:layout_weight="1"
+    android:layout_marginLeft="8dp"
+    android:textColor="#000000"
+    android:textSize="18dp" />
+  <LinearLayout
+    android:id="@+id/mobileLibraryBrowserCell_layoutSubtitle"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content" 
+    android:layout_weight="1"
+    android:layout_marginLeft="8dp"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/mobileLibraryBrowserCell_lblTitleWithSubtitle"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:textColor="#000000"
+      android:textSize="16dp" />
+    <TextView
+      android:id="@+id/mobileLibraryBrowserCell_lblSubtitle"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:textColor="#666666"
+      android:textSize="12dp" />
+  </LinearLayout>
+    <ImageView
+    android:id="@+id/mobileLibraryBrowserCell_imageNowPlaying"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:src="@drawable/icon" />
+  <!--<ImageView
+    android:id="@+id/mobileLibraryBrowserCell_imageAdd"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:src="@drawable/icon" />
+  <ImageView
+    android:id="@+id/mobileLibraryBrowserCell_imagePlay"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:src="@drawable/icon" />-->
+</LinearLayout>

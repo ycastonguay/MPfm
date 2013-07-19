@@ -15,5 +15,5 @@
       android:layout_height="fill_parent"
       android:gravity="center_vertical"
       android:textColor="#000000"
-      android:textSize="14dp" />
+      android:textSize="16dp" />
 </LinearLayout>

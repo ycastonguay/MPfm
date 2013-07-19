@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,12 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {
 	public interface ISyncMenuPresenter : IBasePresenter<ISyncMenuView>
 	{
-        void SetUrl(string url);
+	    void SetSyncDevice(SyncDevice device);
 	}
 }

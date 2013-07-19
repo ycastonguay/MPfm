@@ -35,10 +35,10 @@ namespace MPfm.MVP.Presenters
     public class SyncDownloadPresenter : BasePresenter<ISyncDownloadView>, ISyncDownloadPresenter
 	{
         readonly ISyncClientService _syncClientService;
-        string _url;
+        SyncDevice _device;
         List<AudioFile> _audioFiles = new List<AudioFile>();
 
-        public SyncDownloadPresenter(ISyncClientService syncClientService)
+	    public SyncDownloadPresenter(ISyncClientService syncClientService)
 		{
             _syncClientService = syncClientService;
             _syncClientService.OnDownloadAudioFileStarted += HandleOnDownloadAudioFileStarted;
@@ -92,18 +92,19 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        public void StartSync(string url, IEnumerable<AudioFile> audioFiles)
+        public void StartSync(SyncDevice device, IEnumerable<AudioFile> audioFiles)
         {
             try
             {
-                Console.WriteLine("SyncDownloadPresenter - StartSync - url: {0}", url);
-                _url = url;
+                _device = device;
                 _audioFiles = audioFiles.ToList();
-                _syncClientService.DownloadAudioFiles(url, audioFiles);
+                Console.WriteLine("SyncDownloadPresenter - StartSync - url: {0} audioFiles.Count: {1}", _device.Url, _audioFiles.Count);
+                View.RefreshDevice(_device);
+                _syncClientService.DownloadAudioFiles(_device.Url, audioFiles);
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncDownloadPresenter - SetAudioFiles - Exception: {0}", ex);
+                Console.WriteLine("SyncDownloadPresenter - StartSync - Exception: {0}", ex);
             }
         }
     }

@@ -86,9 +86,9 @@ namespace MPfm.MVP.Presenters
             View.RefreshDevicesEnded();
         }
 
-        private void ConnectDevice(string url)
+        private void ConnectDevice(SyncDevice device)
         {
-            _navigationManager.CreateSyncMenuView(url);            
+            _navigationManager.CreateSyncMenuView(device);      
         }
 
         private void ConnectDeviceManually(string url)

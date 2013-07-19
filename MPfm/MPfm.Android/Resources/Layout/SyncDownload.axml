@@ -28,14 +28,14 @@
         android:id="@+id/syncDownload_lblTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"        
-        android:text="Downloading files..."
+        android:text=""
         android:textColor="#FFFFFF"
         android:textSize="22dp" />
       <TextView
         android:id="@+id/syncDownload_lblFileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"        
-        android:text="01 - Test.mp3"
+        android:text=""
         android:textColor="#CCCCCC"
         android:textSize="16dp" />
     </LinearLayout>

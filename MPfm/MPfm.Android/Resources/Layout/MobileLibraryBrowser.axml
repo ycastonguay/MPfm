@@ -1,15 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"    
-  android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="fill_parent"
+  android:orientation="horizontal">
+  <LinearLayout
+    android:id="@+id/mobileLibraryBrowser_layoutAlbum"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"    
+    android:background="@color/background"    
+    android:orientation="horizontal">
+    <ImageView
+      android:id="@+id/mobileLibraryBrowser_imageAlbum"
+      android:layout_width="120dp"
+      android:layout_height="120dp"
+      android:background="@android:color/transparent" />
+    <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="12dp"
+      android:orientation="vertical">
+      <TextView
+        android:id="@+id/mobileLibraryBrowser_lblArtistName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Artist Name"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp" />
+      <TextView
+        android:id="@+id/mobileLibraryBrowser_lblAlbumTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Album Title"
+        android:textColor="#CCCCCC"
+        android:textSize="16dp" />
+      <TextView
+        android:id="@+id/mobileLibraryBrowser_lblAlbumSongCount"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="10 songs"
+        android:textColor="#AAAAAA"
+        android:textSize="14dp" />
+      <TextView
+        android:id="@+id/mobileLibraryBrowser_lblAlbumLength"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="40:32"
+        android:textColor="#AAAAAA"
+        android:textSize="14dp" />
+    </LinearLayout>
+  </LinearLayout>
   <ListView
     android:id="@+id/mobileLibraryBrowser_listView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_below="@+id/mobileLibraryBrowser_layoutAlbum"
     android:background="#FFFFFF"
     android:cacheColorHint="#333333"
-    android:divider="#FFFFFF"
+    android:divider="#BBBBBB"
+    android:dividerHeight="1px"
     android:listSelector="#CCCCCC" />
   <GridView
     android:id="@+id/mobileLibraryBrowser_gridView"
@@ -21,4 +69,4 @@
     android:horizontalSpacing="10dp"
     android:stretchMode="columnWidth"
     android:gravity="center" />
-</LinearLayout>
+  </RelativeLayout>
