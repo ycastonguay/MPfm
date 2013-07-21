@@ -5,54 +5,88 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF">
+  <LinearLayout
+      android:id="@+id/main_miniplayer"
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:background="#36454F"
+      android:gravity="center_vertical"
+      android:layout_alignParentBottom="true">
+    <ImageView
+      android:id="@+id/main_miniplayer_imageAlbum"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:background="@android:color/transparent" />
     <LinearLayout
-        android:id="@+id/main_miniplayer"
-        android:orientation="horizontal"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:orientation="vertical"      
+      android:gravity="center">
+      <LinearLayout
+        android:id="@+id/main_miniplayer_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#36454F"
-        android:gravity="center_vertical"
-        android:layout_alignParentBottom="true">
-        <ImageView
-            android:id="@+id/main_miniplayer_imageAlbum"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@android:color/transparent" />
-        <LinearLayout
-            android:id="@+id/main_miniplayer_text"            
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"            
-            android:paddingLeft="8dp">
-            <TextView
-                android:id="@+id/main_miniplayer_lblArtistName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:text=""
-                android:textSize="14dip"
-                android:ellipsize="end"
-                android:singleLine="true" />                
-            <TextView
-                android:id="@+id/main_miniplayer_lblAlbumTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#EEEEEE"
-                android:textSize="12dip"
-                android:ellipsize="end"
-                android:singleLine="true" />
-            <TextView
-                android:id="@+id/main_miniplayer_lblSongTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#CCCCCC"
-                android:textSize="11dip"
-                android:ellipsize="end"
-                android:singleLine="true" />                
-        </LinearLayout>
+        android:orientation="vertical"
+        android:paddingLeft="8dp">
+        <TextView
+          android:id="@+id/main_miniplayer_lblArtistName"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="#FFFFFF"
+          android:text=""
+          android:textSize="14dp"
+          android:ellipsize="end"
+          android:singleLine="true" />
+        <TextView
+          android:id="@+id/main_miniplayer_lblAlbumTitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=""
+          android:textColor="#EEEEEE"
+          android:textSize="12dp"
+          android:ellipsize="end"
+          android:singleLine="true" />
+        <TextView
+          android:id="@+id/main_miniplayer_lblSongTitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text=""
+          android:textColor="#CCCCCC"
+          android:textSize="11dp"
+          android:ellipsize="end"
+          android:singleLine="true" />
+      </LinearLayout>
+      <LinearLayout
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+        <ImageButton
+          android:id="@+id/main_miniplayer_btnPrevious"
+          android:layout_width="60dp"
+          android:layout_height="44dp"
+          android:background="@android:color/transparent"
+          android:src="@drawable/player_previous"
+          android:padding="20dp" />
+        <ImageButton
+          android:id="@+id/main_miniplayer_btnPlayPause"
+          android:layout_width="60dp"
+          android:layout_height="44dp"
+          android:background="@android:color/transparent"
+          android:src="@drawable/player_pause"
+          android:padding="20dp" />
+        <ImageButton
+          android:id="@+id/main_miniplayer_btnNext"
+          android:layout_width="60dp"
+          android:layout_height="44dp"
+          android:background="@android:color/transparent"
+          android:src="@drawable/player_next"
+          android:padding="20dp" />
+      </LinearLayout>
     </LinearLayout>
+  </LinearLayout>
   <android.support.v4.view.ViewPager
       android:id="@+id/main_pager"
       android:layout_width="fill_parent"

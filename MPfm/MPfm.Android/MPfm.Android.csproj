@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkSkip />
+    <BundleAssemblies>False</BundleAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -339,6 +342,61 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon_download.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_add.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_download.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_previous.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_previous_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_previous.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_previous_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_previous.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_previous_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_previous.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_previous_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_next.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_next_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_pause.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_pause_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_play.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_play_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_playlist.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_playlist_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_repeat.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_repeat_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_shuffle.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_shuffle_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_next.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_next_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_pause.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_pause_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_play.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_play_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_playlist.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_playlist_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_repeat.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_repeat_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_shuffle.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_next.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_next_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_pause.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_pause_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_play.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_play_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_playlist.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_playlist_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_repeat.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_repeat_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_shuffle.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_shuffle_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_next.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_next_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_pause.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_pause_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_play.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_play_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_playlist.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_playlist_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_repeat.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_repeat_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_shuffle.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_shuffle_on.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

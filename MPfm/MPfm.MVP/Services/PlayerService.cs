@@ -229,10 +229,14 @@ namespace MPfm.MVP.Services
 
         public void PlayPause()
         {
+            //if (_player.IsPlaying)
+            //    _player.Pause();
+            //else
+            //    _player.Play();
             if (_player.IsPlaying)
-                _player.Pause();
+                Pause();
             else
-                _player.Play();
+                Play();
         }
 
         public void Next()

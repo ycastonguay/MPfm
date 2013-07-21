@@ -43,7 +43,7 @@ using TinyMessenger;
 namespace MPfm.Android
 {
     [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class MainActivity : BaseActivity, IMobileOptionsMenuView
+    public class MainActivity : BaseActivity, IMobileOptionsMenuView, View.IOnTouchListener
     {
         private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
@@ -56,6 +56,10 @@ namespace MPfm.Android
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
         private ImageView _imageAlbum;
+        private ImageButton _btnPrevious;
+        private ImageButton _btnPlayPause;
+        private ImageButton _btnNext;
+        private bool _isPlaying;
 
         public BitmapCache BitmapCache { get; private set; }
 
@@ -79,12 +83,21 @@ namespace MPfm.Android
             _lblArtistName = FindViewById<TextView>(Resource.Id.main_miniplayer_lblArtistName);
             _lblAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblAlbumTitle);
             _lblSongTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblSongTitle);
+            _btnPrevious = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPrevious);
+            _btnPlayPause = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlayPause);
+            _btnNext = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnNext);
             _imageAlbum = FindViewById<ImageView>(Resource.Id.main_miniplayer_imageAlbum);
             _miniPlayer.Visibility = ViewStates.Gone;
             _miniPlayer.Click += (sender, args) => {
                 Console.WriteLine("MainActivity - Mini player click - Showing player view...");
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             };
+            _btnPrevious.SetOnTouchListener(this);
+            _btnPlayPause.SetOnTouchListener(this);
+            _btnNext.SetOnTouchListener(this);
+            _btnPrevious.Click += BtnPreviousOnClick;
+            _btnPlayPause.Click += BtnPlayPauseOnClick;
+            _btnNext.Click += BtnNextOnClick;
 
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
@@ -97,7 +110,7 @@ namespace MPfm.Android
                 Console.WriteLine("MainActivity - PlayerPlaylistIndexChangedMessage");
                 RunOnUiThread(() => {
                     // Make sure the UI is available
-                    if (_lblArtistName != null)
+                    if (_lblArtistName != null && message.Data.AudioFileStarted != null)
                     {
                         _lblArtistName.Text = message.Data.AudioFileStarted.ArtistName;
                         _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
@@ -112,6 +125,8 @@ namespace MPfm.Android
                 });                
             });
             _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
+                bool hasStartedPlaying = !_isPlaying && message.Status == PlayerStatusType.Playing;
+                _isPlaying = message.Status == PlayerStatusType.Playing;
                 Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
                 RunOnUiThread(() => {
                     if (message.Status == PlayerStatusType.Stopped || message.Status == PlayerStatusType.Initialized)
@@ -122,11 +137,22 @@ namespace MPfm.Android
                         };
                         _miniPlayer.StartAnimation(anim);
                     }
-                    else
+                    
+                    if(hasStartedPlaying)
                     {
                         _miniPlayer.Visibility = ViewStates.Visible;
                         Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
                         _miniPlayer.StartAnimation(anim);  
+                    }
+
+                    switch (message.Status)
+                    {
+                        case PlayerStatusType.Playing:
+                            _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
+                            break;
+                        default:
+                            _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
+                            break;
                     }
                 });
             });
@@ -285,6 +311,63 @@ namespace MPfm.Android
             var option = _options.FirstOrDefault(x => x.Value == menuItem.TitleFormatted.ToString());
             OnItemClick(option.Key);
             return base.OnOptionsItemSelected(menuItem);
+        }
+
+        private void BtnPreviousOnClick(object sender, EventArgs eventArgs)
+        {
+            _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Previous));
+        }
+
+        private void BtnPlayPauseOnClick(object sender, EventArgs eventArgs)
+        {
+            _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.PlayPause));
+        }
+
+        private void BtnNextOnClick(object sender, EventArgs eventArgs)
+        {
+            _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Next));
+        }
+
+        public bool OnTouch(View v, MotionEvent e)
+        {
+            switch (e.Action)
+            {
+                case MotionEventActions.Down:
+                    switch (v.Id)
+                    {
+                        case Resource.Id.main_miniplayer_btnPrevious:
+                            _btnPrevious.SetImageResource(Resource.Drawable.player_previous_on);
+                            break;
+                        case Resource.Id.main_miniplayer_btnPlayPause:
+                            if(_isPlaying)
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_pause_on);
+                            else
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_play_on);
+                            break;
+                        case Resource.Id.main_miniplayer_btnNext:
+                            _btnNext.SetImageResource(Resource.Drawable.player_next_on);
+                            break;
+                    }
+                    break;
+                case MotionEventActions.Up:
+                    switch (v.Id)
+                    {
+                        case Resource.Id.main_miniplayer_btnPrevious:
+                            _btnPrevious.SetImageResource(Resource.Drawable.player_previous);
+                            break;
+                        case Resource.Id.main_miniplayer_btnPlayPause:
+                            if (_isPlaying)
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
+                            else
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
+                            break;
+                        case Resource.Id.main_miniplayer_btnNext:
+                            _btnNext.SetImageResource(Resource.Drawable.player_next);
+                            break;
+                    }
+                    break;
+            }
+            return false;
         }
 
         public void ShowSplash(SplashFragment fragment)

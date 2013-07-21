@@ -42,22 +42,26 @@ using Exception = System.Exception;
 namespace MPfm.Android
 {
     [Activity(Label = "Player", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class PlayerActivity : BaseActivity, IPlayerView
+    public class PlayerActivity : BaseActivity, IPlayerView, View.IOnTouchListener
     {
         private ITinyMessengerHub _messengerHub;
         private BitmapCache _bitmapCache;
         private ImageView _imageViewAlbumArt;
         private TextView _lblPosition;
         private TextView _lblLength;
-        private Button _btnPlayPause;
-        private Button _btnPrevious;
-        private Button _btnNext;
+        private ImageButton _btnPlayPause;
+        private ImageButton _btnPrevious;
+        private ImageButton _btnNext;
+        private ImageButton _btnShuffle;
+        private ImageButton _btnRepeat;
+        private ImageButton _btnPlaylist;
         private SeekBar _seekBar;
         private List<Fragment> _fragments;
         private ViewPager _viewPager;
         private TabPagerAdapter _tabPagerAdapter;
         private MobileNavigationManager _navigationManager;
         private bool _isPositionChanging;
+        private bool _isPlaying;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -80,13 +84,25 @@ namespace MPfm.Android
             _imageViewAlbumArt = FindViewById<ImageView>(Resource.Id.player_imageViewAlbumArt);
             _lblPosition = FindViewById<TextView>(Resource.Id.player_lblPosition);
             _lblLength = FindViewById<TextView>(Resource.Id.player_lblLength);
-            _btnPlayPause = FindViewById<Button>(Resource.Id.player_btnPlayPause);
-            _btnPrevious = FindViewById<Button>(Resource.Id.player_btnPrevious);
-            _btnNext = FindViewById<Button>(Resource.Id.player_btnNext);
+            _btnPlayPause = FindViewById<ImageButton>(Resource.Id.player_btnPlayPause);
+            _btnPrevious = FindViewById<ImageButton>(Resource.Id.player_btnPrevious);
+            _btnNext = FindViewById<ImageButton>(Resource.Id.player_btnNext);
+            _btnShuffle = FindViewById<ImageButton>(Resource.Id.player_btnShuffle);
+            _btnRepeat = FindViewById<ImageButton>(Resource.Id.player_btnRepeat);
+            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.player_btnPlaylist);
             _seekBar = FindViewById<SeekBar>(Resource.Id.player_seekBar);
             _btnPlayPause.Click += BtnPlayPauseOnClick;            
             _btnPrevious.Click += BtnPreviousOnClick;
             _btnNext.Click += BtnNextOnClick;
+            _btnPlaylist.Click += BtnPlaylistOnClick;
+            _btnRepeat.Click += BtnRepeatOnClick;
+            _btnShuffle.Click += BtnShuffleOnClick;
+            _btnPlayPause.SetOnTouchListener(this);
+            _btnPrevious.SetOnTouchListener(this);
+            _btnNext.SetOnTouchListener(this);
+            _btnPlaylist.SetOnTouchListener(this);
+            _btnRepeat.SetOnTouchListener(this);
+            _btnShuffle.SetOnTouchListener(this);
             _seekBar.StartTrackingTouch += SeekBarOnStartTrackingTouch;
             _seekBar.StopTrackingTouch += SeekBarOnStopTrackingTouch;
             _seekBar.ProgressChanged += SeekBarOnProgressChanged;
@@ -210,24 +226,99 @@ namespace MPfm.Android
             OnPlayerNext();
         }
 
+        private void BtnPlaylistOnClick(object sender, EventArgs eventArgs)
+        {
+        
+        }
+
+        private void BtnShuffleOnClick(object sender, EventArgs eventArgs)
+        {
+
+        }
+
+        private void BtnRepeatOnClick(object sender, EventArgs eventArgs)
+        {
+
+        }
+
         private void SeekBarOnProgressChanged(object sender, SeekBar.ProgressChangedEventArgs progressChangedEventArgs)
         {
-            Console.WriteLine("SeekBarOnProgressChanged");
+            //Console.WriteLine("SeekBarOnProgressChanged");
             PlayerPositionEntity entity = OnPlayerRequestPosition((float)_seekBar.Progress / 100f);
             _lblPosition.Text = entity.Position;
         }
 
         private void SeekBarOnStartTrackingTouch(object sender, SeekBar.StartTrackingTouchEventArgs startTrackingTouchEventArgs)
         {
-            Console.WriteLine("SeekBarOnStartTrackingTouch");
+            //Console.WriteLine("SeekBarOnStartTrackingTouch");
             _isPositionChanging = true;
         }
 
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs stopTrackingTouchEventArgs)
         {
-            Console.WriteLine("SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
+            //Console.WriteLine("SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             OnPlayerSetPosition(_seekBar.Progress);
             _isPositionChanging = false;
+        }
+
+        public bool OnTouch(View v, MotionEvent e)
+        {
+            switch (e.Action)
+            {
+                case MotionEventActions.Down:
+                    switch (v.Id)
+                    {
+                        case Resource.Id.player_btnPrevious:
+                            _btnPrevious.SetImageResource(Resource.Drawable.player_previous_on);
+                            break;
+                        case Resource.Id.player_btnPlayPause:
+                            if(_isPlaying)
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_pause_on);
+                            else
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_play_on);
+                            break;
+                        case Resource.Id.player_btnNext:
+                            _btnNext.SetImageResource(Resource.Drawable.player_next_on);
+                            break;
+                        case Resource.Id.player_btnPlaylist:
+                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist_on);
+                            break;
+                        case Resource.Id.player_btnShuffle:
+                            _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle_on);
+                            break;
+                        case Resource.Id.player_btnRepeat:
+                            _btnRepeat.SetImageResource(Resource.Drawable.player_repeat_on);
+                            break;
+                    }
+                    break;
+                case MotionEventActions.Up:
+                    switch (v.Id)
+                    {
+                        case Resource.Id.player_btnPrevious:
+                            _btnPrevious.SetImageResource(Resource.Drawable.player_previous);
+                            break;
+                        case Resource.Id.player_btnPlayPause:
+                            if(_isPlaying)
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
+                            else
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
+                            break;
+                        case Resource.Id.player_btnNext:
+                            _btnNext.SetImageResource(Resource.Drawable.player_next);
+                            break;
+                        case Resource.Id.player_btnPlaylist:
+                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist);
+                            break;
+                        case Resource.Id.player_btnShuffle:
+                            _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle);
+                            break;
+                        case Resource.Id.player_btnRepeat:
+                            _btnRepeat.SetImageResource(Resource.Drawable.player_repeat);
+                            break;
+                    }
+                    break;
+            }
+            return false;
         }
 
         #region IPlayerView implementation
@@ -257,6 +348,18 @@ namespace MPfm.Android
 
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
+            _isPlaying = status == PlayerStatusType.Playing;
+            RunOnUiThread(() => {
+                switch (status)
+                {
+                    case PlayerStatusType.Playing:
+                        _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
+                        break;
+                    default:
+                        _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
+                        break;
+                }
+            });
         }
 
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -303,5 +406,6 @@ namespace MPfm.Android
         }
 
         #endregion
+
     }
 }
