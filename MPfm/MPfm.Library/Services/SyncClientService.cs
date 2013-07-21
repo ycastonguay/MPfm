@@ -146,10 +146,7 @@ namespace MPfm.Library.Services
                 // TODO: Check if the ID is already in the database! If yes, that means the insert statement will fail.
                 Console.WriteLine("SyncClientService - HandleDownloadFileCompleted - File downloaded; inserting audio file into database...");
                 var audioFile = _audioFiles[_filesDownloaded];
-                string fileName = Path.GetFileName(audioFile.FilePath);
-                //string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string folderPath = _deviceSpecifications.GetMusicFolderPath();
-                string localFilePath = Path.Combine(folderPath, fileName);
+                string localFilePath = GetLibraryLocalPath(audioFile);
                 audioFile.FilePath = localFilePath;
                 _libraryService.InsertAudioFile(audioFile);
             }
@@ -255,7 +252,29 @@ namespace MPfm.Library.Services
         private void DownloadAudioFile(AudioFile audioFile)
         {
             var url = new Uri(new Uri(_baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
-            string fileName = Path.GetFileName(audioFile.FilePath);
+            string localFilePath = GetLibraryLocalPath(audioFile);
+            //Console.WriteLine("SyncClientService - DownloadAudioFile - folderPath: {0} fileName: {1} localFilePath: {2}", folderPath, fileName, localFilePath);
+            _lastBytesReceived = 0;
+
+            if (OnDownloadAudioFileStarted != null)
+                OnDownloadAudioFileStarted(new SyncClientDownloadAudioFileProgressEntity(){
+                    Status = "Downloading files...",
+                    PercentageDone = ((float)_filesDownloaded / (float)_audioFiles.Count()) * 100f, 
+                    FilesDownloaded = _filesDownloaded, 
+                    DownloadFileName = Path.GetFileName(audioFile.FilePath),
+                    TotalFiles = _audioFiles.Count(), 
+                    DownloadSpeed = GetDownloadSpeed(),
+                    Errors = _errorCount, 
+                    Log = string.Empty
+                });
+
+            _stopwatch.Start();
+            _webClient.DownloadFileAsync(url, localFilePath);
+        }
+
+        private string GetLibraryLocalPath(AudioFile audioFile)
+        {
+            string fileName = Path.GetFileName(audioFile.FilePath);            
             string folderPath = _deviceSpecifications.GetMusicFolderPath();
 
             // Add artist name to the path (create folder if necessary)
@@ -268,25 +287,7 @@ namespace MPfm.Library.Services
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
 
-            string localFilePath = Path.Combine(folderPath, fileName);
-            Console.WriteLine("SyncClientService - DownloadAudioFile - folderPath: {0} fileName: {1} localFilePath: {2}", folderPath, fileName, localFilePath);
-            _lastBytesReceived = 0;
-
-            if (OnDownloadAudioFileStarted != null)
-                OnDownloadAudioFileStarted(new SyncClientDownloadAudioFileProgressEntity(){
-                    Status = "Downloading files...",
-                    PercentageDone = ((float)_filesDownloaded / (float)_audioFiles.Count()) * 100f, 
-                    FilesDownloaded = _filesDownloaded, 
-                    DownloadFileName = fileName, 
-                    TotalFiles = _audioFiles.Count(), 
-                    DownloadSpeed = GetDownloadSpeed(),
-                    Errors = _errorCount, 
-                    Log = string.Empty
-                });
-
-            Console.WriteLine("SyncClientService - DownloadAudioFile - url: {0} fileName: {1} localFilePath: {2}", url.ToString(), fileName, localFilePath);
-            _stopwatch.Start();
-            _webClient.DownloadFileAsync(url, localFilePath);
+            return Path.Combine(folderPath, fileName);
         }
     }
 }

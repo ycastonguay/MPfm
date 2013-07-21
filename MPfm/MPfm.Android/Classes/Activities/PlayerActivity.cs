@@ -383,8 +383,15 @@ namespace MPfm.Android
 
                 Task.Factory.StartNew(() =>
                 {
-                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                    _bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageViewAlbumArt);
+                    string key = audioFile.ArtistName + "_" + audioFile.AlbumTitle;
+                    Console.WriteLine("PlayerActivity - Album art - key: {0}", key);
+                    if (_imageViewAlbumArt.Tag == null || _imageViewAlbumArt.Tag.ToString().ToUpper() != key.ToUpper())
+                    {
+                        Console.WriteLine("PlayerActivity - Album art - key: {0} is diferent than tag {1} - Fetching album art...", key, (_imageViewAlbumArt.Tag == null) ? "null" : _imageViewAlbumArt.Tag.ToString());
+                        _imageViewAlbumArt.Tag = key;
+                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                        _bitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageViewAlbumArt);
+                    }
                 });
             });   
         }

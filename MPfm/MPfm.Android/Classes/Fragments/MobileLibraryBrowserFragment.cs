@@ -220,9 +220,17 @@ namespace MPfm.Android.Classes.Fragments
                             _lblAlbumTitle.Text = audioFile.AlbumTitle;
                             _lblAlbumSongCount.Text = _entities.Count.ToString() + " songs";
 
-                            Task.Factory.StartNew(() => {
-                                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                                _bitmapCache.LoadBitmapFromByteArray(bytesImage, audioFile.FilePath, _imageAlbum);
+                            Task.Factory.StartNew(() =>
+                            {
+                                string key = audioFile.ArtistName + "_" + audioFile.AlbumTitle;
+                                Console.WriteLine("MobileLibraryFragment - Album art - key: {0}", key);
+                                if (_imageAlbum.Tag == null || _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
+                                {
+                                    Console.WriteLine("MobileLibraryFragment - Album art - key: {0} is diferent than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
+                                    _imageAlbum.Tag = key;
+                                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                                    _bitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                                }
                             });
                         }
                         break;

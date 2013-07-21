@@ -116,10 +116,16 @@ namespace MPfm.Android
                         _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
                         _lblSongTitle.Text = message.Data.AudioFileStarted.Title;
 
-                        Task.Factory.StartNew(() =>
-                        {
-                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(message.Data.AudioFileStarted.FilePath);
-                            BitmapCache.LoadBitmapFromByteArray(bytesImage, message.Data.AudioFileStarted.FilePath, _imageAlbum);
+                        Task.Factory.StartNew(() => {                            
+                            string key = message.Data.AudioFileStarted.ArtistName + "_" + message.Data.AudioFileStarted.AlbumTitle;
+                            Console.WriteLine("MainActivity - Player Bar - key: {0}", key);
+                            if (_imageAlbum.Tag == null || _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
+                            {
+                                Console.WriteLine("MainActivity - Player Bar - key: {0} is diferent than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
+                                _imageAlbum.Tag = key;
+                                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(message.Data.AudioFileStarted.FilePath);
+                                BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                            }
                         });
                     }
                 });                

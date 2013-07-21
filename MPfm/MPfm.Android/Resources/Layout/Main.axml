@@ -22,8 +22,7 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:orientation="vertical"      
-      android:gravity="center">
+      android:orientation="vertical">
       <LinearLayout
         android:id="@+id/main_miniplayer_text"
         android:layout_width="fill_parent"
@@ -59,10 +58,10 @@
           android:singleLine="true" />
       </LinearLayout>
       <LinearLayout
-          android:orientation="horizontal"
-          android:gravity="center_vertical"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
+        android:orientation="horizontal"        
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <ImageButton
           android:id="@+id/main_miniplayer_btnPrevious"
           android:layout_width="60dp"
@@ -84,6 +83,15 @@
           android:background="@android:color/transparent"
           android:src="@drawable/player_next"
           android:padding="20dp" />
+        <TextView
+          android:id="@+id/main_miniplayer_lblSongPosition"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="0:00 / 19:43"
+          android:textColor="#CCCCCC"
+          android:textSize="11dp"
+          android:ellipsize="end"
+          android:singleLine="true" />
       </LinearLayout>
     </LinearLayout>
   </LinearLayout>

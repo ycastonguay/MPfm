@@ -23,6 +23,7 @@ using Android.Util;
 using Android.Views.Animations;
 using Android.Widget;
 using Java.Lang;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Helpers
 {
@@ -56,15 +57,17 @@ namespace MPfm.Android.Classes.Helpers
 
         public void LoadBitmapFromByteArray(byte[] bytes, string key, ImageView imageView)
         {
+            Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - key: {0}", key);            
             Bitmap bitmap = GetBitmapFromMemoryCache(key);
             if (bitmap != null)
             {
+                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Loaded bitmap from cache!");
                 imageView.SetImageBitmap(bitmap);
             }
             else
             {
+                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Decoding album art and adding to cache...");
                 Task.Factory.StartNew(() => {
-                    Console.WriteLine("BitmapCache - Adding bitmap to cache...");
                     bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
                     AddBitmapToMemoryCache(key, bitmap);
                     activity.RunOnUiThread(() => {
