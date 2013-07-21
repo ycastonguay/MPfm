@@ -16,21 +16,18 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Library.Objects;
 
-namespace MPfm.Library
+namespace MPfm.Library.Objects
 {
-    public delegate void NetworkStateChanged(NetworkState networkState);
-
-    public interface ISyncDeviceSpecifications
+    /// <summary>
+    /// Data structure repesenting network state and information.
+    /// </summary>
+    public class NetworkState
     {
-        event NetworkStateChanged OnNetworkStateChanged;
-
-        SyncDeviceType GetDeviceType();
-        string GetDeviceName();
-        long GetFreeSpace();
-        string GetIPAddress();
-        string GetMusicFolderPath();
-        void ReportNetworkStateChange(NetworkState networkState);
+        public bool IsNetworkAvailable { get; set; }
+        public bool IsWifiAvailable { get; set; }
+        public bool IsCellularAvailable { get; set; }
+		public string WifiName { get; set; }
     }
 }
+

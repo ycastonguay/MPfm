@@ -53,18 +53,31 @@ namespace MPfm.Library.Services
 
         public SyncListenerService(IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications syncDeviceSpecifications)
         {
+            Port = 53551;
             _audioFileCacheService = audioFileCacheService;
             _syncDeviceSpecifications = syncDeviceSpecifications;
-            Console.WriteLine("SyncListenerService - AuthenticationCode is {0}", AuthenticationCode);
-            Port = 53551;
+            _syncDeviceSpecifications.OnNetworkStateChanged += delegate(NetworkState networkState) {
+                Console.WriteLine("SyncListenerService - NetworkStateChanged isNetworkAvailable: {0} isWifiAvailable: {1} isCellularAvailable: {2}", networkState.IsNetworkAvailable, networkState.IsWifiAvailable, networkState.IsCellularAvailable);
+                if (networkState.IsWifiAvailable && !IsRunning)
+                {
+                    Console.WriteLine("SyncListenerService - NetworkStateChanged - Wifi is now available; restarting HTTP service...");
+                    Start();
+                }
+                else if (!networkState.IsWifiAvailable && IsRunning)
+                {
+                    Console.WriteLine("SyncListenerService - NetworkStateChanged - Wifi is no longer available; stopping HTTP service...");
+                    Stop();
+                }
+            };
             Initialize();
         }
 
         private void Initialize()
         {
-            Console.WriteLine("SyncListenerService - Initializing service...");
+            string url = "http://*:" + Port.ToString("0") + "/";
+            Console.WriteLine("SyncListenerService - Initializing service on url {0} with authenticationCode {1}...", url, AuthenticationCode);
             _httpListener = new HttpListener();
-            _httpListener.Prefixes.Add("http://*:" + Port.ToString("0") + "/");
+            _httpListener.Prefixes.Add(url);
         }
 
         public void Start()

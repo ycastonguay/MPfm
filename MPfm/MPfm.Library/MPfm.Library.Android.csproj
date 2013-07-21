@@ -152,6 +152,7 @@
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
     <Compile Include="Database\DatabaseFacade.cs" />
     <Compile Include="ILibrary.cs" />
+    <Compile Include="Objects\NetworkState.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
     <Compile Include="Objects\History.cs" />
     <Compile Include="Objects\Setting.cs" />

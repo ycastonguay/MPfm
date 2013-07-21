@@ -22,6 +22,7 @@ using Android.Content.PM;
 using Android.Runtime;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
+using MPfm.Android.Classes.Receivers;
 using MPfm.Library;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
@@ -37,7 +38,8 @@ namespace MPfm.Android.Classes
 #endif
     public class MPfmApplication : Application
     {
-        private static Context _context;
+        static Context _context;
+        ConnectionChangeReceiver _connectionChangeReceiver;
 
         public MPfmApplication(IntPtr javaReference, JniHandleOwnership transfer) 
             : base(javaReference, transfer) 
@@ -80,6 +82,19 @@ namespace MPfm.Android.Classes
             // Set player plugin directory path
             ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
             Player.Player.PluginDirectoryPath = appInfo.NativeLibraryDir;
+
+            try
+            {
+                // Setup connection change receiver
+                _connectionChangeReceiver = new ConnectionChangeReceiver();
+                IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+                filter.AddCategory(Intent.CategoryDefault);
+                RegisterReceiver(_connectionChangeReceiver, filter);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Application - Error: Failed to setup connection change receiver! {0}", ex);                
+            }
         }
 
         public override void OnTerminate()

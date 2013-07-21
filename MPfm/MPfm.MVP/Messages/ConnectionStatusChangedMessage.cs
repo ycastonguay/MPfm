@@ -17,20 +17,20 @@
 
 using System;
 using MPfm.Library.Objects;
+using TinyMessenger;
 
-namespace MPfm.Library
+namespace MPfm.MVP.Messages
 {
-    public delegate void NetworkStateChanged(NetworkState networkState);
-
-    public interface ISyncDeviceSpecifications
+    /// <summary>
+    /// Message indicating a connection change.
+    /// </summary>
+    public class ConnectionStatusChangedMessage : TinyMessageBase
     {
-        event NetworkStateChanged OnNetworkStateChanged;
+        public NetworkState NetworkState { get; set; }
 
-        SyncDeviceType GetDeviceType();
-        string GetDeviceName();
-        long GetFreeSpace();
-        string GetIPAddress();
-        string GetMusicFolderPath();
-        void ReportNetworkStateChange(NetworkState networkState);
+        public ConnectionStatusChangedMessage(object sender)
+            : base(sender)
+        {
+        }
     }
 }

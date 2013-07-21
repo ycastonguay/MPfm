@@ -35,6 +35,8 @@ namespace MPfm.Android.Classes.Helpers
     {
         private readonly Context _context;
 
+        public event NetworkStateChanged OnNetworkStateChanged;
+
         public AndroidSyncDeviceSpecifications()
         {
             _context = MPfmApplication.GetApplicationContext();
@@ -72,6 +74,12 @@ namespace MPfm.Android.Classes.Helpers
         public string GetMusicFolderPath()
         {
             return global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryMusic).ToString();
+        }
+
+        public void ReportNetworkStateChange(NetworkState networkState)
+        {
+            if(OnNetworkStateChanged != null)
+                OnNetworkStateChanged(networkState);
         }
     }
 }

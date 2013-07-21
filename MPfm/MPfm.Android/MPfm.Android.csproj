@@ -105,6 +105,7 @@
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Objects\ApplicationState.cs" />
     <Compile Include="Classes\Objects\GenericListItem.cs" />
+    <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
     <Compile Include="Classes\Services\WidgetService.cs" />
     <Compile Include="Classes\Widgets\PlayerWidget.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
