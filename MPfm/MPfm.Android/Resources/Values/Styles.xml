@@ -22,7 +22,7 @@
     <item name="android:windowFrame">@null</item>
     <item name="android:windowNoTitle">true</item>-->
   </style>
-  <style name="UpdateLibraryTheme" parent="@android:style/Theme.Holo.Dialog">
+  <style name="DialogTheme" parent="@android:style/Theme.Holo.Dialog">
     <item name="android:icon">@drawable/icon_transparent</item>
     <!--<item name="android:padding">8dp</item>-->
     <item name="android:windowAnimationStyle">@style/DialogAnimation</item>

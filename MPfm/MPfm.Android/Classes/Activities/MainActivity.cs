@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
@@ -39,6 +40,8 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using TinyMessenger;
+using DialogFragment = Android.App.DialogFragment;
+using Fragment = Android.App.Fragment;
 
 namespace MPfm.Android
 {
@@ -121,10 +124,13 @@ namespace MPfm.Android
                             Console.WriteLine("MainActivity - Player Bar - key: {0}", key);
                             if (_imageAlbum.Tag == null || _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
                             {
-                                Console.WriteLine("MainActivity - Player Bar - key: {0} is diferent than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
+                                Console.WriteLine("MainActivity - Player Bar - key: {0} is different than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
                                 _imageAlbum.Tag = key;
                                 byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(message.Data.AudioFileStarted.FilePath);
-                                BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                                if (bytesImage.Length == 0)
+                                    _imageAlbum.SetImageBitmap(null);
+                                else
+                                    BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);    
                             }
                         });
                     }
@@ -163,22 +169,36 @@ namespace MPfm.Android
                 });
             });
 
-            if (bundle == null || !bundle.GetBoolean("applicationStarted"))
-            {
-                Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
-                _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-                _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
-                _navigationManager.BindOptionsMenuView(this);
-                _navigationManager.Start();
-            }
+            SetupNotificationBar();
+
+            Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
+            _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
+            _navigationManager.BindOptionsMenuView(this);
+            _navigationManager.Start();
         }
 
-        protected override void OnSaveInstanceState(Bundle outState)
+        private void SetupNotificationBar()
         {
-            base.OnSaveInstanceState(outState);
-
-            Console.WriteLine("%%%%%%%%%%%%%%%%%%>>> MainActivity - OnSaveInstanceState - Saving state...");
-            outState.PutBoolean("applicationStarted", true);
+            // Build permanent notification for displaying player status in notification drawer (not sure yet how to make the notification sticky or to use the big style with custom layout)
+            Console.WriteLine("MainActivity - Setting notification bar...");
+            RemoteViews remoteViews = new RemoteViews(PackageName, Resource.Layout.SyncWebBrowser);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .SetSmallIcon(Resource.Drawable.Icon)
+                .SetContentTitle("Artist Name - Album Title")
+                .SetContentText("Song Title")
+                .SetContent(remoteViews);
+            Intent resultIntent = new Intent(this, typeof(MainActivity));
+            //NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+            TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
+            stackBuilder.AddParentStack(this);
+            stackBuilder.AddNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
+            //remoteViews.SetOnClickPendingIntent(R);
+            //notificationBuilder.SetStyle(bigPictureStyle);
+            notificationBuilder.SetContentIntent(resultPendingIntent);
+            NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
+            notificationManager.Notify(777, notificationBuilder.Build());
         }
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)

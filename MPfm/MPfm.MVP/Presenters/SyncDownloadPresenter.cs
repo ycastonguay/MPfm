@@ -18,14 +18,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
 using MPfm.Library.Objects;
-using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.MVP.Models;
-using MPfm.Library;
 
 namespace MPfm.MVP.Presenters
 {
@@ -35,8 +34,10 @@ namespace MPfm.MVP.Presenters
     public class SyncDownloadPresenter : BasePresenter<ISyncDownloadView>, ISyncDownloadPresenter
 	{
         readonly ISyncClientService _syncClientService;
-        SyncDevice _device;
         List<AudioFile> _audioFiles = new List<AudioFile>();
+        SyncDevice _device;
+        Timer _timerUpdateProgress;
+        SyncClientDownloadAudioFileProgressEntity _currentProgress;
 
 	    public SyncDownloadPresenter(ISyncClientService syncClientService)
 		{
@@ -45,6 +46,10 @@ namespace MPfm.MVP.Presenters
             _syncClientService.OnDownloadAudioFileProgress += HandleOnDownloadAudioFileProgress;
             _syncClientService.OnDownloadAudioFileCompleted += HandleOnDownloadAudioFileCompleted;
             _syncClientService.OnDownloadAudioFilesCompleted += HandleOnDownloadAudioFilesCompleted;
+
+            // Limit how progress is reported to the UI, Android gets very slow when trying to update text views frequently
+            _timerUpdateProgress = new Timer(200);
+            _timerUpdateProgress.Elapsed += TimerUpdateProgressOnElapsed;
 		}
 
         public override void BindView(ISyncDownloadView view)
@@ -59,25 +64,34 @@ namespace MPfm.MVP.Presenters
         {
 
         }
+
+        private void TimerUpdateProgressOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            if (_currentProgress == null)
+                return;
+
+            View.RefreshStatus(_currentProgress);
+        }
                 
         private void HandleOnDownloadAudioFileStarted(SyncClientDownloadAudioFileProgressEntity entity)
         {
-            View.RefreshStatus(entity);
+            _currentProgress = entity;
         }
 
         private void HandleOnDownloadAudioFileProgress(SyncClientDownloadAudioFileProgressEntity entity)
         {
-            View.RefreshStatus(entity);
+            _currentProgress = entity;
         }
 
         private void HandleOnDownloadAudioFileCompleted(SyncClientDownloadAudioFileProgressEntity entity)
         {
-            View.RefreshStatus(entity);
+            _currentProgress = entity;
         }
 
         private void HandleOnDownloadAudioFilesCompleted(object sender, EventArgs e)
         {
             View.SyncCompleted();
+            _timerUpdateProgress.Stop();
         }
 
         private void CancelDownload()
@@ -100,7 +114,11 @@ namespace MPfm.MVP.Presenters
                 _audioFiles = audioFiles.ToList();
                 Console.WriteLine("SyncDownloadPresenter - StartSync - url: {0} audioFiles.Count: {1}", _device.Url, _audioFiles.Count);
                 View.RefreshDevice(_device);
-                _syncClientService.DownloadAudioFiles(_device.Url, audioFiles);
+                _timerUpdateProgress.Start();
+
+                Task.Factory.StartNew(() => {
+                    _syncClientService.DownloadAudioFiles(_device.Url, audioFiles);
+                });
             }
             catch(Exception ex)
             {

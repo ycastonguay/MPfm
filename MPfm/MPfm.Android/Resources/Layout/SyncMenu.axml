@@ -23,6 +23,7 @@
       android:layout_marginLeft="8dp"
       android:padding="6dip"
       android:text="Loading..."
+      android:textSize="16dp"
       android:textColor="#FFFFFF" />
   </LinearLayout>
   <LinearLayout

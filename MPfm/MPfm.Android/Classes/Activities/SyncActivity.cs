@@ -25,6 +25,7 @@ using Android.Views;
 using Android.OS;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
+using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
@@ -58,14 +59,21 @@ namespace MPfm.Android
             _lblIPAddress = FindViewById<TextView>(Resource.Id.sync_lblIPAddress);
             _lblStatus = FindViewById<TextView>(Resource.Id.sync_lblStatus);
             _btnConnectManually = FindViewById<Button>(Resource.Id.sync_btnConnectManually);
+            _btnConnectManually.Click += BtnConnectManuallyOnClick;
+            
             _listView = FindViewById<ListView>(Resource.Id.sync_listView);
-
             _listAdapter = new SyncListAdapter(this, new List<SyncDevice>());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);
+        }
+
+        private void BtnConnectManuallyOnClick(object sender, EventArgs eventArgs)
+        {
+            SyncManualConnectFragment fragment = new SyncManualConnectFragment();
+            fragment.Show(FragmentManager, "SyncManualConnect");
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)

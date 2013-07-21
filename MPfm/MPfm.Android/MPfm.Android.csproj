@@ -88,6 +88,7 @@
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
+    <Compile Include="Classes\Fragments\SyncManualConnectFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />
     <Compile Include="Classes\Fragments\LoopsFragment.cs" />
@@ -207,6 +208,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\MobileLibraryBrowserCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\SyncManualConnect.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

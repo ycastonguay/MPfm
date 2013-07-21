@@ -11,6 +11,7 @@
     android:layout_height="wrap_content"
     android:padding="6dp"
     android:text="My IP address is:"
+    android:textSize="14dp"
     android:textColor="#CCCCCC" />
   <LinearLayout
     android:layout_width="fill_parent"
@@ -30,6 +31,7 @@
       android:layout_height="wrap_content"     
       android:layout_marginLeft="8dp"      
       android:text="Refreshing devices..."
+      android:textSize="16dp"
       android:textColor="#FFFFFF" />
   </LinearLayout>
   <ListView

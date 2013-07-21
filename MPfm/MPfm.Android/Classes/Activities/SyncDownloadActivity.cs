@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -47,8 +46,6 @@ namespace MPfm.Android
         TextView _lblErrorsValue;
         TextView _lblFilesDownloadedValue;
         TextView _lblTotalFilesValue;
-        Timer _timerUpdateProgress;
-        SyncClientDownloadAudioFileProgressEntity _currentProgress;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -69,33 +66,8 @@ namespace MPfm.Android
             _lblFilesDownloadedValue = FindViewById<TextView>(Resource.Id.syncDownload_lblFilesDownloadedValue);            
             _lblTotalFilesValue = FindViewById<TextView>(Resource.Id.syncDownload_lblTotalFilesValue);
             
-            // Limit how progress is reported to the UI, Android gets very slow when trying to update text views frequently
-            _timerUpdateProgress = new Timer(200);
-            _timerUpdateProgress.Elapsed += TimerUpdateProgressOnElapsed;
-            _timerUpdateProgress.Start();
-
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetSyncDownloadActivityInstance(this);
-        }
-
-        void TimerUpdateProgressOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
-        {
-            if (_currentProgress == null)
-                return;
-
-            RunOnUiThread(() =>
-            {
-                //progressView.Progress = _currentProgress.PercentageDone/100f;
-                _lblTitle.Text = _currentProgress.Status;
-                _lblCompletedValue.Text = string.Format("{0:0.0}%", _currentProgress.PercentageDone);
-                _lblCurrentFileProgressValue.Text = string.Format("{0:0.0}%", _currentProgress.DownloadPercentageDone);
-                _lblFilesDownloadedValue.Text = string.Format("{0}", _currentProgress.FilesDownloaded);
-                _lblTotalFilesValue.Text = string.Format("{0}", _currentProgress.TotalFiles);
-                _lblDownloadSpeedValue.Text = _currentProgress.DownloadSpeed;
-                _lblErrorsValue.Text = string.Format("{0}", _currentProgress.Errors);
-                _lblFileName.Text = _currentProgress.DownloadFileName;
-                //textViewLog.Text = _currentProgress.Log;
-            });
         }
 
         protected override void OnStart()
@@ -194,13 +166,25 @@ namespace MPfm.Android
         {
             RunOnUiThread(() =>
             {
-                ActionBar.Title = "Sync With " + device.Name;
+                ActionBar.Title = "Syncing Library With " + device.Name;
             });
         }
 
         public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
-            _currentProgress = entity;
+            RunOnUiThread(() =>
+            {
+                //progressView.Progress = entity.PercentageDone/100f;
+                _lblTitle.Text = entity.Status;
+                _lblCompletedValue.Text = string.Format("{0:0.0}%", entity.PercentageDone);
+                _lblCurrentFileProgressValue.Text = string.Format("{0:0.0}%", entity.DownloadPercentageDone);
+                _lblFilesDownloadedValue.Text = string.Format("{0}", entity.FilesDownloaded);
+                _lblTotalFilesValue.Text = string.Format("{0}", entity.TotalFiles);
+                _lblDownloadSpeedValue.Text = entity.DownloadSpeed;
+                _lblErrorsValue.Text = string.Format("{0}", entity.Errors);
+                _lblFileName.Text = entity.DownloadFileName;
+                //textViewLog.Text = entity.Log;
+            });
         }
 
         public void SyncCompleted()
