@@ -37,14 +37,14 @@ namespace MPfm.Android.Classes.Services
 
         public override void OnStart(Intent intent, int startId)
         {
-            Console.WriteLine("TestService - OnStart - startId: {0}", startId);
+            Console.WriteLine(">>>>>>>>>>> WidgetService - OnStart - startId: {0}", startId);
             Initialize();
             base.OnStart(intent, startId);
         }
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            Console.WriteLine("TestService - OnStartCommand - startId: {0}", startId);
+            Console.WriteLine(">>>>>>>>>> WidgetService - OnStartCommand - startId: {0}", startId);
             Initialize();
             return base.OnStartCommand(intent, flags, startId);
         }
@@ -53,14 +53,14 @@ namespace MPfm.Android.Classes.Services
         {
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
             _playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) =>
-            {
-                Console.WriteLine("WidgetService - PlayerPlaylistIndexChangedMessage");
-            });
-            _messengerHub.Subscribe<PlayerStatusMessage>((message) =>
-            {
-                Console.WriteLine("WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
-            });
+            //_messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) =>
+            //{
+            //    Console.WriteLine(">>>>>>>>>> WidgetService - PlayerPlaylistIndexChangedMessage");
+            //});
+            //_messengerHub.Subscribe<PlayerStatusMessage>((message) =>
+            //{
+            //    Console.WriteLine(">>>>>>>>>> WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
+            //});
 
             // Force updating the view for the first time
             UpdateView();
@@ -73,6 +73,7 @@ namespace MPfm.Android.Classes.Services
         public override IBinder OnBind(Intent intent)
         {
             // We don't need to bind to this service
+            Console.WriteLine(">>>>>>>>>>> WidgetService - OnBind");
             return null;
         }
     }

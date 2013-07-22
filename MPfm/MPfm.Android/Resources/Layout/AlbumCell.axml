@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   android:layout_width="wrap_content"
-   android:layout_height="wrap_content"   
-   android:gravity="center"
-   android:orientation="vertical">
-  <ImageView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/albumCell_layout"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"   
+  android:background="@color/background"
+  android:gravity="center"
+  android:orientation="vertical">
+  <org.sessionsapp.android.SquareImageView
     android:id="@+id/albumCell_image"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:background="#00FF00" />
-  <TextView
-    android:id="@+id/albumCell_artistName"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scaleType="centerCrop"
+    android:background="@color/background" />
+  <LinearLayout
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:gravity="center_vertical"    
-    android:background="#FF000000"
-    android:textColor="#FFFFFF"
-    android:textSize="11dp" />
-  <TextView
-    android:id="@+id/albumCell_albumTitle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:padding="8dp"
-    android:background="#FF000000"
-    android:textColor="#FFFFFF"
-    android:textSize="11dp" />
-</LinearLayout>
+    android:layout_alignParentBottom="true"
+    android:background="#66000000"    
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/albumCell_artistName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="2dp"
+      android:gravity="center_vertical"
+      android:textStyle="bold"
+      android:textColor="#FFFFFF"
+      android:textSize="14dp"
+      android:ellipsize="end"
+      android:singleLine="true" />
+    <TextView
+      android:id="@+id/albumCell_albumTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"      
+      android:gravity="center_vertical"
+      android:padding="2dp"
+      android:textColor="#FFFFFF"
+      android:textSize="12dp"
+      android:ellipsize="end"
+      android:singleLine="true" />      
+  </LinearLayout>
+</RelativeLayout>
+  

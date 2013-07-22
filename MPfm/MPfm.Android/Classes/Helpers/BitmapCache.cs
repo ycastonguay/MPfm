@@ -39,7 +39,7 @@ namespace MPfm.Android.Classes.Helpers
             memoryCache = new LruCache(memorySize);
             this.activity = activity;
             this.MaxWidth = maxWidth;
-            this.MaxHeight = maxHeight;
+            this.MaxHeight = maxHeight;            
         }
 
         private void AddBitmapToMemoryCache(string key, Bitmap bitmap)
@@ -50,9 +50,14 @@ namespace MPfm.Android.Classes.Helpers
             }
         }
 
-        private Bitmap GetBitmapFromMemoryCache(string key)
+        public Bitmap GetBitmapFromMemoryCache(string key)
         {
             return (Bitmap)memoryCache.Get(key);
+        }
+
+        public bool KeyExists(string key)
+        {
+            return memoryCache.Get(key) != null;
         }
 
         public void LoadBitmapFromByteArray(byte[] bytes, string key, ImageView imageView)

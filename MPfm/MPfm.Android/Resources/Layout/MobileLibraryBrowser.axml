@@ -63,10 +63,11 @@
     android:id="@+id/mobileLibraryBrowser_gridView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/background"
     android:columnWidth="100dp"
     android:numColumns="2"
-    android:verticalSpacing="10dp"
-    android:horizontalSpacing="10dp"
+    android:verticalSpacing="0dp"
+    android:horizontalSpacing="0dp"
     android:stretchMode="columnWidth"
     android:gravity="center" />
   </RelativeLayout>

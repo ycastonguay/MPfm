@@ -82,6 +82,7 @@
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
     <Compile Include="Classes\Clients\MyWebViewClient.cs" />
+    <Compile Include="Classes\Controls\SquareImageView.cs" />
     <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
     <Compile Include="Classes\Controls\OutputMeterView.cs" />
     <Compile Include="Classes\Controls\WaveFormView.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="Classes\Objects\GenericListItem.cs" />
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
     <Compile Include="Classes\Services\WidgetService.cs" />
-    <Compile Include="Classes\Widgets\PlayerWidget.cs" />
+    <Compile Include="Classes\Widgets\PlayerWidgetProvider.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

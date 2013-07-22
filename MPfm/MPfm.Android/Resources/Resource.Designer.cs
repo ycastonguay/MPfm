@@ -255,545 +255,569 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0b0001
 			public const int about_webView = 2131427329;
 			
+			// aapt resource value: 0x7f0b0007
+			public const int albumCell_albumTitle = 2131427335;
+			
 			// aapt resource value: 0x7f0b0006
-			public const int albumCell_albumTitle = 2131427334;
+			public const int albumCell_artistName = 2131427334;
 			
 			// aapt resource value: 0x7f0b0005
-			public const int albumCell_artistName = 2131427333;
+			public const int albumCell_image = 2131427333;
 			
 			// aapt resource value: 0x7f0b0004
-			public const int albumCell_image = 2131427332;
-			
-			// aapt resource value: 0x7f0b0009
-			public const int equalizerPresetCell_lblName = 2131427337;
-			
-			// aapt resource value: 0x7f0b00b4
-			public const int equalizerPresetDetailsMenu_item_save = 2131427508;
-			
-			// aapt resource value: 0x7f0b000f
-			public const int equalizerPresetDetails_btnNormalize = 2131427343;
-			
-			// aapt resource value: 0x7f0b0010
-			public const int equalizerPresetDetails_btnReset = 2131427344;
-			
-			// aapt resource value: 0x7f0b000b
-			public const int equalizerPresetDetails_graphView = 2131427339;
-			
-			// aapt resource value: 0x7f0b000c
-			public const int equalizerPresetDetails_lblPresetName = 2131427340;
-			
-			// aapt resource value: 0x7f0b000e
-			public const int equalizerPresetDetails_listView = 2131427342;
+			public const int albumCell_layout = 2131427332;
 			
 			// aapt resource value: 0x7f0b000a
-			public const int equalizerPresetDetails_mainLayout = 2131427338;
+			public const int equalizerPresetCell_lblName = 2131427338;
 			
-			// aapt resource value: 0x7f0b000d
-			public const int equalizerPresetDetails_txtPresetName = 2131427341;
+			// aapt resource value: 0x7f0b00bc
+			public const int equalizerPresetDetailsMenu_item_save = 2131427516;
+			
+			// aapt resource value: 0x7f0b0010
+			public const int equalizerPresetDetails_btnNormalize = 2131427344;
 			
 			// aapt resource value: 0x7f0b0011
-			public const int equalizerPresetFaderCell_lblFrequency = 2131427345;
+			public const int equalizerPresetDetails_btnReset = 2131427345;
 			
-			// aapt resource value: 0x7f0b0013
-			public const int equalizerPresetFaderCell_lblValue = 2131427347;
+			// aapt resource value: 0x7f0b000c
+			public const int equalizerPresetDetails_graphView = 2131427340;
+			
+			// aapt resource value: 0x7f0b000d
+			public const int equalizerPresetDetails_lblPresetName = 2131427341;
+			
+			// aapt resource value: 0x7f0b000f
+			public const int equalizerPresetDetails_listView = 2131427343;
+			
+			// aapt resource value: 0x7f0b000b
+			public const int equalizerPresetDetails_mainLayout = 2131427339;
+			
+			// aapt resource value: 0x7f0b000e
+			public const int equalizerPresetDetails_txtPresetName = 2131427342;
 			
 			// aapt resource value: 0x7f0b0012
-			public const int equalizerPresetFaderCell_seekBar = 2131427346;
-			
-			// aapt resource value: 0x7f0b00b5
-			public const int equalizerPresetsMenu_item_add = 2131427509;
-			
-			// aapt resource value: 0x7f0b001a
-			public const int equalizerPresets_btnBypass = 2131427354;
-			
-			// aapt resource value: 0x7f0b0019
-			public const int equalizerPresets_lblBypass = 2131427353;
-			
-			// aapt resource value: 0x7f0b0017
-			public const int equalizerPresets_lblMasterVolume = 2131427351;
-			
-			// aapt resource value: 0x7f0b001b
-			public const int equalizerPresets_listView = 2131427355;
+			public const int equalizerPresetFaderCell_lblFrequency = 2131427346;
 			
 			// aapt resource value: 0x7f0b0014
-			public const int equalizerPresets_mainLayout = 2131427348;
+			public const int equalizerPresetFaderCell_lblValue = 2131427348;
 			
-			// aapt resource value: 0x7f0b0016
-			public const int equalizerPresets_outputMeterView = 2131427350;
+			// aapt resource value: 0x7f0b0013
+			public const int equalizerPresetFaderCell_seekBar = 2131427347;
+			
+			// aapt resource value: 0x7f0b00bd
+			public const int equalizerPresetsMenu_item_add = 2131427517;
+			
+			// aapt resource value: 0x7f0b001b
+			public const int equalizerPresets_btnBypass = 2131427355;
+			
+			// aapt resource value: 0x7f0b001a
+			public const int equalizerPresets_lblBypass = 2131427354;
 			
 			// aapt resource value: 0x7f0b0018
-			public const int equalizerPresets_seekBarVolume = 2131427352;
-			
-			// aapt resource value: 0x7f0b0015
-			public const int equalizerPresets_topLayout = 2131427349;
-			
-			// aapt resource value: 0x7f0b0008
-			public const int fragment_audioSettings_lblTitle = 2131427336;
-			
-			// aapt resource value: 0x7f0b0007
-			public const int fragment_audioSettings_mainLayout = 2131427335;
-			
-			// aapt resource value: 0x7f0b001d
-			public const int fragment_generalSettings_lblTitle = 2131427357;
+			public const int equalizerPresets_lblMasterVolume = 2131427352;
 			
 			// aapt resource value: 0x7f0b001c
-			public const int fragment_generalSettings_mainLayout = 2131427356;
+			public const int equalizerPresets_listView = 2131427356;
 			
-			// aapt resource value: 0x7f0b00af
-			public const int fragment_updateLibrary_button = 2131427503;
+			// aapt resource value: 0x7f0b0015
+			public const int equalizerPresets_mainLayout = 2131427349;
 			
-			// aapt resource value: 0x7f0b00ae
-			public const int fragment_updateLibrary_lblSubtitle = 2131427502;
+			// aapt resource value: 0x7f0b0017
+			public const int equalizerPresets_outputMeterView = 2131427351;
 			
-			// aapt resource value: 0x7f0b00ad
-			public const int fragment_updateLibrary_lblTitle = 2131427501;
+			// aapt resource value: 0x7f0b0019
+			public const int equalizerPresets_seekBarVolume = 2131427353;
 			
-			// aapt resource value: 0x7f0b00aa
-			public const int fragment_updateLibrary_mainLayout = 2131427498;
+			// aapt resource value: 0x7f0b0016
+			public const int equalizerPresets_topLayout = 2131427350;
 			
-			// aapt resource value: 0x7f0b00ac
-			public const int fragment_updateLibrary_progressBar = 2131427500;
+			// aapt resource value: 0x7f0b0009
+			public const int fragment_audioSettings_lblTitle = 2131427337;
 			
-			// aapt resource value: 0x7f0b00ab
-			public const int fragment_updateLibrary_relativeLayout = 2131427499;
+			// aapt resource value: 0x7f0b0008
+			public const int fragment_audioSettings_mainLayout = 2131427336;
 			
 			// aapt resource value: 0x7f0b001e
-			public const int genericcell_image = 2131427358;
+			public const int fragment_generalSettings_lblTitle = 2131427358;
 			
-			// aapt resource value: 0x7f0b001f
-			public const int genericcell_title = 2131427359;
-			
-			// aapt resource value: 0x7f0b0023
-			public const int libraryPreferences_btnEnableSync = 2131427363;
-			
-			// aapt resource value: 0x7f0b0026
-			public const int libraryPreferences_btnResetLibrary = 2131427366;
-			
-			// aapt resource value: 0x7f0b0027
-			public const int libraryPreferences_btnUpdateLibrary = 2131427367;
-			
-			// aapt resource value: 0x7f0b0022
-			public const int libraryPreferences_lblEnableSync = 2131427362;
-			
-			// aapt resource value: 0x7f0b0024
-			public const int libraryPreferences_lblHTTPPort = 2131427364;
-			
-			// aapt resource value: 0x7f0b0021
-			public const int libraryPreferences_lblTitle = 2131427361;
-			
-			// aapt resource value: 0x7f0b0020
-			public const int libraryPreferences_mainLayout = 2131427360;
-			
-			// aapt resource value: 0x7f0b0025
-			public const int libraryPreferences_txtHTTPPort = 2131427365;
-			
-			// aapt resource value: 0x7f0b0029
-			public const int loops_btnAdd = 2131427369;
-			
-			// aapt resource value: 0x7f0b0028
-			public const int loops_lblTitle = 2131427368;
-			
-			// aapt resource value: 0x7f0b002a
-			public const int loops_listView = 2131427370;
-			
-			// aapt resource value: 0x7f0b002b
-			public const int main_layout = 2131427371;
-			
-			// aapt resource value: 0x7f0b002c
-			public const int main_miniplayer = 2131427372;
-			
-			// aapt resource value: 0x7f0b0034
-			public const int main_miniplayer_btnNext = 2131427380;
-			
-			// aapt resource value: 0x7f0b0033
-			public const int main_miniplayer_btnPlayPause = 2131427379;
-			
-			// aapt resource value: 0x7f0b0032
-			public const int main_miniplayer_btnPrevious = 2131427378;
-			
-			// aapt resource value: 0x7f0b002d
-			public const int main_miniplayer_imageAlbum = 2131427373;
-			
-			// aapt resource value: 0x7f0b0030
-			public const int main_miniplayer_lblAlbumTitle = 2131427376;
-			
-			// aapt resource value: 0x7f0b002f
-			public const int main_miniplayer_lblArtistName = 2131427375;
-			
-			// aapt resource value: 0x7f0b0035
-			public const int main_miniplayer_lblSongPosition = 2131427381;
-			
-			// aapt resource value: 0x7f0b0031
-			public const int main_miniplayer_lblSongTitle = 2131427377;
-			
-			// aapt resource value: 0x7f0b002e
-			public const int main_miniplayer_text = 2131427374;
-			
-			// aapt resource value: 0x7f0b0036
-			public const int main_pager = 2131427382;
-			
-			// aapt resource value: 0x7f0b0037
-			public const int main_pager_title_strip = 2131427383;
-			
-			// aapt resource value: 0x7f0b0038
-			public const int markerCell_letter = 2131427384;
-			
-			// aapt resource value: 0x7f0b0039
-			public const int markerCell_name = 2131427385;
-			
-			// aapt resource value: 0x7f0b003a
-			public const int markerCell_position = 2131427386;
-			
-			// aapt resource value: 0x7f0b003c
-			public const int markerDetails_lblTitle = 2131427388;
-			
-			// aapt resource value: 0x7f0b003b
-			public const int markerDetails_mainLayout = 2131427387;
-			
-			// aapt resource value: 0x7f0b003e
-			public const int markers_btnAdd = 2131427390;
-			
-			// aapt resource value: 0x7f0b003d
-			public const int markers_lblTitle = 2131427389;
-			
-			// aapt resource value: 0x7f0b003f
-			public const int markers_listView = 2131427391;
-			
-			// aapt resource value: 0x7f0b004d
-			public const int mobileLibraryBrowserCell_imageNowPlaying = 2131427405;
-			
-			// aapt resource value: 0x7f0b0048
-			public const int mobileLibraryBrowserCell_index = 2131427400;
-			
-			// aapt resource value: 0x7f0b004a
-			public const int mobileLibraryBrowserCell_layoutSubtitle = 2131427402;
-			
-			// aapt resource value: 0x7f0b004c
-			public const int mobileLibraryBrowserCell_lblSubtitle = 2131427404;
-			
-			// aapt resource value: 0x7f0b0049
-			public const int mobileLibraryBrowserCell_lblTitle = 2131427401;
-			
-			// aapt resource value: 0x7f0b004b
-			public const int mobileLibraryBrowserCell_lblTitleWithSubtitle = 2131427403;
-			
-			// aapt resource value: 0x7f0b0047
-			public const int mobileLibraryBrowser_gridView = 2131427399;
-			
-			// aapt resource value: 0x7f0b0041
-			public const int mobileLibraryBrowser_imageAlbum = 2131427393;
-			
-			// aapt resource value: 0x7f0b0040
-			public const int mobileLibraryBrowser_layoutAlbum = 2131427392;
-			
-			// aapt resource value: 0x7f0b0045
-			public const int mobileLibraryBrowser_lblAlbumLength = 2131427397;
-			
-			// aapt resource value: 0x7f0b0044
-			public const int mobileLibraryBrowser_lblAlbumSongCount = 2131427396;
-			
-			// aapt resource value: 0x7f0b0043
-			public const int mobileLibraryBrowser_lblAlbumTitle = 2131427395;
-			
-			// aapt resource value: 0x7f0b0042
-			public const int mobileLibraryBrowser_lblArtistName = 2131427394;
-			
-			// aapt resource value: 0x7f0b0046
-			public const int mobileLibraryBrowser_listView = 2131427398;
-			
-			// aapt resource value: 0x7f0b0051
-			public const int pitchShifting_btnChangeKey = 2131427409;
-			
-			// aapt resource value: 0x7f0b0057
-			public const int pitchShifting_btnDecrement = 2131427415;
-			
-			// aapt resource value: 0x7f0b0058
-			public const int pitchShifting_btnIncrement = 2131427416;
-			
-			// aapt resource value: 0x7f0b0059
-			public const int pitchShifting_btnReset = 2131427417;
-			
-			// aapt resource value: 0x7f0b0052
-			public const int pitchShifting_lblCurrentInterval = 2131427410;
-			
-			// aapt resource value: 0x7f0b0054
-			public const int pitchShifting_lblCurrentIntervalValue = 2131427412;
-			
-			// aapt resource value: 0x7f0b0053
-			public const int pitchShifting_lblNewKey = 2131427411;
-			
-			// aapt resource value: 0x7f0b0055
-			public const int pitchShifting_lblNewKeyValue = 2131427413;
-			
-			// aapt resource value: 0x7f0b004f
-			public const int pitchShifting_lblReferenceKey = 2131427407;
-			
-			// aapt resource value: 0x7f0b0050
-			public const int pitchShifting_lblReferenceKeyValue = 2131427408;
-			
-			// aapt resource value: 0x7f0b004e
-			public const int pitchShifting_lblTitle = 2131427406;
-			
-			// aapt resource value: 0x7f0b0056
-			public const int pitchShifting_seekBar = 2131427414;
-			
-			// aapt resource value: 0x7f0b00b6
-			public const int playerMenu_item_effects = 2131427510;
-			
-			// aapt resource value: 0x7f0b006b
-			public const int playerMetadata_lblAlbumTitle = 2131427435;
-			
-			// aapt resource value: 0x7f0b006a
-			public const int playerMetadata_lblArtistName = 2131427434;
-			
-			// aapt resource value: 0x7f0b006c
-			public const int playerMetadata_lblSongTitle = 2131427436;
-			
-			// aapt resource value: 0x7f0b0066
-			public const int player_btnNext = 2131427430;
-			
-			// aapt resource value: 0x7f0b0065
-			public const int player_btnPlayPause = 2131427429;
-			
-			// aapt resource value: 0x7f0b0067
-			public const int player_btnPlaylist = 2131427431;
-			
-			// aapt resource value: 0x7f0b0064
-			public const int player_btnPrevious = 2131427428;
-			
-			// aapt resource value: 0x7f0b0068
-			public const int player_btnRepeat = 2131427432;
-			
-			// aapt resource value: 0x7f0b0069
-			public const int player_btnShuffle = 2131427433;
-			
-			// aapt resource value: 0x7f0b0061
-			public const int player_imageViewAlbumArt = 2131427425;
-			
-			// aapt resource value: 0x7f0b0063
-			public const int player_layoutButtons = 2131427427;
-			
-			// aapt resource value: 0x7f0b005b
-			public const int player_layoutPosition = 2131427419;
-			
-			// aapt resource value: 0x7f0b005e
-			public const int player_lblLength = 2131427422;
-			
-			// aapt resource value: 0x7f0b005c
-			public const int player_lblPosition = 2131427420;
-			
-			// aapt resource value: 0x7f0b0060
-			public const int player_linearLayoutSubviews = 2131427424;
-			
-			// aapt resource value: 0x7f0b005a
-			public const int player_mainLayout = 2131427418;
-			
-			// aapt resource value: 0x7f0b0062
-			public const int player_pager = 2131427426;
-			
-			// aapt resource value: 0x7f0b005d
-			public const int player_seekBar = 2131427421;
-			
-			// aapt resource value: 0x7f0b005f
-			public const int player_waveFormView = 2131427423;
-			
-			// aapt resource value: 0x7f0b006d
-			public const int preferences_mainLayout = 2131427437;
-			
-			// aapt resource value: 0x7f0b006e
-			public const int preferences_pager = 2131427438;
-			
-			// aapt resource value: 0x7f0b006f
-			public const int preferences_pager_title_strip = 2131427439;
-			
-			// aapt resource value: 0x7f0b0070
-			public const int splash_layout = 2131427440;
-			
-			// aapt resource value: 0x7f0b0071
-			public const int splash_text = 2131427441;
-			
-			// aapt resource value: 0x7f0b007d
-			public const int syncDownload_lblCompleted = 2131427453;
-			
-			// aapt resource value: 0x7f0b007c
-			public const int syncDownload_lblCompletedValue = 2131427452;
-			
-			// aapt resource value: 0x7f0b0083
-			public const int syncDownload_lblCurrentFileProgress = 2131427459;
-			
-			// aapt resource value: 0x7f0b0082
-			public const int syncDownload_lblCurrentFileProgressValue = 2131427458;
-			
-			// aapt resource value: 0x7f0b0085
-			public const int syncDownload_lblDownloadSpeed = 2131427461;
-			
-			// aapt resource value: 0x7f0b0084
-			public const int syncDownload_lblDownloadSpeedValue = 2131427460;
-			
-			// aapt resource value: 0x7f0b0087
-			public const int syncDownload_lblErrors = 2131427463;
-			
-			// aapt resource value: 0x7f0b0086
-			public const int syncDownload_lblErrorsValue = 2131427462;
-			
-			// aapt resource value: 0x7f0b007b
-			public const int syncDownload_lblFileName = 2131427451;
-			
-			// aapt resource value: 0x7f0b007f
-			public const int syncDownload_lblFilesDownloaded = 2131427455;
-			
-			// aapt resource value: 0x7f0b007e
-			public const int syncDownload_lblFilesDownloadedValue = 2131427454;
-			
-			// aapt resource value: 0x7f0b007a
-			public const int syncDownload_lblTitle = 2131427450;
-			
-			// aapt resource value: 0x7f0b0081
-			public const int syncDownload_lblTotalFiles = 2131427457;
-			
-			// aapt resource value: 0x7f0b0080
-			public const int syncDownload_lblTotalFilesValue = 2131427456;
-			
-			// aapt resource value: 0x7f0b0078
-			public const int syncDownload_mainLayout = 2131427448;
-			
-			// aapt resource value: 0x7f0b0079
-			public const int syncDownload_progressBar = 2131427449;
-			
-			// aapt resource value: 0x7f0b0088
-			public const int syncManualConnect_lblIPAddress = 2131427464;
-			
-			// aapt resource value: 0x7f0b008a
-			public const int syncManualConnect_lblPort = 2131427466;
-			
-			// aapt resource value: 0x7f0b0089
-			public const int syncManualConnect_txtIPAddress = 2131427465;
-			
-			// aapt resource value: 0x7f0b008b
-			public const int syncManualConnect_txtPort = 2131427467;
-			
-			// aapt resource value: 0x7f0b0097
-			public const int syncMenuCell_checkmark = 2131427479;
-			
-			// aapt resource value: 0x7f0b0094
-			public const int syncMenuCell_image = 2131427476;
-			
-			// aapt resource value: 0x7f0b0095
-			public const int syncMenuCell_index = 2131427477;
-			
-			// aapt resource value: 0x7f0b0096
-			public const int syncMenuCell_title = 2131427478;
-			
-			// aapt resource value: 0x7f0b00b7
-			public const int syncMenuMenu_item_sync = 2131427511;
-			
-			// aapt resource value: 0x7f0b0093
-			public const int syncMenu_btnSelectAll = 2131427475;
-			
-			// aapt resource value: 0x7f0b0092
-			public const int syncMenu_lblFreeSpace = 2131427474;
-			
-			// aapt resource value: 0x7f0b008e
-			public const int syncMenu_lblStatus = 2131427470;
-			
-			// aapt resource value: 0x7f0b0091
-			public const int syncMenu_lblTotal = 2131427473;
-			
-			// aapt resource value: 0x7f0b0090
-			public const int syncMenu_listView = 2131427472;
-			
-			// aapt resource value: 0x7f0b008c
-			public const int syncMenu_loadingLayout = 2131427468;
-			
-			// aapt resource value: 0x7f0b008f
-			public const int syncMenu_mainLayout = 2131427471;
-			
-			// aapt resource value: 0x7f0b008d
-			public const int syncMenu_progressBar = 2131427469;
-			
-			// aapt resource value: 0x7f0b009d
-			public const int syncWebBrowser_lblCode = 2131427485;
-			
-			// aapt resource value: 0x7f0b0099
-			public const int syncWebBrowser_lblStep1 = 2131427481;
-			
-			// aapt resource value: 0x7f0b009a
-			public const int syncWebBrowser_lblStep1Details = 2131427482;
-			
-			// aapt resource value: 0x7f0b009c
-			public const int syncWebBrowser_lblStep2 = 2131427484;
-			
-			// aapt resource value: 0x7f0b009b
-			public const int syncWebBrowser_lblUrl = 2131427483;
-			
-			// aapt resource value: 0x7f0b0098
-			public const int syncWebBrowser_mainLayout = 2131427480;
-			
-			// aapt resource value: 0x7f0b0077
-			public const int sync_btnConnectManually = 2131427447;
-			
-			// aapt resource value: 0x7f0b0073
-			public const int sync_lblIPAddress = 2131427443;
-			
-			// aapt resource value: 0x7f0b0075
-			public const int sync_lblStatus = 2131427445;
-			
-			// aapt resource value: 0x7f0b0076
-			public const int sync_listView = 2131427446;
-			
-			// aapt resource value: 0x7f0b0072
-			public const int sync_mainLayout = 2131427442;
-			
-			// aapt resource value: 0x7f0b0074
-			public const int sync_progressBar = 2131427444;
-			
-			// aapt resource value: 0x7f0b00a7
-			public const int timeShifting_btnDecrement = 2131427495;
-			
-			// aapt resource value: 0x7f0b00a1
-			public const int timeShifting_btnDetectTempo = 2131427489;
-			
-			// aapt resource value: 0x7f0b00a8
-			public const int timeShifting_btnIncrement = 2131427496;
-			
-			// aapt resource value: 0x7f0b00a9
-			public const int timeShifting_btnReset = 2131427497;
-			
-			// aapt resource value: 0x7f0b00a2
-			public const int timeShifting_lblCurrentTempo = 2131427490;
-			
-			// aapt resource value: 0x7f0b00a4
-			public const int timeShifting_lblCurrentTempoValue = 2131427492;
-			
-			// aapt resource value: 0x7f0b009f
-			public const int timeShifting_lblDetectedTempo = 2131427487;
-			
-			// aapt resource value: 0x7f0b00a0
-			public const int timeShifting_lblDetectedTempoValue = 2131427488;
-			
-			// aapt resource value: 0x7f0b00a3
-			public const int timeShifting_lblReferenceTempo = 2131427491;
-			
-			// aapt resource value: 0x7f0b00a5
-			public const int timeShifting_lblReferenceTempoValue = 2131427493;
-			
-			// aapt resource value: 0x7f0b009e
-			public const int timeShifting_lblTitle = 2131427486;
-			
-			// aapt resource value: 0x7f0b00a6
-			public const int timeShifting_seekBar = 2131427494;
+			// aapt resource value: 0x7f0b001d
+			public const int fragment_generalSettings_mainLayout = 2131427357;
 			
 			// aapt resource value: 0x7f0b00b0
-			public const int widgetPlayer = 2131427504;
+			public const int fragment_updateLibrary_button = 2131427504;
 			
-			// aapt resource value: 0x7f0b00b2
-			public const int widgetPlayerLoading = 2131427506;
+			// aapt resource value: 0x7f0b00af
+			public const int fragment_updateLibrary_lblSubtitle = 2131427503;
 			
-			// aapt resource value: 0x7f0b00b3
-			public const int widgetPlayerLoading_Message = 2131427507;
+			// aapt resource value: 0x7f0b00ae
+			public const int fragment_updateLibrary_lblTitle = 2131427502;
+			
+			// aapt resource value: 0x7f0b00ab
+			public const int fragment_updateLibrary_mainLayout = 2131427499;
+			
+			// aapt resource value: 0x7f0b00ad
+			public const int fragment_updateLibrary_progressBar = 2131427501;
+			
+			// aapt resource value: 0x7f0b00ac
+			public const int fragment_updateLibrary_relativeLayout = 2131427500;
+			
+			// aapt resource value: 0x7f0b001f
+			public const int genericcell_image = 2131427359;
+			
+			// aapt resource value: 0x7f0b0020
+			public const int genericcell_title = 2131427360;
+			
+			// aapt resource value: 0x7f0b0024
+			public const int libraryPreferences_btnEnableSync = 2131427364;
+			
+			// aapt resource value: 0x7f0b0027
+			public const int libraryPreferences_btnResetLibrary = 2131427367;
+			
+			// aapt resource value: 0x7f0b0028
+			public const int libraryPreferences_btnUpdateLibrary = 2131427368;
+			
+			// aapt resource value: 0x7f0b0023
+			public const int libraryPreferences_lblEnableSync = 2131427363;
+			
+			// aapt resource value: 0x7f0b0025
+			public const int libraryPreferences_lblHTTPPort = 2131427365;
+			
+			// aapt resource value: 0x7f0b0022
+			public const int libraryPreferences_lblTitle = 2131427362;
+			
+			// aapt resource value: 0x7f0b0021
+			public const int libraryPreferences_mainLayout = 2131427361;
+			
+			// aapt resource value: 0x7f0b0026
+			public const int libraryPreferences_txtHTTPPort = 2131427366;
+			
+			// aapt resource value: 0x7f0b002a
+			public const int loops_btnAdd = 2131427370;
+			
+			// aapt resource value: 0x7f0b0029
+			public const int loops_lblTitle = 2131427369;
+			
+			// aapt resource value: 0x7f0b002b
+			public const int loops_listView = 2131427371;
+			
+			// aapt resource value: 0x7f0b002c
+			public const int main_layout = 2131427372;
+			
+			// aapt resource value: 0x7f0b002d
+			public const int main_miniplayer = 2131427373;
+			
+			// aapt resource value: 0x7f0b0035
+			public const int main_miniplayer_btnNext = 2131427381;
+			
+			// aapt resource value: 0x7f0b0034
+			public const int main_miniplayer_btnPlayPause = 2131427380;
+			
+			// aapt resource value: 0x7f0b0033
+			public const int main_miniplayer_btnPrevious = 2131427379;
+			
+			// aapt resource value: 0x7f0b002e
+			public const int main_miniplayer_imageAlbum = 2131427374;
+			
+			// aapt resource value: 0x7f0b0031
+			public const int main_miniplayer_lblAlbumTitle = 2131427377;
+			
+			// aapt resource value: 0x7f0b0030
+			public const int main_miniplayer_lblArtistName = 2131427376;
+			
+			// aapt resource value: 0x7f0b0036
+			public const int main_miniplayer_lblSongPosition = 2131427382;
+			
+			// aapt resource value: 0x7f0b0032
+			public const int main_miniplayer_lblSongTitle = 2131427378;
+			
+			// aapt resource value: 0x7f0b002f
+			public const int main_miniplayer_text = 2131427375;
+			
+			// aapt resource value: 0x7f0b0037
+			public const int main_pager = 2131427383;
+			
+			// aapt resource value: 0x7f0b0038
+			public const int main_pager_title_strip = 2131427384;
+			
+			// aapt resource value: 0x7f0b0039
+			public const int markerCell_letter = 2131427385;
+			
+			// aapt resource value: 0x7f0b003a
+			public const int markerCell_name = 2131427386;
+			
+			// aapt resource value: 0x7f0b003b
+			public const int markerCell_position = 2131427387;
+			
+			// aapt resource value: 0x7f0b003d
+			public const int markerDetails_lblTitle = 2131427389;
+			
+			// aapt resource value: 0x7f0b003c
+			public const int markerDetails_mainLayout = 2131427388;
+			
+			// aapt resource value: 0x7f0b003f
+			public const int markers_btnAdd = 2131427391;
+			
+			// aapt resource value: 0x7f0b003e
+			public const int markers_lblTitle = 2131427390;
+			
+			// aapt resource value: 0x7f0b0040
+			public const int markers_listView = 2131427392;
+			
+			// aapt resource value: 0x7f0b004e
+			public const int mobileLibraryBrowserCell_imageNowPlaying = 2131427406;
+			
+			// aapt resource value: 0x7f0b0049
+			public const int mobileLibraryBrowserCell_index = 2131427401;
+			
+			// aapt resource value: 0x7f0b004b
+			public const int mobileLibraryBrowserCell_layoutSubtitle = 2131427403;
+			
+			// aapt resource value: 0x7f0b004d
+			public const int mobileLibraryBrowserCell_lblSubtitle = 2131427405;
+			
+			// aapt resource value: 0x7f0b004a
+			public const int mobileLibraryBrowserCell_lblTitle = 2131427402;
+			
+			// aapt resource value: 0x7f0b004c
+			public const int mobileLibraryBrowserCell_lblTitleWithSubtitle = 2131427404;
+			
+			// aapt resource value: 0x7f0b0048
+			public const int mobileLibraryBrowser_gridView = 2131427400;
+			
+			// aapt resource value: 0x7f0b0042
+			public const int mobileLibraryBrowser_imageAlbum = 2131427394;
+			
+			// aapt resource value: 0x7f0b0041
+			public const int mobileLibraryBrowser_layoutAlbum = 2131427393;
+			
+			// aapt resource value: 0x7f0b0046
+			public const int mobileLibraryBrowser_lblAlbumLength = 2131427398;
+			
+			// aapt resource value: 0x7f0b0045
+			public const int mobileLibraryBrowser_lblAlbumSongCount = 2131427397;
+			
+			// aapt resource value: 0x7f0b0044
+			public const int mobileLibraryBrowser_lblAlbumTitle = 2131427396;
+			
+			// aapt resource value: 0x7f0b0043
+			public const int mobileLibraryBrowser_lblArtistName = 2131427395;
+			
+			// aapt resource value: 0x7f0b0047
+			public const int mobileLibraryBrowser_listView = 2131427399;
+			
+			// aapt resource value: 0x7f0b0052
+			public const int pitchShifting_btnChangeKey = 2131427410;
+			
+			// aapt resource value: 0x7f0b0058
+			public const int pitchShifting_btnDecrement = 2131427416;
+			
+			// aapt resource value: 0x7f0b0059
+			public const int pitchShifting_btnIncrement = 2131427417;
+			
+			// aapt resource value: 0x7f0b005a
+			public const int pitchShifting_btnReset = 2131427418;
+			
+			// aapt resource value: 0x7f0b0053
+			public const int pitchShifting_lblCurrentInterval = 2131427411;
+			
+			// aapt resource value: 0x7f0b0055
+			public const int pitchShifting_lblCurrentIntervalValue = 2131427413;
+			
+			// aapt resource value: 0x7f0b0054
+			public const int pitchShifting_lblNewKey = 2131427412;
+			
+			// aapt resource value: 0x7f0b0056
+			public const int pitchShifting_lblNewKeyValue = 2131427414;
+			
+			// aapt resource value: 0x7f0b0050
+			public const int pitchShifting_lblReferenceKey = 2131427408;
+			
+			// aapt resource value: 0x7f0b0051
+			public const int pitchShifting_lblReferenceKeyValue = 2131427409;
+			
+			// aapt resource value: 0x7f0b004f
+			public const int pitchShifting_lblTitle = 2131427407;
+			
+			// aapt resource value: 0x7f0b0057
+			public const int pitchShifting_seekBar = 2131427415;
+			
+			// aapt resource value: 0x7f0b00be
+			public const int playerMenu_item_effects = 2131427518;
+			
+			// aapt resource value: 0x7f0b006c
+			public const int playerMetadata_lblAlbumTitle = 2131427436;
+			
+			// aapt resource value: 0x7f0b006b
+			public const int playerMetadata_lblArtistName = 2131427435;
+			
+			// aapt resource value: 0x7f0b006d
+			public const int playerMetadata_lblSongTitle = 2131427437;
+			
+			// aapt resource value: 0x7f0b0067
+			public const int player_btnNext = 2131427431;
+			
+			// aapt resource value: 0x7f0b0066
+			public const int player_btnPlayPause = 2131427430;
+			
+			// aapt resource value: 0x7f0b0068
+			public const int player_btnPlaylist = 2131427432;
+			
+			// aapt resource value: 0x7f0b0065
+			public const int player_btnPrevious = 2131427429;
+			
+			// aapt resource value: 0x7f0b0069
+			public const int player_btnRepeat = 2131427433;
+			
+			// aapt resource value: 0x7f0b006a
+			public const int player_btnShuffle = 2131427434;
+			
+			// aapt resource value: 0x7f0b0062
+			public const int player_imageViewAlbumArt = 2131427426;
+			
+			// aapt resource value: 0x7f0b0064
+			public const int player_layoutButtons = 2131427428;
+			
+			// aapt resource value: 0x7f0b005c
+			public const int player_layoutPosition = 2131427420;
+			
+			// aapt resource value: 0x7f0b005f
+			public const int player_lblLength = 2131427423;
+			
+			// aapt resource value: 0x7f0b005d
+			public const int player_lblPosition = 2131427421;
+			
+			// aapt resource value: 0x7f0b0061
+			public const int player_linearLayoutSubviews = 2131427425;
+			
+			// aapt resource value: 0x7f0b005b
+			public const int player_mainLayout = 2131427419;
+			
+			// aapt resource value: 0x7f0b0063
+			public const int player_pager = 2131427427;
+			
+			// aapt resource value: 0x7f0b005e
+			public const int player_seekBar = 2131427422;
+			
+			// aapt resource value: 0x7f0b0060
+			public const int player_waveFormView = 2131427424;
+			
+			// aapt resource value: 0x7f0b006e
+			public const int preferences_mainLayout = 2131427438;
+			
+			// aapt resource value: 0x7f0b006f
+			public const int preferences_pager = 2131427439;
+			
+			// aapt resource value: 0x7f0b0070
+			public const int preferences_pager_title_strip = 2131427440;
+			
+			// aapt resource value: 0x7f0b0071
+			public const int splash_layout = 2131427441;
+			
+			// aapt resource value: 0x7f0b0072
+			public const int splash_text = 2131427442;
+			
+			// aapt resource value: 0x7f0b007e
+			public const int syncDownload_lblCompleted = 2131427454;
+			
+			// aapt resource value: 0x7f0b007d
+			public const int syncDownload_lblCompletedValue = 2131427453;
+			
+			// aapt resource value: 0x7f0b0084
+			public const int syncDownload_lblCurrentFileProgress = 2131427460;
+			
+			// aapt resource value: 0x7f0b0083
+			public const int syncDownload_lblCurrentFileProgressValue = 2131427459;
+			
+			// aapt resource value: 0x7f0b0086
+			public const int syncDownload_lblDownloadSpeed = 2131427462;
+			
+			// aapt resource value: 0x7f0b0085
+			public const int syncDownload_lblDownloadSpeedValue = 2131427461;
+			
+			// aapt resource value: 0x7f0b0088
+			public const int syncDownload_lblErrors = 2131427464;
+			
+			// aapt resource value: 0x7f0b0087
+			public const int syncDownload_lblErrorsValue = 2131427463;
+			
+			// aapt resource value: 0x7f0b007c
+			public const int syncDownload_lblFileName = 2131427452;
+			
+			// aapt resource value: 0x7f0b0080
+			public const int syncDownload_lblFilesDownloaded = 2131427456;
+			
+			// aapt resource value: 0x7f0b007f
+			public const int syncDownload_lblFilesDownloadedValue = 2131427455;
+			
+			// aapt resource value: 0x7f0b007b
+			public const int syncDownload_lblTitle = 2131427451;
+			
+			// aapt resource value: 0x7f0b0082
+			public const int syncDownload_lblTotalFiles = 2131427458;
+			
+			// aapt resource value: 0x7f0b0081
+			public const int syncDownload_lblTotalFilesValue = 2131427457;
+			
+			// aapt resource value: 0x7f0b0079
+			public const int syncDownload_mainLayout = 2131427449;
+			
+			// aapt resource value: 0x7f0b007a
+			public const int syncDownload_progressBar = 2131427450;
+			
+			// aapt resource value: 0x7f0b0089
+			public const int syncManualConnect_lblIPAddress = 2131427465;
+			
+			// aapt resource value: 0x7f0b008b
+			public const int syncManualConnect_lblPort = 2131427467;
+			
+			// aapt resource value: 0x7f0b008a
+			public const int syncManualConnect_txtIPAddress = 2131427466;
+			
+			// aapt resource value: 0x7f0b008c
+			public const int syncManualConnect_txtPort = 2131427468;
+			
+			// aapt resource value: 0x7f0b0098
+			public const int syncMenuCell_checkmark = 2131427480;
+			
+			// aapt resource value: 0x7f0b0095
+			public const int syncMenuCell_image = 2131427477;
+			
+			// aapt resource value: 0x7f0b0096
+			public const int syncMenuCell_index = 2131427478;
+			
+			// aapt resource value: 0x7f0b0097
+			public const int syncMenuCell_title = 2131427479;
+			
+			// aapt resource value: 0x7f0b00bf
+			public const int syncMenuMenu_item_sync = 2131427519;
+			
+			// aapt resource value: 0x7f0b0094
+			public const int syncMenu_btnSelectAll = 2131427476;
+			
+			// aapt resource value: 0x7f0b0093
+			public const int syncMenu_lblFreeSpace = 2131427475;
+			
+			// aapt resource value: 0x7f0b008f
+			public const int syncMenu_lblStatus = 2131427471;
+			
+			// aapt resource value: 0x7f0b0092
+			public const int syncMenu_lblTotal = 2131427474;
+			
+			// aapt resource value: 0x7f0b0091
+			public const int syncMenu_listView = 2131427473;
+			
+			// aapt resource value: 0x7f0b008d
+			public const int syncMenu_loadingLayout = 2131427469;
+			
+			// aapt resource value: 0x7f0b0090
+			public const int syncMenu_mainLayout = 2131427472;
+			
+			// aapt resource value: 0x7f0b008e
+			public const int syncMenu_progressBar = 2131427470;
+			
+			// aapt resource value: 0x7f0b009e
+			public const int syncWebBrowser_lblCode = 2131427486;
+			
+			// aapt resource value: 0x7f0b009a
+			public const int syncWebBrowser_lblStep1 = 2131427482;
+			
+			// aapt resource value: 0x7f0b009b
+			public const int syncWebBrowser_lblStep1Details = 2131427483;
+			
+			// aapt resource value: 0x7f0b009d
+			public const int syncWebBrowser_lblStep2 = 2131427485;
+			
+			// aapt resource value: 0x7f0b009c
+			public const int syncWebBrowser_lblUrl = 2131427484;
+			
+			// aapt resource value: 0x7f0b0099
+			public const int syncWebBrowser_mainLayout = 2131427481;
+			
+			// aapt resource value: 0x7f0b0078
+			public const int sync_btnConnectManually = 2131427448;
+			
+			// aapt resource value: 0x7f0b0074
+			public const int sync_lblIPAddress = 2131427444;
+			
+			// aapt resource value: 0x7f0b0076
+			public const int sync_lblStatus = 2131427446;
+			
+			// aapt resource value: 0x7f0b0077
+			public const int sync_listView = 2131427447;
+			
+			// aapt resource value: 0x7f0b0073
+			public const int sync_mainLayout = 2131427443;
+			
+			// aapt resource value: 0x7f0b0075
+			public const int sync_progressBar = 2131427445;
+			
+			// aapt resource value: 0x7f0b00a8
+			public const int timeShifting_btnDecrement = 2131427496;
+			
+			// aapt resource value: 0x7f0b00a2
+			public const int timeShifting_btnDetectTempo = 2131427490;
+			
+			// aapt resource value: 0x7f0b00a9
+			public const int timeShifting_btnIncrement = 2131427497;
+			
+			// aapt resource value: 0x7f0b00aa
+			public const int timeShifting_btnReset = 2131427498;
+			
+			// aapt resource value: 0x7f0b00a3
+			public const int timeShifting_lblCurrentTempo = 2131427491;
+			
+			// aapt resource value: 0x7f0b00a5
+			public const int timeShifting_lblCurrentTempoValue = 2131427493;
+			
+			// aapt resource value: 0x7f0b00a0
+			public const int timeShifting_lblDetectedTempo = 2131427488;
+			
+			// aapt resource value: 0x7f0b00a1
+			public const int timeShifting_lblDetectedTempoValue = 2131427489;
+			
+			// aapt resource value: 0x7f0b00a4
+			public const int timeShifting_lblReferenceTempo = 2131427492;
+			
+			// aapt resource value: 0x7f0b00a6
+			public const int timeShifting_lblReferenceTempoValue = 2131427494;
+			
+			// aapt resource value: 0x7f0b009f
+			public const int timeShifting_lblTitle = 2131427487;
+			
+			// aapt resource value: 0x7f0b00a7
+			public const int timeShifting_seekBar = 2131427495;
 			
 			// aapt resource value: 0x7f0b00b1
-			public const int widgetPlayer_message = 2131427505;
+			public const int widgetPlayer = 2131427505;
+			
+			// aapt resource value: 0x7f0b00ba
+			public const int widgetPlayerLoading = 2131427514;
+			
+			// aapt resource value: 0x7f0b00bb
+			public const int widgetPlayerLoading_lblMessage = 2131427515;
+			
+			// aapt resource value: 0x7f0b00b8
+			public const int widgetPlayer_btnNext = 2131427512;
+			
+			// aapt resource value: 0x7f0b00b7
+			public const int widgetPlayer_btnPlayPause = 2131427511;
+			
+			// aapt resource value: 0x7f0b00b6
+			public const int widgetPlayer_btnPrevious = 2131427510;
+			
+			// aapt resource value: 0x7f0b00b2
+			public const int widgetPlayer_imageAlbum = 2131427506;
+			
+			// aapt resource value: 0x7f0b00b4
+			public const int widgetPlayer_lblAlbumTitle = 2131427508;
+			
+			// aapt resource value: 0x7f0b00b3
+			public const int widgetPlayer_lblArtistName = 2131427507;
+			
+			// aapt resource value: 0x7f0b00b9
+			public const int widgetPlayer_lblSongPosition = 2131427513;
+			
+			// aapt resource value: 0x7f0b00b5
+			public const int widgetPlayer_lblSongTitle = 2131427509;
 			
 			static Id()
 			{
