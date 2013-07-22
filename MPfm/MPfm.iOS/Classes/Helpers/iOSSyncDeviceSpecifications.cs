@@ -29,6 +29,19 @@ namespace MPfm.iOS.Helpers
     /// </summary>
     public class iOSSyncDeviceSpecifications : NSObject, ISyncDeviceSpecifications
     {
+        public event NetworkStateChanged OnNetworkStateChanged;
+
+        public iOSSyncDeviceSpecifications()
+        {
+            Console.WriteLine(">>>>>>>>>>>>>>>>>> SETTING REACHABILITY EVENT");
+            ReachabilityHelper.ReachabilityChanged += HandleReachabilityChanged;
+        }
+
+        private void HandleReachabilityChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine(">>>>>>>>>>>>>>>>>> REACHABILITY CHANGED");
+        }
+
         public SyncDeviceType GetDeviceType()
         {
             return SyncDeviceType.iOS;
@@ -64,6 +77,12 @@ namespace MPfm.iOS.Helpers
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        }
+
+        public void ReportNetworkStateChange(NetworkState networkState)
+        {
+            if(OnNetworkStateChanged != null)
+                OnNetworkStateChanged(networkState);
         }
     }
 }

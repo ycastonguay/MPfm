@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Models;
 using MPfm.iOS.Classes.Controls;
+using MPfm.Library.Objects;
 
 namespace MPfm.iOS
 {
@@ -237,6 +238,18 @@ namespace MPfm.iOS
                 var alertView = new UIAlertView("Sync Menu Error", ex.Message, null, "OK", null);
                 alertView.Show();
             });
+        }
+
+        public void SyncEmptyError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                var alertView = new UIAlertView("Sync Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
+        }
+
+        public void RefreshDevice(SyncDevice device)
+        {
         }
 
         public void RefreshLoading(bool isLoading, int progressPercentage)

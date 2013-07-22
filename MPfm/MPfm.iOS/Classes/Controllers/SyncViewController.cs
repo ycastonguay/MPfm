@@ -106,7 +106,7 @@ namespace MPfm.iOS
         {
             tableView.DeselectRow(indexPath, true);
             OnCancelDiscovery();
-            OnConnectDevice(_devices[indexPath.Row].Url);
+            OnConnectDevice(_devices[indexPath.Row]);
         }
 
         partial void actionConnectDeviceManually(NSObject sender)
@@ -119,7 +119,7 @@ namespace MPfm.iOS
 
         public Action OnStartDiscovery { get; set; }
         public Action OnCancelDiscovery { get; set; }
-        public Action<string> OnConnectDevice { get; set; }
+        public Action<SyncDevice> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
 
         public void SyncError(Exception ex)

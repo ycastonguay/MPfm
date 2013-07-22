@@ -82,10 +82,11 @@ namespace MPfm.iOS.Classes.Controllers
             });
         }
         
-        public void InitDone()
+        public void InitDone(bool isAppFirstStart)
         {
         }
         
         #endregion    
+
     }
 }

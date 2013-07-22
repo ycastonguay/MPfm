@@ -66,7 +66,6 @@ namespace MPfm.iOS
         #region ISyncDownloadView implementation
 
         public Action OnCancelDownload { get; set; }
-        public Action OnButtonPressed { get; set; }
 
         public void SyncDownloadError(Exception ex)
         {
@@ -74,6 +73,10 @@ namespace MPfm.iOS
                 var alertView = new UIAlertView("Sync Download Error", ex.Message, null, "OK", null);
                 alertView.Show();
             });
+        }
+
+        public void RefreshDevice(SyncDevice device)
+        {
         }
 
         public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)

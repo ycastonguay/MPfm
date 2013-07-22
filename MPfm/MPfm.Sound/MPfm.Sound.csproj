@@ -150,7 +150,6 @@
     <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
-    <Compile Include="MyBassNetKey.cs" />
     <Compile Include="BassNetWrapper\BassWrapper.cs" />
     <Compile Include="BassNetWrapper\BaseFx.cs" />
   </ItemGroup>

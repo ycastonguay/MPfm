@@ -1,5 +1,3 @@
-// This code is taken from https://github.com/xamarin/monotouch-samples/blob/master/ReachabilitySample/reachability.cs
-
 using System;
 using System.Net;
 using MonoTouch.Foundation;
@@ -9,7 +7,18 @@ using MonoTouch.CoreFoundation;
 
 namespace MPfm.iOS.Helpers
 {
-    public static class ReachabilityHelper {
+    public enum NetworkStatus {
+        NotReachable,
+        ReachableViaCarrierDataNetwork,
+        ReachableViaWiFiNetwork
+    }
+
+    /// <summary>
+    /// Reachability helper class, taken from:
+    /// https://github.com/xamarin/monotouch-samples/blob/master/ReachabilitySample/reachability.cs
+    /// </summary>
+    public static class ReachabilityHelper 
+    {
         public static string HostName = "www.google.com";
 
         public static bool IsReachableWithoutRequiringConnection (NetworkReachabilityFlags flags)
@@ -86,7 +95,7 @@ namespace MPfm.iOS.Helpers
                 defaultRouteReachability.SetCallback (OnChange);
                 defaultRouteReachability.Schedule (CFRunLoop.Current, CFRunLoop.ModeDefault);
             }
-            if (!defaultRouteReachability.TryGetFlags (out flags))
+            if (defaultRouteReachability.TryGetFlags (out flags))
                 return false;
             return IsReachableWithoutRequiringConnection (flags);
         }   
@@ -144,11 +153,5 @@ namespace MPfm.iOS.Helpers
             }
             return NetworkStatus.NotReachable;
         }
-    }
-
-    public enum NetworkStatus {
-        NotReachable,
-        ReachableViaCarrierDataNetwork,
-        ReachableViaWiFiNetwork
     }
 }
