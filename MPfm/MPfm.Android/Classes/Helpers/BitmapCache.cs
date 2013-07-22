@@ -42,6 +42,16 @@ namespace MPfm.Android.Classes.Helpers
             this.MaxHeight = maxHeight;            
         }
 
+        public void Clear()
+        {
+            memoryCache.EvictAll();            
+        }
+
+        public void Remove(string key)
+        {
+            memoryCache.Remove(key);
+        }
+
         private void AddBitmapToMemoryCache(string key, Bitmap bitmap)
         {
             if (GetBitmapFromMemoryCache(key) == null)
@@ -61,22 +71,21 @@ namespace MPfm.Android.Classes.Helpers
         }
 
         public void LoadBitmapFromByteArray(byte[] bytes, string key, ImageView imageView)
-        {
-            Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - key: {0}", key);            
+        {            
             Bitmap bitmap = GetBitmapFromMemoryCache(key);
             if (bitmap != null)
             {
-                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Loaded bitmap from cache!");
+                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Loaded bitmap from cache! key: {0}", key);
                 imageView.SetImageBitmap(bitmap);
             }
             else
             {
-                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Decoding album art and adding to cache...");
+                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Decoding album art and adding to cache... key: {0}", key);
                 Task.Factory.StartNew(() => {
                     bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
                     AddBitmapToMemoryCache(key, bitmap);
                     activity.RunOnUiThread(() => {
-                        Console.WriteLine("BitmapCache - Setting album art on image view...");
+                        Console.WriteLine("BitmapCache - Setting album art on image view... key: {0}", key);
                         imageView.SetImageBitmap(bitmap);
                         Animation animation = AnimationUtils.LoadAnimation(activity, Resource.Animation.fade_in);
                         imageView.StartAnimation(animation);

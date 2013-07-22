@@ -150,6 +150,7 @@ namespace MPfm.Android.Classes.Fragments
         public override void OnDestroy()
         {
             Console.WriteLine("MLBFragment - OnDestroy");
+            _bitmapCache.Clear();
             base.OnDestroy();
         }
 
