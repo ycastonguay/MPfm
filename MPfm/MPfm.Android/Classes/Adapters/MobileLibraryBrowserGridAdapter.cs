@@ -71,7 +71,7 @@ namespace MPfm.Android.Classes.Adapters
             //Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - GetView - position: {0}", position);
             var mainActivity = (MainActivity)_context;
             var item = _items[position];
-            string key = item.Query.ArtistName + "_" + item.Query.AlbumTitle;
+            string bitmapKey = item.Query.ArtistName + "_" + item.Query.AlbumTitle;
             View view = convertView;
             if (view == null) // no view to re-use, create new
                 view = _context.LayoutInflater.Inflate(Resource.Layout.AlbumCell, null);
@@ -82,26 +82,6 @@ namespace MPfm.Android.Classes.Adapters
             artistName.Text = _items[position].Title;
             albumTitle.Text = _items[position].Subtitle;
 
-            //if (imageView.Drawable != null)
-            //{
-            //    // Check if the bitmap is still in memory cache
-            //    //if (!mainActivity.BitmapCache.KeyExists(key))
-            //    //{
-            //        // Recycle the bitmap ONLY when the bitmap has been cleared from the memory cache, or the application will crash!
-            //        imageView.Drawable.Callback = null;
-            //        Bitmap bitmap = ((BitmapDrawable) imageView.Drawable).Bitmap;
-            //        if (bitmap != null)
-            //        {
-            //            mainActivity.BitmapCache.Remove(key);
-            //            Console.WriteLine("##############>> MobileLibraryBrowserGridAdapter - Recycling bitmap key {0}", key);
-            //            //bitmap.Recycle();
-            //            bitmap.Dispose();
-            //            bitmap = null;
-            //        }
-            //    //}
-            //}
-            imageView.SetImageBitmap(null);
-
             // Try to limit the crazy Android code that spams requests for views that aren't even visible!
             if (position < _gridView.FirstVisiblePosition - 2) // -2 == number of columns
             {
@@ -109,12 +89,41 @@ namespace MPfm.Android.Classes.Adapters
                 return view;
             }
 
+            if (imageView.Drawable != null)
+            {
+                // Check if the bitmap is still in memory cache
+                string currentBitmapKey = imageView.Tag != null ? imageView.Tag.ToString() : "";
+                if (!mainActivity.BitmapCache.KeyExists(bitmapKey))
+                {                    
+                    Console.WriteLine("##############>> MobileLibraryBrowserGridAdapter - OH NO!!! Bitmap key {0} isn't in cache", currentBitmapKey);
+                    // Recycle the bitmap ONLY when the bitmap has been cleared from the memory cache, or the application will crash!
+                    imageView.Drawable.Callback = null;
+                    Bitmap bitmap = ((BitmapDrawable)imageView.Drawable).Bitmap;
+                    if (bitmap != null)
+                    {
+                        Console.WriteLine("##############>> MobileLibraryBrowserGridAdapter - Recycling bitmap key {0}", currentBitmapKey);
+                        //bitmap.Recycle();
+                        bitmap.Dispose();
+                        bitmap = null;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("##############>> MobileLibraryBrowserGridAdapter - Bitmap key {0} *IS IN CACHE*", currentBitmapKey);                    
+                }                
+            }
+            imageView.SetImageBitmap(null);
+
+
             // Check if bitmap is in cache before requesting album art (Android likes to request GetView extremely often for no good reason)
             //Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - Loading album art - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
-            if(mainActivity.BitmapCache.KeyExists(key))
+            if(mainActivity.BitmapCache.KeyExists(bitmapKey))
             {
                 //Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - Getting album art from cache - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
-                imageView.SetImageBitmap(mainActivity.BitmapCache.GetBitmapFromMemoryCache(key));                
+                Task.Factory.StartNew(() => {
+                    imageView.Tag = bitmapKey;
+                    imageView.SetImageBitmap(mainActivity.BitmapCache.GetBitmapFromMemoryCache(bitmapKey));
+                });
             }
             else
             {
@@ -145,6 +154,7 @@ namespace MPfm.Android.Classes.Adapters
                         Task.Factory.StartNew(() => {
                             //Console.WriteLine(">>>>>>>>>MobileLibraryBrowserGridAdapter - *LOADING BITMAP* from byte array for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
                             var image = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
+                            image.Tag = artistName + "_" + albumTitle;
                             mainActivity.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
                         });
                     }

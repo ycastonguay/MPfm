@@ -25,6 +25,7 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Adapters;
+using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Android.Classes.Helpers;
 using MPfm.MVP.Models;
@@ -50,7 +51,7 @@ namespace MPfm.Android.Classes.Fragments
         TextView _lblAlbumTitle;
         TextView _lblAlbumLength;
         TextView _lblAlbumSongCount;
-        BitmapCache _bitmapCache;
+        //BitmapCache _bitmapCache;
 
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base(null)
@@ -71,9 +72,10 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
 
             // Create bitmap cache
-            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
-            int cacheSize = maxMemory / 8;
-            _bitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
+            //int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
+            //int cacheSize = 4 * 1024 * 1024;
+            //int cacheSize = maxMemory / 8;
+            //_bitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
 
             _imageAlbum = _view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
             _layoutAlbum = _view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowser_layoutAlbum);
@@ -150,7 +152,7 @@ namespace MPfm.Android.Classes.Fragments
         public override void OnDestroy()
         {
             Console.WriteLine("MLBFragment - OnDestroy");
-            _bitmapCache.Clear();
+            //_bitmapCache.Clear();
             base.OnDestroy();
         }
 
@@ -215,7 +217,7 @@ namespace MPfm.Android.Classes.Fragments
                         _gridView.Visibility = ViewStates.Gone;
 
                         if (_entities.Count > 0)
-                        {
+                        {                            
                             var audioFile = _entities[0].AudioFile;
                             _lblArtistName.Text = audioFile.ArtistName;
                             _lblAlbumTitle.Text = audioFile.AlbumTitle;
@@ -233,7 +235,7 @@ namespace MPfm.Android.Classes.Fragments
                                     if (bytesImage.Length == 0)
                                         _imageAlbum.SetImageBitmap(null);
                                     else
-                                        _bitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);                            
+                                        ((MainActivity)Activity).BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
                                 }
                             });
                         }

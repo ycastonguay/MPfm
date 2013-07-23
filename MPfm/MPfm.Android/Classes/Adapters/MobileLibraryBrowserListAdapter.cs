@@ -18,10 +18,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
-using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using MPfm.Android.Classes.Objects;
 using MPfm.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters

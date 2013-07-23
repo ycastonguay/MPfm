@@ -81,6 +81,7 @@
     <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
+    <Compile Include="Classes\Cache\BitmapLruCache.cs" />
     <Compile Include="Classes\Clients\MyWebViewClient.cs" />
     <Compile Include="Classes\Controls\SquareImageView.cs" />
     <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
@@ -100,12 +101,10 @@
     <Compile Include="Classes\Fragments\GeneralPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\UpdateLibraryFragment.cs" />
     <Compile Include="Classes\Fragments\MobileLibraryBrowserFragment.cs" />
-    <Compile Include="Classes\Helpers\AndroidSyncDeviceSpecifications.cs" />
+    <Compile Include="Classes\AndroidSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Helpers\BitmapHelper.cs" />
-    <Compile Include="Classes\Helpers\BitmapCache.cs" />
+    <Compile Include="Classes\Cache\BitmapCache.cs" />
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
-    <Compile Include="Classes\Objects\ApplicationState.cs" />
-    <Compile Include="Classes\Objects\GenericListItem.cs" />
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
     <Compile Include="Classes\Services\WidgetService.cs" />
     <Compile Include="Classes\Widgets\PlayerWidgetProvider.cs" />

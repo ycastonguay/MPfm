@@ -27,6 +27,7 @@ using Android.OS;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Adapters;
+using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Helpers;
 using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;

@@ -30,10 +30,9 @@ using Android.Views.Animations;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Adapters;
+using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Fragments;
-using MPfm.Android.Classes.Helpers;
 using MPfm.Android.Classes.Navigation;
-using MPfm.Android.Classes.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
@@ -105,7 +104,8 @@ namespace MPfm.Android
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             int cacheSize = maxMemory / 8;
-            BitmapCache = new BitmapCache(this, cacheSize, 400, 400);
+            //int cacheSize = 4*1024*1024;
+            BitmapCache = new BitmapCache(this, cacheSize, 800, 800);
 
             // Listen to player changes to show/hide the mini player
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();

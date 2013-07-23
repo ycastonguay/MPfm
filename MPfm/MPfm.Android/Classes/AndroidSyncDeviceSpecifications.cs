@@ -16,17 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Android.App;
 using Android.Content;
 using Android.Net.Wifi;
 using Android.OS;
 using Android.Text.Format;
-using Java.IO;
 using MPfm.Library;
 using MPfm.Library.Objects;
-using Environment = System.Environment;
 
-namespace MPfm.Android.Classes.Helpers
+namespace MPfm.Android.Classes
 {
     /// <summary>
     /// Device specifications for iOS. Used for identifying sync devices.

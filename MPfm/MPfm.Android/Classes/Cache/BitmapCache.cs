@@ -22,21 +22,20 @@ using Android.Graphics;
 using Android.Util;
 using Android.Views.Animations;
 using Android.Widget;
-using Java.Lang;
-using MPfm.Sound.AudioFiles;
+using MPfm.Android.Classes.Helpers;
 
-namespace MPfm.Android.Classes.Helpers
+namespace MPfm.Android.Classes.Cache
 {
     public class BitmapCache
     {
         private Activity activity;
-        private LruCache memoryCache;
+        private BitmapLruCache memoryCache;
         public int MaxWidth { get; private set; }
         public int MaxHeight { get; private set; }
 
         public BitmapCache(Activity activity, int memorySize, int maxWidth, int maxHeight)
         {
-            memoryCache = new LruCache(memorySize);
+            memoryCache = new BitmapLruCache(memorySize);
             this.activity = activity;
             this.MaxWidth = maxWidth;
             this.MaxHeight = maxHeight;            
@@ -44,34 +43,47 @@ namespace MPfm.Android.Classes.Helpers
 
         public void Clear()
         {
-            memoryCache.EvictAll();            
+            lock (memoryCache) {
+                memoryCache.EvictAll();
+            }
         }
 
         public void Remove(string key)
         {
-            memoryCache.Remove(key);
+            lock (memoryCache) {
+                memoryCache.Remove(key);
+            }
         }
 
         private void AddBitmapToMemoryCache(string key, Bitmap bitmap)
         {
-            if (GetBitmapFromMemoryCache(key) == null)
+            lock (memoryCache) 
             {
-                memoryCache.Put(key, bitmap);
+                if (memoryCache.Get(key) == null)
+                {
+                    memoryCache.Put(key, bitmap);
+                }
             }
         }
 
         public Bitmap GetBitmapFromMemoryCache(string key)
         {
-            return (Bitmap)memoryCache.Get(key);
+            //return (Bitmap)memoryCache.Get(key);
+            Bitmap bitmap;
+            lock (memoryCache) {
+                bitmap = (Bitmap) memoryCache.Get(key);
+            }
+            return bitmap;
         }
 
         public bool KeyExists(string key)
         {
-            return memoryCache.Get(key) != null;
+            return GetBitmapFromMemoryCache(key) != null;
         }
 
         public void LoadBitmapFromByteArray(byte[] bytes, string key, ImageView imageView)
-        {            
+        {
+            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
             Bitmap bitmap = GetBitmapFromMemoryCache(key);
             if (bitmap != null)
             {
@@ -93,6 +105,8 @@ namespace MPfm.Android.Classes.Helpers
                 });
             }
         }
+
+        
 
         //public void LoadBitmapFromResource(int resId, ImageView imageView)
         //{
