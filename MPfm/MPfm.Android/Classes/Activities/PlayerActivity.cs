@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
@@ -38,6 +39,7 @@ using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using TinyMessenger;
+using org.sessionsapp.android;
 using Exception = System.Exception;
 
 namespace MPfm.Android
@@ -47,7 +49,7 @@ namespace MPfm.Android
     {
         private ITinyMessengerHub _messengerHub;
         private BitmapCache _bitmapCache;
-        private ImageView _imageViewAlbumArt;
+        private SquareImageView _imageViewAlbumArt;
         private TextView _lblPosition;
         private TextView _lblLength;
         private ImageButton _btnPlayPause;
@@ -82,7 +84,7 @@ namespace MPfm.Android
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
-            _imageViewAlbumArt = FindViewById<ImageView>(Resource.Id.player_imageViewAlbumArt);
+            _imageViewAlbumArt = FindViewById<SquareImageView>(Resource.Id.player_imageViewAlbumArt);
             _lblPosition = FindViewById<TextView>(Resource.Id.player_lblPosition);
             _lblLength = FindViewById<TextView>(Resource.Id.player_lblLength);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.player_btnPlayPause);
@@ -108,10 +110,14 @@ namespace MPfm.Android
             _seekBar.StopTrackingTouch += SeekBarOnStopTrackingTouch;
             _seekBar.ProgressChanged += SeekBarOnProgressChanged;
 
+            // Get screen size
+            Point size = new Point();
+            WindowManager.DefaultDisplay.GetSize(size);
+
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
-            int cacheSize = maxMemory / 8;
-            _bitmapCache = new BitmapCache(this, cacheSize, 800, 800);
+            int cacheSize = maxMemory / 12;
+            _bitmapCache = new BitmapCache(this, cacheSize, size.X, size.X); // The album art takes the whole screen width
 
             // Match height with width (cannot do that in xml)
             //_imageViewAlbumArt.LayoutParameters = new ViewGroup.LayoutParams(_imageViewAlbumArt.Width, _imageViewAlbumArt.Width);

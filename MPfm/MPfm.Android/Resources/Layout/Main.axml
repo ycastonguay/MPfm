@@ -13,10 +13,11 @@
       android:background="#36454F"
       android:gravity="center_vertical"
       android:layout_alignParentBottom="true">
-    <ImageView
+    <org.sessionsapp.android.SquareImageView
       android:id="@+id/main_miniplayer_imageAlbum"
       android:layout_width="100dp"
       android:layout_height="100dp"
+      android:scaleType="centerCrop"
       android:background="@android:color/transparent" />
     <LinearLayout
       android:layout_width="0dp"

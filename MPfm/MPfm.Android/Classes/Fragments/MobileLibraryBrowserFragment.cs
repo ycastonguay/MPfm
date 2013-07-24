@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Views.Animations;
@@ -32,6 +33,7 @@ using MPfm.Android.Classes.Helpers;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using org.sessionsapp.android;
 using Exception = System.Exception;
 
 namespace MPfm.Android.Classes.Fragments
@@ -45,7 +47,7 @@ namespace MPfm.Android.Classes.Fragments
         private MobileLibraryBrowserGridAdapter _gridAdapter;
         private List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
-        ImageView _imageAlbum;
+        SquareImageView _imageAlbum;
         LinearLayout _layoutAlbum;
         TextView _lblArtistName;
         TextView _lblAlbumTitle;
@@ -70,13 +72,16 @@ namespace MPfm.Android.Classes.Fragments
             Console.WriteLine("MLBFragment - OnCreateView");
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
 
+            // Get screen size
+            Point size = new Point();
+            Activity.WindowManager.DefaultDisplay.GetSize(size);
+
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
-            //int cacheSize = 4 * 1024 * 1024;
             int cacheSize = maxMemory / 8;
-            BitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
+            BitmapCache = new BitmapCache(Activity, cacheSize, size.X / 2, size.X / 2); // Max size = half the screen (grid has 2 columns)
 
-            _imageAlbum = _view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
+            _imageAlbum = _view.FindViewById<SquareImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
             _layoutAlbum = _view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowser_layoutAlbum);
             _lblArtistName = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblArtistName);
             _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumTitle);

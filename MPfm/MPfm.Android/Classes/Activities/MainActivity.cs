@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Views;
@@ -39,6 +40,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using TinyMessenger;
+using org.sessionsapp.android;
 using DialogFragment = Android.App.DialogFragment;
 using Fragment = Android.App.Fragment;
 
@@ -57,7 +59,7 @@ namespace MPfm.Android
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
-        private ImageView _imageAlbum;
+        private SquareImageView _imageAlbum;
         private ImageButton _btnPrevious;
         private ImageButton _btnPlayPause;
         private ImageButton _btnNext;
@@ -88,7 +90,7 @@ namespace MPfm.Android
             _btnPrevious = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPrevious);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlayPause);
             _btnNext = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnNext);
-            _imageAlbum = FindViewById<ImageView>(Resource.Id.main_miniplayer_imageAlbum);
+            _imageAlbum = FindViewById<SquareImageView>(Resource.Id.main_miniplayer_imageAlbum);
             _miniPlayer.Visibility = ViewStates.Gone;
             _miniPlayer.Click += (sender, args) => {
                 Console.WriteLine("MainActivity - Mini player click - Showing player view...");
@@ -101,11 +103,14 @@ namespace MPfm.Android
             _btnPlayPause.Click += BtnPlayPauseOnClick;
             _btnNext.Click += BtnNextOnClick;
 
+            // Get screen size
+            Point size = new Point();
+            WindowManager.DefaultDisplay.GetSize(size);
+
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
-            int cacheSize = maxMemory / 8;
-            //int cacheSize = 4*1024*1024;
-            BitmapCache = new BitmapCache(this, cacheSize, 800, 800);
+            int cacheSize = maxMemory / 16;
+            BitmapCache = new BitmapCache(this, cacheSize, size.X / 6, size.X / 6);
 
             // Listen to player changes to show/hide the mini player
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();

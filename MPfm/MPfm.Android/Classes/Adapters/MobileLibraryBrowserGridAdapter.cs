@@ -122,18 +122,18 @@ namespace MPfm.Android.Classes.Adapters
             if(_fragment.BitmapCache.KeyExists(bitmapKey))
             {
                 //Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - Getting album art from cache - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
-                Task.Factory.StartNew(() => {
+                //Task.Factory.StartNew(() => {
                     imageView.Tag = bitmapKey;
                     //imageView.SetImageBitmap(mainActivity.BitmapCache.GetBitmapFromMemoryCache(bitmapKey));
                     imageView.SetImageBitmap(_fragment.BitmapCache.GetBitmapFromMemoryCache(bitmapKey));
-                });
+                //});
             }
             else
             {
-                Task.Factory.StartNew(() => {
+                //Task.Factory.StartNew(() => {
                     //Console.WriteLine(">>>>>>>>> MobileLibraryBrowserGridAdapter - Requesting album art from presenter - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
                     _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.Query.AlbumTitle);
-                });
+                //});
             }
 
             return view;
@@ -154,13 +154,13 @@ namespace MPfm.Android.Classes.Adapters
                     //Console.WriteLine(">>>>>>>>>MobileLibraryBrowserGridAdapter - *RECEIVED* album art for {0}/{1} - index: {2} visibleCellIndex: {3} firstVisiblePosition: {4}", artistName, albumTitle, index, visibleCellIndex, _gridView.FirstVisiblePosition);
                     if (view != null)
                     {
-                        Task.Factory.StartNew(() => {
+                        //Task.Factory.StartNew(() => {
                             //Console.WriteLine(">>>>>>>>>MobileLibraryBrowserGridAdapter - *LOADING BITMAP* from byte array for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
                             var image = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
                             image.Tag = artistName + "_" + albumTitle;
                             //mainActivity.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
                             _fragment.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
-                        });
+                        //});
                     }
                     else
                     {

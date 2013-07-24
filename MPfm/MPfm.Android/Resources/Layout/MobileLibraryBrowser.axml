@@ -7,38 +7,40 @@
   <LinearLayout
     android:id="@+id/mobileLibraryBrowser_layoutAlbum"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"    
+    android:layout_height="100dp"    
     android:background="@color/background"    
+    android:layout_alignParentTop="true"
     android:orientation="horizontal">
-    <ImageView
+    <org.sessionsapp.android.SquareImageView
       android:id="@+id/mobileLibraryBrowser_imageAlbum"
-      android:layout_width="120dp"
-      android:layout_height="120dp"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:scaleType="centerCrop"
       android:background="@android:color/transparent" />
     <LinearLayout
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="12dp"
+      android:layout_margin="8dp"
       android:orientation="vertical">
       <TextView
         android:id="@+id/mobileLibraryBrowser_lblArtistName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Artist Name"
+        android:text=""
         android:textColor="#FFFFFF"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
       <TextView
         android:id="@+id/mobileLibraryBrowser_lblAlbumTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Album Title"
+        android:text=""
         android:textColor="#CCCCCC"
-        android:textSize="16dp" />
+        android:textSize="15dp" />
       <TextView
         android:id="@+id/mobileLibraryBrowser_lblAlbumSongCount"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="10 songs"
+        android:text=""
         android:textColor="#AAAAAA"
         android:textSize="14dp" />
       <TextView
@@ -52,9 +54,10 @@
   </LinearLayout>
   <ListView
     android:id="@+id/mobileLibraryBrowser_listView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:layout_below="@+id/mobileLibraryBrowser_layoutAlbum"
+    android:layout_centerInParent="true"
     android:background="#FFFFFF"
     android:cacheColorHint="#333333"
     android:divider="#BBBBBB"
@@ -62,8 +65,9 @@
     android:listSelector="#CCCCCC" />
   <GridView
     android:id="@+id/mobileLibraryBrowser_gridView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerInParent="true"
     android:background="@color/background"
     android:columnWidth="100dp"
     android:numColumns="2"
