@@ -30,6 +30,7 @@ namespace MPfm.Android.Classes.Adapters
     {
         readonly List<Tuple<MobileNavigationTabType, Fragment>> _fragments;
         readonly ViewPager _viewPager;
+        readonly FragmentManager _fragmentManager;
 
         public MainTabStatePagerAdapter(IntPtr javaReference, JniHandleOwnership transfer)
             : base(javaReference, transfer)
@@ -39,19 +40,29 @@ namespace MPfm.Android.Classes.Adapters
         public MainTabStatePagerAdapter(FragmentManager fm, ViewPager viewPager)
             : base(fm)
         {
+            _fragmentManager = fm;
             _fragments = new List<Tuple<MobileNavigationTabType, Fragment>>();
             _viewPager = viewPager;
         }
 
         public void SetFragment(MobileNavigationTabType tabType, Fragment fragment)
         {
+            //var transaction = _fragmentManager.BeginTransaction();
             int index = _fragments.FindIndex(x => x.Item1 == tabType);
             if (index == -1)
             {
+                // New fragment 
                 _fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(tabType, fragment));
+                //transaction.Add(_viewPager.Id, fragment);
             }
-            index = _fragments.FindIndex(x => x.Item1 == tabType);
-            _fragments[index] = new Tuple<MobileNavigationTabType, Fragment>(tabType, fragment);
+            else
+            {
+                // Replace fragment
+                //transaction.Remove(_fragments[index].Item2);
+                _fragments[index] = new Tuple<MobileNavigationTabType, Fragment>(tabType, fragment);
+                //transaction.Add(_viewPager.Id, fragment);
+            }
+
             NotifyDataSetChanged();
         }
 
@@ -101,6 +112,26 @@ namespace MPfm.Android.Classes.Adapters
                 return _fragments.Count;
             }
         }
+
+        //public override Java.Lang.Object InstantiateItem(global::Android.Views.View view, int position)
+        //{
+        //    return base.InstantiateItem(view, position);
+        //}
+
+        //public override Java.Lang.Object InstantiateItem(global::Android.Views.ViewGroup container, int position)
+        //{
+        //    return base.InstantiateItem(container, position);
+        //}
+
+        //public override void DestroyItem(global::Android.Views.View view, int position, Java.Lang.Object obj)
+        //{
+        //    base.DestroyItem(view, position, obj);
+        //}
+
+        //public override void DestroyItem(global::Android.Views.ViewGroup container, int position, Java.Lang.Object obj)
+        //{
+        //    base.DestroyItem(container, position, obj);
+        //}
 
         public void OnPageScrollStateChanged(int p0)
         {

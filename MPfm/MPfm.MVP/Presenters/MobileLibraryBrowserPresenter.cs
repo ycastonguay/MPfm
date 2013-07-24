@@ -45,7 +45,7 @@ namespace MPfm.MVP.Presenters
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
         readonly MobileNavigationTabType _tabType;
-        readonly MobileLibraryBrowserType _browserType;
+        MobileLibraryBrowserType _browserType;
         LibraryQuery _query;
 
         Task _currentTask;
@@ -185,8 +185,17 @@ namespace MPfm.MVP.Presenters
                     _browserType != MobileLibraryBrowserType.Songs)
                 {
                     var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
+
+                    // On Android, pushing new fragments on ViewPager is extremely buggy, so instead we refresh the same view with new queries. 
+                    // AndroidNavigationManager manages the tab history backstack.
+#if ANDROID
+                    _navigationManager.NotifyMobileLibraryBrowserQueryChange(_tabType, browserType, _items[index].Query);
+                    SetQuery(browserType, _items[index].Query);
+#else
                     var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, _items[index].Query);
                     _navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
+#endif
+
                     return;
                 }
 
@@ -198,7 +207,7 @@ namespace MPfm.MVP.Presenters
                         FilePath = _items[index].AudioFile.FilePath
     	            });
 
-                _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);                
+                _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
             }
             catch(Exception ex)
             {
@@ -207,8 +216,9 @@ namespace MPfm.MVP.Presenters
             }
 	    }
 
-        public void RefreshView(LibraryQuery query)
+        public void SetQuery(MobileLibraryBrowserType browserType, LibraryQuery query)
         {
+            _browserType = browserType;
             _query = query;
             RefreshLibraryBrowser();
         }

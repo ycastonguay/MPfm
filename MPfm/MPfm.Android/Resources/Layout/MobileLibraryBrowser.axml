@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
+  android:background="@color/background"
   android:orientation="horizontal">
   <LinearLayout
     android:id="@+id/mobileLibraryBrowser_layoutAlbum"
@@ -51,8 +52,8 @@
   </LinearLayout>
   <ListView
     android:id="@+id/mobileLibraryBrowser_listView"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_below="@+id/mobileLibraryBrowser_layoutAlbum"
     android:background="#FFFFFF"
     android:cacheColorHint="#333333"
@@ -61,8 +62,8 @@
     android:listSelector="#CCCCCC" />
   <GridView
     android:id="@+id/mobileLibraryBrowser_gridView"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@color/background"
     android:columnWidth="100dp"
     android:numColumns="2"

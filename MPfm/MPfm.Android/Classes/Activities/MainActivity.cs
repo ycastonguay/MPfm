@@ -279,11 +279,11 @@ namespace MPfm.Android
 
         public override void OnBackPressed()
         {
-            // Check if the history has another tab
-            if (_navigationManager.CanRemoveMobileLibraryBrowserFragmentFromBackstack(_tabPagerAdapter.GetCurrentTab()))
+            var tabType = _tabPagerAdapter.GetCurrentTab();
+            if (_navigationManager.CanGoBackInMobileLibraryBrowserBackstack(tabType))
             {
                 Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
-                _navigationManager.RecreateMobileLibraryBrowserFragment(_tabPagerAdapter.GetCurrentTab());
+                _navigationManager.PopMobileLibraryBrowserBackstack(tabType);
             }
             else
             {

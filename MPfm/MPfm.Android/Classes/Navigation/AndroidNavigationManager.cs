@@ -64,7 +64,25 @@ namespace MPfm.Android.Classes.Navigation
             });
         }
 
-        public bool CanRemoveMobileLibraryBrowserFragmentFromBackstack(MobileNavigationTabType tabType)
+        //public bool CanRemoveMobileLibraryBrowserFragmentFromBackstack(MobileNavigationTabType tabType)
+        //{
+        //    var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+        //    if (tab != null)
+        //        return tab.Item2.Count > 1;
+        //    return false;
+        //}
+
+        //public void RecreateMobileLibraryBrowserFragment(MobileNavigationTabType tabType)
+        //{
+        //    var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+        //    var tabItem = tab.Item2.Last();
+        //    tab.Item2.Remove(tabItem);
+        //    tabItem = tab.Item2.Last();
+        //    //var view = CreateMobileLibraryBrowserView(tabType, tabItem.Item1, tabItem.Item2);
+        //    //MainActivity.PushTabView(tabType, (Fragment) view);
+        //}
+
+        public bool CanGoBackInMobileLibraryBrowserBackstack(MobileNavigationTabType tabType)
         {
             var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
             if (tab != null)
@@ -72,14 +90,41 @@ namespace MPfm.Android.Classes.Navigation
             return false;
         }
 
-        public void RecreateMobileLibraryBrowserFragment(MobileNavigationTabType tabType)
+        public void PopMobileLibraryBrowserBackstack(MobileNavigationTabType tabType)
         {
             var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
             var tabItem = tab.Item2.Last();
             tab.Item2.Remove(tabItem);
             tabItem = tab.Item2.Last();
-            var view = CreateMobileLibraryBrowserView(tabType, tabItem.Item1, tabItem.Item2);
-            MainActivity.PushTabView(tabType, (Fragment) view);
+
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>> ANDROID NAVMGR -- PopMobileLibraryBrowserBackstack - About to restore: tabType: {0} browserType: {1}", tabType.ToString(), tabItem.Item1.ToString());
+            MobileLibraryBrowserType browserType = MobileLibraryBrowserType.Artists;
+            switch (tabType)
+            {
+                case MobileNavigationTabType.Artists:
+                    browserType = MobileLibraryBrowserType.Artists;
+                    break;
+                case MobileNavigationTabType.Albums:
+                    browserType = MobileLibraryBrowserType.Albums;
+                    break;
+                case MobileNavigationTabType.Songs:
+                    browserType = MobileLibraryBrowserType.Songs;
+                    break;
+                case MobileNavigationTabType.Playlists:
+                    browserType = MobileLibraryBrowserType.Playlists;
+                    break;
+            }
+
+            // Refresh query using presenter
+            var presenter = GetMobileLibraryBrowserPresenter(tabType, browserType);
+            presenter.SetQuery(tabItem.Item1, tabItem.Item2);
+        }
+
+        public override void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
+        {
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>> ANDROID NAVMGR -- NotifyMobileLibraryBrowserQueryChange tabType: {0} browserType: {1}", tabType.ToString(), browserType.ToString());
+            var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+            tab.Item2.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
         }
 
         public override void ShowSplash(ISplashView view)

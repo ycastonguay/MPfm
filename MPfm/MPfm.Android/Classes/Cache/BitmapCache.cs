@@ -83,30 +83,31 @@ namespace MPfm.Android.Classes.Cache
 
         public void LoadBitmapFromByteArray(byte[] bytes, string key, ImageView imageView)
         {
-            Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
-            Bitmap bitmap = GetBitmapFromMemoryCache(key);
-            if (bitmap != null)
+            lock (memoryCache)
             {
-                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Loaded bitmap from cache! key: {0}", key);
-                imageView.SetImageBitmap(bitmap);
-            }
-            else
-            {
-                Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Decoding album art and adding to cache... key: {0}", key);
-                Task.Factory.StartNew(() => {
-                    bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
-                    AddBitmapToMemoryCache(key, bitmap);
-                    activity.RunOnUiThread(() => {
-                        Console.WriteLine("BitmapCache - Setting album art on image view... key: {0}", key);
-                        imageView.SetImageBitmap(bitmap);
-                        Animation animation = AnimationUtils.LoadAnimation(activity, Resource.Animation.fade_in);
-                        imageView.StartAnimation(animation);
+                //Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                Bitmap bitmap = GetBitmapFromMemoryCache(key);
+                if (bitmap != null)
+                {
+                    //Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Loaded bitmap from cache! key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                    imageView.SetImageBitmap(bitmap);
+                }
+                else
+                {
+                    //Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Decoding album art and adding to cache... key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                    Task.Factory.StartNew(() => {
+                        bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
+                        AddBitmapToMemoryCache(key, bitmap);
+                        activity.RunOnUiThread(() => {
+                            //Console.WriteLine("BitmapCache - Setting album art on image view... key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                            imageView.SetImageBitmap(bitmap);
+                            Animation animation = AnimationUtils.LoadAnimation(activity, Resource.Animation.fade_in);
+                            imageView.StartAnimation(animation);
+                        });
                     });
-                });
+                }
             }
         }
-
-        
 
         //public void LoadBitmapFromResource(int resId, ImageView imageView)
         //{

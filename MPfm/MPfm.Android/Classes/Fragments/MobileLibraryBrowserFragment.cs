@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Adapters;
@@ -44,38 +45,36 @@ namespace MPfm.Android.Classes.Fragments
         private MobileLibraryBrowserGridAdapter _gridAdapter;
         private List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
-        bool _isTest = false;
         ImageView _imageAlbum;
         LinearLayout _layoutAlbum;
         TextView _lblArtistName;
         TextView _lblAlbumTitle;
         TextView _lblAlbumLength;
         TextView _lblAlbumSongCount;
-        //BitmapCache _bitmapCache;
+        public BitmapCache BitmapCache { get; set; }
 
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base(null)
         {
-            Console.WriteLine("MobileLibraryBrowserFragment - Empty ctor");
+            //Console.WriteLine("MobileLibraryBrowserFragment - Empty ctor");
         }
 
         public MobileLibraryBrowserFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {
-            Console.WriteLine("MobileLibraryBrowserFragment - OnViewReady ctor");
+            //Console.WriteLine("MobileLibraryBrowserFragment - OnViewReady ctor");
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Console.WriteLine("MLBFragment - OnCreateView - isTest: {0}", _isTest);
-            _isTest = true;
+            Console.WriteLine("MLBFragment - OnCreateView");
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
 
             // Create bitmap cache
-            //int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
+            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             //int cacheSize = 4 * 1024 * 1024;
-            //int cacheSize = maxMemory / 8;
-            //_bitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
+            int cacheSize = maxMemory / 8;
+            BitmapCache = new BitmapCache(Activity, cacheSize, 800, 800);
 
             _imageAlbum = _view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
             _layoutAlbum = _view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowser_layoutAlbum);
@@ -96,7 +95,15 @@ namespace MPfm.Android.Classes.Fragments
             _gridAdapter = new MobileLibraryBrowserGridAdapter(Activity, this, _gridView, _entities.ToList());
             _gridView.SetAdapter(_gridAdapter);
             _gridView.ItemClick += GridViewOnItemClick;
-            _gridView.ItemLongClick += GridViewOnItemLongClick;            
+            _gridView.ItemLongClick += GridViewOnItemLongClick;
+
+            //this.RetainInstance = true;
+
+            //if (savedInstanceState != null)
+            //{
+            //    string saved = savedInstanceState.GetString("Test");
+            //    Console.WriteLine("MLBFRAGMENT - ONCREATEVIEW - STATE: {0}", saved);
+            //}
 
             return _view;
         }
@@ -121,50 +128,51 @@ namespace MPfm.Android.Classes.Fragments
 
         public override void OnSaveInstanceState(Bundle outState)
         {
-            Console.WriteLine("MLBFragment - OnSaveInstanceState");
+            //Console.WriteLine("MLBFRAGMENT - ON SAVE INSTANCE STATE");
+            outState.PutString("Test", DateTime.Now.ToLongTimeString());
             base.OnSaveInstanceState(outState);
         }
 
         public override void OnResume()
         {
-            Console.WriteLine("MLBFragment - OnResume");
+            //Console.WriteLine("MLBFragment - OnResume");
             base.OnResume();
         }
 
         public override void OnStart()
         {
-            Console.WriteLine("MLBFragment - OnStart");
+            //Console.WriteLine("MLBFragment - OnStart");
             base.OnStart();
         }
 
         public override void OnStop()
         {
-            Console.WriteLine("MLBFragment - OnStop");
+            //Console.WriteLine("MLBFragment - OnStop");
             base.OnStop();
         }
 
         public override void OnPause()
         {
-            Console.WriteLine("MLBFragment - OnPause");
+            //Console.WriteLine("MLBFragment - OnPause");
             base.OnPause();
         }
 
         public override void OnDestroy()
         {
-            Console.WriteLine("MLBFragment - OnDestroy");
-            //_bitmapCache.Clear();
+            //Console.WriteLine("MLBFragment - OnDestroy");            
             base.OnDestroy();
         }
 
         public override void OnDestroyView()
         {
             Console.WriteLine("MLBFragment - OnDestroyView");
+            BitmapCache.Clear();
             base.OnDestroyView();
         }
 
         public override void OnDetach()
         {
-            Console.WriteLine("MLBFragment - OnDetach");
+            //Console.WriteLine("MLBFragment - OnDetach");
             base.OnDetach();
         }
 
@@ -189,7 +197,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
         {
-            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0}", entities.Count());
+            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
             Activity.RunOnUiThread(() => {
                 _entities = entities.ToList();
 
@@ -199,22 +207,25 @@ namespace MPfm.Android.Classes.Fragments
                         _layoutAlbum.Visibility = ViewStates.Gone;
                         _listView.Visibility = ViewStates.Visible;
                         _gridView.Visibility = ViewStates.Gone;
+
+                        //Animation animation = AnimationUtils.LoadAnimation(Activity, Resource.Animation.fade_in);
+                        //_listView.StartAnimation(animation);
                         break;
                     case MobileLibraryBrowserType.Albums:
                         _layoutAlbum.Visibility = ViewStates.Gone;
                         _listView.Visibility = ViewStates.Gone;
                         _gridView.Visibility = ViewStates.Visible;
 
+                        //Animation animation2 = AnimationUtils.LoadAnimation(Activity, Resource.Animation.fade_in);
+                        //_gridView.StartAnimation(animation2);
+
                         if (_gridView != null)
-                        {
                             _gridAdapter.SetData(entities);
-                            _gridAdapter.NotifyDataSetChanged();
-                        }                                       
                         break;
                     case MobileLibraryBrowserType.Songs:
                         _layoutAlbum.Visibility = ViewStates.Visible;                        
                         _listView.Visibility = ViewStates.Visible;
-                        _gridView.Visibility = ViewStates.Gone;
+                        _gridView.Visibility = ViewStates.Gone;                            
 
                         if (_entities.Count > 0)
                         {                            
@@ -222,6 +233,7 @@ namespace MPfm.Android.Classes.Fragments
                             _lblArtistName.Text = audioFile.ArtistName;
                             _lblAlbumTitle.Text = audioFile.AlbumTitle;
                             _lblAlbumSongCount.Text = _entities.Count.ToString() + " songs";
+                            _imageAlbum.SetImageBitmap(null);
 
                             Task.Factory.StartNew(() =>
                             {
@@ -235,7 +247,8 @@ namespace MPfm.Android.Classes.Fragments
                                     if (bytesImage.Length == 0)
                                         _imageAlbum.SetImageBitmap(null);
                                     else
-                                        ((MainActivity)Activity).BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                                        //((MainActivity)Activity).BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                                        BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
                                 }
                             });
                         }

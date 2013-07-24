@@ -103,6 +103,7 @@ namespace MPfm.MVP.Navigation
         public abstract void PushDialogSubview(string parentViewTitle, IBaseView view);
         public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
         public abstract void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view);
+        public abstract void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query);
 
         public virtual void Start()
         {
@@ -287,6 +288,14 @@ namespace MPfm.MVP.Navigation
             return _libraryPreferencesView;
         }
 
+        protected IMobileLibraryBrowserPresenter GetMobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType)
+        {
+            var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
+            var viewPresenter = new Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>(null, null);
+            _mobileLibraryBrowserList.TryGetValue(key, out viewPresenter);
+            return viewPresenter == null ? null : viewPresenter.Item2;
+        }
+
         public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
         {
             var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
@@ -313,7 +322,7 @@ namespace MPfm.MVP.Navigation
                     if(viewPresenter != null)
                     {
                         // Force refresh of view
-                        viewPresenter.Item2.RefreshView(query);
+                        viewPresenter.Item2.SetQuery(browserType, query);
                         return viewPresenter.Item1;
                     }
                 }
