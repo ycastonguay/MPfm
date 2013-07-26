@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
  -<item android:id="@+id/playerMenu_item_effects"
       android:title="Effects"
-      android:icon="@drawable/icon_equalizer"
+      android:icon="@drawable/actionbar_equalizer"
       android:showAsAction="ifRoom" />
 </menu>

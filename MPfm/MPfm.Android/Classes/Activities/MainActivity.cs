@@ -308,28 +308,28 @@ namespace MPfm.Android
                 switch (option.Key)
                 {
                     case MobileOptionsMenuType.About:
-                        menuItem.SetIcon(Resource.Drawable.icon_info);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_info);
                         break;
                     case MobileOptionsMenuType.EqualizerPresets:
                         menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-                        menuItem.SetIcon(Resource.Drawable.icon_equalizer);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_equalizer);
                         break;
                     case MobileOptionsMenuType.Preferences:
                         menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-                        menuItem.SetIcon(Resource.Drawable.icon_settings);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_settings);
                         break;
                     case MobileOptionsMenuType.SyncLibrary:
                         menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-                        menuItem.SetIcon(Resource.Drawable.icon_mobile);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_mobile);
                         break;
                     case MobileOptionsMenuType.SyncLibraryCloud:
-                        menuItem.SetIcon(Resource.Drawable.icon_cloud);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_cloud);
                         break;
                     case MobileOptionsMenuType.SyncLibraryFileSharing:
-                        menuItem.SetIcon(Resource.Drawable.icon_share);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_share);
                         break;
                     case MobileOptionsMenuType.SyncLibraryWebBrowser:
-                        menuItem.SetIcon(Resource.Drawable.icon_earth);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_earth);
                         break;
                 }
             }
