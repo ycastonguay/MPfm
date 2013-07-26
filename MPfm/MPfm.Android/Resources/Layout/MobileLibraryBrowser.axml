@@ -59,7 +59,7 @@
     android:layout_below="@+id/mobileLibraryBrowser_layoutAlbum"
     android:layout_centerInParent="true"
     android:background="#FFFFFF"
-    android:cacheColorHint="#333333"
+    android:cacheColorHint="#FFFFFF"
     android:divider="#BBBBBB"
     android:dividerHeight="1px"
     android:listSelector="#CCCCCC" />

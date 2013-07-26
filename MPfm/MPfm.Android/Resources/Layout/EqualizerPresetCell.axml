@@ -5,12 +5,25 @@
    android:padding="8dp"
    android:gravity="center_vertical"
    android:orientation="horizontal">
+  <ImageView
+    android:id="@+id/equalizerPresetCell_imageEqualizer"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:src="@drawable/icon_equalizer" />
   <TextView
     android:id="@+id/equalizerPresetCell_lblName"
-    android:layout_width="fill_parent"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"   
+    android:layout_weight="1"
     android:gravity="left"
     android:text="Default"
     android:textColor="#000000"
     android:textSize="14dp" />
+  <ImageView
+    android:id="@+id/equalizerPresetCell_imageCheck"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:src="@drawable/icon_check" />
 </LinearLayout>

@@ -402,6 +402,36 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\player_repeat_on.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\player_shuffle.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\player_shuffle_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_save.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_check.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_play.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_trash.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_save.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_check.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_play.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_trash.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_save.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_check.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_play.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_trash.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_save.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_add.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_check.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_equalizer.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_play.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_trash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_speaker.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_speaker.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_speaker.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_speaker.png" />
+    <AndroidResource Include="Resources\Anim\listviewoptions_fade_in.xml" />
+    <AndroidResource Include="Resources\Anim\listviewoptions_fade_out.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

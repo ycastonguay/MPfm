@@ -92,7 +92,7 @@ namespace MPfm.Android.Classes.Fragments
             _listView.Visibility = ViewStates.Gone;
             _gridView.Visibility = ViewStates.Gone;
 
-            _listAdapter = new MobileLibraryBrowserListAdapter(Activity, _entities.ToList());
+            _listAdapter = new MobileLibraryBrowserListAdapter(Activity, _listView, _entities.ToList());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
@@ -120,6 +120,8 @@ namespace MPfm.Android.Classes.Fragments
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
+            _listAdapter.SetEditingRow(itemLongClickEventArgs.Position);
+            //_listAdapter.NotifyDataSetChanged();
         }
 
         private void GridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
@@ -129,6 +131,7 @@ namespace MPfm.Android.Classes.Fragments
 
         private void GridViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
+            
         }
 
         public override void OnSaveInstanceState(Bundle outState)

@@ -15,23 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using MPfm.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class MobileLibraryBrowserListAdapter : BaseAdapter<LibraryBrowserEntity>
+    public class MobileLibraryBrowserListAdapter : BaseAdapter<LibraryBrowserEntity>, View.IOnClickListener
     {
         readonly Activity _context;
+        readonly ListView _listView;
         List<LibraryBrowserEntity> _items;
+        int _editingRowPosition = -1;
 
-        public MobileLibraryBrowserListAdapter(Activity context, List<LibraryBrowserEntity> items)
+        public bool IsEditingRow { get; private set; }
+
+        public MobileLibraryBrowserListAdapter(Activity context, ListView listView, List<LibraryBrowserEntity> items)
         {
             _context = context;
+            _listView = listView;
             _items = items;
         }
 
@@ -69,7 +76,16 @@ namespace MPfm.Android.Classes.Adapters
             var lblSubtitle = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_lblSubtitle);
             var index = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_index);
             var imageNowPlaying = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageNowPlaying);
+            var btnAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
+            var btnPlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
+            var btnDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
             imageNowPlaying.Visibility = ViewStates.Invisible;
+            btnAdd.Tag = position;
+            btnPlay.Tag = position;
+            btnDelete.Tag = position;
+            btnAdd.SetOnClickListener(this);
+            btnPlay.SetOnClickListener(this);
+            btnDelete.SetOnClickListener(this);
 
             lblTitle.Text = item.Title;
             lblTitleWithSubtitle.Text = item.Title;
@@ -95,6 +111,105 @@ namespace MPfm.Android.Classes.Adapters
             }
 
             return view;
+        }
+
+        public void SetEditingRow(int position)
+        {
+            int visibleCellIndex = position - _listView.FirstVisiblePosition;
+            var view = _listView.GetChildAt(visibleCellIndex);
+            if (view == null)
+                return;
+
+            var imageAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
+            var imagePlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
+            var imageDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
+
+            int oldPosition = _editingRowPosition;
+            _editingRowPosition = position;
+
+            if(IsEditingRow && oldPosition == position)
+            {
+                // Fade out the controls
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
+                anim.AnimationEnd += (sender, args) =>
+                {
+                    imageAdd.Visibility = ViewStates.Gone;
+                    imagePlay.Visibility = ViewStates.Gone;
+                    imageDelete.Visibility = ViewStates.Gone;
+                };
+                imageAdd.StartAnimation(anim);
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                _editingRowPosition = -1;
+                IsEditingRow = false;
+            }
+            else if (IsEditingRow && oldPosition >= 0)
+            {
+                // Fade in the new controls
+                imageAdd.Visibility = ViewStates.Visible;
+                imagePlay.Visibility = ViewStates.Visible;
+                imageDelete.Visibility = ViewStates.Visible;
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_in);
+                imageAdd.StartAnimation(anim);
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                // Fade out the older controls
+                int oldPositionVisibleCellIndex = oldPosition - _listView.FirstVisiblePosition;
+                var viewOldPosition = _listView.GetChildAt(oldPositionVisibleCellIndex);
+                if (viewOldPosition != null)
+                {
+                    var imageAddOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
+                    var imagePlayOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
+                    var imageDeleteOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
+
+                    // Fade out the controls
+                    Animation animOld = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
+                    animOld.AnimationEnd += (sender, args) =>
+                    {
+                        imageAddOld.Visibility = ViewStates.Gone;
+                        imagePlayOld.Visibility = ViewStates.Gone;
+                        imageDeleteOld.Visibility = ViewStates.Gone;
+                    };
+                    imageAddOld.StartAnimation(animOld);
+                    imagePlayOld.StartAnimation(animOld);
+                    imageDeleteOld.StartAnimation(animOld);
+                }
+
+                IsEditingRow = true;
+            }
+            else if (!IsEditingRow)
+            {
+                // Fade in the controls
+                imageAdd.Visibility = ViewStates.Visible;
+                imagePlay.Visibility = ViewStates.Visible;
+                imageDelete.Visibility = ViewStates.Visible;
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_in);
+                imageAdd.StartAnimation(anim);
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                IsEditingRow = true;
+            }
+
+        }
+
+        public void OnClick(View v)
+        {
+            int position = (int)v.Tag;
+            switch(v.Id)
+            {
+                case Resource.Id.mobileLibraryBrowserCell_imageAdd:
+                    Console.WriteLine("MLBLA - ADD - position: {0}", position);
+                    break;
+                case Resource.Id.mobileLibraryBrowserCell_imagePlay:
+                    Console.WriteLine("MLBLA - PLAY - position: {0}", position);
+                    break;
+                case Resource.Id.mobileLibraryBrowserCell_imageDelete:
+                    Console.WriteLine("MLBLA - DELETE - position: {0}", position);
+                    break;
+            }
         }
     }
 }

@@ -40,22 +40,36 @@
       android:textColor="#666666"
       android:textSize="12dp" />
   </LinearLayout>
-    <ImageView
+  <ImageView
     android:id="@+id/mobileLibraryBrowserCell_imageNowPlaying"
     android:layout_width="48dp"
     android:layout_height="48dp"
-    android:layout_marginRight="6dp"
-    android:src="@drawable/icon" />
-  <!--<ImageView
-    android:id="@+id/mobileLibraryBrowserCell_imageAdd"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:layout_marginRight="6dp"
-    android:src="@drawable/icon" />
+    android:layout_marginRight="6dp"    
+    android:visibility="gone"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_speaker" />
   <ImageView
     android:id="@+id/mobileLibraryBrowserCell_imagePlay"
     android:layout_width="48dp"
     android:layout_height="48dp"
     android:layout_marginRight="6dp"
-    android:src="@drawable/icon" />-->
+    android:visibility="gone"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_play" />
+  <ImageView
+    android:id="@+id/mobileLibraryBrowserCell_imageAdd"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:visibility="gone"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_add" />
+  <ImageView
+    android:id="@+id/mobileLibraryBrowserCell_imageDelete"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:visibility="gone"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_trash" />
 </LinearLayout>
