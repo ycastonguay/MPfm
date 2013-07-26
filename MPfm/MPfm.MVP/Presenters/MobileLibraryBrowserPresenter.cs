@@ -79,6 +79,7 @@ namespace MPfm.MVP.Presenters
 
             view.OnDeleteItem = DeleteItem;
             view.OnItemClick = ItemClick;
+            view.OnPlayItem = PlayItem;
             view.OnRequestAlbumArt = RequestAlbumArt;
 
             // Subscribe to any audio file cache update so we can update this screen
@@ -126,6 +127,53 @@ namespace MPfm.MVP.Presenters
             });
         }
 
+        private void PlayItem(int index)
+        {
+            try
+            {
+                Console.WriteLine("MobileLibraryBrowserPresenter - PlayItem index: {0}", index);
+                    if (_items[index].Type == LibraryBrowserEntityType.Artist)
+                    {
+                        // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
+                        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
+                        {
+                            Query = _items[index].Query,
+                            FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
+                        });
+
+                        _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                    }
+                    else if (_items[index].Type == LibraryBrowserEntityType.Album)
+                    {
+                        // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
+                        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
+                        {
+                            Query = _items[index].Query,
+                            FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
+                        });
+
+                        _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                    }
+                    else if (_items[index].Type == LibraryBrowserEntityType.Song)
+                    {
+                        // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
+                        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
+                        {
+                            Query = _items[index].Query,
+                            FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
+                        });
+
+                        _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                    }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MobileLibraryBrowserPresenter - PlayItem - Exception: {0}", ex);
+                View.MobileLibraryBrowserError(ex);
+            }
+
+        }
+
         private void DeleteItem(int index)
         {
             try
@@ -134,11 +182,7 @@ namespace MPfm.MVP.Presenters
                 Task.Factory.StartNew(() => {
                     if(_items[index].Type == LibraryBrowserEntityType.Artist)
                     {
-
                         _libraryService.DeleteAudioFiles(_items[index].Query.ArtistName, string.Empty);
-
-                        // Delete files physically, but only on iOS for now. Android uses a shared folder, so that would not make sense IMO.
-#if IOS
                         Console.WriteLine("MobileLibraryBrowserPresenter - Deleting files from hard disk...");
                         var files = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){ ArtistName = _items[index].Query.ArtistName });
                         foreach(var file in files)
@@ -146,7 +190,6 @@ namespace MPfm.MVP.Presenters
                             Console.WriteLine("MobileLibraryBrowserPresenter - Deleting {0}...", file.FilePath);
                             File.Delete(file.FilePath);
                         }
-#endif
 
                         Console.WriteLine("MobileLibraryBrowserPresenter - Removing audio files from cache...");
                         _audioFileCacheService.RemoveAudioFiles(_items[index].Query.ArtistName, string.Empty);
@@ -161,7 +204,6 @@ namespace MPfm.MVP.Presenters
                         _libraryService.DeleteAudioFile(_items[index].AudioFile.Id);
                         _audioFileCacheService.RemoveAudioFile(_items[index].AudioFile.Id);
                     }
-                    Console.WriteLine("MobileLibraryBrowserPresenter - Done!");
                 });
             }
             catch(Exception ex)
@@ -201,6 +243,7 @@ namespace MPfm.MVP.Presenters
 
                 // Make sure the view was binded to the presenter before publishing a message
                 // Why is an action used here? Because on desktop devices, IPlayerView is initialized right away. On mobile devices, IPlayerView is only initialized when playback is started.
+                // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
     	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
     	            {
     	                Query = _items[index].Query,

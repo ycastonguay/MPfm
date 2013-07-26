@@ -29,7 +29,8 @@ namespace MPfm.MVP.Views
 	{
         Action<int> OnItemClick { get; set; }
         Action<int> OnDeleteItem { get; set; }
-        Action<string, string> OnRequestAlbumArt { get; set; }
+	    Action<int> OnPlayItem { get; set; }
+	    Action<string, string> OnRequestAlbumArt { get; set; }
 
         void MobileLibraryBrowserError(Exception ex);
         void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle);

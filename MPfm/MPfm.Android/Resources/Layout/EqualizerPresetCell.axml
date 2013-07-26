@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
-   android:layout_height="56dp"
-   android:padding="8dp"
+   android:layout_height="52dp"
+   android:paddingLeft="8dp"
    android:gravity="center_vertical"
    android:orientation="horizontal">
   <ImageView
@@ -19,7 +19,7 @@
     android:gravity="left"
     android:text="Default"
     android:textColor="#000000"
-    android:textSize="14dp" />
+    android:textSize="18dp" />
   <ImageView
     android:id="@+id/equalizerPresetCell_imageCheck"
     android:layout_width="48dp"

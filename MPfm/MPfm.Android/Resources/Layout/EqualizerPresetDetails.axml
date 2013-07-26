@@ -46,7 +46,7 @@
       android:layout_height="0dp"
       android:layout_weight="1"
       android:background="@android:color/transparent"
-      android:cacheColorHint="#333333"
+      android:cacheColorHint="@android:color/transparent"
       android:divider="#FFFFFF"
       android:listSelector="#CCCCCC" />
     <LinearLayout
@@ -58,18 +58,22 @@
         android:id="@+id/equalizerPresetDetails_btnNormalize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"        
+        android:layout_marginRight="8dp"
+        android:padding="8dp"
+        android:background="@color/button_background"
         android:text="Normalize"
-        android:textColor="#ffffffff"
-        android:textSize="14dp"
-        android:padding="8dp" />
+        android:textColor="@color/button_textcolor"
+        android:textSize="14dp" />
       <Button
         android:id="@+id/equalizerPresetDetails_btnReset"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"        
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:padding="8dp"
+        android:background="@color/button_background"
         android:text="Reset"
-        android:textColor="#ffffffff"
-        android:textSize="14dp"
-        android:padding="8dp" />
+        android:textColor="@color/button_textcolor"
+        android:textSize="14dp" />
     </LinearLayout>
   </LinearLayout>
 </LinearLayout>

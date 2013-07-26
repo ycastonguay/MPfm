@@ -320,7 +320,7 @@ namespace MPfm.Android
                         break;
                     case MobileOptionsMenuType.SyncLibrary:
                         menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-                        menuItem.SetIcon(Resource.Drawable.actionbar_mobile);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_sync);
                         break;
                     case MobileOptionsMenuType.SyncLibraryCloud:
                         menuItem.SetIcon(Resource.Drawable.actionbar_cloud);

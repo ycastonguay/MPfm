@@ -22,6 +22,7 @@ using Android.App;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
+using MPfm.Android.Classes.Fragments;
 using MPfm.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters
@@ -29,21 +30,25 @@ namespace MPfm.Android.Classes.Adapters
     public class MobileLibraryBrowserListAdapter : BaseAdapter<LibraryBrowserEntity>, View.IOnClickListener
     {
         readonly Activity _context;
+        readonly MobileLibraryBrowserFragment _fragment;
         readonly ListView _listView;
         List<LibraryBrowserEntity> _items;
         int _editingRowPosition = -1;
 
         public bool IsEditingRow { get; private set; }
 
-        public MobileLibraryBrowserListAdapter(Activity context, ListView listView, List<LibraryBrowserEntity> items)
+        public MobileLibraryBrowserListAdapter(Activity context, MobileLibraryBrowserFragment fragment, ListView listView, List<LibraryBrowserEntity> items)
         {
             _context = context;
+            _fragment = fragment;
             _listView = listView;
             _items = items;
         }
 
         public void SetData(IEnumerable<LibraryBrowserEntity> items)
         {
+            _editingRowPosition = -1;
+            IsEditingRow = false;
             _items = items.ToList();
             NotifyDataSetChanged();
         }
@@ -86,6 +91,19 @@ namespace MPfm.Android.Classes.Adapters
             btnAdd.SetOnClickListener(this);
             btnPlay.SetOnClickListener(this);
             btnDelete.SetOnClickListener(this);
+
+            if (IsEditingRow && position == _editingRowPosition)
+            {
+                btnAdd.Visibility = ViewStates.Visible;
+                btnPlay.Visibility = ViewStates.Visible;
+                btnDelete.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                btnAdd.Visibility = ViewStates.Gone;
+                btnPlay.Visibility = ViewStates.Gone;
+                btnDelete.Visibility = ViewStates.Gone;
+            }
 
             lblTitle.Text = item.Title;
             lblTitleWithSubtitle.Text = item.Title;
@@ -201,13 +219,23 @@ namespace MPfm.Android.Classes.Adapters
             switch(v.Id)
             {
                 case Resource.Id.mobileLibraryBrowserCell_imageAdd:
-                    Console.WriteLine("MLBLA - ADD - position: {0}", position);
+                    Console.WriteLine("MLBLA - ADD - position: {0}", position);                    
                     break;
                 case Resource.Id.mobileLibraryBrowserCell_imagePlay:
                     Console.WriteLine("MLBLA - PLAY - position: {0}", position);
+                    _fragment.OnPlayItem(position);
                     break;
                 case Resource.Id.mobileLibraryBrowserCell_imageDelete:
                     Console.WriteLine("MLBLA - DELETE - position: {0}", position);
+                    AlertDialog ad = new AlertDialog.Builder(_context)
+                        .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+                        .SetTitle("Delete confirmation")
+                        .SetMessage(string.Format("Are you sure you wish to delete {0}?", _items[position].Title))
+                        .SetCancelable(true)
+                        .SetPositiveButton("OK", (sender, args) => _fragment.OnDeleteItem(position))
+                        .SetNegativeButton("Cancel", (sender, args) => {})
+                        .Create();
+                    ad.Show();
                     break;
             }
         }
