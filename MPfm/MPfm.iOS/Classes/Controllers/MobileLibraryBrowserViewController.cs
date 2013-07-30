@@ -456,6 +456,8 @@ namespace MPfm.iOS.Classes.Controllers
         public Action<int> OnItemClick { get; set; }
         public Action<int> OnDeleteItem { get; set; }
         public Action<string, string> OnRequestAlbumArt { get; set; }
+        public Action<int> OnPlayItem { get; set; }
+        public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 
         public void MobileLibraryBrowserError(Exception ex)
         {
@@ -545,7 +547,7 @@ namespace MPfm.iOS.Classes.Controllers
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack)
         {
             InvokeOnMainThread(() => {
                 _items = entities.ToList();
@@ -655,6 +657,5 @@ namespace MPfm.iOS.Classes.Controllers
         }
 
         #endregion
-
     }
 }

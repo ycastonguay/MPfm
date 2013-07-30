@@ -110,5 +110,9 @@ namespace MPfm.iOS.Classes.Navigation
         {
             // Not necessary on iOS.
         }
+
+        public override void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query)
+        {
+        }
 	}
 }

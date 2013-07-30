@@ -55,21 +55,21 @@ namespace MPfm.MVP.Presenters
 
         private void SelectItem(string item)
         {
-            //if(item.ToUpper() == "AUDIO PREFERENCES")
-            //{
-            //    var view = _navigationManager.CreateAudioPreferencesView();
-            //    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
-            //}
-            //else if(item.ToUpper() == "GENERAL PREFERENCES")
-            //{
-            //    var view = _navigationManager.CreateGeneralPreferencesView();
-            //    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
-            //}
-            //else if(item.ToUpper() == "LIBRARY PREFERENCES")
-            //{
-            //    var view = _navigationManager.CreateLibraryPreferencesView();
-            //    _navigationManager.PushTabView(MobileNavigationTabType.More, view);
-            //}
+            if(item.ToUpper() == "AUDIO PREFERENCES")
+            {
+                var view = _navigationManager.CreateAudioPreferencesView();
+                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+            }
+            else if(item.ToUpper() == "GENERAL PREFERENCES")
+            {
+                var view = _navigationManager.CreateGeneralPreferencesView();
+                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+            }
+            else if(item.ToUpper() == "LIBRARY PREFERENCES")
+            {
+                var view = _navigationManager.CreateLibraryPreferencesView();
+                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+            }
         }
 	}
 }
