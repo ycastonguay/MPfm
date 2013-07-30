@@ -1,78 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
   android:background="@color/background"
-  android:orientation="horizontal">
+  android:orientation="vertical">
   <LinearLayout
-    android:id="@+id/mobileLibraryBrowser_layoutAlbum"
+    android:id="@+id/mobileLibraryBrowser_layoutBreadcrumb"
     android:layout_width="fill_parent"
-    android:layout_height="100dp"    
-    android:background="@color/background"    
-    android:layout_alignParentTop="true"
-    android:orientation="horizontal">
-    <org.sessionsapp.android.SquareImageView
-      android:id="@+id/mobileLibraryBrowser_imageAlbum"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:scaleType="centerCrop"
-      android:background="@android:color/transparent" />
-    <LinearLayout
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/mobileLibraryBrowser_lblBreadcrumb"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="8dp"
-      android:orientation="vertical">
-      <TextView
-        android:id="@+id/mobileLibraryBrowser_lblArtistName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="16dp" />
-      <TextView
-        android:id="@+id/mobileLibraryBrowser_lblAlbumTitle"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#CCCCCC"
-        android:textSize="15dp" />
-      <TextView
-        android:id="@+id/mobileLibraryBrowser_lblAlbumSongCount"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#AAAAAA"
-        android:textSize="14dp" />
-      <TextView
-        android:id="@+id/mobileLibraryBrowser_lblAlbumLength"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="40:32"
-        android:textColor="#AAAAAA"
-        android:textSize="14dp" />
-    </LinearLayout>
+      android:padding="8dp"
+      android:text="All Artists"
+      android:textColor="#CCCCCC"
+      android:textSize="14dp"
+      android:ellipsize="start"
+      android:singleLine="true" />      
   </LinearLayout>
-  <ListView
-    android:id="@+id/mobileLibraryBrowser_listView"
+  <ViewFlipper 
+    android:id="@+id/mobileLibraryBrowser_viewFlipper"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_below="@+id/mobileLibraryBrowser_layoutAlbum"
-    android:layout_centerInParent="true"
-    android:background="#FFFFFF"
-    android:cacheColorHint="#FFFFFF"
-    android:divider="#BBBBBB"
-    android:dividerHeight="1px"
-    android:listSelector="#CCCCCC" />
-  <GridView
-    android:id="@+id/mobileLibraryBrowser_gridView"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_centerInParent="true"
-    android:background="@color/background"
-    android:columnWidth="100dp"
-    android:numColumns="2"
-    android:verticalSpacing="0dp"
-    android:horizontalSpacing="0dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center" />
-  </RelativeLayout>
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:inAnimation="@anim/flipper_slide_in"
+    android:outAnimation="@anim/flipper_slide_out">
+    <ListView
+      android:id="@+id/mobileLibraryBrowser_listViewArtists"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:background="#FFFFFF"
+      android:stretchColumns="*" 
+      android:cacheColorHint="#FFFFFF"
+      android:divider="#BBBBBB"
+      android:dividerHeight="1px"
+      android:listSelector="#CCCCCC" />
+    <GridView
+      android:id="@+id/mobileLibraryBrowser_gridViewAlbums"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:background="@color/background"
+      android:columnWidth="100dp"
+      android:numColumns="2"
+      android:verticalSpacing="0dp"
+      android:horizontalSpacing="0dp"
+      android:stretchMode="columnWidth"
+      android:gravity="center" />
+    <LinearLayout
+      android:id="@+id/mobileLibraryBrowser_layoutSongs"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:background="#FFFF00"
+      android:orientation="vertical">
+      <LinearLayout
+        android:id="@+id/mobileLibraryBrowser_layoutAlbum"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="@color/background"
+        android:orientation="horizontal">
+        <org.sessionsapp.android.SquareImageView
+          android:id="@+id/mobileLibraryBrowser_imageAlbum"
+          android:layout_width="100dp"
+          android:layout_height="100dp"
+          android:scaleType="centerCrop"
+          android:background="@android:color/transparent" />
+        <LinearLayout
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="8dp"
+          android:orientation="vertical">
+          <TextView
+            android:id="@+id/mobileLibraryBrowser_lblArtistName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="16dp" />
+          <TextView
+            android:id="@+id/mobileLibraryBrowser_lblAlbumTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#CCCCCC"
+            android:textSize="15dp" />
+          <TextView
+            android:id="@+id/mobileLibraryBrowser_lblAlbumSongCount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#AAAAAA"
+            android:textSize="14dp" />
+          <TextView
+            android:id="@+id/mobileLibraryBrowser_lblAlbumLength"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="40:32"
+            android:textColor="#AAAAAA"
+            android:textSize="14dp" />
+        </LinearLayout>
+      </LinearLayout>
+      <ListView
+        android:id="@+id/mobileLibraryBrowser_listViewSongs"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:stretchColumns="*" 
+        android:cacheColorHint="#FFFFFF"
+        android:divider="#BBBBBB"
+        android:dividerHeight="1px"
+        android:listSelector="#CCCCCC" />
+    </LinearLayout>
+  </ViewFlipper>
+</LinearLayout>

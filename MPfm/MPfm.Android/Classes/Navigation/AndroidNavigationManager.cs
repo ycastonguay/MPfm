@@ -117,7 +117,7 @@ namespace MPfm.Android.Classes.Navigation
 
             // Refresh query using presenter
             var presenter = GetMobileLibraryBrowserPresenter(tabType, browserType);
-            presenter.SetQuery(tabItem.Item1, tabItem.Item2);
+            presenter.PopBackstack(tabItem.Item1, tabItem.Item2);
         }
 
         public override void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)

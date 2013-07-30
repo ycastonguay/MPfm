@@ -82,6 +82,8 @@
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
     <Compile Include="Classes\Cache\BitmapLruCache.cs" />
+    <Compile Include="Classes\Cache\BitmapWorkerTask.cs" />
+    <Compile Include="Classes\Cache\AsyncBitmapDrawable.cs" />
     <Compile Include="Classes\Clients\MyWebViewClient.cs" />
     <Compile Include="Classes\Controls\SquareImageView.cs" />
     <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
@@ -436,6 +438,10 @@
     <AndroidResource Include="Resources\drawable-mdpi\actionbar_sync.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\actionbar_sync.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_sync.png" />
+    <AndroidResource Include="Resources\Anim\flipper_slide_in.xml" />
+    <AndroidResource Include="Resources\Anim\flipper_slide_out.xml" />
+    <AndroidResource Include="Resources\Anim\flipper_back_slide_in.xml" />
+    <AndroidResource Include="Resources\Anim\flipper_back_slide_out.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

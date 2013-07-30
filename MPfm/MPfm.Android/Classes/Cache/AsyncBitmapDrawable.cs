@@ -16,29 +16,29 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Android.Content.Res;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
+using Android.Widget;
 
 namespace MPfm.Android.Classes.Cache
 {
-    public class BitmapLruCache : LruCache
+    public class AsyncBitmapDrawable : BitmapDrawable
     {
-        protected BitmapLruCache(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        private readonly WeakReference _bitmapWorkerTaskReference;
+
+        public AsyncBitmapDrawable(Resources res, Bitmap bitmap, BitmapWorkerTask bitmapWorkerTask) 
+            : base(res, bitmap)
         {
+            _bitmapWorkerTaskReference = new WeakReference(bitmapWorkerTask);
         }
 
-        public BitmapLruCache(int maxSize) : base(maxSize)
+        public BitmapWorkerTask GetBitmapWorkerTask()
         {
-        }
-
-        protected override int SizeOf(Java.Lang.Object key, Java.Lang.Object value)
-        {
-            // The cache size is measured in kilobytes rather than the number of items.
-            var bitmap = (Bitmap) value;
-            return bitmap.ByteCount / 1024;
+            return (BitmapWorkerTask)_bitmapWorkerTaskReference.Target;
         }
     }
-
 }

@@ -24,6 +24,7 @@ using Android.Views.Animations;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments;
 using MPfm.MVP.Models;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android.Classes.Adapters
 {
@@ -34,6 +35,8 @@ namespace MPfm.Android.Classes.Adapters
         readonly ListView _listView;
         List<LibraryBrowserEntity> _items;
         int _editingRowPosition = -1;
+        int _nowPlayingRowPosition = -1;
+        Guid _nowPlayingAudioFileId = Guid.Empty;
 
         public bool IsEditingRow { get; private set; }
 
@@ -84,7 +87,12 @@ namespace MPfm.Android.Classes.Adapters
             var btnAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
             var btnPlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
             var btnDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
-            imageNowPlaying.Visibility = ViewStates.Invisible;
+            
+            if(item.AudioFile != null && item.AudioFile.Id == _nowPlayingAudioFileId)
+                imageNowPlaying.Visibility = ViewStates.Visible;
+            else
+                imageNowPlaying.Visibility = ViewStates.Gone;
+
             btnAdd.Tag = position;
             btnPlay.Tag = position;
             btnDelete.Tag = position;
@@ -129,6 +137,30 @@ namespace MPfm.Android.Classes.Adapters
             }
 
             return view;
+        }
+
+        public void SetNowPlayingRow(int position, AudioFile audioFile)
+        {
+            int oldPosition = _nowPlayingRowPosition;
+            _nowPlayingAudioFileId = audioFile == null ? Guid.Empty : audioFile.Id;
+            _nowPlayingRowPosition = audioFile == null ? -1 : position;
+
+            var viewOldPosition = _listView.GetChildAt(oldPosition - _listView.FirstVisiblePosition);
+            if (viewOldPosition != null)
+            {
+                var imageNowPlaying = viewOldPosition.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageNowPlaying);
+                imageNowPlaying.Visibility = ViewStates.Gone;
+            }
+            
+            var view = _listView.GetChildAt(position - _listView.FirstVisiblePosition);
+            if (view == null)
+                return;
+            
+            if (_items[position].AudioFile != null && _items[position].AudioFile.Id == _nowPlayingAudioFileId)
+            {
+                var imageNowPlaying = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageNowPlaying);
+                imageNowPlaying.Visibility = ViewStates.Visible;
+            }
         }
 
         public void SetEditingRow(int position)

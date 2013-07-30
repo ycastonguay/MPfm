@@ -41,18 +41,24 @@ namespace MPfm.Android.Classes.Fragments
     public class MobileLibraryBrowserFragment : BaseFragment, IMobileLibraryBrowserView
     {
         private View _view;
-        private ListView _listView;
-        private GridView _gridView;
-        private MobileLibraryBrowserListAdapter _listAdapter;
+        private ListView _listViewArtists;
+        private ListView _listViewSongs;
+        private GridView _gridViewAlbums;
+        private MobileLibraryBrowserListAdapter _listAdapterArtists;
+        private MobileLibraryBrowserListAdapter _listAdapterSongs;
         private MobileLibraryBrowserGridAdapter _gridAdapter;
         private List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
 
         SquareImageView _imageAlbum;
         LinearLayout _layoutAlbum;
+        LinearLayout _layoutSongs;
+        TextView _lblBreadcrumb;
         TextView _lblArtistName;
         TextView _lblAlbumTitle;
         TextView _lblAlbumLength;
         TextView _lblAlbumSongCount;
+        ViewFlipper _viewFlipper;
+        
         public BitmapCache BitmapCache { get; set; }
 
         // Leave an empty constructor or the application will crash at runtime
@@ -81,26 +87,35 @@ namespace MPfm.Android.Classes.Fragments
             int cacheSize = maxMemory / 8;
             BitmapCache = new BitmapCache(Activity, cacheSize, size.X / 2, size.X / 2); // Max size = half the screen (grid has 2 columns)
 
+            _viewFlipper = _view.FindViewById<ViewFlipper>(Resource.Id.mobileLibraryBrowser_viewFlipper);
             _imageAlbum = _view.FindViewById<SquareImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
+            _lblBreadcrumb = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblBreadcrumb);
             _layoutAlbum = _view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowser_layoutAlbum);
+            _layoutSongs = _view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowser_layoutSongs);
             _lblArtistName = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblArtistName);
             _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumTitle);
             _lblAlbumLength = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumLength);
             _lblAlbumSongCount = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumSongCount);
-            _listView = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listView);
-            _gridView = _view.FindViewById<GridView>(Resource.Id.mobileLibraryBrowser_gridView);
-            _listView.Visibility = ViewStates.Gone;
-            _gridView.Visibility = ViewStates.Gone;
+            _listViewArtists = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listViewArtists);
+            _listViewSongs = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listViewSongs);
+            _gridViewAlbums = _view.FindViewById<GridView>(Resource.Id.mobileLibraryBrowser_gridViewAlbums);
+            //_listView.Visibility = ViewStates.Gone;
+            //_gridView.Visibility = ViewStates.Gone;
 
-            _listAdapter = new MobileLibraryBrowserListAdapter(Activity, this, _listView, _entities.ToList());
-            _listView.SetAdapter(_listAdapter);
-            _listView.ItemClick += ListViewOnItemClick;
-            _listView.ItemLongClick += ListViewOnItemLongClick;
+            _listAdapterArtists = new MobileLibraryBrowserListAdapter(Activity, this, _listViewArtists, _entities.ToList());
+            _listViewArtists.SetAdapter(_listAdapterArtists);
+            _listViewArtists.ItemClick += ListViewOnItemClick;
+            _listViewArtists.ItemLongClick += ListViewOnItemLongClick;
 
-            _gridAdapter = new MobileLibraryBrowserGridAdapter(Activity, this, _gridView, _entities.ToList());
-            _gridView.SetAdapter(_gridAdapter);
-            _gridView.ItemClick += GridViewOnItemClick;
-            _gridView.ItemLongClick += GridViewOnItemLongClick;
+            _listAdapterSongs = new MobileLibraryBrowserListAdapter(Activity, this, _listViewSongs, _entities.ToList());
+            _listViewSongs.SetAdapter(_listAdapterSongs);
+            _listViewSongs.ItemClick += ListViewOnItemClick;
+            _listViewSongs.ItemLongClick += ListViewOnItemLongClick;
+
+            _gridAdapter = new MobileLibraryBrowserGridAdapter(Activity, this, _gridViewAlbums, _entities.ToList());
+            _gridViewAlbums.SetAdapter(_gridAdapter);
+            _gridViewAlbums.ItemClick += GridViewOnItemClick;
+            _gridViewAlbums.ItemLongClick += GridViewOnItemLongClick;
 
             //this.RetainInstance = true;
 
@@ -120,8 +135,8 @@ namespace MPfm.Android.Classes.Fragments
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
-            _listAdapter.SetEditingRow(itemLongClickEventArgs.Position);
-            //_listAdapter.NotifyDataSetChanged();
+            var listAdapter = (MobileLibraryBrowserListAdapter)((ListView) sender).Adapter;
+            listAdapter.SetEditingRow(itemLongClickEventArgs.Position);
         }
 
         private void GridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
@@ -192,6 +207,7 @@ namespace MPfm.Android.Classes.Fragments
         public Action<int> OnDeleteItem { get; set; }
         public Action<int> OnPlayItem { get; set; }
         public Action<string, string> OnRequestAlbumArt { get; set; }
+        public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 
         public void MobileLibraryBrowserError(Exception ex)
         {
@@ -204,37 +220,61 @@ namespace MPfm.Android.Classes.Fragments
             });
         }
 
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle)
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack)
         {
             Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
             Activity.RunOnUiThread(() => {
                 _entities = entities.ToList();
+                _lblBreadcrumb.Text = breadcrumb;
+
+                if (isPopBackstack)
+                {
+                    _viewFlipper.SetInAnimation(Activity, Resource.Animation.flipper_back_slide_in);
+                    _viewFlipper.SetOutAnimation(Activity, Resource.Animation.flipper_back_slide_out);
+                }
+                else
+                {
+                    _viewFlipper.SetInAnimation(Activity, Resource.Animation.flipper_slide_in);
+                    _viewFlipper.SetOutAnimation(Activity, Resource.Animation.flipper_slide_out);
+                }
 
                 switch (browserType)
                 {
                     case MobileLibraryBrowserType.Artists:
-                        _layoutAlbum.Visibility = ViewStates.Gone;
-                        _listView.Visibility = ViewStates.Visible;
-                        _gridView.Visibility = ViewStates.Gone;
+                        int index = _viewFlipper.IndexOfChild(_listViewArtists);
+                        _viewFlipper.DisplayedChild = index;
+                        //_layoutAlbum.Visibility = ViewStates.Gone;
+                        //_listViewArtists.Visibility = ViewStates.Visible;
+                        //_gridViewAlbums.Visibility = ViewStates.Gone;
 
                         //Animation animation = AnimationUtils.LoadAnimation(Activity, Resource.Animation.fade_in);
                         //_listView.StartAnimation(animation);
+
+                        if (_listViewArtists != null)
+                        {
+                            _listAdapterArtists.SetData(_entities);
+                            _listViewArtists.SetSelection(0);
+                        }
                         break;
                     case MobileLibraryBrowserType.Albums:
-                        _layoutAlbum.Visibility = ViewStates.Gone;
-                        _listView.Visibility = ViewStates.Gone;
-                        _gridView.Visibility = ViewStates.Visible;
+                        int index2 = _viewFlipper.IndexOfChild(_gridViewAlbums);
+                        _viewFlipper.DisplayedChild = index2;
+                        //_layoutAlbum.Visibility = ViewStates.Gone;
+                        //_listViewArtists.Visibility = ViewStates.Gone;
+                        //_gridViewAlbums.Visibility = ViewStates.Visible;
 
                         //Animation animation2 = AnimationUtils.LoadAnimation(Activity, Resource.Animation.fade_in);
                         //_gridView.StartAnimation(animation2);
 
-                        if (_gridView != null)
+                        if (_gridViewAlbums != null)
                             _gridAdapter.SetData(entities);
                         break;
                     case MobileLibraryBrowserType.Songs:
-                        _layoutAlbum.Visibility = ViewStates.Visible;                        
-                        _listView.Visibility = ViewStates.Visible;
-                        _gridView.Visibility = ViewStates.Gone;                            
+                        int index3 = _viewFlipper.IndexOfChild(_layoutSongs);
+                        _viewFlipper.DisplayedChild = index3;
+                        //_layoutAlbum.Visibility = ViewStates.Visible;
+                        //_listViewArtists.Visibility = ViewStates.Visible;
+                        //_gridViewAlbums.Visibility = ViewStates.Gone;                            
 
                         if (_entities.Count > 0)
                         {                            
@@ -261,26 +301,36 @@ namespace MPfm.Android.Classes.Fragments
                                 }
                             });
                         }
+
+                        if (_listViewSongs != null)
+                        {
+                            _listAdapterSongs.SetData(_entities);
+                            _listViewSongs.SetSelection(0);
+                        }
                         break;
                     case MobileLibraryBrowserType.Playlists:
-                        _layoutAlbum.Visibility = ViewStates.Gone;
-                        _listView.Visibility = ViewStates.Visible;
-                        _gridView.Visibility = ViewStates.Gone;
+                        //_layoutAlbum.Visibility = ViewStates.Gone;
+                        //_listViewArtists.Visibility = ViewStates.Visible;
+                        //_gridViewAlbums.Visibility = ViewStates.Gone;
                         break;
                 }
 
-                if (browserType != MobileLibraryBrowserType.Albums)
-                {
-                    if (_listView != null)
-                        _listAdapter.SetData(_entities);
-
-                    _listView.SetSelection(0);
-                }
+                //if (browserType != MobileLibraryBrowserType.Albums)
+                //{
+                //    if (_listViewArtists != null)
+                //    {
+                //        _listAdapter.SetData(_entities);
+                //        _listViewArtists.SetSelection(0);
+                //    }
+                //}
             });
         }
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
         {
+            Activity.RunOnUiThread(() => {
+                _listAdapterSongs.SetNowPlayingRow(index, audioFile);
+            });
         }
 
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)

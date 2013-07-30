@@ -29,6 +29,7 @@ namespace MPfm.MVP.Presenters.Interfaces
     public interface IMobileLibraryBrowserPresenter : IBasePresenter<IMobileLibraryBrowserView>
 	{
         void SetQuery(MobileLibraryBrowserType browserType, LibraryQuery query);
+        void PopBackstack(MobileLibraryBrowserType browserType, LibraryQuery query);
 	}
 }
 
