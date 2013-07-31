@@ -23,6 +23,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
+using Android.Net.Nsd;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Views;
@@ -43,6 +44,7 @@ using TinyMessenger;
 using org.sessionsapp.android;
 using DialogFragment = Android.App.DialogFragment;
 using Fragment = Android.App.Fragment;
+using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
 
 namespace MPfm.Android
 {
@@ -175,6 +177,13 @@ namespace MPfm.Android
             });
 
             SetupNotificationBar();
+
+#if __ANDROID_16__
+            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
+                Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USING SOMETHING FROM API 16 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                NsdServiceInfo serviceInfo = new NsdServiceInfo();
+            }
+#endif
 
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
