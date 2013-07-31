@@ -96,19 +96,20 @@
     </LinearLayout>
   </LinearLayout>
   <android.support.v4.view.ViewPager
-      android:id="@+id/main_pager"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
-      android:background="@color/background"
-      android:layout_above="@+id/main_miniplayer">
+    android:id="@+id/main_pager"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background"
+    android:layout_above="@+id/main_miniplayer">
     <android.support.v4.view.PagerTitleStrip
-          android:id="@+id/main_pager_title_strip"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:layout_gravity="top"
-          android:background="#465966"
-          android:textColor="#fff"
-          android:paddingTop="4dp"
-          android:paddingBottom="4dp" />
+      android:id="@+id/main_pager_title_strip"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top"
+      android:paddingTop="4dp"
+      android:paddingBottom="4dp"
+      android:background="#465966"
+      android:textColor="#ffffff"
+      android:textSize="14dp" />
   </android.support.v4.view.ViewPager>
 </RelativeLayout>

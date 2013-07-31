@@ -26,17 +26,16 @@
         android:id="@+id/equalizerPresetDetails_lblPresetName"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="8dp"
-        android:text="Preset Name:"
+        android:paddingRight="40dp"
+        android:text="Name:"
         android:textSize="14dp"
         android:textColor="#FFFFFF" />
       <EditText
         android:id="@+id/equalizerPresetDetails_txtPresetName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"        
-        android:paddingRight="8dp"
-        android:textSize="14dp"
+        android:layout_weight="1"                
+        android:textSize="16dp"
         android:textColor="#FFFFFF"
         android:padding="8dp" />
     </LinearLayout>
@@ -53,12 +52,12 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      android:padding="6dp">
+      android:padding="10dp">
       <Button
         android:id="@+id/equalizerPresetDetails_btnNormalize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"        
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="12dp"
         android:padding="8dp"
         android:background="@color/button_background"
         android:text="Normalize"
@@ -68,10 +67,19 @@
         android:id="@+id/equalizerPresetDetails_btnReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="12dp"
         android:padding="8dp"
         android:background="@color/button_background"
         android:text="Reset"
+        android:textColor="@color/button_textcolor"
+        android:textSize="14dp" />
+      <Button
+        android:id="@+id/equalizerPresetDetails_btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/button_background"
+        android:text="Delete"
         android:textColor="@color/button_textcolor"
         android:textSize="14dp" />
     </LinearLayout>

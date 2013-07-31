@@ -29,26 +29,26 @@ namespace MPfm.Android.Classes.Adapters
 {
     public class EqualizerPresetsListAdapter : BaseAdapter<EQPreset>
     {
-        private readonly EqualizerPresetsActivity _context;
-        private List<EQPreset> _presets;
+        readonly EqualizerPresetsActivity _context;
+        readonly ListView _listView;
+        List<EQPreset> _presets;
+        int _checkmarkRowPosition;
+        Guid _selectedPresetId;
 
         public bool HasPresetChanged { get; private set; }
 
-        public EqualizerPresetsListAdapter(EqualizerPresetsActivity context, List<EQPreset> presets)
+        public EqualizerPresetsListAdapter(EqualizerPresetsActivity context, ListView listView, List<EQPreset> presets)
         {
             _context = context;
+            _listView = listView;
             _presets = presets;
         }
 
-        public void SetData(List<EQPreset> presets)
+        public void SetData(List<EQPreset> presets, Guid selectedPresetId)
         {
+            _selectedPresetId = selectedPresetId;
             _presets = presets;
             NotifyDataSetChanged();
-        }
-
-        public void SetSelected(Guid presetId)
-        {
-            
         }
 
         public override long GetItemId(int position)
@@ -76,7 +76,30 @@ namespace MPfm.Android.Classes.Adapters
             var lblName = view.FindViewById<TextView>(Resource.Id.equalizerPresetCell_lblName);
             lblName.Text = _presets[position].Name;
 
+            var imageCheck = view.FindViewById<ImageView>(Resource.Id.equalizerPresetCell_imageCheck);
+            imageCheck.Visibility = item.EQPresetId == _selectedPresetId ? ViewStates.Visible : ViewStates.Gone;
+
             return view;
+        }
+
+        public void SetCheckmarkCell(int position)
+        {
+            _selectedPresetId = _presets[position].EQPresetId;
+            int oldPosition = _checkmarkRowPosition;
+            _checkmarkRowPosition = position;
+            var viewOldPosition = _listView.GetChildAt(oldPosition - _listView.FirstVisiblePosition);
+            if (viewOldPosition != null)
+            {
+                var imageCheckOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.equalizerPresetCell_imageCheck);
+                imageCheckOld.Visibility = ViewStates.Gone;
+            }
+
+            var view = _listView.GetChildAt(position - _listView.FirstVisiblePosition);
+            if (view == null)
+                return;
+
+            var imageCheck = view.FindViewById<ImageView>(Resource.Id.equalizerPresetCell_imageCheck);
+            imageCheck.Visibility = ViewStates.Visible;
         }
     }
 }

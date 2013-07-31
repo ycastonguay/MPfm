@@ -37,7 +37,7 @@
       android:cacheColorHint="#FFFFFF"
       android:divider="#BBBBBB"
       android:dividerHeight="1px"
-      android:listSelector="#CCCCCC" />
+      android:listSelector="@drawable/list_selector" />
     <GridView
       android:id="@+id/mobileLibraryBrowser_gridViewAlbums"
       android:layout_width="fill_parent"
@@ -112,7 +112,7 @@
         android:cacheColorHint="#FFFFFF"
         android:divider="#BBBBBB"
         android:dividerHeight="1px"
-        android:listSelector="#CCCCCC" />
+        android:listSelector="@drawable/list_selector" />
     </LinearLayout>
   </ViewFlipper>
 </LinearLayout>

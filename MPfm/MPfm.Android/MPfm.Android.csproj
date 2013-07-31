@@ -444,6 +444,9 @@
     <AndroidResource Include="Resources\Anim\flipper_slide_out.xml" />
     <AndroidResource Include="Resources\Anim\flipper_back_slide_in.xml" />
     <AndroidResource Include="Resources\Anim\flipper_back_slide_out.xml" />
+    <AndroidResource Include="Resources\drawable\list_selector.xml" />
+    <AndroidResource Include="Resources\color\list_text.xml" />
+    <AndroidResource Include="Resources\color\list_secondarytext.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

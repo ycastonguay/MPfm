@@ -4,4 +4,7 @@
   <color name="background">#20282E</color>
   <color name="button_background">#E74C3C</color>
   <color name="button_textcolor">#FFFFFF</color>
+  <color name="listitem_background">#FFFFFF</color>
+  <color name="listitem_selected">#E74C3C</color>
+  <color name="listitem_textcolor">#FFFFFF</color>
 </resources>

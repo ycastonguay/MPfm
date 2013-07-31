@@ -63,7 +63,7 @@ namespace MPfm.Android
             _btnBypass.Click += (sender, args) => OnBypassEqualizer();
 
             _listView = FindViewById<ListView>(Resource.Id.equalizerPresets_listView);
-            _listAdapter = new EqualizerPresetsListAdapter(this, new List<EQPreset>());
+            _listAdapter = new EqualizerPresetsListAdapter(this, _listView, new List<EQPreset>());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
@@ -78,11 +78,13 @@ namespace MPfm.Android
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
             OnLoadPreset(_presets[itemClickEventArgs.Position].EQPresetId);
+            _listAdapter.SetCheckmarkCell(itemClickEventArgs.Position);
         }
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
             OnEditPreset(_presets[itemLongClickEventArgs.Position].EQPresetId);
+            _listAdapter.SetCheckmarkCell(itemLongClickEventArgs.Position);
         }
 
         protected override void OnStart()
@@ -175,8 +177,7 @@ namespace MPfm.Android
             RunOnUiThread(() => {
                 _btnBypass.Checked = isEQBypassed;
                 _presets = presets.ToList();
-                _listAdapter.SetData(_presets);
-                _listAdapter.SetSelected(selectedPresetId);
+                _listAdapter.SetData(_presets, selectedPresetId);
             });
         }
 
