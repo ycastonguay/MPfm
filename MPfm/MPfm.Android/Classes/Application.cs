@@ -27,7 +27,7 @@ using MPfm.Library;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Android.Classes.Helpers;
+using MPfm.Android.Classes.Services;
 
 namespace MPfm.Android.Classes
 {
@@ -40,6 +40,10 @@ namespace MPfm.Android.Classes
     {
         static Context _context;
         ConnectionChangeReceiver _connectionChangeReceiver;
+
+        #if __ANDROID_16__
+        private AndroidDiscoveryService _discoveryService;
+        #endif
 
         public MPfmApplication(IntPtr javaReference, JniHandleOwnership transfer) 
             : base(javaReference, transfer) 
@@ -93,8 +97,16 @@ namespace MPfm.Android.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Application - Error: Failed to setup connection change receiver! {0}", ex);                
+                Console.WriteLine("Application - Error: Failed to setup connection change receiver! {0}", ex);
             }
+
+#if __ANDROID_16__
+            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
+                _discoveryService = new AndroidDiscoveryService();
+                _discoveryService.StartDiscovery();
+                _discoveryService.DiscoverPeers();
+            }
+#endif
         }
 
         public override void OnTerminate()
@@ -105,6 +117,12 @@ namespace MPfm.Android.Classes
             if (MPfm.Player.Player.CurrentPlayer.IsPlaying)
                 MPfm.Player.Player.CurrentPlayer.Stop();
             MPfm.Player.Player.CurrentPlayer.Dispose();
+
+#if __ANDROID_16__
+            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
+                _discoveryService.Dispose();
+            }
+#endif
         }
 
         public static Context GetApplicationContext()

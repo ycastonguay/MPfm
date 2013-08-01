@@ -27,16 +27,18 @@ using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class EqualizerPresetFadersListAdapter : BaseAdapter<EQPresetBand>
+    public class EqualizerPresetFadersListAdapter : BaseAdapter<EQPresetBand>, SeekBar.IOnSeekBarChangeListener
     {
         private readonly EqualizerPresetDetailsActivity _context;
+        private readonly ListView _listView;
         private EQPreset _preset;
 
         public bool HasPresetChanged { get; set; }
 
-        public EqualizerPresetFadersListAdapter(EqualizerPresetDetailsActivity context, EQPreset preset)
+        public EqualizerPresetFadersListAdapter(EqualizerPresetDetailsActivity context, ListView listView, EQPreset preset)
         {
             _context = context;
+            _listView = listView;
             _preset = preset;
         }
 
@@ -76,13 +78,8 @@ namespace MPfm.Android.Classes.Adapters
             lblFrequency.Text = _preset.Bands[position].CenterString;
             lblValue.Text = GetGainString(_preset.Bands[position].Gain);
             seekBar.Progress = progress;
-            seekBar.ProgressChanged += (sender, args) => {
-                HasPresetChanged = true;
-                float gain = (((float)seekBar.Progress) / 10f) - 6f;
-                lblValue.Text = GetGainString(gain);
-                _preset.Bands[position].Gain = gain;
-                _context.OnSetFaderGain(_preset.Bands[position].CenterString, gain);
-            };
+            seekBar.Tag = position;
+            seekBar.SetOnSeekBarChangeListener(this);
 
             return view;
         }
@@ -93,6 +90,33 @@ namespace MPfm.Android.Classes.Adapters
                 return "+" + gain.ToString("0.0").Replace(",", ".") + " dB";
             else
                 return gain.ToString("0.0").Replace(",", ".") + " dB";
+        }
+
+        public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
+        {
+            int position = (int)seekBar.Tag;
+            //Console.WriteLine("EPFLA - ONPROGRESSCHANGED position: {0} progress: {1}", position, progress);
+            HasPresetChanged = true;
+            float gain = (((float)seekBar.Progress) / 10f) - 6f;
+
+            var view = _listView.GetChildAt(position - _listView.FirstVisiblePosition);
+            if (view == null)
+                return;
+
+            var lblValue = view.FindViewById<TextView>(Resource.Id.equalizerPresetFaderCell_lblValue);
+            lblValue.Text = GetGainString(gain);
+
+            _preset.Bands[position].Gain = gain;
+            _context.UpdatePreset(_preset);
+            _context.OnSetFaderGain(_preset.Bands[position].CenterString, gain);
+        }
+
+        public void OnStartTrackingTouch(SeekBar seekBar)
+        {
+        }
+
+        public void OnStopTrackingTouch(SeekBar seekBar)
+        {
         }
     }
 }

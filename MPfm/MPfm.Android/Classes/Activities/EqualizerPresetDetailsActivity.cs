@@ -21,6 +21,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Views;
 using Android.OS;
+using Android.Views.InputMethods;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Navigation;
@@ -28,11 +29,12 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using org.sessionsapp.android;
 
 namespace MPfm.Android
 {
     [Activity(Label = "Equalizer Preset Details", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden)]
-    public class EqualizerPresetDetailsActivity : BaseActivity, IEqualizerPresetDetailsView
+    public class EqualizerPresetDetailsActivity : BaseActivity, IEqualizerPresetDetailsView, EditText.IOnEditorActionListener
     {
         private MobileNavigationManager _navigationManager;
         private string _sourceActivityType;
@@ -42,6 +44,7 @@ namespace MPfm.Android
         private Button _btnNormalize;
         private Button _btnReset;
         private EQPreset _preset;
+        private EqualizerPresetGraphView _equalizerPresetGraph;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -56,11 +59,14 @@ namespace MPfm.Android
             _txtPresetName = FindViewById<EditText>(Resource.Id.equalizerPresetDetails_txtPresetName);
             _btnNormalize = FindViewById<Button>(Resource.Id.equalizerPresetDetails_btnNormalize);
             _btnReset = FindViewById<Button>(Resource.Id.equalizerPresetDetails_btnReset);
-            _btnNormalize.Click += (sender, args) => OnNormalizePreset();
-            _btnReset.Click += (sender, args) => OnResetPreset();
+            _equalizerPresetGraph = FindViewById<EqualizerPresetGraphView>(Resource.Id.equalizerPresetDetails_graphView);
+            _btnNormalize.Click += BtnNormalizeOnClick;
+            _btnReset.Click += BtnResetOnClick;
+
+            //_txtPresetName.SetOnEditorActionListener(this);
 
             _listView = FindViewById<ListView>(Resource.Id.equalizerPresetDetails_listView);
-            _listAdapter = new EqualizerPresetFadersListAdapter(this, new EQPreset());
+            _listAdapter = new EqualizerPresetFadersListAdapter(this, _listView, new EQPreset());
             _listView.SetAdapter(_listAdapter);
 
             // Save the source activity type for later (for providing Up navigation)
@@ -104,6 +110,32 @@ namespace MPfm.Android
         {
             Console.WriteLine("EqualizerPresetDetailsActivity - OnDestroy");
             base.OnDestroy();
+        }
+
+        private void BtnResetOnClick(object sender, EventArgs eventArgs)
+        {
+            AlertDialog ad = new AlertDialog.Builder(this)
+               .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+               .SetTitle("Equalizer preset will be reset")
+               .SetMessage("Are you sure you wish to reset this equalizer preset?")
+               .SetCancelable(true)
+               .SetPositiveButton("OK", (sender2, args) => OnResetPreset())
+               .SetNegativeButton("Cancel", (sender2, args) => { })
+               .Create();
+            ad.Show();
+        }
+
+        private void BtnNormalizeOnClick(object sender, EventArgs eventArgs)
+        {
+            AlertDialog ad = new AlertDialog.Builder(this)
+               .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+               .SetTitle("Equalizer preset will be normalized")
+               .SetMessage("Are you sure you wish to normalize this equalizer preset?")
+               .SetCancelable(true)
+               .SetPositiveButton("OK", (sender2, args) => OnNormalizePreset())
+               .SetNegativeButton("Cancel", (sender2, args) => { })
+               .Create();
+            ad.Show();
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -169,6 +201,28 @@ namespace MPfm.Android
             ad.Show();
         }
 
+        public void UpdatePreset(EQPreset preset)
+        {
+            //Console.WriteLine("EQDA - UPDATE PRESET");
+            _preset = preset;
+            _equalizerPresetGraph.SetPreset(preset);
+            _txtPresetName.Text = preset.Name;
+        }
+
+        public bool OnEditorAction(TextView v, ImeAction actionId, KeyEvent e)
+        {
+            //if (e.Action == KeyEventActions.Down && e.KeyCode == Keycode.Enter)
+            if(actionId == ImeAction.Done)
+            {
+                //var imm = (InputMethodManager)ApplicationContext.GetSystemService(Context.InputMethodService);
+                //imm.HideSoftInputFromInputMethod(v.WindowToken, 0);
+                Window.SetSoftInputMode(SoftInput.StateAlwaysHidden);
+                return true;
+            }
+
+            return false;
+        }
+
         #region IEqualizerPresetDetailsView implementation
 
         public Action OnResetPreset { get; set; }
@@ -202,13 +256,14 @@ namespace MPfm.Android
 
         public void RefreshPreset(EQPreset preset)
         {
+            //Console.WriteLine("EQDA - REFRESH PRESET");
             RunOnUiThread(() => {
-                _preset = preset;
-                _txtPresetName.Text = preset.Name;
+                UpdatePreset(preset);
                 _listAdapter.SetData(preset);
             });
         }
 
         #endregion
+
     }
 }

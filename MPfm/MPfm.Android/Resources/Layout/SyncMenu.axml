@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="6dp"
-        android:background="@color/button_background"
+        android:background="@drawable/button_selector"
         android:text="Select all"
         android:textSize="14dp"
         android:textColor="@color/button_textcolor" />

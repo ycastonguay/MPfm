@@ -26,7 +26,7 @@
         android:id="@+id/equalizerPresetDetails_lblPresetName"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="40dp"
+        android:paddingRight="32dp"
         android:text="Name:"
         android:textSize="14dp"
         android:textColor="#FFFFFF" />
@@ -35,9 +35,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"                
+        android:singleLine="true"   
+        android:imeOptions="actionDone"
         android:textSize="16dp"
         android:textColor="#FFFFFF"
-        android:padding="8dp" />
+        android:padding="10dp" />
     </LinearLayout>
     <ListView
       android:id="@+id/equalizerPresetDetails_listView"
@@ -52,6 +54,7 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
+      android:background="#36454F"
       android:padding="10dp">
       <Button
         android:id="@+id/equalizerPresetDetails_btnNormalize"
@@ -59,7 +62,7 @@
         android:layout_height="wrap_content"        
         android:layout_marginRight="12dp"
         android:padding="8dp"
-        android:background="@color/button_background"
+        android:background="@drawable/button_selector"
         android:text="Normalize"
         android:textColor="@color/button_textcolor"
         android:textSize="14dp" />
@@ -69,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
         android:padding="8dp"
-        android:background="@color/button_background"
+        android:background="@drawable/button_selector"
         android:text="Reset"
         android:textColor="@color/button_textcolor"
         android:textSize="14dp" />
@@ -78,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@color/button_background"
+        android:background="@drawable/button_selector"
         android:text="Delete"
         android:textColor="@color/button_textcolor"
         android:textSize="14dp" />

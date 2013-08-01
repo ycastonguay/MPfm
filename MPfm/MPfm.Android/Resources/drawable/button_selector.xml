@@ -4,15 +4,15 @@
   <item 
     android:state_enabled="false" 
     android:state_focused="true"
-    android:drawable="@color/listitem_background" />
+    android:drawable="@color/button_background" />
   <!-- pressed -->
   <item 
     android:state_pressed="true"
-    android:drawable="@color/listitem_selected" />
+    android:drawable="@color/button_selected" />
   <!-- focused -->
   <item 
     android:state_focused="true"
-    android:drawable="@color/listitem_selected" />
+    android:drawable="@color/button_selected" />
   <item
-    android:drawable="@color/listitem_background" />
+    android:drawable="@color/button_background" />
 </selector>

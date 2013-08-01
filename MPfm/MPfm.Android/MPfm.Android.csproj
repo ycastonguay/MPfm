@@ -106,8 +106,15 @@
     <Compile Include="Classes\AndroidSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Helpers\BitmapHelper.cs" />
     <Compile Include="Classes\Cache\BitmapCache.cs" />
+    <Compile Include="Classes\Listeners\ActionListener.cs" />
+    <Compile Include="Classes\Listeners\PeerListListener.cs" />
+    <Compile Include="Classes\Listeners\ResolveListener.cs" />
+    <Compile Include="Classes\Listeners\DiscoveryListener.cs" />
+    <Compile Include="Classes\Listeners\RegistrationListener.cs" />
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
+    <Compile Include="Classes\Receivers\WifiDirectReceiver.cs" />
+    <Compile Include="Classes\Services\AndroidDiscoveryService.cs" />
     <Compile Include="Classes\Services\WidgetService.cs" />
     <Compile Include="Classes\Widgets\PlayerWidgetProvider.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -447,6 +454,7 @@
     <AndroidResource Include="Resources\drawable\list_selector.xml" />
     <AndroidResource Include="Resources\color\list_text.xml" />
     <AndroidResource Include="Resources\color\list_secondarytext.xml" />
+    <AndroidResource Include="Resources\drawable\button_selector.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

@@ -49,7 +49,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@color/button_background"
+    android:background="@drawable/button_selector"
     android:text="Connect manually to device"
     android:textColor="@color/button_textcolor"
     android:textSize="14dp" />

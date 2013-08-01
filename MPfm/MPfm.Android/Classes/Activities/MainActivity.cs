@@ -23,7 +23,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
-using Android.Net.Nsd;
+using Android.Net.Wifi.P2p;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Views;
@@ -34,7 +34,10 @@ using Java.Lang;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Fragments;
+using MPfm.Android.Classes.Listeners;
 using MPfm.Android.Classes.Navigation;
+using MPfm.Android.Classes.Receivers;
+using MPfm.Android.Classes.Services;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
@@ -66,6 +69,15 @@ namespace MPfm.Android
         private ImageButton _btnPlayPause;
         private ImageButton _btnNext;
         private bool _isPlaying;
+        private IntentFilter _intentFilter;
+        private WifiP2pManager _wifiManager;
+        private WifiP2pManager.Channel _wifiChannel;
+        private WifiDirectReceiver _wifiDirectReceiver;
+        private ActionListener _actionListener;
+
+        //#if __ANDROID_16__
+        //private AndroidDiscoveryService _discoveryService;
+        //#endif
 
         public BitmapCache BitmapCache { get; private set; }
 
@@ -176,14 +188,14 @@ namespace MPfm.Android
                 });
             });
 
-            SetupNotificationBar();
+//#if __ANDROID_16__
+//            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
+//                _discoveryService = new AndroidDiscoveryService();
+//                _discoveryService.StartDiscovery();
+//            }
+//#endif
 
-#if __ANDROID_16__
-            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
-                Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USING SOMETHING FROM API 16 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                NsdServiceInfo serviceInfo = new NsdServiceInfo();
-            }
-#endif
+            SetupNotificationBar();
 
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -191,6 +203,23 @@ namespace MPfm.Android
             _navigationManager.BindOptionsMenuView(this);
             _navigationManager.Start();
         }
+
+        //private void SetupWifiDirect()
+        //{
+        //    _intentFilter = new IntentFilter();
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pStateChangedAction);
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pPeersChangedAction);
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pConnectionChangedAction);
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pThisDeviceChangedAction);
+
+        //    _actionListener = new ActionListener();
+        //    _wifiManager = (WifiP2pManager) GetSystemService(Context.WifiP2pService);
+        //    _wifiChannel = _wifiManager.Initialize(this, MainLooper, null);
+        //    _wifiDirectReceiver = new WifiDirectReceiver();
+        //    RegisterReceiver(_wifiDirectReceiver, _intentFilter);
+
+        //    _wifiManager.DiscoverPeers(_wifiChannel, _actionListener);
+        //}
 
         private void SetupNotificationBar()
         {
@@ -306,42 +335,51 @@ namespace MPfm.Android
             }
         }
 
+        public override bool OnPrepareOptionsMenu(IMenu menu)
+        {
+            Console.WriteLine("MainActivity - OnPrepareOptionsMenu");
+            return true;
+        }
+
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
+            Console.WriteLine("MainActivity - OnCreateOptionsMenu");
+            
             MenuInflater.Inflate(Resource.Menu.main_menu, menu);
-            //Console.WriteLine("MainActivity - OnCreateOptionsMenu");
-
-            foreach (var option in _options)
-            {
-                var menuItem = menu.Add(new Java.Lang.String(option.Value));
-                switch (option.Key)
-                {
-                    case MobileOptionsMenuType.About:
-                        menuItem.SetIcon(Resource.Drawable.actionbar_info);
-                        break;
-                    case MobileOptionsMenuType.EqualizerPresets:
-                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-                        menuItem.SetIcon(Resource.Drawable.actionbar_equalizer);
-                        break;
-                    case MobileOptionsMenuType.Preferences:
-                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-                        menuItem.SetIcon(Resource.Drawable.actionbar_settings);
-                        break;
-                    case MobileOptionsMenuType.SyncLibrary:
-                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-                        menuItem.SetIcon(Resource.Drawable.actionbar_sync);
-                        break;
-                    case MobileOptionsMenuType.SyncLibraryCloud:
-                        menuItem.SetIcon(Resource.Drawable.actionbar_cloud);
-                        break;
-                    case MobileOptionsMenuType.SyncLibraryFileSharing:
-                        menuItem.SetIcon(Resource.Drawable.actionbar_share);
-                        break;
-                    case MobileOptionsMenuType.SyncLibraryWebBrowser:
-                        menuItem.SetIcon(Resource.Drawable.actionbar_earth);
-                        break;
-                }
-            }
+            var menuItem = menu.Add(new Java.Lang.String("Test"));
+            var menuItem2 = menu.Add(new Java.Lang.String("Test2"));
+            var menuItem3 = menu.Add(new Java.Lang.String("Test3"));
+            //foreach (var option in _options)
+            //{
+            //    var menuItem = menu.Add(new Java.Lang.String(option.Value));
+            //    switch (option.Key)
+            //    {
+            //        case MobileOptionsMenuType.About:
+            //            menuItem.SetIcon(Resource.Drawable.actionbar_info);
+            //            break;
+            //        case MobileOptionsMenuType.EqualizerPresets:
+            //            menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+            //            menuItem.SetIcon(Resource.Drawable.actionbar_equalizer);
+            //            break;
+            //        case MobileOptionsMenuType.Preferences:
+            //            menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+            //            menuItem.SetIcon(Resource.Drawable.actionbar_settings);
+            //            break;
+            //        case MobileOptionsMenuType.SyncLibrary:
+            //            menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+            //            menuItem.SetIcon(Resource.Drawable.actionbar_sync);
+            //            break;
+            //        case MobileOptionsMenuType.SyncLibraryCloud:
+            //            menuItem.SetIcon(Resource.Drawable.actionbar_cloud);
+            //            break;
+            //        case MobileOptionsMenuType.SyncLibraryFileSharing:
+            //            menuItem.SetIcon(Resource.Drawable.actionbar_share);
+            //            break;
+            //        case MobileOptionsMenuType.SyncLibraryWebBrowser:
+            //            menuItem.SetIcon(Resource.Drawable.actionbar_earth);
+            //            break;
+            //    }
+            //}
 
             return true;
         }
