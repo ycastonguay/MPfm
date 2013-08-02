@@ -32,19 +32,21 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using org.sessionsapp.android;
 
 namespace MPfm.Android
 {
     [Activity(Label = "Equalizer Presets", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class EqualizerPresetsActivity : BaseActivity, IEqualizerPresetsView
     {
-        private MobileNavigationManager _navigationManager;
-        private string _sourceActivityType;
-        private SeekBar _seekBarVolume;
-        private ToggleButton _btnBypass;
-        private ListView _listView;
-        private EqualizerPresetsListAdapter _listAdapter;
-        private List<EQPreset> _presets;
+        MobileNavigationManager _navigationManager;
+        string _sourceActivityType;
+        SeekBar _seekBarVolume;
+        ToggleButton _btnBypass;
+        ListView _listView;
+        EqualizerPresetsListAdapter _listAdapter;
+        List<EQPreset> _presets;
+        OutputMeterView _outputMeter;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -61,6 +63,8 @@ namespace MPfm.Android
 
             _btnBypass = FindViewById<ToggleButton>(Resource.Id.equalizerPresets_btnBypass);
             _btnBypass.Click += (sender, args) => OnBypassEqualizer();
+
+            _outputMeter = FindViewById<OutputMeterView>(Resource.Id.equalizerPresets_outputMeterView);
 
             _listView = FindViewById<ListView>(Resource.Id.equalizerPresets_listView);
             _listAdapter = new EqualizerPresetsListAdapter(this, _listView, new List<EQPreset>());
@@ -183,6 +187,10 @@ namespace MPfm.Android
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
+            RunOnUiThread(() => {
+                _outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+                _outputMeter.Invalidate();
+            });
         }
 
         public void RefreshVolume(float volume)

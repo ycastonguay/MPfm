@@ -223,6 +223,9 @@
     <AndroidResource Include="Resources\Layout\SyncManualConnect.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\Layout\spinner_dropdown_item.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -455,6 +458,7 @@
     <AndroidResource Include="Resources\color\list_text.xml" />
     <AndroidResource Include="Resources\color\list_secondarytext.xml" />
     <AndroidResource Include="Resources\drawable\button_selector.xml" />
+    <AndroidResource Include="Resources\Values\StringArray.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

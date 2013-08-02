@@ -21,16 +21,103 @@ using System.Linq;
 using System.Text;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using MPfm.Sound.AudioFiles;
 
 namespace org.sessionsapp.android
 {
     public class OutputMeterView : View
     {
+        private List<WaveDataMinMax> _waveDataHistory = null;
+        /// <summary>
+        /// Array containing an history of min and max peaks over the last 1000ms.
+        /// </summary>
+        public List<WaveDataMinMax> WaveDataHistory
+        {
+            get
+            {
+                return _waveDataHistory;
+            }
+        }
+
+        private OutputMeterDisplayType _displayType = OutputMeterDisplayType.Stereo;
+        /// <summary>
+        /// Output meter display type (left channel, right channel, stereo, or mix).
+        /// </summary>
+        public OutputMeterDisplayType DisplayType
+        {
+            get
+            {
+                return _displayType;
+            }
+            set
+            {
+                _displayType = value;
+            }
+        }
+
+        private float _distortionThreshold = 0.9f;
+        /// <summary>
+        /// Value used to determine if the signal is distorting. Value range: 0.0f to 1.0f.
+        /// </summary>
+        public float DistortionThreshold
+        {
+            get
+            {
+                return _distortionThreshold;
+            }
+            set
+            {
+                _distortionThreshold = value;
+            }
+        }
+
+        private bool _displayDecibels = true;
+        /// <summary>
+        /// Display the peak (1000ms) in decibels in text at the bottom of each bar.
+        /// </summary>
+        public bool DisplayDecibels
+        {
+            get
+            {
+                return _displayDecibels;
+            }
+            set
+            {
+                _displayDecibels = value;
+            }
+        }
+
+        private float _drawFloor = -60f;
+        /// <summary>
+        /// Floor from which the output meter will be drawn. Minimum value: -100 (dB). Max: 0 (dB). Default value: -60 (dB).
+        /// </summary>
+        public float DrawFloor
+        {
+            get
+            {
+                return _drawFloor;
+            }
+            set
+            {
+                _drawFloor = value;
+            }
+        }
+
+        private Color _colorMeter1 = new Color(0, 125, 0);
+        private Color _colorMeter2 = new Color(0, 200, 0);
+        private Color _colorMeterB1 = new Color(0, 150, 0);
+        private Color _colorMeterB2 = new Color(0, 225, 0);
+        private Color _colorMeterDistortion1 = new Color(1, 0, 0);
+        private Color _colorMeterDistortion2 = new Color(220, 0, 0);
+        private Color _color0dBLine = Color.LightGray;
+        private Color _colorPeakLine = Color.Yellow;
+
         public OutputMeterView(Context context) : base(context)
         {
             Initialize();
@@ -54,12 +141,213 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
+            _waveDataHistory = new List<WaveDataMinMax>();
+        }
+
+        /// <summary>
+        /// Block of 10ms synchronized with timerelapsed on Player.
+        /// </summary>
+        /// <param name="waveDataLeft"></param>
+        /// <param name="waveDataRight"></param>
+        public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
+        {
+            AddToHistory(AudioTools.GetMinMaxFromWaveData(waveDataLeft, waveDataRight, true));
+        }
+
+        /// <summary>
+        /// Adds a min/max wave data structure to the history.
+        /// </summary>
+        /// <param name="data">Min/max wave data structure</param>
+        private void AddToHistory(WaveDataMinMax data)
+        {
+            // Add history
+            if (WaveDataHistory.Count == 0)
+            {
+                WaveDataHistory.Add(data);
+            }
+            else
+            {
+                WaveDataHistory.Insert(0, data);
+
+                // Trim history larger than 1000ms (100 items * 10ms)
+                if (WaveDataHistory.Count > 100)
+                    WaveDataHistory.RemoveAt(WaveDataHistory.Count - 1);
+            }
         }
 
         public override void Draw(global::Android.Graphics.Canvas canvas)
         {
             Console.WriteLine("OutputMeterView - Draw");
-            base.Draw(canvas);
+            //base.Draw(canvas);
+
+            //var context = UIGraphics.GetCurrentContext();
+            //CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0.1f, 0.1f, 0.1f));
+
+            // If the wave data is empty, skip rendering 
+            if (WaveDataHistory == null || WaveDataHistory.Count == 0)
+                return;
+
+            // By default, the bar width takes the full width of the control (except for stereo)
+            float barWidth = Width / 2;
+
+            // at 10ms refresh, get last value.
+            float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax);
+            float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax);
+            //float maxLeftDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].leftMax);
+            //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
+
+            // Get peak for the last 1000ms
+            float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Left);
+            float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Right);
+
+            // Set the dB range to display (-100 to +10dB)
+            float dbRangeToDisplay = 110;
+
+            // Get multiplier (110 height to 330 == 3)
+            float scaleMultiplier = Height / dbRangeToDisplay;
+
+            // Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
+            //float barHeight = scaleMultiplier * (maxDB + 100);
+
+            //// Draw 0db line
+            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
+            //    new PointF(0, 4), 
+            //    new PointF(Bounds.Width, 4)
+            //}, _color0dBLine, 1, false, false);
+            var paintLine = new Paint {
+                AntiAlias = true,
+                Color = _color0dBLine
+            };
+            paintLine.SetStyle(Paint.Style.Fill);            
+            canvas.DrawLine(0, 4, Width, 4, paintLine);
+
+            // -----------------------------------------
+            // LEFT CHANNEL
+            //
+
+            // Get the VU value from audio tools
+            //float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, ChannelType.Left);
+
+            // Calculate bar height
+            float barHeight = maxLeftDB + 100;
+            float height = barHeight;
+            if (height < 1)
+                height = 1;
+
+            // Create rectangle for bar
+            //RectangleF rect = new RectangleF(0, Bounds.Height - barHeight, barWidth, height);
+            Rect rect = new Rect(0, Height - (int)barHeight, (int)barWidth, (int)height);
+
+            Console.WriteLine("OutputMeterView - DRAW LEFT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxLeftDB: {3}", Height, height, barHeight, maxLeftDB);
+
+            //RectangleF rectGradient = new RectangleF(0, Bounds.Height, barWidth, height);
+            //BackgroundGradient gradient = theme.MeterGradient;
+            // Check for distortion
+            //if (maxLeftDB >= 0.2f)
+            //{
+            //    gradient = theme.MeterDistortionGradient;
+            //}
+            //CoreGraphicsHelper.FillRect(context, rect, _colorMeter1);
+
+            //CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
+            var paintMeter = new Paint {
+                AntiAlias = true,
+                Color = _colorMeter1
+            };
+            paintMeter.SetStyle(Paint.Style.Fill);    
+            canvas.DrawRect(rect, paintMeter);
+
+            //// Draw peak line
+            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
+            //    new PointF(0, Bounds.Height - (peakLeftDB + 100)), 
+            //    new PointF(barWidth, Bounds.Height - (peakLeftDB + 100))
+            //}, _colorPeakLine, 1, false, false);
+
+            var paintPeakLine = new Paint
+            {
+                AntiAlias = true,
+                Color = _colorPeakLine
+            };
+            paintPeakLine.SetStyle(Paint.Style.Fill);
+            canvas.DrawLine(0, Height - (peakLeftDB + 100), barWidth, Height - (peakLeftDB + 100), paintPeakLine);
+
+            //// Draw number of db      
+            //string strDB = peakLeftDB.ToString("00.0").Replace(",", ".");
+            //if (maxLeftDB == -100.0f)
+            //    strDB = "-inf";
+
+            //// Draw text
+            //SizeF sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-CondensedBold", 10);
+            //float newX = (barWidth - sizeString.Width) / 2;
+            ////            RectangleF rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
+            ////            rectBackgroundText.Inflate(new SizeF(2, 0));
+            ////            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
+            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
+            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
+
+            // -----------------------------------------
+            // RIGHT CHANNEL
+            //
+
+            // Calculate bar height
+            barHeight = maxRightDB + 100;
+            height = barHeight;
+            if (height < 1)
+                height = 1;
+
+            // Create rectangle for bar                
+            //rect = new RectangleF(barWidth, Bounds.Height - barHeight, barWidth, height);
+            rect = new Rect((int)barWidth, Height - (int)barHeight, (int)barWidth * 2, (int)height);
+
+            Console.WriteLine("OutputMeterView - DRAW RIGHT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxRightDB: {3}", Height, height, barHeight, maxRightDB);
+            // Check for distortion
+            //if (maxLeftDB >= 0.2f)
+            //    gradient = theme.MeterDistortionGradient;
+            //CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
+            canvas.DrawRect(rect, paintMeter);
+
+            //// Draw peak line
+            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
+            //    new PointF(barWidth, Bounds.Height - (peakRightDB + 100)), 
+            //    new PointF(barWidth * 2, Bounds.Height - (peakRightDB + 100))                
+            //}, _colorPeakLine, 1, false, false);
+
+            //// Draw number of db      
+            //strDB = peakRightDB.ToString("00.0").Replace(",", ".");
+            //if (maxRightDB == -100.0f)
+            //    strDB = "-inf";
+
+            //// Draw number of decibels (with font shadow to make it easier to read)                
+            //sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-Bold", 10);
+            //newX = ((barWidth - sizeString.Width) / 2) + barWidth;
+            ////            rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
+            ////            rectBackgroundText.Inflate(new SizeF(2, 0));
+            ////            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
+            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
+            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
         }
+    }
+
+    /// <summary>
+    /// Defines the display type of the output meter.
+    /// </summary>
+    public enum OutputMeterDisplayType
+    {
+        /// <summary>
+        /// Displays only the left channel.
+        /// </summary>
+        LeftChannel = 0,
+        /// <summary>
+        /// Displays only the right channel.
+        /// </summary>
+        RightChannel = 1,
+        /// <summary>
+        /// Displays the left and right channel.
+        /// </summary>
+        Stereo = 2,
+        /// <summary>
+        /// Displays only one channel (mix of left/right channels).
+        /// </summary>
+        Mix = 3
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="action_list">
+    <item>Playlists</item>
+    <item>Artists</item>
+    <item>Albums</item>
+    <item>Songs</item>
+  </string-array>
+</resources>

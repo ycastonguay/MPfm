@@ -52,7 +52,7 @@ using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
 namespace MPfm.Android
 {
     [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class MainActivity : BaseActivity, IMobileOptionsMenuView, View.IOnTouchListener
+    public class MainActivity : BaseActivity, IMobileOptionsMenuView, View.IOnTouchListener, ActionBar.IOnNavigationListener
     {
         private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
@@ -69,11 +69,13 @@ namespace MPfm.Android
         private ImageButton _btnPlayPause;
         private ImageButton _btnNext;
         private bool _isPlaying;
-        private IntentFilter _intentFilter;
-        private WifiP2pManager _wifiManager;
-        private WifiP2pManager.Channel _wifiChannel;
-        private WifiDirectReceiver _wifiDirectReceiver;
-        private ActionListener _actionListener;
+        private ArrayAdapter _spinnerAdapter;
+
+        //private IntentFilter _intentFilter;
+        //private WifiP2pManager _wifiManager;
+        //private WifiP2pManager.Channel _wifiChannel;
+        //private WifiDirectReceiver _wifiDirectReceiver;
+        //private ActionListener _actionListener;
 
         //#if __ANDROID_16__
         //private AndroidDiscoveryService _discoveryService;
@@ -88,6 +90,10 @@ namespace MPfm.Android
 
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
+            ActionBar.NavigationMode = ActionBarNavigationMode.List;
+            ActionBar.Title = "";
+            _spinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.action_list, Resource.Layout.spinner_dropdown_item);
+            ActionBar.SetListNavigationCallbacks(_spinnerAdapter, this);
 
             // Setup view pager
             _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
@@ -242,6 +248,11 @@ namespace MPfm.Android
             notificationBuilder.SetContentIntent(resultPendingIntent);
             NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
             notificationManager.Notify(777, notificationBuilder.Build());
+        }
+
+        public bool OnNavigationItemSelected(int itemPosition, long itemId)
+        {
+            return true;
         }
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
@@ -473,5 +484,6 @@ namespace MPfm.Android
         }
 
         #endregion
+
     }
 }
