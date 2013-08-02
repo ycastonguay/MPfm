@@ -1,89 +1,80 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/widgetPlayer"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:orientation="horizontal"
-  android:gravity="center_vertical"
-  android:background="#36454F">
-  <ImageView
-    android:id="@+id/widgetPlayer_imageAlbum"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:background="@android:color/transparent" />
-  <LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical">
-    <LinearLayout      
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:paddingLeft="8dp">
-      <TextView
-        android:id="@+id/widgetPlayer_lblArtistName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:text=""
-        android:textSize="14dp"
-        android:ellipsize="end"
-        android:singleLine="true" />
-      <TextView
-        android:id="@+id/widgetPlayer_lblAlbumTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#EEEEEE"
-        android:textSize="12dp"
-        android:ellipsize="end"
-        android:singleLine="true" />
-      <TextView
-        android:id="@+id/widgetPlayer_lblSongTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textColor="#CCCCCC"
-        android:textSize="11dp"
-        android:ellipsize="end"
-        android:singleLine="true" />
-    </LinearLayout>
+    android:id="@+id/widgetPlayer"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#36454F">
+    <ImageView
+        android:id="@+id/widgetPlayer_imageAlbum"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@android:color/transparent" />
     <LinearLayout
-      android:orientation="horizontal"
-      android:gravity="center_vertical"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content">
-      <ImageButton
-        android:id="@+id/widgetPlayer_btnPrevious"
-        android:layout_width="60dp"
-        android:layout_height="44dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/player_previous"
-        android:padding="20dp" />
-      <ImageButton
-        android:id="@+id/widgetPlayer_btnPlayPause"
-        android:layout_width="60dp"
-        android:layout_height="44dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/player_pause"
-        android:padding="20dp" />
-      <ImageButton
-        android:id="@+id/widgetPlayer_btnNext"
-        android:layout_width="60dp"
-        android:layout_height="44dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/player_next"
-        android:padding="20dp" />
-      <TextView
-        android:id="@+id/widgetPlayer_lblSongPosition"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="0:00 / 19:43"
-        android:textColor="#CCCCCC"
-        android:textSize="11dp"
-        android:ellipsize="end"
-        android:singleLine="true" />
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="8dp">
+            <TextView
+                android:id="@+id/widgetPlayer_lblArtistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text=""
+                android:textSize="14dp"
+                android:ellipsize="end"
+                android:singleLine="true" />
+            <TextView
+                android:id="@+id/widgetPlayer_lblAlbumTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#EEEEEE"
+                android:textSize="12dp"
+                android:ellipsize="end"
+                android:singleLine="true" />
+            <TextView
+                android:id="@+id/widgetPlayer_lblSongTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#CCCCCC"
+                android:textSize="11dp"
+                android:ellipsize="end"
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/widgetPlayer_btnPrevious"
+                android:layout_width="60dp"
+                android:layout_height="44dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/player_previous"
+                android:padding="20dp" />
+            <ImageButton
+                android:id="@+id/widgetPlayer_btnPlayPause"
+                android:layout_width="60dp"
+                android:layout_height="44dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/player_pause"
+                android:padding="20dp" />
+            <ImageButton
+                android:id="@+id/widgetPlayer_btnNext"
+                android:layout_width="60dp"
+                android:layout_height="44dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/player_next"
+                android:padding="20dp" />
+        </LinearLayout>
     </LinearLayout>
-  </LinearLayout>
 </LinearLayout>

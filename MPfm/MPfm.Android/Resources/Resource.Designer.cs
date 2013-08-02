@@ -339,8 +339,8 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0b000a
 			public const int equalizerPresetCell_lblName = 2131427338;
 			
-			// aapt resource value: 0x7f0b00c6
-			public const int equalizerPresetDetailsMenu_item_save = 2131427526;
+			// aapt resource value: 0x7f0b00c5
+			public const int equalizerPresetDetailsMenu_item_save = 2131427525;
 			
 			// aapt resource value: 0x7f0b0013
 			public const int equalizerPresetDetails_btnDelete = 2131427347;
@@ -375,8 +375,8 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0b0015
 			public const int equalizerPresetFaderCell_seekBar = 2131427349;
 			
-			// aapt resource value: 0x7f0b00c7
-			public const int equalizerPresetsMenu_item_add = 2131427527;
+			// aapt resource value: 0x7f0b00c6
+			public const int equalizerPresetsMenu_item_add = 2131427526;
 			
 			// aapt resource value: 0x7f0b001d
 			public const int equalizerPresets_btnBypass = 2131427357;
@@ -636,8 +636,8 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0b0061
 			public const int pitchShifting_seekBar = 2131427425;
 			
-			// aapt resource value: 0x7f0b00c8
-			public const int playerMenu_item_effects = 2131427528;
+			// aapt resource value: 0x7f0b00c7
+			public const int playerMenu_item_effects = 2131427527;
 			
 			// aapt resource value: 0x7f0b0076
 			public const int playerMetadata_lblAlbumTitle = 2131427446;
@@ -783,8 +783,8 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0b00a1
 			public const int syncMenuCell_title = 2131427489;
 			
-			// aapt resource value: 0x7f0b00c9
-			public const int syncMenuMenu_item_sync = 2131427529;
+			// aapt resource value: 0x7f0b00c8
+			public const int syncMenuMenu_item_sync = 2131427528;
 			
 			// aapt resource value: 0x7f0b009e
 			public const int syncMenu_btnSelectAll = 2131427486;
@@ -885,11 +885,11 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0b00bb
 			public const int widgetPlayer = 2131427515;
 			
-			// aapt resource value: 0x7f0b00c4
-			public const int widgetPlayerLoading = 2131427524;
+			// aapt resource value: 0x7f0b00c3
+			public const int widgetPlayerLoading = 2131427523;
 			
-			// aapt resource value: 0x7f0b00c5
-			public const int widgetPlayerLoading_lblMessage = 2131427525;
+			// aapt resource value: 0x7f0b00c4
+			public const int widgetPlayerLoading_lblMessage = 2131427524;
 			
 			// aapt resource value: 0x7f0b00c2
 			public const int widgetPlayer_btnNext = 2131427522;
@@ -908,9 +908,6 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f0b00bd
 			public const int widgetPlayer_lblArtistName = 2131427517;
-			
-			// aapt resource value: 0x7f0b00c3
-			public const int widgetPlayer_lblSongPosition = 2131427523;
 			
 			// aapt resource value: 0x7f0b00bf
 			public const int widgetPlayer_lblSongTitle = 2131427519;

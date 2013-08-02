@@ -81,6 +81,33 @@ namespace MPfm.Android.Classes.Cache
             return GetBitmapFromMemoryCache(key) != null;
         }
 
+        public void LoadBitmapFromByteArray(byte[] bytes, string key, Action<Bitmap> onBitmapLoaded)
+        {
+            if (onBitmapLoaded == null)
+                throw new ArgumentNullException("onBitmapLoaded");
+
+            lock (memoryCache)
+            {
+                //Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                Bitmap bitmap = GetBitmapFromMemoryCache(key);
+                if (bitmap != null)
+                {
+                    //Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Loaded bitmap from cache! key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                    onBitmapLoaded(bitmap);
+                }
+                else
+                {
+                    //Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - Decoding album art and adding to cache... key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                    Task.Factory.StartNew(() =>
+                    {
+                        bitmap = BitmapHelper.DecodeFromByteArray(bytes, MaxWidth, MaxHeight);
+                        AddBitmapToMemoryCache(key, bitmap);
+                        onBitmapLoaded(bitmap);
+                    });
+                }
+            }
+        }
+
         public void LoadBitmapFromByteArray(byte[] bytes, string key, ImageView imageView)
         {
             lock (memoryCache)

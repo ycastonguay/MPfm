@@ -16,14 +16,22 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Threading.Tasks;
 using Android.App;
+using Android.Appwidget;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Views.Animations;
+using Android.Widget;
+using Java.Lang;
+using MPfm.Android.Classes.Cache;
+using MPfm.Android.Classes.Widgets;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
+using MPfm.Sound.AudioFiles;
 using TinyMessenger;
 
 namespace MPfm.Android.Classes.Services
@@ -34,40 +42,127 @@ namespace MPfm.Android.Classes.Services
         private ITinyMessengerHub _messengerHub;
         private IPlayerService _playerService;
         private Context _context;
+        private int[] _widgetIds;
+        private BitmapCache _bitmapCache;
+        private string _previousAlbumArtKey;
 
         public override void OnStart(Intent intent, int startId)
         {
             Console.WriteLine(">>>>>>>>>>> WidgetService - OnStart - startId: {0}", startId);
-            Initialize();
             base.OnStart(intent, startId);
         }
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
             Console.WriteLine(">>>>>>>>>> WidgetService - OnStartCommand - startId: {0}", startId);
-            Initialize();
+            _widgetIds = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
+            //UpdateView(null);
             return base.OnStartCommand(intent, flags, startId);
+        }
+
+        public override void OnCreate()
+        {
+            Console.WriteLine(">>>>>>>>>> WidgetService - ONCREATE");
+            Initialize();
+            base.OnCreate();
+        }
+
+        public override void OnDestroy()
+        {
+            Console.WriteLine(">>>>>>>>>> WidgetService - DESTROY");
+            base.OnDestroy();
         }
 
         private void Initialize()
         {
+            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
+            int cacheSize = maxMemory / 16;
+            _bitmapCache = new BitmapCache(null, cacheSize, 200, 200);
+
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
             _playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-            //_messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) =>
-            //{
-            //    Console.WriteLine(">>>>>>>>>> WidgetService - PlayerPlaylistIndexChangedMessage");
-            //});
-            //_messengerHub.Subscribe<PlayerStatusMessage>((message) =>
-            //{
-            //    Console.WriteLine(">>>>>>>>>> WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
-            //});
-
-            // Force updating the view for the first time
-            UpdateView();
+            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) =>
+            {
+                //Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ WidgetService - PlayerPlaylistIndexChangedMessage");
+                if (message.Data.AudioFileStarted != null)
+                {
+                    UpdateView(message.Data.AudioFileStarted, null);
+                    GetAlbumArt(message.Data.AudioFileStarted);
+                }
+            });
+            _messengerHub.Subscribe<PlayerStatusMessage>((message) =>
+            {
+                //Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
+            });
         }
 
-        private void UpdateView()
+        private void UpdateView(AudioFile audioFile, Bitmap bitmapAlbumArt)
         {
+            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WidgetService - UpdateView");
+            string lastUpdated = DateTime.Now.ToLongTimeString();
+            RemoteViews view = new RemoteViews(PackageName, Resource.Layout.WidgetPlayer);
+            //view.SetOnClickPendingIntent(Resource.Id.widgetPlayer_btnPrevious, );
+
+            if (audioFile != null)
+            {
+                view.SetTextViewText(Resource.Id.widgetPlayer_lblArtistName, audioFile.ArtistName);
+                view.SetTextViewText(Resource.Id.widgetPlayer_lblAlbumTitle, audioFile.AlbumTitle);
+                view.SetTextViewText(Resource.Id.widgetPlayer_lblSongTitle, audioFile.Title);
+            }
+            else
+            {
+                view.SetTextViewText(Resource.Id.widgetPlayer_lblArtistName, "");
+                view.SetTextViewText(Resource.Id.widgetPlayer_lblAlbumTitle, "");
+                view.SetTextViewText(Resource.Id.widgetPlayer_lblSongTitle, "");
+            }
+
+            if (bitmapAlbumArt == null)
+                view.SetImageViewResource(Resource.Id.widgetPlayer_imageAlbum, 0);
+            else
+                view.SetImageViewBitmap(Resource.Id.widgetPlayer_imageAlbum, bitmapAlbumArt);
+
+            //ComponentName thisWidget = new ComponentName(PackageName, "PlayerWidgetProvider");
+            AppWidgetManager manager = AppWidgetManager.GetInstance(this);
+            //int[] ids = manager.GetAppWidgetIds(thisWidget);
+            foreach (int id in _widgetIds)
+            {
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WidgetService - UpdateView - id: {0}", id);
+                manager.UpdateAppWidget(id, view);
+            }
+            //manager.UpdateAppWidget(thisWidget, view);
+        }
+
+        private void GetAlbumArt(AudioFile audioFile)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WidgetService - GetAlbumArt - audioFile.Path: {0}", audioFile.FilePath);
+                string key = audioFile.ArtistName + "_" + audioFile.AlbumTitle;
+                Console.WriteLine("MobileLibraryFragment - Album art - key: {0}", key);
+                if (string.IsNullOrEmpty(_previousAlbumArtKey) || _previousAlbumArtKey.ToUpper() != key.ToUpper())
+                {
+                    //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> - WidgetService - GetAlbumArt - key: {0} is different than tag {1} - Fetching album art...", key, _previousAlbumArtKey);
+                    _previousAlbumArtKey = key;
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                    if (bytesImage.Length == 0)
+                        //_imageAlbum.SetImageBitmap(null);
+                    {
+                        //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> - WidgetService - GetAlbumArt - Setting album art to NULL!");
+                        UpdateView(audioFile, null);
+                    }
+                    else
+                    {
+                        //((MainActivity)Activity).BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                        //_bitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                        //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> - WidgetService - GetAlbumArt - Getting album art in another thread...");
+                        _bitmapCache.LoadBitmapFromByteArray(bytesImage, key, bitmap => {
+                            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> - WidgetService - GetAlbumArt - RECEIVED ALBUM ART! SETTING ALBUM ART");
+                            UpdateView(audioFile, bitmap);
+                        });
+                    }
+                }
+            });
+
         }
 
         public override IBinder OnBind(Intent intent)
@@ -76,5 +171,6 @@ namespace MPfm.Android.Classes.Services
             Console.WriteLine(">>>>>>>>>>> WidgetService - OnBind");
             return null;
         }
+
     }
 }

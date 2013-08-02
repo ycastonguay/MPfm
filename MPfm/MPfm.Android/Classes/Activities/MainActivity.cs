@@ -345,41 +345,41 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - OnCreateOptionsMenu");
             
-            MenuInflater.Inflate(Resource.Menu.main_menu, menu);
-            var menuItem = menu.Add(new Java.Lang.String("Test"));
-            var menuItem2 = menu.Add(new Java.Lang.String("Test2"));
-            var menuItem3 = menu.Add(new Java.Lang.String("Test3"));
-            //foreach (var option in _options)
-            //{
-            //    var menuItem = menu.Add(new Java.Lang.String(option.Value));
-            //    switch (option.Key)
-            //    {
-            //        case MobileOptionsMenuType.About:
-            //            menuItem.SetIcon(Resource.Drawable.actionbar_info);
-            //            break;
-            //        case MobileOptionsMenuType.EqualizerPresets:
-            //            menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-            //            menuItem.SetIcon(Resource.Drawable.actionbar_equalizer);
-            //            break;
-            //        case MobileOptionsMenuType.Preferences:
-            //            menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-            //            menuItem.SetIcon(Resource.Drawable.actionbar_settings);
-            //            break;
-            //        case MobileOptionsMenuType.SyncLibrary:
-            //            menuItem.SetShowAsAction(ShowAsAction.IfRoom);
-            //            menuItem.SetIcon(Resource.Drawable.actionbar_sync);
-            //            break;
-            //        case MobileOptionsMenuType.SyncLibraryCloud:
-            //            menuItem.SetIcon(Resource.Drawable.actionbar_cloud);
-            //            break;
-            //        case MobileOptionsMenuType.SyncLibraryFileSharing:
-            //            menuItem.SetIcon(Resource.Drawable.actionbar_share);
-            //            break;
-            //        case MobileOptionsMenuType.SyncLibraryWebBrowser:
-            //            menuItem.SetIcon(Resource.Drawable.actionbar_earth);
-            //            break;
-            //    }
-            //}
+            //MenuInflater.Inflate(Resource.Menu.main_menu, menu);
+            //var menuItem = menu.Add(new Java.Lang.String("Test"));
+            //var menuItem2 = menu.Add(new Java.Lang.String("Test2"));
+            //var menuItem3 = menu.Add(new Java.Lang.String("Test3"));
+            foreach (var option in _options)
+            {
+                var menuItem = menu.Add(new Java.Lang.String(option.Value));
+                switch (option.Key)
+                {
+                    case MobileOptionsMenuType.About:
+                        menuItem.SetIcon(Resource.Drawable.actionbar_info);
+                        break;
+                    case MobileOptionsMenuType.EqualizerPresets:
+                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_equalizer);
+                        break;
+                    case MobileOptionsMenuType.Preferences:
+                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_settings);
+                        break;
+                    case MobileOptionsMenuType.SyncLibrary:
+                        menuItem.SetShowAsAction(ShowAsAction.IfRoom);
+                        menuItem.SetIcon(Resource.Drawable.actionbar_sync);
+                        break;
+                    case MobileOptionsMenuType.SyncLibraryCloud:
+                        menuItem.SetIcon(Resource.Drawable.actionbar_cloud);
+                        break;
+                    case MobileOptionsMenuType.SyncLibraryFileSharing:
+                        menuItem.SetIcon(Resource.Drawable.actionbar_share);
+                        break;
+                    case MobileOptionsMenuType.SyncLibraryWebBrowser:
+                        menuItem.SetIcon(Resource.Drawable.actionbar_earth);
+                        break;
+                }
+            }
 
             return true;
         }
