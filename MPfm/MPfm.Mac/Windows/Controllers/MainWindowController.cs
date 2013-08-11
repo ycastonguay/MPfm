@@ -320,11 +320,12 @@ namespace MPfm.Mac
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_folder-open");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_update");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_stop");
+            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
+            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_stop");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_previous");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_next");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarShuffle").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_equalizer");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_playlist");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_settings");
@@ -420,17 +421,7 @@ namespace MPfm.Mac
 
 		partial void actionPlay(NSObject sender)
 		{
-            OnPlayerPlay();
-		}
-
-		partial void actionPause(NSObject sender)
-		{
             OnPlayerPause();
-		}
-
-		partial void actionStop(NSObject sender)
-		{
-            OnPlayerStop();
 		}
 
 		partial void actionPrevious(NSObject sender)
@@ -446,6 +437,10 @@ namespace MPfm.Mac
 		partial void actionRepeatType(NSObject sender)
 		{
 		}
+
+        partial void actionShuffle(NSObject sender)
+        {
+        }
 
         partial void actionOpenMainWindow(NSObject sender)
         {
@@ -610,6 +605,23 @@ namespace MPfm.Mac
 
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
+            InvokeOnMainThread(() => {
+                switch (status)
+                {
+                    case PlayerStatusType.Initialized:
+                        goto case PlayerStatusType.Paused;
+                    case PlayerStatusType.Stopped:
+                        goto case PlayerStatusType.Paused;
+                    case PlayerStatusType.Paused:
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Play";
+                        break;
+                    case PlayerStatusType.Playing:
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Pause";
+                        break;
+                }
+            });
         }
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
