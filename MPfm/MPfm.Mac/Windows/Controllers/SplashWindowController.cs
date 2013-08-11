@@ -121,7 +121,7 @@ namespace MPfm.Mac
         {
         }
 
-        public void InitDone()
+        public void InitDone(bool isAppFirstStart)
         {
             InvokeOnMainThread(delegate {
                 lblMessage.StringValue = "Initialization successful!";                

@@ -24,13 +24,13 @@ using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.Mac.Classes.Objects;
+using MPfm.Sound.Playlists;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Mac
 {
-    public partial class PlaylistWindowController : BaseWindowController
+    public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
     {
-        readonly IPlaylistPresenter playlistPresenter;
-
         #region Constructors
         
         // Called when created from unmanaged code
@@ -41,7 +41,7 @@ namespace MPfm.Mac
         }
         
         // Call to load from the XIB/NIB file
-        public PlaylistWindowController(IPlaylistPresenter playlistPresenter, Action<IBaseView> onViewReady) 
+        public PlaylistWindowController(Action<IBaseView> onViewReady)
             : base ("PlaylistWindow", onViewReady)
         {
             Initialize();
@@ -94,5 +94,30 @@ namespace MPfm.Mac
         partial void actionSaveAsPlaylist(NSObject sender)
         {
         }
+
+        #region IPlaylistView implementation
+
+        public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
+        public Action<Guid> OnSelectPlaylistItem { get; set; }
+        public Action<Guid> OnRemovePlaylistItem { get; set; }
+        public Action OnNewPlaylist { get; set; }
+        public Action<string> OnLoadPlaylist { get; set; }
+        public Action OnSavePlaylist { get; set; }
+        public Action OnShufflePlaylist { get; set; }
+
+        public void PlaylistError(Exception ex)
+        {
+        }
+
+        public void RefreshPlaylist(Playlist playlist)
+        {
+        }
+
+        public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
+        {
+        }
+
+        #endregion
+
     }
 }

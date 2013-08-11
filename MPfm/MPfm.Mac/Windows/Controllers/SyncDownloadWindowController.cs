@@ -17,68 +17,70 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MPfm.MVP;
 using MPfm.MVP.Views;
+using MPfm.Library.Objects;
 
 namespace MPfm.Mac
 {
-    public partial class PreferencesWindowController : BaseWindowController, IDesktopPreferencesView
+    public partial class SyncDownloadWindowController : BaseWindowController, ISyncDownloadView
     {
         #region Constructors
-        
+
         // Called when created from unmanaged code
-        public PreferencesWindowController(IntPtr handle) 
+        public SyncDownloadWindowController(IntPtr handle) 
             : base (handle)
         {
             Initialize();
         }
-        
+
         // Call to load from the XIB/NIB file
-        public PreferencesWindowController(Action<IBaseView> onViewReady)
-            : base ("PreferencesWindow", onViewReady)
+        public SyncDownloadWindowController(Action<IBaseView> onViewReady)
+            : base ("SyncDownloadWindow", onViewReady)
         {
             Initialize();
         }
-        
+
         // Shared initialization code
         void Initialize()
         {
-            this.Window.MakeKeyAndOrderFront(this);
         }
-        
+
         #endregion
+
+        //strongly typed window accessor
+        public new SyncDownloadWindow Window
+        {
+            get
+            {
+                return (SyncDownloadWindow)base.Window;
+            }
+        }
 
         public override void AwakeFromNib()
         {
             base.AwakeFromNib();
-
-            OnViewReady.Invoke(this);
         }
 
-        //strongly typed window accessor
-        public new PreferencesWindow Window
-        {
-            get
-            {
-                return (PreferencesWindow)base.Window;
-            }
-        }
+        #region ISyncDownloadView implementation
 
-#region ILibraryPreferencesView implementation
+        public Action OnCancelDownload { get; set; }
 
-        public Action OnResetLibrary { get; set; }
-        public Action OnUpdateLibrary { get; set; }
-        public Action OnEnableSyncListener { get; set; }
-        public Action<int> OnSetSyncListenerPort { get; set; }
-
-        public void LibraryPreferencesError(Exception ex)
+        public void SyncDownloadError(Exception ex)
         {
         }
 
-#endregion
+        public void RefreshDevice(SyncDevice device)
+        {
+        }
 
+        public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
+        {
+        }
+
+        public void SyncCompleted()
+        {
+        }
+
+        #endregion
     }
 }

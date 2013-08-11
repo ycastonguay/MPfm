@@ -21,25 +21,25 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSButton btnRefreshDevices { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnSyncLibraryWithDevice { get; set; }
+		MonoMac.AppKit.NSButton btnConnect { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSProgressIndicator progressIndicator { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnAddDevice { get; set; }
+		MonoMac.AppKit.NSButton btnConnectManual { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitle { get; set; }
 
-		[Action ("actionSyncLibraryWithDevice:")]
-		partial void actionSyncLibraryWithDevice (MonoMac.Foundation.NSObject sender);
+		[Action ("actionConnect:")]
+		partial void actionConnect (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRefreshDevices:")]
 		partial void actionRefreshDevices (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionAddDevice:")]
-		partial void actionAddDevice (MonoMac.Foundation.NSObject sender);
+		[Action ("actionConnectManual:")]
+		partial void actionConnectManual (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -58,9 +58,9 @@ namespace MPfm.Mac
 				btnRefreshDevices = null;
 			}
 
-			if (btnSyncLibraryWithDevice != null) {
-				btnSyncLibraryWithDevice.Dispose ();
-				btnSyncLibraryWithDevice = null;
+			if (btnConnect != null) {
+				btnConnect.Dispose ();
+				btnConnect = null;
 			}
 
 			if (progressIndicator != null) {
@@ -68,9 +68,9 @@ namespace MPfm.Mac
 				progressIndicator = null;
 			}
 
-			if (btnAddDevice != null) {
-				btnAddDevice.Dispose ();
-				btnAddDevice = null;
+			if (btnConnectManual != null) {
+				btnConnectManual.Dispose ();
+				btnConnectManual = null;
 			}
 
 			if (lblTitle != null) {

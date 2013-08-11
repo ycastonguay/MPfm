@@ -203,6 +203,16 @@
     <Compile Include="Classes\Controls\MPfmSongPositionSlider.cs" />
     <Compile Include="Classes\Delegates\SongBrowserSource.cs" />
     <Compile Include="Windows\Controllers\MainWindowController.cs" />
+    <Compile Include="Windows\Controllers\SyncMenuWindowController.cs" />
+    <Compile Include="Windows\SyncMenuWindow.cs" />
+    <Compile Include="Windows\SyncMenuWindow.designer.cs">
+      <DependentUpon>SyncMenuWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SyncDownloadWindowController.cs" />
+    <Compile Include="Windows\SyncDownloadWindow.cs" />
+    <Compile Include="Windows\SyncDownloadWindow.designer.cs">
+      <DependentUpon>SyncDownloadWindow.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -216,6 +226,8 @@
     <InterfaceDefinition Include="Windows\XIB\EditLoopWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\EditMarkerWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncMenuWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncDownloadWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

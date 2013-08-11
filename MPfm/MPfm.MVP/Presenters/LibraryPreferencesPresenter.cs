@@ -15,11 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.Services.Interfaces;
-using System;
-using MPfm.MVP.Navigation;
 
 namespace MPfm.MVP.Presenters
 {
@@ -28,18 +29,24 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class LibraryPreferencesPresenter : BasePresenter<ILibraryPreferencesView>, ILibraryPreferencesPresenter
 	{
-        readonly MobileNavigationManager _navigationManager;
+        readonly NavigationManager _navigationManager;
+        readonly MobileNavigationManager _mobileNavigationManager;
         readonly ISyncListenerService _syncListenerService;
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
 
         public LibraryPreferencesPresenter(ISyncListenerService syncListenerService, ILibraryService libraryService, 
-                                           IAudioFileCacheService audioFileCacheService, MobileNavigationManager navigationManager)
+                                           IAudioFileCacheService audioFileCacheService)
 		{	
             _syncListenerService = syncListenerService;
             _libraryService = libraryService;
             _audioFileCacheService = audioFileCacheService;
-            _navigationManager = navigationManager;
+
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
 		}
 
         public override void BindView(ILibraryPreferencesView view)
@@ -75,8 +82,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                var view = _navigationManager.CreateUpdateLibraryView();
-                _navigationManager.PushDialogView("Update Library", View, view);
+                var view = _mobileNavigationManager.CreateUpdateLibraryView();
+                _mobileNavigationManager.PushDialogView("Update Library", View, view);
             }
             catch(Exception ex)
             {

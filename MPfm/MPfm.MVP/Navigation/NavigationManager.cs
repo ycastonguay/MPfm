@@ -21,6 +21,8 @@ using MPfm.MVP.Bootstrap;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.Library.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Navigation
 {
@@ -38,10 +40,7 @@ namespace MPfm.MVP.Navigation
         private ILibraryBrowserPresenter _libraryBrowserPresenter;
         private ISongBrowserPresenter _songBrowserPresenter;
 
-        private IPreferencesView _preferencesView;
-        private IAudioPreferencesView _audioPreferencesView;
-        private IGeneralPreferencesView _generalPreferencesView;
-        private ILibraryPreferencesView _libraryPreferencesView;
+        private IDesktopPreferencesView _desktopPreferencesView;
         private IAudioPreferencesPresenter _audioPreferencesPresenter;
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
@@ -51,6 +50,10 @@ namespace MPfm.MVP.Navigation
 
         private ISyncView _syncView;
         private ISyncPresenter _syncPresenter;
+        private ISyncMenuView _syncMenuView;
+        private ISyncMenuPresenter _syncMenuPresenter;
+        private ISyncDownloadView _syncDownloadView;
+        private ISyncDownloadPresenter _syncDownloadPresenter;
 
         public virtual ISplashView CreateSplashView()
         {
@@ -100,35 +103,34 @@ namespace MPfm.MVP.Navigation
             return _mainView;
         }
         
-        public virtual IPreferencesView CreatePreferencesView()
+        public virtual IDesktopPreferencesView CreatePreferencesView()
         {
             // If the view is still visible, just make it the top level window
-            if(_preferencesView != null)
+            if(_desktopPreferencesView != null)
             {
-                _preferencesView.ShowView(true);
-                return _preferencesView;
+                _desktopPreferencesView.ShowView(true);
+                return _desktopPreferencesView;
             }
             
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-                {                    
-                    _audioPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
-                    _audioPreferencesPresenter.BindView((IAudioPreferencesView)view);
-                    _generalPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
-                    _generalPreferencesPresenter.BindView((IGeneralPreferencesView)view);
-                    _libraryPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
-                    _libraryPreferencesPresenter.BindView((ILibraryPreferencesView)view);
-                };
+            Action<IBaseView> onViewReady = (view) => {                    
+                _audioPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
+                _audioPreferencesPresenter.BindView((IAudioPreferencesView)view);
+                _generalPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
+                _generalPreferencesPresenter.BindView((IGeneralPreferencesView)view);
+                _libraryPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
+                _libraryPreferencesPresenter.BindView((ILibraryPreferencesView)view);
+            };
             
             // Create view and manage view destruction
-            _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _preferencesView.OnViewDestroy = (view) => {
-                _preferencesView = null;
+            _desktopPreferencesView = Bootstrapper.GetContainer().Resolve<IDesktopPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _desktopPreferencesView.OnViewDestroy = (view) => {
+                _desktopPreferencesView = null;
                 _audioPreferencesPresenter = null;
                 _generalPreferencesPresenter = null;
                 _libraryPreferencesPresenter = null;
             };
-            return _preferencesView;
+            return _desktopPreferencesView;
         }
 
         public virtual ISyncView CreateSyncView()
@@ -154,6 +156,52 @@ namespace MPfm.MVP.Navigation
                 _syncPresenter = null;
             };
             return _syncView;
+        }
+
+        public virtual ISyncMenuView CreateSyncMenuView(SyncDevice device)
+        {
+            if(_syncMenuView != null)
+            {
+                _syncMenuView.ShowView(true);
+                return _syncMenuView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {                    
+                _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>();
+                _syncMenuPresenter.BindView((ISyncMenuView)view);
+                _syncMenuPresenter.SetSyncDevice(device);
+            };
+
+            _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _syncMenuView.OnViewDestroy = (view) => {
+                _syncMenuView = null;
+                _syncMenuPresenter = null;
+            };
+            return _syncMenuView;
+        }
+
+        public virtual ISyncDownloadView CreateSyncDownloadView(SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        {
+            if(_syncDownloadView != null)
+            {
+                _syncDownloadView.ShowView(true);
+                return _syncDownloadView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {                    
+                _syncDownloadPresenter = Bootstrapper.GetContainer().Resolve<ISyncDownloadPresenter>();
+                _syncDownloadPresenter.BindView((ISyncDownloadView)view);
+                _syncDownloadPresenter.StartSync(device, audioFiles);
+            };
+
+            _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _syncDownloadView.OnViewDestroy = (view) => {
+                _syncDownloadView = null;
+                _syncDownloadPresenter = null;
+            };
+            return _syncDownloadView;
         }
     }
 }

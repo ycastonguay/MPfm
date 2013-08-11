@@ -52,11 +52,11 @@ namespace MPfm.Mac
             progressIndicator.StartAnimation(this);
 
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-            //lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
+            btnRefreshDevices.StringValue = "Cancel refresh";
 
-            btnAddDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
+            btnConnect.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
+            btnConnectManual.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnRefreshDevices.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_refresh");
-            btnSyncLibraryWithDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
         }
 
         public override void WindowDidLoad()
@@ -69,8 +69,15 @@ namespace MPfm.Mac
             OnViewReady.Invoke(this);
         }
 
-        partial void actionSyncLibraryWithDevice(NSObject sender)
+        partial void actionConnect(NSObject sender)
         {
+            OnConnectDevice(_items[tableViewDevices.SelectedRow]);
+        }
+
+        partial void actionConnectManual(NSObject sender)
+        {
+            // Show dialog box
+            //OnConnectDeviceManually();
         }
 
         partial void actionRefreshDevices(NSObject sender)
@@ -138,14 +145,16 @@ namespace MPfm.Mac
         [Export ("tableViewSelectionDidChange:")]
         public void SelectionDidChange(NSNotification notification)
         {         
-            btnSyncLibraryWithDevice.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
+            btnConnect.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
         }
 
         #region ISyncView implementation
 
-        public Action<string> OnConnectDevice { get; set; }
+        public Action<SyncDevice> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
         public Action OnRefreshDevices { get; set; }
+        public Action OnStartDiscovery { get; set; }
+        public Action OnCancelDiscovery { get; set; }
 
         public void SyncError(Exception ex)
         {

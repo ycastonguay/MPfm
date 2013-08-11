@@ -17,8 +17,9 @@
 
 using System;
 using MPfm.Library;
-using MonoMac.Foundation;
 using MPfm.Library.Objects;
+using MPfm.Library.Services;
+using MonoMac.Foundation;
 
 namespace MPfm.Mac
 {
@@ -27,6 +28,8 @@ namespace MPfm.Mac
     /// </summary>
     public class MacSyncDeviceSpecifications : NSObject, ISyncDeviceSpecifications
     {
+        public event NetworkStateChanged OnNetworkStateChanged;
+
         public SyncDeviceType GetDeviceType()
         {
             return SyncDeviceType.OSX;
@@ -44,6 +47,22 @@ namespace MPfm.Mac
         public long GetFreeSpace()
         {
             return 0;
+        }
+
+        public string GetIPAddress()
+        {
+            return SyncListenerService.GetLocalIPAddress().ToString();
+        }
+
+        public string GetMusicFolderPath()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        }
+
+        public void ReportNetworkStateChange(NetworkState networkState)
+        {
+            if (OnNetworkStateChanged != null)
+                OnNetworkStateChanged(networkState);
         }
     }
 }
