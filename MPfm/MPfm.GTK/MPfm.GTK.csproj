@@ -101,6 +101,8 @@
     <Compile Include="Windows\SyncWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.SyncWindow.cs" />
     <Compile Include="Classes\LinuxSyncDeviceSpecifications.cs" />
+    <Compile Include="Windows\SyncMenuWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.SyncMenuWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

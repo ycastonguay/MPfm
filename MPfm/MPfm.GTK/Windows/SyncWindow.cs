@@ -113,7 +113,7 @@ namespace MPfm.GTK
         {
             TreeModel model;
             TreeIter iter;  
-            if((sender as TreeView).Selection.GetSelected(out model, out iter))
+            if(treeViewDevices.Selection.GetSelected(out model, out iter))
             {
                 SyncDevice device = (SyncDevice)_storeDevices.GetValue(iter, 0);                              
                 OnConnectDevice(device);
