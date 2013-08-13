@@ -71,7 +71,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bass.Net">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Sound\Lib\Bass.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -88,7 +87,7 @@
       <Name>MPfm.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
-      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
       <Name>MPfm.Sound</Name>
     </ProjectReference>
   </ItemGroup>

@@ -42,7 +42,7 @@ namespace MPfm.GTK.Classes
 			Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IMainView, MainWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindow>().AsMultiInstance();
-			Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IDesktopPreferencesView, PreferencesWindow>().AsMultiInstance();
 			//Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindow>().AsMultiInstance();

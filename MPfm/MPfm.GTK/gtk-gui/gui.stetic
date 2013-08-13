@@ -261,21 +261,16 @@
             <node name="toolbarMain" type="Toolbar">
               <node type="Toolitem" action="openAction" />
               <node type="Separator" />
-              <node type="Toolitem" action="actionUpdateLibrary" />
-              <node type="Separator" />
-              <node type="Separator" />
               <node type="Toolitem" action="actionPlay" />
-              <node type="Toolitem" action="actionPause" />
-              <node type="Toolitem" action="actionStop" />
               <node type="Toolitem" action="actionPrevious" />
               <node type="Toolitem" action="actionNext" />
               <node type="Toolitem" action="actionRepeatType" />
               <node type="Separator" />
+              <node type="Toolitem" action="actionUpdateLibrary" />
               <node type="Toolitem" action="actionPlaylist" />
               <node type="Toolitem" action="actionEffects" />
-              <node type="Toolitem" action="actionSettings" />
-              <node type="Separator" />
               <node type="Toolitem" action="connectAction" />
+              <node type="Toolitem" action="actionSettings" />
             </node>
           </widget>
           <packing>
@@ -3469,14 +3464,15 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.SyncWindow" design-size="428 300">
+  <widget class="Gtk.Window" id="MPfm.GTK.SyncWindow" design-size="444 300">
     <property name="MemberName" />
     <property name="Title" translatable="yes">SyncWindow</property>
     <property name="WindowPosition">CenterOnParent</property>
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
-        <property name="Spacing">6</property>
+        <property name="Spacing">4</property>
+        <property name="BorderWidth">8</property>
         <child>
           <widget class="Gtk.Label" id="lblTitle">
             <property name="MemberName" />
@@ -3541,14 +3537,12 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Label" id="lblStatus">
+              <widget class="Gtk.ProgressBar" id="progressBar">
                 <property name="MemberName" />
-                <property name="Xalign">0</property>
-                <property name="LabelProp" translatable="yes">Refreshing device list...</property>
               </widget>
               <packing>
                 <property name="Position">1</property>
-                <property name="AutoSize">False</property>
+                <property name="AutoSize">True</property>
               </packing>
             </child>
             <child>
@@ -3556,7 +3550,7 @@
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Sync library with device</property>
+                <property name="Label" translatable="yes">Connect to device</property>
                 <property name="UseUnderline">True</property>
               </widget>
               <packing>

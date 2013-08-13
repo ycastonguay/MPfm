@@ -25,7 +25,7 @@ namespace MPfm.GTK.Windows
 	/// <summary>
 	/// Settings window.
 	/// </summary>
-	public partial class PreferencesWindow : BaseWindow, IPreferencesView
+	public partial class PreferencesWindow : BaseWindow, IDesktopPreferencesView
 	{		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.GTK.PreferencesWindow"/> class.
@@ -36,6 +36,7 @@ namespace MPfm.GTK.Windows
 		{
 			this.Build();
 			onViewReady(this);
+            this.Center();
 			this.Show();
 		}
 		
@@ -55,11 +56,14 @@ namespace MPfm.GTK.Windows
 			Console.WriteLine("PreferencesWindow - OnDeleteEvent");
 		}
 
-        #region IPreferencesView implementation
+        #region ILibraryPreferencesView implementation
 
-        public Action<string> OnSelectItem { get; set; }
-        
-        public void RefreshItems (List<string> items)
+        public System.Action OnResetLibrary { get; set; }
+        public System.Action OnUpdateLibrary { get; set; }
+        public System.Action OnEnableSyncListener { get; set; }
+        public Action<int> OnSetSyncListenerPort { get; set; }
+
+        public void LibraryPreferencesError(Exception ex)
         {
         }
 

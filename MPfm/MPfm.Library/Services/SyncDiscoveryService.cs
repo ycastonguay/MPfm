@@ -104,7 +104,7 @@ namespace MPfm.Library.Services
             _cancellationTokenSource = new CancellationTokenSource();
             ParallelOptions parallelOptions = new ParallelOptions();
             parallelOptions.CancellationToken = _cancellationTokenSource.Token;
-            parallelOptions.MaxDegreeOfParallelism = System.Environment.ProcessorCount;            
+            parallelOptions.MaxDegreeOfParallelism = System.Environment.ProcessorCount * 2;            
             _currentTask = Task.Factory.StartNew(() => {
                 try
                 {

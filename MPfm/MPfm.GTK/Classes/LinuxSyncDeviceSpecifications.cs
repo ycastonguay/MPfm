@@ -37,6 +37,7 @@ namespace MPfm.GTK.Classes
         string _deviceName = string.Empty;
         public string GetDeviceName()
         {
+            _deviceName = System.Environment.MachineName;
             return _deviceName;
         }
 

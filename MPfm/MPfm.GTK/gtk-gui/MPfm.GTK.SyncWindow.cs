@@ -11,7 +11,7 @@ namespace MPfm.GTK
 		private global::Gtk.TreeView treeViewDevices;
 		private global::Gtk.HBox hbox1;
 		private global::Gtk.Button btnRefreshDeviceList;
-		private global::Gtk.Label lblStatus;
+		private global::Gtk.ProgressBar progressBar;
 		private global::Gtk.Button btnSyncLibraryWithDevice;
 		
 		protected virtual void Build ()
@@ -24,7 +24,8 @@ namespace MPfm.GTK
 			// Container child MPfm.GTK.SyncWindow.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
-			this.vbox1.Spacing = 6;
+			this.vbox1.Spacing = 4;
+			this.vbox1.BorderWidth = ((uint)(8));
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.lblTitle = new global::Gtk.Label ();
 			this.lblTitle.Name = "lblTitle";
@@ -73,19 +74,17 @@ namespace MPfm.GTK
 			w5.Expand = false;
 			w5.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.lblStatus = new global::Gtk.Label ();
-			this.lblStatus.Name = "lblStatus";
-			this.lblStatus.Xalign = 0F;
-			this.lblStatus.LabelProp = global::Mono.Unix.Catalog.GetString ("Refreshing device list...");
-			this.hbox1.Add (this.lblStatus);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.lblStatus]));
+			this.progressBar = new global::Gtk.ProgressBar ();
+			this.progressBar.Name = "progressBar";
+			this.hbox1.Add (this.progressBar);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.progressBar]));
 			w6.Position = 1;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.btnSyncLibraryWithDevice = new global::Gtk.Button ();
 			this.btnSyncLibraryWithDevice.CanFocus = true;
 			this.btnSyncLibraryWithDevice.Name = "btnSyncLibraryWithDevice";
 			this.btnSyncLibraryWithDevice.UseUnderline = true;
-			this.btnSyncLibraryWithDevice.Label = global::Mono.Unix.Catalog.GetString ("Sync library with device");
+			this.btnSyncLibraryWithDevice.Label = global::Mono.Unix.Catalog.GetString ("Connect to device");
 			this.hbox1.Add (this.btnSyncLibraryWithDevice);
 			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnSyncLibraryWithDevice]));
 			w7.Position = 2;
@@ -100,7 +99,7 @@ namespace MPfm.GTK
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 428;
+			this.DefaultWidth = 444;
 			this.DefaultHeight = 300;
 			this.Show ();
 			this.btnRefreshDeviceList.Clicked += new global::System.EventHandler (this.OnSyncRefreshDeviceList);

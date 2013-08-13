@@ -88,10 +88,10 @@ namespace MPfm.GTK.Windows
 			Icon = new Pixbuf(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/icon48.png");
 					
 	        // Set form title
-	        this.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
+	        Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 	
 			// Set application icon (for some reason it is not visible on Unity)
-			this.SetIconFromFile("icon48.png");
+			SetIconFromFile("icon48.png");
 			
 			// Set font properties
 			SetFontProperties();
@@ -126,10 +126,10 @@ namespace MPfm.GTK.Windows
 			// Set focus to something else than the toolbar (for some reason, the first button is selected)
 			cboSoundFormat.GrabFocus();
 						
-			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
+			hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
 			
 			// Set view as ready
-			onViewReady.Invoke(this);
+			onViewReady(this);
 		}
 	
 		/// <summary>
@@ -246,13 +246,10 @@ namespace MPfm.GTK.Windows
 					return;
 				}
 		
-				// Get value
+				// Get value and set cell text
 				PropertyInfo propertyInfo = typeof(AudioFile).GetProperty(property);
 				object propertyValue = propertyInfo.GetValue(audioFile, null);
-		
-				// Set cell text
 				(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
-				//(cell as Gtk.CellRendererText).Text = property;
 			}
 			catch(Exception ex)
 			{
@@ -269,8 +266,6 @@ namespace MPfm.GTK.Windows
 		{
 			// Create store
 			storeLibraryBrowser = new Gtk.TreeStore(typeof(LibraryBrowserEntity));						
-
-			// Hide header
 			treeLibraryBrowser.HeadersVisible = false;
 
 			// Create title column
@@ -280,31 +275,6 @@ namespace MPfm.GTK.Windows
 			colTitle.PackStart(cellTitle, true);
 			colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderLibraryBrowserCell));
 			treeLibraryBrowser.AppendColumn(colTitle);
-		}
-		
-		protected void CreateLibraryBrowserStore(Gtk.TreeStore store, Nullable<Gtk.TreeIter> iter, IEnumerable<LibraryBrowserEntity> items)
-		{			
-			// Loop through entities
-			Console.WriteLine("MainWindow - CreateLibraryBrowserStore");
-			foreach(LibraryBrowserEntity entity in items)
-			{
-				Nullable<Gtk.TreeIter> currentIter = null;
-				if(iter == null)
-				{
-					currentIter = store.AppendValues(entity);
-				}
-				else
-				{
-					store.AppendValues(iter, entity);
-					currentIter = iter;
-				}
-				
-				// Create new iter and subiters
-				if(entity.SubItems != null)
-				{					
-					CreateLibraryBrowserStore(store, currentIter, entity.SubItems);
-				}
-			}
 		}
 			
 		/// <summary>
@@ -325,11 +295,9 @@ namespace MPfm.GTK.Windows
 			if(String.IsNullOrEmpty(property))			
 				return;			
 	
-			// Get value
+			// Get value and set cell text
 			PropertyInfo propertyInfo = typeof(LibraryBrowserEntity).GetProperty(property);
 			object propertyValue = propertyInfo.GetValue(entity, null);
-	
-			// Set cell text
 			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
 		}
 					
@@ -364,58 +332,58 @@ namespace MPfm.GTK.Windows
 		private void SetFontProperties()
 		{				
 			// Get default font name
-			string defaultFontName = this.lblArtistName.Style.FontDescription.Family;			
+			string defaultFontName = lblArtistName.Style.FontDescription.Family;			
 			string titleFontName = "Sans Bold 10";
 			string subtitleFontName = "Sans Bold 8";
 			string buttonFontName = "Sans Bold 8";
 			string textFontName = "Sans 8";
 			string largePositionFontName = "Mono Bold 11";
 			
-			this.btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
-			this.btnTimeShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
+			btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
+			btnTimeShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
 			
-			this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
-			this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 11"));
-			this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
+			lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+			lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 11"));
+			lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 	
-			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
+			toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
 			
-			this.lblLibraryBrowser.ModifyFont(FontDescription.FromString(titleFontName));								
-			this.lblSongBrowser.ModifyFont(FontDescription.FromString(titleFontName));
-			this.lblCurrentSong.ModifyFont(FontDescription.FromString(titleFontName));			
-			this.lblLoops.ModifyFont(FontDescription.FromString(titleFontName));
-			this.lblMarkers.ModifyFont(FontDescription.FromString(titleFontName));
+			lblLibraryBrowser.ModifyFont(FontDescription.FromString(titleFontName));								
+			lblSongBrowser.ModifyFont(FontDescription.FromString(titleFontName));
+			lblCurrentSong.ModifyFont(FontDescription.FromString(titleFontName));			
+			lblLoops.ModifyFont(FontDescription.FromString(titleFontName));
+			lblMarkers.ModifyFont(FontDescription.FromString(titleFontName));
 			
-			//this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(textFontName));			
+			//lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			lblLibraryFilter.ModifyFont(FontDescription.FromString(textFontName));			
 				
-			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(largePositionFontName));
-			this.lblCurrentLength.ModifyFont(FontDescription.FromString(largePositionFontName));
+			lblCurrentPosition.ModifyFont(FontDescription.FromString(largePositionFontName));
+			lblCurrentLength.ModifyFont(FontDescription.FromString(largePositionFontName));
 			
-			this.lblSongPosition.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblSongPosition.ModifyFont(FontDescription.FromString(subtitleFontName));
 			
-			this.lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
-			this.lblTimeShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblOriginalTempo.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblOriginalTempoBPM.ModifyFont(FontDescription.FromString(textFontName));
-			this.btnDetectTempo.ModifyFont(FontDescription.FromString(textFontName));			
+			lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblTimeShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
+			lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			lblOriginalTempo.ModifyFont(FontDescription.FromString(textFontName));
+			lblOriginalTempoBPM.ModifyFont(FontDescription.FromString(textFontName));
+			btnDetectTempo.ModifyFont(FontDescription.FromString(textFontName));			
 			
-			this.lblPitchShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
-			this.lblPitchShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblPitchShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			lblPitchShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblPitchShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
+			lblPitchShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
 			
-			this.lblInformation.ModifyFont(FontDescription.FromString(subtitleFontName));
-			this.lblVolume.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblInformation.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblVolume.ModifyFont(FontDescription.FromString(subtitleFontName));
 			
-			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentFileType.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentBitrate.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentSampleRate.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(textFontName));
 						
-			this.lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentVolume.ModifyFont(FontDescription.FromString(textFontName));
+			lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentVolume.ModifyFont(FontDescription.FromString(textFontName));
 		}
 		
 		private AudioFileFormat GetCurrentAudioFileFormatFilter()
@@ -453,7 +421,6 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnOpenActionActivated(object sender, System.EventArgs e)
 		{
-			// Create dialog box
 			Gtk.FileChooserDialog dialog = 
 				new Gtk.FileChooserDialog("Select the audio files to play.", 
 			                                  this, FileChooserAction.Open, 
@@ -474,13 +441,11 @@ namespace MPfm.GTK.Windows
 				//audioFiles = new List<AudioFile>();
 			}
 				
-			// Destroy dialog
 			dialog.Destroy();
 		}
 
 		protected void OnActionAddFilesActivated(object sender, System.EventArgs e)
 		{
-			// Create dialog box
 			Gtk.FileChooserDialog dialog = 
 				new Gtk.FileChooserDialog("Select the audio files to add to the library.", 
 			                                  this, FileChooserAction.Open, 
@@ -496,13 +461,11 @@ namespace MPfm.GTK.Windows
 				
 			}
 							
-			// Destroy dialog
 			dialog.Destroy();
 		}		
 									
 		protected void OnActionAddFolderActivated(object sender, System.EventArgs e)
 		{
-			// Create dialog box			
 			Gtk.FileChooserDialog dialog = 
 				new Gtk.FileChooserDialog("Select the audio files to add to the library.", 
 			                                  this, FileChooserAction.SelectFolder, 
@@ -517,16 +480,13 @@ namespace MPfm.GTK.Windows
 			{			
 				// Destroy window if it still exists
 				if(windowUpdateLibrary != null)
-				{								
 					windowUpdateLibrary.Destroy();				
-				}
 				
 				// Create and display window
 				windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.SpecificFolder, null, dialog.Filename, null);		
 				windowUpdateLibrary.ShowAll();	
 			}
 							
-			// Destroy dialog
 			dialog.Destroy();
 		}
 		
@@ -534,9 +494,7 @@ namespace MPfm.GTK.Windows
 		{
 			// Destroy window if it still exists
 			if(windowUpdateLibrary != null)
-			{								
 				windowUpdateLibrary.Destroy();				
-			}
 			
 			// Create and display window
 			windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.WholeLibrary, null, null, null);		
@@ -545,37 +503,28 @@ namespace MPfm.GTK.Windows
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Play();
-			if(OnPlayerPlay != null)
-				OnPlayerPlay.Invoke();
+            //OnPlayerPlay();
+            OnPlayerPause();
 		}
 		
 		protected void OnActionPauseActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Pause();			
-			if(OnPlayerPause != null)
-				OnPlayerPause.Invoke();
-		}
+            OnPlayerPause();		
+        }
 		
 		protected void OnActionStopActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Stop();
-			if(OnPlayerStop != null)
-				OnPlayerStop.Invoke();
+            OnPlayerStop();
 		}
 		
 		protected void OnActionPreviousActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Previous();
-			if(OnPlayerPrevious != null)
-				OnPlayerPrevious.Invoke();			
+            OnPlayerPrevious();
 		}
 
 		protected void OnActionNextActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Next();
-			if(OnPlayerNext != null)
-				OnPlayerNext.Invoke();
+            OnPlayerNext();
 		}
 
 		protected void OnActionRepeatTypeActivated(object sender, System.EventArgs e)
@@ -620,7 +569,7 @@ namespace MPfm.GTK.Windows
 
 		protected void OnAboutActionActivated(object sender, System.EventArgs e)
 		{
-			string text = this.Title + "\nMPfm: Music Player for Musicians is © 2011-2012 Yanick Castonguay and is released under the GPLv3 license.";
+			string text = Title + "\nMPfm: Music Player for Musicians is © 2011-2012 Yanick Castonguay and is released under the GPLv3 license.";
 			text += "\nThe BASS audio library is © 1999-2012 Un4seen Developments.";
 		    text += "\nThe BASS.NET audio library is © 2005-2012 radio42.";
 	
@@ -637,10 +586,7 @@ namespace MPfm.GTK.Windows
 
 		protected void OnVolumeValueChanged(object sender, System.EventArgs e)
 		{
-			// Set player volume			
-			//playerPresenter.SetVolume((float)vscaleVolume.Value);
-			if(OnPlayerSetVolume != null)
-				OnPlayerSetVolume.Invoke((float)vscaleVolume.Value);
+			OnPlayerSetVolume((float)vscaleVolume.Value);
 		}
 		
 		[GLib.ConnectBefore]
@@ -652,26 +598,19 @@ namespace MPfm.GTK.Windows
 		[GLib.ConnectBefore]
 		protected void OnHscaleSongPositionButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			// Set new position
 			float value = (float)hscaleSongPosition.Value / 100;
-			//playerPresenter.SetPosition(value);
-			if(OnPlayerSetPosition != null)
-				OnPlayerSetPosition.Invoke(value);
+		    OnPlayerSetPosition(value);
 			isSongPositionChanging = false;
 		}
 		
 		protected void OnTimeShiftingValueChanged(object sender, System.EventArgs e)
 		{
-			//playerPresenter.SetTimeShifting((float)hscaleTimeShifting.Value);
-			if(OnPlayerSetTimeShifting != null)
-				OnPlayerSetTimeShifting.Invoke((float)hscaleTimeShifting.Value);
+	        OnPlayerSetTimeShifting((float)hscaleTimeShifting.Value);
 		}
 
 		protected void OnSoundFormatChanged(object sender, System.EventArgs e)
 		{			
-			//libraryBrowserPresenter.AudioFileFormatFilterChanged(GetCurrentAudioFileFormatFilter());
-			if(OnAudioFileFormatFilterChanged != null)
-				OnAudioFileFormatFilterChanged.Invoke(GetCurrentAudioFileFormatFilter());
+		    //OnAudioFileFormatFilterChanged(GetCurrentAudioFileFormatFilter());
 		}
 		
 		/// <summary>
@@ -681,16 +620,12 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeLibraryBrowserRowActivated(object sender, Gtk.RowActivatedArgs args)
 		{
-			// Get selected item
 			TreeModel model;
 			TreeIter iter;	
 			if((sender as TreeView).Selection.GetSelected(out model, out iter))
 			{
-				// Get entity and change query 
 				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);								
-				//libraryBrowserPresenter.TreeNodeDoubleClicked(entity);				
-				if(OnTreeNodeDoubleClicked != null)
-					OnTreeNodeDoubleClicked.Invoke(entity);	
+			    OnTreeNodeDoubleClicked(entity);	
 			}
 		}
 		
@@ -701,17 +636,12 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeLibraryBrowserCursorChanged(object sender, System.EventArgs e)
 		{
-			// Get selected item
 			TreeModel model;
 			TreeIter iter;	
 			if((sender as TreeView).Selection.GetSelected(out model, out iter))
 			{
-				// Get entity and change query 
 				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);								
-				//libraryBrowserPresenter.TreeNodeSelected(entity);
-				if(OnTreeNodeSelected != null)
-					OnTreeNodeSelected.Invoke(entity);				
-				//songBrowserPresenter.ChangeQuery(entity.Query);
+                OnTreeNodeSelected(entity);
 			}
 		}
 		
@@ -722,7 +652,6 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeLibraryBrowserRowExpanded(object sender, Gtk.RowExpandedArgs args)
 		{
-			// Get data
 			Gtk.TreeIter iter;
 			LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(args.Iter, 0);						
 
@@ -731,10 +660,7 @@ namespace MPfm.GTK.Windows
 			LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);			
 			if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
 			{	
-				// Send update to presenter
-				//libraryBrowserPresenter.TreeNodeExpanded(entity, args.Iter);
-				if(OnTreeNodeExpanded != null)
-					OnTreeNodeExpanded.Invoke(entity, args.Iter);
+				OnTreeNodeExpanded(entity, args.Iter);
 
 				// Remove dummy node
 				storeLibraryBrowser.Remove(ref iter);						
@@ -748,16 +674,12 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeSongBrowserRowActivated(object sender, Gtk.RowActivatedArgs args)
 		{
-			// Get selected item
 			TreeModel model;
 			TreeIter iter;	
 			if((sender as TreeView).Selection.GetSelected(out model, out iter))
 			{
-				// Get entity and change query 
 				AudioFile audioFile = (AudioFile)storeSongBrowser.GetValue(iter, 0);				
-				//songBrowserPresenter.TableRowDoubleClicked(audioFile);
-				if(OnTableRowDoubleClicked != null)
-					OnTableRowDoubleClicked.Invoke(audioFile);
+				OnTableRowDoubleClicked(audioFile);
 			}
 		}
 		
@@ -776,7 +698,23 @@ namespace MPfm.GTK.Windows
 		#region IPlayerView implementation
 			
 		public void RefreshPlayerStatus(PlayerStatusType status)
-		{
+        {
+            Console.WriteLine("MainWindow - RefreshPlayerStatus - status: {0}", status.ToString());
+            Gtk.Application.Invoke(delegate{
+                switch (status)
+                {
+                    case PlayerStatusType.Initialized:
+                    case PlayerStatusType.Stopped:
+                    case PlayerStatusType.Paused:
+                        actionPlay.StockId = "gtk-media-play";
+                        //actionPlay.IconName = "gtk-media-play";
+                        break;
+                    case PlayerStatusType.Playing:
+                        actionPlay.StockId = "gtk-media-pause";
+                        //actionPlay.IconName = "gtk-media-pause";
+                        break;
+                }
+            });
 		}
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -786,9 +724,7 @@ namespace MPfm.GTK.Windows
 	
 				// Check if the user is currently changing the position
 				if(!isSongPositionChanging)
-				{
 					hscaleSongPosition.Value = (double)(entity.PositionPercentage * 100);
-				}
 			});
 		}
 		
@@ -813,16 +749,14 @@ namespace MPfm.GTK.Windows
 								
 					//Pixbuf stuff = new Pixbuf("icon48.png");
 					//stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
-					//this.imageAlbumCover.Pixbuf = stuff;
+					//imageAlbumCover.Pixbuf = stuff;
 					
 					System.Drawing.Image drawingImage = AudioFile.ExtractImageForAudioFile(audioFile.FilePath);			
 					
 					if(drawingImage != null)
 					{
-						// Resize image
+						// Resize image and set cover
 						drawingImage = ImageManipulation.ResizeImage(drawingImage, 150, 150);
-						
-						// Set album cover
 						imageAlbumCover.Pixbuf = ImageToPixbuf(drawingImage);
 					}
 					else
@@ -853,19 +787,17 @@ namespace MPfm.GTK.Windows
 										imageFound = true;
 										Pixbuf imageCover = new Pixbuf(fileInfo.FullName);
 										imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
-										this.imageAlbumCover.Pixbuf = imageCover;
+										imageAlbumCover.Pixbuf = imageCover;
 									}
 								}
 								
 								// Set empty image if not cover not found
 								if(!imageFound)
-								{
-									this.imageAlbumCover.Pixbuf = null;
-								}
+									imageAlbumCover.Pixbuf = null;
 							}
 							catch
 							{
-								this.imageAlbumCover.Pixbuf = null;
+								imageAlbumCover.Pixbuf = null;
 							}
 						}
 						else
@@ -880,7 +812,7 @@ namespace MPfm.GTK.Windows
 					{				
 						Pixbuf imageCover = new Pixbuf("black.png");
 						imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
-						this.imageAlbumCover.Pixbuf = imageCover;
+						imageAlbumCover.Pixbuf = imageCover;
 					}
 				}
 			});
@@ -915,14 +847,11 @@ namespace MPfm.GTK.Windows
 		public void PlayerError(Exception ex)
 		{
 			Gtk.Application.Invoke(delegate{			
-				// Build text
 				StringBuilder sb = new StringBuilder();
 				sb.AppendLine("An error occured in the Player component:");
 				sb.AppendLine(ex.Message);
 				sb.AppendLine();
 				sb.AppendLine(ex.StackTrace);																
-				
-				// Display alert
 				MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
 				md.Run();
 				md.Destroy();
@@ -936,7 +865,6 @@ namespace MPfm.GTK.Windows
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
 			Gtk.Application.Invoke(delegate{
-				// Clear list
 				Console.WriteLine("MainWindow - RefreshLibraryBrowser");
 				storeLibraryBrowser.Clear();			
 				
@@ -951,7 +879,6 @@ namespace MPfm.GTK.Windows
 						storeLibraryBrowser.AppendValues(iter, entitySub);
 				}
 							
-				// Set model
 				treeLibraryBrowser.Model = storeLibraryBrowser;
 			});			
 		}
@@ -959,35 +886,31 @@ namespace MPfm.GTK.Windows
 		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
 		{
 			Gtk.Application.Invoke(delegate{
-				// Get data
 				Console.WriteLine("MainWindow - RefreshLibraryBrowserNode");
 				Gtk.TreeIter iter = (Gtk.TreeIter)userData;
 				
-				// Determine type
-				if(entity.Type == LibraryBrowserEntityType.Artists)
-				{							
-					foreach(LibraryBrowserEntity artist in entities)
-					{
-						// Add artist node
-						Gtk.TreeIter iterArtist = storeLibraryBrowser.AppendValues(iter, artist);
-						
-						// The first subitems are always dummy or static.
-						foreach(LibraryBrowserEntity entitySub in artist.SubItems)													
-							storeLibraryBrowser.AppendValues(iterArtist, entitySub);					
-					}
-				}								
-				else if(entity.Type == LibraryBrowserEntityType.Albums)
-				{
-						// Fetch album titles
+				switch(entity.Type)
+				{				
+                    case LibraryBrowserEntityType.Artists:
+    					foreach(LibraryBrowserEntity artist in entities)
+    					{
+    						// Add artist node
+    						Gtk.TreeIter iterArtist = storeLibraryBrowser.AppendValues(iter, artist);
+    						
+    						// The first subitems are always dummy or static.
+    						foreach(LibraryBrowserEntity entitySub in artist.SubItems)													
+    							storeLibraryBrowser.AppendValues(iterArtist, entitySub);					
+    					}
+                        break;
+                    case LibraryBrowserEntityType.Albums:
 						foreach(LibraryBrowserEntity album in entities)
 							storeLibraryBrowser.AppendValues(iter, album);
-				}
-				else if(entity.Type == LibraryBrowserEntityType.Artist)
-				{
-						// Fetch artist names					
+                        break;
+                    case LibraryBrowserEntityType.Artist:
 						foreach(LibraryBrowserEntity artist in entities)
 							storeLibraryBrowser.AppendValues(iter, artist);
-				}
+                        break;
+                }
 			});
 		}
 		

@@ -226,7 +226,7 @@ namespace MPfm.GTK.Windows
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vboxMain.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><separator/><toolitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><separator/><separator/><toolitem name='actionPlay' action='actionPlay'/><toolitem name='actionPause' action='actionPause'/><toolitem name='actionStop' action='actionStop'/><toolitem name='actionPrevious' action='actionPrevious'/><toolitem name='actionNext' action='actionNext'/><toolitem name='actionRepeatType' action='actionRepeatType'/><separator/><toolitem name='actionPlaylist' action='actionPlaylist'/><toolitem name='actionEffects' action='actionEffects'/><toolitem name='actionSettings' action='actionSettings'/><separator/><toolitem name='connectAction' action='connectAction'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><separator/><toolitem name='actionPlay' action='actionPlay'/><toolitem name='actionPrevious' action='actionPrevious'/><toolitem name='actionNext' action='actionNext'/><toolitem name='actionRepeatType' action='actionRepeatType'/><separator/><toolitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><toolitem name='actionPlaylist' action='actionPlaylist'/><toolitem name='actionEffects' action='actionEffects'/><toolitem name='connectAction' action='connectAction'/><toolitem name='actionSettings' action='actionSettings'/></toolbar></ui>");
 			this.toolbarMain = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMain")));
 			this.toolbarMain.Name = "toolbarMain";
 			this.toolbarMain.ShowArrow = false;

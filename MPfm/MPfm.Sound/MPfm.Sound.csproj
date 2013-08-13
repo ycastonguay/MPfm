@@ -72,7 +72,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bass.Net">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Bass.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
