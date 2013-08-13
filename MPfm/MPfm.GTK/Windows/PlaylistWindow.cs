@@ -76,8 +76,31 @@ namespace MPfm.GTK.Windows
 
 		protected void OnActionSavePlaylistAsActivated (object sender, System.EventArgs e)
 		{
-		}
+		}        
+
+        #region IPlaylistView implementation
+
+        public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
+        public Action<Guid> OnSelectPlaylistItem { get; set; }
+        public Action<Guid> OnRemovePlaylistItem { get; set; }
+        public Action OnNewPlaylist { get; set; }
+        public Action<string> OnLoadPlaylist { get; set; }
+        public Action OnSavePlaylist { get; set; }
+        public Action OnShufflePlaylist { get; set; }
+
+        public void PlaylistError (Exception ex)
+        {
+        }
+
+        public void RefreshPlaylist (MPfm.Sound.Playlists.Playlist playlist)
+        {
+        }
+
+        public void RefreshCurrentlyPlayingSong (int index, MPfm.Sound.AudioFiles.AudioFile audioFile)
+        {
+        }
+
+        #endregion
 
 	}
 }
-

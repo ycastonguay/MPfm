@@ -18,6 +18,7 @@
 using System;
 using MPfm.MVP;
 using MPfm.MVP.Views;
+using System.Collections.Generic;
 
 namespace MPfm.GTK.Windows
 {
@@ -53,6 +54,16 @@ namespace MPfm.GTK.Windows
 			//this.HideAll();
 			Console.WriteLine("PreferencesWindow - OnDeleteEvent");
 		}
+
+        #region IPreferencesView implementation
+
+        public Action<string> OnSelectItem { get; set; }
+        
+        public void RefreshItems (List<string> items)
+        {
+        }
+
+        #endregion
+
 	}
 }
-

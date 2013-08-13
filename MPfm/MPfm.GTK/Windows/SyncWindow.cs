@@ -20,6 +20,7 @@ using MPfm.MVP.Views;
 using System.Collections.Generic;
 using MPfm.MVP.Models;
 using MPfm.GTK.Windows;
+using MPfm.Library.Objects;
 
 namespace MPfm.GTK
 {
@@ -50,22 +51,40 @@ namespace MPfm.GTK
 
 		protected void OnSyncRefreshDeviceList(object sender, EventArgs e)
         {
-            OnRefreshDevices();
-        }
+            OnStartDiscovery();
+        }        
 
         #region ISyncView implementation
 
-        public System.Action OnRefreshDevices { get; set; }
+        public Action<SyncDevice> OnConnectDevice { get; set; }
+        public Action<string> OnConnectDeviceManually { get; set; }
+        public Action OnStartDiscovery { get; set; }
+        public Action OnCancelDiscovery { get; set; }
 
-        public void RefreshDevices(IEnumerable<MPfm.MVP.Models.SyncDeviceEntity> devices)
+        public void SyncError (Exception ex)
         {
         }
 
-        public void SyncDevice(SyncDeviceEntity device)
+        public void RefreshIPAddress (string address)
+        {
+        }
+
+        public void RefreshDiscoveryProgress (float percentageDone, string status)
+        {
+        }
+
+        public void RefreshDevices (IEnumerable<SyncDevice> devices)
+        {
+        }
+
+        public void RefreshDevicesEnded ()
+        {
+        }
+
+        public void SyncDevice (SyncDevice device)
         {
         }
 
         #endregion
-
 	}
 }

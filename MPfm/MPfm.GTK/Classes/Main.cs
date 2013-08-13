@@ -25,8 +25,9 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.GTK.Navigation;
 using MPfm.GTK.Windows;
+using MPfm.Library;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Classes
 {
 	public class MainClass
 	{
@@ -37,6 +38,7 @@ namespace MPfm.GTK
 			// Add view implementations to IoC
 			Application.Init();
 			Bootstrapper.GetContainer().Register<NavigationManager, GtkNavigationManager>().AsSingleton();
+            Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, LinuxSyncDeviceSpecifications>().AsSingleton();
 			Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IMainView, MainWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindow>().AsMultiInstance();

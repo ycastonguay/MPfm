@@ -69,7 +69,7 @@ namespace MPfm.GTK.Windows
 			});
 		}
 
-		public void InitDone()
+		public void InitDone(bool isAppFirstStart)
 		{					
 			Gtk.Application.Invoke(delegate{				
 				this.Destroy();

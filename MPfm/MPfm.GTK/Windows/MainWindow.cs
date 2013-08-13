@@ -32,6 +32,7 @@ using MPfm.MVP.Models;
 using MPfm.Library.UpdateLibrary;
 using MPfm.GTK.Helpers;
 using MPfm.MVP.Messages;
+using MPfm.Player.Objects;
 
 namespace MPfm.GTK.Windows
 {
@@ -902,6 +903,14 @@ namespace MPfm.GTK.Windows
 //					hscaleTimeShifting.Value = (float)entity.TimeShifting;
 			});
 		}
+
+        public void RefreshMarkers (IEnumerable<Marker> markers)
+        {
+        }
+
+        public void RefreshLoops (IEnumerable<Loop> loops)
+        {
+        }
 			
 		public void PlayerError(Exception ex)
 		{
@@ -1016,6 +1025,5 @@ namespace MPfm.GTK.Windows
 		}
 
 		#endregion
-
 	}
 }

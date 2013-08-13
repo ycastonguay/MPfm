@@ -29,6 +29,7 @@ using MPfm.MVP.Presenters;
 using MPfm.MVP.Services;
 using MPfm.MVP.Bootstrap;
 using MPfm.Library.Services;
+using MPfm.Library.Objects;
 
 namespace MPfm.GTK.Windows
 {
@@ -58,7 +59,7 @@ namespace MPfm.GTK.Windows
 			var audioFileCacheService = Bootstrapper.GetContainer().Resolve<AudioFileCacheService>();
 			var libraryService = Bootstrapper.GetContainer().Resolve<LibraryService>();
 			var updateLibraryService = Bootstrapper.GetContainer().Resolve<UpdateLibraryService>();
-			presenter = new UpdateLibraryPresenter(audioFileCacheService, libraryService, updateLibraryService);
+			presenter = new UpdateLibraryPresenter(audioFileCacheService, updateLibraryService);
 			presenter.BindView(this);
 			
 			presenter.UpdateLibrary(mode, filePaths, folderPath);
