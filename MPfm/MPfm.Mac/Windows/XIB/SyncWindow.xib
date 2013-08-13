@@ -227,7 +227,7 @@
 											<string key="NSFrameSize">{579, 118}</string>
 											<reference key="NSSuperview" ref="497363935"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="678662998"/>
+											<reference key="NSNextKeyView" ref="321433343"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -353,7 +353,7 @@
 												</object>
 											</object>
 											<double key="NSRowHeight">20</double>
-											<int key="NSTvFlags">-700448768</int>
+											<int key="NSTvFlags">1447034880</int>
 											<reference key="NSDelegate"/>
 											<reference key="NSDataSource"/>
 											<int key="NSColumnAutoresizingStyle">4</int>
@@ -422,7 +422,7 @@
 							<string key="NSFrame">{{12, 40}, {579, 135}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="321433343"/>
+							<reference key="NSNextKeyView" ref="497363935"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133680</int>
 							<reference key="NSVScroller" ref="247912235"/>
@@ -1009,7 +1009,7 @@
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{319, 371}, {606, 354}}</string>
-					<boolean value="YES"/>
+					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>MPfmButton</string>

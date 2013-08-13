@@ -158,9 +158,12 @@ namespace MPfm.Mac
 
         public void SyncError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                CocoaHelper.ShowCriticalAlert(ex.Message + "\n" + ex.StackTrace);
+            InvokeOnMainThread(delegate {
+                string message = string.Format("An error occured in Sync: {0}", ex);
+                Tracing.Log(message);
+                CocoaHelper.ShowCriticalAlert(message);
             });
+
         }
 
         public void RefreshIPAddress(string address)

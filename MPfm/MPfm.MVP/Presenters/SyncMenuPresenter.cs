@@ -27,6 +27,7 @@ using MPfm.MVP.Views;
 using MPfm.MVP.Models;
 using MPfm.Library;
 using MPfm.MVP.Navigation;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.MVP.Presenters
 {
@@ -35,7 +36,8 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class SyncMenuPresenter : BasePresenter<ISyncMenuView>, ISyncMenuPresenter
 	{
-        readonly MobileNavigationManager _navigationManager;
+        readonly MobileNavigationManager _mobileNavigationManager;
+        readonly NavigationManager _navigationManager;
         readonly ISyncClientService _syncClientService;
         readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
 
@@ -43,13 +45,18 @@ namespace MPfm.MVP.Presenters
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
         List<AudioFile> _audioFilesToSync = new List<AudioFile>();
 
-        public SyncMenuPresenter(MobileNavigationManager navigationManager, ISyncClientService syncClientService, ISyncDeviceSpecifications syncDeviceSpecifications)
+        public SyncMenuPresenter(ISyncClientService syncClientService, ISyncDeviceSpecifications syncDeviceSpecifications)
 		{
-            _navigationManager = navigationManager;
             _syncClientService = syncClientService;
             _syncDeviceSpecifications = syncDeviceSpecifications;
             _syncClientService.OnDownloadIndexProgress += HandleOnDownloadIndexProgress;
             _syncClientService.OnReceivedIndex += HandleOnReceivedIndex;
+
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
 		}
 
         public override void BindView(ISyncMenuView view)
@@ -151,7 +158,11 @@ namespace MPfm.MVP.Presenters
                     return;
                 }
 
+#if IOS || ANDROID
+                _mobileNavigationManager.CreateSyncDownloadView(_device, _audioFilesToSync);
+#else
                 _navigationManager.CreateSyncDownloadView(_device, _audioFilesToSync);
+#endif
             }
             catch(Exception ex)
             {
