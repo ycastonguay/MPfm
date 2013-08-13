@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -16,44 +16,48 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 
 namespace MPfm.Windows.Classes.Forms
 {
-    public class BaseForm : MPfm.WindowsControls.Form, IBaseView
+    public partial class frmSyncDownload : BaseForm, ISyncDownloadView
     {
-        protected Action<IBaseView> OnViewReady { get; set; }
+        public frmSyncDownload(Action<IBaseView> onViewReady)
+            : base(onViewReady)
+        {
+            InitializeComponent();
+            ViewIsReady();
+        }
 
-        public BaseForm()
+        #region ISyncDownloadView implementation
+
+        public Action OnCancelDownload { get; set; }
+
+        public void SyncDownloadError(Exception ex)
         {
         }
 
-        public BaseForm(Action<IBaseView> onViewReady)
+        public void RefreshDevice(SyncDevice device)
         {
-            OnViewReady = onViewReady;            
         }
 
-        protected override void OnLoad(EventArgs e)
+        public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
-            Console.WriteLine("BaseForm - OnLoad");
-            base.OnLoad(e);            
         }
 
-        protected void ViewIsReady()
+        public void SyncCompleted()
         {
-            Console.WriteLine("BaseForm - ViewIsReady");
-
-            // Bind presenter to view
-            OnViewReady(this);
-
-            // Display window
-            Show();
         }
 
-        public Action<IBaseView> OnViewDestroy { get; set; }
-        public void ShowView(bool shown)
-        {
-            // Never called on Windows...
-        }
+        #endregion
+
     }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -17,7 +17,7 @@
 
 namespace MPfm.Windows.Classes.Forms
 {
-    partial class frmSettings
+    partial class frmPreferences
     {
         /// <summary>
         /// Required designer variable.
@@ -113,7 +113,7 @@ namespace MPfm.Windows.Classes.Forms
             MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient27 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSettings));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPreferences));
             MPfm.WindowsControls.ButtonTheme buttonTheme5 = new MPfm.WindowsControls.ButtonTheme();
             MPfm.WindowsControls.TextGradient textGradient28 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
@@ -3387,7 +3387,7 @@ namespace MPfm.Windows.Classes.Forms
             flowLayoutPanelTheme1.IsBackgroundTransparent = false;
             this.flowToolbar.Theme = flowLayoutPanelTheme1;
             // 
-            // frmSettings
+            // frmPreferences
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.DimGray;
@@ -3401,7 +3401,7 @@ namespace MPfm.Windows.Classes.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(525, 460);
-            this.Name = "frmSettings";
+            this.Name = "frmPreferences";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";

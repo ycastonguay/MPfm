@@ -316,7 +316,7 @@ namespace MPfm.Windows.Classes.Forms
             }));
         }
 
-        void ISplashView.InitDone()
+        void ISplashView.InitDone(bool isAppFirstStart)
         {
             BeginInvoke((MethodInvoker) Close);
         }

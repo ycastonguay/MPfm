@@ -323,8 +323,8 @@ namespace MPfm.Windows.Classes.Forms
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.miFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.miWindowsPlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.miWindowsEffects = new System.Windows.Forms.ToolStripMenuItem();
+            this.miWindowsPlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.miWindowsVisualizer = new System.Windows.Forms.ToolStripMenuItem();
             this.miWindowsSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -352,8 +352,6 @@ namespace MPfm.Windows.Classes.Forms
             this.btnUpdateLibrary = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPlay = new System.Windows.Forms.ToolStripButton();
-            this.btnPause = new System.Windows.Forms.ToolStripButton();
-            this.btnStop = new System.Windows.Forms.ToolStripButton();
             this.btnPreviousSong = new System.Windows.Forms.ToolStripButton();
             this.btnNextSong = new System.Windows.Forms.ToolStripButton();
             this.btnRepeat = new System.Windows.Forms.ToolStripButton();
@@ -496,6 +494,7 @@ namespace MPfm.Windows.Classes.Forms
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.timerUpdateSongPositionPanel = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSync = new System.Windows.Forms.ToolStripButton();
             this.menuSongBrowser.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
@@ -721,27 +720,27 @@ namespace MPfm.Windows.Classes.Forms
             this.windowsToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.windowsToolStripMenuItem.Text = "&Windows";
             // 
-            // miWindowsPlaylist
-            // 
-            this.miWindowsPlaylist.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsPlaylist.Image")));
-            this.miWindowsPlaylist.Name = "miWindowsPlaylist";
-            this.miWindowsPlaylist.Size = new System.Drawing.Size(152, 22);
-            this.miWindowsPlaylist.Text = "&Playlist";
-            this.miWindowsPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
-            // 
             // miWindowsEffects
             // 
             this.miWindowsEffects.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsEffects.Image")));
             this.miWindowsEffects.Name = "miWindowsEffects";
-            this.miWindowsEffects.Size = new System.Drawing.Size(152, 22);
+            this.miWindowsEffects.Size = new System.Drawing.Size(122, 22);
             this.miWindowsEffects.Text = "&Effects";
             this.miWindowsEffects.Click += new System.EventHandler(this.btnEffects_Click);
+            // 
+            // miWindowsPlaylist
+            // 
+            this.miWindowsPlaylist.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsPlaylist.Image")));
+            this.miWindowsPlaylist.Name = "miWindowsPlaylist";
+            this.miWindowsPlaylist.Size = new System.Drawing.Size(122, 22);
+            this.miWindowsPlaylist.Text = "&Playlist";
+            this.miWindowsPlaylist.Click += new System.EventHandler(this.btnPlaylist_Click);
             // 
             // miWindowsVisualizer
             // 
             this.miWindowsVisualizer.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsVisualizer.Image")));
             this.miWindowsVisualizer.Name = "miWindowsVisualizer";
-            this.miWindowsVisualizer.Size = new System.Drawing.Size(152, 22);
+            this.miWindowsVisualizer.Size = new System.Drawing.Size(122, 22);
             this.miWindowsVisualizer.Text = "&Visualizer";
             this.miWindowsVisualizer.Visible = false;
             this.miWindowsVisualizer.Click += new System.EventHandler(this.btnVisualizer_Click);
@@ -750,7 +749,7 @@ namespace MPfm.Windows.Classes.Forms
             // 
             this.miWindowsSettings.Image = ((System.Drawing.Image)(resources.GetObject("miWindowsSettings.Image")));
             this.miWindowsSettings.Name = "miWindowsSettings";
-            this.miWindowsSettings.Size = new System.Drawing.Size(152, 22);
+            this.miWindowsSettings.Size = new System.Drawing.Size(122, 22);
             this.miWindowsSettings.Text = "&Settings";
             this.miWindowsSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
@@ -907,8 +906,6 @@ namespace MPfm.Windows.Classes.Forms
             this.btnUpdateLibrary,
             this.toolStripSeparator5,
             this.btnPlay,
-            this.btnPause,
-            this.btnStop,
             this.btnPreviousSong,
             this.btnNextSong,
             this.btnRepeat,
@@ -918,6 +915,7 @@ namespace MPfm.Windows.Classes.Forms
             this.btnPlaylist,
             this.btnVisualizer,
             this.btnThemes,
+            this.btnSync,
             this.btnSettings});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
@@ -969,38 +967,14 @@ namespace MPfm.Windows.Classes.Forms
             this.btnPlay.ToolTipText = "Starts the playback from the first item of the playlist.";
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
-            // btnPause
-            // 
-            this.btnPause.Enabled = false;
-            this.btnPause.Image = ((System.Drawing.Image)(resources.GetObject("btnPause.Image")));
-            this.btnPause.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(41, 34);
-            this.btnPause.Text = "Pause";
-            this.btnPause.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnPause.ToolTipText = "Pauses the playback.";
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Enabled = false;
-            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(33, 34);
-            this.btnStop.Text = "Stop";
-            this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnStop.ToolTipText = "Stops the playback.";
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
             // btnPreviousSong
             // 
             this.btnPreviousSong.Enabled = false;
             this.btnPreviousSong.Image = ((System.Drawing.Image)(resources.GetObject("btnPreviousSong.Image")));
             this.btnPreviousSong.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPreviousSong.Name = "btnPreviousSong";
-            this.btnPreviousSong.Size = new System.Drawing.Size(81, 34);
-            this.btnPreviousSong.Text = "Previous Song";
+            this.btnPreviousSong.Size = new System.Drawing.Size(53, 34);
+            this.btnPreviousSong.Text = "Previous";
             this.btnPreviousSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnPreviousSong.ToolTipText = "Skips to the previous song in the playlist.";
             this.btnPreviousSong.Click += new System.EventHandler(this.btnPreviousSong_Click);
@@ -1011,8 +985,8 @@ namespace MPfm.Windows.Classes.Forms
             this.btnNextSong.Image = ((System.Drawing.Image)(resources.GetObject("btnNextSong.Image")));
             this.btnNextSong.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNextSong.Name = "btnNextSong";
-            this.btnNextSong.Size = new System.Drawing.Size(61, 34);
-            this.btnNextSong.Text = "Next Song";
+            this.btnNextSong.Size = new System.Drawing.Size(33, 34);
+            this.btnNextSong.Text = "Next";
             this.btnNextSong.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnNextSong.ToolTipText = "Skips to the next song in the playlist.";
             this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
@@ -1096,8 +1070,8 @@ namespace MPfm.Windows.Classes.Forms
             this.btnSettings.Image = ((System.Drawing.Image)(resources.GetObject("btnSettings.Image")));
             this.btnSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(50, 34);
-            this.btnSettings.Text = "Settings";
+            this.btnSettings.Size = new System.Drawing.Size(71, 34);
+            this.btnSettings.Text = "Preferences";
             this.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSettings.ToolTipText = "Opens the Settings window.";
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
@@ -4677,6 +4651,17 @@ namespace MPfm.Windows.Classes.Forms
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.ToolTipTitle = "Information";
             // 
+            // btnSync
+            // 
+            this.btnSync.Image = global::MPfm.Windows.Properties.Resources.cog;
+            this.btnSync.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSync.Name = "btnSync";
+            this.btnSync.Size = new System.Drawing.Size(36, 34);
+            this.btnSync.Text = "Sync";
+            this.btnSync.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSync.ToolTipText = "Opens the Settings window.";
+            this.btnSync.Click += new System.EventHandler(this.btnSync_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4779,7 +4764,6 @@ namespace MPfm.Windows.Classes.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem miFileExit;
         private MPfm.WindowsControls.ToolStrip toolStripMain;
-        private System.Windows.Forms.ToolStripButton btnPause;
         private System.Windows.Forms.ToolStripButton btnNextSong;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.SplitContainer splitFirst;
@@ -4793,7 +4777,6 @@ namespace MPfm.Windows.Classes.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton btnSettings;
         public System.Windows.Forms.FolderBrowserDialog dialogAddFolder;
-        private System.Windows.Forms.ToolStripButton btnStop;
         private System.Windows.Forms.ToolStripButton btnPreviousSong;
         private System.Windows.Forms.ContextMenuStrip menuLibrary;
         private System.Windows.Forms.ToolStripMenuItem miTreeLibraryAddSongsToPlaylist;
@@ -4958,7 +4941,8 @@ namespace MPfm.Windows.Classes.Forms
         private WindowsControls.Label lblUpdateLibraryCurrentFileValue;
         private System.Windows.Forms.ProgressBar progressUpdateLibrary;
         private WindowsControls.Label lblUpdateLibraryMessage;
-        private WindowsControls.Label lblLoops;        
+        private WindowsControls.Label lblLoops;
+        private System.Windows.Forms.ToolStripButton btnSync;        
     }
 }
 

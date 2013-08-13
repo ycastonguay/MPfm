@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -23,6 +23,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.Library.Objects;
+using MPfm.MVP.Views;
 using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Windows.Classes.Forms
@@ -31,7 +32,7 @@ namespace MPfm.Windows.Classes.Forms
     /// Settings window. This is where the user selects the driver and output device.
     /// The user can also configure the library folders in the Library tab.    
     /// </summary>
-    public partial class frmSettings : MPfm.WindowsControls.Form
+    public partial class frmPreferences : BaseForm, IDesktopPreferencesView
     {
         // Private variables
         private AudioSettingsState audioSettingsState = AudioSettingsState.NotChanged;
@@ -40,28 +41,13 @@ namespace MPfm.Windows.Classes.Forms
         private List<Device> devices = null;
         private List<Device> devicesDirectSound = null;
         private List<Device> devicesASIO = null;
-        private List<Device> devicesWASAPI = null;        
-                
-        private frmMain main = null;
-        /// <summary>
-        /// Hook to the main form.
-        /// </summary>
-        public frmMain Main
-        {
-            get
-            {
-                return main;
-            }
-        }
+        private List<Device> devicesWASAPI = null;
 
-        /// <summary>
-        /// Constructor for Settings window. Requires a hook to the main form.
-        /// </summary>
-        /// <param name="main">Hook to main form</param>
-        public frmSettings(frmMain main)
+        public frmPreferences(Action<IBaseView> onViewReady)
+            : base(onViewReady)
         {
             InitializeComponent();
-            this.main = main;
+            ViewIsReady();
         }
 
         #region Form Events
@@ -87,46 +73,46 @@ namespace MPfm.Windows.Classes.Forms
             initializing = true;
             audioSettingsState = AudioSettingsState.NotChanged;
 
-            // Detect devices
-            devices = DeviceHelper.DetectOutputDevices();
-            devicesDirectSound = devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
-            devicesASIO = devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
-            devicesWASAPI = devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
+            //// Detect devices
+            //devices = DeviceHelper.DetectOutputDevices();
+            //devicesDirectSound = devices.Where(x => x.DriverType == DriverType.DirectSound).ToList();
+            //devicesASIO = devices.Where(x => x.DriverType == DriverType.ASIO).ToList();
+            //devicesWASAPI = devices.Where(x => x.DriverType == DriverType.WASAPI).ToList();
 
-            // Update combo box
-            List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
-            DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default)" };
-            DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO" };
-            DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Vista/Win7 only) *EXPERIMENTAL*" };
-            drivers.Add(driverDirectSound);
-            drivers.Add(driverASIO);
-            //drivers.Add(driverWASAPI);
-            cboDrivers.DataSource = drivers;
+            //// Update combo box
+            //List<DriverComboBoxItem> drivers = new List<DriverComboBoxItem>();
+            //DriverComboBoxItem driverDirectSound = new DriverComboBoxItem() { DriverType = DriverType.DirectSound, Title = "DirectSound (default)" };
+            //DriverComboBoxItem driverASIO = new DriverComboBoxItem() { DriverType = DriverType.ASIO, Title = "ASIO" };
+            //DriverComboBoxItem driverWASAPI = new DriverComboBoxItem() { DriverType = DriverType.WASAPI, Title = "WASAPI (Vista/Win7 only) *EXPERIMENTAL*" };
+            //drivers.Add(driverDirectSound);
+            //drivers.Add(driverASIO);
+            ////drivers.Add(driverWASAPI);
+            //cboDrivers.DataSource = drivers;
 
-            // Set default value
-            cboDrivers.SelectedIndex = 0;
+            //// Set default value
+            //cboDrivers.SelectedIndex = 0;
 
-            // Set general settings lavels
-            lblPeakFileDefaultDirectory.Text = "Use default directory (" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm\\Peak Files\\)";
+            //// Set general settings lavels
+            //lblPeakFileDefaultDirectory.Text = "Use default directory (" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm\\Peak Files\\)";
 
-            btnGeneralSettings.Enabled = false;
-            btnAudioSettings.Enabled = true;
-            btnLibrarySettings.Enabled = true;
+            //btnGeneralSettings.Enabled = false;
+            //btnAudioSettings.Enabled = true;
+            //btnLibrarySettings.Enabled = true;
 
-            panelGeneralSettings.Visible = true;
-            panelAudioSettings.Visible = false;
-            panelLibrarySettings.Visible = false;
+            //panelGeneralSettings.Visible = true;
+            //panelAudioSettings.Visible = false;
+            //panelLibrarySettings.Visible = false;
 
-            // Load configuration
-            LoadAudioConfig();
-            LoadGeneralConfig();
+            //// Load configuration
+            //LoadAudioConfig();
+            //LoadGeneralConfig();
 
-            // Refresh controls           
-            RefreshFolders();
-            RefreshAudioSettingsState();
+            //// Refresh controls           
+            //RefreshFolders();
+            //RefreshAudioSettingsState();
 
-            // Set flag
-            initializing = false;            
+            //// Set flag
+            //initializing = false;            
         }
 
         #endregion
@@ -274,75 +260,75 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         private void LoadAudioConfig()
         {
-            // Load values into controls
-            cboOutputDevices.SelectedText = Main.Config.Audio.Device.Name;
-            cboDrivers.SelectedValue = Main.Config.Audio.DriverType;            
-            numericBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
-            numericUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
-            trackBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
-            trackUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
+            //// Load values into controls
+            //cboOutputDevices.SelectedText = Main.Config.Audio.Device.Name;
+            //cboDrivers.SelectedValue = Main.Config.Audio.DriverType;            
+            //numericBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
+            //numericUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
+            //trackBufferSize.Value = Main.Config.Audio.Mixer.BufferSize;
+            //trackUpdatePeriod.Value = Main.Config.Audio.Mixer.UpdatePeriod;
 
-            // Set sample rate
-            cboSampleRate.Items.Clear();
-            cboSampleRate.Items.Add("44100");
-            cboSampleRate.Items.Add("48000");
-            cboSampleRate.Items.Add("96000");
-            if (Main.Config.Audio.Mixer.Frequency == 44100)
-            {                
-                cboSampleRate.SelectedIndex = 0;
-            }
-            else if (Main.Config.Audio.Mixer.Frequency == 48000)
-            {
-                cboSampleRate.SelectedIndex = 1;
-            }
-            else if (Main.Config.Audio.Mixer.Frequency == 96000)
-            {
-                cboSampleRate.SelectedIndex = 2;
-            }
+            //// Set sample rate
+            //cboSampleRate.Items.Clear();
+            //cboSampleRate.Items.Add("44100");
+            //cboSampleRate.Items.Add("48000");
+            //cboSampleRate.Items.Add("96000");
+            //if (Main.Config.Audio.Mixer.Frequency == 44100)
+            //{                
+            //    cboSampleRate.SelectedIndex = 0;
+            //}
+            //else if (Main.Config.Audio.Mixer.Frequency == 48000)
+            //{
+            //    cboSampleRate.SelectedIndex = 1;
+            //}
+            //else if (Main.Config.Audio.Mixer.Frequency == 96000)
+            //{
+            //    cboSampleRate.SelectedIndex = 2;
+            //}
 
-            // Check driver
-            if (Main.Config.Audio.DriverType == DriverType.DirectSound)
-            {
-                // Loop through devices
-                for (int a = 0; a < devicesDirectSound.Count; a++)
-                {
-                    // Check if the device matches
-                    if (devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
-                    {
-                        // Set selected index
-                        cboOutputDevices.SelectedIndex = a;
-                        break;
-                    }
-                }
-            }
-            else if (Main.Config.Audio.DriverType == DriverType.ASIO)
-            {
-                // Loop through devices
-                for (int a = 0; a < devicesASIO.Count; a++)
-                {
-                    // Check if the device matches
-                    if (devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
-                    {
-                        // Set selected index
-                        cboOutputDevices.SelectedIndex = a;
-                        break;
-                    }
-                }
-            }
-            else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
-            {
-                // Loop through devices
-                for (int a = 0; a < devicesWASAPI.Count; a++)
-                {
-                    // Check if the device matches
-                    if (devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
-                    {
-                        // Set selected index
-                        cboOutputDevices.SelectedIndex = a;
-                        break;
-                    }
-                }
-            }
+            //// Check driver
+            //if (Main.Config.Audio.DriverType == DriverType.DirectSound)
+            //{
+            //    // Loop through devices
+            //    for (int a = 0; a < devicesDirectSound.Count; a++)
+            //    {
+            //        // Check if the device matches
+            //        if (devicesDirectSound[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+            //        {
+            //            // Set selected index
+            //            cboOutputDevices.SelectedIndex = a;
+            //            break;
+            //        }
+            //    }
+            //}
+            //else if (Main.Config.Audio.DriverType == DriverType.ASIO)
+            //{
+            //    // Loop through devices
+            //    for (int a = 0; a < devicesASIO.Count; a++)
+            //    {
+            //        // Check if the device matches
+            //        if (devicesASIO[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+            //        {
+            //            // Set selected index
+            //            cboOutputDevices.SelectedIndex = a;
+            //            break;
+            //        }
+            //    }
+            //}
+            //else if (Main.Config.Audio.DriverType == DriverType.WASAPI)
+            //{
+            //    // Loop through devices
+            //    for (int a = 0; a < devicesWASAPI.Count; a++)
+            //    {
+            //        // Check if the device matches
+            //        if (devicesWASAPI[a].Name.ToUpper() == Main.Config.Audio.Device.Name.ToUpper())
+            //        {
+            //            // Set selected index
+            //            cboOutputDevices.SelectedIndex = a;
+            //            break;
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -350,23 +336,23 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         private void SaveAudioConfig()
         {
-            // Get selected driver
-            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            // Get selected device
-            Device device = (Device)cboOutputDevices.SelectedItem;
+            //// Get selected device
+            //Device device = (Device)cboOutputDevices.SelectedItem;
 
-            // Save configuration values
-            Main.Config.Audio.Device.Name = device.Name;
-            Main.Config.Audio.DriverType = driver.DriverType;                       
-            Main.Config.Audio.Mixer.BufferSize = (int)numericBufferSize.Value;
-            Main.Config.Audio.Mixer.UpdatePeriod = (int)numericUpdatePeriod.Value;
+            //// Save configuration values
+            //Main.Config.Audio.Device.Name = device.Name;
+            //Main.Config.Audio.DriverType = driver.DriverType;                       
+            //Main.Config.Audio.Mixer.BufferSize = (int)numericBufferSize.Value;
+            //Main.Config.Audio.Mixer.UpdatePeriod = (int)numericUpdatePeriod.Value;
 
-            int frequency = 44100;
-            int.TryParse(cboSampleRate.Text, out frequency);
-            Main.Config.Audio.Mixer.Frequency = frequency;
+            //int frequency = 44100;
+            //int.TryParse(cboSampleRate.Text, out frequency);
+            //Main.Config.Audio.Mixer.Frequency = frequency;
 
-            Main.Config.Save();
+            //Main.Config.Save();
         }
 
         /// <summary>
@@ -374,38 +360,38 @@ namespace MPfm.Windows.Classes.Forms
         /// </summary>
         private void LoadGeneralConfig()
         {
-            // Load user interface options
-            bool? showTooltips = Main.Config.GetKeyValueGeneric<bool>("ShowTooltips");
-            bool? hideTray = Main.Config.GetKeyValueGeneric<bool>("HideTray");
-            bool? showTray = Main.Config.GetKeyValueGeneric<bool>("ShowTray");
+            //// Load user interface options
+            //bool? showTooltips = Main.Config.GetKeyValueGeneric<bool>("ShowTooltips");
+            //bool? hideTray = Main.Config.GetKeyValueGeneric<bool>("HideTray");
+            //bool? showTray = Main.Config.GetKeyValueGeneric<bool>("ShowTray");
 
-            chkShowTooltips.Checked = (showTooltips.HasValue) ? showTooltips.Value : true;
-            chkShowTray.Checked = (showTray.HasValue) ? showTray.Value : false;
-            chkHideTray.Checked = (hideTray.HasValue) ? hideTray.Value : false;
-            chkHideTray.Enabled = chkShowTray.Enabled;
+            //chkShowTooltips.Checked = (showTooltips.HasValue) ? showTooltips.Value : true;
+            //chkShowTray.Checked = (showTray.HasValue) ? showTray.Value : false;
+            //chkHideTray.Checked = (hideTray.HasValue) ? hideTray.Value : false;
+            //chkHideTray.Enabled = chkShowTray.Enabled;
 
-            // Load peak file options
-            bool? peakFileUseCustomDirectory = Main.Config.GetKeyValueGeneric<bool>("PeakFile_UseCustomDirectory");            
-            bool? peakFileDisplayWarning = Main.Config.GetKeyValueGeneric<bool>("PeakFile_DisplayWarning");            
-            int? peakFileDisplayWarningThreshold = Main.Config.GetKeyValueGeneric<int>("PeakFile_DisplayWarningThreshold");
-            string peakFileCustomDirectory = Main.Config.GetKeyValue("PeakFile_CustomDirectory");
+            //// Load peak file options
+            //bool? peakFileUseCustomDirectory = Main.Config.GetKeyValueGeneric<bool>("PeakFile_UseCustomDirectory");            
+            //bool? peakFileDisplayWarning = Main.Config.GetKeyValueGeneric<bool>("PeakFile_DisplayWarning");            
+            //int? peakFileDisplayWarningThreshold = Main.Config.GetKeyValueGeneric<int>("PeakFile_DisplayWarningThreshold");
+            //string peakFileCustomDirectory = Main.Config.GetKeyValue("PeakFile_CustomDirectory");
 
-            radioPeakFileCustomDirectory.Checked = (peakFileUseCustomDirectory.HasValue) ? peakFileUseCustomDirectory.Value : false;            
-            chkPeakFileDisplayWarning.Checked = (peakFileDisplayWarning.HasValue) ? peakFileDisplayWarning.Value : false;            
-            txtPeakFileDisplayWarningThreshold.Value = (peakFileDisplayWarningThreshold.HasValue) ? peakFileDisplayWarningThreshold.Value : 1000;
-            txtPeakFileCustomDirectory.Text = peakFileCustomDirectory;
+            //radioPeakFileCustomDirectory.Checked = (peakFileUseCustomDirectory.HasValue) ? peakFileUseCustomDirectory.Value : false;            
+            //chkPeakFileDisplayWarning.Checked = (peakFileDisplayWarning.HasValue) ? peakFileDisplayWarning.Value : false;            
+            //txtPeakFileDisplayWarningThreshold.Value = (peakFileDisplayWarningThreshold.HasValue) ? peakFileDisplayWarningThreshold.Value : 1000;
+            //txtPeakFileCustomDirectory.Text = peakFileCustomDirectory;
 
-            // Load update frequency
-            int? positionUpdateFrequency = Main.Config.GetKeyValueGeneric<int>("PositionUpdateFrequency");
-            int? outputMeterUpdateFrequency = Main.Config.GetKeyValueGeneric<int>("OutputMeterUpdateFrequency");
+            //// Load update frequency
+            //int? positionUpdateFrequency = Main.Config.GetKeyValueGeneric<int>("PositionUpdateFrequency");
+            //int? outputMeterUpdateFrequency = Main.Config.GetKeyValueGeneric<int>("OutputMeterUpdateFrequency");
 
-            numericPositionUpdateFrequency.Value = (positionUpdateFrequency.HasValue) ? positionUpdateFrequency.Value : 10;
-            numericOutputMeterUpdateFrequency.Value = (outputMeterUpdateFrequency.HasValue) ? outputMeterUpdateFrequency.Value : 20;
-            trackPositionUpdateFrequency.Value = (positionUpdateFrequency.HasValue) ? positionUpdateFrequency.Value : 10;
-            trackOutputMeterUpdateFrequency.Value = (outputMeterUpdateFrequency.HasValue) ? outputMeterUpdateFrequency.Value : 20;
+            //numericPositionUpdateFrequency.Value = (positionUpdateFrequency.HasValue) ? positionUpdateFrequency.Value : 10;
+            //numericOutputMeterUpdateFrequency.Value = (outputMeterUpdateFrequency.HasValue) ? outputMeterUpdateFrequency.Value : 20;
+            //trackPositionUpdateFrequency.Value = (positionUpdateFrequency.HasValue) ? positionUpdateFrequency.Value : 10;
+            //trackOutputMeterUpdateFrequency.Value = (outputMeterUpdateFrequency.HasValue) ? outputMeterUpdateFrequency.Value : 20;
 
-            // Set control enable
-            EnableGeneralSettingsControls();
+            //// Set control enable
+            //EnableGeneralSettingsControls();
         }
 
         /// <summary>
@@ -1001,7 +987,7 @@ namespace MPfm.Windows.Classes.Forms
             EnableGeneralSettingsControls();
 
             // Set tray icon visibility
-            Main.notifyIcon.Visible = chkShowTray.Checked;
+            //Main.notifyIcon.Visible = chkShowTray.Checked;
         }
 
         /// <summary>
@@ -1053,7 +1039,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void chkShowTooltips_CheckedChanged(object sender, EventArgs e)
         {
-            Main.EnableTooltips(chkShowTooltips.Checked);
+            //Main.EnableTooltips(chkShowTooltips.Checked);
         }
 
         /// <summary>
@@ -1122,7 +1108,7 @@ namespace MPfm.Windows.Classes.Forms
             if (numericPositionUpdateFrequency.Value != trackPositionUpdateFrequency.Value)
             {
                 numericPositionUpdateFrequency.Value = trackPositionUpdateFrequency.Value;
-                Main.timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
+                //Main.timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
             }
         }
 
@@ -1135,7 +1121,7 @@ namespace MPfm.Windows.Classes.Forms
             if (numericOutputMeterUpdateFrequency.Value != trackOutputMeterUpdateFrequency.Value)
             {
                 numericOutputMeterUpdateFrequency.Value = trackOutputMeterUpdateFrequency.Value;
-                Main.timerUpdateOutputMeter.Interval = (int)trackOutputMeterUpdateFrequency.Value;
+                //Main.timerUpdateOutputMeter.Interval = (int)trackOutputMeterUpdateFrequency.Value;
             }
         }
 
@@ -1147,7 +1133,7 @@ namespace MPfm.Windows.Classes.Forms
         private void numericPositionUpdateFrequency_Leave(object sender, EventArgs e)
         {
             trackPositionUpdateFrequency.Value = (int)numericPositionUpdateFrequency.Value;
-            Main.timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
+            //Main.timerSongPosition.Interval = (int)numericPositionUpdateFrequency.Value;
         }
 
         /// <summary>
@@ -1158,7 +1144,7 @@ namespace MPfm.Windows.Classes.Forms
         private void numericOutputMeterUpdateFrequency_Leave(object sender, EventArgs e)
         {
             trackOutputMeterUpdateFrequency.Value = (int)numericOutputMeterUpdateFrequency.Value;
-            Main.timerUpdateOutputMeter.Interval = (int)numericOutputMeterUpdateFrequency.Value;
+            //Main.timerUpdateOutputMeter.Interval = (int)numericOutputMeterUpdateFrequency.Value;
         }
 
         /// <summary>
@@ -1398,6 +1384,26 @@ namespace MPfm.Windows.Classes.Forms
             //    MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "Error loading ASIO control panel", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
         }
+
+        #region IDesktopPreferencesView implementation
+
+        public Action<IBaseView> OnViewDestroy { get; set; }
+        public Action OnResetLibrary { get; set; }
+        public Action OnUpdateLibrary { get; set; }
+        public Action OnEnableSyncListener { get; set; }
+        public Action<int> OnSetSyncListenerPort { get; set; }
+
+        public void ShowView(bool shown)
+        {
+            Console.WriteLine("PREFERENCES ---- SHOW VIEW!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+
+        public void LibraryPreferencesError(Exception ex)
+        {
+        }
+
+        #endregion
+
     }
 
     /// <summary>

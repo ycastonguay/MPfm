@@ -1804,8 +1804,12 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            // Show Settings window
-            //formSettings.ShowDialog(this);
+            OnOpenPreferencesWindow();
+        }
+
+        private void btnSync_Click(object sender, EventArgs e)
+        {
+            OnOpenSyncWindow();
         }
 
         #endregion
@@ -3984,27 +3988,17 @@ namespace MPfm.Windows.Classes.Forms
         #region IMainView implementation
 
         public Action<IBaseView> OnViewDestroy { get; set; }
-        public void ShowView(bool shown)
-        {
-        }
-
         public Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
         public Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
         public Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         public Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
         public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
-        {
-        }
-
-        public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
-        {
-        }
-
         public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-        public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
-        {
-        }
+
+        public Action OnOpenPreferencesWindow { get; set; }
+        public Action OnOpenEffectsWindow { get; set; }
+        public Action OnOpenPlaylistWindow { get; set; }
+        public Action OnOpenSyncWindow { get; set; }
 
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
@@ -4017,6 +4011,27 @@ namespace MPfm.Windows.Classes.Forms
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+
+        public void PlayerError(Exception ex)
+        {
+        }
+        
+        public void ShowView(bool shown)
+        {
+        }
+
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
+        {
+        }
+
+        public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
+        {
+        }
+
+        public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
+        {
+        }
+
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
         }
@@ -4045,16 +4060,9 @@ namespace MPfm.Windows.Classes.Forms
         {
         }
 
-        public void PlayerError(Exception ex)
-        {
-        }
-
-        public Action OnOpenPreferencesWindow { get; set; }
-        public Action OnOpenEffectsWindow { get; set; }
-        public Action OnOpenPlaylistWindow { get; set; }
-        public Action OnOpenSyncWindow { get; set; }
-     
+        
         #endregion
+
 
     }
 

@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -74,8 +74,10 @@ namespace MPfm.Windows.Classes
             //Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindowController>().AsMultiInstance();
             //Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindowController>().AsMultiInstance();
             //Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindowController>().AsMultiInstance();
-            //Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindowController>().AsMultiInstance();
-            //Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IDesktopPreferencesView, frmPreferences>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncView, frmSync>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncMenuView, frmSyncMenu>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncDownloadView, frmSyncDownload>().AsMultiInstance();
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
             _navigationManager.CreateSplashView();

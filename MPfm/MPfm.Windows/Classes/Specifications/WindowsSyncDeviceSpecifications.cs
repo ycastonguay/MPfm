@@ -15,8 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MPfm.Library;
 using MPfm.Library.Objects;
+using MPfm.Library.Services;
 
 namespace MPfm.Windows.Classes.Specifications
 {
@@ -25,6 +27,8 @@ namespace MPfm.Windows.Classes.Specifications
     /// </summary>
     public class WindowsSyncDeviceSpecifications : ISyncDeviceSpecifications
     {
+        public event NetworkStateChanged OnNetworkStateChanged;
+
         public SyncDeviceType GetDeviceType()
         {
             return SyncDeviceType.Windows;
@@ -39,6 +43,22 @@ namespace MPfm.Windows.Classes.Specifications
         public long GetFreeSpace()
         {
             return 0;
+        }
+
+        public string GetIPAddress()
+        {
+            return SyncListenerService.GetLocalIPAddress().ToString();
+        }
+
+        public string GetMusicFolderPath()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        }
+
+        public void ReportNetworkStateChange(NetworkState networkState)
+        {
+            if (OnNetworkStateChanged != null)
+                OnNetworkStateChanged(networkState);
         }
     }
 }
