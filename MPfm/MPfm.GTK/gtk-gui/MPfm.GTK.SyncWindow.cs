@@ -104,11 +104,11 @@ namespace MPfm.GTK
 			w9.Spacing = 2;
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w10 = new global::Gtk.Image ();
-			w10.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-refresh", global::Gtk.IconSize.Menu);
+			w10.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-cancel", global::Gtk.IconSize.Menu);
 			w9.Add (w10);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w12 = new global::Gtk.Label ();
-			w12.LabelProp = global::Mono.Unix.Catalog.GetString ("Refresh device list");
+			w12.LabelProp = global::Mono.Unix.Catalog.GetString ("Cancel refresh");
 			w12.UseUnderline = true;
 			w9.Add (w12);
 			w8.Add (w9);
@@ -163,7 +163,6 @@ namespace MPfm.GTK
 			this.DefaultHeight = 363;
 			this.Show ();
 			this.btnConnectManual.Clicked += new global::System.EventHandler (this.OnClickConnectManual);
-			this.btnRefreshDeviceList.Clicked += new global::System.EventHandler (this.OnClickRefreshDeviceList);
 			this.btnSyncLibraryWithDevice.Clicked += new global::System.EventHandler (this.OnClickConnect);
 		}
 	}

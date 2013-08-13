@@ -98,7 +98,9 @@
     <Compile Include="gtk-gui\MPfm.GTK.Windows.SplashWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.Windows.UpdateLibraryWindow.cs" />
     <Compile Include="Classes\Main.cs" />
-    <Compile Include="Windows\SyncWindow.cs" />
+    <Compile Include="Windows\SyncWindow.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="gtk-gui\MPfm.GTK.SyncWindow.cs" />
     <Compile Include="Classes\LinuxSyncDeviceSpecifications.cs" />
     <Compile Include="Windows\SyncMenuWindow.cs" />
@@ -154,9 +156,6 @@
     <None Include="Lib\x86\libbass_mpc.so" />
     <None Include="Lib\x86\libbass_tta.so" />
     <None Include="Lib\x86\libbasswv.so" />
-    <None Include="black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -173,6 +172,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="android.png" />
+    <Content Include="black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

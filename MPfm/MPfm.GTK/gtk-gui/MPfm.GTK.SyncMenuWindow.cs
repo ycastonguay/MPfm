@@ -177,6 +177,7 @@ namespace MPfm.GTK
 			this.DefaultWidth = 640;
 			this.DefaultHeight = 475;
 			this.Show ();
+			this.treeView.RowExpanded += new global::Gtk.RowExpandedHandler (this.OnTreeViewRowExpanded);
 		}
 	}
 }

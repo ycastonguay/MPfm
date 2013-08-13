@@ -242,9 +242,7 @@ namespace MPfm.GTK.Windows
 				// Get property name
 				string property = (string)column.Data["Property"];
 				if(String.IsNullOrEmpty(property))
-				{
 					return;
-				}
 		
 				// Get value and set cell text
 				PropertyInfo propertyInfo = typeof(AudioFile).GetProperty(property);

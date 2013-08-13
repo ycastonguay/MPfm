@@ -306,6 +306,7 @@ namespace MPfm.MVP.Presenters
                                 });
                             }
 
+                            _items.InsertRange(index, items);
                             View.InsertItems(index + 1, items);
                         }
                         break;

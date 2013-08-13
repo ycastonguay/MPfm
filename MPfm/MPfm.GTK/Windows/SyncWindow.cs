@@ -55,13 +55,16 @@ namespace MPfm.GTK
         private void InitializeDeviceTreeView()
         {
             _storeDevices = new Gtk.TreeStore(typeof(SyncDevice));
+            treeViewDevices.ShowExpanders = false;
             treeViewDevices.HeadersVisible = false;
 
             // Create title column
             Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
-            Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();    
-            colTitle.Data.Add("Property", "Name");
+            Gtk.CellRendererPixbuf cellPixbuf = new Gtk.CellRendererPixbuf();
+            Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();
+            colTitle.PackStart(cellPixbuf, false);
             colTitle.PackStart(cellTitle, true);
+            colTitle.SetCellDataFunc(cellPixbuf, new Gtk.TreeCellDataFunc(RenderDeviceCell));
             colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderDeviceCell));
             treeViewDevices.AppendColumn(colTitle);
         }
@@ -70,30 +73,31 @@ namespace MPfm.GTK
         {
             if (_isDiscovering)
             {
-                btnRefreshDeviceList.Image = new Image(Stock.Cancel, IconSize.Button);
+                btnRefreshDeviceList.Image = new Gtk.Image(Stock.Cancel, IconSize.SmallToolbar);
                 btnRefreshDeviceList.Label = "Cancel refresh";
             } 
             else
             {
-                btnRefreshDeviceList.Image = new Image(Stock.Refresh, IconSize.Button);
+                btnRefreshDeviceList.Image = new Gtk.Image(Stock.Refresh, IconSize.SmallToolbar);
                 btnRefreshDeviceList.Label = "Refresh devices";
             }
         }
         
         private void RenderDeviceCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
         {
-            Console.WriteLine("SyncWindow - RenderDeviceCell");
+            //Console.WriteLine("SyncWindow - RenderDeviceCell");
             SyncDevice device = (SyncDevice)model.GetValue(iter, 0);
 
-            // Get property name
-            string property = (string)column.Data["Property"];
-            if(String.IsNullOrEmpty(property))          
-                return;         
-    
-            // Get value and set cell text
-            PropertyInfo propertyInfo = typeof(SyncDevice).GetProperty(property);
-            object propertyValue = propertyInfo.GetValue(device, null);
-            (cell as Gtk.CellRendererText).Text = propertyValue.ToString();
+            if (cell is Gtk.CellRendererText)
+            {
+                (cell as Gtk.CellRendererText).Text = device.Name;
+            }
+            else if (cell is Gtk.CellRendererPixbuf)
+            {
+                var cellPixbuf = (Gtk.CellRendererPixbuf)cell;
+                var pixbuf = new Gdk.Pixbuf("android.png");
+                cellPixbuf.Pixbuf = pixbuf;
+            }
         }
 
         protected void OnClickRefreshDeviceList(object sender, EventArgs e)

@@ -53,28 +53,74 @@ namespace MPfm.GTK
             // Create title column
             Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
             Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();    
-            colTitle.Data.Add("Property", "Title");
+            Gtk.CellRendererPixbuf cellPixbuf = new Gtk.CellRendererPixbuf();
+            Gtk.CellRendererToggle cellToggle = new Gtk.CellRendererToggle();
+            cellToggle.Activatable = true;
+            cellToggle.Toggled += (o, args) => {
+                var cellRendererToggle = (Gtk.CellRendererToggle)o;
+                //cellRendererToggle.Active = !cellRendererToggle.Active;
+                Console.WriteLine("******* Toggle {0}", cellRendererToggle.Data["itemType"]);
+            };
+            colTitle.PackStart(cellPixbuf, false);
             colTitle.PackStart(cellTitle, true);
+            colTitle.PackStart(cellToggle, false);
+            colTitle.SetCellDataFunc(cellPixbuf, new Gtk.TreeCellDataFunc(RenderCell));
             colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderCell));
+            colTitle.SetCellDataFunc(cellToggle, new Gtk.TreeCellDataFunc(RenderCell));
             treeView.AppendColumn(colTitle);
         }
 
         private void RenderCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
         {
-            Console.WriteLine("SyncMenuWindow - RenderCell");
+            //Console.WriteLine("SyncMenuWindow - RenderCell");
             SyncMenuItemEntity entity = (SyncMenuItemEntity)model.GetValue(iter, 0);
 
-            switch (entity.ItemType)
+            if (cell is Gtk.CellRendererText)
             {
-                case SyncMenuItemEntityType.Artist:
-                    (cell as Gtk.CellRendererText).Text = entity.ArtistName;
-                    break;
-                case SyncMenuItemEntityType.Album:
-                    (cell as Gtk.CellRendererText).Text = entity.AlbumTitle;
-                    break;
-                case SyncMenuItemEntityType.Song:
-                    (cell as Gtk.CellRendererText).Text = entity.Song.Title;
-                    break;
+                string title = string.Empty;
+                switch (entity.ItemType)
+                {
+                    case SyncMenuItemEntityType.Artist:
+                        title = entity.ArtistName;
+                        break;
+                    case SyncMenuItemEntityType.Album:
+                        title = entity.AlbumTitle;
+                        break;
+                    case SyncMenuItemEntityType.Song:
+                        if(entity.Song != null)
+                            title = entity.Song.Title;
+                        break;
+                }       
+                if(title == "dummy") title = string.Empty;
+                (cell as Gtk.CellRendererText).Text = title;
+            }
+            else if (cell is Gtk.CellRendererPixbuf)
+            {
+                var cellPixbuf = (Gtk.CellRendererPixbuf)cell;
+                var pixbuf = new Gdk.Pixbuf("android.png");
+                cellPixbuf.Pixbuf = pixbuf;
+            }
+            else if (cell is Gtk.CellRendererToggle)
+            {
+                var cellToggle = (Gtk.CellRendererToggle)cell;
+                cellToggle.Data.Clear();
+                cellToggle.Data.Add("itemType", entity.ItemType.ToString());
+            }
+        }
+
+        protected void OnTreeViewRowExpanded(object o, RowExpandedArgs args)
+        {
+            Console.WriteLine(">>>>> SyncMenuWindow - OnTreeViewRowExpanded");
+            Gtk.TreeIter iter;
+            SyncMenuItemEntity entity = (SyncMenuItemEntity)_storeItems.GetValue(args.Iter, 0);                     
+
+            // Check for dummy node     
+            _storeItems.IterChildren(out iter, args.Iter);
+            SyncMenuItemEntity entityChild = (SyncMenuItemEntity)_storeItems.GetValue(iter, 0);          
+            if (entityChild.ArtistName == "dummy" && entityChild.AlbumTitle == "dummy")
+            {
+                Console.WriteLine("SyncMenuWindow - OnTreeViewRowExpanded -- Expanding node...");
+                OnExpandItem(entity);
             }
         }
 
@@ -118,12 +164,13 @@ namespace MPfm.GTK
 
         public void RefreshLoading(bool isLoading, int progressPercentage)
         {
+            Console.WriteLine("SyncMenuWindow - RefreshLoading - isLoading: {0} progressPercentage: {1}", isLoading, progressPercentage);
             Gtk.Application.Invoke(delegate{
                 progressBar.Visible = isLoading;
                 lblLoading.Visible = isLoading;
 
                 if(progressPercentage < 100)
-                    lblLoading.Text = String.Format("Loading index ({0}%)...", progressPercentage);
+                    lblLoading.Text = String.Format("Loading index ({0}%)..." + DateTime.Now.ToLongTimeString(), progressPercentage);
                 else
                     lblLoading.Text = "Processing index...";            
             });
@@ -143,7 +190,16 @@ namespace MPfm.GTK
                 _storeItems.Clear();
                 
                 foreach(SyncMenuItemEntity item in items)
-                    _storeItems.AppendValues(item);
+                {
+                    Gtk.TreeIter iter = _storeItems.AppendValues(item);
+
+                    // Add dummy cell
+                    _storeItems.AppendValues(iter, new SyncMenuItemEntity(){
+                        ItemType = SyncMenuItemEntityType.Album,
+                        ArtistName = "dummy",
+                        AlbumTitle = "dummy"
+                    });
+                }
                             
                 treeView.Model = _storeItems;
             });
@@ -159,6 +215,35 @@ namespace MPfm.GTK
 
         public void InsertItems(int index, List<SyncMenuItemEntity> items)
         {
+            Gtk.Application.Invoke(delegate{
+                Console.WriteLine("SyncMenuWindow - InsertItems - index {0}", index);
+                TreeIter treeIter;
+                Gtk.TreePath treePath = new TreePath((index-1).ToString());
+                _storeItems.GetIter(out treeIter, treePath);
+                object stuff = _storeItems.GetValue(treeIter, 0);
+                //_storeItems.IterNthChild(out treeIter, index-1);
+                TreeIter treeIterDummy;
+                _storeItems.IterNthChild(out treeIterDummy, treeIter, 0);
+                object stuff2 = _storeItems.GetValue(treeIterDummy, 0);
+
+                // Add new children
+                foreach(var item in items)
+                {
+                    TreeIter treeIterChild = _storeItems.AppendValues(treeIter, item);
+                    if(item.ItemType == SyncMenuItemEntityType.Album)
+                    {
+                        // Add dummy cell
+                        _storeItems.AppendValues(treeIterChild, new SyncMenuItemEntity(){
+                            ItemType = SyncMenuItemEntityType.Song,
+                            ArtistName = "dummy",
+                            AlbumTitle = "dummy"
+                        });
+                    }
+                }
+
+                // Remove dummy node
+                _storeItems.Remove(ref treeIterDummy);
+            });
         }
 
         public void RemoveItems(int index, int count)
@@ -166,6 +251,5 @@ namespace MPfm.GTK
         }
 
         #endregion
-
     }
 }
