@@ -5,8 +5,11 @@ namespace MPfm.GTK
 	public partial class SyncWindow
 	{
 		private global::Gtk.VBox vbox1;
+		private global::Gtk.HBox hbox2;
+		private global::Gtk.VBox vbox2;
 		private global::Gtk.Label lblTitle;
 		private global::Gtk.Label lblSubtitle;
+		private global::Gtk.Button btnConnectManual;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.TreeView treeViewDevices;
 		private global::Gtk.HBox hbox1;
@@ -27,25 +30,67 @@ namespace MPfm.GTK
 			this.vbox1.Spacing = 4;
 			this.vbox1.BorderWidth = ((uint)(8));
 			// Container child vbox1.Gtk.Box+BoxChild
+			this.hbox2 = new global::Gtk.HBox ();
+			this.hbox2.Name = "hbox2";
+			this.hbox2.Spacing = 6;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.vbox2 = new global::Gtk.VBox ();
+			this.vbox2.Name = "vbox2";
+			this.vbox2.Spacing = 6;
+			// Container child vbox2.Gtk.Box+BoxChild
 			this.lblTitle = new global::Gtk.Label ();
 			this.lblTitle.Name = "lblTitle";
 			this.lblTitle.Xalign = 0F;
 			this.lblTitle.LabelProp = global::Mono.Unix.Catalog.GetString ("Sync library with other devices");
-			this.vbox1.Add (this.lblTitle);
-			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.lblTitle]));
+			this.vbox2.Add (this.lblTitle);
+			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lblTitle]));
 			w1.Position = 0;
 			w1.Expand = false;
 			w1.Fill = false;
-			// Container child vbox1.Gtk.Box+BoxChild
+			// Container child vbox2.Gtk.Box+BoxChild
 			this.lblSubtitle = new global::Gtk.Label ();
 			this.lblSubtitle.Name = "lblSubtitle";
 			this.lblSubtitle.Xalign = 0F;
 			this.lblSubtitle.LabelProp = global::Mono.Unix.Catalog.GetString ("My IP address is: 192.168.1.101");
-			this.vbox1.Add (this.lblSubtitle);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.lblSubtitle]));
+			this.vbox2.Add (this.lblSubtitle);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.lblSubtitle]));
 			w2.Position = 1;
 			w2.Expand = false;
 			w2.Fill = false;
+			this.hbox2.Add (this.vbox2);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.vbox2]));
+			w3.Position = 0;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.btnConnectManual = new global::Gtk.Button ();
+			this.btnConnectManual.CanFocus = true;
+			this.btnConnectManual.Name = "btnConnectManual";
+			this.btnConnectManual.UseUnderline = true;
+			// Container child btnConnectManual.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w4 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w5 = new global::Gtk.HBox ();
+			w5.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w6 = new global::Gtk.Image ();
+			w6.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
+			w5.Add (w6);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w8 = new global::Gtk.Label ();
+			w8.LabelProp = global::Mono.Unix.Catalog.GetString ("Connect manually to a device");
+			w8.UseUnderline = true;
+			w5.Add (w8);
+			w4.Add (w5);
+			this.btnConnectManual.Add (w4);
+			this.hbox2.Add (this.btnConnectManual);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.btnConnectManual]));
+			w12.Position = 1;
+			w12.Expand = false;
+			w12.Fill = false;
+			this.vbox1.Add (this.hbox2);
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox2]));
+			w13.Position = 0;
+			w13.Expand = false;
+			w13.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -56,8 +101,8 @@ namespace MPfm.GTK
 			this.treeViewDevices.Name = "treeViewDevices";
 			this.GtkScrolledWindow.Add (this.treeViewDevices);
 			this.vbox1.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
-			w4.Position = 2;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
+			w15.Position = 1;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.hbox1 = new global::Gtk.HBox ();
 			this.hbox1.Name = "hbox1";
@@ -67,42 +112,74 @@ namespace MPfm.GTK
 			this.btnRefreshDeviceList.CanFocus = true;
 			this.btnRefreshDeviceList.Name = "btnRefreshDeviceList";
 			this.btnRefreshDeviceList.UseUnderline = true;
-			this.btnRefreshDeviceList.Label = global::Mono.Unix.Catalog.GetString ("Refresh device list");
+			// Container child btnRefreshDeviceList.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w16 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w17 = new global::Gtk.HBox ();
+			w17.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w18 = new global::Gtk.Image ();
+			w18.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-refresh", global::Gtk.IconSize.Menu);
+			w17.Add (w18);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w20 = new global::Gtk.Label ();
+			w20.LabelProp = global::Mono.Unix.Catalog.GetString ("Refresh device list");
+			w20.UseUnderline = true;
+			w17.Add (w20);
+			w16.Add (w17);
+			this.btnRefreshDeviceList.Add (w16);
 			this.hbox1.Add (this.btnRefreshDeviceList);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnRefreshDeviceList]));
-			w5.Position = 0;
-			w5.Expand = false;
-			w5.Fill = false;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnRefreshDeviceList]));
+			w24.Position = 0;
+			w24.Expand = false;
+			w24.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.progressBar = new global::Gtk.ProgressBar ();
 			this.progressBar.Name = "progressBar";
 			this.hbox1.Add (this.progressBar);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.progressBar]));
-			w6.Position = 1;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.progressBar]));
+			w25.Position = 1;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.btnSyncLibraryWithDevice = new global::Gtk.Button ();
 			this.btnSyncLibraryWithDevice.CanFocus = true;
 			this.btnSyncLibraryWithDevice.Name = "btnSyncLibraryWithDevice";
 			this.btnSyncLibraryWithDevice.UseUnderline = true;
-			this.btnSyncLibraryWithDevice.Label = global::Mono.Unix.Catalog.GetString ("Connect to device");
+			// Container child btnSyncLibraryWithDevice.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w26 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w27 = new global::Gtk.HBox ();
+			w27.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w28 = new global::Gtk.Image ();
+			w28.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-connect", global::Gtk.IconSize.Menu);
+			w27.Add (w28);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w30 = new global::Gtk.Label ();
+			w30.LabelProp = global::Mono.Unix.Catalog.GetString ("Connect to device");
+			w30.UseUnderline = true;
+			w27.Add (w30);
+			w26.Add (w27);
+			this.btnSyncLibraryWithDevice.Add (w26);
 			this.hbox1.Add (this.btnSyncLibraryWithDevice);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnSyncLibraryWithDevice]));
-			w7.Position = 2;
-			w7.Expand = false;
-			w7.Fill = false;
+			global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnSyncLibraryWithDevice]));
+			w34.Position = 2;
+			w34.Expand = false;
+			w34.Fill = false;
 			this.vbox1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
-			w8.Position = 3;
-			w8.Expand = false;
-			w8.Fill = false;
+			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w35.Position = 2;
+			w35.Expand = false;
+			w35.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 444;
-			this.DefaultHeight = 300;
+			this.DefaultWidth = 558;
+			this.DefaultHeight = 363;
 			this.Show ();
-			this.btnRefreshDeviceList.Clicked += new global::System.EventHandler (this.OnSyncRefreshDeviceList);
+			this.btnConnectManual.Clicked += new global::System.EventHandler (this.OnClickConnectManual);
+			this.btnRefreshDeviceList.Clicked += new global::System.EventHandler (this.OnClickRefreshDeviceList);
+			this.btnSyncLibraryWithDevice.Clicked += new global::System.EventHandler (this.OnClickConnect);
 		}
 	}
 }

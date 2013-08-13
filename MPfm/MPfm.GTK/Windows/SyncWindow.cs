@@ -30,6 +30,7 @@ namespace MPfm.GTK
 	public partial class SyncWindow : BaseWindow, ISyncView
 	{
         Gtk.TreeStore _storeDevices;
+        bool _isDiscovering;
 
 		public SyncWindow(Action<IBaseView> onViewReady) : 
 			base(Gtk.WindowType.Toplevel, onViewReady)
@@ -37,7 +38,6 @@ namespace MPfm.GTK
 			this.Build();
 
             Title = "Sync Library With Other Devices";
-            btnRefreshDeviceList.Label = "Cancel refresh";
             InitializeDeviceTreeView();
 
             onViewReady(this);
@@ -52,11 +52,6 @@ namespace MPfm.GTK
             return base.OnDeleteEvent(evnt);
 		}
 
-		protected void OnSyncRefreshDeviceList(object sender, EventArgs e)
-        {
-            OnStartDiscovery();
-        }        
-
         private void InitializeDeviceTreeView()
         {
             _storeDevices = new Gtk.TreeStore(typeof(SyncDevice));
@@ -69,6 +64,20 @@ namespace MPfm.GTK
             colTitle.PackStart(cellTitle, true);
             colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderDeviceCell));
             treeViewDevices.AppendColumn(colTitle);
+        }
+
+        private void RefreshDeviceListButton()
+        {
+            if (_isDiscovering)
+            {
+                btnRefreshDeviceList.Image = new Image(Stock.Cancel, IconSize.Button);
+                btnRefreshDeviceList.Label = "Cancel refresh";
+            } 
+            else
+            {
+                btnRefreshDeviceList.Image = new Image(Stock.Refresh, IconSize.Button);
+                btnRefreshDeviceList.Label = "Refresh devices";
+            }
         }
         
         private void RenderDeviceCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -85,6 +94,30 @@ namespace MPfm.GTK
             PropertyInfo propertyInfo = typeof(SyncDevice).GetProperty(property);
             object propertyValue = propertyInfo.GetValue(device, null);
             (cell as Gtk.CellRendererText).Text = propertyValue.ToString();
+        }
+
+        protected void OnClickRefreshDeviceList(object sender, EventArgs e)
+        {
+            if(_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();
+        }        
+
+        protected void OnClickConnectManual(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void OnClickConnect(object sender, EventArgs e)
+        {
+            TreeModel model;
+            TreeIter iter;  
+            if((sender as TreeView).Selection.GetSelected(out model, out iter))
+            {
+                SyncDevice device = (SyncDevice)_storeDevices.GetValue(iter, 0);                              
+                OnConnectDevice(device);
+            }
         }
 
         #region ISyncView implementation
@@ -118,6 +151,11 @@ namespace MPfm.GTK
         public void RefreshDiscoveryProgress(float percentageDone, string status)
         {
             Gtk.Application.Invoke(delegate{
+                if(!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    RefreshDeviceListButton();
+                }
                 progressBar.Fraction = percentageDone / 100f;
             });
         }
@@ -138,7 +176,8 @@ namespace MPfm.GTK
         public void RefreshDevicesEnded()
         {
             Gtk.Application.Invoke(delegate{
-                btnRefreshDeviceList.Label = "Refresh devices";
+                _isDiscovering = false;
+                RefreshDeviceListButton();
             });
         }
 
