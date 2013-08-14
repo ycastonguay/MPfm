@@ -28,7 +28,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ISyncMenuView : IBaseView
 	{
-        Action<SyncMenuItemEntity> OnExpandItem { get; set; }
+        Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
         Action<SyncMenuItemEntity> OnSelectItem { get; set; }
         Action OnSync { get; set; }
         Action OnSelectButtonClick { get; set; }
@@ -40,7 +40,7 @@ namespace MPfm.MVP.Views
         void RefreshSelectButton(string text);
         void RefreshItems(List<SyncMenuItemEntity> items);
         void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
-        void InsertItems(int index, List<SyncMenuItemEntity> items);
-        void RemoveItems(int index, int count);
+        void InsertItems(int index, List<SyncMenuItemEntity> items, object userData);
+        void RemoveItems(int index, int count, object userData);
 	}
 }

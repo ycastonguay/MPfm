@@ -173,11 +173,11 @@
             textGradient1.Color1 = System.Drawing.Color.LightGray;
             textGradient1.Color2 = System.Drawing.Color.Gray;
             customFont1.Color = System.Drawing.Color.White;
-            customFont1.EmbeddedFontName = "Junction";
-            customFont1.IsBold = false;
+            customFont1.EmbeddedFontName = "TitilliumText22L Lt";
+            customFont1.IsBold = true;
             customFont1.IsItalic = false;
             customFont1.IsUnderline = false;
-            customFont1.Size = 12F;
+            customFont1.Size = 11F;
             customFont1.StandardFontName = "Arial";
             customFont1.UseAntiAliasing = true;
             customFont1.UseEmbeddedFont = true;

@@ -311,14 +311,24 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshStatus(string message)
         {
-            BeginInvoke((MethodInvoker)(delegate {
+            MethodInvoker methodUIUpdate = delegate {
                 lblStatus.Text = message;
-            }));
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         void ISplashView.InitDone(bool isAppFirstStart)
         {
-            BeginInvoke((MethodInvoker) Close);
+            MethodInvoker methodUIUpdate = Close;
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         #endregion

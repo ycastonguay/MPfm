@@ -270,7 +270,7 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void ExpandItem(SyncMenuItemEntity item)
+        private void ExpandItem(SyncMenuItemEntity item, object userData)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace MPfm.MVP.Presenters
                             if(index == -1 || lastIndex == -1)
                                 return;
 
-                            View.RemoveItems(index, lastIndex - index + 1);
+                            View.RemoveItems(index, lastIndex - index + 1, userData);
                         }
                         else
                         {
@@ -307,7 +307,7 @@ namespace MPfm.MVP.Presenters
                             }
 
                             _items.InsertRange(index, items);
-                            View.InsertItems(index + 1, items);
+                            View.InsertItems(index + 1, items, userData);
                         }
                         break;
                     case SyncMenuItemEntityType.Album:
@@ -318,7 +318,7 @@ namespace MPfm.MVP.Presenters
                             if(index == -1 || lastIndex == -1)
                                 return;
 
-                            View.RemoveItems(index, lastIndex - index + 1);
+                            View.RemoveItems(index, lastIndex - index + 1, userData);
                         }
                         else
                         {
@@ -339,7 +339,7 @@ namespace MPfm.MVP.Presenters
                                     Selection = (selectionCount == 0) ? StateSelectionType.None : StateSelectionType.Selected
                                 });
                             }
-                            View.InsertItems(index + 1, items);
+                            View.InsertItems(index + 1, items, userData);
                         }
                         break;
                     case SyncMenuItemEntityType.Song:

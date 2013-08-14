@@ -43,6 +43,7 @@ namespace MPfm.Windows.Classes.Forms
             if (listView.SelectedItems.Count == 0)
                 return;
 
+            OnCancelDiscovery();
             OnConnectDevice((SyncDevice) listView.SelectedItems[0].Tag);
         }
 

@@ -40,17 +40,31 @@ namespace MPfm.Windows.Classes.Forms
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
-
+            OnSelectButtonClick();
         }
 
         private void btnSync_Click(object sender, EventArgs e)
         {
+            OnSync();
+        }
 
+        private void treeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            Console.WriteLine("BEFORE EXPAND");
+
+            // Detect if the child node is a dummy node (indicating we have to fetch the data)            
+            if (e.Node.Nodes.Count > 0 && e.Node.Nodes[0].Text != "dummy")
+                return;
+
+            Console.WriteLine("BEFORE EXPAND 2");
+            //e.Cancel = true;
+            var item = (SyncMenuItemEntity) e.Node.Tag;
+            OnExpandItem(item, e.Node);
         }
 
         #region ISyncMenuView implementation
 
-        public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
+        public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
         public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
@@ -94,6 +108,22 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshLoading(bool isLoading, int progressPercentage)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                progressBar.Value = progressPercentage;
+                panelLoading.Visible = isLoading;
+                progressBar.Visible = isLoading;
+                lblLoading.Visible = isLoading;
+
+                if (progressPercentage < 100)
+                    lblLoading.Text = String.Format("Loading index ({0}%)...", progressPercentage);
+                else
+                    lblLoading.Text = "Processing index...";
+            }; 
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshSelectButton(string text)
@@ -102,21 +132,92 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshItems(List<SyncMenuItemEntity> items)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                treeView.Nodes.Clear();
+                foreach (var item in items)
+                {
+                    string title = string.Empty;
+                    switch (item.ItemType)
+                    {
+                        case SyncMenuItemEntityType.Artist:
+                            title = item.ArtistName;
+                            break;
+                        case SyncMenuItemEntityType.Album:
+                            title = item.AlbumTitle;
+                            break;
+                        case SyncMenuItemEntityType.Song:
+                            if(item.Song != null)
+                                title = item.Song.Title;
+                            break;
+                    }
+                    var treeNode = new TreeNode(title, 0, 0) {
+                        Tag = item
+                    };
+                    treeView.Nodes.Add(treeNode);
+                    treeNode.Nodes.Add(new TreeNode("dummy", 0, 0));
+                }
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
         }
 
-        public void InsertItems(int index, List<SyncMenuItemEntity> items)
+        public void InsertItems(int index, List<SyncMenuItemEntity> items, object userData)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                var node = (TreeNode)userData;
+                foreach (var item in items)
+                {
+                    string title = string.Empty;
+                    switch (item.ItemType)
+                    {
+                        case SyncMenuItemEntityType.Artist:
+                            title = item.ArtistName;
+                            break;
+                        case SyncMenuItemEntityType.Album:
+                            title = item.AlbumTitle;
+                            break;
+                        case SyncMenuItemEntityType.Song:
+                            if (item.Song != null)
+                                title = item.Song.Title;
+                            break;
+                    }
+
+                    // Add sub node
+                    var treeNode = new TreeNode(title, 0, 0) {
+                        Tag = item
+                    };
+                    node.Nodes.Add(treeNode);
+
+                    // Add dummy node
+                    if (item.ItemType != SyncMenuItemEntityType.Song)
+                        treeNode.Nodes.Add(new TreeNode("dummy", 0, 0));
+                }
+
+                //node.NodeFont
+                //node.Expand();
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
-        public void RemoveItems(int index, int count)
+        public void RemoveItems(int index, int count, object userData)
         {
         }
 
         #endregion
+
 
     }
 }
