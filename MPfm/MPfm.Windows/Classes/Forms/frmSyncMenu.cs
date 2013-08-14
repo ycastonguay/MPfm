@@ -38,6 +38,16 @@ namespace MPfm.Windows.Classes.Forms
             ViewIsReady();
         }
 
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSync_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #region ISyncMenuView implementation
 
         public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
@@ -47,14 +57,39 @@ namespace MPfm.Windows.Classes.Forms
 
         public void SyncMenuError(Exception ex)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                MessageBox.Show(string.Format("An error occured in SyncMenu: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void SyncEmptyError(Exception ex)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshDevice(SyncDevice device)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                lblTitle.Text = "Sync Library With " + device.Name;
+                this.Text = "Sync Library With " + device.Name;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshLoading(bool isLoading, int progressPercentage)

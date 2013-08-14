@@ -87,6 +87,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Forms\BaseForm.cs">

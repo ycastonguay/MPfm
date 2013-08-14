@@ -23,6 +23,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 
@@ -37,6 +38,24 @@ namespace MPfm.Windows.Classes.Forms
             ViewIsReady();
         }
 
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count == 0)
+                return;
+
+            OnConnectDevice((SyncDevice) listView.SelectedItems[0].Tag);
+        }
+
+        private void btnConnectManual_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRefreshDevices_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #region ISyncView implementation
 
         public Action<SyncDevice> OnConnectDevice { get; set; }
@@ -46,18 +65,54 @@ namespace MPfm.Windows.Classes.Forms
 
         public void SyncError(Exception ex)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                MessageBox.Show(string.Format("An error occured in Sync: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshIPAddress(string address)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                lblSubtitle.Text = address;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshDiscoveryProgress(float percentageDone, string status)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                progressBar.Value = (int)percentageDone;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshDevices(IEnumerable<SyncDevice> devices)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                listView.Items.Clear();
+                foreach (var device in devices)
+                    listView.Items.Add(new ListViewItem(device.Name, 0) {
+                        Tag = device
+                    });
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshDevicesEnded()

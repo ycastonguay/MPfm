@@ -105,7 +105,6 @@ namespace MPfm.WindowsControls
         /// </summary>
         public Label()
         {
-            // Set control styles
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
                 ControlStyles.Opaque | ControlStyles.UserPaint | ControlStyles.DoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);        
             
@@ -119,88 +118,68 @@ namespace MPfm.WindowsControls
         /// <param name="pe">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs pe)
         {
-            try
-            {                
-                // Get graphics from paint event
-                Graphics g = pe.Graphics;
+            // Get graphics from paint event
+            Graphics g = pe.Graphics;
 
-                // Use anti-aliasing?
-                if (theme.TextGradient.Font.UseAntiAliasing)
+            // Use anti-aliasing?
+            if (theme.TextGradient.Font.UseAntiAliasing)
+                PaintHelper.SetAntiAliasing(g);
+
+            // If the embedded font could not be loaded, get the default font
+            Font font = PaintHelper.LoadFont(embeddedFonts, theme.TextGradient.Font);
+            if (font == null)
+                font = this.Font;
+
+            // Check for auto-size
+            if (isAutoSized)
+            {
+                // Measure string                
+                StringFormat format = new StringFormat();
+                format.FormatFlags = StringFormatFlags.NoWrap;
+                SizeF sizeString = g.MeasureString(Text, font, new PointF(0, 0), format);
+
+                // Add padding
+                Size sizeControl = sizeString.ToSize();
+                sizeControl.Width += theme.TextGradient.Padding * 2;
+                sizeControl.Height += theme.TextGradient.Padding * 2;
+
+                // Make sure the control has a minimum of 1px/1px
+                if (sizeControl.Width == 0)
+                    sizeControl.Width = 1;
+                if (sizeControl.Height == 0)
+                    sizeControl.Height = 1;
+
+                // Resize control only if size is different
+                if (Size.Width != sizeControl.Width ||
+                    Size.Height != sizeControl.Height)
                 {
-                    // Set anti-aliasing
-                    PaintHelper.SetAntiAliasing(g);
-                }
-
-                // Get font
-                Font font = PaintHelper.LoadFont(embeddedFonts, theme.TextGradient.Font);
-
-                // If the embedded font could not be loaded, get the default font
-                if (font == null)
-                {
-                    // Use default Font instead
-                    font = this.Font;
-                }
-
-                // Check for auto-size
-                if (isAutoSized)
-                {
-                    // Measure string                
-                    StringFormat format = new StringFormat();
-                    format.FormatFlags = StringFormatFlags.NoWrap;
-                    SizeF sizeString = g.MeasureString(Text, font, new PointF(0, 0), format);
-
-                    // Add padding
-                    Size sizeControl = sizeString.ToSize();
-                    sizeControl.Width += theme.TextGradient.Padding * 2;
-                    sizeControl.Height += theme.TextGradient.Padding * 2;
-
-                    // Make sure the control has a minimum of 1px/1px
-                    if (sizeControl.Width == 0)
-                    {
-                        sizeControl.Width = 1;
-                    }
-                    if (sizeControl.Height == 0)
-                    {
-                        sizeControl.Height = 1;
-                    }
-
-                    // Resize control only if size is different
-                    if (Size.Width != sizeControl.Width ||
-                        Size.Height != sizeControl.Height)
-                    {
-                        // Update control size
-                        this.Size = sizeControl;                        
-                    }   
-                }
-
-                // Check if the gradient background should be used
-                if (!theme.IsBackgroundTransparent)
-                {
-                    // Draw background gradient (cover -1 pixel to fix graphic bug) 
-                    Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
-                    Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
-                    PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, theme.TextGradient);                    
-                }
-                else
-                {
-                    // Call paint background
-                    base.OnPaintBackground(pe); // CPU intensive when transparent
-                }
-
-                // Render text                
-                PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color, theme.TextGradient.Padding);
-
-                // Dispose font
-                if (font != null && font != this.Font)
-                {
-                    // Dispose Font
-                    font.Dispose();
-                    font = null;
-                }
+                    // Update control size
+                    this.Size = sizeControl;                        
+                }   
             }
-            catch
-            {                
-                throw;
+
+            // Check if the gradient background should be used
+            if (!theme.IsBackgroundTransparent)
+            {
+                // Draw background gradient (cover -1 pixel to fix graphic bug) 
+                Rectangle rectBackground = new Rectangle(-1, -1, ClientRectangle.Width + 2, ClientRectangle.Height + 2);
+                Rectangle rectBorder = new Rectangle(0, 0, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
+                PaintHelper.RenderBackgroundGradient(g, rectBackground, rectBorder, theme.TextGradient);                    
+            }
+            else
+            {
+                // Call paint background
+                base.OnPaintBackground(pe); // CPU intensive when transparent
+            }
+
+            // Render text                
+            PaintHelper.RenderTextWithAlignment(g, ClientRectangle, font, Text, TextAlign, theme.TextGradient.Font.Color, theme.TextGradient.Padding);
+
+            // Dispose font
+            if (font != Font)
+            {
+                font.Dispose();
+                font = null;
             }
         }
 

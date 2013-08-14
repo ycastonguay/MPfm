@@ -37,6 +37,7 @@ namespace MPfm.Windows.Classes.Specifications
         string _deviceName = string.Empty;
         public string GetDeviceName()
         {
+            _deviceName = System.Environment.MachineName;
             return _deviceName;
         }
 
