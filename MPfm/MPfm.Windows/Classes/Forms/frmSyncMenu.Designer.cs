@@ -433,7 +433,9 @@
             // 
             this.imageListIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListIcons.ImageStream")));
             this.imageListIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListIcons.Images.SetKeyName(0, "android.png");
+            this.imageListIcons.Images.SetKeyName(0, "icon_user_16.png");
+            this.imageListIcons.Images.SetKeyName(1, "icon_vinyl_16.png");
+            this.imageListIcons.Images.SetKeyName(2, "icon_song_16.png");
             // 
             // tableLayoutPanel1
             // 
@@ -873,16 +875,16 @@
             this.btnSync.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSync.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSync.Image = null;
+            this.btnSync.Image = global::MPfm.Windows.Properties.Resources.icon_button_download_16;
             this.btnSync.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSync.IsAutoSized = true;
-            this.btnSync.Location = new System.Drawing.Point(689, 289);
+            this.btnSync.Location = new System.Drawing.Point(666, 289);
             this.btnSync.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.btnSync.Name = "btnSync";
-            this.btnSync.Size = new System.Drawing.Size(40, 26);
+            this.btnSync.Size = new System.Drawing.Size(62, 28);
             this.btnSync.TabIndex = 96;
             this.btnSync.Text = "Sync";
-            this.btnSync.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnSync.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient23.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient23.BorderWidth = 1;
             textGradient23.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));

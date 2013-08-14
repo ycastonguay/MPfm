@@ -289,6 +289,19 @@
     <Content Include="Classes\Configuration\ExampleConfig.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\icon_android_16.png" />
+    <Content Include="Resources\icon_button_cancel_16.png" />
+    <Content Include="Resources\icon_button_connect_16.png" />
+    <Content Include="Resources\icon_button_download_16.png" />
+    <Content Include="Resources\icon_button_refresh_16.png" />
+    <Content Include="Resources\icon_linux_16.png" />
+    <Content Include="Resources\icon_osx_16.png" />
+    <Content Include="Resources\icon_phone_16.png" />
+    <Content Include="Resources\icon_song_16.png" />
+    <Content Include="Resources\icon_tablet_16.png" />
+    <Content Include="Resources\icon_user_16.png" />
+    <Content Include="Resources\icon_vinyl_16.png" />
+    <Content Include="Resources\icon_windows_16.png" />
     <None Include="Lib\bass.dll" />
     <None Include="Lib\bassenc.dll" />
     <None Include="Lib\bassflac.dll" />

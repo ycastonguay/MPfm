@@ -105,7 +105,7 @@ namespace MPfm.Windows.Classes.Forms
             MethodInvoker methodUIUpdate = delegate {
                 listView.Items.Clear();
                 foreach (var device in devices)
-                    listView.Items.Add(new ListViewItem(device.Name, 0) {
+                    listView.Items.Add(new ListViewItem(device.Name, (int)device.DeviceType) {
                         Tag = device
                     });
             };

@@ -103,7 +103,12 @@
             // 
             this.imageListIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListIcons.ImageStream")));
             this.imageListIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListIcons.Images.SetKeyName(0, "android.png");
+            this.imageListIcons.Images.SetKeyName(0, "icon_tablet_16.png");
+            this.imageListIcons.Images.SetKeyName(1, "icon_linux_16.png");
+            this.imageListIcons.Images.SetKeyName(2, "icon_osx_16.png");
+            this.imageListIcons.Images.SetKeyName(3, "icon_windows_16.png");
+            this.imageListIcons.Images.SetKeyName(4, "icon_phone_16.png");
+            this.imageListIcons.Images.SetKeyName(5, "icon_android_16.png");
             // 
             // panelBackground
             // 
@@ -293,7 +298,7 @@
             this.btnRefreshDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRefreshDevices.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRefreshDevices.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefreshDevices.Image = global::MPfm.Windows.Properties.Resources.cancel;
+            this.btnRefreshDevices.Image = global::MPfm.Windows.Properties.Resources.icon_button_cancel_16;
             this.btnRefreshDevices.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRefreshDevices.IsAutoSized = true;
             this.btnRefreshDevices.Location = new System.Drawing.Point(13, 210);
@@ -371,7 +376,7 @@
             this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConnect.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Image = global::MPfm.Windows.Properties.Resources.accept;
+            this.btnConnect.Image = global::MPfm.Windows.Properties.Resources.icon_button_connect_16;
             this.btnConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnConnect.IsAutoSized = true;
             this.btnConnect.Location = new System.Drawing.Point(484, 210);

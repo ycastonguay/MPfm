@@ -177,33 +177,39 @@ namespace MPfm.Windows.Classes.Forms
                 foreach (var item in items)
                 {
                     string title = string.Empty;
+                    int iconId = -1;
                     switch (item.ItemType)
                     {
                         case SyncMenuItemEntityType.Artist:
                             title = item.ArtistName;
+                            iconId = 0;
                             break;
                         case SyncMenuItemEntityType.Album:
                             title = item.AlbumTitle;
+                            iconId = 1;
                             break;
                         case SyncMenuItemEntityType.Song:
                             if (item.Song != null)
                                 title = item.Song.Title;
+                            iconId = 2;
                             break;
                     }
 
                     // Add sub node
-                    var treeNode = new TreeNode(title, 0, 0) {
+                    var treeNode = new TreeNode(title, iconId, iconId) {
                         Tag = item
                     };
                     node.Nodes.Add(treeNode);
 
                     // Add dummy node
                     if (item.ItemType != SyncMenuItemEntityType.Song)
-                        treeNode.Nodes.Add(new TreeNode("dummy", 0, 0));
+                        treeNode.Nodes.Add(new TreeNode("dummy", -1, -1));
                 }
 
-                //node.NodeFont
-                //node.Expand();
+                // Remove dummy node
+                foreach (TreeNode subNode in node.Nodes)
+                    if (subNode.Text == "dummy")
+                        subNode.Remove();
             };
 
             if (InvokeRequired)
