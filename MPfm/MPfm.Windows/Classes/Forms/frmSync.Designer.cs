@@ -168,7 +168,7 @@
             this.lblTitle.Location = new System.Drawing.Point(10, 6);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(402, 22);
+            this.lblTitle.Size = new System.Drawing.Size(233, 22);
             this.lblTitle.TabIndex = 108;
             this.lblTitle.Text = "Sync Library With Other Devices";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -200,7 +200,7 @@
             this.lblSubtitle.Location = new System.Drawing.Point(10, 25);
             this.lblSubtitle.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.lblSubtitle.Name = "lblSubtitle";
-            this.lblSubtitle.Size = new System.Drawing.Size(402, 22);
+            this.lblSubtitle.Size = new System.Drawing.Size(233, 22);
             this.lblSubtitle.TabIndex = 107;
             this.lblSubtitle.Text = "My IP address is:";
             this.lblSubtitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -226,19 +226,19 @@
             // 
             // btnConnectManual
             // 
-            this.btnConnectManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnConnectManual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConnectManual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnConnectManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnectManual.Image = null;
+            this.btnConnectManual.Image = global::MPfm.Windows.Properties.Resources.icon_button_connect_16;
             this.btnConnectManual.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnConnectManual.IsAutoSized = true;
-            this.btnConnectManual.Location = new System.Drawing.Point(446, 21);
+            this.btnConnectManual.Location = new System.Drawing.Point(291, 213);
             this.btnConnectManual.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.btnConnectManual.Name = "btnConnectManual";
-            this.btnConnectManual.Size = new System.Drawing.Size(168, 26);
+            this.btnConnectManual.Size = new System.Drawing.Size(190, 28);
             this.btnConnectManual.TabIndex = 96;
             this.btnConnectManual.Text = "Connect manually to a device";
-            this.btnConnectManual.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnConnectManual.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient3.BorderWidth = 1;
             textGradient3.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
@@ -301,7 +301,7 @@
             this.btnRefreshDevices.Image = global::MPfm.Windows.Properties.Resources.icon_button_cancel_16;
             this.btnRefreshDevices.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRefreshDevices.IsAutoSized = true;
-            this.btnRefreshDevices.Location = new System.Drawing.Point(13, 210);
+            this.btnRefreshDevices.Location = new System.Drawing.Point(13, 213);
             this.btnRefreshDevices.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnRefreshDevices.Name = "btnRefreshDevices";
             this.btnRefreshDevices.Size = new System.Drawing.Size(113, 28);
@@ -364,11 +364,10 @@
             // 
             // progressBar
             // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(139, 214);
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(474, 25);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(331, 21);
+            this.progressBar.Size = new System.Drawing.Size(141, 18);
             this.progressBar.TabIndex = 95;
             // 
             // btnConnect
@@ -379,7 +378,7 @@
             this.btnConnect.Image = global::MPfm.Windows.Properties.Resources.icon_button_connect_16;
             this.btnConnect.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnConnect.IsAutoSized = true;
-            this.btnConnect.Location = new System.Drawing.Point(484, 210);
+            this.btnConnect.Location = new System.Drawing.Point(484, 213);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(131, 28);

@@ -30,8 +30,11 @@ namespace MPfm.MVP.Views
 	{
         Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
         Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        Action<AudioFile> OnRemoveItem { get; set; }
         Action OnSync { get; set; }
         Action OnSelectButtonClick { get; set; }
+        Action OnSelectAll { get; set; }
+        Action OnRemoveAll { get; set; }
 
         void SyncMenuError(Exception ex);
 	    void SyncEmptyError(Exception ex);
@@ -39,6 +42,7 @@ namespace MPfm.MVP.Views
         void RefreshLoading(bool isLoading, int progressPercentage);
         void RefreshSelectButton(string text);
         void RefreshItems(List<SyncMenuItemEntity> items);
+        void RefreshSelection(List<AudioFile> audioFiles);
         void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
         void InsertItems(int index, List<SyncMenuItemEntity> items, object userData);
         void RemoveItems(int index, int count, object userData);

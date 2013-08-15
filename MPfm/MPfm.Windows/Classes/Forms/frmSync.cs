@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Threading;
@@ -31,11 +32,28 @@ namespace MPfm.Windows.Classes.Forms
 {
     public partial class frmSync : BaseForm, ISyncView
     {
+        bool _isDiscovering;
+
         public frmSync(Action<IBaseView> onViewReady)
             : base(onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
+        }
+
+        private void RefreshDeviceListButton()
+        {
+            //string[] all = System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceNames();
+            if (_isDiscovering)
+            {
+                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_cancel_16);  //Assembly.GetEntryAssembly().GetManifestResourceStream("MPfm.Windows.Resources.icon_button_cancel_16.png"));
+                btnRefreshDevices.Text = "Cancel refresh";
+            }
+            else
+            {
+                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_refresh_16);//(Assembly.GetEntryAssembly().GetManifestResourceStream("MPfm.Windows.Resources.icon_button_refresh_16.png"));
+                btnRefreshDevices.Text = "Refresh devices";
+            }
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -54,7 +72,10 @@ namespace MPfm.Windows.Classes.Forms
 
         private void btnRefreshDevices_Click(object sender, EventArgs e)
         {
-
+            if (_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();
         }
 
         #region ISyncView implementation
@@ -90,7 +111,13 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshDiscoveryProgress(float percentageDone, string status)
         {
-            MethodInvoker methodUIUpdate = delegate {
+            MethodInvoker methodUIUpdate = delegate {                
+                if (!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    progressBar.Visible = true;
+                    RefreshDeviceListButton();
+                }
                 progressBar.Value = (int)percentageDone;
             };
 
@@ -103,11 +130,13 @@ namespace MPfm.Windows.Classes.Forms
         public void RefreshDevices(IEnumerable<SyncDevice> devices)
         {
             MethodInvoker methodUIUpdate = delegate {
+                listView.BeginUpdate();
                 listView.Items.Clear();
                 foreach (var device in devices)
                     listView.Items.Add(new ListViewItem(device.Name, (int)device.DeviceType) {
                         Tag = device
                     });
+                listView.EndUpdate();
             };
 
             if (InvokeRequired)
@@ -118,6 +147,16 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshDevicesEnded()
         {
+            MethodInvoker methodUIUpdate = delegate {
+                _isDiscovering = false;
+                progressBar.Visible = false;
+                RefreshDeviceListButton();
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void SyncDevice(SyncDevice device)

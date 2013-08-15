@@ -111,7 +111,7 @@ namespace MPfm.MVP.Services
             try
             {
                 // Check if the database file exists
-                Tracing.Log("InitializationService.CreateLibrary -- Checking if the database file exists...");
+                Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", ConfigurationHelper.DatabaseFilePath));
                 if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
                 {                    
                     // Create database file

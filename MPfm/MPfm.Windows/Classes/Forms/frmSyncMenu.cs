@@ -20,12 +20,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Library.Objects;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Windows.Classes.Forms
 {
@@ -62,12 +64,41 @@ namespace MPfm.Windows.Classes.Forms
             OnExpandItem(item, e.Node);
         }
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (treeView.SelectedNode == null)
+                return;
+
+            OnSelectItem((SyncMenuItemEntity) treeView.SelectedNode.Tag);
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (listViewSelection.SelectedItems.Count == 0)
+                return;
+
+            OnRemoveItem((AudioFile)listViewSelection.SelectedItems[0].Tag);
+        }
+
+        private void btnAddAll_Click(object sender, EventArgs e)
+        {
+            OnSelectAll();
+        }
+
+        private void btnRemoveAll_Click(object sender, EventArgs e)
+        {
+            OnRemoveAll();
+        }
+
         #region ISyncMenuView implementation
 
         public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
         public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        public Action<AudioFile> OnRemoveItem { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
+        public Action OnSelectAll { get; set; }
+        public Action OnRemoveAll { get; set; }
 
         public void SyncMenuError(Exception ex)
         {
@@ -134,6 +165,7 @@ namespace MPfm.Windows.Classes.Forms
         {
             MethodInvoker methodUIUpdate = delegate
             {
+                treeView.BeginUpdate();
                 treeView.Nodes.Clear();
                 foreach (var item in items)
                 {
@@ -157,6 +189,7 @@ namespace MPfm.Windows.Classes.Forms
                     treeView.Nodes.Add(treeNode);
                     treeNode.Nodes.Add(new TreeNode("dummy", 0, 0));
                 }
+                treeView.EndUpdate();
             };
 
             if (InvokeRequired)
@@ -167,6 +200,39 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                lblTotal.Text = title;
+                lblFreeSpace.Text = subtitle;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
+        }
+
+        public void RefreshSelection(List<AudioFile> audioFiles)
+        {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                listViewSelection.Items.Clear();
+                listViewSelection.BeginUpdate();
+                foreach (var audioFile in audioFiles)
+                {
+                    //var split = audioFile.FilePath.Split(new char[2] {'/', '\\'}, StringSplitOptions.RemoveEmptyEntries);
+                    //string title = split[split.Length - 1];
+                    string title = string.Format("{0} / {1} / {2}. {3}", audioFile.ArtistName, audioFile.AlbumTitle, audioFile.TrackNumber, audioFile.Title);
+                    listViewSelection.Items.Add(new ListViewItem(title, 0) {
+                        Tag = audioFile
+                    });
+                }
+                listViewSelection.EndUpdate();
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void InsertItems(int index, List<SyncMenuItemEntity> items, object userData)
@@ -223,7 +289,6 @@ namespace MPfm.Windows.Classes.Forms
         }
 
         #endregion
-
 
     }
 }

@@ -62,15 +62,18 @@ namespace MPfm.MVP.Presenters
         public override void BindView(ISyncMenuView view)
         {
             view.OnSelectItem = SelectItem;
+            view.OnRemoveItem = RemoveItem;
             view.OnExpandItem = ExpandItem;
             view.OnSync = Sync;
             view.OnSelectButtonClick = SelectButtonClick;
+            view.OnSelectAll = SelectAll;
+            view.OnRemoveAll = RemoveAll;
             base.BindView(view);
 
             Initialize();
-        }       
+        }
 
-        private void Initialize()
+	    private void Initialize()
         {
 
         }
@@ -98,7 +101,7 @@ namespace MPfm.MVP.Presenters
                 Console.WriteLine("SyncMenuPresenter - HandleOnReceivedIndex - Refrehsing view and sync totals...");
                 View.RefreshLoading(false, 0);
                 RefreshSyncTotal();
-                View.RefreshItems(_items);
+                RefreshItems();
             }
             catch(Exception ex)
             {
@@ -123,24 +126,9 @@ namespace MPfm.MVP.Presenters
             try
             {
                 if(_audioFilesToSync.Count > 0)
-                {
-                    // Reset selection
-                    foreach(var item in _items)
-                        item.Selection = StateSelectionType.None;
-                    _audioFilesToSync.Clear();
-                    View.RefreshSelectButton("Select all");
-                }
+                    RemoveAll();
                 else
-                {
-                    // Select all items
-                    foreach(var item in _items)
-                        item.Selection = StateSelectionType.Selected;
-                    _audioFilesToSync.AddRange(_syncClientService.GetAudioFiles());
-                    View.RefreshSelectButton("Reset selection");
-                }
-
-                View.RefreshItems(_items);
-                RefreshSyncTotal();
+                    SelectAll();
             }
             catch(Exception ex)
             {
@@ -262,12 +250,44 @@ namespace MPfm.MVP.Presenters
                 }
 
                 RefreshSyncTotal();
-                View.RefreshItems(_items);
+                RefreshItems();
             }
             catch(Exception ex)
             {
                 Console.WriteLine("SyncMenuPresenter - SelectItem - Exception: {0}", ex);
             }
+        }
+
+        private void RemoveItem(AudioFile audioFile)
+        {
+            _audioFilesToSync.Remove(audioFile);
+            View.RefreshSelection(_audioFilesToSync);
+        }
+
+        private void RemoveAll()
+        {
+            // Reset selection
+            foreach (var item in _items)
+                item.Selection = StateSelectionType.None;
+            _audioFilesToSync.Clear();
+            View.RefreshSelectButton("Select all");
+
+            // Refresh view
+            RefreshItems();
+            RefreshSyncTotal();
+        }
+
+        private void SelectAll()
+        {
+            // Select all items
+            foreach (var item in _items)
+                item.Selection = StateSelectionType.Selected;
+            _audioFilesToSync.AddRange(_syncClientService.GetAudioFiles());
+            View.RefreshSelectButton("Reset selection");
+
+            // Refresh view
+            RefreshItems();
+            RefreshSyncTotal();
         }
 
         private void ExpandItem(SyncMenuItemEntity item, object userData)
@@ -306,7 +326,7 @@ namespace MPfm.MVP.Presenters
                                 });
                             }
 
-                            _items.InsertRange(index, items);
+                            //_items.InsertRange(index, items);
                             View.InsertItems(index + 1, items, userData);
                         }
                         break;
@@ -399,6 +419,19 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Console.WriteLine("SyncMenuPresenter - SetUrl - Exception: {0}", ex);
+            }
+        }
+
+        private void RefreshItems()
+        {
+            try
+            {
+                View.RefreshSelection(_audioFilesToSync);
+                View.RefreshItems(_items);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SyncMenuPresenter - RefreshItems - Exception: {0}", ex);
             }
         }
 

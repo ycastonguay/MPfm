@@ -37,24 +37,66 @@ namespace MPfm.Windows.Classes.Forms
             ViewIsReady();
         }
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #region ISyncDownloadView implementation
 
         public Action OnCancelDownload { get; set; }
 
         public void SyncDownloadError(Exception ex)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                MessageBox.Show(string.Format("An error occured in Syncdownload: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshDevice(SyncDevice device)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lblTitle.Text = "Syncing Library With " + device.Name;
+                this.Text = "Syncing Library With " + device.Name;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                progressBar.Value = (int)entity.PercentageDone;
+                lblStatus.Text = entity.Status;
+                lblDownloadSpeedValue.Text = entity.DownloadSpeed;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void SyncCompleted()
         {
+            MethodInvoker methodUIUpdate = delegate {
+                MessageBox.Show(string.Format("The sync has completed successfully."), "Sync completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         #endregion

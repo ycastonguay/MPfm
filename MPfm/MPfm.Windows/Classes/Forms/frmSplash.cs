@@ -154,23 +154,23 @@ namespace MPfm.Windows.Classes.Forms
             windowSplash.fadingOut = true;
         }
 
-        /// <summary>
-        /// Sets the status message of the splash screen.
-        /// </summary>
-        /// <param name="status">Status Message</param>
-        public static void SetStatus(string status)
-        {
-            windowSplash.status = status;
-        }
+        ///// <summary>
+        ///// Sets the status message of the splash screen.
+        ///// </summary>
+        ///// <param name="status">Status Message</param>
+        //public static void SetStatus(string status)
+        //{
+        //    windowSplash.status = status;
+        //}
 
-        /// <summary>
-        /// Sets an error message on the splash screen.
-        /// </summary>
-        /// <param name="error">Error Message</param>
-        public static void SetError(string error)
-        {
-            windowSplash.error = error;
-        }
+        ///// <summary>
+        ///// Sets an error message on the splash screen.
+        ///// </summary>
+        ///// <param name="error">Error Message</param>
+        //public static void SetError(string error)
+        //{
+        //    windowSplash.error = error;
+        //}
 
         #endregion
 

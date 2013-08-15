@@ -144,7 +144,7 @@ namespace MPfm.MVP.Navigation
             
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
-                {                    
+                {
                     _syncPresenter = Bootstrapper.GetContainer().Resolve<ISyncPresenter>();
                     _syncPresenter.BindView((ISyncView)view);
                 };
