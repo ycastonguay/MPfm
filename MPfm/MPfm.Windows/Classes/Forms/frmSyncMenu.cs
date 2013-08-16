@@ -240,7 +240,7 @@ namespace MPfm.Windows.Classes.Forms
                 methodUIUpdate.Invoke();
         }
 
-        public void InsertItems(int index, List<SyncMenuItemEntity> items, object userData)
+        public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)
         {
             MethodInvoker methodUIUpdate = delegate
             {

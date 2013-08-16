@@ -35,6 +35,7 @@ namespace MPfm.Windows.Classes.Forms
         {
             InitializeComponent();
             ViewIsReady();
+            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -77,8 +78,12 @@ namespace MPfm.Windows.Classes.Forms
         {
             MethodInvoker methodUIUpdate = delegate {
                 progressBar.Value = (int)entity.PercentageDone;
+                progressBarCurrentFile.Value = (int)entity.DownloadPercentageDone;
                 lblStatus.Text = entity.Status;
                 lblDownloadSpeedValue.Text = entity.DownloadSpeed;
+                lblErrorsValue.Text = entity.Errors.ToString();
+                lblFilesDownloadedValue.Text = string.Format("{0}/{1}", entity.FilesDownloaded, entity.TotalFiles);
+                lblCurrentFile.Text = entity.DownloadFileName;
             };
 
             if (InvokeRequired)

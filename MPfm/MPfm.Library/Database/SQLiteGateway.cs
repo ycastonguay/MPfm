@@ -451,41 +451,34 @@ namespace MPfm.Library.Database
                         PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
                         if (info != null)
                         {
-                            try
-                            {                         
-                                // Set value to null
-                                if (fieldValue is System.DBNull)
-                                    fieldValue = null;                                
+                            // Set value to null
+                            if (fieldValue is System.DBNull)
+                                fieldValue = null;                                
 
-                                // Check if the type is an enum                                    
-                                if (info.PropertyType.IsEnum)
-                                {
-                                    // Try to cast dynamically
-                                    MethodInfo castMethod = typeof(Conversion).GetMethod("GetEnumValue").MakeGenericMethod(info.PropertyType);
-                                    fieldValue = castMethod.Invoke(null, new object[] { fieldValue.ToString() });
-                                }                                
-                                else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
-                                {
-                                    // Guid aren't supported in SQLite, so they are stored as strings.
-                                    fieldValue = new Guid(fieldValue.ToString());                                    
-                                }
-                                else if (info.PropertyType.FullName != fieldType.FullName)
-                                {
-                                    // Call a convert method in the Convert static class, if available
-                                    MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
-                                    if (castMethod != null)
-                                    {
-                                        fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
-                                    }
-                                }
-
-                                // Set property value
-                                info.SetValue(data, fieldValue, null);
-                            }
-                            catch
+                            // Check if the type is an enum                                    
+                            if (info.PropertyType.IsEnum)
                             {
-                                throw;
+                                // Try to cast dynamically
+                                MethodInfo castMethod = typeof(Conversion).GetMethod("GetEnumValue").MakeGenericMethod(info.PropertyType);
+                                fieldValue = castMethod.Invoke(null, new object[] { fieldValue.ToString() });
+                            }                                
+                            else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
+                            {
+                                // Guid aren't supported in SQLite, so they are stored as strings.
+                                fieldValue = new Guid(fieldValue.ToString());                                    
                             }
+                            else if (info.PropertyType.FullName != fieldType.FullName)
+                            {
+                                // Call a convert method in the Convert static class, if available
+                                MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
+                                if (castMethod != null)
+                                {
+                                    fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
+                                }
+                            }
+
+                            // Set property value
+                            info.SetValue(data, fieldValue, null);
                         }
                     }
 
@@ -495,10 +488,10 @@ namespace MPfm.Library.Database
                 
                 return list;
             }
-            catch
-            {
-                throw;
-            }
+            //catch
+            //{
+            //    throw;
+            //}
             finally
             {
                 // Clean up reader and connection
