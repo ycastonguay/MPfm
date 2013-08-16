@@ -193,7 +193,7 @@
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="243234358">
-								<int key="NSCellFlags">67633152</int>
+								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
 								<string key="NSContents">Connect to device</string>
 								<reference key="NSSupport" ref="470112485"/>

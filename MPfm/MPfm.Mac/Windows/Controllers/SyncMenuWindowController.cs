@@ -73,6 +73,7 @@ namespace MPfm.Mac
 
         public override void Close()
         {
+            // TODO: Fix this, it doesn't work very well (i.e. not always called)
             Console.WriteLine("SyncMenuWindowController - Close");
             NSNotificationCenter.DefaultCenter.RemoveObserver(this);
             base.Close();
@@ -128,6 +129,11 @@ namespace MPfm.Mac
             OnRemoveAll();
         }
 
+        partial void actionSync(NSObject sender)
+        {
+            OnSync();
+        }
+
         #region NSTableView delegate / datasource
 
         [Export ("numberOfRowsInTableView:")]
@@ -135,12 +141,6 @@ namespace MPfm.Mac
         {
             return _selection.Count;
         }
-
-//        [Export ("tableView:heightOfRow:")]
-//        public float GetRowHeight(NSTableView tableView, int row)
-//        {
-//            return 20;
-//        }
 
         [Export ("tableView:dataCellForTableColumn:row:")]
         public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
@@ -157,12 +157,6 @@ namespace MPfm.Mac
             view.TextField.StringValue = title;
             view.TextField.Font = NSFont.FromFontName("Junction", 11);
             return view;
-        }
-
-        [Export ("tableViewSelectionDidChange:")]
-        public void SelectionDidChange(NSNotification notification)
-        {         
-            //btnConnect.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
         }
 
         #endregion
@@ -217,7 +211,6 @@ namespace MPfm.Mac
         [Export ("outlineView:objectValueForTableColumn:byItem:")]
         public NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn forTableColumn, NSObject byItem)
         {
-            //return byItem;
             var item = (SyncMenuItem)byItem;
             return item.StringValue;
         }
@@ -253,11 +246,11 @@ namespace MPfm.Mac
                 {
                     case SyncMenuItemEntityType.Artist:
                         view.TextField.StringValue = syncMenuItem.Entity.ArtistName;
-                        view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_user");
+                        view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_user");
                         break;
                     case SyncMenuItemEntityType.Album:
                         view.TextField.StringValue = syncMenuItem.Entity.AlbumTitle;
-                        view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
+                        view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_vinyl");
                         break;
                     case SyncMenuItemEntityType.Song:
                         view.ImageView.Image = null;
@@ -266,21 +259,6 @@ namespace MPfm.Mac
                         break;
                 }
             } 
-            else if (tableColumnIdentifier == "columnSelection")
-            {
-                // Create view
-                view = (NSTableCellView)outlineView.MakeView("cellSelection", this);
-
-                foreach (var subview in view.Subviews)
-                {
-                    //Console.WriteLine("#####@$!@$@$ " + subview.GetType().FullName);// + " " + ((NSButton)subview).StringValue);
-                }
-                //view.TextField.Font = NSFont.FromFontName("Junction", 11);
-
-                //view.TextField.StringValue = "hello";
-                //string aaa = "string.";
-
-            }
 
             return view;
         }
@@ -300,16 +278,14 @@ namespace MPfm.Mac
         public void SyncMenuError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                string message = string.Format("An error occured in SyncMenu: {0}", ex);
-                Tracing.Log(message);
-                CocoaHelper.ShowCriticalAlert(message);
+                CocoaHelper.ShowCriticalAlert("Error", string.Format("An error occured in SyncMenu: {0}", ex));
             });
         }
 
         public void SyncEmptyError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                CocoaHelper.ShowCriticalAlert(ex.Message);
+                CocoaHelper.ShowCriticalAlert("Error", ex.Message);
             });
         }
 
@@ -338,6 +314,7 @@ namespace MPfm.Mac
 
         public void RefreshSelectButton(string text)
         {
+            // Not used on Mac.
         }
 
         public void RefreshItems(List<SyncMenuItemEntity> items)

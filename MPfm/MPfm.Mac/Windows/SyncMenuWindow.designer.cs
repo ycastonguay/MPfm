@@ -24,9 +24,6 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnSync { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnSelectAll { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSTextField lblTotal { get; set; }
 
 		[Outlet]
@@ -61,6 +58,9 @@ namespace MPfm.Mac
 
 		[Action ("actionRemoveAll:")]
 		partial void actionRemoveAll (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSync:")]
+		partial void actionSync (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -82,11 +82,6 @@ namespace MPfm.Mac
 			if (btnSync != null) {
 				btnSync.Dispose ();
 				btnSync = null;
-			}
-
-			if (btnSelectAll != null) {
-				btnSelectAll.Dispose ();
-				btnSelectAll = null;
 			}
 
 			if (lblTotal != null) {

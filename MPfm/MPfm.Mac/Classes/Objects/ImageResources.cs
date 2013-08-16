@@ -117,7 +117,15 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_button_cancel"),
                 NSImage.ImageNamed("icon_button_connect"),
                 NSImage.ImageNamed("icon_button_download"),
-                NSImage.ImageNamed("icon_button_refresh")
+                NSImage.ImageNamed("icon_button_refresh"),
+                NSImage.ImageNamed("icon_android"),
+                NSImage.ImageNamed("icon_linux"),
+                NSImage.ImageNamed("icon_osx"),
+                NSImage.ImageNamed("icon_phone"),
+                NSImage.ImageNamed("icon_tablet"),
+                NSImage.ImageNamed("icon_user"),
+                NSImage.ImageNamed("icon_vinyl"),
+                NSImage.ImageNamed("icon_windows")
             };
 
             imageSplash = new NSImage(NSBundle.MainBundle.PathForResource("Splash", "png", "Resources", string.Empty));

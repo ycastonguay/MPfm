@@ -19,46 +19,56 @@ using System;
 using System.Collections.Generic;
 using MPfm.MVP.Views;
 using MPfm.Library.Objects;
+using MonoMac.AppKit;
+using MPfm.Mac.Classes.Objects;
+using System.Linq;
+using MPfm.Mac.Classes.Helpers;
+using MPfm.Core;
+using MonoMac.Foundation;
 
 namespace MPfm.Mac
 {
     public partial class SyncDownloadWindowController : BaseWindowController, ISyncDownloadView
     {
-        #region Constructors
-
-        // Called when created from unmanaged code
         public SyncDownloadWindowController(IntPtr handle) 
             : base (handle)
         {
             Initialize();
         }
 
-        // Call to load from the XIB/NIB file
         public SyncDownloadWindowController(Action<IBaseView> onViewReady)
             : base ("SyncDownloadWindow", onViewReady)
         {
             Initialize();
         }
 
-        // Shared initialization code
-        void Initialize()
+        private void Initialize()
         {
+            this.Window.Center();
+            this.Window.MakeKeyAndOrderFront(this);
         }
 
-        #endregion
-
-        //strongly typed window accessor
-        public new SyncDownloadWindow Window
+        public override void WindowDidLoad()
         {
-            get
-            {
-                return (SyncDownloadWindow)base.Window;
-            }
+            base.WindowDidLoad();
+            LoadFontsAndImages();
+            OnViewReady.Invoke(this);
         }
 
-        public override void AwakeFromNib()
+        private void LoadFontsAndImages()
         {
-            base.AwakeFromNib();
+            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
+            lblSubtitle.Font = NSFont.FromFontName("Junction", 12);
+            lblStatus.Font = NSFont.FromFontName("Junction", 12);
+            lblDownloadSpeed.Font = NSFont.FromFontName("Junction", 12);
+            lblDownloadSpeedValue.Font = NSFont.FromFontName("Junction", 16);
+
+            btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
+        }
+
+        partial void actionCancel(NSObject sender)
+        {
+            OnCancelDownload();
         }
 
         #region ISyncDownloadView implementation
@@ -67,18 +77,42 @@ namespace MPfm.Mac
 
         public void SyncDownloadError(Exception ex)
         {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowCriticalAlert("Error", string.Format("An error occured in SyncMenu: {0}", ex));
+            });
         }
 
         public void RefreshDevice(SyncDevice device)
         {
+            InvokeOnMainThread(delegate {
+                lblTitle.StringValue = "Syncing Library With " + device.Name;
+                Window.Title = "Syncing Library With " + device.Name;
+            });
         }
 
         public void RefreshStatus(SyncClientDownloadAudioFileProgressEntity entity)
         {
+            InvokeOnMainThread(delegate {
+                lblStatus.StringValue = entity.Status;
+                lblDownloadSpeedValue.StringValue = entity.DownloadSpeed;
+                progressIndicator.DoubleValue = entity.PercentageDone;
+            });
         }
 
         public void SyncCompleted()
         {
+            InvokeOnMainThread(delegate {
+                lblStatus.StringValue = "Sync completed";
+                using(NSAlert alert = new NSAlert())
+                {
+                    alert.MessageText = "Sync completed";
+                    alert.InformativeText = "The sync has completed successfully.";
+                    alert.AlertStyle = NSAlertStyle.Informational;
+                    alert.BeginSheet(this.Window, () => {
+                        this.Window.Close();
+                    });
+                }
+            });
         }
 
         #endregion

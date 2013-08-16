@@ -420,5 +420,21 @@
     <BundleResource Include="Resources\icon_button_download%402x.png" />
     <BundleResource Include="Resources\icon_button_refresh.png" />
     <BundleResource Include="Resources\icon_button_refresh%402x.png" />
+    <BundleResource Include="Resources\icon_linux.png" />
+    <BundleResource Include="Resources\icon_linux%402x.png" />
+    <BundleResource Include="Resources\icon_osx.png" />
+    <BundleResource Include="Resources\icon_osx%402x.png" />
+    <BundleResource Include="Resources\icon_phone.png" />
+    <BundleResource Include="Resources\icon_phone%402x.png" />
+    <BundleResource Include="Resources\icon_tablet.png" />
+    <BundleResource Include="Resources\icon_tablet%402x.png" />
+    <BundleResource Include="Resources\icon_user.png" />
+    <BundleResource Include="Resources\icon_user%402x.png" />
+    <BundleResource Include="Resources\icon_vinyl.png" />
+    <BundleResource Include="Resources\icon_vinyl%402x.png" />
+    <BundleResource Include="Resources\icon_windows.png" />
+    <BundleResource Include="Resources\icon_windows%402x.png" />
+    <BundleResource Include="Resources\icon_android.png" />
+    <BundleResource Include="Resources\icon_android%402x.png" />
   </ItemGroup>
 </Project>

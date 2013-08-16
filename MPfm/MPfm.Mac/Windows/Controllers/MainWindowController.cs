@@ -557,7 +557,7 @@ namespace MPfm.Mac
 
                 // Show alert
                 Tracing.Log(sb.ToString());
-                CocoaHelper.ShowCriticalAlert(sb.ToString());
+                CocoaHelper.ShowCriticalAlert("Error", sb.ToString());
             }
         }
 
@@ -582,7 +582,7 @@ namespace MPfm.Mac
                 sb.AppendLine(ex.StackTrace);
 
                 Tracing.Log(sb.ToString());
-                CocoaHelper.ShowCriticalAlert(sb.ToString());
+                CocoaHelper.ShowCriticalAlert("Error", sb.ToString());
             }
         }
 
@@ -705,7 +705,7 @@ namespace MPfm.Mac
                 sb.AppendLine(ex.StackTrace);
 
                 Tracing.Log(sb.ToString());
-                CocoaHelper.ShowCriticalAlert(sb.ToString());
+                CocoaHelper.ShowCriticalAlert("Error", sb.ToString());
             });
         }
 

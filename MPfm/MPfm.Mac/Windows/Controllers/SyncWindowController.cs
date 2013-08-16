@@ -139,17 +139,23 @@ namespace MPfm.Mac
                 string iconName = string.Empty;
                 switch (_items[row].DeviceType)
                 {
+                    case SyncDeviceType.Linux:
+                        iconName = "icon_linux";
+                        break;
+                    case SyncDeviceType.OSX:
+                        iconName = "icon_osx";
+                        break;
+                    case SyncDeviceType.Windows:
+                        iconName = "icon_windows";
+                        break;
                     case SyncDeviceType.iOS:
-                        iconName = "16_icomoon_apple";
+                        iconName = "icon_phone";
                         break;
                     case SyncDeviceType.Android:
-                        iconName = "16_icomoon_android";
-                        break;
-                    default:
-                        iconName = "16_icomoon_laptop";
+                        iconName = "icon_android";
                         break;
                 }
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == iconName);
+                view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == iconName);
             }
             return view;
         }
@@ -170,9 +176,7 @@ namespace MPfm.Mac
         public void SyncError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                string message = string.Format("An error occured in Sync: {0}", ex);
-                Tracing.Log(message);
-                CocoaHelper.ShowCriticalAlert(message);
+                CocoaHelper.ShowCriticalAlert("Error", string.Format("An error occured in Sync: {0}", ex));
             });
 
         }
