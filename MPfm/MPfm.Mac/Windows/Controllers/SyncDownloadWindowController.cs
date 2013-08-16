@@ -58,10 +58,15 @@ namespace MPfm.Mac
         private void LoadFontsAndImages()
         {
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-            lblSubtitle.Font = NSFont.FromFontName("Junction", 12);
             lblStatus.Font = NSFont.FromFontName("Junction", 12);
+            lblCurrentFile.Font = NSFont.FromFontName("Junction", 12);
+            lblCurrentFileValue.Font = NSFont.FromFontName("Junction", 12);
             lblDownloadSpeed.Font = NSFont.FromFontName("Junction", 12);
             lblDownloadSpeedValue.Font = NSFont.FromFontName("Junction", 16);
+            lblErrors.Font = NSFont.FromFontName("Junction", 12);
+            lblErrorsValue.Font = NSFont.FromFontName("Junction", 16);
+            lblFilesDownloaded.Font = NSFont.FromFontName("Junction", 12);
+            lblFilesDownloadedValue.Font = NSFont.FromFontName("Junction", 16);
 
             btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
         }
@@ -95,7 +100,11 @@ namespace MPfm.Mac
             InvokeOnMainThread(delegate {
                 lblStatus.StringValue = entity.Status;
                 lblDownloadSpeedValue.StringValue = entity.DownloadSpeed;
+                lblErrorsValue.StringValue = entity.Errors.ToString();
+                lblFilesDownloadedValue.StringValue = string.Format("{0}/{1}", entity.FilesDownloaded, entity.TotalFiles);
+                lblCurrentFileValue.StringValue = entity.DownloadFileName;
                 progressIndicator.DoubleValue = entity.PercentageDone;
+                progressIndicatorCurrentFile.DoubleValue = entity.DownloadPercentageDone;
             });
         }
 

@@ -39,6 +39,7 @@ namespace MPfm.Library.Objects
         public SyncClientDownloadAudioFileProgressEntity()
         {
             DownloadSpeed = "0kb/sec";
+            DownloadFileName = string.Empty;
         }
     }
 }

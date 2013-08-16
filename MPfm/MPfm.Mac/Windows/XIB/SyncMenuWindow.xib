@@ -633,7 +633,7 @@
 								<object class="NSButton" id="215444771">
 									<reference key="NSNextResponder" ref="331229177"/>
 									<int key="NSvFlags">289</int>
-									<string key="NSFrame">{{515, 22}, {77, 30}}</string>
+									<string key="NSFrame">{{519, 22}, {77, 30}}</string>
 									<reference key="NSSuperview" ref="331229177"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="958638536"/>
@@ -1644,9 +1644,11 @@
 							<string>actionAddAll:</string>
 							<string>actionRemove:</string>
 							<string>actionRemoveAll:</string>
+							<string>actionSync:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1661,6 +1663,7 @@
 							<string>actionAddAll:</string>
 							<string>actionRemove:</string>
 							<string>actionRemoveAll:</string>
+							<string>actionSync:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1680,13 +1683,16 @@
 								<string key="name">actionRemoveAll:</string>
 								<string key="candidateClassName">id</string>
 							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionSync:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>btnSelectAll</string>
 							<string>btnSync</string>
 							<string>lblFreeSpace</string>
 							<string>lblLoading</string>
@@ -1702,7 +1708,6 @@
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>MPfmButton</string>
 							<string>MPfmButton</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
@@ -1721,7 +1726,6 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>btnSelectAll</string>
 							<string>btnSync</string>
 							<string>lblFreeSpace</string>
 							<string>lblLoading</string>
@@ -1737,10 +1741,6 @@
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">btnSelectAll</string>
-								<string key="candidateClassName">MPfmButton</string>
-							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">btnSync</string>
 								<string key="candidateClassName">MPfmButton</string>

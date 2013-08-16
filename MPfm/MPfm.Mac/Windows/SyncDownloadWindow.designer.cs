@@ -32,6 +32,27 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblDownloadSpeed { get; set; }
 
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblCurrentFile { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSProgressIndicator progressIndicatorCurrentFile { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblFilesDownloadedValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblFilesDownloaded { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblErrorsValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblErrors { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblCurrentFileValue { get; set; }
+
 		[Action ("actionCancel:")]
 		partial void actionCancel (MonoMac.Foundation.NSObject sender);
 		
@@ -70,6 +91,41 @@ namespace MPfm.Mac
 			if (lblDownloadSpeed != null) {
 				lblDownloadSpeed.Dispose ();
 				lblDownloadSpeed = null;
+			}
+
+			if (lblCurrentFile != null) {
+				lblCurrentFile.Dispose ();
+				lblCurrentFile = null;
+			}
+
+			if (progressIndicatorCurrentFile != null) {
+				progressIndicatorCurrentFile.Dispose ();
+				progressIndicatorCurrentFile = null;
+			}
+
+			if (lblFilesDownloadedValue != null) {
+				lblFilesDownloadedValue.Dispose ();
+				lblFilesDownloadedValue = null;
+			}
+
+			if (lblFilesDownloaded != null) {
+				lblFilesDownloaded.Dispose ();
+				lblFilesDownloaded = null;
+			}
+
+			if (lblErrorsValue != null) {
+				lblErrorsValue.Dispose ();
+				lblErrorsValue = null;
+			}
+
+			if (lblErrors != null) {
+				lblErrors.Dispose ();
+				lblErrors = null;
+			}
+
+			if (lblCurrentFileValue != null) {
+				lblCurrentFileValue.Dispose ();
+				lblCurrentFileValue = null;
 			}
 		}
 	}
