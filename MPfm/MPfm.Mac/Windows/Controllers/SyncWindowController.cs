@@ -46,12 +46,18 @@ namespace MPfm.Mac
             this.Window.MakeKeyAndOrderFront(this);
         }
 
-        public override void AwakeFromNib()
+        public override void WindowDidLoad()
         {
-            base.AwakeFromNib();
+            base.WindowDidLoad();
 
-            progressIndicator.StartAnimation(this);
+            tableViewDevices.WeakDelegate = this;
+            tableViewDevices.WeakDataSource = this;
+            LoadFontsAndImages();
+            OnViewReady.Invoke(this);
+        }
 
+        private void LoadFontsAndImages()
+        {
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
             lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
             btnRefreshDevices.StringValue = "Cancel refresh";
@@ -59,16 +65,6 @@ namespace MPfm.Mac
             btnConnect.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
             btnConnectManual.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
             btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_refresh");
-        }
-
-        public override void WindowDidLoad()
-        {
-            base.WindowDidLoad();
-
-            tableViewDevices.WeakDelegate = this;
-            tableViewDevices.WeakDataSource = this;
-
-            OnViewReady.Invoke(this);
         }
 
         private void RefreshDeviceListButton()
@@ -110,11 +106,11 @@ namespace MPfm.Mac
             return _items.Count;
         }
 
-        [Export ("tableView:heightOfRow:")]
-        public float GetRowHeight(NSTableView tableView, int row)
-        {
-            return 20;
-        }
+//        [Export ("tableView:heightOfRow:")]
+//        public float GetRowHeight(NSTableView tableView, int row)
+//        {
+//            return 20;
+//        }
 
         [Export ("tableView:dataCellForTableColumn:row:")]
         public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
@@ -136,8 +132,8 @@ namespace MPfm.Mac
                 view = (NSTableCellView)tableView.MakeView("cellDeviceDescription", this);
                 view.TextField.StringValue = _items[row].Url;
             }
-            //view.TextField.Font = NSFont.FromFontName("Junction", 11);
 
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
             if (view.ImageView != null)
             {
                 string iconName = string.Empty;
@@ -161,7 +157,7 @@ namespace MPfm.Mac
         [Export ("tableViewSelectionDidChange:")]
         public void SelectionDidChange(NSNotification notification)
         {         
-            btnConnect.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
+            //btnConnect.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
         }
 
         #region ISyncView implementation

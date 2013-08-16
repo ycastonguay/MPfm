@@ -43,6 +43,24 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLoading { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitle2 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableViewSelection { get; set; }
+
+		[Action ("actionAdd:")]
+		partial void actionAdd (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemove:")]
+		partial void actionRemove (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionAddAll:")]
+		partial void actionAddAll (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionRemoveAll:")]
+		partial void actionRemoveAll (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -99,6 +117,16 @@ namespace MPfm.Mac
 			if (lblLoading != null) {
 				lblLoading.Dispose ();
 				lblLoading = null;
+			}
+
+			if (lblSubtitle2 != null) {
+				lblSubtitle2.Dispose ();
+				lblSubtitle2 = null;
+			}
+
+			if (tableViewSelection != null) {
+				tableViewSelection.Dispose ();
+				tableViewSelection = null;
 			}
 		}
 	}

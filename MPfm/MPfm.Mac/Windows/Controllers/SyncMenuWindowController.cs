@@ -34,6 +34,7 @@ namespace MPfm.Mac
     public partial class SyncMenuWindowController : BaseWindowController, ISyncMenuView
     {
         List<SyncMenuItem> _items = new List<SyncMenuItem>();
+        List<AudioFile> _selection = new List<AudioFile>();
 
         public SyncMenuWindowController(IntPtr handle) 
             : base (handle)
@@ -60,11 +61,13 @@ namespace MPfm.Mac
 
             outlineView.WeakDelegate = this;
             outlineView.WeakDataSource = this;
-            viewTable.Hidden = true;
+            tableViewSelection.WeakDelegate = this;
+            tableViewSelection.WeakDataSource = this;
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineView);
 
+            viewTable.Hidden = true;
             LoadFontsAndImages();
 
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineView);
             OnViewReady.Invoke(this);
         }
 
@@ -79,12 +82,92 @@ namespace MPfm.Mac
         {
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
             lblSubtitle.Font = NSFont.FromFontName("Junction", 12);
+            lblSubtitle2.Font = NSFont.FromFontName("Junction", 12);
             lblLoading.Font = NSFont.FromFontName("Junction", 13);
             lblTotal.Font = NSFont.FromFontName("Junction", 12);
             lblFreeSpace.Font = NSFont.FromFontName("Junction", 12);
 
             btnSync.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_download");
         }
+
+        partial void actionAdd(NSObject sender)
+        {
+            if(outlineView.SelectedRow == -1)
+                return;
+
+            // Create list of items
+            List<uint> indexes = outlineView.SelectedRows.ToList();
+            List<SyncMenuItemEntity> items = new List<SyncMenuItemEntity>();
+            foreach(uint index in indexes)
+                items.Add(_items[(int)index].Entity);
+
+            OnSelectItems(items);
+        }
+
+        partial void actionRemove(NSObject sender)
+        {
+            if(tableViewSelection.SelectedRow == -1)
+                return;
+
+            // Create list of items
+            List<uint> indexes = tableViewSelection.SelectedRows.ToList();
+            List<AudioFile> items = new List<AudioFile>();
+            foreach(uint index in indexes)
+                items.Add(_selection[(int)index]);
+
+            OnRemoveItems(items);
+        }
+
+        partial void actionAddAll(NSObject sender)
+        {
+            OnSelectAll();
+        }
+
+        partial void actionRemoveAll(NSObject sender)
+        {
+            OnRemoveAll();
+        }
+
+        #region NSTableView delegate / datasource
+
+        [Export ("numberOfRowsInTableView:")]
+        public int GetRowCount(NSTableView tableView)
+        {
+            return _selection.Count;
+        }
+
+//        [Export ("tableView:heightOfRow:")]
+//        public float GetRowHeight(NSTableView tableView, int row)
+//        {
+//            return 20;
+//        }
+
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            return new NSString();
+        }
+
+        [Export ("tableView:viewForTableColumn:row:")]
+        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            NSTableCellView view = (NSTableCellView)tableView.MakeView("cellSelection", this);
+            var audioFile = _selection[row];
+            string title = string.Format("{0} / {1} / {2}. {3}", audioFile.ArtistName, audioFile.AlbumTitle, audioFile.TrackNumber, audioFile.Title);
+            view.TextField.StringValue = title;
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            return view;
+        }
+
+        [Export ("tableViewSelectionDidChange:")]
+        public void SelectionDidChange(NSNotification notification)
+        {         
+            //btnConnect.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
+        }
+
+        #endregion
+
+        #region NSOutlineView delegate / datasource
 
         [Export ("outlineViewItemDidExpand")]
         public void ItemDidExpand(NSNotification notification)
@@ -202,11 +285,13 @@ namespace MPfm.Mac
             return view;
         }
 
+        #endregion
+
         #region ISyncMenuView implementation
 
         public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
-        public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
-        public Action<AudioFile> OnRemoveItem { get; set; }
+        public Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
+        public Action<List<AudioFile>> OnRemoveItems { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
         public Action OnSelectAll { get; set; }
@@ -231,8 +316,8 @@ namespace MPfm.Mac
         public void RefreshDevice(SyncDevice device)
         {
             InvokeOnMainThread(delegate {
-                lblTitle.StringValue = "Sync library with " + device.Name;
-                Window.Title = "Sync library with " + device.Name;
+                lblTitle.StringValue = "Sync Library With " + device.Name;
+                Window.Title = "Sync Library With " + device.Name;
             });
         }
 
@@ -257,7 +342,7 @@ namespace MPfm.Mac
 
         public void RefreshItems(List<SyncMenuItemEntity> items)
         {
-            //Console.WriteLine("SyncMenuWindowController - RefreshItems - items count: {0}", items.Count);
+            Console.WriteLine("SyncMenuWindowController - RefreshItems - items count: {0}", items.Count);
             InvokeOnMainThread(delegate {
                 _items.Clear();
                 foreach(var item in items)
@@ -276,15 +361,27 @@ namespace MPfm.Mac
 
         public void RefreshSelection(List<AudioFile> audioFiles)
         {
+            Console.WriteLine("SyncMenuWindowController - RefreshSelection - selection count: {0}", audioFiles.Count);
+            InvokeOnMainThread(delegate {
+                _selection = audioFiles.ToList();
+                tableViewSelection.ReloadData();
+            });
         }
 
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
+            Console.WriteLine("SyncMenuWindowController - RefreshSyncTotal");
+            InvokeOnMainThread(delegate {
+                lblTotal.StringValue = title;
+                lblFreeSpace.StringValue = subtitle;
+            });
         }
 
         public void InsertItems(int index, List<SyncMenuItemEntity> items, object userData)
         {
             Console.WriteLine("SyncMenuWindowController - InsertItems - index: {0} items.Count: {1}", index, items.Count);
+            // TODO: Add also a reference to the parent SyncMenuItemEntity, so it will be easier to find than the index on certain platforms.
+            // i.e. this one will update the _items list with SubItems instead of a flat list like iOS and Android.
         }
 
         public void RemoveItems(int index, int count, object userData)

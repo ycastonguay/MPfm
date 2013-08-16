@@ -190,7 +190,6 @@
 							<string key="NSFrame">{{458, 9}, {133, 24}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="243234358">
@@ -228,7 +227,7 @@
 											<string key="NSFrameSize">{579, 118}</string>
 											<reference key="NSSuperview" ref="497363935"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="678662998"/>
+											<reference key="NSNextKeyView" ref="321433343"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -423,7 +422,7 @@
 							<string key="NSFrame">{{12, 40}, {579, 135}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="321433343"/>
+							<reference key="NSNextKeyView" ref="497363935"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133680</int>
 							<reference key="NSVScroller" ref="247912235"/>
@@ -438,7 +437,7 @@
 						</object>
 						<object class="NSProgressIndicator" id="845099831">
 							<reference key="NSNextResponder" ref="312036702"/>
-							<int key="NSvFlags">289</int>
+							<int key="NSvFlags">265</int>
 							<string key="NSFrame">{{491, 185}, {100, 12}}</string>
 							<reference key="NSSuperview" ref="312036702"/>
 							<reference key="NSWindow"/>

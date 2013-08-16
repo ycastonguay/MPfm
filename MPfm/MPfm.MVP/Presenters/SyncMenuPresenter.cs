@@ -61,8 +61,8 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ISyncMenuView view)
         {
-            view.OnSelectItem = SelectItem;
-            view.OnRemoveItem = RemoveItem;
+            view.OnSelectItems = SelectItems;
+            view.OnRemoveItems = RemoveItems;
             view.OnExpandItem = ExpandItem;
             view.OnSync = Sync;
             view.OnSelectButtonClick = SelectButtonClick;
@@ -158,95 +158,98 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void SelectItem(SyncMenuItemEntity item)
+        private void SelectItems(List<SyncMenuItemEntity> items)
         {
             try
             {
-                if(item.ItemType == SyncMenuItemEntityType.Artist)
+                foreach(var item in items)
                 {
-                    var selection = IsArtistSelected(item.ArtistName);
-                    if(selection == StateSelectionType.None)
+                    if(item.ItemType == SyncMenuItemEntityType.Artist)
                     {
-                        // Add all songs from artist
-                        var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName);
-                        foreach(var songToAdd in songsToAdd)
-                            if(!_audioFilesToSync.Contains(songToAdd))
-                                _audioFilesToSync.Add(songToAdd);
+                        var selection = IsArtistSelected(item.ArtistName);
+                        if(selection == StateSelectionType.None)
+                        {
+                            // Add all songs from artist
+                            var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName);
+                            foreach(var songToAdd in songsToAdd)
+                                if(!_audioFilesToSync.Contains(songToAdd))
+                                    _audioFilesToSync.Add(songToAdd);
 
-                        // Update items
-                        var itemsToUpdate = _items.Where(x => x.ArtistName == item.ArtistName).ToList();
-                        foreach(var itemToUpdate in itemsToUpdate)
-                            itemToUpdate.Selection = StateSelectionType.Selected;
+                            // Update items
+                            var itemsToUpdate = _items.Where(x => x.ArtistName == item.ArtistName).ToList();
+                            foreach(var itemToUpdate in itemsToUpdate)
+                                itemToUpdate.Selection = StateSelectionType.Selected;
+                        }
+                        else
+                        {
+                            // Remove all songs from artist
+                            _audioFilesToSync.RemoveAll(x => x.ArtistName == item.ArtistName);
+
+                            // Update items
+                            var itemsToUpdate = _items.Where(x => x.ArtistName == item.ArtistName).ToList();
+                            foreach(var itemToUpdate in itemsToUpdate)
+                                itemToUpdate.Selection = StateSelectionType.None;
+                        }
                     }
-                    else
+                    else if(item.ItemType == SyncMenuItemEntityType.Album)
                     {
-                        // Remove all songs from artist
-                        _audioFilesToSync.RemoveAll(x => x.ArtistName == item.ArtistName);
+                        // Determine if at least one song of this album is already selected
+                        var songsToSync = _audioFilesToSync.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                        if(songsToSync == null || songsToSync.Count == 0)
+                        {
+                            // Select the whole album
+                            item.Selection = StateSelectionType.Selected;
+                            var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName, item.AlbumTitle);
+                            foreach(var songToAdd in songsToAdd)
+                                if(!_audioFilesToSync.Contains(songToAdd))
+                                    _audioFilesToSync.Add(songToAdd);
 
-                        // Update items
-                        var itemsToUpdate = _items.Where(x => x.ArtistName == item.ArtistName).ToList();
-                        foreach(var itemToUpdate in itemsToUpdate)
-                            itemToUpdate.Selection = StateSelectionType.None;
+                            // Update song selection
+                            var itemsToSelect = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                            foreach(var itemToSelect in itemsToSelect)
+                                itemToSelect.Selection = StateSelectionType.Selected;
+                        }
+                        else
+                        {
+                            // Deselect the album
+                            item.Selection = StateSelectionType.None;
+                            foreach(var song in songsToSync)
+                                _audioFilesToSync.Remove(song);
+
+                            // Update song selection
+                            var itemsToSelect = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                            foreach(var itemToSelect in itemsToSelect)
+                                itemToSelect.Selection = StateSelectionType.None;
+                        }
+
+                        // Update artist selection
+                        var selection = IsArtistSelected(item.ArtistName);
+                        var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
+                        itemArtist.Selection = selection;
                     }
-                }
-                else if(item.ItemType == SyncMenuItemEntityType.Album)
-                {
-                    // Determine if at least one song of this album is already selected
-                    var songsToSync = _audioFilesToSync.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
-                    if(songsToSync == null || songsToSync.Count == 0)
+                    else if(item.ItemType == SyncMenuItemEntityType.Song)
                     {
-                        // Select the whole album
-                        item.Selection = StateSelectionType.Selected;
-                        var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName, item.AlbumTitle);
-                        foreach(var songToAdd in songsToAdd)
-                            if(!_audioFilesToSync.Contains(songToAdd))
-                                _audioFilesToSync.Add(songToAdd);
-
                         // Update song selection
-                        var itemsToSelect = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
-                        foreach(var itemToSelect in itemsToSelect)
-                            itemToSelect.Selection = StateSelectionType.Selected;
+                        if(item.Selection == StateSelectionType.Selected)
+                            item.Selection = StateSelectionType.None;
+                        else
+                            item.Selection = StateSelectionType.Selected;
+
+                        if(_audioFilesToSync.Contains(item.Song))
+                            _audioFilesToSync.Remove(item.Song);
+                        else
+                            _audioFilesToSync.Add(item.Song);
+
+                        // Update artist selection
+                        var selectionArtist = IsArtistSelected(item.ArtistName);
+                        var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
+                        itemArtist.Selection = selectionArtist;
+
+                        // Update album selection
+                        var selectionAlbum = IsAlbumSelected(item.ArtistName, item.AlbumTitle);
+                        var itemAlbum = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle && x.ItemType == SyncMenuItemEntityType.Album);
+                        itemAlbum.Selection = selectionAlbum;
                     }
-                    else
-                    {
-                        // Deselect the album
-                        item.Selection = StateSelectionType.None;
-                        foreach(var song in songsToSync)
-                            _audioFilesToSync.Remove(song);
-
-                        // Update song selection
-                        var itemsToSelect = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
-                        foreach(var itemToSelect in itemsToSelect)
-                            itemToSelect.Selection = StateSelectionType.None;
-                    }
-
-                    // Update artist selection
-                    var selection = IsArtistSelected(item.ArtistName);
-                    var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
-                    itemArtist.Selection = selection;
-                }
-                else if(item.ItemType == SyncMenuItemEntityType.Song)
-                {
-                    // Update song selection
-                    if(item.Selection == StateSelectionType.Selected)
-                        item.Selection = StateSelectionType.None;
-                    else
-                        item.Selection = StateSelectionType.Selected;
-
-                    if(_audioFilesToSync.Contains(item.Song))
-                        _audioFilesToSync.Remove(item.Song);
-                    else
-                        _audioFilesToSync.Add(item.Song);
-
-                    // Update artist selection
-                    var selectionArtist = IsArtistSelected(item.ArtistName);
-                    var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
-                    itemArtist.Selection = selectionArtist;
-
-                    // Update album selection
-                    var selectionAlbum = IsAlbumSelected(item.ArtistName, item.AlbumTitle);
-                    var itemAlbum = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle && x.ItemType == SyncMenuItemEntityType.Album);
-                    itemAlbum.Selection = selectionAlbum;
                 }
 
                 RefreshSyncTotal();
@@ -258,10 +261,12 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void RemoveItem(AudioFile audioFile)
+        private void RemoveItems(List<AudioFile> audioFiles)
         {
-            _audioFilesToSync.Remove(audioFile);
+            foreach(var audioFile in audioFiles)
+                _audioFilesToSync.Remove(audioFile);
             View.RefreshSelection(_audioFilesToSync);
+            RefreshSyncTotal();
         }
 
         private void RemoveAll()
@@ -273,7 +278,8 @@ namespace MPfm.MVP.Presenters
             View.RefreshSelectButton("Select all");
 
             // Refresh view
-            RefreshItems();
+            //RefreshItems();
+            View.RefreshSelection(_audioFilesToSync);
             RefreshSyncTotal();
         }
 
@@ -286,7 +292,8 @@ namespace MPfm.MVP.Presenters
             View.RefreshSelectButton("Reset selection");
 
             // Refresh view
-            RefreshItems();
+            //RefreshItems();
+            View.RefreshSelection(_audioFilesToSync);
             RefreshSyncTotal();
         }
 

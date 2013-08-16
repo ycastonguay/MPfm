@@ -29,8 +29,8 @@ namespace MPfm.MVP.Views
 	public interface ISyncMenuView : IBaseView
 	{
         Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
-        Action<SyncMenuItemEntity> OnSelectItem { get; set; }
-        Action<AudioFile> OnRemoveItem { get; set; }
+        Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
+        Action<List<AudioFile>> OnRemoveItems { get; set; }
         Action OnSync { get; set; }
         Action OnSelectButtonClick { get; set; }
         Action OnSelectAll { get; set; }
