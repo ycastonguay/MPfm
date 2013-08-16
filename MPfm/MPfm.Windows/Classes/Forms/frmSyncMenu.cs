@@ -64,12 +64,14 @@ namespace MPfm.Windows.Classes.Forms
             OnExpandItem(item, e.Node);
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        void btnAdd_Click(object sender, EventArgs e)
         {
             if (treeView.SelectedNode == null)
                 return;
 
-            OnSelectItem((SyncMenuItemEntity) treeView.SelectedNode.Tag);
+            OnSelectItems(new List<SyncMenuItemEntity>() {
+                (SyncMenuItemEntity)treeView.SelectedNode.Tag
+            });
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -77,7 +79,10 @@ namespace MPfm.Windows.Classes.Forms
             if (listViewSelection.SelectedItems.Count == 0)
                 return;
 
-            OnRemoveItem((AudioFile)listViewSelection.SelectedItems[0].Tag);
+            List<AudioFile> items = new List<AudioFile>();
+            for (int a = 0; a < listViewSelection.SelectedItems.Count; a++)
+                items.Add((AudioFile) listViewSelection.SelectedItems[a].Tag);
+            OnRemoveItems(items);
         }
 
         private void btnAddAll_Click(object sender, EventArgs e)
@@ -93,8 +98,8 @@ namespace MPfm.Windows.Classes.Forms
         #region ISyncMenuView implementation
 
         public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
-        public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
-        public Action<AudioFile> OnRemoveItem { get; set; }
+        public Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
+        public Action<List<AudioFile>> OnRemoveItems { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
         public Action OnSelectAll { get; set; }

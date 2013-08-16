@@ -86,7 +86,6 @@
             this.listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView.HideSelection = false;
             this.listView.Location = new System.Drawing.Point(13, 53);
-            this.listView.MultiSelect = false;
             this.listView.Name = "listView";
             this.listView.Size = new System.Drawing.Size(602, 152);
             this.listView.SmallImageList = this.imageListIcons;
