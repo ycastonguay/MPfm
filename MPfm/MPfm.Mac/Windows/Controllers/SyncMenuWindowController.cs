@@ -27,12 +27,13 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.Mac.Classes.Objects;
 using System.Linq;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Mac
 {
     public partial class SyncMenuWindowController : BaseWindowController, ISyncMenuView
     {
-        List<SyncMenuItemEntity> _items;
+        List<SyncMenuItem> _items = new List<SyncMenuItem>();
 
         public SyncMenuWindowController(IntPtr handle) 
             : base (handle)
@@ -52,117 +53,115 @@ namespace MPfm.Mac
             this.Window.MakeKeyAndOrderFront(this);
         }
 
-        public override void AwakeFromNib()
-        {
-            base.AwakeFromNib();
-
-            viewTable.Hidden = true;
-        }
-
         public override void WindowDidLoad()
         {
+            // Note: Very weird, this is called before the Initialize method!
             base.WindowDidLoad();
 
             outlineView.WeakDelegate = this;
             outlineView.WeakDataSource = this;
+            viewTable.Hidden = true;
+            btnSync.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_download");
 
             OnViewReady.Invoke(this);
-        }
-
-        [Export ("numberOfRowsInTableView:")]
-        public int GetRowCount(NSTableView tableView)
-        {
-            return _items.Count;
-        }
-
-        [Export ("tableView:heightOfRow:")]
-        public float GetRowHeight(NSTableView tableView, int row)
-        {
-            return 20;
-        }
-
-        [Export ("tableView:dataCellForTableColumn:row:")]
-        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
-        {
-            return new NSString();
-        }
-
-//        [Export ("tableView:viewForTableColumn:row:")]
-//        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
-        
-        [Export("outlineView:viewForTableColumn:item:")]
-        public NSView GetViewForItem(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
-        {
-            //Console.WriteLine("GetViewForItem - tableColumn: {0} row: {1}", tableColumn.Identifier.ToString(), row);
-            NSTableCellView view;
-            if(tableColumn.Identifier.ToString() == "columnTitle")
-            {
-                view = (NSTableCellView)outlineView.MakeView("cellTitle", this);
-                //view.TextField.StringValue = _items[row].ArtistName;
-            }
-            else
-            {
-                view = (NSTableCellView)outlineView.MakeView("cellSelection", this);
-                //view.TextField.StringValue = _items[row].Url;
-            }
-//            //view.TextField.Font = NSFont.FromFontName("Junction", 11);
-//
-//            if (view.ImageView != null)
-//            {
-//                string iconName = string.Empty;
-//                switch (_items[row].ItemType)
-//                {
-//                    case SyncMenuItemEntityType.Artist:
-//                        iconName = "16_icomoon_android";
-//                        break;
-//                    case SyncMenuItemEntityType.Album:
-//                        iconName = "16_icomoon_android";
-//                        break;
-//                    case SyncMenuItemEntityType.Song:
-//                        iconName = "16_icomoon_android";
-//                        break;
-//                }
-//                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == iconName);
-//            }
-            return view;
-        }
-
-        [Export ("tableViewSelectionDidChange:")]
-        public void SelectionDidChange(NSNotification notification)
-        {         
-            //btnConnect.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
-        }
-
-        [Export ("outlineView:numberOfChildrenOfItem:")]
-        public int GetChildrenCount(NSOutlineView outlineView, NSObject item)
-        {
-            return 0;
-        }
-
-        [Export ("outlineView:objectValueForTableColumn:byItem:")]
-        public NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn forTableColumn, NSObject byItem)
-        {
-            return new NSObject();
-        }
-
-        [Export ("outlineView:child:ofItem:")]
-        public NSObject GetChild(NSOutlineView outlineView, int childIndex, NSObject ofItem)
-        {
-            return new NSObject();
         }
 
         [Export ("outlineView:isItemExpandable:")]
         public bool ItemExpandable(NSOutlineView outlineView, NSObject item)
         {
+            var syncMenuItem = (SyncMenuItem) item;
+            if (syncMenuItem.SubItems.Count > 0)
+                return true;
+
             return false;
+        }
+
+        [Export ("outlineView:shouldSelectItem:")]
+        public bool ShouldSelectItem(NSOutlineView outlineView, NSObject item)
+        {
+            return true;
+        }
+
+        [Export ("outlineView:isGroupItem:")]
+        public bool IsGroupItem(NSOutlineView outlineView, NSObject item)
+        {
+            return false;
+        }
+
+        [Export ("outlineView:numberOfChildrenOfItem:")]
+        public int GetChildrenCount(NSOutlineView outlineView, NSObject item)
+        {
+            // Check if this is a subitem
+            if (item != null)
+            {
+                var theItem = (SyncMenuItem)item;
+                return theItem.SubItems.Count;
+            }
+
+            return _items.Count;
+        }
+
+        [Export ("outlineView:objectValueForTableColumn:byItem:")]
+        public NSObject GetObjectValue(NSOutlineView outlineView, NSTableColumn forTableColumn, NSObject byItem)
+        {
+            //return byItem;
+            var item = (SyncMenuItem)byItem;
+            return item.StringValue;
+        }
+
+        [Export ("outlineView:child:ofItem:")]
+        public NSObject GetChild(NSOutlineView outlineView, int childIndex, NSObject ofItem)
+        {
+            // Check if this is a subitem
+            if(ofItem != null) 
+            {
+                var item = (SyncMenuItem)ofItem;
+                return item.SubItems[childIndex];
+            }
+
+            return _items[childIndex];
+        }
+
+        [Export("outlineView:viewForTableColumn:item:")]
+        public NSView GetViewForItem(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
+        {
+            Console.WriteLine("SyncMenuWindowController - GetViewForItem");
+            var syncMenuItem = (SyncMenuItem)item;
+
+            // Create view
+            NSTableCellView view = (NSTableCellView)outlineView.MakeView("cellTitle", this);
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+
+            string title = string.Empty;
+            switch (syncMenuItem.Entity.ItemType)
+            {
+                case SyncMenuItemEntityType.Artist:
+                    view.TextField.StringValue = syncMenuItem.Entity.ArtistName;
+                    view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_users");
+                    break;
+                case SyncMenuItemEntityType.Album:
+                    view.TextField.StringValue = syncMenuItem.Entity.AlbumTitle;
+                    view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
+                    break;
+                case SyncMenuItemEntityType.Song:
+                    view.ImageView.Image = null;
+                    if(syncMenuItem.Entity.Song != null)
+                        view.TextField.StringValue = syncMenuItem.Entity.Song.Title;
+                    break;
+            }
+
+            return view;
         }
 
         #region ISyncMenuView implementation
 
-        public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
+        public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
         public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        public Action<AudioFile> OnRemoveItem { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
+        public Action OnSelectAll { get; set; }
+        public Action OnRemoveAll { get; set; }
 
         public void SyncMenuError(Exception ex)
         {
@@ -190,12 +189,10 @@ namespace MPfm.Mac
 
         public void RefreshLoading(bool isLoading, int progressPercentage)
         {
+            Console.WriteLine("SyncMenuWindowController - RefreshLoading - isLoading: {0} progressPercentage: {1}", isLoading, progressPercentage);
             InvokeOnMainThread(delegate {
                 viewLoading.Hidden = !isLoading;
                 viewTable.Hidden = isLoading;
-
-                if(!isLoading)
-                    Console.WriteLine("VIEW TABLE NOT HIDDEN ANYMORE");
 
                 if(progressPercentage < 100)
                     lblLoading.StringValue = String.Format("Loading index ({0}%)...", progressPercentage);
@@ -210,25 +207,40 @@ namespace MPfm.Mac
 
         public void RefreshItems(List<SyncMenuItemEntity> items)
         {
-            Console.WriteLine("REFRESITEMS");
+            Console.WriteLine("SyncMenuWindowController - RefreshItems - items count: {0}", items.Count);
             InvokeOnMainThread(delegate {
-                _items = items.ToList();
+                _items.Clear();
+                foreach(var item in items)
+                {
+                    var syncMenuItem = new SyncMenuItem(item);
+                    syncMenuItem.SubItems.Add(new SyncMenuItem(new SyncMenuItemEntity(){
+                        ArtistName = "dummy",
+                        AlbumTitle = "dummy"
+                    }));
+                    _items.Add(syncMenuItem);
+                }
+
                 outlineView.ReloadData();
             });
+        }
+
+        public void RefreshSelection(List<AudioFile> audioFiles)
+        {
         }
 
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
         }
 
-        public void InsertItems(int index, List<SyncMenuItemEntity> items)
+        public void InsertItems(int index, List<SyncMenuItemEntity> items, object userData)
         {
         }
 
-        public void RemoveItems(int index, int count)
+        public void RemoveItems(int index, int count, object userData)
         {
         }
 
         #endregion
+
     }
 }

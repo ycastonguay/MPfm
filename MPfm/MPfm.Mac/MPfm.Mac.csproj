@@ -213,6 +213,7 @@
     <Compile Include="Windows\SyncDownloadWindow.designer.cs">
       <DependentUpon>SyncDownloadWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Objects\SyncMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -409,5 +410,15 @@
       <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
       <Name>MPfm.Player</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_button_cancel.png" />
+    <BundleResource Include="Resources\icon_button_cancel%402x.png" />
+    <BundleResource Include="Resources\icon_button_connect.png" />
+    <BundleResource Include="Resources\icon_button_connect%402x.png" />
+    <BundleResource Include="Resources\icon_button_download.png" />
+    <BundleResource Include="Resources\icon_button_download%402x.png" />
+    <BundleResource Include="Resources\icon_button_refresh.png" />
+    <BundleResource Include="Resources\icon_button_refresh%402x.png" />
   </ItemGroup>
 </Project>

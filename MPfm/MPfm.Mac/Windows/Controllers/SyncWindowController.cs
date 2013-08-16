@@ -23,6 +23,7 @@ namespace MPfm.Mac
 {
     public partial class SyncWindowController : BaseWindowController, ISyncView
     {
+        bool _isDiscovering;
         List<SyncDevice> _items = new List<SyncDevice>();
 
         // Called when created from unmanaged code
@@ -54,9 +55,9 @@ namespace MPfm.Mac
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
             btnRefreshDevices.StringValue = "Cancel refresh";
 
-            btnConnect.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
-            btnConnectManual.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
-            btnRefreshDevices.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_refresh");
+            btnConnect.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
+            btnConnectManual.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
+            btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_refresh");
         }
 
         public override void WindowDidLoad()
@@ -67,6 +68,20 @@ namespace MPfm.Mac
             tableViewDevices.WeakDataSource = this;
 
             OnViewReady.Invoke(this);
+        }
+
+        private void RefreshDeviceListButton()
+        {
+            if (_isDiscovering)
+            {
+                btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
+                btnRefreshDevices.Title = "Cancel refresh";
+            }
+            else
+            {
+                btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_refresh");
+                btnRefreshDevices.Title = "Refresh devices";
+            }
         }
 
         partial void actionConnect(NSObject sender)
@@ -82,10 +97,10 @@ namespace MPfm.Mac
 
         partial void actionRefreshDevices(NSObject sender)
         {
-            progressIndicator.Hidden = false;
-            btnRefreshDevices.Enabled = false;
-            btnRefreshDevices.StringValue = "Cancel refresh";
-            OnRefreshDevices();
+            if (_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();
         }
 
         [Export ("numberOfRowsInTableView:")]
@@ -152,7 +167,6 @@ namespace MPfm.Mac
 
         public Action<SyncDevice> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
-        public Action OnRefreshDevices { get; set; }
         public Action OnStartDiscovery { get; set; }
         public Action OnCancelDiscovery { get; set; }
 
@@ -177,6 +191,12 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 progressIndicator.DoubleValue = (double)percentageDone;
+                if (!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    progressIndicator.Hidden = false;
+                    RefreshDeviceListButton();
+                }
             });
         }
 
@@ -193,9 +213,9 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 Console.WriteLine("SyncWindowCtrl - RefreshDevicesEnded");
-                btnRefreshDevices.StringValue = "Refresh devices";
                 progressIndicator.Hidden = true;
-                btnRefreshDevices.Enabled = true;
+                _isDiscovering = false;
+                RefreshDeviceListButton();
             });
         }
 

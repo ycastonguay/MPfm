@@ -28,22 +28,13 @@ namespace MPfm.Mac.Classes.Objects
     /// </summary>
     public static class ImageResources
     {
-        /// <summary>
-        /// Static list of 16x16px images.
-        /// </summary>
         public static List<NSImage> images16x16 { get; private set; }
-        /// <summary>
-        /// Static list of 32x32px images.
-        /// </summary>
-        public static List<NSImage> images32x32 { get; private set; }
+        public static List<NSImage> images32x32 { get; private set; } // TODO: Remove 16x16/32x32 lists to merge in one list with appropriate Retina image loading
+        public static List<NSImage> Icons { get; private set; }
         public static NSImage imageSplash { get; private set; }
 
-        /// <summary>
-        /// Constructor for the ImageResources static class.
-        /// </summary>
         static ImageResources()
         {
-            // Load 16x16px images
             images16x16 = new List<NSImage>() {
                 new NSImage(NSBundle.MainBundle.PathForResource("list-add", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_list-add" },
                 new NSImage(NSBundle.MainBundle.PathForResource("accessories-text-editor", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_accessories-text-editor" },
@@ -91,7 +82,6 @@ namespace MPfm.Mac.Classes.Objects
                 new NSImage(NSBundle.MainBundle.PathForResource("vinyl", "png", "Resources/16x16/custom", string.Empty)) { Name = "16_custom_vinyl" }
             };
 
-            // Load 32x32px images
             images32x32 = new List<NSImage>() {
                 new NSImage(NSBundle.MainBundle.PathForResource("document-open", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_document-open" },
                 new NSImage(NSBundle.MainBundle.PathForResource("drive-harddisk", "png", "Resources/32x32/tango", string.Empty)) { Name = "32_tango_drive-harddisk" },
@@ -123,7 +113,13 @@ namespace MPfm.Mac.Classes.Objects
                 new NSImage(NSBundle.MainBundle.PathForResource("update", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_update" }
             };
 
-            // Load splash image
+            Icons = new List<NSImage>() {
+                NSImage.ImageNamed("icon_button_cancel"),
+                NSImage.ImageNamed("icon_button_connect"),
+                NSImage.ImageNamed("icon_button_download"),
+                NSImage.ImageNamed("icon_button_refresh")
+            };
+
             imageSplash = new NSImage(NSBundle.MainBundle.PathForResource("Splash", "png", "Resources", string.Empty));
         }
     }

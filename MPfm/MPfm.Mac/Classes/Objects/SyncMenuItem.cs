@@ -27,27 +27,23 @@ using MPfm.MVP.Models;
 namespace MPfm.Mac.Classes.Objects
 {
     /// <summary>
-    /// Library Browser item for the NSOutlineView.
+    /// Sync Menu item for the NSOutlineView.
     /// 
     /// Note: In MonoMac, you cannot create NSObjects in a method; you must add them
     /// to a static variable or an object, or the application will eventually crash
     /// when the garbage collector will free the NSObject.
     /// </summary>
-    public class LibraryBrowserItem : NSObject
+    public class SyncMenuItem : NSObject
     {
         public NSString StringValue { get; private set; }
-        public LibraryBrowserEntity Entity { get; private set; }
-        public List<LibraryBrowserItem> SubItems { get; private set; }
+        public SyncMenuItemEntity Entity { get; private set; }
+        public List<SyncMenuItem> SubItems { get; private set; }
 
-        public LibraryBrowserItem(LibraryBrowserEntity entity)
+        public SyncMenuItem(SyncMenuItemEntity entity)
         {
             Entity = entity;
-            StringValue = new NSString(entity.Title);
-
-            // Create empty list of subitems
-            SubItems = new List<LibraryBrowserItem>();
-            foreach(LibraryBrowserEntity subEntity in entity.SubItems)
-                SubItems.Add(new LibraryBrowserItem(subEntity));
+            StringValue = new NSString(entity.ItemType.ToString());
+            SubItems = new List<SyncMenuItem>();
         }
     }
 }
