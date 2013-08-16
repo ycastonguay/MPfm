@@ -436,5 +436,7 @@
     <BundleResource Include="Resources\icon_windows%402x.png" />
     <BundleResource Include="Resources\icon_android.png" />
     <BundleResource Include="Resources\icon_android%402x.png" />
+    <BundleResource Include="Resources\icon_song.png" />
+    <BundleResource Include="Resources\icon_song%402x.png" />
   </ItemGroup>
 </Project>

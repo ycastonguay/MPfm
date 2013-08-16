@@ -124,6 +124,7 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_phone"),
                 NSImage.ImageNamed("icon_tablet"),
                 NSImage.ImageNamed("icon_user"),
+                NSImage.ImageNamed("icon_song"),
                 NSImage.ImageNamed("icon_vinyl"),
                 NSImage.ImageNamed("icon_windows")
             };

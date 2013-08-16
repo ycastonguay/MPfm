@@ -100,7 +100,11 @@ namespace MPfm.Mac
             List<uint> indexes = outlineView.SelectedRows.ToList();
             List<SyncMenuItemEntity> items = new List<SyncMenuItemEntity>();
             foreach(uint index in indexes)
-                items.Add(_items[(int)index].Entity);
+            {
+                var test = (SyncMenuItem)outlineView.ItemAtRow((int)index);
+                items.Add(test.Entity);
+                //items.Add(_items[(int)index].Entity);
+            }
 
             OnSelectItems(items);
         }
@@ -253,7 +257,7 @@ namespace MPfm.Mac
                         view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_vinyl");
                         break;
                     case SyncMenuItemEntityType.Song:
-                        view.ImageView.Image = null;
+                        view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_song");
                         if (syncMenuItem.Entity.Song != null)
                             view.TextField.StringValue = syncMenuItem.Entity.Song.Title;
                         break;
@@ -354,11 +358,37 @@ namespace MPfm.Mac
             });
         }
 
-        public void InsertItems(int index, List<SyncMenuItemEntity> items, object userData)
+        public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)
         {
             Console.WriteLine("SyncMenuWindowController - InsertItems - index: {0} items.Count: {1}", index, items.Count);
-            // TODO: Add also a reference to the parent SyncMenuItemEntity, so it will be easier to find than the index on certain platforms.
-            // i.e. this one will update the _items list with SubItems instead of a flat list like iOS and Android.
+            InvokeOnMainThread(delegate {
+                var item = _items.FirstOrDefault(x => x.Entity == parentItem);
+                // Try to search in subitems
+                if(item == null)
+                    foreach(var currentItem in _items)
+                        foreach(var subItem in currentItem.SubItems)
+                            if(subItem.Entity == parentItem)
+                            {
+                                item = subItem;
+                                break;
+                            }
+                if(item == null)
+                    return;
+
+                // Clear dummy node and add actual items
+                item.SubItems.Clear();
+                foreach(var entity in items)
+                {
+                    var newItem = new SyncMenuItem(entity);
+                    if(entity.ItemType != SyncMenuItemEntityType.Song)
+                        newItem.SubItems.Add(new SyncMenuItem(new SyncMenuItemEntity(){
+                            ArtistName = "dummy",
+                            AlbumTitle = "dummy"
+                        }));
+                    item.SubItems.Add(newItem);
+                }
+                outlineView.ReloadData();
+            });
         }
 
         public void RemoveItems(int index, int count, object userData)

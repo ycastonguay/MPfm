@@ -160,6 +160,88 @@ namespace MPfm.MVP.Presenters
 
         private void SelectItems(List<SyncMenuItemEntity> items)
         {
+#if IOS || ANDROID
+            SelectItemsMobile(items);
+#else
+            SelectItemsDesktop(items);
+#endif
+        }
+
+        private void SelectItemsDesktop(List<SyncMenuItemEntity> items)
+        {
+            // The main difference between desktop and mobile is that mobile uses a list view and desktop uses a tree view.
+            // This makes a difference by removing selections directly on the artist/albums/songs rather than on a list view.
+            try
+            {
+                foreach(var item in items)
+                {
+                    if(item.ItemType == SyncMenuItemEntityType.Artist)
+                    {
+                        // Add all songs from artist
+                        var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName);
+                        foreach(var songToAdd in songsToAdd)
+                            if(!_audioFilesToSync.Contains(songToAdd))
+                                _audioFilesToSync.Add(songToAdd);
+
+                        // Update items
+                        var itemsToUpdate = _items.Where(x => x.ArtistName == item.ArtistName).ToList();
+                        foreach(var itemToUpdate in itemsToUpdate)
+                            itemToUpdate.Selection = StateSelectionType.Selected;
+                    }
+                    else if(item.ItemType == SyncMenuItemEntityType.Album)
+                    {
+                        // Select the whole album
+                        item.Selection = StateSelectionType.Selected;
+                        var songsToAdd = _syncClientService.GetAudioFiles(item.ArtistName, item.AlbumTitle);
+                        foreach(var songToAdd in songsToAdd)
+                            if(!_audioFilesToSync.Contains(songToAdd))
+                                _audioFilesToSync.Add(songToAdd);
+
+                        // Update song selection
+                        var itemsToSelect = _items.Where(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle).ToList();
+                        foreach(var itemToSelect in itemsToSelect)
+                            itemToSelect.Selection = StateSelectionType.Selected;
+
+                        // Update artist selection
+                        var selection = IsArtistSelected(item.ArtistName);
+                        var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
+                        itemArtist.Selection = selection;
+                    }
+                    else if(item.ItemType == SyncMenuItemEntityType.Song)
+                    {
+                        // Update song selection
+                        if(item.Selection == StateSelectionType.Selected)
+                            item.Selection = StateSelectionType.None;
+                        else
+                            item.Selection = StateSelectionType.Selected;
+
+                        if(!_audioFilesToSync.Contains(item.Song))
+                            _audioFilesToSync.Add(item.Song);
+
+                        // Update artist selection
+                        var selectionArtist = IsArtistSelected(item.ArtistName);
+                        var itemArtist = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.ItemType == SyncMenuItemEntityType.Artist);
+                        itemArtist.Selection = selectionArtist;
+
+                        // Update album selection
+                        var selectionAlbum = IsAlbumSelected(item.ArtistName, item.AlbumTitle);
+                        var itemAlbum = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle && x.ItemType == SyncMenuItemEntityType.Album);
+                        if(itemAlbum != null)
+                            itemAlbum.Selection = selectionAlbum;
+                    }
+                }
+
+                RefreshSyncTotal();
+                View.RefreshSelection(_audioFilesToSync);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("SyncMenuPresenter - SelectItemDesktop - Exception: {0}", ex);
+            }
+        }
+
+        private void SelectItemsMobile(List<SyncMenuItemEntity> items)
+        {
             try
             {
                 foreach(var item in items)
@@ -248,7 +330,8 @@ namespace MPfm.MVP.Presenters
                         // Update album selection
                         var selectionAlbum = IsAlbumSelected(item.ArtistName, item.AlbumTitle);
                         var itemAlbum = _items.FirstOrDefault(x => x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle && x.ItemType == SyncMenuItemEntityType.Album);
-                        itemAlbum.Selection = selectionAlbum;
+                        if(itemAlbum != null)
+                            itemAlbum.Selection = selectionAlbum;
                     }
                 }
 
@@ -257,9 +340,9 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - SelectItem - Exception: {0}", ex);
+                Console.WriteLine("SyncMenuPresenter - SelectItemsMobile - Exception: {0}", ex);
             }
-        }
+        }       
 
         private void RemoveItems(List<AudioFile> audioFiles)
         {
@@ -334,7 +417,7 @@ namespace MPfm.MVP.Presenters
                             }
 
                             //_items.InsertRange(index, items);
-                            View.InsertItems(index + 1, items, userData);
+                            View.InsertItems(index + 1, item, items, userData);
                         }
                         break;
                     case SyncMenuItemEntityType.Album:
@@ -350,8 +433,10 @@ namespace MPfm.MVP.Presenters
                         else
                         {
                             int index = _items.FindIndex(x => x.ItemType == SyncMenuItemEntityType.Album && x.ArtistName == item.ArtistName && x.AlbumTitle == item.AlbumTitle);
-                            if(index == -1)
-                                return;
+
+                            // Fails on Mac because of subitems. is this check necessary?
+                            //if(index == -1)
+                            //    return;
 
                             var items = new List<SyncMenuItemEntity>();
                             var songs = _syncClientService.GetAudioFiles(item.ArtistName, item.AlbumTitle);
@@ -366,7 +451,7 @@ namespace MPfm.MVP.Presenters
                                     Selection = (selectionCount == 0) ? StateSelectionType.None : StateSelectionType.Selected
                                 });
                             }
-                            View.InsertItems(index + 1, items, userData);
+                            View.InsertItems(index + 1, item, items, userData);
                         }
                         break;
                     case SyncMenuItemEntityType.Song:

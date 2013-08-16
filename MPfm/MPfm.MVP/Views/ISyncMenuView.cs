@@ -44,7 +44,7 @@ namespace MPfm.MVP.Views
         void RefreshItems(List<SyncMenuItemEntity> items);
         void RefreshSelection(List<AudioFile> audioFiles);
         void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
-        void InsertItems(int index, List<SyncMenuItemEntity> items, object userData);
+        void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData);
         void RemoveItems(int index, int count, object userData);
 	}
 }
