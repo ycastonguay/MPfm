@@ -53,7 +53,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{131, 74}, {606, 236}}</string>
 				<int key="NSWTFlags">611845120</int>
-				<string key="NSWindowTitle">Sync Library</string>
+				<string key="NSWindowTitle">Sync Library With Other Devices</string>
 				<string key="NSWindowClass">SyncWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -74,7 +74,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="44977881">
 								<int key="NSCellFlags">68157504</int>
 								<int key="NSCellFlags2">272630784</int>
-								<string key="NSContents">Sync library with other devices</string>
+								<string key="NSContents">Sync Library With Other Devices</string>
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">HelveticaNeue-Bold</string>
 									<double key="NSSize">16</double>

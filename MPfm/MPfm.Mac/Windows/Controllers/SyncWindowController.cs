@@ -53,6 +53,7 @@ namespace MPfm.Mac
             progressIndicator.StartAnimation(this);
 
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
+            lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
             btnRefreshDevices.StringValue = "Cancel refresh";
 
             btnConnect.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");

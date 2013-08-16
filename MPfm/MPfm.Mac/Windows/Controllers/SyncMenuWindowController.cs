@@ -61,14 +61,43 @@ namespace MPfm.Mac
             outlineView.WeakDelegate = this;
             outlineView.WeakDataSource = this;
             viewTable.Hidden = true;
-            btnSync.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_download");
 
+            LoadFontsAndImages();
+
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineView);
             OnViewReady.Invoke(this);
+        }
+
+        public override void Close()
+        {
+            Console.WriteLine("SyncMenuWindowController - Close");
+            NSNotificationCenter.DefaultCenter.RemoveObserver(this);
+            base.Close();
+        }
+
+        private void LoadFontsAndImages()
+        {
+            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
+            lblSubtitle.Font = NSFont.FromFontName("Junction", 12);
+            lblLoading.Font = NSFont.FromFontName("Junction", 13);
+            lblTotal.Font = NSFont.FromFontName("Junction", 12);
+            lblFreeSpace.Font = NSFont.FromFontName("Junction", 12);
+
+            btnSync.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_download");
+        }
+
+        [Export ("outlineViewItemDidExpand")]
+        public void ItemDidExpand(NSNotification notification)
+        {
+            Console.WriteLine("SyncMenuWindowController - ItemDidExpand");
+            var item = (SyncMenuItem)notification.UserInfo["NSObject"];
+            OnExpandItem(item.Entity, null);
         }
 
         [Export ("outlineView:isItemExpandable:")]
         public bool ItemExpandable(NSOutlineView outlineView, NSObject item)
         {
+            //Console.WriteLine("SyncMenuWindowController - ItemExpandable");
             var syncMenuItem = (SyncMenuItem) item;
             if (syncMenuItem.SubItems.Count > 0)
                 return true;
@@ -79,6 +108,7 @@ namespace MPfm.Mac
         [Export ("outlineView:shouldSelectItem:")]
         public bool ShouldSelectItem(NSOutlineView outlineView, NSObject item)
         {
+            //Console.WriteLine("SyncMenuWindowController - ShouldSelectItem");
             return true;
         }
 
@@ -125,29 +155,48 @@ namespace MPfm.Mac
         [Export("outlineView:viewForTableColumn:item:")]
         public NSView GetViewForItem(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
         {
-            Console.WriteLine("SyncMenuWindowController - GetViewForItem");
+            //Console.WriteLine("SyncMenuWindowController - GetViewForItem");
             var syncMenuItem = (SyncMenuItem)item;
 
-            // Create view
-            NSTableCellView view = (NSTableCellView)outlineView.MakeView("cellTitle", this);
-            view.TextField.Font = NSFont.FromFontName("Junction", 11);
-
-            string title = string.Empty;
-            switch (syncMenuItem.Entity.ItemType)
+            NSTableCellView view = null;
+            string tableColumnIdentifier = ((NSString)(tableColumn.Identifier)).ToString();
+            if (tableColumnIdentifier == "columnTitle")
             {
-                case SyncMenuItemEntityType.Artist:
-                    view.TextField.StringValue = syncMenuItem.Entity.ArtistName;
-                    view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_users");
-                    break;
-                case SyncMenuItemEntityType.Album:
-                    view.TextField.StringValue = syncMenuItem.Entity.AlbumTitle;
-                    view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
-                    break;
-                case SyncMenuItemEntityType.Song:
-                    view.ImageView.Image = null;
-                    if(syncMenuItem.Entity.Song != null)
-                        view.TextField.StringValue = syncMenuItem.Entity.Song.Title;
-                    break;
+                // Create view
+                view = (NSTableCellView)outlineView.MakeView("cellTitle", this);
+                view.TextField.Font = NSFont.FromFontName("Junction", 11);
+
+                switch (syncMenuItem.Entity.ItemType)
+                {
+                    case SyncMenuItemEntityType.Artist:
+                        view.TextField.StringValue = syncMenuItem.Entity.ArtistName;
+                        view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_user");
+                        break;
+                    case SyncMenuItemEntityType.Album:
+                        view.TextField.StringValue = syncMenuItem.Entity.AlbumTitle;
+                        view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
+                        break;
+                    case SyncMenuItemEntityType.Song:
+                        view.ImageView.Image = null;
+                        if (syncMenuItem.Entity.Song != null)
+                            view.TextField.StringValue = syncMenuItem.Entity.Song.Title;
+                        break;
+                }
+            } 
+            else if (tableColumnIdentifier == "columnSelection")
+            {
+                // Create view
+                view = (NSTableCellView)outlineView.MakeView("cellSelection", this);
+
+                foreach (var subview in view.Subviews)
+                {
+                    //Console.WriteLine("#####@$!@$@$ " + subview.GetType().FullName);// + " " + ((NSButton)subview).StringValue);
+                }
+                //view.TextField.Font = NSFont.FromFontName("Junction", 11);
+
+                //view.TextField.StringValue = "hello";
+                //string aaa = "string.";
+
             }
 
             return view;
@@ -189,8 +238,9 @@ namespace MPfm.Mac
 
         public void RefreshLoading(bool isLoading, int progressPercentage)
         {
-            Console.WriteLine("SyncMenuWindowController - RefreshLoading - isLoading: {0} progressPercentage: {1}", isLoading, progressPercentage);
+            //Console.WriteLine("SyncMenuWindowController - RefreshLoading - isLoading: {0} progressPercentage: {1}", isLoading, progressPercentage);
             InvokeOnMainThread(delegate {
+                progressIndicator.DoubleValue = (double)progressPercentage;
                 viewLoading.Hidden = !isLoading;
                 viewTable.Hidden = isLoading;
 
@@ -207,7 +257,7 @@ namespace MPfm.Mac
 
         public void RefreshItems(List<SyncMenuItemEntity> items)
         {
-            Console.WriteLine("SyncMenuWindowController - RefreshItems - items count: {0}", items.Count);
+            //Console.WriteLine("SyncMenuWindowController - RefreshItems - items count: {0}", items.Count);
             InvokeOnMainThread(delegate {
                 _items.Clear();
                 foreach(var item in items)
@@ -234,6 +284,7 @@ namespace MPfm.Mac
 
         public void InsertItems(int index, List<SyncMenuItemEntity> items, object userData)
         {
+            Console.WriteLine("SyncMenuWindowController - InsertItems - index: {0} items.Count: {1}", index, items.Count);
         }
 
         public void RemoveItems(int index, int count, object userData)
