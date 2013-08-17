@@ -27,47 +27,32 @@ namespace MPfm.Mac
 {
     public partial class PreferencesWindowController : BaseWindowController, IDesktopPreferencesView
     {
-        #region Constructors
-        
-        // Called when created from unmanaged code
         public PreferencesWindowController(IntPtr handle) 
             : base (handle)
         {
             Initialize();
         }
         
-        // Call to load from the XIB/NIB file
         public PreferencesWindowController(Action<IBaseView> onViewReady)
             : base ("PreferencesWindow", onViewReady)
         {
             Initialize();
         }
         
-        // Shared initialization code
-        void Initialize()
+        private void Initialize()
         {
+            this.Window.Center();
             this.Window.MakeKeyAndOrderFront(this);
         }
-        
-        #endregion
 
-        public override void AwakeFromNib()
+        public override void WindowDidLoad()
         {
-            base.AwakeFromNib();
+            base.WindowDidLoad();
 
             OnViewReady.Invoke(this);
         }
-
-        //strongly typed window accessor
-        public new PreferencesWindow Window
-        {
-            get
-            {
-                return (PreferencesWindow)base.Window;
-            }
-        }
-
-#region ILibraryPreferencesView implementation
+        
+        #region ILibraryPreferencesView implementation
 
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
@@ -78,7 +63,7 @@ namespace MPfm.Mac
         {
         }
 
-#endregion
+        #endregion
 
     }
 }

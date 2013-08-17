@@ -17,17 +17,17 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.MVP.Views;
-using MPfm.Library.Objects;
-using MPfm.MVP.Models;
+using System.Linq;
 using System.Text;
 using MPfm.Core;
-using MPfm.Mac.Classes.Helpers;
-using MonoMac.Foundation;
-using MonoMac.AppKit;
-using MPfm.Mac.Classes.Objects;
-using System.Linq;
+using MPfm.Library.Objects;
+using MPfm.MVP.Models;
+using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MonoMac.AppKit;
+using MonoMac.Foundation;
+using MPfm.Mac.Classes.Helpers;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {

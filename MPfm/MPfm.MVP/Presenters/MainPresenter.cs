@@ -27,22 +27,12 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class MainPresenter : BasePresenter<IMainView>, IMainPresenter
 	{
-        readonly NavigationManager navigationManager;
+        readonly NavigationManager _navigationManager;
         
-		#region Constructor and Dispose
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.MVP.EffectsPresenter"/> class.
-        /// </summary>
-        /// <param name='playerService'>
-        /// Player service.
-        /// </param>
 		public MainPresenter(NavigationManager navigationManager)
 		{
-            this.navigationManager = navigationManager;          
+            _navigationManager = navigationManager;          
 		}
-
-		#endregion
         
         public override void BindView(IMainView view)
         {            
@@ -56,20 +46,22 @@ namespace MPfm.MVP.Presenters
         
         void OpenPlaylistWindow()
         {
+            _navigationManager.CreatePlaylistView();
         }
 
         void OpenEffectsWindow()
         {
+            _navigationManager.CreateEffectsView();
         }
 
         void OpenPreferencesWindow()
         {
-            navigationManager.CreatePreferencesView();
+            _navigationManager.CreatePreferencesView();
         }
 
         void OpenSyncWindow()
         {
-            navigationManager.CreateSyncView();
+            _navigationManager.CreateSyncView();
         }        
     }
 }

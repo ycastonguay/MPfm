@@ -31,48 +31,32 @@ namespace MPfm.Mac
 {
     public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
     {
-        #region Constructors
-        
-        // Called when created from unmanaged code
         public PlaylistWindowController(IntPtr handle) 
             : base (handle)
         {
             Initialize();
         }
         
-        // Call to load from the XIB/NIB file
         public PlaylistWindowController(Action<IBaseView> onViewReady)
             : base ("PlaylistWindow", onViewReady)
         {
             Initialize();
         }
         
-        // Shared initialization code
-        void Initialize()
+        private void Initialize()
         {
-        }
-        
-        #endregion
-        
-        //strongly typed window accessor
-        public new PlaylistWindow Window
-        {
-            get
-            {
-                return (PlaylistWindow)base.Window;
-            }
+            this.Window.Center();
+            this.Window.MakeKeyAndOrderFront(this);
         }
 
-        public override void AwakeFromNib()
+        public override void WindowDidLoad()
         {
-            base.AwakeFromNib();
-
+            base.WindowDidLoad();
             LoadImages();
         }
 
         private void LoadImages()
         {
-            // Load images in toolbar
             toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarNewPlaylist").Image = ImageResources.images32x32[11];
             toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarLoadPlaylist").Image = ImageResources.images32x32[0];
             toolbar.Items.FirstOrDefault(x => x.Identifier == "toolbarSavePlaylist").Image = ImageResources.images32x32[12];

@@ -21,9 +21,9 @@ using System.Collections.Generic;
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-    /// Preferences view for desktop (combines audio/general/library preferences)
+    /// Effects view for desktop (combines EqualizerPresets/EqualizerPresetDetails)
 	/// </summary>
-    public interface IDesktopPreferencesView : IAudioPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+    public interface IDesktopEffectsView : IEqualizerPresetsView, IEqualizerPresetDetailsView
 	{
     }
 }

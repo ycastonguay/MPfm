@@ -40,13 +40,20 @@ namespace MPfm.MVP.Navigation
         private ILibraryBrowserPresenter _libraryBrowserPresenter;
         private ISongBrowserPresenter _songBrowserPresenter;
 
-        private IDesktopPreferencesView _desktopPreferencesView;
+        private IDesktopPreferencesView _preferencesView;
         private IAudioPreferencesPresenter _audioPreferencesPresenter;
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
+        private IPlaylistView _playlistView;
+        private IPlaylistPresenter _playlistPresenter;
+
         private IUpdateLibraryView _updateLibraryView;
         private IUpdateLibraryPresenter _updateLibraryPresenter;
+
+        private IDesktopEffectsView _effectsView;
+        private IEqualizerPresetsPresenter _equalizerPresetsPresenter;
+        private IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
 
         private ISyncView _syncView;
         private ISyncPresenter _syncPresenter;
@@ -105,14 +112,12 @@ namespace MPfm.MVP.Navigation
         
         public virtual IDesktopPreferencesView CreatePreferencesView()
         {
-            // If the view is still visible, just make it the top level window
-            if(_desktopPreferencesView != null)
+            if(_preferencesView != null)
             {
-                _desktopPreferencesView.ShowView(true);
-                return _desktopPreferencesView;
+                _preferencesView.ShowView(true);
+                return _preferencesView;
             }
             
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) => {                    
                 _audioPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
                 _audioPreferencesPresenter.BindView((IAudioPreferencesView)view);
@@ -122,15 +127,38 @@ namespace MPfm.MVP.Navigation
                 _libraryPreferencesPresenter.BindView((ILibraryPreferencesView)view);
             };
             
-            // Create view and manage view destruction
-            _desktopPreferencesView = Bootstrapper.GetContainer().Resolve<IDesktopPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _desktopPreferencesView.OnViewDestroy = (view) => {
-                _desktopPreferencesView = null;
+            _preferencesView = Bootstrapper.GetContainer().Resolve<IDesktopPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _preferencesView.OnViewDestroy = (view) => {
+                _preferencesView = null;
                 _audioPreferencesPresenter = null;
                 _generalPreferencesPresenter = null;
                 _libraryPreferencesPresenter = null;
             };
-            return _desktopPreferencesView;
+            return _preferencesView;
+        }
+
+        public virtual IDesktopEffectsView CreateEffectsView()
+        {
+            if(_effectsView != null)
+            {
+                _effectsView.ShowView(true);
+                return _effectsView;
+            }
+
+            Action<IBaseView> onViewReady = (view) => {                    
+                _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
+                _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
+                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>();
+                _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
+            };
+
+            _effectsView = Bootstrapper.GetContainer().Resolve<IDesktopEffectsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _effectsView.OnViewDestroy = (view) => {
+                _effectsView = null;
+                _equalizerPresetsPresenter = null;
+                _equalizerPresetDetailsPresenter = null;
+            };
+            return _effectsView;
         }
 
         public virtual ISyncView CreateSyncView()
@@ -202,6 +230,29 @@ namespace MPfm.MVP.Navigation
                 _syncDownloadPresenter = null;
             };
             return _syncDownloadView;
+        }
+
+        public virtual IPlaylistView CreatePlaylistView()
+        {
+            if(_playlistView != null)
+            {
+                _playlistView.ShowView(true);
+                return _playlistView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _playlistPresenter = Bootstrapper.GetContainer().Resolve<IPlaylistPresenter>();
+                _playlistPresenter.BindView((IPlaylistView)view);
+            };
+
+            // Create view and manage view destruction
+            _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _playlistView.OnViewDestroy = (view) => {
+                _playlistView = null;
+                _playlistPresenter = null;
+            };
+            return _playlistView;
         }
     }
 }

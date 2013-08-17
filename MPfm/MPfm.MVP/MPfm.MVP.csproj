@@ -231,5 +231,6 @@
     <Compile Include="Presenters\SyncDownloadPresenter.cs" />
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
     <Compile Include="Views\IDesktopPreferencesView.cs" />
+    <Compile Include="Views\IDesktopEffectsView.cs" />
   </ItemGroup>
 </Project>
