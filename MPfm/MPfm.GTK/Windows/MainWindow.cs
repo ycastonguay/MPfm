@@ -509,7 +509,7 @@ namespace MPfm.GTK.Windows
 		    text += "\nThe BASS.NET audio library is © 2005-2012 radio42.";
 	
 
-			MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, text);
+			MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, text);
 			md.Run();
 			md.Destroy();
 		}
@@ -809,7 +809,7 @@ namespace MPfm.GTK.Windows
 				sb.AppendLine(ex.Message);
 				sb.AppendLine();
 				sb.AppendLine(ex.StackTrace);																
-				MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
+				MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
 				md.Run();
 				md.Destroy();
 			});
@@ -910,7 +910,7 @@ namespace MPfm.GTK.Windows
 				catch(Exception ex) {
 					Console.WriteLine("RefreshSongBrowser - Exception: " + ex.Message + "\n" + ex.StackTrace);
 					throw ex;
-					//MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "An error occured while refreshing the Song Browser: " + ex.Message + "\n" + ex.StackTrace);
+					//MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "An error occured while refreshing the Song Browser: " + ex.Message + "\n" + ex.StackTrace);
 					//md.Run();
 					//md.Destroy();
 				}

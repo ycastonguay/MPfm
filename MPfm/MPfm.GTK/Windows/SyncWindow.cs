@@ -158,7 +158,7 @@ namespace MPfm.GTK
                 sb.AppendLine(ex.Message);
                 sb.AppendLine();
                 sb.AppendLine(ex.StackTrace);                                                               
-                MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
                 md.Run();
                 md.Destroy();
             });

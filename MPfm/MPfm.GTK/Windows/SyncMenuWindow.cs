@@ -212,7 +212,7 @@ namespace MPfm.GTK
                 sb.AppendLine(ex.Message);
                 sb.AppendLine();
                 sb.AppendLine(ex.StackTrace);                                                               
-                MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
                 md.Run();
                 md.Destroy();
             });
@@ -221,7 +221,7 @@ namespace MPfm.GTK
         public void SyncEmptyError(Exception ex)
         {
             Gtk.Application.Invoke(delegate{            
-                MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, ex.Message);
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, ex.Message);
                 md.Run();
                 md.Destroy();
             });
