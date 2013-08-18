@@ -3253,7 +3253,6 @@
     <property name="Title" translatable="yes">Update Library</property>
     <property name="WindowPosition">Center</property>
     <property name="Modal">True</property>
-    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vboxMain">
         <property name="MemberName" />
@@ -3464,7 +3463,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.SyncWindow" design-size="558 363">
+  <widget class="Gtk.Window" id="MPfm.GTK.SyncWindow" design-size="604 363">
     <property name="MemberName" />
     <property name="Title" translatable="yes">SyncWindow</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -3514,17 +3513,12 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="btnConnectManual">
+              <widget class="Gtk.ProgressBar" id="progressBar">
                 <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Connect manually to a device</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnClickConnectManual" />
               </widget>
               <packing>
                 <property name="Position">1</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
               </packing>
@@ -3566,6 +3560,7 @@
                 <property name="Icon">stock:gtk-cancel Menu</property>
                 <property name="Label" translatable="yes">Cancel refresh</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickRefreshDeviceList" />
               </widget>
               <packing>
                 <property name="Position">0</property>
@@ -3575,12 +3570,32 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ProgressBar" id="progressBar">
+              <widget class="Gtk.Alignment" id="alignment1">
                 <property name="MemberName" />
+                <child>
+                  <placeholder />
+                </child>
               </widget>
               <packing>
                 <property name="Position">1</property>
+                <property name="AutoSize">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="btnConnectManual">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-go-forward Menu</property>
+                <property name="Label" translatable="yes">Connect manually to a device</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickConnectManual" />
+              </widget>
+              <packing>
+                <property name="Position">2</property>
                 <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
               </packing>
             </child>
             <child>
@@ -3594,7 +3609,7 @@
                 <signal name="Clicked" handler="OnClickConnect" />
               </widget>
               <packing>
-                <property name="Position">2</property>
+                <property name="Position">3</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -3611,7 +3626,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.SyncMenuWindow" design-size="640 475">
+  <widget class="Gtk.Window" id="MPfm.GTK.SyncMenuWindow" design-size="640 485">
     <property name="MemberName" />
     <property name="Title" translatable="yes">SyncMenuWindow</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -3661,20 +3676,7 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="btnSync">
-                <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-go-forward Menu</property>
-                <property name="Label" translatable="yes">Sync</property>
-                <property name="UseUnderline">True</property>
-              </widget>
-              <packing>
-                <property name="Position">1</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
+              <placeholder />
             </child>
           </widget>
           <packing>
@@ -3708,15 +3710,154 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+          <widget class="Gtk.HPaned" id="hpaned1">
             <property name="MemberName" />
-            <property name="ShadowType">In</property>
+            <property name="CanFocus">True</property>
+            <property name="Position">331</property>
             <child>
-              <widget class="Gtk.TreeView" id="treeView">
+              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="ShowScrollbars">True</property>
-                <signal name="RowExpanded" handler="OnTreeViewRowExpanded" />
+                <property name="ShadowType">In</property>
+                <child>
+                  <widget class="Gtk.TreeView" id="treeView">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="ShowScrollbars">True</property>
+                    <signal name="RowExpanded" handler="OnTreeViewRowExpanded" />
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="Resize">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.HBox" id="hbox1">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.VBox" id="vbox1">
+                    <property name="MemberName" />
+                    <property name="Spacing">6</property>
+                    <child>
+                      <widget class="Gtk.Alignment" id="alignment2">
+                        <property name="MemberName" />
+                        <child>
+                          <placeholder />
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnAdd">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">&gt;</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnClickAdd" />
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnRemove">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">&lt;</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnClickRemove" />
+                      </widget>
+                      <packing>
+                        <property name="Position">2</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnAddAll">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">&gt;&gt;</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnClickAddAll" />
+                      </widget>
+                      <packing>
+                        <property name="Position">3</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Button" id="btnRemoveAll">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Type">TextOnly</property>
+                        <property name="Label" translatable="yes">&lt;&lt;</property>
+                        <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="OnClickRemoveAll" />
+                      </widget>
+                      <packing>
+                        <property name="Position">4</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Alignment" id="alignment3">
+                        <property name="MemberName" />
+                        <child>
+                          <widget class="Gtk.Alignment" id="alignment4">
+                            <property name="MemberName" />
+                            <child>
+                              <placeholder />
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">5</property>
+                        <property name="AutoSize">True</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                    <property name="MemberName" />
+                    <property name="ShadowType">In</property>
+                    <child>
+                      <widget class="Gtk.TreeView" id="treeViewSelection">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="ShowScrollbars">True</property>
+                        <signal name="RowExpanded" handler="OnTreeViewRowExpanded" />
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
               </widget>
             </child>
           </widget>
@@ -3766,12 +3907,14 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="btnSelectAll">
+              <widget class="Gtk.Button" id="btnSync">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Select all</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-go-forward Menu</property>
+                <property name="Label" translatable="yes">Sync</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickSync" />
               </widget>
               <packing>
                 <property name="Position">1</property>

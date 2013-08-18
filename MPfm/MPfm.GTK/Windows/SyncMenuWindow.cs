@@ -25,12 +25,14 @@ using System.Reflection;
 using System.Text;
 using Gtk;
 using MPfm.Sound.AudioFiles;
+using MPfm.GTK.Helpers;
 
 namespace MPfm.GTK
 {
     public partial class SyncMenuWindow : BaseWindow, ISyncMenuView
     {
         Gtk.TreeStore _storeItems;
+        Gtk.TreeStore _storeSelection;
 
         public SyncMenuWindow(Action<IBaseView> onViewReady) : 
             base(Gtk.WindowType.Toplevel, onViewReady)
@@ -39,8 +41,9 @@ namespace MPfm.GTK
 
             Title = "Sync Library With";
             InitializeTreeView();
+            InitializeSelectionTreeView();
 
-            btnSelectAll.GrabFocus(); // the list view changes color when focused by default. it annoys me!
+            btnSync.GrabFocus(); // the list view changes color when focused by default. it annoys me!
             this.Center();
             this.Show();
             onViewReady(this);
@@ -50,25 +53,29 @@ namespace MPfm.GTK
         {
             _storeItems = new Gtk.TreeStore(typeof(SyncMenuItemEntity));
             treeView.HeadersVisible = false;
-
-            // Create title column
+            treeView.Selection.Mode = SelectionMode.Multiple;
             Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
             Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();    
             Gtk.CellRendererPixbuf cellPixbuf = new Gtk.CellRendererPixbuf();
-            Gtk.CellRendererToggle cellToggle = new Gtk.CellRendererToggle();
-            cellToggle.Activatable = true;
-            cellToggle.Toggled += (o, args) => {
-                var cellRendererToggle = (Gtk.CellRendererToggle)o;
-                //cellRendererToggle.Active = !cellRendererToggle.Active;
-                Console.WriteLine("******* Toggle {0}", cellRendererToggle.Data["itemType"]);
-            };
             colTitle.PackStart(cellPixbuf, false);
             colTitle.PackStart(cellTitle, true);
-            colTitle.PackStart(cellToggle, false);
             colTitle.SetCellDataFunc(cellPixbuf, new Gtk.TreeCellDataFunc(RenderCell));
             colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderCell));
-            colTitle.SetCellDataFunc(cellToggle, new Gtk.TreeCellDataFunc(RenderCell));
             treeView.AppendColumn(colTitle);
+        }
+
+        private void InitializeSelectionTreeView()
+        {
+            _storeSelection = new Gtk.TreeStore(typeof(AudioFile));
+            treeViewSelection.ShowExpanders = false;
+            treeViewSelection.HeadersVisible = false;
+            treeViewSelection.Selection.Mode = SelectionMode.Multiple;
+
+            Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
+            Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();    
+            colTitle.PackStart(cellTitle, true);
+            colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderSelectionCell));
+            treeViewSelection.AppendColumn(colTitle);
         }
 
         private void RenderCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -98,15 +105,32 @@ namespace MPfm.GTK
             else if (cell is Gtk.CellRendererPixbuf)
             {
                 var cellPixbuf = (Gtk.CellRendererPixbuf)cell;
-                var pixbuf = new Gdk.Pixbuf("android.png");
-                cellPixbuf.Pixbuf = pixbuf;
+
+                Gdk.Pixbuf pixbuf = null;
+                switch (entity.ItemType)
+                {
+                    case SyncMenuItemEntityType.Artist:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_user.png");
+                        break;
+                    case SyncMenuItemEntityType.Album:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_vinyl.png");
+                        break;
+                    case SyncMenuItemEntityType.Song:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_song.png");
+                        break;
+                }
+
+                if(pixbuf != null)
+                    cellPixbuf.Pixbuf = pixbuf;
             }
-            else if (cell is Gtk.CellRendererToggle)
-            {
-                var cellToggle = (Gtk.CellRendererToggle)cell;
-                cellToggle.Data.Clear();
-                cellToggle.Data.Add("itemType", entity.ItemType.ToString());
-            }
+        }
+
+        private void RenderSelectionCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+        {
+            //Console.WriteLine("SyncMenuWindow - RenderSelectionCell");
+            AudioFile audioFile = (AudioFile)model.GetValue(iter, 0);
+            string title = string.Format("{0} / {1} / {2}. {3}", audioFile.ArtistName, audioFile.AlbumTitle, audioFile.TrackNumber, audioFile.Title);
+            (cell as Gtk.CellRendererText).Text = title;
         }
 
         protected void OnTreeViewRowExpanded(object o, RowExpandedArgs args)
@@ -121,8 +145,53 @@ namespace MPfm.GTK
             if (entityChild.ArtistName == "dummy" && entityChild.AlbumTitle == "dummy")
             {
                 Console.WriteLine("SyncMenuWindow - OnTreeViewRowExpanded -- Expanding node...");
-                OnExpandItem(entity, null);
+                OnExpandItem(entity, args.Iter);
             }
+        }
+
+        protected void OnClickSync(object sender, EventArgs e)
+        {
+            OnSync();
+        }
+
+        protected void OnClickAdd(object sender, EventArgs e)
+        {
+            TreeIter iter;  
+            var treePaths = treeView.Selection.GetSelectedRows();
+            List<SyncMenuItemEntity> items = new List<SyncMenuItemEntity>();
+            foreach (var treePath in treePaths)
+            {
+                _storeItems.GetIter(out iter, treePath);
+                var entity = (SyncMenuItemEntity)_storeItems.GetValue(iter, 0);
+                items.Add(entity);
+            }
+
+            OnSelectItems(items);
+        }
+
+        protected void OnClickRemove(object sender, EventArgs e)
+        {
+            TreeIter iter;  
+            var treePaths = treeViewSelection.Selection.GetSelectedRows();
+            List<AudioFile> audioFiles = new List<AudioFile>();
+            foreach (var treePath in treePaths)
+            {
+                _storeSelection.GetIter(out iter, treePath);
+                var audioFile = (AudioFile)_storeSelection.GetValue(iter, 0);
+                audioFiles.Add(audioFile);
+            }
+
+            OnRemoveItems(audioFiles);
+        }
+
+        protected void OnClickAddAll(object sender, EventArgs e)
+        {
+            OnSelectAll();
+        }
+
+        protected void OnClickRemoveAll(object sender, EventArgs e)
+        {
+            OnRemoveAll();
         }
 
         #region ISyncMenuView implementation
@@ -209,6 +278,15 @@ namespace MPfm.GTK
 
         public void RefreshSelection(List<AudioFile> audioFiles)
         {
+            Gtk.Application.Invoke(delegate{
+                Console.WriteLine("SyncMenuWindow - RefreshSelection");
+
+                _storeSelection.Clear();
+                foreach(AudioFile audioFile in audioFiles)
+                    _storeSelection.AppendValues(audioFile);
+                            
+                treeViewSelection.Model = _storeSelection;
+            });
         }
 
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
@@ -223,14 +301,14 @@ namespace MPfm.GTK
         {
             Gtk.Application.Invoke(delegate{
                 Console.WriteLine("SyncMenuWindow - InsertItems - index {0}", index);
-                TreeIter treeIter;
-                Gtk.TreePath treePath = new TreePath((index-1).ToString());
-                _storeItems.GetIter(out treeIter, treePath);
-                object stuff = _storeItems.GetValue(treeIter, 0);
+                TreeIter treeIter = (TreeIter)userData;
+                //Gtk.TreePath treePath = new TreePath((index-1).ToString());
+                //_storeItems.GetIter(out treeIter, treePath);
+                //object stuff = _storeItems.GetValue(treeIter, 0);
                 //_storeItems.IterNthChild(out treeIter, index-1);
                 TreeIter treeIterDummy;
                 _storeItems.IterNthChild(out treeIterDummy, treeIter, 0);
-                object stuff2 = _storeItems.GetValue(treeIterDummy, 0);
+                //object stuff2 = _storeItems.GetValue(treeIterDummy, 0);
 
                 // Add new children
                 foreach(var item in items)

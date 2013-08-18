@@ -78,6 +78,26 @@
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\icon_android.png" />
+    <EmbeddedResource Include="Resources\icon_artists.png" />
+    <EmbeddedResource Include="Resources\icon_linux.png" />
+    <EmbeddedResource Include="Resources\icon_osx.png" />
+    <EmbeddedResource Include="Resources\icon_phone.png" />
+    <EmbeddedResource Include="Resources\icon_song.png" />
+    <EmbeddedResource Include="Resources\icon_tablet.png" />
+    <EmbeddedResource Include="Resources\icon_user.png" />
+    <EmbeddedResource Include="Resources\icon_vinyl.png" />
+    <EmbeddedResource Include="Resources\icon_windows.png" />
+    <EmbeddedResource Include="Resources\black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\icon48.png">
+      <DeployService-UseProjectRelativePath>true</DeployService-UseProjectRelativePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\splash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -90,7 +110,6 @@
     <Compile Include="Windows\SplashWindow.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
     <Compile Include="Classes\Navigation\GtkNavigationManager.cs" />
-    <Compile Include="Classes\Helpers\ImageManipulation.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.Windows.EffectsWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.Windows.MainWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.Windows.PlaylistWindow.cs" />
@@ -105,6 +124,8 @@
     <Compile Include="Classes\LinuxSyncDeviceSpecifications.cs" />
     <Compile Include="Windows\SyncMenuWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.SyncMenuWindow.cs" />
+    <Compile Include="Classes\Helpers\SystemDrawingHelper.cs" />
+    <Compile Include="Classes\Helpers\ResourceHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -165,18 +186,6 @@
     <Folder Include="Classes\" />
     <Folder Include="Classes\Navigation\" />
     <Folder Include="Classes\Helpers\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="icon48.png">
-      <DeployService-UseProjectRelativePath>true</DeployService-UseProjectRelativePath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Splash.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="android.png" />
-    <Content Include="black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="Resources\" />
   </ItemGroup>
 </Project>

@@ -9,12 +9,13 @@ namespace MPfm.GTK
 		private global::Gtk.VBox vbox2;
 		private global::Gtk.Label lblTitle;
 		private global::Gtk.Label lblSubtitle;
-		private global::Gtk.Button btnConnectManual;
+		private global::Gtk.ProgressBar progressBar;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.TreeView treeViewDevices;
 		private global::Gtk.HBox hbox1;
 		private global::Gtk.Button btnRefreshDeviceList;
-		private global::Gtk.ProgressBar progressBar;
+		private global::Gtk.Alignment alignment1;
+		private global::Gtk.Button btnConnectManual;
 		private global::Gtk.Button btnSyncLibraryWithDevice;
 		
 		protected virtual void Build ()
@@ -61,13 +62,10 @@ namespace MPfm.GTK
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.vbox2]));
 			w3.Position = 0;
 			// Container child hbox2.Gtk.Box+BoxChild
-			this.btnConnectManual = new global::Gtk.Button ();
-			this.btnConnectManual.CanFocus = true;
-			this.btnConnectManual.Name = "btnConnectManual";
-			this.btnConnectManual.UseUnderline = true;
-			this.btnConnectManual.Label = global::Mono.Unix.Catalog.GetString ("Connect manually to a device");
-			this.hbox2.Add (this.btnConnectManual);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.btnConnectManual]));
+			this.progressBar = new global::Gtk.ProgressBar ();
+			this.progressBar.Name = "progressBar";
+			this.hbox2.Add (this.progressBar);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.progressBar]));
 			w4.Position = 1;
 			w4.Expand = false;
 			w4.Fill = false;
@@ -119,17 +117,17 @@ namespace MPfm.GTK
 			w16.Expand = false;
 			w16.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.progressBar = new global::Gtk.ProgressBar ();
-			this.progressBar.Name = "progressBar";
-			this.hbox1.Add (this.progressBar);
-			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.progressBar]));
+			this.alignment1 = new global::Gtk.Alignment (0.5F, 0.5F, 1F, 1F);
+			this.alignment1.Name = "alignment1";
+			this.hbox1.Add (this.alignment1);
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.alignment1]));
 			w17.Position = 1;
 			// Container child hbox1.Gtk.Box+BoxChild
-			this.btnSyncLibraryWithDevice = new global::Gtk.Button ();
-			this.btnSyncLibraryWithDevice.CanFocus = true;
-			this.btnSyncLibraryWithDevice.Name = "btnSyncLibraryWithDevice";
-			this.btnSyncLibraryWithDevice.UseUnderline = true;
-			// Container child btnSyncLibraryWithDevice.Gtk.Container+ContainerChild
+			this.btnConnectManual = new global::Gtk.Button ();
+			this.btnConnectManual.CanFocus = true;
+			this.btnConnectManual.Name = "btnConnectManual";
+			this.btnConnectManual.UseUnderline = true;
+			// Container child btnConnectManual.Gtk.Container+ContainerChild
 			global::Gtk.Alignment w18 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
 			global::Gtk.HBox w19 = new global::Gtk.HBox ();
@@ -140,28 +138,55 @@ namespace MPfm.GTK
 			w19.Add (w20);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w22 = new global::Gtk.Label ();
-			w22.LabelProp = global::Mono.Unix.Catalog.GetString ("Connect to device");
+			w22.LabelProp = global::Mono.Unix.Catalog.GetString ("Connect manually to a device");
 			w22.UseUnderline = true;
 			w19.Add (w22);
 			w18.Add (w19);
-			this.btnSyncLibraryWithDevice.Add (w18);
-			this.hbox1.Add (this.btnSyncLibraryWithDevice);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnSyncLibraryWithDevice]));
+			this.btnConnectManual.Add (w18);
+			this.hbox1.Add (this.btnConnectManual);
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnConnectManual]));
 			w26.Position = 2;
 			w26.Expand = false;
 			w26.Fill = false;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.btnSyncLibraryWithDevice = new global::Gtk.Button ();
+			this.btnSyncLibraryWithDevice.CanFocus = true;
+			this.btnSyncLibraryWithDevice.Name = "btnSyncLibraryWithDevice";
+			this.btnSyncLibraryWithDevice.UseUnderline = true;
+			// Container child btnSyncLibraryWithDevice.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w27 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w28 = new global::Gtk.HBox ();
+			w28.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w29 = new global::Gtk.Image ();
+			w29.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-go-forward", global::Gtk.IconSize.Menu);
+			w28.Add (w29);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w31 = new global::Gtk.Label ();
+			w31.LabelProp = global::Mono.Unix.Catalog.GetString ("Connect to device");
+			w31.UseUnderline = true;
+			w28.Add (w31);
+			w27.Add (w28);
+			this.btnSyncLibraryWithDevice.Add (w27);
+			this.hbox1.Add (this.btnSyncLibraryWithDevice);
+			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnSyncLibraryWithDevice]));
+			w35.Position = 3;
+			w35.Expand = false;
+			w35.Fill = false;
 			this.vbox1.Add (this.hbox1);
-			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
-			w27.Position = 2;
-			w27.Expand = false;
-			w27.Fill = false;
+			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w36.Position = 2;
+			w36.Expand = false;
+			w36.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 558;
+			this.DefaultWidth = 604;
 			this.DefaultHeight = 363;
 			this.Show ();
+			this.btnRefreshDeviceList.Clicked += new global::System.EventHandler (this.OnClickRefreshDeviceList);
 			this.btnConnectManual.Clicked += new global::System.EventHandler (this.OnClickConnectManual);
 			this.btnSyncLibraryWithDevice.Clicked += new global::System.EventHandler (this.OnClickConnect);
 		}

@@ -19,6 +19,7 @@ using System;
 using Gdk;
 using MPfm.MVP;
 using MPfm.MVP.Views;
+using MPfm.GTK.Helpers;
 
 namespace MPfm.GTK.Windows
 {
@@ -39,7 +40,7 @@ namespace MPfm.GTK.Windows
 			this.lblStatus.ModifyFg(Gtk.StateType.Normal, new Color(255, 255, 255));
 			
 			// Set image background
-			Pixbuf imageCover = new Pixbuf("Splash.png");
+            Pixbuf imageCover = ResourceHelper.GetEmbeddedImageResource("splash.png");
 			imageBackground.Pixbuf = imageCover;
 			
 			//splashPresenter.BindView(this);

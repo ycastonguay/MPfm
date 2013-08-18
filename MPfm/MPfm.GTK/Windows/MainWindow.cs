@@ -58,7 +58,8 @@ namespace MPfm.GTK.Windows
 	        Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 	
 			// Set application icon (for some reason it is not visible on Unity)
-			SetIconFromFile("icon48.png");
+			//SetIconFromFile(ResourceHelper.GetEmbeddedImageResource("icon48.png"));
+            Icon = ResourceHelper.GetEmbeddedImageResource("icon48.png");
 			
 			SetFontProperties();
 			InitializeSongBrowser();
@@ -715,7 +716,7 @@ namespace MPfm.GTK.Windows
 					if(drawingImage != null)
 					{
 						// Resize image and set cover
-						drawingImage = ImageManipulation.ResizeImage(drawingImage, 150, 150);
+						drawingImage = SystemDrawingHelper.ResizeImage(drawingImage, 150, 150);
 						imageAlbumCover.Pixbuf = ImageToPixbuf(drawingImage);
 					}
 					else
@@ -769,7 +770,7 @@ namespace MPfm.GTK.Windows
 					// Check if image cover is still empty
 					if(imageAlbumCover.Pixbuf == null)
 					{				
-						Pixbuf imageCover = new Pixbuf("black.png");
+                        Pixbuf imageCover = ResourceHelper.GetEmbeddedImageResource("black.png");
 						imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
 						imageAlbumCover.Pixbuf = imageCover;
 					}

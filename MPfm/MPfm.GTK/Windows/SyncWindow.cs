@@ -16,13 +16,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.MVP.Views;
 using System.Collections.Generic;
-using MPfm.MVP.Models;
+using System.Text;
+using MPfm.GTK.Helpers;
 using MPfm.GTK.Windows;
 using MPfm.Library.Objects;
-using System.Reflection;
-using System.Text;
+using MPfm.MVP.Views;
 using Gtk;
 
 namespace MPfm.GTK
@@ -95,8 +94,28 @@ namespace MPfm.GTK
             else if (cell is Gtk.CellRendererPixbuf)
             {
                 var cellPixbuf = (Gtk.CellRendererPixbuf)cell;
-                var pixbuf = new Gdk.Pixbuf("android.png");
-                cellPixbuf.Pixbuf = pixbuf;
+                Gdk.Pixbuf pixbuf = null;
+                switch (device.DeviceType)
+                {
+                    case SyncDeviceType.Linux:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_linux.png");
+                        break;
+                    case SyncDeviceType.OSX:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_osx.png");
+                        break;
+                    case SyncDeviceType.Windows:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_windows.png");
+                        break;
+                    case SyncDeviceType.iOS:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_phone.png");
+                        break;
+                    case SyncDeviceType.Android:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_android.png");
+                        break;
+                }
+
+                if(pixbuf != null)
+                    cellPixbuf.Pixbuf = pixbuf;
             }
         }
 
