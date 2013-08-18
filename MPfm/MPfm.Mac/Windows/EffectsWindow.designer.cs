@@ -224,6 +224,9 @@ namespace MPfm.Mac
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblScaleMinus6 { get; set; }
 
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnNewPreset { get; set; }
+
 		[Action ("actionSlider0ChangeValue:")]
 		partial void actionSlider0ChangeValue (MonoMac.Foundation.NSObject sender);
 
@@ -298,6 +301,9 @@ namespace MPfm.Mac
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionNewPreset:")]
+		partial void actionNewPreset (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -654,6 +660,11 @@ namespace MPfm.Mac
 			if (lblScaleMinus6 != null) {
 				lblScaleMinus6.Dispose ();
 				lblScaleMinus6 = null;
+			}
+
+			if (btnNewPreset != null) {
+				btnNewPreset.Dispose ();
+				btnNewPreset = null;
 			}
 		}
 	}

@@ -38,10 +38,41 @@ namespace MPfm.MVP.Presenters
 
         public EqualizerPresetDetailsPresenter(EQPreset preset, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
-            _preset = preset;
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
+            ChangePreset(preset);
+		}
+
+        public override void BindView(IEqualizerPresetDetailsView view)
+        {
+            base.BindView(view);
+
+            view.OnChangePreset = ChangePreset;
+            view.OnNormalizePreset = NormalizePreset;
+            view.OnResetPreset = ResetPreset;
+            view.OnSavePreset = SavePreset;
+            view.OnSetFaderGain = SetFaderGain;
+            view.OnRevertPreset = RevertPreset;
+
+            _playerService.ApplyEQPreset(_preset);
+            View.RefreshPreset(_preset);
+        }
+
+        public void ChangePreset(Guid equalizerPresetId)
+        {
+            // Only used on desktop devices where the EqualizerPreset and EqualizerPresetDetails are merged into the same view
+            var preset = _libraryService.SelectEQPreset(equalizerPresetId);
+            if (preset == null)
+                return;
+
+            ChangePreset(preset);
+            View.RefreshPreset(preset);
+        }
+
+        public void ChangePreset(EQPreset preset)
+        {
+            _preset = preset;
 
             // Clone band values to make sure we're not dealing with the same instance
             _originalPresetBands = new List<EQPresetBand>();
@@ -54,20 +85,6 @@ namespace MPfm.MVP.Presenters
                     Gain = band.Gain,
                     Q = band.Q
                 });
-		}
-
-        public override void BindView(IEqualizerPresetDetailsView view)
-        {
-            base.BindView(view);
-
-            view.OnNormalizePreset = NormalizePreset;
-            view.OnResetPreset = ResetPreset;
-            view.OnSavePreset = SavePreset;
-            view.OnSetFaderGain = SetFaderGain;
-            view.OnRevertPreset = RevertPreset;
-
-            _playerService.ApplyEQPreset(_preset);
-            View.RefreshPreset(_preset);
         }
 
         public void RevertPreset()
@@ -156,6 +173,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                Console.WriteLine("EqualizerPresetDetailsPresenter - SetFaderGain - frequency: {0} gain: {1}", frequency, gain);
                 var band = _preset.Bands.FirstOrDefault(x => x.CenterString == frequency);
                 band.Gain = gain;
                 int index = _preset.Bands.IndexOf(band);

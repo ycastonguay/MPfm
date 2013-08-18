@@ -26,11 +26,14 @@ using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.Mac.Classes.Objects;
+using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac
 {
     public partial class EffectsWindowController : BaseWindowController, IDesktopEffectsView
     {
+        EQPreset _preset;
+
         public EffectsWindowController(IntPtr handle) 
             : base (handle)
         {
@@ -81,6 +84,7 @@ namespace MPfm.Mac
             lblScaleMinus6.Font = NSFont.FromFontName("Junction", 11f);
             txtName.Font = NSFont.FromFontName("Junction", 11f);
 
+            btnNewPreset.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_exclamation");
             btnAutoLevel.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_shape_align_middle");
             btnDelete.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_delete");
             btnSave.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_tick");
@@ -143,18 +147,28 @@ namespace MPfm.Mac
 
         partial void actionPresetChange(NSObject sender)
         {
+            string tag = popupPreset.SelectedItem.ToolTip;
+            OnLoadPreset(new Guid(tag)); // EqualizerPresets
+            OnChangePreset(new Guid(tag)); // EqualizerPresetDetails
         }
 
         partial void actionEQOnChange(NSObject sender)
         {
+            OnBypassEqualizer();
         }
 
         partial void actionNameChanged(NSObject sender)
         {
         }
 
+        partial void actionNewPreset(NSObject sender)
+        {
+            OnAddPreset();
+        }
+
         partial void actionSave(NSObject sender)
         {
+            OnSavePreset(txtName.StringValue);
         }
 
         partial void actionDelete(NSObject sender)
@@ -163,105 +177,187 @@ namespace MPfm.Mac
 
         partial void actionAutoLevel(NSObject sender)
         {
+            // Display confirmation dialog
+            using(NSAlert alert = new NSAlert())
+            {
+                alert.MessageText = "Equalizer preset will be normalized";
+                alert.InformativeText = "Are you sure you wish to normalize this equalizer preset?";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    //NSApplication.SharedApplication.EndSheet((NSWindow)alert.Window); // crashes
+                    OnNormalizePreset();
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                    //NSApplication.SharedApplication.EndSheet((NSWindow)alert.Window); // crashes
+                };
+                alert.RunModal();
+//                alert.BeginSheet(this.Window, () => {
+//                    //this.Window.Close();
+//                });
+            }
         }
 
         partial void actionReset(NSObject sender)
         {
+            // Display confirmation dialog
+            using(NSAlert alert = new NSAlert())
+            {
+                alert.MessageText = "Equalizer preset will be reset";
+                alert.InformativeText = "Are you sure you wish to reset this equalizer preset?";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnResetPreset();
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                };
+                alert.RunModal();
+            }
         }
 
         partial void actionSlider0ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            Console.WriteLine("EffectsWindowController - actionSlider0ChangeValue - value: {0}", slider.FloatValue);
+            lblEQValue0.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ0.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider1ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue1.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ1.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider2ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue2.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ2.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider3ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue3.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ3.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider4ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue4.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ4.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider5ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue5.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ5.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider6ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue6.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ6.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider7ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue7.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ7.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider8ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue8.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ8.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider9ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue9.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ9.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider10ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue10.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ10.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider11ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue11.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ11.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider12ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue12.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ12.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider13ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue13.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ13.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider14ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue14.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ14.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider15ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue15.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ15.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider16ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue16.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ16.StringValue, slider.FloatValue);
         }
 
         partial void actionSlider17ChangeValue(NSObject sender)
         {
+            NSSlider slider = (NSSlider)sender;
+            lblEQValue17.StringValue = FormatEQValue(slider.FloatValue);
+            OnSetFaderGain(lblEQ17.StringValue, slider.FloatValue);
         }
 
-        #region IEqualizerPresetDetailsView implementation
-
-        public Action OnResetPreset { get; set; }
-        public Action OnNormalizePreset { get; set; }
-        public Action OnRevertPreset { get; set; }
-        public Action<string> OnSavePreset { get; set; }
-        public Action<string, float> OnSetFaderGain { get; set; }
-
-        public void EqualizerPresetDetailsError(Exception ex)
+        private string FormatEQValue(float value)
         {
+            string strValue = string.Empty;
+            if(value > 0)
+                strValue = "+" + value.ToString("0.0").Replace(",",".") + " dB";
+            else
+                strValue = value.ToString("0.0").Replace(",",".") + " dB";
+            return strValue;
         }
-
-        public void ShowMessage(string title, string message)
-        {
-        }
-
-        public void RefreshPreset(EQPreset preset)
-        {
-        }
-
-        #endregion
 
         #region IEqualizerPresetsView implementation
 
@@ -274,127 +370,105 @@ namespace MPfm.Mac
 
         public void EqualizerPresetsError(Exception ex)
         {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in EqualizerPresets: {0}", ex), NSAlertStyle.Critical);
+            });
         }
 
         public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
         {
+            InvokeOnMainThread(() => {
+                popupPreset.RemoveAllItems();
+                foreach(var preset in presets)
+                {
+                    popupPreset.AddItem(preset.EQPresetId.ToString());
+                    popupPreset.LastItem.Title = preset.Name;
+                    popupPreset.LastItem.ToolTip = preset.EQPresetId.ToString(); // Tag only supports an integer!
+                }
+            });
         }
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
+            // Only shown on mobile devices.
         }
 
         public void RefreshVolume(float volume)
         {
+            // Only shown on mobile devices.
         }
 
         #endregion
 
+        #region IEqualizerPresetDetailsView implementation
 
-//        #region IEffectsView implementation
-//        
-//        public void UpdateFader(int index, float value)
-//        {
-//            InvokeOnMainThread(() => {
-//                string strValue = value.ToString("0.0") + " dB";
-//                if (index == 0)
-//                {
-//                    sliderEQ0.FloatValue = value;
-//                    lblEQValue0.StringValue = strValue;
-//                } 
-//                else if (index == 1)
-//                {
-//                    sliderEQ1.FloatValue = value;
-//                    lblEQValue1.StringValue = strValue;
-//                }
-//                else if (index == 2)
-//                {
-//                    sliderEQ2.FloatValue = value;
-//                    lblEQValue2.StringValue = strValue;
-//                }
-//                else if (index == 3)
-//                {
-//                    sliderEQ3.FloatValue = value;
-//                    lblEQValue3.StringValue = strValue;
-//                }
-//                else if (index == 4)
-//                {
-//                    sliderEQ4.FloatValue = value;
-//                    lblEQValue4.StringValue = strValue;
-//                }
-//                else if (index == 5)
-//                {
-//                    sliderEQ5.FloatValue = value;
-//                    lblEQValue5.StringValue = strValue;
-//                }
-//                else if (index == 6)
-//                {
-//                    sliderEQ6.FloatValue = value;
-//                    lblEQValue6.StringValue = strValue;
-//                }
-//                else if (index == 7)
-//                {
-//                    sliderEQ7.FloatValue = value;
-//                    lblEQValue7.StringValue = strValue;
-//                }
-//                else if (index == 8)
-//                {
-//                    sliderEQ8.FloatValue = value;
-//                    lblEQValue8.StringValue = strValue;
-//                }
-//                else if (index == 9)
-//                {
-//                    sliderEQ9.FloatValue = value;
-//                    lblEQValue9.StringValue = strValue;
-//                }
-//                else if (index == 10)
-//                {
-//                    sliderEQ10.FloatValue = value;
-//                    lblEQValue10.StringValue = strValue;
-//                }
-//                else if (index == 11)
-//                {
-//                    sliderEQ11.FloatValue = value;
-//                    lblEQValue11.StringValue = strValue;
-//                }
-//                else if (index == 12)
-//                {
-//                    sliderEQ12.FloatValue = value;
-//                    lblEQValue12.StringValue = strValue;
-//                }
-//                else if (index == 13)
-//                {
-//                    sliderEQ13.FloatValue = value;
-//                    lblEQValue13.StringValue = strValue;
-//                }
-//                else if (index == 14)
-//                {
-//                    sliderEQ14.FloatValue = value;
-//                    lblEQValue14.StringValue = strValue;
-//                }
-//                else if (index == 15)
-//                {
-//                    sliderEQ15.FloatValue = value;
-//                    lblEQValue15.StringValue = strValue;
-//                }
-//                else if (index == 16)
-//                {
-//                    sliderEQ16.FloatValue = value;
-//                    lblEQValue16.StringValue = strValue;
-//                }
-//                else if (index == 17)
-//                {
-//                    sliderEQ17.FloatValue = value;
-//                    lblEQValue17.StringValue = strValue;
-//                }
-//            });
-//        }
-//        
-//        public void UpdatePresetList(IEnumerable<string> presets)
-//        {
-//        }
-        
-        //#endregion
+        public Action<Guid> OnChangePreset { get; set; } 
+        public Action OnResetPreset { get; set; }
+        public Action OnNormalizePreset { get; set; }
+        public Action OnRevertPreset { get; set; }
+        public Action<string> OnSavePreset { get; set; }
+        public Action<string, float> OnSetFaderGain { get; set; }
+
+        public void EqualizerPresetDetailsError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in EqualizerPresets: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void ShowMessage(string title, string message)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert(title, message, NSAlertStyle.Warning);
+            });
+        }
+
+        public void RefreshPreset(EQPreset preset)
+        {
+            InvokeOnMainThread(delegate {
+                _preset = preset;
+
+                txtName.StringValue = _preset.Name;
+                sliderEQ0.FloatValue = _preset.Gain0;
+                lblEQValue0.StringValue = FormatEQValue(_preset.Gain0);
+                sliderEQ1.FloatValue = _preset.Gain1;
+                lblEQValue1.StringValue = FormatEQValue(_preset.Gain1);
+                sliderEQ2.FloatValue = _preset.Gain2;
+                lblEQValue2.StringValue = FormatEQValue(_preset.Gain2);
+                sliderEQ3.FloatValue = _preset.Gain3;
+                lblEQValue3.StringValue = FormatEQValue(_preset.Gain3);
+                sliderEQ4.FloatValue = _preset.Gain4;
+                lblEQValue4.StringValue = FormatEQValue(_preset.Gain4);
+                sliderEQ5.FloatValue = _preset.Gain5;
+                lblEQValue5.StringValue = FormatEQValue(_preset.Gain5);
+                sliderEQ6.FloatValue = _preset.Gain6;
+                lblEQValue6.StringValue = FormatEQValue(_preset.Gain6);
+                sliderEQ7.FloatValue = _preset.Gain7;
+                lblEQValue7.StringValue = FormatEQValue(_preset.Gain7);
+                sliderEQ8.FloatValue = _preset.Gain8;
+                lblEQValue8.StringValue = FormatEQValue(_preset.Gain8);
+                sliderEQ9.FloatValue = _preset.Gain9;
+                lblEQValue9.StringValue = FormatEQValue(_preset.Gain9);
+                sliderEQ10.FloatValue = _preset.Gain10;
+                lblEQValue10.StringValue = FormatEQValue(_preset.Gain10);
+                sliderEQ11.FloatValue = _preset.Gain11;
+                lblEQValue11.StringValue = FormatEQValue(_preset.Gain11);
+                sliderEQ12.FloatValue = _preset.Gain12;
+                lblEQValue12.StringValue = FormatEQValue(_preset.Gain12);
+                sliderEQ13.FloatValue = _preset.Gain13;
+                lblEQValue13.StringValue = FormatEQValue(_preset.Gain13);
+                sliderEQ14.FloatValue = _preset.Gain14;
+                lblEQValue14.StringValue = FormatEQValue(_preset.Gain14);
+                sliderEQ15.FloatValue = _preset.Gain15;
+                lblEQValue15.StringValue = FormatEQValue(_preset.Gain15);
+                sliderEQ16.FloatValue = _preset.Gain16;
+                lblEQValue16.StringValue = FormatEQValue(_preset.Gain16);
+                sliderEQ17.FloatValue = _preset.Gain17;
+                lblEQValue17.StringValue = FormatEQValue(_preset.Gain17);
+            });
+        }
+
+        #endregion
+
     }
 }
-

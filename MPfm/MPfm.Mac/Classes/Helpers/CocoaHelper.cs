@@ -33,13 +33,13 @@ namespace MPfm.Mac.Classes.Helpers
     /// </summary>
     public static class CocoaHelper
     {
-        public static void ShowCriticalAlert(string title, string text)
+        public static void ShowAlert(string title, string text, NSAlertStyle alertStyle)
         {
             using(NSAlert alert = new NSAlert())
             {
                 alert.MessageText = title;
                 alert.InformativeText = text;
-                alert.AlertStyle = NSAlertStyle.Critical;
+                alert.AlertStyle = alertStyle;
                 alert.RunModal();
             }
         }

@@ -23,6 +23,7 @@ namespace MPfm.MVP.Views
 {
 	public interface IEqualizerPresetDetailsView : IBaseView
     {
+        Action<Guid> OnChangePreset { get; set; } 
         Action OnResetPreset { get; set; }
         Action OnNormalizePreset { get; set; }
         Action OnRevertPreset { get; set; }

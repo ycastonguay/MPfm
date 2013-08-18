@@ -282,14 +282,14 @@ namespace MPfm.Mac
         public void SyncMenuError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                CocoaHelper.ShowCriticalAlert("Error", string.Format("An error occured in SyncMenu: {0}", ex));
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in SyncMenu: {0}", ex), NSAlertStyle.Critical);
             });
         }
 
         public void SyncEmptyError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                CocoaHelper.ShowCriticalAlert("Error", ex.Message);
+                CocoaHelper.ShowAlert("Error", ex.Message, NSAlertStyle.Warning);
             });
         }
 

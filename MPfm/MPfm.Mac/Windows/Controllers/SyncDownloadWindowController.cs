@@ -83,7 +83,7 @@ namespace MPfm.Mac
         public void SyncDownloadError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                CocoaHelper.ShowCriticalAlert("Error", string.Format("An error occured in SyncMenu: {0}", ex));
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in SyncMenu: {0}", ex), NSAlertStyle.Critical);
             });
         }
 

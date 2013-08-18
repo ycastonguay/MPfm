@@ -106,12 +106,6 @@ namespace MPfm.Mac
             return _items.Count;
         }
 
-//        [Export ("tableView:heightOfRow:")]
-//        public float GetRowHeight(NSTableView tableView, int row)
-//        {
-//            return 20;
-//        }
-
         [Export ("tableView:dataCellForTableColumn:row:")]
         public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
@@ -160,12 +154,6 @@ namespace MPfm.Mac
             return view;
         }
 
-        [Export ("tableViewSelectionDidChange:")]
-        public void SelectionDidChange(NSNotification notification)
-        {         
-            //btnConnect.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
-        }
-
         #region ISyncView implementation
 
         public Action<SyncDevice> OnConnectDevice { get; set; }
@@ -176,9 +164,8 @@ namespace MPfm.Mac
         public void SyncError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                CocoaHelper.ShowCriticalAlert("Error", string.Format("An error occured in Sync: {0}", ex));
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in Sync: {0}", ex), NSAlertStyle.Critical);
             });
-
         }
 
         public void RefreshIPAddress(string address)

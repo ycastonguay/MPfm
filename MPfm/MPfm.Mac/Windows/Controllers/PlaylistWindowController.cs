@@ -26,11 +26,15 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.Mac.Classes.Objects;
 using MPfm.Sound.Playlists;
 using MPfm.Sound.AudioFiles;
+using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac
 {
     public partial class PlaylistWindowController : BaseWindowController, IPlaylistView
     {
+        Guid _currentlyPlayingSongId;
+        Playlist _playlist = new Playlist();
+
         public PlaylistWindowController(IntPtr handle) 
             : base (handle)
         {
@@ -52,7 +56,11 @@ namespace MPfm.Mac
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
+
+            tableView.WeakDelegate = this;
+            tableView.WeakDataSource = this;
             LoadImages();
+            OnViewReady.Invoke(this);
         }
 
         private void LoadImages()
@@ -79,6 +87,55 @@ namespace MPfm.Mac
         {
         }
 
+        [Export ("numberOfRowsInTableView:")]
+        public int GetRowCount(NSTableView tableView)
+        {
+            return _playlist.Items.Count;
+        }
+
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            return new NSString();
+        }
+
+        [Export ("tableView:viewForTableColumn:row:")]
+        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            NSTableCellView view = null;
+            if(tableColumn.Identifier.ToString() == "columnNowPlaying")
+            {
+                view = (NSTableCellView)tableView.MakeView("cellNowPlaying", this);
+                view.TextField.StringValue = string.Empty;
+            }
+            else if(tableColumn.Identifier.ToString() == "columnTitle")
+            {
+                view = (NSTableCellView)tableView.MakeView("cellTitle", this);
+                view.TextField.StringValue = _playlist.Items[row].AudioFile.Title;
+            }
+            else if(tableColumn.Identifier.ToString() == "columnLength")
+            {
+                view = (NSTableCellView)tableView.MakeView("cellLength", this);
+                view.TextField.StringValue = _playlist.Items[row].LengthString;
+            }
+            else if(tableColumn.Identifier.ToString() == "columnArtistName")
+            {
+                view = (NSTableCellView)tableView.MakeView("cellArtistName", this);
+                view.TextField.StringValue = _playlist.Items[row].AudioFile.ArtistName;
+            }
+            else if(tableColumn.Identifier.ToString() == "columnAlbumTitle")
+            {
+                view = (NSTableCellView)tableView.MakeView("cellAlbumTitle", this);
+                view.TextField.StringValue = _playlist.Items[row].AudioFile.AlbumTitle;
+            }
+
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+//            if (view.ImageView != null)
+//                view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_android");
+
+            return view;
+        }
+
         #region IPlaylistView implementation
 
         public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
@@ -91,14 +148,43 @@ namespace MPfm.Mac
 
         public void PlaylistError(Exception ex)
         {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in Playlist: {0}", ex), NSAlertStyle.Critical);
+            });
         }
 
         public void RefreshPlaylist(Playlist playlist)
         {
+            Console.WriteLine("PlaylistWindowController - RefreshPlaylist");
+            InvokeOnMainThread(() => {
+                _playlist = playlist;
+                tableView.ReloadData();
+            });
         }
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
         {
+            Console.WriteLine("PlaylistWindowController - RefreshCurrentlyPlayingSong index: {0} audioFile: {1}", index, audioFile.FilePath);
+
+            if (audioFile != null)
+                _currentlyPlayingSongId = audioFile.Id;
+            else
+                _currentlyPlayingSongId = Guid.Empty;
+
+            InvokeOnMainThread(() => {
+//                foreach(var cell in tableView.VisibleCells)
+//                {
+//                    if(_playlist.Items[cell.Tag].AudioFile != null)
+//                    {
+//                        var id = _playlist.Items[cell.Tag].AudioFile.Id;
+//                        var customCell = (MPfmTableViewCell)cell;
+//                        if(id == audioFile.Id)
+//                            customCell.RightImage.Hidden = false;
+//                        else
+//                            customCell.RightImage.Hidden = true;
+//                    }
+//                }
+            });
         }
 
         #endregion
