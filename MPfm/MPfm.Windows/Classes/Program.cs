@@ -72,8 +72,8 @@ namespace MPfm.Windows.Classes
             Bootstrapper.GetContainer().Register<ISplashView, frmSplash>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, frmMain>().AsMultiInstance();
             //Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindowController>().AsMultiInstance();
-            //Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindowController>().AsMultiInstance();
-            //Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IPlaylistView, frmPlaylist>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IDesktopEffectsView, frmEffects>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopPreferencesView, frmPreferences>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, frmSync>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncMenuView, frmSyncMenu>().AsMultiInstance();

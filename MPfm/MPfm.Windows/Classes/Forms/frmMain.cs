@@ -1722,18 +1722,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         private void btnPlaylist_Click(object sender, EventArgs e)
-        {           
-            //if (formPlaylist.Visible)
-            //{                                
-            //    formPlaylist.Close();
-            //    btnPlaylist.Checked = false;
-            //}
-            //else
-            //{
-            //    //formPlaylist.Show(this);
-            //    formPlaylist.Show();
-            //    btnPlaylist.Checked = true;
-            //}
+        {
+            OnOpenPlaylistWindow();
         }
 
         /// <summary>
@@ -1744,16 +1734,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnEffects_Click(object sender, EventArgs e)
         {
-            //if (formEffects.Visible)
-            //{
-            //    formEffects.Close();
-            //    btnEffects.Checked = false;
-            //}
-            //else
-            //{
-            //    formEffects.Show(this);
-            //    btnEffects.Checked = true;
-            //}
+            OnOpenEffectsWindow();
         }
 
         /// <summary>

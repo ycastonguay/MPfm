@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
+using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.WindowsControls;
 
@@ -28,43 +29,23 @@ namespace MPfm.Windows.Classes.Forms
     /// Effects window. This is where the user can configure a 18-band equalizer and
     /// VST plugins.
     /// </summary>
-    public partial class frmEffects : MPfm.WindowsControls.Form
+    public partial class frmEffects : BaseForm, IDesktopEffectsView
     {
         // Private variables
-        private bool isFormLoaded = false;
+        //private bool isFormLoaded = false;
 
-        /// <summary>
-        /// Private value for the Main property.
-        /// </summary>
-        private frmMain main = null;
-        /// <summary>
-        /// Hook to the main form.
-        /// </summary>
-        public frmMain Main
-        {
-            get
-            {
-                return main;
-            }
-        }
-
-        /// <summary>
-        /// Constructor for Effects window. Requires a hook to the main form.
-        /// </summary>
-        /// <param name="main">Hook to main form</param>
-        public frmEffects(frmMain main)
+        public frmEffects(Action<IBaseView> onViewReady) 
+            : base(onViewReady)
         {
             InitializeComponent();
-            this.main = main;
+            ViewIsReady();
 
-            RefreshEQPresets();
-            LoadConfig();
+            //RefreshEQPresets();
+            //LoadConfig();
 
             // Set flag
-            isFormLoaded = true;
+            //isFormLoaded = true;
         }
-
-        #region Close Events
 
         /// <summary>
         /// Occurs when the form is about to close.
@@ -73,54 +54,52 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void frmEffects_FormClosing(object sender, FormClosingEventArgs e)
         {            
-            SaveConfig();
+            //SaveConfig();
 
-            if (e.CloseReason != CloseReason.ApplicationExitCall)
-            {                
-                e.Cancel = true;
-                this.Hide();
-                Main.btnEffects.Checked = false;
-            }
+            //if (e.CloseReason != CloseReason.ApplicationExitCall)
+            //{                
+            //    e.Cancel = true;
+            //    this.Hide();
+            //    //Main.btnEffects.Checked = false;
+            //}
         }
-
-        #endregion
 
         #region Configuration
 
-        /// <summary>
-        /// Loads the form values based on configuration.
-        /// </summary>
-        private void LoadConfig()
-        {   
-            // Set UI values
-            chkEQOn.Checked = Main.Config.Audio.EQ.Enabled;
-            comboEQPreset.SelectedItem = Main.Config.Audio.EQ.Preset;
+        ///// <summary>
+        ///// Loads the form values based on configuration.
+        ///// </summary>
+        //private void LoadConfig()
+        //{   
+        //    // Set UI values
+        //    chkEQOn.Checked = Main.Config.Audio.EQ.Enabled;
+        //    comboEQPreset.SelectedItem = Main.Config.Audio.EQ.Preset;
 
-            // Set player EQ
-            if (Main.Config.Audio.EQ.Enabled && !String.IsNullOrEmpty(Main.Config.Audio.EQ.Preset))
-            {
-                // Set preset
-                SetPreset(Main.Config.Audio.EQ.Preset);
-            }
+        //    // Set player EQ
+        //    if (Main.Config.Audio.EQ.Enabled && !String.IsNullOrEmpty(Main.Config.Audio.EQ.Preset))
+        //    {
+        //        // Set preset
+        //        SetPreset(Main.Config.Audio.EQ.Preset);
+        //    }
             
-        }
+        //}
 
-        /// <summary>
-        /// Saves the form values in the configuration file.
-        /// </summary>
-        private void SaveConfig()
-        {
-            Main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
+        ///// <summary>
+        ///// Saves the form values in the configuration file.
+        ///// </summary>
+        //private void SaveConfig()
+        //{
+        //    Main.Config.Audio.EQ.Enabled = chkEQOn.Checked;
 
-            if (comboEQPreset.SelectedItem != null)
-            {
-                Main.Config.Audio.EQ.Preset = comboEQPreset.SelectedItem.ToString();
-            }
-            else
-            {
-                Main.Config.Audio.EQ.Preset = string.Empty;
-            }
-        }
+        //    if (comboEQPreset.SelectedItem != null)
+        //    {
+        //        Main.Config.Audio.EQ.Preset = comboEQPreset.SelectedItem.ToString();
+        //    }
+        //    else
+        //    {
+        //        Main.Config.Audio.EQ.Preset = string.Empty;
+        //    }
+        //}
 
         #endregion
 
@@ -567,5 +546,58 @@ namespace MPfm.Windows.Classes.Forms
         {
             chkEQOn.Checked = !chkEQOn.Checked;
         }
+
+        #region IEqualizerPresetsView implementation
+
+        public Action OnBypassEqualizer { get; set; }
+        public Action<float> OnSetVolume { get; set; }
+        public Action OnAddPreset { get; set; }
+        public Action<Guid> OnLoadPreset { get; set; }
+        public Action<Guid> OnEditPreset { get; set; }
+        public Action<Guid> OnDeletePreset { get; set; }
+
+        public void EqualizerPresetsError(Exception ex)
+        {
+        }
+
+        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        {
+        }
+
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        {
+            // Not used on desktop devices
+        }
+
+        public void RefreshVolume(float volume)
+        {
+            // Not used on desktop devices
+        }
+
+        #endregion
+
+        #region IEqualizerPresetDetailsView implementation
+
+        public Action<Guid> OnChangePreset { get; set; }
+        public Action OnResetPreset { get; set; }
+        public Action OnNormalizePreset { get; set; }
+        public Action OnRevertPreset { get; set; }
+        public Action<string> OnSavePreset { get; set; }
+        public Action<string, float> OnSetFaderGain { get; set; }
+
+        public void EqualizerPresetDetailsError(Exception ex)
+        {
+        }
+
+        public void ShowMessage(string title, string message)
+        {
+        }
+
+        public void RefreshPreset(EQPreset preset)
+        {
+        }
+
+        #endregion
+
     }
 }

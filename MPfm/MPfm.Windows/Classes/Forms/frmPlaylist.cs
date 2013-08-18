@@ -16,17 +16,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.IO;
 using System.Windows.Forms;
-using MPfm.Core;
+using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
-using MPfm.WindowsControls;
 
 namespace MPfm.Windows.Classes.Forms
 {
@@ -34,34 +29,16 @@ namespace MPfm.Windows.Classes.Forms
     /// Playlist window. This is where the user can view and manipulate playlists. They can
     /// also save the playlists into the library.
     /// </summary>
-    public partial class frmPlaylist : MPfm.WindowsControls.Form
+    public partial class frmPlaylist : BaseForm, IPlaylistView
     {
         // Private variables        
         private frmLoadPlaylist formLoadPlaylist = null;
 
-        /// <summary>
-        /// Private value for the Main property.
-        /// </summary>
-        private frmMain main = null;
-        /// <summary>
-        /// Hook to the main form.
-        /// </summary>
-        public frmMain Main
-        {
-            get
-            {
-                return main;
-            }
-        }
-
-        /// <summary>
-        /// Constructor for the Playlist form. Requires a hook to the main form.
-        /// </summary>
-        /// <param name="main">Hook to main form</param>
-        public frmPlaylist(frmMain main)
+        public frmPlaylist(Action<IBaseView> onViewReady) 
+            : base(onViewReady)
         {
             InitializeComponent();
-            this.main = main;
+            ViewIsReady();
         }
 
         /// <summary>
@@ -71,11 +48,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void frmPlaylist_Shown(object sender, EventArgs e)
         {
-            // Refresh playlist
-            RefreshPlaylist();
-
-            // Refresh playlist menu
-            RefreshLibraryPlaylistsMenu();
+            //RefreshPlaylist();
+            //RefreshLibraryPlaylistsMenu();
         }
 
         /// <summary>
@@ -85,15 +59,9 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void frmPlaylist_VisibleChanged(object sender, EventArgs e)
         {
-            // Check if form is visible
-            if (Visible)
-            {
-                // Refresh playlist menu
-                RefreshLibraryPlaylistsMenu();
-            }
+            //if (Visible)
+            //    RefreshLibraryPlaylistsMenu();
         }
-
-        #region Close Events
 
         /// <summary>
         /// Occurs when the user tries to close the form, using the X button or the
@@ -111,11 +79,9 @@ namespace MPfm.Windows.Classes.Forms
             {
                 e.Cancel = true;
                 this.Hide();
-                Main.btnPlaylist.Checked = false;
+                //Main.btnPlaylist.Checked = false;
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Occurs when the user changes the order of the playlist songs in the ListView.
@@ -704,6 +670,30 @@ namespace MPfm.Windows.Classes.Forms
         {
             PlaySelectedSong();
         }
-    }
 
+        #region IPlaylistView implementation
+
+        public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
+        public Action<Guid> OnSelectPlaylistItem { get; set; }
+        public Action<Guid> OnRemovePlaylistItem { get; set; }
+        public Action OnNewPlaylist { get; set; }
+        public Action<string> OnLoadPlaylist { get; set; }
+        public Action OnSavePlaylist { get; set; }
+        public Action OnShufflePlaylist { get; set; }
+
+        public void PlaylistError(Exception ex)
+        {
+        }
+
+        public void RefreshPlaylist(Playlist playlist)
+        {
+        }
+
+        public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
+        {
+        }
+
+        #endregion
+
+    }
 }
