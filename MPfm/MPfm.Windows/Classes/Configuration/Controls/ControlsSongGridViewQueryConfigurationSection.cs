@@ -32,10 +32,10 @@ namespace MPfm
     /// </summary>
     public class ControlsSongGridViewQueryConfigurationSection
     {
-        /// <summary>
-        /// Tree library node type.
-        /// </summary>
-        public TreeLibraryNodeType NodeType { get; set; }
+        ///// <summary>
+        ///// Tree library node type.
+        ///// </summary>
+        //public TreeLibraryNodeType NodeType { get; set; }
         /// <summary>
         /// Audio file identifier.
         /// </summary>
@@ -59,7 +59,7 @@ namespace MPfm
         public ControlsSongGridViewQueryConfigurationSection()
         {
             // Set default values
-            NodeType = TreeLibraryNodeType.AllSongs;
+            //NodeType = TreeLibraryNodeType.AllSongs;
             AudioFileId = Guid.Empty;
             PlaylistId = Guid.Empty;
             ArtistName = string.Empty;

@@ -41,37 +41,25 @@ namespace MPfm.Windows.Classes
         [STAThread]
         static void Main()
         {
-            try
-            {
-                // Check if an instance of the application is already running
-                string proc = Process.GetCurrentProcess().ProcessName;
-                Process[] processes = Process.GetProcessesByName(proc);
-
-                // If the number of processes is greater or equal to 2 (one instance already running + this new instance)
-                if (processes.Length >= 2)
-                {
-                    // Ask the user if it allows another instance of the application
-                    if (MessageBox.Show("At least one other instance of MPfm is already running.\n\nClick OK to continue or Cancel to exit the application.", "Multiple instances of MPfm running", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
-                    {
-                        // The user wants to exit the application
-                        return;
-                    }                    
-                }
-            }
-            catch
-            {
-                throw;
-            }
+            // Check if an instance of the application is already running
+            string proc = Process.GetCurrentProcess().ProcessName;
+            Process[] processes = Process.GetProcessesByName(proc);
+            
+            // Ask the user if it allows another instance of the application
+            if (processes.Length >= 2)
+                if (MessageBox.Show("At least one other instance of MPfm is already running.\n\nClick OK to continue or Cancel to exit the application.", "Multiple instances of MPfm running", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                    return;
 
             // Set application defaults
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Finish IoC registration
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, WindowsSyncDeviceSpecifications>().AsSingleton();
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, frmSplash>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, frmMain>().AsMultiInstance();
-            //Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IUpdateLibraryView, frmUpdateLibrary>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IPlaylistView, frmPlaylist>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopEffectsView, frmEffects>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopPreferencesView, frmPreferences>().AsMultiInstance();

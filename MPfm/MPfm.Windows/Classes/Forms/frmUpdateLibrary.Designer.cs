@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -17,7 +17,7 @@
 
 namespace MPfm.Windows.Classes.Forms
 {
-    partial class frmUpdateLibraryStatus
+    partial class frmUpdateLibrary
     {
         /// <summary>
         /// Required designer variable.
@@ -101,7 +101,7 @@ namespace MPfm.Windows.Classes.Forms
             MPfm.WindowsControls.CustomFont customFont17 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient17 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont18 = new MPfm.WindowsControls.CustomFont();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateLibraryStatus));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateLibrary));
             this.workerUpdateLibrary = new System.ComponentModel.BackgroundWorker();
             this.workerTimer = new System.ComponentModel.BackgroundWorker();
             this.saveLogDialog = new System.Windows.Forms.SaveFileDialog();
@@ -139,8 +139,6 @@ namespace MPfm.Windows.Classes.Forms
             // 
             this.workerTimer.WorkerReportsProgress = true;
             this.workerTimer.WorkerSupportsCancellation = true;
-            this.workerTimer.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerTimer_DoWork);
-            this.workerTimer.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.workerTimer_ProgressChanged);
             // 
             // saveLogDialog
             // 
@@ -799,7 +797,7 @@ namespace MPfm.Windows.Classes.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmUpdateLibraryStatus";
+            this.Name = "frmUpdateLibrary";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update Library";

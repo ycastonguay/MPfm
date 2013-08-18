@@ -52,6 +52,11 @@ namespace MPfm.MVP.Services
         /// </summary>
         public void Initialize()
         {
+            //// Get application data folder path
+            //// Vista/Windows7: C:\Users\%username%\AppData\Roaming\
+            //// XP: C:\Documents and Settings\%username%\Application Data\
+            //applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
+
             // Check if the .MPfm directory exists
             string directoryPath = ConfigurationHelper.HomeDirectory;
             if(!Directory.Exists(directoryPath))
@@ -104,6 +109,37 @@ namespace MPfm.MVP.Services
             //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
             //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
+
+
+            // Also create peak file directory if it doesn't exist
+
+            //// Check if the configuration file exists
+            //if (File.Exists(configurationFilePath))
+            //{
+            //    // Load configuration values
+            //    config.Load();
+
+            //    // Load peak file options
+            //    bool? peakFileUseCustomDirectory = Config.GetKeyValueGeneric<bool>("PeakFile_UseCustomDirectory");
+            //    string peakFileCustomDirectory = Config.GetKeyValue("PeakFile_CustomDirectory");
+
+            //    // Set peak file directory
+            //    if (peakFileUseCustomDirectory.HasValue && peakFileUseCustomDirectory.Value)
+            //    {
+            //        // Set custom peak file directory
+            //        PeakFileFolderPath = peakFileCustomDirectory;                        
+            //    }
+            //    else
+            //    {
+            //        // Set default peak file directory
+            //        PeakFileFolderPath = applicationDataFolderPath + "\\Peak Files\\";
+            //    }
+            //}
+            //else
+            //{
+            //    // Set default peak file directory
+            //    PeakFileFolderPath = applicationDataFolderPath + "\\Peak Files\\";
+            //}
 		}
 		
 		void LoadLibrary()

@@ -169,11 +169,11 @@
     <Compile Include="Classes\Forms\frmVisualizer.Designer.cs">
       <DependentUpon>frmVisualizer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Forms\frmUpdateLibraryStatus.cs">
+    <Compile Include="Classes\Forms\frmUpdateLibrary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Forms\frmUpdateLibraryStatus.Designer.cs">
-      <DependentUpon>frmUpdateLibraryStatus.cs</DependentUpon>
+    <Compile Include="Classes\Forms\frmUpdateLibrary.Designer.cs">
+      <DependentUpon>frmUpdateLibrary.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Forms\frmEffects.cs">
       <SubType>Form</SubType>
@@ -219,9 +219,9 @@
     <EmbeddedResource Include="Classes\Forms\frmSyncMenu.resx">
       <DependentUpon>frmSyncMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Forms\frmUpdateLibraryStatus.resx">
+    <EmbeddedResource Include="Classes\Forms\frmUpdateLibrary.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmUpdateLibraryStatus.cs</DependentUpon>
+      <DependentUpon>frmUpdateLibrary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\Forms\frmThemes.resx">
       <DependentUpon>frmThemes.cs</DependentUpon>
@@ -434,7 +434,9 @@
       <Name>MPfm.WindowsControls</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Classes\Objects\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem copy $(ProjectDir)\Lib\taglib-sharp.dll $(TargetDir)
