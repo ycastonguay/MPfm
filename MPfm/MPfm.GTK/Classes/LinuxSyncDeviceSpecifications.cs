@@ -19,6 +19,7 @@ using System;
 using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services;
+using System.IO;
 
 namespace MPfm.GTK.Classes
 {
@@ -43,6 +44,15 @@ namespace MPfm.GTK.Classes
 
         public long GetFreeSpace()
         {
+            string root = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
+            //Console.WriteLine("MacSyncDeviceSpecifications - GetFreeSpace - My music folder: {0} - Root: {1}", Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), root);
+            foreach (DriveInfo drive in DriveInfo.GetDrives())
+            {
+                //Console.WriteLine("MacSyncDeviceSpecifications - GetFreeSpace - DriveInfo name: {0} driveType: {1} driveFormat: {2} totalFreeSpace: {3} availableFreeSpace: {4} isReady: {5} rootDirectory: {6}", drive.Name, drive.DriveType.ToString(), drive.DriveFormat.ToString(), drive.TotalFreeSpace, drive.AvailableFreeSpace, drive.IsReady, drive.RootDirectory);
+                if (drive.RootDirectory.Name == root)
+                    return drive.AvailableFreeSpace;
+            }
+
             return 0;
         }
 

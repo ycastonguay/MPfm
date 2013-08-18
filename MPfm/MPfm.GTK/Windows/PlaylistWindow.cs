@@ -18,6 +18,8 @@
 using System;
 using MPfm.MVP;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.GTK.Windows
 {
@@ -26,55 +28,29 @@ namespace MPfm.GTK.Windows
 	/// </summary>
 	public partial class PlaylistWindow : BaseWindow, IPlaylistView
 	{
-		/// <summary>
-		/// Reference to the main window.
-		/// </summary>
-		private MainWindow main = null;
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.GTK.PlaylistWindow"/> class.
-		/// </summary>
-		/// <param name='main'>Reference to the main window.</param>
-		public PlaylistWindow(MainWindow main, Action<IBaseView> onViewReady) : 
+		public PlaylistWindow(Action<IBaseView> onViewReady) : 
 				base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build();
-			
-			// Set reference to main window
-			this.main = main;
-			
-			// Set focus to something else than the toolbar
-			treePlaylistBrowser.GrabFocus();
+            onViewReady(this);
+            treePlaylistBrowser.GrabFocus(); // the list view changes color when focused by default. it annoys me!
+            this.Center();
+            this.Show();
 		}
 		
-		/// <summary>
-		/// Raises the delete event (when the form is closing).
-		/// Prevents the form from closing by hiding it instead.
-		/// </summary>
-		/// <param name='o'>Object</param>
-		/// <param name='args'>Event arguments</param>
-		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
-		{
-			// Prevent window from closing
-			args.RetVal = true;
-			
-			// Hide window instead
-			this.HideAll();
-		}
-
-		protected void OnActionNewPlaylistActivated (object sender, System.EventArgs e)
+		protected void OnActionNewPlaylistActivated(object sender, System.EventArgs e)
 		{
 		}
 
-		protected void OnActionOpenPlaylistActivated (object sender, System.EventArgs e)
+		protected void OnActionOpenPlaylistActivated(object sender, System.EventArgs e)
 		{
 		}
 
-		protected void OnActionSavePlaylistActivated (object sender, System.EventArgs e)
+		protected void OnActionSavePlaylistActivated(object sender, System.EventArgs e)
 		{
 		}
 
-		protected void OnActionSavePlaylistAsActivated (object sender, System.EventArgs e)
+		protected void OnActionSavePlaylistAsActivated(object sender, System.EventArgs e)
 		{
 		}        
 
@@ -88,15 +64,15 @@ namespace MPfm.GTK.Windows
         public Action OnSavePlaylist { get; set; }
         public Action OnShufflePlaylist { get; set; }
 
-        public void PlaylistError (Exception ex)
+        public void PlaylistError(Exception ex)
         {
         }
 
-        public void RefreshPlaylist (MPfm.Sound.Playlists.Playlist playlist)
+        public void RefreshPlaylist(Playlist playlist)
         {
         }
 
-        public void RefreshCurrentlyPlayingSong (int index, MPfm.Sound.AudioFiles.AudioFile audioFile)
+        public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
         {
         }
 

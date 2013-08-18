@@ -239,6 +239,7 @@ namespace MPfm.GTK
         {
             Console.WriteLine("SyncMenuWindow - RefreshLoading - isLoading: {0} progressPercentage: {1}", isLoading, progressPercentage);
             Gtk.Application.Invoke(delegate{
+                progressBar.Fraction = progressPercentage / 100f;
                 progressBar.Visible = isLoading;
                 lblLoading.Visible = isLoading;
 

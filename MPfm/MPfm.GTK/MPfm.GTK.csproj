@@ -126,6 +126,8 @@
     <Compile Include="gtk-gui\MPfm.GTK.SyncMenuWindow.cs" />
     <Compile Include="Classes\Helpers\SystemDrawingHelper.cs" />
     <Compile Include="Classes\Helpers\ResourceHelper.cs" />
+    <Compile Include="Windows\SyncDownloadWindow.cs" />
+    <Compile Include="gtk-gui\MPfm.GTK.SyncDownloadWindow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

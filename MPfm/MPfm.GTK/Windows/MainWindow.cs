@@ -596,9 +596,6 @@ namespace MPfm.GTK.Windows
 			if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
 			{	
 				OnTreeNodeExpanded(entity, args.Iter);
-
-				// Remove dummy node
-				_storeLibraryBrowser.Remove(ref iter);						
 			}	
 		}
 
@@ -796,11 +793,11 @@ namespace MPfm.GTK.Windows
 			});
 		}
 
-        public void RefreshMarkers (IEnumerable<Marker> markers)
+        public void RefreshMarkers(IEnumerable<Marker> markers)
         {
         }
 
-        public void RefreshLoops (IEnumerable<Loop> loops)
+        public void RefreshLoops(IEnumerable<Loop> loops)
         {
         }
 			
@@ -854,6 +851,8 @@ namespace MPfm.GTK.Windows
 			Gtk.Application.Invoke(delegate{
 				Console.WriteLine("MainWindow - RefreshLibraryBrowserNode");
 				Gtk.TreeIter iter = (Gtk.TreeIter)userData;
+                TreeIter treeIterDummy;
+                _storeLibraryBrowser.IterNthChild(out treeIterDummy, iter, 0);
 				
 				switch(entity.Type)
 				{				
@@ -877,6 +876,9 @@ namespace MPfm.GTK.Windows
 							_storeLibraryBrowser.AppendValues(iter, artist);
                         break;
                 }
+
+                // Remove dummy node
+                _storeLibraryBrowser.Remove(ref treeIterDummy);
 			});
 		}
 		

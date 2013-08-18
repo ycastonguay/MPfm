@@ -79,10 +79,11 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.Label label18;
 		private global::Gtk.Label label18Value;
 		private global::Gtk.VBox vboxPanel;
-		private global::Gtk.Label lblPreset;
+		private global::Gtk.Label lblPresets;
 		private global::Gtk.ComboBox comboPreset;
 		private global::Gtk.CheckButton chkEQOn;
-		private global::Gtk.Label lblInformation;
+		private global::Gtk.Button btnNewPreset;
+		private global::Gtk.Label lblCurrentPreset;
 		private global::Gtk.Label lblName;
 		private global::Gtk.Entry txtPresetName;
 		private global::Gtk.Button btnSavePreset;
@@ -894,11 +895,11 @@ namespace MPfm.GTK.Windows
 			this.vboxPanel.Name = "vboxPanel";
 			this.vboxPanel.Spacing = 6;
 			// Container child vboxPanel.Gtk.Box+BoxChild
-			this.lblPreset = new global::Gtk.Label ();
-			this.lblPreset.Name = "lblPreset";
-			this.lblPreset.LabelProp = global::Mono.Unix.Catalog.GetString ("Preset");
-			this.vboxPanel.Add (this.lblPreset);
-			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblPreset]));
+			this.lblPresets = new global::Gtk.Label ();
+			this.lblPresets.Name = "lblPresets";
+			this.lblPresets.LabelProp = global::Mono.Unix.Catalog.GetString ("Presets");
+			this.vboxPanel.Add (this.lblPresets);
+			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblPresets]));
 			w74.Position = 0;
 			w74.Expand = false;
 			w74.Fill = false;
@@ -923,24 +924,50 @@ namespace MPfm.GTK.Windows
 			w76.Expand = false;
 			w76.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
-			this.lblInformation = new global::Gtk.Label ();
-			this.lblInformation.Name = "lblInformation";
-			this.lblInformation.LabelProp = global::Mono.Unix.Catalog.GetString ("Information");
-			this.vboxPanel.Add (this.lblInformation);
-			global::Gtk.Box.BoxChild w77 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblInformation]));
-			w77.Position = 3;
-			w77.Expand = false;
-			w77.Fill = false;
+			this.btnNewPreset = new global::Gtk.Button ();
+			this.btnNewPreset.CanFocus = true;
+			this.btnNewPreset.Name = "btnNewPreset";
+			this.btnNewPreset.UseUnderline = true;
+			// Container child btnNewPreset.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w77 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w78 = new global::Gtk.HBox ();
+			w78.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w79 = new global::Gtk.Image ();
+			w79.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
+			w78.Add (w79);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w81 = new global::Gtk.Label ();
+			w81.LabelProp = global::Mono.Unix.Catalog.GetString ("New Preset");
+			w81.UseUnderline = true;
+			w78.Add (w81);
+			w77.Add (w78);
+			this.btnNewPreset.Add (w77);
+			this.vboxPanel.Add (this.btnNewPreset);
+			global::Gtk.Box.BoxChild w85 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnNewPreset]));
+			w85.Position = 3;
+			w85.Expand = false;
+			w85.Fill = false;
+			// Container child vboxPanel.Gtk.Box+BoxChild
+			this.lblCurrentPreset = new global::Gtk.Label ();
+			this.lblCurrentPreset.Name = "lblCurrentPreset";
+			this.lblCurrentPreset.LabelProp = global::Mono.Unix.Catalog.GetString ("Current Preset");
+			this.vboxPanel.Add (this.lblCurrentPreset);
+			global::Gtk.Box.BoxChild w86 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblCurrentPreset]));
+			w86.Position = 4;
+			w86.Expand = false;
+			w86.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.lblName = new global::Gtk.Label ();
 			this.lblName.Name = "lblName";
 			this.lblName.Xalign = 0F;
 			this.lblName.LabelProp = global::Mono.Unix.Catalog.GetString ("Name:");
 			this.vboxPanel.Add (this.lblName);
-			global::Gtk.Box.BoxChild w78 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblName]));
-			w78.Position = 4;
-			w78.Expand = false;
-			w78.Fill = false;
+			global::Gtk.Box.BoxChild w87 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblName]));
+			w87.Position = 5;
+			w87.Expand = false;
+			w87.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.txtPresetName = new global::Gtk.Entry ();
 			this.txtPresetName.CanFocus = true;
@@ -948,57 +975,87 @@ namespace MPfm.GTK.Windows
 			this.txtPresetName.IsEditable = true;
 			this.txtPresetName.InvisibleChar = '●';
 			this.vboxPanel.Add (this.txtPresetName);
-			global::Gtk.Box.BoxChild w79 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.txtPresetName]));
-			w79.Position = 5;
-			w79.Expand = false;
-			w79.Fill = false;
+			global::Gtk.Box.BoxChild w88 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.txtPresetName]));
+			w88.Position = 6;
+			w88.Expand = false;
+			w88.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnSavePreset = new global::Gtk.Button ();
 			this.btnSavePreset.CanFocus = true;
 			this.btnSavePreset.Name = "btnSavePreset";
 			this.btnSavePreset.UseUnderline = true;
-			this.btnSavePreset.Label = global::Mono.Unix.Catalog.GetString ("Save Preset");
+			// Container child btnSavePreset.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w89 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w90 = new global::Gtk.HBox ();
+			w90.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w91 = new global::Gtk.Image ();
+			w91.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-save", global::Gtk.IconSize.Menu);
+			w90.Add (w91);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w93 = new global::Gtk.Label ();
+			w93.LabelProp = global::Mono.Unix.Catalog.GetString ("Save Preset");
+			w93.UseUnderline = true;
+			w90.Add (w93);
+			w89.Add (w90);
+			this.btnSavePreset.Add (w89);
 			this.vboxPanel.Add (this.btnSavePreset);
-			global::Gtk.Box.BoxChild w80 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnSavePreset]));
-			w80.Position = 6;
-			w80.Expand = false;
-			w80.Fill = false;
+			global::Gtk.Box.BoxChild w97 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnSavePreset]));
+			w97.Position = 7;
+			w97.Expand = false;
+			w97.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnDeletePreset = new global::Gtk.Button ();
 			this.btnDeletePreset.CanFocus = true;
 			this.btnDeletePreset.Name = "btnDeletePreset";
 			this.btnDeletePreset.UseUnderline = true;
-			this.btnDeletePreset.Label = global::Mono.Unix.Catalog.GetString ("Delete Preset");
+			// Container child btnDeletePreset.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w98 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w99 = new global::Gtk.HBox ();
+			w99.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w100 = new global::Gtk.Image ();
+			w100.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-delete", global::Gtk.IconSize.Menu);
+			w99.Add (w100);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w102 = new global::Gtk.Label ();
+			w102.LabelProp = global::Mono.Unix.Catalog.GetString ("Delete Preset");
+			w102.UseUnderline = true;
+			w99.Add (w102);
+			w98.Add (w99);
+			this.btnDeletePreset.Add (w98);
 			this.vboxPanel.Add (this.btnDeletePreset);
-			global::Gtk.Box.BoxChild w81 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnDeletePreset]));
-			w81.Position = 7;
-			w81.Expand = false;
-			w81.Fill = false;
+			global::Gtk.Box.BoxChild w106 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnDeletePreset]));
+			w106.Position = 8;
+			w106.Expand = false;
+			w106.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnAutoLevel = new global::Gtk.Button ();
 			this.btnAutoLevel.CanFocus = true;
 			this.btnAutoLevel.Name = "btnAutoLevel";
 			this.btnAutoLevel.UseUnderline = true;
-			this.btnAutoLevel.Label = global::Mono.Unix.Catalog.GetString ("Auto Level");
+			this.btnAutoLevel.Label = global::Mono.Unix.Catalog.GetString ("Normalize");
 			this.vboxPanel.Add (this.btnAutoLevel);
-			global::Gtk.Box.BoxChild w82 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnAutoLevel]));
-			w82.Position = 8;
-			w82.Expand = false;
-			w82.Fill = false;
+			global::Gtk.Box.BoxChild w107 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnAutoLevel]));
+			w107.Position = 9;
+			w107.Expand = false;
+			w107.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnResetEQ = new global::Gtk.Button ();
 			this.btnResetEQ.CanFocus = true;
 			this.btnResetEQ.Name = "btnResetEQ";
 			this.btnResetEQ.UseUnderline = true;
-			this.btnResetEQ.Label = global::Mono.Unix.Catalog.GetString ("Reset EQ");
+			this.btnResetEQ.Label = global::Mono.Unix.Catalog.GetString ("Reset");
 			this.vboxPanel.Add (this.btnResetEQ);
-			global::Gtk.Box.BoxChild w83 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnResetEQ]));
-			w83.Position = 9;
-			w83.Expand = false;
-			w83.Fill = false;
+			global::Gtk.Box.BoxChild w108 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnResetEQ]));
+			w108.Position = 10;
+			w108.Expand = false;
+			w108.Fill = false;
 			this.hboxMain.Add (this.vboxPanel);
-			global::Gtk.Box.BoxChild w84 = ((global::Gtk.Box.BoxChild)(this.hboxMain [this.vboxPanel]));
-			w84.Position = 1;
+			global::Gtk.Box.BoxChild w109 = ((global::Gtk.Box.BoxChild)(this.hboxMain [this.vboxPanel]));
+			w109.Position = 1;
 			this.Add (this.hboxMain);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

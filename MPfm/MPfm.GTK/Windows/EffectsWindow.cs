@@ -20,33 +20,24 @@ using System.Collections.Generic;
 using Pango;
 using MPfm.MVP;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 
 namespace MPfm.GTK.Windows
 {
 	/// <summary>
 	/// Effects window.
 	/// </summary>
-	public partial class EffectsWindow : BaseWindow
+	public partial class EffectsWindow : BaseWindow, IDesktopEffectsView
 	{
-		/// <summary>
-		/// Reference to the main window.
-		/// </summary>
-		private MainWindow main = null;
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.GTK.EffectsWindow"/> class.
-		/// </summary>
-		/// <param name='main'>Reference to the main window.</param>
-		public EffectsWindow(MainWindow main, Action<IBaseView> onViewReady) : 
+		public EffectsWindow(Action<IBaseView> onViewReady) : 
 				base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build();
-			
-			// Set reference to main window
-			this.main = main;
-			
-			// Set font properties
 			SetFontProperties();
+            onViewReady(this);
+            //btnRefreshDeviceList.GrabFocus(); // the list view changes color when focused by default. it annoys me!
+            this.Center();
+            this.Show();
 		}
 		
 		private void SetFontProperties()
@@ -105,22 +96,58 @@ namespace MPfm.GTK.Windows
 			
 			// Hide window instead
 			this.HideAll();
-		}
+		}        
 
-		#region IEffectsView implementation
-		
-		public void UpdateFader(int index, float value)
-		{
-			
-		}
+        #region IEqualizerPresetsView implementation
 
-		public void UpdatePresetList(IEnumerable<string> presets)
-		{
-			
-		}
-		
-		#endregion
-		
+        public System.Action OnBypassEqualizer { get; set; }
+        public Action<float> OnSetVolume { get; set; }
+        public System.Action OnAddPreset { get; set; }
+        public Action<Guid> OnLoadPreset { get; set; }
+        public Action<Guid> OnEditPreset { get; set; }
+        public Action<Guid> OnDeletePreset { get; set; }
+
+        public void EqualizerPresetsError(Exception ex)
+        {
+        }
+
+        public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)
+        {
+        }
+
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        {
+            // Not used on desktop
+        }
+
+        public void RefreshVolume(float volume)
+        {
+            // Not used on desktop
+        }
+
+        #endregion
+
+        #region IEqualizerPresetDetailsView implementation
+
+        public Action<Guid> OnChangePreset { get; set; }
+        public System.Action OnResetPreset { get; set; }
+        public System.Action OnNormalizePreset { get; set; }
+        public System.Action OnRevertPreset { get; set; }
+        public Action<string> OnSavePreset { get; set; }
+        public Action<string, float> OnSetFaderGain { get; set; }
+
+        public void EqualizerPresetDetailsError(Exception ex)
+        {
+        }
+
+        public void ShowMessage(string title, string message)
+        {
+        }
+
+        public void RefreshPreset(EQPreset preset)
+        {
+        }
+
+        #endregion
 	}
 }
-

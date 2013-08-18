@@ -711,7 +711,6 @@ namespace MPfm.GTK.Windows
 			w47.Fill = false;
 			// Container child vbox8.Gtk.Box+BoxChild
 			this.hbox3 = new global::Gtk.HBox ();
-			this.hbox3.Name = "hbox3";
 			this.hbox3.Spacing = 4;
 			// Container child hbox3.Gtk.Box+BoxChild
 			this.lblTimeShiftingReset = new global::Gtk.Label ();
