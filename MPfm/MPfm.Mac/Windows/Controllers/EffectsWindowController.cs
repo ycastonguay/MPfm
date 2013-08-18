@@ -84,11 +84,11 @@ namespace MPfm.Mac
             lblScaleMinus6.Font = NSFont.FromFontName("Junction", 11f);
             txtName.Font = NSFont.FromFontName("Junction", 11f);
 
-            btnNewPreset.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_exclamation");
-            btnAutoLevel.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_shape_align_middle");
-            btnDelete.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_delete");
-            btnSave.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_tick");
-            btnReset.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_fam_exclamation");
+            btnNewPreset.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAutoLevel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
+            btnDelete.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnSave.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_save");
+            btnReset.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
 
             SetTheme();
         }

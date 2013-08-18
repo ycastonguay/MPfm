@@ -114,11 +114,17 @@ namespace MPfm.Mac.Classes.Objects
             };
 
             Icons = new List<NSImage>() {
+                NSImage.ImageNamed("icon_button_add"),
                 NSImage.ImageNamed("icon_button_cancel"),
                 NSImage.ImageNamed("icon_button_connect"),
+                NSImage.ImageNamed("icon_button_delete"),
                 NSImage.ImageNamed("icon_button_download"),
                 NSImage.ImageNamed("icon_button_refresh"),
+                NSImage.ImageNamed("icon_button_reset"),
+                NSImage.ImageNamed("icon_button_save"),
+                NSImage.ImageNamed("icon_button_speaker"),
                 NSImage.ImageNamed("icon_android"),
+                NSImage.ImageNamed("icon_artists"),
                 NSImage.ImageNamed("icon_linux"),
                 NSImage.ImageNamed("icon_osx"),
                 NSImage.ImageNamed("icon_phone"),
