@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using MPfm.Core;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
+using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
@@ -2495,5 +2496,34 @@ namespace MPfm.Windows.Classes.Forms
         
         #endregion
 
+        #region IMarkersView implementation
+
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action<Marker> OnEditMarker { get; set; }
+        public Action<Marker> OnSelectMarker { get; set; }
+
+        public void MarkerError(Exception ex)
+        {
+        }
+
+        public void RefreshMarkers(List<Marker> markers)
+        {
+        }
+
+        #endregion
+
+        #region ILoopsView implementation
+
+        public Action OnAddLoop { get; set; }
+        public Action<Loop> OnEditLoop { get; set; }
+        public void LoopError(Exception ex)
+        {
+        }
+
+        public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
     }
 }

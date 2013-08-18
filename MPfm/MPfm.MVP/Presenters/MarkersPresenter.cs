@@ -18,6 +18,7 @@
 using System;
 using System.Linq;
 using MPfm.Core;
+using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Messages;
@@ -37,18 +38,24 @@ namespace MPfm.MVP.Presenters
 	public class MarkersPresenter : BasePresenter<IMarkersView>, IMarkersPresenter
 	{
         readonly ITinyMessengerHub _messageHub;
-        readonly MobileNavigationManager _navigationManager;
+        readonly MobileNavigationManager _mobileNavigationManager;
+        readonly NavigationManager _navigationManager;
         readonly ILibraryService _libraryService;
         readonly IPlayerService _playerService;
         Guid _audioFileId = Guid.Empty;
         List<Marker> _markers = new List<Marker>();
 
-        public MarkersPresenter(ITinyMessengerHub messageHub, MobileNavigationManager navigationManager, ILibraryService libraryService, IPlayerService playerService)
+        public MarkersPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService, IPlayerService playerService)
 		{
             _messageHub = messageHub;
-            _navigationManager = navigationManager;
             _libraryService = libraryService;
             _playerService = playerService;
+
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
 		}
 
         public override void BindView(IMarkersView view)
@@ -71,7 +78,11 @@ namespace MPfm.MVP.Presenters
 
         private void CreateMarkerDetailsView(Guid markerId)
         {
-            _navigationManager.CreateMarkerDetailsView(View, markerId);
+#if IOS || ANDROID
+            _mobileNavigationManager.CreateMarkerDetailsView(View, markerId);
+#else
+            string a = string.Empty;
+#endif
         }
 
         private void AddMarker(MarkerTemplateNameType markerTemplateNameType)

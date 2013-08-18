@@ -32,36 +32,38 @@ namespace MPfm.MVP.Navigation
     /// </summary>
     public abstract class NavigationManager
     {
-        private ISplashView _splashView;
-        private ISplashPresenter _splashPresenter;
+        ISplashView _splashView;
+        ISplashPresenter _splashPresenter;
 
-        private IMainView _mainView;
-        private IMainPresenter _mainPresenter;
-        private IPlayerPresenter _playerPresenter;
-        private ILibraryBrowserPresenter _libraryBrowserPresenter;
-        private ISongBrowserPresenter _songBrowserPresenter;
+        IMainView _mainView;
+        IMainPresenter _mainPresenter;
+        IPlayerPresenter _playerPresenter;
+        ILibraryBrowserPresenter _libraryBrowserPresenter;
+        ISongBrowserPresenter _songBrowserPresenter;
+        IMarkersPresenter _markersPresenter;
+        ILoopsPresenter _loopsPresenter;
 
-        private IDesktopPreferencesView _preferencesView;
-        private IAudioPreferencesPresenter _audioPreferencesPresenter;
-        private IGeneralPreferencesPresenter _generalPreferencesPresenter;
-        private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
+        IDesktopPreferencesView _preferencesView;
+        IAudioPreferencesPresenter _audioPreferencesPresenter;
+        IGeneralPreferencesPresenter _generalPreferencesPresenter;
+        ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        private IPlaylistView _playlistView;
-        private IPlaylistPresenter _playlistPresenter;
+        IPlaylistView _playlistView;
+        IPlaylistPresenter _playlistPresenter;
 
-        private IUpdateLibraryView _updateLibraryView;
-        private IUpdateLibraryPresenter _updateLibraryPresenter;
+        IUpdateLibraryView _updateLibraryView;
+        IUpdateLibraryPresenter _updateLibraryPresenter;
 
-        private IDesktopEffectsView _effectsView;
-        private IEqualizerPresetsPresenter _equalizerPresetsPresenter;
-        private IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
+        IDesktopEffectsView _effectsView;
+        IEqualizerPresetsPresenter _equalizerPresetsPresenter;
+        IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
 
-        private ISyncView _syncView;
-        private ISyncPresenter _syncPresenter;
-        private ISyncMenuView _syncMenuView;
-        private ISyncMenuPresenter _syncMenuPresenter;
-        private ISyncDownloadView _syncDownloadView;
-        private ISyncDownloadPresenter _syncDownloadPresenter;
+        ISyncView _syncView;
+        ISyncPresenter _syncPresenter;
+        ISyncMenuView _syncMenuView;
+        ISyncMenuPresenter _syncMenuPresenter;
+        ISyncDownloadView _syncDownloadView;
+        ISyncDownloadPresenter _syncDownloadPresenter;
 
         public virtual ISplashView CreateSplashView()
         {
@@ -97,7 +99,11 @@ namespace MPfm.MVP.Navigation
                 _libraryBrowserPresenter = Bootstrapper.GetContainer().Resolve<ILibraryBrowserPresenter>();
                 _libraryBrowserPresenter.BindView((ILibraryBrowserView)view);                
                 _songBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISongBrowserPresenter>();
-                _songBrowserPresenter.BindView((ISongBrowserView)view);                
+                _songBrowserPresenter.BindView((ISongBrowserView)view);
+                _markersPresenter = Bootstrapper.GetContainer().Resolve<IMarkersPresenter>();
+                _markersPresenter.BindView((IMarkersView)view);
+                _loopsPresenter = Bootstrapper.GetContainer().Resolve<ILoopsPresenter>();
+                _loopsPresenter.BindView((ILoopsView)view);
             };            
             _mainView = Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _mainView.OnViewDestroy = (view) => {
@@ -107,6 +113,8 @@ namespace MPfm.MVP.Navigation
                 _playerPresenter = null;
                 _libraryBrowserPresenter = null;
                 _songBrowserPresenter = null;
+                _markersPresenter = null;
+                _loopsPresenter = null;
             };
             return _mainView;
         }
