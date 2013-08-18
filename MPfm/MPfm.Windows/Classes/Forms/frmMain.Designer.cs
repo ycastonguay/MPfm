@@ -3063,8 +3063,6 @@ namespace MPfm.Windows.Classes.Forms
             this.waveFormMarkersLoops.Length = ((long)(0));
             this.waveFormMarkersLoops.Location = new System.Drawing.Point(0, 0);
             this.waveFormMarkersLoops.Name = "waveFormMarkersLoops";
-            this.waveFormMarkersLoops.PeakFileDirectory = "C:\\Users\\Animal Mother\\AppData\\Local\\Microsoft\\VisualStudio\\10.0\\ProjectAssemblie" +
-    "s\\om-0gycd01\\Peak Files\\";
             this.waveFormMarkersLoops.Size = new System.Drawing.Size(937, 37);
             this.waveFormMarkersLoops.TabIndex = 75;
             backgroundGradient26.BorderColor = System.Drawing.Color.Gray;

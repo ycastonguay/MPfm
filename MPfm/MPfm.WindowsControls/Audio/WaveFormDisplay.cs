@@ -24,6 +24,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using MPfm.Core;
+using MPfm.MVP.Helpers;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
@@ -108,34 +110,6 @@ namespace MPfm.WindowsControls
         #region Properties
         
         #region Properties (File / Song Information)
-
-        /// <summary>
-        /// Private value for the PeakFileDirectory property.
-        /// </summary>
-        private string peakFileDirectory;
-        /// <summary>
-        /// Directory where the peak files are located.
-        /// Peak Files in current directory by default.
-        /// </summary>
-        public string PeakFileDirectory
-        {
-            get
-            {
-                return peakFileDirectory;
-            }
-            set
-            {
-                // Make sure the peak file directory ends with a backslash
-                if (value[value.Length - 1] != '\\')
-                {
-                    // Add backslash
-                    value += "\\";
-                }
-
-                // Set value
-                peakFileDirectory = value;
-            }
-        }
 
         /// <summary>
         /// Private value for the Position property.
@@ -601,9 +575,6 @@ namespace MPfm.WindowsControls
             // Create history
             waveDataHistory = new List<WaveDataMinMax>();
 
-            // Set peak file directory
-            peakFileDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Peak Files\\";
-
             // Create PeakFile class instance 
             peakFileService = new PeakFileService();
             peakFileService.OnProcessStarted += new PeakFileService.ProcessStarted(peakFile_OnProcessStarted);
@@ -913,8 +884,16 @@ namespace MPfm.WindowsControls
                 // Reset scrollbar
                 scrollX = 0;
 
-                // Read peak file (using data based on the progress event sometimes causes problems)
-                waveDataHistory = peakFileService.ReadPeakFile(peakFilePath);
+                try
+                {
+                    // Read peak file (using data based on the progress event sometimes causes problems)
+                    waveDataHistory = peakFileService.ReadPeakFile(peakFilePath);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("WaveFormDisplay - Could not read peak file at {0}: {1}", peakFilePath, ex);
+                    Tracing.Log(string.Format("WaveFormDisplay - Could not read peak file at {0}: {1}", peakFilePath, ex));
+                }
 
                 // Do a last refresh
                 needToRefreshBitmapCache = true;
@@ -965,17 +944,14 @@ namespace MPfm.WindowsControls
             //}
 
             // Build peak file path
-            peakFilePath = PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+            //peakFilePath = ConfigurationHelper. PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+            peakFilePath = Path.Combine(ConfigurationHelper.PeakFileDirectory, filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak");
 
             // Clear history
             WaveDataHistory.Clear();
 
             // Check if the peak file exists; try to read file
-            bool readFile = false;
-            if (File.Exists(peakFilePath))
-            {
-                readFile = true;
-            }
+            bool readFile = File.Exists(peakFilePath);
 
             // Set flags
             isLoading = true;

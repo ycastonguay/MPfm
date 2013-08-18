@@ -27,38 +27,32 @@ namespace MPfm.MVP.Helpers
     /// </summary>
     public static class ConfigurationHelper
     {
-		/// <summary>
-		/// Current user home directory.
-		/// </summary>
 		public static string HomeDirectory;
-		/// <summary>
-		/// Current user configuration file path.
-		/// </summary>
+        public static string PeakFileDirectory;
 		public static string ConfigurationFilePath;
-		/// <summary>
-		/// Current database file path.
-		/// </summary>
 		public static string DatabaseFilePath;
-		/// <summary>
-		/// Current log file path.
-		/// </summary>
 		public static string LogFilePath;		
 		
 		static ConfigurationHelper()
 		{
 			// Get assembly directory
 			//string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            //// Get application data folder path
+            //// Vista/Windows7: C:\Users\%username%\AppData\Roaming\
+            //// XP: C:\Documents and Settings\%username%\Application Data\
+            //applicationDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MPfm";
 			
 #if IOS || ANDROID
         	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "PeakFiles");
 #else
-			HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
+            HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
+            PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm", "PeakFiles");
 #endif
 
-			// Generate file paths
 			ConfigurationFilePath = Path.Combine(HomeDirectory, "MPfm.Configuration.xml");
 			DatabaseFilePath = Path.Combine(HomeDirectory, "MPfm.Database.db");
-			LogFilePath = Path.Combine(HomeDirectory, "MPfm.Log.txt");
+			LogFilePath = Path.Combine(HomeDirectory, "MPfm.Log.txt");            
 		}
 
         /// <summary>

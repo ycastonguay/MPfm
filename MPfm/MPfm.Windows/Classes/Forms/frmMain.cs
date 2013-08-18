@@ -924,85 +924,6 @@ namespace MPfm.Windows.Classes.Forms
         }
 
         /// <summary>
-        /// Refreshes the controls in the "Current Song" panel and the different
-        /// playback buttons. By default, does not update the playlist window.
-        /// </summary>
-        public void RefreshSongControls()
-        {
-            RefreshSongControls(false);
-        }
-
-        /// <summary>
-        /// Refreshes the controls in the "Current Song" panel and the different
-        /// playback buttons. Can update the playlist window or not.
-        /// </summary>
-        public void RefreshSongControls(bool refreshPlaylistWindow)
-        {
-            //// Is the player playing?
-            //if (Player.IsPlaying)
-            //{
-            //    // Enable/disable buttons
-            //    btnStop.Enabled = true;
-            //    btnPause.Enabled = true;
-            //    btnPlay.Enabled = false;
-            //    btnNextSong.Enabled = (Player.Playlist.CurrentItemIndex < Player.Playlist.Items.Count - 1) ? true : false;
-            //    btnPreviousSong.Enabled = (Player.Playlist.CurrentItemIndex == 0) ? false : true;
-            //    btnPause.Checked = false;
-            //    trackPosition.Enabled = true;
-            //    trackTimeShifting.Enabled = true;
-
-            //    // Set the play icon in the song browser                
-            //    RefreshSongBrowserPlayIcon(Player.Playlist.CurrentItem.AudioFile.Id);
-
-            //    // Refresh playlist window
-            //    if (refreshPlaylistWindow)
-            //    {
-            //        formPlaylist.RefreshPlaylist();
-            //    }
-
-            //    // Refresh playlist icon
-            //    formPlaylist.RefreshPlaylistPlayIcon(Player.Playlist.CurrentItem.Id);
-            //}
-            //else
-            //{
-            //    // Enable/disable buttons
-            //    btnStop.Enabled = false;
-            //    btnPause.Enabled = false;
-            //    btnNextSong.Enabled = false;
-            //    btnPreviousSong.Enabled = false;
-            //    btnPlay.Enabled = true;
-            //    trackPosition.Enabled = false;
-            //    trackTimeShifting.Enabled = false;                
-
-            //    // Nothing is playing, then display "stop" song information                
-            //    lblCurrentArtistName.Text = string.Empty;
-            //    lblCurrentAlbumTitle.Text = string.Empty;
-            //    lblCurrentSongTitle.Text = string.Empty;
-            //    lblCurrentFilePath.Text = string.Empty;
-            //    lblCurrentPosition.Text = "0:00.000";
-            //    lblLength.Text = "0:00.000";
-            //    lblSoundFormat.Text = string.Empty;
-            //    lblBitsPerSample.Text = string.Empty;
-            //    lblBitrate.Text = string.Empty;
-            //    lblFrequency.Text = string.Empty;
-            //    picAlbum.Image = null;
-            //    btnPause.Checked = false;
-            //    lblSongPosition.Text = "0:00.000";
-            //    lblSongPercentage.Text = "0 %";
-            //    trackPosition.Value = 0;
-
-            //    // Empty output meter history and refresh
-            //    outputMeter.WaveDataHistory.Clear();
-            //    outputMeter.Refresh();
-
-            //    // Refresh play icon
-            //    RefreshSongBrowserPlayIcon(Guid.Empty);
-            //    formPlaylist.RefreshPlaylistPlayIcon(Guid.Empty);
-            //    viewSongs2.ClearSelectedItems();
-            //}
-        }
-
-        /// <summary>
         /// Refreshes the Markers grid view.
         /// </summary>
         public void RefreshMarkers()
@@ -1247,17 +1168,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Arguments</param>
         private void faderVolume_OnFaderValueChanged(object sender, EventArgs e)
         {
-            //// Check if the form has finished loading
-            //if (!IsInitDone)
-            //{
-            //    return;
-            //}
-
-            //// Set volume and update label            
-            //player.Volume = (float)faderVolume.Value / 100;
-            //lblVolume.Text = faderVolume.Value.ToString() + " %";
-            //Config.Audio.Mixer.Volume = faderVolume.Value;
-            //Config.Save();
+            OnPlayerSetVolume((float)faderVolume.Value);
+            lblVolume.Text = string.Format("{0} %", faderVolume.Value);
         }
 
         /// <summary>
@@ -1268,7 +1180,6 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void picDistortionWarning_Click(object sender, EventArgs e)
         {
-            // Hide distortion warning
             picDistortionWarning.Visible = false;
         }
 
@@ -1483,8 +1394,8 @@ namespace MPfm.Windows.Classes.Forms
             if(e.Node == null)
                 return;
 
-            // Cast metadata
-            //TreeLibraryNodeMetadata metadata = (TreeLibraryNodeMetadata)e.Node.Tag;
+            var entity = (LibraryBrowserEntity)e.Node.Tag;
+            OnTreeNodeDoubleClicked(entity);
         }
 
         /// <summary>
@@ -1495,7 +1406,11 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void miTreeLibraryPlaySongs_Click(object sender, EventArgs e)
         {
-            
+            if (treeLibraryBrowser.SelectedNode == null)
+                return;
+
+            var entity = (LibraryBrowserEntity)treeLibraryBrowser.SelectedNode.Tag;
+            OnTreeNodeDoubleClicked(entity);            
         }  
 
         #endregion
@@ -1644,26 +1559,9 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void comboSoundFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //// Get audio file format
-            //AudioFileFormat audioFileFormat = AudioFileFormat.Unknown;
-            //Enum.TryParse<AudioFileFormat>(comboSoundFormat.Text, out audioFileFormat);
-
-            //// Set filter
-            //filterAudioFileFormat = audioFileFormat;
-                        
-            //// Reset Library Browser tree view selection and Song Browser query
-            //treeLibraryBrowser.SelectedNode = null;
-            //querySongBrowser = new SongQuery();
-
-            //// Check if init is done
-            //if (IsInitDone)
-            //{
-            //    // Set configuration                
-            //    Config.SetKeyValue("FilterSoundFormat", audioFileFormat.ToString());                
-
-            //    // Refresh all controls
-            //    RefreshAll();
-            //}
+            AudioFileFormat audioFileFormat = AudioFileFormat.Unknown;
+            Enum.TryParse<AudioFileFormat>(comboSoundFormat.Text, out audioFileFormat);
+            OnAudioFileFormatFilterChanged(audioFileFormat);
         }
 
         /// <summary>
@@ -1740,27 +1638,10 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="data">Event Data</param>
         private void waveFormMarkersLoops_OnPositionChanged(PositionChangedData data)
         {
-            //// Check if data is valid
-            //if (data == null)
-            //{
-            //    return;
-            //}            
+            if (data == null)
+                return;
 
-            //// Stop timer for updating position
-            ////m_timerSongPosition.Stop();
-
-            //// Set new position
-            //player.SetPosition(data.Percentage);
-
-            ////m_timerSongPosition.Start();
-
-            ////// Set new position
-            ////uint newPosition = Player.SetPositionSentenceMS(data.Percentage);
-
-            ////// Update song position
-            ////string time = Conversion.MillisecondsToTimeString(Convert.ToUInt32((data.Percentage * (double)Player.currentSongLength) / 100));
-            ////lblSongPosition.Text = time;
-            ////lblSongPercentage.Text = newPosition.ToString();
+            OnPlayerSetPosition(data.Percentage);
         }
 
         #region Markers Button and GridView Events
@@ -2388,16 +2269,11 @@ namespace MPfm.Windows.Classes.Forms
                 lblCurrentPosition.Text = entity.Position;
                 lblSongPosition.Text = entity.Position;
                 trackPosition.Value = (int)entity.PositionPercentage * 10;
+                miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
 
-                //    // Set UI            
-                //    lblCurrentPosition.Text = position;                
-                //    miTraySongPosition.Text = "[ " + position + " / " + player.Playlist.CurrentItem.LengthString + " ]";
-
-                //    // Set position in the wave form display
-                //    if (!waveFormMarkersLoops.IsLoading)
-                //    {
-                //        waveFormMarkersLoops.SetPosition(positionBytes, position);
-                //    }
+                // Set position in the wave form display
+                if (!waveFormMarkersLoops.IsLoading)
+                    waveFormMarkersLoops.SetPosition(entity.PositionBytes, entity.Position);
 
                 //    // Update the song position
                 //    if (!songPositionChanging)
@@ -2467,8 +2343,8 @@ namespace MPfm.Windows.Classes.Forms
                     }
 
                     // Configure wave form
-                    //waveFormMarkersLoops.Length = lengthBytes;
-                    //waveFormMarkersLoops.LoadWaveForm(audioFile.FilePath);
+                    waveFormMarkersLoops.Length = lengthBytes;
+                    waveFormMarkersLoops.LoadWaveForm(audioFile.FilePath);
                 }
             };
 
@@ -2488,6 +2364,17 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lblVolume.Text = entity.VolumeString;
+                if (faderVolume.Value != (int)entity.Volume)
+                    faderVolume.Value = (int)entity.Volume;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)

@@ -110,8 +110,12 @@ namespace MPfm.MVP.Presenters
 
                 var markers = _libraryService.SelectMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
                 View.RefreshMarkers(markers);
-
             }
+
+            View.RefreshPlayerVolume(new PlayerVolumeEntity() {
+                Volume = 100,
+                VolumeString = "100%"
+            });
         }
 
 		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
@@ -121,16 +125,21 @@ namespace MPfm.MVP.Presenters
 
             //int available = playerService.GetDataAvailable();
             
-			// Create entity
 			PlayerPositionEntity entity = new PlayerPositionEntity();
-            entity.PositionBytes = _playerService.GetPosition();
-            entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-            entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
-    		//entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-            entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-            entity.PositionPercentage = ((float)_playerService.GetPosition() / (float)_playerService.CurrentPlaylistItem.LengthBytes) * 100;
+		    try
+		    {
+                entity.PositionBytes = _playerService.GetPosition();
+                entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+                entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
+                //entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+                entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+                entity.PositionPercentage = ((float)_playerService.GetPosition() / (float)_playerService.CurrentPlaylistItem.LengthBytes) * 100;
+		    }
+		    catch (Exception ex)
+		    {
+		        Tracing.Log(string.Format("PlayerPresenter - HandleTimerRefreshSongPositionElapsed - Failed to get player position: {0}", ex));
+		    }
 
-			// Send changes to view
 			View.RefreshPlayerPosition(entity);
 		}
 		
@@ -332,8 +341,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                // Set volume and refresh UI
-                Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
+                //Tracing.Log("PlayerPresenter.SetVolume -- Setting volume to " + volume.ToString("0.00") + "%");
                 _playerService.Volume = volume / 100;
                 View.RefreshPlayerVolume(new PlayerVolumeEntity(){ 
                     Volume = volume, 
