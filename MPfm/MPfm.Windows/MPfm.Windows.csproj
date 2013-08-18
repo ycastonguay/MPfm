@@ -290,10 +290,14 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\icon_android_16.png" />
+    <None Include="Resources\icon_button_add_16.png" />
     <Content Include="Resources\icon_button_cancel_16.png" />
     <Content Include="Resources\icon_button_connect_16.png" />
+    <None Include="Resources\icon_button_delete_16.png" />
     <Content Include="Resources\icon_button_download_16.png" />
     <Content Include="Resources\icon_button_refresh_16.png" />
+    <None Include="Resources\icon_button_speaker_16.png" />
+    <None Include="Resources\icon_button_reset_16.png" />
     <Content Include="Resources\icon_linux_16.png" />
     <Content Include="Resources\icon_osx_16.png" />
     <Content Include="Resources\icon_phone_16.png" />

@@ -458,9 +458,7 @@ namespace MPfm.Library.Database
                             // Check if the type is an enum                                    
                             if (info.PropertyType.IsEnum)
                             {
-                                // Try to cast dynamically
-                                MethodInfo castMethod = typeof(Conversion).GetMethod("GetEnumValue").MakeGenericMethod(info.PropertyType);
-                                fieldValue = castMethod.Invoke(null, new object[] { fieldValue.ToString() });
+                                fieldValue = Enum.Parse(info.PropertyType, fieldValue.ToString());
                             }                                
                             else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
                             {

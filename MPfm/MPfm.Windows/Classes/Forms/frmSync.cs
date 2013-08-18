@@ -43,15 +43,14 @@ namespace MPfm.Windows.Classes.Forms
 
         private void RefreshDeviceListButton()
         {
-            //string[] all = System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceNames();
             if (_isDiscovering)
             {
-                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_cancel_16);  //Assembly.GetEntryAssembly().GetManifestResourceStream("MPfm.Windows.Resources.icon_button_cancel_16.png"));
+                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_cancel_16);
                 btnRefreshDevices.Text = "Cancel refresh";
             }
             else
             {
-                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_refresh_16);//(Assembly.GetEntryAssembly().GetManifestResourceStream("MPfm.Windows.Resources.icon_button_refresh_16.png"));
+                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_refresh_16);
                 btnRefreshDevices.Text = "Refresh devices";
             }
         }
