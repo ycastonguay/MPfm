@@ -866,16 +866,10 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void miFileAddFiles_Click(object sender, EventArgs e)
         {
-            // Display dialog
             if (dialogAddFiles.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            {
-                // The user has cancelled the operation
                 return;
-            }
 
-            //// Update the library using the specified folder            
-            //formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFiles.FileNames.ToList());
-            //formUpdateLibraryStatus.ShowDialog(this);
+            OnAddFilesToLibrary(dialogAddFiles.FileNames.ToList());
         }
 
         /// <summary>
@@ -886,30 +880,10 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void miFileAddFolder_Click(object sender, EventArgs e)
         {
-            // Display dialog
             if (dialogAddFolder.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
-            {
-                // The user has cancelled the operation
                 return;
-            }
 
-            //// Update the library using the specified folder            
-            //formUpdateLibraryStatus = new frmUpdateLibraryStatus(this, dialogAddFolder.SelectedPath);
-            //formUpdateLibraryStatus.ShowDialog(this);
-
-            //// Show panel
-            //ShowUpdateLibraryProgress(true);
-
-            //// Start update timer to display progress
-            //timerUpdateLibrary.Start();
-
-            //// Start new thread
-            //new Thread(delegate()
-            //{                
-            //    List<string> filePaths = AudioTools.SearchAudioFilesRecursive(dialogAddFolder.SelectedPath, "MP3;FLAC;OGG;MPC;APE;WV");                
-            //    updateLibrary = new Library.UpdateLibrary(1, library.Gateway.DatabaseFilePath);                
-            //    Task<List<AudioFile>> audioFiles = updateLibrary.LoadFiles(filePaths);
-            //}).Start();
+            OnAddFolderToLibrary(dialogAddFolder.SelectedPath);
         }
 
         /// <summary>
@@ -1221,12 +1195,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnUpdateLibrary_Click(object sender, EventArgs e)
         {
-            // Display contextual menu            
-            //menuToolbarLibrary.Show(btnUpdateLibrary, new Point(0, btnUpdateLibrary.Height));
-            //toolStripMain.Height;
-
-            // Update the whole library
-            UpdateLibrary();
+            OnUpdateLibrary();
         }
 
         /// <summary>
@@ -3402,47 +3371,23 @@ namespace MPfm.Windows.Classes.Forms
 
         #region IMainView implementation
 
-        public Action<IBaseView> OnViewDestroy { get; set; }
+        public Action OnOpenPreferencesWindow { get; set; }
+        public Action OnOpenEffectsWindow { get; set; }
+        public Action OnOpenPlaylistWindow { get; set; }
+        public Action OnOpenSyncWindow { get; set; }
+        public Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public Action<string> OnAddFolderToLibrary { get; set; }
+        public Action OnUpdateLibrary { get; set; }
+
+        #endregion
+
+        #region ILibraryBrowserView implementation
+
         public Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
         public Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
         public Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         public Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }
         public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
-        public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-
-        public Action OnOpenPreferencesWindow { get; set; }
-        public Action OnOpenEffectsWindow { get; set; }
-        public Action OnOpenPlaylistWindow { get; set; }
-        public Action OnOpenSyncWindow { get; set; }
-
-        public Action OnPlayerPlay { get; set; }
-        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
-        public Action OnPlayerPause { get; set; }
-        public Action OnPlayerStop { get; set; }
-        public Action OnPlayerPrevious { get; set; }
-        public Action OnPlayerNext { get; set; }
-        public Action<float> OnPlayerSetVolume { get; set; }
-        public Action<float> OnPlayerSetPitchShifting { get; set; }
-        public Action<float> OnPlayerSetTimeShifting { get; set; }
-        public Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
-
-        public void PlayerError(Exception ex)
-        {
-            MethodInvoker methodUIUpdate = delegate
-            {
-                MessageBox.Show(string.Format("An error occured in Player: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            };
-
-            if (InvokeRequired)
-                BeginInvoke(methodUIUpdate);
-            else
-                methodUIUpdate.Invoke();
-        }
-        
-        public void ShowView(bool shown)
-        {
-        }
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
         {
@@ -3489,8 +3434,9 @@ namespace MPfm.Windows.Classes.Forms
         public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
         {
             Console.WriteLine("frmMain - RefreshLibraryBrowserNode - entities.Count: {0}", entities.Count());
-            MethodInvoker methodUIUpdate = delegate {
-                var node = (TreeNode) userData;
+            MethodInvoker methodUIUpdate = delegate
+            {
+                var node = (TreeNode)userData;
                 treeLibraryBrowser.BeginUpdate();
 
                 foreach (var childEntity in entities)
@@ -3525,10 +3471,45 @@ namespace MPfm.Windows.Classes.Forms
                 methodUIUpdate.Invoke();
         }
 
+        #endregion
+
+        #region ISongBrowserView implementation
+
+        public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+
         public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
         }
 
+        #endregion
+
+        #region IPlayerView implementation
+
+        public Action OnPlayerPlay { get; set; }
+        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public Action OnPlayerPause { get; set; }
+        public Action OnPlayerStop { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; }
+        public Action<float> OnPlayerSetVolume { get; set; }
+        public Action<float> OnPlayerSetPitchShifting { get; set; }
+        public Action<float> OnPlayerSetTimeShifting { get; set; }
+        public Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+
+        public void PlayerError(Exception ex)
+        {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                MessageBox.Show(string.Format("An error occured in Player: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
+        }
+        
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
         }

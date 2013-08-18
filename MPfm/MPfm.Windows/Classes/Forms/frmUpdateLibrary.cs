@@ -38,68 +38,23 @@ namespace MPfm.Windows.Classes.Forms
         {
             InitializeComponent();
             ViewIsReady();
-
-            //lblTitle.Text = "Updating";
-            //lblMessage.Text = "Calculating...";
         }
 
-        /// <summary>
-        /// Fires when the form is shown. The form is shown when the user has started the update process.
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Arguments</param>
         private void frmUpdateLibraryStatus_Shown(object sender, EventArgs e)
         {
-            // Stop any song playing
-            //Main.Player.Stop();
-
-            // Reset buttons
             btnCancel.Enabled = true;
             btnOK.Enabled = false;
             btnSaveLog.Enabled = false;
-
-            //// Reset log
-            //sbLog = new StringBuilder(1000);
-
-            //// Start timer
-            //timerEnabled = true;
-            //workerTimer.RunWorkerAsync();
-
-            //// Reset variables
-            //startTime = DateTime.Now;
-            //startTimeAddFiles = DateTime.MinValue;
-            //listAlbums = new List<string>();
-
-            // Update UI
-            lblEstimatedTimeLeft.Text = "Estimated time left: Calculating...";
-
-            // Start the update process
-            //Main.Library.UpdateLibrary(mode, FilePaths, FolderPath);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            // Refresh controls on the main form
-            Cursor.Current = Cursors.WaitCursor;
-
-            // Reset query and refresh all controls
-            //Main.ResetQuery();
-            //Main.RefreshAll();            
-
-            Cursor.Current = Cursors.Default;
-
-            // Close this form
-            this.Close();
+            Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            //// Set the cancel update library flag to true
-            //Main.Library.CancelUpdateLibrary = true;
-
-            //// Reset buttons
-            //btnOK.Enabled = true;
-            //btnCancel.Enabled = false;
+            OnCancelUpdateLibrary();
         }
 
         private void btnSaveLog_Click(object sender, EventArgs e)
@@ -133,187 +88,6 @@ namespace MPfm.Windows.Classes.Forms
             //}
         }
 
-        ///// <summary>
-        ///// Fires when the update library process sends a progress changed message.
-        ///// </summary>
-        ///// <param name="data">Update data</param>
-        //private void Library_OnUpdateLibraryProgress(UpdateLibraryProgressData data)
-        //{                         
-        //    //// Invoke UI updates
-        //    //MethodInvoker methodUIUpdate = delegate
-        //    //{
-        //    //    // Check if there is an error
-        //    //    if (data.Error != null)
-        //    //    {
-        //    //        //string errorMessage = "Error: Cannot add this file to the library - " + status.errorInformation + "\n\nFile Path: " + status.filePath + "\nReason: " + status.error.Message;
-        //    //        string errorMessage;
-
-        //    //        if (!String.IsNullOrEmpty(data.FilePath))
-        //    //        {
-        //    //            errorMessage = data.FilePath + "\n";
-        //    //        }
-        //    //        else
-        //    //        {
-        //    //            errorMessage = "====================\n";
-        //    //        }
-
-        //    //        errorMessage += "   Error: " + data.Error.Message;
-
-        //    //        if (data.Error.InnerException != null)
-        //    //        {
-        //    //            errorMessage += "\n   " + data.Error.InnerException.Message;
-        //    //        }
-        //    //        errorMessage += "\n";
-
-        //    //        // Log for file
-        //    //        sbLog.Insert(0, errorMessage);
-
-        //    //        // Add to log screen
-        //    //        lbLog.Items.Insert(0, "Error reading " + Path.GetFileName(data.FilePath) + ": " + data.Error.Message);
-
-        //    //        lblMessage.Text = data.Message;
-        //    //        lblProgress.Text = data.Percentage.ToString("0.000") + " %";
-        //    //        progressBar.Value = Convert.ToInt32(data.Percentage);
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        // Update UI                
-        //    //        if (data.CurrentFilePosition > 0 && data.TotalNumberOfFiles > 0)
-        //    //        {
-        //    //            // Set start time when the process has finished finding the files and is ready to add files into library
-        //    //            if (startTimeAddFiles == DateTime.MinValue)
-        //    //            {
-        //    //                startTimeAddFiles = DateTime.Now;
-        //    //            }
-
-        //    //            // Calculate time elapsed
-        //    //            TimeSpan timeElapsed = DateTime.Now.Subtract(startTimeAddFiles);
-
-        //    //            // Update title
-        //    //            lblTitle.Text = data.Title + " (file " + data.CurrentFilePosition.ToString() + " of " + data.TotalNumberOfFiles.ToString() + ")";
-
-        //    //            // Calculate time remaining
-        //    //            double msPerFile = timeElapsed.TotalMilliseconds / data.CurrentFilePosition;
-        //    //            double remainingTime = (data.TotalNumberOfFiles - data.CurrentFilePosition) * msPerFile;
-        //    //            TimeSpan timeRemaining = new TimeSpan(0, 0, 0, 0, (int)remainingTime);
-
-        //    //            // Update estimated time left (from more precise to more vague)
-        //    //            if (timeRemaining.TotalSeconds == 0)
-        //    //            {
-        //    //                lblEstimatedTimeLeft.Text = "Estimated time left : N/A";
-        //    //            }
-        //    //            else if (timeRemaining.Minutes == 1)
-        //    //            {
-        //    //                lblEstimatedTimeLeft.Text = "Estimated time left : 1 minute";
-        //    //            }
-        //    //            else if (timeRemaining.TotalSeconds <= 10)
-        //    //            {
-        //    //                lblEstimatedTimeLeft.Text = "Estimated time left : A few seconds";
-        //    //            }
-        //    //            else if (timeRemaining.TotalSeconds <= 30)
-        //    //            {
-        //    //                lblEstimatedTimeLeft.Text = "Estimated time left : Less than 30 seconds";
-        //    //            }
-        //    //            else if (timeRemaining.TotalSeconds <= 60)
-        //    //            {
-        //    //                lblEstimatedTimeLeft.Text = "Estimated time left : Less than a minute";
-        //    //            }
-        //    //            else
-        //    //            {
-        //    //                lblEstimatedTimeLeft.Text = "Estimated time left : " + timeRemaining.Minutes.ToString() + " minutes";
-        //    //            }
-        //    //        }
-        //    //        else
-        //    //        {
-        //    //            lblTitle.Text = data.Title;
-        //    //        }
-        //    //        lblMessage.Text = data.Message;
-        //    //        lblProgress.Text = data.Percentage.ToString("0.000") + " %";
-        //    //        progressBar.Value = Convert.ToInt32(data.Percentage);
-
-        //    //        if (!String.IsNullOrEmpty(data.LogEntry))
-        //    //        {
-        //    //            sbLog.Insert(0, data.LogEntry + "\n");
-        //    //        }
-
-        //    //        // Update song if exists
-        //    //        if (data.Song != null)
-        //    //        {
-        //    //            //lblArtist.Text = data.Song.ArtistName;
-        //    //            //lblAlbum.Text = data.Song.AlbumTitle;
-        //    //            //lblSongTitle.Text = data.Song.SongTitle;
-
-        //    //            // Check if the folder has already been treated (we want to get the ID3
-        //    //            // image just once per album. This speeds up the update library process a lot.)
-
-        //    //            ////string path = Path.GetDirectoryName(data.FilePath);
-        //    //            //string artistAlbum = data.Song.ArtistName + " - " + data.Song.AlbumTitle;
-        //    //            //if (!listAlbums.Contains(artistAlbum))
-        //    //            //{
-        //    //            //    try
-        //    //            //    {
-        //    //            //        // Get album art from ID3 tag or folder.jpg
-        //    //            //        Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(data.FilePath);
-
-        //    //            //        // If image is null...
-        //    //            //        if (image == null)
-        //    //            //        {
-        //    //            //            // Display nothing
-        //    //            //            picAlbum.Image = null;
-        //    //            //        }
-        //    //            //        else
-        //    //            //        {
-        //    //            //            // Update the album art                                
-        //    //            //            picAlbum.Image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
-        //    //            //        }
-
-        //    //            //        // Add the folder in the list of folders
-        //    //            //        listAlbums.Add(artistAlbum);
-        //    //            //    }
-        //    //            //    catch (Exception ex)
-        //    //            //    {
-        //    //            //        // Do nothing since this is only album art.
-        //    //            //    }
-        //    //            //}
-
-        //    //            //lbLog.Items.Insert(0, data.LogEntry);
-        //    //            //if (lbLog.Items.Count > 1000)
-        //    //            //{
-        //    //            //    lbLog.Items.RemoveAt(lbLog.Items.Count - 1);
-        //    //            //}
-        //    //        }
-        //    //        else
-        //    //        {
-        //    //            //lblArtist.Text = string.Empty;
-        //    //            //lblAlbum.Text = string.Empty;
-        //    //            //lblSongTitle.Text = string.Empty;
-        //    //            //picAlbum.Image = null;
-        //    //        }
-        //    //    }
-        //    //};
-
-        //    //// Check if invoking is necessary
-        //    //if (InvokeRequired)
-        //    //{
-        //    //    BeginInvoke(methodUIUpdate);
-        //    //}
-        //    //else
-        //    //{
-        //    //    methodUIUpdate.Invoke();
-        //    //}
-
-        //    ////if (data.ProgressUndefined)
-        //    ////{
-        //    ////    progressBar.Style = ProgressBarStyle.Continuous;
-        //    ////}
-        //    ////else
-        //    ////{
-        //    ////    progressBar.Style = ProgressBarStyle.Marquee;
-        //    ////    lblProgress.Text = data.Percentage.ToString("0.00") + " %";
-        //    ////    progressBar.Value = Convert.ToInt32(data.Percentage);
-        //    ////}
-        //}
-
         #region IUpdateLibraryView implementation
 
         public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
@@ -321,14 +95,94 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
+            MethodInvoker methodUIUpdate = delegate 
+            {
+                lblTitle.Text = entity.Title;
+                lblMessage.Text = entity.Subtitle;
+                lblProgress.Text = string.Format("{0:0.0} %", entity.PercentageDone * 100);
+                progressBar.Value = (int)entity.PercentageDone;
+
+                // TODO: Add time estimation like below
+
+                //    //            // Set start time when the process has finished finding the files and is ready to add files into library
+                //    //            if (startTimeAddFiles == DateTime.MinValue)
+                //    //            {
+                //    //                startTimeAddFiles = DateTime.Now;
+                //    //            }
+
+                //    //            // Calculate time elapsed
+                //    //            TimeSpan timeElapsed = DateTime.Now.Subtract(startTimeAddFiles);
+
+                //    //            // Update title
+                //    //            lblTitle.Text = data.Title + " (file " + data.CurrentFilePosition.ToString() + " of " + data.TotalNumberOfFiles.ToString() + ")";
+
+                //    //            // Calculate time remaining
+                //    //            double msPerFile = timeElapsed.TotalMilliseconds / data.CurrentFilePosition;
+                //    //            double remainingTime = (data.TotalNumberOfFiles - data.CurrentFilePosition) * msPerFile;
+                //    //            TimeSpan timeRemaining = new TimeSpan(0, 0, 0, 0, (int)remainingTime);
+
+                //    //            // Update estimated time left (from more precise to more vague)
+                //    //            if (timeRemaining.TotalSeconds == 0)
+                //    //            {
+                //    //                lblEstimatedTimeLeft.Text = "Estimated time left : N/A";
+                //    //            }
+                //    //            else if (timeRemaining.Minutes == 1)
+                //    //            {
+                //    //                lblEstimatedTimeLeft.Text = "Estimated time left : 1 minute";
+                //    //            }
+                //    //            else if (timeRemaining.TotalSeconds <= 10)
+                //    //            {
+                //    //                lblEstimatedTimeLeft.Text = "Estimated time left : A few seconds";
+                //    //            }
+                //    //            else if (timeRemaining.TotalSeconds <= 30)
+                //    //            {
+                //    //                lblEstimatedTimeLeft.Text = "Estimated time left : Less than 30 seconds";
+                //    //            }
+                //    //            else if (timeRemaining.TotalSeconds <= 60)
+                //    //            {
+                //    //                lblEstimatedTimeLeft.Text = "Estimated time left : Less than a minute";
+                //    //            }
+                //    //            else
+                //    //            {
+                //    //                lblEstimatedTimeLeft.Text = "Estimated time left : " + timeRemaining.Minutes.ToString() + " minutes";
+                //    //            }
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void AddToLog(string entry)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lbLog.Items.Insert(0, entry);
+                if (lbLog.Items.Count > 1000)
+                    lbLog.Items.RemoveAt(lbLog.Items.Count - 1);                
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void ProcessEnded(bool canceled)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                lblTitle.Text = "Update library completed successfully";
+                lblMessage.Text = string.Empty;
+                btnCancel.Enabled = false;
+                btnOK.Enabled = true;
+                btnSaveLog.Enabled = true;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         #endregion

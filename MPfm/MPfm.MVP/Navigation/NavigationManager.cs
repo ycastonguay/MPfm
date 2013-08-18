@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
 using TinyIoC;
 using MPfm.MVP.Views;
@@ -253,6 +254,30 @@ namespace MPfm.MVP.Navigation
                 _playlistPresenter = null;
             };
             return _playlistView;
+        }
+
+        public virtual IUpdateLibraryView CreateUpdateLibraryView(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+        {
+            if (_updateLibraryView != null)
+            {
+                _updateLibraryView.ShowView(true);
+                return _updateLibraryView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _updateLibraryPresenter = Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
+                _updateLibraryPresenter.BindView((IUpdateLibraryView)view);
+                _updateLibraryPresenter.UpdateLibrary(mode, filePaths, folderPath);
+            };
+
+            _updateLibraryView = Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _updateLibraryView.OnViewDestroy = (view) =>
+            {
+                _updateLibraryView = null;
+                _updateLibraryPresenter = null;
+            };
+            return _updateLibraryView;
         }
     }
 }

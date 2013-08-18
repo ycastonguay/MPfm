@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace MPfm.MVP.Views
 {
@@ -28,5 +29,9 @@ namespace MPfm.MVP.Views
         Action OnOpenEffectsWindow { get; set; }
         Action OnOpenPlaylistWindow { get; set; }
         Action OnOpenSyncWindow { get; set; }
+
+        Action<List<string>> OnAddFilesToLibrary { get; set; }
+        Action<string> OnAddFolderToLibrary { get; set; }
+        Action OnUpdateLibrary { get; set; }
 	}
 }
