@@ -110,11 +110,8 @@ namespace MPfm.Mac
 		public override void WindowDidLoad()
 		{
             base.WindowDidLoad();
-		}
 
-		public override void AwakeFromNib()
-        {
-            Tracing.Log("MainWindowController.AwakeFromNib -- Initializing user interface...");
+            Tracing.Log("MainWindowController.WindowDidLoad -- Initializing user interface...");
             //this.Window.Title = "Sessions " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 
             splitMain.Delegate = new MainSplitViewDelegate();
@@ -150,6 +147,8 @@ namespace MPfm.Mac
 
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
+
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineLibraryBrowser);
 
             OnViewReady.Invoke(this);
 		}
@@ -530,6 +529,25 @@ namespace MPfm.Mac
 
         partial void actionRemoveMarker(NSObject sender)
         {
+        }
+
+        [Export ("outlineViewItemDidExpand")]
+        public void ItemDidExpand(NSNotification notification)
+        {
+            // Check for dummy nodes
+            var item = (LibraryBrowserItem)notification.UserInfo["NSObject"];
+            if (item.SubItems.Count > 0 && item.SubItems[0].Entity.Type == LibraryBrowserEntityType.Dummy)
+            {
+                IEnumerable<LibraryBrowserEntity> entities = OnTreeNodeExpandable(item.Entity);
+                //Console.WriteLine("MainWindowController - ItemDidExpand - dummy node - entities.Count: {0}", entities.Count());
+
+                // Clear subitems (dummy node) and fill with actual nodes
+                item.SubItems.Clear();
+                foreach (LibraryBrowserEntity entity in entities)
+                    item.SubItems.Add(new LibraryBrowserItem(entity));
+
+                outlineLibraryBrowser.ReloadData();
+            }
         }
         
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
