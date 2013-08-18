@@ -46,55 +46,21 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
-        public System.Action OnOpenPreferencesWindow { get; set; }
-        public System.Action OnOpenEffectsWindow { get; set; }
-        public System.Action OnOpenPlaylistWindow { get; set; }
-        public System.Action OnOpenSyncWindow { get; set; }
-        public System.Action OnPlayerPlay { get; set; }
-        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
-        public System.Action OnPlayerPause { get; set; }
-        public System.Action OnPlayerStop { get; set; }
-        public System.Action OnPlayerPrevious { get; set; }
-        public System.Action OnPlayerNext { get; set; } 
-        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
-        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
-        public System.Action<float> OnPlayerSetVolume { get; set; }
-        public System.Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
-        
-        public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
-        public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
-        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
-        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
-        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
-        
-        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-        
-		UpdateLibraryWindowController updateLibraryWindowController = null;
-        LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
-		LibraryBrowserDataSource libraryBrowserDataSource = null;
-        SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
-        SongBrowserSource songBrowserSource = null;
-        AlbumCoverSource albumCoverSource = null;
-        AlbumCoverCacheService albumCoverCacheService = null;
+        LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
+		LibraryBrowserDataSource _libraryBrowserDataSource = null;
+        SongBrowserTableViewDelegate _songBrowserOutlineViewDelegate = null;
+        SongBrowserSource _songBrowserSource = null;
+        AlbumCoverSource _albumCoverSource = null;
+        AlbumCoverCacheService _albumCoverCacheService = null;
 
-		//strongly typed window accessor00
-		public new MainWindow Window {
-			get {
-				return (MainWindow)base.Window;
-			}
-		}
-		
-		// Called when created from unmanaged code
 		public MainWindowController(IntPtr handle) 
             : base (handle)
 		{
 		}
 
-		// Call to load from the XIB/NIB file
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
-            this.albumCoverCacheService = new AlbumCoverCacheService();
+            this._albumCoverCacheService = new AlbumCoverCacheService();
             this.Window.AlphaValue = 0;
             this.Window.MakeKeyAndOrderFront(this);
 
@@ -125,13 +91,13 @@ namespace MPfm.Mac
             cboSoundFormat.AddItem("WAV");
             cboSoundFormat.AddItem("WV");
 
-            libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
-            outlineLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
+            _libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
+            outlineLibraryBrowser.Delegate = _libraryBrowserOutlineViewDelegate;
             outlineLibraryBrowser.AllowsMultipleSelection = false;
             outlineLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
 
-            songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate();
-            tableSongBrowser.Delegate = songBrowserOutlineViewDelegate;
+            _songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate();
+            tableSongBrowser.Delegate = _songBrowserOutlineViewDelegate;
             tableSongBrowser.AllowsMultipleSelection = true;
             tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
 
@@ -348,7 +314,6 @@ namespace MPfm.Mac
 
 		partial void actionAddFilesToLibrary(NSObject sender)
 		{
-			// Open panel to choose audio files
 			IEnumerable<string> filePaths = null;
 			using(NSOpenPanel openPanel = new NSOpenPanel())
 			{
@@ -358,13 +323,13 @@ namespace MPfm.Mac
 				openPanel.AllowsMultipleSelection = true;
                 openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
                 openPanel.Title = "Please select audio files to add to the library";
-				openPanel.Prompt = "Add to library";
+				openPanel.Prompt = "Add files to library";
 				openPanel.RunModal();
 				filePaths = openPanel.Urls.Select(x => x.Path);
 			}
 
 			if(filePaths != null && filePaths.Count() > 0)
-				StartUpdateLibrary(UpdateLibraryMode.SpecificFiles, filePaths.ToList(), null);
+                OnAddFilesToLibrary(filePaths.ToList());
 		}
 
 		partial void actionAddFolderLibrary(NSObject sender)
@@ -377,13 +342,13 @@ namespace MPfm.Mac
 				openPanel.ReleasedWhenClosed = true;
 				openPanel.AllowsMultipleSelection = false;
 				openPanel.Title = "Please select a folder to add to the library";
-				openPanel.Prompt = "Add to library";	
+				openPanel.Prompt = "Add folder to library";	
 				openPanel.RunModal();
 				folderPath = openPanel.Url.Path;
 			}
 
 			if(!String.IsNullOrEmpty(folderPath))
-				StartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, folderPath);
+                OnAddFolderToLibrary(folderPath);
 		}
 
 		partial void actionOpenAudioFiles(NSObject sender)
@@ -408,7 +373,7 @@ namespace MPfm.Mac
 
 		partial void actionUpdateLibrary(NSObject sender)
 		{
-			StartUpdateLibrary(UpdateLibraryMode.WholeLibrary, null, null);
+            OnUpdateLibrary();
 		}
 
         partial void actionSoundFormatChanged(NSObject sender)
@@ -587,7 +552,7 @@ namespace MPfm.Mac
             try
             {
                 // Get selected item and start playback
-                AudioFile audioFile = songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
+                AudioFile audioFile = _songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
                 if(OnTableRowDoubleClicked != null)
                     OnTableRowDoubleClicked.Invoke(audioFile);
             } 
@@ -604,22 +569,24 @@ namespace MPfm.Mac
             }
         }
 
-        void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
-        {
-            if(updateLibraryWindowController != null)
-                updateLibraryWindowController.Dispose();
-
-            updateLibraryWindowController = new UpdateLibraryWindowController(this, null);
-            updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
-            updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
-        }
-
         public void RefreshAll()
         {
             OnAudioFileFormatFilterChanged(AudioFileFormat.All);
         }
 
         #region IPlayerView implementation
+
+        public System.Action OnPlayerPlay { get; set; }
+        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public System.Action OnPlayerPause { get; set; }
+        public System.Action OnPlayerStop { get; set; }
+        public System.Action OnPlayerPrevious { get; set; }
+        public System.Action OnPlayerNext { get; set; } 
+        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
+        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
+        public System.Action<float> OnPlayerSetVolume { get; set; }
+        public System.Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
 
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
@@ -682,8 +649,8 @@ namespace MPfm.Mac
                     imageAlbumCover.Image = new NSImage();
                 }
 
-                if(songBrowserSource != null)
-                    songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
+                if(_songBrowserSource != null)
+                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
             });
 		}
 
@@ -731,13 +698,15 @@ namespace MPfm.Mac
 
 		#region ISongBrowserView implementation
 
+        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
             InvokeOnMainThread(() => {
-                songBrowserSource = new SongBrowserSource(audioFiles);
-                tableSongBrowser.Source = songBrowserSource;
-                albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
-                tableAlbumCovers.Source = albumCoverSource;
+                _songBrowserSource = new SongBrowserSource(audioFiles);
+                tableSongBrowser.Source = _songBrowserSource;
+                _albumCoverSource = new AlbumCoverSource(_albumCoverCacheService, audioFiles);
+                tableAlbumCovers.Source = _albumCoverSource;
             });
 		}
 
@@ -745,11 +714,17 @@ namespace MPfm.Mac
 
 		#region ILibraryBrowserView implementation
 
+        public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
+        public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
+        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
+        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
+        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
             InvokeOnMainThread(() => {
-                libraryBrowserDataSource = new LibraryBrowserDataSource(entities, (entity) => { return this.OnTreeNodeExpandable(entity); });
-    			outlineLibraryBrowser.DataSource = libraryBrowserDataSource;
+                _libraryBrowserDataSource = new LibraryBrowserDataSource(entities, (entity) => { return this.OnTreeNodeExpandable(entity); });
+    			outlineLibraryBrowser.DataSource = _libraryBrowserDataSource;
             });
 		}
 
@@ -759,6 +734,18 @@ namespace MPfm.Mac
 		}
 
 		#endregion
+
+        #region IMainView implementation
+
+        public System.Action OnOpenPreferencesWindow { get; set; }
+        public System.Action OnOpenEffectsWindow { get; set; }
+        public System.Action OnOpenPlaylistWindow { get; set; }
+        public System.Action OnOpenSyncWindow { get; set; }
+        public Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public Action<string> OnAddFolderToLibrary { get; set; }
+        public Action OnUpdateLibrary { get; set; }
+
+        #endregion
 
 	}
 }

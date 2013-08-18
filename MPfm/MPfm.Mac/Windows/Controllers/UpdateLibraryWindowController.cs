@@ -39,36 +39,29 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class UpdateLibraryWindowController : BaseWindowController, IUpdateLibraryView
 	{
-		MainWindowController _mainWindowController = null;
-		IUpdateLibraryPresenter _presenter = null;
-
-		#region Constructors
-		
-		// Called when created from unmanaged code
 		public UpdateLibraryWindowController(IntPtr handle) 
             : base (handle)
 		{
 			Initialize();
+
 		}
 		
-		// Call to load from the XIB/NIB file
-		public UpdateLibraryWindowController(MainWindowController mainWindowController, Action<IBaseView> onViewReady) 
+		public UpdateLibraryWindowController(Action<IBaseView> onViewReady) 
             : base ("UpdateLibraryWindow", onViewReady)
 		{
-            _mainWindowController = mainWindowController;
 			Initialize();
 		}
 		
-		// Shared initialization code
 		void Initialize()
 		{
-            _presenter = Bootstrapper.GetContainer().Resolve<UpdateLibraryPresenter>();
-			_presenter.BindView(this);
-			Window.Center();
+            this.Window.Center();
+            this.Window.MakeKeyAndOrderFront(this);
 		}
 
-		public override void AwakeFromNib()
-		{
+        public override void WindowDidLoad()
+        {
+            base.WindowDidLoad();
+
             lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 16);
             lblSubtitle.Font = NSFont.FromFontName("Junction", 11);
             lblPercentageDone.Font = NSFont.FromFontName("Junction", 11);
@@ -79,24 +72,18 @@ namespace MPfm.Mac
 			btnCancel.Enabled = true;
 			btnSaveLog.Enabled = false;
 			textViewErrorLog.Editable = false;
-		}
-		
-		#endregion
-		
-		public void StartProcess(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
-		{
-			_presenter.UpdateLibrary(mode, filePaths, folderPath);
-		}
 
+            OnViewReady.Invoke(this);
+		}
+		
 		partial void btnOK_Click(NSObject sender)
 		{
-            _mainWindowController.RefreshAll();
-			this.Close();
+			Close();
 		}
 
 		partial void btnCancel_Click(NSObject sender)
 		{
-			_presenter.Cancel();
+            OnCancelUpdateLibrary();
 		}
 
 		partial void btnSaveLog_Click(NSObject sender)
