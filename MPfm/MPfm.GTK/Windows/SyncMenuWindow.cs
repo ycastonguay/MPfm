@@ -24,6 +24,7 @@ using MPfm.Library.Objects;
 using System.Reflection;
 using System.Text;
 using Gtk;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GTK
 {
@@ -39,10 +40,10 @@ namespace MPfm.GTK
             Title = "Sync Library With";
             InitializeTreeView();
 
-            onViewReady(this);
             btnSelectAll.GrabFocus(); // the list view changes color when focused by default. it annoys me!
             this.Center();
             this.Show();
+            onViewReady(this);
         }
 
         private void InitializeTreeView()
@@ -120,16 +121,19 @@ namespace MPfm.GTK
             if (entityChild.ArtistName == "dummy" && entityChild.AlbumTitle == "dummy")
             {
                 Console.WriteLine("SyncMenuWindow - OnTreeViewRowExpanded -- Expanding node...");
-                OnExpandItem(entity);
+                OnExpandItem(entity, null);
             }
         }
 
         #region ISyncMenuView implementation
 
-        public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
-        public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        public System.Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
+        public System.Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
+        public System.Action<List<AudioFile>> OnRemoveItems { get; set; }
         public System.Action OnSync { get; set; }
         public System.Action OnSelectButtonClick { get; set; }
+        public System.Action OnSelectAll { get; set; }
+        public System.Action OnRemoveAll { get; set; }
 
         public void SyncMenuError(Exception ex)
         {
@@ -178,9 +182,7 @@ namespace MPfm.GTK
 
         public void RefreshSelectButton(string text)
         {
-            Gtk.Application.Invoke(delegate{
-                btnSelectAll.Label = text;
-            });
+            // Not used on desktop devices
         }
 
         public void RefreshItems(List<SyncMenuItemEntity> items)
@@ -205,6 +207,10 @@ namespace MPfm.GTK
             });
         }
 
+        public void RefreshSelection(List<AudioFile> audioFiles)
+        {
+        }
+
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
             Gtk.Application.Invoke(delegate{
@@ -213,7 +219,7 @@ namespace MPfm.GTK
             });
         }
 
-        public void InsertItems(int index, List<SyncMenuItemEntity> items)
+        public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)
         {
             Gtk.Application.Invoke(delegate{
                 Console.WriteLine("SyncMenuWindow - InsertItems - index {0}", index);
@@ -246,7 +252,7 @@ namespace MPfm.GTK
             });
         }
 
-        public void RemoveItems(int index, int count)
+        public void RemoveItems(int index, int count, object userData)
         {
         }
 

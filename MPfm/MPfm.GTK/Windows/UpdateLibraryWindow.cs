@@ -38,74 +38,47 @@ namespace MPfm.GTK.Windows
 	/// </summary>
 	public partial class UpdateLibraryWindow : BaseWindow, IUpdateLibraryView
 	{
-		public System.Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
-		public System.Action OnCancelUpdateLibrary { get; set; }
-
-		// Private variables		
-		private IUpdateLibraryPresenter presenter = null;
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.GTK.PreferencesWindow"/> class.
-		/// </summary>		
-		public UpdateLibraryWindow (UpdateLibraryMode mode, List<string> filePaths, string folderPath, Action<IBaseView> onViewReady) : 
+		public UpdateLibraryWindow (Action<IBaseView> onViewReady) : 
 				base(Gtk.WindowType.Toplevel, onViewReady)
 		{
-			this.Build ();	
-						
-			// Set fonts
+			this.Build();	
 			SetFontProperties();
-			
-			// Create presenter			
-			var audioFileCacheService = Bootstrapper.GetContainer().Resolve<AudioFileCacheService>();
-			var libraryService = Bootstrapper.GetContainer().Resolve<LibraryService>();
-			var updateLibraryService = Bootstrapper.GetContainer().Resolve<UpdateLibraryService>();
-			presenter = new UpdateLibraryPresenter(audioFileCacheService, updateLibraryService);
-			presenter.BindView(this);
-			
-			presenter.UpdateLibrary(mode, filePaths, folderPath);
-			
 			textviewErrorLog.GrabFocus();
+            onViewReady(this);
 		}
 		
 		private void SetFontProperties()
 		{				
-			// Get default font name
 			string defaultFontName = this.lblTitle.Style.FontDescription.Family;			
-			this.lblTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblSubtitle.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-			this.lblPercentage.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblTimeElapsed.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-			this.lblEstimatedTimeLeft.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
-		}
-		
-		/// <summary>
-		/// Raises the delete event (when the form is closing).
-		/// </summary>
-		/// <param name='o'>Object</param>
-		/// <param name='args'>Event arguments</param>
-		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
-		{			
-			args.RetVal = true;	
-			//this.Destroy();
+			lblTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			lblSubtitle.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			lblPercentage.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			lblTimeElapsed.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			lblEstimatedTimeLeft.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 		}
 
-		protected void OnActionCancelActivated (object sender, System.EventArgs e)
+		protected void OnActionCancelActivated(object sender, System.EventArgs e)
 		{
-			presenter.Cancel();	
+            OnCancelUpdateLibrary();
 		}
 
-		protected void OnActionOKActivated (object sender, System.EventArgs e)
+		protected void OnActionOKActivated(object sender, System.EventArgs e)
 		{
-			this.Destroy();
+			Destroy();
 		}
 
-		protected void OnActionSaveLogActivated (object sender, System.EventArgs e)
+		protected void OnActionSaveLogActivated(object sender, System.EventArgs e)
 		{
-			//presenter.SaveLog();
 		}
-		
+
+        #region IUpdateLibraryView implementation
+
+        public System.Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public System.Action OnCancelUpdateLibrary { get; set; }
+	
 		public void RefreshStatus(UpdateLibraryEntity entity)
 		{
+            Console.WriteLine("UpdateLibraryWindow - RefreshStatus - {0}", entity.Title);
 			Gtk.Application.Invoke(delegate{
 				if(entity.Exception != null)
 				{
@@ -133,21 +106,24 @@ namespace MPfm.GTK.Windows
 		
 		public void ProcessEnded(bool canceled)
 		{
-			if(canceled)
-			{
-				lblTitle.Text = "Library update canceled by user.";
-				lblSubtitle.Text = string.Empty;
-			}
-			else
-			{
-				lblTitle.Text = "Library updated successfully.";
-				lblSubtitle.Text = string.Empty;
-			}
-			
-			actionCancel.Sensitive = false;
-			actionOK.Sensitive = true;
-			actionSaveLog.Sensitive = true;
+            Gtk.Application.Invoke(delegate{
+    			if(canceled)
+    			{
+    				lblTitle.Text = "Library update canceled by user.";
+    				lblSubtitle.Text = string.Empty;
+    			}
+    			else
+    			{
+    				lblTitle.Text = "Library updated successfully.";
+    				lblSubtitle.Text = string.Empty;
+    			}
+    			
+    			actionCancel.Sensitive = false;
+    			actionOK.Sensitive = true;
+    			actionSaveLog.Sensitive = true;
+            });
 		}
+
+        #endregion        
 	}
 }
-
