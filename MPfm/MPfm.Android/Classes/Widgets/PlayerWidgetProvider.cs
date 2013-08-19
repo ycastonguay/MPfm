@@ -32,22 +32,17 @@ namespace MPfm.Android.Classes.Widgets
     public class PlayerWidgetProvider : AppWidgetProvider
     {
         private PendingIntent _pendingIntentWidgetService;
-        private PendingIntent _pendingIntentClick;
 
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            //Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PlayerWidgetProvider - OnUpdate - appWidgetIds.length: {0}", appWidgetIds.Length);
-            //context.StartService(new Intent(context, typeof(WidgetService)));
-            //PendingIntent _pendingIntentWidgetService = PendingIntent.GetService(context, 0, intent, 0);
-            
+            Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PlayerWidgetProvider - OnUpdate - appWidgetIds.length: {0}", appWidgetIds.Length);
             AlarmManager alarmManager = (AlarmManager)context.GetSystemService(Context.AlarmService);
-            Intent intent = new Intent(context, typeof(WidgetService));
-            intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
-            if (_pendingIntentWidgetService == null)
-                _pendingIntentWidgetService = PendingIntent.GetService(context, 0, intent, PendingIntentFlags.CancelCurrent);
 
-            if (_pendingIntentClick == null)
-                _pendingIntentClick = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
+            Intent intentAlarm = new Intent(context, typeof(WidgetService));
+            intentAlarm.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
+            intentAlarm.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
+            if (_pendingIntentWidgetService == null)
+                _pendingIntentWidgetService = PendingIntent.GetService(context, 0, intentAlarm, PendingIntentFlags.CancelCurrent);
 
             Calendar time = Calendar.Instance;
             time.Set(CalendarField.Minute, 0);
@@ -60,14 +55,38 @@ namespace MPfm.Android.Classes.Widgets
             {
                 int appWidgetId = appWidgetIds[a];
                 RemoteViews views = new RemoteViews(context.PackageName, Resource.Layout.WidgetPlayer);
-                views.SetOnClickPendingIntent(Resource.Id.widgetPlayer, _pendingIntentClick);
+
+                var intentBackground = new Intent(context, typeof (WidgetService));
+                intentBackground.SetAction(PlayerWidgetActions.SessionsAppActionOpen.ToString());
+                intentBackground.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
+                var pendingIntentBackgroundClick = PendingIntent.GetService(context, appWidgetId, intentBackground, PendingIntentFlags.UpdateCurrent);
+                views.SetOnClickPendingIntent(Resource.Id.widgetPlayer, pendingIntentBackgroundClick);
+
+                var intentPrevious = new Intent(context, typeof(WidgetService));
+                intentPrevious.SetAction(PlayerWidgetActions.SessionsAppActionPrevious.ToString());
+                intentPrevious.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
+                var pendingIntentPreviousClick = PendingIntent.GetService(context, appWidgetId, intentPrevious, PendingIntentFlags.UpdateCurrent);
+                views.SetOnClickPendingIntent(Resource.Id.widgetPlayer_btnPrevious, pendingIntentPreviousClick);
+
+                var intentPlayPause = new Intent(context, typeof(WidgetService));
+                intentPlayPause.SetAction(PlayerWidgetActions.SessionsAppActionPlayPause.ToString());
+                intentPlayPause.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
+                var pendingIntentPlayPauseClick = PendingIntent.GetService(context, appWidgetId, intentPlayPause, PendingIntentFlags.UpdateCurrent);
+                views.SetOnClickPendingIntent(Resource.Id.widgetPlayer_btnPlayPause, pendingIntentPlayPauseClick);
+
+                var intentNext = new Intent(context, typeof(WidgetService));
+                intentNext.SetAction(PlayerWidgetActions.SessionsAppActionNext.ToString());
+                intentNext.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
+                var pendingIntentNextClick = PendingIntent.GetService(context, appWidgetId, intentNext, PendingIntentFlags.UpdateCurrent);
+                views.SetOnClickPendingIntent(Resource.Id.widgetPlayer_btnNext, pendingIntentNextClick);
+
                 appWidgetManager.UpdateAppWidget(appWidgetId, views);
             }
         }
 
         public override void OnEnabled(Context context)
         {
-            //Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PlayerWidgetProvider - OnEnabled");
+            Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PlayerWidgetProvider - OnEnabled");
             base.OnEnabled(context);
         }
 
@@ -81,7 +100,7 @@ namespace MPfm.Android.Classes.Widgets
 
         public override void OnDeleted(Context context, int[] appWidgetIds)
         {
-            //Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PlayerWidgetProvider - OnDeleted");
+            Console.WriteLine("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PlayerWidgetProvider - OnDeleted");
             base.OnDeleted(context, appWidgetIds);
         }
 
@@ -91,5 +110,14 @@ namespace MPfm.Android.Classes.Widgets
         //    base.OnReceive(context, intent);
         //    Console.WriteLine("PlayerWidgetProvider - OnReceive - intent.action: {0}", intent.Action);
         //}
+    }
+
+    public enum PlayerWidgetActions
+    {
+        SessionsAppActionOpen = 0,
+        SessionsAppActionClose = 1,
+        SessionsAppActionPrevious = 2,
+        SessionsAppActionPlayPause = 3,
+        SessionsAppActionNext = 4
     }
 }

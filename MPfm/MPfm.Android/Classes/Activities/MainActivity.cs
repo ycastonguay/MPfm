@@ -113,7 +113,7 @@ namespace MPfm.Android
             _imageAlbum = FindViewById<SquareImageView>(Resource.Id.main_miniplayer_imageAlbum);
             _miniPlayer.Visibility = ViewStates.Gone;
             _miniPlayer.Click += (sender, args) => {
-                Console.WriteLine("MainActivity - Mini player click - Showing player view...");
+                //Console.WriteLine("MainActivity - Mini player click - Showing player view...");
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             };
             _btnPrevious.SetOnTouchListener(this);
@@ -134,37 +134,34 @@ namespace MPfm.Android
 
             // Listen to player changes to show/hide the mini player
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
-            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
-                Console.WriteLine("MainActivity - PlayerPlaylistIndexChangedMessage");
-                RunOnUiThread(() => {
-                    // Make sure the UI is available
-                    if (_lblArtistName != null && message.Data.AudioFileStarted != null)
-                    {
-                        _lblArtistName.Text = message.Data.AudioFileStarted.ArtistName;
-                        _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
-                        _lblSongTitle.Text = message.Data.AudioFileStarted.Title;
+            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => RunOnUiThread(() => {
+                // Make sure the UI is available
+                if (_lblArtistName != null && message.Data.AudioFileStarted != null)
+                {
+                    _lblArtistName.Text = message.Data.AudioFileStarted.ArtistName;
+                    _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
+                    _lblSongTitle.Text = message.Data.AudioFileStarted.Title;
 
-                        Task.Factory.StartNew(() => {                            
-                            string key = message.Data.AudioFileStarted.ArtistName + "_" + message.Data.AudioFileStarted.AlbumTitle;
-                            Console.WriteLine("MainActivity - Player Bar - key: {0}", key);
-                            if (_imageAlbum.Tag == null || _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
-                            {
-                                Console.WriteLine("MainActivity - Player Bar - key: {0} is different than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
-                                _imageAlbum.Tag = key;
-                                byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(message.Data.AudioFileStarted.FilePath);
-                                if (bytesImage.Length == 0)
-                                    _imageAlbum.SetImageBitmap(null);
-                                else
-                                    BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);    
-                            }
-                        });
-                    }
-                });                
-            });
+                    Task.Factory.StartNew(() => {                            
+                        string key = message.Data.AudioFileStarted.ArtistName + "_" + message.Data.AudioFileStarted.AlbumTitle;
+                        //Console.WriteLine("MainActivity - Player Bar - key: {0}", key);
+                        if (_imageAlbum.Tag == null || _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
+                        {
+                            //Console.WriteLine("MainActivity - Player Bar - key: {0} is different than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
+                            _imageAlbum.Tag = key;
+                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(message.Data.AudioFileStarted.FilePath);
+                            if (bytesImage.Length == 0)
+                                _imageAlbum.SetImageBitmap(null);
+                            else
+                                BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);    
+                        }
+                    });
+                }
+            }));
             _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
                 bool hasStartedPlaying = !_isPlaying && message.Status == PlayerStatusType.Playing;
                 _isPlaying = message.Status == PlayerStatusType.Playing;
-                Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
+                //Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
                 RunOnUiThread(() => {
                     if (message.Status == PlayerStatusType.Stopped || message.Status == PlayerStatusType.Initialized)
                     {
@@ -201,8 +198,6 @@ namespace MPfm.Android
 //            }
 //#endif
 
-            SetupNotificationBar();
-
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
@@ -226,29 +221,6 @@ namespace MPfm.Android
 
         //    _wifiManager.DiscoverPeers(_wifiChannel, _actionListener);
         //}
-
-        private void SetupNotificationBar()
-        {
-            // Build permanent notification for displaying player status in notification drawer (not sure yet how to make the notification sticky or to use the big style with custom layout)
-            Console.WriteLine("MainActivity - Setting notification bar...");
-            RemoteViews remoteViews = new RemoteViews(PackageName, Resource.Layout.SyncWebBrowser);
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .SetSmallIcon(Resource.Drawable.Icon)
-                .SetContentTitle("Artist Name - Album Title")
-                .SetContentText("Song Title")
-                .SetContent(remoteViews);
-            Intent resultIntent = new Intent(this, typeof(MainActivity));
-            //NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-            TaskStackBuilder stackBuilder = TaskStackBuilder.Create(this);
-            stackBuilder.AddParentStack(this);
-            stackBuilder.AddNextIntent(resultIntent);
-            PendingIntent resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
-            //remoteViews.SetOnClickPendingIntent(R);
-            //notificationBuilder.SetStyle(bigPictureStyle);
-            notificationBuilder.SetContentIntent(resultPendingIntent);
-            NotificationManager notificationManager = (NotificationManager)GetSystemService(Context.NotificationService);
-            notificationManager.Notify(777, notificationBuilder.Build());
-        }
 
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
@@ -336,12 +308,12 @@ namespace MPfm.Android
             var tabType = _tabPagerAdapter.GetCurrentTab();
             if (_navigationManager.CanGoBackInMobileLibraryBrowserBackstack(tabType))
             {
-                Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
+                //Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
                 _navigationManager.PopMobileLibraryBrowserBackstack(tabType);
             }
             else
             {
-                Console.WriteLine("MainActivity - OnBackPressed - CannotRemoveFragment");
+                //Console.WriteLine("MainActivity - OnBackPressed - CannotRemoveFragment");
                 base.OnBackPressed();
             }
         }

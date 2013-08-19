@@ -100,13 +100,13 @@ namespace MPfm.Android.Classes
                 Console.WriteLine("Application - Error: Failed to setup connection change receiver! {0}", ex);
             }
 
-#if __ANDROID_16__
-            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
-                _discoveryService = new AndroidDiscoveryService();
-                _discoveryService.StartDiscovery();
-                _discoveryService.DiscoverPeers();
-            }
-#endif
+//#if __ANDROID_16__
+//            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
+//                _discoveryService = new AndroidDiscoveryService();
+//                _discoveryService.StartDiscovery();
+//                _discoveryService.DiscoverPeers();
+//            }
+//#endif
         }
 
         public override void OnTerminate()
@@ -118,11 +118,11 @@ namespace MPfm.Android.Classes
                 MPfm.Player.Player.CurrentPlayer.Stop();
             MPfm.Player.Player.CurrentPlayer.Dispose();
 
-#if __ANDROID_16__
-            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
-                _discoveryService.Dispose();
-            }
-#endif
+//#if __ANDROID_16__
+//            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
+//                _discoveryService.Dispose();
+//            }
+//#endif
         }
 
         public static Context GetApplicationContext()

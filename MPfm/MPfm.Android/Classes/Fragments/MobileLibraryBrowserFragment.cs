@@ -75,7 +75,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Console.WriteLine("MLBFragment - OnCreateView");
+            //Console.WriteLine("MLBFragment - OnCreateView");
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
 
             // Get screen size
@@ -149,12 +149,12 @@ namespace MPfm.Android.Classes.Fragments
             
         }
 
-        public override void OnSaveInstanceState(Bundle outState)
-        {
-            //Console.WriteLine("MLBFRAGMENT - ON SAVE INSTANCE STATE");
-            outState.PutString("Test", DateTime.Now.ToLongTimeString());
-            base.OnSaveInstanceState(outState);
-        }
+        //public override void OnSaveInstanceState(Bundle outState)
+        //{
+        //    //Console.WriteLine("MLBFRAGMENT - ON SAVE INSTANCE STATE");
+        //    outState.PutString("Test", DateTime.Now.ToLongTimeString());
+        //    base.OnSaveInstanceState(outState);
+        //}
 
         public override void OnResume()
         {
@@ -222,7 +222,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack)
         {
-            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
+            //Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
             Activity.RunOnUiThread(() => {
                 _entities = entities.ToList();
                 _lblBreadcrumb.Text = breadcrumb;
@@ -287,10 +287,10 @@ namespace MPfm.Android.Classes.Fragments
                             Task.Factory.StartNew(() =>
                             {
                                 string key = audioFile.ArtistName + "_" + audioFile.AlbumTitle;
-                                Console.WriteLine("MobileLibraryFragment - Album art - key: {0}", key);
+                                //Console.WriteLine("MobileLibraryFragment - Album art - key: {0}", key);
                                 if (_imageAlbum.Tag == null || _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
                                 {
-                                    Console.WriteLine("MobileLibraryFragment - Album art - key: {0} is different than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
+                                    //Console.WriteLine("MobileLibraryFragment - Album art - key: {0} is different than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
                                     _imageAlbum.Tag = key;
                                     byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
                                     if (bytesImage.Length == 0)

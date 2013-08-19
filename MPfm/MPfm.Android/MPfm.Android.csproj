@@ -115,6 +115,7 @@
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
     <Compile Include="Classes\Receivers\WifiDirectReceiver.cs" />
     <Compile Include="Classes\Services\AndroidDiscoveryService.cs" />
+    <Compile Include="Classes\Services\PlayerService.cs" />
     <Compile Include="Classes\Services\WidgetService.cs" />
     <Compile Include="Classes\Widgets\PlayerWidgetProvider.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -226,6 +227,12 @@
     <AndroidResource Include="Resources\Layout\spinner_dropdown_item.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\Layout\NotificationPlayer.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\BigNotificationPlayer.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -257,7 +264,9 @@
       <SubType>Designer</SubType>
     </Content>
     <AndroidResource Include="Resources\Menu\main_menu.xml" />
-    <AndroidResource Include="Resources\Values\Styles.xml" />
+    <AndroidResource Include="Resources\Values\Styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\Values\Colors.xml" />
     <AndroidResource Include="Resources\drawable\Splash.png" />
     <AndroidResource Include="Resources\Anim\fade_in.xml" />

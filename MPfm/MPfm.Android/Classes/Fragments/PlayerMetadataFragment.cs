@@ -44,7 +44,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Console.WriteLine("PlayerMetadataFragment - OnCreateView");
+            //Console.WriteLine("PlayerMetadataFragment - OnCreateView");
             _view = inflater.Inflate(Resource.Layout.PlayerMetadata, container, false);
             _lblArtistName = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblArtistName);
             _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblAlbumTitle);
@@ -63,14 +63,14 @@ namespace MPfm.Android.Classes.Fragments
             Activity.RunOnUiThread(() => {
                 if (audioFile != null)
                 {
-                    Console.WriteLine("PlayerMetadataFragment - RefreshAudioFile - {0}", audioFile.FilePath);
+                    //Console.WriteLine("PlayerMetadataFragment - RefreshAudioFile - {0}", audioFile.FilePath);
                     _lblArtistName.Text = audioFile.ArtistName;
                     _lblAlbumTitle.Text = audioFile.AlbumTitle;
                     _lblSongTitle.Text = audioFile.Title;
                 }
                 else
                 {
-                    Console.WriteLine("PlayerMetadataFragment - RefreshAudioFile (null)");
+                    //Console.WriteLine("PlayerMetadataFragment - RefreshAudioFile (null)");
                     _lblArtistName.Text = string.Empty;
                     _lblAlbumTitle.Text = string.Empty;
                     _lblSongTitle.Text = string.Empty;

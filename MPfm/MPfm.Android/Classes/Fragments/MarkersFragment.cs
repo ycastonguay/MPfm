@@ -91,7 +91,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshMarkers(List<Marker> markers)
         {
-            Console.WriteLine("#####################>>> MarkersFragment - RefreshMarkers - markers count: {0}", markers.Count);
+            //Console.WriteLine("#####################>>> MarkersFragment - RefreshMarkers - markers count: {0}", markers.Count);
             Activity.RunOnUiThread(() => {
                 _markers = markers;
                 _listAdapter.SetData(markers);

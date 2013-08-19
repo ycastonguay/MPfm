@@ -22,8 +22,7 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Views;
-using Android.Views.Animations;
+using Android.Support.V4.App;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Cache;
@@ -36,7 +35,8 @@ using TinyMessenger;
 
 namespace MPfm.Android.Classes.Services
 {
-    [Service]    
+    //[Service(Name = "org.sessionsapp.android.WidgetService", Label = "Sessions Widget Service")]//, Process = ":.widget.process")]
+    [Service(Label = "Sessions Widget Service")]//, Process = ":widgetprocess")]
     public class WidgetService : Service
     {
         private ITinyMessengerHub _messengerHub;
@@ -54,10 +54,29 @@ namespace MPfm.Android.Classes.Services
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            Console.WriteLine(">>>>>>>>>> WidgetService - OnStartCommand - startId: {0}", startId);
+            Console.WriteLine(">>>>>>>>>> WidgetService - OnStartCommand - startId: {0} intent.action: {1}", startId, intent.Action);
             _widgetIds = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
-            //UpdateView(null);
-            return base.OnStartCommand(intent, flags, startId);
+
+            if (intent.Action == PlayerWidgetActions.SessionsAppActionOpen.ToString())
+            {
+                Intent intentOpen = new Intent(BaseContext, typeof(PlayerActivity));
+                intentOpen.AddFlags(ActivityFlags.NewTask);
+                Application.StartActivity(intentOpen);
+            }
+            else if (intent.Action == PlayerWidgetActions.SessionsAppActionPrevious.ToString())
+            {
+                _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Previous));
+            }
+            else if (intent.Action == PlayerWidgetActions.SessionsAppActionPlayPause.ToString())
+            {
+                _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.PlayPause));
+            }
+            else if (intent.Action == PlayerWidgetActions.SessionsAppActionNext.ToString())
+            {
+                _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Next));
+            }
+
+            return StartCommandResult.Sticky;
         }
 
         public override void OnCreate()
@@ -75,30 +94,64 @@ namespace MPfm.Android.Classes.Services
 
         private void Initialize()
         {
-            int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
-            int cacheSize = maxMemory / 16;
+            Console.WriteLine(">>>>>>>>>> WidgetService - Initializing service...");
+            int maxMemory = (int) (Runtime.GetRuntime().MaxMemory()/1024);
+            int cacheSize = maxMemory/16;
             _bitmapCache = new BitmapCache(null, cacheSize, 200, 200);
 
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
             _playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) =>
-            {
-                //Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ WidgetService - PlayerPlaylistIndexChangedMessage");
+            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
+                Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ WidgetService - PlayerPlaylistIndexChangedMessage");
                 if (message.Data.AudioFileStarted != null)
                 {
                     UpdateView(message.Data.AudioFileStarted, null);
                     GetAlbumArt(message.Data.AudioFileStarted);
                 }
             });
-            _messengerHub.Subscribe<PlayerStatusMessage>((message) =>
-            {
-                //Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
+            _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
+                Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
             });
+
+            // Declare the service as foreground (i.e. the user is aware because of the audio)
+            Console.WriteLine(">>>>>>>>>> WidgetService - Declaring service as foreground (API {0})...", (int) global::Android.OS.Build.VERSION.SdkInt);
+            var notification = new Notification.Builder(this)
+                //.SetContentTitle("Sessions")
+                //.SetContentText("Notification Player")
+                .SetOngoing(true)
+                .SetPriority((int)NotificationPriority.Max)
+                .SetSmallIcon(Resource.Drawable.Icon)
+                .Build();
+
+            // Use the big notification style for Android 4.1+; use the standard notification style for Android 4.0.3
+//#if __ANDROID_16__
+            if (((int) global::Android.OS.Build.VERSION.SdkInt) >= 16)
+            {
+                Console.WriteLine(">>>>>>>>>> WidgetService - USING ANDROID 4.1+ NOTIFICATION LAYOUT (BIG VIEW STYLE)!");
+                RemoteViews viewBigNotificationPlayer = new RemoteViews(ApplicationContext.PackageName, Resource.Layout.BigNotificationPlayer);
+                viewBigNotificationPlayer.SetTextViewText(Resource.Id.bigNotificationPlayer_lblArtistName, "Hello World!");
+                notification.BigContentView = viewBigNotificationPlayer;
+            }
+//#else
+            //else 
+            //{
+                Console.WriteLine(">>>>>>>>>> WidgetService - USING ANDROID 4.0.3 NOTIFICATION LAYOUT!");
+                RemoteViews viewNotificationPlayer = new RemoteViews(ApplicationContext.PackageName, Resource.Layout.NotificationPlayer);
+                viewNotificationPlayer.SetTextViewText(Resource.Id.notificationPlayer_lblTitle, "Hello World!");
+                notification.ContentView = viewNotificationPlayer;
+            //}
+//#endif
+
+            Intent notificationIntent = new Intent(this, typeof(PlayerActivity));
+            PendingIntent pendingIntent = PendingIntent.GetActivity(this, 0, notificationIntent, 0);
+            notification.ContentIntent = pendingIntent;
+            StartForeground(1, notification);
+            Console.WriteLine(">>>>>>>>>> WidgetService - Initializing service... DONE!");
         }
 
         private void UpdateView(AudioFile audioFile, Bitmap bitmapAlbumArt)
         {
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WidgetService - UpdateView");
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WidgetService - UpdateView");
             string lastUpdated = DateTime.Now.ToLongTimeString();
             RemoteViews view = new RemoteViews(PackageName, Resource.Layout.WidgetPlayer);
             //view.SetOnClickPendingIntent(Resource.Id.widgetPlayer_btnPrevious, );

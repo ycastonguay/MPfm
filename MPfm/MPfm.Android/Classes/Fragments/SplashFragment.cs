@@ -63,7 +63,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshStatus(string message)
         {
-            Console.WriteLine("SplashFragment - RefreshStatus");
+            //Console.WriteLine("SplashFragment - RefreshStatus");
             Activity.RunOnUiThread(() =>
             {
                 _textView.Text = message;

@@ -70,7 +70,7 @@ namespace MPfm.Android.Classes.Fragments
         {
             // Pitch shifting range: -12 to +12. Seek bar range: 0-23
             int interval = _seekBar.Progress - 12;
-            Console.WriteLine("SeekBarProgressChanged progress: {0} interval: {1}", _seekBar.Progress, interval);
+            //Console.WriteLine("SeekBarProgressChanged progress: {0} interval: {1}", _seekBar.Progress, interval);
             OnSetInterval(interval);
         }
 
@@ -109,7 +109,7 @@ namespace MPfm.Android.Classes.Fragments
 
                     // Pitch shifting range: -12 to +12. Seek bar range: 0-23
                     int seekBarProgress = entity.IntervalValue + 12;
-                    Console.WriteLine("PitchShiftingFragment - RefreshPitchShifting - interval: {0} seekBarProgress: {1}", entity.IntervalValue, seekBarProgress);
+                    //Console.WriteLine("PitchShiftingFragment - RefreshPitchShifting - interval: {0} seekBarProgress: {1}", entity.IntervalValue, seekBarProgress);
                     _seekBar.Progress = seekBarProgress;
                 });
             }

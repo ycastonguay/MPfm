@@ -70,7 +70,7 @@ namespace MPfm.Android.Classes.Fragments
         {            
             // Time shifting range: 50% to 150%. Seek bar range: 0-1000
             float timeShiftingValue = (((float)_seekBar.Progress) / 10f) + 50f;
-            Console.WriteLine("SeekBarProgressChanged progress: {0} timeShiftingValue: {1}", _seekBar.Progress, timeShiftingValue);
+            //Console.WriteLine("SeekBarProgressChanged progress: {0} timeShiftingValue: {1}", _seekBar.Progress, timeShiftingValue);
             OnSetTimeShifting(timeShiftingValue);
         }
 
@@ -105,7 +105,7 @@ namespace MPfm.Android.Classes.Fragments
                     // The seekbar in Android doesn't have a minimum value and doesn't support floats. Lazy Google! 
                     // Time shifting range: 50% to 150%. Seek bar range: 0-1000
                     int seekBarProgress = (int)Math.Ceiling(entity.TimeShiftingValue * 10f - 500f);
-                    Console.WriteLine("TimeShiftingFragment - RefreshTimeShifting - timeShiftingValue: {0} seekBarProgress: {1}", entity.TimeShiftingValue, seekBarProgress);
+                    //Console.WriteLine("TimeShiftingFragment - RefreshTimeShifting - timeShiftingValue: {0} seekBarProgress: {1}", entity.TimeShiftingValue, seekBarProgress);
                     _seekBar.Progress = seekBarProgress;
                 });
             }
