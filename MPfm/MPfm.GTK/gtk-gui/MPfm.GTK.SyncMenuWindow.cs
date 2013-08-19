@@ -45,6 +45,7 @@ namespace MPfm.GTK
 			this.vbox2.BorderWidth = ((uint)(8));
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbox3 = new global::Gtk.HBox ();
+			this.hbox3.Name = "hbox3";
 			this.hbox3.Spacing = 6;
 			// Container child hbox3.Gtk.Box+BoxChild
 			this.vbox4 = new global::Gtk.VBox ();

@@ -20,7 +20,7 @@
       </source>
     </icon-set>
   </icon-factory>
-  <widget class="Gtk.Window" id="MPfm.GTK.Windows.MainWindow" design-size="777 646">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.MainWindow" design-size="886 646">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
@@ -150,11 +150,13 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-add</property>
+        <signal name="Activated" handler="OnActionAddMarkerActivated" />
       </action>
       <action id="actionRemoveMarker">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-remove</property>
+        <signal name="Activated" handler="OnActionDeleteMarkerActivated" />
       </action>
       <action id="addAction">
         <property name="Type">Action</property>
@@ -170,11 +172,13 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-edit</property>
+        <signal name="Activated" handler="OnActionEditMarkerActivated" />
       </action>
       <action id="actionGoToMarker">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-go-forward</property>
+        <signal name="Activated" handler="OnActionGoToMarkerActivated" />
       </action>
       <action id="actionAddFiles">
         <property name="Type">Action</property>
@@ -199,6 +203,7 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-media-play</property>
+        <signal name="Activated" handler="OnActionPlayLoopActivated" />
       </action>
       <action id="connectAction">
         <property name="Type">Action</property>
@@ -1143,8 +1148,8 @@
                                     <node name="toolbarMarkers" type="Toolbar">
                                       <node type="Toolitem" action="actionGoToMarker" />
                                       <node type="Toolitem" action="actionAddMarker" />
-                                      <node type="Toolitem" action="actionRemoveMarker" />
                                       <node type="Toolitem" action="actionEditMarker" />
+                                      <node type="Toolitem" action="actionRemoveMarker" />
                                     </node>
                                   </widget>
                                   <packing>
@@ -1169,6 +1174,7 @@
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
                                     <property name="ShowScrollbars">True</property>
+                                    <signal name="RowActivated" handler="OnTreeMarkersRowActivated" />
                                   </widget>
                                 </child>
                               </widget>
@@ -2050,16 +2056,16 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="MPfm.GTK.Windows.EffectsWindow" design-size="1032 697">
+  <widget class="Gtk.Window" id="MPfm.GTK.Windows.EffectsWindow" design-size="1036 441">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <property name="Title" translatable="yes">Effects</property>
     <property name="WindowPosition">Center</property>
-    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.HBox" id="hboxMain">
         <property name="MemberName" />
-        <property name="Spacing">6</property>
+        <property name="Spacing">4</property>
+        <property name="BorderWidth">8</property>
         <child>
           <widget class="Gtk.HBox" id="hboxFaders">
             <property name="MemberName" />
@@ -2072,12 +2078,15 @@
                   <widget class="Gtk.VScale" id="vscale1">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue1" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2114,7 +2123,7 @@
               </widget>
               <packing>
                 <property name="Position">0</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
               </packing>
@@ -2127,12 +2136,15 @@
                   <widget class="Gtk.VScale" id="vscale2">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue2" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2169,7 +2181,7 @@
               </widget>
               <packing>
                 <property name="Position">1</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
               </packing>
@@ -2182,12 +2194,15 @@
                   <widget class="Gtk.VScale" id="vscale3">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue3" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2237,12 +2252,15 @@
                   <widget class="Gtk.VScale" id="vscale4">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue4" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2292,12 +2310,15 @@
                   <widget class="Gtk.VScale" id="vscale5">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue5" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2347,12 +2368,15 @@
                   <widget class="Gtk.VScale" id="vscale6">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue6" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2402,12 +2426,15 @@
                   <widget class="Gtk.VScale" id="vscale7">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue7" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2457,12 +2484,15 @@
                   <widget class="Gtk.VScale" id="vscale8">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue8" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2512,12 +2542,15 @@
                   <widget class="Gtk.VScale" id="vscale9">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue9" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2567,12 +2600,15 @@
                   <widget class="Gtk.VScale" id="vscale10">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue10" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2622,12 +2658,15 @@
                   <widget class="Gtk.VScale" id="vscale11">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue11" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2677,12 +2716,15 @@
                   <widget class="Gtk.VScale" id="vscale12">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue12" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2732,12 +2774,15 @@
                   <widget class="Gtk.VScale" id="vscale13">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue13" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2787,12 +2832,15 @@
                   <widget class="Gtk.VScale" id="vscale14">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue14" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2843,12 +2891,15 @@
                     <property name="MemberName" />
                     <property name="WidthRequest">0</property>
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue15" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2899,12 +2950,15 @@
                     <property name="MemberName" />
                     <property name="WidthRequest">0</property>
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue16" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -2955,12 +3009,15 @@
                     <property name="MemberName" />
                     <property name="WidthRequest">0</property>
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue17" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -3011,12 +3068,15 @@
                     <property name="MemberName" />
                     <property name="WidthRequest">0</property>
                     <property name="CanFocus">True</property>
-                    <property name="Upper">100</property>
-                    <property name="PageIncrement">10</property>
+                    <property name="Inverted">True</property>
+                    <property name="Lower">-6</property>
+                    <property name="Upper">6</property>
+                    <property name="PageIncrement">1</property>
                     <property name="StepIncrement">1</property>
                     <property name="DrawValue">False</property>
                     <property name="Digits">0</property>
                     <property name="ValuePos">Top</property>
+                    <signal name="ChangeValue" handler="OnScaleChangeValue18" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -3086,6 +3146,7 @@
             <child>
               <widget class="Gtk.ComboBox" id="comboPreset">
                 <property name="MemberName" />
+                <property name="CanFocus">True</property>
                 <property name="IsTextCombo">True</property>
                 <property name="Items" translatable="yes" />
               </widget>
@@ -3100,10 +3161,11 @@
               <widget class="Gtk.CheckButton" id="chkEQOn">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Label" translatable="yes">EQ On</property>
+                <property name="Label" translatable="yes">EQ Bypassed</property>
                 <property name="DrawIndicator">True</property>
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Toggled" handler="OnEQOnToggled" />
               </widget>
               <packing>
                 <property name="Position">2</property>
@@ -3120,6 +3182,7 @@
                 <property name="Icon">stock:gtk-add Menu</property>
                 <property name="Label" translatable="yes">New Preset</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickNewPreset" />
               </widget>
               <packing>
                 <property name="Position">3</property>
@@ -3175,6 +3238,7 @@
                 <property name="Icon">stock:gtk-save Menu</property>
                 <property name="Label" translatable="yes">Save Preset</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickSavePreset" />
               </widget>
               <packing>
                 <property name="Position">7</property>
@@ -3191,6 +3255,7 @@
                 <property name="Icon">stock:gtk-delete Menu</property>
                 <property name="Label" translatable="yes">Delete Preset</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickDeletePreset" />
               </widget>
               <packing>
                 <property name="Position">8</property>
@@ -3206,6 +3271,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">Normalize</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickNormalizePreset" />
               </widget>
               <packing>
                 <property name="Position">9</property>
@@ -3221,6 +3287,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">Reset</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnClickResetPreset" />
               </widget>
               <packing>
                 <property name="Position">10</property>

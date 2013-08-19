@@ -711,6 +711,7 @@ namespace MPfm.GTK.Windows
 			w47.Fill = false;
 			// Container child vbox8.Gtk.Box+BoxChild
 			this.hbox3 = new global::Gtk.HBox ();
+			this.hbox3.Name = "hbox3";
 			this.hbox3.Spacing = 4;
 			// Container child hbox3.Gtk.Box+BoxChild
 			this.lblTimeShiftingReset = new global::Gtk.Label ();
@@ -879,7 +880,7 @@ namespace MPfm.GTK.Windows
 			w66.Expand = false;
 			w66.Fill = false;
 			// Container child hbox9.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMarkers'><toolitem name='actionGoToMarker' action='actionGoToMarker'/><toolitem name='actionAddMarker' action='actionAddMarker'/><toolitem name='actionRemoveMarker' action='actionRemoveMarker'/><toolitem name='actionEditMarker' action='actionEditMarker'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMarkers'><toolitem name='actionGoToMarker' action='actionGoToMarker'/><toolitem name='actionAddMarker' action='actionAddMarker'/><toolitem name='actionEditMarker' action='actionEditMarker'/><toolitem name='actionRemoveMarker' action='actionRemoveMarker'/></toolbar></ui>");
 			this.toolbarMarkers = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMarkers")));
 			this.toolbarMarkers.Name = "toolbarMarkers";
 			this.toolbarMarkers.ShowArrow = false;
@@ -999,8 +1000,13 @@ namespace MPfm.GTK.Windows
 			this.actionSettings.Activated += new global::System.EventHandler (this.OnActionSettingsActivated);
 			this.actionEffects.Activated += new global::System.EventHandler (this.OnActionEffectsActivated);
 			this.actionPlaylist.Activated += new global::System.EventHandler (this.OnActionPlaylistActivated);
+			this.actionAddMarker.Activated += new global::System.EventHandler (this.OnActionAddMarkerActivated);
+			this.actionRemoveMarker.Activated += new global::System.EventHandler (this.OnActionDeleteMarkerActivated);
+			this.actionEditMarker.Activated += new global::System.EventHandler (this.OnActionEditMarkerActivated);
+			this.actionGoToMarker.Activated += new global::System.EventHandler (this.OnActionGoToMarkerActivated);
 			this.actionAddFiles.Activated += new global::System.EventHandler (this.OnActionAddFilesActivated);
 			this.actionAddFolder.Activated += new global::System.EventHandler (this.OnActionAddFolderActivated);
+			this.actionPlayLoop.Activated += new global::System.EventHandler (this.OnActionPlayLoopActivated);
 			this.connectAction.Activated += new global::System.EventHandler (this.OnActionSyncLibrary);
 			this.cboSoundFormat.Changed += new global::System.EventHandler (this.OnSoundFormatChanged);
 			this.treeLibraryBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeLibraryBrowserRowActivated);
@@ -1011,6 +1017,7 @@ namespace MPfm.GTK.Windows
 			this.hscaleSongPosition.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnHscaleSongPositionButtonReleaseEvent);
 			this.hscaleTimeShifting.ValueChanged += new global::System.EventHandler (this.OnTimeShiftingValueChanged);
 			this.vscaleVolume.ValueChanged += new global::System.EventHandler (this.OnVolumeValueChanged);
+			this.treeMarkers.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeMarkersRowActivated);
 			this.treeSongBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeSongBrowserRowActivated);
 		}
 	}

@@ -33,6 +33,7 @@ using MPfm.Library.UpdateLibrary;
 using MPfm.GTK.Helpers;
 using MPfm.MVP.Messages;
 using MPfm.Player.Objects;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.GTK.Windows
 {
@@ -44,6 +45,7 @@ namespace MPfm.GTK.Windows
 		private bool _isSongPositionChanging = false;
 		private Gtk.TreeStore _storeLibraryBrowser = null;
 		private Gtk.ListStore _storeSongBrowser = null;
+        private Gtk.ListStore _storeMarkers = null;
 		private Gtk.ListStore _storeAudioFileFormat = null;
 		
 		#region Application Init/Destroy
@@ -64,10 +66,10 @@ namespace MPfm.GTK.Windows
 			SetFontProperties();
 			InitializeSongBrowser();
 			InitializeLibraryBrowser();
+            InitializeMarkers();
 
             // Force refresh song browser to create columns
 			RefreshSongBrowser(new List<AudioFile>());		
-            RefreshRepeatButton();
             RefreshSongInformation(null, 0, 0, 0);          	
 			
 			// Fill sound format combo box
@@ -259,32 +261,71 @@ namespace MPfm.GTK.Windows
 			object propertyValue = propertyInfo.GetValue(entity, null);
 			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
 		}
-					
-	    /// <summary>
-	    /// Refreshes the "Repeat" button in the main window toolbar.
-	    /// </summary>
-	    public void RefreshRepeatButton()
-	    {
-	        string repeatOff = "Off";
-	        string repeatPlaylist = "Playlist";
-	        string repeatSong = "Song";
-	
-	        // Display the repeat type
-//	        if (playerPresenter.Player.RepeatType == RepeatType.Playlist)
-//	        {				
-//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatPlaylist + ")";								
-//	        }
-//	        else if (playerPresenter.Player.RepeatType == RepeatType.Song)
-//	        {				
-//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatSong + ")";
-//	        }
-//	        else
-//	        {				
-//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatOff + ")";
-//	        }
-	    }
 
 		#endregion
+
+        #region Markers Methods
+                
+        protected void InitializeMarkers()
+        {
+            _storeMarkers = new Gtk.ListStore(typeof(Marker));
+
+            Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
+            Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();
+            colTitle.Title = "Name";
+            colTitle.Resizable = true;
+            colTitle.Data.Add("Property", "Name");
+            colTitle.PackStart(cellTitle, true);
+            colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderMarkerCell));
+            treeMarkers.AppendColumn(colTitle);
+
+            Gtk.TreeViewColumn colPosition = new Gtk.TreeViewColumn();
+            Gtk.CellRendererText cellPosition = new Gtk.CellRendererText();    
+            colPosition.Title = "Position";
+            colPosition.Resizable = true;
+            colPosition.Data.Add("Property", "Position");
+            colPosition.PackStart(cellPosition, true);
+            colPosition.SetCellDataFunc(cellPosition, new Gtk.TreeCellDataFunc(RenderMarkerCell));
+            treeMarkers.AppendColumn(colPosition);
+        }
+            
+        /// <summary>
+        /// Renders a cell from the Song Browser.
+        /// </summary>
+        /// <param name='column'>Column</param>
+        /// <param name='cell'>Cell</param>
+        /// <param name='model'>Model</param>
+        /// <param name='iter'>Iter</param>
+        private void RenderMarkerCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+        {
+            // Get model data
+            //Console.WriteLine("MainWindow - RenderMarkerCell");
+            Marker marker = (Marker)model.GetValue(iter, 0);
+    
+            // Get property name
+            string property = (string)column.Data["Property"];
+            if(String.IsNullOrEmpty(property))          
+                return;         
+    
+            // Get value and set cell text
+            PropertyInfo propertyInfo = typeof(Marker).GetProperty(property);
+            object propertyValue = propertyInfo.GetValue(marker, null);
+            (cell as Gtk.CellRendererText).Text = propertyValue.ToString();
+
+        }
+
+        protected void OnTreeMarkersRowActivated(object o, RowActivatedArgs args)
+        {
+            TreeModel model;
+            TreeIter iter;  
+            if((o as TreeView).Selection.GetSelected(out model, out iter))
+            {
+                Marker marker = (Marker)_storeMarkers.GetValue(iter, 0);               
+                OnSelectMarker(marker);
+            }
+        }
+
+        #endregion
 	
 		#region Other Methods
 		
@@ -478,8 +519,6 @@ namespace MPfm.GTK.Windows
 //	            playerPresenter.Player.RepeatType = RepeatType.Off;
 //	        }
 	
-	        // Update repeat button
-	        RefreshRepeatButton();
 		}
 
 		protected void OnActionPlaylistActivated(object sender, System.EventArgs e)
@@ -614,6 +653,34 @@ namespace MPfm.GTK.Windows
 				OnTableRowDoubleClicked(audioFile);
 			}
 		}
+
+        protected void OnActionPlayLoopActivated(object sender, EventArgs e)
+        {
+        }
+
+        protected void OnActionGoToMarkerActivated(object sender, EventArgs e)
+        {
+            TreeModel model;
+            TreeIter iter;  
+            if(treeMarkers.Selection.GetSelected(out model, out iter))
+            {
+                Marker marker = (Marker)_storeMarkers.GetValue(iter, 0);
+                OnSelectMarker(marker);
+            }
+        }
+
+        protected void OnActionAddMarkerActivated(object sender, EventArgs e)
+        {
+            OnAddMarker(MarkerTemplateNameType.Verse);
+        }
+
+        protected void OnActionEditMarkerActivated(object sender, EventArgs e)
+        {
+        }
+
+        protected void OnActionDeleteMarkerActivated(object sender, EventArgs e)
+        {
+        }
 		
 		#endregion
 	
@@ -804,12 +871,7 @@ namespace MPfm.GTK.Windows
 		public void PlayerError(Exception ex)
 		{
 			Gtk.Application.Invoke(delegate{			
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("An error occured in the Player component:");
-				sb.AppendLine(ex.Message);
-				sb.AppendLine();
-				sb.AppendLine(ex.StackTrace);																
-				MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Player component: {0}", ex));
 				md.Run();
 				md.Destroy();
 			});
@@ -910,13 +972,116 @@ namespace MPfm.GTK.Windows
 				catch(Exception ex) {
 					Console.WriteLine("RefreshSongBrowser - Exception: " + ex.Message + "\n" + ex.StackTrace);
 					throw ex;
-					//MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "An error occured while refreshing the Song Browser: " + ex.Message + "\n" + ex.StackTrace);
-					//md.Run();
-					//md.Destroy();
 				}
 			});
 		}
 
 		#endregion
+
+        #region IMarkersView implementation
+
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action<Marker> OnEditMarker { get; set; }
+        public Action<Marker> OnSelectMarker { get; set; }
+
+        public void MarkerError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Markers component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshMarkers(List<Marker> markers)
+        {
+            Gtk.Application.Invoke(delegate{
+                try 
+                {
+                    Console.WriteLine("MainWindow - RefreshMarkers - markers.Count: {0}", markers.Count);
+                    _storeMarkers.Clear();
+                    foreach(var marker in markers)
+                        _storeMarkers.AppendValues(marker);
+                    treeMarkers.Model = _storeMarkers;
+                } 
+                catch(Exception ex) {
+                    Console.WriteLine("RefreshMarkers - Exception: " + ex.Message + "\n" + ex.StackTrace);
+                    throw ex;
+                }
+            });
+        }
+
+        #endregion
+
+        #region ILoopsView implementation
+
+        public System.Action OnAddLoop { get; set; }
+        public Action<Loop> OnEditLoop { get; set; }
+
+        public void LoopError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Loops component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
+
+        #region ITimeShiftingView implementation
+
+        public Action<float> OnSetTimeShifting { get; set; }
+        public System.Action OnResetTimeShifting { get; set; }
+        public System.Action OnUseDetectedTempo { get; set; }
+        public System.Action OnIncrementTempo { get; set; }
+        public System.Action OnDecrementTempo { get; set; }
+
+        public void TimeShiftingError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the TimeShifting component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region IPitchShiftingView implementation
+
+        public Action<int> OnChangeKey { get; set; }
+        public Action<int> OnSetInterval { get; set; }
+        public System.Action OnResetInterval { get; set; }
+        public System.Action OnIncrementInterval { get; set; }
+        public System.Action OnDecrementInterval { get; set; }
+
+        public void PitchShiftingError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the PitchShifting component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshKeys(List<Tuple<int, string>> keys)
+        {
+        }
+
+        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
 	}
 }
