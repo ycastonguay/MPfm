@@ -20,22 +20,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Reflection;
-using System.Web;
 using System.Windows.Forms;
-using MPfm.Core;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Events;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
-using MPfm.Sound.PeakFiles;
 using MPfm.WindowsControls;
 
 namespace MPfm.Windows.Classes.Forms
@@ -2126,12 +2119,12 @@ namespace MPfm.Windows.Classes.Forms
                             node.SelectedImageIndex = 12;
                             break;
                         case LibraryBrowserEntityType.Artists:
-                            node.ImageIndex = 16;
-                            node.SelectedImageIndex = 16;
+                            node.ImageIndex = 26;
+                            node.SelectedImageIndex = 26;
                             break;
                         case LibraryBrowserEntityType.Albums:
-                            node.ImageIndex = 17;
-                            node.SelectedImageIndex = 17;
+                            node.ImageIndex = 25;
+                            node.SelectedImageIndex = 25;
                             break;
                     }
 
@@ -2167,13 +2160,13 @@ namespace MPfm.Windows.Classes.Forms
                     switch (childEntity.Type)
                     {
                         case LibraryBrowserEntityType.Artist:
-                            childNode.ImageIndex = 16;
-                            childNode.SelectedImageIndex = 16;
+                            childNode.ImageIndex = 24;
+                            childNode.SelectedImageIndex = 24;
                             break;
                         case LibraryBrowserEntityType.Album:
                         case LibraryBrowserEntityType.ArtistAlbum:
-                            childNode.ImageIndex = 17;
-                            childNode.SelectedImageIndex = 17;
+                            childNode.ImageIndex = 25;
+                            childNode.SelectedImageIndex = 25;
                             break;
                     }
 

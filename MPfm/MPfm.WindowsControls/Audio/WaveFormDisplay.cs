@@ -1142,7 +1142,8 @@ namespace MPfm.WindowsControls
 
                     // Draw background
                     rect = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
-                    brushGradient = new LinearGradientBrush(rect, Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 50, 50, 50), 90.0f);
+                    //brushGradient = new LinearGradientBrush(rect, Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 50, 50, 50), 90.0f);
+                    brushGradient = new LinearGradientBrush(rect, Theme.BackgroundGradient.Color1, Theme.BackgroundGradient.Color2, 90.0f);
                     g.FillRectangle(brushGradient, rect);
                     brushGradient.Dispose();
                     brushGradient = null;
