@@ -32,6 +32,8 @@ using MPfm.MVP.Models;
 using MPfm.Library.UpdateLibrary;
 using MPfm.GTK.Helpers;
 using MPfm.MVP.Messages;
+using MPfm.Player.Objects;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.GTK.Windows
 {
@@ -40,41 +42,11 @@ namespace MPfm.GTK.Windows
 	/// </summary>
 	public partial class MainWindow: BaseWindow, IMainView
 	{
-		private UpdateLibraryWindow windowUpdateLibrary = null;
-	
-		private bool isSongPositionChanging = false;
-		
-		private Gtk.TreeStore storeLibraryBrowser = null;
-		private Gtk.ListStore storeSongBrowser = null;
-		private Gtk.ListStore storeAudioFileFormat = null;
-		
-        #region View Actions
-        
-        public System.Action OnOpenPreferencesWindow { get; set; }
-        public System.Action OnOpenEffectsWindow { get; set; }
-        public System.Action OnOpenPlaylistWindow { get; set; }
-		public System.Action OnOpenSyncWindow { get; set; }
-        public System.Action OnPlayerPlay { get; set; }
-        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
-        public System.Action OnPlayerPause { get; set; }
-        public System.Action OnPlayerStop { get; set; }
-        public System.Action OnPlayerPrevious { get; set; }
-        public System.Action OnPlayerNext { get; set; } 
-        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
-        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
-        public System.Action<float> OnPlayerSetVolume { get; set; }
-        public System.Action<float> OnPlayerSetPosition { get; set; }
-		public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
-        
-        public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
-        public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
-        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
-        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
-        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
-        
-        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-        
-        #endregion
+		private bool _isSongPositionChanging = false;
+		private Gtk.TreeStore _storeLibraryBrowser = null;
+		private Gtk.ListStore _storeSongBrowser = null;
+        private Gtk.ListStore _storeMarkers = null;
+		private Gtk.ListStore _storeAudioFileFormat = null;
 		
 		#region Application Init/Destroy
 		
@@ -85,37 +57,31 @@ namespace MPfm.GTK.Windows
 		{			
 			Build();			
 			Icon = new Pixbuf(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/icon48.png");
-					
-	        // Set form title
-	        this.Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
+	        Title = "MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 	
 			// Set application icon (for some reason it is not visible on Unity)
-			this.SetIconFromFile("icon48.png");
+			//SetIconFromFile(ResourceHelper.GetEmbeddedImageResource("icon48.png"));
+            Icon = ResourceHelper.GetEmbeddedImageResource("icon48.png");
 			
-			// Set font properties
 			SetFontProperties();
-			
-			// Initialize browsers
 			InitializeSongBrowser();
 			InitializeLibraryBrowser();
+            InitializeMarkers();
 
-			// Force refresh song browser to create columns
+            // Force refresh song browser to create columns
 			RefreshSongBrowser(new List<AudioFile>());		
-	
-			// Refresh other stuff
-			RefreshRepeatButton();
-			RefreshSongInformation(null, 0, 0, 0);			
+            RefreshSongInformation(null, 0, 0, 0);          	
 			
 			// Fill sound format combo box
-			storeAudioFileFormat = new ListStore(typeof(string));			
-			storeAudioFileFormat.AppendValues("All");
-			storeAudioFileFormat.AppendValues("FLAC");
-			storeAudioFileFormat.AppendValues("MP3");					
-			storeAudioFileFormat.AppendValues("MPC");
-			storeAudioFileFormat.AppendValues("OGG");
-			storeAudioFileFormat.AppendValues("WAV");
-			storeAudioFileFormat.AppendValues("WV");
-			cboSoundFormat.Model = storeAudioFileFormat;								
+			_storeAudioFileFormat = new ListStore(typeof(string));			
+			_storeAudioFileFormat.AppendValues("All");
+			_storeAudioFileFormat.AppendValues("FLAC");
+			_storeAudioFileFormat.AppendValues("MP3");					
+			_storeAudioFileFormat.AppendValues("MPC");
+			_storeAudioFileFormat.AppendValues("OGG");
+			_storeAudioFileFormat.AppendValues("WAV");
+			_storeAudioFileFormat.AppendValues("WV");
+			cboSoundFormat.Model = _storeAudioFileFormat;								
 			
 			// Select first item
 			Gtk.TreeIter iter;
@@ -125,10 +91,9 @@ namespace MPfm.GTK.Windows
 			// Set focus to something else than the toolbar (for some reason, the first button is selected)
 			cboSoundFormat.GrabFocus();
 						
-			this.hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
+			hscaleSongPosition.AddEvents((int)EventMask.ButtonPressMask | (int)EventMask.ButtonReleaseMask);
 			
-			// Set view as ready
-			onViewReady.Invoke(this);
+			onViewReady(this);
 		}
 	
 		/// <summary>
@@ -136,7 +101,6 @@ namespace MPfm.GTK.Windows
 		/// </summary>
 		protected void ExitApplication()
 		{
-			// Exit application
 			Console.WriteLine("MainWindow - ExitApplication");
 			Application.Quit();
 		}
@@ -163,7 +127,7 @@ namespace MPfm.GTK.Windows
 		protected void InitializeSongBrowser()
 		{
 			// Create store
-			storeSongBrowser = new Gtk.ListStore(typeof(AudioFile));
+			_storeSongBrowser = new Gtk.ListStore(typeof(AudioFile));
 
 			Gtk.TreeViewColumn colPlaybackIcon = new Gtk.TreeViewColumn();
 			Gtk.TreeViewColumn colTrackNumber = new Gtk.TreeViewColumn();
@@ -241,17 +205,12 @@ namespace MPfm.GTK.Windows
 				// Get property name
 				string property = (string)column.Data["Property"];
 				if(String.IsNullOrEmpty(property))
-				{
 					return;
-				}
 		
-				// Get value
+				// Get value and set cell text
 				PropertyInfo propertyInfo = typeof(AudioFile).GetProperty(property);
 				object propertyValue = propertyInfo.GetValue(audioFile, null);
-		
-				// Set cell text
 				(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
-				//(cell as Gtk.CellRendererText).Text = property;
 			}
 			catch(Exception ex)
 			{
@@ -267,9 +226,7 @@ namespace MPfm.GTK.Windows
 		protected void InitializeLibraryBrowser()
 		{
 			// Create store
-			storeLibraryBrowser = new Gtk.TreeStore(typeof(LibraryBrowserEntity));						
-
-			// Hide header
+			_storeLibraryBrowser = new Gtk.TreeStore(typeof(LibraryBrowserEntity));						
 			treeLibraryBrowser.HeadersVisible = false;
 
 			// Create title column
@@ -279,31 +236,6 @@ namespace MPfm.GTK.Windows
 			colTitle.PackStart(cellTitle, true);
 			colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderLibraryBrowserCell));
 			treeLibraryBrowser.AppendColumn(colTitle);
-		}
-		
-		protected void CreateLibraryBrowserStore(Gtk.TreeStore store, Nullable<Gtk.TreeIter> iter, IEnumerable<LibraryBrowserEntity> items)
-		{			
-			// Loop through entities
-			Console.WriteLine("MainWindow - CreateLibraryBrowserStore");
-			foreach(LibraryBrowserEntity entity in items)
-			{
-				Nullable<Gtk.TreeIter> currentIter = null;
-				if(iter == null)
-				{
-					currentIter = store.AppendValues(entity);
-				}
-				else
-				{
-					store.AppendValues(iter, entity);
-					currentIter = iter;
-				}
-				
-				// Create new iter and subiters
-				if(entity.SubItems != null)
-				{					
-					CreateLibraryBrowserStore(store, currentIter, entity.SubItems);
-				}
-			}
 		}
 			
 		/// <summary>
@@ -324,97 +256,134 @@ namespace MPfm.GTK.Windows
 			if(String.IsNullOrEmpty(property))			
 				return;			
 	
-			// Get value
+			// Get value and set cell text
 			PropertyInfo propertyInfo = typeof(LibraryBrowserEntity).GetProperty(property);
 			object propertyValue = propertyInfo.GetValue(entity, null);
-	
-			// Set cell text
 			(cell as Gtk.CellRendererText).Text = propertyValue.ToString();
 		}
-					
-	    /// <summary>
-	    /// Refreshes the "Repeat" button in the main window toolbar.
-	    /// </summary>
-	    public void RefreshRepeatButton()
-	    {
-	        string repeatOff = "Off";
-	        string repeatPlaylist = "Playlist";
-	        string repeatSong = "Song";
-	
-	        // Display the repeat type
-//	        if (playerPresenter.Player.RepeatType == RepeatType.Playlist)
-//	        {				
-//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatPlaylist + ")";								
-//	        }
-//	        else if (playerPresenter.Player.RepeatType == RepeatType.Song)
-//	        {				
-//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatSong + ")";
-//	        }
-//	        else
-//	        {				
-//				actionRepeatType.Label = actionRepeatType.ShortLabel = "Repeat Type (" + repeatOff + ")";
-//	        }
-	    }
 
 		#endregion
+
+        #region Markers Methods
+                
+        protected void InitializeMarkers()
+        {
+            _storeMarkers = new Gtk.ListStore(typeof(Marker));
+
+            Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
+            Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();
+            colTitle.Title = "Name";
+            colTitle.Resizable = true;
+            colTitle.Data.Add("Property", "Name");
+            colTitle.PackStart(cellTitle, true);
+            colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderMarkerCell));
+            treeMarkers.AppendColumn(colTitle);
+
+            Gtk.TreeViewColumn colPosition = new Gtk.TreeViewColumn();
+            Gtk.CellRendererText cellPosition = new Gtk.CellRendererText();    
+            colPosition.Title = "Position";
+            colPosition.Resizable = true;
+            colPosition.Data.Add("Property", "Position");
+            colPosition.PackStart(cellPosition, true);
+            colPosition.SetCellDataFunc(cellPosition, new Gtk.TreeCellDataFunc(RenderMarkerCell));
+            treeMarkers.AppendColumn(colPosition);
+        }
+            
+        /// <summary>
+        /// Renders a cell from the Song Browser.
+        /// </summary>
+        /// <param name='column'>Column</param>
+        /// <param name='cell'>Cell</param>
+        /// <param name='model'>Model</param>
+        /// <param name='iter'>Iter</param>
+        private void RenderMarkerCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+        {
+            // Get model data
+            //Console.WriteLine("MainWindow - RenderMarkerCell");
+            Marker marker = (Marker)model.GetValue(iter, 0);
+    
+            // Get property name
+            string property = (string)column.Data["Property"];
+            if(String.IsNullOrEmpty(property))          
+                return;         
+    
+            // Get value and set cell text
+            PropertyInfo propertyInfo = typeof(Marker).GetProperty(property);
+            object propertyValue = propertyInfo.GetValue(marker, null);
+            (cell as Gtk.CellRendererText).Text = propertyValue.ToString();
+
+        }
+
+        protected void OnTreeMarkersRowActivated(object o, RowActivatedArgs args)
+        {
+            TreeModel model;
+            TreeIter iter;  
+            if((o as TreeView).Selection.GetSelected(out model, out iter))
+            {
+                Marker marker = (Marker)_storeMarkers.GetValue(iter, 0);               
+                OnSelectMarker(marker);
+            }
+        }
+
+        #endregion
 	
 		#region Other Methods
 		
 		private void SetFontProperties()
 		{				
 			// Get default font name
-			string defaultFontName = this.lblArtistName.Style.FontDescription.Family;			
+			string defaultFontName = lblArtistName.Style.FontDescription.Family;			
 			string titleFontName = "Sans Bold 10";
 			string subtitleFontName = "Sans Bold 8";
 			string buttonFontName = "Sans Bold 8";
 			string textFontName = "Sans 8";
 			string largePositionFontName = "Mono Bold 11";
 			
-			this.btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
-			this.btnTimeShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
+			btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
+			btnTimeShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
 			
-			this.lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
-			this.lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
-			this.lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 11"));
-			this.lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
+			lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
+			lblAlbumTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 12"));
+			lblSongTitle.ModifyFont(FontDescription.FromString(defaultFontName +" 11"));
+			lblSongFilePath.ModifyFont(FontDescription.FromString(defaultFontName +" 8"));
 	
-			this.toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
+			toolbarMain.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));	
 			
-			this.lblLibraryBrowser.ModifyFont(FontDescription.FromString(titleFontName));								
-			this.lblSongBrowser.ModifyFont(FontDescription.FromString(titleFontName));
-			this.lblCurrentSong.ModifyFont(FontDescription.FromString(titleFontName));			
-			this.lblLoops.ModifyFont(FontDescription.FromString(titleFontName));
-			this.lblMarkers.ModifyFont(FontDescription.FromString(titleFontName));
+			lblLibraryBrowser.ModifyFont(FontDescription.FromString(titleFontName));								
+			lblSongBrowser.ModifyFont(FontDescription.FromString(titleFontName));
+			lblCurrentSong.ModifyFont(FontDescription.FromString(titleFontName));			
+			lblLoops.ModifyFont(FontDescription.FromString(titleFontName));
+			lblMarkers.ModifyFont(FontDescription.FromString(titleFontName));
 			
-			//this.lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
-			this.lblLibraryFilter.ModifyFont(FontDescription.FromString(textFontName));			
+			//lblSearchFor.ModifyFont(FontDescription.FromString(defaultFontName +" 9"));
+			lblLibraryFilter.ModifyFont(FontDescription.FromString(textFontName));			
 				
-			this.lblCurrentPosition.ModifyFont(FontDescription.FromString(largePositionFontName));
-			this.lblCurrentLength.ModifyFont(FontDescription.FromString(largePositionFontName));
+			lblCurrentPosition.ModifyFont(FontDescription.FromString(largePositionFontName));
+			lblCurrentLength.ModifyFont(FontDescription.FromString(largePositionFontName));
 			
-			this.lblSongPosition.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblSongPosition.ModifyFont(FontDescription.FromString(subtitleFontName));
 			
-			this.lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
-			this.lblTimeShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblOriginalTempo.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblOriginalTempoBPM.ModifyFont(FontDescription.FromString(textFontName));
-			this.btnDetectTempo.ModifyFont(FontDescription.FromString(textFontName));			
+			lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblTimeShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
+			lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			lblOriginalTempo.ModifyFont(FontDescription.FromString(textFontName));
+			lblOriginalTempoBPM.ModifyFont(FontDescription.FromString(textFontName));
+			btnDetectTempo.ModifyFont(FontDescription.FromString(textFontName));			
 			
-			this.lblPitchShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
-			this.lblPitchShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblPitchShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			lblPitchShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblPitchShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
+			lblPitchShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
 			
-			this.lblInformation.ModifyFont(FontDescription.FromString(subtitleFontName));
-			this.lblVolume.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblInformation.ModifyFont(FontDescription.FromString(subtitleFontName));
+			lblVolume.ModifyFont(FontDescription.FromString(subtitleFontName));
 			
-			this.lblCurrentFileType.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentBitrate.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentSampleRate.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentFileType.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentBitrate.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentSampleRate.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentBitsPerSample.ModifyFont(FontDescription.FromString(textFontName));
 						
-			this.lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
-			this.lblCurrentVolume.ModifyFont(FontDescription.FromString(textFontName));
+			lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
+			lblCurrentVolume.ModifyFont(FontDescription.FromString(textFontName));
 		}
 		
 		private AudioFileFormat GetCurrentAudioFileFormatFilter()
@@ -423,7 +392,7 @@ namespace MPfm.GTK.Windows
 			Gtk.TreeIter iter;
 			AudioFileFormat format;
 			cboSoundFormat.GetActiveIter(out iter);
-			string filter = storeAudioFileFormat.GetValue(iter, 0).ToString();
+			string filter = _storeAudioFileFormat.GetValue(iter, 0).ToString();
 			Enum.TryParse<AudioFileFormat>(filter, out format);
 			
 			return format;
@@ -452,7 +421,6 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnOpenActionActivated(object sender, System.EventArgs e)
 		{
-			// Create dialog box
 			Gtk.FileChooserDialog dialog = 
 				new Gtk.FileChooserDialog("Select the audio files to play.", 
 			                                  this, FileChooserAction.Open, 
@@ -473,108 +441,66 @@ namespace MPfm.GTK.Windows
 				//audioFiles = new List<AudioFile>();
 			}
 				
-			// Destroy dialog
 			dialog.Destroy();
 		}
 
 		protected void OnActionAddFilesActivated(object sender, System.EventArgs e)
 		{
-			// Create dialog box
 			Gtk.FileChooserDialog dialog = 
 				new Gtk.FileChooserDialog("Select the audio files to add to the library.", 
 			                                  this, FileChooserAction.Open, 
 			                                  "Cancel", ResponseType.Cancel, 
 			                                  "Add files to library", ResponseType.Accept);
 			
-			// Let the user choose multiple files
 			dialog.SelectMultiple = true;
-			
-			// Show dialog box
 			if(dialog.Run() == (int)ResponseType.Accept)
-			{
-				
-			}
+                OnAddFilesToLibrary(dialog.Filenames.ToList());
 							
-			// Destroy dialog
 			dialog.Destroy();
 		}		
 									
 		protected void OnActionAddFolderActivated(object sender, System.EventArgs e)
 		{
-			// Create dialog box			
 			Gtk.FileChooserDialog dialog = 
-				new Gtk.FileChooserDialog("Select the audio files to add to the library.", 
+				new Gtk.FileChooserDialog("Select a folder to add to the library.", 
 			                                  this, FileChooserAction.SelectFolder, 
 			                                  "Cancel", ResponseType.Cancel, 
 			                                  "Add folder to library", ResponseType.Accept);
 						
-			// Let the user choose multiple files
-			//dialog.SelectMultiple = true;						
-	
-			// Show dialog box
 			if(dialog.Run() == (int)ResponseType.Accept)
-			{			
-				// Destroy window if it still exists
-				if(windowUpdateLibrary != null)
-				{								
-					windowUpdateLibrary.Destroy();				
-				}
-				
-				// Create and display window
-				windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.SpecificFolder, null, dialog.Filename, null);		
-				windowUpdateLibrary.ShowAll();	
-			}
+                OnAddFolderToLibrary(dialog.Filename);
 							
-			// Destroy dialog
 			dialog.Destroy();
 		}
 		
 		protected void OnActionUpdateLibraryActivated(object sender, System.EventArgs e)
 		{
-			// Destroy window if it still exists
-			if(windowUpdateLibrary != null)
-			{								
-				windowUpdateLibrary.Destroy();				
-			}
-			
-			// Create and display window
-			windowUpdateLibrary = new UpdateLibraryWindow(UpdateLibraryMode.WholeLibrary, null, null, null);		
-			windowUpdateLibrary.ShowAll();
+            OnUpdateLibrary();
 		}		
 					
 		protected void OnActionPlayActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Play();
-			if(OnPlayerPlay != null)
-				OnPlayerPlay.Invoke();
+            OnPlayerPause();
 		}
 		
 		protected void OnActionPauseActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Pause();			
-			if(OnPlayerPause != null)
-				OnPlayerPause.Invoke();
-		}
+            OnPlayerPause();		
+        }
 		
 		protected void OnActionStopActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Stop();
-			if(OnPlayerStop != null)
-				OnPlayerStop.Invoke();
+            OnPlayerStop();
 		}
 		
 		protected void OnActionPreviousActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Previous();
-			if(OnPlayerPrevious != null)
-				OnPlayerPrevious.Invoke();			
+            OnPlayerPrevious();
 		}
 
 		protected void OnActionNextActivated(object sender, System.EventArgs e)
 		{
-			//playerPresenter.Next();
-			if(OnPlayerNext != null)
-				OnPlayerNext.Invoke();
+            OnPlayerNext();
 		}
 
 		protected void OnActionRepeatTypeActivated(object sender, System.EventArgs e)
@@ -593,8 +519,6 @@ namespace MPfm.GTK.Windows
 //	            playerPresenter.Player.RepeatType = RepeatType.Off;
 //	        }
 	
-	        // Update repeat button
-	        RefreshRepeatButton();
 		}
 
 		protected void OnActionPlaylistActivated(object sender, System.EventArgs e)
@@ -619,12 +543,12 @@ namespace MPfm.GTK.Windows
 
 		protected void OnAboutActionActivated(object sender, System.EventArgs e)
 		{
-			string text = this.Title + "\nMPfm: Music Player for Musicians is © 2011-2012 Yanick Castonguay and is released under the GPLv3 license.";
+			string text = Title + "\nMPfm: Music Player for Musicians is © 2011-2012 Yanick Castonguay and is released under the GPLv3 license.";
 			text += "\nThe BASS audio library is © 1999-2012 Un4seen Developments.";
 		    text += "\nThe BASS.NET audio library is © 2005-2012 radio42.";
 	
 
-			MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, text);
+			MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, text);
 			md.Run();
 			md.Destroy();
 		}
@@ -636,41 +560,31 @@ namespace MPfm.GTK.Windows
 
 		protected void OnVolumeValueChanged(object sender, System.EventArgs e)
 		{
-			// Set player volume			
-			//playerPresenter.SetVolume((float)vscaleVolume.Value);
-			if(OnPlayerSetVolume != null)
-				OnPlayerSetVolume.Invoke((float)vscaleVolume.Value);
+			OnPlayerSetVolume((float)vscaleVolume.Value);
 		}
 		
 		[GLib.ConnectBefore]
 		protected void OnHscaleSongPositionButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
 		{
-			isSongPositionChanging = true;
+			_isSongPositionChanging = true;
 		}
 		
 		[GLib.ConnectBefore]
 		protected void OnHscaleSongPositionButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
 		{
-			// Set new position
 			float value = (float)hscaleSongPosition.Value / 100;
-			//playerPresenter.SetPosition(value);
-			if(OnPlayerSetPosition != null)
-				OnPlayerSetPosition.Invoke(value);
-			isSongPositionChanging = false;
+		    OnPlayerSetPosition(value);
+			_isSongPositionChanging = false;
 		}
 		
 		protected void OnTimeShiftingValueChanged(object sender, System.EventArgs e)
 		{
-			//playerPresenter.SetTimeShifting((float)hscaleTimeShifting.Value);
-			if(OnPlayerSetTimeShifting != null)
-				OnPlayerSetTimeShifting.Invoke((float)hscaleTimeShifting.Value);
+	        OnPlayerSetTimeShifting((float)hscaleTimeShifting.Value);
 		}
 
 		protected void OnSoundFormatChanged(object sender, System.EventArgs e)
 		{			
-			//libraryBrowserPresenter.AudioFileFormatFilterChanged(GetCurrentAudioFileFormatFilter());
-			if(OnAudioFileFormatFilterChanged != null)
-				OnAudioFileFormatFilterChanged.Invoke(GetCurrentAudioFileFormatFilter());
+		    //OnAudioFileFormatFilterChanged(GetCurrentAudioFileFormatFilter());
 		}
 		
 		/// <summary>
@@ -680,16 +594,12 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeLibraryBrowserRowActivated(object sender, Gtk.RowActivatedArgs args)
 		{
-			// Get selected item
 			TreeModel model;
 			TreeIter iter;	
 			if((sender as TreeView).Selection.GetSelected(out model, out iter))
 			{
-				// Get entity and change query 
-				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);								
-				//libraryBrowserPresenter.TreeNodeDoubleClicked(entity);				
-				if(OnTreeNodeDoubleClicked != null)
-					OnTreeNodeDoubleClicked.Invoke(entity);	
+				LibraryBrowserEntity entity = (LibraryBrowserEntity)_storeLibraryBrowser.GetValue(iter, 0);								
+			    OnTreeNodeDoubleClicked(entity);	
 			}
 		}
 		
@@ -700,17 +610,12 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeLibraryBrowserCursorChanged(object sender, System.EventArgs e)
 		{
-			// Get selected item
 			TreeModel model;
 			TreeIter iter;	
 			if((sender as TreeView).Selection.GetSelected(out model, out iter))
 			{
-				// Get entity and change query 
-				LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);								
-				//libraryBrowserPresenter.TreeNodeSelected(entity);
-				if(OnTreeNodeSelected != null)
-					OnTreeNodeSelected.Invoke(entity);				
-				//songBrowserPresenter.ChangeQuery(entity.Query);
+				LibraryBrowserEntity entity = (LibraryBrowserEntity)_storeLibraryBrowser.GetValue(iter, 0);								
+                OnTreeNodeSelected(entity);
 			}
 		}
 		
@@ -721,22 +626,15 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeLibraryBrowserRowExpanded(object sender, Gtk.RowExpandedArgs args)
 		{
-			// Get data
 			Gtk.TreeIter iter;
-			LibraryBrowserEntity entity = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(args.Iter, 0);						
+			LibraryBrowserEntity entity = (LibraryBrowserEntity)_storeLibraryBrowser.GetValue(args.Iter, 0);						
 
 			// Check for dummy node		
-			storeLibraryBrowser.IterChildren(out iter, args.Iter);
-			LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)storeLibraryBrowser.GetValue(iter, 0);			
+			_storeLibraryBrowser.IterChildren(out iter, args.Iter);
+			LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)_storeLibraryBrowser.GetValue(iter, 0);			
 			if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
 			{	
-				// Send update to presenter
-				//libraryBrowserPresenter.TreeNodeExpanded(entity, args.Iter);
-				if(OnTreeNodeExpanded != null)
-					OnTreeNodeExpanded.Invoke(entity, args.Iter);
-
-				// Remove dummy node
-				storeLibraryBrowser.Remove(ref iter);						
+				OnTreeNodeExpanded(entity, args.Iter);
 			}	
 		}
 
@@ -747,18 +645,42 @@ namespace MPfm.GTK.Windows
 		/// <param name='e'>Event arguments</param>
 		protected void OnTreeSongBrowserRowActivated(object sender, Gtk.RowActivatedArgs args)
 		{
-			// Get selected item
 			TreeModel model;
 			TreeIter iter;	
 			if((sender as TreeView).Selection.GetSelected(out model, out iter))
 			{
-				// Get entity and change query 
-				AudioFile audioFile = (AudioFile)storeSongBrowser.GetValue(iter, 0);				
-				//songBrowserPresenter.TableRowDoubleClicked(audioFile);
-				if(OnTableRowDoubleClicked != null)
-					OnTableRowDoubleClicked.Invoke(audioFile);
+				AudioFile audioFile = (AudioFile)_storeSongBrowser.GetValue(iter, 0);				
+				OnTableRowDoubleClicked(audioFile);
 			}
 		}
+
+        protected void OnActionPlayLoopActivated(object sender, EventArgs e)
+        {
+        }
+
+        protected void OnActionGoToMarkerActivated(object sender, EventArgs e)
+        {
+            TreeModel model;
+            TreeIter iter;  
+            if(treeMarkers.Selection.GetSelected(out model, out iter))
+            {
+                Marker marker = (Marker)_storeMarkers.GetValue(iter, 0);
+                OnSelectMarker(marker);
+            }
+        }
+
+        protected void OnActionAddMarkerActivated(object sender, EventArgs e)
+        {
+            OnAddMarker(MarkerTemplateNameType.Verse);
+        }
+
+        protected void OnActionEditMarkerActivated(object sender, EventArgs e)
+        {
+        }
+
+        protected void OnActionDeleteMarkerActivated(object sender, EventArgs e)
+        {
+        }
 		
 		#endregion
 	
@@ -771,11 +693,52 @@ namespace MPfm.GTK.Windows
 				return pixbuf;
 			}
 		}
-				
+
+        #region IMainView implementation
+
+        public System.Action OnOpenPreferencesWindow { get; set; }
+        public System.Action OnOpenEffectsWindow { get; set; }
+        public System.Action OnOpenPlaylistWindow { get; set; }
+        public System.Action OnOpenSyncWindow { get; set; }
+
+        public System.Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public System.Action<string> OnAddFolderToLibrary { get; set; }
+        public System.Action OnUpdateLibrary { get; set; }
+
+        #endregion
+			
 		#region IPlayerView implementation
 			
+        public System.Action OnPlayerPlay { get; set; }
+        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public System.Action OnPlayerPause { get; set; }
+        public System.Action OnPlayerStop { get; set; }
+        public System.Action OnPlayerPrevious { get; set; }
+        public System.Action OnPlayerNext { get; set; } 
+        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
+        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
+        public System.Action<float> OnPlayerSetVolume { get; set; }
+        public System.Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+
 		public void RefreshPlayerStatus(PlayerStatusType status)
-		{
+        {
+            Console.WriteLine("MainWindow - RefreshPlayerStatus - status: {0}", status.ToString());
+            Gtk.Application.Invoke(delegate{
+                switch (status)
+                {
+                    case PlayerStatusType.Initialized:
+                    case PlayerStatusType.Stopped:
+                    case PlayerStatusType.Paused:
+                        actionPlay.StockId = "gtk-media-play";
+                        //actionPlay.IconName = "gtk-media-play";
+                        break;
+                    case PlayerStatusType.Playing:
+                        actionPlay.StockId = "gtk-media-pause";
+                        //actionPlay.IconName = "gtk-media-pause";
+                        break;
+                }
+            });
 		}
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -784,10 +747,8 @@ namespace MPfm.GTK.Windows
 				lblCurrentPosition.Text = entity.Position.ToString();
 	
 				// Check if the user is currently changing the position
-				if(!isSongPositionChanging)
-				{
+				if(!_isSongPositionChanging)
 					hscaleSongPosition.Value = (double)(entity.PositionPercentage * 100);
-				}
 			});
 		}
 		
@@ -812,16 +773,14 @@ namespace MPfm.GTK.Windows
 								
 					//Pixbuf stuff = new Pixbuf("icon48.png");
 					//stuff = stuff.ScaleSimple(150, 150, InterpType.Bilinear);
-					//this.imageAlbumCover.Pixbuf = stuff;
+					//imageAlbumCover.Pixbuf = stuff;
 					
 					System.Drawing.Image drawingImage = AudioFile.ExtractImageForAudioFile(audioFile.FilePath);			
 					
 					if(drawingImage != null)
 					{
-						// Resize image
-						drawingImage = ImageManipulation.ResizeImage(drawingImage, 150, 150);
-						
-						// Set album cover
+						// Resize image and set cover
+						drawingImage = SystemDrawingHelper.ResizeImage(drawingImage, 150, 150);
 						imageAlbumCover.Pixbuf = ImageToPixbuf(drawingImage);
 					}
 					else
@@ -852,19 +811,17 @@ namespace MPfm.GTK.Windows
 										imageFound = true;
 										Pixbuf imageCover = new Pixbuf(fileInfo.FullName);
 										imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
-										this.imageAlbumCover.Pixbuf = imageCover;
+										imageAlbumCover.Pixbuf = imageCover;
 									}
 								}
 								
 								// Set empty image if not cover not found
 								if(!imageFound)
-								{
-									this.imageAlbumCover.Pixbuf = null;
-								}
+									imageAlbumCover.Pixbuf = null;
 							}
 							catch
 							{
-								this.imageAlbumCover.Pixbuf = null;
+								imageAlbumCover.Pixbuf = null;
 							}
 						}
 						else
@@ -877,9 +834,9 @@ namespace MPfm.GTK.Windows
 					// Check if image cover is still empty
 					if(imageAlbumCover.Pixbuf == null)
 					{				
-						Pixbuf imageCover = new Pixbuf("black.png");
+                        Pixbuf imageCover = ResourceHelper.GetEmbeddedImageResource("black.png");
 						imageCover = imageCover.ScaleSimple(150, 150, InterpType.Bilinear);
-						this.imageAlbumCover.Pixbuf = imageCover;
+						imageAlbumCover.Pixbuf = imageCover;
 					}
 				}
 			});
@@ -902,19 +859,19 @@ namespace MPfm.GTK.Windows
 //					hscaleTimeShifting.Value = (float)entity.TimeShifting;
 			});
 		}
+
+        public void RefreshMarkers(IEnumerable<Marker> markers)
+        {
+        }
+
+        public void RefreshLoops(IEnumerable<Loop> loops)
+        {
+        }
 			
 		public void PlayerError(Exception ex)
 		{
 			Gtk.Application.Invoke(delegate{			
-				// Build text
-				StringBuilder sb = new StringBuilder();
-				sb.AppendLine("An error occured in the Player component:");
-				sb.AppendLine(ex.Message);
-				sb.AppendLine();
-				sb.AppendLine(ex.StackTrace);																
-				
-				// Display alert
-				MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Player component: {0}", ex));
 				md.Run();
 				md.Destroy();
 			});
@@ -924,67 +881,74 @@ namespace MPfm.GTK.Windows
 		
 		#region ILibraryBrowserView implementation
 		
+        public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
+        public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
+        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
+        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
+        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
 			Gtk.Application.Invoke(delegate{
-				// Clear list
 				Console.WriteLine("MainWindow - RefreshLibraryBrowser");
-				storeLibraryBrowser.Clear();			
+				_storeLibraryBrowser.Clear();			
 				
 				// Get first level nodes and add to tree store			
 				foreach(LibraryBrowserEntity entity in entities)
 				{
 					// Add tree iter
-					Gtk.TreeIter iter = storeLibraryBrowser.AppendValues(entity);
+					Gtk.TreeIter iter = _storeLibraryBrowser.AppendValues(entity);
 					
 					// The first subitems are always dummy or static.
 					foreach(LibraryBrowserEntity entitySub in entity.SubItems)				
-						storeLibraryBrowser.AppendValues(iter, entitySub);
+						_storeLibraryBrowser.AppendValues(iter, entitySub);
 				}
 							
-				// Set model
-				treeLibraryBrowser.Model = storeLibraryBrowser;
+				treeLibraryBrowser.Model = _storeLibraryBrowser;
 			});			
 		}
 		
 		public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
 		{
 			Gtk.Application.Invoke(delegate{
-				// Get data
 				Console.WriteLine("MainWindow - RefreshLibraryBrowserNode");
 				Gtk.TreeIter iter = (Gtk.TreeIter)userData;
+                TreeIter treeIterDummy;
+                _storeLibraryBrowser.IterNthChild(out treeIterDummy, iter, 0);
 				
-				// Determine type
-				if(entity.Type == LibraryBrowserEntityType.Artists)
-				{							
-					foreach(LibraryBrowserEntity artist in entities)
-					{
-						// Add artist node
-						Gtk.TreeIter iterArtist = storeLibraryBrowser.AppendValues(iter, artist);
-						
-						// The first subitems are always dummy or static.
-						foreach(LibraryBrowserEntity entitySub in artist.SubItems)													
-							storeLibraryBrowser.AppendValues(iterArtist, entitySub);					
-					}
-				}								
-				else if(entity.Type == LibraryBrowserEntityType.Albums)
-				{
-						// Fetch album titles
+				switch(entity.Type)
+				{				
+                    case LibraryBrowserEntityType.Artists:
+    					foreach(LibraryBrowserEntity artist in entities)
+    					{
+    						// Add artist node
+    						Gtk.TreeIter iterArtist = _storeLibraryBrowser.AppendValues(iter, artist);
+    						
+    						// The first subitems are always dummy or static.
+    						foreach(LibraryBrowserEntity entitySub in artist.SubItems)													
+    							_storeLibraryBrowser.AppendValues(iterArtist, entitySub);					
+    					}
+                        break;
+                    case LibraryBrowserEntityType.Albums:
 						foreach(LibraryBrowserEntity album in entities)
-							storeLibraryBrowser.AppendValues(iter, album);
-				}
-				else if(entity.Type == LibraryBrowserEntityType.Artist)
-				{
-						// Fetch artist names					
+							_storeLibraryBrowser.AppendValues(iter, album);
+                        break;
+                    case LibraryBrowserEntityType.Artist:
 						foreach(LibraryBrowserEntity artist in entities)
-							storeLibraryBrowser.AppendValues(iter, artist);
-				}
+							_storeLibraryBrowser.AppendValues(iter, artist);
+                        break;
+                }
+
+                // Remove dummy node
+                _storeLibraryBrowser.Remove(ref treeIterDummy);
 			});
 		}
 		
 		#endregion
 		
 		#region ISongBrowserView implementation
+
+        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
 
 		/// <summary>
 		/// Refreshes the song browser.
@@ -998,24 +962,126 @@ namespace MPfm.GTK.Windows
 					Console.WriteLine("MainWindow - RefreshSongBrowser");
 					
 					// Add audio files
-					storeSongBrowser.Clear();
+					_storeSongBrowser.Clear();
 					foreach(AudioFile audioFile in audioFiles)			
-							storeSongBrowser.AppendValues(audioFile);			
+							_storeSongBrowser.AppendValues(audioFile);			
 	
 					// Set model
-					treeSongBrowser.Model = storeSongBrowser;
+					treeSongBrowser.Model = _storeSongBrowser;
 				} 
 				catch(Exception ex) {
 					Console.WriteLine("RefreshSongBrowser - Exception: " + ex.Message + "\n" + ex.StackTrace);
 					throw ex;
-					//MessageDialog md = new MessageDialog(null, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "An error occured while refreshing the Song Browser: " + ex.Message + "\n" + ex.StackTrace);
-					//md.Run();
-					//md.Destroy();
 				}
 			});
 		}
 
 		#endregion
+
+        #region IMarkersView implementation
+
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action<Marker> OnEditMarker { get; set; }
+        public Action<Marker> OnSelectMarker { get; set; }
+
+        public void MarkerError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Markers component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshMarkers(List<Marker> markers)
+        {
+            Gtk.Application.Invoke(delegate{
+                try 
+                {
+                    Console.WriteLine("MainWindow - RefreshMarkers - markers.Count: {0}", markers.Count);
+                    _storeMarkers.Clear();
+                    foreach(var marker in markers)
+                        _storeMarkers.AppendValues(marker);
+                    treeMarkers.Model = _storeMarkers;
+                } 
+                catch(Exception ex) {
+                    Console.WriteLine("RefreshMarkers - Exception: " + ex.Message + "\n" + ex.StackTrace);
+                    throw ex;
+                }
+            });
+        }
+
+        #endregion
+
+        #region ILoopsView implementation
+
+        public System.Action OnAddLoop { get; set; }
+        public Action<Loop> OnEditLoop { get; set; }
+
+        public void LoopError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the Loops component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
+
+        #region ITimeShiftingView implementation
+
+        public Action<float> OnSetTimeShifting { get; set; }
+        public System.Action OnResetTimeShifting { get; set; }
+        public System.Action OnUseDetectedTempo { get; set; }
+        public System.Action OnIncrementTempo { get; set; }
+        public System.Action OnDecrementTempo { get; set; }
+
+        public void TimeShiftingError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the TimeShifting component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region IPitchShiftingView implementation
+
+        public Action<int> OnChangeKey { get; set; }
+        public Action<int> OnSetInterval { get; set; }
+        public System.Action OnResetInterval { get; set; }
+        public System.Action OnIncrementInterval { get; set; }
+        public System.Action OnDecrementInterval { get; set; }
+
+        public void PitchShiftingError(Exception ex)
+        {
+            Gtk.Application.Invoke(delegate{            
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, string.Format("An error occured in the PitchShifting component: {0}", ex));
+                md.Run();
+                md.Destroy();
+            });
+        }
+
+        public void RefreshKeys(List<Tuple<int, string>> keys)
+        {
+        }
+
+        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        {
+        }
+
+        #endregion
 
 	}
 }

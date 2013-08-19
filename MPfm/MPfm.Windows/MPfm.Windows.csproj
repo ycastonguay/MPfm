@@ -87,10 +87,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Forms\BaseForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSync.Designer.cs">
+      <DependentUpon>frmSync.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncDownload.Designer.cs">
+      <DependentUpon>frmSyncDownload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncMenu.Designer.cs">
+      <DependentUpon>frmSyncMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Specifications\WindowsSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Misc\DriverComboBoxItem.cs" />
@@ -150,11 +169,11 @@
     <Compile Include="Classes\Forms\frmVisualizer.Designer.cs">
       <DependentUpon>frmVisualizer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Forms\frmUpdateLibraryStatus.cs">
+    <Compile Include="Classes\Forms\frmUpdateLibrary.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Forms\frmUpdateLibraryStatus.Designer.cs">
-      <DependentUpon>frmUpdateLibraryStatus.cs</DependentUpon>
+    <Compile Include="Classes\Forms\frmUpdateLibrary.Designer.cs">
+      <DependentUpon>frmUpdateLibrary.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Forms\frmEffects.cs">
       <SubType>Form</SubType>
@@ -174,11 +193,11 @@
     <Compile Include="Classes\Forms\frmPlaylist.Designer.cs">
       <DependentUpon>frmPlaylist.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Forms\frmSettings.cs">
+    <Compile Include="Classes\Forms\frmPreferences.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Forms\frmSettings.Designer.cs">
-      <DependentUpon>frmSettings.cs</DependentUpon>
+    <Compile Include="Classes\Forms\frmPreferences.Designer.cs">
+      <DependentUpon>frmPreferences.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Forms\frmSplash.cs">
       <SubType>Form</SubType>
@@ -191,9 +210,18 @@
     <EmbeddedResource Include="Classes\Forms\frmFirstRun.resx">
       <DependentUpon>frmFirstRun.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Forms\frmUpdateLibraryStatus.resx">
+    <EmbeddedResource Include="Classes\Forms\frmSync.resx">
+      <DependentUpon>frmSync.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSyncDownload.resx">
+      <DependentUpon>frmSyncDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSyncMenu.resx">
+      <DependentUpon>frmSyncMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmUpdateLibrary.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmUpdateLibraryStatus.cs</DependentUpon>
+      <DependentUpon>frmUpdateLibrary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\Forms\frmThemes.resx">
       <DependentUpon>frmThemes.cs</DependentUpon>
@@ -230,9 +258,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmPlaylist.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Forms\frmSettings.resx">
+    <EmbeddedResource Include="Classes\Forms\frmPreferences.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmSettings.cs</DependentUpon>
+      <DependentUpon>frmPreferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\Forms\frmSplash.resx">
       <SubType>Designer</SubType>
@@ -261,6 +289,25 @@
     <Content Include="Classes\Configuration\ExampleConfig.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Resources\icon_android_16.png" />
+    <None Include="Resources\icon_button_add_16.png" />
+    <None Include="Resources\icon_artists_16.png" />
+    <Content Include="Resources\icon_button_cancel_16.png" />
+    <Content Include="Resources\icon_button_connect_16.png" />
+    <None Include="Resources\icon_button_delete_16.png" />
+    <Content Include="Resources\icon_button_download_16.png" />
+    <Content Include="Resources\icon_button_refresh_16.png" />
+    <None Include="Resources\icon_button_speaker_16.png" />
+    <None Include="Resources\icon_button_reset_16.png" />
+    <None Include="Resources\icon_button_save_16.png" />
+    <Content Include="Resources\icon_linux_16.png" />
+    <Content Include="Resources\icon_osx_16.png" />
+    <Content Include="Resources\icon_phone_16.png" />
+    <Content Include="Resources\icon_song_16.png" />
+    <Content Include="Resources\icon_tablet_16.png" />
+    <Content Include="Resources\icon_user_16.png" />
+    <Content Include="Resources\icon_vinyl_16.png" />
+    <Content Include="Resources\icon_windows_16.png" />
     <None Include="Lib\bass.dll" />
     <None Include="Lib\bassenc.dll" />
     <None Include="Lib\bassflac.dll" />
@@ -393,7 +440,9 @@
       <Name>MPfm.WindowsControls</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Classes\Objects\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rem copy $(ProjectDir)\Lib\taglib-sharp.dll $(TargetDir)

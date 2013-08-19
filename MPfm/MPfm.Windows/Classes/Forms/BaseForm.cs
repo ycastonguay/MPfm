@@ -24,25 +24,25 @@ namespace MPfm.Windows.Classes.Forms
     {
         protected Action<IBaseView> OnViewReady { get; set; }
 
+        public BaseForm()
+        {
+        }
+
         public BaseForm(Action<IBaseView> onViewReady)
         {
             OnViewReady = onViewReady;            
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override void OnClosed(EventArgs e)
         {
-            Console.WriteLine("BaseForm - OnLoad");
-            base.OnLoad(e);            
+            if (OnViewDestroy != null) OnViewDestroy(this);
+            base.OnClosed(e);
         }
 
         protected void ViewIsReady()
         {
-            Console.WriteLine("BaseForm - ViewIsReady");
-
-            // Bind presenter to view
+            // Bind presenter to view and show window
             OnViewReady(this);
-
-            // Display window
             Show();
         }
 

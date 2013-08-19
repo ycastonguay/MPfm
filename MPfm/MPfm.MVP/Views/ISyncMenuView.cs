@@ -28,10 +28,13 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ISyncMenuView : IBaseView
 	{
-        Action<SyncMenuItemEntity> OnExpandItem { get; set; }
-        Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
+        Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
+        Action<List<AudioFile>> OnRemoveItems { get; set; }
         Action OnSync { get; set; }
         Action OnSelectButtonClick { get; set; }
+        Action OnSelectAll { get; set; }
+        Action OnRemoveAll { get; set; }
 
         void SyncMenuError(Exception ex);
 	    void SyncEmptyError(Exception ex);
@@ -39,8 +42,9 @@ namespace MPfm.MVP.Views
         void RefreshLoading(bool isLoading, int progressPercentage);
         void RefreshSelectButton(string text);
         void RefreshItems(List<SyncMenuItemEntity> items);
+        void RefreshSelection(List<AudioFile> audioFiles);
         void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace);
-        void InsertItems(int index, List<SyncMenuItemEntity> items);
-        void RemoveItems(int index, int count);
+        void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData);
+        void RemoveItems(int index, int count, object userData);
 	}
 }

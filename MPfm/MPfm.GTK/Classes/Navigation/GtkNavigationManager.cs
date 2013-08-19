@@ -46,9 +46,9 @@ namespace MPfm.GTK.Navigation
 			return view;
 		}
 		
-		public override IPreferencesView CreatePreferencesView()
+		public override IDesktopPreferencesView CreatePreferencesView()
 		{
-			IPreferencesView view = null;
+			IDesktopPreferencesView view = null;
 			Gtk.Application.Invoke(delegate {
 				view = base.CreatePreferencesView();
 			});		

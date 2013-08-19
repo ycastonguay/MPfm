@@ -79,10 +79,11 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.Label label18;
 		private global::Gtk.Label label18Value;
 		private global::Gtk.VBox vboxPanel;
-		private global::Gtk.Label lblPreset;
+		private global::Gtk.Label lblPresets;
 		private global::Gtk.ComboBox comboPreset;
 		private global::Gtk.CheckButton chkEQOn;
-		private global::Gtk.Label lblInformation;
+		private global::Gtk.Button btnNewPreset;
+		private global::Gtk.Label lblCurrentPreset;
 		private global::Gtk.Label lblName;
 		private global::Gtk.Entry txtPresetName;
 		private global::Gtk.Button btnSavePreset;
@@ -100,7 +101,8 @@ namespace MPfm.GTK.Windows
 			// Container child MPfm.GTK.Windows.EffectsWindow.Gtk.Container+ContainerChild
 			this.hboxMain = new global::Gtk.HBox ();
 			this.hboxMain.Name = "hboxMain";
-			this.hboxMain.Spacing = 6;
+			this.hboxMain.Spacing = 4;
+			this.hboxMain.BorderWidth = ((uint)(8));
 			// Container child hboxMain.Gtk.Box+BoxChild
 			this.hboxFaders = new global::Gtk.HBox ();
 			this.hboxFaders.Name = "hboxFaders";
@@ -113,8 +115,10 @@ namespace MPfm.GTK.Windows
 			this.vscale1 = new global::Gtk.VScale (null);
 			this.vscale1.CanFocus = true;
 			this.vscale1.Name = "vscale1";
-			this.vscale1.Adjustment.Upper = 100;
-			this.vscale1.Adjustment.PageIncrement = 10;
+			this.vscale1.Inverted = true;
+			this.vscale1.Adjustment.Lower = -6;
+			this.vscale1.Adjustment.Upper = 6;
+			this.vscale1.Adjustment.PageIncrement = 1;
 			this.vscale1.Adjustment.StepIncrement = 1;
 			this.vscale1.DrawValue = false;
 			this.vscale1.Digits = 0;
@@ -156,8 +160,10 @@ namespace MPfm.GTK.Windows
 			this.vscale2 = new global::Gtk.VScale (null);
 			this.vscale2.CanFocus = true;
 			this.vscale2.Name = "vscale2";
-			this.vscale2.Adjustment.Upper = 100;
-			this.vscale2.Adjustment.PageIncrement = 10;
+			this.vscale2.Inverted = true;
+			this.vscale2.Adjustment.Lower = -6;
+			this.vscale2.Adjustment.Upper = 6;
+			this.vscale2.Adjustment.PageIncrement = 1;
 			this.vscale2.Adjustment.StepIncrement = 1;
 			this.vscale2.DrawValue = false;
 			this.vscale2.Digits = 0;
@@ -199,8 +205,10 @@ namespace MPfm.GTK.Windows
 			this.vscale3 = new global::Gtk.VScale (null);
 			this.vscale3.CanFocus = true;
 			this.vscale3.Name = "vscale3";
-			this.vscale3.Adjustment.Upper = 100;
-			this.vscale3.Adjustment.PageIncrement = 10;
+			this.vscale3.Inverted = true;
+			this.vscale3.Adjustment.Lower = -6;
+			this.vscale3.Adjustment.Upper = 6;
+			this.vscale3.Adjustment.PageIncrement = 1;
 			this.vscale3.Adjustment.StepIncrement = 1;
 			this.vscale3.DrawValue = false;
 			this.vscale3.Digits = 0;
@@ -242,8 +250,10 @@ namespace MPfm.GTK.Windows
 			this.vscale4 = new global::Gtk.VScale (null);
 			this.vscale4.CanFocus = true;
 			this.vscale4.Name = "vscale4";
-			this.vscale4.Adjustment.Upper = 100;
-			this.vscale4.Adjustment.PageIncrement = 10;
+			this.vscale4.Inverted = true;
+			this.vscale4.Adjustment.Lower = -6;
+			this.vscale4.Adjustment.Upper = 6;
+			this.vscale4.Adjustment.PageIncrement = 1;
 			this.vscale4.Adjustment.StepIncrement = 1;
 			this.vscale4.DrawValue = false;
 			this.vscale4.Digits = 0;
@@ -285,8 +295,10 @@ namespace MPfm.GTK.Windows
 			this.vscale5 = new global::Gtk.VScale (null);
 			this.vscale5.CanFocus = true;
 			this.vscale5.Name = "vscale5";
-			this.vscale5.Adjustment.Upper = 100;
-			this.vscale5.Adjustment.PageIncrement = 10;
+			this.vscale5.Inverted = true;
+			this.vscale5.Adjustment.Lower = -6;
+			this.vscale5.Adjustment.Upper = 6;
+			this.vscale5.Adjustment.PageIncrement = 1;
 			this.vscale5.Adjustment.StepIncrement = 1;
 			this.vscale5.DrawValue = false;
 			this.vscale5.Digits = 0;
@@ -328,8 +340,10 @@ namespace MPfm.GTK.Windows
 			this.vscale6 = new global::Gtk.VScale (null);
 			this.vscale6.CanFocus = true;
 			this.vscale6.Name = "vscale6";
-			this.vscale6.Adjustment.Upper = 100;
-			this.vscale6.Adjustment.PageIncrement = 10;
+			this.vscale6.Inverted = true;
+			this.vscale6.Adjustment.Lower = -6;
+			this.vscale6.Adjustment.Upper = 6;
+			this.vscale6.Adjustment.PageIncrement = 1;
 			this.vscale6.Adjustment.StepIncrement = 1;
 			this.vscale6.DrawValue = false;
 			this.vscale6.Digits = 0;
@@ -371,8 +385,10 @@ namespace MPfm.GTK.Windows
 			this.vscale7 = new global::Gtk.VScale (null);
 			this.vscale7.CanFocus = true;
 			this.vscale7.Name = "vscale7";
-			this.vscale7.Adjustment.Upper = 100;
-			this.vscale7.Adjustment.PageIncrement = 10;
+			this.vscale7.Inverted = true;
+			this.vscale7.Adjustment.Lower = -6;
+			this.vscale7.Adjustment.Upper = 6;
+			this.vscale7.Adjustment.PageIncrement = 1;
 			this.vscale7.Adjustment.StepIncrement = 1;
 			this.vscale7.DrawValue = false;
 			this.vscale7.Digits = 0;
@@ -414,8 +430,10 @@ namespace MPfm.GTK.Windows
 			this.vscale8 = new global::Gtk.VScale (null);
 			this.vscale8.CanFocus = true;
 			this.vscale8.Name = "vscale8";
-			this.vscale8.Adjustment.Upper = 100;
-			this.vscale8.Adjustment.PageIncrement = 10;
+			this.vscale8.Inverted = true;
+			this.vscale8.Adjustment.Lower = -6;
+			this.vscale8.Adjustment.Upper = 6;
+			this.vscale8.Adjustment.PageIncrement = 1;
 			this.vscale8.Adjustment.StepIncrement = 1;
 			this.vscale8.DrawValue = false;
 			this.vscale8.Digits = 0;
@@ -457,8 +475,10 @@ namespace MPfm.GTK.Windows
 			this.vscale9 = new global::Gtk.VScale (null);
 			this.vscale9.CanFocus = true;
 			this.vscale9.Name = "vscale9";
-			this.vscale9.Adjustment.Upper = 100;
-			this.vscale9.Adjustment.PageIncrement = 10;
+			this.vscale9.Inverted = true;
+			this.vscale9.Adjustment.Lower = -6;
+			this.vscale9.Adjustment.Upper = 6;
+			this.vscale9.Adjustment.PageIncrement = 1;
 			this.vscale9.Adjustment.StepIncrement = 1;
 			this.vscale9.DrawValue = false;
 			this.vscale9.Digits = 0;
@@ -500,8 +520,10 @@ namespace MPfm.GTK.Windows
 			this.vscale10 = new global::Gtk.VScale (null);
 			this.vscale10.CanFocus = true;
 			this.vscale10.Name = "vscale10";
-			this.vscale10.Adjustment.Upper = 100;
-			this.vscale10.Adjustment.PageIncrement = 10;
+			this.vscale10.Inverted = true;
+			this.vscale10.Adjustment.Lower = -6;
+			this.vscale10.Adjustment.Upper = 6;
+			this.vscale10.Adjustment.PageIncrement = 1;
 			this.vscale10.Adjustment.StepIncrement = 1;
 			this.vscale10.DrawValue = false;
 			this.vscale10.Digits = 0;
@@ -543,8 +565,10 @@ namespace MPfm.GTK.Windows
 			this.vscale11 = new global::Gtk.VScale (null);
 			this.vscale11.CanFocus = true;
 			this.vscale11.Name = "vscale11";
-			this.vscale11.Adjustment.Upper = 100;
-			this.vscale11.Adjustment.PageIncrement = 10;
+			this.vscale11.Inverted = true;
+			this.vscale11.Adjustment.Lower = -6;
+			this.vscale11.Adjustment.Upper = 6;
+			this.vscale11.Adjustment.PageIncrement = 1;
 			this.vscale11.Adjustment.StepIncrement = 1;
 			this.vscale11.DrawValue = false;
 			this.vscale11.Digits = 0;
@@ -586,8 +610,10 @@ namespace MPfm.GTK.Windows
 			this.vscale12 = new global::Gtk.VScale (null);
 			this.vscale12.CanFocus = true;
 			this.vscale12.Name = "vscale12";
-			this.vscale12.Adjustment.Upper = 100;
-			this.vscale12.Adjustment.PageIncrement = 10;
+			this.vscale12.Inverted = true;
+			this.vscale12.Adjustment.Lower = -6;
+			this.vscale12.Adjustment.Upper = 6;
+			this.vscale12.Adjustment.PageIncrement = 1;
 			this.vscale12.Adjustment.StepIncrement = 1;
 			this.vscale12.DrawValue = false;
 			this.vscale12.Digits = 0;
@@ -629,8 +655,10 @@ namespace MPfm.GTK.Windows
 			this.vscale13 = new global::Gtk.VScale (null);
 			this.vscale13.CanFocus = true;
 			this.vscale13.Name = "vscale13";
-			this.vscale13.Adjustment.Upper = 100;
-			this.vscale13.Adjustment.PageIncrement = 10;
+			this.vscale13.Inverted = true;
+			this.vscale13.Adjustment.Lower = -6;
+			this.vscale13.Adjustment.Upper = 6;
+			this.vscale13.Adjustment.PageIncrement = 1;
 			this.vscale13.Adjustment.StepIncrement = 1;
 			this.vscale13.DrawValue = false;
 			this.vscale13.Digits = 0;
@@ -672,8 +700,10 @@ namespace MPfm.GTK.Windows
 			this.vscale14 = new global::Gtk.VScale (null);
 			this.vscale14.CanFocus = true;
 			this.vscale14.Name = "vscale14";
-			this.vscale14.Adjustment.Upper = 100;
-			this.vscale14.Adjustment.PageIncrement = 10;
+			this.vscale14.Inverted = true;
+			this.vscale14.Adjustment.Lower = -6;
+			this.vscale14.Adjustment.Upper = 6;
+			this.vscale14.Adjustment.PageIncrement = 1;
 			this.vscale14.Adjustment.StepIncrement = 1;
 			this.vscale14.DrawValue = false;
 			this.vscale14.Digits = 0;
@@ -716,8 +746,10 @@ namespace MPfm.GTK.Windows
 			this.vscale15.WidthRequest = 0;
 			this.vscale15.CanFocus = true;
 			this.vscale15.Name = "vscale15";
-			this.vscale15.Adjustment.Upper = 100;
-			this.vscale15.Adjustment.PageIncrement = 10;
+			this.vscale15.Inverted = true;
+			this.vscale15.Adjustment.Lower = -6;
+			this.vscale15.Adjustment.Upper = 6;
+			this.vscale15.Adjustment.PageIncrement = 1;
 			this.vscale15.Adjustment.StepIncrement = 1;
 			this.vscale15.DrawValue = false;
 			this.vscale15.Digits = 0;
@@ -760,8 +792,10 @@ namespace MPfm.GTK.Windows
 			this.vscale16.WidthRequest = 0;
 			this.vscale16.CanFocus = true;
 			this.vscale16.Name = "vscale16";
-			this.vscale16.Adjustment.Upper = 100;
-			this.vscale16.Adjustment.PageIncrement = 10;
+			this.vscale16.Inverted = true;
+			this.vscale16.Adjustment.Lower = -6;
+			this.vscale16.Adjustment.Upper = 6;
+			this.vscale16.Adjustment.PageIncrement = 1;
 			this.vscale16.Adjustment.StepIncrement = 1;
 			this.vscale16.DrawValue = false;
 			this.vscale16.Digits = 0;
@@ -804,8 +838,10 @@ namespace MPfm.GTK.Windows
 			this.vscale17.WidthRequest = 0;
 			this.vscale17.CanFocus = true;
 			this.vscale17.Name = "vscale17";
-			this.vscale17.Adjustment.Upper = 100;
-			this.vscale17.Adjustment.PageIncrement = 10;
+			this.vscale17.Inverted = true;
+			this.vscale17.Adjustment.Lower = -6;
+			this.vscale17.Adjustment.Upper = 6;
+			this.vscale17.Adjustment.PageIncrement = 1;
 			this.vscale17.Adjustment.StepIncrement = 1;
 			this.vscale17.DrawValue = false;
 			this.vscale17.Digits = 0;
@@ -848,8 +884,10 @@ namespace MPfm.GTK.Windows
 			this.vscale18.WidthRequest = 0;
 			this.vscale18.CanFocus = true;
 			this.vscale18.Name = "vscale18";
-			this.vscale18.Adjustment.Upper = 100;
-			this.vscale18.Adjustment.PageIncrement = 10;
+			this.vscale18.Inverted = true;
+			this.vscale18.Adjustment.Lower = -6;
+			this.vscale18.Adjustment.Upper = 6;
+			this.vscale18.Adjustment.PageIncrement = 1;
 			this.vscale18.Adjustment.StepIncrement = 1;
 			this.vscale18.DrawValue = false;
 			this.vscale18.Digits = 0;
@@ -894,16 +932,17 @@ namespace MPfm.GTK.Windows
 			this.vboxPanel.Name = "vboxPanel";
 			this.vboxPanel.Spacing = 6;
 			// Container child vboxPanel.Gtk.Box+BoxChild
-			this.lblPreset = new global::Gtk.Label ();
-			this.lblPreset.Name = "lblPreset";
-			this.lblPreset.LabelProp = global::Mono.Unix.Catalog.GetString ("Preset");
-			this.vboxPanel.Add (this.lblPreset);
-			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblPreset]));
+			this.lblPresets = new global::Gtk.Label ();
+			this.lblPresets.Name = "lblPresets";
+			this.lblPresets.LabelProp = global::Mono.Unix.Catalog.GetString ("Presets");
+			this.vboxPanel.Add (this.lblPresets);
+			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblPresets]));
 			w74.Position = 0;
 			w74.Expand = false;
 			w74.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.comboPreset = global::Gtk.ComboBox.NewText ();
+			this.comboPreset.CanFocus = true;
 			this.comboPreset.Name = "comboPreset";
 			this.vboxPanel.Add (this.comboPreset);
 			global::Gtk.Box.BoxChild w75 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.comboPreset]));
@@ -914,7 +953,7 @@ namespace MPfm.GTK.Windows
 			this.chkEQOn = new global::Gtk.CheckButton ();
 			this.chkEQOn.CanFocus = true;
 			this.chkEQOn.Name = "chkEQOn";
-			this.chkEQOn.Label = global::Mono.Unix.Catalog.GetString ("EQ On");
+			this.chkEQOn.Label = global::Mono.Unix.Catalog.GetString ("EQ Bypassed");
 			this.chkEQOn.DrawIndicator = true;
 			this.chkEQOn.UseUnderline = true;
 			this.vboxPanel.Add (this.chkEQOn);
@@ -923,24 +962,50 @@ namespace MPfm.GTK.Windows
 			w76.Expand = false;
 			w76.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
-			this.lblInformation = new global::Gtk.Label ();
-			this.lblInformation.Name = "lblInformation";
-			this.lblInformation.LabelProp = global::Mono.Unix.Catalog.GetString ("Information");
-			this.vboxPanel.Add (this.lblInformation);
-			global::Gtk.Box.BoxChild w77 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblInformation]));
-			w77.Position = 3;
-			w77.Expand = false;
-			w77.Fill = false;
+			this.btnNewPreset = new global::Gtk.Button ();
+			this.btnNewPreset.CanFocus = true;
+			this.btnNewPreset.Name = "btnNewPreset";
+			this.btnNewPreset.UseUnderline = true;
+			// Container child btnNewPreset.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w77 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w78 = new global::Gtk.HBox ();
+			w78.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w79 = new global::Gtk.Image ();
+			w79.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
+			w78.Add (w79);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w81 = new global::Gtk.Label ();
+			w81.LabelProp = global::Mono.Unix.Catalog.GetString ("New Preset");
+			w81.UseUnderline = true;
+			w78.Add (w81);
+			w77.Add (w78);
+			this.btnNewPreset.Add (w77);
+			this.vboxPanel.Add (this.btnNewPreset);
+			global::Gtk.Box.BoxChild w85 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnNewPreset]));
+			w85.Position = 3;
+			w85.Expand = false;
+			w85.Fill = false;
+			// Container child vboxPanel.Gtk.Box+BoxChild
+			this.lblCurrentPreset = new global::Gtk.Label ();
+			this.lblCurrentPreset.Name = "lblCurrentPreset";
+			this.lblCurrentPreset.LabelProp = global::Mono.Unix.Catalog.GetString ("Current Preset");
+			this.vboxPanel.Add (this.lblCurrentPreset);
+			global::Gtk.Box.BoxChild w86 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblCurrentPreset]));
+			w86.Position = 4;
+			w86.Expand = false;
+			w86.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.lblName = new global::Gtk.Label ();
 			this.lblName.Name = "lblName";
 			this.lblName.Xalign = 0F;
 			this.lblName.LabelProp = global::Mono.Unix.Catalog.GetString ("Name:");
 			this.vboxPanel.Add (this.lblName);
-			global::Gtk.Box.BoxChild w78 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblName]));
-			w78.Position = 4;
-			w78.Expand = false;
-			w78.Fill = false;
+			global::Gtk.Box.BoxChild w87 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.lblName]));
+			w87.Position = 5;
+			w87.Expand = false;
+			w87.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.txtPresetName = new global::Gtk.Entry ();
 			this.txtPresetName.CanFocus = true;
@@ -948,65 +1013,118 @@ namespace MPfm.GTK.Windows
 			this.txtPresetName.IsEditable = true;
 			this.txtPresetName.InvisibleChar = '●';
 			this.vboxPanel.Add (this.txtPresetName);
-			global::Gtk.Box.BoxChild w79 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.txtPresetName]));
-			w79.Position = 5;
-			w79.Expand = false;
-			w79.Fill = false;
+			global::Gtk.Box.BoxChild w88 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.txtPresetName]));
+			w88.Position = 6;
+			w88.Expand = false;
+			w88.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnSavePreset = new global::Gtk.Button ();
 			this.btnSavePreset.CanFocus = true;
 			this.btnSavePreset.Name = "btnSavePreset";
 			this.btnSavePreset.UseUnderline = true;
-			this.btnSavePreset.Label = global::Mono.Unix.Catalog.GetString ("Save Preset");
+			// Container child btnSavePreset.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w89 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w90 = new global::Gtk.HBox ();
+			w90.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w91 = new global::Gtk.Image ();
+			w91.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-save", global::Gtk.IconSize.Menu);
+			w90.Add (w91);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w93 = new global::Gtk.Label ();
+			w93.LabelProp = global::Mono.Unix.Catalog.GetString ("Save Preset");
+			w93.UseUnderline = true;
+			w90.Add (w93);
+			w89.Add (w90);
+			this.btnSavePreset.Add (w89);
 			this.vboxPanel.Add (this.btnSavePreset);
-			global::Gtk.Box.BoxChild w80 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnSavePreset]));
-			w80.Position = 6;
-			w80.Expand = false;
-			w80.Fill = false;
+			global::Gtk.Box.BoxChild w97 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnSavePreset]));
+			w97.Position = 7;
+			w97.Expand = false;
+			w97.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnDeletePreset = new global::Gtk.Button ();
 			this.btnDeletePreset.CanFocus = true;
 			this.btnDeletePreset.Name = "btnDeletePreset";
 			this.btnDeletePreset.UseUnderline = true;
-			this.btnDeletePreset.Label = global::Mono.Unix.Catalog.GetString ("Delete Preset");
+			// Container child btnDeletePreset.Gtk.Container+ContainerChild
+			global::Gtk.Alignment w98 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
+			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			global::Gtk.HBox w99 = new global::Gtk.HBox ();
+			w99.Spacing = 2;
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Image w100 = new global::Gtk.Image ();
+			w100.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-delete", global::Gtk.IconSize.Menu);
+			w99.Add (w100);
+			// Container child GtkHBox.Gtk.Container+ContainerChild
+			global::Gtk.Label w102 = new global::Gtk.Label ();
+			w102.LabelProp = global::Mono.Unix.Catalog.GetString ("Delete Preset");
+			w102.UseUnderline = true;
+			w99.Add (w102);
+			w98.Add (w99);
+			this.btnDeletePreset.Add (w98);
 			this.vboxPanel.Add (this.btnDeletePreset);
-			global::Gtk.Box.BoxChild w81 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnDeletePreset]));
-			w81.Position = 7;
-			w81.Expand = false;
-			w81.Fill = false;
+			global::Gtk.Box.BoxChild w106 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnDeletePreset]));
+			w106.Position = 8;
+			w106.Expand = false;
+			w106.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnAutoLevel = new global::Gtk.Button ();
 			this.btnAutoLevel.CanFocus = true;
 			this.btnAutoLevel.Name = "btnAutoLevel";
 			this.btnAutoLevel.UseUnderline = true;
-			this.btnAutoLevel.Label = global::Mono.Unix.Catalog.GetString ("Auto Level");
+			this.btnAutoLevel.Label = global::Mono.Unix.Catalog.GetString ("Normalize");
 			this.vboxPanel.Add (this.btnAutoLevel);
-			global::Gtk.Box.BoxChild w82 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnAutoLevel]));
-			w82.Position = 8;
-			w82.Expand = false;
-			w82.Fill = false;
+			global::Gtk.Box.BoxChild w107 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnAutoLevel]));
+			w107.Position = 9;
+			w107.Expand = false;
+			w107.Fill = false;
 			// Container child vboxPanel.Gtk.Box+BoxChild
 			this.btnResetEQ = new global::Gtk.Button ();
 			this.btnResetEQ.CanFocus = true;
 			this.btnResetEQ.Name = "btnResetEQ";
 			this.btnResetEQ.UseUnderline = true;
-			this.btnResetEQ.Label = global::Mono.Unix.Catalog.GetString ("Reset EQ");
+			this.btnResetEQ.Label = global::Mono.Unix.Catalog.GetString ("Reset");
 			this.vboxPanel.Add (this.btnResetEQ);
-			global::Gtk.Box.BoxChild w83 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnResetEQ]));
-			w83.Position = 9;
-			w83.Expand = false;
-			w83.Fill = false;
+			global::Gtk.Box.BoxChild w108 = ((global::Gtk.Box.BoxChild)(this.vboxPanel [this.btnResetEQ]));
+			w108.Position = 10;
+			w108.Expand = false;
+			w108.Fill = false;
 			this.hboxMain.Add (this.vboxPanel);
-			global::Gtk.Box.BoxChild w84 = ((global::Gtk.Box.BoxChild)(this.hboxMain [this.vboxPanel]));
-			w84.Position = 1;
+			global::Gtk.Box.BoxChild w109 = ((global::Gtk.Box.BoxChild)(this.hboxMain [this.vboxPanel]));
+			w109.Position = 1;
 			this.Add (this.hboxMain);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 1032;
-			this.DefaultHeight = 697;
+			this.DefaultWidth = 1036;
+			this.DefaultHeight = 441;
 			this.Hide ();
-			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.vscale1.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue1);
+			this.vscale2.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue2);
+			this.vscale3.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue3);
+			this.vscale4.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue4);
+			this.vscale5.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue5);
+			this.vscale6.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue6);
+			this.vscale7.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue7);
+			this.vscale8.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue8);
+			this.vscale9.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue9);
+			this.vscale10.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue10);
+			this.vscale11.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue11);
+			this.vscale12.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue12);
+			this.vscale13.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue13);
+			this.vscale14.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue14);
+			this.vscale15.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue15);
+			this.vscale16.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue16);
+			this.vscale17.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue17);
+			this.vscale18.ChangeValue += new global::Gtk.ChangeValueHandler (this.OnScaleChangeValue18);
+			this.chkEQOn.Toggled += new global::System.EventHandler (this.OnEQOnToggled);
+			this.btnNewPreset.Clicked += new global::System.EventHandler (this.OnClickNewPreset);
+			this.btnSavePreset.Clicked += new global::System.EventHandler (this.OnClickSavePreset);
+			this.btnDeletePreset.Clicked += new global::System.EventHandler (this.OnClickDeletePreset);
+			this.btnAutoLevel.Clicked += new global::System.EventHandler (this.OnClickNormalizePreset);
+			this.btnResetEQ.Clicked += new global::System.EventHandler (this.OnClickResetPreset);
 		}
 	}
 }

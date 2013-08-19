@@ -52,15 +52,12 @@ namespace MPfm.MVP.Services
         /// </summary>
         public void Initialize()
         {
-            // Check if the .MPfm directory exists
-            string directoryPath = ConfigurationHelper.HomeDirectory;
-            if(!Directory.Exists(directoryPath))
-            {
-                // Create directory
-                Directory.CreateDirectory(directoryPath);
-            }
+            // Create missing directories
+            if(!Directory.Exists(ConfigurationHelper.HomeDirectory))
+                Directory.CreateDirectory(ConfigurationHelper.HomeDirectory);
+            if (!Directory.Exists(ConfigurationHelper.PeakFileDirectory))
+                Directory.CreateDirectory(ConfigurationHelper.PeakFileDirectory);
 
-            // Create trace listener and start logging
             CreateTraceListener();
             Tracing.Log("====================================================================");
 
@@ -71,7 +68,6 @@ namespace MPfm.MVP.Services
 #endif
 
             Tracing.Log("Started on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
-            Tracing.Log("InitializationService.Initialize -- Starting initialization...");   
 
             // Load data needed to start the application
             LoadConfiguration();
@@ -97,10 +93,8 @@ namespace MPfm.MVP.Services
             // Check for configuration file
             Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
             if (File.Exists(ConfigurationHelper.ConfigurationFilePath))
-            {
-                // Load configuration file
                 MPfmConfig.Instance.Load();
-            }
+
             //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
             //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
@@ -111,7 +105,7 @@ namespace MPfm.MVP.Services
             try
             {
                 // Check if the database file exists
-                Tracing.Log("InitializationService.CreateLibrary -- Checking if the database file exists...");
+                Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", ConfigurationHelper.DatabaseFilePath));
                 if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
                 {                    
                     // Create database file

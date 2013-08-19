@@ -1,20 +1,9 @@
-// Copyright © 2011-2013 Yanick Castonguay
+// WARNING
 //
-// This file is part of MPfm.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the Xcode designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
-// MPfm is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// MPfm is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
-
 using MonoMac.Foundation;
 
 namespace MPfm.Mac
@@ -206,13 +195,13 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSButton btnReset { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewBackground { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewBackground { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitlePreset { get; set; }
@@ -234,6 +223,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblScaleMinus6 { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnNewPreset { get; set; }
 
 		[Action ("actionSlider0ChangeValue:")]
 		partial void actionSlider0ChangeValue (MonoMac.Foundation.NSObject sender);
@@ -309,6 +301,9 @@ namespace MPfm.Mac
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionNewPreset:")]
+		partial void actionNewPreset (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -665,6 +660,11 @@ namespace MPfm.Mac
 			if (lblScaleMinus6 != null) {
 				lblScaleMinus6.Dispose ();
 				lblScaleMinus6 = null;
+			}
+
+			if (btnNewPreset != null) {
+				btnNewPreset.Dispose ();
+				btnNewPreset = null;
 			}
 		}
 	}

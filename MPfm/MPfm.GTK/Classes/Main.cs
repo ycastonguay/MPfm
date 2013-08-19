@@ -25,8 +25,9 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.GTK.Navigation;
 using MPfm.GTK.Windows;
+using MPfm.Library;
 
-namespace MPfm.GTK
+namespace MPfm.GTK.Classes
 {
 	public class MainClass
 	{
@@ -37,13 +38,16 @@ namespace MPfm.GTK
 			// Add view implementations to IoC
 			Application.Init();
 			Bootstrapper.GetContainer().Register<NavigationManager, GtkNavigationManager>().AsSingleton();
+            Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, LinuxSyncDeviceSpecifications>().AsSingleton();
 			Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IMainView, MainWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindow>().AsMultiInstance();
-			Bootstrapper.GetContainer().Register<IPreferencesView, PreferencesWindow>().AsMultiInstance();
-			//Bootstrapper.GetContainer().Register<IEffectsView, EffectsWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IDesktopPreferencesView, PreferencesWindow>().AsMultiInstance();
+			Bootstrapper.GetContainer().Register<IDesktopEffectsView, EffectsWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncMenuView, SyncMenuWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncDownloadView, SyncDownloadWindow>().AsMultiInstance();
 			
 			// Create and start navigation manager
 			navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();

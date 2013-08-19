@@ -100,6 +100,9 @@ namespace MPfm.Mac.Classes.Controls
         {
             float padding = 4;
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
+            context.SaveState();
+            context.TranslateCTM(0, Bounds.Height);
+            context.ScaleCTM(1, -1);
 
             if (_isMouseDown)
                 CocoaHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
@@ -125,6 +128,7 @@ namespace MPfm.Mac.Classes.Controls
                 rectText = new RectangleF((Bounds.Width - rectTextSize.Width) / 2, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
             }
 
+            context.RestoreState();
             CocoaHelper.DrawText(rectText, 0, 0, Title, "Junction", 11, NSColor.White);
         }
 

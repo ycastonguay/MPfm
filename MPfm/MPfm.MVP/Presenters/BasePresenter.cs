@@ -29,25 +29,19 @@ namespace MPfm.MVP.Presenters
 		// Private variables
         public T View { get; private set; }
 
-		#region Constructor and Dispose
-
 		public BasePresenter()
 		{	
 		}
 
-		#endregion
-		
 		/// <summary>
 		/// Binds the view to its implementation.
 		/// </summary>
 		/// <param name='view'>View implementation</param>		
 		public virtual void BindView(T view)
 		{
-			// Validate parameters
 			if(view == null)			
 				throw new ArgumentNullException("The view parameter is null!");			
 						
-			// Set properties
 			this.View = view;
 		}
 	}

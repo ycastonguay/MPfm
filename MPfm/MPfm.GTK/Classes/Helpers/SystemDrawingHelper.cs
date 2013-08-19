@@ -22,9 +22,9 @@ using System.Drawing.Drawing2D;
 namespace MPfm.GTK.Helpers
 {
 	/// <summary>
-	/// The ImageManipulation class contains static functions for manipulating images.
+	/// The SystemDrawingHelper class contains static functions for manipulating images with System.Drawing.
 	/// </summary>
-	public class ImageManipulation
+	public class SystemDrawingHelper
 	{
 		/// <summary>
 		/// The ResizeImage static function resizes images to a desired width and height, with the highest quality possible.

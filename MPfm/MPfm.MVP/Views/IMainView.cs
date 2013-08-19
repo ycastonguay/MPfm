@@ -16,17 +16,22 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace MPfm.MVP.Views
 {
 	/// <summary>
 	/// Splash screen view interface.
 	/// </summary>
-    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView
+    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, ILoopsView, ITimeShiftingView, IPitchShiftingView
 	{
         Action OnOpenPreferencesWindow { get; set; }
         Action OnOpenEffectsWindow { get; set; }
         Action OnOpenPlaylistWindow { get; set; }
         Action OnOpenSyncWindow { get; set; }
+
+        Action<List<string>> OnAddFilesToLibrary { get; set; }
+        Action<string> OnAddFolderToLibrary { get; set; }
+        Action OnUpdateLibrary { get; set; }
 	}
 }

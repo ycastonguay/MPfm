@@ -23,6 +23,7 @@ namespace MPfm.Mac
 {
     public partial class SyncWindowController : BaseWindowController, ISyncView
     {
+        bool _isDiscovering;
         List<SyncDevice> _items = new List<SyncDevice>();
 
         // Called when created from unmanaged code
@@ -45,52 +46,64 @@ namespace MPfm.Mac
             this.Window.MakeKeyAndOrderFront(this);
         }
 
-        public override void AwakeFromNib()
-        {
-            base.AwakeFromNib();
-
-            progressIndicator.StartAnimation(this);
-
-            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-            //lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
-
-            btnAddDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
-            btnRefreshDevices.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_refresh");
-            btnSyncLibraryWithDevice.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
-        }
-
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
 
             tableViewDevices.WeakDelegate = this;
             tableViewDevices.WeakDataSource = this;
-
+            LoadFontsAndImages();
             OnViewReady.Invoke(this);
         }
 
-        partial void actionSyncLibraryWithDevice(NSObject sender)
+        private void LoadFontsAndImages()
         {
+            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
+            lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
+            btnRefreshDevices.StringValue = "Cancel refresh";
+
+            btnConnect.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
+            btnConnectManual.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
+            btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_refresh");
+        }
+
+        private void RefreshDeviceListButton()
+        {
+            if (_isDiscovering)
+            {
+                btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
+                btnRefreshDevices.Title = "Cancel refresh";
+            }
+            else
+            {
+                btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_refresh");
+                btnRefreshDevices.Title = "Refresh devices";
+            }
+        }
+
+        partial void actionConnect(NSObject sender)
+        {
+            OnConnectDevice(_items[tableViewDevices.SelectedRow]);
+        }
+
+        partial void actionConnectManual(NSObject sender)
+        {
+            // Show dialog box
+            //OnConnectDeviceManually();
         }
 
         partial void actionRefreshDevices(NSObject sender)
         {
-            progressIndicator.Hidden = false;
-            btnRefreshDevices.Enabled = false;
-            btnRefreshDevices.StringValue = "Cancel refresh";
-            OnRefreshDevices();
+            if (_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();
         }
 
         [Export ("numberOfRowsInTableView:")]
         public int GetRowCount(NSTableView tableView)
         {
             return _items.Count;
-        }
-
-        [Export ("tableView:heightOfRow:")]
-        public float GetRowHeight(NSTableView tableView, int row)
-        {
-            return 20;
         }
 
         [Export ("tableView:dataCellForTableColumn:row:")]
@@ -113,44 +126,45 @@ namespace MPfm.Mac
                 view = (NSTableCellView)tableView.MakeView("cellDeviceDescription", this);
                 view.TextField.StringValue = _items[row].Url;
             }
-            //view.TextField.Font = NSFont.FromFontName("Junction", 11);
 
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
             if (view.ImageView != null)
             {
                 string iconName = string.Empty;
                 switch (_items[row].DeviceType)
                 {
+                    case SyncDeviceType.Linux:
+                        iconName = "icon_linux";
+                        break;
+                    case SyncDeviceType.OSX:
+                        iconName = "icon_osx";
+                        break;
+                    case SyncDeviceType.Windows:
+                        iconName = "icon_windows";
+                        break;
                     case SyncDeviceType.iOS:
-                        iconName = "16_icomoon_apple";
+                        iconName = "icon_phone";
                         break;
                     case SyncDeviceType.Android:
-                        iconName = "16_icomoon_android";
-                        break;
-                    default:
-                        iconName = "16_icomoon_laptop";
+                        iconName = "icon_android";
                         break;
                 }
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == iconName);
+                view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == iconName);
             }
             return view;
         }
 
-        [Export ("tableViewSelectionDidChange:")]
-        public void SelectionDidChange(NSNotification notification)
-        {         
-            btnSyncLibraryWithDevice.Enabled = (tableViewDevices.SelectedRow == -1) ? false : true;
-        }
-
         #region ISyncView implementation
 
-        public Action<string> OnConnectDevice { get; set; }
+        public Action<SyncDevice> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
-        public Action OnRefreshDevices { get; set; }
+        public Action OnStartDiscovery { get; set; }
+        public Action OnCancelDiscovery { get; set; }
 
         public void SyncError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                CocoaHelper.ShowCriticalAlert(ex.Message + "\n" + ex.StackTrace);
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in Sync: {0}", ex), NSAlertStyle.Critical);
             });
         }
 
@@ -165,6 +179,12 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 progressIndicator.DoubleValue = (double)percentageDone;
+                if (!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    progressIndicator.Hidden = false;
+                    RefreshDeviceListButton();
+                }
             });
         }
 
@@ -181,9 +201,9 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 Console.WriteLine("SyncWindowCtrl - RefreshDevicesEnded");
-                btnRefreshDevices.StringValue = "Refresh devices";
                 progressIndicator.Hidden = true;
-                btnRefreshDevices.Enabled = true;
+                _isDiscovering = false;
+                RefreshDeviceListButton();
             });
         }
 

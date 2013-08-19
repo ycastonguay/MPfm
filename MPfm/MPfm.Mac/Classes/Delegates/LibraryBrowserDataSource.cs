@@ -68,22 +68,7 @@ namespace MPfm.Mac.Classes.Delegates
 
 		public override bool ItemExpandable(NSOutlineView outlineView, NSObject item)
         {
-            // Cast item and return subitem count
             LibraryBrowserItem libraryBrowserItem = (LibraryBrowserItem)item;
-
-            // Check for dummy nodes
-            if (libraryBrowserItem.SubItems.Count > 0 && libraryBrowserItem.SubItems [0].Entity.Type == LibraryBrowserEntityType.Dummy)
-            {
-                // Extract more data
-                //IEnumerable<LibraryBrowserEntity> entities = libraryBrowserPresenter.TreeNodeExpandable(libraryBrowserItem.Entity);
-                IEnumerable<LibraryBrowserEntity> entities = OnTreeNodeExpandable.Invoke(libraryBrowserItem.Entity);
-
-                // Clear subitems (dummy node) and fill with actual nodes
-                libraryBrowserItem.SubItems.Clear();
-                foreach (LibraryBrowserEntity entity in entities)
-                    libraryBrowserItem.SubItems.Add(new LibraryBrowserItem(entity));
-            }
-
 			return (libraryBrowserItem.SubItems.Count > 0) ? true : false;
 		}
 

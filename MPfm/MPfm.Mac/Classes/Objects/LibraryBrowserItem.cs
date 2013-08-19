@@ -35,25 +35,14 @@ namespace MPfm.Mac.Classes.Objects
     /// </summary>
     public class LibraryBrowserItem : NSObject
     {
-        /// <summary>
-        /// List of NSStrings for the Library Browser labels.
-        /// In MonoMac, you cannot create NSStrings in a method; you must add them
-        /// to a static variable or an object, or the application will eventually crash
-        /// when the garbage collector will free the NSString.
-        /// </summary>
         public NSString StringValue { get; private set; }
         public LibraryBrowserEntity Entity { get; private set; }
         public List<LibraryBrowserItem> SubItems { get; private set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.Mac.LibraryBrowserItem"/> class.
-        /// </summary>
-        /// <param name='entity'>Library Browser entity</param>
         public LibraryBrowserItem(LibraryBrowserEntity entity)
         {
-            // Set entity and NSString value
-            this.Entity = entity;
-            this.StringValue = new NSString(entity.Title);
+            Entity = entity;
+            StringValue = new NSString(entity.Title);
 
             // Create empty list of subitems
             SubItems = new List<LibraryBrowserItem>();
@@ -62,4 +51,3 @@ namespace MPfm.Mac.Classes.Objects
         }
     }
 }
-

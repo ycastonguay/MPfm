@@ -25,6 +25,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services;
 using MPfm.MVP.Navigation;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.MVP.Presenters
 {
@@ -34,18 +35,24 @@ namespace MPfm.MVP.Presenters
 	public class SyncPresenter : BasePresenter<ISyncView>, ISyncPresenter
 	{
         readonly ISyncDiscoveryService _syncDiscoveryService;
-        readonly MobileNavigationManager _navigationManager;
+        readonly MobileNavigationManager _mobileNavigationManager;
+        readonly NavigationManager _navigationManager;
 	    readonly ISyncDeviceSpecifications _deviceSpecifications;
         List<SyncDevice> _devices = new List<SyncDevice>();
 
-        public SyncPresenter(MobileNavigationManager navigationManager, ISyncDiscoveryService syncDiscoveryService, ISyncDeviceSpecifications deviceSpecifications)
+        public SyncPresenter(ISyncDiscoveryService syncDiscoveryService, ISyncDeviceSpecifications deviceSpecifications)
 		{
-            _navigationManager = navigationManager;
             _deviceSpecifications = deviceSpecifications;
             _syncDiscoveryService = syncDiscoveryService;
             _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
             _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
             _syncDiscoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
+
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
 		}
 
         public override void BindView(ISyncView view)
@@ -88,7 +95,11 @@ namespace MPfm.MVP.Presenters
 
         private void ConnectDevice(SyncDevice device)
         {
-            _navigationManager.CreateSyncMenuView(device);      
+#if IOS || ANDROID
+            _mobileNavigationManager.CreateSyncMenuView(device);
+#else
+            _navigationManager.CreateSyncMenuView(device);
+#endif
         }
 
         private void ConnectDeviceManually(string url)

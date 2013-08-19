@@ -38,6 +38,7 @@ using MPfm.Mac.Classes.Objects;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Delegates;
 using MPfm.Player.Objects;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.Mac
 {
@@ -46,55 +47,22 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
-        public System.Action OnOpenPreferencesWindow { get; set; }
-        public System.Action OnOpenEffectsWindow { get; set; }
-        public System.Action OnOpenPlaylistWindow { get; set; }
-        public System.Action OnOpenSyncWindow { get; set; }
-        public System.Action OnPlayerPlay { get; set; }
-        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
-        public System.Action OnPlayerPause { get; set; }
-        public System.Action OnPlayerStop { get; set; }
-        public System.Action OnPlayerPrevious { get; set; }
-        public System.Action OnPlayerNext { get; set; } 
-        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
-        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
-        public System.Action<float> OnPlayerSetVolume { get; set; }
-        public System.Action<float> OnPlayerSetPosition { get; set; }
-        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
-        
-        public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
-        public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
-        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
-        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
-        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
-        
-        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-        
-		UpdateLibraryWindowController updateLibraryWindowController = null;
-        LibraryBrowserOutlineViewDelegate libraryBrowserOutlineViewDelegate = null;
-		LibraryBrowserDataSource libraryBrowserDataSource = null;
-        SongBrowserTableViewDelegate songBrowserOutlineViewDelegate = null;
-        SongBrowserSource songBrowserSource = null;
-        AlbumCoverSource albumCoverSource = null;
-        AlbumCoverCacheService albumCoverCacheService = null;
+        List<Marker> _markers = new List<Marker>();
+        LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
+		LibraryBrowserDataSource _libraryBrowserDataSource = null;
+        SongBrowserTableViewDelegate _songBrowserOutlineViewDelegate = null;
+        SongBrowserSource _songBrowserSource = null;
+        AlbumCoverSource _albumCoverSource = null;
+        AlbumCoverCacheService _albumCoverCacheService = null;
 
-		//strongly typed window accessor00
-		public new MainWindow Window {
-			get {
-				return (MainWindow)base.Window;
-			}
-		}
-		
-		// Called when created from unmanaged code
 		public MainWindowController(IntPtr handle) 
             : base (handle)
 		{
 		}
 
-		// Call to load from the XIB/NIB file
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
-            this.albumCoverCacheService = new AlbumCoverCacheService();
+            this._albumCoverCacheService = new AlbumCoverCacheService();
             this.Window.AlphaValue = 0;
             this.Window.MakeKeyAndOrderFront(this);
 
@@ -110,11 +78,8 @@ namespace MPfm.Mac
 		public override void WindowDidLoad()
 		{
             base.WindowDidLoad();
-		}
 
-		public override void AwakeFromNib()
-        {
-            Tracing.Log("MainWindowController.AwakeFromNib -- Initializing user interface...");
+            Tracing.Log("MainWindowController.WindowDidLoad -- Initializing user interface...");
             //this.Window.Title = "Sessions " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA";
 
             splitMain.Delegate = new MainSplitViewDelegate();
@@ -128,15 +93,19 @@ namespace MPfm.Mac
             cboSoundFormat.AddItem("WAV");
             cboSoundFormat.AddItem("WV");
 
-            libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
-            outlineLibraryBrowser.Delegate = libraryBrowserOutlineViewDelegate;
+            _libraryBrowserOutlineViewDelegate = new LibraryBrowserOutlineViewDelegate((entity) => { OnTreeNodeSelected(entity); });
+            outlineLibraryBrowser.Delegate = _libraryBrowserOutlineViewDelegate;
             outlineLibraryBrowser.AllowsMultipleSelection = false;
             outlineLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
 
-            songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate();
-            tableSongBrowser.Delegate = songBrowserOutlineViewDelegate;
+            _songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate();
+            tableSongBrowser.Delegate = _songBrowserOutlineViewDelegate;
             tableSongBrowser.AllowsMultipleSelection = true;
             tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
+
+            tableMarkers.WeakDelegate = this;
+            tableMarkers.WeakDataSource = this;
+            tableMarkers.DoubleClick += HandleMarkersDoubleClick;
 
             LoadImages();
             SetTheme();
@@ -150,6 +119,8 @@ namespace MPfm.Mac
 
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
+
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineLibraryBrowser);
 
             OnViewReady.Invoke(this);
 		}
@@ -320,11 +291,12 @@ namespace MPfm.Mac
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_folder-open");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_update");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_stop");
+            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
+            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_stop");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_previous");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_next");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
+            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarShuffle").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_equalizer");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_playlist");
             toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_settings");
@@ -348,7 +320,6 @@ namespace MPfm.Mac
 
 		partial void actionAddFilesToLibrary(NSObject sender)
 		{
-			// Open panel to choose audio files
 			IEnumerable<string> filePaths = null;
 			using(NSOpenPanel openPanel = new NSOpenPanel())
 			{
@@ -358,13 +329,13 @@ namespace MPfm.Mac
 				openPanel.AllowsMultipleSelection = true;
                 openPanel.AllowedFileTypes = new string[]{ "FLAC", "MP3", "OGG", "WAV", "MPC", "WV" };
                 openPanel.Title = "Please select audio files to add to the library";
-				openPanel.Prompt = "Add to library";
+				openPanel.Prompt = "Add files to library";
 				openPanel.RunModal();
 				filePaths = openPanel.Urls.Select(x => x.Path);
 			}
 
 			if(filePaths != null && filePaths.Count() > 0)
-				StartUpdateLibrary(UpdateLibraryMode.SpecificFiles, filePaths.ToList(), null);
+                OnAddFilesToLibrary(filePaths.ToList());
 		}
 
 		partial void actionAddFolderLibrary(NSObject sender)
@@ -377,13 +348,13 @@ namespace MPfm.Mac
 				openPanel.ReleasedWhenClosed = true;
 				openPanel.AllowsMultipleSelection = false;
 				openPanel.Title = "Please select a folder to add to the library";
-				openPanel.Prompt = "Add to library";	
+				openPanel.Prompt = "Add folder to library";	
 				openPanel.RunModal();
 				folderPath = openPanel.Url.Path;
 			}
 
 			if(!String.IsNullOrEmpty(folderPath))
-				StartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, folderPath);
+                OnAddFolderToLibrary(folderPath);
 		}
 
 		partial void actionOpenAudioFiles(NSObject sender)
@@ -408,7 +379,7 @@ namespace MPfm.Mac
 
 		partial void actionUpdateLibrary(NSObject sender)
 		{
-			StartUpdateLibrary(UpdateLibraryMode.WholeLibrary, null, null);
+            OnUpdateLibrary();
 		}
 
         partial void actionSoundFormatChanged(NSObject sender)
@@ -420,17 +391,7 @@ namespace MPfm.Mac
 
 		partial void actionPlay(NSObject sender)
 		{
-            OnPlayerPlay();
-		}
-
-		partial void actionPause(NSObject sender)
-		{
             OnPlayerPause();
-		}
-
-		partial void actionStop(NSObject sender)
-		{
-            OnPlayerStop();
 		}
 
 		partial void actionPrevious(NSObject sender)
@@ -446,6 +407,10 @@ namespace MPfm.Mac
 		partial void actionRepeatType(NSObject sender)
 		{
 		}
+
+        partial void actionShuffle(NSObject sender)
+        {
+        }
 
         partial void actionOpenMainWindow(NSObject sender)
         {
@@ -523,10 +488,15 @@ namespace MPfm.Mac
 
         partial void actionGoToMarker(NSObject sender)
         {
+            if(tableMarkers.SelectedRow == -1)
+                return;
+
+            OnSelectMarker(_markers[tableMarkers.SelectedRow]);
         }
 
         partial void actionAddMarker(NSObject sender)
         {
+            OnAddMarker(MarkerTemplateNameType.Verse);
         }
 
         partial void actionEditMarker(NSObject sender)
@@ -536,34 +506,81 @@ namespace MPfm.Mac
         partial void actionRemoveMarker(NSObject sender)
         {
         }
+
+        partial void actionContextualMenuPlay(NSObject sender)
+        {
+        }
+
+        [Export ("numberOfRowsInTableView:")]
+        public int GetRowCount(NSTableView tableView)
+        {
+            if(tableView.Identifier == "tableMarkers")
+                return _markers.Count;
+
+            return 0;
+        }
+
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            return new NSString();
+        }
+
+        [Export ("tableView:viewForTableColumn:row:")]
+        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            NSTableCellView view;           
+            view = (NSTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+
+            if (tableView.Identifier == "tableMarkers")
+            {
+                if (tableColumn.Identifier.ToString() == "columnMarkerName")
+                    view.TextField.StringValue = _markers[row].Name;
+                else if (tableColumn.Identifier.ToString() == "columnMarkerPosition")
+                    view.TextField.StringValue = _markers[row].Position;
+                else
+                    view.TextField.StringValue = string.Empty;
+            }
+
+            return view;
+        }
+
+        [Export ("outlineViewItemDidExpand")]
+        public void ItemDidExpand(NSNotification notification)
+        {
+            // Check for dummy nodes
+            var item = (LibraryBrowserItem)notification.UserInfo["NSObject"];
+            if (item.SubItems.Count > 0 && item.SubItems[0].Entity.Type == LibraryBrowserEntityType.Dummy)
+            {
+                IEnumerable<LibraryBrowserEntity> entities = OnTreeNodeExpandable(item.Entity);
+                //Console.WriteLine("MainWindowController - ItemDidExpand - dummy node - entities.Count: {0}", entities.Count());
+
+                // Clear subitems (dummy node) and fill with actual nodes
+                item.SubItems.Clear();
+                foreach (LibraryBrowserEntity entity in entities)
+                    item.SubItems.Add(new LibraryBrowserItem(entity));
+
+                outlineLibraryBrowser.ReloadData();
+            }
+        }
+
+        private void HandleMarkersDoubleClick(object sender, EventArgs e)
+        {
+            if (tableMarkers.SelectedRow == -1)
+                return;
+
+            OnSelectMarker(_markers[tableMarkers.SelectedRow]);
+        }
         
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
         {
             if(outlineLibraryBrowser.SelectedRow == -1)
                 return;
 
-            try
-            {
-                // Get selected item and start playback
-                Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Getting library browser item...");
-                LibraryBrowserItem item = (LibraryBrowserItem)outlineLibraryBrowser.ItemAtRow(outlineLibraryBrowser.SelectedRow);
-                Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Calling LibraryBrowserPresenter.TreeNodeDoubleClicked...");
-                if(OnTreeNodeDoubleClicked != null)
-                    OnTreeNodeDoubleClicked.Invoke(item.Entity);
-            } 
-            catch (Exception ex)
-            {
-                // Build text
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("An error occured in the Main Window Controller component (when double-clicking on an item in the Library Browser):");
-                sb.AppendLine(ex.Message);
-                sb.AppendLine();
-                sb.AppendLine(ex.StackTrace);
-
-                // Show alert
-                Tracing.Log(sb.ToString());
-                CocoaHelper.ShowCriticalAlert(sb.ToString());
-            }
+            LibraryBrowserItem item = (LibraryBrowserItem)outlineLibraryBrowser.ItemAtRow(outlineLibraryBrowser.SelectedRow);
+            if(OnTreeNodeDoubleClicked != null)
+                OnTreeNodeDoubleClicked.Invoke(item.Entity);
         }
 
         protected void HandleSongBrowserDoubleClick(object sender, EventArgs e)
@@ -571,34 +588,9 @@ namespace MPfm.Mac
             if (tableSongBrowser.SelectedRow == -1)
                 return;
 
-            try
-            {
-                // Get selected item and start playback
-                AudioFile audioFile = songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
-                if(OnTableRowDoubleClicked != null)
-                    OnTableRowDoubleClicked.Invoke(audioFile);
-            } 
-            catch (Exception ex)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("An error occured in the Main Window Controller component (when double-clicking on an item in the Song Browser):");
-                sb.AppendLine(ex.Message);
-                sb.AppendLine();
-                sb.AppendLine(ex.StackTrace);
-
-                Tracing.Log(sb.ToString());
-                CocoaHelper.ShowCriticalAlert(sb.ToString());
-            }
-        }
-
-        void StartUpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
-        {
-            if(updateLibraryWindowController != null)
-                updateLibraryWindowController.Dispose();
-
-            updateLibraryWindowController = new UpdateLibraryWindowController(this, null);
-            updateLibraryWindowController.Window.MakeKeyAndOrderFront(this);
-            updateLibraryWindowController.StartProcess(mode, filePaths, folderPath);
+            AudioFile audioFile = _songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
+            if(OnTableRowDoubleClicked != null)
+                OnTableRowDoubleClicked.Invoke(audioFile);
         }
 
         public void RefreshAll()
@@ -608,8 +600,37 @@ namespace MPfm.Mac
 
         #region IPlayerView implementation
 
+        public System.Action OnPlayerPlay { get; set; }
+        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public System.Action OnPlayerPause { get; set; }
+        public System.Action OnPlayerStop { get; set; }
+        public System.Action OnPlayerPrevious { get; set; }
+        public System.Action OnPlayerNext { get; set; } 
+        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
+        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
+        public System.Action<float> OnPlayerSetVolume { get; set; }
+        public System.Action<float> OnPlayerSetPosition { get; set; }
+        public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
+            InvokeOnMainThread(() => {
+                switch (status)
+                {
+                    case PlayerStatusType.Initialized:
+                        goto case PlayerStatusType.Paused;
+                    case PlayerStatusType.Stopped:
+                        goto case PlayerStatusType.Paused;
+                    case PlayerStatusType.Paused:
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Play";
+                        break;
+                    case PlayerStatusType.Playing:
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
+                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Pause";
+                        break;
+                }
+            });
         }
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
@@ -652,8 +673,8 @@ namespace MPfm.Mac
                     imageAlbumCover.Image = new NSImage();
                 }
 
-                if(songBrowserSource != null)
-                    songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
+                if(_songBrowserSource != null)
+                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
             });
 		}
 
@@ -686,14 +707,7 @@ namespace MPfm.Mac
         public void PlayerError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("An error occured in the Player component:");
-                sb.AppendLine(ex.Message);
-                sb.AppendLine();
-                sb.AppendLine(ex.StackTrace);
-
-                Tracing.Log(sb.ToString());
-                CocoaHelper.ShowCriticalAlert(sb.ToString());
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Player component: {0}", ex), NSAlertStyle.Critical);
             });
         }
 
@@ -701,13 +715,15 @@ namespace MPfm.Mac
 
 		#region ISongBrowserView implementation
 
+        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
             InvokeOnMainThread(() => {
-                songBrowserSource = new SongBrowserSource(audioFiles);
-                tableSongBrowser.Source = songBrowserSource;
-                albumCoverSource = new AlbumCoverSource(albumCoverCacheService, audioFiles);
-                tableAlbumCovers.Source = albumCoverSource;
+                _songBrowserSource = new SongBrowserSource(audioFiles);
+                tableSongBrowser.Source = _songBrowserSource;
+                _albumCoverSource = new AlbumCoverSource(_albumCoverCacheService, audioFiles);
+                tableAlbumCovers.Source = _albumCoverSource;
             });
 		}
 
@@ -715,11 +731,17 @@ namespace MPfm.Mac
 
 		#region ILibraryBrowserView implementation
 
+        public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
+        public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
+        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
+        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
+        public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
+
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
 		{
             InvokeOnMainThread(() => {
-                libraryBrowserDataSource = new LibraryBrowserDataSource(entities, (entity) => { return this.OnTreeNodeExpandable(entity); });
-    			outlineLibraryBrowser.DataSource = libraryBrowserDataSource;
+                _libraryBrowserDataSource = new LibraryBrowserDataSource(entities, (entity) => { return this.OnTreeNodeExpandable(entity); });
+    			outlineLibraryBrowser.DataSource = _libraryBrowserDataSource;
             });
 		}
 
@@ -729,6 +751,105 @@ namespace MPfm.Mac
 		}
 
 		#endregion
+
+        #region IMainView implementation
+
+        public System.Action OnOpenPreferencesWindow { get; set; }
+        public System.Action OnOpenEffectsWindow { get; set; }
+        public System.Action OnOpenPlaylistWindow { get; set; }
+        public System.Action OnOpenSyncWindow { get; set; }
+        public Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public Action<string> OnAddFolderToLibrary { get; set; }
+        public Action OnUpdateLibrary { get; set; }
+
+        #endregion
+
+        #region IPitchShiftingView implementation
+
+        public Action<int> OnChangeKey { get; set; }
+        public Action<int> OnSetInterval { get; set; }
+        public Action OnResetInterval { get; set; }
+        public Action OnIncrementInterval { get; set; }
+        public Action OnDecrementInterval { get; set; }
+
+        public void PitchShiftingError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the PitchShifting component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshKeys(List<Tuple<int, string>> keys)
+        {
+        }
+
+        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region ITimeShiftingView implementation
+
+        public Action<float> OnSetTimeShifting { get; set; }
+        public Action OnResetTimeShifting { get; set; }
+        public Action OnUseDetectedTempo { get; set; }
+        public Action OnIncrementTempo { get; set; }
+        public Action OnDecrementTempo { get; set; }
+
+        public void TimeShiftingError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the TimeShifting component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region ILoopsView implementation
+
+        public Action OnAddLoop { get; set; }
+        public Action<Loop> OnEditLoop { get; set; }
+
+        public void LoopError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Loops component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
+
+        #region IMarkersView implementation
+
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action<Marker> OnEditMarker { get; set; }
+        public Action<Marker> OnSelectMarker { get; set; }
+
+        public void MarkerError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Markers component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshMarkers(List<Marker> markers)
+        {
+            InvokeOnMainThread(delegate {
+                _markers = markers.ToList();
+                tableMarkers.ReloadData();
+            });
+        }
+
+        #endregion
 
 	}
 }

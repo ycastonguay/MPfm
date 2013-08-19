@@ -80,7 +80,6 @@ namespace MPfm.GTK.Windows
 			this.DefaultWidth = 816;
 			this.DefaultHeight = 303;
 			this.Hide ();
-			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.actionNewPlaylist.Activated += new global::System.EventHandler (this.OnActionNewPlaylistActivated);
 			this.actionOpenPlaylist.Activated += new global::System.EventHandler (this.OnActionOpenPlaylistActivated);
 			this.actionSavePlaylist.Activated += new global::System.EventHandler (this.OnActionSavePlaylistActivated);

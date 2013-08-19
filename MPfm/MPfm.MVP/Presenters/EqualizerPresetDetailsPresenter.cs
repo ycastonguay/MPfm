@@ -38,10 +38,41 @@ namespace MPfm.MVP.Presenters
 
         public EqualizerPresetDetailsPresenter(EQPreset preset, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
-            _preset = preset;
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
+            ChangePreset(preset);
+		}
+
+        public override void BindView(IEqualizerPresetDetailsView view)
+        {
+            base.BindView(view);
+
+            view.OnChangePreset = ChangePreset;
+            view.OnNormalizePreset = NormalizePreset;
+            view.OnResetPreset = ResetPreset;
+            view.OnSavePreset = SavePreset;
+            view.OnSetFaderGain = SetFaderGain;
+            view.OnRevertPreset = RevertPreset;
+
+            _playerService.ApplyEQPreset(_preset);
+            View.RefreshPreset(_preset);
+        }
+
+        public void ChangePreset(Guid equalizerPresetId)
+        {
+            // Only used on desktop devices where the EqualizerPreset and EqualizerPresetDetails are merged into the same view
+            var preset = _libraryService.SelectEQPreset(equalizerPresetId);
+            if (preset == null)
+                return;
+
+            ChangePreset(preset);
+            View.RefreshPreset(preset);
+        }
+
+        public void ChangePreset(EQPreset preset)
+        {
+            _preset = preset;
 
             // Clone band values to make sure we're not dealing with the same instance
             _originalPresetBands = new List<EQPresetBand>();
@@ -54,20 +85,6 @@ namespace MPfm.MVP.Presenters
                     Gain = band.Gain,
                     Q = band.Q
                 });
-		}
-
-        public override void BindView(IEqualizerPresetDetailsView view)
-        {
-            base.BindView(view);
-
-            view.OnNormalizePreset = NormalizePreset;
-            view.OnResetPreset = ResetPreset;
-            view.OnSavePreset = SavePreset;
-            view.OnSetFaderGain = SetFaderGain;
-            view.OnRevertPreset = RevertPreset;
-
-            _playerService.ApplyEQPreset(_preset);
-            View.RefreshPreset(_preset);
         }
 
         public void RevertPreset()
@@ -98,6 +115,145 @@ namespace MPfm.MVP.Presenters
             try
             {
                 // TODO: Take code from Windows
+                //// Declare variables
+                //int highestValue = -30;                     
+                //int value = 0;
+
+                //#region Find highest value
+
+                //// Find the highest and lowest value in the equalizer            
+                //value = fader0.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader1.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader2.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader3.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader4.Value;           
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader5.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader6.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader7.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader8.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader9.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader10.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader11.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader12.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader13.Value;            
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader14.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader15.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader16.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //value = fader17.Value;
+
+                //// Check for high
+                //if (value > highestValue)
+                //    highestValue = value;
+
+                //#endregion
+
+                //// Substract value for every fader
+                //fader0.Value = fader0.Value - highestValue;
+                //fader1.Value = fader1.Value - highestValue;
+                //fader2.Value = fader2.Value - highestValue;
+                //fader3.Value = fader3.Value - highestValue;
+                //fader4.Value = fader4.Value - highestValue;
+                //fader5.Value = fader5.Value - highestValue;
+                //fader6.Value = fader6.Value - highestValue;
+                //fader7.Value = fader7.Value - highestValue;
+                //fader8.Value = fader8.Value - highestValue;
+                //fader9.Value = fader9.Value - highestValue;
+                //fader10.Value = fader10.Value - highestValue;
+                //fader11.Value = fader11.Value - highestValue;
+                //fader12.Value = fader12.Value - highestValue;
+                //fader13.Value = fader13.Value - highestValue;
+                //fader14.Value = fader14.Value - highestValue;
+                //fader15.Value = fader15.Value - highestValue;
+                //fader16.Value = fader16.Value - highestValue;
+                //fader17.Value = fader17.Value - highestValue;
+
+                ////MessageBox.Show("highest: " + highestValue.ToString());
+
                 View.RefreshPreset(_preset);
             }
             catch(Exception ex)
@@ -156,6 +312,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                //Console.WriteLine("EqualizerPresetDetailsPresenter - SetFaderGain - frequency: {0} gain: {1}", frequency, gain);
                 var band = _preset.Bands.FirstOrDefault(x => x.CenterString == frequency);
                 band.Gain = gain;
                 int index = _preset.Bands.IndexOf(band);

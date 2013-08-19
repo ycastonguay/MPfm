@@ -16,56 +16,198 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.MVP.Views;
 using System.Collections.Generic;
-using MPfm.MVP.Models;
+using System.Text;
+using MPfm.GTK.Helpers;
 using MPfm.GTK.Windows;
+using MPfm.Library.Objects;
+using MPfm.MVP.Views;
+using Gtk;
 
 namespace MPfm.GTK
 {
 	public partial class SyncWindow : BaseWindow, ISyncView
 	{
+        Gtk.TreeStore _storeDevices;
+        bool _isDiscovering;
+
 		public SyncWindow(Action<IBaseView> onViewReady) : 
 			base(Gtk.WindowType.Toplevel, onViewReady)
 		{
 			this.Build();
+
+            Title = "Sync Library With Other Devices";
+            InitializeDeviceTreeView();
+
             onViewReady(this);
+            btnRefreshDeviceList.GrabFocus(); // the list view changes color when focused by default. it annoys me!
+            this.Center();
             this.Show();
 		}
 
-		/// <summary>
-		/// Raises the delete event (when the form is closing).
-		/// Prevents the form from closing by hiding it instead.
-		/// </summary>
-		/// <param name='o'>Object</param>
-		/// <param name='args'>Event arguments</param>
-		protected void OnDeleteEvent(object o, Gtk.DeleteEventArgs args)
+		protected override bool OnDeleteEvent(Gdk.Event evnt)
 		{
-			// Prevent window from closing
-			args.RetVal = true;
-			
-			// Hide window instead
-			this.HideAll();
+            OnCancelDiscovery();
+            return base.OnDeleteEvent(evnt);
 		}
 
-		protected void OnSyncRefreshDeviceList(object sender, EventArgs e)
+        private void InitializeDeviceTreeView()
         {
-            OnRefreshDevices();
+            _storeDevices = new Gtk.TreeStore(typeof(SyncDevice));
+            treeViewDevices.ShowExpanders = false;
+            treeViewDevices.HeadersVisible = false;
+
+            // Create title column
+            Gtk.TreeViewColumn colTitle = new Gtk.TreeViewColumn();
+            Gtk.CellRendererPixbuf cellPixbuf = new Gtk.CellRendererPixbuf();
+            Gtk.CellRendererText cellTitle = new Gtk.CellRendererText();
+            colTitle.PackStart(cellPixbuf, false);
+            colTitle.PackStart(cellTitle, true);
+            colTitle.SetCellDataFunc(cellPixbuf, new Gtk.TreeCellDataFunc(RenderDeviceCell));
+            colTitle.SetCellDataFunc(cellTitle, new Gtk.TreeCellDataFunc(RenderDeviceCell));
+            treeViewDevices.AppendColumn(colTitle);
+        }
+
+        private void RefreshDeviceListButton()
+        {
+            if (_isDiscovering)
+            {
+                btnRefreshDeviceList.Image = new Gtk.Image(Stock.Cancel, IconSize.SmallToolbar);
+                btnRefreshDeviceList.Label = "Cancel refresh";
+            } 
+            else
+            {
+                btnRefreshDeviceList.Image = new Gtk.Image(Stock.Refresh, IconSize.SmallToolbar);
+                btnRefreshDeviceList.Label = "Refresh devices";
+            }
+        }
+        
+        private void RenderDeviceCell(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+        {
+            //Console.WriteLine("SyncWindow - RenderDeviceCell");
+            SyncDevice device = (SyncDevice)model.GetValue(iter, 0);
+
+            if (cell is Gtk.CellRendererText)
+            {
+                (cell as Gtk.CellRendererText).Text = device.Name;
+            }
+            else if (cell is Gtk.CellRendererPixbuf)
+            {
+                var cellPixbuf = (Gtk.CellRendererPixbuf)cell;
+                Gdk.Pixbuf pixbuf = null;
+                switch (device.DeviceType)
+                {
+                    case SyncDeviceType.Linux:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_linux.png");
+                        break;
+                    case SyncDeviceType.OSX:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_osx.png");
+                        break;
+                    case SyncDeviceType.Windows:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_windows.png");
+                        break;
+                    case SyncDeviceType.iOS:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_phone.png");
+                        break;
+                    case SyncDeviceType.Android:
+                        pixbuf = ResourceHelper.GetEmbeddedImageResource("icon_android.png");
+                        break;
+                }
+
+                if(pixbuf != null)
+                    cellPixbuf.Pixbuf = pixbuf;
+            }
+        }
+
+        protected void OnClickRefreshDeviceList(object sender, EventArgs e)
+        {
+            if(_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();
+        }        
+
+        protected void OnClickConnectManual(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void OnClickConnect(object sender, EventArgs e)
+        {
+            TreeModel model;
+            TreeIter iter;  
+            if(treeViewDevices.Selection.GetSelected(out model, out iter))
+            {
+                SyncDevice device = (SyncDevice)_storeDevices.GetValue(iter, 0);                              
+                OnConnectDevice(device);
+            }
         }
 
         #region ISyncView implementation
 
-        public System.Action OnRefreshDevices { get; set; }
+        public Action<SyncDevice> OnConnectDevice { get; set; }
+        public Action<string> OnConnectDeviceManually { get; set; }
+        public System.Action OnStartDiscovery { get; set; }
+        public System.Action OnCancelDiscovery { get; set; }
 
-        public void RefreshDevices(IEnumerable<MPfm.MVP.Models.SyncDeviceEntity> devices)
+        public void SyncError(Exception ex)
         {
+            Gtk.Application.Invoke(delegate{            
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("An error occured in the Sync component:");
+                sb.AppendLine(ex.Message);
+                sb.AppendLine();
+                sb.AppendLine(ex.StackTrace);                                                               
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, sb.ToString());
+                md.Run();
+                md.Destroy();
+            });
         }
 
-        public void SyncDevice(SyncDeviceEntity device)
+        public void RefreshIPAddress(string address)
+        {
+            Gtk.Application.Invoke(delegate{
+                lblSubtitle.Text = address;
+            });
+        }
+
+        public void RefreshDiscoveryProgress(float percentageDone, string status)
+        {
+            Gtk.Application.Invoke(delegate{
+                if(!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    RefreshDeviceListButton();
+                }
+                progressBar.Fraction = percentageDone / 100f;
+            });
+        }
+
+        public void RefreshDevices(IEnumerable<SyncDevice> devices)
+        {
+            Gtk.Application.Invoke(delegate{
+                Console.WriteLine("SyncWindow - RefreshDevices");
+                _storeDevices.Clear();
+                
+                foreach(SyncDevice device in devices)
+                    _storeDevices.AppendValues(device);
+                            
+                treeViewDevices.Model = _storeDevices;
+            });
+        }
+
+        public void RefreshDevicesEnded()
+        {
+            Gtk.Application.Invoke(delegate{
+                _isDiscovering = false;
+                RefreshDeviceListButton();
+            });
+        }
+
+        public void SyncDevice(SyncDevice device)
         {
         }
 
         #endregion
-
 	}
 }

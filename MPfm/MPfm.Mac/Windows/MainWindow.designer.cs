@@ -15,79 +15,79 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTableView tableAlbumCovers { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewAlbumCovers { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewAlbumCovers { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewLibraryBrowser { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewLibraryBrowser { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewSongBrowser { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewSongBrowser { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewTimeShifting { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewTimeShifting { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewSongPosition { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewSongPosition { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewInformation { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewInformation { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewVolume { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewVolume { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSOutlineView outlineLibraryBrowser { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewLeftHeader { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewLeftHeader { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewRightHeader { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewRightHeader { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewNowPlaying { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewNowPlaying { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewLibraryBrowser { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewLibraryBrowser { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewLeft { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewLeft { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewRight { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewRight { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewPitchShifting { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewPitchShifting { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnStopLoop { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnStopLoop { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnAddLoop { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnAddLoop { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnEditLoop { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnEditLoop { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnRemoveLoop { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveLoop { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnGoToMarker { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnGoToMarker { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnAddMarker { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnAddMarker { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnEditMarker { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnEditMarker { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableLoops { get; set; }
@@ -138,7 +138,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSSplitView splitMain { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmSongPositionSlider sliderPosition { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmSongPositionSlider sliderPosition { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLength { get; set; }
@@ -204,13 +204,13 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField txtPitchShiftingValue { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewLoopsHeader { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewLoopsHeader { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewMarkersHeader { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewMarkersHeader { get; set; }
 
 		[Outlet]
-        MPfm.Mac.Classes.Controls.MPfmView viewSongBrowserHeader { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewSongBrowserHeader { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblDetectedTempo { get; set; }
@@ -251,12 +251,6 @@ namespace MPfm.Mac
 		[Action ("actionPlay:")]
 		partial void actionPlay (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionPause:")]
-		partial void actionPause (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionStop:")]
-		partial void actionStop (MonoMac.Foundation.NSObject sender);
-
 		[Action ("actionPrevious:")]
 		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
 
@@ -265,6 +259,9 @@ namespace MPfm.Mac
 
 		[Action ("actionRepeatType:")]
 		partial void actionRepeatType (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionShuffle:")]
+		partial void actionShuffle (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionOpenMainWindow:")]
 		partial void actionOpenMainWindow (MonoMac.Foundation.NSObject sender);
@@ -325,6 +322,9 @@ namespace MPfm.Mac
 
 		[Action ("actionRemoveMarker:")]
 		partial void actionRemoveMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionContextualMenuPlay:")]
+		partial void actionContextualMenuPlay (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{

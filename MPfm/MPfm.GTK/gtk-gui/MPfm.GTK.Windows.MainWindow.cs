@@ -226,7 +226,7 @@ namespace MPfm.GTK.Windows
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vboxMain.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><separator/><toolitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><separator/><separator/><toolitem name='actionPlay' action='actionPlay'/><toolitem name='actionPause' action='actionPause'/><toolitem name='actionStop' action='actionStop'/><toolitem name='actionPrevious' action='actionPrevious'/><toolitem name='actionNext' action='actionNext'/><toolitem name='actionRepeatType' action='actionRepeatType'/><separator/><toolitem name='actionPlaylist' action='actionPlaylist'/><toolitem name='actionEffects' action='actionEffects'/><toolitem name='actionSettings' action='actionSettings'/><separator/><toolitem name='connectAction' action='connectAction'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='openAction' action='openAction'/><separator/><toolitem name='actionPlay' action='actionPlay'/><toolitem name='actionPrevious' action='actionPrevious'/><toolitem name='actionNext' action='actionNext'/><toolitem name='actionRepeatType' action='actionRepeatType'/><separator/><toolitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><toolitem name='actionPlaylist' action='actionPlaylist'/><toolitem name='actionEffects' action='actionEffects'/><toolitem name='connectAction' action='connectAction'/><toolitem name='actionSettings' action='actionSettings'/></toolbar></ui>");
 			this.toolbarMain = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMain")));
 			this.toolbarMain.Name = "toolbarMain";
 			this.toolbarMain.ShowArrow = false;
@@ -880,7 +880,7 @@ namespace MPfm.GTK.Windows
 			w66.Expand = false;
 			w66.Fill = false;
 			// Container child hbox9.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMarkers'><toolitem name='actionGoToMarker' action='actionGoToMarker'/><toolitem name='actionAddMarker' action='actionAddMarker'/><toolitem name='actionRemoveMarker' action='actionRemoveMarker'/><toolitem name='actionEditMarker' action='actionEditMarker'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMarkers'><toolitem name='actionGoToMarker' action='actionGoToMarker'/><toolitem name='actionAddMarker' action='actionAddMarker'/><toolitem name='actionEditMarker' action='actionEditMarker'/><toolitem name='actionRemoveMarker' action='actionRemoveMarker'/></toolbar></ui>");
 			this.toolbarMarkers = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMarkers")));
 			this.toolbarMarkers.Name = "toolbarMarkers";
 			this.toolbarMarkers.ShowArrow = false;
@@ -1000,8 +1000,13 @@ namespace MPfm.GTK.Windows
 			this.actionSettings.Activated += new global::System.EventHandler (this.OnActionSettingsActivated);
 			this.actionEffects.Activated += new global::System.EventHandler (this.OnActionEffectsActivated);
 			this.actionPlaylist.Activated += new global::System.EventHandler (this.OnActionPlaylistActivated);
+			this.actionAddMarker.Activated += new global::System.EventHandler (this.OnActionAddMarkerActivated);
+			this.actionRemoveMarker.Activated += new global::System.EventHandler (this.OnActionDeleteMarkerActivated);
+			this.actionEditMarker.Activated += new global::System.EventHandler (this.OnActionEditMarkerActivated);
+			this.actionGoToMarker.Activated += new global::System.EventHandler (this.OnActionGoToMarkerActivated);
 			this.actionAddFiles.Activated += new global::System.EventHandler (this.OnActionAddFilesActivated);
 			this.actionAddFolder.Activated += new global::System.EventHandler (this.OnActionAddFolderActivated);
+			this.actionPlayLoop.Activated += new global::System.EventHandler (this.OnActionPlayLoopActivated);
 			this.connectAction.Activated += new global::System.EventHandler (this.OnActionSyncLibrary);
 			this.cboSoundFormat.Changed += new global::System.EventHandler (this.OnSoundFormatChanged);
 			this.treeLibraryBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeLibraryBrowserRowActivated);
@@ -1012,6 +1017,7 @@ namespace MPfm.GTK.Windows
 			this.hscaleSongPosition.ButtonReleaseEvent += new global::Gtk.ButtonReleaseEventHandler (this.OnHscaleSongPositionButtonReleaseEvent);
 			this.hscaleTimeShifting.ValueChanged += new global::System.EventHandler (this.OnTimeShiftingValueChanged);
 			this.vscaleVolume.ValueChanged += new global::System.EventHandler (this.OnVolumeValueChanged);
+			this.treeMarkers.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeMarkersRowActivated);
 			this.treeSongBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeSongBrowserRowActivated);
 		}
 	}

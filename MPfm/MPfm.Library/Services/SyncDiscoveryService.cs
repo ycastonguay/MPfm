@@ -104,7 +104,7 @@ namespace MPfm.Library.Services
             _cancellationTokenSource = new CancellationTokenSource();
             ParallelOptions parallelOptions = new ParallelOptions();
             parallelOptions.CancellationToken = _cancellationTokenSource.Token;
-            parallelOptions.MaxDegreeOfParallelism = System.Environment.ProcessorCount;            
+            parallelOptions.MaxDegreeOfParallelism = System.Environment.ProcessorCount * 2;            
             _currentTask = Task.Factory.StartNew(() => {
                 try
                 {
@@ -125,7 +125,7 @@ namespace MPfm.Library.Services
 
                         try
                         {
-                            Console.WriteLine("SyncDiscoveryService - Pinging {0}...", ips[index]);
+                            //Console.WriteLine("SyncDiscoveryService - Pinging {0}...", ips[index]);
                             WebClientTimeout client = new WebClientTimeout(800);
                             string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port));
 

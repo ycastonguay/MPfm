@@ -28,26 +28,33 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.MVP.Presenters
 {
 	public class EqualizerPresetsPresenter : BasePresenter<IEqualizerPresetsView>, IEqualizerPresetsPresenter
 	{
-        readonly MobileNavigationManager _navigationManager;
+        readonly NavigationManager _navigationManager;
+        readonly MobileNavigationManager _mobileNavigationManager;
         readonly ITinyMessengerHub _messageHub;
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
         Timer _timerOutputMeter;
 
-        public EqualizerPresetsPresenter(MobileNavigationManager navigationManager, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
+        public EqualizerPresetsPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
-            _navigationManager = navigationManager;
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
             _timerOutputMeter = new Timer();         
             _timerOutputMeter.Interval = 40;
             _timerOutputMeter.Elapsed += HandleOutputMeterTimerElapsed;
+
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
 		}
 
         public override void BindView(IEqualizerPresetsView view)
@@ -130,7 +137,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _navigationManager.CreateEqualizerPresetDetailsView(View, new EQPreset());
+                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, new EQPreset());
             }
             catch(Exception ex)
             {
@@ -162,7 +169,7 @@ namespace MPfm.MVP.Presenters
                 if(preset == null)
                     return;
 
-                _navigationManager.CreateEqualizerPresetDetailsView(View, preset);
+                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, preset);
             }
             catch(Exception ex)
             {

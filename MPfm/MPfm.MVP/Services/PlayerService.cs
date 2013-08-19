@@ -64,7 +64,6 @@ namespace MPfm.MVP.Services
 
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
         {
-            // Initialize player
             _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);
             _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;

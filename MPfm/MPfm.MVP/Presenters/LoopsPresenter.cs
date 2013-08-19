@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
@@ -27,16 +28,20 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class LoopsPresenter : BasePresenter<ILoopsView>, ILoopsPresenter
 	{
-        readonly MobileNavigationManager _navigationManager;
+        readonly MobileNavigationManager _mobileNavigationManager;
+        readonly NavigationManager _navigationManager;
 
-        public LoopsPresenter(MobileNavigationManager navigationManager)
+        public LoopsPresenter()
 		{
-            _navigationManager = navigationManager;
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
 		}
 
         public override void BindView(ILoopsView view)
         {            
-            // Subscribe to view actions
             view.OnAddLoop = OnAddLoop;
             view.OnEditLoop = OnEditLoop;
 
@@ -45,8 +50,12 @@ namespace MPfm.MVP.Presenters
 
         private void CreateLoopDetailsView()
         {
-            var view = _navigationManager.CreateLoopDetailsView();
-            _navigationManager.PushDialogView("Loop Details", View, view);
+#if IOS || ANDROID
+            var view = _mobileNavigationManager.CreateLoopDetailsView();
+            _mobileNavigationManager.PushDialogView("Loop Details", View, view);
+#else
+            string a = string.Empty;
+#endif
         }
 
         private void OnAddLoop()

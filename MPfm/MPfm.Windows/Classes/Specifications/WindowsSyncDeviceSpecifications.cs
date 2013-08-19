@@ -15,8 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.IO;
 using MPfm.Library;
 using MPfm.Library.Objects;
+using MPfm.Library.Services;
 
 namespace MPfm.Windows.Classes.Specifications
 {
@@ -25,6 +28,8 @@ namespace MPfm.Windows.Classes.Specifications
     /// </summary>
     public class WindowsSyncDeviceSpecifications : ISyncDeviceSpecifications
     {
+        public event NetworkStateChanged OnNetworkStateChanged;
+
         public SyncDeviceType GetDeviceType()
         {
             return SyncDeviceType.Windows;
@@ -33,12 +38,38 @@ namespace MPfm.Windows.Classes.Specifications
         string _deviceName = string.Empty;
         public string GetDeviceName()
         {
+            _deviceName = System.Environment.MachineName;
             return _deviceName;
         }
 
         public long GetFreeSpace()
         {
+            string root = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
+            //Console.WriteLine("MacSyncDeviceSpecifications - GetFreeSpace - My music folder: {0} - Root: {1}", Environment.GetFolderPath(Environment.SpecialFolder.MyMusic), root);
+            foreach (DriveInfo drive in DriveInfo.GetDrives())
+            {
+                //Console.WriteLine("MacSyncDeviceSpecifications - GetFreeSpace - DriveInfo name: {0} driveType: {1} driveFormat: {2} totalFreeSpace: {3} availableFreeSpace: {4} isReady: {5} rootDirectory: {6}", drive.Name, drive.DriveType.ToString(), drive.DriveFormat.ToString(), drive.TotalFreeSpace, drive.AvailableFreeSpace, drive.IsReady, drive.RootDirectory);
+                if (drive.RootDirectory.Name == root)
+                    return drive.AvailableFreeSpace;
+            }
+
             return 0;
+        }
+
+        public string GetIPAddress()
+        {
+            return SyncListenerService.GetLocalIPAddress().ToString();
+        }
+
+        public string GetMusicFolderPath()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        }
+
+        public void ReportNetworkStateChange(NetworkState networkState)
+        {
+            if (OnNetworkStateChanged != null)
+                OnNetworkStateChanged(networkState);
         }
     }
 }

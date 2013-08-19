@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using System;
 
 namespace MPfm.MVP.Presenters
 {
@@ -27,50 +28,60 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class MainPresenter : BasePresenter<IMainView>, IMainPresenter
 	{
-        readonly NavigationManager navigationManager;
-        
-		#region Constructor and Dispose
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MPfm.MVP.EffectsPresenter"/> class.
-        /// </summary>
-        /// <param name='playerService'>
-        /// Player service.
-        /// </param>
+		readonly NavigationManager _navigationManager;
+		
 		public MainPresenter(NavigationManager navigationManager)
 		{
-            this.navigationManager = navigationManager;          
+			_navigationManager = navigationManager;          
+		}
+		
+		public override void BindView(IMainView view)
+		{            
+			view.OnOpenPlaylistWindow = OpenPlaylistWindow;
+			view.OnOpenEffectsWindow = OpenEffectsWindow;
+			view.OnOpenPreferencesWindow = OpenPreferencesWindow;
+			view.OnOpenSyncWindow = OpenSyncWindow;
+			view.OnAddFilesToLibrary = AddFilesToLibrary;
+            view.OnAddFolderToLibrary = AddFolderToLibrary;
+            view.OnUpdateLibrary = UpdateLibrary;
+
+			base.BindView(view);
 		}
 
-		#endregion
-        
-        public override void BindView(IMainView view)
-        {            
-            view.OnOpenPlaylistWindow = OpenPlaylistWindow;
-            view.OnOpenEffectsWindow = OpenEffectsWindow;
-            view.OnOpenPreferencesWindow = OpenPreferencesWindow;
-            view.OnOpenSyncWindow = OpenSyncWindow;
+	    void OpenPlaylistWindow()
+		{
+			_navigationManager.CreatePlaylistView();
+		}
 
-            base.BindView(view);
-        }
-        
-        void OpenPlaylistWindow()
+		void OpenEffectsWindow()
+		{
+			_navigationManager.CreateEffectsView();
+		}
+
+		void OpenPreferencesWindow()
+		{
+			_navigationManager.CreatePreferencesView();
+		}
+
+		void OpenSyncWindow()
+		{
+			_navigationManager.CreateSyncView();
+		}
+
+        void AddFolderToLibrary(string folderPath)
         {
+            _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFolder, null, folderPath);
         }
 
-        void OpenEffectsWindow()
+        void AddFilesToLibrary(List<string> filePaths)
         {
+            _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFiles, filePaths, null);
         }
 
-        void OpenPreferencesWindow()
+        void UpdateLibrary()
         {
-            navigationManager.CreatePreferencesView();
+            _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);
         }
-
-        void OpenSyncWindow()
-        {
-            navigationManager.CreateSyncView();
-        }        
-    }
+	}
 }
 

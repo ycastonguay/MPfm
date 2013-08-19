@@ -36,6 +36,11 @@ namespace MPfm.GTK.Windows
 		{
 			this.OnViewReady = onViewReady;
 		}
+
+        protected void Center()
+        {
+            Move((Screen.Width - DefaultSize.Width) / 2, (Screen.Height - DefaultSize.Height) / 2);            
+        }
 		
 		protected override bool OnDeleteEvent(Gdk.Event evnt)
 		{

@@ -55,9 +55,9 @@ namespace MPfm.Mac.Classes.Navigation
             return view;
         }
         
-        public override IPreferencesView CreatePreferencesView()
+        public override IDesktopPreferencesView CreatePreferencesView()
         {
-            IPreferencesView view = null;
+            IDesktopPreferencesView view = null;
             using (var pool = new NSAutoreleasePool())
             {
                 pool.InvokeOnMainThread(delegate {

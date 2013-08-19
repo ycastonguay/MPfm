@@ -156,19 +156,19 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnNext_Click(object sender, EventArgs e)
         {     
-            // Get selected driver
-            DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
+            //// Get selected driver
+            //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
 
-            // Get selected device
-            Device device = (Device)cboOutputDevices.SelectedItem;
+            //// Get selected device
+            //Device device = (Device)cboOutputDevices.SelectedItem;
 
-            // Save configuration            
-            Main.Config.Audio.Device = device;
-            Main.Config.Audio.DriverType = driver.DriverType;            
+            //// Save configuration            
+            //Main.Config.Audio.Device = device;
+            //Main.Config.Audio.DriverType = driver.DriverType;            
 
-            int frequency = 44100;
-            int.TryParse(cboSampleRate.Text, out frequency);
-            Main.Config.Audio.Mixer.Frequency = frequency;
+            //int frequency = 44100;
+            //int.TryParse(cboSampleRate.Text, out frequency);
+            //Main.Config.Audio.Mixer.Frequency = frequency;
 
             // Close wizard
             DialogResult = System.Windows.Forms.DialogResult.OK;

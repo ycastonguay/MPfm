@@ -62,6 +62,11 @@ namespace MPfm.Mac.Classes.Delegates
                 OnTreeNodeSelected.Invoke(item.Entity);
         }
 
+        public override void ItemDidExpand(NSNotification notification)
+        {
+            // TODO: Move the code for ItemExpandable here (i.e. the code that fetches the artist's album)
+        }
+
         [Export("outlineView:viewForTableColumn:item:")]
         public NSView GetViewForItem(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
         {

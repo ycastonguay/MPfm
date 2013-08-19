@@ -203,6 +203,17 @@
     <Compile Include="Classes\Controls\MPfmSongPositionSlider.cs" />
     <Compile Include="Classes\Delegates\SongBrowserSource.cs" />
     <Compile Include="Windows\Controllers\MainWindowController.cs" />
+    <Compile Include="Windows\Controllers\SyncMenuWindowController.cs" />
+    <Compile Include="Windows\SyncMenuWindow.cs" />
+    <Compile Include="Windows\SyncMenuWindow.designer.cs">
+      <DependentUpon>SyncMenuWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SyncDownloadWindowController.cs" />
+    <Compile Include="Windows\SyncDownloadWindow.cs" />
+    <Compile Include="Windows\SyncDownloadWindow.designer.cs">
+      <DependentUpon>SyncDownloadWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Objects\SyncMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -216,6 +227,8 @@
     <InterfaceDefinition Include="Windows\XIB\EditLoopWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\EditMarkerWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncMenuWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncDownloadWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -397,5 +410,45 @@
       <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
       <Name>MPfm.Player</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_button_cancel.png" />
+    <BundleResource Include="Resources\icon_button_cancel%402x.png" />
+    <BundleResource Include="Resources\icon_button_connect.png" />
+    <BundleResource Include="Resources\icon_button_connect%402x.png" />
+    <BundleResource Include="Resources\icon_button_download.png" />
+    <BundleResource Include="Resources\icon_button_download%402x.png" />
+    <BundleResource Include="Resources\icon_button_refresh.png" />
+    <BundleResource Include="Resources\icon_button_refresh%402x.png" />
+    <BundleResource Include="Resources\icon_linux.png" />
+    <BundleResource Include="Resources\icon_linux%402x.png" />
+    <BundleResource Include="Resources\icon_osx.png" />
+    <BundleResource Include="Resources\icon_osx%402x.png" />
+    <BundleResource Include="Resources\icon_phone.png" />
+    <BundleResource Include="Resources\icon_phone%402x.png" />
+    <BundleResource Include="Resources\icon_tablet.png" />
+    <BundleResource Include="Resources\icon_tablet%402x.png" />
+    <BundleResource Include="Resources\icon_user.png" />
+    <BundleResource Include="Resources\icon_user%402x.png" />
+    <BundleResource Include="Resources\icon_vinyl.png" />
+    <BundleResource Include="Resources\icon_vinyl%402x.png" />
+    <BundleResource Include="Resources\icon_windows.png" />
+    <BundleResource Include="Resources\icon_windows%402x.png" />
+    <BundleResource Include="Resources\icon_android.png" />
+    <BundleResource Include="Resources\icon_android%402x.png" />
+    <BundleResource Include="Resources\icon_song.png" />
+    <BundleResource Include="Resources\icon_song%402x.png" />
+    <BundleResource Include="Resources\icon_artists.png" />
+    <BundleResource Include="Resources\icon_artists%402x.png" />
+    <BundleResource Include="Resources\icon_button_add.png" />
+    <BundleResource Include="Resources\icon_button_add%402x.png" />
+    <BundleResource Include="Resources\icon_button_delete.png" />
+    <BundleResource Include="Resources\icon_button_delete%402x.png" />
+    <BundleResource Include="Resources\icon_button_save.png" />
+    <BundleResource Include="Resources\icon_button_save%402x.png" />
+    <BundleResource Include="Resources\icon_button_reset%402x.png" />
+    <BundleResource Include="Resources\icon_button_reset.png" />
+    <BundleResource Include="Resources\icon_button_speaker.png" />
+    <BundleResource Include="Resources\icon_button_speaker%402x.png" />
   </ItemGroup>
 </Project>
