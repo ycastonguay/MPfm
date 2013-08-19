@@ -23,7 +23,7 @@ namespace MPfm.MVP.Views
 	/// <summary>
 	/// Splash screen view interface.
 	/// </summary>
-    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, ILoopsView
+    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, ILoopsView, ITimeShiftingView, IPitchShiftingView
 	{
         Action OnOpenPreferencesWindow { get; set; }
         Action OnOpenEffectsWindow { get; set; }

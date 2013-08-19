@@ -2391,6 +2391,15 @@ namespace MPfm.Windows.Classes.Forms
 
         public void MarkerError(Exception ex)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                MessageBox.Show(string.Format("An error occured in Markers: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshMarkers(List<Marker> markers)
@@ -2403,11 +2412,79 @@ namespace MPfm.Windows.Classes.Forms
 
         public Action OnAddLoop { get; set; }
         public Action<Loop> OnEditLoop { get; set; }
+        
         public void LoopError(Exception ex)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                MessageBox.Show(string.Format("An error occured in Loops: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
+
+        #region ITimeShiftingView implementation
+
+        public Action<float> OnSetTimeShifting { get; set; }
+        public Action OnResetTimeShifting { get; set; }
+        public Action OnUseDetectedTempo { get; set; }
+        public Action OnIncrementTempo { get; set; }
+        public Action OnDecrementTempo { get; set; }
+
+        public void TimeShiftingError(Exception ex)
+        {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                MessageBox.Show(string.Format("An error occured in TimeShifting: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
+        }
+
+        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region IPitchShiftingView implementation
+
+        public Action<int> OnChangeKey { get; set; }
+        public Action<int> OnSetInterval { get; set; }
+        public Action OnResetInterval { get; set; }
+        public Action OnIncrementInterval { get; set; }
+        public Action OnDecrementInterval { get; set; }
+
+        public void PitchShiftingError(Exception ex)
+        {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                MessageBox.Show(string.Format("An error occured in PitchShifting: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
+        }
+
+        public void RefreshKeys(List<Tuple<int, string>> keys)
+        {
+        }
+
+        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
         {
         }
 

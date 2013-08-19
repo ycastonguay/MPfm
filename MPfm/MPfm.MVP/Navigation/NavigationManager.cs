@@ -42,6 +42,8 @@ namespace MPfm.MVP.Navigation
         ISongBrowserPresenter _songBrowserPresenter;
         IMarkersPresenter _markersPresenter;
         ILoopsPresenter _loopsPresenter;
+        ITimeShiftingPresenter _timeShiftingPresenter;
+        IPitchShiftingPresenter _pitchShiftingPresenter;
 
         IDesktopPreferencesView _preferencesView;
         IAudioPreferencesPresenter _audioPreferencesPresenter;
@@ -104,6 +106,10 @@ namespace MPfm.MVP.Navigation
                 _markersPresenter.BindView((IMarkersView)view);
                 _loopsPresenter = Bootstrapper.GetContainer().Resolve<ILoopsPresenter>();
                 _loopsPresenter.BindView((ILoopsView)view);
+                _timeShiftingPresenter = Bootstrapper.GetContainer().Resolve<ITimeShiftingPresenter>();
+                _timeShiftingPresenter.BindView((ITimeShiftingView)view);
+                _pitchShiftingPresenter = Bootstrapper.GetContainer().Resolve<IPitchShiftingPresenter>();
+                _pitchShiftingPresenter.BindView((IPitchShiftingView)view);
             };            
             _mainView = Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _mainView.OnViewDestroy = (view) => {
@@ -115,6 +121,8 @@ namespace MPfm.MVP.Navigation
                 _songBrowserPresenter = null;
                 _markersPresenter = null;
                 _loopsPresenter = null;
+                _timeShiftingPresenter = null;
+                _pitchShiftingPresenter = null;
             };
             return _mainView;
         }

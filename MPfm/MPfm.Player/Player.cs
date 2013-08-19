@@ -1742,7 +1742,7 @@ namespace MPfm.Player
 
         protected void AddBPMCallbacks()
         {
-            Console.WriteLine("Player - AddBPMCallbacks - Adding callback...");
+            //Console.WriteLine("Player - AddBPMCallbacks - Adding callback...");
 
             //BaseFx.BPM_CallbackSet(_fxChannel.Handle, _bpmProc, 2.0, Utils.MakeLong(70, 180), BASSFXBpm.BASS_FX_BPM_MULT2, IntPtr.Zero);
             //BaseFx.BPM_BeatCallbackSet(_fxChannel.Handle, _bpmBeatProc, IntPtr.Zero);
