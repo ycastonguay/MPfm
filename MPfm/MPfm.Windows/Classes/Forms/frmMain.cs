@@ -917,45 +917,6 @@ namespace MPfm.Windows.Classes.Forms
         }
 
         /// <summary>
-        /// Refreshes the Markers grid view.
-        /// </summary>
-        public void RefreshMarkers()
-        {
-            //// Clear items
-            //viewMarkers.Items.Clear();
-
-            //// Set marker buttons
-            //btnEditMarker.Enabled = false;
-            //btnRemoveMarker.Enabled = false;
-            //btnGoToMarker.Enabled = false;
-
-            //// Check if a song is currently playing
-            //if (!Player.IsPlaying)
-            //{
-            //    // Reset buttons
-            //    btnAddMarker.Enabled = false;
-            //    return;
-            //}
-
-            //// Set button
-            //btnAddMarker.Enabled = true;
-
-            //// Fetch markers from database
-            //List<Marker> markers = Library.Facade.SelectMarkers(Player.Playlist.CurrentItem.AudioFile.Id);
-
-            //// Update grid view
-            //foreach (Marker marker in markers)
-            //{
-            //    // Create grid view item
-            //    ListViewItem item = viewMarkers.Items.Add(marker.Name);
-            //    item.Tag = marker.MarkerId;
-            //    item.SubItems.Add(marker.Position);
-            //    item.SubItems.Add(marker.Comments);
-            //    item.SubItems.Add(marker.PositionBytes.ToString());
-            //}
-        }
-
-        /// <summary>
         /// Refreshes the Loops grid view.
         /// </summary>
         public void RefreshLoops()
@@ -1262,22 +1223,22 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="data">Event data</param>
         private void viewSongs2_OnSelectedIndexChanged(SongGridViewSelectedIndexChangedData data)
         {
-            // Check if a selection has been made
-            bool enabled = viewSongs2.SelectedItems.Count != 0;
+            //// Check if a selection has been made
+            //bool enabled = viewSongs2.SelectedItems.Count != 0;
 
-            // Set buttons
-            if (btnPlaySelectedSong.Enabled != enabled)
-                btnPlaySelectedSong.Enabled = enabled;
-            if (btnEditSongMetadata.Enabled != enabled)
-                btnEditSongMetadata.Enabled = enabled;
-            if (btnAddSongToPlaylist.Enabled != enabled)
-                btnAddSongToPlaylist.Enabled = enabled;
+            //// Set buttons
+            //if (btnPlaySelectedSong.Enabled != enabled)
+            //    btnPlaySelectedSong.Enabled = enabled;
+            //if (btnEditSongMetadata.Enabled != enabled)
+            //    btnEditSongMetadata.Enabled = enabled;
+            //if (btnAddSongToPlaylist.Enabled != enabled)
+            //    btnAddSongToPlaylist.Enabled = enabled;
 
-            // Set selected song in config
-            if (viewSongs2.SelectedItems.Count > 0)
-            {                
-                //Config.Controls.SongGridView.Query.AudioFileId = viewSongs2.SelectedItems[0].AudioFile.Id;
-            }
+            //// Set selected song in config
+            //if (viewSongs2.SelectedItems.Count > 0)
+            //{                
+            //    //Config.Controls.SongGridView.Query.AudioFileId = viewSongs2.SelectedItems[0].AudioFile.Id;
+            //}
         }
 
         /// <summary>
@@ -1647,14 +1608,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnAddMarker_Click(object sender, EventArgs e)
         {
-            //// Check if the wave data is loaded
-            //if (waveFormMarkersLoops.WaveDataHistory.Count > 0)
-            //{
-            //    // Create window and show as dialog                
-            //    formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Add, Player.Playlist.CurrentItem.AudioFile, Guid.Empty);
-            //    formAddEditMarker.toolTip.Active = Config.GetKeyValueGeneric<bool>("ShowTooltips").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTooltips").Value : true;
-            //    formAddEditMarker.ShowDialog(this);
-            //}
+            OnAddMarker(MarkerTemplateNameType.None);
         }
 
         /// <summary>
@@ -1763,19 +1717,18 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void viewMarkers_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            //// Enable/disable marker buttons
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    btnEditMarker.Enabled = false;
-            //    btnRemoveMarker.Enabled = false;
-            //    btnGoToMarker.Enabled = false;
-            //}
-            //else
-            //{
-            //    btnEditMarker.Enabled = true;
-            //    btnRemoveMarker.Enabled = true;
-            //    btnGoToMarker.Enabled = true;
-            //}
+            if (viewMarkers.SelectedItems.Count == 0)
+            {
+                btnEditMarker.Enabled = false;
+                btnRemoveMarker.Enabled = false;
+                btnGoToMarker.Enabled = false;
+            }
+            else
+            {
+                btnEditMarker.Enabled = true;
+                btnRemoveMarker.Enabled = true;
+                btnGoToMarker.Enabled = true;
+            }
         }
 
         #endregion
@@ -2260,7 +2213,6 @@ namespace MPfm.Windows.Classes.Forms
         {
             MethodInvoker methodUIUpdate = delegate {
                 lblCurrentPosition.Text = entity.Position;
-                lblSongPosition.Text = entity.Position;
                 trackPosition.Value = (int)entity.PositionPercentage * 10;
                 miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
 
@@ -2295,6 +2247,10 @@ namespace MPfm.Windows.Classes.Forms
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             MethodInvoker methodUIUpdate = delegate {
+
+                btnAddLoop.Enabled = audioFile != null;
+                btnAddMarker.Enabled = audioFile != null;
+
                 if (audioFile == null)
                 {
                     lblCurrentArtistName.Text = string.Empty;
@@ -2304,7 +2260,7 @@ namespace MPfm.Windows.Classes.Forms
                     lblFrequency.Text = string.Empty;
                     lblBitrate.Text = string.Empty;
                     lblBitsPerSample.Text = string.Empty;
-                    lblSoundFormat.Text = string.Empty;
+                    lblSoundFormat.Text = string.Empty;                    
                 }
                 else
                 {
@@ -2349,6 +2305,22 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
+            MethodInvoker methodUIUpdate = delegate {
+                viewMarkers.Items.Clear();
+                foreach (Marker marker in markers)
+                {
+                    ListViewItem item = viewMarkers.Items.Add(marker.Name);
+                    item.Tag = marker.MarkerId;
+                    item.SubItems.Add(marker.Position);
+                    item.SubItems.Add(marker.Comments);
+                    item.SubItems.Add(marker.PositionBytes.ToString());
+                }
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         public void RefreshLoops(IEnumerable<Loop> loops)
