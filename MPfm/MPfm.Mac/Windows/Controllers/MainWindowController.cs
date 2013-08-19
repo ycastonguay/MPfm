@@ -38,6 +38,7 @@ using MPfm.Mac.Classes.Objects;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Delegates;
 using MPfm.Player.Objects;
+using MPfm.MVP.Presenters;
 
 namespace MPfm.Mac
 {
@@ -46,6 +47,7 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
+        List<Marker> _markers = new List<Marker>();
         LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource _libraryBrowserDataSource = null;
         SongBrowserTableViewDelegate _songBrowserOutlineViewDelegate = null;
@@ -100,6 +102,10 @@ namespace MPfm.Mac
             tableSongBrowser.Delegate = _songBrowserOutlineViewDelegate;
             tableSongBrowser.AllowsMultipleSelection = true;
             tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
+
+            tableMarkers.WeakDelegate = this;
+            tableMarkers.WeakDataSource = this;
+            tableMarkers.DoubleClick += HandleMarkersDoubleClick;
 
             LoadImages();
             SetTheme();
@@ -482,10 +488,15 @@ namespace MPfm.Mac
 
         partial void actionGoToMarker(NSObject sender)
         {
+            if(tableMarkers.SelectedRow == -1)
+                return;
+
+            OnSelectMarker(_markers[tableMarkers.SelectedRow]);
         }
 
         partial void actionAddMarker(NSObject sender)
         {
+            OnAddMarker(MarkerTemplateNameType.Verse);
         }
 
         partial void actionEditMarker(NSObject sender)
@@ -494,6 +505,45 @@ namespace MPfm.Mac
 
         partial void actionRemoveMarker(NSObject sender)
         {
+        }
+
+        partial void actionContextualMenuPlay(NSObject sender)
+        {
+        }
+
+        [Export ("numberOfRowsInTableView:")]
+        public int GetRowCount(NSTableView tableView)
+        {
+            if(tableView.Identifier == "tableMarkers")
+                return _markers.Count;
+
+            return 0;
+        }
+
+        [Export ("tableView:dataCellForTableColumn:row:")]
+        public NSObject GetObjectValue(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            return new NSString();
+        }
+
+        [Export ("tableView:viewForTableColumn:row:")]
+        public NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
+        {
+            NSTableCellView view;           
+            view = (NSTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
+            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+
+            if (tableView.Identifier == "tableMarkers")
+            {
+                if (tableColumn.Identifier.ToString() == "columnMarkerName")
+                    view.TextField.StringValue = _markers[row].Name;
+                else if (tableColumn.Identifier.ToString() == "columnMarkerPosition")
+                    view.TextField.StringValue = _markers[row].Position;
+                else
+                    view.TextField.StringValue = string.Empty;
+            }
+
+            return view;
         }
 
         [Export ("outlineViewItemDidExpand")]
@@ -514,34 +564,23 @@ namespace MPfm.Mac
                 outlineLibraryBrowser.ReloadData();
             }
         }
+
+        private void HandleMarkersDoubleClick(object sender, EventArgs e)
+        {
+            if (tableMarkers.SelectedRow == -1)
+                return;
+
+            OnSelectMarker(_markers[tableMarkers.SelectedRow]);
+        }
         
         protected void HandleLibraryBrowserDoubleClick(object sender, EventArgs e)
         {
             if(outlineLibraryBrowser.SelectedRow == -1)
                 return;
 
-            try
-            {
-                // Get selected item and start playback
-                Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Getting library browser item...");
-                LibraryBrowserItem item = (LibraryBrowserItem)outlineLibraryBrowser.ItemAtRow(outlineLibraryBrowser.SelectedRow);
-                Tracing.Log("MainWindowController.HandleLibraryBrowserDoubleClick -- Calling LibraryBrowserPresenter.TreeNodeDoubleClicked...");
-                if(OnTreeNodeDoubleClicked != null)
-                    OnTreeNodeDoubleClicked.Invoke(item.Entity);
-            } 
-            catch (Exception ex)
-            {
-                // Build text
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("An error occured in the Main Window Controller component (when double-clicking on an item in the Library Browser):");
-                sb.AppendLine(ex.Message);
-                sb.AppendLine();
-                sb.AppendLine(ex.StackTrace);
-
-                // Show alert
-                Tracing.Log(sb.ToString());
-                CocoaHelper.ShowAlert("Error", sb.ToString(), NSAlertStyle.Critical);
-            }
+            LibraryBrowserItem item = (LibraryBrowserItem)outlineLibraryBrowser.ItemAtRow(outlineLibraryBrowser.SelectedRow);
+            if(OnTreeNodeDoubleClicked != null)
+                OnTreeNodeDoubleClicked.Invoke(item.Entity);
         }
 
         protected void HandleSongBrowserDoubleClick(object sender, EventArgs e)
@@ -549,24 +588,9 @@ namespace MPfm.Mac
             if (tableSongBrowser.SelectedRow == -1)
                 return;
 
-            try
-            {
-                // Get selected item and start playback
-                AudioFile audioFile = _songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
-                if(OnTableRowDoubleClicked != null)
-                    OnTableRowDoubleClicked.Invoke(audioFile);
-            } 
-            catch (Exception ex)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("An error occured in the Main Window Controller component (when double-clicking on an item in the Song Browser):");
-                sb.AppendLine(ex.Message);
-                sb.AppendLine();
-                sb.AppendLine(ex.StackTrace);
-
-                Tracing.Log(sb.ToString());
-                CocoaHelper.ShowAlert("Error", sb.ToString(), NSAlertStyle.Critical);
-            }
+            AudioFile audioFile = _songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
+            if(OnTableRowDoubleClicked != null)
+                OnTableRowDoubleClicked.Invoke(audioFile);
         }
 
         public void RefreshAll()
@@ -683,14 +707,7 @@ namespace MPfm.Mac
         public void PlayerError(Exception ex)
         {
             InvokeOnMainThread(delegate {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("An error occured in the Player component:");
-                sb.AppendLine(ex.Message);
-                sb.AppendLine();
-                sb.AppendLine(ex.StackTrace);
-
-                Tracing.Log(sb.ToString());
-                CocoaHelper.ShowAlert("Error", sb.ToString(), NSAlertStyle.Critical);
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Player component: {0}", ex), NSAlertStyle.Critical);
             });
         }
 
@@ -744,6 +761,93 @@ namespace MPfm.Mac
         public Action<List<string>> OnAddFilesToLibrary { get; set; }
         public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
+
+        #endregion
+
+        #region IPitchShiftingView implementation
+
+        public Action<int> OnChangeKey { get; set; }
+        public Action<int> OnSetInterval { get; set; }
+        public Action OnResetInterval { get; set; }
+        public Action OnIncrementInterval { get; set; }
+        public Action OnDecrementInterval { get; set; }
+
+        public void PitchShiftingError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the PitchShifting component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshKeys(List<Tuple<int, string>> keys)
+        {
+        }
+
+        public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region ITimeShiftingView implementation
+
+        public Action<float> OnSetTimeShifting { get; set; }
+        public Action OnResetTimeShifting { get; set; }
+        public Action OnUseDetectedTempo { get; set; }
+        public Action OnIncrementTempo { get; set; }
+        public Action OnDecrementTempo { get; set; }
+
+        public void TimeShiftingError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the TimeShifting component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region ILoopsView implementation
+
+        public Action OnAddLoop { get; set; }
+        public Action<Loop> OnEditLoop { get; set; }
+
+        public void LoopError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Loops component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshLoops(List<Loop> loops)
+        {
+        }
+
+        #endregion
+
+        #region IMarkersView implementation
+
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action<Marker> OnEditMarker { get; set; }
+        public Action<Marker> OnSelectMarker { get; set; }
+
+        public void MarkerError(Exception ex)
+        {
+            InvokeOnMainThread(delegate {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Markers component: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
+
+        public void RefreshMarkers(List<Marker> markers)
+        {
+            InvokeOnMainThread(delegate {
+                _markers = markers.ToList();
+                tableMarkers.ReloadData();
+            });
+        }
 
         #endregion
 

@@ -2002,7 +2002,7 @@
 																							<string key="NSFrameSize">{402, 152}</string>
 																							<reference key="NSSuperview" ref="497439405"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="1018308452"/>
+																							<reference key="NSNextKeyView" ref="841670270"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2029,7 +2029,7 @@
 																							<object class="NSMutableArray" key="NSTableColumns">
 																								<bool key="EncodedWithXMLCoder">YES</bool>
 																								<object class="NSTableColumn" id="1016525191">
-																									<string key="NSIdentifier">columnIsPlaying</string>
+																									<string key="NSIdentifier">columnIsLoopPlaying</string>
 																									<double key="NSWidth">22</double>
 																									<double key="NSMinWidth">22</double>
 																									<double key="NSMaxWidth">22</double>
@@ -2257,7 +2257,7 @@
 																			<string key="NSFrame">{{0, -5}, {402, 169}}</string>
 																			<reference key="NSSuperview" ref="556046785"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="497439405"/>
+																			<reference key="NSNextKeyView" ref="1018308452"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="658394144"/>
@@ -2440,7 +2440,7 @@
 																							<string key="NSFrameSize">{377, 150}</string>
 																							<reference key="NSSuperview" ref="36467682"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="759208895"/>
+																							<reference key="NSNextKeyView" ref="976484741"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2631,7 +2631,7 @@
 																			<string key="NSFrame">{{0, -3}, {377, 167}}</string>
 																			<reference key="NSSuperview" ref="421545823"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="36467682"/>
+																			<reference key="NSNextKeyView" ref="759208895"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="688644208"/>
@@ -2703,7 +2703,7 @@
 																							<string key="NSFrameSize">{256, 143}</string>
 																							<reference key="NSSuperview" ref="146891087"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="133870497"/>
+																							<reference key="NSNextKeyView" ref="515224985"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -2834,7 +2834,7 @@
 																			<string key="NSFrameSize">{256, 160}</string>
 																			<reference key="NSSuperview" ref="504268879"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="146891087"/>
+																			<reference key="NSNextKeyView" ref="133870497"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="2893183"/>
@@ -2879,7 +2879,7 @@
 																							<string key="NSFrameSize">{523, 143}</string>
 																							<reference key="NSSuperview" ref="628665911"/>
 																							<reference key="NSWindow"/>
-																							<reference key="NSNextKeyView" ref="234049385"/>
+																							<reference key="NSNextKeyView" ref="553973200"/>
 																							<string key="NSReuseIdentifierKey">_NS:13</string>
 																							<bool key="NSEnabled">YES</bool>
 																							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -3128,6 +3128,7 @@
 																					<string key="NSFrame">{{1, 161}, {422, 15}}</string>
 																					<reference key="NSSuperview" ref="901815034"/>
 																					<reference key="NSWindow"/>
+																					<reference key="NSNextKeyView"/>
 																					<string key="NSReuseIdentifierKey">_NS:60</string>
 																					<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																					<int key="NSsFlags">1</int>
@@ -3156,7 +3157,7 @@
 																			<string key="NSFrameSize">{523, 160}</string>
 																			<reference key="NSSuperview" ref="917780088"/>
 																			<reference key="NSWindow"/>
-																			<reference key="NSNextKeyView" ref="628665911"/>
+																			<reference key="NSNextKeyView" ref="234049385"/>
 																			<string key="NSReuseIdentifierKey">_NS:9</string>
 																			<int key="NSsFlags">133680</int>
 																			<reference key="NSVScroller" ref="679588447"/>
@@ -3408,6 +3409,44 @@
 				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
+			</object>
+			<object class="NSMenu" id="877551154">
+				<string key="NSTitle">Contextual menu</string>
+				<object class="NSMutableArray" key="NSMenuItems">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+					<object class="NSMenuItem" id="573465889">
+						<reference key="NSMenu" ref="877551154"/>
+						<string key="NSTitle">Play</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="850805653"/>
+						<reference key="NSMixedImage" ref="581871625"/>
+					</object>
+					<object class="NSMenuItem" id="423036456">
+						<reference key="NSMenu" ref="877551154"/>
+						<string key="NSTitle">Add to playlist</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="850805653"/>
+						<reference key="NSMixedImage" ref="581871625"/>
+					</object>
+					<object class="NSMenuItem" id="129938267">
+						<reference key="NSMenu" ref="877551154"/>
+						<string key="NSTitle">Remove from library</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="850805653"/>
+						<reference key="NSMixedImage" ref="581871625"/>
+					</object>
+					<object class="NSMenuItem" id="416258052">
+						<reference key="NSMenu" ref="877551154"/>
+						<string key="NSTitle">Delete from hard disk</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="850805653"/>
+						<reference key="NSMixedImage" ref="581871625"/>
+					</object>
+				</object>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -4270,6 +4309,14 @@
 					<int key="connectionID">826</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">actionContextualMenuPlay:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="573465889"/>
+					</object>
+					<int key="connectionID">862</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">Toolbar</string>
 						<reference key="source" ref="748157544"/>
@@ -4292,6 +4339,14 @@
 						<reference key="destination" ref="918642496"/>
 					</object>
 					<int key="connectionID">57</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="961501640"/>
+						<reference key="destination" ref="877551154"/>
+					</object>
+					<int key="connectionID">856</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -6825,6 +6880,38 @@
 						<reference key="object" ref="156554438"/>
 						<reference key="parent" ref="820365223"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">827</int>
+						<reference key="object" ref="877551154"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="129938267"/>
+							<reference ref="573465889"/>
+							<reference ref="416258052"/>
+							<reference ref="423036456"/>
+						</object>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">858</int>
+						<reference key="object" ref="423036456"/>
+						<reference key="parent" ref="877551154"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">857</int>
+						<reference key="object" ref="416258052"/>
+						<reference key="parent" ref="877551154"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">846</int>
+						<reference key="object" ref="573465889"/>
+						<reference key="parent" ref="877551154"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">845</int>
+						<reference key="object" ref="129938267"/>
+						<reference key="parent" ref="877551154"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -6923,6 +7010,7 @@
 					<string>29.IBPluginDependency</string>
 					<string>290.IBPluginDependency</string>
 					<string>290.ibExternalAutomaticallyCalculatesRowSizeFromViewHeight</string>
+					<string>290.userInterfaceItemIdentifier</string>
 					<string>291.IBPluginDependency</string>
 					<string>292.CustomClassName</string>
 					<string>292.IBPluginDependency</string>
@@ -6932,6 +7020,7 @@
 					<string>294.prototypeCellViews</string>
 					<string>297.IBPluginDependency</string>
 					<string>298.IBPluginDependency</string>
+					<string>298.userInterfaceItemIdentifier</string>
 					<string>299.IBPluginDependency</string>
 					<string>3.CustomClassName</string>
 					<string>3.IBPluginDependency</string>
@@ -6958,6 +7047,7 @@
 					<string>323.isInViewBasedMode</string>
 					<string>323.prototypeCellViews</string>
 					<string>324.IBPluginDependency</string>
+					<string>324.userInterfaceItemIdentifier</string>
 					<string>325.IBPluginDependency</string>
 					<string>326.IBPluginDependency</string>
 					<string>327.IBPluginDependency</string>
@@ -6966,6 +7056,7 @@
 					<string>329.prototypeCellViews</string>
 					<string>330.IBPluginDependency</string>
 					<string>331.IBPluginDependency</string>
+					<string>331.userInterfaceItemIdentifier</string>
 					<string>332.IBPluginDependency</string>
 					<string>333.IBPluginDependency</string>
 					<string>335.IBPluginDependency</string>
@@ -6977,6 +7068,7 @@
 					<string>337.prototypeCellViews</string>
 					<string>338.IBPluginDependency</string>
 					<string>339.IBPluginDependency</string>
+					<string>339.userInterfaceItemIdentifier</string>
 					<string>340.IBPluginDependency</string>
 					<string>341.IBPluginDependency</string>
 					<string>35.IBPluginDependency</string>
@@ -6991,6 +7083,7 @@
 					<string>392.IBPluginDependency</string>
 					<string>393.IBPluginDependency</string>
 					<string>393.ibExternalAutomaticallyCalculatesRowSizeFromViewHeight</string>
+					<string>393.userInterfaceItemIdentifier</string>
 					<string>394.IBPluginDependency</string>
 					<string>394.isInViewBasedMode</string>
 					<string>394.prototypeCellViews</string>
@@ -7001,14 +7094,17 @@
 					<string>398.isInViewBasedMode</string>
 					<string>398.prototypeCellViews</string>
 					<string>399.IBPluginDependency</string>
+					<string>399.userInterfaceItemIdentifier</string>
 					<string>400.IBPluginDependency</string>
 					<string>401.IBPluginDependency</string>
 					<string>402.IBPluginDependency</string>
 					<string>403.IBPluginDependency</string>
 					<string>404.IBPluginDependency</string>
+					<string>404.userInterfaceItemIdentifier</string>
 					<string>405.IBPluginDependency</string>
 					<string>406.IBPluginDependency</string>
 					<string>412.IBPluginDependency</string>
+					<string>412.userInterfaceItemIdentifier</string>
 					<string>413.IBPluginDependency</string>
 					<string>414.IBPluginDependency</string>
 					<string>415.IBPluginDependency</string>
@@ -7122,6 +7218,7 @@
 					<string>706.IBPluginDependency</string>
 					<string>707.IBPluginDependency</string>
 					<string>709.IBPluginDependency</string>
+					<string>709.userInterfaceItemIdentifier</string>
 					<string>71.IBPluginDependency</string>
 					<string>710.IBPluginDependency</string>
 					<string>711.IBPluginDependency</string>
@@ -7181,11 +7278,16 @@
 					<string>820.IBPluginDependency</string>
 					<string>824.IBPluginDependency</string>
 					<string>824.designableToolbarItemIdentifier</string>
+					<string>827.IBPluginDependency</string>
 					<string>83.CustomClassName</string>
 					<string>83.IBPluginDependency</string>
 					<string>84.CustomClassName</string>
 					<string>84.IBPluginDependency</string>
+					<string>845.IBPluginDependency</string>
+					<string>846.IBPluginDependency</string>
 					<string>85.IBPluginDependency</string>
+					<string>857.IBPluginDependency</string>
+					<string>858.IBPluginDependency</string>
 					<string>86.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
@@ -7303,6 +7405,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>tableLoops</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>MPfmTableHeaderView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7315,6 +7418,7 @@
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellLoopName</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>MPfmView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7344,6 +7448,7 @@
 						<reference ref="194730826"/>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellLoopLength</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7355,6 +7460,7 @@
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellLoopEndPosition</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7372,6 +7478,7 @@
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellLoopStartPosition</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7386,6 +7493,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>tableMarkers</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<object class="NSArray">
@@ -7405,14 +7513,17 @@
 						<reference ref="976484741"/>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellMarkerName</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellMarkerPosition</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellMarkerComments</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7530,6 +7641,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>cellIsLoopPlaying</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7589,9 +7701,14 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>toolbarShuffle</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>MPfmSongPositionSlider</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>MPfmSliderCell</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7609,7 +7726,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">826</int>
+			<int key="maxID">862</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7717,6 +7834,7 @@
 							<string>actionChangeSongPosition:</string>
 							<string>actionChangeTimeShifting:</string>
 							<string>actionChangeVolume:</string>
+							<string>actionContextualMenuPlay:</string>
 							<string>actionEditLoop:</string>
 							<string>actionEditMarker:</string>
 							<string>actionEditSongMetadata:</string>
@@ -7772,6 +7890,7 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
@@ -7786,6 +7905,7 @@
 							<string>actionChangeSongPosition:</string>
 							<string>actionChangeTimeShifting:</string>
 							<string>actionChangeVolume:</string>
+							<string>actionContextualMenuPlay:</string>
 							<string>actionEditLoop:</string>
 							<string>actionEditMarker:</string>
 							<string>actionEditSongMetadata:</string>
@@ -7841,6 +7961,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">actionChangeVolume:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">actionContextualMenuPlay:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8472,6 +8596,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MainWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSTableRowView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSTableRowView.h</string>
 					</object>
 				</object>
 			</object>

@@ -322,6 +322,9 @@ namespace MPfm.Mac
 
 		[Action ("actionRemoveMarker:")]
 		partial void actionRemoveMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionContextualMenuPlay:")]
+		partial void actionContextualMenuPlay (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
