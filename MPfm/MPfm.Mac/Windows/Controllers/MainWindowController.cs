@@ -142,10 +142,10 @@ namespace MPfm.Mac
             btnPlayLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnPlayLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnPlayLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
-            btnStopLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
-            btnStopLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
-            btnStopLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
-            btnStopLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            //btnStopLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
+            //btnStopLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
+            //btnStopLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            //btnStopLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
             btnAddLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnAddLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnAddLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
@@ -272,7 +272,7 @@ namespace MPfm.Mac
 
             btnDetectTempo.Font = NSFont.FromFontName("Junction", 11f);
             btnPlayLoop.Font = NSFont.FromFontName("Junction", 11f);
-            btnStopLoop.Font = NSFont.FromFontName("Junction", 11f);
+            //btnStopLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnAddLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnEditLoop.Font = NSFont.FromFontName("Junction", 11f);
             btnRemoveLoop.Font = NSFont.FromFontName("Junction", 11f);
@@ -304,18 +304,18 @@ namespace MPfm.Mac
 
             // Load button images
             cboSoundFormat.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
-            btnAddLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
-            btnAddMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
-            btnAddSongToPlaylist.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
-            btnEditLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_quill");
-            btnEditMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_quill");
-            btnEditSongMetadata.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_quill");
-            btnRemoveLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_close");
-            btnRemoveMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_close");
-            btnPlayLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_play");
-            btnPlaySelectedSong.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_play");
-            btnStopLoop.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_stop");
-            btnGoToMarker.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_arrow-right");
+            btnAddLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAddMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAddSongToPlaylist.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnEditLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
+            btnEditMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
+            btnEditSongMetadata.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
+            btnRemoveLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnRemoveMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnPlayLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_play");
+            btnPlaySelectedSong.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_play");
+            //btnStopLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_stop");
+            btnGoToMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_goto");
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)

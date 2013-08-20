@@ -83,6 +83,9 @@ namespace MPfm.Mac
 
         partial void actionConnect(NSObject sender)
         {
+            if(tableViewDevices.SelectedRow == -1)
+                return;
+
             OnConnectDevice(_items[tableViewDevices.SelectedRow]);
         }
 

@@ -450,5 +450,13 @@
     <BundleResource Include="Resources\icon_button_reset.png" />
     <BundleResource Include="Resources\icon_button_speaker.png" />
     <BundleResource Include="Resources\icon_button_speaker%402x.png" />
+    <BundleResource Include="Resources\icon_button_edit.png" />
+    <BundleResource Include="Resources\icon_button_edit%402x.png" />
+    <BundleResource Include="Resources\icon_button_stop.png" />
+    <BundleResource Include="Resources\icon_button_stop%402x.png" />
+    <BundleResource Include="Resources\icon_button_play.png" />
+    <BundleResource Include="Resources\icon_button_play%402x.png" />
+    <BundleResource Include="Resources\icon_button_goto%402x.png" />
+    <BundleResource Include="Resources\icon_button_goto.png" />
   </ItemGroup>
 </Project>

@@ -66,9 +66,6 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnStopLoop { get; set; }
-
-		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnAddLoop { get; set; }
 
 		[Outlet]
@@ -416,11 +413,6 @@ namespace MPfm.Mac
 			if (btnPlayLoop != null) {
 				btnPlayLoop.Dispose ();
 				btnPlayLoop = null;
-			}
-
-			if (btnStopLoop != null) {
-				btnStopLoop.Dispose ();
-				btnStopLoop = null;
 			}
 
 			if (btnAddLoop != null) {
