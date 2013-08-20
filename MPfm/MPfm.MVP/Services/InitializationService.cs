@@ -62,9 +62,7 @@ namespace MPfm.MVP.Services
             Tracing.Log("====================================================================");
 
 #if !IOS && !ANDROID // MonoDroid doesn't like Assembly methods
-            Tracing.Log("MPfm: Music Player for Musicians - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA");
-#else
-            Tracing.Log("MPfm: Music Player for Musicians");
+            Tracing.Log("Sessions - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA");
 #endif
 
             Tracing.Log("Started on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
@@ -120,10 +118,7 @@ namespace MPfm.MVP.Services
 			
             try
             {
-                // Check current database version
                 string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(ConfigurationHelper.DatabaseFilePath);
-
-                // Extract major/minor
                 string[] currentVersionSplit = databaseVersion.Split('.');
 
                 // Check integrity of the setting value (should be split in 2)

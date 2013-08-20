@@ -22,12 +22,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MPfm Core Components")]
-[assembly: AssemblyDescription("Contains useful methods for all kinds of projects.")]
+[assembly: AssemblyTitle("Sessions - Core Components")]
+[assembly: AssemblyDescription("Contains useful methods for any class library.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yanick Castonguay")]
-[assembly: AssemblyProduct("MPfm (Music Player for Musicians)")]
-[assembly: AssemblyCopyright("Copyright © 2011-2012 Yanick Castonguay")]
+[assembly: AssemblyProduct("Sessions")]
+[assembly: AssemblyCopyright("Copyright © 2011-2013 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

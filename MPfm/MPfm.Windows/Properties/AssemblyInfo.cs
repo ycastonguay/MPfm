@@ -22,12 +22,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MPfm: Music Player for Musicians")]
-[assembly: AssemblyDescription("Music player made for musicians, by musicians")]
+[assembly: AssemblyTitle("Sessions")]
+[assembly: AssemblyDescription("Sessions for Windows is a music player for musicians.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yanick Castonguay")]
-[assembly: AssemblyProduct("MPfm: Music Player for Musicians")]
-[assembly: AssemblyCopyright("Copyright © 2011-2012 Yanick Castonguay")]
+[assembly: AssemblyProduct("Sessions")]
+[assembly: AssemblyCopyright("Copyright © 2011-2013 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -46,5 +46,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.6.0.0")]
-[assembly: AssemblyFileVersion("0.6.0.0")]
+[assembly: AssemblyVersion("0.7.0.0")]
+[assembly: AssemblyFileVersion("0.7.0.0")]

@@ -22,12 +22,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MPfm Sound Components")]
-[assembly: AssemblyDescription("Contains the MPfm BASS/BASS.NET wrapper and other classes for processing audio data.")]
+[assembly: AssemblyTitle("Sessions - Sound Components")]
+[assembly: AssemblyDescription("Contains the Sessions BASS/BASS.NET wrapper and other classes for processing audio data.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yanick Castonguay")]
-[assembly: AssemblyProduct("MPfm (Music Player for Musicians)")]
-[assembly: AssemblyCopyright("Copyright © 2011-2012 Yanick Castonguay")]
+[assembly: AssemblyProduct("Sessions")]
+[assembly: AssemblyCopyright("Copyright © 2011-2013 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -48,5 +48,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("0.5.3.0")]
-[assembly: AssemblyFileVersion("0.5.3.0")]
+[assembly: AssemblyVersion("0.7.0.0")]
+[assembly: AssemblyFileVersion("0.7.0.0")]

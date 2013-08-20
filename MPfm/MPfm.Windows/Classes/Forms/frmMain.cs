@@ -58,7 +58,7 @@ namespace MPfm.Windows.Classes.Forms
         private void frmMain_Load(object sender, EventArgs e)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            this.Text = "MPfm: Music Player for Musicians - " + assembly.GetName().Version.ToString();
+            this.Text = "Sessions - " + assembly.GetName().Version.ToString() + " ALPHA";
 
             ShowUpdateLibraryProgress(false);
 

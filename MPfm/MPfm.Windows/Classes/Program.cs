@@ -47,7 +47,7 @@ namespace MPfm.Windows.Classes
             
             // Ask the user if it allows another instance of the application
             if (processes.Length >= 2)
-                if (MessageBox.Show("At least one other instance of MPfm is already running.\n\nClick OK to continue or Cancel to exit the application.", "Multiple instances of MPfm running", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
+                if (MessageBox.Show("At least one other instance of Sessions is already running.\n\nClick OK to continue or Cancel to exit the application.", "Multiple instances of Sessions running", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
                     return;
 
             // Set application defaults

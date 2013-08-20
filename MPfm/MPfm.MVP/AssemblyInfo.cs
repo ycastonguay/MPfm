@@ -21,12 +21,12 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("MPfm MVP Components")]
-[assembly: AssemblyDescription("Contains the MPfm Model-View-Presenter classes.")]
+[assembly: AssemblyTitle("Sessions - MVP Components")]
+[assembly: AssemblyDescription("Contains Model-View-Presenter classes for presentation on any platform.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yanick Castonguay")]
-[assembly: AssemblyProduct("MPfm (Music Player for Musicians)")]
-[assembly: AssemblyCopyright("Copyright © 2011-2012 Yanick Castonguay")]
+[assembly: AssemblyProduct("Sessions")]
+[assembly: AssemblyCopyright("Copyright © 2011-2013 Yanick Castonguay")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,5 +34,5 @@ using System.Runtime.CompilerServices;
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("0.6.0.1")]
-[assembly: AssemblyFileVersion("0.6.0.1")]
+[assembly: AssemblyVersion("0.7.0.0")]
+[assembly: AssemblyFileVersion("0.7.0.0")]

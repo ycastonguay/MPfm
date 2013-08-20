@@ -3993,11 +3993,11 @@ namespace MPfm.Windows.Classes.Forms
             // 
             // notifyIcon
             // 
-            this.notifyIcon.BalloonTipText = "MPfm";
-            this.notifyIcon.BalloonTipTitle = "MPfm: Music Player for Musicians";
+            this.notifyIcon.BalloonTipText = "Sessions";
+            this.notifyIcon.BalloonTipTitle = "Sessions";
             this.notifyIcon.ContextMenuStrip = this.menuTray;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "MPfm: Music Player for Musicians";
+            this.notifyIcon.Text = "Sessions";
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
@@ -4196,7 +4196,7 @@ namespace MPfm.Windows.Classes.Forms
             this.MinimumSize = new System.Drawing.Size(790, 520);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MPfm: Music Player for Musicians";
+            this.Text = "Sessions";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.menuSongBrowser.ResumeLayout(false);
