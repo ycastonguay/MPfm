@@ -22,11 +22,12 @@ using MPfm.Sound.AudioFiles;
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Song browser view interface.
+	/// Song Browser view interface.
 	/// </summary>
     public interface ISongBrowserView : IBaseView
 	{
         Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
         
 		void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles);
         //void RefreshCurrentlyPlayingSong(AudioFile audioFile);

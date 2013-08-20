@@ -84,6 +84,9 @@ namespace MPfm.MVP.Bootstrap
             container.Register<ISyncWebBrowserPresenter, SyncWebBrowserPresenter>().AsMultiInstance();
             container.Register<ISyncMenuPresenter, SyncMenuPresenter>().AsMultiInstance();
             container.Register<ISyncDownloadPresenter, SyncDownloadPresenter>().AsMultiInstance();
+            container.Register<IEditSongMetadataPresenter, EditSongMetadataPresenter>().AsSingleton();
+            container.Register<IDesktopFirstRunPresenter, DesktopFirstRunPresenter>().AsSingleton();
+            container.Register<IMobileFirstRunPresenter, MobileFirstRunPresenter>().AsSingleton();
             container.Register<IAboutPresenter, AboutPresenter>().AsSingleton();
         }
         

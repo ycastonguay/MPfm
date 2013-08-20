@@ -16,18 +16,17 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using MPfm.MVP.Models;
-using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
-using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Presenters.Interfaces
+namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Song Browser presenter interface.
+	/// First Run view interface for desktop devices.
 	/// </summary>
-    public interface ISongBrowserPresenter : IBasePresenter<ISongBrowserView>
-	{	
-
+    public interface IDesktopFirstRunView : IBaseView
+	{
 	}
 }
+

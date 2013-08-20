@@ -17,7 +17,7 @@
 
 namespace MPfm.Windows.Classes.Forms
 {
-    partial class frmAddEditMarker
+    partial class frmMarkerDetails
     {
         /// <summary>
         /// Required designer variable.
@@ -1394,7 +1394,7 @@ namespace MPfm.Windows.Classes.Forms
             this.Controls.Add(this.panelEditMarker);
             this.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MinimumSize = new System.Drawing.Size(600, 448);
-            this.Name = "frmAddEditMarker";
+            this.Name = "frmMarkerDetails";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit Marker";

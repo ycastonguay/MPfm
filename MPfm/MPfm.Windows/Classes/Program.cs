@@ -59,6 +59,10 @@ namespace MPfm.Windows.Classes
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, frmSplash>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, frmMain>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ILoopDetailsView, frmLoopDetails>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IMarkerDetailsView, frmMarkerDetails>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IEditSongMetadataView, frmEditSongMetadata>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IDesktopFirstRunView, frmFirstRun>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IUpdateLibraryView, frmUpdateLibrary>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IPlaylistView, frmPlaylist>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopEffectsView, frmEffects>().AsMultiInstance();

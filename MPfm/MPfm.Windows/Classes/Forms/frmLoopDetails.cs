@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Core;
+using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
@@ -26,49 +27,13 @@ namespace MPfm.Windows.Classes.Forms
     /// <summary>
     /// Add/Edit Loop window. This is where the user can add or edit loops for an audio file.
     /// </summary>
-    public partial class frmAddEditLoop : MPfm.WindowsControls.Form
+    public partial class frmLoopDetails : BaseForm, ILoopDetailsView
     {
-        // Private variables
-        private AddEditLoopWindowMode mode = AddEditLoopWindowMode.Add;
-        private frmMain main = null;        
-        private AudioFile audioFile = null;
-        private Guid loopId = Guid.Empty;
-        private List<Marker> markers = null;
-        private uint loopLengthMS = 0;
-        private uint loopLengthBytes = 0;
-        private uint loopLengthSamples = 0;        
-        private long startPositionBytes = 0;
-        private long endPositionBytes = 0;
-
-        /// <summary>
-        /// Hook to the main form.
-        /// </summary>
-        public frmMain Main
-        {
-            get
-            {
-                return main;
-            }
-        }
-
-        /// <summary>
-        /// Constructor for Add/Edit Loop window. Requires a hook to the main form and
-        /// the window mode must be specified.
-        /// </summary>
-        /// <param name="main">Hook to the main window</param>
-        /// <param name="mode">Window mode</param>
-        /// <param name="audioFile">AudioFile linked to the marker</param>
-        /// <param name="loopId">Identifier of the loop (if it exists)</param>
-        public frmAddEditLoop(frmMain main, AddEditLoopWindowMode mode, AudioFile audioFile, Guid loopId)
+        public frmLoopDetails(Action<IBaseView> onViewReady) 
+            : base(onViewReady)
         {
             InitializeComponent();
-            this.main = main;
-            this.mode = mode;
-            this.audioFile = audioFile;
-            this.loopId = loopId;
-
-            // Initialize controls
-            Initialize();
+            ViewIsReady();
         }
 
         /// <summary>
@@ -434,20 +399,5 @@ namespace MPfm.Windows.Classes.Forms
             //    }
             //}
         }
-    }
-
-    /// <summary>
-    /// Defines the mode of the AddEditLoop window.
-    /// </summary>
-    public enum AddEditLoopWindowMode
-    {
-        /// <summary>
-        /// The window is in "Add" mode.
-        /// </summary>
-        Add = 0, 
-        /// <summary>
-        /// The window is in "Edit" mode.
-        /// </summary>
-        Edit = 1
     }
 }

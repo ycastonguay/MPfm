@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MPfm.Core;
+using MPfm.MVP.Views;
 using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Windows.Classes.Forms
@@ -30,7 +31,7 @@ namespace MPfm.Windows.Classes.Forms
     /// The window helps the user to select a driver and an output device. The user is required to test the configuration
     /// using an audio file. The user can then access the application.
     /// </summary>
-    public partial class frmFirstRun : MPfm.WindowsControls.Form
+    public partial class frmFirstRun : BaseForm, IDesktopFirstRunView
     {
         // Private variables
         private string filePath = string.Empty;
@@ -39,26 +40,11 @@ namespace MPfm.Windows.Classes.Forms
         private List<Device> devicesASIO = null;
         private List<Device> devicesWASAPI = null;
 
-        private frmMain main = null;
-        /// <summary>
-        /// Hook to the main form.
-        /// </summary>
-        public frmMain Main
+        public frmFirstRun(Action<IBaseView> onViewReady) 
+            : base(onViewReady)
         {
-            get
-            {
-                return main;
-            }
-        }
-
-        /// <summary>
-        /// Constructor for the First Run form. Requires a hook to the main form.
-        /// </summary>
-        /// <param name="main">Hook to main form</param>
-        public frmFirstRun(frmMain main)
-        {
-            this.main = main;
             InitializeComponent();
+            ViewIsReady();
         }
 
         /// <summary>

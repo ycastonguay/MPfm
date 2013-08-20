@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Windows.Classes.Forms
@@ -26,35 +27,13 @@ namespace MPfm.Windows.Classes.Forms
     /// Edit Song Metadata window. This is where the user can modify the ID3 and other
     /// tags for the media files.
     /// </summary>
-    public partial class frmEditSongMetadata : MPfm.WindowsControls.Form
+    public partial class frmEditSongMetadata : BaseForm, IEditSongMetadataView
     {
-        // Private variables
-        private frmMain main = null;
-        private List<string> filePaths = null;
-        private AudioFile audioFile = null;
-
-        /// <summary>
-        /// Hook to the main form.
-        /// </summary>
-        public frmMain Main
-        {
-            get
-            {
-                return main;
-            }
-        }
-
-        /// <summary>
-        /// Constructor for Edit Song Metadata window. Requires a hook to the main form and
-        /// the file path(s) to the files to edit.
-        /// </summary>
-        /// <param name="main">Hook to main form</param>
-        /// <param name="filePaths">List of file paths</param>
-        public frmEditSongMetadata(frmMain main, List<string> filePaths)
+        public frmEditSongMetadata(Action<IBaseView> onViewReady) 
+            : base(onViewReady)
         {
             InitializeComponent();
-            this.main = main;
-            this.filePaths = filePaths;
+            ViewIsReady();
 
             //// Get TagLib information about the file
             //if (filePaths.Count > 0)

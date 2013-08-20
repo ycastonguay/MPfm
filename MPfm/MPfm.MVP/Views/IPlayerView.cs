@@ -40,16 +40,16 @@ namespace MPfm.MVP.Views
         Action<float> OnPlayerSetTimeShifting { get; set; }
         Action<float> OnPlayerSetPosition { get; set; }
         Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
-    
+        Action OnEditSongMetadata { get; set; }
+
+        void PlayerError(Exception ex);
         void RefreshPlayerStatus(PlayerStatusType status);
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
 		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshLoops(IEnumerable<Loop> loops);
         void RefreshPlayerVolume(PlayerVolumeEntity entity);
-        void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
-        
-        void PlayerError(Exception ex);
+        void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);                
 	}
 }
 

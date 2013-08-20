@@ -15,9 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
@@ -34,92 +37,69 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class SongBrowserPresenter : BasePresenter<ISongBrowserView>, ISongBrowserPresenter
 	{
-		//ISongBrowserView view ;
-        readonly ITinyMessengerHub messageHub;
-		readonly IAudioFileCacheService audioFileCacheService;
-		readonly ILibraryService libraryService;
-		
-        public LibraryQuery Query { get; private set; }
-		
-		#region Constructor and Dispose
+        readonly ITinyMessengerHub _messageHub;
+		readonly IAudioFileCacheService _audioFileCacheService;
+		readonly ILibraryService _libraryService;
+	    readonly NavigationManager _navigationManager;
+        readonly MobileNavigationManager _mobileNavigationManager;
+        LibraryQuery _query;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MPfm.UI.SongBrowserPresenter"/> class.
-		/// </summary>
-		public SongBrowserPresenter(ITinyMessengerHub messageHub,                                     
+	    public SongBrowserPresenter(ITinyMessengerHub messageHub,                                     
 		                             ILibraryService libraryService,
 		                             IAudioFileCacheService audioFileCacheService)
 		{
-			// Set properties
-			this.libraryService = libraryService;
-			this.audioFileCacheService = audioFileCacheService;
-            this.messageHub = messageHub;
+			_libraryService = libraryService;
+			_audioFileCacheService = audioFileCacheService;
+            _messageHub = messageHub;
+            _query = new LibraryQuery();
 
-            // Create default query
-            Query = new LibraryQuery();
-
-            // Subscribe to events
             messageHub.Subscribe<LibraryBrowserItemSelectedMessage>((LibraryBrowserItemSelectedMessage m) => {
                 ChangeQuery(m.Item.Query);
             });
+
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
+
 		}
 
-//        void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
-//        {
-//            if(data.IsPlaybackStopped)
-//                return;
-//
-//            // Update view with new song            
-//            view.RefreshCurrentlyPlayingSong(data.AudioFileEnded);
-//        }
-
-		#endregion		
-		
-		#region ISongBrowserPresenter implementation
-		
-        public override void BindView (ISongBrowserView view)
+        public override void BindView(ISongBrowserView view)
         {
             base.BindView(view);
             
-            view.OnTableRowDoubleClicked = (audioFile) => { TableRowDoubleClicked(audioFile); };
+            view.OnTableRowDoubleClicked = TableRowDoubleClicked;
+            view.OnSongBrowserEditSongMetadata = SongBrowserEditSongMetadata;
         }
-        
-		/// <summary>
-		/// Changes the Song Browser query and updates the Song Browser view.
-		/// </summary>
-		/// <param name='query'>New query</param>
-		public void ChangeQuery(LibraryQuery query)
+
+	    public void SongBrowserEditSongMetadata(AudioFile audioFile)
+	    {
+#if IOS || ANDROID
+            // Not available on mobile devices yet.
+#else
+	        _navigationManager.CreateEditSongMetadataView(audioFile);
+#endif
+	    }
+
+	    public void ChangeQuery(LibraryQuery query)
 		{
-			// Set query
-			this.Query = query;
-			
-			// Get audio files
+			_query = query;
             Tracing.Log("SongBrowserPresenter.ChangeQuery -- Getting audio files (Format: " + query.Format.ToString() + 
                         " | Artist: " + query.ArtistName + " | Album: " + query.AlbumTitle + " | OrderBy: " + query.OrderBy + 
                         " | OrderByAscending: " + query.OrderByAscending.ToString() + " | Search terms: " + query.SearchTerms + ")");
-			IEnumerable<AudioFile> audioFiles = audioFileCacheService.SelectAudioFiles(query);
-
-            // Refresh view
-            Tracing.Log("SongBrowserPresenter.ChangeQuery -- Refreshing song browser...");
+			IEnumerable<AudioFile> audioFiles = _audioFileCacheService.SelectAudioFiles(query);
 			View.RefreshSongBrowser(audioFiles);
 		}
 		
-		/// <summary>
-		/// Call this method when the table row has been double clicked.
-		/// This will start a new playlist in the Player presenter.
-		/// </summary>
-		/// <param name='audioFile'>Audio file</param>
 		public void TableRowDoubleClicked(AudioFile audioFile)
 		{			
             Tracing.Log("SongBrowserPresenter.TableRowDoubleClicked -- Publishing SongBrowserItemDoubleClickedMessage with item " + audioFile.Title + "...");
-            messageHub.PublishAsync(new SongBrowserItemDoubleClickedMessage(this){
+            _messageHub.PublishAsync(new SongBrowserItemDoubleClickedMessage(this){
                 Item = audioFile,
-                Query = Query
+                Query = _query
             });
 		}
-		
-		#endregion
 
 	}
 }
-

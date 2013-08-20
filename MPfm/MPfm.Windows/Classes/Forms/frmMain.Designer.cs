@@ -517,7 +517,7 @@ namespace MPfm.Windows.Classes.Forms
             this.miPlaySong.Name = "miPlaySong";
             this.miPlaySong.Size = new System.Drawing.Size(216, 22);
             this.miPlaySong.Text = "Play selected song(s)";
-            this.miPlaySong.Click += new System.EventHandler(this.btnPlay_Click);
+            this.miPlaySong.Click += new System.EventHandler(this.viewSongs2_DoubleClick);
             // 
             // miEditSong
             // 

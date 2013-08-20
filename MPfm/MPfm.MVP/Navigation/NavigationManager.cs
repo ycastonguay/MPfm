@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
+using MPfm.Player.Objects;
 using TinyIoC;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
@@ -44,6 +45,18 @@ namespace MPfm.MVP.Navigation
         ILoopsPresenter _loopsPresenter;
         ITimeShiftingPresenter _timeShiftingPresenter;
         IPitchShiftingPresenter _pitchShiftingPresenter;
+
+        IMarkerDetailsView _markerDetailsView;
+        IMarkerDetailsPresenter _markerDetailsPresenter;
+
+        ILoopDetailsView _loopDetailsView;
+        ILoopDetailsPresenter _loopDetailsPresenter;
+
+        IDesktopFirstRunView _firstRunView;
+        IDesktopFirstRunPresenter _firstRunPresenter;
+
+        IEditSongMetadataView _editSongMetadataView;
+        IEditSongMetadataPresenter _editSongMetadataPresenter;
 
         IDesktopPreferencesView _preferencesView;
         IAudioPreferencesPresenter _audioPreferencesPresenter;
@@ -294,6 +307,76 @@ namespace MPfm.MVP.Navigation
                 _updateLibraryPresenter = null;
             };
             return _updateLibraryView;
+        }
+
+        public virtual IDesktopFirstRunView CreateFirstRunView()
+        {
+            if (_firstRunView != null)
+            {
+                _firstRunView.ShowView(true);
+                return _firstRunView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _firstRunPresenter = Bootstrapper.GetContainer().Resolve<IDesktopFirstRunPresenter>();
+                _firstRunPresenter.BindView((IDesktopFirstRunView)view);
+            };
+
+            _firstRunView = Bootstrapper.GetContainer().Resolve<IDesktopFirstRunView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _firstRunView.OnViewDestroy = (view) =>
+            {
+                _firstRunView = null;
+                _firstRunPresenter = null;
+            };
+            return _firstRunView;
+        }
+
+        public virtual IEditSongMetadataView CreateEditSongMetadataView(AudioFile audioFile)
+        {
+            if (_editSongMetadataView != null)
+            {
+                _editSongMetadataView.ShowView(true);
+                return _editSongMetadataView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _editSongMetadataPresenter = Bootstrapper.GetContainer().Resolve<IEditSongMetadataPresenter>();
+                _editSongMetadataPresenter.BindView((IEditSongMetadataView)view);
+                _editSongMetadataPresenter.SetAudioFile(audioFile);
+            };
+
+            _editSongMetadataView = Bootstrapper.GetContainer().Resolve<IEditSongMetadataView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _editSongMetadataView.OnViewDestroy = (view) =>
+            {
+                _editSongMetadataView = null;
+                _editSongMetadataPresenter = null;
+            };
+            return _editSongMetadataView;
+        }
+
+        public virtual IMarkerDetailsView CreateMarkerDetailsView(Guid markerId)
+        {
+            if (_markerDetailsView != null)
+            {
+                _markerDetailsView.ShowView(true);
+                return _markerDetailsView;
+            }
+
+            Action<IBaseView> onViewReady = (view) =>
+            {                
+                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads() { { "markerId", markerId } });
+                _markerDetailsPresenter.BindView((IMarkerDetailsView)view);                
+            };
+
+            _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _markerDetailsView.OnViewDestroy = (view) =>
+            {
+                _markerDetailsView = null;
+                _markerDetailsPresenter = null;
+            };
+            return _markerDetailsView;
         }
     }
 }

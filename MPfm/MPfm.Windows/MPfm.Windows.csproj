@@ -139,17 +139,17 @@
     <Compile Include="Classes\Forms\frmLoadPlaylist.Designer.cs">
       <DependentUpon>frmLoadPlaylist.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Forms\frmAddEditLoop.cs">
+    <Compile Include="Classes\Forms\frmLoopDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Forms\frmAddEditLoop.Designer.cs">
-      <DependentUpon>frmAddEditLoop.cs</DependentUpon>
+    <Compile Include="Classes\Forms\frmLoopDetails.Designer.cs">
+      <DependentUpon>frmLoopDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Forms\frmAddEditMarker.cs">
+    <Compile Include="Classes\Forms\frmMarkerDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Forms\frmAddEditMarker.Designer.cs">
-      <DependentUpon>frmAddEditMarker.cs</DependentUpon>
+    <Compile Include="Classes\Forms\frmMarkerDetails.Designer.cs">
+      <DependentUpon>frmMarkerDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Forms\frmEditSongMetadata.cs">
       <SubType>Form</SubType>
@@ -231,12 +231,12 @@
       <DependentUpon>frmLoadPlaylist.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Forms\frmAddEditLoop.resx">
-      <DependentUpon>frmAddEditLoop.cs</DependentUpon>
+    <EmbeddedResource Include="Classes\Forms\frmLoopDetails.resx">
+      <DependentUpon>frmLoopDetails.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Classes\Forms\frmAddEditMarker.resx">
-      <DependentUpon>frmAddEditMarker.cs</DependentUpon>
+    <EmbeddedResource Include="Classes\Forms\frmMarkerDetails.resx">
+      <DependentUpon>frmMarkerDetails.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\Forms\frmEditSongMetadata.resx">

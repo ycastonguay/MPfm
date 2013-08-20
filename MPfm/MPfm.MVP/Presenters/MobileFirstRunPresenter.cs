@@ -15,19 +15,25 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Presenters.Interfaces
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-	/// Song Browser presenter interface.
+	/// First Run view presenter for mobile devices.
 	/// </summary>
-    public interface ISongBrowserPresenter : IBasePresenter<ISongBrowserView>
-	{	
+	public class MobileFirstRunPresenter : BasePresenter<IMobileFirstRunView>, IMobileFirstRunPresenter
+	{
+        public MobileFirstRunPresenter()
+		{
+		}
 
-	}
+        public override void BindView(IMobileFirstRunView view)
+        {            
+            base.BindView(view);
+        }
+    }
 }
+

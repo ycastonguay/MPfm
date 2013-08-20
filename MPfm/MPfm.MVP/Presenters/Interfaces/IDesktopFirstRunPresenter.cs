@@ -15,19 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
-using MPfm.Library.Objects;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-	/// Song Browser presenter interface.
+	/// First Run presenter interface for desktop devices.
 	/// </summary>
-    public interface ISongBrowserPresenter : IBasePresenter<ISongBrowserView>
+    public interface IDesktopFirstRunPresenter : IBasePresenter<IDesktopFirstRunView>
 	{	
-
 	}
 }

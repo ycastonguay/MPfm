@@ -1246,17 +1246,14 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnEditSongMetadata_Click(object sender, EventArgs e)
         {
-            //// Check if at least one item is selected
-            //if (viewSongs2.SelectedItems.Count == 0)
-            //    return;
+            if (viewSongs2.SelectedItems.Count == 0)
+                return;
 
-            //// Get audio file from item metadata (check for null)
-            //AudioFile audioFile = viewSongs2.SelectedItems[0].AudioFile;
-            //if (audioFile == null)
-            //    return;
+            AudioFile audioFile = viewSongs2.SelectedItems[0].AudioFile;
+            if (audioFile == null)
+                return;
 
-            //// Open window
-            //EditSongMetadata(audioFile.FilePath);
+            OnSongBrowserEditSongMetadata(audioFile);
         }
 
         #endregion
@@ -2086,6 +2083,7 @@ namespace MPfm.Windows.Classes.Forms
         #region ISongBrowserView implementation
 
         public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
 
         public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
@@ -2118,6 +2116,7 @@ namespace MPfm.Windows.Classes.Forms
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Action OnEditSongMetadata { get; set; }
 
         public void PlayerError(Exception ex)
         {
@@ -2405,5 +2404,6 @@ namespace MPfm.Windows.Classes.Forms
         }
 
         #endregion
+
     }
 }

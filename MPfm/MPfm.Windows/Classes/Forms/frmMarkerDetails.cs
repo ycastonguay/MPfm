@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
@@ -24,43 +25,13 @@ namespace MPfm.Windows.Classes.Forms
     /// <summary>
     /// Add/Edit Markers window. This is where the user can add or edit markers for an audio file.
     /// </summary>
-    public partial class frmAddEditMarker : MPfm.WindowsControls.Form
+    public partial class frmMarkerDetails : BaseForm, IMarkerDetailsView
     {
-        // Private variables
-        private AddEditMarkerWindowMode mode = AddEditMarkerWindowMode.Add;
-        private frmMain main = null;        
-        private AudioFile audioFile = null;
-        private Guid markerId = Guid.Empty;
-
-        /// <summary>
-        /// Hook to the main form.
-        /// </summary>
-        public frmMain Main
-        {
-            get
-            {
-                return main;
-            }
-        }
-
-        /// <summary>
-        /// Constructor for Add/Edit Marker window. Requires a hook to the main form and
-        /// the window mode must be specified.
-        /// </summary>
-        /// <param name="main">Hook to the main window</param>
-        /// <param name="mode">Window mode</param>
-        /// <param name="audioFile">AudioFile linked to the marker</param>
-        /// <param name="markerId">Identifier of the marker (if it exists)</param>
-        public frmAddEditMarker(frmMain main, AddEditMarkerWindowMode mode, AudioFile audioFile, Guid markerId)
+        public frmMarkerDetails(Action<IBaseView> onViewReady) 
+            : base(onViewReady)
         {
             InitializeComponent();
-            this.main = main;
-            this.mode = mode;
-            this.audioFile = audioFile;
-            this.markerId = markerId;
-
-            // Initialize controls
-            Initialize();
+            ViewIsReady();
         }
 
         /// <summary>
@@ -290,20 +261,30 @@ namespace MPfm.Windows.Classes.Forms
             //// Enable/disable save button
             //btnSave.Enabled = isValid;
         }
-    }
 
-    /// <summary>
-    /// Defines the mode of the AddEditMarker window.
-    /// </summary>
-    public enum AddEditMarkerWindowMode
-    {
-        /// <summary>
-        /// The window is in "Add" mode.
-        /// </summary>
-        Add = 0,
-        /// <summary>
-        /// The window is in "Edit" mode.
-        /// </summary>
-        Edit = 1
+        #region IMarkerDetailsView implementation
+
+        public Action<float> OnChangePosition { get; set; }
+        public Action<Marker> OnUpdateMarker { get; set; }
+        public Action OnDeleteMarker { get; set; }
+
+        public void MarkerDetailsError(Exception ex)
+        {
+        }
+
+        public void DismissView()
+        {
+        }
+
+        public void RefreshMarker(Marker marker, AudioFile audioFile)
+        {
+        }
+
+        public void RefreshMarkerPosition(string position, float positionPercentage)
+        {
+        }
+
+        #endregion
+
     }
 }

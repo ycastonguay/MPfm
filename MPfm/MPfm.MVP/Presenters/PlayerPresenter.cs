@@ -19,8 +19,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
@@ -38,13 +40,13 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class PlayerPresenter : BasePresenter<IPlayerView>, IPlayerPresenter
 	{
-		// Private variables
-		//IPlayerView view;
-		Timer _timerRefreshSongPosition;
+        readonly MobileNavigationManager _mobileNavigationManager;
+        readonly NavigationManager _navigationManager;
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
         readonly ITinyMessengerHub _messageHub;
+        Timer _timerRefreshSongPosition;
 
 		public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService)
 		{	
@@ -82,6 +84,12 @@ namespace MPfm.MVP.Presenters
                 var markers = libraryService.SelectMarkers(m.AudioFileId);
                 View.RefreshMarkers(markers);
             });
+
+#if IOS || ANDROID
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+#else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+#endif
         }
         
         public void Dispose()
@@ -101,6 +109,7 @@ namespace MPfm.MVP.Presenters
             view.OnPlayerSetPosition = SetPosition;
             view.OnPlayerSetVolume = SetVolume;
             view.OnPlayerRequestPosition = RequestPosition;
+            view.OnEditSongMetadata = EditSongMetadata;
 
             // If the player is already playing, refresh initial data
             if (_playerService.IsPlaying)
@@ -142,8 +151,17 @@ namespace MPfm.MVP.Presenters
 
 			View.RefreshPlayerPosition(entity);
 		}
-		
-		/// <summary>
+
+	    public void EditSongMetadata()
+	    {
+#if IOS || ANDROID
+            // Not available yet on mobile devices
+#else
+	        _navigationManager.CreateEditSongMetadataView(_playerService.CurrentPlaylistItem.AudioFile);
+#endif
+	    }
+
+	    /// <summary>
 		/// Starts playback.
 		/// </summary>
 		public void Play()
