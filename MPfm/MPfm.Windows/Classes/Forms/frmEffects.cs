@@ -46,7 +46,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnAutoLevel_Click(object sender, EventArgs e)
         {
-            OnNormalizePreset();
+            if (MessageBox.Show(this, "Are you sure you wish to normalize this equalizer preset?", "Equalizer preset will be normalized", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                OnNormalizePreset();
         }
 
         /// <summary>
@@ -56,7 +57,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnDeletePreset_Click(object sender, EventArgs e)
         {
-            //OnDeletePreset()
+            if (MessageBox.Show(this, "Are you sure you wish to delete this equalizer preset?", "Equalizer preset will be deleted", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                OnDeletePreset(((EQPreset)comboEQPreset.SelectedItem).EQPresetId);
         }
 
         /// <summary>
@@ -88,7 +90,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnResetEQ_Click(object sender, EventArgs e)
         {
-            OnResetPreset();
+            if(MessageBox.Show(this, "Are you sure you wish to reset this equalizer preset?", "Equalizer preset will be reset", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                OnResetPreset();
         }
 
         /// <summary>

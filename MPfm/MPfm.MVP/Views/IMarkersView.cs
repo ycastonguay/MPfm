@@ -30,6 +30,7 @@ namespace MPfm.MVP.Views
         Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         Action<Marker> OnEditMarker { get; set; }
         Action<Marker> OnSelectMarker { get; set; }
+        Action<Marker> OnDeleteMarker { get; set; }
 
         void MarkerError(Exception ex);
         void RefreshMarkers(List<Marker> markers);

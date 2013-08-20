@@ -307,4 +307,16 @@
   <data name="icon_artists_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_artists_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icon_button_edit_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_button_edit_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_button_goto_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_button_goto_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_button_play_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_button_play_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_button_stop_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_button_stop_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

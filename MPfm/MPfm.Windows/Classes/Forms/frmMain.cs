@@ -39,6 +39,9 @@ namespace MPfm.Windows.Classes.Forms
     /// </summary>
     public partial class frmMain : BaseForm, IMainView
     {
+        List<Marker> _markers = new List<Marker>();
+        bool _isPlayerPositionChanging;
+
         #region Initialization
 
         public frmMain(Action<IBaseView> onViewReady) : base (onViewReady)
@@ -1013,6 +1016,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void trackPosition_MouseDown(object sender, MouseEventArgs e)
         {
+            _isPlayerPositionChanging = true;
         }
 
         /// <summary>
@@ -1022,30 +1026,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void trackPosition_MouseUp(object sender, MouseEventArgs e)
         {
-            //try
-            //{
-            //    // Get ratio and set position
-            //    double ratio = (double)trackPosition.Value / 1000;
-
-            //    // Get length
-            //    int positionBytes = (int)(ratio * (double)player.Playlist.CurrentItem.LengthBytes);
-            //    long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)player.Playlist.CurrentItem.AudioFile.BitsPerSample, 2);
-            //    long positionMS = ConvertAudio.ToMS(positionSamples, (uint)player.Playlist.CurrentItem.AudioFile.SampleRate);
-
-            //    // Set player position
-            //    player.SetPosition(positionBytes);
-
-            //    // Set UI
-            //    lblSongPosition.Text = Conversion.MillisecondsToTimeString((ulong)positionMS);                
-            //    lblSongPercentage.Text = (ratio * 100).ToString("00.00");
-
-            //    // Set flags
-            //    songPositionChanging = false;
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message.ToString());
-            //}
+            _isPlayerPositionChanging = false;
+            OnPlayerSetPosition((float)trackPosition.Value / 10f);
         }
 
         /// <summary>
@@ -1055,6 +1037,8 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void trackPosition_MouseMove(object sender, MouseEventArgs e)
         {
+            //OnPlayerRequestPosition((float) trackPosition.Value/10f);
+
             //// Get ratio
             //double ratio = (double)trackPosition.Value / 1000;
 
@@ -1619,18 +1603,10 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnEditMarker_Click(object sender, EventArgs e)
         {
-            //// Check if an item is selected
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            if (viewMarkers.SelectedItems.Count == 0)
+                return;
 
-            //// Get selected markerId
-            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
-
-            //// Create window and show as dialog
-            //formAddEditMarker = new frmAddEditMarker(this, AddEditMarkerWindowMode.Edit, Player.Playlist.CurrentItem.AudioFile, markerId);
-            //formAddEditMarker.ShowDialog(this);
+            OnEditMarker(_markers[viewMarkers.SelectedItems[0].Index]);
         }
 
         /// <summary>
@@ -1641,22 +1617,11 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnRemoveMarker_Click(object sender, EventArgs e)
         {
-            //// Check if an item is selected
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            if (viewMarkers.SelectedItems.Count == 0)
+                return;
 
-            //// Confirm with the user
-            //if (MessageBox.Show("Are you sure you wish to remove the '" + viewMarkers.SelectedItems[0].Text + "' marker?", "Remove marker confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
-            //{
-            //    // Get selected markerId
-            //    Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
-
-            //    // Remove marker and refresh list                
-            //    Library.Facade.DeleteMarker(markerId);
-            //    RefreshMarkers();
-            //}
+            if (MessageBox.Show(this, "Are you sure you wish to delete this marker?", "Marker will be deleted", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                OnDeleteMarker(_markers[viewMarkers.SelectedItems[0].Index]);
         }
 
         /// <summary>
@@ -1667,21 +1632,10 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnGoToMarker_Click(object sender, EventArgs e)
         {
-            //// Check if an item is selected
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            if (viewMarkers.SelectedItems.Count == 0)
+                return;
 
-            //// Get selected markerId
-            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
-
-            //// Get PCM position
-            //uint position = 0;
-            //uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
-
-            //// Set player position            
-            //player.SetPosition(position);
+            OnSelectMarker(_markers[viewMarkers.SelectedItems[0].Index]);
         }
 
         /// <summary>
@@ -1692,21 +1646,10 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void viewMarkers_DoubleClick(object sender, EventArgs e)
         {
-            //// Check if an item is selected
-            //if (viewMarkers.SelectedItems.Count == 0)
-            //{
-            //    return;
-            //}
+            if (viewMarkers.SelectedItems.Count == 0)
+                return;
 
-            //// Get selected markerId
-            //Guid markerId = new Guid(viewMarkers.SelectedItems[0].Tag.ToString());
-
-            //// Get PCM position
-            //uint position = 0;
-            //uint.TryParse(viewMarkers.SelectedItems[0].SubItems[3].Text, out position);
-
-            //// Set player position            
-            //player.SetPosition(position);
+            OnSelectMarker(_markers[viewMarkers.SelectedItems[0].Index]);
         }
 
         /// <summary>
@@ -2191,10 +2134,13 @@ namespace MPfm.Windows.Classes.Forms
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
             MethodInvoker methodUIUpdate = delegate {
+
+                trackPosition.Enabled = status == PlayerStatusType.Playing;
+
                 if (status == PlayerStatusType.Playing)
                 {
                     btnPlay.Text = "Pause";
-                    btnPlay.Image = MPfm.Windows.Properties.Resources.control_pause;
+                    btnPlay.Image = MPfm.Windows.Properties.Resources.control_pause;                    
                 }
                 else
                 {
@@ -2212,30 +2158,15 @@ namespace MPfm.Windows.Classes.Forms
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
             MethodInvoker methodUIUpdate = delegate {
-                lblCurrentPosition.Text = entity.Position;
-                trackPosition.Value = (int)entity.PositionPercentage * 10;
-                miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
+                if (!_isPlayerPositionChanging)
+                {
+                    lblCurrentPosition.Text = entity.Position;
+                    miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
+                    trackPosition.Value = (int) entity.PositionPercentage*10;
+                }
 
-                // Set position in the wave form display
                 if (!waveFormMarkersLoops.IsLoading)
                     waveFormMarkersLoops.SetPosition(entity.PositionBytes, entity.Position);
-
-                //    // Update the song position
-                //    if (!songPositionChanging)
-                //    {
-                //        // Get ratio
-                //        float ratio = (float)positionSamples / (float)player.Playlist.CurrentItem.LengthSamples;
-                //        trackPosition.Value = Convert.ToInt32(ratio * 1000);
-
-                //        // Set time on seek control
-                //        lblSongPosition.Text = position;
-                //        lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
-                //    }
-                //}
-                //catch
-                //{
-                //    // Just don't do anything, this might be because the playlist items are now gone.
-                //}
             };
 
             if (InvokeRequired)
@@ -2306,6 +2237,7 @@ namespace MPfm.Windows.Classes.Forms
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
             MethodInvoker methodUIUpdate = delegate {
+                _markers = markers.ToList();
                 viewMarkers.Items.Clear();
                 foreach (Marker marker in markers)
                 {
@@ -2353,6 +2285,7 @@ namespace MPfm.Windows.Classes.Forms
         public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
+        public Action<Marker> OnDeleteMarker { get; set; }
 
         public void MarkerError(Exception ex)
         {
@@ -2369,6 +2302,24 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshMarkers(List<Marker> markers)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                _markers = markers.ToList();
+                viewMarkers.Items.Clear();
+                foreach (Marker marker in markers)
+                {
+                    ListViewItem item = viewMarkers.Items.Add(marker.Name);
+                    item.Tag = marker.MarkerId;
+                    item.SubItems.Add(marker.Position);
+                    item.SubItems.Add(marker.Comments);
+                    item.SubItems.Add(marker.PositionBytes.ToString());
+                }
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         #endregion

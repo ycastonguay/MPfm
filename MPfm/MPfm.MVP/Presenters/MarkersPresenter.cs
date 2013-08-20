@@ -60,10 +60,10 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(IMarkersView view)
         {            
-            // Subscribe to view actions
             view.OnAddMarker = AddMarker;
             view.OnEditMarker = EditMarker;
             view.OnSelectMarker = SelectMarker;
+            view.OnDeleteMarker = DeleteMarker;
 
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
                 _audioFileId = m.Data.AudioFileStarted.Id;
@@ -76,7 +76,7 @@ namespace MPfm.MVP.Presenters
             base.BindView(view);
         }
 
-        private void CreateMarkerDetailsView(Guid markerId)
+	    private void CreateMarkerDetailsView(Guid markerId)
         {
 #if IOS || ANDROID
             _mobileNavigationManager.CreateMarkerDetailsView(View, markerId);
@@ -130,6 +130,21 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Console.WriteLine("An error occured while selecting marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
+        }
+
+        private void DeleteMarker(Marker marker)
+        {
+            try
+            {
+                _markers.Remove(marker);
+                _libraryService.DeleteMarker(marker.MarkerId);
+                View.RefreshMarkers(_markers);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured while deleting marker: " + ex.Message);
                 View.MarkerError(ex);
             }
         }

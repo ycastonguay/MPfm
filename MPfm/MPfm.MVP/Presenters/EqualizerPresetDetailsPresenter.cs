@@ -114,145 +114,22 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                // TODO: Take code from Windows
-                //// Declare variables
-                //int highestValue = -30;                     
-                //int value = 0;
+                float highestValue = -6f;
+                float value = 0;
 
-                //#region Find highest value
+                // Try to find the highest value in all bands
+                for (int a = 0; a < _preset.Bands.Count; a++)
+                {
+                    var band = _preset.Bands[a];
+                    value = _preset.Bands[a].Gain;
+                    Console.WriteLine("NormalizePreset - band {0} value {1}", band, value);
+                    if (value > highestValue)
+                        highestValue = value;
+                }
 
-                //// Find the highest and lowest value in the equalizer            
-                //value = fader0.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader1.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader2.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader3.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader4.Value;           
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader5.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader6.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader7.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader8.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader9.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader10.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader11.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader12.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader13.Value;            
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader14.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader15.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader16.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //value = fader17.Value;
-
-                //// Check for high
-                //if (value > highestValue)
-                //    highestValue = value;
-
-                //#endregion
-
-                //// Substract value for every fader
-                //fader0.Value = fader0.Value - highestValue;
-                //fader1.Value = fader1.Value - highestValue;
-                //fader2.Value = fader2.Value - highestValue;
-                //fader3.Value = fader3.Value - highestValue;
-                //fader4.Value = fader4.Value - highestValue;
-                //fader5.Value = fader5.Value - highestValue;
-                //fader6.Value = fader6.Value - highestValue;
-                //fader7.Value = fader7.Value - highestValue;
-                //fader8.Value = fader8.Value - highestValue;
-                //fader9.Value = fader9.Value - highestValue;
-                //fader10.Value = fader10.Value - highestValue;
-                //fader11.Value = fader11.Value - highestValue;
-                //fader12.Value = fader12.Value - highestValue;
-                //fader13.Value = fader13.Value - highestValue;
-                //fader14.Value = fader14.Value - highestValue;
-                //fader15.Value = fader15.Value - highestValue;
-                //fader16.Value = fader16.Value - highestValue;
-                //fader17.Value = fader17.Value - highestValue;
-
-                ////MessageBox.Show("highest: " + highestValue.ToString());
+                // Normalize bands
+                foreach (var band in _preset.Bands)
+                    band.Gain = band.Gain - highestValue;
 
                 View.RefreshPreset(_preset);
             }

@@ -463,6 +463,36 @@ namespace MPfm.Windows.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_button_edit_16 {
+            get {
+                object obj = ResourceManager.GetObject("icon_button_edit_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_button_goto_16 {
+            get {
+                object obj = ResourceManager.GetObject("icon_button_goto_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_button_play_16 {
+            get {
+                object obj = ResourceManager.GetObject("icon_button_play_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_button_refresh_16 {
             get {
                 object obj = ResourceManager.GetObject("icon_button_refresh_16", resourceCulture);
@@ -496,6 +526,16 @@ namespace MPfm.Windows.Properties {
         internal static System.Drawing.Bitmap icon_button_speaker_16 {
             get {
                 object obj = ResourceManager.GetObject("icon_button_speaker_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_button_stop_16 {
+            get {
+                object obj = ResourceManager.GetObject("icon_button_stop_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
