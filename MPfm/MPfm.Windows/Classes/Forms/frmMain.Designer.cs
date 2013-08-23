@@ -861,8 +861,8 @@ namespace MPfm.Windows.Classes.Forms
             this.btnRepeat,
             this.btnShuffle,
             this.toolStripSeparator6,
-            this.btnEffects,
             this.btnPlaylist,
+            this.btnEffects,
             this.btnVisualizer,
             this.btnThemes,
             this.btnSync,
@@ -956,8 +956,8 @@ namespace MPfm.Windows.Classes.Forms
             this.btnEffects.Image = ((System.Drawing.Image)(resources.GetObject("btnEffects.Image")));
             this.btnEffects.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEffects.Name = "btnEffects";
-            this.btnEffects.Size = new System.Drawing.Size(46, 34);
-            this.btnEffects.Text = "Effects";
+            this.btnEffects.Size = new System.Drawing.Size(55, 34);
+            this.btnEffects.Text = "Equalizer";
             this.btnEffects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnEffects.ToolTipText = "Opens the Effects window.";
             this.btnEffects.Click += new System.EventHandler(this.btnEffects_Click);

@@ -164,7 +164,7 @@ namespace MPfm.Windows.Classes.Forms
             MPfm.WindowsControls.TextGradient textGradient39 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont39 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.PanelTheme panelTheme3 = new MPfm.WindowsControls.PanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient59 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient58 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient59 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont59 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.FaderTheme faderTheme1 = new MPfm.WindowsControls.FaderTheme();
@@ -256,11 +256,9 @@ namespace MPfm.Windows.Classes.Forms
             MPfm.WindowsControls.TextGradient textGradient43 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont43 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.PanelTheme panelTheme2 = new MPfm.WindowsControls.PanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient58 = new MPfm.WindowsControls.BackgroundGradient();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient57 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient58 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont58 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient57 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.LabelTheme labelTheme41 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient45 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont45 = new MPfm.WindowsControls.CustomFont();
@@ -359,12 +357,11 @@ namespace MPfm.Windows.Classes.Forms
             this.chkEQOn = new System.Windows.Forms.CheckBox();
             this.lblEQOn = new MPfm.WindowsControls.Label();
             this.panelPresetInformation = new MPfm.WindowsControls.Panel();
-            this.flowPresetInformation = new MPfm.WindowsControls.FlowLayoutPanel();
-            this.lblEQName = new MPfm.WindowsControls.Label();
             this.txtEQPresetName = new System.Windows.Forms.TextBox();
+            this.lblEQName = new MPfm.WindowsControls.Label();
+            this.btnAutoLevel = new MPfm.WindowsControls.Button();
             this.btnSaveEQPreset = new MPfm.WindowsControls.Button();
             this.btnDeleteEQPreset = new MPfm.WindowsControls.Button();
-            this.btnAutoLevel = new MPfm.WindowsControls.Button();
             this.btnResetEQ = new MPfm.WindowsControls.Button();
             this.panelZeroLine = new System.Windows.Forms.Panel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -373,7 +370,6 @@ namespace MPfm.Windows.Classes.Forms
             this.panelPreset.SuspendLayout();
             this.tablePreset.SuspendLayout();
             this.panelPresetInformation.SuspendLayout();
-            this.flowPresetInformation.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblGain17
@@ -382,7 +378,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain17.ForeColor = System.Drawing.Color.White;
             this.lblGain17.IsAutoSized = false;
-            this.lblGain17.Location = new System.Drawing.Point(753, 423);
+            this.lblGain17.Location = new System.Drawing.Point(753, 535);
             this.lblGain17.Name = "lblGain17";
             this.lblGain17.Size = new System.Drawing.Size(48, 19);
             this.lblGain17.TabIndex = 58;
@@ -414,7 +410,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl17.ForeColor = System.Drawing.Color.White;
             this.lbl17.IsAutoSized = false;
-            this.lbl17.Location = new System.Drawing.Point(753, 404);
+            this.lbl17.Location = new System.Drawing.Point(753, 516);
             this.lbl17.Name = "lbl17";
             this.lbl17.Size = new System.Drawing.Size(48, 19);
             this.lbl17.TabIndex = 57;
@@ -446,7 +442,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain16.ForeColor = System.Drawing.Color.White;
             this.lblGain16.IsAutoSized = false;
-            this.lblGain16.Location = new System.Drawing.Point(709, 423);
+            this.lblGain16.Location = new System.Drawing.Point(709, 535);
             this.lblGain16.Name = "lblGain16";
             this.lblGain16.Size = new System.Drawing.Size(48, 19);
             this.lblGain16.TabIndex = 55;
@@ -478,7 +474,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl16.ForeColor = System.Drawing.Color.White;
             this.lbl16.IsAutoSized = false;
-            this.lbl16.Location = new System.Drawing.Point(709, 404);
+            this.lbl16.Location = new System.Drawing.Point(709, 516);
             this.lbl16.Name = "lbl16";
             this.lbl16.Size = new System.Drawing.Size(48, 19);
             this.lbl16.TabIndex = 54;
@@ -510,7 +506,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain15.ForeColor = System.Drawing.Color.White;
             this.lblGain15.IsAutoSized = false;
-            this.lblGain15.Location = new System.Drawing.Point(665, 423);
+            this.lblGain15.Location = new System.Drawing.Point(665, 535);
             this.lblGain15.Name = "lblGain15";
             this.lblGain15.Size = new System.Drawing.Size(48, 19);
             this.lblGain15.TabIndex = 52;
@@ -542,7 +538,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl15.ForeColor = System.Drawing.Color.White;
             this.lbl15.IsAutoSized = false;
-            this.lbl15.Location = new System.Drawing.Point(665, 404);
+            this.lbl15.Location = new System.Drawing.Point(665, 516);
             this.lbl15.Name = "lbl15";
             this.lbl15.Size = new System.Drawing.Size(48, 19);
             this.lbl15.TabIndex = 51;
@@ -574,7 +570,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain14.ForeColor = System.Drawing.Color.White;
             this.lblGain14.IsAutoSized = false;
-            this.lblGain14.Location = new System.Drawing.Point(621, 423);
+            this.lblGain14.Location = new System.Drawing.Point(621, 535);
             this.lblGain14.Name = "lblGain14";
             this.lblGain14.Size = new System.Drawing.Size(48, 19);
             this.lblGain14.TabIndex = 49;
@@ -606,7 +602,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl14.ForeColor = System.Drawing.Color.White;
             this.lbl14.IsAutoSized = false;
-            this.lbl14.Location = new System.Drawing.Point(621, 404);
+            this.lbl14.Location = new System.Drawing.Point(621, 516);
             this.lbl14.Name = "lbl14";
             this.lbl14.Size = new System.Drawing.Size(48, 19);
             this.lbl14.TabIndex = 48;
@@ -638,7 +634,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain13.ForeColor = System.Drawing.Color.White;
             this.lblGain13.IsAutoSized = false;
-            this.lblGain13.Location = new System.Drawing.Point(577, 423);
+            this.lblGain13.Location = new System.Drawing.Point(577, 535);
             this.lblGain13.Name = "lblGain13";
             this.lblGain13.Size = new System.Drawing.Size(48, 19);
             this.lblGain13.TabIndex = 46;
@@ -670,7 +666,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl13.ForeColor = System.Drawing.Color.White;
             this.lbl13.IsAutoSized = false;
-            this.lbl13.Location = new System.Drawing.Point(577, 404);
+            this.lbl13.Location = new System.Drawing.Point(577, 516);
             this.lbl13.Name = "lbl13";
             this.lbl13.Size = new System.Drawing.Size(48, 19);
             this.lbl13.TabIndex = 45;
@@ -702,7 +698,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain12.ForeColor = System.Drawing.Color.White;
             this.lblGain12.IsAutoSized = false;
-            this.lblGain12.Location = new System.Drawing.Point(533, 423);
+            this.lblGain12.Location = new System.Drawing.Point(533, 535);
             this.lblGain12.Name = "lblGain12";
             this.lblGain12.Size = new System.Drawing.Size(48, 19);
             this.lblGain12.TabIndex = 43;
@@ -734,7 +730,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl12.ForeColor = System.Drawing.Color.White;
             this.lbl12.IsAutoSized = false;
-            this.lbl12.Location = new System.Drawing.Point(533, 404);
+            this.lbl12.Location = new System.Drawing.Point(533, 516);
             this.lbl12.Name = "lbl12";
             this.lbl12.Size = new System.Drawing.Size(48, 19);
             this.lbl12.TabIndex = 42;
@@ -766,7 +762,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain11.ForeColor = System.Drawing.Color.White;
             this.lblGain11.IsAutoSized = false;
-            this.lblGain11.Location = new System.Drawing.Point(489, 423);
+            this.lblGain11.Location = new System.Drawing.Point(489, 535);
             this.lblGain11.Name = "lblGain11";
             this.lblGain11.Size = new System.Drawing.Size(48, 19);
             this.lblGain11.TabIndex = 40;
@@ -798,7 +794,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl11.ForeColor = System.Drawing.Color.White;
             this.lbl11.IsAutoSized = false;
-            this.lbl11.Location = new System.Drawing.Point(489, 404);
+            this.lbl11.Location = new System.Drawing.Point(489, 516);
             this.lbl11.Name = "lbl11";
             this.lbl11.Size = new System.Drawing.Size(48, 19);
             this.lbl11.TabIndex = 39;
@@ -830,7 +826,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain10.ForeColor = System.Drawing.Color.White;
             this.lblGain10.IsAutoSized = false;
-            this.lblGain10.Location = new System.Drawing.Point(445, 423);
+            this.lblGain10.Location = new System.Drawing.Point(445, 535);
             this.lblGain10.Name = "lblGain10";
             this.lblGain10.Size = new System.Drawing.Size(48, 19);
             this.lblGain10.TabIndex = 37;
@@ -862,7 +858,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl10.ForeColor = System.Drawing.Color.White;
             this.lbl10.IsAutoSized = false;
-            this.lbl10.Location = new System.Drawing.Point(445, 404);
+            this.lbl10.Location = new System.Drawing.Point(445, 516);
             this.lbl10.Name = "lbl10";
             this.lbl10.Size = new System.Drawing.Size(48, 19);
             this.lbl10.TabIndex = 36;
@@ -894,7 +890,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain9.ForeColor = System.Drawing.Color.White;
             this.lblGain9.IsAutoSized = false;
-            this.lblGain9.Location = new System.Drawing.Point(401, 423);
+            this.lblGain9.Location = new System.Drawing.Point(401, 535);
             this.lblGain9.Name = "lblGain9";
             this.lblGain9.Size = new System.Drawing.Size(48, 19);
             this.lblGain9.TabIndex = 34;
@@ -926,7 +922,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl9.ForeColor = System.Drawing.Color.White;
             this.lbl9.IsAutoSized = false;
-            this.lbl9.Location = new System.Drawing.Point(401, 404);
+            this.lbl9.Location = new System.Drawing.Point(401, 516);
             this.lbl9.Name = "lbl9";
             this.lbl9.Size = new System.Drawing.Size(48, 19);
             this.lbl9.TabIndex = 33;
@@ -958,7 +954,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain8.ForeColor = System.Drawing.Color.White;
             this.lblGain8.IsAutoSized = false;
-            this.lblGain8.Location = new System.Drawing.Point(357, 423);
+            this.lblGain8.Location = new System.Drawing.Point(357, 535);
             this.lblGain8.Name = "lblGain8";
             this.lblGain8.Size = new System.Drawing.Size(48, 19);
             this.lblGain8.TabIndex = 31;
@@ -990,7 +986,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl8.ForeColor = System.Drawing.Color.White;
             this.lbl8.IsAutoSized = false;
-            this.lbl8.Location = new System.Drawing.Point(357, 404);
+            this.lbl8.Location = new System.Drawing.Point(357, 516);
             this.lbl8.Name = "lbl8";
             this.lbl8.Size = new System.Drawing.Size(48, 19);
             this.lbl8.TabIndex = 30;
@@ -1022,7 +1018,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain7.ForeColor = System.Drawing.Color.White;
             this.lblGain7.IsAutoSized = false;
-            this.lblGain7.Location = new System.Drawing.Point(313, 423);
+            this.lblGain7.Location = new System.Drawing.Point(313, 535);
             this.lblGain7.Name = "lblGain7";
             this.lblGain7.Size = new System.Drawing.Size(48, 19);
             this.lblGain7.TabIndex = 28;
@@ -1054,7 +1050,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl7.ForeColor = System.Drawing.Color.White;
             this.lbl7.IsAutoSized = false;
-            this.lbl7.Location = new System.Drawing.Point(313, 404);
+            this.lbl7.Location = new System.Drawing.Point(313, 516);
             this.lbl7.Name = "lbl7";
             this.lbl7.Size = new System.Drawing.Size(48, 19);
             this.lbl7.TabIndex = 27;
@@ -1086,7 +1082,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain6.ForeColor = System.Drawing.Color.White;
             this.lblGain6.IsAutoSized = false;
-            this.lblGain6.Location = new System.Drawing.Point(269, 423);
+            this.lblGain6.Location = new System.Drawing.Point(269, 535);
             this.lblGain6.Name = "lblGain6";
             this.lblGain6.Size = new System.Drawing.Size(48, 19);
             this.lblGain6.TabIndex = 25;
@@ -1118,7 +1114,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl6.ForeColor = System.Drawing.Color.White;
             this.lbl6.IsAutoSized = false;
-            this.lbl6.Location = new System.Drawing.Point(269, 404);
+            this.lbl6.Location = new System.Drawing.Point(269, 516);
             this.lbl6.Name = "lbl6";
             this.lbl6.Size = new System.Drawing.Size(48, 19);
             this.lbl6.TabIndex = 24;
@@ -1150,7 +1146,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain5.ForeColor = System.Drawing.Color.White;
             this.lblGain5.IsAutoSized = false;
-            this.lblGain5.Location = new System.Drawing.Point(225, 423);
+            this.lblGain5.Location = new System.Drawing.Point(225, 535);
             this.lblGain5.Name = "lblGain5";
             this.lblGain5.Size = new System.Drawing.Size(48, 19);
             this.lblGain5.TabIndex = 22;
@@ -1182,7 +1178,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl5.ForeColor = System.Drawing.Color.White;
             this.lbl5.IsAutoSized = false;
-            this.lbl5.Location = new System.Drawing.Point(225, 404);
+            this.lbl5.Location = new System.Drawing.Point(225, 516);
             this.lbl5.Name = "lbl5";
             this.lbl5.Size = new System.Drawing.Size(48, 19);
             this.lbl5.TabIndex = 21;
@@ -1214,7 +1210,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain4.ForeColor = System.Drawing.Color.White;
             this.lblGain4.IsAutoSized = false;
-            this.lblGain4.Location = new System.Drawing.Point(181, 423);
+            this.lblGain4.Location = new System.Drawing.Point(181, 535);
             this.lblGain4.Name = "lblGain4";
             this.lblGain4.Size = new System.Drawing.Size(48, 19);
             this.lblGain4.TabIndex = 19;
@@ -1246,7 +1242,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl4.ForeColor = System.Drawing.Color.White;
             this.lbl4.IsAutoSized = false;
-            this.lbl4.Location = new System.Drawing.Point(181, 404);
+            this.lbl4.Location = new System.Drawing.Point(181, 516);
             this.lbl4.Name = "lbl4";
             this.lbl4.Size = new System.Drawing.Size(48, 19);
             this.lbl4.TabIndex = 18;
@@ -1278,7 +1274,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain3.ForeColor = System.Drawing.Color.White;
             this.lblGain3.IsAutoSized = false;
-            this.lblGain3.Location = new System.Drawing.Point(137, 423);
+            this.lblGain3.Location = new System.Drawing.Point(137, 535);
             this.lblGain3.Name = "lblGain3";
             this.lblGain3.Size = new System.Drawing.Size(48, 19);
             this.lblGain3.TabIndex = 16;
@@ -1310,7 +1306,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl3.ForeColor = System.Drawing.Color.White;
             this.lbl3.IsAutoSized = false;
-            this.lbl3.Location = new System.Drawing.Point(137, 404);
+            this.lbl3.Location = new System.Drawing.Point(137, 516);
             this.lbl3.Name = "lbl3";
             this.lbl3.Size = new System.Drawing.Size(48, 19);
             this.lbl3.TabIndex = 15;
@@ -1342,7 +1338,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain2.ForeColor = System.Drawing.Color.White;
             this.lblGain2.IsAutoSized = false;
-            this.lblGain2.Location = new System.Drawing.Point(93, 423);
+            this.lblGain2.Location = new System.Drawing.Point(93, 535);
             this.lblGain2.Name = "lblGain2";
             this.lblGain2.Size = new System.Drawing.Size(48, 19);
             this.lblGain2.TabIndex = 13;
@@ -1374,7 +1370,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl2.ForeColor = System.Drawing.Color.White;
             this.lbl2.IsAutoSized = false;
-            this.lbl2.Location = new System.Drawing.Point(93, 404);
+            this.lbl2.Location = new System.Drawing.Point(93, 516);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(48, 19);
             this.lbl2.TabIndex = 12;
@@ -1406,7 +1402,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain1.ForeColor = System.Drawing.Color.White;
             this.lblGain1.IsAutoSized = false;
-            this.lblGain1.Location = new System.Drawing.Point(49, 423);
+            this.lblGain1.Location = new System.Drawing.Point(49, 535);
             this.lblGain1.Name = "lblGain1";
             this.lblGain1.Size = new System.Drawing.Size(48, 19);
             this.lblGain1.TabIndex = 10;
@@ -1438,7 +1434,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl1.ForeColor = System.Drawing.Color.White;
             this.lbl1.IsAutoSized = false;
-            this.lbl1.Location = new System.Drawing.Point(49, 404);
+            this.lbl1.Location = new System.Drawing.Point(49, 516);
             this.lbl1.Name = "lbl1";
             this.lbl1.Size = new System.Drawing.Size(48, 19);
             this.lbl1.TabIndex = 9;
@@ -1470,7 +1466,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblGain0.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblGain0.ForeColor = System.Drawing.Color.White;
             this.lblGain0.IsAutoSized = false;
-            this.lblGain0.Location = new System.Drawing.Point(6, 423);
+            this.lblGain0.Location = new System.Drawing.Point(6, 535);
             this.lblGain0.Name = "lblGain0";
             this.lblGain0.Size = new System.Drawing.Size(48, 19);
             this.lblGain0.TabIndex = 7;
@@ -1502,7 +1498,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl0.ForeColor = System.Drawing.Color.White;
             this.lbl0.IsAutoSized = false;
-            this.lbl0.Location = new System.Drawing.Point(6, 404);
+            this.lbl0.Location = new System.Drawing.Point(6, 516);
             this.lbl0.Name = "lbl0";
             this.lbl0.Size = new System.Drawing.Size(48, 19);
             this.lbl0.TabIndex = 6;
@@ -1533,7 +1529,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl0dB.BackColor = System.Drawing.Color.Transparent;
             this.lbl0dB.ForeColor = System.Drawing.Color.White;
             this.lbl0dB.IsAutoSized = false;
-            this.lbl0dB.Location = new System.Drawing.Point(800, 211);
+            this.lbl0dB.Location = new System.Drawing.Point(800, 323);
             this.lbl0dB.Name = "lbl0dB";
             this.lbl0dB.Size = new System.Drawing.Size(47, 19);
             this.lbl0dB.TabIndex = 59;
@@ -1564,7 +1560,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl_6dB.BackColor = System.Drawing.Color.Transparent;
             this.lbl_6dB.ForeColor = System.Drawing.Color.White;
             this.lbl_6dB.IsAutoSized = false;
-            this.lbl_6dB.Location = new System.Drawing.Point(800, 382);
+            this.lbl_6dB.Location = new System.Drawing.Point(800, 494);
             this.lbl_6dB.Name = "lbl_6dB";
             this.lbl_6dB.Size = new System.Drawing.Size(48, 19);
             this.lbl_6dB.TabIndex = 60;
@@ -1595,7 +1591,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lbl6dB.BackColor = System.Drawing.Color.Transparent;
             this.lbl6dB.ForeColor = System.Drawing.Color.White;
             this.lbl6dB.IsAutoSized = false;
-            this.lbl6dB.Location = new System.Drawing.Point(800, 28);
+            this.lbl6dB.Location = new System.Drawing.Point(800, 140);
             this.lbl6dB.Name = "lbl6dB";
             this.lbl6dB.Size = new System.Drawing.Size(48, 19);
             this.lbl6dB.TabIndex = 61;
@@ -1639,13 +1635,11 @@ namespace MPfm.Windows.Classes.Forms
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayout.Size = new System.Drawing.Size(988, 455);
+            this.tableLayout.Size = new System.Drawing.Size(848, 568);
             this.tableLayout.TabIndex = 62;
             // 
             // panelEqualizer
             // 
-            this.panelEqualizer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelEqualizer.Controls.Add(this.fader17);
             this.panelEqualizer.Controls.Add(this.fader16);
             this.panelEqualizer.Controls.Add(this.fader15);
@@ -1711,21 +1705,21 @@ namespace MPfm.Windows.Classes.Forms
             this.panelEqualizer.ForeColor = System.Drawing.Color.White;
             this.panelEqualizer.HeaderAutoSize = true;
             this.panelEqualizer.HeaderExpanded = true;
-            this.panelEqualizer.HeaderHeight = 22;
+            this.panelEqualizer.HeaderHeight = 0;
             this.panelEqualizer.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.panelEqualizer.HeaderTitle = "Equalizer (18 bands)";
             this.panelEqualizer.Location = new System.Drawing.Point(1, 1);
             this.panelEqualizer.Margin = new System.Windows.Forms.Padding(0);
             this.panelEqualizer.Name = "panelEqualizer";
-            this.panelEqualizer.Size = new System.Drawing.Size(986, 450);
+            this.panelEqualizer.Size = new System.Drawing.Size(846, 567);
             this.panelEqualizer.TabIndex = 26;
             this.panelEqualizer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            backgroundGradient59.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient59.BorderWidth = 0;
-            backgroundGradient59.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
-            backgroundGradient59.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
-            backgroundGradient59.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            panelTheme3.BackgroundGradient = backgroundGradient59;
+            backgroundGradient58.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient58.BorderWidth = 0;
+            backgroundGradient58.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
+            backgroundGradient58.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
+            backgroundGradient58.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            panelTheme3.BackgroundGradient = backgroundGradient58;
             textGradient59.BorderColor = System.Drawing.Color.DarkGray;
             textGradient59.BorderWidth = 0;
             textGradient59.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
@@ -1750,7 +1744,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader17.BackColor = System.Drawing.Color.Transparent;
             this.fader17.FaderHeight = 30;
             this.fader17.FaderWidth = 12;
-            this.fader17.Location = new System.Drawing.Point(764, 28);
+            this.fader17.Location = new System.Drawing.Point(764, 140);
             this.fader17.Maximum = 60;
             this.fader17.Minimum = -60;
             this.fader17.Name = "fader17";
@@ -1789,7 +1783,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader16.BackColor = System.Drawing.Color.Transparent;
             this.fader16.FaderHeight = 30;
             this.fader16.FaderWidth = 12;
-            this.fader16.Location = new System.Drawing.Point(720, 28);
+            this.fader16.Location = new System.Drawing.Point(720, 140);
             this.fader16.Maximum = 60;
             this.fader16.Minimum = -60;
             this.fader16.Name = "fader16";
@@ -1828,7 +1822,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader15.BackColor = System.Drawing.Color.Transparent;
             this.fader15.FaderHeight = 30;
             this.fader15.FaderWidth = 12;
-            this.fader15.Location = new System.Drawing.Point(676, 28);
+            this.fader15.Location = new System.Drawing.Point(676, 140);
             this.fader15.Maximum = 60;
             this.fader15.Minimum = -60;
             this.fader15.Name = "fader15";
@@ -1867,7 +1861,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader14.BackColor = System.Drawing.Color.Transparent;
             this.fader14.FaderHeight = 30;
             this.fader14.FaderWidth = 12;
-            this.fader14.Location = new System.Drawing.Point(632, 28);
+            this.fader14.Location = new System.Drawing.Point(632, 140);
             this.fader14.Maximum = 60;
             this.fader14.Minimum = -60;
             this.fader14.Name = "fader14";
@@ -1906,7 +1900,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader13.BackColor = System.Drawing.Color.Transparent;
             this.fader13.FaderHeight = 30;
             this.fader13.FaderWidth = 12;
-            this.fader13.Location = new System.Drawing.Point(588, 28);
+            this.fader13.Location = new System.Drawing.Point(588, 140);
             this.fader13.Maximum = 60;
             this.fader13.Minimum = -60;
             this.fader13.Name = "fader13";
@@ -1945,7 +1939,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader12.BackColor = System.Drawing.Color.Transparent;
             this.fader12.FaderHeight = 30;
             this.fader12.FaderWidth = 12;
-            this.fader12.Location = new System.Drawing.Point(544, 28);
+            this.fader12.Location = new System.Drawing.Point(544, 140);
             this.fader12.Maximum = 60;
             this.fader12.Minimum = -60;
             this.fader12.Name = "fader12";
@@ -1984,7 +1978,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader11.BackColor = System.Drawing.Color.Transparent;
             this.fader11.FaderHeight = 30;
             this.fader11.FaderWidth = 12;
-            this.fader11.Location = new System.Drawing.Point(500, 28);
+            this.fader11.Location = new System.Drawing.Point(500, 140);
             this.fader11.Maximum = 60;
             this.fader11.Minimum = -60;
             this.fader11.Name = "fader11";
@@ -2023,7 +2017,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader10.BackColor = System.Drawing.Color.Transparent;
             this.fader10.FaderHeight = 30;
             this.fader10.FaderWidth = 12;
-            this.fader10.Location = new System.Drawing.Point(456, 28);
+            this.fader10.Location = new System.Drawing.Point(456, 140);
             this.fader10.Maximum = 60;
             this.fader10.Minimum = -60;
             this.fader10.Name = "fader10";
@@ -2062,7 +2056,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader9.BackColor = System.Drawing.Color.Transparent;
             this.fader9.FaderHeight = 30;
             this.fader9.FaderWidth = 12;
-            this.fader9.Location = new System.Drawing.Point(412, 28);
+            this.fader9.Location = new System.Drawing.Point(412, 140);
             this.fader9.Maximum = 60;
             this.fader9.Minimum = -60;
             this.fader9.Name = "fader9";
@@ -2101,7 +2095,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader8.BackColor = System.Drawing.Color.Transparent;
             this.fader8.FaderHeight = 30;
             this.fader8.FaderWidth = 12;
-            this.fader8.Location = new System.Drawing.Point(368, 28);
+            this.fader8.Location = new System.Drawing.Point(368, 140);
             this.fader8.Maximum = 60;
             this.fader8.Minimum = -60;
             this.fader8.Name = "fader8";
@@ -2140,7 +2134,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader7.BackColor = System.Drawing.Color.Transparent;
             this.fader7.FaderHeight = 30;
             this.fader7.FaderWidth = 12;
-            this.fader7.Location = new System.Drawing.Point(324, 28);
+            this.fader7.Location = new System.Drawing.Point(324, 140);
             this.fader7.Maximum = 60;
             this.fader7.Minimum = -60;
             this.fader7.Name = "fader7";
@@ -2179,7 +2173,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader6.BackColor = System.Drawing.Color.Transparent;
             this.fader6.FaderHeight = 30;
             this.fader6.FaderWidth = 12;
-            this.fader6.Location = new System.Drawing.Point(280, 28);
+            this.fader6.Location = new System.Drawing.Point(280, 140);
             this.fader6.Maximum = 60;
             this.fader6.Minimum = -60;
             this.fader6.Name = "fader6";
@@ -2218,7 +2212,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader5.BackColor = System.Drawing.Color.Transparent;
             this.fader5.FaderHeight = 30;
             this.fader5.FaderWidth = 12;
-            this.fader5.Location = new System.Drawing.Point(236, 28);
+            this.fader5.Location = new System.Drawing.Point(236, 140);
             this.fader5.Maximum = 60;
             this.fader5.Minimum = -60;
             this.fader5.Name = "fader5";
@@ -2257,7 +2251,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader4.BackColor = System.Drawing.Color.Transparent;
             this.fader4.FaderHeight = 30;
             this.fader4.FaderWidth = 12;
-            this.fader4.Location = new System.Drawing.Point(192, 28);
+            this.fader4.Location = new System.Drawing.Point(192, 140);
             this.fader4.Maximum = 60;
             this.fader4.Minimum = -60;
             this.fader4.Name = "fader4";
@@ -2296,7 +2290,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader3.BackColor = System.Drawing.Color.Transparent;
             this.fader3.FaderHeight = 30;
             this.fader3.FaderWidth = 12;
-            this.fader3.Location = new System.Drawing.Point(148, 28);
+            this.fader3.Location = new System.Drawing.Point(148, 140);
             this.fader3.Maximum = 60;
             this.fader3.Minimum = -60;
             this.fader3.Name = "fader3";
@@ -2335,7 +2329,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader2.BackColor = System.Drawing.Color.Transparent;
             this.fader2.FaderHeight = 30;
             this.fader2.FaderWidth = 12;
-            this.fader2.Location = new System.Drawing.Point(104, 28);
+            this.fader2.Location = new System.Drawing.Point(104, 140);
             this.fader2.Maximum = 60;
             this.fader2.Minimum = -60;
             this.fader2.Name = "fader2";
@@ -2374,7 +2368,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader1.BackColor = System.Drawing.Color.Transparent;
             this.fader1.FaderHeight = 30;
             this.fader1.FaderWidth = 12;
-            this.fader1.Location = new System.Drawing.Point(60, 28);
+            this.fader1.Location = new System.Drawing.Point(60, 140);
             this.fader1.Maximum = 60;
             this.fader1.Minimum = -60;
             this.fader1.Name = "fader1";
@@ -2413,7 +2407,7 @@ namespace MPfm.Windows.Classes.Forms
             this.fader0.BackColor = System.Drawing.Color.Transparent;
             this.fader0.FaderHeight = 30;
             this.fader0.FaderWidth = 12;
-            this.fader0.Location = new System.Drawing.Point(16, 28);
+            this.fader0.Location = new System.Drawing.Point(16, 140);
             this.fader0.Maximum = 60;
             this.fader0.Minimum = -60;
             this.fader0.Name = "fader0";
@@ -2449,7 +2443,8 @@ namespace MPfm.Windows.Classes.Forms
             // 
             // panelPreset
             // 
-            this.panelPreset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelPreset.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelPreset.Controls.Add(this.btnNewPreset);
             this.panelPreset.Controls.Add(this.tablePreset);
             this.panelPreset.ExpandedHeight = 56;
@@ -2460,15 +2455,15 @@ namespace MPfm.Windows.Classes.Forms
             this.panelPreset.HeaderHeight = 20;
             this.panelPreset.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelPreset.HeaderTitle = "Presets";
-            this.panelPreset.Location = new System.Drawing.Point(853, 24);
+            this.panelPreset.Location = new System.Drawing.Point(0, 0);
             this.panelPreset.Name = "panelPreset";
-            this.panelPreset.Size = new System.Drawing.Size(130, 114);
+            this.panelPreset.Size = new System.Drawing.Size(847, 74);
             this.panelPreset.TabIndex = 65;
             this.panelPreset.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient56.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient56.BorderWidth = 0;
-            backgroundGradient56.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            backgroundGradient56.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            backgroundGradient56.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
+            backgroundGradient56.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
             backgroundGradient56.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             panelTheme1.BackgroundGradient = backgroundGradient56;
             textGradient44.BorderColor = System.Drawing.Color.DarkGray;
@@ -2492,12 +2487,13 @@ namespace MPfm.Windows.Classes.Forms
             // 
             // btnNewPreset
             // 
+            this.btnNewPreset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNewPreset.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNewPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNewPreset.Image = global::MPfm.Windows.Properties.Resources.icon_button_add_16;
             this.btnNewPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNewPreset.IsAutoSized = false;
-            this.btnNewPreset.Location = new System.Drawing.Point(6, 78);
+            this.btnNewPreset.Location = new System.Drawing.Point(720, 23);
             this.btnNewPreset.Margin = new System.Windows.Forms.Padding(6, 9, 3, 3);
             this.btnNewPreset.Name = "btnNewPreset";
             this.btnNewPreset.Size = new System.Drawing.Size(117, 28);
@@ -2566,17 +2562,17 @@ namespace MPfm.Windows.Classes.Forms
             this.tablePreset.Controls.Add(this.comboEQPreset, 0, 0);
             this.tablePreset.Controls.Add(this.chkEQOn, 0, 1);
             this.tablePreset.Controls.Add(this.lblEQOn, 1, 1);
-            this.tablePreset.Location = new System.Drawing.Point(0, 20);
+            this.tablePreset.Location = new System.Drawing.Point(-1, 20);
             this.tablePreset.Name = "tablePreset";
             this.tablePreset.RowCount = 2;
             this.tablePreset.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tablePreset.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tablePreset.Size = new System.Drawing.Size(130, 52);
+            this.tablePreset.Size = new System.Drawing.Size(713, 52);
             this.tablePreset.TabIndex = 87;
             backgroundGradient55.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient55.BorderWidth = 0;
-            backgroundGradient55.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            backgroundGradient55.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            backgroundGradient55.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
+            backgroundGradient55.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
             backgroundGradient55.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             tableLayoutPanelTheme1.BackgroundGradient = backgroundGradient55;
             tableLayoutPanelTheme1.IsBackgroundTransparent = false;
@@ -2590,10 +2586,10 @@ namespace MPfm.Windows.Classes.Forms
             this.comboEQPreset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboEQPreset.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboEQPreset.FormattingEnabled = true;
-            this.comboEQPreset.Location = new System.Drawing.Point(6, 6);
-            this.comboEQPreset.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
+            this.comboEQPreset.Location = new System.Drawing.Point(5, 6);
+            this.comboEQPreset.Margin = new System.Windows.Forms.Padding(5, 6, 6, 3);
             this.comboEQPreset.Name = "comboEQPreset";
-            this.comboEQPreset.Size = new System.Drawing.Size(118, 23);
+            this.comboEQPreset.Size = new System.Drawing.Size(702, 23);
             this.comboEQPreset.TabIndex = 70;
             this.comboEQPreset.ValueMember = "EQPresetId";
             this.comboEQPreset.SelectedIndexChanged += new System.EventHandler(this.comboEQPreset_SelectedIndexChanged);
@@ -2623,7 +2619,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblEQOn.Location = new System.Drawing.Point(21, 35);
             this.lblEQOn.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.lblEQOn.Name = "lblEQOn";
-            this.lblEQOn.Size = new System.Drawing.Size(106, 14);
+            this.lblEQOn.Size = new System.Drawing.Size(689, 14);
             this.lblEQOn.TabIndex = 64;
             this.lblEQOn.Text = " EQ On";
             this.lblEQOn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2651,8 +2647,14 @@ namespace MPfm.Windows.Classes.Forms
             // 
             // panelPresetInformation
             // 
-            this.panelPresetInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelPresetInformation.Controls.Add(this.flowPresetInformation);
+            this.panelPresetInformation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelPresetInformation.Controls.Add(this.txtEQPresetName);
+            this.panelPresetInformation.Controls.Add(this.lblEQName);
+            this.panelPresetInformation.Controls.Add(this.btnAutoLevel);
+            this.panelPresetInformation.Controls.Add(this.btnSaveEQPreset);
+            this.panelPresetInformation.Controls.Add(this.btnDeleteEQPreset);
+            this.panelPresetInformation.Controls.Add(this.btnResetEQ);
             this.panelPresetInformation.ExpandedHeight = 56;
             this.panelPresetInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelPresetInformation.HeaderAutoSize = true;
@@ -2661,17 +2663,17 @@ namespace MPfm.Windows.Classes.Forms
             this.panelPresetInformation.HeaderHeight = 20;
             this.panelPresetInformation.HeaderTextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.panelPresetInformation.HeaderTitle = "Current Preset";
-            this.panelPresetInformation.Location = new System.Drawing.Point(853, 139);
+            this.panelPresetInformation.Location = new System.Drawing.Point(0, 74);
             this.panelPresetInformation.Name = "panelPresetInformation";
-            this.panelPresetInformation.Size = new System.Drawing.Size(130, 311);
+            this.panelPresetInformation.Size = new System.Drawing.Size(846, 64);
             this.panelPresetInformation.TabIndex = 64;
             this.panelPresetInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            backgroundGradient58.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient58.BorderWidth = 0;
-            backgroundGradient58.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            backgroundGradient58.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            backgroundGradient58.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            panelTheme2.BackgroundGradient = backgroundGradient58;
+            backgroundGradient57.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient57.BorderWidth = 0;
+            backgroundGradient57.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
+            backgroundGradient57.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(47)))), ((int)(((byte)(53)))));
+            backgroundGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            panelTheme2.BackgroundGradient = backgroundGradient57;
             textGradient58.BorderColor = System.Drawing.Color.DarkGray;
             textGradient58.BorderWidth = 0;
             textGradient58.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
@@ -2691,39 +2693,24 @@ namespace MPfm.Windows.Classes.Forms
             panelTheme2.HeaderTextGradient = textGradient58;
             this.panelPresetInformation.Theme = panelTheme2;
             // 
-            // flowPresetInformation
+            // txtEQPresetName
             // 
-            this.flowPresetInformation.Controls.Add(this.lblEQName);
-            this.flowPresetInformation.Controls.Add(this.txtEQPresetName);
-            this.flowPresetInformation.Controls.Add(this.btnSaveEQPreset);
-            this.flowPresetInformation.Controls.Add(this.btnDeleteEQPreset);
-            this.flowPresetInformation.Controls.Add(this.btnAutoLevel);
-            this.flowPresetInformation.Controls.Add(this.btnResetEQ);
-            this.flowPresetInformation.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowPresetInformation.Location = new System.Drawing.Point(0, 20);
-            this.flowPresetInformation.Name = "flowPresetInformation";
-            this.flowPresetInformation.Size = new System.Drawing.Size(130, 328);
-            this.flowPresetInformation.TabIndex = 87;
-            backgroundGradient57.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient57.BorderWidth = 0;
-            backgroundGradient57.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            backgroundGradient57.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
-            backgroundGradient57.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            flowLayoutPanelTheme1.BackgroundGradient = backgroundGradient57;
-            flowLayoutPanelTheme1.IsBackgroundTransparent = false;
-            this.flowPresetInformation.Theme = flowLayoutPanelTheme1;
+            this.txtEQPresetName.Location = new System.Drawing.Point(48, 29);
+            this.txtEQPresetName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
+            this.txtEQPresetName.Name = "txtEQPresetName";
+            this.txtEQPresetName.Size = new System.Drawing.Size(284, 21);
+            this.txtEQPresetName.TabIndex = 67;
             // 
             // lblEQName
             // 
             this.lblEQName.BackColor = System.Drawing.Color.Transparent;
-            this.lblEQName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblEQName.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEQName.ForeColor = System.Drawing.Color.Black;
             this.lblEQName.IsAutoSized = false;
-            this.lblEQName.Location = new System.Drawing.Point(6, 6);
-            this.lblEQName.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
+            this.lblEQName.Location = new System.Drawing.Point(3, 33);
+            this.lblEQName.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.lblEQName.Name = "lblEQName";
-            this.lblEQName.Size = new System.Drawing.Size(117, 14);
+            this.lblEQName.Size = new System.Drawing.Size(51, 14);
             this.lblEQName.TabIndex = 60;
             this.lblEQName.Text = "Name :";
             this.lblEQName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2748,29 +2735,20 @@ namespace MPfm.Windows.Classes.Forms
             this.lblEQName.Theme = labelTheme41;
             this.toolTip.SetToolTip(this.lblEQName, "Equalizer preset name.");
             // 
-            // txtEQPresetName
+            // btnAutoLevel
             // 
-            this.txtEQPresetName.Location = new System.Drawing.Point(6, 23);
-            this.txtEQPresetName.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
-            this.txtEQPresetName.Name = "txtEQPresetName";
-            this.txtEQPresetName.Size = new System.Drawing.Size(117, 21);
-            this.txtEQPresetName.TabIndex = 67;
-            // 
-            // btnSaveEQPreset
-            // 
-            this.btnSaveEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSaveEQPreset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSaveEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveEQPreset.Image = global::MPfm.Windows.Properties.Resources.icon_button_save_16;
-            this.btnSaveEQPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveEQPreset.IsAutoSized = false;
-            this.btnSaveEQPreset.Location = new System.Drawing.Point(6, 53);
-            this.btnSaveEQPreset.Margin = new System.Windows.Forms.Padding(6, 9, 3, 3);
-            this.btnSaveEQPreset.Name = "btnSaveEQPreset";
-            this.btnSaveEQPreset.Size = new System.Drawing.Size(117, 28);
-            this.btnSaveEQPreset.TabIndex = 66;
-            this.btnSaveEQPreset.Text = "Save Preset";
-            this.btnSaveEQPreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAutoLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAutoLevel.Image = global::MPfm.Windows.Properties.Resources.shape_align_middle;
+            this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAutoLevel.IsAutoSized = false;
+            this.btnAutoLevel.Location = new System.Drawing.Point(593, 26);
+            this.btnAutoLevel.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.btnAutoLevel.Name = "btnAutoLevel";
+            this.btnAutoLevel.Size = new System.Drawing.Size(117, 28);
+            this.btnAutoLevel.TabIndex = 70;
+            this.btnAutoLevel.Text = "Normalize";
+            this.btnAutoLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient46.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient46.BorderWidth = 1;
             textGradient46.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
@@ -2822,25 +2800,24 @@ namespace MPfm.Windows.Classes.Forms
             textGradient48.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient48.Padding = 4;
             buttonTheme2.TextGradientMouseOver = textGradient48;
-            this.btnSaveEQPreset.Theme = buttonTheme2;
-            this.toolTip.SetToolTip(this.btnSaveEQPreset, "Saves the current equalizer in a preset.");
-            this.btnSaveEQPreset.Click += new System.EventHandler(this.btnSavePreset_Click);
+            this.btnAutoLevel.Theme = buttonTheme2;
+            this.toolTip.SetToolTip(this.btnAutoLevel, "Automatically levels the equalizer bands to 0 dB.");
+            this.btnAutoLevel.Click += new System.EventHandler(this.btnAutoLevel_Click);
             // 
-            // btnDeleteEQPreset
+            // btnSaveEQPreset
             // 
-            this.btnDeleteEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDeleteEQPreset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnDeleteEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteEQPreset.Image = global::MPfm.Windows.Properties.Resources.icon_button_delete_16;
-            this.btnDeleteEQPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeleteEQPreset.IsAutoSized = false;
-            this.btnDeleteEQPreset.Location = new System.Drawing.Point(6, 87);
-            this.btnDeleteEQPreset.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.btnDeleteEQPreset.Name = "btnDeleteEQPreset";
-            this.btnDeleteEQPreset.Size = new System.Drawing.Size(117, 28);
-            this.btnDeleteEQPreset.TabIndex = 63;
-            this.btnDeleteEQPreset.Text = "Delete Preset";
-            this.btnDeleteEQPreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSaveEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSaveEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveEQPreset.Image = global::MPfm.Windows.Properties.Resources.icon_button_save_16;
+            this.btnSaveEQPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSaveEQPreset.IsAutoSized = false;
+            this.btnSaveEQPreset.Location = new System.Drawing.Point(341, 26);
+            this.btnSaveEQPreset.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.btnSaveEQPreset.Name = "btnSaveEQPreset";
+            this.btnSaveEQPreset.Size = new System.Drawing.Size(117, 28);
+            this.btnSaveEQPreset.TabIndex = 66;
+            this.btnSaveEQPreset.Text = "Save Preset";
+            this.btnSaveEQPreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient49.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient49.BorderWidth = 1;
             textGradient49.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
@@ -2892,25 +2869,24 @@ namespace MPfm.Windows.Classes.Forms
             textGradient51.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient51.Padding = 4;
             buttonTheme3.TextGradientMouseOver = textGradient51;
-            this.btnDeleteEQPreset.Theme = buttonTheme3;
-            this.toolTip.SetToolTip(this.btnDeleteEQPreset, "Deletes the currently selected preset.");
-            this.btnDeleteEQPreset.Click += new System.EventHandler(this.btnDeletePreset_Click);
+            this.btnSaveEQPreset.Theme = buttonTheme3;
+            this.toolTip.SetToolTip(this.btnSaveEQPreset, "Saves the current equalizer in a preset.");
+            this.btnSaveEQPreset.Click += new System.EventHandler(this.btnSavePreset_Click);
             // 
-            // btnAutoLevel
+            // btnDeleteEQPreset
             // 
-            this.btnAutoLevel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAutoLevel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAutoLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAutoLevel.Image = global::MPfm.Windows.Properties.Resources.shape_align_middle;
-            this.btnAutoLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAutoLevel.IsAutoSized = false;
-            this.btnAutoLevel.Location = new System.Drawing.Point(6, 121);
-            this.btnAutoLevel.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.btnAutoLevel.Name = "btnAutoLevel";
-            this.btnAutoLevel.Size = new System.Drawing.Size(117, 28);
-            this.btnAutoLevel.TabIndex = 70;
-            this.btnAutoLevel.Text = "Normalize";
-            this.btnAutoLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDeleteEQPreset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeleteEQPreset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteEQPreset.Image = global::MPfm.Windows.Properties.Resources.icon_button_delete_16;
+            this.btnDeleteEQPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDeleteEQPreset.IsAutoSized = false;
+            this.btnDeleteEQPreset.Location = new System.Drawing.Point(467, 26);
+            this.btnDeleteEQPreset.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.btnDeleteEQPreset.Name = "btnDeleteEQPreset";
+            this.btnDeleteEQPreset.Size = new System.Drawing.Size(117, 28);
+            this.btnDeleteEQPreset.TabIndex = 63;
+            this.btnDeleteEQPreset.Text = "Delete Preset";
+            this.btnDeleteEQPreset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             textGradient52.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient52.BorderWidth = 1;
             textGradient52.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
@@ -2962,19 +2938,18 @@ namespace MPfm.Windows.Classes.Forms
             textGradient54.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient54.Padding = 4;
             buttonTheme4.TextGradientMouseOver = textGradient54;
-            this.btnAutoLevel.Theme = buttonTheme4;
-            this.toolTip.SetToolTip(this.btnAutoLevel, "Automatically levels the equalizer bands to 0 dB.");
-            this.btnAutoLevel.Click += new System.EventHandler(this.btnAutoLevel_Click);
+            this.btnDeleteEQPreset.Theme = buttonTheme4;
+            this.toolTip.SetToolTip(this.btnDeleteEQPreset, "Deletes the currently selected preset.");
+            this.btnDeleteEQPreset.Click += new System.EventHandler(this.btnDeletePreset_Click);
             // 
             // btnResetEQ
             // 
             this.btnResetEQ.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetEQ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnResetEQ.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnResetEQ.Image = global::MPfm.Windows.Properties.Resources.icon_button_reset_16;
             this.btnResetEQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnResetEQ.IsAutoSized = false;
-            this.btnResetEQ.Location = new System.Drawing.Point(6, 155);
+            this.btnResetEQ.Location = new System.Drawing.Point(720, 26);
             this.btnResetEQ.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.btnResetEQ.Name = "btnResetEQ";
             this.btnResetEQ.Size = new System.Drawing.Size(117, 28);
@@ -3039,7 +3014,7 @@ namespace MPfm.Windows.Classes.Forms
             // panelZeroLine
             // 
             this.panelZeroLine.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
-            this.panelZeroLine.Location = new System.Drawing.Point(3, 220);
+            this.panelZeroLine.Location = new System.Drawing.Point(3, 332);
             this.panelZeroLine.Name = "panelZeroLine";
             this.panelZeroLine.Size = new System.Drawing.Size(800, 2);
             this.panelZeroLine.TabIndex = 66;
@@ -3054,7 +3029,7 @@ namespace MPfm.Windows.Classes.Forms
             // frmEffects
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(988, 455);
+            this.ClientSize = new System.Drawing.Size(848, 568);
             this.Controls.Add(this.tableLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -3063,15 +3038,14 @@ namespace MPfm.Windows.Classes.Forms
             this.Name = "frmEffects";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Effects";
+            this.Text = "Equalizer";
             this.tableLayout.ResumeLayout(false);
             this.panelEqualizer.ResumeLayout(false);
             this.panelPreset.ResumeLayout(false);
             this.tablePreset.ResumeLayout(false);
             this.tablePreset.PerformLayout();
             this.panelPresetInformation.ResumeLayout(false);
-            this.flowPresetInformation.ResumeLayout(false);
-            this.flowPresetInformation.PerformLayout();
+            this.panelPresetInformation.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -3150,7 +3124,6 @@ namespace MPfm.Windows.Classes.Forms
         private MPfm.WindowsControls.Fader fader7;
         private WindowsControls.Button btnAutoLevel;
         public System.Windows.Forms.ToolTip toolTip;
-        private WindowsControls.FlowLayoutPanel flowPresetInformation;
         private WindowsControls.TableLayoutPanel tablePreset;
         private WindowsControls.Button btnNewPreset;
     }
