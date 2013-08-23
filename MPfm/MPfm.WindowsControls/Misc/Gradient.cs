@@ -42,7 +42,7 @@ namespace MPfm.WindowsControls
         /// <summary>
         /// Private value for the Color1 property.
         /// </summary>
-        private Color color1 = Color.FromArgb(0, 0, 0);
+        private Color color1 = Color.FromArgb(255, 0, 0);
         /// <summary>
         /// Defines the first color of the gradient.
         /// </summary>

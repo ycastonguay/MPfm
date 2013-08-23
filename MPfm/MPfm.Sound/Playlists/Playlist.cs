@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 
@@ -27,11 +28,6 @@ namespace MPfm.Sound.Playlists
     /// </summary>
     public class Playlist
     {
-        #region Properties
-        
-        /// <summary>
-        /// Private value for the Items property.
-        /// </summary>
         private List<PlaylistItem> items = null;
         /// <summary>
         /// List of playlist items.
@@ -44,9 +40,6 @@ namespace MPfm.Sound.Playlists
             }
         }
 
-        /// <summary>
-        /// Private value for the CurrentItemIndex property.
-        /// </summary>
         private int currentItemIndex = 0;
         /// <summary>
         /// Returns the current playlist item index.
@@ -59,9 +52,6 @@ namespace MPfm.Sound.Playlists
             }
         }
 
-        /// <summary>
-        /// Private value for the CurrentItem property.
-        /// </summary>
         private PlaylistItem currentItem = null;
         /// <summary>
         /// Returns the current item.
@@ -84,10 +74,6 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public PlaylistFileFormat Format { get; set; }
 
-        #endregion
-
-        #region Constructors
-        
         /// <summary>
         /// Default constructor for the Playlist class.
         /// </summary>
@@ -99,8 +85,6 @@ namespace MPfm.Sound.Playlists
             Format = PlaylistFileFormat.Unknown;
         }
 
-        #endregion
-
         /// <summary>
         /// Loads a playlist (from any of the following formats: M3U, M3U8, PLS and XSPF).
         /// Note: long playlists may take a while to load using this method!
@@ -109,65 +93,39 @@ namespace MPfm.Sound.Playlists
         /// <returns>Playlist</returns>
         public void LoadPlaylist(string filePath)
         {
-            // Declare variables
             List<string> files = new List<string>();            
 
-            // Determine the playlist format
             if (filePath.ToUpper().Contains(".M3U"))
             {
-                // Set format
                 Format = PlaylistFileFormat.M3U;
-
-                // Load playlist file
                 files = PlaylistTools.LoadM3UPlaylist(filePath);
             }
             else if (filePath.ToUpper().Contains(".M3U8"))
             {
-                // Set format
                 Format = PlaylistFileFormat.M3U8;
-
-                // Load playlist file
                 files = PlaylistTools.LoadM3UPlaylist(filePath);
             }
             else if (filePath.ToUpper().Contains(".PLS"))
             {
-                // Set format
                 Format = PlaylistFileFormat.PLS;
-
-                // Load playlist file
                 files = PlaylistTools.LoadPLSPlaylist(filePath);
             }
             else if (filePath.ToUpper().Contains(".XSPF"))
             {
-                // Set format
                 Format = PlaylistFileFormat.XSPF;
-
-                // Load playlist file
                 files = PlaylistTools.LoadXSPFPlaylist(filePath);
             }
             else if (filePath.ToUpper().Contains(".ASX"))
             {
-                // Set format
                 Format = PlaylistFileFormat.ASX;
             }
 
-            // Check if the playlist is empty
             if (files == null || files.Count == 0)
-            {
-                // Display error
                 throw new Exception("Error: The playlist is empty or does not contain any valid audio file paths!");                
-            }
 
-            // Clear current playlist
             Clear();
-
-            // Set properties
             FilePath = filePath;
-
-            // Add files to playlist
             AddItems(files);
-
-            // Set first item
             First();
         }
 
@@ -191,7 +149,6 @@ namespace MPfm.Sound.Playlists
             // Free current channel
             if (currentItem.Channel != null)
             {
-                // Stop and free channel                
                 currentItem.Dispose();
                 currentItem = null;
             }
@@ -210,12 +167,8 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         private void UpdateCurrentItem()
         {
-            // Check if there is at least one item but no current item set
             if (currentItem == null && items.Count > 0)
-            {
-                // Set current item to the first in the list
                 currentItem = items[0];
-            }
         }
 
         /// <summary>
@@ -224,13 +177,8 @@ namespace MPfm.Sound.Playlists
         /// <param name="filePath">Audio file path</param>
         public void AddItem(string filePath)
         {
-            // Create audio file and read metadata
             AudioFile audioFile = new AudioFile(filePath);
-
-            // Add new playlist item at the end
             Items.Add(new PlaylistItem(this, audioFile));
-
-            // Update current item
             UpdateCurrentItem();
         }
 
@@ -240,12 +188,7 @@ namespace MPfm.Sound.Playlists
         /// <param name="audioFile">Audio file metadata</param>
         public void AddItem(AudioFile audioFile)
         {
-            // Add new playlist item at the end
-            //Tracing.Log("Playlist.cs -- Adding " + audioFile.FilePath); 
             Items.Add(new PlaylistItem(this, audioFile));
-
-            // Update current item
-            //Tracing.Log("Playlist.cs -- Updating " + audioFile.FilePath);
             UpdateCurrentItem();
         }
 
@@ -289,8 +232,6 @@ namespace MPfm.Sound.Playlists
                 {
                     // Create audio file and read metadata
                     audioFile = new AudioFile(filePaths[a]);
-
-                    // Set flag
                     addItem = true;
                 }
                 catch
@@ -299,15 +240,10 @@ namespace MPfm.Sound.Playlists
                     addItem = false;
                 }                
 
-                // Make sure the item needs to be added
                 if (addItem)
-                {
-                    // Add new playlist item at the end
                     Items.Add(new PlaylistItem(this, audioFile));
-                }
             }
 
-            // Update current item
             UpdateCurrentItem();
         }
 
@@ -317,12 +253,8 @@ namespace MPfm.Sound.Playlists
         /// <param name="audioFiles">List of AudioFile instances</param>
         public void AddItems(List<AudioFile> audioFiles)
         {
-            // Loop through file paths
             foreach (AudioFile audioFile in audioFiles)
-            {
-                // Add item
                 AddItem(audioFile);
-            }
         }
 
         /// <summary>
@@ -340,12 +272,8 @@ namespace MPfm.Sound.Playlists
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
-            {
-                // Increment index
                 currentItemIndex++;
-            }
 
-            // Update current item
             UpdateCurrentItem();
         }
 
@@ -361,12 +289,8 @@ namespace MPfm.Sound.Playlists
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
-            {
-                // Increment index
                 currentItemIndex++;
-            }
 
-            // Update current item
             UpdateCurrentItem();
         }
 
@@ -378,21 +302,26 @@ namespace MPfm.Sound.Playlists
         {            
             // Make sure the item is not playing
             if (CurrentItemIndex == index)
-            {
                 throw new Exception("You cannot remove a playlist item which is currently playing.");
-            }
 
-            // Dispose item
             Items[index].Dispose();
-
-            // Remove playlist item
             Items.RemoveAt(index);
 
             // Decrement current item index if an item was removed before the current item
             if (index <= CurrentItemIndex)
-            {
-                // Decrement current item index
                 currentItemIndex--;
+        }
+
+        /// <summary>
+        /// Remove all playlist items matching the ids in the list.
+        /// </summary>
+        /// <param name="playlistIds">List of playlist ids to remove</param>
+        public void RemoveItems(List<Guid> playlistIds)
+        {
+            foreach (var playlistId in playlistIds)
+            {
+                var stuff = Items.Select(x => x.Id == playlistId).ToList();
+                Items.RemoveAll(x => x.Id == playlistId);
             }
         }
 
@@ -401,7 +330,6 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void First()
         {
-            // Set first index
             currentItemIndex = 0;
             currentItem = items[currentItemIndex];
         }
@@ -412,7 +340,6 @@ namespace MPfm.Sound.Playlists
         /// <param name="index">Playlist item index</param>
         public void GoTo(int index)
         {
-            // Set index
             currentItemIndex = index;
             currentItem = items[currentItemIndex];
         }
@@ -427,10 +354,8 @@ namespace MPfm.Sound.Playlists
             int index = -1;
             for (int a = 0; a < Items.Count; a++)
             {
-                // Does the id match?
                 if (Items[a].Id == id || Items[a].AudioFile.Id == id)
                 {
-                    // The item has been found, exit loop
                     index = a;
                     break;
                 }                
@@ -438,10 +363,7 @@ namespace MPfm.Sound.Playlists
 
             // Check if we have a valid item
             if (index >= 0)
-            {
-                // Skip to this item
                 GoTo(index);
-            }
         }
 
         /// <summary>
@@ -454,10 +376,8 @@ namespace MPfm.Sound.Playlists
             int index = -1;
             for (int a = 0; a < Items.Count; a++)
             {
-                // Does the id match?
                 if (Items[a].AudioFile.FilePath == filePath)
                 {
-                    // The item has been found, exit loop
                     index = a;
                     break;
                 }
@@ -465,10 +385,7 @@ namespace MPfm.Sound.Playlists
 
             // Check if we have a valid item
             if (index >= 0)
-            {
-                // Skip to this item
                 GoTo(index);
-            }
         }
 
         /// <summary>
@@ -476,12 +393,8 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void Previous()
         {
-            // Check if the previous channel needs to be loaded
             if (currentItemIndex > 0)
-            {
-                // Increment item
                 currentItemIndex--;
-            }
             currentItem = items[currentItemIndex];
         }
 
@@ -490,12 +403,8 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void Next()
         {
-            // Check if the next channel needs to be loaded
             if (currentItemIndex < items.Count - 1)
-            {
-                // Increment item
                 currentItemIndex++;                
-            }
             currentItem = items[currentItemIndex];
         }
     }

@@ -3859,8 +3859,8 @@ namespace MPfm.Windows.Classes.Forms
             songGridViewTheme1.RowNowPlayingTextGradient = textGradient65;
             textGradient66.BorderColor = System.Drawing.Color.Gray;
             textGradient66.BorderWidth = 0;
-            textGradient66.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(234)))), ((int)(((byte)(240)))));
-            textGradient66.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(234)))), ((int)(((byte)(240)))));
+            textGradient66.Color1 = System.Drawing.Color.White;
+            textGradient66.Color2 = System.Drawing.Color.White;
             customFont64.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             customFont64.EmbeddedFontName = "Junction";
             customFont64.IsBold = false;

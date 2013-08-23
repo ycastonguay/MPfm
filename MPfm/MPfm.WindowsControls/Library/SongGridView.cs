@@ -37,27 +37,24 @@ namespace MPfm.WindowsControls
     {
         #region Private Variables
 
-        // Mode
-        private SongGridViewMode mode = SongGridViewMode.AudioFile;
+        private SongGridViewMode _mode = SongGridViewMode.AudioFile;
 
         // Controls
-        private System.Windows.Forms.VScrollBar vScrollBar = null;
-        private System.Windows.Forms.HScrollBar hScrollBar = null;
-        private ContextMenuStrip menuColumns = null;
+        private System.Windows.Forms.VScrollBar _vScrollBar = null;
+        private System.Windows.Forms.HScrollBar _hScrollBar = null;
+        private ContextMenuStrip _menuColumns = null;
 
         // Background worker for updating album art
-        private int preloadLinesAlbumCover = 20;
-        private BackgroundWorker workerUpdateAlbumArt = null;
-        private List<SongGridViewBackgroundWorkerArgument> workerUpdateAlbumArtPile = null;
-        private System.Windows.Forms.Timer timerUpdateAlbumArt = null;        
-
-        // Cache        
-        private SongGridViewCache songCache = null;
-        private List<SongGridViewImageCache> imageCache = new List<SongGridViewImageCache>();        
+        private int _preloadLinesAlbumCover = 20;
+        private BackgroundWorker _workerUpdateAlbumArt = null;
+        private List<SongGridViewBackgroundWorkerArgument> _workerUpdateAlbumArtPile = null;
+        private System.Windows.Forms.Timer _timerUpdateAlbumArt = null;        
+        private SongGridViewCache _songCache = null;
+        private List<SongGridViewImageCache> _imageCache = new List<SongGridViewImageCache>();        
 
         // Private variables used for mouse events
-        private int columnMoveMarkerX = 0;
-        private int startLineNumber = 0;
+        private int _columnMoveMarkerX = 0;
+        private int _startLineNumber = 0;
         private int numberOfLinesToDraw = 0;
         private int minimumColumnWidth = 30;
         private int dragStartX = -1;
@@ -255,7 +252,7 @@ namespace MPfm.WindowsControls
 
                 // Invalidate item list and cache
                 items = null;
-                songCache = null;
+                _songCache = null;
 
                 // Refresh whole control
                 Refresh();
@@ -413,9 +410,7 @@ namespace MPfm.WindowsControls
                 {
                     // Check if column is moving
                     if (column.IsUserMovingColumn)
-                    {
                         return true;
-                    }
                 }
 
                 return false;
@@ -434,9 +429,7 @@ namespace MPfm.WindowsControls
                 {
                     // Check if column is moving
                     if (column.IsUserResizingColumn)
-                    {
                         return true;
-                    }
                 }
 
                 return false;
@@ -469,33 +462,33 @@ namespace MPfm.WindowsControls
             timerAnimationNowPlaying.Enabled = true;
 
             // Create vertical scrollbar
-            vScrollBar = new System.Windows.Forms.VScrollBar();
-            vScrollBar.Width = 16;
-            vScrollBar.Scroll += new ScrollEventHandler(vScrollBar_Scroll);
-            Controls.Add(vScrollBar);
+            _vScrollBar = new System.Windows.Forms.VScrollBar();
+            _vScrollBar.Width = 16;
+            _vScrollBar.Scroll += new ScrollEventHandler(vScrollBar_Scroll);
+            Controls.Add(_vScrollBar);
 
             // Create horizontal scrollbar
-            hScrollBar = new System.Windows.Forms.HScrollBar();
-            hScrollBar.Width = ClientRectangle.Width;
-            hScrollBar.Height = 16;
-            hScrollBar.Top = ClientRectangle.Height - hScrollBar.Height;
-            hScrollBar.Scroll += new ScrollEventHandler(hScrollBar_Scroll);
-            Controls.Add(hScrollBar);
+            _hScrollBar = new System.Windows.Forms.HScrollBar();
+            _hScrollBar.Width = ClientRectangle.Width;
+            _hScrollBar.Height = 16;
+            _hScrollBar.Top = ClientRectangle.Height - _hScrollBar.Height;
+            _hScrollBar.Scroll += new ScrollEventHandler(hScrollBar_Scroll);
+            Controls.Add(_hScrollBar);
 
             // Override mouse messages for mouse wheel (get mouse wheel events out of control)
             Application.AddMessageFilter(this);
 
             // Create background worker for updating album art
-            workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
-            workerUpdateAlbumArt = new BackgroundWorker();            
-            workerUpdateAlbumArt.DoWork += new DoWorkEventHandler(workerUpdateAlbumArt_DoWork);
-            workerUpdateAlbumArt.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateAlbumArt_RunWorkerCompleted);
+            _workerUpdateAlbumArtPile = new List<SongGridViewBackgroundWorkerArgument>();
+            _workerUpdateAlbumArt = new BackgroundWorker();            
+            _workerUpdateAlbumArt.DoWork += new DoWorkEventHandler(workerUpdateAlbumArt_DoWork);
+            _workerUpdateAlbumArt.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateAlbumArt_RunWorkerCompleted);
             
             // Create timer for updating album art
-            timerUpdateAlbumArt = new System.Windows.Forms.Timer();
-            timerUpdateAlbumArt.Interval = 10;
-            timerUpdateAlbumArt.Tick += new EventHandler(timerUpdateAlbumArt_Tick);
-            timerUpdateAlbumArt.Enabled = true;
+            _timerUpdateAlbumArt = new System.Windows.Forms.Timer();
+            _timerUpdateAlbumArt.Interval = 10;
+            _timerUpdateAlbumArt.Tick += new EventHandler(timerUpdateAlbumArt_Tick);
+            _timerUpdateAlbumArt.Enabled = true;
 
             // Create columns
             SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
@@ -565,13 +558,13 @@ namespace MPfm.WindowsControls
             columns.Add(columnSongYear);
 
             // Create contextual menu
-            menuColumns = new System.Windows.Forms.ContextMenuStrip();
+            _menuColumns = new System.Windows.Forms.ContextMenuStrip();
 
             // Loop through columns
             foreach (SongGridViewColumn column in columns)
             {
                 // Add menu item                               
-                ToolStripMenuItem menuItem = (ToolStripMenuItem)menuColumns.Items.Add(column.Title);
+                ToolStripMenuItem menuItem = (ToolStripMenuItem)_menuColumns.Items.Add(column.Title);
                 menuItem.Tag = column.Title;
                 menuItem.Checked = column.Visible;
                 menuItem.Click += new EventHandler(menuItemColumns_Click);
@@ -588,23 +581,23 @@ namespace MPfm.WindowsControls
         public void timerUpdateAlbumArt_Tick(object sender, EventArgs e)
         {
             // Stop timer
-            timerUpdateAlbumArt.Enabled = false;
+            _timerUpdateAlbumArt.Enabled = false;
 
             // Check for the next album art to fetch
-            if (workerUpdateAlbumArtPile.Count > 0 && !workerUpdateAlbumArt.IsBusy)
+            if (_workerUpdateAlbumArtPile.Count > 0 && !_workerUpdateAlbumArt.IsBusy)
             {
                 // Do some cleanup: clean items that are not visible anymore
                 bool cleanUpDone = false;
                 while (!cleanUpDone)
                 {
                     int indexToDelete = -1;
-                    for (int a = 0; a < workerUpdateAlbumArtPile.Count; a++)
+                    for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
                     {
                         // Get argument
-                        SongGridViewBackgroundWorkerArgument arg = workerUpdateAlbumArtPile[a];
+                        SongGridViewBackgroundWorkerArgument arg = _workerUpdateAlbumArtPile[a];
 
                         // Check if this album is still visible (cancel if it is out of display).                             
-                        if (arg.LineIndex < startLineNumber || arg.LineIndex > startLineNumber + numberOfLinesToDraw + preloadLinesAlbumCover)
+                        if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + numberOfLinesToDraw + _preloadLinesAlbumCover)
                         {
                             indexToDelete = a;
                             break;
@@ -613,7 +606,7 @@ namespace MPfm.WindowsControls
 
                     if (indexToDelete >= 0)
                     {
-                        workerUpdateAlbumArtPile.RemoveAt(indexToDelete);                        
+                        _workerUpdateAlbumArtPile.RemoveAt(indexToDelete);                        
                     }
                     else
                     {
@@ -621,16 +614,16 @@ namespace MPfm.WindowsControls
                     }
                 }
                 // There must be more album art to fetch.. right?
-                if (workerUpdateAlbumArtPile.Count > 0)
+                if (_workerUpdateAlbumArtPile.Count > 0)
                 {
                     // Start background worker                
-                    SongGridViewBackgroundWorkerArgument arg = workerUpdateAlbumArtPile[0];
-                    workerUpdateAlbumArt.RunWorkerAsync(arg);
+                    SongGridViewBackgroundWorkerArgument arg = _workerUpdateAlbumArtPile[0];
+                    _workerUpdateAlbumArt.RunWorkerAsync(arg);
                 }
             }
 
             // Restart timer
-            timerUpdateAlbumArt.Enabled = true;
+            _timerUpdateAlbumArt.Enabled = true;
         }
 
         /// <summary>
@@ -641,11 +634,8 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         public void workerUpdateAlbumArt_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Make sure the argument is valid
             if (e.Argument == null)
-            {
                 return;
-            }
 
             // Cast argument
             SongGridViewBackgroundWorkerArgument arg = (SongGridViewBackgroundWorkerArgument)e.Argument;
@@ -655,7 +645,7 @@ namespace MPfm.WindowsControls
             result.AudioFile = arg.AudioFile;
 
             // Check if this album is still visible (cancel if it is out of display).     
-            if (arg.LineIndex < startLineNumber || arg.LineIndex > startLineNumber + numberOfLinesToDraw + preloadLinesAlbumCover)
+            if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + numberOfLinesToDraw + _preloadLinesAlbumCover)
             {
                 // Set result with empty image
                 e.Result = result;
@@ -677,11 +667,8 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         public void workerUpdateAlbumArt_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            // Check if the result was OK
             if (e.Result == null)
-            {
                 return;
-            }
 
             // Get album art
             SongGridViewBackgroundWorkerResult result = (SongGridViewBackgroundWorkerResult)e.Result;
@@ -692,36 +679,31 @@ namespace MPfm.WindowsControls
             cache.Image = result.AlbumArt;
 
             // We found cover art! Add to cache and get out of the loop
-            imageCache.Add(cache);
+            _imageCache.Add(cache);
 
             // Check if the cache size has been reached
-            if (imageCache.Count > imageCacheSize)
+            if (_imageCache.Count > imageCacheSize)
             {
                 // Check if the image needs to be disposed
-                if (imageCache[0].Image != null)
+                if (_imageCache[0].Image != null)
                 {
-                    // Dispose image
-                    Image imageTemp = imageCache[0].Image;
+                    Image imageTemp = _imageCache[0].Image;
                     imageTemp.Dispose();
                     imageTemp = null;
                 }
 
                 // Remove the oldest item
-                imageCache.RemoveAt(0);
+                _imageCache.RemoveAt(0);
             }            
 
             // Remove song from list
             int indexRemove = -1;
-            for (int a = 0; a < workerUpdateAlbumArtPile.Count; a++)
-            {
-                if (workerUpdateAlbumArtPile[a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
-                {
+            for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
+                if (_workerUpdateAlbumArtPile[a].AudioFile.FilePath.ToUpper() == result.AudioFile.FilePath.ToUpper())
                     indexRemove = a;
-                }
-            }
             if (indexRemove >= 0)
             {
-                workerUpdateAlbumArtPile.RemoveAt(indexRemove);
+                _workerUpdateAlbumArtPile.RemoveAt(indexRemove);
             }            
 
             // Refresh control (TODO: Invalidate instead)
@@ -736,15 +718,11 @@ namespace MPfm.WindowsControls
             // Loop through items
             foreach (SongGridViewItem item in items)
             {
-                // Check if item is selected
+                // Check if item is selected; unselect item
                 if (item.IsSelected)
-                {
-                    // Unselect item
                     item.IsSelected = false;
-                }
             }
 
-            // Refresh control
             Refresh();
         }
 
@@ -755,7 +733,7 @@ namespace MPfm.WindowsControls
         public void ImportAudioFiles(List<AudioFile> audioFiles)
         {
             // Set mode
-            mode = SongGridViewMode.AudioFile;
+            _mode = SongGridViewMode.AudioFile;
 
             // Create list of items
             items = new List<SongGridViewItem>();
@@ -769,8 +747,8 @@ namespace MPfm.WindowsControls
             }
 
             // Reset scrollbar position
-            vScrollBar.Value = 0;
-            songCache = null;
+            _vScrollBar.Value = 0;
+            _songCache = null;
 
             // Refresh control
             Refresh();
@@ -783,7 +761,7 @@ namespace MPfm.WindowsControls
         public void ImportPlaylist(Playlist playlist)
         {
             // Set mode
-            mode = SongGridViewMode.Playlist;
+            _mode = SongGridViewMode.Playlist;
 
             // Create list of items
             items = new List<SongGridViewItem>();
@@ -797,8 +775,8 @@ namespace MPfm.WindowsControls
             }
 
             // Reset scrollbar position
-            vScrollBar.Value = 0;
-            songCache = null;
+            _vScrollBar.Value = 0;
+            _songCache = null;
 
             // Refresh control
             Refresh();
@@ -815,18 +793,13 @@ namespace MPfm.WindowsControls
         public void UpdateAudioFileLine(Guid audioFileId)
         {
             // Find the position of the line            
-            for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
+            for (int a = _startLineNumber; a < _startLineNumber + numberOfLinesToDraw; a++)
             {
                 // Calculate offset
-                int offsetY = (a * songCache.LineHeight) - vScrollBar.Value + songCache.LineHeight;
-
-                // Check if the line matches
+                int offsetY = (a * _songCache.LineHeight) - _vScrollBar.Value + _songCache.LineHeight;
                 if (items[a].AudioFile.Id == audioFileId)
                 {
-                    // Invalidate this line
-                    Invalidate(new Rectangle(columns[0].Width - hScrollBar.Value, offsetY, ClientRectangle.Width - columns[0].Width + hScrollBar.Value, songCache.LineHeight));
-
-                    // Update and exit loop
+                    Invalidate(new Rectangle(columns[0].Width - _hScrollBar.Value, offsetY, ClientRectangle.Width - columns[0].Width + _hScrollBar.Value, _songCache.LineHeight));
                     Update();
                     break;
                 }
@@ -842,9 +815,7 @@ namespace MPfm.WindowsControls
         {
             // Do not let WM_ERASEBKGND pass (prevent flickering)
             if (m.Msg != 0x14)
-            {
                 base.OnNotifyMessage(m);
-            }
         }
 
         /// <summary>
@@ -853,22 +824,12 @@ namespace MPfm.WindowsControls
         /// <param name="e">Paint Event arguments</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            // Check if the library is valid
             if (items == null)
-            {
                 return;
-            }
 
-            // Draw bitmap for control
             Graphics g = e.Graphics;
-
-            // Set text anti-aliasing to ClearType (best looking AA)
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-            // Set smoothing mode for paths
             g.SmoothingMode = SmoothingMode.AntiAlias;
-
-            // Paint songs
             PaintSongs(ref g);         
 
             base.OnPaint(e);
@@ -880,7 +841,6 @@ namespace MPfm.WindowsControls
         /// <param name="g">Graphics object to write to</param>
         public void PaintSongs(ref Graphics g)
         {
-            // Declare variables
             Rectangle rect = new Rectangle();
             RectangleF rectF = new RectangleF();
             Pen pen = null;
@@ -893,12 +853,7 @@ namespace MPfm.WindowsControls
             int albumCoverStartIndex = 0;
             int albumCoverEndIndex = 0;
             string currentAlbumTitle = string.Empty;
-            //bool regenerateItems = true;
             bool nowPlayingSongFound = false;
-
-            //// Load custom font
-            //Font fontDefault = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Regular);
-            //Font fontDefaultBold = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Bold);
             Font fontDefault = null;
             Font fontDefaultBold = null;
 
@@ -939,76 +894,67 @@ namespace MPfm.WindowsControls
             // Set string format
             StringFormat stringFormat = new StringFormat();
 
-            // If there are no items..,
+            // If there are no items, no need to draw this control.
             if (items == null)
-            {
-                // Do not do anything.
                 return;
-            }
+
+            g.FillRectangle(Brushes.MediumVioletRed, Bounds);
 
             // Check if a cache exists, or if the cache needs to be refreshed
-            if (songCache == null)
-            {
-                // Create song cache
+            if (_songCache == null)
                 InvalidateSongCache();
-            }
 
             // Calculate how many lines must be skipped because of the scrollbar position
-            startLineNumber = (int)Math.Floor((double)vScrollBar.Value / (double)(songCache.LineHeight));
+            _startLineNumber = (int)Math.Floor((double)_vScrollBar.Value / (double)(_songCache.LineHeight));
 
             // Check if the total number of lines exceeds the number of icons fitting in height
             numberOfLinesToDraw = 0;
-            if (startLineNumber + songCache.NumberOfLinesFittingInControl > items.Count)
+            if (_startLineNumber + _songCache.NumberOfLinesFittingInControl > items.Count)
             {
                 // There aren't enough lines to fill the screen
-                numberOfLinesToDraw = items.Count - startLineNumber;
+                numberOfLinesToDraw = items.Count - _startLineNumber;
             }
             else
             {
                 // Fill up screen 
-                numberOfLinesToDraw = songCache.NumberOfLinesFittingInControl;
+                numberOfLinesToDraw = _songCache.NumberOfLinesFittingInControl;
             }
 
             // Add one line for overflow; however, make sure we aren't adding a line without content 
-            if (startLineNumber + numberOfLinesToDraw + 1 <= items.Count)
-            {
-                // Add one line for overflow
+            if (_startLineNumber + numberOfLinesToDraw + 1 <= items.Count)
                 numberOfLinesToDraw++;
-            }
 
             // Loop through lines
-            for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
+            for (int a = _startLineNumber; a < _startLineNumber + numberOfLinesToDraw; a++)
             {
                 // Get audio file
                 AudioFile audioFile = items[a].AudioFile;
 
                 // Calculate Y offset (compensate for scrollbar position)
-                offsetY = (a * songCache.LineHeight) - vScrollBar.Value + songCache.LineHeight;
+                offsetY = (a * _songCache.LineHeight) - _vScrollBar.Value + _songCache.LineHeight;
 
                 // Calculate album art cover column width
                 int albumArtColumnWidth = columns[0].Visible ? columns[0].Width : 0;
 
                 // Calculate line background width
-                int lineBackgroundWidth = ClientRectangle.Width + hScrollBar.Value - albumArtColumnWidth;
+                int lineBackgroundWidth = ClientRectangle.Width + _hScrollBar.Value - albumArtColumnWidth;
 
                 // Reduce width from scrollbar if visible
-                if (vScrollBar.Visible)
-                {
-                    lineBackgroundWidth -= vScrollBar.Width;
-                }
+                if (_vScrollBar.Visible)
+                    lineBackgroundWidth -= _vScrollBar.Width;
 
                 // Set rectangle                
-                Rectangle rectBackground = new Rectangle(albumArtColumnWidth - hScrollBar.Value, offsetY, lineBackgroundWidth, songCache.LineHeight);                
+                //Rectangle rectBackground = new Rectangle(albumArtColumnWidth - _hScrollBar.Value, offsetY, lineBackgroundWidth, _songCache.LineHeight);                
+                Rectangle rectBackground = new Rectangle(albumArtColumnWidth - _hScrollBar.Value, offsetY, lineBackgroundWidth, _songCache.LineHeight + 1);
                 
                 // Set default line background color
                 Color colorBackground1 = theme.RowTextGradient.Color1;
                 Color colorBackground2 = theme.RowTextGradient.Color2;
 
                 // Check conditions to determine background color
-                if ((mode == SongGridViewMode.AudioFile && audioFile.Id == nowPlayingAudioFileId) || 
-                    (mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == nowPlayingPlaylistItemId))
+                if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == nowPlayingAudioFileId) || 
+                    (_mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == nowPlayingPlaylistItemId))
                 {
-                    // Set color             
                     colorBackground1 = theme.RowNowPlayingTextGradient.Color1;
                     colorBackground2 = theme.RowNowPlayingTextGradient.Color2;
                 }
@@ -1028,26 +974,25 @@ namespace MPfm.WindowsControls
                         (colorBackground2.B - diff < 0) ? 0 : colorBackground2.B - diff);
                 }
 
-                // Check if mouse is over item
-                if (items[a].IsMouseOverItem)
-                {
-                    // Use lighter color
-                    int diff = 20;
-                    colorBackground1 = Color.FromArgb(255,
-                        (colorBackground1.R + diff > 255) ? 255 : colorBackground1.R + diff,
-                        (colorBackground1.G + diff > 255) ? 255 : colorBackground1.G + diff,
-                        (colorBackground1.B + diff > 255) ? 255 : colorBackground1.B + diff);
-                    colorBackground2 = Color.FromArgb(255,
-                        (colorBackground2.R + diff > 255) ? 255 : colorBackground2.R + diff,
-                        (colorBackground2.G + diff > 255) ? 255 : colorBackground2.G + diff,
-                        (colorBackground2.B + diff > 255) ? 255 : colorBackground2.B + diff);
-                }
+                //// Check if mouse is over item
+                //if (items[a].IsMouseOverItem)
+                //{
+                //    // Use lighter color
+                //    int diff = 20;
+                //    colorBackground1 = Color.FromArgb(255,
+                //        (colorBackground1.R + diff > 255) ? 255 : colorBackground1.R + diff,
+                //        (colorBackground1.G + diff > 255) ? 255 : colorBackground1.G + diff,
+                //        (colorBackground1.B + diff > 255) ? 255 : colorBackground1.B + diff);
+                //    colorBackground2 = Color.FromArgb(255,
+                //        (colorBackground2.R + diff > 255) ? 255 : colorBackground2.R + diff,
+                //        (colorBackground2.G + diff > 255) ? 255 : colorBackground2.G + diff,
+                //        (colorBackground2.B + diff > 255) ? 255 : colorBackground2.B + diff);
+                //}
 
                 // Check conditions to determine background color
-                if ((mode == SongGridViewMode.AudioFile && audioFile.Id == nowPlayingAudioFileId) ||
-                    (mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == nowPlayingPlaylistItemId))
+                if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == nowPlayingAudioFileId) ||
+                    (_mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == nowPlayingPlaylistItemId))
                 {
-                    // Set color             
                     colorNowPlaying1 = colorBackground1;
                     colorNowPlaying2 = colorBackground2;
                 }
@@ -1060,10 +1005,10 @@ namespace MPfm.WindowsControls
 
                 // Loop through columns                
                 offsetX = 0;
-                for (int b = 0; b < songCache.ActiveColumns.Count; b++)
+                for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
                 {
                     // Get current column
-                    SongGridViewColumn column = songCache.ActiveColumns[b];
+                    SongGridViewColumn column = _songCache.ActiveColumns[b];
 
                     // Check if the column is visible
                     if (column.Visible)
@@ -1072,14 +1017,14 @@ namespace MPfm.WindowsControls
                         if (column.Title == "Now Playing")
                         {
                             // Draw now playing icon
-                            if ((mode == SongGridViewMode.AudioFile && audioFile.Id == nowPlayingAudioFileId) ||
-                                (mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == nowPlayingPlaylistItemId))
+                            if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == nowPlayingAudioFileId) ||
+                                (_mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == nowPlayingPlaylistItemId))
                             {
                                 // Which size is the minimum? Width or height?                    
                                 int availableWidthHeight = column.Width - 4;
-                                if (songCache.LineHeight <= column.Width)
+                                if (_songCache.LineHeight <= column.Width)
                                 {                                    
-                                    availableWidthHeight = songCache.LineHeight - 4;
+                                    availableWidthHeight = _songCache.LineHeight - 4;
                                 }
                                 else
                                 {
@@ -1087,8 +1032,8 @@ namespace MPfm.WindowsControls
                                 }
 
                                 // Calculate the icon position                                
-                                float iconNowPlayingX = ((column.Width - availableWidthHeight) / 2) + offsetX - hScrollBar.Value;
-                                float iconNowPlayingY = offsetY + ((songCache.LineHeight - availableWidthHeight) / 2);
+                                float iconNowPlayingX = ((column.Width - availableWidthHeight) / 2) + offsetX - _hScrollBar.Value;
+                                float iconNowPlayingY = offsetY + ((_songCache.LineHeight - availableWidthHeight) / 2);
 
                                 // Create NowPlaying rect (MUST be in integer)                    
                                 rectNowPlaying = new Rectangle((int)iconNowPlayingX, (int)iconNowPlayingY, availableWidthHeight, availableWidthHeight);
@@ -1156,23 +1101,23 @@ namespace MPfm.WindowsControls
                                 }
 
                                 // Calculate y and height
-                                int scrollbarOffsetY = (startLineNumber * songCache.LineHeight) - vScrollBar.Value;
-                                int y = ((albumCoverStartIndex - startLineNumber) * songCache.LineHeight) + songCache.LineHeight + scrollbarOffsetY;
+                                int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
+                                int y = ((albumCoverStartIndex - _startLineNumber) * _songCache.LineHeight) + _songCache.LineHeight + scrollbarOffsetY;
 
                                 // Calculate the height of the album cover zone (+1 on end index because the array is zero-based)
-                                int albumCoverZoneHeight = (albumCoverEndIndex + 1 - albumCoverStartIndex) * songCache.LineHeight;
+                                int albumCoverZoneHeight = (albumCoverEndIndex + 1 - albumCoverStartIndex) * _songCache.LineHeight;
 
                                 int heightWithPadding = albumCoverZoneHeight - (theme.Padding * 2);
-                                if (heightWithPadding > songCache.ActiveColumns[0].Width - (theme.Padding * 2))
+                                if (heightWithPadding > _songCache.ActiveColumns[0].Width - (theme.Padding * 2))
                                 {
-                                    heightWithPadding = songCache.ActiveColumns[0].Width - (theme.Padding * 2);
+                                    heightWithPadding = _songCache.ActiveColumns[0].Width - (theme.Padding * 2);
                                 }
 
                                 // Make sure the height is at least zero (not necessary to draw anything!)
                                 if (albumCoverZoneHeight > 0)
                                 {
                                     // Draw album cover background
-                                    Rectangle rectAlbumCover = new Rectangle(0 - hScrollBar.Value, y, songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
+                                    Rectangle rectAlbumCover = new Rectangle(0 - _hScrollBar.Value, y, _songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
                                     brushGradient = new LinearGradientBrush(rectAlbumCover, theme.AlbumCoverBackgroundGradient.Color1, theme.AlbumCoverBackgroundGradient.Color2, theme.AlbumCoverBackgroundGradient.GradientMode);
                                     g.FillRectangle(brushGradient, rectAlbumCover);
                                     brushGradient.Dispose();
@@ -1180,7 +1125,7 @@ namespace MPfm.WindowsControls
 
                                     // Try to extract image from cache
                                     Image imageAlbumCover = null;
-                                    SongGridViewImageCache cachedImage = imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
+                                    SongGridViewImageCache cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
                                     if (cachedImage != null)
                                     {
                                         // Set image
@@ -1192,7 +1137,7 @@ namespace MPfm.WindowsControls
                                     {
                                         // Check if the album cover is already in the pile
                                         bool albumCoverFound = false;
-                                        foreach (SongGridViewBackgroundWorkerArgument arg in workerUpdateAlbumArtPile)
+                                        foreach (SongGridViewBackgroundWorkerArgument arg in _workerUpdateAlbumArtPile)
                                         {
                                             // Match by file path
                                             if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
@@ -1209,7 +1154,7 @@ namespace MPfm.WindowsControls
                                             SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
                                             arg.AudioFile = audioFile;
                                             arg.LineIndex = a;
-                                            workerUpdateAlbumArtPile.Add(arg);
+                                            _workerUpdateAlbumArtPile.Add(arg);
                                         }
                                     }
 
@@ -1236,8 +1181,8 @@ namespace MPfm.WindowsControls
                                         sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText - (int)sizeArtistName.Width, stringFormat);
 
                                         // Display artist name at full width first, then album name
-                                        rectArtistNameText = new RectangleF(theme.Padding - hScrollBar.Value, y + (theme.Padding / 2), widthAvailableForText, songCache.LineHeight);
-                                        rectAlbumTitleText = new RectangleF(theme.Padding - hScrollBar.Value + sizeArtistName.Width + theme.Padding, y + (theme.Padding / 2), widthAvailableForText - sizeArtistName.Width, songCache.LineHeight);
+                                        rectArtistNameText = new RectangleF(theme.Padding - _hScrollBar.Value, y + (theme.Padding / 2), widthAvailableForText, _songCache.LineHeight);
+                                        rectAlbumTitleText = new RectangleF(theme.Padding - _hScrollBar.Value + sizeArtistName.Width + theme.Padding, y + (theme.Padding / 2), widthAvailableForText - sizeArtistName.Width, _songCache.LineHeight);
                                     }
                                     else
                                     {
@@ -1254,8 +1199,8 @@ namespace MPfm.WindowsControls
                                             sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
 
                                             // Display the album title at the top of the zome
-                                            rectArtistNameText = new RectangleF(theme.Padding - hScrollBar.Value, y + theme.Padding, widthAvailableForText, heightWithPadding);
-                                            rectAlbumTitleText = new RectangleF(theme.Padding - hScrollBar.Value, y + theme.Padding + sizeArtistName.Height, widthAvailableForText, heightWithPadding);
+                                            rectArtistNameText = new RectangleF(theme.Padding - _hScrollBar.Value, y + theme.Padding, widthAvailableForText, heightWithPadding);
+                                            rectAlbumTitleText = new RectangleF(theme.Padding - _hScrollBar.Value, y + theme.Padding + sizeArtistName.Height, widthAvailableForText, heightWithPadding);
                                         }
                                         else
                                         {
@@ -1272,8 +1217,8 @@ namespace MPfm.WindowsControls
                                             if (albumCoverEndIndex - albumCoverStartIndex == 1)
                                             {
                                                 // Display artist name on first line; display album title on second line
-                                                rectArtistNameText = new RectangleF(((columns[0].Width - sizeArtistName.Width) / 2) - hScrollBar.Value, y, widthAvailableForText, heightWithPadding);
-                                                rectAlbumTitleText = new RectangleF(((columns[0].Width - sizeAlbumTitle.Width) / 2) - hScrollBar.Value, y + songCache.LineHeight, widthAvailableForText, heightWithPadding);
+                                                rectArtistNameText = new RectangleF(((columns[0].Width - sizeArtistName.Width) / 2) - _hScrollBar.Value, y, widthAvailableForText, heightWithPadding);
+                                                rectAlbumTitleText = new RectangleF(((columns[0].Width - sizeAlbumTitle.Width) / 2) - _hScrollBar.Value, y + _songCache.LineHeight, widthAvailableForText, heightWithPadding);
                                             }
                                             // There is an album cover to display; between 2 and 6 lines AND the width of the column is at least 50 pixels (or
                                             // it will try to display text in a too thin area)
@@ -1304,18 +1249,18 @@ namespace MPfm.WindowsControls
                                                 float artistNameY = (albumCoverZoneHeight - sizeArtistName.Height - sizeAlbumTitle.Height) / 2;
 
                                                 // Display the album title at the top of the zome
-                                                rectArtistNameText = new RectangleF(albumCoverX + heightWithPadding + theme.Padding - hScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
-                                                rectAlbumTitleText = new RectangleF(albumCoverX + heightWithPadding + theme.Padding - hScrollBar.Value, y + artistNameY + sizeArtistName.Height, widthRemainingForText, heightWithPadding);
+                                                rectArtistNameText = new RectangleF(albumCoverX + heightWithPadding + theme.Padding - _hScrollBar.Value, y + artistNameY, widthRemainingForText, heightWithPadding);
+                                                rectAlbumTitleText = new RectangleF(albumCoverX + heightWithPadding + theme.Padding - _hScrollBar.Value, y + artistNameY + sizeArtistName.Height, widthRemainingForText, heightWithPadding);
 
                                                 // Set cover art rectangle
-                                                rectAlbumCoverArt = new RectangleF(albumCoverX - hScrollBar.Value, y + theme.Padding, heightWithPadding, heightWithPadding);
+                                                rectAlbumCoverArt = new RectangleF(albumCoverX - _hScrollBar.Value, y + theme.Padding, heightWithPadding, heightWithPadding);
                                             }
                                             // 7 and more lines
                                             else
                                             {
                                                 // Display artist name at the top of the album cover; display album title at the bottom of the album cover
-                                                rectArtistNameText = new RectangleF(((columns[0].Width - sizeArtistName.Width) / 2) - hScrollBar.Value, y + (theme.Padding * 2), widthAvailableForText, heightWithPadding);
-                                                rectAlbumTitleText = new RectangleF(((columns[0].Width - sizeAlbumTitle.Width) / 2) - hScrollBar.Value, y + heightWithPadding - sizeAlbumTitle.Height, widthAvailableForText, heightWithPadding);
+                                                rectArtistNameText = new RectangleF(((columns[0].Width - sizeArtistName.Width) / 2) - _hScrollBar.Value, y + (theme.Padding * 2), widthAvailableForText, heightWithPadding);
+                                                rectAlbumTitleText = new RectangleF(((columns[0].Width - sizeAlbumTitle.Width) / 2) - _hScrollBar.Value, y + heightWithPadding - sizeAlbumTitle.Height, widthAvailableForText, heightWithPadding);
 
                                                 // Draw background overlay behind text
                                                 useAlbumArtOverlay = true;
@@ -1325,7 +1270,7 @@ namespace MPfm.WindowsControls
                                                 if (columns[0].Width > heightWithPadding)
                                                 {
                                                     // Get position
-                                                    albumCoverX = ((float)(columns[0].Width - heightWithPadding) / 2) - hScrollBar.Value;
+                                                    albumCoverX = ((float)(columns[0].Width - heightWithPadding) / 2) - _hScrollBar.Value;
                                                 }
 
                                                 // Set cover art rectangle
@@ -1337,30 +1282,28 @@ namespace MPfm.WindowsControls
 
                                     // Display album cover
                                     if (imageAlbumCover != null)
-                                    {
-                                        // Draw album cover
                                         g.DrawImage(imageAlbumCover, rectAlbumCoverArt);
-                                    }
 
                                     if (useAlbumArtOverlay)
                                     {
-                                        // Draw artist name and album title background
-                                        RectangleF rectArtistNameBackground = new RectangleF(rectArtistNameText.X - (theme.Padding / 2), rectArtistNameText.Y - (theme.Padding / 2), sizeArtistName.Width + theme.Padding, sizeArtistName.Height + theme.Padding);
-                                        RectangleF rectAlbumTitleBackground = new RectangleF(rectAlbumTitleText.X - (theme.Padding / 2), rectAlbumTitleText.Y - (theme.Padding / 2), sizeAlbumTitle.Width + theme.Padding, sizeAlbumTitle.Height + theme.Padding);
-                                        brush = new SolidBrush(Color.FromArgb(190, 0, 0, 0));
-                                        g.FillRectangle(brush, rectArtistNameBackground);
-                                        g.FillRectangle(brush, rectAlbumTitleBackground);
-                                        brush.Dispose();
-                                        brush = null;
+                                        //// Draw artist name and album title background
+                                        //RectangleF rectArtistNameBackground = new RectangleF(rectArtistNameText.X - (theme.Padding / 2), rectArtistNameText.Y - (theme.Padding / 2), sizeArtistName.Width + theme.Padding, sizeArtistName.Height + theme.Padding);
+                                        //RectangleF rectAlbumTitleBackground = new RectangleF(rectAlbumTitleText.X - (theme.Padding / 2), rectAlbumTitleText.Y - (theme.Padding / 2), sizeAlbumTitle.Width + theme.Padding, sizeAlbumTitle.Height + theme.Padding);
+                                        //brush = new SolidBrush(Color.FromArgb(190, 0, 0, 0));
+                                        //g.FillRectangle(brush, rectArtistNameBackground);
+                                        //g.FillRectangle(brush, rectAlbumTitleBackground);
+                                        //brush.Dispose();
+                                        //brush = null;
                                     }
 
                                     // Check if this is the artist name column (set font to bold)
-                                    g.DrawString(audioFile.ArtistName, fontDefaultBold, Brushes.White, rectArtistNameText, stringFormat);
-                                    g.DrawString(currentAlbumTitle, fontDefault, Brushes.White, rectAlbumTitleText, stringFormat);
+                                    //g.DrawString(audioFile.ArtistName, fontDefaultBold, Brushes.White, rectArtistNameText, stringFormat);
+                                    //g.DrawString(currentAlbumTitle, fontDefault, Brushes.White, rectAlbumTitleText, stringFormat);
 
                                     // Draw horizontal line to distinguish albums
                                     // Part 1: Draw line over grid
-                                    pen = new Pen(theme.AlbumCoverBackgroundGradient.Color1);
+                                    //pen = new Pen(theme.AlbumCoverBackgroundGradient.Color1);
+                                    pen = new Pen(Color.FromArgb(180, 180, 180));
                                     g.DrawLine(pen, new Point(columns[0].Width, y), new Point(ClientRectangle.Width, y));
                                     pen.Dispose();
                                     pen = null;
@@ -1455,19 +1398,19 @@ namespace MPfm.WindowsControls
 
                                 // The last column always take the remaining width
                                 int columnWidth = column.Width;
-                                if (b == songCache.ActiveColumns.Count - 1)
+                                if (b == _songCache.ActiveColumns.Count - 1)
                                 {
                                     // Calculate the remaining width
                                     int columnsWidth = 0;
-                                    for (int c = 0; c < songCache.ActiveColumns.Count - 1; c++)
+                                    for (int c = 0; c < _songCache.ActiveColumns.Count - 1; c++)
                                     {
-                                        columnsWidth += songCache.ActiveColumns[c].Width;
+                                        columnsWidth += _songCache.ActiveColumns[c].Width;
                                     }
-                                    columnWidth = ClientRectangle.Width - columnsWidth + hScrollBar.Value;
+                                    columnWidth = ClientRectangle.Width - columnsWidth + _hScrollBar.Value;
                                 }
 
                                 // Display text
-                                rect = new Rectangle(offsetX - hScrollBar.Value, offsetY + (theme.Padding / 2), songCache.ActiveColumns[b].Width, songCache.LineHeight - theme.Padding + 2);
+                                rect = new Rectangle(offsetX - _hScrollBar.Value, offsetY + (theme.Padding / 2), _songCache.ActiveColumns[b].Width, _songCache.LineHeight - theme.Padding + 2);
                                 stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                                 stringFormat.Alignment = StringAlignment.Near;
 
@@ -1494,15 +1437,12 @@ namespace MPfm.WindowsControls
                 }
             }
 
-            // If no songs are playing...
+            // If no songs are playing, set the current now playing rectangle as "empty"
             if (!nowPlayingSongFound)
-            {
-                // Set the current now playing rectangle as "empty"
                 rectNowPlaying = new Rectangle(0, 0, 1, 1);
-            }
 
             // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
-            Rectangle rectBackgroundHeader = new Rectangle(0, -1, ClientRectangle.Width, songCache.LineHeight + 1);
+            Rectangle rectBackgroundHeader = new Rectangle(0, -1, ClientRectangle.Width, _songCache.LineHeight + 1);
             brushGradient = new LinearGradientBrush(rectBackgroundHeader, theme.HeaderTextGradient.Color1, theme.HeaderTextGradient.Color2, 90);
             g.FillRectangle(brushGradient, rectBackgroundHeader);
             brushGradient.Dispose();
@@ -1510,32 +1450,27 @@ namespace MPfm.WindowsControls
 
             // Loop through columns
             offsetX = 0;
-            for (int b = 0; b < songCache.ActiveColumns.Count; b++)
+            for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
             {
-                // Get current column
-                SongGridViewColumn column = songCache.ActiveColumns[b];
-
-                // Check if the column is visible
+                SongGridViewColumn column = _songCache.ActiveColumns[b];
                 if (column.Visible)
                 {
                     // The last column always take the remaining width
                     int columnWidth = column.Width;
-                    if (b == songCache.ActiveColumns.Count - 1)
+                    if (b == _songCache.ActiveColumns.Count - 1)
                     {
                         // Calculate the remaining width
                         int columnsWidth = 0;
-                        for (int c = 0; c < songCache.ActiveColumns.Count - 1; c++)
-                        {
-                            columnsWidth += songCache.ActiveColumns[c].Width;
-                        }
-                        columnWidth = ClientRectangle.Width - columnsWidth + hScrollBar.Value;
+                        for (int c = 0; c < _songCache.ActiveColumns.Count - 1; c++)
+                            columnsWidth += _songCache.ActiveColumns[c].Width;
+                        columnWidth = ClientRectangle.Width - columnsWidth + _hScrollBar.Value;
                     }
 
                     // Check if mouse is over this column header
                     if (column.IsMouseOverColumnHeader)
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
-                        rect = new Rectangle(offsetX - hScrollBar.Value, -1, column.Width, songCache.LineHeight + 1);
+                        rect = new Rectangle(offsetX - _hScrollBar.Value, -1, column.Width, _songCache.LineHeight + 1);
                         brushGradient = new LinearGradientBrush(rect, theme.HeaderHoverTextGradient.Color1, theme.HeaderHoverTextGradient.Color2, 90);
                         g.FillRectangle(brushGradient, rect);
                         brushGradient.Dispose();
@@ -1544,7 +1479,7 @@ namespace MPfm.WindowsControls
                     else if (column.IsUserMovingColumn)
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
-                        rect = new Rectangle(offsetX - hScrollBar.Value, -1, column.Width, songCache.LineHeight + 1);
+                        rect = new Rectangle(offsetX - _hScrollBar.Value, -1, column.Width, _songCache.LineHeight + 1);
                         brushGradient = new LinearGradientBrush(rect, Color.Blue, Color.Green, 90);
                         g.FillRectangle(brushGradient, rect);
                         brushGradient.Dispose();
@@ -1552,10 +1487,10 @@ namespace MPfm.WindowsControls
                     }
 
                     // Check if the header title must be displayed
-                    if (songCache.ActiveColumns[b].IsHeaderTitleVisible)
+                    if (_songCache.ActiveColumns[b].IsHeaderTitleVisible)
                     {
                         // Display title                
-                        Rectangle rectTitle = new Rectangle(offsetX - hScrollBar.Value, theme.Padding / 2, column.Width, songCache.LineHeight - theme.Padding + 2);
+                        Rectangle rectTitle = new Rectangle(offsetX - _hScrollBar.Value, theme.Padding / 2, column.Width, _songCache.LineHeight - theme.Padding + 2);
                         stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                         brush = new SolidBrush(theme.HeaderTextGradient.Font.Color);
                         g.DrawString(column.Title, fontDefaultBold, brush, rectTitle, stringFormat);
@@ -1567,14 +1502,14 @@ namespace MPfm.WindowsControls
                     int columnHeight = ClientRectangle.Height;
 
                     // Determine the height of the line; if the items don't fit the control height...
-                    if (items.Count < songCache.NumberOfLinesFittingInControl)
+                    if (items.Count < _songCache.NumberOfLinesFittingInControl)
                     {
                         // Set height as the number of items (plus header)
-                        columnHeight = (items.Count + 1) * songCache.LineHeight;
+                        columnHeight = (items.Count + 1) * _songCache.LineHeight;
                     }
 
-                    // Draw line
-                    g.DrawLine(Pens.DarkGray, new Point(offsetX + column.Width - hScrollBar.Value, 0), new Point(offsetX + column.Width - hScrollBar.Value, columnHeight));
+                    // Draw column line
+                    //g.DrawLine(Pens.DarkGray, new Point(offsetX + column.Width - _hScrollBar.Value, 0), new Point(offsetX + column.Width - _hScrollBar.Value, columnHeight));
 
                     // Check if the column is ordered by
                     if (column.FieldName == orderByFieldName && !String.IsNullOrEmpty(column.FieldName))
@@ -1584,20 +1519,20 @@ namespace MPfm.WindowsControls
 
                         // ... depending on the order by ascending value
                         int triangleWidthHeight = 8;
-                        int trianglePadding = (songCache.LineHeight - triangleWidthHeight) / 2;
+                        int trianglePadding = (_songCache.LineHeight - triangleWidthHeight) / 2;
                         if (orderByAscending)
                         {
                             // Create points for ascending
-                            ptTriangle[0] = new PointF(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - hScrollBar.Value, trianglePadding);
-                            ptTriangle[1] = new PointF(offsetX + column.Width - triangleWidthHeight - hScrollBar.Value, songCache.LineHeight - trianglePadding);
-                            ptTriangle[2] = new PointF(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - hScrollBar.Value, songCache.LineHeight - trianglePadding);
+                            ptTriangle[0] = new PointF(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - _hScrollBar.Value, trianglePadding);
+                            ptTriangle[1] = new PointF(offsetX + column.Width - triangleWidthHeight - _hScrollBar.Value, _songCache.LineHeight - trianglePadding);
+                            ptTriangle[2] = new PointF(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - _hScrollBar.Value, _songCache.LineHeight - trianglePadding);
                         }
                         else
                         {
                             // Create points for descending
-                            ptTriangle[0] = new PointF(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - hScrollBar.Value, songCache.LineHeight - trianglePadding);
-                            ptTriangle[1] = new PointF(offsetX + column.Width - triangleWidthHeight - hScrollBar.Value, trianglePadding);
-                            ptTriangle[2] = new PointF(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - hScrollBar.Value, trianglePadding);
+                            ptTriangle[0] = new PointF(offsetX + column.Width - triangleWidthHeight - (triangleWidthHeight / 2) - _hScrollBar.Value, _songCache.LineHeight - trianglePadding);
+                            ptTriangle[1] = new PointF(offsetX + column.Width - triangleWidthHeight - _hScrollBar.Value, trianglePadding);
+                            ptTriangle[2] = new PointF(offsetX + column.Width - triangleWidthHeight - triangleWidthHeight - _hScrollBar.Value, trianglePadding);
                         }
 
                         // Draw triangle
@@ -1617,7 +1552,7 @@ namespace MPfm.WindowsControls
             {
                 // Draw marker
                 pen = new Pen(Color.Red);
-                g.DrawRectangle(pen, new Rectangle(columnMoveMarkerX - hScrollBar.Value, 0, 1, ClientRectangle.Height));
+                g.DrawRectangle(pen, new Rectangle(_columnMoveMarkerX - _hScrollBar.Value, 0, 1, ClientRectangle.Height));
                 pen.Dispose();
                 pen = null;
             }
@@ -1628,17 +1563,17 @@ namespace MPfm.WindowsControls
                 // Build debug string
                 StringBuilder sbDebug = new StringBuilder();
                 sbDebug.AppendLine("Line Count: " + items.Count.ToString());
-                sbDebug.AppendLine("Line Height: " + songCache.LineHeight.ToString());
-                sbDebug.AppendLine("Lines Fit In Height: " + songCache.NumberOfLinesFittingInControl.ToString());
-                sbDebug.AppendLine("Total Width: " + songCache.TotalWidth);
-                sbDebug.AppendLine("Total Height: " + songCache.TotalHeight);
-                sbDebug.AppendLine("Scrollbar Offset Y: " + songCache.ScrollBarOffsetY);
-                sbDebug.AppendLine("HScrollbar Maximum: " + hScrollBar.Maximum.ToString());
-                sbDebug.AppendLine("HScrollbar LargeChange: " + hScrollBar.LargeChange.ToString());
-                sbDebug.AppendLine("HScrollbar Value: " + hScrollBar.Value.ToString());
-                sbDebug.AppendLine("VScrollbar Maximum: " + vScrollBar.Maximum.ToString());
-                sbDebug.AppendLine("VScrollbar LargeChange: " + vScrollBar.LargeChange.ToString());
-                sbDebug.AppendLine("VScrollbar Value: " + vScrollBar.Value.ToString());
+                sbDebug.AppendLine("Line Height: " + _songCache.LineHeight.ToString());
+                sbDebug.AppendLine("Lines Fit In Height: " + _songCache.NumberOfLinesFittingInControl.ToString());
+                sbDebug.AppendLine("Total Width: " + _songCache.TotalWidth);
+                sbDebug.AppendLine("Total Height: " + _songCache.TotalHeight);
+                sbDebug.AppendLine("Scrollbar Offset Y: " + _songCache.ScrollBarOffsetY);
+                sbDebug.AppendLine("HScrollbar Maximum: " + _hScrollBar.Maximum.ToString());
+                sbDebug.AppendLine("HScrollbar LargeChange: " + _hScrollBar.LargeChange.ToString());
+                sbDebug.AppendLine("HScrollbar Value: " + _hScrollBar.Value.ToString());
+                sbDebug.AppendLine("VScrollbar Maximum: " + _vScrollBar.Maximum.ToString());
+                sbDebug.AppendLine("VScrollbar LargeChange: " + _vScrollBar.LargeChange.ToString());
+                sbDebug.AppendLine("VScrollbar Value: " + _vScrollBar.Value.ToString());
 
                 // Measure string
                 stringFormat.Trimming = StringTrimming.Word;
@@ -1657,7 +1592,7 @@ namespace MPfm.WindowsControls
             }
 
             // If both scrollbars are visible...
-            if (hScrollBar.Visible && vScrollBar.Visible)
+            if (_hScrollBar.Visible && _vScrollBar.Visible)
             {
                 // Draw a bit of control color over the 16x16 area in the lower right corner
                 brush = new SolidBrush(SystemColors.Control);
@@ -1681,16 +1616,15 @@ namespace MPfm.WindowsControls
             // Bug when putting window in maximized mode: black area at the bottom
             // it's because the maximum value is set later in OnPaint
             // If the scrollY value is 
-            if (vScrollBar.Maximum - vScrollBar.LargeChange < vScrollBar.Value)
+            if (_vScrollBar.Maximum - _vScrollBar.LargeChange < _vScrollBar.Value)
             {
                 // Set new scrollbar value
-                vScrollBar.Value = vScrollBar.Maximum - vScrollBar.LargeChange + 1;
+                _vScrollBar.Value = _vScrollBar.Maximum - _vScrollBar.LargeChange + 1;
             }
 
             // Set horizontal scrollbar width and position
-            hScrollBar.Top = ClientRectangle.Height - hScrollBar.Height;
+            _hScrollBar.Top = ClientRectangle.Height - _hScrollBar.Height;
 
-            // Invalidate cache
             InvalidateSongCache();
 
             base.OnResize(e);
@@ -1703,7 +1637,6 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected void hScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
-            // Redraw control
             Refresh();
         }
 
@@ -1714,7 +1647,6 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected void vScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
-            // Redraw control
             Refresh();
         }
 
@@ -1728,9 +1660,7 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected override void OnMouseEnter(EventArgs e)
         {
-            // Set flags
             isMouseOverControl = true;
-
             base.OnMouseEnter(e);
         }
 
@@ -1740,31 +1670,27 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected override void OnMouseLeave(EventArgs e)
         {
-            // Set flags
             bool controlNeedsToBeUpdated = false;
             isMouseOverControl = false;
 
-            // Check if all the data is valid
-            if (columns == null || songCache == null)
-            {
+            if (columns == null || _songCache == null)
                 return;
-            }
 
             // Calculate scrollbar offset Y
-            int scrollbarOffsetY = (startLineNumber * songCache.LineHeight) - vScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
 
             // Check if there's at least one item
             if (items.Count > 0)
             {
                 // Reset mouse over item flags
-                for (int b = startLineNumber; b < startLineNumber + numberOfLinesToDraw; b++)
+                for (int b = _startLineNumber; b < _startLineNumber + numberOfLinesToDraw; b++)
                 {
                     // Check if the mouse was over this item
                     if (items[b].IsMouseOverItem)
                     {
                         // Reset flag and invalidate region
                         items[b].IsMouseOverItem = false;
-                        Invalidate(new Rectangle(columns[0].Width - hScrollBar.Value, ((b - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - columns[0].Width + hScrollBar.Value, songCache.LineHeight));
+                        Invalidate(new Rectangle(columns[0].Width - _hScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - columns[0].Width + _hScrollBar.Value, _songCache.LineHeight));
                         controlNeedsToBeUpdated = true;
 
                         // Exit loop
@@ -1775,33 +1701,30 @@ namespace MPfm.WindowsControls
 
             // Reset column flags
             int columnOffsetX2 = 0;
-            for (int b = 0; b < songCache.ActiveColumns.Count; b++)
+            for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
             {
                 // Make sure column is visible
-                if (songCache.ActiveColumns[b].Visible)
+                if (_songCache.ActiveColumns[b].Visible)
                 {
                     // Was mouse over this column header?
-                    if (songCache.ActiveColumns[b].IsMouseOverColumnHeader)
+                    if (_songCache.ActiveColumns[b].IsMouseOverColumnHeader)
                     {
                         // Reset flag
-                        songCache.ActiveColumns[b].IsMouseOverColumnHeader = false;
+                        _songCache.ActiveColumns[b].IsMouseOverColumnHeader = false;
 
                         // Invalidate region
-                        Invalidate(new Rectangle(columnOffsetX2 - hScrollBar.Value, 0, songCache.ActiveColumns[b].Width, songCache.LineHeight));
+                        Invalidate(new Rectangle(columnOffsetX2 - _hScrollBar.Value, 0, _songCache.ActiveColumns[b].Width, _songCache.LineHeight));
                         controlNeedsToBeUpdated = true;
                     }
 
                     // Increment offset
-                    columnOffsetX2 += songCache.ActiveColumns[b].Width;
+                    columnOffsetX2 += _songCache.ActiveColumns[b].Width;
                 }
             }
 
             // Check if control needs to be updated
             if (controlNeedsToBeUpdated)
-            {
-                // Update control
                 Update();
-            }
 
             base.OnMouseLeave(e);
         }
@@ -1816,13 +1739,13 @@ namespace MPfm.WindowsControls
             dragStartX = e.X;
 
             // Check if all the data is valid
-            if (columns == null || songCache == null)
+            if (columns == null || _songCache == null)
             {
                 return;
             }
 
             // Loop through columns
-            foreach (SongGridViewColumn column in songCache.ActiveColumns)
+            foreach (SongGridViewColumn column in _songCache.ActiveColumns)
             {
                 // Check for resizing column
                 if (column.IsMouseCursorOverColumnLimit && column.CanBeResized && CanResizeColumns)
@@ -1856,15 +1779,12 @@ namespace MPfm.WindowsControls
             bool updateControl = false;
             isUserHoldingLeftMouseButton = false;
 
-            // Check if all the data is valid
-            if (columns == null || songCache == null)
-            {
+            if (columns == null || _songCache == null)
                 return;
-            }
 
             // Loop through columns
             SongGridViewColumn columnMoving = null;
-            foreach (SongGridViewColumn column in songCache.ActiveColumns)
+            foreach (SongGridViewColumn column in _songCache.ActiveColumns)
             {
                 // Reset flags
                 column.IsUserResizingColumn = false;
@@ -1888,10 +1808,10 @@ namespace MPfm.WindowsControls
                 SongGridViewColumn columnOver = null;
                 int x = 0;
                 bool isPastCurrentlyMovingColumn = false;
-                for (int a = 0; a < songCache.ActiveColumns.Count; a++ )
+                for (int a = 0; a < _songCache.ActiveColumns.Count; a++ )
                 {
                     // Set current column
-                    SongGridViewColumn currentColumn = songCache.ActiveColumns[a];
+                    SongGridViewColumn currentColumn = _songCache.ActiveColumns[a];
 
                     // Check if current column
                     if (currentColumn.FieldName == columnMoving.FieldName)
@@ -1904,37 +1824,37 @@ namespace MPfm.WindowsControls
                     if (currentColumn.Visible)
                     {
                         // Check if the cursor is over the left part of the column
-                        if (e.X >= x - hScrollBar.Value && e.X <= x + (currentColumn.Width / 2) - hScrollBar.Value)
+                        if (e.X >= x - _hScrollBar.Value && e.X <= x + (currentColumn.Width / 2) - _hScrollBar.Value)
                         {
                             // Check flag
                             if (isPastCurrentlyMovingColumn && currentColumn.FieldName != columnMoving.FieldName)
                             {
                                 // Set column
-                                columnOver = songCache.ActiveColumns[a - 1];
+                                columnOver = _songCache.ActiveColumns[a - 1];
                             }
                             else
                             {
                                 // Set column
-                                columnOver = songCache.ActiveColumns[a];
+                                columnOver = _songCache.ActiveColumns[a];
                             }
                             break;                               
                         }
                         // Check if the cursor is over the right part of the column
-                        else if (e.X >= x + (currentColumn.Width / 2) - hScrollBar.Value && e.X <= x + currentColumn.Width - hScrollBar.Value)
+                        else if (e.X >= x + (currentColumn.Width / 2) - _hScrollBar.Value && e.X <= x + currentColumn.Width - _hScrollBar.Value)
                         {
                             // Check if there is a next item
-                            if (a < songCache.ActiveColumns.Count - 1)
+                            if (a < _songCache.ActiveColumns.Count - 1)
                             {
                                 // Check flag
                                 if (isPastCurrentlyMovingColumn)
                                 {
                                     // Set column
-                                    columnOver = songCache.ActiveColumns[a];
+                                    columnOver = _songCache.ActiveColumns[a];
                                 }
                                 else
                                 {
                                     // Set column
-                                    columnOver = songCache.ActiveColumns[a + 1];
+                                    columnOver = _songCache.ActiveColumns[a + 1];
                                 }
                             }
 
@@ -2017,21 +1937,15 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            // Check if all the data is valid
-            if (columns == null || songCache == null)
-            {
+            if (columns == null || _songCache == null)
                 return;
-            }
 
             // Calculate album cover art width
             int albumArtCoverWidth = columns[0].Visible ? columns[0].Width : 0;
 
             // Make sure the control is focused
             if (!Focused)
-            {
-                // Set control focus
                 Focus();
-            }
 
             // Show context menu strip if the button click is right and not the album art column
             if (e.Button == System.Windows.Forms.MouseButtons.Right &&
@@ -2039,36 +1953,30 @@ namespace MPfm.WindowsControls
             {
                 // Is there a context menu strip configured?
                 if (contextMenuStrip != null)
-                {
-                    // Show context menu strip
                     contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);
-                }
             }
 
             // Check if the user is resizing a column
             SongGridViewColumn columnResizing = columns.FirstOrDefault(x => x.IsUserResizingColumn == true);
 
             // Calculate scrollbar offset Y
-            int scrollbarOffsetY = (startLineNumber * songCache.LineHeight) - vScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
 
             // Check if the user has clicked on the header (for orderBy)
             if (e.Y >= 0 &&
-                e.Y <= songCache.LineHeight &&
+                e.Y <= _songCache.LineHeight &&
                 columnResizing == null &&
                 !IsColumnMoving)
             {
                 // Check on what column the user has clicked
                 int offsetX = 0;
-                for (int a = 0; a < songCache.ActiveColumns.Count; a++)
+                for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
                 {
-                    // Get current column
-                    SongGridViewColumn column = songCache.ActiveColumns[a];
-
-                    // Make sure column is visible
+                    SongGridViewColumn column = _songCache.ActiveColumns[a];
                     if (column.Visible)
                     {
                         // Check if the mouse pointer is over this column
-                        if (e.X >= offsetX - hScrollBar.Value && e.X <= offsetX + column.Width - hScrollBar.Value)
+                        if (e.X >= offsetX - _hScrollBar.Value && e.X <= offsetX + column.Width - _hScrollBar.Value)
                         {
                             // Check mouse button
                             if (e.Button == System.Windows.Forms.MouseButtons.Left && CanChangeOrderBy)
@@ -2083,45 +1991,36 @@ namespace MPfm.WindowsControls
                                 {
                                     // Set order by field name
                                     orderByFieldName = column.FieldName;
-
-                                    // By default, the order is ascending
                                     orderByAscending = true;
                                 }
 
                                 // Invalidate cache and song items
                                 items = null;
-                                songCache = null;
+                                _songCache = null;
 
                                 // Raise column click event (if an event is subscribed)
                                 if (OnColumnClick != null)
                                 {
-                                    // Create data
                                     SongGridViewColumnClickData data = new SongGridViewColumnClickData();
                                     data.ColumnIndex = a;
-
-                                    // Raise event
                                     OnColumnClick(data);
                                 }
 
-                                // Refresh control
                                 Refresh();
                                 return;
                             }
                             else if (e.Button == System.Windows.Forms.MouseButtons.Right)
                             {
                                 // Refresh column visibility in menu before opening
-                                foreach(ToolStripMenuItem menuItem in menuColumns.Items)
+                                foreach(ToolStripMenuItem menuItem in _menuColumns.Items)
                                 {
-                                    // Get column
                                     SongGridViewColumn menuItemColumn = columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
                                     if (menuItemColumn != null)
-                                    {
                                         menuItem.Checked = menuItemColumn.Visible;
-                                    }
                                 }
 
                                 // Display columns contextual menu
-                                menuColumns.Show(this, e.X, e.Y);
+                                _menuColumns.Show(this, e.X, e.Y);
                             }
                         }
 
@@ -2134,7 +2033,7 @@ namespace MPfm.WindowsControls
             // Loop through visible lines to find the original selected items
             int startIndex = -1;
             int endIndex = -1;
-            for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
+            for (int a = _startLineNumber; a < _startLineNumber + numberOfLinesToDraw; a++)
             {
                 // Check if the item is selected
                 if (items[a].IsSelected)
@@ -2158,9 +2057,9 @@ namespace MPfm.WindowsControls
             if (startIndex > -1 && endIndex > -1)
             {
                 // Invalidate the original selected lines
-                int startY = ((startIndex - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY;
-                int endY = ((endIndex - startLineNumber + 2) * songCache.LineHeight) + scrollbarOffsetY;
-                Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, startY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, endY - startY));
+                int startY = ((startIndex - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY;
+                int endY = ((endIndex - _startLineNumber + 2) * _songCache.LineHeight) + scrollbarOffsetY;
+                Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, startY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, endY - startY));
             }
 
             // Reset selection (make sure SHIFT or CTRL isn't held down)
@@ -2173,21 +2072,17 @@ namespace MPfm.WindowsControls
                     // Reset selection, unless the CTRL key is held (TODO)
                     List<SongGridViewItem> selectedItems = items.Where(x => x.IsSelected == true).ToList();
                     foreach (SongGridViewItem item in selectedItems)
-                    {
-                        // Reset flag
                         item.IsSelected = false;
-                    }
                 }
             }
 
             // Loop through visible lines to update the new selected item
             bool invalidatedNewSelection = false;
-            for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
+            for (int a = _startLineNumber; a < _startLineNumber + numberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
                 if (items[a].IsMouseOverItem)
                 {
-                    // Set flag
                     invalidatedNewSelection = true;
 
                     // Check if SHIFT is held
@@ -2196,23 +2091,16 @@ namespace MPfm.WindowsControls
                         // Find the start index of the selection
                         int startIndexSelection = lastItemIndexClicked;
                         if (a < startIndexSelection)
-                        {
                             startIndexSelection = a;
-                        }
 
                         // Find the end index of the selection
                         int endIndexSelection = lastItemIndexClicked;
                         if (a > endIndexSelection)
-                        {
                             endIndexSelection = a + 1;
-                        }
 
                         // Loop through items to selected
                         for (int b = startIndexSelection; b < endIndexSelection; b++)
-                        {
-                            // Set items as selected
                             items[b].IsSelected = true;
-                        }
 
                         // Invalidate region
                         Invalidate();
@@ -2222,17 +2110,13 @@ namespace MPfm.WindowsControls
                     {
                         // Invert selection
                         items[a].IsSelected = !items[a].IsSelected;
-
-                        // Invalidate region
-                        Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, ((a - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, songCache.LineHeight));
+                        Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
                     }
                     else
                     {
                         // Set this item as the new selected item
                         items[a].IsSelected = true;
-
-                        // Invalidate region
-                        Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, ((a - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, songCache.LineHeight));
+                        Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
                     }
 
                     // Set the last item clicked index
@@ -2246,14 +2130,10 @@ namespace MPfm.WindowsControls
             // Raise selected item changed event (if an event is subscribed)
             if (invalidatedNewSelection && OnSelectedIndexChanged != null)
             {
-                // Create data
                 SongGridViewSelectedIndexChangedData data = new SongGridViewSelectedIndexChangedData();                
-
-                // Raise event
                 OnSelectedIndexChanged(data);                
             }
 
-            // Update invalid regions
             Update();
 
             base.OnMouseClick(e);
@@ -2266,35 +2146,26 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
-            // Check if all the data is valid
-            if (columns == null || songCache == null)
-            {
+            if (columns == null || _songCache == null)
                 return;
-            }
 
             // Calculate album cover art width
             int albumArtCoverWidth = columns[0].Visible ? columns[0].Width : 0;
 
             // Calculate scrollbar offset Y
-            int scrollbarOffsetY = (startLineNumber * songCache.LineHeight) - vScrollBar.Value;
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
 
             // Keep original songId in case the now playing value is set before invalidating the older value
             Guid originalId = Guid.Empty;
 
-            // Check mode
-            if (mode == SongGridViewMode.AudioFile)
-            {
-                // Set original id
+            // Set original id
+            if (_mode == SongGridViewMode.AudioFile)
                 originalId = nowPlayingAudioFileId;
-            }
-            else if (mode == SongGridViewMode.Playlist)
-            {
-                // Set original id
+            else if (_mode == SongGridViewMode.Playlist)
                 originalId = nowPlayingPlaylistItemId;
-            }
 
             // Loop through visible lines
-            for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
+            for (int a = _startLineNumber; a < _startLineNumber + numberOfLinesToDraw; a++)
             {
                 // Check if mouse is over this item
                 if (items[a].IsMouseOverItem)
@@ -2304,17 +2175,17 @@ namespace MPfm.WindowsControls
                     nowPlayingPlaylistItemId = items[a].PlaylistItemId;
 
                     // Invalidate region
-                    Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, ((a - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, songCache.LineHeight));
+                    Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
                 }
-                else if (mode == SongGridViewMode.AudioFile && items[a].AudioFile.Id == originalId)
+                else if (_mode == SongGridViewMode.AudioFile && items[a].AudioFile.Id == originalId)
                 {
                     // Invalidate region
-                    Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, ((a - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, songCache.LineHeight));
+                    Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
                 }
-                else if (mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == originalId)
+                else if (_mode == SongGridViewMode.Playlist && items[a].PlaylistItemId == originalId)
                 {
                     // Invalidate region
-                    Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, ((a - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, songCache.LineHeight));
+                    Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
                 }
             }
 
@@ -2331,20 +2202,16 @@ namespace MPfm.WindowsControls
         /// <param name="e">Event arguments</param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            // Declare variables
             bool controlNeedsToBeUpdated = false;
 
-            // Check if all the data is valid
-            if (columns == null || songCache == null)
-            {
+            if (columns == null || _songCache == null)
                 return;
-            }
 
             // Calculate album cover art width
             int albumArtCoverWidth = columns[0].Visible ? columns[0].Width : 0;
 
             // Check if the user is currently resizing a column (loop through columns)
-            foreach (SongGridViewColumn column in songCache.ActiveColumns)
+            foreach (SongGridViewColumn column in _songCache.ActiveColumns)
             {
                 // Check if the user is currently resizing this column
                 if (column.IsUserResizingColumn && column.Visible)
@@ -2354,10 +2221,7 @@ namespace MPfm.WindowsControls
 
                     // Make sure the width isn't lower than the minimum width
                     if (newWidth < minimumColumnWidth)
-                    {
-                        // Set width as minimum column width
                         newWidth = minimumColumnWidth;
-                    }
 
                     // Set column width
                     column.Width = newWidth;
@@ -2368,15 +2232,13 @@ namespace MPfm.WindowsControls
                     InvalidateSongCache();
 
                     // Auto adjust horizontal scrollbar value if it exceeds the value range (i.e. do not show empty column)
-                    if (hScrollBar.Value > hScrollBar.Maximum - hScrollBar.LargeChange)
+                    if (_hScrollBar.Value > _hScrollBar.Maximum - _hScrollBar.LargeChange)
                     {
                         // Set new value
-                        int tempValue = hScrollBar.Maximum - hScrollBar.LargeChange;
+                        int tempValue = _hScrollBar.Maximum - _hScrollBar.LargeChange;
                         if (tempValue < 0)
-                        {
                             tempValue = 0;
-                        }
-                        hScrollBar.Value = tempValue;
+                        _hScrollBar.Value = tempValue;
                     }
                 }
 
@@ -2397,72 +2259,52 @@ namespace MPfm.WindowsControls
                 {                    
                     // Loop through columns
                     int x = 0;
-                    foreach (SongGridViewColumn columnOver in songCache.ActiveColumns)
+                    foreach (SongGridViewColumn columnOver in _songCache.ActiveColumns)
                     {
                         // Check if column is visible
                         if (columnOver.Visible)
                         {
                             // Check if the cursor is over the left part of the column
-                            if (e.X >= x - hScrollBar.Value && e.X <= x + (columnOver.Width / 2) - hScrollBar.Value)
-                            {
-                                // Set marker
-                                columnMoveMarkerX = x;
-                            }
+                            if (e.X >= x - _hScrollBar.Value && e.X <= x + (columnOver.Width / 2) - _hScrollBar.Value)
+                                _columnMoveMarkerX = x;
                             // Check if the cursor is over the right part of the column
-                            else if (e.X >= x + (columnOver.Width / 2) - hScrollBar.Value && e.X <= x + columnOver.Width - hScrollBar.Value)
-                            {
-                                // Set marker
-                                columnMoveMarkerX = x + columnOver.Width;
-                            }
+                            else if (e.X >= x + (columnOver.Width / 2) - _hScrollBar.Value && e.X <= x + columnOver.Width - _hScrollBar.Value)
+                                _columnMoveMarkerX = x + columnOver.Width;
 
-                            // Increment x
                             x += columnOver.Width;
                         }
                     }
 
-                    // Invalidate control
                     Invalidate();
-
-                    // Set flags
                     controlNeedsToBeUpdated = true;                    
                 }
             }
 
-            // Check if a column is moving
             if (!IsColumnMoving)
             {
-
                 // Check if the cursor needs to be changed            
                 int offsetX = 0;
                 bool mousePointerIsOverColumnLimit = false;
-                foreach (SongGridViewColumn column in songCache.ActiveColumns)
+                foreach (SongGridViewColumn column in _songCache.ActiveColumns)
                 {
-                    // Check if column is visible
                     if (column.Visible)
                     {
                         // Increment offset by the column width
                         offsetX += column.Width;
-
-                        // Check if the column can be resized
                         if (column.CanBeResized)
                         {
                             // Check if the mouse pointer is over a column (add 1 pixel so it's easier to select)
-                            if (e.X >= offsetX - hScrollBar.Value && e.X <= offsetX + 1 - hScrollBar.Value)
+                            if (e.X >= offsetX - _hScrollBar.Value && e.X <= offsetX + 1 - _hScrollBar.Value)
                             {
-                                // Set flag
                                 mousePointerIsOverColumnLimit = true;
                                 column.IsMouseCursorOverColumnLimit = true;
 
                                 // Change the cursor if it's not the right cursor
                                 if (Cursor != Cursors.VSplit)
-                                {
-                                    // Change cursor
                                     Cursor = Cursors.VSplit;
-                                }
                             }
                             else
                             {
-                                // Reset flag
                                 column.IsMouseCursorOverColumnLimit = false;
                             }
                         }
@@ -2471,29 +2313,20 @@ namespace MPfm.WindowsControls
 
                 // Check if the default cursor needs to be restored
                 if (!mousePointerIsOverColumnLimit && Cursor != Cursors.Default)
-                {
-                    // Restore the default cursor
                     Cursor = Cursors.Default;
-                }
 
-                // Reset flags
                 int columnOffsetX2 = 0;
-                for (int b = 0; b < songCache.ActiveColumns.Count; b++)
+                for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
                 {
-                    // Get current column
-                    SongGridViewColumn column = songCache.ActiveColumns[b];
-
-                    // Check if column is visible
+                    SongGridViewColumn column = _songCache.ActiveColumns[b];
                     if (column.Visible)
                     {
                         // Was mouse over this column header?
                         if (column.IsMouseOverColumnHeader)
                         {
-                            // Reset flag
-                            column.IsMouseOverColumnHeader = false;
-
                             // Invalidate region
-                            Invalidate(new Rectangle(columnOffsetX2 - hScrollBar.Value, 0, column.Width, songCache.LineHeight));
+                            column.IsMouseOverColumnHeader = false;
+                            Invalidate(new Rectangle(columnOffsetX2 - _hScrollBar.Value, 0, column.Width, _songCache.LineHeight));
                             controlNeedsToBeUpdated = true;
                         }
 
@@ -2504,33 +2337,27 @@ namespace MPfm.WindowsControls
 
                 // Check if the mouse pointer is over the header
                 if (e.Y >= 0 &&
-                    e.Y <= songCache.LineHeight)
+                    e.Y <= _songCache.LineHeight)
                 {
                     // Check on what column the user has clicked
                     int columnOffsetX = 0;
-                    for (int a = 0; a < songCache.ActiveColumns.Count; a++)
+                    for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
                     {
-                        // Get current column
-                        SongGridViewColumn column = songCache.ActiveColumns[a];
-
-                        // Make sure column is visible
+                        SongGridViewColumn column = _songCache.ActiveColumns[a];
                         if (column.Visible)
                         {
                             // Check if the mouse pointer is over this column
-                            if (e.X >= columnOffsetX - hScrollBar.Value && e.X <= columnOffsetX + column.Width - hScrollBar.Value)
+                            if (e.X >= columnOffsetX - _hScrollBar.Value && e.X <= columnOffsetX + column.Width - _hScrollBar.Value)
                             {
-                                // Set flag
-                                column.IsMouseOverColumnHeader = true;
-
                                 // Invalidate region
-                                Invalidate(new Rectangle(columnOffsetX - hScrollBar.Value, 0, column.Width, songCache.LineHeight));
+                                column.IsMouseOverColumnHeader = true;
+                                Invalidate(new Rectangle(columnOffsetX - _hScrollBar.Value, 0, column.Width, _songCache.LineHeight));
 
                                 // Exit loop
                                 controlNeedsToBeUpdated = true;
                                 break;
                             }
 
-                            // Increment X offset
                             columnOffsetX += column.Width;
                         }
                     }
@@ -2538,20 +2365,20 @@ namespace MPfm.WindowsControls
 
                 // Check if the mouse cursor is over a line (loop through lines)                        
                 int offsetY = 0;
-                int scrollbarOffsetY = (startLineNumber * songCache.LineHeight) - vScrollBar.Value;
+                int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
 
                 // Check if there's at least one item
                 if (items.Count > 0)
                 {
                     // Reset mouse over item flags
-                    for (int b = startLineNumber; b < startLineNumber + numberOfLinesToDraw; b++)
+                    for (int b = _startLineNumber; b < _startLineNumber + numberOfLinesToDraw; b++)
                     {
                         // Check if the mouse was over this item
                         if (items[b].IsMouseOverItem)
                         {
                             // Reset flag and invalidate region
                             items[b].IsMouseOverItem = false;
-                            Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, ((b - startLineNumber + 1) * songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, songCache.LineHeight));
+                            Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
 
                             // Exit loop
                             break;
@@ -2559,27 +2386,24 @@ namespace MPfm.WindowsControls
                     }
 
                     // Put new mouse over flag
-                    for (int a = startLineNumber; a < startLineNumber + numberOfLinesToDraw; a++)
+                    for (int a = _startLineNumber; a < _startLineNumber + numberOfLinesToDraw; a++)
                     {
-                        // Get audio file
                         AudioFile audioFile = items[a].AudioFile;
 
                         // Calculate offset
-                        offsetY = (a * songCache.LineHeight) - vScrollBar.Value + songCache.LineHeight;
+                        offsetY = (a * _songCache.LineHeight) - _vScrollBar.Value + _songCache.LineHeight;
 
                         // Check if the mouse cursor is over this line (and not already mouse over)
-                        if (e.X >= albumArtCoverWidth - hScrollBar.Value &&
+                        if (e.X >= albumArtCoverWidth - _hScrollBar.Value &&
                             e.Y >= offsetY &&
-                            e.Y <= offsetY + songCache.LineHeight &&
+                            e.Y <= offsetY + _songCache.LineHeight &&
                             !items[a].IsMouseOverItem)
                         {
                             // Set item as mouse over
                             items[a].IsMouseOverItem = true;
 
-                            // Invalidate region                    
-                            Invalidate(new Rectangle(albumArtCoverWidth - hScrollBar.Value, offsetY, ClientRectangle.Width - albumArtCoverWidth + hScrollBar.Value, songCache.LineHeight));
-
-                            // Update control                    
+                            // Invalidate region and update control
+                            Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, offsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
                             controlNeedsToBeUpdated = true;
 
                             // Exit loop
@@ -2591,10 +2415,7 @@ namespace MPfm.WindowsControls
 
             // Check if the control needs to be refreshed
             if (controlNeedsToBeUpdated)
-            {
-                // Refresh control
                 Update();
-            }
 
             base.OnMouseMove(e);
         }
@@ -2624,7 +2445,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Reset cache
-                songCache = null;
+                _songCache = null;
                 Refresh();
             }
         }
@@ -2643,13 +2464,13 @@ namespace MPfm.WindowsControls
                 int delta = Win32.GetWheelDeltaWParam((int)m.WParam);
 
                 // Check if all the data is valid
-                if (columns == null || songCache == null)
+                if (columns == null || _songCache == null)
                 {
                     return false;
                 }
 
                 // Make sure the mouse cursor is over the control, and that the vertical scrollbar is enabled
-                if (!isMouseOverControl || !vScrollBar.Enabled)
+                if (!isMouseOverControl || !_vScrollBar.Enabled)
                 {
                     return false;
                 }
@@ -2658,12 +2479,12 @@ namespace MPfm.WindowsControls
                 int value = delta / SystemInformation.MouseWheelScrollDelta;
 
                 // Set new value
-                int newValue = vScrollBar.Value + (-value * songCache.LineHeight);
+                int newValue = _vScrollBar.Value + (-value * _songCache.LineHeight);
 
                 // Check for maximum
-                if (newValue > vScrollBar.Maximum - vScrollBar.LargeChange)
+                if (newValue > _vScrollBar.Maximum - _vScrollBar.LargeChange)
                 {
-                    newValue = vScrollBar.Maximum - vScrollBar.LargeChange;
+                    newValue = _vScrollBar.Maximum - _vScrollBar.LargeChange;
                 }
                 // Check for minimum
                 if (newValue < 0)
@@ -2672,7 +2493,7 @@ namespace MPfm.WindowsControls
                 }
 
                 // Set scrollbar value
-                vScrollBar.Value = newValue;
+                _vScrollBar.Value = newValue;
 
                 // Invalidate the whole control and refresh                
                 Refresh();                
@@ -2696,10 +2517,10 @@ namespace MPfm.WindowsControls
             }
 
             // Create cache
-            songCache = new SongGridViewCache();
+            _songCache = new SongGridViewCache();
 
             // Get active columns and order them
-            songCache.ActiveColumns = columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList();
+            _songCache.ActiveColumns = columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList();
 
             // Load custom font
             //Font fontDefaultBold = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Bold);
@@ -2755,96 +2576,96 @@ namespace MPfm.WindowsControls
             bmpTemp = null;
 
             // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
-            songCache.LineHeight = (int)sizeFont.Height + theme.Padding;
-            songCache.TotalHeight = songCache.LineHeight * items.Count;
+            _songCache.LineHeight = (int)sizeFont.Height + theme.Padding;
+            _songCache.TotalHeight = _songCache.LineHeight * items.Count;
 
             // Check if the total active columns width exceed the width available in the control
-            songCache.TotalWidth = 0;
-            for (int a = 0; a < songCache.ActiveColumns.Count; a++)
+            _songCache.TotalWidth = 0;
+            for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
             {
                 // Check if column is visible
-                if (songCache.ActiveColumns[a].Visible)
+                if (_songCache.ActiveColumns[a].Visible)
                 {
                     // Increment total width
-                    songCache.TotalWidth += songCache.ActiveColumns[a].Width;
+                    _songCache.TotalWidth += _songCache.ActiveColumns[a].Width;
                 }
             }
 
             // Calculate the number of lines visible (count out the header, which is one line height)
-            songCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(ClientRectangle.Height) / (double)(songCache.LineHeight));
+            _songCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(ClientRectangle.Height) / (double)(_songCache.LineHeight));
 
             // Set vertical scrollbar dimensions
-            vScrollBar.Top = songCache.LineHeight;
-            vScrollBar.Left = ClientRectangle.Width - vScrollBar.Width;
-            vScrollBar.Minimum = 0;
+            _vScrollBar.Top = _songCache.LineHeight;
+            _vScrollBar.Left = ClientRectangle.Width - _vScrollBar.Width;
+            _vScrollBar.Minimum = 0;
 
             // Scrollbar maximum is the number of lines fitting in the screen + the remaining line which might be cut
             // by the control height because it's not a multiple of line height (i.e. the last line is only partly visible)
-            int lastLineHeight = ClientRectangle.Height - (songCache.LineHeight * songCache.NumberOfLinesFittingInControl);
+            int lastLineHeight = ClientRectangle.Height - (_songCache.LineHeight * _songCache.NumberOfLinesFittingInControl);
 
             // Check width
-            if (songCache.TotalWidth > ClientRectangle.Width - vScrollBar.Width)
+            if (_songCache.TotalWidth > ClientRectangle.Width - _vScrollBar.Width)
             {
                 // Set scrollbar values
-                hScrollBar.Maximum = songCache.TotalWidth;
-                hScrollBar.SmallChange = 5;
-                hScrollBar.LargeChange = ClientRectangle.Width;
+                _hScrollBar.Maximum = _songCache.TotalWidth;
+                _hScrollBar.SmallChange = 5;
+                _hScrollBar.LargeChange = ClientRectangle.Width;
 
                 // Show scrollbar
-                hScrollBar.Visible = true;
+                _hScrollBar.Visible = true;
             }
 
             // Check if the horizontal scrollbar needs to be turned off
-            if (songCache.TotalWidth <= ClientRectangle.Width - vScrollBar.Width && hScrollBar.Visible)
+            if (_songCache.TotalWidth <= ClientRectangle.Width - _vScrollBar.Width && _hScrollBar.Visible)
             {
                 // Hide the horizontal scrollbar
-                hScrollBar.Visible = false;
+                _hScrollBar.Visible = false;
             }
 
             // If there are less items than items fitting on screen...            
-            if (((songCache.NumberOfLinesFittingInControl - 1) * songCache.LineHeight) - hScrollBar.Height >= songCache.TotalHeight)
+            if (((_songCache.NumberOfLinesFittingInControl - 1) * _songCache.LineHeight) - _hScrollBar.Height >= _songCache.TotalHeight)
             {
                 // Disable the scrollbar
-                vScrollBar.Enabled = false;
-                vScrollBar.Value = 0;
+                _vScrollBar.Enabled = false;
+                _vScrollBar.Value = 0;
             }
             else
             {
                 // Set scrollbar values
-                vScrollBar.Enabled = true;
+                _vScrollBar.Enabled = true;
 
                 // The real large change needs to be added to the LargeChange and Maximum property in order to work. 
-                int realLargeChange = songCache.LineHeight * 5;
+                int realLargeChange = _songCache.LineHeight * 5;
 
                 // Calculate the vertical scrollbar maximum
-                int vMax = songCache.LineHeight * (items.Count - songCache.NumberOfLinesFittingInControl + 1) - lastLineHeight + realLargeChange;
+                int vMax = _songCache.LineHeight * (items.Count - _songCache.NumberOfLinesFittingInControl + 1) - lastLineHeight + realLargeChange;
 
                 // Add the horizontal scrollbar height if visible
-                if (hScrollBar.Visible)
+                if (_hScrollBar.Visible)
                 {
                     // Add height
-                    vMax += hScrollBar.Height;
+                    vMax += _hScrollBar.Height;
                 }
                 
                 // Compensate for the header, and for the last line which might be truncated by the control height
-                vScrollBar.Maximum = vMax;
-                vScrollBar.SmallChange = songCache.LineHeight;
-                vScrollBar.LargeChange = 1 + realLargeChange;
+                _vScrollBar.Maximum = vMax;
+                _vScrollBar.SmallChange = _songCache.LineHeight;
+                _vScrollBar.LargeChange = 1 + realLargeChange;
             }
 
             // Calculate the scrollbar offset Y
-            songCache.ScrollBarOffsetY = (startLineNumber * songCache.LineHeight) - vScrollBar.Value;
+            _songCache.ScrollBarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
 
             // If both scrollbars need to be visible, the width and height must be changed
-            if (hScrollBar.Visible && vScrollBar.Visible)
+            if (_hScrollBar.Visible && _vScrollBar.Visible)
             {
                 // Cut 16 pixels
-                hScrollBar.Width = ClientRectangle.Width - 16;
-                vScrollBar.Height = ClientRectangle.Height - songCache.LineHeight - 16;
+                _hScrollBar.Width = ClientRectangle.Width - 16;
+                _vScrollBar.Height = ClientRectangle.Height - _songCache.LineHeight - 16;
             }
             else
             {
-                vScrollBar.Height = ClientRectangle.Height - songCache.LineHeight;
+                _vScrollBar.Height = ClientRectangle.Height - _songCache.LineHeight;
             }
         }
 

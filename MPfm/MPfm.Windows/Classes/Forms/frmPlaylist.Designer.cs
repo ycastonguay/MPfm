@@ -806,9 +806,6 @@ namespace MPfm.Windows.Classes.Forms
             this.Name = "frmPlaylist";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Playlist";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPlaylist_FormClosing);
-            this.Shown += new System.EventHandler(this.frmPlaylist_Shown);
-            this.VisibleChanged += new System.EventHandler(this.frmPlaylist_VisibleChanged);
             this.menuPlaylist.ResumeLayout(false);
             this.menuLoadPlaylist.ResumeLayout(false);
             this.flowToolbar.ResumeLayout(false);
