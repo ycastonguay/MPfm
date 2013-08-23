@@ -173,6 +173,17 @@ namespace MPfm.Mac.Classes.Helpers
             rectBounds.Y = rect.Y + y;
             nsstr.DrawString(rectBounds, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
         }
+
+        public static void DrawLine(CGContext context, PointF[] points, float lineWidth, CGColor color)
+        {
+            context.SaveState();
+            var path = new CGPath();
+            path.AddLines(points);
+            context.AddPath(path);
+            context.SetLineWidth(lineWidth);
+            context.SetStrokeColor(color);
+            context.StrokePath();
+            context.RestoreState();
+        }
     }
 }
-

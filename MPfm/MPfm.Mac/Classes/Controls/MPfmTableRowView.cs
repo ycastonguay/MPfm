@@ -38,6 +38,8 @@ namespace MPfm.Mac.Classes.Controls
         public CGColor GradientColor1 { get; set; }
         public CGColor GradientColor2 { get; set; }
 
+        public bool IsBorderVisible { get; set; }
+
         [Export("init")]
         public MPfmTableRowView() : base(NSObjectFlag.Empty)
         {
@@ -80,41 +82,15 @@ namespace MPfm.Mac.Classes.Controls
 //            isMouseDown = false;
 //        }        
 
-        //[Export ("drawBackgroundInRect:")]
         public override void DrawBackgrounn(RectangleF dirtyRect)
         {
-            base.DrawBackgrounn(dirtyRect); // WTF Backgrounn?
+            base.DrawBackgrounn(dirtyRect); // WTF Backgrounn? Must be a naming bug in MonoMac.
 
-//            NSGradient gradient = new NSGradient(new NSColor[]{
-//                NSColor.White, NSColor.Black
-//            });
-//            gradient.DrawInRect(dirtyRect, 90);
-
-            // Draw background
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            RectangleF rectBackground = new RectangleF(0, 0, dirtyRect.Width, dirtyRect.Height);
-            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1.0f, 0, 0, 1.0f));
-            CocoaHelper.FillGradient(context, dirtyRect, GradientColor1, GradientColor2);
+            CocoaHelper.FillRect(context, dirtyRect, new CGColor(1, 1, 1));
 
+            if(IsBorderVisible)
+                CocoaHelper.DrawLine(context, new PointF[2]{ new PointF(0, Bounds.Height), new PointF(Bounds.Width, Bounds.Height) }, 1, new CGColor(0.7f, 0.7f, 0.7f));
         }
-
-
-
-//
-//
-//        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
-//        {
-//            base.DrawRect(dirtyRect);
-//
-//            NSGradient gradient = new NSGradient(new NSColor[]{
-//                NSColor.White, NSColor.Black
-//            });
-//            gradient.DrawInRect(dirtyRect, 90);
-////            // Draw background
-////            CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-////            RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-////            //CocoaHelper.FillRect(context, rectBackground, new CGColor(1.0f, 0, 0, 1.0f));
-////            CocoaHelper.DrawGradient(context, rectBackground, GradientColor1, GradientColor2);
-//        }
     }
 }

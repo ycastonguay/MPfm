@@ -600,17 +600,18 @@ namespace MPfm.Mac
 
         #region IPlayerView implementation
 
-        public System.Action OnPlayerPlay { get; set; }
-        public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
-        public System.Action OnPlayerPause { get; set; }
-        public System.Action OnPlayerStop { get; set; }
-        public System.Action OnPlayerPrevious { get; set; }
-        public System.Action OnPlayerNext { get; set; } 
-        public System.Action<float> OnPlayerSetPitchShifting { get; set; }
-        public System.Action<float> OnPlayerSetTimeShifting { get; set; }
-        public System.Action<float> OnPlayerSetVolume { get; set; }
-        public System.Action<float> OnPlayerSetPosition { get; set; }
+        public Action OnPlayerPlay { get; set; }
+        public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
+        public Action OnPlayerPause { get; set; }
+        public Action OnPlayerStop { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; } 
+        public Action<float> OnPlayerSetPitchShifting { get; set; }
+        public Action<float> OnPlayerSetTimeShifting { get; set; }
+        public Action<float> OnPlayerSetVolume { get; set; }
+        public Action<float> OnPlayerSetPosition { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Action OnEditSongMetadata { get; set; }        
 
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
@@ -715,7 +716,8 @@ namespace MPfm.Mac
 
 		#region ISongBrowserView implementation
 
-        public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }        
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
@@ -833,6 +835,7 @@ namespace MPfm.Mac
         public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
+        public Action<Marker> OnDeleteMarker { get; set; }
 
         public void MarkerError(Exception ex)
         {

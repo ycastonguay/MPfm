@@ -115,10 +115,7 @@ namespace MPfm.Mac.Classes.Delegates
             string identifier = tableColumn.Identifier.ToString();
             if (identifier == "columnIsPlaying")
             {
-                // Create view
                 MPfmIsPlayingTableCellView isPlayingView = (MPfmIsPlayingTableCellView)tableView.MakeView("tableCellIsPlayingView", this);
-
-                // Reset flag (since an already used to 
                 isPlayingView.SetIsPlaying(false);
                 return isPlayingView;
             } 
@@ -126,32 +123,37 @@ namespace MPfm.Mac.Classes.Delegates
             NSTableCellView view = (NSTableCellView)tableView.MakeView("tableCellView", this);
             view.TextField.Font = NSFont.FromFontName("Junction", 11);
             if (identifier == "columnTrackNumber")
-            {
                 view.TextField.StringValue = Items[row].AudioFile.TrackNumber.ToString();
-            }
             else if (identifier == "columnTitle")
-            {
                 view.TextField.StringValue = Items[row].AudioFile.Title;
-            }
             else if (identifier == "columnLength")
-            {
                 view.TextField.StringValue = Items[row].AudioFile.Length;
-            }
             else if (identifier == "columnArtistName")
-            {
                 view.TextField.StringValue = Items[row].AudioFile.ArtistName;
-            }
             else if (identifier == "columnAlbumTitle")
-            {
                 view.TextField.StringValue = Items[row].AudioFile.AlbumTitle;
-            }
             return view;
         }
 
-//        public override NSTableRowView GetRowView(NSTableView tableView, int row)
-//        {
-//            MPfmTableRowView rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
-//            return rowView;
-//        }
+        public override NSTableRowView GetRowView(NSTableView tableView, int row)
+        {
+            MPfmTableRowView rowView = (MPfmTableRowView)tableView.MakeView(NSTableView.RowViewKey, this);
+
+            if(row == Items.Count - 1)
+                return rowView;
+
+            // Try to determine if this is the last row of an album by checking the next row metadata
+            if (Items [row].AudioFile.ArtistName != Items [row+1].AudioFile.ArtistName ||
+                Items [row].AudioFile.AlbumTitle != Items [row+1].AudioFile.AlbumTitle)
+            {
+                rowView.IsBorderVisible = true;
+            } 
+            else
+            {
+                rowView.IsBorderVisible = false;
+            }
+
+            return rowView;
+        }
 	}
 }
