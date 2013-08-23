@@ -189,9 +189,6 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblSubtitleVolume { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblSubtitleTimeShifting { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSTextField lblFilterBySoundFormat { get; set; }
 
 		[Outlet]
@@ -229,6 +226,21 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblSemitones { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabTimeShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabPitchShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabInfo { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabActions { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewActions { get; set; }
 
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
@@ -322,6 +334,18 @@ namespace MPfm.Mac
 
 		[Action ("actionContextualMenuPlay:")]
 		partial void actionContextualMenuPlay (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionTabTimeShifting:")]
+		partial void actionTabTimeShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionTabPitchShifting:")]
+		partial void actionTabPitchShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionTabInfo:")]
+		partial void actionTabInfo (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionTabActions:")]
+		partial void actionTabActions (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -620,11 +644,6 @@ namespace MPfm.Mac
 				lblSubtitleVolume = null;
 			}
 
-			if (lblSubtitleTimeShifting != null) {
-				lblSubtitleTimeShifting.Dispose ();
-				lblSubtitleTimeShifting = null;
-			}
-
 			if (lblFilterBySoundFormat != null) {
 				lblFilterBySoundFormat.Dispose ();
 				lblFilterBySoundFormat = null;
@@ -688,6 +707,31 @@ namespace MPfm.Mac
 			if (lblSemitones != null) {
 				lblSemitones.Dispose ();
 				lblSemitones = null;
+			}
+
+			if (btnTabTimeShifting != null) {
+				btnTabTimeShifting.Dispose ();
+				btnTabTimeShifting = null;
+			}
+
+			if (btnTabPitchShifting != null) {
+				btnTabPitchShifting.Dispose ();
+				btnTabPitchShifting = null;
+			}
+
+			if (btnTabInfo != null) {
+				btnTabInfo.Dispose ();
+				btnTabInfo = null;
+			}
+
+			if (btnTabActions != null) {
+				btnTabActions.Dispose ();
+				btnTabActions = null;
+			}
+
+			if (viewActions != null) {
+				viewActions.Dispose ();
+				viewActions = null;
 			}
 		}
 	}

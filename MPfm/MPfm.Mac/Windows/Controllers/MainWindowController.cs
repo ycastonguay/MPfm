@@ -39,6 +39,7 @@ using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Delegates;
 using MPfm.Player.Objects;
 using MPfm.MVP.Presenters;
+using MPfm.Mac.Classes.Controls;
 
 namespace MPfm.Mac
 {
@@ -120,10 +121,45 @@ namespace MPfm.Mac
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
 
+            btnTabTimeShifting.IsSelected = true;
+            btnTabTimeShifting.OnTabButtonSelected += HandleOnTabButtonSelected;
+            btnTabPitchShifting.OnTabButtonSelected += HandleOnTabButtonSelected;
+            btnTabInfo.OnTabButtonSelected += HandleOnTabButtonSelected;
+            btnTabActions.OnTabButtonSelected += HandleOnTabButtonSelected;
+
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineLibraryBrowser);
 
             OnViewReady.Invoke(this);
 		}
+
+        private void HandleOnTabButtonSelected(MPfmTabButton button)
+        {
+            Console.WriteLine("Test: {0}", button.Title);
+
+            btnTabTimeShifting.IsSelected = button == btnTabTimeShifting;
+            btnTabPitchShifting.IsSelected = button == btnTabPitchShifting;
+            btnTabInfo.IsSelected = button == btnTabInfo;
+            btnTabActions.IsSelected = button == btnTabActions;
+
+            viewTimeShifting.Hidden = button != btnTabTimeShifting;
+            viewPitchShifting.Hidden = button != btnTabPitchShifting;
+            viewInformation.Hidden = button != btnTabInfo;
+            viewActions.Hidden = button != btnTabActions;
+
+//            if (button == btnTabTimeShifting)
+//            {
+//
+//            } 
+//            else if (button == btnTabPitchShifting)
+//            {
+//            }
+//            else if (button == btnTabInfo)
+//            {
+//            } 
+//            else if (button == btnTabActions)
+//            {
+//            }
+        }
 
         private void SetTheme()
         {
@@ -179,11 +215,11 @@ namespace MPfm.Mac
             lblSongTitle.TextColor = NSColor.FromDeviceRgba(171f/255f, 186f/255f, 196f/255f, 1);
             lblSongPath.TextColor = NSColor.FromDeviceRgba(97f/255f, 122f/255f, 140f/255f, 1);
 
-            viewInformation.IsHeaderVisible = true;
+            //viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
             viewVolume.IsHeaderVisible = true;
-            viewTimeShifting.IsHeaderVisible = true;
-            viewPitchShifting.IsHeaderVisible = true;           
+            //viewTimeShifting.IsHeaderVisible = true;
+            //viewPitchShifting.IsHeaderVisible = true;           
 
             lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 24);
             lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
@@ -203,10 +239,10 @@ namespace MPfm.Mac
             lblTitleSongBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
 
             lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            //lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
             lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            //lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            //lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
 
             lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
             lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);

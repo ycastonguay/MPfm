@@ -214,6 +214,7 @@
       <DependentUpon>SyncDownloadWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Objects\SyncMenuItem.cs" />
+    <Compile Include="Classes\Controls\MPfmTabButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
