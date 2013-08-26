@@ -363,6 +363,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            ExitApplication();
             //if (e.CloseReason == CloseReason.FormOwnerClosing ||
             //    e.CloseReason == CloseReason.UserClosing)
             //{
@@ -378,7 +379,6 @@ namespace MPfm.Windows.Classes.Forms
 
             //// Save configuration
             //SaveWindowConfiguration();
-            e.Cancel = false;
 
             //// Close player if not null
             //if (player != null)
@@ -1054,11 +1054,19 @@ namespace MPfm.Windows.Classes.Forms
         /// <summary>
         /// Fires when the user scrolls the time shifting slider.
         /// </summary>
-        private void trackTimeShiftingNew_OnTrackBarValueChanged()
+        private void trackTempo_OnTrackBarValueChanged()
         {
-            //double multiplier = 1 / ((double)trackTimeShifting.Value / 100);
-            //lblTimeShifting.Text = trackTimeShifting.Value.ToString() + " %";
-            //Player.TimeShifting = trackTimeShifting.Value;
+            Console.WriteLine("Main - trackTempo_OnTrackBarValueChanged");
+            OnSetTimeShifting(trackTempo.Value);            
+        }
+
+        /// <summary>
+        /// Fires when the user scrolls the pitch shifting slider.
+        /// </summary>
+        private void trackPitch_OnTrackBarValueChanged()
+        {
+            Console.WriteLine("Main - trackPitch_OnTrackBarValueChanged");
+            OnSetInterval(trackPitch.Value);
         }
 
         /// <summary>
@@ -1079,7 +1087,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Arguments</param>
         private void linkResetTimeShifting_Click(object sender, EventArgs e)
         {
-            trackTimeShifting.Value = 0;
+            trackTempo.Value = 0;
         }
 
         /// <summary>
@@ -1521,34 +1529,6 @@ namespace MPfm.Windows.Classes.Forms
             //RefreshSongBrowser();
         }
 
-        /// <summary>
-        /// Occurs when the user clicks on the Add songs to playlist button or menu item in the Song Browser.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnAddSongToPlaylist_Click(object sender, EventArgs e)
-        {
-            //// Loop through selected items
-            //for (int a = 0; a < viewSongs2.SelectedItems.Count; a++)
-            //{
-            //    // Get the song from the tag of the item
-            //    AudioFile audioFile = viewSongs2.SelectedItems[a].AudioFile;
-
-            //    // Check for null
-            //    if (audioFile != null)
-            //    {
-            //        // Add to playlist                    
-            //        player.Playlist.AddItem(audioFile.FilePath);
-            //    }
-            //}
-
-            //// Refresh playlists (if there was at least one selected item)
-            //if (viewSongs2.SelectedItems.Count > 0)
-            //{
-            //    formPlaylist.RefreshPlaylist();
-            //}
-        }  
-
         private void panelLoopsMarkers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //if (e.Button != System.Windows.Forms.MouseButtons.Left)
@@ -1927,8 +1907,6 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="data">Event data</param>
         private void viewSongs2_OnColumnClick(SongGridViewColumnClickData data)
         {
-            // Refresh browser
-            //RefreshSongBrowser();
         }
 
         /// <summary>
@@ -1985,6 +1963,46 @@ namespace MPfm.Windows.Classes.Forms
             panelPitchShifting.Visible = sender == btnTabPitchShifting;
             panelInformation.Visible = sender == btnTabInformation;
             panelActions.Visible = sender == btnTabActions;
+        }
+
+        private void btnChangeKey_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDecreaseInterval_Click(object sender, EventArgs e)
+        {
+            OnDecrementInterval();
+        }
+
+        private void btnIncreaseInterval_Click(object sender, EventArgs e)
+        {
+            OnIncrementInterval();
+        }
+
+        private void btnResetInterval_Click(object sender, EventArgs e)
+        {
+            OnResetInterval();
+        }
+
+        private void btnUseTempo_Click(object sender, EventArgs e)
+        {
+            OnUseDetectedTempo();
+        }
+
+        private void btnDecreaseTempo_Click(object sender, EventArgs e)
+        {
+            OnDecrementTempo();
+        }
+
+        private void btnIncreaseTempo_Click(object sender, EventArgs e)
+        {
+            OnIncrementTempo();
+        }
+
+        private void btnResetTempo_Click(object sender, EventArgs e)
+        {
+            OnResetTimeShifting();
         }
 
         #region IMainView implementation
@@ -2383,6 +2401,19 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lblDetectedTempoValue.Text = entity.DetectedTempo;
+                lblCurrentTempoValue.Text = entity.CurrentTempo;
+                lblReferenceTempoValue.Text = entity.ReferenceTempo;
+                lblTempoPercentage.Text = string.Format("{0:0.0} %", entity.TimeShiftingValue);
+                trackTempo.SetValueWithoutTriggeringEvent((int)entity.TimeShiftingValue);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         #endregion
@@ -2414,9 +2445,26 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lblIntervalValue.Text = entity.Interval;
+                lblCurrentKeyValue.Text = entity.NewKey.Item2;
+                lblReferenceKeyValue.Text = entity.ReferenceKey.Item2;
+                trackPitch.SetValueWithoutTriggeringEvent(entity.IntervalValue);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         #endregion
+
+        private void trackTimeShiftingNew_OnTrackBarValueChanged()
+        {
+
+        }
 
     }
 }

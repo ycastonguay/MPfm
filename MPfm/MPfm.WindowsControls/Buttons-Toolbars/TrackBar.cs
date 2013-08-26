@@ -211,16 +211,10 @@ namespace MPfm.WindowsControls
             set
             {
                 this.value = value;
-
-                // Raise refresh event
                 this.Refresh();
 
-                // Check if an event is subscribed
                 if (OnTrackBarValueChanged != null)
-                {
-                    // Raise event                        
                     OnTrackBarValueChanged();
-                }
             }
         }
 
@@ -249,6 +243,16 @@ namespace MPfm.WindowsControls
 
             // Create default theme
             theme = new TrackBarTheme();
+        }
+
+        /// <summary>
+        /// Sets the track bar value without triggering the OnTrackBarValueChanged event.
+        /// </summary>
+        /// <param name="value">Value to set</param>
+        public void SetValueWithoutTriggeringEvent(int value)
+        {
+            this.value = value;
+            Refresh();
         }
 
         #region Paint Events

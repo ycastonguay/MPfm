@@ -117,8 +117,6 @@ namespace MPfm.Windows.Classes.Forms
 
         #endregion
 
-        #region Close Events
-
         /// <summary>
         /// Occurs when the form is about to close.
         /// </summary>
@@ -126,27 +124,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void frmSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Fix for FormClosing event called twice because of message box below
-            if (!this.Visible)
-            {
-                return;
-            }
-
-            // Check if the application is exiting
-            if (e.CloseReason == CloseReason.ApplicationExitCall)
-            {
-                // Exit immediately without saving
-                e.Cancel = false;
-                return;
-            }
-
-            // Save general settings
-            if (!SaveGeneralConfig())
-            {
-                // Cancel
-                e.Cancel = true;
-                return;
-            }
+            //if (e.CloseReason == CloseReason.ApplicationExitCall)
 
             //// Get selected driver
             //DriverComboBoxItem driver = (DriverComboBoxItem)cboDrivers.SelectedItem;
@@ -241,17 +219,7 @@ namespace MPfm.Windows.Classes.Forms
             //        Main.Player.UpdatePeriod = Main.Config.Audio.Mixer.UpdatePeriod;
             //    }
             //}
-
-            //// Hide form            
-            ////Main.BringToFront();
-            //Main.Focus();
-            ////this.Close();
-
-            e.Cancel = true;
-            this.Hide();         
         }
-
-        #endregion
 
         #region Configuration
 
@@ -665,22 +633,10 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Arguments</param>
         private void btnResetLibrary_Click(object sender, EventArgs e)
         {
-            //// Confirm operation
-            //if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all the songs, loops, markers and playlists from your library.\nThis will *NOT* delete the actual files from your hard disk.", "Reset Library Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
-            //{
-            //    // Stop the song if one is playing
-            //    if (Main.Player.IsPlaying)
-            //    {
-            //        // Stop playback
-            //        Main.Player.Stop();
-            //    }
-
-            //    // Reset library
-            //    Main.Library.ResetLibrary();
-
-            //    // Refresh everything
-            //    Main.RefreshAll();
-            //}
+            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\n\nThis will remove all the songs, loops, markers and playlists from your library.\nThis will *NOT* delete the actual files from your hard disk.", "Library will be reset", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+            {
+                OnResetLibrary();
+            }
         }
 
         #endregion
@@ -1387,16 +1343,10 @@ namespace MPfm.Windows.Classes.Forms
 
         #region IDesktopPreferencesView implementation
 
-        public Action<IBaseView> OnViewDestroy { get; set; }
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
-
-        public void ShowView(bool shown)
-        {
-            Console.WriteLine("PREFERENCES ---- SHOW VIEW!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
 
         public void LibraryPreferencesError(Exception ex)
         {
