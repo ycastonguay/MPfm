@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
@@ -29,22 +30,13 @@ namespace MPfm.Windows.Classes.Forms
     /// </summary>
     public partial class frmEditSongMetadata : BaseForm, IEditSongMetadataView
     {
+        private AudioFile _audioFile;
+
         public frmEditSongMetadata(Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
-
-            //// Get TagLib information about the file
-            //if (filePaths.Count > 0)
-            //{
-            //    // Get TagLib information                
-            //    audioFile = new AudioFile(filePaths[0]);
-
-            //    // Update property grid
-            //    propertyGridTags.SelectedObject = audioFile;
-            //    lblEditing.Text = "Editing " + filePaths[0];
-            //}
         }
 
         /// <summary>
@@ -53,8 +45,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="sender">Event sender</param>
         /// <param name="e">Event arguments</param>
         private void btnClose_Click(object sender, EventArgs e)
-        {
-            // Hide the form
+        {            
             this.Close();
         }
 
@@ -65,28 +56,62 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-        //    // Check if the player is playing
-        //    if (Main.Player.IsPlaying)
-        //    {
-        //        // Check if the file is currently playing
-        //        if (Main.Player.Playlist.CurrentItem.AudioFile.FilePath == audioFile.FilePath)
-        //        {
-        //            // Warn user that this will stop playback.
-        //            if (MessageBox.Show("This audio file is currently playing. Do you wish to stop the playback to save this audio file metadata?", "Must stop playback to save audio file metadata", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK)
-        //            {
-        //                // Stop playback
-        //                Main.Stop();
-        //            }
-        //            else
-        //            {
-        //                // Cancel operation
-        //                return;
-        //            }
-        //        }
-        //    }
+            OnSaveAudioFile(_audioFile);
 
-        //    // Save metadata
-        //    audioFile.SaveMetadata();
+            //    // Check if the player is playing
+            //    if (Main.Player.IsPlaying)
+            //    {
+            //        // Check if the file is currently playing
+            //        if (Main.Player.Playlist.CurrentItem.AudioFile.FilePath == audioFile.FilePath)
+            //        {
+            //            // Warn user that this will stop playback.
+            //            if (MessageBox.Show("This audio file is currently playing. Do you wish to stop the playback to save this audio file metadata?", "Must stop playback to save audio file metadata", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK)
+            //            {
+            //                // Stop playback
+            //                Main.Stop();
+            //            }
+            //            else
+            //            {
+            //                // Cancel operation
+            //                return;
+            //            }
+            //        }
+            //    }
         }
+
+        #region IEditSongMetadataView implementation
+
+        public Action<AudioFile> OnSaveAudioFile { get; set; }
+
+        public void EditSongMetadataError(Exception ex)
+        {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                MessageBox.Show(string.Format("An error occured in EditSongMetadata: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
+        }
+
+        public void RefreshAudioFile(AudioFile audioFile)
+        {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                _audioFile = audioFile;
+                lblEditing.Text = String.Format("Editing {0}", audioFile.FilePath);
+                propertyGridTags.SelectedObject = audioFile;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
+        }
+
+        #endregion
+
     }
 }

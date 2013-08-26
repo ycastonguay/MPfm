@@ -231,7 +231,7 @@ namespace MPfm.Windows.Classes.Forms
             // 
             this.btnNewPlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNewPlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewPlaylist.Image = global::MPfm.Windows.Properties.Resources.page_white_text;
+            this.btnNewPlaylist.Image = global::MPfm.Windows.Properties.Resources.icon_button_add_16;
             this.btnNewPlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnNewPlaylist.IsAutoSized = true;
             this.btnNewPlaylist.Location = new System.Drawing.Point(0, 0);
@@ -369,7 +369,7 @@ namespace MPfm.Windows.Classes.Forms
             // 
             this.btnSavePlaylist.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSavePlaylist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSavePlaylist.Image = global::MPfm.Windows.Properties.Resources.disk;
+            this.btnSavePlaylist.Image = global::MPfm.Windows.Properties.Resources.icon_button_save_16;
             this.btnSavePlaylist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSavePlaylist.IsAutoSized = true;
             this.btnSavePlaylist.Location = new System.Drawing.Point(212, 0);
@@ -438,7 +438,7 @@ namespace MPfm.Windows.Classes.Forms
             // 
             this.btnSavePlaylistAs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSavePlaylistAs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSavePlaylistAs.Image = global::MPfm.Windows.Properties.Resources.disk;
+            this.btnSavePlaylistAs.Image = global::MPfm.Windows.Properties.Resources.icon_button_save_16;
             this.btnSavePlaylistAs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSavePlaylistAs.IsAutoSized = true;
             this.btnSavePlaylistAs.Location = new System.Drawing.Point(317, 0);
@@ -507,7 +507,7 @@ namespace MPfm.Windows.Classes.Forms
             // 
             this.btnRemoveSongs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRemoveSongs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveSongs.Image = global::MPfm.Windows.Properties.Resources.delete;
+            this.btnRemoveSongs.Image = global::MPfm.Windows.Properties.Resources.icon_button_delete_16;
             this.btnRemoveSongs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveSongs.IsAutoSized = true;
             this.btnRemoveSongs.Location = new System.Drawing.Point(439, 0);

@@ -898,8 +898,6 @@ namespace MPfm.WindowsControls
             if (items == null)
                 return;
 
-            g.FillRectangle(Brushes.MediumVioletRed, Bounds);
-
             // Check if a cache exists, or if the cache needs to be refreshed
             if (_songCache == null)
                 InvalidateSongCache();

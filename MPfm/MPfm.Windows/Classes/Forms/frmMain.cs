@@ -24,7 +24,6 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Windows.Forms;
-using Microsoft.VisualBasic.Devices;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
@@ -1041,18 +1040,11 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void trackPosition_MouseMove(object sender, MouseEventArgs e)
         {
-            //OnPlayerRequestPosition((float) trackPosition.Value/10f);
-
-            //// Get ratio
-            //double ratio = (double)trackPosition.Value / 1000;
-
-            //// Check if the left mouse button was clicked
-            //if (e.Button == MouseButtons.Left)
-            //{
-            //    // Get time                
-            //    lblSongPosition.Text = Conversion.MillisecondsToTimeString(Convert.ToUInt32((ratio * (double)player.Playlist.CurrentItem.LengthMilliseconds)));
-            //    lblSongPercentage.Text = (ratio * 100).ToString("0.00") + " %";
-            //}
+            if (_isPlayerPositionChanging)
+            {
+                var position = OnPlayerRequestPosition((float) trackPosition.Value/1000f);
+                lblCurrentPosition.Text = position.Position;
+            }
         }
 
         /// <summary>
@@ -1885,6 +1877,18 @@ namespace MPfm.Windows.Classes.Forms
             panelPitchShifting.Visible = sender == btnTabPitchShifting;
             panelInformation.Visible = sender == btnTabInformation;
             panelActions.Visible = sender == btnTabActions;
+        }
+
+        private void miEditSong_Click(object sender, EventArgs e)
+        {
+            if (viewSongs2.SelectedItems.Count == 0)
+                return;
+
+            AudioFile audioFile = viewSongs2.SelectedItems[0].AudioFile;
+            if (audioFile == null)
+                return;
+
+            OnSongBrowserEditSongMetadata(audioFile);
         }
 
         private void btnChangeKey_Click(object sender, EventArgs e)

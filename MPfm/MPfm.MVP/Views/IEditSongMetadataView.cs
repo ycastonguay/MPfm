@@ -27,6 +27,10 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IEditSongMetadataView : IBaseView
 	{
+        Action<AudioFile> OnSaveAudioFile { get; set; }
+
+	    void EditSongMetadataError(Exception ex);
+	    void RefreshAudioFile(AudioFile audioFile);
 	}
 }
 

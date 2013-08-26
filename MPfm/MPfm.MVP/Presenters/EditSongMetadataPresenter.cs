@@ -15,8 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 
@@ -27,21 +29,42 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class EditSongMetadataPresenter : BasePresenter<IEditSongMetadataView>, IEditSongMetadataPresenter
 	{
+	    readonly IPlayerService _playerService;
 	    AudioFile _audioFile;
 
-	    public EditSongMetadataPresenter()
-		{
-		}
+	    public EditSongMetadataPresenter(IPlayerService playerService)
+	    {
+	        _playerService = playerService;
+	    }
 
         public override void BindView(IEditSongMetadataView view)
         {            
             base.BindView(view);
+
+            view.OnSaveAudioFile = SaveAudioFile;
         }
 
 	    public void SetAudioFile(AudioFile audioFile)
 	    {
 	        _audioFile = audioFile;
+            View.RefreshAudioFile(_audioFile);
 	    }
+
+        private void SaveAudioFile(AudioFile audioFile)
+        {
+            try
+            {
+                if (_playerService.IsPlaying &&
+                    _playerService.CurrentPlaylistItem.AudioFile.FilePath == audioFile.FilePath)
+                {
+                    // TODO: Stop player and resume when editing the currently playing file
+                }
+                audioFile.SaveMetadata();
+            }
+            catch (Exception ex)
+            {
+                View.EditSongMetadataError(ex);
+            }
+        }
 	}
 }
-
