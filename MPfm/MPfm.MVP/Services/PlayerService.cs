@@ -61,7 +61,7 @@ namespace MPfm.MVP.Services
 		{
             _messengerHub = messageHub;
 		}
-
+        
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
         {
             _player = new MPfm.Player.Player(device, sampleRate, bufferSize, updatePeriod, true);

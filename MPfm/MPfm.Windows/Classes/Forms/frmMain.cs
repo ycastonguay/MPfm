@@ -1974,6 +1974,19 @@ namespace MPfm.Windows.Classes.Forms
             //    formUpdateLibraryStatus.toolTip.Active = enable;
         }
 
+        private void btnTab_Click(object sender, EventArgs e)
+        {
+            btnTabTimeShifting.IsSelected = sender == btnTabTimeShifting;
+            btnTabPitchShifting.IsSelected = sender == btnTabPitchShifting;
+            btnTabInformation.IsSelected = sender == btnTabInformation;
+            btnTabActions.IsSelected = sender == btnTabActions;
+
+            panelTimeShifting.Visible = sender == btnTabTimeShifting;
+            panelPitchShifting.Visible = sender == btnTabPitchShifting;
+            panelInformation.Visible = sender == btnTabInformation;
+            panelActions.Visible = sender == btnTabActions;
+        }
+
         #region IMainView implementation
 
         public Action OnOpenPreferencesWindow { get; set; }
