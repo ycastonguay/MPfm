@@ -30,8 +30,9 @@ namespace MPfm.MVP.Views
 	{
         Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
         Action OnCancelUpdateLibrary { get; set; }
+	    Action<string> OnSaveLog { get; set; }
 
-		void RefreshStatus(UpdateLibraryEntity entity);
+	    void RefreshStatus(UpdateLibraryEntity entity);
 		void AddToLog(string entry);
 		void ProcessEnded(bool canceled);
 	}

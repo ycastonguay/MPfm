@@ -74,6 +74,7 @@ namespace MPfm.MVP.Presenters
 
             view.OnStartUpdateLibrary = UpdateLibrary;
             view.OnCancelUpdateLibrary = Cancel;
+            view.OnSaveLog = SaveLog;
         }
 		
 		/// <summary>
@@ -103,6 +104,29 @@ namespace MPfm.MVP.Presenters
 		public void SaveLog(string filePath)
 		{			
 			_updateLibraryService.SaveLog(filePath);
+
+            //// Generate the name of the log
+            //saveLogDialog.FileName = "MPfm_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
+            //    TextWriter tw = null;
+            //    try
+            //    {
+            //        // Open text writer
+            //        tw = new StreamWriter(saveLogDialog.FileName);
+
+            //        foreach (String item in lbLog.Items)
+            //        {
+            //            tw.WriteLine(item);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Display error
+            //        MessageBox.Show("Failed to save the file to " + saveLogDialog.FileName + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //    finally
+            //    {
+            //        tw.Close();
+            //    }
 		}
 	}
 }

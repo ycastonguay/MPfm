@@ -114,7 +114,29 @@ namespace MPfm.MVP.Services
 		/// </summary>
 		/// <param name='filePath'>Log file path</param>
 		public void SaveLog(string filePath)
-		{			
+		{
+            //// Generate the name of the log
+            //saveLogDialog.FileName = "MPfm_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
+            //    TextWriter tw = null;
+            //    try
+            //    {
+            //        // Open text writer
+            //        tw = new StreamWriter(saveLogDialog.FileName);
+
+            //        foreach (String item in lbLog.Items)
+            //        {
+            //            tw.WriteLine(item);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Display error
+            //        MessageBox.Show("Failed to save the file to " + saveLogDialog.FileName + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //    finally
+            //    {
+            //        tw.Close();
+            //    }
 		}
 			
 		#endregion
@@ -141,6 +163,51 @@ namespace MPfm.MVP.Services
 
             // Start the background process
             workerUpdateLibrary.RunWorkerAsync(arg);
+
+            // TODO: Add time elapsed/time remaining
+            //    //            // Set start time when the process has finished finding the files and is ready to add files into library
+            //    //            if (startTimeAddFiles == DateTime.MinValue)
+            //    //            {
+            //    //                startTimeAddFiles = DateTime.Now;
+            //    //            }
+
+            //    //            // Calculate time elapsed
+            //    //            TimeSpan timeElapsed = DateTime.Now.Subtract(startTimeAddFiles);
+
+            //    //            // Update title
+            //    //            lblTitle.Text = data.Title + " (file " + data.CurrentFilePosition.ToString() + " of " + data.TotalNumberOfFiles.ToString() + ")";
+
+            //    //            // Calculate time remaining
+            //    //            double msPerFile = timeElapsed.TotalMilliseconds / data.CurrentFilePosition;
+            //    //            double remainingTime = (data.TotalNumberOfFiles - data.CurrentFilePosition) * msPerFile;
+            //    //            TimeSpan timeRemaining = new TimeSpan(0, 0, 0, 0, (int)remainingTime);
+
+            //    //            // Update estimated time left (from more precise to more vague)
+            //    //            if (timeRemaining.TotalSeconds == 0)
+            //    //            {
+            //    //                lblEstimatedTimeLeft.Text = "Estimated time left : N/A";
+            //    //            }
+            //    //            else if (timeRemaining.Minutes == 1)
+            //    //            {
+            //    //                lblEstimatedTimeLeft.Text = "Estimated time left : 1 minute";
+            //    //            }
+            //    //            else if (timeRemaining.TotalSeconds <= 10)
+            //    //            {
+            //    //                lblEstimatedTimeLeft.Text = "Estimated time left : A few seconds";
+            //    //            }
+            //    //            else if (timeRemaining.TotalSeconds <= 30)
+            //    //            {
+            //    //                lblEstimatedTimeLeft.Text = "Estimated time left : Less than 30 seconds";
+            //    //            }
+            //    //            else if (timeRemaining.TotalSeconds <= 60)
+            //    //            {
+            //    //                lblEstimatedTimeLeft.Text = "Estimated time left : Less than a minute";
+            //    //            }
+            //    //            else
+            //    //            {
+            //    //                lblEstimatedTimeLeft.Text = "Estimated time left : " + timeRemaining.Minutes.ToString() + " minutes";
+            //    //            }
+
 		}		
 		
 		/// <summary>

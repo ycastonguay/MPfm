@@ -1502,7 +1502,7 @@ namespace MPfm.Windows.Classes.Forms
             textGradient40.Padding = 5;
             buttonTheme8.TextGradientDisabled = textGradient40;
             textGradient41.BorderColor = System.Drawing.Color.Gray;
-            textGradient41.BorderWidth = 1;
+            textGradient41.BorderWidth = 0;
             textGradient41.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
             textGradient41.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
             customFont41.Color = System.Drawing.Color.White;
@@ -1571,7 +1571,7 @@ namespace MPfm.Windows.Classes.Forms
             textGradient43.Padding = 5;
             buttonTheme9.TextGradientDisabled = textGradient43;
             textGradient44.BorderColor = System.Drawing.Color.Gray;
-            textGradient44.BorderWidth = 1;
+            textGradient44.BorderWidth = 0;
             textGradient44.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
             textGradient44.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
             customFont44.Color = System.Drawing.Color.White;
@@ -1640,7 +1640,7 @@ namespace MPfm.Windows.Classes.Forms
             textGradient46.Padding = 5;
             buttonTheme10.TextGradientDisabled = textGradient46;
             textGradient47.BorderColor = System.Drawing.Color.Gray;
-            textGradient47.BorderWidth = 1;
+            textGradient47.BorderWidth = 0;
             textGradient47.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
             textGradient47.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
             customFont47.Color = System.Drawing.Color.White;

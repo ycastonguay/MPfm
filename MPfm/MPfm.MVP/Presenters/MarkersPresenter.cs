@@ -81,7 +81,7 @@ namespace MPfm.MVP.Presenters
 #if IOS || ANDROID
             _mobileNavigationManager.CreateMarkerDetailsView(View, markerId);
 #else
-            string a = string.Empty;
+	        _navigationManager.CreateMarkerDetailsView(markerId);
 #endif
         }
 

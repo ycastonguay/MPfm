@@ -125,25 +125,22 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACu
-        AgAAAk1TRnQBSQFMAwEBAAEcAQEBHAEBARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
-        ARADAAEBAQABIAYAARD/AP8ANAADBwEJ+AABQgFZAUcB9QEAAYEBBQH/AxgBIfQAAUIBWQFLAfUBKgGh
-        AUYB/wFaAWEBWgHkAxwBJ+AAATUBfwFbAf4BLwF/AVMB/gEpAX8BTQH+ASMBfwFIAf4BIQGfAUUB/wGB
-        AcEBlgH/AS0BowFJAf8BXAFkAVwB5wMdASrcAAEQAZsBQgH/AZABygGpAf8BjQHIAaUB/wGKAcYBoQH/
-        AYgBxQGeAf8BUQG2AYUB/wGCAcIBlwH/AS8BpQFNAf8BVQJcAeoDIQEw2AABGAGfAUoB/wGUAc0BrQH/
-        AVYBugGOAf8BUgG4AYkB/wFNAbYBhQH/AUgBswGBAf8BTgG1AYIB/wGDAcIBmAH/ASMBoAFDAf8BKwFc
-        ASsB/NgAAR4BowFSAf8BlgHOAbAB/wGUAc0BrQH/AZEBywGqAf8BkAHLAagB/wFbAbwBkAH/AYoBxwGh
-        Af8BLQGlAU8B/wFAAYcBQAH9AwsBD9gAASQBpQFWAf8BQAGjAUAB/QFAAaEBQAH9AUABnQFAAf0BPAGv
-        AYEB/wGRAcsBqgH/ATYBqwFbAf8BQAGPAUAB/QMJAQzsAANZAfUBQQGzAYEB/wEPAZgBPgH/AwcBCfAA
-        A1kB9QEYAZ8BTAH/AwcBCf8A/wD/AP8A3AABQgFNAT4HAAE+AwABKAMAAUADAAEQAwABAQEAAQEFAAGA
+        AgAAAk1TRnQBSQFMAwEBAAE8AQEBPAEBARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMA
+        ARADAAEBAQABIAYAARD/AP8ANAADBwEJ+AABQgFZAUcB9QEAAYEBAQH/AxgBIfQAAUIBWQFLAfUBJgGh
+        AUIB/wFaAWEBWgHkAxwBJ+AAATUBfwFbAf4BLwF/AVMB/gEpAX8BTQH+ASMBfwFIAf4BHQGfAUEB/wGB
+        AcEBlgH/ASkBowFFAf8BXAFkAVwB5wMdASrcAAEMAZsBPgH/AZABygGpAf8BjQHIAaUB/wGKAcYBoQH/
+        AYgBxQGeAf8BTQG2AYUB/wGCAcIBlwH/ASsBpQFJAf8BVQJcAeoDIQEw2AABFAGfAUYB/wGUAc0BrQH/
+        AVIBugGOAf8BTgG4AYkB/wFJAbYBhQH/AUQBswGBAf8BSgG1AYIB/wGDAcIBmAH/AR8BoAE/Af8BKwFY
+        ASsB/NgAARoBowFOAf8BlgHOAbAB/wGUAc0BrQH/AZEBywGqAf8BkAHLAagB/wFXAbwBkAH/AYoBxwGh
+        Af8BKQGlAUsB/wFAAYcBQAH9AwsBD9gAASABpQFSAf8BQAGjAUAB/QFAAaEBQAH9AUABnQFAAf0BOAGv
+        AYEB/wGRAcsBqgH/ATIBqwFXAf8BQAGPAUAB/QMJAQzsAANZAfUBPQGzAYEB/wELAZgBOgH/AwcBCfAA
+        A1kB9QEUAZ8BSAH/AwcBCf8A/wD/AP8A3AABQgFNAT4HAAE+AwABKAMAAUADAAEQAwABAQEAAQEFAAGA
         FwAD/wEAAv8GAAL/BgAB/wF/BgAB/gE/BgAB/gEfBgAB4AEPBgAB4AEHBgAB4AEHBgAB4AEHBgAB4AEP
         BgAB/gEfBgAB/gE/BgAC/wYAAv8GAAL/BgAC/wYACw==
 </value>
   </data>
   <metadata name="menuPlaylist.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>136, 20</value>
-  </metadata>
-  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>815, 13</value>
   </metadata>
   <metadata name="dialogLoadPlaylist.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>267, 13</value>
@@ -153,6 +150,9 @@
   </metadata>
   <metadata name="menuLoadPlaylist.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>668, 13</value>
+  </metadata>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>815, 13</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

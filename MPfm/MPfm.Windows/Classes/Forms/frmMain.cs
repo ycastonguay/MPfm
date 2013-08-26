@@ -22,7 +22,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.Devices;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
@@ -79,6 +81,8 @@ namespace MPfm.Windows.Classes.Forms
             comboSoundFormat.Items.Add("WV");
             comboSoundFormat.SelectedIndex = 0;
             lblPeakFileWarning.Visible = false;
+
+            RefreshSongInformation(null, 0, 0, 0);
 
             //// Load other configuration options                
             //notifyIcon.Visible = Config.GetKeyValueGeneric<bool>("ShowTray").HasValue ? Config.GetKeyValueGeneric<bool>("ShowTray").Value : false;
@@ -1128,71 +1132,7 @@ namespace MPfm.Windows.Classes.Forms
         {
             picDistortionWarning.Visible = false;
         }
-
-        #region Search Links
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Guitar tabs" link in the "Actions" panel.
-        /// Opens the default browser and searches for guitar tabs featuring the current song.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>        
-        private void linkSearchGuitarTabs_Click(object sender, EventArgs e)
-        {
-            //// Make sure the player is playing
-            //if (Player != null && Player.IsPlaying)
-            //{
-            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.Title) + "+guitar+tab");
-            //}
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Bass tabs" link in the "Actions" panel.
-        /// Opens the default browser and searches for bass tabs featuring the current song.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>        
-        private void linkSearchBassTabs_Click(object sender, EventArgs e)
-        {
-            //// Make sure the player is playing
-            //if (Player != null && Player.IsPlaying)
-            //{
-            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.Title) + "+bass+tab");
-            //}
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Lyrics" link in the "Actions" panel.
-        /// Opens the default browser and searches for lyrics featuring the current song.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>6
-        private void linkSearchLyrics_Click(object sender, EventArgs e)
-        {
-            //// Make sure the player is playing
-            //if (Player != null && Player.IsPlaying)
-            //{
-            //    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.Title) + "+lyrics");
-            //}
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the album art picture box in the "Current Song" panel.
-        /// Opens the default browser and searches for album art featuring the current album.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void picAlbum_MouseClick(object sender, MouseEventArgs e)
-        {
-            //// Make sure the player is playing
-            //if (Player != null && Player.IsPlaying)
-            //{
-            //    Process.Start("http://www.google.ca/imghp?q=" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.AlbumTitle));
-            //}
-        }
-
-        #endregion  
-
+        
         #endregion
 
         #region Song Browser Events
@@ -1245,23 +1185,6 @@ namespace MPfm.Windows.Classes.Forms
                 return;
 
             OnTableRowDoubleClicked(viewSongs2.SelectedItems[0].AudioFile);
-        }
-
-        /// <summary>
-        /// Occurs when the user clicks on the "Edit Song Metadata" button on the Song Browser toolbar.
-        /// </summary>
-        /// <param name="sender">Event sender</param>
-        /// <param name="e">Event arguments</param>
-        private void btnEditSongMetadata_Click(object sender, EventArgs e)
-        {
-            if (viewSongs2.SelectedItems.Count == 0)
-                return;
-
-            AudioFile audioFile = viewSongs2.SelectedItems[0].AudioFile;
-            if (audioFile == null)
-                return;
-
-            OnSongBrowserEditSongMetadata(audioFile);
         }
 
         #endregion
@@ -1525,8 +1448,7 @@ namespace MPfm.Windows.Classes.Forms
         /// <param name="e">Event arguments</param>
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            // Refresh song browser
-            //RefreshSongBrowser();
+            OnSearchTerms(txtSearch.Text);
         }
 
         private void panelLoopsMarkers_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -2005,6 +1927,56 @@ namespace MPfm.Windows.Classes.Forms
             OnResetTimeShifting();
         }
 
+        private void btnEditSongMetadata_Click(object sender, EventArgs e)
+        {
+            OnEditSongMetadata();
+        }
+
+        private void btnSearchGuitarTabs_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(!string.IsNullOrEmpty(lblCurrentArtistName.Text))
+                    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(lblCurrentArtistName.Text) + "+" + HttpUtility.UrlEncode(lblCurrentSongTitle.Text) + "+guitar+tab");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, string.Format("An error occured while searching for guitar tabs: {0}", ex),
+                    "Error searching for guitar tabs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            // TODO: google image
+            //    Process.Start("http://www.google.ca/imghp?q=" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.ArtistName) + "+" + HttpUtility.UrlEncode(Player.Playlist.CurrentItem.AudioFile.AlbumTitle));
+        }
+
+        private void btnSearchBassTabs_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(lblCurrentArtistName.Text))
+                    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(lblCurrentArtistName.Text) + "+" + HttpUtility.UrlEncode(lblCurrentSongTitle.Text) + "+bass+tab");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, string.Format("An error occured while searching for bass tabs: {0}", ex),
+                    "Error searching for bass tabs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSearchLyrics_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(lblCurrentArtistName.Text))
+                    Process.Start("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(lblCurrentArtistName.Text) + "+" + HttpUtility.UrlEncode(lblCurrentSongTitle.Text) + "+lyrics");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, string.Format("An error occured while searching for lyrics: {0}", ex),
+                    "Error searching for lyrics", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         #region IMainView implementation
 
         public Action OnOpenPreferencesWindow { get; set; }
@@ -2115,10 +2087,11 @@ namespace MPfm.Windows.Classes.Forms
 
         public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
         public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
+        public Action<string> OnSearchTerms { get; set; }
 
         public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
-            Console.WriteLine("frmMain - RefreshSongBrowser - audioFiles.Count: {0}", audioFiles.Count());
+            //Console.WriteLine("frmMain - RefreshSongBrowser - audioFiles.Count: {0}", audioFiles.Count());
             MethodInvoker methodUIUpdate = delegate
             {
                 //string orderBy = viewSongs2.OrderByFieldName;
@@ -2208,7 +2181,6 @@ namespace MPfm.Windows.Classes.Forms
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             MethodInvoker methodUIUpdate = delegate {
-
                 btnAddLoop.Enabled = audioFile != null;
                 btnAddMarker.Enabled = audioFile != null;
 
@@ -2221,7 +2193,13 @@ namespace MPfm.Windows.Classes.Forms
                     lblFrequency.Text = string.Empty;
                     lblBitrate.Text = string.Empty;
                     lblBitsPerSample.Text = string.Empty;
-                    lblSoundFormat.Text = string.Empty;                    
+                    lblSoundFormat.Text = string.Empty;
+                    lblYear.Text = string.Empty;
+                    lblMonoStereo.Text = string.Empty;
+                    lblFileSize.Text = string.Empty;
+                    lblGenre.Text = string.Empty;
+                    lblPlayCount.Text = string.Empty;
+                    lblLastPlayed.Text = string.Empty;
                 }
                 else
                 {
@@ -2234,6 +2212,12 @@ namespace MPfm.Windows.Classes.Forms
                     lblBitrate.Text = string.Format("{0} kbps", audioFile.Bitrate);
                     lblBitsPerSample.Text = string.Format("{0} bits", audioFile.BitsPerSample);
                     lblSoundFormat.Text = audioFile.FileType.ToString();
+                    lblYear.Text = audioFile.Year.ToString();
+                    lblMonoStereo.Text = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
+                    lblFileSize.Text = string.Format("{0} bytes", audioFile.FileSize);
+                    lblGenre.Text = string.Format("{0}", audioFile.Genre);
+                    lblPlayCount.Text = string.Format("{0} times played", audioFile.PlayCount);
+                    lblLastPlayed.Text = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
 
                     miTrayArtistName.Text = audioFile.ArtistName;
                     miTrayAlbumTitle.Text = audioFile.AlbumTitle;
@@ -2406,7 +2390,6 @@ namespace MPfm.Windows.Classes.Forms
                 lblDetectedTempoValue.Text = entity.DetectedTempo;
                 lblReferenceTempoValue.Text = entity.ReferenceTempo;
                 lblCurrentTempoValue.Text = entity.CurrentTempo;
-                //lblTempoPercentage.Text = string.Format("{0:0.0} %", entity.TimeShiftingValue);
                 trackTempo.SetValueWithoutTriggeringEvent((int)entity.TimeShiftingValue);
             };
 
@@ -2460,11 +2443,6 @@ namespace MPfm.Windows.Classes.Forms
         }
 
         #endregion
-
-        private void trackTimeShiftingNew_OnTrackBarValueChanged()
-        {
-
-        }
 
     }
 }

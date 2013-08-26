@@ -157,7 +157,8 @@ namespace MPfm.MVP.Presenters
 #if IOS || ANDROID
             // Not available yet on mobile devices
 #else
-	        _navigationManager.CreateEditSongMetadataView(_playerService.CurrentPlaylistItem.AudioFile);
+            if(_playerService.CurrentPlaylistItem != null)
+	            _navigationManager.CreateEditSongMetadataView(_playerService.CurrentPlaylistItem.AudioFile);
 #endif
 	    }
 

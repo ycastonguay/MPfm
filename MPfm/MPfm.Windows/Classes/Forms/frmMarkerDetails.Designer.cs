@@ -50,28 +50,9 @@ namespace MPfm.Windows.Classes.Forms
             MPfm.WindowsControls.BackgroundGradient backgroundGradient8 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.TextGradient textGradient26 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont26 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.LabelTheme labelTheme9 = new MPfm.WindowsControls.LabelTheme();
-            MPfm.WindowsControls.TextGradient textGradient13 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.LabelTheme labelTheme1 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient1 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont1 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
-            MPfm.WindowsControls.BackgroundGradient backgroundGradient9 = new MPfm.WindowsControls.BackgroundGradient();
-            MPfm.WindowsControls.ButtonTheme buttonTheme3 = new MPfm.WindowsControls.ButtonTheme();
-            MPfm.WindowsControls.TextGradient textGradient27 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient28 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient29 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.ButtonTheme buttonTheme4 = new MPfm.WindowsControls.ButtonTheme();
-            MPfm.WindowsControls.TextGradient textGradient30 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient31 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
-            MPfm.WindowsControls.TextGradient textGradient32 = new MPfm.WindowsControls.TextGradient();
-            MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TableLayoutPanelTheme tableLayoutPanelTheme4 = new MPfm.WindowsControls.TableLayoutPanelTheme();
             MPfm.WindowsControls.BackgroundGradient backgroundGradient7 = new MPfm.WindowsControls.BackgroundGradient();
             MPfm.WindowsControls.PanelTheme panelTheme1 = new MPfm.WindowsControls.PanelTheme();
@@ -114,6 +95,9 @@ namespace MPfm.Windows.Classes.Forms
             MPfm.WindowsControls.CustomFont customFont11 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.TextGradient textGradient12 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont12 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.LabelTheme labelTheme9 = new MPfm.WindowsControls.LabelTheme();
+            MPfm.WindowsControls.TextGradient textGradient13 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont13 = new MPfm.WindowsControls.CustomFont();
             MPfm.WindowsControls.ButtonTheme buttonTheme2 = new MPfm.WindowsControls.ButtonTheme();
             MPfm.WindowsControls.TextGradient textGradient14 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont14 = new MPfm.WindowsControls.CustomFont();
@@ -148,15 +132,26 @@ namespace MPfm.Windows.Classes.Forms
             MPfm.WindowsControls.LabelTheme labelTheme16 = new MPfm.WindowsControls.LabelTheme();
             MPfm.WindowsControls.TextGradient textGradient24 = new MPfm.WindowsControls.TextGradient();
             MPfm.WindowsControls.CustomFont customFont24 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.ButtonTheme buttonTheme3 = new MPfm.WindowsControls.ButtonTheme();
+            MPfm.WindowsControls.TextGradient textGradient27 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont27 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient28 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont28 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient29 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont29 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.ButtonTheme buttonTheme4 = new MPfm.WindowsControls.ButtonTheme();
+            MPfm.WindowsControls.TextGradient textGradient30 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont30 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient31 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont31 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.TextGradient textGradient32 = new MPfm.WindowsControls.TextGradient();
+            MPfm.WindowsControls.CustomFont customFont32 = new MPfm.WindowsControls.CustomFont();
+            MPfm.WindowsControls.FlowLayoutPanelTheme flowLayoutPanelTheme1 = new MPfm.WindowsControls.FlowLayoutPanelTheme();
+            MPfm.WindowsControls.BackgroundGradient backgroundGradient9 = new MPfm.WindowsControls.BackgroundGradient();
             this.panelEditMarker = new MPfm.WindowsControls.Panel();
-            this.txtComments = new System.Windows.Forms.TextBox();
-            this.lblComments = new MPfm.WindowsControls.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panelWarning = new System.Windows.Forms.Panel();
             this.lblWarning = new MPfm.WindowsControls.Label();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.flowToolbar = new MPfm.WindowsControls.FlowLayoutPanel();
-            this.btnSave = new MPfm.WindowsControls.Button();
-            this.btnClose = new MPfm.WindowsControls.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableMarker = new MPfm.WindowsControls.TableLayoutPanel();
             this.panelMarkerPosition = new MPfm.WindowsControls.Panel();
             this.tableMarkerPosition = new MPfm.WindowsControls.TableLayoutPanel();
@@ -170,7 +165,9 @@ namespace MPfm.Windows.Classes.Forms
             this.tableMarkerInformation = new MPfm.WindowsControls.TableLayoutPanel();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new MPfm.WindowsControls.Label();
+            this.txtComments = new System.Windows.Forms.TextBox();
             this.btnPunchIn = new MPfm.WindowsControls.Button();
+            this.lblComments = new MPfm.WindowsControls.Label();
             this.btnGoTo = new MPfm.WindowsControls.Button();
             this.txtPosition = new System.Windows.Forms.MaskedTextBox();
             this.lblPosition = new MPfm.WindowsControls.Label();
@@ -182,10 +179,13 @@ namespace MPfm.Windows.Classes.Forms
             this.lblArtistName = new MPfm.WindowsControls.Label();
             this.lblSongTitle = new MPfm.WindowsControls.Label();
             this.lblSongTitleValue = new MPfm.WindowsControls.Label();
-            this.panelWarning = new System.Windows.Forms.Panel();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSave = new MPfm.WindowsControls.Button();
+            this.btnClose = new MPfm.WindowsControls.Button();
+            this.flowToolbar = new MPfm.WindowsControls.FlowLayoutPanel();
             this.panelEditMarker.SuspendLayout();
+            this.panelWarning.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.flowToolbar.SuspendLayout();
             this.tableMarker.SuspendLayout();
             this.panelMarkerPosition.SuspendLayout();
             this.tableMarkerPosition.SuspendLayout();
@@ -193,7 +193,7 @@ namespace MPfm.Windows.Classes.Forms
             this.tableMarkerInformation.SuspendLayout();
             this.panelSongInformation.SuspendLayout();
             this.tableSongInformation.SuspendLayout();
-            this.panelWarning.SuspendLayout();
+            this.flowToolbar.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEditMarker
@@ -224,9 +224,9 @@ namespace MPfm.Windows.Classes.Forms
             panelTheme4.BackgroundGradient = backgroundGradient8;
             textGradient26.BorderColor = System.Drawing.Color.DarkGray;
             textGradient26.BorderWidth = 0;
-            textGradient26.Color1 = System.Drawing.Color.WhiteSmoke;
-            textGradient26.Color2 = System.Drawing.Color.DarkGray;
-            customFont26.Color = System.Drawing.Color.Black;
+            textGradient26.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            textGradient26.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            customFont26.Color = System.Drawing.Color.White;
             customFont26.EmbeddedFontName = "Junction";
             customFont26.IsBold = false;
             customFont26.IsItalic = false;
@@ -241,57 +241,16 @@ namespace MPfm.Windows.Classes.Forms
             panelTheme4.HeaderTextGradient = textGradient26;
             this.panelEditMarker.Theme = panelTheme4;
             // 
-            // txtComments
+            // panelWarning
             // 
-            this.tableMarkerInformation.SetColumnSpan(this.txtComments, 5);
-            this.txtComments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtComments.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtComments.Location = new System.Drawing.Point(103, 61);
-            this.txtComments.Multiline = true;
-            this.txtComments.Name = "txtComments";
-            this.txtComments.Size = new System.Drawing.Size(441, 66);
-            this.txtComments.TabIndex = 96;
-            // 
-            // lblComments
-            // 
-            this.lblComments.BackColor = System.Drawing.Color.Transparent;
-            this.lblComments.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblComments.IsAutoSized = false;
-            this.lblComments.Location = new System.Drawing.Point(3, 61);
-            this.lblComments.Name = "lblComments";
-            this.lblComments.Size = new System.Drawing.Size(94, 17);
-            this.lblComments.TabIndex = 95;
-            this.lblComments.Text = "Comments :";
-            this.lblComments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            labelTheme9.IsBackgroundTransparent = true;
-            textGradient13.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient13.BorderWidth = 1;
-            textGradient13.Color1 = System.Drawing.Color.LightGray;
-            textGradient13.Color2 = System.Drawing.Color.Gray;
-            customFont13.Color = System.Drawing.Color.Black;
-            customFont13.EmbeddedFontName = "Junction";
-            customFont13.IsBold = false;
-            customFont13.IsItalic = false;
-            customFont13.IsUnderline = false;
-            customFont13.Size = 8F;
-            customFont13.StandardFontName = "Arial";
-            customFont13.UseAntiAliasing = true;
-            customFont13.UseEmbeddedFont = true;
-            textGradient13.Font = customFont13;
-            textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient13.Padding = 2;
-            labelTheme9.TextGradient = textGradient13;
-            this.lblComments.Theme = labelTheme9;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Image = global::MPfm.Windows.Properties.Resources.error;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(21, 23);
-            this.pictureBox1.TabIndex = 92;
-            this.pictureBox1.TabStop = false;
+            this.panelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelWarning.BackColor = System.Drawing.Color.Transparent;
+            this.panelWarning.Controls.Add(this.lblWarning);
+            this.panelWarning.Controls.Add(this.pictureBox1);
+            this.panelWarning.Location = new System.Drawing.Point(367, 3);
+            this.panelWarning.Name = "panelWarning";
+            this.panelWarning.Size = new System.Drawing.Size(216, 26);
+            this.panelWarning.TabIndex = 115;
             // 
             // lblWarning
             // 
@@ -311,7 +270,7 @@ namespace MPfm.Windows.Classes.Forms
             textGradient1.BorderWidth = 1;
             textGradient1.Color1 = System.Drawing.Color.LightGray;
             textGradient1.Color2 = System.Drawing.Color.Gray;
-            customFont1.Color = System.Drawing.Color.Black;
+            customFont1.Color = System.Drawing.Color.White;
             customFont1.EmbeddedFontName = "Junction";
             customFont1.IsBold = false;
             customFont1.IsItalic = false;
@@ -326,171 +285,15 @@ namespace MPfm.Windows.Classes.Forms
             labelTheme1.TextGradient = textGradient1;
             this.lblWarning.Theme = labelTheme1;
             // 
-            // toolTip
+            // pictureBox1
             // 
-            this.toolTip.BackColor = System.Drawing.Color.DimGray;
-            this.toolTip.ForeColor = System.Drawing.Color.White;
-            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.toolTip.ToolTipTitle = "Add/Edit Marker";
-            // 
-            // flowToolbar
-            // 
-            this.flowToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowToolbar.AutoSize = true;
-            this.flowToolbar.Controls.Add(this.btnSave);
-            this.flowToolbar.Controls.Add(this.btnClose);
-            this.flowToolbar.Location = new System.Drawing.Point(0, 0);
-            this.flowToolbar.Margin = new System.Windows.Forms.Padding(0);
-            this.flowToolbar.Name = "flowToolbar";
-            this.flowToolbar.Size = new System.Drawing.Size(584, 26);
-            this.flowToolbar.TabIndex = 113;
-            backgroundGradient9.BorderColor = System.Drawing.Color.DarkGray;
-            backgroundGradient9.BorderWidth = 0;
-            backgroundGradient9.Color1 = System.Drawing.Color.LightGray;
-            backgroundGradient9.Color2 = System.Drawing.Color.Gray;
-            backgroundGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            flowLayoutPanelTheme1.BackgroundGradient = backgroundGradient9;
-            flowLayoutPanelTheme1.IsBackgroundTransparent = false;
-            this.flowToolbar.Theme = flowLayoutPanelTheme1;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Image = global::MPfm.Windows.Properties.Resources.disk;
-            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.IsAutoSized = true;
-            this.btnSave.Location = new System.Drawing.Point(0, 0);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(0);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(63, 26);
-            this.btnSave.TabIndex = 64;
-            this.btnSave.Text = "Save";
-            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient27.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient27.BorderWidth = 0;
-            textGradient27.Color1 = System.Drawing.Color.LightGray;
-            textGradient27.Color2 = System.Drawing.Color.Gray;
-            customFont27.Color = System.Drawing.Color.Black;
-            customFont27.EmbeddedFontName = "Junction";
-            customFont27.IsBold = false;
-            customFont27.IsItalic = false;
-            customFont27.IsUnderline = false;
-            customFont27.Size = 9F;
-            customFont27.StandardFontName = "Arial";
-            customFont27.UseAntiAliasing = true;
-            customFont27.UseEmbeddedFont = true;
-            textGradient27.Font = customFont27;
-            textGradient27.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient27.Padding = 5;
-            buttonTheme3.TextGradientDefault = textGradient27;
-            textGradient28.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient28.BorderWidth = 0;
-            textGradient28.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient28.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            customFont28.Color = System.Drawing.Color.WhiteSmoke;
-            customFont28.EmbeddedFontName = "Junction";
-            customFont28.IsBold = false;
-            customFont28.IsItalic = false;
-            customFont28.IsUnderline = false;
-            customFont28.Size = 9F;
-            customFont28.StandardFontName = "Arial";
-            customFont28.UseAntiAliasing = true;
-            customFont28.UseEmbeddedFont = true;
-            textGradient28.Font = customFont28;
-            textGradient28.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient28.Padding = 5;
-            buttonTheme3.TextGradientDisabled = textGradient28;
-            textGradient29.BorderColor = System.Drawing.Color.Gray;
-            textGradient29.BorderWidth = 1;
-            textGradient29.Color1 = System.Drawing.Color.White;
-            textGradient29.Color2 = System.Drawing.Color.LightGray;
-            customFont29.Color = System.Drawing.Color.Black;
-            customFont29.EmbeddedFontName = "Junction";
-            customFont29.IsBold = false;
-            customFont29.IsItalic = false;
-            customFont29.IsUnderline = false;
-            customFont29.Size = 9F;
-            customFont29.StandardFontName = "Arial";
-            customFont29.UseAntiAliasing = true;
-            customFont29.UseEmbeddedFont = true;
-            textGradient29.Font = customFont29;
-            textGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient29.Padding = 5;
-            buttonTheme3.TextGradientMouseOver = textGradient29;
-            this.btnSave.Theme = buttonTheme3;
-            this.toolTip.SetToolTip(this.btnSave, "Saves the current marker.");
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Image = global::MPfm.Windows.Properties.Resources.cancel;
-            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.IsAutoSized = true;
-            this.btnClose.Location = new System.Drawing.Point(63, 0);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(0);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(74, 26);
-            this.btnClose.TabIndex = 63;
-            this.btnClose.Text = "Cancel";
-            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient30.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient30.BorderWidth = 0;
-            textGradient30.Color1 = System.Drawing.Color.LightGray;
-            textGradient30.Color2 = System.Drawing.Color.Gray;
-            customFont30.Color = System.Drawing.Color.Black;
-            customFont30.EmbeddedFontName = "Junction";
-            customFont30.IsBold = false;
-            customFont30.IsItalic = false;
-            customFont30.IsUnderline = false;
-            customFont30.Size = 9F;
-            customFont30.StandardFontName = "Arial";
-            customFont30.UseAntiAliasing = true;
-            customFont30.UseEmbeddedFont = true;
-            textGradient30.Font = customFont30;
-            textGradient30.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient30.Padding = 5;
-            buttonTheme4.TextGradientDefault = textGradient30;
-            textGradient31.BorderColor = System.Drawing.Color.DarkGray;
-            textGradient31.BorderWidth = 0;
-            textGradient31.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient31.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            customFont31.Color = System.Drawing.Color.WhiteSmoke;
-            customFont31.EmbeddedFontName = "Junction";
-            customFont31.IsBold = false;
-            customFont31.IsItalic = false;
-            customFont31.IsUnderline = false;
-            customFont31.Size = 9F;
-            customFont31.StandardFontName = "Arial";
-            customFont31.UseAntiAliasing = true;
-            customFont31.UseEmbeddedFont = true;
-            textGradient31.Font = customFont31;
-            textGradient31.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient31.Padding = 5;
-            buttonTheme4.TextGradientDisabled = textGradient31;
-            textGradient32.BorderColor = System.Drawing.Color.Gray;
-            textGradient32.BorderWidth = 1;
-            textGradient32.Color1 = System.Drawing.Color.White;
-            textGradient32.Color2 = System.Drawing.Color.LightGray;
-            customFont32.Color = System.Drawing.Color.Black;
-            customFont32.EmbeddedFontName = "Junction";
-            customFont32.IsBold = false;
-            customFont32.IsItalic = false;
-            customFont32.IsUnderline = false;
-            customFont32.Size = 9F;
-            customFont32.StandardFontName = "Arial";
-            customFont32.UseAntiAliasing = true;
-            customFont32.UseEmbeddedFont = true;
-            textGradient32.Font = customFont32;
-            textGradient32.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            textGradient32.Padding = 5;
-            buttonTheme4.TextGradientMouseOver = textGradient32;
-            this.btnClose.Theme = buttonTheme4;
-            this.toolTip.SetToolTip(this.btnClose, "Closes the window without saving.");
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::MPfm.Windows.Properties.Resources.error;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(21, 23);
+            this.pictureBox1.TabIndex = 92;
+            this.pictureBox1.TabStop = false;
             // 
             // tableMarker
             // 
@@ -514,8 +317,8 @@ namespace MPfm.Windows.Classes.Forms
             this.tableMarker.TabIndex = 114;
             backgroundGradient7.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient7.BorderWidth = 0;
-            backgroundGradient7.Color1 = System.Drawing.Color.Gray;
-            backgroundGradient7.Color2 = System.Drawing.Color.DimGray;
+            backgroundGradient7.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(40)))), ((int)(((byte)(46)))));
+            backgroundGradient7.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(40)))), ((int)(((byte)(46)))));
             backgroundGradient7.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             tableLayoutPanelTheme4.BackgroundGradient = backgroundGradient7;
             tableLayoutPanelTheme4.IsBackgroundTransparent = false;
@@ -548,9 +351,9 @@ namespace MPfm.Windows.Classes.Forms
             panelTheme1.BackgroundGradient = backgroundGradient2;
             textGradient8.BorderColor = System.Drawing.Color.DarkGray;
             textGradient8.BorderWidth = 0;
-            textGradient8.Color1 = System.Drawing.Color.Gainsboro;
-            textGradient8.Color2 = System.Drawing.Color.DarkGray;
-            customFont8.Color = System.Drawing.Color.Black;
+            textGradient8.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            textGradient8.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            customFont8.Color = System.Drawing.Color.White;
             customFont8.EmbeddedFontName = "Junction";
             customFont8.IsBold = false;
             customFont8.IsItalic = false;
@@ -589,8 +392,8 @@ namespace MPfm.Windows.Classes.Forms
             this.tableMarkerPosition.TabIndex = 113;
             backgroundGradient1.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient1.BorderWidth = 0;
-            backgroundGradient1.Color1 = System.Drawing.Color.WhiteSmoke;
-            backgroundGradient1.Color2 = System.Drawing.Color.Silver;
+            backgroundGradient1.Color1 = System.Drawing.Color.White;
+            backgroundGradient1.Color2 = System.Drawing.Color.White;
             backgroundGradient1.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             tableLayoutPanelTheme1.BackgroundGradient = backgroundGradient1;
             tableLayoutPanelTheme1.IsBackgroundTransparent = false;
@@ -813,15 +616,15 @@ namespace MPfm.Windows.Classes.Forms
             this.panelMarkerInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             backgroundGradient4.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient4.BorderWidth = 0;
-            backgroundGradient4.Color1 = System.Drawing.Color.Gainsboro;
-            backgroundGradient4.Color2 = System.Drawing.Color.DarkGray;
+            backgroundGradient4.Color1 = System.Drawing.Color.White;
+            backgroundGradient4.Color2 = System.Drawing.Color.White;
             backgroundGradient4.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             panelTheme2.BackgroundGradient = backgroundGradient4;
             textGradient18.BorderColor = System.Drawing.Color.DarkGray;
             textGradient18.BorderWidth = 0;
-            textGradient18.Color1 = System.Drawing.Color.WhiteSmoke;
-            textGradient18.Color2 = System.Drawing.Color.Silver;
-            customFont18.Color = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            textGradient18.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            textGradient18.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            customFont18.Color = System.Drawing.Color.White;
             customFont18.EmbeddedFontName = "Junction";
             customFont18.IsBold = false;
             customFont18.IsItalic = false;
@@ -869,8 +672,8 @@ namespace MPfm.Windows.Classes.Forms
             this.tableMarkerInformation.TabIndex = 113;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient3.BorderWidth = 0;
-            backgroundGradient3.Color1 = System.Drawing.Color.WhiteSmoke;
-            backgroundGradient3.Color2 = System.Drawing.Color.Silver;
+            backgroundGradient3.Color1 = System.Drawing.Color.White;
+            backgroundGradient3.Color2 = System.Drawing.Color.White;
             backgroundGradient3.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             tableLayoutPanelTheme2.BackgroundGradient = backgroundGradient3;
             tableLayoutPanelTheme2.IsBackgroundTransparent = false;
@@ -919,6 +722,17 @@ namespace MPfm.Windows.Classes.Forms
             labelTheme8.TextGradient = textGradient9;
             this.lblName.Theme = labelTheme8;
             // 
+            // txtComments
+            // 
+            this.tableMarkerInformation.SetColumnSpan(this.txtComments, 5);
+            this.txtComments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtComments.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtComments.Location = new System.Drawing.Point(103, 63);
+            this.txtComments.Multiline = true;
+            this.txtComments.Name = "txtComments";
+            this.txtComments.Size = new System.Drawing.Size(441, 64);
+            this.txtComments.TabIndex = 96;
+            // 
             // btnPunchIn
             // 
             this.btnPunchIn.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -933,11 +747,11 @@ namespace MPfm.Windows.Classes.Forms
             this.btnPunchIn.TabIndex = 102;
             this.btnPunchIn.Text = "Punch in";
             this.btnPunchIn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient10.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient10.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient10.BorderWidth = 1;
-            textGradient10.Color1 = System.Drawing.Color.LightGray;
-            textGradient10.Color2 = System.Drawing.Color.Gray;
-            customFont10.Color = System.Drawing.Color.Black;
+            textGradient10.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            textGradient10.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            customFont10.Color = System.Drawing.Color.White;
             customFont10.EmbeddedFontName = "Junction";
             customFont10.IsBold = false;
             customFont10.IsItalic = false;
@@ -950,10 +764,10 @@ namespace MPfm.Windows.Classes.Forms
             textGradient10.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient10.Padding = 4;
             buttonTheme1.TextGradientDefault = textGradient10;
-            textGradient11.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient11.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient11.BorderWidth = 1;
-            textGradient11.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient11.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            textGradient11.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
+            textGradient11.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             customFont11.Color = System.Drawing.Color.LightGray;
             customFont11.EmbeddedFontName = "Junction";
             customFont11.IsBold = false;
@@ -967,11 +781,11 @@ namespace MPfm.Windows.Classes.Forms
             textGradient11.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient11.Padding = 4;
             buttonTheme1.TextGradientDisabled = textGradient11;
-            textGradient12.BorderColor = System.Drawing.Color.Gray;
+            textGradient12.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient12.BorderWidth = 1;
-            textGradient12.Color1 = System.Drawing.Color.White;
-            textGradient12.Color2 = System.Drawing.Color.LightGray;
-            customFont12.Color = System.Drawing.Color.Black;
+            textGradient12.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(119)))), ((int)(((byte)(106)))));
+            textGradient12.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(119)))), ((int)(((byte)(106)))));
+            customFont12.Color = System.Drawing.Color.White;
             customFont12.EmbeddedFontName = "Junction";
             customFont12.IsBold = false;
             customFont12.IsItalic = false;
@@ -988,11 +802,42 @@ namespace MPfm.Windows.Classes.Forms
             this.toolTip.SetToolTip(this.btnPunchIn, "Sets the loop start position to the current song position.");
             this.btnPunchIn.Click += new System.EventHandler(this.btnPunchIn_Click);
             // 
+            // lblComments
+            // 
+            this.lblComments.BackColor = System.Drawing.Color.Transparent;
+            this.lblComments.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblComments.IsAutoSized = false;
+            this.lblComments.Location = new System.Drawing.Point(3, 63);
+            this.lblComments.Name = "lblComments";
+            this.lblComments.Size = new System.Drawing.Size(94, 17);
+            this.lblComments.TabIndex = 95;
+            this.lblComments.Text = "Comments :";
+            this.lblComments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelTheme9.IsBackgroundTransparent = true;
+            textGradient13.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient13.BorderWidth = 1;
+            textGradient13.Color1 = System.Drawing.Color.LightGray;
+            textGradient13.Color2 = System.Drawing.Color.Gray;
+            customFont13.Color = System.Drawing.Color.Black;
+            customFont13.EmbeddedFontName = "Junction";
+            customFont13.IsBold = false;
+            customFont13.IsItalic = false;
+            customFont13.IsUnderline = false;
+            customFont13.Size = 8F;
+            customFont13.StandardFontName = "Arial";
+            customFont13.UseAntiAliasing = true;
+            customFont13.UseEmbeddedFont = true;
+            textGradient13.Font = customFont13;
+            textGradient13.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient13.Padding = 2;
+            labelTheme9.TextGradient = textGradient13;
+            this.lblComments.Theme = labelTheme9;
+            // 
             // btnGoTo
             // 
             this.btnGoTo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnGoTo.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGoTo.Image = global::MPfm.Windows.Properties.Resources.arrow_right;
+            this.btnGoTo.Image = global::MPfm.Windows.Properties.Resources.icon_button_goto_16;
             this.btnGoTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGoTo.IsAutoSized = false;
             this.btnGoTo.Location = new System.Drawing.Point(285, 31);
@@ -1002,11 +847,11 @@ namespace MPfm.Windows.Classes.Forms
             this.btnGoTo.TabIndex = 103;
             this.btnGoTo.Text = "Go to";
             this.btnGoTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            textGradient14.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient14.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient14.BorderWidth = 1;
-            textGradient14.Color1 = System.Drawing.Color.LightGray;
-            textGradient14.Color2 = System.Drawing.Color.Gray;
-            customFont14.Color = System.Drawing.Color.Black;
+            textGradient14.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            textGradient14.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            customFont14.Color = System.Drawing.Color.White;
             customFont14.EmbeddedFontName = "Junction";
             customFont14.IsBold = false;
             customFont14.IsItalic = false;
@@ -1019,10 +864,10 @@ namespace MPfm.Windows.Classes.Forms
             textGradient14.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient14.Padding = 4;
             buttonTheme2.TextGradientDefault = textGradient14;
-            textGradient15.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient15.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient15.BorderWidth = 1;
-            textGradient15.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            textGradient15.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            textGradient15.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
+            textGradient15.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             customFont15.Color = System.Drawing.Color.LightGray;
             customFont15.EmbeddedFontName = "Junction";
             customFont15.IsBold = false;
@@ -1036,11 +881,11 @@ namespace MPfm.Windows.Classes.Forms
             textGradient15.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             textGradient15.Padding = 4;
             buttonTheme2.TextGradientDisabled = textGradient15;
-            textGradient16.BorderColor = System.Drawing.Color.Gray;
+            textGradient16.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(43)))), ((int)(((byte)(30)))));
             textGradient16.BorderWidth = 1;
-            textGradient16.Color1 = System.Drawing.Color.White;
-            textGradient16.Color2 = System.Drawing.Color.LightGray;
-            customFont16.Color = System.Drawing.Color.Black;
+            textGradient16.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(119)))), ((int)(((byte)(106)))));
+            textGradient16.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(119)))), ((int)(((byte)(106)))));
+            customFont16.Color = System.Drawing.Color.White;
             customFont16.EmbeddedFontName = "Junction";
             customFont16.IsBold = false;
             customFont16.IsItalic = false;
@@ -1064,7 +909,7 @@ namespace MPfm.Windows.Classes.Forms
             this.txtPosition.Location = new System.Drawing.Point(103, 30);
             this.txtPosition.Mask = "0:00.000";
             this.txtPosition.Name = "txtPosition";
-            this.txtPosition.Size = new System.Drawing.Size(94, 25);
+            this.txtPosition.Size = new System.Drawing.Size(94, 27);
             this.txtPosition.TabIndex = 98;
             this.txtPosition.Text = "000000";
             this.txtPosition.TextChanged += new System.EventHandler(this.txtPosition_TextChanged);
@@ -1077,7 +922,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblPosition.IsAutoSized = false;
             this.lblPosition.Location = new System.Drawing.Point(3, 30);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(94, 25);
+            this.lblPosition.Size = new System.Drawing.Size(94, 27);
             this.lblPosition.TabIndex = 99;
             this.lblPosition.Text = "Position :";
             this.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1128,9 +973,9 @@ namespace MPfm.Windows.Classes.Forms
             panelTheme3.BackgroundGradient = backgroundGradient6;
             textGradient25.BorderColor = System.Drawing.Color.DarkGray;
             textGradient25.BorderWidth = 0;
-            textGradient25.Color1 = System.Drawing.Color.WhiteSmoke;
-            textGradient25.Color2 = System.Drawing.Color.Silver;
-            customFont25.Color = System.Drawing.Color.Black;
+            textGradient25.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            textGradient25.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(88)))), ((int)(((byte)(101)))));
+            customFont25.Color = System.Drawing.Color.White;
             customFont25.EmbeddedFontName = "Junction";
             customFont25.IsBold = false;
             customFont25.IsItalic = false;
@@ -1171,8 +1016,8 @@ namespace MPfm.Windows.Classes.Forms
             this.tableSongInformation.TabIndex = 95;
             backgroundGradient5.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient5.BorderWidth = 0;
-            backgroundGradient5.Color1 = System.Drawing.Color.WhiteSmoke;
-            backgroundGradient5.Color2 = System.Drawing.Color.Silver;
+            backgroundGradient5.Color1 = System.Drawing.Color.White;
+            backgroundGradient5.Color2 = System.Drawing.Color.White;
             backgroundGradient5.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             tableLayoutPanelTheme3.BackgroundGradient = backgroundGradient5;
             tableLayoutPanelTheme3.IsBackgroundTransparent = false;
@@ -1373,22 +1218,177 @@ namespace MPfm.Windows.Classes.Forms
             labelTheme16.TextGradient = textGradient24;
             this.lblSongTitleValue.Theme = labelTheme16;
             // 
-            // panelWarning
+            // toolTip
             // 
-            this.panelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelWarning.BackColor = System.Drawing.Color.Transparent;
-            this.panelWarning.Controls.Add(this.lblWarning);
-            this.panelWarning.Controls.Add(this.pictureBox1);
-            this.panelWarning.Location = new System.Drawing.Point(367, 3);
-            this.panelWarning.Name = "panelWarning";
-            this.panelWarning.Size = new System.Drawing.Size(216, 26);
-            this.panelWarning.TabIndex = 115;
+            this.toolTip.BackColor = System.Drawing.Color.DimGray;
+            this.toolTip.ForeColor = System.Drawing.Color.White;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "Add/Edit Marker";
             // 
-            // frmAddEditMarker
+            // btnSave
+            // 
+            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSave.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Image = global::MPfm.Windows.Properties.Resources.disk;
+            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.IsAutoSized = true;
+            this.btnSave.Location = new System.Drawing.Point(0, 0);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(0);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(63, 26);
+            this.btnSave.TabIndex = 64;
+            this.btnSave.Text = "Save";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            textGradient27.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient27.BorderWidth = 0;
+            textGradient27.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            textGradient27.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            customFont27.Color = System.Drawing.Color.White;
+            customFont27.EmbeddedFontName = "Junction";
+            customFont27.IsBold = false;
+            customFont27.IsItalic = false;
+            customFont27.IsUnderline = false;
+            customFont27.Size = 9F;
+            customFont27.StandardFontName = "Arial";
+            customFont27.UseAntiAliasing = true;
+            customFont27.UseEmbeddedFont = true;
+            textGradient27.Font = customFont27;
+            textGradient27.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient27.Padding = 5;
+            buttonTheme3.TextGradientDefault = textGradient27;
+            textGradient28.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient28.BorderWidth = 0;
+            textGradient28.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            textGradient28.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            customFont28.Color = System.Drawing.Color.WhiteSmoke;
+            customFont28.EmbeddedFontName = "Junction";
+            customFont28.IsBold = false;
+            customFont28.IsItalic = false;
+            customFont28.IsUnderline = false;
+            customFont28.Size = 9F;
+            customFont28.StandardFontName = "Arial";
+            customFont28.UseAntiAliasing = true;
+            customFont28.UseEmbeddedFont = true;
+            textGradient28.Font = customFont28;
+            textGradient28.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient28.Padding = 5;
+            buttonTheme3.TextGradientDisabled = textGradient28;
+            textGradient29.BorderColor = System.Drawing.Color.Gray;
+            textGradient29.BorderWidth = 0;
+            textGradient29.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
+            textGradient29.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
+            customFont29.Color = System.Drawing.Color.White;
+            customFont29.EmbeddedFontName = "Junction";
+            customFont29.IsBold = false;
+            customFont29.IsItalic = false;
+            customFont29.IsUnderline = false;
+            customFont29.Size = 9F;
+            customFont29.StandardFontName = "Arial";
+            customFont29.UseAntiAliasing = true;
+            customFont29.UseEmbeddedFont = true;
+            textGradient29.Font = customFont29;
+            textGradient29.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient29.Padding = 5;
+            buttonTheme3.TextGradientMouseOver = textGradient29;
+            this.btnSave.Theme = buttonTheme3;
+            this.toolTip.SetToolTip(this.btnSave, "Saves the current marker.");
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnClose.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.Image = global::MPfm.Windows.Properties.Resources.cancel;
+            this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnClose.IsAutoSized = true;
+            this.btnClose.Location = new System.Drawing.Point(63, 0);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(74, 26);
+            this.btnClose.TabIndex = 63;
+            this.btnClose.Text = "Cancel";
+            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            textGradient30.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient30.BorderWidth = 0;
+            textGradient30.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            textGradient30.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            customFont30.Color = System.Drawing.Color.White;
+            customFont30.EmbeddedFontName = "Junction";
+            customFont30.IsBold = false;
+            customFont30.IsItalic = false;
+            customFont30.IsUnderline = false;
+            customFont30.Size = 9F;
+            customFont30.StandardFontName = "Arial";
+            customFont30.UseAntiAliasing = true;
+            customFont30.UseEmbeddedFont = true;
+            textGradient30.Font = customFont30;
+            textGradient30.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient30.Padding = 5;
+            buttonTheme4.TextGradientDefault = textGradient30;
+            textGradient31.BorderColor = System.Drawing.Color.DarkGray;
+            textGradient31.BorderWidth = 0;
+            textGradient31.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            textGradient31.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            customFont31.Color = System.Drawing.Color.WhiteSmoke;
+            customFont31.EmbeddedFontName = "Junction";
+            customFont31.IsBold = false;
+            customFont31.IsItalic = false;
+            customFont31.IsUnderline = false;
+            customFont31.Size = 9F;
+            customFont31.StandardFontName = "Arial";
+            customFont31.UseAntiAliasing = true;
+            customFont31.UseEmbeddedFont = true;
+            textGradient31.Font = customFont31;
+            textGradient31.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient31.Padding = 5;
+            buttonTheme4.TextGradientDisabled = textGradient31;
+            textGradient32.BorderColor = System.Drawing.Color.Gray;
+            textGradient32.BorderWidth = 0;
+            textGradient32.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
+            textGradient32.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(130)))), ((int)(((byte)(146)))));
+            customFont32.Color = System.Drawing.Color.White;
+            customFont32.EmbeddedFontName = "Junction";
+            customFont32.IsBold = false;
+            customFont32.IsItalic = false;
+            customFont32.IsUnderline = false;
+            customFont32.Size = 9F;
+            customFont32.StandardFontName = "Arial";
+            customFont32.UseAntiAliasing = true;
+            customFont32.UseEmbeddedFont = true;
+            textGradient32.Font = customFont32;
+            textGradient32.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            textGradient32.Padding = 5;
+            buttonTheme4.TextGradientMouseOver = textGradient32;
+            this.btnClose.Theme = buttonTheme4;
+            this.toolTip.SetToolTip(this.btnClose, "Closes the window without saving.");
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // flowToolbar
+            // 
+            this.flowToolbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowToolbar.AutoSize = true;
+            this.flowToolbar.Controls.Add(this.btnSave);
+            this.flowToolbar.Controls.Add(this.btnClose);
+            this.flowToolbar.Location = new System.Drawing.Point(0, 0);
+            this.flowToolbar.Margin = new System.Windows.Forms.Padding(0);
+            this.flowToolbar.Name = "flowToolbar";
+            this.flowToolbar.Size = new System.Drawing.Size(584, 26);
+            this.flowToolbar.TabIndex = 113;
+            backgroundGradient9.BorderColor = System.Drawing.Color.DarkGray;
+            backgroundGradient9.BorderWidth = 0;
+            backgroundGradient9.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            backgroundGradient9.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(69)))), ((int)(((byte)(79)))));
+            backgroundGradient9.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            flowLayoutPanelTheme1.BackgroundGradient = backgroundGradient9;
+            flowLayoutPanelTheme1.IsBackgroundTransparent = false;
+            this.flowToolbar.Theme = flowLayoutPanelTheme1;
+            // 
+            // frmMarkerDetails
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(584, 414);
+            this.ClientSize = new System.Drawing.Size(584, 432);
             this.ControlBox = false;
             this.Controls.Add(this.flowToolbar);
             this.Controls.Add(this.panelEditMarker);
@@ -1399,8 +1399,8 @@ namespace MPfm.Windows.Classes.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit Marker";
             this.panelEditMarker.ResumeLayout(false);
+            this.panelWarning.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.flowToolbar.ResumeLayout(false);
             this.tableMarker.ResumeLayout(false);
             this.panelMarkerPosition.ResumeLayout(false);
             this.tableMarkerPosition.ResumeLayout(false);
@@ -1411,7 +1411,7 @@ namespace MPfm.Windows.Classes.Forms
             this.panelSongInformation.ResumeLayout(false);
             this.panelSongInformation.PerformLayout();
             this.tableSongInformation.ResumeLayout(false);
-            this.panelWarning.ResumeLayout(false);
+            this.flowToolbar.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

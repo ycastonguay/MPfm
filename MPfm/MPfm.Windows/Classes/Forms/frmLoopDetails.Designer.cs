@@ -700,7 +700,7 @@ namespace MPfm.Windows.Classes.Forms
             this.tableLoopInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoopInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLoopInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLoopInformation.Size = new System.Drawing.Size(572, 91);
+            this.tableLoopInformation.Size = new System.Drawing.Size(572, 93);
             this.tableLoopInformation.TabIndex = 113;
             backgroundGradient3.BorderColor = System.Drawing.Color.DarkGray;
             backgroundGradient3.BorderWidth = 0;
@@ -718,7 +718,7 @@ namespace MPfm.Windows.Classes.Forms
             this.comboEndPositionMarker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboEndPositionMarker.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboEndPositionMarker.FormattingEnabled = true;
-            this.comboEndPositionMarker.Location = new System.Drawing.Point(411, 62);
+            this.comboEndPositionMarker.Location = new System.Drawing.Point(411, 64);
             this.comboEndPositionMarker.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.comboEndPositionMarker.Name = "comboEndPositionMarker";
             this.comboEndPositionMarker.Size = new System.Drawing.Size(133, 23);
@@ -732,7 +732,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblEndPositionMarker.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblEndPositionMarker.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEndPositionMarker.IsAutoSized = false;
-            this.lblEndPositionMarker.Location = new System.Drawing.Point(350, 61);
+            this.lblEndPositionMarker.Location = new System.Drawing.Point(350, 63);
             this.lblEndPositionMarker.Name = "lblEndPositionMarker";
             this.lblEndPositionMarker.Size = new System.Drawing.Size(55, 27);
             this.lblEndPositionMarker.TabIndex = 104;
@@ -778,7 +778,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblStartPositionMarker.IsAutoSized = false;
             this.lblStartPositionMarker.Location = new System.Drawing.Point(350, 30);
             this.lblStartPositionMarker.Name = "lblStartPositionMarker";
-            this.lblStartPositionMarker.Size = new System.Drawing.Size(55, 25);
+            this.lblStartPositionMarker.Size = new System.Drawing.Size(55, 27);
             this.lblStartPositionMarker.TabIndex = 82;
             this.lblStartPositionMarker.Text = "Marker :";
             this.lblStartPositionMarker.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -857,7 +857,7 @@ namespace MPfm.Windows.Classes.Forms
             this.btnEndPositionGoTo.Image = global::MPfm.Windows.Properties.Resources.arrow_right;
             this.btnEndPositionGoTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEndPositionGoTo.IsAutoSized = false;
-            this.btnEndPositionGoTo.Location = new System.Drawing.Point(285, 62);
+            this.btnEndPositionGoTo.Location = new System.Drawing.Point(285, 64);
             this.btnEndPositionGoTo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.btnEndPositionGoTo.Name = "btnEndPositionGoTo";
             this.btnEndPositionGoTo.Size = new System.Drawing.Size(59, 24);
@@ -926,7 +926,7 @@ namespace MPfm.Windows.Classes.Forms
             this.btnEndPositionPunchIn.Image = global::MPfm.Windows.Properties.Resources.time;
             this.btnEndPositionPunchIn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEndPositionPunchIn.IsAutoSized = false;
-            this.btnEndPositionPunchIn.Location = new System.Drawing.Point(203, 62);
+            this.btnEndPositionPunchIn.Location = new System.Drawing.Point(203, 64);
             this.btnEndPositionPunchIn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.btnEndPositionPunchIn.Name = "btnEndPositionPunchIn";
             this.btnEndPositionPunchIn.Size = new System.Drawing.Size(76, 24);
@@ -1130,10 +1130,10 @@ namespace MPfm.Windows.Classes.Forms
             // 
             this.txtEndPosition.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtEndPosition.Font = new System.Drawing.Font("Droid Sans Mono", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEndPosition.Location = new System.Drawing.Point(103, 61);
+            this.txtEndPosition.Location = new System.Drawing.Point(103, 63);
             this.txtEndPosition.Mask = "0:00.000";
             this.txtEndPosition.Name = "txtEndPosition";
-            this.txtEndPosition.Size = new System.Drawing.Size(94, 25);
+            this.txtEndPosition.Size = new System.Drawing.Size(94, 27);
             this.txtEndPosition.TabIndex = 107;
             this.txtEndPosition.Text = "000000";
             this.txtEndPosition.TextChanged += new System.EventHandler(this.txtEndPosition_TextChanged);
@@ -1145,7 +1145,7 @@ namespace MPfm.Windows.Classes.Forms
             this.txtStartPosition.Location = new System.Drawing.Point(103, 30);
             this.txtStartPosition.Mask = "0:00.000";
             this.txtStartPosition.Name = "txtStartPosition";
-            this.txtStartPosition.Size = new System.Drawing.Size(94, 25);
+            this.txtStartPosition.Size = new System.Drawing.Size(94, 27);
             this.txtStartPosition.TabIndex = 98;
             this.txtStartPosition.Text = "000000";
             this.txtStartPosition.TextChanged += new System.EventHandler(this.txtStartPosition_TextChanged);
@@ -1156,7 +1156,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblEndPosition.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblEndPosition.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEndPosition.IsAutoSized = false;
-            this.lblEndPosition.Location = new System.Drawing.Point(3, 61);
+            this.lblEndPosition.Location = new System.Drawing.Point(3, 63);
             this.lblEndPosition.Name = "lblEndPosition";
             this.lblEndPosition.Size = new System.Drawing.Size(94, 27);
             this.lblEndPosition.TabIndex = 108;
@@ -1190,7 +1190,7 @@ namespace MPfm.Windows.Classes.Forms
             this.lblStartPosition.IsAutoSized = false;
             this.lblStartPosition.Location = new System.Drawing.Point(3, 30);
             this.lblStartPosition.Name = "lblStartPosition";
-            this.lblStartPosition.Size = new System.Drawing.Size(94, 25);
+            this.lblStartPosition.Size = new System.Drawing.Size(94, 27);
             this.lblStartPosition.TabIndex = 99;
             this.lblStartPosition.Text = "Start Position :";
             this.lblStartPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1652,10 +1652,10 @@ namespace MPfm.Windows.Classes.Forms
             flowLayoutPanelTheme1.IsBackgroundTransparent = false;
             this.flowToolbar.Theme = flowLayoutPanelTheme1;
             // 
-            // frmAddEditLoop
+            // frmLoopDetails
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(584, 378);
+            this.ClientSize = new System.Drawing.Size(584, 394);
             this.ControlBox = false;
             this.Controls.Add(this.flowToolbar);
             this.Controls.Add(this.panelEditLoop);

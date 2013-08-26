@@ -62,7 +62,6 @@ namespace MPfm.MVP.Presenters
 #else
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
 #endif
-
 		}
 
         public override void BindView(ISongBrowserView view)
@@ -71,6 +70,7 @@ namespace MPfm.MVP.Presenters
             
             view.OnTableRowDoubleClicked = TableRowDoubleClicked;
             view.OnSongBrowserEditSongMetadata = SongBrowserEditSongMetadata;
+            view.OnSearchTerms = SearchTerms;
         }
 
 	    public void SongBrowserEditSongMetadata(AudioFile audioFile)
@@ -101,5 +101,11 @@ namespace MPfm.MVP.Presenters
             });
 		}
 
+        private void SearchTerms(string searchTerms)
+        {
+            _query.SearchTerms = searchTerms;
+            var audioFiles = _audioFileCacheService.SelectAudioFiles(_query);
+            View.RefreshSongBrowser(audioFiles);
+        }
 	}
 }
