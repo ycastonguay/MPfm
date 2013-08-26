@@ -2404,9 +2404,9 @@ namespace MPfm.Windows.Classes.Forms
             MethodInvoker methodUIUpdate = delegate
             {
                 lblDetectedTempoValue.Text = entity.DetectedTempo;
-                lblCurrentTempoValue.Text = entity.CurrentTempo;
                 lblReferenceTempoValue.Text = entity.ReferenceTempo;
-                lblTempoPercentage.Text = string.Format("{0:0.0} %", entity.TimeShiftingValue);
+                lblCurrentTempoValue.Text = entity.CurrentTempo;
+                //lblTempoPercentage.Text = string.Format("{0:0.0} %", entity.TimeShiftingValue);
                 trackTempo.SetValueWithoutTriggeringEvent((int)entity.TimeShiftingValue);
             };
 
