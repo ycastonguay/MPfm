@@ -95,6 +95,7 @@ namespace MPfm.Mac
 
         public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
+        public Action<string> OnSaveLog { get; set; }
 
 		public void RefreshStatus(UpdateLibraryEntity entity)
 		{

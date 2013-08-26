@@ -128,6 +128,7 @@ namespace MPfm.Mac
             btnTabActions.OnTabButtonSelected += HandleOnTabButtonSelected;
 
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSOutlineViewItemDidExpandNotification"), ItemDidExpand, outlineLibraryBrowser);
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSControlTextDidChangeNotification"), SearchTextDidChange, searchSongBrowser);
 
             OnViewReady.Invoke(this);
 		}
@@ -547,6 +548,12 @@ namespace MPfm.Mac
         {
         }
 
+        [Export ("controlTextDidChange")]
+        private void SearchTextDidChange(NSNotification notification)
+        {
+            OnSearchTerms(searchSongBrowser.StringValue);
+        }
+
         [Export ("numberOfRowsInTableView:")]
         public int GetRowCount(NSTableView tableView)
         {
@@ -753,7 +760,8 @@ namespace MPfm.Mac
 		#region ISongBrowserView implementation
 
         public Action<AudioFile> OnTableRowDoubleClicked { get; set; }
-        public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }        
+        public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }   
+        public Action<string> OnSearchTerms { get; set; }
 
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
