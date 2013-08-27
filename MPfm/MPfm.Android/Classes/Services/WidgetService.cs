@@ -33,6 +33,8 @@ using MPfm.MVP.Messages;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using TinyMessenger;
+using Exception = System.Exception;
+using Process = Android.OS.Process;
 
 namespace org.sessionsapp.android
 {
@@ -47,6 +49,9 @@ namespace org.sessionsapp.android
         private string _previousAlbumArtKey;
         private Notification _notification;
         bool _isShutDowning;
+        AudioFile _audioFile;
+        PlayerStatusType _status;
+        Bitmap _bitmapAlbumArt;
 
         public override void OnStart(Intent intent, int startId)
         {
@@ -87,6 +92,11 @@ namespace org.sessionsapp.android
                 //Java.Lang.JavaSystem.Exit(0);
                 //Process.KillProcess(Process.MyPid()); 
             }
+            else if (intent.Action == "android.appwidget.action.APPWIDGET_UPDATE")
+            {
+                Console.WriteLine("WidgetService - Updating notification because of APPWIDGET_UPDATE...");
+                UpdateNotificationView();
+            }
 
             return StartCommandResult.NotSticky;
         }
@@ -117,12 +127,16 @@ namespace org.sessionsapp.android
                 Console.WriteLine("WidgetService - PlayerPlaylistIndexChangedMessage");
                 if (message.Data.AudioFileStarted != null)
                 {
-                    UpdateNotificationView(message.Data.AudioFileStarted, null);
+                    _audioFile = message.Data.AudioFileStarted;
+                    //UpdateNotificationView(message.Data.AudioFileStarted, null);
+                    UpdateNotificationView();
                     GetAlbumArt(message.Data.AudioFileStarted);
                 }
             });
             _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
                 Console.WriteLine("WidgetService - PlayerStatusMessage - Status=" + message.Status.ToString());
+                _status = message.Status;
+                UpdateNotificationView();
             });
 
             // Declare the service as foreground (i.e. the user is aware because of the audio)
@@ -184,6 +198,7 @@ namespace org.sessionsapp.android
             _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnClose, pendingIntentClose);
 
             Intent notificationIntent = new Intent(this, typeof(PlayerActivity));
+            //Intent notificationIntent = new Intent(this, typeof(MainActivity));
             PendingIntent pendingIntent = PendingIntent.GetActivity(this, 0, notificationIntent, 0);
             _notification.ContentIntent = pendingIntent;            
             StartForeground(1, _notification);
@@ -193,83 +208,131 @@ namespace org.sessionsapp.android
             return notification;
         }
 
-        private void UpdateNotificationView(AudioFile audioFile, Bitmap bitmapAlbumArt)
+        private void UpdateNotificationView()
         {
             if (_isShutDowning)
                 return;
 
             Console.WriteLine("WidgetService - UpdateNotificationView");
-            var view = _notification.ContentView;
-            var bigView = _notification.BigContentView;
+            var viewNotification = _notification.ContentView;
+            var viewBigNotification = _notification.BigContentView;
 
-            if (audioFile != null)
+            // Update metadata on notification bar 
+            if (_audioFile != null)
             {
-                if (view != null)
+                if (viewNotification != null)
                 {
-                    view.SetTextViewText(Resource.Id.widgetPlayer_lblArtistName, audioFile.ArtistName);
-                    view.SetTextViewText(Resource.Id.widgetPlayer_lblAlbumTitle, audioFile.AlbumTitle);
-                    view.SetTextViewText(Resource.Id.widgetPlayer_lblSongTitle, audioFile.Title);
-                    view.SetTextViewText(Resource.Id.notificationPlayer_lblTitle, audioFile.ArtistName + " / " + audioFile.AlbumTitle);
-                    view.SetTextViewText(Resource.Id.notificationPlayer_lblSubtitle, audioFile.Title);
+                    viewNotification.SetTextViewText(Resource.Id.notificationPlayer_lblTitle, _audioFile.ArtistName + " / " + _audioFile.AlbumTitle);
+                    viewNotification.SetTextViewText(Resource.Id.notificationPlayer_lblSubtitle, _audioFile.Title);
                 }
 
-                if (bigView != null)
+                if (viewBigNotification != null)
                 {
-                    bigView.SetTextViewText(Resource.Id.bigNotificationPlayer_lblArtistName, audioFile.ArtistName);
-                    bigView.SetTextViewText(Resource.Id.bigNotificationPlayer_lblAlbumTitle, audioFile.AlbumTitle);
-                    bigView.SetTextViewText(Resource.Id.bigNotificationPlayer_lblSongTitle, audioFile.Title);
+                    viewBigNotification.SetTextViewText(Resource.Id.bigNotificationPlayer_lblArtistName, _audioFile.ArtistName);
+                    viewBigNotification.SetTextViewText(Resource.Id.bigNotificationPlayer_lblAlbumTitle, _audioFile.AlbumTitle);
+                    viewBigNotification.SetTextViewText(Resource.Id.bigNotificationPlayer_lblSongTitle, _audioFile.Title);
                 }
             }
             else
             {
-                if (view != null)
+                if (viewNotification != null)
                 {
-                    view.SetTextViewText(Resource.Id.widgetPlayer_lblArtistName, "");
-                    view.SetTextViewText(Resource.Id.widgetPlayer_lblAlbumTitle, "");
-                    view.SetTextViewText(Resource.Id.widgetPlayer_lblSongTitle, "");
-                    view.SetTextViewText(Resource.Id.notificationPlayer_lblTitle, "");
-                    view.SetTextViewText(Resource.Id.notificationPlayer_lblSubtitle, "");
+                    viewNotification.SetTextViewText(Resource.Id.notificationPlayer_lblTitle, "");
+                    viewNotification.SetTextViewText(Resource.Id.notificationPlayer_lblSubtitle, "");
                 }
 
-                if (bigView != null)
+                if (viewBigNotification != null)
                 {
-                    bigView.SetTextViewText(Resource.Id.bigNotificationPlayer_lblArtistName, "");
-                    bigView.SetTextViewText(Resource.Id.bigNotificationPlayer_lblAlbumTitle, "");
-                    bigView.SetTextViewText(Resource.Id.bigNotificationPlayer_lblSongTitle, "");
+                    viewBigNotification.SetTextViewText(Resource.Id.bigNotificationPlayer_lblArtistName, "");
+                    viewBigNotification.SetTextViewText(Resource.Id.bigNotificationPlayer_lblAlbumTitle, "");
+                    viewBigNotification.SetTextViewText(Resource.Id.bigNotificationPlayer_lblSongTitle, "");
                 }
             }
 
-            if (bitmapAlbumArt == null)
+            if (_status == PlayerStatusType.Initialized ||
+                _status == PlayerStatusType.Paused ||
+                _status == PlayerStatusType.Stopped)
             {
-                if(bigView != null)
-                    bigView.SetImageViewResource(Resource.Id.bigNotificationPlayer_imageAlbum, 0);
-
-                view.SetImageViewResource(Resource.Id.widgetPlayer_imageAlbum, 0);
+                if (viewNotification != null)
+                    viewNotification.SetImageViewResource(Resource.Id.notificationPlayer_btnPlayPause, Resource.Drawable.player_play);
+                if (viewBigNotification != null)
+                    viewBigNotification.SetImageViewResource(Resource.Id.bigNotificationPlayer_btnPlayPause, Resource.Drawable.player_play);
             }
             else
             {
-                if (bigView != null)
-                    bigView.SetImageViewBitmap(Resource.Id.bigNotificationPlayer_imageAlbum, bitmapAlbumArt);
-
-                view.SetImageViewBitmap(Resource.Id.widgetPlayer_imageAlbum, bitmapAlbumArt);
+                if (viewNotification != null)
+                    viewNotification.SetImageViewResource(Resource.Id.notificationPlayer_btnPlayPause, Resource.Drawable.player_pause);
+                if (viewBigNotification != null)
+                    viewBigNotification.SetImageViewResource(Resource.Id.bigNotificationPlayer_btnPlayPause, Resource.Drawable.player_pause);
             }
 
+            // Update album art on notification bar
+            if (_bitmapAlbumArt == null && viewBigNotification != null)
+                viewBigNotification.SetImageViewResource(Resource.Id.bigNotificationPlayer_imageAlbum, 0);
+            else if (viewBigNotification != null)
+                viewBigNotification.SetImageViewBitmap(Resource.Id.bigNotificationPlayer_imageAlbum, _bitmapAlbumArt);
+
+            Console.WriteLine("WidgetService - UpdateNotificationView - Updating notification...");
             var notificationManager = (NotificationManager)ApplicationContext.GetSystemService(NotificationService);
             notificationManager.Notify(1, _notification);
 
-            ////ComponentName thisWidget = new ComponentName(PackageName, "PlayerWidgetProvider");
-            //AppWidgetManager manager = AppWidgetManager.GetInstance(this);
-            ////int[] ids = manager.GetAppWidgetIds(thisWidget);
-            //foreach (int id in _widgetIds)
-            //{
-            //    Console.WriteLine("WidgetService - UpdateView - id: {0}", id);
-            //    manager.UpdateAppWidget(id, view);
-            //}
-            ////manager.UpdateAppWidget(thisWidget, view);
+            try
+            {
+                // Update widget
+                Console.WriteLine("WidgetService - UpdateNotificationView - Getting widgets (0)...");
+                RemoteViews viewWidget = new RemoteViews(PackageName, Resource.Layout.WidgetPlayer);
+                Console.WriteLine("WidgetService - UpdateNotificationView - Getting widgets (1)...");
+                AppWidgetManager manager = AppWidgetManager.GetInstance(this);
+                Console.WriteLine("WidgetService - UpdateNotificationView - Getting widgets (2) - appWidgetIds count: {0}", _widgetIds.Length);
+
+                // Update metadata on widget
+                if (_audioFile != null)
+                {
+                    viewWidget.SetTextViewText(Resource.Id.widgetPlayer_lblArtistName, _audioFile.ArtistName);
+                    viewWidget.SetTextViewText(Resource.Id.widgetPlayer_lblAlbumTitle, _audioFile.AlbumTitle);
+                    viewWidget.SetTextViewText(Resource.Id.widgetPlayer_lblSongTitle, _audioFile.Title);
+                }
+                else
+                {
+                    viewWidget.SetTextViewText(Resource.Id.widgetPlayer_lblArtistName, "");
+                    viewWidget.SetTextViewText(Resource.Id.widgetPlayer_lblAlbumTitle, "");
+                    viewWidget.SetTextViewText(Resource.Id.widgetPlayer_lblSongTitle, "");                                    
+                }
+
+                if (_status == PlayerStatusType.Initialized ||
+                    _status == PlayerStatusType.Paused ||
+                    _status == PlayerStatusType.Stopped)
+                {
+                    viewWidget.SetImageViewResource(Resource.Id.widgetPlayer_btnPlayPause, Resource.Drawable.player_play);
+                }
+                else
+                {
+                    viewWidget.SetImageViewResource(Resource.Id.widgetPlayer_btnPlayPause, Resource.Drawable.player_pause);
+                }
+
+                // Update album art on widget
+                if (_bitmapAlbumArt == null)
+                    viewWidget.SetImageViewResource(Resource.Id.widgetPlayer_imageAlbum, 0);
+                else
+                    viewWidget.SetImageViewBitmap(Resource.Id.widgetPlayer_imageAlbum, _bitmapAlbumArt);
+
+                Console.WriteLine("WidgetService - UpdateNotificationView - Getting widgets (3) - appWidgetIds count: {0}", _widgetIds.Length);
+
+                foreach (int id in _widgetIds)
+                {
+                    Console.WriteLine("WidgetService - UpdateNotificationView - Updating widgets - id: {0}", id);
+                    manager.UpdateAppWidget(id, viewWidget);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("WidgetService - UpdateNotificationView - Widget exception: {0}", ex);
+            }
         }
 
         private void GetAlbumArt(AudioFile audioFile)
         {
+            _bitmapAlbumArt = null;
             Task.Factory.StartNew(() =>
             {
                 //Console.WriteLine("WidgetService - GetAlbumArt - audioFile.Path: {0}", audioFile.FilePath);
@@ -284,7 +347,7 @@ namespace org.sessionsapp.android
                         //_imageAlbum.SetImageBitmap(null);
                     {
                         //Console.WriteLine("WidgetService - GetAlbumArt - Setting album art to NULL!");
-                        UpdateNotificationView(audioFile, null);
+                        UpdateNotificationView();
                     }
                     else
                     {
@@ -292,8 +355,9 @@ namespace org.sessionsapp.android
                         //_bitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
                         //Console.WriteLine("WidgetService - GetAlbumArt - Getting album art in another thread...");
                         _bitmapCache.LoadBitmapFromByteArray(bytesImage, key, bitmap => {
-                            //Console.WriteLine("WidgetService - GetAlbumArt - RECEIVED ALBUM ART! SETTING ALBUM ART");
-                            UpdateNotificationView(audioFile, bitmap);
+                            Console.WriteLine("WidgetService - GetAlbumArt - RECEIVED ALBUM ART! SETTING ALBUM ART");
+                            _bitmapAlbumArt = bitmap;
+                            UpdateNotificationView();
                         });
                     }
                 }
