@@ -198,36 +198,11 @@ namespace MPfm.Android
 //            }
 //#endif
 
-            // Start the widget service that will run in background when the activities are closed
-            if (!IsWidgetServiceRunning())
-            {
-                Console.WriteLine("MainActivity - Starting widget service...");
-                Intent intent = new Intent(this, typeof(WidgetService));
-                StartService(intent);
-            }
-
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
             _navigationManager.BindOptionsMenuView(this);
             _navigationManager.Start();
-        }
-
-        private bool IsWidgetServiceRunning()
-        {
-            ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);
-            var services = manager.GetRunningServices(int.MaxValue);
-            foreach (ActivityManager.RunningServiceInfo serviceInfo in services)
-            {
-                Console.WriteLine("MainActivity - IsForegroundServiceRunning - serviceInfo className: {0} started: {1} isForeground: {2}", serviceInfo.Service.ClassName, serviceInfo.Started, serviceInfo.Foreground);                
-                if (serviceInfo.Service.ClassName == "org.sessionsapp.android.WidgetService")
-                    if (serviceInfo.Started)
-                        return true;
-                    else
-                        return false;
-            }
-
-            return false;
         }
 
         //private void SetupWifiDirect()

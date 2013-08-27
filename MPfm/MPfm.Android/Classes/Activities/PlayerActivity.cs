@@ -47,6 +47,7 @@ namespace MPfm.Android
     [Activity(Label = "Player", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class PlayerActivity : BaseActivity, IPlayerView, View.IOnTouchListener
     {
+        private bool _isInitialized = false;
         private ITinyMessengerHub _messengerHub;
         private BitmapCache _bitmapCache;
         private SquareImageView _imageViewAlbumArt;
@@ -66,9 +67,15 @@ namespace MPfm.Android
         private bool _isPositionChanging;
         private bool _isPlaying;
 
+        public PlayerActivity()
+        {
+            Console.WriteLine("PlayerActivity - Ctor");
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("PlayerActivity - OnCreate");
+
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>(); 
             base.OnCreate(bundle);
 
@@ -125,14 +132,20 @@ namespace MPfm.Android
             if (bundle != null)
             {
                 string state = bundle.GetString("key", "value");
-                Console.WriteLine("MainActivity - OnCreate - State is {0}", state);
+                Console.WriteLine("PlayerActivity - OnCreate - State is {0} - isInitialized: {1}", state, _isInitialized);
             }
             else
             {
-                Console.WriteLine("MainActivity - OnCreate - State is null");
+                Console.WriteLine("PlayerActivity - OnCreate - State is null - isInitialized: {0}", _isInitialized);
             }
 
-            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
+            // Don't try to check the bundle contents, if the activity wasn't destroyed, it will be null.
+            //if (bundle != null)
+            //    Console.WriteLine("PlayerActivity - OnCreate - Bundle isn't null - value: {0}", bundle.GetString("key", "null"));
+            //else
+            //    Console.WriteLine("PlayerActivity - OnCreate - Bundle is null!");
+
+            // When Android stops an activity, it recalls OnCreate after, even though the activity is not destroyed (OnDestroy). It actually goes through creating a new object (the ctor is called).
             ((AndroidNavigationManager)_navigationManager).SetPlayerActivityInstance(this);
         }
 

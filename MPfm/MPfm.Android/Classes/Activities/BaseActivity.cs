@@ -17,8 +17,10 @@
 
 using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using MPfm.MVP.Views;
+using org.sessionsapp.android;
 
 namespace MPfm.Android
 {
@@ -45,6 +47,36 @@ namespace MPfm.Android
         {
             base.OnDestroy();
             if (OnViewDestroy != null) OnViewDestroy(this);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            
+            // Start the widget service that will run in background when the activities are closed
+            if (!IsNotificationServiceRunning())
+            {
+                Console.WriteLine("BaseActivity - Starting notification service...");
+                Intent intent = new Intent(this, typeof(NotificationService));
+                StartService(intent);
+            }
+        }
+
+        protected bool IsNotificationServiceRunning()
+        {
+            ActivityManager manager = (ActivityManager)GetSystemService(ActivityService);
+            var services = manager.GetRunningServices(int.MaxValue);
+            foreach (ActivityManager.RunningServiceInfo serviceInfo in services)
+            {
+                Console.WriteLine("BaseActivity - IsNotificationServiceRunning - serviceInfo className: {0} started: {1} isForeground: {2}", serviceInfo.Service.ClassName, serviceInfo.Started, serviceInfo.Foreground);
+                if (serviceInfo.Service.ClassName == "org.sessionsapp.android.NotificationService")
+                    if (serviceInfo.Started)
+                        return true;
+                    else
+                        return false;
+            }
+
+            return false;
         }
     }
 }
