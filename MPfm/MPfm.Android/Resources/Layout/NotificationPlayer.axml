@@ -41,28 +41,28 @@
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
-      android:src="@drawable/player_previous"
+      android:src="@drawable/player_previous_on"
       android:padding="20dp" />
     <ImageButton
       android:id="@+id/notificationPlayer_btnPlayPause"
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
-      android:src="@drawable/player_pause"
+      android:src="@drawable/player_pause_on"
       android:padding="20dp" />
     <ImageButton
       android:id="@+id/notificationPlayer_btnNext"
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
-      android:src="@drawable/player_next"
+      android:src="@drawable/player_next_on"
       android:padding="20dp" />
     <ImageButton
       android:id="@+id/notificationPlayer_btnClose"
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
-      android:src="@drawable/player_next"
+      android:src="@drawable/player_next_on"
       android:padding="20dp" />
   </LinearLayout>
 </LinearLayout>
