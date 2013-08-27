@@ -341,6 +341,7 @@ namespace MPfm.Android
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public Action OnEditSongMetadata { get; set; }
 
         public void PlayerError(Exception ex)
         {

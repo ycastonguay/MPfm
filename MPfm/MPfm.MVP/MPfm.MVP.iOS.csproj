@@ -179,6 +179,12 @@
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
+    <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
+    <Compile Include="Presenters\EditSongMetadataPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileFirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IDesktopFirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IEditSongMetadataPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileOptionsMenuPresenter.cs" />
     <Compile Include="Presenters\MobileOptionsMenuPresenter.cs" />
     <Compile Include="Presenters\MobileLibraryBrowserPresenter.cs" />
@@ -188,6 +194,9 @@
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IMobileFirstRunView.cs" />
+    <Compile Include="Views\IDesktopFirstRunView.cs" />
+    <Compile Include="Views\IEditSongMetadataView.cs" />
     <Compile Include="Views\IMobileOptionsMenuView.cs" />
     <Compile Include="Views\IMobileLibraryBrowserView.cs" />
     <Compile Include="Views\ILibraryPreferencesView.cs" />
@@ -297,5 +306,7 @@
     <Compile Include="Presenters\Interfaces\ISyncDownloadPresenter.cs" />
     <Compile Include="Presenters\SyncDownloadPresenter.cs" />
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
+    <Compile Include="Views\IDesktopPreferencesView.cs" />
+    <Compile Include="Views\IDesktopEffectsView.cs" />
   </ItemGroup>
 </Project>

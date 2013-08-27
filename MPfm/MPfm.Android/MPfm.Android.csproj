@@ -115,7 +115,6 @@
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
     <Compile Include="Classes\Receivers\WifiDirectReceiver.cs" />
     <Compile Include="Classes\Services\AndroidDiscoveryService.cs" />
-    <Compile Include="Classes\Services\PlayerService.cs" />
     <Compile Include="Classes\Services\WidgetService.cs" />
     <Compile Include="Classes\Widgets\PlayerWidgetProvider.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

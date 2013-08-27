@@ -214,6 +214,5 @@
     <Compile Include="BassNetKey.cs" />
     <Compile Include="BassNetWrapper\BassWrapper.cs" />
     <Compile Include="BassNetWrapper\BaseFx.cs" />
-    <Compile Include="MyBassNetKey.cs" />
   </ItemGroup>
 </Project>

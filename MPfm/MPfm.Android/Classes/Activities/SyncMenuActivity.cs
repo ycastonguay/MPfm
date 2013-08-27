@@ -33,6 +33,7 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Android
 {
@@ -155,9 +156,14 @@ namespace MPfm.Android
         #region ISyncMenuView implementation
 
         public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
+        public Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
+        public Action<List<AudioFile>> OnRemoveItems { get; set; }
         public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        Action<SyncMenuItemEntity, object> ISyncMenuView.OnExpandItem { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
+        public Action OnSelectAll { get; set; }
+        public Action OnRemoveAll { get; set; }
 
         public void SyncMenuError(Exception ex)
         {
@@ -223,6 +229,10 @@ namespace MPfm.Android
             });
         }
 
+        public void RefreshSelection(List<AudioFile> audioFiles)
+        {
+        }
+
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
             RunOnUiThread(() => {
@@ -232,17 +242,19 @@ namespace MPfm.Android
             });
         }
 
-        public void InsertItems(int index, List<SyncMenuItemEntity> items)
+        public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)
         {
-            RunOnUiThread(() => {
+            RunOnUiThread(() =>
+            {
                 _items.InsertRange(index, items);
                 _listAdapter.SetData(_items);
             });
         }
 
-        public void RemoveItems(int index, int count)
+        public void RemoveItems(int index, int count, object userData)
         {
-            RunOnUiThread(() => {
+            RunOnUiThread(() =>
+            {
                 _items.RemoveRange(index, count);
                 _listAdapter.SetData(_items);
             });

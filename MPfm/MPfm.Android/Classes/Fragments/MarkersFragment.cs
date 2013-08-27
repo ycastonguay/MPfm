@@ -77,6 +77,7 @@ namespace MPfm.Android.Classes.Fragments
         public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
+        public Action<Marker> OnDeleteMarker { get; set; }
 
         public void MarkerError(Exception ex)
         {
