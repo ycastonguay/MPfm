@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
     <Compile Include="Classes\Activities\AboutActivity.cs" />
+    <Compile Include="Classes\Activities\LockScreenActivity.cs" />
     <Compile Include="Classes\Activities\SyncDownloadActivity.cs" />
     <Compile Include="Classes\Activities\SyncWebBrowserActivity.cs" />
     <Compile Include="Classes\Activities\SyncMenuActivity.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Classes\Listeners\RegistrationListener.cs" />
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
+    <Compile Include="Classes\Receivers\LockReceiver.cs" />
     <Compile Include="Classes\Receivers\WifiDirectReceiver.cs" />
     <Compile Include="Classes\Services\AndroidDiscoveryService.cs" />
     <Compile Include="Classes\Services\NotificationService.cs" />
@@ -231,6 +233,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\BigNotificationPlayer.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\LockScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

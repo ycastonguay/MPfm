@@ -68,7 +68,7 @@ namespace MPfm.Android
             var services = manager.GetRunningServices(int.MaxValue);
             foreach (ActivityManager.RunningServiceInfo serviceInfo in services)
             {
-                Console.WriteLine("BaseActivity - IsNotificationServiceRunning - serviceInfo className: {0} started: {1} isForeground: {2}", serviceInfo.Service.ClassName, serviceInfo.Started, serviceInfo.Foreground);
+                //Console.WriteLine("BaseActivity - IsNotificationServiceRunning - serviceInfo className: {0} started: {1} isForeground: {2}", serviceInfo.Service.ClassName, serviceInfo.Started, serviceInfo.Foreground);
                 if (serviceInfo.Service.ClassName == "org.sessionsapp.android.NotificationService")
                     if (serviceInfo.Started)
                         return true;

@@ -40,8 +40,9 @@ namespace MPfm.Android.Classes
     {
         static Context _context;
         ConnectionChangeReceiver _connectionChangeReceiver;
+        private LockReceiver _lockReceiver;
 
-        #if __ANDROID_16__
+#if __ANDROID_16__
         private AndroidDiscoveryService _discoveryService;
         #endif
 
@@ -89,7 +90,7 @@ namespace MPfm.Android.Classes
 
             try
             {
-                // Setup connection change receiver
+                Console.WriteLine("Application - Registering ConnectionChangeReceiver...");
                 _connectionChangeReceiver = new ConnectionChangeReceiver();
                 IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
                 filter.AddCategory(Intent.CategoryDefault);
@@ -98,6 +99,22 @@ namespace MPfm.Android.Classes
             catch (Exception ex)
             {
                 Console.WriteLine("Application - Error: Failed to setup connection change receiver! {0}", ex);
+            }
+
+            try
+            {
+                Console.WriteLine("Application - Registering LockReceiver...");
+                var intentFilter = new IntentFilter();
+                intentFilter.AddAction(Intent.ActionScreenOff);
+                intentFilter.AddAction(Intent.ActionScreenOn);
+                intentFilter.AddAction(Intent.ActionUserPresent);
+                intentFilter.AddCategory(Intent.CategoryDefault);
+                _lockReceiver = new LockReceiver();
+                RegisterReceiver(_lockReceiver, intentFilter);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Application - Error: Failed to setup lock receiver! {0}", ex);
             }
 
 //#if __ANDROID_16__
