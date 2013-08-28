@@ -71,6 +71,7 @@ namespace MPfm.MVP.Services
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
             _player.OnBPMDetected += HandleOnBPMDetected;
             _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
+            _messengerHub.Subscribe<PlayerSetPositionMessage>(PlayerSetPositionMessageReceived);
             IsInitialized = true;
         }
 
@@ -98,10 +99,11 @@ namespace MPfm.MVP.Services
             });
         }
 
-        /// <summary>
-        /// Receives player commands via TinyMessenger.
-        /// </summary>
-        /// <param name="m">Message</param>
+        public void PlayerSetPositionMessageReceived(PlayerSetPositionMessage m)
+        {
+            _player.SetPosition(m.Position);
+        }
+
         public void PlayerCommandMessageReceived(PlayerCommandMessage m)
         {
             switch (m.Command)

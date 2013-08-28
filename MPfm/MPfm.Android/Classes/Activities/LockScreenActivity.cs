@@ -26,12 +26,14 @@ using Android.OS;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Cache;
+using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using TinyMessenger;
+using Exception = System.Exception;
 
 namespace MPfm.Android
 {
@@ -234,14 +236,41 @@ namespace MPfm.Android
         {
             Console.WriteLine("SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             //OnPlayerSetPosition(_seekBar.Progress);
+            _messengerHub.PublishAsync<PlayerSetPositionMessage>(new PlayerSetPositionMessage(this, _seekBar.Progress / 100f));
             _isPositionChanging = false;
         }
 
         private void SeekBarOnProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
             Console.WriteLine("SeekBarOnProgressChanged");
-            //PlayerPositionEntity entity = OnPlayerRequestPosition((float)_seekBar.Progress / 100f);
-            //_lblPosition.Text = entity.Position;
+            PlayerPositionEntity entity = RequestPosition((float)_seekBar.Progress / 10000f);
+            _lblPosition.Text = entity.Position;
+        }
+
+        private PlayerPositionEntity RequestPosition(float positionPercentage)
+        {
+            try
+            {
+                Console.WriteLine("LockScreenActivity - RequestPosition - positionPercentage: {0}", positionPercentage);
+                // Calculate new position from 0.0f/1.0f scale
+                long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                long positionBytes = (long)(positionPercentage * lengthBytes);
+                //long positionBytes = (long)Math.Ceiling((double)Playlist.CurrentItem.LengthBytes * (percentage / 100));
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
+                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
+                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                PlayerPositionEntity entity = new PlayerPositionEntity();
+                entity.Position = positionString;
+                entity.PositionBytes = positionBytes;
+                entity.PositionSamples = (uint)positionSamples;
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("LockScreenActivity - An error occured while calculating the player position: " + ex.Message);
+            }
+            return new PlayerPositionEntity();
         }
 
         private void GetAlbumArt(AudioFile audioFile)
