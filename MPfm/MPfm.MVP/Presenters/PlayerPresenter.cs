@@ -133,16 +133,10 @@ namespace MPfm.MVP.Presenters
                 return;
 
             //int available = playerService.GetDataAvailable();
-            
 			PlayerPositionEntity entity = new PlayerPositionEntity();
 		    try
 		    {
-                entity.PositionBytes = _playerService.GetPosition();
-                entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
-                entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
-                //entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-                entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
-                entity.PositionPercentage = ((float)_playerService.GetPosition() / (float)_playerService.CurrentPlaylistItem.LengthBytes) * 100;
+		        entity = _playerService.GetPosition();
 		    }
 		    catch (Exception ex)
 		    {

@@ -42,12 +42,12 @@ namespace org.sessionsapp.android
     [Service(Label = "Sessions Widget Service")]//, Process = ":widgetprocess")]
     public class WidgetService : Service
     {
-        private ITinyMessengerHub _messengerHub;
-        private IPlayerService _playerService;
-        private int[] _widgetIds;
-        private BitmapCache _bitmapCache;
-        private string _previousAlbumArtKey;
-        private Notification _notification;
+        ITinyMessengerHub _messengerHub;
+        IPlayerService _playerService;
+        int[] _widgetIds;
+        BitmapCache _bitmapCache;
+        string _previousAlbumArtKey;
+        Notification _notification;
         bool _isShutDowning;
         AudioFile _audioFile;
         PlayerStatusType _status;
@@ -217,7 +217,6 @@ namespace org.sessionsapp.android
                     }
                 }
             });
-
         }
 
         public override IBinder OnBind(Intent intent)

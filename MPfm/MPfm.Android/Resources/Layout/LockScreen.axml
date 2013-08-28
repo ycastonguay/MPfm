@@ -3,49 +3,51 @@
   android:id="@+id/lockScreen_mainLayout"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-  android:orientation="horizontal"
-  android:gravity="center_vertical"              
+  android:orientation="vertical"
+  android:gravity="center"              
   android:background="@color/background">
   <ImageView
     android:id="@+id/lockScreen_imageAlbum"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:padding="4dp"
     android:background="@android:color/transparent" />
-  <LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical">
   <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="8dp">
+    android:padding="8dp">
     <TextView
       android:id="@+id/lockScreen_lblArtistName"
-      android:layout_width="wrap_content"
+      android:layout_width="fill_parent"
       android:layout_height="wrap_content"
+      android:gravity="center"
       android:textColor="#FFFFFF"
       android:text=""
-      android:textSize="14dp"
+      android:textSize="24dp"
+      android:padding="0dp"
       android:ellipsize="end"
       android:singleLine="true" />
     <TextView
       android:id="@+id/lockScreen_lblAlbumTitle"
-      android:layout_width="wrap_content"
+      android:layout_width="fill_parent"
       android:layout_height="wrap_content"
+      android:gravity="center"
       android:text=""
-      android:textColor="#EEEEEE"
-      android:textSize="12dp"
+      android:textColor="#CCCCCC"
+      android:textSize="20dp"
+      android:padding="2dp"
       android:ellipsize="end"
       android:singleLine="true" />
     <TextView
       android:id="@+id/lockScreen_lblSongTitle"
-      android:layout_width="wrap_content"
+      android:layout_width="fill_parent"
       android:layout_height="wrap_content"
+      android:gravity="center"
       android:text=""
-      android:textColor="#CCCCCC"
-      android:textSize="11dp"
+      android:textColor="#AAAAAA"
+      android:textSize="18dp"
+      android:padding="4dp"
       android:ellipsize="end"
       android:singleLine="true" />
   </LinearLayout>
@@ -60,28 +62,67 @@
       android:layout_height="44dp"
       android:background="@android:color/transparent"
       android:src="@drawable/player_previous"
-      android:padding="20dp" />
+      android:padding="60dp" />
     <ImageButton
       android:id="@+id/lockScreen_btnPlayPause"
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
       android:src="@drawable/player_pause"
-      android:padding="20dp" />
+      android:padding="60dp" />
     <ImageButton
       android:id="@+id/lockScreen_btnNext"
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
       android:src="@drawable/player_next"
-      android:padding="20dp" />
-    <ImageButton
+      android:padding="60dp" />
+    <!--<ImageButton
       android:id="@+id/lockScreen_btnClose"
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
       android:src="@drawable/player_next"
-      android:padding="20dp" />
+      android:padding="40dp" />-->
     </LinearLayout>
-  </LinearLayout>
+  <LinearLayout
+    android:id="@+id/lockScreen_layoutPosition"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+    <TextView
+      android:id="@+id/lockScreen_lblPosition"
+      android:text="0:00.000"
+      android:textColor="#ffffffff"
+      android:textSize="14dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:padding="6dp" />
+    <SeekBar
+      android:id="@+id/lockScreen_seekBar"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:max="10000" />
+    <TextView
+      android:id="@+id/lockScreen_lblLength"
+      android:text="0.00:000"
+      android:textColor="#ffffffff"
+      android:textSize="14dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:padding="6dp" />
+  </LinearLayout>  
+  <Button
+    android:id="@+id/lockScreen_btnClose"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"    
+    android:text="Close"
+    android:textColor="#FFFFFF"
+    android:textSize="14dp"
+    android:padding="12dp" />
 </LinearLayout>

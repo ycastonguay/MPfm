@@ -84,16 +84,6 @@ namespace MPfm.Android
 
         public BitmapCache BitmapCache { get; private set; }
 
-        public override void OnAttachedToWindow()
-        {
-            //base.OnAttachedToWindow();
-
-            Console.WriteLine("LockScreenActivity - OnAttachedToWindow");
-            var window = this.Window;
-            window.AddFlags(WindowManagerFlags.TurnScreenOn | WindowManagerFlags.ShowWhenLocked |
-                            WindowManagerFlags.KeepScreenOn | WindowManagerFlags.DismissKeyguard);
-        }
-
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("MainActivity - OnCreate");
@@ -209,18 +199,8 @@ namespace MPfm.Android
 //            }
 //#endif
 
-            //var intent = new Intent(this, typeof(LockScreenActivity));
-            //intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-            //this.StartActivity(intent);
-
-            var window = this.Window;
-            //window.AddFlags(WindowManagerFlags.TurnScreenOn | WindowManagerFlags.ShowWhenLocked |
-            //                WindowManagerFlags.KeepScreenOn | WindowManagerFlags.DismissKeyguard);
-            window.AddFlags(WindowManagerFlags.ShowWhenLocked);
             //KeyguardManager  myKeyGuard = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE); myLock = myKeyGuard.newKeyguardLock(); myLock.disableKeyguard();
             //KeyguardManager keyguardManager = (KeyguardManager) GetSystemService(KeyguardService);
-
-
 
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();

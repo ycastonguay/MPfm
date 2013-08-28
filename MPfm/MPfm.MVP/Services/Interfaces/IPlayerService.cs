@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
 using MPfm.Player;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -41,6 +43,7 @@ namespace MPfm.MVP.Services.Interfaces
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
         float Volume { get; set; }
+        PlayerStatusType Status { get; set; }
 
         event PlayerService.BPMDetected OnBPMDetected;
 
@@ -61,7 +64,7 @@ namespace MPfm.MVP.Services.Interfaces
 
         int GetDataAvailable();
         Tuple<float[], float[]> GetMixerData(double seconds);
-        long GetPosition();
+        PlayerPositionEntity GetPosition();
 
         void SetPosition(double percentage);
         void SetPosition(long bytes);

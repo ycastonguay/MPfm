@@ -96,7 +96,7 @@ namespace MPfm.MVP.Presenters
                 // Create marker and add to database
                 Marker marker = new Marker();
                 marker.Name = markerName;
-                marker.PositionBytes = _playerService.GetPosition();
+                marker.PositionBytes = _playerService.GetPosition().PositionBytes;
                 marker.PositionSamples = (uint)ConvertAudio.ToPCM(marker.PositionBytes, (uint)_playerService.CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
                 int ms = (int)ConvertAudio.ToMS(marker.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
                 marker.Position = Conversion.MillisecondsToTimeString((ulong)ms);

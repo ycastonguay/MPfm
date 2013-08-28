@@ -46,8 +46,9 @@ namespace MPfm.Android.Classes.Receivers
             if (intent.Action == Intent.ActionScreenOff)
             {
                 Intent newIntent = new Intent();
-                newIntent.SetClass(context, typeof(LockScreenActivity));
-                newIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                newIntent.SetClass(context, typeof(LockScreenActivity));                
+                // New task is required when starting an activity outside an activity.
+                newIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop | ActivityFlags.SingleTop | ActivityFlags.NoAnimation); 
                 context.StartActivity(newIntent);
             }
         }

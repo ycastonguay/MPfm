@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Core;
+using MPfm.MVP.Models;
 using MPfm.Player;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
@@ -37,7 +39,6 @@ namespace MPfm.MVP.Services
     {
         private readonly ITinyMessengerHub _messengerHub;
         private IPlayer _player;
-        private PlayerStatusType _status;
 
         public bool IsInitialized { get; private set; }
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
@@ -50,6 +51,7 @@ namespace MPfm.MVP.Services
         public bool IsEQBypassed { get { return _player.IsEQBypassed; } }
         public bool IsEQEnabled { get { return _player.IsEQEnabled; } }
         public float Volume { get { return _player.Volume; } set { _player.Volume = value; }  }
+        public PlayerStatusType Status { get; set; }
 
         public delegate void BPMDetected(float bpm);
         /// <summary>
@@ -90,7 +92,7 @@ namespace MPfm.MVP.Services
 
         private void UpdatePlayerStatus(PlayerStatusType status)
         {
-            _status = status;
+            Status = status;
             _messengerHub.PublishAsync(new PlayerStatusMessage(this){
                 Status = status
             });
@@ -277,9 +279,23 @@ namespace MPfm.MVP.Services
             return _player.GetDataAvailable();
         }
 
-        public long GetPosition()
+        public PlayerPositionEntity GetPosition()
         {
-            return _player.GetPosition();
+            PlayerPositionEntity entity = new PlayerPositionEntity();
+            try
+            {
+                entity.PositionBytes = _player.GetPosition();
+                entity.PositionSamples = ConvertAudio.ToPCM(entity.PositionBytes, (uint)CurrentPlaylistItem.AudioFile.BitsPerSample, 2);
+                entity.PositionMS = (int)ConvertAudio.ToMS(entity.PositionSamples, (uint)CurrentPlaylistItem.AudioFile.SampleRate);
+                //entity.Position = available.ToString() + " " + Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+                entity.Position = Conversion.MillisecondsToTimeString((ulong)entity.PositionMS);
+                entity.PositionPercentage = ((float)entity.PositionBytes / (float)CurrentPlaylistItem.LengthBytes) * 100;
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log(string.Format("PlayerService - HandleTimerRefreshSongPositionElapsed - Failed to get player position: {0}", ex));
+            }
+            return entity;
         }
 
         public void SetPosition(double percentage)
