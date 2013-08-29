@@ -283,6 +283,9 @@ namespace MPfm.MVP.Services
 
         public PlayerPositionEntity GetPosition()
         {
+            if (CurrentPlaylistItem == null)
+                return new PlayerPositionEntity();
+
             PlayerPositionEntity entity = new PlayerPositionEntity();
             try
             {

@@ -97,7 +97,7 @@ namespace MPfm.Android.Classes.Navigation
             tab.Item2.Remove(tabItem);
             tabItem = tab.Item2.Last();
 
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>> ANDROID NAVMGR -- PopMobileLibraryBrowserBackstack - About to restore: tabType: {0} browserType: {1}", tabType.ToString(), tabItem.Item1.ToString());
+            //Console.WriteLine("ANDROID NAVMGR -- PopMobileLibraryBrowserBackstack - About to restore: tabType: {0} browserType: {1}", tabType.ToString(), tabItem.Item1.ToString());
             MobileLibraryBrowserType browserType = MobileLibraryBrowserType.Artists;
             switch (tabType)
             {

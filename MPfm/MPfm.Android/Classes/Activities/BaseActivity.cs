@@ -16,10 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Views;
+using TinyMessenger;
 using org.sessionsapp.android;
 
 namespace MPfm.Android
@@ -27,6 +31,8 @@ namespace MPfm.Android
     [Activity(Icon = "@drawable/icon")]
     public class BaseActivity : Activity, IBaseView
     {
+        ITinyMessengerHub _messengerHub;
+        List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
         protected Action<IBaseView> OnViewReady { get; set; }
         public Action<IBaseView> OnViewDestroy { get; set; }
         public void ShowView(bool shown)
@@ -36,23 +42,41 @@ namespace MPfm.Android
 
         public BaseActivity()
         {
+            InitializeBase();
         }
 
         public BaseActivity(Action<IBaseView> onViewReady)
         {
             this.OnViewReady = onViewReady;
+            InitializeBase();
+        }
+
+        private void InitializeBase()
+        {
+            Console.WriteLine("BaseActivity - InitializeBase - Subcribing to ApplicationCloseMessage; activity of type {0}", this.GetType().FullName);
+            _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+            _tokens.Add(_messengerHub.Subscribe<ApplicationCloseMessage>(message =>
+            {
+                Console.WriteLine("BaseActivity - InitializeBase - Received ApplicationCloseMessage; closing activity of type {0}", this.GetType().FullName);
+                Finish();
+            }));
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
+
+            Console.WriteLine("BaseActivity - OnDestroy - Unsubcribing to ApplicationCloseMessage; activity of type {0}", this.GetType().FullName);
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
             if (OnViewDestroy != null) OnViewDestroy(this);
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-            
+
             // Start the widget service that will run in background when the activities are closed
             if (!IsNotificationServiceRunning())
             {
@@ -60,6 +84,11 @@ namespace MPfm.Android
                 Intent intent = new Intent(this, typeof(NotificationService));
                 StartService(intent);
             }
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
         }
 
         protected bool IsNotificationServiceRunning()

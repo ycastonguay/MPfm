@@ -20,13 +20,16 @@ using TinyMessenger;
 namespace MPfm.MVP.Messages
 {
     /// <summary>
-    /// Message used to notify the app that it should be closed (only used on Android).
+    /// Message used to notify the app that it should add a lock screen activity (only used on Android).
     /// </summary>
-    public class ApplicationCloseMessage : TinyMessageBase
+    public class ActivateLockScreenMessage : TinyMessageBase
     {
-        public ApplicationCloseMessage(object sender) 
+        public bool ActivateLockScreen { get; set; }
+
+        public ActivateLockScreenMessage(object sender, bool activateLockScreen) 
             : base(sender)
         {
+            this.ActivateLockScreen = activateLockScreen;
         }       
     }
 }

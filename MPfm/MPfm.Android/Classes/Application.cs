@@ -44,7 +44,7 @@ namespace MPfm.Android.Classes
 
 #if __ANDROID_16__
         private AndroidDiscoveryService _discoveryService;
-        #endif
+#endif
 
         public MPfmApplication(IntPtr javaReference, JniHandleOwnership transfer) 
             : base(javaReference, transfer) 

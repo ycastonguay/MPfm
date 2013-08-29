@@ -62,7 +62,7 @@
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
-      android:src="@drawable/player_next"
+      android:src="@drawable/player_close"
       android:padding="20dp" />
   </LinearLayout>
 </LinearLayout>

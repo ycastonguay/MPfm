@@ -1356,7 +1356,8 @@ namespace MPfm.Player
             //long outputPosition = Playlist.CurrentItem.Channel.GetPosition();
 
             // Divide by 2 (floating point)
-            outputPosition /= 2;            
+            if(_useFloatingPoint)
+                outputPosition /= 2;
 
             if (Playlist.CurrentItem.AudioFile.FileType == AudioFileFormat.FLAC && Playlist.CurrentItem.AudioFile.SampleRate > 44100)
             {

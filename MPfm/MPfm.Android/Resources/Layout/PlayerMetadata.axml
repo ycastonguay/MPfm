@@ -15,12 +15,13 @@
     android:id="@+id/playerMetadata_lblArtistName"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
     android:text=""
     android:textSize="22dp"
     android:textStyle="bold"
     android:textColor="#ffffffff"
     android:gravity="center_horizontal"
-    android:padding="2dp" />
+    android:padding="0dp" />
   <TextView
     android:id="@+id/playerMetadata_lblAlbumTitle"
     android:layout_width="match_parent"
@@ -38,6 +39,6 @@
     android:textSize="14dp"
     android:textColor="#ffffffff"
     android:gravity="center_horizontal"
-    android:padding="2dp" />
+    android:padding="3dp" />
   </LinearLayout>
 </LinearLayout>

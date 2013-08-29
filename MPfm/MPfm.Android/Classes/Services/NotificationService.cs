@@ -78,19 +78,21 @@ namespace org.sessionsapp.android
             }
             else if (intent.Action == SessionsWidgetActions.SessionsWidgetClose.ToString())
             {
-                Console.WriteLine("NotificationService - Closing the application...");
                 _isShutDowning = true;
-                _playerService.Stop();
-                StopForeground(true);
+                Console.WriteLine("NotificationService - Closing the application...");
 
+                // Broadcast any component that the application is closing; do not add the lock screen activity until the application is 'restarted'
+                Console.WriteLine("NotificationService - Notifying ApplicationCloseMessage...");
+                _messengerHub.PublishAsync<ApplicationCloseMessage>(new ApplicationCloseMessage(this));
+                _messengerHub.PublishAsync<ActivateLockScreenMessage>(new ActivateLockScreenMessage(this, false));
+
+                // Stop playback and remove notification service from foreground
+                _playerService.Stop();
+                StopForeground(true); // maybe that is enough and the service doesn't have to be stopped?
                 var notificationManager = (NotificationManager)ApplicationContext.GetSystemService(NotificationService);
                 notificationManager.Cancel(1);   
-
                 StopSelf();
 
-                // Nuke the application process, this will also nuke any running activities
-                //Java.Lang.JavaSystem.Exit(0);
-                //Process.KillProcess(Process.MyPid()); 
             }
 
             return StartCommandResult.NotSticky;
@@ -193,12 +195,11 @@ namespace org.sessionsapp.android
             _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnClose, pendingIntentClose);
 
             Intent notificationIntent = new Intent(this, typeof(PlayerActivity));
-            //Intent notificationIntent = new Intent(this, typeof(MainActivity));
+            //notificationIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop | ActivityFlags.SingleTop); 
+            notificationIntent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop); 
             PendingIntent pendingIntent = PendingIntent.GetActivity(this, 0, notificationIntent, 0);
             _notification.ContentIntent = pendingIntent;            
             StartForeground(1, _notification);
-
-            //UpdateNotificationView();
 
             return notification;
         }

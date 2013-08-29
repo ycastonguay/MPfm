@@ -473,6 +473,14 @@
     <AndroidResource Include="Resources\color\list_secondarytext.xml" />
     <AndroidResource Include="Resources\drawable\button_selector.xml" />
     <AndroidResource Include="Resources\Values\StringArray.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_close.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\player_close_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_close.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\player_close_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_close.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\player_close_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_close.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\player_close_on.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

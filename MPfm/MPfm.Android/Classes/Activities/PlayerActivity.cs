@@ -147,6 +147,15 @@ namespace MPfm.Android
 
             // When Android stops an activity, it recalls OnCreate after, even though the activity is not destroyed (OnDestroy). It actually goes through creating a new object (the ctor is called).
             ((AndroidNavigationManager)_navigationManager).SetPlayerActivityInstance(this);
+
+            // Activate lock screen if not already activated
+            _messengerHub.PublishAsync<ActivateLockScreenMessage>(new ActivateLockScreenMessage(this, true));
+
+            _messengerHub.Subscribe<ApplicationCloseMessage>(message =>
+            {
+                Console.WriteLine("PlayerActivity - Received ApplicationCloseMessage; closing activity of type {0}", this.GetType().FullName);
+            });
+
         }
 
         protected override void OnStart()
@@ -263,20 +272,23 @@ namespace MPfm.Android
 
         private void SeekBarOnProgressChanged(object sender, SeekBar.ProgressChangedEventArgs progressChangedEventArgs)
         {
-            //Console.WriteLine("SeekBarOnProgressChanged");
-            PlayerPositionEntity entity = OnPlayerRequestPosition((float)_seekBar.Progress / 100f);
-            _lblPosition.Text = entity.Position;
+            //Console.WriteLine("PlayerActivity - SeekBarOnProgressChanged");
+            if (_isPositionChanging)
+            {
+                PlayerPositionEntity entity = OnPlayerRequestPosition((float) _seekBar.Progress/100f);
+                _lblPosition.Text = entity.Position;
+            }
         }
 
         private void SeekBarOnStartTrackingTouch(object sender, SeekBar.StartTrackingTouchEventArgs startTrackingTouchEventArgs)
         {
-            //Console.WriteLine("SeekBarOnStartTrackingTouch");
+            //Console.WriteLine("PlayerActivity - SeekBarOnStartTrackingTouch");
             _isPositionChanging = true;
         }
 
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs stopTrackingTouchEventArgs)
         {
-            //Console.WriteLine("SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
+            //Console.WriteLine("PlayerActivity - SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             OnPlayerSetPosition(_seekBar.Progress);
             _isPositionChanging = false;
         }

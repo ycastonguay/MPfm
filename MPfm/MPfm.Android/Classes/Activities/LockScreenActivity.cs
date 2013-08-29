@@ -228,23 +228,25 @@ namespace MPfm.Android
 
         private void SeekBarOnStartTrackingTouch(object sender, SeekBar.StartTrackingTouchEventArgs e)
         {
-            Console.WriteLine("SeekBarOnStartTrackingTouch");
+            //Console.WriteLine("LockScreenActivity - SeekBarOnStartTrackingTouch");
             _isPositionChanging = true;
         }
 
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs e)
         {
-            Console.WriteLine("SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
-            //OnPlayerSetPosition(_seekBar.Progress);
+            //Console.WriteLine("LockScreenActivity - SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             _messengerHub.PublishAsync<PlayerSetPositionMessage>(new PlayerSetPositionMessage(this, _seekBar.Progress / 100f));
             _isPositionChanging = false;
         }
 
         private void SeekBarOnProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
-            Console.WriteLine("SeekBarOnProgressChanged");
-            PlayerPositionEntity entity = RequestPosition((float)_seekBar.Progress / 10000f);
-            _lblPosition.Text = entity.Position;
+            //Console.WriteLine("LockScreenActivity - SeekBarOnProgressChanged");
+            if(_isPositionChanging)
+            {
+                PlayerPositionEntity entity = RequestPosition((float) _seekBar.Progress/10000f);
+                _lblPosition.Text = entity.Position;
+            }
         }
 
         private PlayerPositionEntity RequestPosition(float positionPercentage)

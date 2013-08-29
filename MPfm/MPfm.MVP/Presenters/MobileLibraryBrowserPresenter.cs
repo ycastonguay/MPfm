@@ -265,13 +265,12 @@ namespace MPfm.MVP.Presenters
 
                 // Make sure the view was binded to the presenter before publishing a message
                 // Why is an action used here? Because on desktop devices, IPlayerView is initialized right away. On mobile devices, IPlayerView is only initialized when playback is started.
-                // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
+                // TO DO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
     	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
     	            {
     	                Query = _items[index].Query,
                         FilePath = _items[index].AudioFile.FilePath
     	            });
-
                 _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
             }
             catch(Exception ex)
@@ -291,6 +290,9 @@ namespace MPfm.MVP.Presenters
 
         public void PopBackstack(MobileLibraryBrowserType browserType, LibraryQuery query)
         {
+            if (_queryHistory.Count == 0)
+                return;
+
             _queryHistory.RemoveAt(_queryHistory.Count - 1);
             _browserType = browserType;
             _query = query;

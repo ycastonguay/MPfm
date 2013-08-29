@@ -30,21 +30,27 @@ namespace MPfm.Android.Classes.Receivers
     public class LockReceiver : BroadcastReceiver
     {
         readonly ITinyMessengerHub _messageHub;
-        readonly ISyncDeviceSpecifications _deviceSpecifications;
+        bool _activateLockScreen;
 
         public LockReceiver()
         {            
-            //_messageHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
-            //_deviceSpecifications = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
+            _messageHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+            _messageHub.Subscribe<ActivateLockScreenMessage>(message => {
+                _activateLockScreen = message.ActivateLockScreen;
+            });
         }
 
         public override void OnReceive(Context context, Intent intent)
         {
             Console.WriteLine("LockReceiver - OnReceive - intent.Action: {0}", intent.Action);
-            
+
+            if (!_activateLockScreen)
+                return;
+
             // Create lock screen activity when the user turns off the screen.
             if (intent.Action == Intent.ActionScreenOff)
             {
+                // to do: can the other activity task be hidden when showing lock screen to make sure the last activity doesn't "ghost" in the Finish animation?
                 Intent newIntent = new Intent();
                 newIntent.SetClass(context, typeof(LockScreenActivity));                
                 // New task is required when starting an activity outside an activity.

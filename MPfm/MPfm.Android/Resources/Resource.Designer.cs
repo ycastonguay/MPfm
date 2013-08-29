@@ -268,49 +268,55 @@ namespace MPfm.Android
 			public const int list_selector = 2130837535;
 			
 			// aapt resource value: 0x7f020020
-			public const int player_next = 2130837536;
+			public const int player_close = 2130837536;
 			
 			// aapt resource value: 0x7f020021
-			public const int player_next_on = 2130837537;
+			public const int player_close_on = 2130837537;
 			
 			// aapt resource value: 0x7f020022
-			public const int player_pause = 2130837538;
+			public const int player_next = 2130837538;
 			
 			// aapt resource value: 0x7f020023
-			public const int player_pause_on = 2130837539;
+			public const int player_next_on = 2130837539;
 			
 			// aapt resource value: 0x7f020024
-			public const int player_play = 2130837540;
+			public const int player_pause = 2130837540;
 			
 			// aapt resource value: 0x7f020025
-			public const int player_play_on = 2130837541;
+			public const int player_pause_on = 2130837541;
 			
 			// aapt resource value: 0x7f020026
-			public const int player_playlist = 2130837542;
+			public const int player_play = 2130837542;
 			
 			// aapt resource value: 0x7f020027
-			public const int player_playlist_on = 2130837543;
+			public const int player_play_on = 2130837543;
 			
 			// aapt resource value: 0x7f020028
-			public const int player_previous = 2130837544;
+			public const int player_playlist = 2130837544;
 			
 			// aapt resource value: 0x7f020029
-			public const int player_previous_on = 2130837545;
+			public const int player_playlist_on = 2130837545;
 			
 			// aapt resource value: 0x7f02002a
-			public const int player_repeat = 2130837546;
+			public const int player_previous = 2130837546;
 			
 			// aapt resource value: 0x7f02002b
-			public const int player_repeat_on = 2130837547;
+			public const int player_previous_on = 2130837547;
 			
 			// aapt resource value: 0x7f02002c
-			public const int player_shuffle = 2130837548;
+			public const int player_repeat = 2130837548;
 			
 			// aapt resource value: 0x7f02002d
-			public const int player_shuffle_on = 2130837549;
+			public const int player_repeat_on = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int Splash = 2130837550;
+			public const int player_shuffle = 2130837550;
+			
+			// aapt resource value: 0x7f02002f
+			public const int player_shuffle_on = 2130837551;
+			
+			// aapt resource value: 0x7f020030
+			public const int Splash = 2130837552;
 			
 			static Drawable()
 			{
@@ -352,29 +358,29 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0c000a
 			public const int bigNotificationPlayer = 2131492874;
 			
+			// aapt resource value: 0x7f0c000b
+			public const int bigNotificationPlayer_btnClose = 2131492875;
+			
 			// aapt resource value: 0x7f0c0012
-			public const int bigNotificationPlayer_btnClose = 2131492882;
+			public const int bigNotificationPlayer_btnNext = 2131492882;
 			
 			// aapt resource value: 0x7f0c0011
-			public const int bigNotificationPlayer_btnNext = 2131492881;
+			public const int bigNotificationPlayer_btnPlayPause = 2131492881;
 			
 			// aapt resource value: 0x7f0c0010
-			public const int bigNotificationPlayer_btnPlayPause = 2131492880;
-			
-			// aapt resource value: 0x7f0c000f
-			public const int bigNotificationPlayer_btnPrevious = 2131492879;
-			
-			// aapt resource value: 0x7f0c000b
-			public const int bigNotificationPlayer_imageAlbum = 2131492875;
-			
-			// aapt resource value: 0x7f0c000d
-			public const int bigNotificationPlayer_lblAlbumTitle = 2131492877;
+			public const int bigNotificationPlayer_btnPrevious = 2131492880;
 			
 			// aapt resource value: 0x7f0c000c
-			public const int bigNotificationPlayer_lblArtistName = 2131492876;
+			public const int bigNotificationPlayer_imageAlbum = 2131492876;
 			
 			// aapt resource value: 0x7f0c000e
-			public const int bigNotificationPlayer_lblSongTitle = 2131492878;
+			public const int bigNotificationPlayer_lblAlbumTitle = 2131492878;
+			
+			// aapt resource value: 0x7f0c000d
+			public const int bigNotificationPlayer_lblArtistName = 2131492877;
+			
+			// aapt resource value: 0x7f0c000f
+			public const int bigNotificationPlayer_lblSongTitle = 2131492879;
 			
 			// aapt resource value: 0x7f0c0014
 			public const int equalizerPresetCell_imageCheck = 2131492884;
