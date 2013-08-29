@@ -106,10 +106,13 @@ namespace MPfm.MVP.Presenters
             view.OnPlayerStop = Stop;
             view.OnPlayerPrevious = Previous;
             view.OnPlayerNext = Next;
+            view.OnPlayerShuffle = Shuffle;
+            view.OnPlayerRepeat = Repeat;
             view.OnPlayerSetPosition = SetPosition;
             view.OnPlayerSetVolume = SetVolume;
             view.OnPlayerRequestPosition = RequestPosition;
             view.OnEditSongMetadata = EditSongMetadata;
+            view.OnOpenPlaylist = OpenPlaylist;
 
             // If the player is already playing, refresh initial data
             if (_playerService.IsPlaying)
@@ -126,8 +129,8 @@ namespace MPfm.MVP.Presenters
                 VolumeString = "100%"
             });
         }
-
-		void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
+	    
+	    private void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
             if(_playerService.IsSettingPosition)
                 return;
@@ -155,6 +158,13 @@ namespace MPfm.MVP.Presenters
 	            _navigationManager.CreateEditSongMetadataView(_playerService.CurrentPlaylistItem.AudioFile);
 #endif
 	    }
+
+        private void OpenPlaylist()
+        {
+            // Only on mobile devices
+            Console.WriteLine("PlayerPresenter - OpenPlaylist");
+            _mobileNavigationManager.CreatePlaylistView();
+        }
 
 	    /// <summary>
 		/// Starts playback.
@@ -297,12 +307,13 @@ namespace MPfm.MVP.Presenters
             }                
 		}
 		
-		/// <summary>
-		/// Cycles through the repeat types (Off, Song, Playlist).
-		/// </summary>
-		public void RepeatType()
-		{
-		}
+        private void Shuffle()
+        {
+        }
+
+        private void Repeat()
+        {
+        }
 
         private PlayerPositionEntity RequestPosition(float positionPercentage)
         {

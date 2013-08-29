@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
     <Compile Include="Classes\Activities\AboutActivity.cs" />
+    <Compile Include="Classes\Activities\PlaylistActivity.cs" />
     <Compile Include="Classes\Activities\LockScreenActivity.cs" />
     <Compile Include="Classes\Activities\SyncDownloadActivity.cs" />
     <Compile Include="Classes\Activities\SyncWebBrowserActivity.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\PlaylistListAdapter.cs" />
     <Compile Include="Classes\Adapters\SyncMenuListAdapter.cs" />
     <Compile Include="Classes\Adapters\SyncListAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserGridAdapter.cs" />
@@ -236,6 +238,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\Layout\LockScreen.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\Playlist.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\PlaylistCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

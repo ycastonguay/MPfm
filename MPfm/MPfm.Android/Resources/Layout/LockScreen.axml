@@ -77,14 +77,28 @@
       android:background="@android:color/transparent"
       android:src="@drawable/player_next"
       android:padding="60dp" />
-    <!--<ImageButton
-      android:id="@+id/lockScreen_btnClose"
+    <ImageButton
+      android:id="@+id/lockScreen_btnPlaylist"
       android:layout_width="60dp"
       android:layout_height="44dp"
       android:background="@android:color/transparent"
-      android:src="@drawable/player_next"
-      android:padding="40dp" />-->
-    </LinearLayout>
+      android:src="@drawable/player_playlist"
+      android:padding="20dp" />
+    <ImageButton
+      android:id="@+id/lockScreen_btnRepeat"
+      android:layout_width="60dp"
+      android:layout_height="44dp"
+      android:background="@android:color/transparent"
+      android:src="@drawable/player_repeat"
+      android:padding="20dp" />
+    <ImageButton
+      android:id="@+id/lockScreen_btnShuffle"
+      android:layout_width="60dp"
+      android:layout_height="44dp"
+      android:background="@android:color/transparent"
+      android:src="@drawable/player_shuffle"
+      android:padding="20dp" />
+  </LinearLayout>
   <LinearLayout
     android:id="@+id/lockScreen_layoutPosition"
     android:orientation="horizontal"

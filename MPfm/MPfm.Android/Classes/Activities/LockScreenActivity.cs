@@ -19,6 +19,7 @@ using System;
 using System.Threading.Tasks;
 using System.Timers;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.Views;
@@ -51,6 +52,9 @@ namespace MPfm.Android
         ImageButton _btnPrevious;
         ImageButton _btnPlayPause;
         ImageButton _btnNext;
+        ImageButton _btnPlaylist;
+        ImageButton _btnShuffle;
+        ImageButton _btnRepeat;
         Button _btnClose;
         SeekBar _seekBar;
         ImageView _imageAlbum;
@@ -79,6 +83,9 @@ namespace MPfm.Android
             _btnPrevious = FindViewById<ImageButton>(Resource.Id.lockScreen_btnPrevious);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.lockScreen_btnPlayPause);
             _btnNext = FindViewById<ImageButton>(Resource.Id.lockScreen_btnNext);
+            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.lockScreen_btnPlaylist);
+            _btnShuffle = FindViewById<ImageButton>(Resource.Id.lockScreen_btnShuffle);
+            _btnRepeat = FindViewById<ImageButton>(Resource.Id.lockScreen_btnRepeat);
             _btnClose = FindViewById<Button>(Resource.Id.lockScreen_btnClose);
             _imageAlbum = FindViewById<ImageView>(Resource.Id.lockScreen_imageAlbum);
             _seekBar = FindViewById<SeekBar>(Resource.Id.lockScreen_seekBar);
@@ -127,6 +134,13 @@ namespace MPfm.Android
             _btnPrevious.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Previous));
             _btnPlayPause.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.PlayPause));
             _btnNext.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Next));
+            _btnShuffle.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Shuffle));
+            _btnRepeat.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Repeat));
+            _btnPlaylist.Click += (sender, args) => {
+                Intent intent = new Intent(this, typeof (PlaylistActivity));
+                intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                StartActivity(intent);
+            };
 
             _timerSongPosition = new Timer();
             _timerSongPosition.Interval = 100;

@@ -40,6 +40,8 @@ namespace MPfm.MVP.Messages
         Stop = 2,
         PlayPause = 3,
         Previous = 4,
-        Next = 5
+        Next = 5,
+        Shuffle = 6,
+        Repeat = 7
     }
 }

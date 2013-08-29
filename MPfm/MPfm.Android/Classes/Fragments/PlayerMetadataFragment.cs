@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -54,7 +54,7 @@ namespace MPfm.Android.Classes.Fragments
 
         #region IPlayerMetadataView implementation
 
-        public Action OnClickPlaylist { get; set; }
+        public Action OnOpenPlaylist { get; set; }
         public Action OnToggleShuffle { get; set; }
         public Action OnToggleRepeat { get; set; }
 

@@ -92,7 +92,7 @@ namespace MPfm.Android
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
             ActionBar.NavigationMode = ActionBarNavigationMode.List;
-            ActionBar.Title = "";
+            ActionBar.Title = string.Empty;
             _spinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.action_list, Resource.Layout.spinner_dropdown_item);
             ActionBar.SetListNavigationCallbacks(_spinnerAdapter, this);
 
@@ -228,6 +228,7 @@ namespace MPfm.Android
 
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
+            Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
             return true;
         }
 

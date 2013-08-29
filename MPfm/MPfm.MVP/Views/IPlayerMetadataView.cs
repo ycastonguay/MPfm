@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -27,7 +27,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface IPlayerMetadataView : IBaseView
 	{
-        Action OnClickPlaylist { get; set; }
+        Action OnOpenPlaylist { get; set; }
         Action OnToggleShuffle { get; set; }
         Action OnToggleRepeat { get; set; }
 

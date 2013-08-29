@@ -15,9 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Presenters.Interfaces
 {
@@ -27,19 +25,5 @@ namespace MPfm.MVP.Presenters.Interfaces
     public interface IPlayerPresenter : IBasePresenter<IPlayerView>
 	{
         void Dispose();
-        
-		void Play();
-		void Play(IEnumerable<AudioFile> audioFiles);
-		void Play(IEnumerable<string> filePaths);
-		void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath);
-		void Stop();
-		void Pause();
-		void Next();
-		void Previous();
-		void RepeatType();
-  
-        void SetPosition(float percentage);
-        void SetVolume(float volume);
 	}
 }
-

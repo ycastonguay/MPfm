@@ -730,28 +730,33 @@ namespace MPfm.MVP.Navigation
             CreateAboutViewInternal(onViewReady);
         }
 
-        public virtual IPlaylistView CreatePlaylistView()
+        protected virtual void CreatePlaylistViewInternal(Action<IBaseView> onViewReady)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _playlistPresenter = Bootstrapper.GetContainer().Resolve<IPlaylistPresenter>();
-                _playlistPresenter.BindView((IPlaylistView)view);
-            };
-
-            // Create view and manage view destruction
             if (_playlistView == null)
-            {
                 _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _playlistView.OnViewDestroy = (view) =>
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _playlistView);
+            //PushDialogView("Playlist", View, view);
+#endif
+        }
+
+        public virtual void CreatePlaylistView()
+        {
+            Action<IBaseView> onViewReady = (view) => 
+            {
+                _playlistView = (IPlaylistView)view;
+                _playlistView.OnViewDestroy = (view2) =>
                 {
                     _playlistView = null;
                     _playlistPresenter = null;
                 };
-            }
-            return _playlistView;
+                _playlistPresenter = Bootstrapper.GetContainer().Resolve<IPlaylistPresenter>();
+                _playlistPresenter.BindView((IPlaylistView)view);
+            };
+            
+            CreatePlaylistViewInternal(onViewReady);
         }
-
     }
 
     public enum MobileNavigationTabType

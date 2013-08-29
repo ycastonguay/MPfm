@@ -45,7 +45,7 @@ namespace MPfm.MVP.Presenters
         {
             base.BindView(view);
 
-            view.OnClickPlaylist = ClickPlaylist;
+            view.OnOpenPlaylist = OpenPlaylist;
             view.OnToggleRepeat = ToggleRepeat;
             view.OnToggleShuffle = ToggleShuffle;
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
@@ -64,10 +64,9 @@ namespace MPfm.MVP.Presenters
             View.RefreshAudioFile(message.Data.AudioFileStarted);
         }
 
-        private void ClickPlaylist()
+        private void OpenPlaylist()
         {
-            var view = _navigationManager.CreatePlaylistView();
-            _navigationManager.PushDialogView("Playlist", View, view);
+            _navigationManager.CreatePlaylistView();            
         }
 
         private void ToggleRepeat()

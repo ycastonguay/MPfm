@@ -42,6 +42,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onSyncWebBrowserViewReady;
         private Action<IBaseView> _onMarkerDetailsViewReady;
         private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
+        private Action<IBaseView> _onPlaylistViewReady;
         private List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>> _tabHistory;
 
         public MainActivity MainActivity { get; set; }
@@ -272,6 +273,13 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
+        protected override void CreatePlaylistViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onPlaylistViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(PlaylistActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         public void SetAboutActivityInstance(AboutActivity activity)
         {
             if (_onAboutViewReady != null)
@@ -330,6 +338,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onSyncWebBrowserViewReady != null)
                 _onSyncWebBrowserViewReady(activity);
+        }
+
+        public void SetPlaylistActivityInstance(PlaylistActivity activity)
+        {
+            if (_onPlaylistViewReady != null)
+                _onPlaylistViewReady(activity);
         }
     }
 }

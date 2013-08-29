@@ -35,12 +35,15 @@ namespace MPfm.MVP.Views
         Action OnPlayerStop { get; set; }
         Action OnPlayerPrevious { get; set; }
         Action OnPlayerNext { get; set; }
+        Action OnPlayerShuffle { get; set; }
+        Action OnPlayerRepeat { get; set; }
         Action<float> OnPlayerSetVolume { get; set; }
         Action<float> OnPlayerSetPitchShifting { get; set; }
         Action<float> OnPlayerSetTimeShifting { get; set; }
         Action<float> OnPlayerSetPosition { get; set; }
         Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
         Action OnEditSongMetadata { get; set; }
+        Action OnOpenPlaylist { get; set; }
 
         void PlayerError(Exception ex);
         void RefreshPlayerStatus(PlayerStatusType status);
