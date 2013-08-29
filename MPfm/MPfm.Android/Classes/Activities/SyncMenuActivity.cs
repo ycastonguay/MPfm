@@ -81,12 +81,12 @@ namespace MPfm.Android
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            OnExpandItem(_items[itemClickEventArgs.Position]);
+            OnExpandItem(_items[itemClickEventArgs.Position], null);
         }
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
-            OnSelectItem(_items[itemLongClickEventArgs.Position]);
+            OnSelectItems(new List<SyncMenuItemEntity>(){ _items[itemLongClickEventArgs.Position] });
         }
 
         protected override void OnStart()
@@ -155,11 +155,9 @@ namespace MPfm.Android
 
         #region ISyncMenuView implementation
 
-        public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
+        public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
         public Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
         public Action<List<AudioFile>> OnRemoveItems { get; set; }
-        public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
-        Action<SyncMenuItemEntity, object> ISyncMenuView.OnExpandItem { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
         public Action OnSelectAll { get; set; }

@@ -114,7 +114,7 @@ namespace MPfm.Android.Classes.Adapters
             var item = _items[position];
             var checkmark = (ImageView) v;
             Console.WriteLine("Click on checkmark {0} tag {1}", position, v.Tag);
-            _context.OnSelectItem(item);
+            _context.OnSelectItems(new List<SyncMenuItemEntity>(){ item });
 
             if (item.Selection == StateSelectionType.Selected)
                 checkmark.SetImageResource(Resource.Drawable.checkbox_checked);
