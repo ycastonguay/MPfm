@@ -242,7 +242,6 @@ namespace MPfm.Android.Classes.Adapters
 
                 IsEditingRow = true;
             }
-
         }
 
         public void OnClick(View v)

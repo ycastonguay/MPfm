@@ -5,7 +5,7 @@
   android:layout_height="fill_parent"
   android:orientation="vertical"
   android:gravity="center"
-  android:background="#36454F">
+  android:background="@color/background">
   <TextView
     android:id="@+id/widgetPlayerLoading_lblMessage"
     android:layout_width="match_parent"

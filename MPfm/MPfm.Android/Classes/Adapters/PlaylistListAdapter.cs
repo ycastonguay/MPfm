@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using Android.App;
 using Android.Graphics;
 using Android.Views;
 using Android.Views.Animations;
@@ -26,14 +28,21 @@ using MPfm.Sound.Playlists;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class PlaylistListAdapter : BaseAdapter<AudioFile>
+    public class PlaylistListAdapter : BaseAdapter<AudioFile>, View.IOnClickListener
     {
         readonly PlaylistActivity _context;
+        readonly ListView _listView;
         Playlist _playlist;
+        int _nowPlayingRowPosition;
+        int _editingRowPosition;
+        Guid _nowPlayingAudioFileId;
 
-        public PlaylistListAdapter(PlaylistActivity context, Playlist playlist)
+        public bool IsEditingRow { get; private set; }
+
+        public PlaylistListAdapter(PlaylistActivity context, ListView listView, Playlist playlist)
         {
             _context = context;
+            _listView = listView;
             _playlist = playlist;
         }
 
@@ -78,6 +87,125 @@ namespace MPfm.Android.Classes.Adapters
             subtitle.Text = item.AudioFile.Length;
 
             return view;
+        }
+
+        public void SetNowPlayingRow(int position, AudioFile audioFile)
+        {
+            int oldPosition = _nowPlayingRowPosition;
+            _nowPlayingAudioFileId = audioFile == null ? Guid.Empty : audioFile.Id;
+            _nowPlayingRowPosition = audioFile == null ? -1 : position;
+
+            var viewOldPosition = _listView.GetChildAt(oldPosition - _listView.FirstVisiblePosition);
+            if (viewOldPosition != null)
+            {
+                var imageNowPlaying = viewOldPosition.FindViewById<ImageView>(Resource.Id.playlistCell_imageNowPlaying);
+                imageNowPlaying.Visibility = ViewStates.Gone;
+            }
+
+            var view = _listView.GetChildAt(position - _listView.FirstVisiblePosition);
+            if (view == null)
+                return;
+
+            if (_playlist.Items[position].AudioFile != null && _playlist.Items[position].AudioFile.Id == _nowPlayingAudioFileId)
+            {
+                var imageNowPlaying = view.FindViewById<ImageView>(Resource.Id.playlistCell_imageNowPlaying);
+                imageNowPlaying.Visibility = ViewStates.Visible;
+            }
+        }
+
+        public void SetEditingRow(int position)
+        {
+            int visibleCellIndex = position - _listView.FirstVisiblePosition;
+            var view = _listView.GetChildAt(visibleCellIndex);
+            if (view == null)
+                return;
+
+            var imagePlay = view.FindViewById<ImageView>(Resource.Id.playlistCell_imagePlay);
+            var imageDelete = view.FindViewById<ImageView>(Resource.Id.playlistCell_imageDelete);
+
+            int oldPosition = _editingRowPosition;
+            _editingRowPosition = position;
+
+            if (IsEditingRow && oldPosition == position)
+            {
+                // Fade out the controls
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
+                anim.AnimationEnd += (sender, args) =>
+                {
+                    imagePlay.Visibility = ViewStates.Gone;
+                    imageDelete.Visibility = ViewStates.Gone;
+                };
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                _editingRowPosition = -1;
+                IsEditingRow = false;
+            }
+            else if (IsEditingRow && oldPosition >= 0)
+            {
+                // Fade in the new controls
+                imagePlay.Visibility = ViewStates.Visible;
+                imageDelete.Visibility = ViewStates.Visible;
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_in);
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                // Fade out the older controls
+                int oldPositionVisibleCellIndex = oldPosition - _listView.FirstVisiblePosition;
+                var viewOldPosition = _listView.GetChildAt(oldPositionVisibleCellIndex);
+                if (viewOldPosition != null)
+                {
+                    var imagePlayOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.playlistCell_imagePlay);
+                    var imageDeleteOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.playlistCell_imageDelete);
+
+                    // Fade out the controls
+                    Animation animOld = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
+                    animOld.AnimationEnd += (sender, args) =>
+                    {
+                        imagePlayOld.Visibility = ViewStates.Gone;
+                        imageDeleteOld.Visibility = ViewStates.Gone;
+                    };
+                    imagePlayOld.StartAnimation(animOld);
+                    imageDeleteOld.StartAnimation(animOld);
+                }
+
+                IsEditingRow = true;
+            }
+            else if (!IsEditingRow)
+            {
+                // Fade in the controls
+                imagePlay.Visibility = ViewStates.Visible;
+                imageDelete.Visibility = ViewStates.Visible;
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_in);
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                IsEditingRow = true;
+            }
+        }
+
+        public void OnClick(View v)
+        {
+            int position = (int)v.Tag;
+            switch (v.Id)
+            {
+                case Resource.Id.playlistCell_imagePlay:
+                    Console.WriteLine("PlaylistCell - Play - position: {0}", position);
+                    //_fragment.OnPlayItem(position);
+                    break;
+                case Resource.Id.playlistCell_imageDelete:
+                    Console.WriteLine("PlaylistCell - Delete - position: {0}", position);
+                    //AlertDialog ad = new AlertDialog.Builder(_context)
+                    //    .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+                    //    .SetTitle("Delete confirmation")
+                    //    .SetMessage(string.Format("Are you sure you wish to delete {0}?", _items[position].Title))
+                    //    .SetCancelable(true)
+                    //    .SetPositiveButton("OK", (sender, args) => _fragment.OnDeleteItem(position))
+                    //    .SetNegativeButton("Cancel", (sender, args) => { })
+                    //    .Create();
+                    //ad.Show();
+                    break;
+            }
         }
     }
 }

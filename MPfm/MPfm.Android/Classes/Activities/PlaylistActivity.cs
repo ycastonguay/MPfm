@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -25,13 +24,10 @@ using Android.Views;
 using Android.OS;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
-using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
-using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 
@@ -63,9 +59,10 @@ namespace MPfm.Android
             _btnShuffle.Click += BtnShuffleOnClick;
             
             _listView = FindViewById<ListView>(Resource.Id.playlist_listView);
-            _listAdapter = new PlaylistListAdapter(this, new Playlist());
+            _listAdapter = new PlaylistListAdapter(this, _listView, new Playlist());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
+            _listView.ItemLongClick += ListViewOnItemLongClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetPlaylistActivityInstance(this);
@@ -83,6 +80,13 @@ namespace MPfm.Android
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
+            OnSelectPlaylistItem(_playlist.Items[itemClickEventArgs.Position].Id);
+        }
+
+        private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
+        {
+            var listAdapter = (PlaylistListAdapter)((ListView)sender).Adapter;
+            listAdapter.SetEditingRow(itemLongClickEventArgs.Position);
         }
 
         protected override void OnStart()
@@ -169,6 +173,10 @@ namespace MPfm.Android
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
         {
+            Console.WriteLine("PlaylistActivity - RefreshCurrentlyPlayingSong index: {0} audioFile: {1}", index, audioFile.FilePath);
+            RunOnUiThread(() => {
+                _listAdapter.SetNowPlayingRow(index, audioFile);
+            });
         }
 
         #endregion

@@ -1355,7 +1355,6 @@ namespace MPfm.Player
             long outputPosition = _mixerChannel.GetPosition(_fxChannel.Handle);            
             //long outputPosition = Playlist.CurrentItem.Channel.GetPosition();
 
-            // Divide by 2 (floating point)
             if(_useFloatingPoint)
                 outputPosition /= 2;
 
@@ -1834,6 +1833,8 @@ namespace MPfm.Player
 
                 Tracing.Log("StreamCallback -- Getting main channel position...");
                 long position = _mixerChannel.GetPosition(_fxChannel.Handle);
+                if (_useFloatingPoint)
+                    position /= 2;
 
                 // Get remanining data in buffer
                 Tracing.Log("StreamCallback -- Getting BASS_DATA_AVAILABLE...");
@@ -1947,6 +1948,8 @@ namespace MPfm.Player
 
             _mixerChannel.Lock(true);
             long position = _mixerChannel.GetPosition();
+            if (_useFloatingPoint)
+                position /= 2;
 
             // Get remanining data in buffer
             //int buffered = mainChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);

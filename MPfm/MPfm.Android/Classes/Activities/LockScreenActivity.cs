@@ -39,7 +39,7 @@ using Exception = System.Exception;
 namespace MPfm.Android
 {
     [Activity(Label = "Lock Screen", NoHistory = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class LockScreenActivity : BaseActivity
+    public class LockScreenActivity : BaseActivity, View.IOnTouchListener
     {
         ITinyMessengerHub _messengerHub;
         IPlayerService _playerService;
@@ -62,6 +62,7 @@ namespace MPfm.Android
         string _previousAlbumArtKey;
         Timer _timerSongPosition;
         bool _isPositionChanging;
+        bool _isPlaying;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -87,6 +88,13 @@ namespace MPfm.Android
             _btnShuffle = FindViewById<ImageButton>(Resource.Id.lockScreen_btnShuffle);
             _btnRepeat = FindViewById<ImageButton>(Resource.Id.lockScreen_btnRepeat);
             _btnClose = FindViewById<Button>(Resource.Id.lockScreen_btnClose);
+            _btnPlayPause.SetOnTouchListener(this);
+            _btnPrevious.SetOnTouchListener(this);
+            _btnNext.SetOnTouchListener(this);
+            _btnPlaylist.SetOnTouchListener(this);
+            _btnRepeat.SetOnTouchListener(this);
+            _btnShuffle.SetOnTouchListener(this);
+
             _imageAlbum = FindViewById<ImageView>(Resource.Id.lockScreen_imageAlbum);
             _seekBar = FindViewById<SeekBar>(Resource.Id.lockScreen_seekBar);
             _seekBar.StartTrackingTouch += SeekBarOnStartTrackingTouch;
@@ -121,10 +129,12 @@ namespace MPfm.Android
                         status == PlayerStatusType.Paused ||
                         status == PlayerStatusType.Stopped)
                     {
+                        _isPlaying = false;
                         _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
                     }
                     else
                     {
+                        _isPlaying = true;
                         _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
                     }
                 });
@@ -287,6 +297,66 @@ namespace MPfm.Android
                 Console.WriteLine("LockScreenActivity - An error occured while calculating the player position: " + ex.Message);
             }
             return new PlayerPositionEntity();
+        }
+
+        public bool OnTouch(View v, MotionEvent e)
+        {
+            switch (e.Action)
+            {
+                case MotionEventActions.Down:
+                    switch (v.Id)
+                    {
+                        case Resource.Id.lockScreen_btnPrevious:
+                            _btnPrevious.SetImageResource(Resource.Drawable.player_previous_on);
+                            break;
+                        case Resource.Id.lockScreen_btnPlayPause:
+                            if (_isPlaying)
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_pause_on);
+                            else
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_play_on);
+                            break;
+                        case Resource.Id.lockScreen_btnNext:
+                            _btnNext.SetImageResource(Resource.Drawable.player_next_on);
+                            break;
+                        case Resource.Id.lockScreen_btnPlaylist:
+                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist_on);
+                            break;
+                        case Resource.Id.lockScreen_btnShuffle:
+                            _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle_on);
+                            break;
+                        case Resource.Id.lockScreen_btnRepeat:
+                            _btnRepeat.SetImageResource(Resource.Drawable.player_repeat_on);
+                            break;
+                    }
+                    break;
+                case MotionEventActions.Up:
+                    switch (v.Id)
+                    {
+                        case Resource.Id.lockScreen_btnPrevious:
+                            _btnPrevious.SetImageResource(Resource.Drawable.player_previous);
+                            break;
+                        case Resource.Id.lockScreen_btnPlayPause:
+                            if (_isPlaying)
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
+                            else
+                                _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
+                            break;
+                        case Resource.Id.lockScreen_btnNext:
+                            _btnNext.SetImageResource(Resource.Drawable.player_next);
+                            break;
+                        case Resource.Id.lockScreen_btnPlaylist:
+                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist);
+                            break;
+                        case Resource.Id.lockScreen_btnShuffle:
+                            _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle);
+                            break;
+                        case Resource.Id.lockScreen_btnRepeat:
+                            _btnRepeat.SetImageResource(Resource.Drawable.player_repeat);
+                            break;
+                    }
+                    break;
+            }
+            return false;
         }
 
         private void GetAlbumArt(AudioFile audioFile)
