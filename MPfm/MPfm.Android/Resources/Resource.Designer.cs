@@ -44,22 +44,28 @@ namespace MPfm.Android
 			public const int flipper_back_slide_out = 2130968579;
 			
 			// aapt resource value: 0x7f040004
-			public const int flipper_slide_in = 2130968580;
+			public const int flipper_changetab_in = 2130968580;
 			
 			// aapt resource value: 0x7f040005
-			public const int flipper_slide_out = 2130968581;
+			public const int flipper_changetab_out = 2130968581;
 			
 			// aapt resource value: 0x7f040006
-			public const int listviewoptions_fade_in = 2130968582;
+			public const int flipper_slide_in = 2130968582;
 			
 			// aapt resource value: 0x7f040007
-			public const int listviewoptions_fade_out = 2130968583;
+			public const int flipper_slide_out = 2130968583;
 			
 			// aapt resource value: 0x7f040008
-			public const int slide_in_left = 2130968584;
+			public const int listviewoptions_fade_in = 2130968584;
 			
 			// aapt resource value: 0x7f040009
-			public const int slide_out_right = 2130968585;
+			public const int listviewoptions_fade_out = 2130968585;
+			
+			// aapt resource value: 0x7f04000a
+			public const int slide_in_left = 2130968586;
+			
+			// aapt resource value: 0x7f04000b
+			public const int slide_out_right = 2130968587;
 			
 			static Animation()
 			{
@@ -568,6 +574,9 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0c0046
 			public const int loops_listView = 2131492934;
 			
+			// aapt resource value: 0x7f0c0052
+			public const int main_fragmentContainer = 2131492946;
+			
 			// aapt resource value: 0x7f0c0047
 			public const int main_layout = 2131492935;
 			
@@ -601,35 +610,29 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0c004a
 			public const int main_miniplayer_text = 2131492938;
 			
-			// aapt resource value: 0x7f0c0052
-			public const int main_pager = 2131492946;
-			
 			// aapt resource value: 0x7f0c0053
-			public const int main_pager_title_strip = 2131492947;
+			public const int markerCell_letter = 2131492947;
 			
 			// aapt resource value: 0x7f0c0054
-			public const int markerCell_letter = 2131492948;
+			public const int markerCell_name = 2131492948;
 			
 			// aapt resource value: 0x7f0c0055
-			public const int markerCell_name = 2131492949;
-			
-			// aapt resource value: 0x7f0c0056
-			public const int markerCell_position = 2131492950;
-			
-			// aapt resource value: 0x7f0c0058
-			public const int markerDetails_lblTitle = 2131492952;
+			public const int markerCell_position = 2131492949;
 			
 			// aapt resource value: 0x7f0c0057
-			public const int markerDetails_mainLayout = 2131492951;
+			public const int markerDetails_lblTitle = 2131492951;
 			
-			// aapt resource value: 0x7f0c005a
-			public const int markers_btnAdd = 2131492954;
+			// aapt resource value: 0x7f0c0056
+			public const int markerDetails_mainLayout = 2131492950;
 			
 			// aapt resource value: 0x7f0c0059
-			public const int markers_lblTitle = 2131492953;
+			public const int markers_btnAdd = 2131492953;
 			
-			// aapt resource value: 0x7f0c005b
-			public const int markers_listView = 2131492955;
+			// aapt resource value: 0x7f0c0058
+			public const int markers_lblTitle = 2131492952;
+			
+			// aapt resource value: 0x7f0c005a
+			public const int markers_listView = 2131492954;
 			
 			// aapt resource value: 0x7f0c006f
 			public const int mobileLibraryBrowserCell_imageAdd = 2131492975;
@@ -667,8 +670,8 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0c0062
 			public const int mobileLibraryBrowser_layoutAlbum = 2131492962;
 			
-			// aapt resource value: 0x7f0c005c
-			public const int mobileLibraryBrowser_layoutBreadcrumb = 2131492956;
+			// aapt resource value: 0x7f0c005b
+			public const int mobileLibraryBrowser_layoutBreadcrumb = 2131492955;
 			
 			// aapt resource value: 0x7f0c0061
 			public const int mobileLibraryBrowser_layoutSongs = 2131492961;
@@ -685,17 +688,20 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0c0064
 			public const int mobileLibraryBrowser_lblArtistName = 2131492964;
 			
-			// aapt resource value: 0x7f0c005d
-			public const int mobileLibraryBrowser_lblBreadcrumb = 2131492957;
+			// aapt resource value: 0x7f0c005c
+			public const int mobileLibraryBrowser_lblBreadcrumb = 2131492956;
 			
 			// aapt resource value: 0x7f0c005f
 			public const int mobileLibraryBrowser_listViewArtists = 2131492959;
 			
+			// aapt resource value: 0x7f0c005e
+			public const int mobileLibraryBrowser_listViewPlaylists = 2131492958;
+			
 			// aapt resource value: 0x7f0c0068
 			public const int mobileLibraryBrowser_listViewSongs = 2131492968;
 			
-			// aapt resource value: 0x7f0c005e
-			public const int mobileLibraryBrowser_viewFlipper = 2131492958;
+			// aapt resource value: 0x7f0c005d
+			public const int mobileLibraryBrowser_viewFlipper = 2131492957;
 			
 			// aapt resource value: 0x7f0c0072
 			public const int notificationPlayer = 2131492978;

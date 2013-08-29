@@ -472,8 +472,12 @@
     <AndroidResource Include="Resources\drawable-mdpi\actionbar_sync.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\actionbar_sync.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_sync.png" />
-    <AndroidResource Include="Resources\Anim\flipper_slide_in.xml" />
-    <AndroidResource Include="Resources\Anim\flipper_slide_out.xml" />
+    <AndroidResource Include="Resources\Anim\flipper_slide_in.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Anim\flipper_slide_out.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\Anim\flipper_back_slide_in.xml" />
     <AndroidResource Include="Resources\Anim\flipper_back_slide_out.xml" />
     <AndroidResource Include="Resources\drawable\list_selector.xml" />
@@ -489,6 +493,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\player_close_on.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\player_close.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\player_close_on.png" />
+    <AndroidResource Include="Resources\Anim\flipper_changetab_out.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Anim\flipper_changetab_in.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

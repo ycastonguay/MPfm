@@ -27,6 +27,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IMobileLibraryBrowserView : IBaseView
 	{
+        Action<MobileLibraryBrowserType> OnChangeBrowserType { get; set; }
         Action<int> OnItemClick { get; set; }
         Action<int> OnDeleteItem { get; set; }
 		Action<int> OnPlayItem { get; set; }
@@ -34,7 +35,7 @@ namespace MPfm.MVP.Views
         Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 
         void MobileLibraryBrowserError(Exception ex);
-        void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack);
+        void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty);
         void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile);
         void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData);
 	}

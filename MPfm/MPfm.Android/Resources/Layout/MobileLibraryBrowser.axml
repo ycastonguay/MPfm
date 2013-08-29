@@ -29,6 +29,16 @@
     android:inAnimation="@anim/flipper_slide_in"
     android:outAnimation="@anim/flipper_slide_out">
     <ListView
+      android:id="@+id/mobileLibraryBrowser_listViewPlaylists"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:background="#FFFFFF"
+      android:stretchColumns="*"
+      android:cacheColorHint="#FFFFFF"
+      android:divider="#BBBBBB"
+      android:dividerHeight="1px"
+      android:listSelector="@drawable/list_selector" />
+    <ListView
       android:id="@+id/mobileLibraryBrowser_listViewArtists"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"

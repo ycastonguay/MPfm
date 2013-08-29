@@ -47,6 +47,7 @@ using TinyMessenger;
 using org.sessionsapp.android;
 using DialogFragment = Android.App.DialogFragment;
 using Fragment = Android.App.Fragment;
+using FragmentTransaction = Android.App.FragmentTransaction;
 using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
 
 namespace MPfm.Android
@@ -59,8 +60,8 @@ namespace MPfm.Android
         private SplashFragment _splashFragment;
         private LinearLayout _miniPlayer;
         private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
-        private ViewPager _viewPager;
-        private MainTabStatePagerAdapter _tabPagerAdapter;
+        //private ViewPager _viewPager;
+        //private MainTabStatePagerAdapter _tabPagerAdapter;
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
@@ -70,6 +71,7 @@ namespace MPfm.Android
         private ImageButton _btnNext;
         private bool _isPlaying;
         private ArrayAdapter _spinnerAdapter;
+        private Fragment _fragment;
         //private LockReceiver _lockReceiver;
 
         //private IntentFilter _intentFilter;
@@ -96,12 +98,12 @@ namespace MPfm.Android
             _spinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.action_list, Resource.Layout.spinner_dropdown_item);
             ActionBar.SetListNavigationCallbacks(_spinnerAdapter, this);
 
-            // Setup view pager
-            _viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
-            _viewPager.OffscreenPageLimit = 4;
-            _tabPagerAdapter = new MainTabStatePagerAdapter(FragmentManager, _viewPager);
-            _viewPager.Adapter = _tabPagerAdapter;
-            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+            //// Setup view pager
+            //_viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
+            //_viewPager.OffscreenPageLimit = 4;
+            //_tabPagerAdapter = new MainTabStatePagerAdapter(FragmentManager, _viewPager);
+            //_viewPager.Adapter = _tabPagerAdapter;
+            //_viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
             // Setup mini player
             _miniPlayer = FindViewById<LinearLayout>(Resource.Id.main_miniplayer);
@@ -124,11 +126,9 @@ namespace MPfm.Android
             _btnPlayPause.Click += BtnPlayPauseOnClick;
             _btnNext.Click += BtnNextOnClick;
 
-            // Get screen size
+            // Create bitmap cache
             Point size = new Point();
             WindowManager.DefaultDisplay.GetSize(size);
-
-            // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             int cacheSize = maxMemory / 16;
             BitmapCache = new BitmapCache(this, cacheSize, size.X / 6, size.X / 6);
@@ -229,20 +229,39 @@ namespace MPfm.Android
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
             Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
+            if (_fragment is MobileLibraryBrowserFragment)
+            {
+                Console.WriteLine("MainActivity - OnNavigationItemSelected - Updating fragment - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
+                var mobileLibraryBrowserFragment = (MobileLibraryBrowserFragment) _fragment;                
+                mobileLibraryBrowserFragment.OnChangeBrowserType((MobileLibraryBrowserType)itemPosition);
+            }
             return true;
         }
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
-            //Console.WriteLine("MainActivity - Adding tab {0}", title);
-            _tabPagerAdapter.SetFragment(type, fragment);
-            _tabPagerAdapter.NotifyDataSetChanged();
+            Console.WriteLine("MainActivity - Adding tab {0}", title);
+            //_tabPagerAdapter.SetFragment(type, fragment);
+            //_tabPagerAdapter.NotifyDataSetChanged();
+
+            if (type == MobileNavigationTabType.Artists)
+            {
+                _fragment = fragment;
+                FragmentTransaction transaction = FragmentManager.BeginTransaction();
+                transaction.Replace(Resource.Id.main_fragmentContainer, fragment);
+                transaction.Commit();
+            }
         }
 
         public void PushTabView(MobileNavigationTabType type, Fragment fragment)
         {
-            //Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1} fragmentCount: {2}", type.ToString(), fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
-            _tabPagerAdapter.SetFragment(type, fragment);
+            Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1} fragmentCount: {2}", type.ToString(), fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
+            //_tabPagerAdapter.SetFragment(type, fragment);
+
+            //FragmentTransaction transaction = FragmentManager.BeginTransaction();
+            //transaction.Replace(Resource.Id.main_fragmentContainer, fragment);
+            //transaction.Commit();
+            //transaction.SetCustomAnimations()
         }
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
@@ -311,7 +330,8 @@ namespace MPfm.Android
 
         public override void OnBackPressed()
         {
-            var tabType = _tabPagerAdapter.GetCurrentTab();
+            //var tabType = _tabPagerAdapter.GetCurrentTab();
+            var tabType = MobileNavigationTabType.Artists;
             if (_navigationManager.CanGoBackInMobileLibraryBrowserBackstack(tabType))
             {
                 //Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");

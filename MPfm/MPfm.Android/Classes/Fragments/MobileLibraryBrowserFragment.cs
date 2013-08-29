@@ -58,7 +58,8 @@ namespace MPfm.Android.Classes.Fragments
         TextView _lblAlbumLength;
         TextView _lblAlbumSongCount;
         ViewFlipper _viewFlipper;
-        
+        ListView _listViewPlaylists;
+
         public BitmapCache BitmapCache { get; set; }
 
         // Leave an empty constructor or the application will crash at runtime
@@ -98,6 +99,7 @@ namespace MPfm.Android.Classes.Fragments
             _lblAlbumSongCount = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblAlbumSongCount);
             _listViewArtists = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listViewArtists);
             _listViewSongs = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listViewSongs);
+            _listViewPlaylists = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listViewPlaylists);
             _gridViewAlbums = _view.FindViewById<GridView>(Resource.Id.mobileLibraryBrowser_gridViewAlbums);
             //_listView.Visibility = ViewStates.Gone;
             //_gridView.Visibility = ViewStates.Gone;
@@ -201,8 +203,7 @@ namespace MPfm.Android.Classes.Fragments
 
         #region IMobileLibraryBrowserView implementation
 
-        public MobileLibraryBrowserType BrowserType { get; set; }
-        public string Filter { get; set; }
+        public Action<MobileLibraryBrowserType> OnChangeBrowserType { get; set; }
         public Action<int> OnItemClick { get; set; }
         public Action<int> OnDeleteItem { get; set; }
         public Action<int> OnPlayItem { get; set; }
@@ -220,9 +221,9 @@ namespace MPfm.Android.Classes.Fragments
             });
         }
 
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack)
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty)
         {
-            //Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
+            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
             Activity.RunOnUiThread(() => {
                 _entities = entities.ToList();
                 _lblBreadcrumb.Text = breadcrumb;
@@ -231,6 +232,11 @@ namespace MPfm.Android.Classes.Fragments
                 {
                     _viewFlipper.SetInAnimation(Activity, Resource.Animation.flipper_back_slide_in);
                     _viewFlipper.SetOutAnimation(Activity, Resource.Animation.flipper_back_slide_out);
+                }
+                else if (isBackstackEmpty)
+                {
+                    _viewFlipper.SetInAnimation(Activity, Resource.Animation.flipper_changetab_in);
+                    _viewFlipper.SetOutAnimation(Activity, Resource.Animation.flipper_changetab_out);                    
                 }
                 else
                 {
@@ -309,6 +315,8 @@ namespace MPfm.Android.Classes.Fragments
                         }
                         break;
                     case MobileLibraryBrowserType.Playlists:
+                        int index4 = _viewFlipper.IndexOfChild(_listViewPlaylists);
+                        _viewFlipper.DisplayedChild = index4;
                         //_layoutAlbum.Visibility = ViewStates.Gone;
                         //_listViewArtists.Visibility = ViewStates.Visible;
                         //_gridViewAlbums.Visibility = ViewStates.Gone;
