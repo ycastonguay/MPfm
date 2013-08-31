@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Reflection;
 using System.Text;
 
 namespace MPfm.Core
@@ -46,26 +47,26 @@ namespace MPfm.Core
 			}
 		}
 
-		/// <summary>
-		/// The ByteArrayToString static function converts a byte array into a string.
-		/// </summary>
-		/// <param name="input">Byte array to convert</param>
-		/// <returns>Byte array converted into a string</returns>
-		public static String ByteArrayToString(byte[] input)
-		{			
-			try
-			{
-				// Create UnicodeEncoding class
-				UnicodeEncoding enc = new UnicodeEncoding();
+        ///// <summary>
+        ///// The ByteArrayToString static function converts a byte array into a string.
+        ///// </summary>
+        ///// <param name="input">Byte array to convert</param>
+        ///// <returns>Byte array converted into a string</returns>
+        //public static String ByteArrayToString(byte[] input)
+        //{			
+        //    try
+        //    {
+        //        // Create UnicodeEncoding class
+        //        UnicodeEncoding enc = new UnicodeEncoding();
 							
-				// Return string
-				return enc.GetString(input);
-			}
-			catch
-			{
-				throw;
-			}
-		}
+        //        // Return string
+        //        return enc.GetString(input, );
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
 
 		/// <summary>
 		/// The IntToByteArray static function converts a 32-bit integer into a byte array.
@@ -242,7 +243,11 @@ namespace MPfm.Core
 			};
 
 			// Get the TryParse method info
-			var method = type.GetMethod(
+#if WINDOWSSTORE
+            var method = type.GetRuntimeMethod(
+#else
+            var method = type.GetMethod(
+#endif
 				"TryParse",                
 				new[]
 			{

@@ -21,6 +21,7 @@ namespace MPfm.Core
 {
 	/// <summary>
 	/// The ImageManipulation class contains static functions for manipulating images.
+	/// TODO: Remove this class; it is only used by the player
 	/// </summary>
 	public static class OS
 	{
@@ -32,36 +33,41 @@ namespace MPfm.Core
 		{
 			get
 			{
-			// Check platform
-			OSType osType = OSType.Windows;
-			switch(Environment.OSVersion.Platform)
-			{
-				case PlatformID.Win32NT:
-				case PlatformID.Win32S:
-				case PlatformID.Win32Windows:
-				case PlatformID.WinCE:
-					osType = OSType.Windows;
-					break;
-				case PlatformID.Unix:
-					// Sometimes Mac OS X is detected as Unix.
-					// The version returned by Linux is actually the kernel version, so it is not higher than 3 at the moment.
-					// Mac OS X returns a higher number (Unix 11.3 when I tested under Mac OS X 10.7.3), so we can detect the platform that way.
-					// Source: http://lists.ximian.com/pipermail/mono-osx/2007-December/001094.html
-					if(Environment.OSVersion.Version.Major > 8)
-					{
-						osType = OSType.MacOSX;
-					}
-					else
-					{
-						osType = OSType.Linux;
-					}
-					break;
-				case PlatformID.MacOSX:
-					osType = OSType.MacOSX;
-					break;
-			}
-			return osType;
-			}
+#if WINDOWSSTORE
+                return OSType.WindowsStore;
+#else
+
+			    // Check platform
+			    OSType osType = OSType.Windows;
+			    switch(Environment.OSVersion.Platform)
+			    {
+				    case PlatformID.Win32NT:
+				    case PlatformID.Win32S:
+				    case PlatformID.Win32Windows:
+				    case PlatformID.WinCE:
+					    osType = OSType.Windows;
+					    break;
+				    case PlatformID.Unix:
+					    // Sometimes Mac OS X is detected as Unix.
+					    // The version returned by Linux is actually the kernel version, so it is not higher than 3 at the moment.
+					    // Mac OS X returns a higher number (Unix 11.3 when I tested under Mac OS X 10.7.3), so we can detect the platform that way.
+					    // Source: http://lists.ximian.com/pipermail/mono-osx/2007-December/001094.html
+					    if(Environment.OSVersion.Version.Major > 8)
+					    {
+						    osType = OSType.MacOSX;
+					    }
+					    else
+					    {
+						    osType = OSType.Linux;
+					    }
+					    break;
+				    case PlatformID.MacOSX:
+					    osType = OSType.MacOSX;
+					    break;
+			    }
+    			return osType;
+#endif
+            }
 		}
 	}
 
@@ -70,17 +76,10 @@ namespace MPfm.Core
 	/// </summary>
 	public enum OSType
 	{
-		/// <summary>
-		/// Microsoft Windows (any version).
-		/// </summary>
 		Windows = 0,
-		/// <summary>
-		/// Linux (any distribution).
-		/// </summary>
 		Linux = 1,
-		/// <summary>
-		/// Mac OS X (any verison).
-		/// </summary>
-		MacOSX = 2
+		MacOSX = 2,
+        WindowsStore = 3,
+        WindowsPhone = 4
 	}
 }

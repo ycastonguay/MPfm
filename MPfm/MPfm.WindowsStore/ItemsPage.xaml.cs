@@ -1,4 +1,5 @@
-﻿using MPfm.WindowsStore.Data;
+﻿using System.Diagnostics;
+using MPfm.WindowsStore.Data;
 
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace MPfm.WindowsStore
     {
         public ItemsPage()
         {
+            Debug.WriteLine("ItemsPage - Ctor");
             this.InitializeComponent();
         }
 
@@ -43,6 +45,7 @@ namespace MPfm.WindowsStore
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
+            Debug.WriteLine("ItemsPage - LoadState");
             var sampleDataGroups = SampleDataSource.GetGroups((String)navigationParameter);
             this.DefaultViewModel["Items"] = sampleDataGroups;
         }
@@ -57,6 +60,7 @@ namespace MPfm.WindowsStore
         {
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
+            Debug.WriteLine("ItemsPage - ItemClick");
             var groupId = ((SampleDataGroup)e.ClickedItem).UniqueId;
             this.Frame.Navigate(typeof(SplitPage), groupId);
         }

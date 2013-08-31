@@ -34,6 +34,10 @@ namespace MPfm.Core
         /// </summary>
         public static string NormalizeStringForUrl(string name)
         {
+#if WINDOWSSTORE
+            // TODO: String.Normalize isn't available in Windows Store because it is a Win32 method and Microsoft didn't write a proper replacement. :-(
+            return name;
+#else
             String normalizedString = name.Normalize(NormalizationForm.FormD);
             StringBuilder stringBuilder = new StringBuilder();
             
@@ -56,6 +60,8 @@ namespace MPfm.Core
             string result = stringBuilder.ToString();
             return String.Join("_", result.Split(new char[] { '_' }
             , StringSplitOptions.RemoveEmptyEntries)); // remove duplicate underscores
+
+#endif
         }
     }
 }

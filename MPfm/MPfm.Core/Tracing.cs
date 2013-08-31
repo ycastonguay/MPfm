@@ -31,14 +31,7 @@ namespace MPfm.Core
         /// <param name="message">Message to log</param>
         public static void Log(string message)
         {
-            string content = "[" + DateTime.Now.ToString() + "] " + message;
-
-#if IOS || ANDROID
-            Console.WriteLine(content);
-#else       
-            Trace.WriteLine(content);
-            Trace.Flush();
-#endif
+            LogInternal(string.Format("[{0}] {1}", DateTime.Now, message));
         }
 
         /// <summary>
@@ -47,18 +40,11 @@ namespace MPfm.Core
         /// <param name="ex">Exception</param>
         public static void Log(Exception ex)
         {
-            string content = "Error occured: " + ex.Message + "\n" + ex.StackTrace;
-            string inner = string.Empty;
+            string message = string.Format("Error occured: {0}", ex);
             if (ex.InnerException != null)
-                inner = "Inner exception: " + ex.InnerException.Message + "\n" + ex.InnerException.StackTrace;
+                message += string.Format("\nInner exception: {0}", ex.InnerException);
 
-#if IOS || ANDROID
-            Console.WriteLine(content);
-            Console.WriteLine(inner);
-#else
-            Trace.WriteLine(content);
-            Trace.WriteLine(inner);
-#endif
+            LogInternal(message);
         }
 
         /// <summary>
@@ -67,12 +53,20 @@ namespace MPfm.Core
         /// <param name="message"></param>
         public static void LogWithoutTimeStamp(string message)
         {
+            LogInternal(message);
+        }
+
+        private static void LogInternal(string message)
+        {
 #if IOS || ANDROID
             Console.WriteLine(message);
+#elif WINDOWSSTORE
+            Debug.WriteLine(message);
 #else
             Trace.WriteLine(message);
             Trace.Flush();
 #endif
+            
         }
 
     }

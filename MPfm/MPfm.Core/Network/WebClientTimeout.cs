@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !WINDOWSSTORE
+
 using System;
 using System.Net;
 
@@ -46,3 +48,5 @@ namespace MPfm.Core.Network
         }
     }
 }
+
+#endif

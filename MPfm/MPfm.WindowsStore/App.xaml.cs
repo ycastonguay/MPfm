@@ -1,4 +1,5 @@
-﻿using MPfm.WindowsStore.Common;
+﻿using System.Diagnostics;
+using MPfm.WindowsStore.Common;
 
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace MPfm.WindowsStore
         /// </summary>
         public App()
         {
+            Debug.WriteLine("App - Ctor");
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -43,6 +45,7 @@ namespace MPfm.WindowsStore
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            Debug.WriteLine("App - OnLaunched");
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -60,6 +63,7 @@ namespace MPfm.WindowsStore
                     // Restore the saved session state only when appropriate
                     try
                     {
+                        Debug.WriteLine("App - SuspensionManager.RestoreAsync");
                         await SuspensionManager.RestoreAsync();
                     }
                     catch (SuspensionManagerException)
@@ -77,6 +81,7 @@ namespace MPfm.WindowsStore
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
+                Debug.WriteLine("RootFrame.Content == null; trying to navigate to ItemsPage");
                 if (!rootFrame.Navigate(typeof(ItemsPage), "AllGroups"))
                 {
                     throw new Exception("Failed to create initial page");
@@ -95,6 +100,7 @@ namespace MPfm.WindowsStore
         /// <param name="e">Details about the suspend request.</param>
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            Debug.WriteLine("App - OnSuspending");
             var deferral = e.SuspendingOperation.GetDeferral();
             await SuspensionManager.SaveAsync();
             deferral.Complete();
