@@ -16,13 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using Android.App;
-using Android.Graphics;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
-using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 using org.sessionsapp.android;
@@ -79,16 +75,22 @@ namespace MPfm.Android.Classes.Adapters
                 return view;
 
             view.Tag = position;
-            view.SetOnTouchListener(this);
+            //view.SetOnTouchListener(this);
 
             var index = view.FindViewById<TextView>(Resource.Id.playlistCell_lblIndex);
             var title = view.FindViewById<TextView>(Resource.Id.playlistCell_lblTitle);
             var subtitle = view.FindViewById<TextView>(Resource.Id.playlistCell_lblSubtitle);
+            var imageNowPlaying = view.FindViewById<ImageView>(Resource.Id.playlistCell_imageNowPlaying);
             
             //index.Text = item.AudioFile.TrackNumber.ToString();
             index.Text = (position+1).ToString();
             title.Text = item.AudioFile.ArtistName + " / " + item.AudioFile.Title;
             subtitle.Text = item.AudioFile.Length;
+
+            if (item.AudioFile != null && item.AudioFile.Id == _nowPlayingAudioFileId)
+                imageNowPlaying.Visibility = ViewStates.Visible;
+            else
+                imageNowPlaying.Visibility = ViewStates.Gone;
 
             return view;
         }
@@ -214,24 +216,24 @@ namespace MPfm.Android.Classes.Adapters
 
         public bool OnTouch(View v, MotionEvent e)
         {
-            Console.WriteLine("PlaylistListAdapter - OnTouch - action: {0} buttonState: {1} downTime: {2} eventTime: {3} x: {4} y: {5}", e.Action, e.ButtonState, e.DownTime, e.EventTime, e.GetX(), e.GetY());
+            //Console.WriteLine("PlaylistListAdapter - OnTouch - action: {0} buttonState: {1} downTime: {2} eventTime: {3} x: {4} y: {5}", e.Action, e.ButtonState, e.DownTime, e.EventTime, e.GetX(), e.GetY());
 
-            float x = e.GetX();
-            float y = e.GetY();
+            //float x = e.GetX();
+            //float y = e.GetY();
 
-            // Keep cancel on top because the flag can contain both move and cancel.
-            if (e.Action.HasFlag(MotionEventActions.Cancel))
-            {
-                Console.WriteLine("PlaylistListAdapter - OnTouch - Cancel - (x,y): ({0},{1})", x, y);
-                _listView.IsScrollable = true;
-            }
-            else if (e.Action.HasFlag(MotionEventActions.Move))
-            {
-                Console.WriteLine("PlaylistListAdapter - OnTouch - Move - (x,y): ({0},{1})", x, y);
-                _listView.IsScrollable = false;
-            }
+            //// Keep cancel on top because the flag can contain both move and cancel.
+            //if (e.Action.HasFlag(MotionEventActions.Cancel))
+            //{
+            //    Console.WriteLine("PlaylistListAdapter - OnTouch - Cancel - (x,y): ({0},{1})", x, y);
+            //    _listView.IsScrollable = true;
+            //}
+            //else if (e.Action.HasFlag(MotionEventActions.Move))
+            //{
+            //    Console.WriteLine("PlaylistListAdapter - OnTouch - Move - (x,y): ({0},{1})", x, y);
+            //    _listView.IsScrollable = false;
+            //}
 
-            //Console.WriteLine("PlaylistListAdapter - OnTouch - Current cell - height: {0} - position: {1}", v.Height, (int)v.Tag);
+            ////Console.WriteLine("PlaylistListAdapter - OnTouch - Current cell - height: {0} - position: {1}", v.Height, (int)v.Tag);
 
             return true;
         }        

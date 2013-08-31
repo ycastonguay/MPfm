@@ -500,6 +500,10 @@
     <AndroidResource Include="Resources\Anim\flipper_changetab_in.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\icon_move.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\icon_move.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\icon_move.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\icon_move.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

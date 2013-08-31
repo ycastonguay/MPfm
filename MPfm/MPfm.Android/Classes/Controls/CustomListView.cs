@@ -17,6 +17,7 @@
 
 using System;
 using Android.Content;
+using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
@@ -30,7 +31,9 @@ namespace org.sessionsapp.android
     /// </summary>
     public class CustomListView : ListView
     {
+        public bool CanItemsBeMoved { get; set; }
         public bool IsScrollable { get; set; }
+        public bool IsMovingItem { get; private set; }
 
         protected CustomListView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
@@ -54,17 +57,98 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
-            Console.WriteLine("CustomListView - Initialize");
             IsScrollable = true;
+            CanItemsBeMoved = true;
+            IsMovingItem = false;
         }
 
-        public override bool DispatchTouchEvent(Android.Views.MotionEvent e)
+        public override bool DispatchTouchEvent(MotionEvent e)
         {
-            // Cancel scrolling
-            if(!IsScrollable && e.Action.HasFlag(MotionEventActions.Move))
-                return true;
+            //Console.WriteLine("CustomListView - DispatchTouchEvent - action: {0} buttonState: {1} downTime: {2} eventTime: {3} x,y: ({4},{5}) width: {6} density: {7} canItemsBeMoved: {8} isMovingItem: {9} isScrollable: {10}", e.Action, e.ButtonState, e.DownTime, e.EventTime, e.GetX(), e.GetY(), Width, Resources.DisplayMetrics.Density, CanItemsBeMoved, IsMovingItem, IsScrollable);
+            Console.WriteLine("CustomListView - DispatchTouchEvent - action: {0} x,y: ({1},{2})", e.Action, e.GetX(), e.GetY());
+
+            float density = Resources.DisplayMetrics.Density;
+            float x = e.GetX();
+            float y = e.GetY();
+
+            if (CanItemsBeMoved && !IsMovingItem && x >= Width - 48 * density)
+            {
+                // The user is trying to move an item using the right hand 'button'.
+                Console.WriteLine("CustomListView - DispatchTouchEvent - Starting to move item...");
+                View viewItemMove = GetChildAtPosition(x, y);
+                if (viewItemMove != null)
+                {
+                    IsMovingItem = true;
+                    IsScrollable = false;
+                    int tag = -1;
+                    if (viewItemMove.Tag != null)
+                        tag = (int)viewItemMove.Tag;
+
+                    Console.WriteLine("CustomListView - DispatchTouchEvent - Found moving item! tag: {0}", tag);
+                }
+                else
+                {
+                    Console.WriteLine("CustomListView - DispatchTouchEvent - Did NOT find moving item :-(");
+                }                
+            }
+
+            // Keep cancel on top because the flag can contain both move and cancel.
+            // if (e.Action.HasFlag(MotionEventActions.Cancel)) // This was cancel when using OnTouchListener on a child view
+            if(e.Action.HasFlag(MotionEventActions.Up))
+            {
+                //Console.WriteLine("CustomListView - DispatchTouchEvent - Up - (x,y): ({0},{1})", x, y);
+                Console.WriteLine("CustomListView - DispatchTouchEvent - CANCELLING MOVE...");
+                IsMovingItem = false;
+                IsScrollable = true;
+            }
+            else if (e.Action.HasFlag(MotionEventActions.Move))
+            {
+                // Block scroll
+                if(!IsScrollable)
+                    return true;
+            }
+
+            // Try to find the item over the finger
+            View view = GetChildAtPosition(x, y);
+            if (view != null)
+            {
+                int tag = -1;
+                if (view.Tag != null)
+                    tag = (int)view.Tag;
+
+                Console.WriteLine("CustomListView - DispatchTouchEvent - Found finger over view! tag: {0}", tag);
+            }
+            else
+            {
+                Console.WriteLine("CustomListView - DispatchTouchEvent - Did NOT find finger over view :-(");
+            }
 
             return base.DispatchTouchEvent(e);
+        }
+
+        private View GetChildAtPosition(float x, float y)
+        {
+            View returnView = null;
+            int lastIndex = LastVisiblePosition - FirstVisiblePosition;
+            for (int a = 0; a < lastIndex; a++)
+            {
+                View view = GetChildAt(a);
+                if (view != null)
+                {
+                    Rect rect = new Rect();
+                    view.GetHitRect(rect);
+                    bool isOverItem = y >= rect.Top && y <= rect.Bottom;
+                    //Console.WriteLine("CustomListView - GetChildAtPosition - Finding rects - position: {0} hitRect(x,y): ({1},{2})", a, rect.Left, rect.Top);
+                    if (isOverItem)
+                    {
+                        Console.WriteLine("CustomListView - GetChildAtPosition - FOUND CHILD - position: {0} hitRect(x,y): ({1},{2})", a, rect.Left, rect.Top);
+                        returnView = view;
+                        break;
+                    }
+                }
+            }
+
+            return returnView;
         }
     }
 }

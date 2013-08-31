@@ -43,6 +43,7 @@ namespace MPfm.Android
         CustomListView _listView;
         PlaylistListAdapter _listAdapter;
         Playlist _playlist;
+        string _sourceActivityType;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -64,6 +65,9 @@ namespace MPfm.Android
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
+
+            // Save the source activity type for later (for providing Up navigation)
+            _sourceActivityType = Intent.GetStringExtra("sourceActivity");
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetPlaylistActivityInstance(this);
@@ -139,8 +143,9 @@ namespace MPfm.Android
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
-                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                    var type = Type.GetType(_sourceActivityType);
+                    var intent = new Intent(this, type);
+                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop); 
                     this.StartActivity(intent);
                     this.Finish();
                     return true;

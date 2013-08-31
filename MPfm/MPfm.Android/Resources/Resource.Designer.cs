@@ -244,85 +244,88 @@ namespace MPfm.Android
 			public const int icon_linux = 2130837525;
 			
 			// aapt resource value: 0x7f020016
-			public const int icon_osx = 2130837526;
+			public const int icon_move = 2130837526;
 			
 			// aapt resource value: 0x7f020017
-			public const int icon_phone = 2130837527;
+			public const int icon_osx = 2130837527;
 			
 			// aapt resource value: 0x7f020018
-			public const int icon_play = 2130837528;
+			public const int icon_phone = 2130837528;
 			
 			// aapt resource value: 0x7f020019
-			public const int icon_speaker = 2130837529;
+			public const int icon_play = 2130837529;
 			
 			// aapt resource value: 0x7f02001a
-			public const int icon_tablet = 2130837530;
+			public const int icon_speaker = 2130837530;
 			
 			// aapt resource value: 0x7f02001b
-			public const int icon_transparent = 2130837531;
+			public const int icon_tablet = 2130837531;
 			
 			// aapt resource value: 0x7f02001c
-			public const int icon_trash = 2130837532;
+			public const int icon_transparent = 2130837532;
 			
 			// aapt resource value: 0x7f02001d
-			public const int icon_vinyl = 2130837533;
+			public const int icon_trash = 2130837533;
 			
 			// aapt resource value: 0x7f02001e
-			public const int icon_windows = 2130837534;
+			public const int icon_vinyl = 2130837534;
 			
 			// aapt resource value: 0x7f02001f
-			public const int list_selector = 2130837535;
+			public const int icon_windows = 2130837535;
 			
 			// aapt resource value: 0x7f020020
-			public const int player_close = 2130837536;
+			public const int list_selector = 2130837536;
 			
 			// aapt resource value: 0x7f020021
-			public const int player_close_on = 2130837537;
+			public const int player_close = 2130837537;
 			
 			// aapt resource value: 0x7f020022
-			public const int player_next = 2130837538;
+			public const int player_close_on = 2130837538;
 			
 			// aapt resource value: 0x7f020023
-			public const int player_next_on = 2130837539;
+			public const int player_next = 2130837539;
 			
 			// aapt resource value: 0x7f020024
-			public const int player_pause = 2130837540;
+			public const int player_next_on = 2130837540;
 			
 			// aapt resource value: 0x7f020025
-			public const int player_pause_on = 2130837541;
+			public const int player_pause = 2130837541;
 			
 			// aapt resource value: 0x7f020026
-			public const int player_play = 2130837542;
+			public const int player_pause_on = 2130837542;
 			
 			// aapt resource value: 0x7f020027
-			public const int player_play_on = 2130837543;
+			public const int player_play = 2130837543;
 			
 			// aapt resource value: 0x7f020028
-			public const int player_playlist = 2130837544;
+			public const int player_play_on = 2130837544;
 			
 			// aapt resource value: 0x7f020029
-			public const int player_playlist_on = 2130837545;
+			public const int player_playlist = 2130837545;
 			
 			// aapt resource value: 0x7f02002a
-			public const int player_previous = 2130837546;
+			public const int player_playlist_on = 2130837546;
 			
 			// aapt resource value: 0x7f02002b
-			public const int player_previous_on = 2130837547;
+			public const int player_previous = 2130837547;
 			
 			// aapt resource value: 0x7f02002c
-			public const int player_repeat = 2130837548;
+			public const int player_previous_on = 2130837548;
 			
 			// aapt resource value: 0x7f02002d
-			public const int player_repeat_on = 2130837549;
+			public const int player_repeat = 2130837549;
 			
 			// aapt resource value: 0x7f02002e
-			public const int player_shuffle = 2130837550;
+			public const int player_repeat_on = 2130837550;
 			
 			// aapt resource value: 0x7f02002f
-			public const int player_shuffle_on = 2130837551;
+			public const int player_shuffle = 2130837551;
 			
 			// aapt resource value: 0x7f020030
-			public const int Splash = 2130837552;
+			public const int player_shuffle_on = 2130837552;
+			
+			// aapt resource value: 0x7f020031
+			public const int Splash = 2130837553;
 			
 			static Drawable()
 			{
@@ -820,17 +823,17 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0c008a
 			public const int player_waveFormView = 2131493002;
 			
-			// aapt resource value: 0x7f0c00a0
-			public const int playlistCell_imageDelete = 2131493024;
-			
-			// aapt resource value: 0x7f0c009e
-			public const int playlistCell_imageMove = 2131493022;
+			// aapt resource value: 0x7f0c009f
+			public const int playlistCell_imageDelete = 2131493023;
 			
 			// aapt resource value: 0x7f0c00a1
-			public const int playlistCell_imageNowPlaying = 2131493025;
+			public const int playlistCell_imageMove = 2131493025;
 			
-			// aapt resource value: 0x7f0c009f
-			public const int playlistCell_imagePlay = 2131493023;
+			// aapt resource value: 0x7f0c00a0
+			public const int playlistCell_imageNowPlaying = 2131493024;
+			
+			// aapt resource value: 0x7f0c009e
+			public const int playlistCell_imagePlay = 2131493022;
 			
 			// aapt resource value: 0x7f0c009b
 			public const int playlistCell_lblIndex = 2131493019;
