@@ -30,6 +30,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
+using org.sessionsapp.android;
 
 namespace MPfm.Android
 {
@@ -39,7 +40,7 @@ namespace MPfm.Android
         private MobileNavigationManager _navigationManager;
         Button _btnNew;
         Button _btnShuffle;
-        ListView _listView;
+        CustomListView _listView;
         PlaylistListAdapter _listAdapter;
         Playlist _playlist;
 
@@ -58,7 +59,7 @@ namespace MPfm.Android
             _btnShuffle = FindViewById<Button>(Resource.Id.playlist_btnNew);
             _btnShuffle.Click += BtnShuffleOnClick;
             
-            _listView = FindViewById<ListView>(Resource.Id.playlist_listView);
+            _listView = FindViewById<CustomListView>(Resource.Id.playlist_listView);
             _listAdapter = new PlaylistListAdapter(this, _listView, new Playlist());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
@@ -66,6 +67,14 @@ namespace MPfm.Android
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetPlaylistActivityInstance(this);
+        }
+
+        public override void OnAttachedToWindow()
+        {
+            Console.WriteLine("PlaylistActivity - OnAttachedToWindow");
+            var window = this.Window;
+            window.AddFlags(WindowManagerFlags.ShowWhenLocked);
+            window.SetWindowAnimations(0);
         }
 
         private void BtnNewOnClick(object sender, EventArgs eventArgs)

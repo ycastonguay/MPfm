@@ -92,7 +92,6 @@ namespace org.sessionsapp.android
                 var notificationManager = (NotificationManager)ApplicationContext.GetSystemService(NotificationService);
                 notificationManager.Cancel(1);   
                 StopSelf();
-
             }
 
             return StartCommandResult.NotSticky;
@@ -149,27 +148,22 @@ namespace org.sessionsapp.android
                 .SetSmallIcon(Resource.Drawable.Icon)
                 .Build();
 
-            // Use the big notification style for Android 4.1+; use the standard notification style for Android 4.0.3
+            // Use the big notification style for Android 4.1+;
             //#if __ANDROID_16__
             if (((int) global::Android.OS.Build.VERSION.SdkInt) >= 16)
             {
-                Console.WriteLine("NotificationService - Android 4.1+ detected; using Big View style for notification");
+                Console.WriteLine("NotificationService - Android 4.1+ detected; adding Big View style for notification");
                 RemoteViews viewBigNotificationPlayer = new RemoteViews(ApplicationContext.PackageName, Resource.Layout.BigNotificationPlayer);
-                viewBigNotificationPlayer.SetTextViewText(Resource.Id.bigNotificationPlayer_lblArtistName, "Hello World!");
                 notification.BigContentView = viewBigNotificationPlayer;
             }
-            //#else
-            else 
-            {
-                Console.WriteLine("NotificationService - Android 4.0.3+ (<4.1) detected; using standard style for notification");
-                RemoteViews viewNotificationPlayer = new RemoteViews(ApplicationContext.PackageName, Resource.Layout.NotificationPlayer);
-                viewNotificationPlayer.SetTextViewText(Resource.Id.notificationPlayer_lblTitle, "Hello World!");
-                notification.ContentView = viewNotificationPlayer;
-            }
-            //#endif        
+
+            Console.WriteLine("NotificationService - Android 4.0.3+ detected; adding standard style for notification");
+            RemoteViews viewNotificationPlayer = new RemoteViews(ApplicationContext.PackageName, Resource.Layout.NotificationPlayer);
+            notification.ContentView = viewNotificationPlayer;
 
             _notification = notification;
 
+            // Create intents for buttons
             Intent intentPlayPause = new Intent(this, typeof(NotificationService));
             intentPlayPause.SetAction(SessionsWidgetActions.SessionsWidgetPlayPause.ToString());
             PendingIntent pendingIntentPlayPause = PendingIntent.GetService(this, 0, intentPlayPause, PendingIntentFlags.UpdateCurrent);

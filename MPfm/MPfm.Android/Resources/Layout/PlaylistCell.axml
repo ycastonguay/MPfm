@@ -39,6 +39,13 @@
       android:textSize="12dp" />
   </LinearLayout>
   <ImageView
+    android:id="@+id/playlistCell_imageMove"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_trash" />
+  <ImageView
     android:id="@+id/playlistCell_imagePlay"
     android:layout_width="48dp"
     android:layout_height="48dp"
