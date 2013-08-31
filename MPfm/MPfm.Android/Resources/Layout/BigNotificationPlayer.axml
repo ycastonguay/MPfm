@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/bigNotificationPlayer"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
+  android:layout_height="100dp"
   android:background="@color/background">
   <ImageButton
     android:id="@+id/bigNotificationPlayer_btnClose"

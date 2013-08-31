@@ -62,4 +62,10 @@
     android:visibility="gone"
     android:background="@android:color/transparent"
     android:src="@drawable/icon_speaker" />
+  <ImageView
+    android:id="@+id/playlistCell_imageMove"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_move" />
 </LinearLayout>

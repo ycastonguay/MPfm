@@ -16,22 +16,19 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using Android.App;
-using Android.Graphics;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
-using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
+using org.sessionsapp.android;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class PlaylistListAdapter : BaseAdapter<AudioFile>, View.IOnClickListener
+    public class PlaylistListAdapter : BaseAdapter<AudioFile>, View.IOnClickListener, View.IOnTouchListener
     {
         readonly PlaylistActivity _context;
-        readonly ListView _listView;
+        readonly CustomListView _listView;
         Playlist _playlist;
         int _nowPlayingRowPosition;
         int _editingRowPosition;
@@ -39,7 +36,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public bool IsEditingRow { get; private set; }
 
-        public PlaylistListAdapter(PlaylistActivity context, ListView listView, Playlist playlist)
+        public PlaylistListAdapter(PlaylistActivity context, CustomListView listView, Playlist playlist)
         {
             _context = context;
             _listView = listView;
@@ -77,14 +74,23 @@ namespace MPfm.Android.Classes.Adapters
             if (item == null)
                 return view;
 
+            view.Tag = position;
+            //view.SetOnTouchListener(this);
+
             var index = view.FindViewById<TextView>(Resource.Id.playlistCell_lblIndex);
             var title = view.FindViewById<TextView>(Resource.Id.playlistCell_lblTitle);
             var subtitle = view.FindViewById<TextView>(Resource.Id.playlistCell_lblSubtitle);
+            var imageNowPlaying = view.FindViewById<ImageView>(Resource.Id.playlistCell_imageNowPlaying);
             
             //index.Text = item.AudioFile.TrackNumber.ToString();
             index.Text = (position+1).ToString();
             title.Text = item.AudioFile.ArtistName + " / " + item.AudioFile.Title;
             subtitle.Text = item.AudioFile.Length;
+
+            if (item.AudioFile != null && item.AudioFile.Id == _nowPlayingAudioFileId)
+                imageNowPlaying.Visibility = ViewStates.Visible;
+            else
+                imageNowPlaying.Visibility = ViewStates.Gone;
 
             return view;
         }
@@ -207,5 +213,29 @@ namespace MPfm.Android.Classes.Adapters
                     break;
             }
         }
+
+        public bool OnTouch(View v, MotionEvent e)
+        {
+            //Console.WriteLine("PlaylistListAdapter - OnTouch - action: {0} buttonState: {1} downTime: {2} eventTime: {3} x: {4} y: {5}", e.Action, e.ButtonState, e.DownTime, e.EventTime, e.GetX(), e.GetY());
+
+            //float x = e.GetX();
+            //float y = e.GetY();
+
+            //// Keep cancel on top because the flag can contain both move and cancel.
+            //if (e.Action.HasFlag(MotionEventActions.Cancel))
+            //{
+            //    Console.WriteLine("PlaylistListAdapter - OnTouch - Cancel - (x,y): ({0},{1})", x, y);
+            //    _listView.IsScrollable = true;
+            //}
+            //else if (e.Action.HasFlag(MotionEventActions.Move))
+            //{
+            //    Console.WriteLine("PlaylistListAdapter - OnTouch - Move - (x,y): ({0},{1})", x, y);
+            //    _listView.IsScrollable = false;
+            //}
+
+            ////Console.WriteLine("PlaylistListAdapter - OnTouch - Current cell - height: {0} - position: {1}", v.Height, (int)v.Tag);
+
+            return true;
+        }        
     }
 }

@@ -66,7 +66,7 @@ namespace MPfm.MVP.Presenters
 
         private void OpenPlaylist()
         {
-            _navigationManager.CreatePlaylistView();            
+            _navigationManager.CreatePlaylistView(View);
         }
 
         private void ToggleRepeat()

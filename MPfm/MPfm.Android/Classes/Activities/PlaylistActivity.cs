@@ -30,6 +30,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
+using org.sessionsapp.android;
 
 namespace MPfm.Android
 {
@@ -39,9 +40,10 @@ namespace MPfm.Android
         private MobileNavigationManager _navigationManager;
         Button _btnNew;
         Button _btnShuffle;
-        ListView _listView;
+        CustomListView _listView;
         PlaylistListAdapter _listAdapter;
         Playlist _playlist;
+        string _sourceActivityType;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -58,14 +60,25 @@ namespace MPfm.Android
             _btnShuffle = FindViewById<Button>(Resource.Id.playlist_btnNew);
             _btnShuffle.Click += BtnShuffleOnClick;
             
-            _listView = FindViewById<ListView>(Resource.Id.playlist_listView);
+            _listView = FindViewById<CustomListView>(Resource.Id.playlist_listView);
             _listAdapter = new PlaylistListAdapter(this, _listView, new Playlist());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
 
+            // Save the source activity type for later (for providing Up navigation)
+            _sourceActivityType = Intent.GetStringExtra("sourceActivity");
+
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetPlaylistActivityInstance(this);
+        }
+
+        public override void OnAttachedToWindow()
+        {
+            Console.WriteLine("PlaylistActivity - OnAttachedToWindow");
+            var window = this.Window;
+            window.AddFlags(WindowManagerFlags.ShowWhenLocked);
+            window.SetWindowAnimations(0);
         }
 
         private void BtnNewOnClick(object sender, EventArgs eventArgs)
@@ -130,8 +143,9 @@ namespace MPfm.Android
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
-                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                    var type = Type.GetType(_sourceActivityType);
+                    var intent = new Intent(this, type);
+                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop); 
                     this.StartActivity(intent);
                     this.Finish();
                     return true;

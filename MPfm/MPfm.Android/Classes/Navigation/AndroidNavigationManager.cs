@@ -244,9 +244,15 @@ namespace MPfm.Android.Classes.Navigation
             StartActivity(activity, typeof(MarkerDetailsActivity));
         }
 
+        protected override void CreatePlaylistViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
+        {
+            _onPlaylistViewReady = onViewReady;
+            var activity = GetActivityFromView(sourceView);
+            StartActivity(activity, typeof(PlaylistActivity));
+        }
+
         protected override void CreateSyncViewInternal(Action<IBaseView> onViewReady)
         {
-            // TODO: Add source view
             _onSyncViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncActivity));
             MainActivity.StartActivity(intent);
@@ -270,13 +276,6 @@ namespace MPfm.Android.Classes.Navigation
         {
             _onSyncDownloadViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(SyncDownloadActivity));
-            MainActivity.StartActivity(intent);
-        }
-
-        protected override void CreatePlaylistViewInternal(Action<IBaseView> onViewReady)
-        {
-            _onPlaylistViewReady = onViewReady;
-            var intent = new Intent(MainActivity, typeof(PlaylistActivity));
             MainActivity.StartActivity(intent);
         }
 

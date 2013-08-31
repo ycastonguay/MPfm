@@ -163,7 +163,7 @@ namespace MPfm.MVP.Presenters
         {
             // Only on mobile devices
             Console.WriteLine("PlayerPresenter - OpenPlaylist");
-            _mobileNavigationManager.CreatePlaylistView();
+            _mobileNavigationManager.CreatePlaylistView(View);
         }
 
 	    /// <summary>

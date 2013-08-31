@@ -730,7 +730,7 @@ namespace MPfm.MVP.Navigation
             CreateAboutViewInternal(onViewReady);
         }
 
-        protected virtual void CreatePlaylistViewInternal(Action<IBaseView> onViewReady)
+        protected virtual void CreatePlaylistViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
         {
             if (_playlistView == null)
                 _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
@@ -741,7 +741,7 @@ namespace MPfm.MVP.Navigation
 #endif
         }
 
-        public virtual void CreatePlaylistView()
+        public virtual void CreatePlaylistView(IBaseView sourceView)
         {
             Action<IBaseView> onViewReady = (view) => 
             {
@@ -755,7 +755,7 @@ namespace MPfm.MVP.Navigation
                 _playlistPresenter.BindView((IPlaylistView)view);
             };
             
-            CreatePlaylistViewInternal(onViewReady);
+            CreatePlaylistViewInternal(sourceView, onViewReady);
         }
     }
 
