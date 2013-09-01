@@ -75,6 +75,7 @@ namespace MPfm.GTK.Windows
 
         public System.Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
         public System.Action OnCancelUpdateLibrary { get; set; }
+        public System.Action<string> OnSaveLog { get; set; }
 	
 		public void RefreshStatus(UpdateLibraryEntity entity)
 		{

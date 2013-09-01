@@ -339,7 +339,7 @@ namespace MPfm.GTK.Windows
 			string textFontName = "Sans 8";
 			string largePositionFontName = "Mono Bold 11";
 			
-			btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
+			//btnPitchShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
 			btnTimeShiftingMore.ModifyFont(FontDescription.FromString(buttonFontName));
 			
 			lblArtistName.ModifyFont(FontDescription.FromString(defaultFontName +" 16"));
@@ -366,12 +366,12 @@ namespace MPfm.GTK.Windows
 			lblTimeShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
 			lblTimeShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
 			lblTimeShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
-			lblOriginalTempo.ModifyFont(FontDescription.FromString(textFontName));
-			lblOriginalTempoBPM.ModifyFont(FontDescription.FromString(textFontName));
+			//lblOriginalTempo.ModifyFont(FontDescription.FromString(textFontName));
+			//lblOriginalTempoBPM.ModifyFont(FontDescription.FromString(textFontName));
 			btnDetectTempo.ModifyFont(FontDescription.FromString(textFontName));			
 			
 			lblPitchShifting.ModifyFont(FontDescription.FromString(subtitleFontName));
-			lblPitchShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
+			//lblPitchShiftingReset.ModifyFont(FontDescription.FromString(textFontName));
 			lblPitchShiftingValue.ModifyFont(FontDescription.FromString(textFontName));
 			
 			lblInformation.ModifyFont(FontDescription.FromString(subtitleFontName));
@@ -694,6 +694,11 @@ namespace MPfm.GTK.Windows
 			}
 		}
 
+        protected void btnTest_Click(object sender, EventArgs e)
+        {
+            //vboxPitchShifting.Visible = false;
+        }
+
         #region IMainView implementation
 
         public System.Action OnOpenPreferencesWindow { get; set; }
@@ -720,6 +725,10 @@ namespace MPfm.GTK.Windows
         public System.Action<float> OnPlayerSetVolume { get; set; }
         public System.Action<float> OnPlayerSetPosition { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
+        public System.Action OnEditSongMetadata { get; set; }
+        public System.Action OnPlayerShuffle { get; set; }
+        public System.Action OnPlayerRepeat { get; set; }
+        public System.Action OnOpenPlaylist { get; set; }
 
 		public void RefreshPlayerStatus(PlayerStatusType status)
         {
@@ -949,6 +958,8 @@ namespace MPfm.GTK.Windows
 		#region ISongBrowserView implementation
 
         public System.Action<AudioFile> OnTableRowDoubleClicked { get; set; }
+        public Action<AudioFile> OnSongBrowserEditSongMetadata { get; set; }
+        public Action<string> OnSearchTerms { get; set; }
 
 		/// <summary>
 		/// Refreshes the song browser.
@@ -983,6 +994,7 @@ namespace MPfm.GTK.Windows
         public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
+        public Action<Marker> OnDeleteMarker { get; set; }
 
         public void MarkerError(Exception ex)
         {
@@ -1081,7 +1093,7 @@ namespace MPfm.GTK.Windows
         {
         }
 
-        #endregion
+        #endregion        
 
 	}
 }
