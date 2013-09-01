@@ -4,28 +4,27 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7E431B3-1AEF-4023-B8B5-36BE68D713E9}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A0D06CD4-F009-4068-A79C-377A7D2E014C}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.WindowsStore</RootNamespace>
-    <AssemblyName>MPfm.WindowsStore</AssemblyName>
+    <RootNamespace>MPfm.Sound</RootNamespace>
+    <AssemblyName>MPfm.Sound</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MPfm.WindowsStore_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -100,68 +99,66 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Lib\taglib-sharp.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AudioFiles\AudioFile.cs" />
+    <Compile Include="AudioFiles\AudioTools.cs" />
+    <Compile Include="AudioFiles\AudioFileFormatExtension.cs" />
+    <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
+    <Compile Include="AudioFiles\ConvertAudio.cs" />
+    <Compile Include="AudioFiles\AudioFileFormat.cs" />
+    <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
+    <Compile Include="PeakFiles\PeakFileDoneData.cs" />
+    <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
+    <Compile Include="PeakFiles\PeakFileProgressData.cs" />
+    <Compile Include="PeakFiles\PeakFileStartedData.cs" />
+    <Compile Include="Tags\APEMetadata.cs" />
+    <Compile Include="Playlists\Playlist.cs" />
+    <Compile Include="Playlists\PlaylistItem.cs" />
+    <Compile Include="Playlists\PlaylistTools.cs" />
+    <Compile Include="Playlists\PlaylistFileFormat.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tags\APETag.cs" />
+    <Compile Include="Tags\SV7Metadata.cs" />
+    <Compile Include="Tags\SV7Tag.cs" />
+    <Compile Include="Tags\ID3v2Tag.cs" />
+    <Compile Include="Tags\ID3v2Metadata.cs" />
+    <Compile Include="Tags\SV8Tag.cs" />
+    <Compile Include="Tags\SV8Metadata.cs" />
+    <Compile Include="PeakFiles\IPeakFileService.cs" />
+    <Compile Include="PeakFiles\PeakFileService.cs" />
+    <Compile Include="BassNetWrapper\Channel.cs" />
+    <Compile Include="BassNetWrapper\ChannelType.cs" />
+    <Compile Include="BassNetWrapper\IChannel.cs" />
+    <Compile Include="BassNetWrapper\IMixerChannel.cs" />
+    <Compile Include="BassNetWrapper\ITestDevice.cs" />
+    <Compile Include="BassNetWrapper\MixerChannel.cs" />
+    <Compile Include="BassNetWrapper\DriverType.cs" />
+    <Compile Include="BassNetWrapper\TestDevice.cs" />
+    <Compile Include="BassNetWrapper\DeviceHelper.cs" />
+    <Compile Include="BassNetWrapper\Device.cs" />
+    <Compile Include="BassNetWrapper\Exception.cs" />
+    <Compile Include="BassNetWrapper\Base.cs" />
+    <Compile Include="BassNetWrapper\ASIO\ASIOInfo.cs" />
+    <Compile Include="BassNetWrapper\ASIO\BaseASIO.cs" />
+    <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
+    <Compile Include="Readers\XingInfoHeaderReader.cs" />
+    <Compile Include="BassNetKey.cs" />
+    <Compile Include="BassNetWrapper\BassWrapper.cs" />
+    <Compile Include="BassNetWrapper\BaseFx.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
       <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
       <Name>MPfm.Core.WindowsStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.WindowsStore.csproj">
-      <Project>{a0d06cd4-f009-4068-a79c-377a7d2e014c}</Project>
-      <Name>MPfm.Sound.WindowsStore</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ItemsPage.xaml.cs">
-      <DependentUpon>ItemsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SplitPage.xaml.cs">
-      <DependentUpon>SplitPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataModel\SampleDataSource.cs" />
-    <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="Common\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Common\BooleanNegationConverter.cs" />
-    <Compile Include="Common\LayoutAwarePage.cs" />
-    <Compile Include="Common\RichTextColumns.cs" />
-    <Compile Include="Common\SuspensionManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-    <None Include="Common\ReadMe.txt" />
-    <None Include="MPfm.WindowsStore_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\LightGray.png" />
-    <Content Include="Assets\MediumGray.png" />
-    <Content Include="Assets\DarkGray.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="Common\StandardStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ItemsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SplitPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\taglib-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

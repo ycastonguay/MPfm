@@ -23,7 +23,9 @@ namespace MPfm.Sound.Tags
     /// Data structure for SV7/MPC tags. 
     /// This is a older MusePack format (earlier than 2009).
     /// </summary>
+    #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
     [TypeConverter(typeof(ExpandableObjectConverter))]
+    #endif
     public class SV7Tag
     {
         #region Stream Header
@@ -35,7 +37,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Audio file sample rate. Can be 44100, 48000, 37800 or 32000 Hz.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Audio file sample rate.")]
+        #endif
         public int SampleRate
         {
             get
@@ -57,7 +61,9 @@ namespace MPfm.Sound.Tags
         /// 1 to 1152 samples per channel. Furthermore, one has to consider the latency of the analysis 
         /// and the synthesis filterbank of 481 samples.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Number of frames, every frame contains 1152 samples per channel, the last frame contains 1 to 1152 samples per channel. Furthermore, one has to consider the latency of the analysis and the synthesis filterbank of 481 samples.")]
+        #endif
         public int FrameCount
         {
             get
@@ -77,7 +83,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines the used samples for the last frame. If true gapless, always 0.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Used samples for the last frame. If true gapless, always 0.")]
+        #endif
         public int LastFrameLength
         {
             get
@@ -97,7 +105,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines the maximum level of the coded PCM input signal.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Maximum level of the coded PCM input signal.")]
+        #endif
         public int MaxLevel
         {
             get
@@ -117,7 +127,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines the last subband used in the whole file.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Last subband used in the whole file.")]
+        #endif
         public int MaxBand
         {
             get
@@ -137,7 +149,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines the number of audio channels used for this audio file.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Number of audio channels.")]
+        #endif
         public int AudioChannels
         {
             get
@@ -157,7 +171,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines if intensity stereo coding (IS) was used.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Defines if intensity stereo coding (IS) was used.")]
+        #endif
         public bool IntensityStereo
         {
             get
@@ -177,7 +193,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines if the Mid Side Stereo mode is enabled.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Defines if the Mid Side Stereo mode is enabled.")]
+        #endif
         public bool MidSideStereoEnabled
         {
             get
@@ -197,7 +215,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines if true gapless is used.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Stream Header"), Browsable(true), ReadOnly(true), Description("[Stream Header] Defines if true gapless is used.")]
+        #endif
         public bool TrueGapless
         {
             get
@@ -237,7 +257,9 @@ namespace MPfm.Sound.Tags
         /// 14: above BrainDead (q= 9.0)
         /// 15: above BrainDead (q=10.0)
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Encoder Information"), Browsable(true), ReadOnly(true), Description("[Encoder Info] Profile (ranges from 0 to 15. Q0 starts at 5, where Q10 = 15).")]
+        #endif
         public int EncoderProfile
         {
             get
@@ -257,7 +279,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Defines the encoder version (ex: mppenc Beta 1.16).
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Encoder Information"), Browsable(true), ReadOnly(true), Description("[Encoder Info] Encoder version (ex: mppenc Beta 1.16).")]
+        #endif
         public string EncoderVersion
         {
             get
@@ -282,7 +306,9 @@ namespace MPfm.Sound.Tags
         /// Change in the replay level. Value is treated as signed 16 bit value and the level is changed by that many mB (Millibel). 
         /// Thus level changes of -327.68 dB to +327.67 dB are possible.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] Change in the replay level. Value is treated as signed 16 bit value and the level is changed by that many mB (Millibel). Thus level changes of -327.68 dB to +327.67 dB are possible.")]
+        #endif
         public int TitleGain
         {
             get
@@ -305,7 +331,9 @@ namespace MPfm.Sound.Tags
         /// 32767:  0 dB
         /// 65379: +6 dB
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] Maximum level of the decoded title: 16422=-6dB, 32767=0dB, 65379=+6dB.")]
+        #endif
         public int TitlePeak
         {
             get
@@ -327,7 +355,9 @@ namespace MPfm.Sound.Tags
         /// Value is treated as signed 16 bit value and the level is attenuated by that many mB (Millibel). 
         /// Thus, level changes of -327.68 dB to +327.67 dB are possible.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] Change in the replay level if the whole cd is supposed to be played with the same level change for all tracks. Value is treated as signed 16 bit value and the level is attenuated by that many mB (Millibel). Thus, level changes of -327.68 dB to +327.67 dB are possible.")]
+        #endif
         public int AlbumGain
         {
             get
@@ -350,7 +380,9 @@ namespace MPfm.Sound.Tags
         /// 32767:  0 dB
         /// 65379: +6 dB
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Replay Gain"), Browsable(true), ReadOnly(true), Description("[Replay Gain] Maximum level of the whole decoded CD: 16422=-6dB, 32767=0dB, 65379=+6dB.")]
+        #endif
         public int AlbumPeak
         {
             get
@@ -374,7 +406,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Audio file bitrate. This value is not part of the SV7 header.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Metadata"), Browsable(true), ReadOnly(true), Description("[Metadata] Audio file bitrate. This value is not part of the SV7 header.")]
+        #endif
         public int Bitrate
         {
             get
@@ -394,7 +428,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Audio file length (in samples). This value is not part of the SV7 header.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Metadata"), Browsable(true), ReadOnly(true), Description("[Metadata] Audio file length (in samples). This value is not part of the SV7 header.")]
+        #endif
         public long LengthSamples
         {
             get
@@ -414,7 +450,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Audio file length (in milliseconds). This value is not part of the SV7 header.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Metadata"), Browsable(true), ReadOnly(true), Description("[Metadata] Audio file length (in milliseconds). This value is not part of the SV7 header.")]
+        #endif
         public long LengthMS
         {
             get
@@ -434,7 +472,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Audio file length (in time string format, 00:00.000). This value is not part of the SV7 header.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Metadata"), Browsable(true), ReadOnly(true), Description("[Metadata] Audio file length (in time string format, 00:00.000). This value is not part of the SV7 header.")]
+        #endif
         public string Length
         {
             get

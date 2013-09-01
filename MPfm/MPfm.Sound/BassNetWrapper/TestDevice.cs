@@ -18,6 +18,7 @@
 // Note: This call is only available on Windows/Linux/Mac because of the 
 //       use of ASIO/WASAPI which are not available in the BASS.NET mobile version.
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using System;
 using System.IO;
 using Un4seen.Bass;
@@ -333,3 +334,4 @@ namespace MPfm.Sound.BassNetWrapper
         #endregion
     }
 }
+#endif

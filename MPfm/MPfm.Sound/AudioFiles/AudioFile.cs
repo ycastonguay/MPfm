@@ -25,7 +25,7 @@ using MPfm.Core;
 using MPfm.Core.Attributes;
 using MPfm.Sound.Tags;
 
-#if !ANDROID 
+#if !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using System.Drawing;
 #endif
 
@@ -47,7 +47,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Unique identifier for reading and writing audio file metadata to the database.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Browsable(false), DatabaseField(true, "AudioFileId")]
+        #endif
 		public Guid Id
 		{
 			get
@@ -66,7 +68,9 @@ namespace MPfm.Sound.AudioFiles
         /// Supported file formats: MPC (MusePack).
         /// For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification.
         /// </summary>
-        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV7 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification")]
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+        [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV7 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV7Specification")] 
+        #endif
         public SV7Tag SV7Tag
         {
             get
@@ -81,7 +85,9 @@ namespace MPfm.Sound.AudioFiles
         /// Supported file formats: MPC (MusePack).
         /// For more information, go to http://trac.musepack.net/trac/wiki/SV8Specification.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("SV8 Tag. Supported file formats: MPC (MusePack). For more information, go to http://trac.musepack.net/trac/wiki/SV8Specification")]
+        #endif
         public SV8Tag SV8Tag
         {
             get
@@ -96,7 +102,9 @@ namespace MPfm.Sound.AudioFiles
         /// Supported file formats: FLAC, APE, WV, MPC, OFR, TTA.
         /// For more information go to http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Tag Sources"), Browsable(true), ReadOnly(true), Description("APEv1/APEv2 Tag. Supported file formats: FLAC, APE, WV, MPC, OFR, TTA. For more information go to http://wiki.hydrogenaudio.org/index.php?title=APEv2_specification.")]
+        #endif
         public APETag APETag
         {
             get
@@ -111,7 +119,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Full path to the audio file.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Full path to the audio file.")]
+        #endif
 		public string FilePath
 		{
 			get
@@ -128,7 +138,9 @@ namespace MPfm.Sound.AudioFiles
         /// <summary>
         /// File size (in bytes) of the audio file.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("File size (in bytes).")]
+        #endif
         public long FileSize
         {
             get
@@ -144,8 +156,10 @@ namespace MPfm.Sound.AudioFiles
         private AudioFileFormat fileType = AudioFileFormat.Unknown;
 		/// <summary>
 		/// Type of audio file (FLAC, MP3, OGG, WAV, WV, MPC, OFR, TTA).
-		/// </summary>
+        /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Type of audio file (FLAC, MP3, OGG, WAV, WV, MPC, OFR, TTA).")]
+        #endif
         public AudioFileFormat FileType
 		{
 			get
@@ -166,7 +180,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Position of the first block of data. Useful for reading the Xing header.
 		/// </summary>
+		#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the first block of data.")]
+        #endif
 		public long FirstBlockPosition
 		{
 			get
@@ -179,7 +195,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Position of the last block of data.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Position of the last block of data.")]
+        #endif
 		public long LastBlockPosition
 		{
 			get
@@ -196,7 +214,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Audio bitrate. Indicates the average bitrate for VBR MP3 files.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bitrate.")]
+        #endif
 		public int Bitrate
 		{
 			get
@@ -212,8 +232,10 @@ namespace MPfm.Sound.AudioFiles
 		private int bitsPerSample = 0;
 		/// <summary>
 		/// Audio bits per sample. Usually 16-bit or 24-bit.
-		/// </summary>
+		/// </summary>		
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio bits per sample. Usually 16-bit or 24-bit.")]
+        #endif
 		public int BitsPerSample
 		{
 			get
@@ -226,7 +248,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Channel mode (only for MP3 files).
 		/// </summary>
+		#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Channel mode (only for MP3 files).")]
+        #endif
 		public TagLib.Mpeg.ChannelMode ChannelMode
 		{
 			get
@@ -239,7 +263,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Sample rate (in Hz).
 		/// </summary>
+		#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Sample rate (in Hz).")]
+        #endif
 		public int SampleRate
 		{
 			get
@@ -256,7 +282,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Number of audio channels.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Number of audio channels.")]
+        #endif
 		public int AudioChannels
 		{
 			get
@@ -269,7 +297,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Frame length.
 		/// </summary>
+		#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Frame length.")]
+        #endif
 		public int FrameLength
 		{
 			get
@@ -282,7 +312,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Audio layer type.
 		/// </summary>
+		#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio layer type.")]
+        #endif
 		public int AudioLayer
 		{
 			get
@@ -295,7 +327,9 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Audio file length (in 00:00.000 format).
 		/// </summary>
+		#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("Audio file length (in 00:00.000 format).")]
+        #endif
 		public string Length
 		{
 			get
@@ -319,7 +353,9 @@ namespace MPfm.Sound.AudioFiles
         /// The INFO header is found on MP3 files encoded using LAME and CBR settings.
         /// Both headers are in fact the same.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 header type (XING or INFO).")]
+        #endif
         public string MP3HeaderType
         {
             get
@@ -333,7 +369,9 @@ namespace MPfm.Sound.AudioFiles
         /// MP3 Encoder version.
         /// Ex: LAME3.98
         /// </summary>        
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder version.")]
+        #endif
         public string MP3EncoderVersion
         {
             get
@@ -347,7 +385,9 @@ namespace MPfm.Sound.AudioFiles
         /// MP3 Encoder delay.
         /// Ex: 576
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder delay.")]
+        #endif
         public int? MP3EncoderDelay
         {
             get
@@ -361,7 +401,9 @@ namespace MPfm.Sound.AudioFiles
         /// MP3 Encoder padding.
         /// Ex: 1800
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Audio Properties"), Browsable(true), ReadOnly(true), Description("MP3 encoder padding.")]
+        #endif
         public int? MP3EncoderPadding
         {
             get
@@ -396,14 +438,18 @@ namespace MPfm.Sound.AudioFiles
         /// <summary>
         /// Defines the number of times the audio file has been played with MPfm (information comes from the MPfm database).
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Browsable(false)]
+        #endif
         public int PlayCount { get; set; }
 
         /// <summary>
         /// Defines the last time the audio file has been played with MPfm (information comes from the MPfm database).
         /// Null if the audio file has never been played.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Browsable(false)]
+        #endif
         public DateTime? LastPlayed { get; set; }
 
         #endregion
@@ -413,37 +459,49 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Song title.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Song title.")]
+        #endif
 		public string Title { get; set; }
 
 		/// <summary>
 		/// Artist name.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Artist name.")]
+        #endif
 		public string ArtistName { get; set; }
 
 		/// <summary>
 		/// Album title.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Album title.")]
+        #endif
 		public string AlbumTitle { get; set; }
 
 		/// <summary>
 		/// Genre.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Genre.")]
+        #endif
 		public string Genre { get; set; }
 
 		/// <summary>
 		/// Disc number.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Disc number.")]
+        #endif
 		public uint DiscNumber { get; set; }
 
 		/// <summary>
 		/// Track number.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Track number.")]
+        #endif
 		public uint TrackNumber { get; set; }
 
         /// <summary>
@@ -451,8 +509,10 @@ namespace MPfm.Sound.AudioFiles
         /// If the disc number is zero, it will return the track number (ex: 10).
         /// If the disc number is higher than zero, it will return the disc number
         /// and the track number separated by a comma (ex: 1.10).
-        /// </summary>        
+        /// </summary>    
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE    
         [Browsable(false)]
+        #endif
         public string DiscTrackNumber
         {
             get
@@ -472,33 +532,43 @@ namespace MPfm.Sound.AudioFiles
 		/// <summary>
 		/// Track number.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Track count.")]
+        #endif
 		public uint TrackCount { get; set; }
 
 		/// <summary>
 		/// Production year (year only).
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Production year (year only).")]
+        #endif
 		public uint Year { get; set; }
 
 		/// <summary>
 		/// Song lyrics.
 		/// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Song lyrics.")]
+        #endif
 		public string Lyrics { get; set; }
 
         /// <summary>
         /// Defines the rating of the audio file, from 1 to 5. 
         /// 0 means no rating.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Defines the rating of the audio file, from 1 to 5 (0 = no rating found).")]
+        #endif
         public int Rating { get; set; }
 
         /// <summary>
         /// Defines the audio file tempo, in BPM (beats per minute).
         /// 0 means no tempo found.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Master Tags"), Browsable(true), ReadOnly(false), Description("Defines the audio file tempo, in BPM (beats per minute).")]
+        #endif
         public int Tempo { get; set; }        
 
 		#endregion
@@ -1317,7 +1387,7 @@ namespace MPfm.Sound.AudioFiles
             }
         }
 
-#if (!IOS && !ANDROID)
+#if !IOS && !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
         /// <summary>
         /// Extracts album art from an audio file.

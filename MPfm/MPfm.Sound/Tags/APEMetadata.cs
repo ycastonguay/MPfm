@@ -431,7 +431,9 @@ namespace MPfm.Sound.Tags
     /// <summary>
     /// Exception raised when no APEv1/APEv2 tags have been found.
     /// </summary>
+    #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
     [Serializable]
+    #endif
     public class APETagNotFoundException 
         : Exception
     {

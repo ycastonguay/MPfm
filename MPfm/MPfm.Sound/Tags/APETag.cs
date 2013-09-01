@@ -25,7 +25,9 @@ namespace MPfm.Sound.Tags
     /// Data structure for APEv1 and APEv2 tags. The property names are based on the APE keys.
     /// For more information about the APE keys, go to http://wiki.hydrogenaudio.org/index.php?title=APE_key.
     /// </summary>
+    #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
     [TypeConverter(typeof(ExpandableObjectConverter))]
+    #endif
     public class APETag
     {
         /// <summary>
@@ -36,7 +38,9 @@ namespace MPfm.Sound.Tags
         /// Defines the APE tag size (including the header if APEv2).
         /// This value excludes the APEv1/APEv2 footer size.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("APEv1/APEv2 tag length (in bytes). Includes the header size for APEv2, but excludes footer size for APEv1 and APEv2.")]
+        #endif
         public int TagSize
         {
             get
@@ -56,7 +60,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Music piece title, music work.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Music piece title, music work.")]
+        #endif
         public string Title
         {
             get
@@ -76,7 +82,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Title when the Title property contains the work or additional subtitle.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Title when the Title property contains the work or additional subtitle.")]
+        #endif
         public string Subtitle
         {
             get
@@ -96,7 +104,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Performing artist, list of performing artists.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Performing artist, list of performing artists.")]
+        #endif
         public string Artist
         {
             get
@@ -116,7 +126,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Album name.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Album name.")]
+        #endif
         public string Album
         {
             get
@@ -136,7 +148,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Debut album name.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Debut album name.")]
+        #endif
         public string DebutAlbum
         {
             get
@@ -156,7 +170,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Record label or publisher.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Record label or publisher.")]
+        #endif
         public string Publisher
         {
             get
@@ -176,7 +192,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Conductor name.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Conductor name.")]
+        #endif
         public string Conductor
         {
             get
@@ -196,7 +214,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Track number, Track number/Total tracks number.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Track number, Track number/Total tracks number.")]
+        #endif
         public int Track
         {
             get
@@ -216,7 +236,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Name of the original composer, name of the original arranger.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Name of the original composer, name of the original arranger.")]
+        #endif
         public string Composer
         {
             get
@@ -236,7 +258,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// User comment(s).
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("User comment(s).")]
+        #endif
         public string Comment
         {
             get
@@ -256,7 +280,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Copyright holder.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Copyright holder.")]
+        #endif
         public string Copyright
         {
             get
@@ -276,7 +302,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Publication right holder.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Publication right holder.")]
+        #endif
         public string PublicationRight
         {
             get
@@ -296,7 +324,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// File location.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("File location.")]
+        #endif
         public string File
         {
             get
@@ -316,7 +346,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// EAN-13/UPC-A bar code identifier.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("EAN-13/UPC-A bar code identifier.")]
+        #endif
         public long EAN_UPC
         {
             get
@@ -336,7 +368,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// ISBN number with check digit.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("ISBN number with check digit.")]
+        #endif
         public int ISBN
         {
             get
@@ -356,7 +390,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// ISBN number with check digit.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("ISBN number with check digit.")]
+        #endif
         public string Catalog
         {
             get
@@ -376,7 +412,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Label code.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Label code.")]
+        #endif
         public string LC
         {
             get
@@ -396,7 +434,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Release date.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Release date.")]
+        #endif
         public DateTime Year
         {
             get
@@ -416,7 +456,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Record date.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Record date.")]
+        #endif
         public DateTime RecordDate
         {
             get
@@ -436,7 +478,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Record location(s).
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Record location(s).")]
+        #endif
         public string RecordLocation
         {
             get
@@ -456,7 +500,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Genre(s).
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Genre(s)..")]
+        #endif      
         public string Genre
         {
             get
@@ -476,7 +522,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Indexes for quick access (index time). Can be a list of index times.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Indexes for quick access (index time). Can be a list of index times.")]
+        #endif
         public string Index
         {
             get
@@ -496,7 +544,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Location of related information.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Location of related information.")]
+        #endif
         public string Related
         {
             get
@@ -516,7 +566,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Abstract (no idea, don't ask me!).
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Abstract (no idea, don't ask me!).")]
+        #endif
         public string Abstract
         {
             get
@@ -536,7 +588,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Used language(s) for music/spoken words.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Used language(s) for music/spoken words.")]
+        #endif
         public string Language
         {
             get
@@ -556,7 +610,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// Bibliography/Discography.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Bibliography/Discography.")]
+        #endif
         public string Bibliography
         {
             get
@@ -578,7 +634,9 @@ namespace MPfm.Sound.Tags
         /// <summary>
         /// List of key/values contained in the APE tag.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("Dictionary of key/value items found in the APE tag.")]
+        #endif
         public Dictionary<string, string> Dictionary
         {        
             get
@@ -595,7 +653,9 @@ namespace MPfm.Sound.Tags
         /// Defines the APE tag version (APEv1 or APEv2).
         /// Unknown if the APE tag was not found.
         /// </summary>
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         [Category("Global"), Browsable(true), ReadOnly(true), Description("APEv1/APEv2 tag version (APEv1 or APEv2).")]
+        #endif
         public APETagVersion Version
         {
             get

@@ -23,7 +23,9 @@ namespace MPfm.Sound.PeakFiles
     /// This Exception class is raised when the peak file is corrupted.    
     /// Related to the PeakFile class.
     /// </summary>
+    #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
     [Serializable]
+    #endif
     public class PeakFileCorruptedException 
         : Exception
     {
