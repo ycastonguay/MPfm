@@ -85,8 +85,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="Network\" />
+    <Content Include="Lib\PCL\TinyIoC.dll" />
+    <Content Include="Lib\TinyIoC.dll" />
+    <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conversion.cs" />
@@ -100,9 +104,9 @@
     <Compile Include="Normalizer.cs" />
     <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Network\IPAddressRangeFinder.cs" />
-    <Compile Include="Network\WebClientTimeout.cs" />
-    <Compile Include="TinyIoC\TinyIoC.cs" />
-    <Compile Include="TinyIoC\TinyMessenger.cs" />
+    <Compile Include="Network\WebClientTimeout.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="XmlSerialization.cs" />
   </ItemGroup>
 </Project>

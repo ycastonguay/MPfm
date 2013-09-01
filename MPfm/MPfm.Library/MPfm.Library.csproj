@@ -95,6 +95,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
@@ -143,14 +146,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="WebApp\" />
-    <Folder Include="WebApp\js\" />
-    <Folder Include="WebApp\css\" />
-    <Folder Include="Services\Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Lib\Newtonsoft.Json.dll" />
   </ItemGroup>

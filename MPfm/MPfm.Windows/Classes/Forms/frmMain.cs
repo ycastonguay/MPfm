@@ -2119,12 +2119,15 @@ namespace MPfm.Windows.Classes.Forms
         public Action OnPlayerStop { get; set; }
         public Action OnPlayerPrevious { get; set; }
         public Action OnPlayerNext { get; set; }
+        public Action OnPlayerShuffle { get; set; }
+        public Action OnPlayerRepeat { get; set; }
         public Action<float> OnPlayerSetVolume { get; set; }
         public Action<float> OnPlayerSetPitchShifting { get; set; }
         public Action<float> OnPlayerSetTimeShifting { get; set; }
         public Action<float> OnPlayerSetPosition { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }
+        public Action OnOpenPlaylist { get; set; }
 
         public void PlayerError(Exception ex)
         {
