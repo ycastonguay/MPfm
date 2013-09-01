@@ -31,6 +31,8 @@ namespace org.sessionsapp.android
     /// </summary>
     public class CustomListView : ListView
     {
+        View _viewItemMove;
+
         public bool CanItemsBeMoved { get; set; }
         public bool IsScrollable { get; set; }
         public bool IsMovingItem { get; private set; }
@@ -75,14 +77,14 @@ namespace org.sessionsapp.android
             {
                 // The user is trying to move an item using the right hand 'button'.
                 Console.WriteLine("CustomListView - DispatchTouchEvent - Starting to move item...");
-                View viewItemMove = GetChildAtPosition(x, y);
-                if (viewItemMove != null)
+                _viewItemMove = GetChildAtPosition(x, y);
+                if (_viewItemMove != null)
                 {
                     IsMovingItem = true;
                     IsScrollable = false;
                     int tag = -1;
-                    if (viewItemMove.Tag != null)
-                        tag = (int)viewItemMove.Tag;
+                    if (_viewItemMove.Tag != null)
+                        tag = (int)_viewItemMove.Tag;
 
                     Console.WriteLine("CustomListView - DispatchTouchEvent - Found moving item! tag: {0}", tag);
                 }
@@ -98,11 +100,19 @@ namespace org.sessionsapp.android
             {
                 //Console.WriteLine("CustomListView - DispatchTouchEvent - Up - (x,y): ({0},{1})", x, y);
                 Console.WriteLine("CustomListView - DispatchTouchEvent - CANCELLING MOVE...");
+                _viewItemMove = null;
                 IsMovingItem = false;
                 IsScrollable = true;
             }
             else if (e.Action.HasFlag(MotionEventActions.Move))
             {
+                if (_viewItemMove != null)
+                {
+                    Console.WriteLine("CustomListView - DispatchTouchEvent - Moving item to ({0},{1})...", x, y);
+                    _viewItemMove.SetX(x);
+                    _viewItemMove.SetY(y);                    
+                }
+
                 // Block scroll
                 if(!IsScrollable)
                     return true;

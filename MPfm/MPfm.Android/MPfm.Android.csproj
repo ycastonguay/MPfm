@@ -56,6 +56,9 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\MPfm.Sound\Lib\Android\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />

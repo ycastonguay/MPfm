@@ -84,11 +84,14 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Content Include="Lib\PCL\TinyIoC.dll" />
+    <Content Include="Lib\TinyIoC.dll" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Conversion.cs" />
     <Compile Include="Attributes\DatabaseFieldAttribute.cs" />
@@ -101,9 +104,9 @@
     <Compile Include="Normalizer.cs" />
     <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Network\IPAddressRangeFinder.cs" />
-    <Compile Include="Network\WebClientTimeout.cs" />
-    <Compile Include="TinyIoC\TinyIoC.cs" />
-    <Compile Include="TinyIoC\TinyMessenger.cs" />
+    <Compile Include="Network\WebClientTimeout.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="XmlSerialization.cs" />
   </ItemGroup>
 </Project>
