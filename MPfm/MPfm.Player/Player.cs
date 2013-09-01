@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -126,14 +128,12 @@ namespace MPfm.Player
 
         #region Events
 
-        public delegate void PlaylistIndexChanged(PlayerPlaylistIndexChangedData data);
         /// <summary>
         /// The OnPlaylistIndexChanged event is triggered when the playlist index changes (i.e. when an audio file
         /// starts to play).
         /// </summary>
         public event PlaylistIndexChanged OnPlaylistIndexChanged;
 
-        public delegate void AudioInterrupted(AudioInterruptedData data);
         /// <summary>
         /// The OnAudioInterrupted event is triggered when the audio is interrupted by a system event.
         /// Only useful on iOS for now. An example of use of this event would be to react when the user stops the
@@ -141,7 +141,6 @@ namespace MPfm.Player
         /// </summary>
         public event AudioInterrupted OnAudioInterrupted;
 
-        public delegate void BPMDetected(float bpm);
         /// <summary>
         /// The OnBPMDetected event is triggered when the current BPM has been deteted or has changed.
         /// </summary>
@@ -2126,3 +2125,4 @@ namespace MPfm.Player
         #endregion
     }
 }
+#endif

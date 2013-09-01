@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Core.WindowsPhone", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Sound.WindowsPhone", "MPfm.Sound\MPfm.Sound.WindowsPhone.csproj", "{591A3842-87BC-467F-AA99-42749C8DBFB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Player.WindowsPhone", "MPfm.Player\MPfm.Player.WindowsPhone.csproj", "{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,18 @@ Global
 		{591A3842-87BC-467F-AA99-42749C8DBFB3}.Release|ARM.Build.0 = Release|ARM
 		{591A3842-87BC-467F-AA99-42749C8DBFB3}.Release|x86.ActiveCfg = Release|x86
 		{591A3842-87BC-467F-AA99-42749C8DBFB3}.Release|x86.Build.0 = Release|x86
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Debug|ARM.Build.0 = Debug|ARM
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Debug|x86.ActiveCfg = Debug|x86
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Debug|x86.Build.0 = Debug|x86
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Release|ARM.ActiveCfg = Release|ARM
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Release|ARM.Build.0 = Release|ARM
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Release|x86.ActiveCfg = Release|x86
+		{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,7 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using MPfm.Sound.BassNetWrapper;
+#endif
 
 namespace MPfm.Player.Exceptions
 {
@@ -27,10 +29,12 @@ namespace MPfm.Player.Exceptions
     public class PlayerCreateStreamException
         : Exception
     {
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         /// <summary>
         /// Indicates what driver type was used to initialize the stream.
         /// </summary>
         public DriverType DriverType { get; set; }
+        #endif
         /// <summary>
         /// Indicates what sample rate was used to initialize the stream.
         /// </summary>
@@ -56,8 +60,9 @@ namespace MPfm.Player.Exceptions
         public PlayerCreateStreamException(string message, Exception innerException)
             : base(message, innerException)
         {
-            // Set default values
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
             DriverType = DriverType.DirectSound;
+            #endif
             SampleRate = 0;
             UseFloatingPoint = false;
             UseTimeShifting = false;

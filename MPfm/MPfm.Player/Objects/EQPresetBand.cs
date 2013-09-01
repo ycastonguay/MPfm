@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using Un4seen.Bass.AddOn.Fx;
+#endif
 
 namespace MPfm.Player.Objects
 {
@@ -24,10 +26,12 @@ namespace MPfm.Player.Objects
     /// </summary>
     public class EQPresetBand
     {
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         /// <summary>
         /// Defines on which BASS channel the effect will be applied (default: all channels).
         /// </summary>
         public BASSFXChan FXChannel { get; set; }
+        #endif
 
         /// <summary>
         /// Bandwidth
@@ -81,7 +85,9 @@ namespace MPfm.Player.Objects
         /// </summary>
         private void SetDefaultValues()
         {
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
             FXChannel = BASSFXChan.BASS_BFX_CHANALL;
+            #endif
             Center = 8000.0f;
             CenterString = "8kHz";
             Q = 1.0f;
