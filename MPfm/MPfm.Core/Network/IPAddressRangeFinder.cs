@@ -1,4 +1,4 @@
-#if !WINDOWSSTORE
+#if !PCL && !WINDOWSSTORE
 /* ====================================================================================
                     C# IP address range finder helper class (C) Nahum Bazes
  * Free for private & commercial use - no restriction applied, please leave credits.
