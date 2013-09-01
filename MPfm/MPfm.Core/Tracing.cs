@@ -60,7 +60,7 @@ namespace MPfm.Core
         {
 #if IOS || ANDROID
             Console.WriteLine(message);
-#elif WINDOWSSTORE
+#elif WINDOWSSTORE || PCL || WINDOWS_PHONE
             Debug.WriteLine(message);
 #else
             Trace.WriteLine(message);

@@ -97,9 +97,12 @@
     <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Network\IPAddressRangeFinder.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
-    <Compile Include="TinyIoC\TinyIoC.cs" />
-    <Compile Include="TinyIoC\TinyMessenger.cs" />
     <Compile Include="XmlSerialization.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TinyIoC">
+      <HintPath>Lib\PCL\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

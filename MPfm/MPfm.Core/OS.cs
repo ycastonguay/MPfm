@@ -33,11 +33,13 @@ namespace MPfm.Core
 		{
 			get
 			{
-#if WINDOWSSTORE
+#if WINDOWSSTORE || PCL
                 return OSType.WindowsStore;
+#elif WINDOWS_PHONE
+			    return OSType.WindowsPhone;
 #else
 
-			    // Check platform
+    // Check platform
 			    OSType osType = OSType.Windows;
 			    switch(Environment.OSVersion.Platform)
 			    {
@@ -67,7 +69,7 @@ namespace MPfm.Core
 			    }
     			return osType;
 #endif
-            }
+			}
 		}
 	}
 
