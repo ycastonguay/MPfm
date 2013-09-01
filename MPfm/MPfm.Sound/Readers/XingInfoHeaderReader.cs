@@ -66,7 +66,7 @@ namespace MPfm.Sound.Readers
 
                 // Get data for "Xing"/"Info"
                 byte[] byteXingInfo = reader.ReadBytes(4);
-                data.HeaderType = Encoding.UTF8.GetString(byteXingInfo).ToUpper();
+                data.HeaderType = Encoding.UTF8.GetString(byteXingInfo, 0, byteXingInfo.Length).ToUpper();
 
                 // Is this a Xing header?
                 if (data.HeaderType != "XING" && data.HeaderType != "INFO")
@@ -143,7 +143,7 @@ namespace MPfm.Sound.Readers
             }
 
             // Convert string
-            return Encoding.UTF8.GetString(byteText);
+            return Encoding.UTF8.GetString(byteText, 0, byteText.Length);
         }
     }
 

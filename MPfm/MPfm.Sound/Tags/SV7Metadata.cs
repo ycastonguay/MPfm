@@ -58,7 +58,7 @@ namespace MPfm.Sound.Tags
 
                 // Read signature
                 byte[] bytesSigntaure = reader.ReadBytes(3);
-                string signature = Encoding.UTF8.GetString(bytesSigntaure);
+                string signature = Encoding.UTF8.GetString(bytesSigntaure, 0, bytesSigntaure.Length);
 
                 // Validate signature
                 if (signature.ToUpper() != "MP+")

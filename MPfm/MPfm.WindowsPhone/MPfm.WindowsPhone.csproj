@@ -152,6 +152,10 @@
       <Project>{5CA0AA57-8F15-4DC2-B5C6-25692F200869}</Project>
       <Name>MPfm.Core.WindowsPhone</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.WindowsPhone.csproj">
+      <Project>{591A3842-87BC-467F-AA99-42749C8DBFB3}</Project>
+      <Name>MPfm.Sound.WindowsPhone</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

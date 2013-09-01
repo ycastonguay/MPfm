@@ -59,7 +59,7 @@ namespace MPfm.Sound.Tags
 
                 // Read "File magic number"                
                 byte[] bytesMagicNumber = reader.ReadBytes(4);
-                string magicNumber = Encoding.UTF8.GetString(bytesMagicNumber);
+                string magicNumber = Encoding.UTF8.GetString(bytesMagicNumber, 0, bytesMagicNumber.Length);
 
                 // Validate number
                 if (magicNumber.ToUpper() != "MPCK")
@@ -72,7 +72,7 @@ namespace MPfm.Sound.Tags
                 {
                     // Read key (16-bits)                    
                     byte[] bytesKey = reader.ReadBytes(2);
-                    string key = Encoding.UTF8.GetString(bytesKey);
+                    string key = Encoding.UTF8.GetString(bytesKey, 0, bytesKey.Length);
 
                     // Read variable integer
                     int intSize = 0;

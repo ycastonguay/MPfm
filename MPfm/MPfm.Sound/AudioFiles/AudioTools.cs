@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Sound.AudioFiles
 {
@@ -116,8 +115,14 @@ namespace MPfm.Sound.AudioFiles
             //float dbRight = ConvertRawWaveValueToDecibels(minMax.rightMax);
             int peakL = (int)Math.Round(32767f * minMax.leftMax) & 0xFFFF;
             int peakR = (int)Math.Round(32767f * minMax.rightMax) & 0xFFFF;
-            float dbLeft = (float)Base.LevelToDB_16Bit(peakL);
-            float dbRight = (float)Base.LevelToDB_16Bit(peakR);
+
+            float dbLeft = 0;
+            float dbRight = 0;
+
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+            dbLeft = (float)Base.LevelToDB_16Bit(peakL);
+            dbRight = (float)Base.LevelToDB_16Bit(peakR);
+            #endif
 
             // Check if the max peak reaches or goes past the threshold (left channel)
             if (dbLeft >= distortionThreshold)
@@ -621,6 +626,12 @@ namespace MPfm.Sound.AudioFiles
             // Declare variables
             List<string> arrayFiles = new List<string>();
             List<string> fileExtensions = extensions.Split(';').ToList();
+            
+            #if PCL || WINDOWSSTORE || WINDOWS_PHONE
+            
+            // TOOD: Implement this
+
+            #else            
 
             // Search for MP3 files in the folder recursively
             DirectoryInfo rootDirectoryInfo = new DirectoryInfo(folderPath);
@@ -643,6 +654,8 @@ namespace MPfm.Sound.AudioFiles
                     arrayFiles.Add(fileInfo.FullName);
                 }
             }
+
+            #endif
 
             return arrayFiles;
         }

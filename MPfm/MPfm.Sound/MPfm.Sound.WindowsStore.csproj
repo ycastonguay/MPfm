@@ -128,25 +128,8 @@
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="PeakFiles\IPeakFileService.cs" />
     <Compile Include="PeakFiles\PeakFileService.cs" />
-    <Compile Include="BassNetWrapper\Channel.cs" />
-    <Compile Include="BassNetWrapper\ChannelType.cs" />
-    <Compile Include="BassNetWrapper\IChannel.cs" />
-    <Compile Include="BassNetWrapper\IMixerChannel.cs" />
-    <Compile Include="BassNetWrapper\ITestDevice.cs" />
-    <Compile Include="BassNetWrapper\MixerChannel.cs" />
-    <Compile Include="BassNetWrapper\DriverType.cs" />
-    <Compile Include="BassNetWrapper\TestDevice.cs" />
-    <Compile Include="BassNetWrapper\DeviceHelper.cs" />
-    <Compile Include="BassNetWrapper\Device.cs" />
-    <Compile Include="BassNetWrapper\Exception.cs" />
-    <Compile Include="BassNetWrapper\Base.cs" />
-    <Compile Include="BassNetWrapper\ASIO\ASIOInfo.cs" />
-    <Compile Include="BassNetWrapper\ASIO\BaseASIO.cs" />
-    <Compile Include="BassNetWrapper\WASAPI\BaseWASAPI.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
-    <Compile Include="BassNetWrapper\BassWrapper.cs" />
-    <Compile Include="BassNetWrapper\BaseFx.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">

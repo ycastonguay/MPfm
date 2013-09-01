@@ -36,7 +36,7 @@ namespace MPfm.Sound.Tags
         /// <param name="filePath">Audio file path</param>        
         /// <returns>APE data structure</returns>
         public static APETag Read(string filePath)
-        {
+        {            
             // Check for nulls or empty
             if (String.IsNullOrEmpty(filePath))
             {
@@ -76,7 +76,7 @@ namespace MPfm.Sound.Tags
 
                 // Read Preamble (64-bits)
                 byte[] bytesPreamble = reader.ReadBytes(8);
-                string preamble = Encoding.UTF8.GetString(bytesPreamble);
+                string preamble = Encoding.UTF8.GetString(bytesPreamble, 0, bytesPreamble.Length);
 
                 // Validate preamble
                 if (preamble != "APETAGEX")
@@ -161,9 +161,10 @@ namespace MPfm.Sound.Tags
                     // Read value
                     byte[] bytesValue = reader.ReadBytes(itemValueSize);
 
-                    // Cast key and value into UTF8 strings
-                    string key = Encoding.UTF8.GetString(bytesKey.ToArray());
-                    string value = Encoding.UTF8.GetString(bytesValue);
+                    // Cast key and value into UTF8 strings             
+                    var bytesKeyArray = bytesKey.ToArray();
+                    string key = Encoding.UTF8.GetString(bytesKeyArray, 0, bytesKeyArray.Length);
+                    string value = Encoding.UTF8.GetString(bytesValue, 0, bytesValue.Length);
 
                     // Add key/value to dictionary
                     data.Dictionary.Add(key, value);

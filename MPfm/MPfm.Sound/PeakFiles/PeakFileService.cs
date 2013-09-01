@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +26,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Sound.PeakFiles
 {
@@ -47,39 +48,6 @@ namespace MPfm.Sound.PeakFiles
         /// Indicates if a peak file is generating.
         /// </summary>
         public bool IsLoading { get; private set; }
-
-        /// <summary>
-        /// Delegate for the OnProcessStarted event.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        public delegate void ProcessStarted(PeakFileStartedData data);
-
-        /// <summary>
-        /// Event called when a thread starts its work.
-        /// </summary>
-        public event ProcessStarted OnProcessStarted;
-
-        /// <summary>
-        /// Delegate for the OnProcessData event.
-        /// </summary>
-        /// <param name="data">Event data</param>
-        public delegate void ProcessData(PeakFileProgressData data);
-
-        /// <summary>
-        /// Event called every 20 blocks when generating a peak file.
-        /// </summary>
-        public event ProcessData OnProcessData;
-
-        /// <summary>
-        /// Delegate for the OnProcessDone event.
-        /// </summary>        
-        /// <param name="data">Event data</param>
-        public delegate void ProcessDone(PeakFileDoneData data);
-
-        /// <summary>
-        /// Event called when all the GeneratePeakFiles threads have completed their work.
-        /// </summary>
-        public event ProcessDone OnProcessDone;
 
         /// <summary>
         /// Indicates if the class is currently generating peak files.
@@ -437,3 +405,5 @@ namespace MPfm.Sound.PeakFiles
         }
     }
 }
+
+#endif

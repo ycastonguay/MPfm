@@ -146,12 +146,14 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void DisposeChannels()
         {
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
             // Free current channel
             if (currentItem.Channel != null)
             {
                 currentItem.Dispose();
                 currentItem = null;
             }
+            #endif
 
             // Go through items to set them load = false
             for (int a = 0; a < items.Count; a++)

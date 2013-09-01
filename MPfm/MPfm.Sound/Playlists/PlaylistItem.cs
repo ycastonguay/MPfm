@@ -19,10 +19,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using MPfm.Core;
-using Un4seen.Bass;
 using MPfm.Sound.AudioFiles;
+
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+using Un4seen.Bass;
 using MPfm.Sound.BassNetWrapper;
+#endif
 
 namespace MPfm.Sound.Playlists
 {
@@ -31,7 +35,14 @@ namespace MPfm.Sound.Playlists
     /// </summary>
     public class PlaylistItem
     {
+        #if WINDOWS_PHONE
+        private System.Windows.Threading.DispatcherTimer timerFillBuffer = null;
+        #elif WINDOWSSTORE
         private System.Timers.Timer timerFillBuffer = null;
+        #else
+        private System.Windows.Threading.DispatcherTimer timerFillBuffer = null;
+        #endif
+        
         private ByteArrayQueue queue = null;
         private List<Task> tasksDecode = null;
         private CancellationTokenSource cancellationTokenSource = null;
@@ -61,6 +72,8 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         private Playlist playlist = null;
 
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
         /// <summary>
         /// Private value for the SyncProc proprety.
         /// </summary>
@@ -79,6 +92,8 @@ namespace MPfm.Sound.Playlists
                 syncProc = value;
             }
         }
+
+        #endif
 
         /// <summary>
         /// Private value for the SyncProcHandle property.
@@ -159,6 +174,8 @@ namespace MPfm.Sound.Playlists
             }
         }
 
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
         /// <summary>
         /// Private value for the Channel property.
         /// </summary>
@@ -173,6 +190,8 @@ namespace MPfm.Sound.Playlists
                 return channel;
             }
         }
+
+        #endif
 
         /// <summary>
         /// Private value for the AudioFile property.
@@ -217,9 +236,16 @@ namespace MPfm.Sound.Playlists
             this.audioFile = audioFile;
 
             tasksDecode = new List<Task>();
+
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
             timerFillBuffer = new System.Timers.Timer();
             timerFillBuffer.Interval = 200;
             timerFillBuffer.Elapsed += HandleTimerFillBufferElapsed;
+            #else
+            timerFillBuffer = new DispatcherTimer();
+            timerFillBuffer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerFillBuffer.Tick += TimerFillBufferOnTick;
+            #endif
         }
 
         /// <summary>
@@ -229,6 +255,8 @@ namespace MPfm.Sound.Playlists
         {
             // Load audio file metadata
             audioFile.RefreshMetadata();
+
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
             // Check if a channel already exists
             if(channel != null)
@@ -263,11 +291,17 @@ namespace MPfm.Sound.Playlists
             // Decode file in another thread
             //Decode(0);
 
+            #endif
+
             // Set flag
             isLoaded = true;
         }
 
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         private void HandleTimerFillBufferElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        #else
+        private void TimerFillBufferOnTick(object sender, EventArgs eventArgs)
+        #endif
         {
             // Disable timer 
             timerFillBuffer.Stop();
@@ -319,6 +353,8 @@ namespace MPfm.Sound.Playlists
         {
             // Cancel any decode task
             //CancelDecode();
+
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
             // Create channel and get length
             Channel channel = Channel.CreateFileStreamForDecoding(audioFile.FilePath, true);
@@ -386,6 +422,8 @@ namespace MPfm.Sound.Playlists
                 }
             }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
             tasksDecode.Add(taskDecode);
+
+            #endif
         }
 
         public byte[] GetData(int length)
@@ -398,6 +436,8 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void Dispose()
         {
+            #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
             // Check if a channel already exists
             if (channel != null)
             {
@@ -422,8 +462,10 @@ namespace MPfm.Sound.Playlists
 //                    channel.Stop();
 //                    channel.Free();
 //                    channel = null;
-//                }
+//                }                
             }
+
+            #endif
 
             // Set flags
             isLoaded = false;

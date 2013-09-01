@@ -57,7 +57,7 @@ namespace MPfm.Sound.Tags
                 // Read header (10 bytes)
                 // Read file identifier
                 byte[] bytesFileIdentifier = reader.ReadBytes(3);
-                string fileIdentifier = Encoding.UTF8.GetString(bytesFileIdentifier);
+                string fileIdentifier = Encoding.UTF8.GetString(bytesFileIdentifier, 0, bytesFileIdentifier.Length);
 
                 // Read version 
                 byte[] bytesVersion = reader.ReadBytes(2);
@@ -92,19 +92,14 @@ namespace MPfm.Sound.Tags
 
                 // Read ID3v2 frames
                 byte[] bytesFrameID = reader.ReadBytes(4);
-                string frameID = Encoding.UTF8.GetString(bytesFrameID).ToUpper();
+                string frameID = Encoding.UTF8.GetString(bytesFrameID, 0, bytesFrameID.Length).ToUpper();
 
                 // Read size
                 byte[] bytesSize = reader.ReadBytes(4);
                 int size = BitConverter.ToInt32(bytesSize, 0);
 
-                if (frameID == "TIT2")
-                {
-
-                }
-
+                //if (frameID == "TIT2")
                 //int tagSize = BitConverter.ToInt32(bytesTagSize, 0);
-
 
             }
             catch

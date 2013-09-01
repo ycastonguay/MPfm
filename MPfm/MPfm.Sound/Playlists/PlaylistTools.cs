@@ -188,15 +188,11 @@ namespace MPfm.Sound.Playlists
 
                 // Check for UTF8
                 if (useUTF8Encoding)
-                {
-                    // Open writer
                     writer = new StreamWriter(playlistFilePath, false, Encoding.UTF8);
-                }
+                #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
                 else
-                {
-                    // Open writer
                     writer = new StreamWriter(playlistFilePath, false, Encoding.ASCII);
-                }
+                #endif
 
                 // Write header                
                 writer.WriteLine("#EXTM3U");
@@ -589,7 +585,9 @@ namespace MPfm.Sound.Playlists
                 doc.Add(elementPlaylist);
 
                 // Save playlist to file
+                #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
                 doc.Save(playlistFilePath);
+                #endif
             }
             catch (Exception ex)
             {
