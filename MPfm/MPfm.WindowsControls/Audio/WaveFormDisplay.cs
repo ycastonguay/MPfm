@@ -577,9 +577,9 @@ namespace MPfm.WindowsControls
 
             // Create PeakFile class instance 
             peakFileService = new PeakFileService();
-            peakFileService.OnProcessStarted += new PeakFileService.ProcessStarted(peakFile_OnProcessStarted);
-            peakFileService.OnProcessData += new PeakFileService.ProcessData(peakFile_OnProcessData);
-            peakFileService.OnProcessDone += new PeakFileService.ProcessDone(peakFile_OnProcessDone);
+            peakFileService.OnProcessStarted += new ProcessStarted(peakFile_OnProcessStarted);
+            peakFileService.OnProcessData += new ProcessData(peakFile_OnProcessData);
+            peakFileService.OnProcessDone += new ProcessDone(peakFile_OnProcessDone);
 
             // Create timer for refresh
             timerLoadPeakFile = new Timer();

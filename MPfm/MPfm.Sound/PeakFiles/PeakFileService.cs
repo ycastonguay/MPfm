@@ -16,7 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +25,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.BassNetWrapper;
 
 namespace MPfm.Sound.PeakFiles
 {
@@ -74,6 +74,10 @@ namespace MPfm.Sound.PeakFiles
                 progressReportBlockInterval = value;
             }
         }
+
+        public event ProcessStarted OnProcessStarted;
+        public event ProcessData OnProcessData;
+        public event ProcessDone OnProcessDone;
 
         /// <summary>
         /// Generates a peak file for an audio file.

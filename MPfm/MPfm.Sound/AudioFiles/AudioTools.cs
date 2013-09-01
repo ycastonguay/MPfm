@@ -20,6 +20,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+using MPfm.Sound.BassNetWrapper;
+#endif
+
 namespace MPfm.Sound.AudioFiles
 {
     /// <summary>
