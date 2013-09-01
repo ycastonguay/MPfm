@@ -65,7 +65,7 @@ namespace MPfm.Mac.Classes.Controls
             base.MouseUp(theEvent);
             float value = this.FloatValue;
             isMouseDown = false;
-            playerPresenter.SetPosition(value / 100);
+            //playerPresenter.SetPosition(value / 100);
         }
 
         [Export("didChangeValue:")]

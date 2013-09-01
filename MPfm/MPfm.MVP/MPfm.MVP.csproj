@@ -71,8 +71,7 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TinyIoC">
       <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
