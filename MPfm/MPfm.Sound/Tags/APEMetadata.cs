@@ -37,16 +37,15 @@ namespace MPfm.Sound.Tags
         /// <returns>APE data structure</returns>
         public static APETag Read(string filePath)
         {            
-            // Check for nulls or empty
             if (String.IsNullOrEmpty(filePath))
-            {
                 throw new Exception("The file path cannot be null or empty!");
-            }
 
-            // Declare variables
             APETag data = new APETag();
-            FileStream stream = null;
+
+            #if WINDOWSSTORE
+            #else
             BinaryReader reader = null;
+            FileStream stream = null;
 
             try
             {
@@ -293,6 +292,8 @@ namespace MPfm.Sound.Tags
                 stream.Close();   
             }
 
+            #endif
+
             return data;
         }
 
@@ -304,20 +305,17 @@ namespace MPfm.Sound.Tags
         /// <param name="dictionary">List of APE tags to write</param>
         public static void Write(string filePath, Dictionary<string, string> dictionary)
         {
-            // Check for nulls or empty
             if (String.IsNullOrEmpty(filePath))
-            {
                 throw new Exception("The file path cannot be null or empty!");
-            }
             if (dictionary == null)
-            {
                 throw new Exception("The dictionary cannot be null!");
-            }
 
             // Read the metadata first (to get tag size)
             APETag tag = Read(filePath);
 
-            // Declare variables
+            #if WINDOWSSTORE
+            #else
+
             BinaryWriter writer = null;
             FileStream stream = null;
             
@@ -426,6 +424,8 @@ namespace MPfm.Sound.Tags
                 // Dispose stream (writer will be automatically disposed too)                
                 stream.Close();   
             }
+
+            #endif
         }
     }
 

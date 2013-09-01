@@ -647,12 +647,13 @@ namespace MPfm.Sound.AudioFiles
 			if (readMetadata)
 			{
                 // Check if the file exists
+                #if WINDOWSSTORE
+                #else
                 if (!File.Exists(filePath))
-                {
                     throw new Exception("The file at " + filePath + " doesn't exists!");
-                }
+                #endif
 
-				// Read tags using TagLib# and binary reader
+                // Read tags using TagLib# and binary reader
 				RefreshMetadata();
 			}
 		}
@@ -663,10 +664,14 @@ namespace MPfm.Sound.AudioFiles
 		public void RefreshMetadata()
 		{
             // Get file size
+            #if WINDOWSSTORE
+		    fileSize = 0;
+            #else
             var fileInfo = new FileInfo(filePath);
             fileSize = fileInfo.Length;
+            #endif
 
-			// Check what is the type of the audio file
+            // Check what is the type of the audio file
             if (fileType == AudioFileFormat.MP3)
 			{
                 // Declare variables
@@ -1481,12 +1486,13 @@ namespace MPfm.Sound.AudioFiles
         {
             byte[] bytes = new byte[0];
 
+            #if WINDOWSSTORE
+            #else
             // Check if the file exists
             if (!File.Exists(filePath))
-            {
                 return null;
-            }
-            
+            #endif
+
             // Check the file extension
             string extension = Path.GetExtension(filePath).ToUpper();
             if (extension == ".MP3")

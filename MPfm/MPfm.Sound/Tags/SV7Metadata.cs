@@ -36,14 +36,13 @@ namespace MPfm.Sound.Tags
         /// <returns>SV7 data structure</returns>
         public static SV7Tag Read(string filePath)
         {
-            // Check for nulls or empty
             if (String.IsNullOrEmpty(filePath))
-            {
                 throw new Exception("The file path cannot be null or empty!");
-            }
 
-            // Declare variables
             SV7Tag data = new SV7Tag();
+
+            #if WINDOWSSTORE
+            #else            
             BinaryReader reader = null;
             FileStream stream = null;
 
@@ -186,6 +185,8 @@ namespace MPfm.Sound.Tags
                 // Dispose stream (reader will be automatically disposed too)                
                 stream.Close();                
             }
+
+            #endif
 
             return data;
         }

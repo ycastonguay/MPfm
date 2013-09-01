@@ -36,14 +36,15 @@ namespace MPfm.Sound.Tags
         /// <returns>SV8 data structure</returns>
         public static SV8Tag Read(string filePath)
         {
+            SV8Tag data = new SV8Tag();
+
             // Check for nulls or empty
             if (String.IsNullOrEmpty(filePath))
-            {
                 throw new Exception("The file path cannot be null or empty!");
-            }
 
-            // Declare variables
-            SV8Tag data = new SV8Tag();
+            #if WINDOWSSTORE
+            #else
+
             BinaryReader reader = null;
             FileStream stream = null;
 
@@ -219,6 +220,8 @@ namespace MPfm.Sound.Tags
                 // Dispose stream (reader will be automatically disposed too)                
                 stream.Close();   
             }
+
+            #endif
 
             return data;
         }

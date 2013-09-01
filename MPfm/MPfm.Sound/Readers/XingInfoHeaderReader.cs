@@ -35,10 +35,12 @@ namespace MPfm.Sound.Readers
         /// <returns>Xing/Info header data structure</returns>
         public static XingInfoHeaderData ReadXingInfoHeader(string filePath, long startPosition)
         {
-            // Declare variables
             XingInfoHeaderData data = new XingInfoHeaderData();
-            FileStream stream = null;
+
+            #if WINDOWSSTORE
+            #else
             BinaryReader reader = null;
+            FileStream stream = null;
 
             try
             {
@@ -117,6 +119,8 @@ namespace MPfm.Sound.Readers
                 // Dispose stream (reader will be automatically disposed too)                
                 stream.Close();
             }
+
+            #endif    
 
             return data;
         }

@@ -85,6 +85,9 @@ namespace MPfm.Sound.Playlists
             // Get playlist directory path
             string playlistDirectory = Path.GetDirectoryName(filePath);
 
+            #if WINDOWSSTORE
+            #else
+
             try
             {
                 // Open reader (will automatically detect ASCII or UTF8 files)
@@ -165,6 +168,7 @@ namespace MPfm.Sound.Playlists
                 // Close reader
                 reader.Dispose();
             }
+            #endif
 
             return files;
         }
@@ -178,8 +182,10 @@ namespace MPfm.Sound.Playlists
         /// <param name="useRelativePaths">Use relative paths</param>
         public static void SaveM3UPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths, bool useUTF8Encoding)
         {
-            // Declare variables
             StreamWriter writer = null;
+
+            #if WINDOWSSTORE
+            #else
 
             try
             {
@@ -222,6 +228,8 @@ namespace MPfm.Sound.Playlists
                 // Dispose writer
                 writer.Close();
             }
+
+            #endif
         }
 
         #endregion
@@ -255,6 +263,9 @@ namespace MPfm.Sound.Playlists
 
             // Get playlist directory path
             string playlistDirectory = Path.GetDirectoryName(filePath);
+
+            #if WINDOWSSTORE
+            #else
 
             try
             {
@@ -290,6 +301,8 @@ namespace MPfm.Sound.Playlists
                             // Fetch file name
                             string fileName = lineValue.Replace("FILE" + lineNumber.ToString() + "=", "");
 
+                            #if WINDOWSSTORE
+                            #else
                             // Check for a media file with absolute path
                             if (File.Exists(fileName))
                             {
@@ -314,6 +327,8 @@ namespace MPfm.Sound.Playlists
                                 // Add file to list
                                 files.Add(playlistDirectory + "/" + fileName);
                             }
+
+                            #endif
                         }
                         else if (lineValue.StartsWith("TITLE"))
                         {
@@ -344,6 +359,8 @@ namespace MPfm.Sound.Playlists
                 reader.Dispose();
             }
 
+            #endif
+
             return files;
         }
 
@@ -355,8 +372,10 @@ namespace MPfm.Sound.Playlists
         /// <param name="useRelativePaths">Use relative paths</param>
         public static void SavePLSPlaylist(string playlistFilePath, Playlist playlist, bool useRelativePaths)
         {
-            // Declare variables
             StreamWriter writer = null;
+            
+            #if WINDOWSSTORE
+            #else            
 
             try
             {
@@ -405,6 +424,7 @@ namespace MPfm.Sound.Playlists
                 // Close writer
                 writer.Close();
             }
+            #endif
         }
 
         #endregion
@@ -436,6 +456,9 @@ namespace MPfm.Sound.Playlists
             // Declare variables
             List<string> files = new List<string>();
             XDocument doc = null;
+
+            #if WINDOWSSTORE
+            #else
 
             // Get playlist directory path
             string playlistDirectory = Path.GetDirectoryName(filePath);
@@ -518,8 +541,10 @@ namespace MPfm.Sound.Playlists
             }
             finally
             {
-                doc = null;
+                doc = null;            
             }
+
+            #endif
 
             return files;
         }

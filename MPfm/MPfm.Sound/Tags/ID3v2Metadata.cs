@@ -35,14 +35,13 @@ namespace MPfm.Sound.Tags
         /// <returns>ID3v2 data structure</returns>
         public static ID3v2Tag Read(string filePath)
         {
-            // Check for nulls or empty
             if (String.IsNullOrEmpty(filePath))
-            {
                 throw new Exception("The file path cannot be null or empty!");
-            }
 
-            // Declare variables
             ID3v2Tag data = new ID3v2Tag();
+
+            #if WINDOWSSTORE
+            #else
             FileStream stream = null;
             BinaryReader reader = null;
 
@@ -111,6 +110,7 @@ namespace MPfm.Sound.Tags
                 // Dispose stream (reader will be automatically disposed too)                
                 stream.Close();   
             }
+            #endif
 
             return data;
         }

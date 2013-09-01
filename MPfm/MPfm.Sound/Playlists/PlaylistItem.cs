@@ -19,9 +19,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using MPfm.Core;
 using MPfm.Sound.AudioFiles;
+
+#if WINDOWSSTORE
+using Windows.UI.Xaml;
+#elif WINDOWS_PHONE
+using System.Windows.Threading;
+#endif
 
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using Un4seen.Bass;
@@ -38,11 +43,11 @@ namespace MPfm.Sound.Playlists
         #if WINDOWS_PHONE
         private System.Windows.Threading.DispatcherTimer timerFillBuffer = null;
         #elif WINDOWSSTORE
-        private System.Timers.Timer timerFillBuffer = null;
+        private Windows.UI.Xaml.DispatcherTimer timerFillBuffer = null;
         #else
-        private System.Windows.Threading.DispatcherTimer timerFillBuffer = null;
+        private System.Timers.Timer timerFillBuffer = null;
         #endif
-        
+
         private ByteArrayQueue queue = null;
         private List<Task> tasksDecode = null;
         private CancellationTokenSource cancellationTokenSource = null;
@@ -243,7 +248,7 @@ namespace MPfm.Sound.Playlists
             timerFillBuffer.Elapsed += HandleTimerFillBufferElapsed;
             #else
             timerFillBuffer = new DispatcherTimer();
-            timerFillBuffer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            timerFillBuffer.Interval = new TimeSpan(0, 0, 0, 0, 200);            
             timerFillBuffer.Tick += TimerFillBufferOnTick;
             #endif
         }
@@ -300,7 +305,7 @@ namespace MPfm.Sound.Playlists
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         private void HandleTimerFillBufferElapsed(object sender, System.Timers.ElapsedEventArgs e)
         #else
-        private void TimerFillBufferOnTick(object sender, EventArgs eventArgs)
+        private void TimerFillBufferOnTick(object sender, object eventArgs)
         #endif
         {
             // Disable timer 
