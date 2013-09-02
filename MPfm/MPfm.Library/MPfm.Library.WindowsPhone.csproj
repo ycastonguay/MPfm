@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{317F03EF-9294-47D4-A915-7ABDC647897A}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPfm.Library</RootNamespace>
+    <AssemblyName>MPfm.Library</AssemblyName>
+    <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\x86\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;USE_WP8_NATIVE_SQLITE </DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\ARM\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;USE_WP8_NATIVE_SQLITE </DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\ARM\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Lib\taglib-sharp.dll" />
+    <EmbeddedResource Include="Scripts\1.03-1.04.sql" />
+    <EmbeddedResource Include="Scripts\1.02-1.03.sql" />
+    <EmbeddedResource Include="Scripts\1.01-1.02.sql" />
+    <EmbeddedResource Include="Scripts\1.00-1.01.sql" />
+    <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
+    <Content Include="Lib\SQLite.Interop.dll" />
+    <Content Include="Lib\System.Data.SQLite.dll" />
+    <Content Include="Lib\System.Data.SQLite.Linq.dll" />
+    <EmbeddedResource Include="WebApp\css\app.css" />
+    <EmbeddedResource Include="WebApp\js\app.js" />
+    <EmbeddedResource Include="WebApp\js\jquery-1.9.1.min.js" />
+    <EmbeddedResource Include="WebApp\index.html" />
+    <EmbeddedResource Include="WebApp\js\jquery.upload-1.0.2.min.js" />
+    <EmbeddedResource Include="WebApp\images\app_logo.png" />
+    <EmbeddedResource Include="WebApp\login.html" />
+    <EmbeddedResource Include="WebApp\images\icon_album.png" />
+    <EmbeddedResource Include="WebApp\images\icon_artist.png" />
+    <EmbeddedResource Include="WebApp\images\icon_download.png" />
+    <EmbeddedResource Include="WebApp\images\icon_upload.png" />
+    <EmbeddedResource Include="Scripts\1.04-1.05.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\MonoSQLiteGateway.cs" />
+    <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
+    <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
+    <Compile Include="Database\DatabaseFacade.cs" />
+    <Compile Include="ILibrary.cs" />
+    <Compile Include="Objects\NetworkState.cs" />
+    <Compile Include="Objects\PlaylistFile.cs" />
+    <Compile Include="Objects\History.cs" />
+    <Compile Include="Objects\Setting.cs" />
+    <Compile Include="Database\SQLiteGateway.cs" />
+    <Compile Include="Objects\Folder.cs" />
+    <Compile Include="Library.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryMode.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
+    <Compile Include="Services\LibraryService.cs" />
+    <Compile Include="Services\Interfaces\ILibraryService.cs" />
+    <Compile Include="Services\SyncDiscoveryService.cs" />
+    <Compile Include="Services\Interfaces\ISyncDiscoveryService.cs" />
+    <Compile Include="Services\Interfaces\ISyncListenerService.cs" />
+    <Compile Include="Services\Interfaces\ISyncClientService.cs" />
+    <Compile Include="Services\SyncClientService.cs" />
+    <Compile Include="Services\AudioFileCacheService.cs" />
+    <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
+    <Compile Include="Objects\LibraryQuery.cs" />
+    <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
+    <Compile Include="Objects\SyncDevice.cs" />
+    <Compile Include="Services\SyncListenerService.cs" />
+    <Compile Include="ISyncDeviceSpecifications.cs" />
+    <Compile Include="Services\UpdateLibraryService.cs" />
+    <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
+    <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
+    <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
+    <Compile Include="Objects\UpdateLibraryEntity.cs" />
+    <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\sqlite-net-wp8\Sqlite.vcxproj">
+      <Project>{59B35F6C-E062-4F0E-88D8-13F3F82A24F3}</Project>
+      <Name>Sqlite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsPhone.csproj">
+      <Project>{5CA0AA57-8F15-4DC2-B5C6-25692F200869}</Project>
+      <Name>MPfm.Core.WindowsPhone</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.WindowsPhone.csproj">
+      <Project>{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}</Project>
+      <Name>MPfm.Player.WindowsPhone</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.WindowsPhone.csproj">
+      <Project>{591A3842-87BC-467F-AA99-42749C8DBFB3}</Project>
+      <Name>MPfm.Sound.WindowsPhone</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.WP80, Version=3.8.0">
+      <Name>SQLite for Windows Phone</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
+  <ProjectExtensions />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

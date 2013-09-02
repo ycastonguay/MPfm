@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -617,20 +619,13 @@ namespace MPfm.Library
         /// <param name="e">Argument</param>
         private void workerUpdateLibrary_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            // Check if the event is registered
             if (OnUpdateLibraryFinished != null)
             {
-                // Create data
                 UpdateLibraryFinishedData data = new UpdateLibraryFinishedData();
-
                 if (!e.Cancelled)
-                {
                     data.Successful = true;
-                }
-
                 data.Cancelled = e.Cancelled;
 
-                // Fire event
                 OnUpdateLibraryFinished(data);
             }
         }
@@ -1462,6 +1457,7 @@ namespace MPfm.Library
 
         #region ID3 tags / Album art
 
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         /// <summary>
         /// Returns the TagLib# data structure of a file.
         /// </summary>
@@ -1472,7 +1468,10 @@ namespace MPfm.Library
             return TagLib.File.Create(filePath);
         }
 
-#if (!IOS && !ANDROID)
+        #endif
+
+        #if !IOS && !ANDROID && !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
         /// <summary>
         /// Returns the album art in the ID3 tags, or the folder.jpg
         /// image if the tags are empty.
@@ -1550,7 +1549,7 @@ namespace MPfm.Library
 
             return image;
         }
-#endif
+        #endif
 
         #endregion
 
@@ -1608,3 +1607,4 @@ namespace MPfm.Library
         }
     }
 }
+#endif

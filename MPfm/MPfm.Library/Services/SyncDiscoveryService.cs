@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -39,13 +41,8 @@ namespace MPfm.Library.Services
         public bool IsRunning { get; private set; }
         public int Port { get; private set; }
 
-        public delegate void DiscoveryProgress(float percentageDone, string status);
         public event DiscoveryProgress OnDiscoveryProgress;
-
-        public delegate void DeviceFound(SyncDevice device);
         public event DeviceFound OnDeviceFound;
-
-        public delegate void DiscoveryEnded(IEnumerable<SyncDevice> devices);
         public event DiscoveryEnded OnDiscoveryEnded;
 
         public SyncDiscoveryService()
@@ -188,3 +185,4 @@ namespace MPfm.Library.Services
         }
     }
 }
+#endif

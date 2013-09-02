@@ -18,9 +18,6 @@
 #if !IOS && !ANDROID && !MACOSX && !LINUX
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -28,6 +25,14 @@ using MPfm.Core;
 using MPfm.Core.Attributes;
 using MPfm.Core.Extensions;
 using MPfm.Library.Database.Interfaces;
+
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+using System.Data;
+using System.Data.Common;
+using System.Data.SQLite;
+#else
+using SQLite;
+#endif
 
 namespace MPfm.Library.Database
 {
@@ -43,7 +48,7 @@ namespace MPfm.Library.Database
     {
         // Private variables        
         private DbProviderFactory factory = null;
-        private SQLiteConnection connection = null;
+        private SQLiteConnection connection = null;        
 
         /// <summary>
         /// Private value for the DatabaseFilePath property.

@@ -4,28 +4,27 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7E431B3-1AEF-4023-B8B5-36BE68D713E9}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{394F4601-AF24-43A1-BCD3-0784645DAB17}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.WindowsStore</RootNamespace>
-    <AssemblyName>MPfm.WindowsStore</AssemblyName>
+    <RootNamespace>MPfm.Library</RootNamespace>
+    <AssemblyName>MPfm.Library</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MPfm.WindowsStore_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -58,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -100,14 +99,74 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <EmbeddedResource Include="Scripts\1.03-1.04.sql" />
+    <EmbeddedResource Include="Scripts\1.02-1.03.sql" />
+    <EmbeddedResource Include="Scripts\1.01-1.02.sql" />
+    <EmbeddedResource Include="Scripts\1.00-1.01.sql" />
+    <EmbeddedResource Include="Scripts\CreateDatabase.sql" />
+    <Content Include="Lib\SQLite.Interop.dll" />
+    <Content Include="Lib\System.Data.SQLite.dll" />
+    <Content Include="Lib\System.Data.SQLite.Linq.dll" />
+    <EmbeddedResource Include="WebApp\css\app.css" />
+    <EmbeddedResource Include="WebApp\js\app.js" />
+    <EmbeddedResource Include="WebApp\js\jquery-1.9.1.min.js" />
+    <EmbeddedResource Include="WebApp\index.html" />
+    <EmbeddedResource Include="WebApp\js\jquery.upload-1.0.2.min.js" />
+    <EmbeddedResource Include="WebApp\images\app_logo.png" />
+    <EmbeddedResource Include="WebApp\login.html" />
+    <EmbeddedResource Include="WebApp\images\icon_album.png" />
+    <EmbeddedResource Include="WebApp\images\icon_artist.png" />
+    <EmbeddedResource Include="WebApp\images\icon_download.png" />
+    <EmbeddedResource Include="WebApp\images\icon_upload.png" />
+    <EmbeddedResource Include="Scripts\1.04-1.05.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\MonoSQLiteGateway.cs" />
+    <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
+    <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
+    <Compile Include="Database\DatabaseFacade.cs" />
+    <Compile Include="ILibrary.cs" />
+    <Compile Include="Objects\NetworkState.cs" />
+    <Compile Include="Objects\PlaylistFile.cs" />
+    <Compile Include="Objects\History.cs" />
+    <Compile Include="Objects\Setting.cs" />
+    <Compile Include="Database\SQLiteGateway.cs" />
+    <Compile Include="Objects\Folder.cs" />
+    <Compile Include="Library.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryMode.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
+    <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
+    <Compile Include="Services\LibraryService.cs" />
+    <Compile Include="Services\Interfaces\ILibraryService.cs" />
+    <Compile Include="Services\SyncDiscoveryService.cs" />
+    <Compile Include="Services\Interfaces\ISyncDiscoveryService.cs" />
+    <Compile Include="Services\Interfaces\ISyncListenerService.cs" />
+    <Compile Include="Services\Interfaces\ISyncClientService.cs" />
+    <Compile Include="Services\SyncClientService.cs" />
+    <Compile Include="Services\AudioFileCacheService.cs" />
+    <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
+    <Compile Include="Objects\LibraryQuery.cs" />
+    <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
+    <Compile Include="Objects\SyncDevice.cs" />
+    <Compile Include="Services\SyncListenerService.cs" />
+    <Compile Include="ISyncDeviceSpecifications.cs" />
+    <Compile Include="Services\UpdateLibraryService.cs" />
+    <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
+    <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
+    <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
+    <Compile Include="Objects\UpdateLibraryEntity.cs" />
+    <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
       <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
       <Name>MPfm.Core.WindowsStore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MPfm.Library\MPfm.Library.WindowsStore.csproj">
-      <Project>{394f4601-af24-43a1-bcd3-0784645dab17}</Project>
-      <Name>MPfm.Library.WindowsStore</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPfm.Player\MPfm.Player.WindowsStore.csproj">
       <Project>{b096c459-3e2d-4932-a961-de692f6b6c1c}</Project>
@@ -119,57 +178,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ItemsPage.xaml.cs">
-      <DependentUpon>ItemsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SplitPage.xaml.cs">
-      <DependentUpon>SplitPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataModel\SampleDataSource.cs" />
-    <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="Common\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Common\BooleanNegationConverter.cs" />
-    <Compile Include="Common\LayoutAwarePage.cs" />
-    <Compile Include="Common\RichTextColumns.cs" />
-    <Compile Include="Common\SuspensionManager.cs" />
+    <Reference Include="taglib-sharp">
+      <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-    <None Include="Common\ReadMe.txt" />
-    <None Include="MPfm.WindowsStore_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\LightGray.png" />
-    <Content Include="Assets\MediumGray.png" />
-    <Content Include="Assets\DarkGray.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="Common\StandardStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ItemsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SplitPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <SDKReference Include="Microsoft.VCLibs, version=11.0">
+      <Name>Microsoft Visual C++ Runtime Package</Name>
+    </SDKReference>
+    <SDKReference Include="SQLite.WinRT, Version=3.8.0">
+      <Name>SQLite for Windows Runtime</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

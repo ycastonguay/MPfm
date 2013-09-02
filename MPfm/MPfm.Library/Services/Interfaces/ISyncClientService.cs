@@ -17,20 +17,25 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Library.Services.Interfaces
 {
+    public delegate void ReceivedIndex(Exception ex);
+    public delegate void DownloadIndexProgress(int progressPercentage, long bytesReceived, long totalBytesToReceive);
+    public delegate void DownloadAudioFileStatus(SyncClientDownloadAudioFileProgressEntity entity);
+
     /// <summary>
     /// Interface for the SyncClientService class.
     /// </summary>
     public interface ISyncClientService
     {
-        event SyncClientService.ReceivedIndex OnReceivedIndex;
-        event SyncClientService.DownloadIndexProgress OnDownloadIndexProgress;
-        event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileStarted;
-        event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileProgress;
-        event SyncClientService.DownloadAudioFileStatus OnDownloadAudioFileCompleted;
+        event ReceivedIndex OnReceivedIndex;
+        event DownloadIndexProgress OnDownloadIndexProgress;
+        event DownloadAudioFileStatus OnDownloadAudioFileStarted;
+        event DownloadAudioFileStatus OnDownloadAudioFileProgress;
+        event DownloadAudioFileStatus OnDownloadAudioFileCompleted;
         event EventHandler OnDownloadAudioFilesCompleted;
 
         void Cancel();

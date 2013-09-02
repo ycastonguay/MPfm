@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+
 using System;
 using System.Collections.Generic;
 using MPfm.Library.Database;
@@ -71,3 +73,4 @@ namespace MPfm.Library
         void UpdateLibraryReportProgress(string title, string message, double percentage, string logEntry);
     }
 }
+#endif

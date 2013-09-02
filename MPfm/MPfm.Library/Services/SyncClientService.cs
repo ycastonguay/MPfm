@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+#if !WINDOWSSTORE && !WINDOWS_PHONE
+
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -46,9 +48,6 @@ namespace MPfm.Library.Services
         
         long _lastBytesReceived = 0;
 
-        public delegate void ReceivedIndex(Exception ex);
-        public delegate void DownloadIndexProgress(int progressPercentage, long bytesReceived, long totalBytesToReceive);
-        public delegate void DownloadAudioFileStatus(SyncClientDownloadAudioFileProgressEntity entity);
         public event ReceivedIndex OnReceivedIndex;
         public event DownloadIndexProgress OnDownloadIndexProgress;
         public event DownloadAudioFileStatus OnDownloadAudioFileStarted;
@@ -291,3 +290,4 @@ namespace MPfm.Library.Services
         }
     }
 }
+#endif

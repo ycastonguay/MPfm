@@ -17,17 +17,22 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Library.Objects;
 
 namespace MPfm.Library.Services.Interfaces
 {
+    public delegate void DiscoveryProgress(float percentageDone, string status);
+    public delegate void DeviceFound(SyncDevice device);
+    public delegate void DiscoveryEnded(IEnumerable<SyncDevice> devices);
+
     /// <summary>
     /// Interface for the SyncDiscoveryService class.
     /// </summary>
     public interface ISyncDiscoveryService
     {
-        event SyncDiscoveryService.DeviceFound OnDeviceFound;
-        event SyncDiscoveryService.DiscoveryProgress OnDiscoveryProgress;
-        event SyncDiscoveryService.DiscoveryEnded OnDiscoveryEnded;
+        event DeviceFound OnDeviceFound;
+        event DiscoveryProgress OnDiscoveryProgress;
+        event DiscoveryEnded OnDiscoveryEnded;
 
         bool IsRunning { get; }
 

@@ -22,7 +22,9 @@ namespace MPfm.Library.UpdateLibrary
     /// <summary>
     /// Defines a custom exception for the Update Library background process.
     /// </summary>
+    #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
     [Serializable]
+    #endif
     public class UpdateLibraryException : Exception
     {
     }

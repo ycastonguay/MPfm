@@ -19,8 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 
-//using System.Data.Linq;
-
 namespace MPfm.Library.Database.Interfaces
 {
     /// <summary>
