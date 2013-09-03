@@ -121,6 +121,7 @@
     <EmbeddedResource Include="Scripts\1.04-1.05.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\WinRTSQLiteGateway.cs" />
     <Compile Include="Database\MonoSQLiteGateway.cs" />
     <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />

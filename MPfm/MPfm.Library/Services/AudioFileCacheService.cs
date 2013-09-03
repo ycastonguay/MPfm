@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Services.Interfaces;
 using TinyMessenger;
@@ -49,9 +50,9 @@ namespace MPfm.Library.Services
 		public void RefreshCache()
 		{
             // Warn any subscribers that the audio file cache has been updated (i.e. library/song browser presenters)
-            Console.WriteLine("AudioFileCacheService - Refreshing cache...");
+            Tracing.Log("AudioFileCacheService - Refreshing cache...");
             AudioFiles = _libraryService.SelectAudioFiles().ToList();
-            Console.WriteLine("AudioFileCacheService - Cache has {0} files.", AudioFiles.Count);
+            Tracing.Log(string.Format("AudioFileCacheService - Cache has {0} files.", AudioFiles.Count));
             _messengerHub.PublishAsync(new AudioFileCacheUpdatedMessage(this));
 		}
 
@@ -132,7 +133,7 @@ namespace MPfm.Library.Services
         /// <returns>Value</returns>
         private static object GetPropertyValue(object obj, string property)
         {
-            PropertyInfo propertyInfo = obj.GetType().GetProperty(property);
+		    var propertyInfo = obj.GetType().GetRuntimeProperty(property);
             return propertyInfo.GetValue(obj, null);
         }
 	}

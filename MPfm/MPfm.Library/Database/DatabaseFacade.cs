@@ -44,6 +44,8 @@ namespace MPfm.Library.Database
 
 #if IOS || ANDROID || MACOSX || LINUX
             _gateway = new MonoSQLiteGateway(databaseFilePath);
+#elif WINDOWSSTORE || WINDOWS_PHONE
+            _gateway = new WinRTSQLiteGateway(databaseFilePath);
 #else
             _gateway = new SQLiteGateway(databaseFilePath);
 #endif

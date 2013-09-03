@@ -15,12 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-#if !IOS && !ANDROID && !MACOSX && !LINUX && !WINDOWSSTORE && !WINDOWS_PHONE
+#if WINDOWSSTORE || WINDOWS_PHONE
+
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -28,27 +26,19 @@ using MPfm.Core;
 using MPfm.Core.Attributes;
 using MPfm.Core.Extensions;
 using MPfm.Library.Database.Interfaces;
+using SQLite;
 
 namespace MPfm.Library.Database
 {
     /// <summary>
     /// The SQLiteGateway class is a data adapter class which makes it easier to select, insert, update and delete
     /// data from the database.
-    ///
-    /// Notes: System.Data.SQLite doesn't like:    
-    /// - SingleOrDefault -- replaced with FirstOrDefault.
-    /// - compare database varchar to Guid.ToString() -- need to cast guid into string before using value in LIN
     /// </summary>
-    public class SQLiteGateway : ISQLiteGateway
+    public class WinRTSQLiteGateway : ISQLiteGateway
     {
-        // Private variables        
-        private DbProviderFactory factory = null;
-        private SQLiteConnection connection = null;        
+        private SQLiteConnection _connection = null;
 
-        /// <summary>
-        /// Private value for the DatabaseFilePath property.
-        /// </summary>
-        private string databaseFilePath = string.Empty;
+        private string _databaseFilePath;
         /// <summary>
         /// Database file path.
         /// </summary>
@@ -56,7 +46,7 @@ namespace MPfm.Library.Database
         {
             get
             {
-                return databaseFilePath;
+                return _databaseFilePath;
             }
         }
 
@@ -64,40 +54,26 @@ namespace MPfm.Library.Database
         /// Default constructor for the SQLiteGateway class.
         /// </summary>
         /// <param name="databaseFilePath">Database file path</param>
-        public SQLiteGateway(string databaseFilePath)
+        public WinRTSQLiteGateway(string databaseFilePath)
         {
-            // Initialize factory
-            Tracing.Log("SQLiteGateway init -- Initializing database factory (" + databaseFilePath + ")...");
-						
-#if (!MACOSX && !LINUX && !IOS && !ANDROID)			
-        	factory = DbProviderFactories.GetFactory("System.Data.SQLite");
-#elif (MACOSX || LINUX)	
-			factory = DbProviderFactories.GetFactory("Mono.Data.SQLite");			
-#endif
-			
-            this.databaseFilePath = databaseFilePath;
+            _databaseFilePath = databaseFilePath;
         }
 
         /// <summary>
         /// Creates a new database file.
         /// </summary>
         public static void CreateDatabaseFile(string databaseFilePath)
-        {
-            // Create new database file
-            SQLiteConnection.CreateFile(databaseFilePath);
+        {     
+            // Not available on WinRT... the database needs to already exist!
         }
 
         /// <summary>
-        /// Generates a DbConnection based on the current database file path.
+        /// Generates a connection based on the current database file path.
         /// </summary>
-        /// <returns>DbConnection</returns>
-        public DbConnection GenerateConnection()
+        /// <returns>Database connection</returns>
+        public SQLiteConnection GenerateConnection()
         {
-            // Open connection
-            DbConnection connection = factory.CreateConnection();
-            connection.ConnectionString = "Data Source=" + databaseFilePath;                
-
-            return connection;
+            return new SQLiteConnection(_databaseFilePath, true);
         }
 
         /// <summary>
@@ -108,13 +84,13 @@ namespace MPfm.Library.Database
         public Dictionary<string, string> GetMap<T>()
         {
             // Create map by scanning properties
-            Dictionary<string, string> dictMap = new Dictionary<string, string>();
-            PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            Dictionary<string, string> dictMap = new Dictionary<string, string>();            
+            var propertyInfos = typeof(T).GetTypeInfo().DeclaredProperties;
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
                 // Scan attributes
-                object[] attributes = propertyInfo.GetCustomAttributes(true);
-                foreach (object attribute in attributes)
+                var attributes = propertyInfo.GetCustomAttributes();
+                foreach (var attribute in attributes)
                 {
                     // Try to cast into attribute map
                     DatabaseFieldAttribute attrMap = attribute as DatabaseFieldAttribute;
@@ -154,7 +130,7 @@ namespace MPfm.Library.Database
             }
             else if (value.GetType().FullName.ToUpper() == "SYSTEM.STRING" ||
                      value.GetType().FullName.ToUpper() == "SYSTEM.GUID" ||
-                     value.GetType().IsEnum)
+                     value.GetType().GetTypeInfo().IsEnum)
             {
                 // Replace single quotes by two quotes
                 return "'" + value.ToString().Replace("'", "''") + "'";
@@ -172,22 +148,13 @@ namespace MPfm.Library.Database
         /// <returns>Number of rows affected</returns>
         public int Execute(string sql)
         {
-            // Declare variables
-            DbConnection connection = null;            
-            DbCommand command = null;            
+            SQLiteConnection connection = null;            
 
             try
-            {
+            {                
                 // Create and open connection
                 connection = GenerateConnection();
-                connection.Open();
-
-                // Create and execute command
-                command = factory.CreateCommand();
-                command.CommandText = sql;
-                command.Connection = connection;
-                int rows = command.ExecuteNonQuery();
-
+                int rows = connection.Execute(sql, new object[]);
                 return rows;
             }
             catch
@@ -195,16 +162,9 @@ namespace MPfm.Library.Database
                 throw;
             }
             finally
-            {
-				// Dispose command
-                command.Dispose();
-				
-                // Close and clean up connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
+            {                
+                connection.Close();
+                connection.Dispose();
             }
         }
 
@@ -215,22 +175,12 @@ namespace MPfm.Library.Database
         /// <returns>Scalar query value</returns>
         public object ExecuteScalar(string sql)
         {
-            // Declare variables
-            DbConnection connection = null;
-            DbCommand command = null;
+            SQLiteConnection connection = null;
 
             try
             {
-                // Create and open connection
                 connection = GenerateConnection();
-                connection.Open();
-
-                // Create and execute command
-                command = factory.CreateCommand();
-                command.CommandText = sql;
-                command.Connection = connection;
-                object obj = command.ExecuteScalar();
-
+                object obj = connection.ExecuteScalar<object>(sql, new object[]);
                 return obj;
             }
             catch
@@ -239,15 +189,8 @@ namespace MPfm.Library.Database
             }
             finally
             {
-				// Dispose command
-                command.Dispose();
-				
-                // Close and clean up connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
+                connection.Close();
+                connection.Dispose();
             }
         }
 
@@ -267,16 +210,15 @@ namespace MPfm.Library.Database
         /// <returns>List of objects</returns>
         public IEnumerable<object> SelectList(string sql)
         {
-            // Declare variables
-            DbConnection connection = null;
+            SQLiteConnection connection = null;
             DbDataReader reader = null;
-            DbCommand command = null;
+            SQLiteCommand command = null;
             List<object> list = new List<object>();
 
             try
             {
-                // Create and open connection
-                connection = GenerateConnection();
+                // Create and open _connection
+                connection = GenerateConnection();                
                 connection.Open();
 
                 // Create command
@@ -301,7 +243,7 @@ namespace MPfm.Library.Database
             }
             finally
             {
-                // Clean up reader and connection
+                // Clean up reader and _connection
                 if (reader != null)
                 {
                     reader.Close();
@@ -311,7 +253,7 @@ namespace MPfm.Library.Database
 				// Dispose command
                 command.Dispose();
 
-                // Close and clean up connection
+                // Close and clean up _connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -327,15 +269,14 @@ namespace MPfm.Library.Database
         /// <returns>List of tuple</returns>
         public List<Tuple<object, object>> SelectTuple(string sql)
         {
-            // Declare variables
-            DbConnection connection = null;
-            DbDataReader reader = null;
-            DbCommand command = null;            
+            SQLiteConnection connection = null;
+            DbDataReader reader = null; // No reader for WInRT... argh!            
+            SQLiteCommand command = null;
             List<Tuple<object, object>> listTuple = new List<Tuple<object, object>>();
 
             try
             {
-                // Create and open connection
+                // Create and open _connection
                 connection = GenerateConnection();
                 connection.Open();
 
@@ -362,7 +303,7 @@ namespace MPfm.Library.Database
             }
             finally
             {
-                // Clean up reader and connection
+                // Clean up reader and _connection
                 if (reader != null)
                 {
                     reader.Close();
@@ -372,7 +313,7 @@ namespace MPfm.Library.Database
 				// Dispose command
                 command.Dispose();
 
-                // Close and clean up connection
+                // Close and clean up _connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -407,16 +348,15 @@ namespace MPfm.Library.Database
         /// <returns>List of objects</returns>
         public List<T> Select<T>(string sql) where T : new()
         {
-            // Declare variables
-            DbConnection connection = null;
+            SQLiteConnection connection = null;
             DbDataReader reader = null;            
-            DbCommand command = null;
+            SQLiteCommand command = null;
             List<T> list = new List<T>();
             Dictionary<string, string> dictMap = GetMap<T>();
 
             try
             {                
-                // Create and open connection
+                // Create and open _connection
                 connection = GenerateConnection();
                 connection.Open();
 
@@ -492,7 +432,7 @@ namespace MPfm.Library.Database
             //}
             finally
             {
-                // Clean up reader and connection
+                // Clean up reader and _connection
                 if (reader != null)
                 {
                     reader.Close();
@@ -502,7 +442,7 @@ namespace MPfm.Library.Database
 				// Dispose command
                 command.Dispose();
 
-                // Close and clean up connection
+                // Close and clean up _connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -537,9 +477,8 @@ namespace MPfm.Library.Database
         /// <returns>Number of rows affected</returns>
         public int Update<T>(T obj, string tableName, Dictionary<string, object> where)
         {            
-            // Declare variables
-            DbConnection connection = null;            
-            DbCommand command = null;
+            SQLiteConnection connection = null;            
+            SQLiteCommand command = null;
             Dictionary<string, string> dictMap = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
@@ -597,7 +536,7 @@ namespace MPfm.Library.Database
                     sql.Append("\n");
                 }
 
-                // Create and open connection
+                // Create and open _connection
                 connection = GenerateConnection();
                 connection.Open();
 
@@ -619,7 +558,7 @@ namespace MPfm.Library.Database
 				// Dispose command
                 command.Dispose();
 				
-                // Close and clean up connection
+                // Close and clean up _connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -637,9 +576,8 @@ namespace MPfm.Library.Database
         /// <returns>Number of rows affected</returns>
         public int Insert<T>(T obj, string tableName)
         {
-            // Declare variables
-            DbConnection connection = null;
-            DbCommand command = null;
+            SQLiteConnection connection = null;
+            SQLiteCommand command = null;
             Dictionary<string, string> dictMap = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
@@ -697,7 +635,7 @@ namespace MPfm.Library.Database
                 }
                 sql.AppendLine(") ");
 
-                // Create and open connection
+                // Create and open _connection
                 connection = GenerateConnection();
                 connection.Open();
 
@@ -719,7 +657,7 @@ namespace MPfm.Library.Database
 				// Dispose command
                 command.Dispose();
 
-                // Close and clean up connection
+                // Close and clean up _connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();

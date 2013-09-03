@@ -18,6 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Windows.Storage;
+using MPfm.Core.WinRT;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Database;
@@ -101,17 +103,19 @@ namespace MPfm.Library.Services
 		
 		public void RemoveAudioFilesWithBrokenFilePaths()
 		{
-            // Get all audio files
             List<AudioFile> files = gateway.SelectAudioFiles();
-
-            // For each audio file
             for (int a = 0; a < files.Count; a++)
             {
                 // If the file doesn't exist, delete the audio file from the database
-                if (!File.Exists(files[a].FilePath))
-                {
+                #if WINDOWSSTORE
+                var task = ApplicationData.Current.LocalFolder.FileExistsAsync(files[a].FilePath);
+                bool exists = task.Result; // Blocks the thread until the value is returned
+                if(exists)
                     gateway.DeleteAudioFile(files[a].Id);
-                }
+                #else
+                if (!File.Exists(files[a].FilePath))
+                    gateway.DeleteAudioFile(files[a].Id);
+                #endif
             }
 		}	
 		

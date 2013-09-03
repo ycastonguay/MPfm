@@ -108,6 +108,7 @@
     <Compile Include="CacheStore.cs" />
     <Compile Include="Conversion.cs" />
     <Compile Include="DatabaseFieldNameAttribute.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Normalizer.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Network\IPAddressRangeFinder.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
+    <Compile Include="WinRT\ExtensionMethods.cs" />
     <Compile Include="XmlSerialization.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -17,7 +17,9 @@
 
 using System;
 using System.Collections.Generic;
+#if !WINDOWSSTORE && !WINDOWS_PHONE
 using System.Data.Common;
+#endif
 
 namespace MPfm.Library.Database.Interfaces
 {
@@ -26,7 +28,10 @@ namespace MPfm.Library.Database.Interfaces
     /// </summary>
     public interface ISQLiteGateway
     {
-        DbConnection GenerateConnection();
+        #if !WINDOWSSTORE && !WINDOWS_PHONE
+        DbConnetion GenerateConnection();
+        #endif
+
         Dictionary<string, string> GetMap<T>();
         string FormatSQLValue(object value);
         int Execute(string sql);
