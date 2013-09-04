@@ -25,6 +25,7 @@ using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Controls;
 using MPfm.Sound.Playlists;
 using MPfm.Sound.AudioFiles;
+using System.Collections.Generic;
 
 namespace MPfm.iOS
 {
@@ -196,7 +197,7 @@ namespace MPfm.iOS
 
         public Action<Guid, int> OnChangePlaylistItemOrder { get; set; }
         public Action<Guid> OnSelectPlaylistItem { get; set; }
-        public Action<Guid> OnRemovePlaylistItem { get; set; }
+        public Action<List<Guid>> OnRemovePlaylistItems { get; set; }
         public Action OnNewPlaylist { get; set; }
         public Action<string> OnLoadPlaylist { get; set; }
         public Action OnSavePlaylist { get; set; }

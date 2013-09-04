@@ -138,6 +138,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Lib\iOS\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="TinyIoC.iOS">
+      <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

@@ -133,8 +133,13 @@ namespace MPfm.Library.Services
         /// <returns>Value</returns>
         private static object GetPropertyValue(object obj, string property)
         {
+            #if WINDOWSSTORE
 		    var propertyInfo = obj.GetType().GetRuntimeProperty(property);
             return propertyInfo.GetValue(obj, null);
+            #else
+            var propertyInfo = obj.GetType().GetProperty(property);
+            return propertyInfo.GetValue(obj, null);
+            #endif
         }
 	}
 	

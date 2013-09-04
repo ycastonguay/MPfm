@@ -58,7 +58,7 @@ namespace MPfm.iOS
 
         partial void actionPlaylist(NSObject sender)
         {
-            OnClickPlaylist();
+            OnOpenPlaylist();
         }
 
         partial void actionRepeat(NSObject sender)
@@ -98,7 +98,7 @@ namespace MPfm.iOS
 
         #region IPlayerMetadataView implementation
 
-        public Action OnClickPlaylist { get; set; }
+        public Action OnOpenPlaylist { get; set; }
         public Action OnToggleShuffle { get; set; }
         public Action OnToggleRepeat { get; set; }
 

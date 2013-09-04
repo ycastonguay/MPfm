@@ -452,7 +452,8 @@ namespace MPfm.iOS.Classes.Controllers
         }
 
         #region IMobileLibraryBrowserView implementation
-        
+
+        public Action<MobileLibraryBrowserType> OnChangeBrowserType { get; set; }
         public Action<int> OnItemClick { get; set; }
         public Action<int> OnDeleteItem { get; set; }
         public Action<string, string> OnRequestAlbumArt { get; set; }
@@ -547,7 +548,7 @@ namespace MPfm.iOS.Classes.Controllers
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     
-        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack)
+        public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty)
         {
             InvokeOnMainThread(() => {
                 _items = entities.ToList();

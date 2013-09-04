@@ -30,6 +30,7 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Navigation;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using TinyMessenger;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -58,6 +59,7 @@ namespace MPfm.iOS.Classes.Delegates
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            var messenger = container.Resolve<ITinyMessengerHub>();
             RegisterViews();
 
             UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);

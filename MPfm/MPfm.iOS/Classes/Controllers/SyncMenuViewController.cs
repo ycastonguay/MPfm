@@ -112,9 +112,9 @@ namespace MPfm.iOS
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
             if (indexPath != null)
             {
-                if(OnSelectItem != null)
+                if(OnSelectItems != null)
                 {
-                    OnSelectItem(_items[indexPath.Row]);
+                    OnSelectItems(new List<SyncMenuItemEntity>() { _items[indexPath.Row] });
                     RefreshCell(indexPath);
                 }
             }
@@ -193,7 +193,7 @@ namespace MPfm.iOS
         {
             Console.WriteLine("SyncMenuViewController - HandleOnRightButtonTap");
             int row = cell.Tag;
-            OnSelectItem(_items[row]);
+            OnSelectItems(new List<SyncMenuItemEntity>() { _items[row] });
 
             tableView.BeginUpdates();
             tableView.ReloadRows(new NSIndexPath[1] { NSIndexPath.FromRowSection(row, 0) }, UITableViewRowAnimation.None);
@@ -206,13 +206,13 @@ namespace MPfm.iOS
             switch(_items[indexPath.Row].ItemType)
             {
                 case SyncMenuItemEntityType.Artist:
-                    OnExpandItem(_items[indexPath.Row]);
+                    OnExpandItem(_items[indexPath.Row], null);
                     break;
                 case SyncMenuItemEntityType.Album:
-                    OnExpandItem(_items[indexPath.Row]);
+                    OnExpandItem(_items[indexPath.Row], null);
                     break;
                 case SyncMenuItemEntityType.Song:
-                    OnSelectItem(_items[indexPath.Row]);
+                    OnSelectItems(new List<SyncMenuItemEntity>() { _items[indexPath.Row] });
                     RefreshCell(indexPath);
                     break;
             }
@@ -227,10 +227,13 @@ namespace MPfm.iOS
 
         #region ISyncMenuView implementation
 
-        public Action<SyncMenuItemEntity> OnExpandItem { get; set; }
-        public Action<SyncMenuItemEntity> OnSelectItem { get; set; }
+        public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
+        public Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
         public Action OnSync { get; set; }
         public Action OnSelectButtonClick { get; set; }
+        public Action<List<AudioFile>> OnRemoveItems { get; set; }
+        public Action OnSelectAll { get; set; }
+        public Action OnRemoveAll { get; set; }
 
         public void SyncMenuError(Exception ex)
         {
@@ -300,7 +303,7 @@ namespace MPfm.iOS
             });
         }
 
-        public void InsertItems(int index, List<SyncMenuItemEntity> items)
+        public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)
         {
             InvokeOnMainThread(() => {
                 _items.InsertRange(index, items);
@@ -313,7 +316,7 @@ namespace MPfm.iOS
             });
         }
 
-        public void RemoveItems(int index, int count)
+        public void RemoveItems(int index, int count, object userData)
         {
             InvokeOnMainThread(() => {
                 _items.RemoveRange(index, count);
@@ -326,6 +329,12 @@ namespace MPfm.iOS
             });
         }
 
+        public void RefreshSelection(List<AudioFile> audioFiles)
+        {
+            // Not used on mobile devices.
+        }
+
         #endregion
+
     }
 }

@@ -194,6 +194,7 @@ namespace MPfm.iOS
         
         #region IEqualizerPresetDetailsView implementation
 
+        public Action<Guid> OnChangePreset { get; set; }
         public Action OnResetPreset { get; set; }
         public Action OnNormalizePreset { get; set; }
         public Action OnRevertPreset { get; set; }

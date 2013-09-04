@@ -131,6 +131,9 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\MPfm.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="TinyIoC.iOS">
+      <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -308,5 +311,6 @@
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
     <Compile Include="Views\IDesktopPreferencesView.cs" />
     <Compile Include="Views\IDesktopEffectsView.cs" />
+    <Compile Include="Messages\PlayerSetPositionMessage.cs" />
   </ItemGroup>
 </Project>
