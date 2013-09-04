@@ -121,9 +121,36 @@ namespace MPfm.Android.Classes.Navigation
             presenter.PopBackstack(tabItem.Item1, tabItem.Item2);
         }
 
+        public void ChangeMobileLibraryBrowserType(MobileNavigationTabType tabType, MobileLibraryBrowserType newBrowserType)
+        {            
+            MobileLibraryBrowserType browserType = MobileLibraryBrowserType.Artists;
+            switch (tabType)
+            {
+                case MobileNavigationTabType.Artists:
+                    browserType = MobileLibraryBrowserType.Artists;
+                    break;
+                case MobileNavigationTabType.Albums:
+                    browserType = MobileLibraryBrowserType.Albums;
+                    break;
+                case MobileNavigationTabType.Songs:
+                    browserType = MobileLibraryBrowserType.Songs;
+                    break;
+                case MobileNavigationTabType.Playlists:
+                    browserType = MobileLibraryBrowserType.Playlists;
+                    break;
+            }
+
+            _tabHistory.Clear();
+            _tabHistory.Add(new Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>(tabType, new List<Tuple<MobileLibraryBrowserType, LibraryQuery>>() {
+               new Tuple<MobileLibraryBrowserType, LibraryQuery>(newBrowserType, new LibraryQuery())
+            }));
+            var presenter = GetMobileLibraryBrowserPresenter(tabType, browserType);
+            presenter.ChangeBrowserType(newBrowserType);            
+        }
+
         public override void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
         {
-            //Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>> ANDROID NAVMGR -- NotifyMobileLibraryBrowserQueryChange tabType: {0} browserType: {1}", tabType.ToString(), browserType.ToString());
+            //Console.WriteLine("ANDROID NAVMGR -- NotifyMobileLibraryBrowserQueryChange tabType: {0} browserType: {1}", tabType.ToString(), browserType.ToString());
             var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
             tab.Item2.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
         }

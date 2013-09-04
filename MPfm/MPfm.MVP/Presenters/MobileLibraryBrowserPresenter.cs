@@ -95,7 +95,7 @@ namespace MPfm.MVP.Presenters
             RefreshLibraryBrowser();
         }
 
-	    private void ChangeBrowserType(MobileLibraryBrowserType browserType)
+	    public void ChangeBrowserType(MobileLibraryBrowserType browserType)
 	    {
 	        _browserType = browserType;
             _query = new LibraryQuery();            
@@ -103,6 +103,25 @@ namespace MPfm.MVP.Presenters
             _queryHistory.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, _query));
             RefreshLibraryBrowser();
 	    }
+
+        public void SetQuery(MobileLibraryBrowserType browserType, LibraryQuery query)
+        {
+            _queryHistory.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
+            _browserType = browserType;
+            _query = query;
+            RefreshLibraryBrowser();
+        }
+
+        public void PopBackstack(MobileLibraryBrowserType browserType, LibraryQuery query)
+        {
+            if (_queryHistory.Count == 0)
+                return;
+
+            _queryHistory.RemoveAt(_queryHistory.Count - 1);
+            _browserType = browserType;
+            _query = query;
+            RefreshLibraryBrowser(true);
+        }
 
 	    private void AudioFileCacheUpdated(AudioFileCacheUpdatedMessage message)
 	    {
@@ -289,25 +308,6 @@ namespace MPfm.MVP.Presenters
                 View.MobileLibraryBrowserError(ex);
             }
 	    }
-
-        public void SetQuery(MobileLibraryBrowserType browserType, LibraryQuery query)
-        {
-            _queryHistory.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
-            _browserType = browserType;
-            _query = query;
-            RefreshLibraryBrowser();
-        }
-
-        public void PopBackstack(MobileLibraryBrowserType browserType, LibraryQuery query)
-        {
-            if (_queryHistory.Count == 0)
-                return;
-
-            _queryHistory.RemoveAt(_queryHistory.Count - 1);
-            _browserType = browserType;
-            _query = query;
-            RefreshLibraryBrowser(true);            
-        }
 
         private void RefreshLibraryBrowser()
         {

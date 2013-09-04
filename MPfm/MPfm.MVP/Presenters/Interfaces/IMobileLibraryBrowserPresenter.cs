@@ -28,6 +28,7 @@ namespace MPfm.MVP.Presenters.Interfaces
 	/// </summary>
     public interface IMobileLibraryBrowserPresenter : IBasePresenter<IMobileLibraryBrowserView>
 	{
+	    void ChangeBrowserType(MobileLibraryBrowserType browserType);
         void SetQuery(MobileLibraryBrowserType browserType, LibraryQuery query);
         void PopBackstack(MobileLibraryBrowserType browserType, LibraryQuery query);
 	}

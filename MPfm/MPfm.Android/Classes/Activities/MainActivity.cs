@@ -60,8 +60,6 @@ namespace MPfm.Android
         private SplashFragment _splashFragment;
         private LinearLayout _miniPlayer;
         private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
-        //private ViewPager _viewPager;
-        //private MainTabStatePagerAdapter _tabPagerAdapter;
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
@@ -72,7 +70,6 @@ namespace MPfm.Android
         private bool _isPlaying;
         private ArrayAdapter _spinnerAdapter;
         private Fragment _fragment;
-        //private LockReceiver _lockReceiver;
 
         //private IntentFilter _intentFilter;
         //private WifiP2pManager _wifiManager;
@@ -97,13 +94,7 @@ namespace MPfm.Android
             ActionBar.Title = string.Empty;
             _spinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.action_list, Resource.Layout.spinner_dropdown_item);
             ActionBar.SetListNavigationCallbacks(_spinnerAdapter, this);
-
-            //// Setup view pager
-            //_viewPager = FindViewById<ViewPager>(Resource.Id.main_pager);
-            //_viewPager.OffscreenPageLimit = 4;
-            //_tabPagerAdapter = new MainTabStatePagerAdapter(FragmentManager, _viewPager);
-            //_viewPager.Adapter = _tabPagerAdapter;
-            //_viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+            ActionBar.SetSelectedNavigationItem(1);
 
             // Setup mini player
             _miniPlayer = FindViewById<LinearLayout>(Resource.Id.main_miniplayer);
@@ -199,9 +190,6 @@ namespace MPfm.Android
 //            }
 //#endif
 
-            //KeyguardManager  myKeyGuard = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE); myLock = myKeyGuard.newKeyguardLock(); myLock.disableKeyguard();
-            //KeyguardManager keyguardManager = (KeyguardManager) GetSystemService(KeyguardService);
-
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
@@ -229,11 +217,14 @@ namespace MPfm.Android
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
             Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
+            
             if (_fragment is MobileLibraryBrowserFragment)
             {
                 Console.WriteLine("MainActivity - OnNavigationItemSelected - Updating fragment - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
-                var mobileLibraryBrowserFragment = (MobileLibraryBrowserFragment) _fragment;                
-                mobileLibraryBrowserFragment.OnChangeBrowserType((MobileLibraryBrowserType)itemPosition);
+                _navigationManager.ChangeMobileLibraryBrowserType(MobileNavigationTabType.Artists, (MobileLibraryBrowserType)itemPosition);
+
+                //    var mobileLibraryBrowserFragment = (MobileLibraryBrowserFragment) _fragment;                
+                //    mobileLibraryBrowserFragment.OnChangeBrowserType((MobileLibraryBrowserType)itemPosition);
             }
             return true;
         }
@@ -241,9 +232,8 @@ namespace MPfm.Android
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
             Console.WriteLine("MainActivity - Adding tab {0}", title);
-            //_tabPagerAdapter.SetFragment(type, fragment);
-            //_tabPagerAdapter.NotifyDataSetChanged();
 
+            // Add only one fragment which contains a ViewFlipper with all three view types
             if (type == MobileNavigationTabType.Artists)
             {
                 _fragment = fragment;
@@ -291,46 +281,44 @@ namespace MPfm.Android
             activity.AddSubview(view);
         }
 
-        protected override void OnStart()
-        {
-            Console.WriteLine("MainActivity - OnStart");
-            base.OnStart();
-        }
+        //protected override void OnStart()
+        //{
+        //    Console.WriteLine("MainActivity - OnStart");
+        //    base.OnStart();
+        //}
 
-        protected override void OnRestart()
-        {
-            Console.WriteLine("MainActivity - OnRestart");
-            base.OnRestart();
-        }
+        //protected override void OnRestart()
+        //{
+        //    Console.WriteLine("MainActivity - OnRestart");
+        //    base.OnRestart();
+        //}
 
-        protected override void OnPause()
-        {
-            Console.WriteLine("MainActivity - OnPause");
-            base.OnPause();
-        }
+        //protected override void OnPause()
+        //{
+        //    Console.WriteLine("MainActivity - OnPause");
+        //    base.OnPause();
+        //}
 
-        protected override void OnResume()
-        {
-            Console.WriteLine("MainActivity - OnResume");
-            base.OnResume();
-        }
+        //protected override void OnResume()
+        //{
+        //    Console.WriteLine("MainActivity - OnResume");
+        //    base.OnResume();
+        //}
 
-        protected override void OnStop()
-        {
-            Console.WriteLine("MainActivity - OnStop");
-            base.OnStop();
-            // UnregisterReceiver(_lockReceiver);
-        }
+        //protected override void OnStop()
+        //{
+        //    Console.WriteLine("MainActivity - OnStop");
+        //    base.OnStop();
+        //}
 
-        protected override void OnDestroy()
-        {
-            Console.WriteLine("MainActivity - OnDestroy");
-            base.OnDestroy();
-        }
+        //protected override void OnDestroy()
+        //{
+        //    Console.WriteLine("MainActivity - OnDestroy");
+        //    base.OnDestroy();
+        //}
 
         public override void OnBackPressed()
         {
-            //var tabType = _tabPagerAdapter.GetCurrentTab();
             var tabType = MobileNavigationTabType.Artists;
             if (_navigationManager.CanGoBackInMobileLibraryBrowserBackstack(tabType))
             {
@@ -467,7 +455,6 @@ namespace MPfm.Android
         public void HideSplash()
         {
             //Console.WriteLine("MainActivity - HideSplash");
-
             if(_splashFragment.Dialog != null)
                 _splashFragment.Dialog.Dismiss();
         }
