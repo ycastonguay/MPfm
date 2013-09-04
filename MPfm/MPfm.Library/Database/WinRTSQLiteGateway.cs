@@ -211,14 +211,14 @@ namespace MPfm.Library.Database
         public IEnumerable<object> SelectList(string sql)
         {
             SQLiteConnection connection = null;
-            DbDataReader reader = null;
             SQLiteCommand command = null;
             List<object> list = new List<object>();
 
             try
             {
-                // Create and open _connection
                 connection = GenerateConnection();                
+                //connection.Get<object>()
+                //connection.CreateCommand()
                 connection.Open();
 
                 // Create command

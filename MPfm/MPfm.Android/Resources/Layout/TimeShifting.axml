@@ -12,12 +12,14 @@
     android:text="Time Shifting"
     android:textSize="20dp"
     android:textColor="#ffffffff"
-    android:padding="6dip" />
+    android:padding="8dp" />
   <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="8dp"
-    android:paddingRight="8dp">
+    android:paddingRight="8dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp">
     <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -46,8 +48,9 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
+      android:background="@drawable/transparentbutton_selector"            
       android:text="Detect tempo"
-      android:textColor="#ffffffff"
+      android:textColor="@color/transparentbutton_textcolor"
       android:textSize="14dp"
       android:padding="12dp" />
   </RelativeLayout>
@@ -55,7 +58,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="8dp"
-    android:paddingRight="8dp">   
+    android:paddingRight="8dp"
+    android:paddingTop="6dp">    
     <TextView
       android:id="@+id/timeShifting_lblCurrentTempo"
       android:layout_width="match_parent"
@@ -81,7 +85,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="8dp"
-    android:paddingRight="8dp">
+    android:paddingRight="8dp"
+    android:paddingBottom="6dp">
     <TextView
       android:id="@+id/timeShifting_lblCurrentTempoValue"
       android:layout_width="match_parent"
@@ -123,27 +128,29 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
+      android:layout_marginRight="8dp"
+      android:background="@drawable/transparentbutton_selector"            
       android:text="-"
-      android:textColor="#ffffffff"
-      android:textSize="14dp"
-      android:padding="12dp" />
+      android:textColor="@color/transparentbutton_textcolor"
+      android:textSize="14dp" />
     <Button
       android:id="@+id/timeShifting_btnIncrement"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
+      android:background="@drawable/transparentbutton_selector"            
       android:text="+"
-      android:textColor="#ffffffff"
-      android:textSize="14dp"
-      android:padding="12dp" />
+      android:textColor="@color/transparentbutton_textcolor"
+      android:textSize="14dp" />
     <Button
       android:id="@+id/timeShifting_btnReset"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
+      android:layout_marginLeft="8dp"
+      android:background="@drawable/transparentbutton_selector"            
       android:text="Reset"
-      android:textColor="#ffffffff"
-      android:textSize="14dp"
-      android:padding="12dp" />
+      android:textColor="@color/transparentbutton_textcolor"
+      android:textSize="14dp" />
   </LinearLayout>
 </LinearLayout>

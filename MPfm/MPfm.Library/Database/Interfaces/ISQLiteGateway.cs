@@ -22,14 +22,14 @@ using System.Data.Common;
 #endif
 
 namespace MPfm.Library.Database.Interfaces
-{
+{ 
     /// <summary>
     /// Interface for the SQLiteGateway class.
     /// </summary>
     public interface ISQLiteGateway
     {
         #if !WINDOWSSTORE && !WINDOWS_PHONE
-        DbConnetion GenerateConnection();
+        DbConnection GenerateConnection();
         #endif
 
         Dictionary<string, string> GetMap<T>();

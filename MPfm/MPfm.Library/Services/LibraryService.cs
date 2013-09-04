@@ -18,14 +18,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Windows.Storage;
-using MPfm.Core.WinRT;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
+
+#if WINDOWSSTORE
+using Windows.Storage;
+using MPfm.Core.WinRT;
+#endif
 
 namespace MPfm.Library.Services
 {

@@ -21,9 +21,9 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
-      android:background="#33000000"
+      android:background="@drawable/transparentbutton_selector"      
       android:text="+"
-      android:textColor="#ffffffff"
+      android:textColor="@color/transparentbutton_textcolor"
       android:textSize="14dp"
       android:padding="8dp" />
   </RelativeLayout>
