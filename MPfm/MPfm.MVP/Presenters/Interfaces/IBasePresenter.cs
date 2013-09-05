@@ -26,6 +26,6 @@ namespace MPfm.MVP.Presenters.Interfaces
 	{
         T View { get; }
         void BindView(T view);
+	    void ViewDestroyed();
 	}
 }
-

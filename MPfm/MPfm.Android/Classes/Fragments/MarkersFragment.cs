@@ -72,6 +72,48 @@ namespace MPfm.Android.Classes.Fragments
             OnEditMarker(_markers[itemLongClickEventArgs.Position]);
         }
 
+        public override void OnResume()
+        {
+            Console.WriteLine("MarkersFragment - OnResume");
+            base.OnResume();
+        }
+
+        public override void OnStart()
+        {
+            Console.WriteLine("MarkersFragment - OnStart");
+            base.OnStart();
+        }
+
+        public override void OnStop()
+        {
+            Console.WriteLine("MarkersFragment - OnStop");
+            base.OnStop();
+        }
+
+        public override void OnPause()
+        {
+            Console.WriteLine("MarkersFragment - OnPause");
+            base.OnPause();
+        }
+
+        public override void OnDestroy()
+        {
+            Console.WriteLine("MarkersFragment - OnDestroy");            
+            base.OnDestroy();
+        }
+
+        public override void OnDestroyView()
+        {
+            Console.WriteLine("MarkersFragment - OnDestroyView");
+            base.OnDestroyView();
+        }
+
+        public override void OnDetach()
+        {
+            Console.WriteLine("MarkersFragment - OnDetach");
+            base.OnDetach();
+        }
+
         #region IMarkersView implementation
 
         public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
@@ -92,7 +134,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshMarkers(List<Marker> markers)
         {
-            //Console.WriteLine("#####################>>> MarkersFragment - RefreshMarkers - markers count: {0}", markers.Count);
+            Console.WriteLine("MarkersFragment - RefreshMarkers - markers count: {0}", markers.Count);
             Activity.RunOnUiThread(() => {
                 _markers = markers;
                 _listAdapter.SetData(markers);

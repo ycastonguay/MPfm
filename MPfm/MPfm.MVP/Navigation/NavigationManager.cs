@@ -97,8 +97,9 @@ namespace MPfm.MVP.Navigation
             _splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _splashView.OnViewDestroy = (view) =>
             {
-                _splashView = null;
+                _splashPresenter.ViewDestroyed();
                 _splashPresenter = null;
+                _splashView = null;
             };
             return _splashView;
         }
@@ -127,14 +128,21 @@ namespace MPfm.MVP.Navigation
             _mainView = Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _mainView.OnViewDestroy = (view) => {
                 _mainView = null;
+                _mainPresenter.ViewDestroyed();
                 _mainPresenter = null;
-                _playerPresenter.Dispose(); // Dispose unmanaged stuff (i.e. BASS)
+                _playerPresenter.ViewDestroyed();
                 _playerPresenter = null;
+                _libraryBrowserPresenter.ViewDestroyed();
                 _libraryBrowserPresenter = null;
+                _songBrowserPresenter.ViewDestroyed();
                 _songBrowserPresenter = null;
+                _markersPresenter.ViewDestroyed();
                 _markersPresenter = null;
+                _loopsPresenter.ViewDestroyed();
                 _loopsPresenter = null;
+                _timeShiftingPresenter.ViewDestroyed();
                 _timeShiftingPresenter = null;
+                _pitchShiftingPresenter.ViewDestroyed();
                 _pitchShiftingPresenter = null;
             };
             return _mainView;
@@ -160,8 +168,11 @@ namespace MPfm.MVP.Navigation
             _preferencesView = Bootstrapper.GetContainer().Resolve<IDesktopPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _preferencesView.OnViewDestroy = (view) => {
                 _preferencesView = null;
+                _audioPreferencesPresenter.ViewDestroyed();
                 _audioPreferencesPresenter = null;
+                _generalPreferencesPresenter.ViewDestroyed();
                 _generalPreferencesPresenter = null;
+                _libraryBrowserPresenter.ViewDestroyed();
                 _libraryPreferencesPresenter = null;
             };
             return _preferencesView;
@@ -185,7 +196,9 @@ namespace MPfm.MVP.Navigation
             _effectsView = Bootstrapper.GetContainer().Resolve<IDesktopEffectsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _effectsView.OnViewDestroy = (view) => {
                 _effectsView = null;
+                _equalizerPresetsPresenter.ViewDestroyed();
                 _equalizerPresetsPresenter = null;
+                _equalizerPresetDetailsPresenter.ViewDestroyed();
                 _equalizerPresetDetailsPresenter = null;
             };
             return _effectsView;
@@ -210,8 +223,9 @@ namespace MPfm.MVP.Navigation
             // Create view and manage view destruction
             _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _syncView.OnViewDestroy = (view) => {
-                _syncView = null;
+                _syncPresenter.ViewDestroyed();
                 _syncPresenter = null;
+                _syncView = null;
             };
             return _syncView;
         }
@@ -233,8 +247,9 @@ namespace MPfm.MVP.Navigation
 
             _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _syncMenuView.OnViewDestroy = (view) => {
-                _syncMenuView = null;
+                _syncMenuPresenter.ViewDestroyed();
                 _syncMenuPresenter = null;
+                _syncMenuView = null;
             };
             return _syncMenuView;
         }
@@ -256,8 +271,9 @@ namespace MPfm.MVP.Navigation
 
             _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _syncDownloadView.OnViewDestroy = (view) => {
-                _syncDownloadView = null;
+                _syncDownloadPresenter.ViewDestroyed();
                 _syncDownloadPresenter = null;
+                _syncDownloadView = null;
             };
             return _syncDownloadView;
         }
@@ -279,8 +295,9 @@ namespace MPfm.MVP.Navigation
             // Create view and manage view destruction
             _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _playlistView.OnViewDestroy = (view) => {
-                _playlistView = null;
+                _playlistPresenter.ViewDestroyed();
                 _playlistPresenter = null;
+                _playlistView = null;
             };
             return _playlistView;
         }
@@ -303,8 +320,9 @@ namespace MPfm.MVP.Navigation
             _updateLibraryView = Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _updateLibraryView.OnViewDestroy = (view) =>
             {
-                _updateLibraryView = null;
+                _updateLibraryPresenter.ViewDestroyed();
                 _updateLibraryPresenter = null;
+                _updateLibraryView = null;
             };
             return _updateLibraryView;
         }
@@ -326,8 +344,9 @@ namespace MPfm.MVP.Navigation
             _firstRunView = Bootstrapper.GetContainer().Resolve<IDesktopFirstRunView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _firstRunView.OnViewDestroy = (view) =>
             {
-                _firstRunView = null;
+                _firstRunPresenter.ViewDestroyed();
                 _firstRunPresenter = null;
+                _firstRunView = null;
             };
             return _firstRunView;
         }
@@ -350,8 +369,9 @@ namespace MPfm.MVP.Navigation
             _editSongMetadataView = Bootstrapper.GetContainer().Resolve<IEditSongMetadataView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _editSongMetadataView.OnViewDestroy = (view) =>
             {
-                _editSongMetadataView = null;
+                _editSongMetadataPresenter.ViewDestroyed();
                 _editSongMetadataPresenter = null;
+                _editSongMetadataView = null;
             };
             return _editSongMetadataView;
         }
@@ -373,8 +393,9 @@ namespace MPfm.MVP.Navigation
             _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _markerDetailsView.OnViewDestroy = (view) =>
             {
-                _markerDetailsView = null;
+                _markerDetailsPresenter.ViewDestroyed();
                 _markerDetailsPresenter = null;
+                _markerDetailsView = null;
             };
             return _markerDetailsView;
         }

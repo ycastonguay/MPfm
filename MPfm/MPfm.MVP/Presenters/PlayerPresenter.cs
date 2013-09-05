@@ -92,11 +92,6 @@ namespace MPfm.MVP.Presenters
 #endif
         }
         
-        public void Dispose()
-        {
-            _playerService.Dispose();
-        }
-        
         public override void BindView(IPlayerView view)
         {
             base.BindView(view);
@@ -129,7 +124,16 @@ namespace MPfm.MVP.Presenters
                 VolumeString = "100%"
             });
         }
-	    
+
+	    public override void ViewDestroyed()
+	    {
+	        base.ViewDestroyed();
+
+            #if !IOS && !ANDROID
+            _playerService.Dispose();
+            #endif
+        }
+
 	    private void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
 		{
             if(_playerService.IsSettingPosition)

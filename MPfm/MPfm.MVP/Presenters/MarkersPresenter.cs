@@ -42,6 +42,7 @@ namespace MPfm.MVP.Presenters
         readonly NavigationManager _navigationManager;
         readonly ILibraryService _libraryService;
         readonly IPlayerService _playerService;
+	    List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
         Guid _audioFileId = Guid.Empty;
         List<Marker> _markers = new List<Marker>();
 
@@ -65,16 +66,32 @@ namespace MPfm.MVP.Presenters
             view.OnSelectMarker = SelectMarker;
             view.OnDeleteMarker = DeleteMarker;
 
-            _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
+            // This will bind the view; data can be refreshed afterwards
+            base.BindView(view);
+
+            // Subscribe to messages
+            _tokens.Add(_messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
+                Console.WriteLine("MarkersPresenter - Received MarkerdUpdatedMessage - audioFileId: {0}", m.AudioFileId.ToString());
+                _audioFileId = m.AudioFileId;
+                RefreshMarkers(_audioFileId);
+            }));
+            _tokens.Add(_messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
                 _audioFileId = m.Data.AudioFileStarted.Id;
                 RefreshMarkers(_audioFileId);
-            });
-            _messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
-                RefreshMarkers(_audioFileId);
-            });
+            }));
 
-            base.BindView(view);
+            // Refresh initial data
+            if (_playerService.CurrentPlaylistItem != null)
+                RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
         }
+
+	    public override void ViewDestroyed()
+	    {
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
+	        base.ViewDestroyed();
+	    }
 
 	    private void CreateMarkerDetailsView(Guid markerId)
         {
@@ -107,7 +124,7 @@ namespace MPfm.MVP.Presenters
                     AudioFileId = marker.AudioFileId,
                     MarkerId = marker.MarkerId
                 });
-                RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
+                //RefreshMarkers(_playerService.CurrentPlaylistItem.AudioFile.Id);
             }
             catch(Exception ex)
             {

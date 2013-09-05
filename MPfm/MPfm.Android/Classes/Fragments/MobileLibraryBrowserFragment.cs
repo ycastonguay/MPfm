@@ -158,35 +158,35 @@ namespace MPfm.Android.Classes.Fragments
         //    base.OnSaveInstanceState(outState);
         //}
 
-        public override void OnResume()
-        {
-            //Console.WriteLine("MLBFragment - OnResume");
-            base.OnResume();
-        }
+        //public override void OnResume()
+        //{
+        //    //Console.WriteLine("MLBFragment - OnResume");
+        //    base.OnResume();
+        //}
 
-        public override void OnStart()
-        {
-            //Console.WriteLine("MLBFragment - OnStart");
-            base.OnStart();
-        }
+        //public override void OnStart()
+        //{
+        //    //Console.WriteLine("MLBFragment - OnStart");
+        //    base.OnStart();
+        //}
 
-        public override void OnStop()
-        {
-            //Console.WriteLine("MLBFragment - OnStop");
-            base.OnStop();
-        }
+        //public override void OnStop()
+        //{
+        //    //Console.WriteLine("MLBFragment - OnStop");
+        //    base.OnStop();
+        //}
 
-        public override void OnPause()
-        {
-            //Console.WriteLine("MLBFragment - OnPause");
-            base.OnPause();
-        }
+        //public override void OnPause()
+        //{
+        //    //Console.WriteLine("MLBFragment - OnPause");
+        //    base.OnPause();
+        //}
 
-        public override void OnDestroy()
-        {
-            //Console.WriteLine("MLBFragment - OnDestroy");            
-            base.OnDestroy();
-        }
+        //public override void OnDestroy()
+        //{
+        //    //Console.WriteLine("MLBFragment - OnDestroy");            
+        //    base.OnDestroy();
+        //}
 
         public override void OnDestroyView()
         {
@@ -195,11 +195,11 @@ namespace MPfm.Android.Classes.Fragments
             base.OnDestroyView();
         }
 
-        public override void OnDetach()
-        {
-            //Console.WriteLine("MLBFragment - OnDetach");
-            base.OnDetach();
-        }
+        //public override void OnDetach()
+        //{
+        //    //Console.WriteLine("MLBFragment - OnDetach");
+        //    base.OnDetach();
+        //}
 
         #region IMobileLibraryBrowserView implementation
 

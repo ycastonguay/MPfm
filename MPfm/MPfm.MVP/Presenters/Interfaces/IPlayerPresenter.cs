@@ -24,6 +24,5 @@ namespace MPfm.MVP.Presenters.Interfaces
 	/// </summary>
     public interface IPlayerPresenter : IBasePresenter<IPlayerView>
 	{
-        void Dispose();
 	}
 }

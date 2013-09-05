@@ -26,7 +26,6 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class BasePresenter<T> : IBasePresenter<T> where T : IBaseView
 	{
-		// Private variables
         public T View { get; private set; }
 
 		public BasePresenter()
@@ -44,5 +43,9 @@ namespace MPfm.MVP.Presenters
 						
 			this.View = view;
 		}
+
+	    public virtual void ViewDestroyed()
+	    {
+	    }
 	}
 }
