@@ -35,12 +35,13 @@ namespace MPfm.MVP.Presenters
 	{
         readonly IPlayerService _playerService;
         readonly ITinyMessengerHub _messengerHub;
+	    private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
 
         List<Tuple<int, string>> _keys;
         int _referenceKey = 0;
         int _interval = 0;
 
-        public PitchShiftingPresenter(ITinyMessengerHub messengerHub, IPlayerService playerService)
+	    public PitchShiftingPresenter(ITinyMessengerHub messengerHub, IPlayerService playerService)
         {
             _messengerHub = messengerHub;
             _playerService = playerService;
@@ -69,18 +70,29 @@ namespace MPfm.MVP.Presenters
             view.OnIncrementInterval = IncrementInterval;
             view.OnDecrementInterval = DecrementInterval;
 
-            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
+            base.BindView(view);
+
+            _tokens.Add(_messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
                 _interval = 0;
                 _referenceKey = 0;
                 RefreshPitchShiftingView();
-            });
+            }));
 
-            base.BindView(view);
-
+            // Refresh view with initial data
+            _interval = _playerService.PitchShifting;
             View.RefreshKeys(_keys);
+            RefreshPitchShiftingView();
         }
 
-        private void RefreshPitchShiftingView()
+        public override void ViewDestroyed()
+        {
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
+            base.ViewDestroyed();
+        }
+
+	    private void RefreshPitchShiftingView()
         {
             try
             {

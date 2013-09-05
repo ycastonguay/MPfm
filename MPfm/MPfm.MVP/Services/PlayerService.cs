@@ -51,7 +51,10 @@ namespace MPfm.MVP.Services
         public bool IsEQBypassed { get { return _player.IsEQBypassed; } }
         public bool IsEQEnabled { get { return _player.IsEQEnabled; } }
         public float Volume { get { return _player.Volume; } set { _player.Volume = value; }  }
+        public float TimeShifting { get { return _player.TimeShifting; } }
+        public int PitchShifting { get { return _player.PitchShifting; } }
         public PlayerStatusType Status { get; set; }
+        
 
         public delegate void BPMDetected(float bpm);
         /// <summary>

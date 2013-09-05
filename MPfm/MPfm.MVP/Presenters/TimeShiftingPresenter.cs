@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
@@ -33,12 +34,13 @@ namespace MPfm.MVP.Presenters
 	{
         readonly IPlayerService _playerService;
         readonly ITinyMessengerHub _messengerHub;
+	    private List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
 
         float _timeShifting = 0;
         float _referenceTempo = 120;
         float _detectedTempo = 0;
 
-        public TimeShiftingPresenter(ITinyMessengerHub messengerHub, IPlayerService playerService)
+	    public TimeShiftingPresenter(ITinyMessengerHub messengerHub, IPlayerService playerService)
 		{
             _messengerHub = messengerHub;
             _playerService = playerService;
@@ -52,19 +54,30 @@ namespace MPfm.MVP.Presenters
             view.OnIncrementTempo = IncrementTempo;
             view.OnDecrementTempo = DecrementTempo;
 
-            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
+            base.BindView(view);
+
+            _playerService.OnBPMDetected += HandleOnBPMDetected;
+            _tokens.Add(_messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
                 _detectedTempo = 0;
                 _referenceTempo = 120;
                 _timeShifting = 0;
                 RefreshTimeShiftingView();
-            });
+            }));
 
-            _playerService.OnBPMDetected += HandleOnBPMDetected;
-
-            base.BindView(view);
+            // Refresh view with initial data
+            _timeShifting = _playerService.TimeShifting;
+            RefreshTimeShiftingView();
         }
 
-        private void RefreshTimeShiftingView()
+	    public override void ViewDestroyed()
+	    {
+            foreach (TinyMessageSubscriptionToken token in _tokens)
+                token.Dispose();
+
+	        base.ViewDestroyed();
+	    }
+
+	    private void RefreshTimeShiftingView()
         {
             try
             {

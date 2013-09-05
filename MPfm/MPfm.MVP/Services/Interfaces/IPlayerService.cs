@@ -42,6 +42,8 @@ namespace MPfm.MVP.Services.Interfaces
         RepeatType RepeatType { get; }
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
+        float TimeShifting { get; }
+        int PitchShifting { get; }
         float Volume { get; set; }
         PlayerStatusType Status { get; set; }
 

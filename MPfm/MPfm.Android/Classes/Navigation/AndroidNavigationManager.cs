@@ -144,8 +144,10 @@ namespace MPfm.Android.Classes.Navigation
             _tabHistory.Add(new Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>(tabType, new List<Tuple<MobileLibraryBrowserType, LibraryQuery>>() {
                new Tuple<MobileLibraryBrowserType, LibraryQuery>(newBrowserType, new LibraryQuery())
             }));
+
             var presenter = GetMobileLibraryBrowserPresenter(tabType, browserType);
-            presenter.ChangeBrowserType(newBrowserType);            
+            if(presenter != null)
+                presenter.ChangeBrowserType(newBrowserType);            
         }
 
         public override void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
