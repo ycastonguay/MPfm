@@ -54,7 +54,7 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      android:background="#36454F"
+      android:background="@color/actionbar"
       android:padding="10dp">
       <Button
         android:id="@+id/equalizerPresetDetails_btnNormalize"

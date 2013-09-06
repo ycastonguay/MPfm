@@ -508,6 +508,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon_move.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_move.png" />
     <AndroidResource Include="Resources\drawable\transparentbutton_selector.xml" />
+    <AndroidResource Include="Resources\drawable\spinner_selector.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
