@@ -178,7 +178,10 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _interval = interval;
+                if (!_playerService.IsPlaying)
+                    return;
+
+                _interval = interval;                
                 _playerService.SetPitchShifting(_interval);
                 RefreshPitchShiftingView();
             }

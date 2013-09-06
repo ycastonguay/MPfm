@@ -184,6 +184,9 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                if (!_playerService.IsPlaying)
+                    return;
+
                 // Convert scale from +50/+150 to -100/+100
                 float ratio = (timeShifting - 50) / 100;
                 float result = (ratio * 200) - 100;
