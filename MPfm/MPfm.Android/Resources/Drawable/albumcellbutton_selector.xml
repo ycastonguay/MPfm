@@ -5,24 +5,28 @@
     android:state_enabled="false"
     android:state_focused="true">
     <shape>
-      <solid android:color="@color/actionbar" />      
+      <solid android:color="@color/albumcellbutton_background" />
+      <corners android:radius="4dp" />
     </shape>
   </item>
   <!-- pressed -->
   <item android:state_pressed="true">
     <shape>
-      <solid android:color="@color/actionbar_selected" />      
+      <solid android:color="@color/albumcellbutton_selected" />
+      <corners android:radius="4dp" />
     </shape>  
   </item>
   <!-- focused -->
   <item android:state_focused="true">
     <shape>
-      <solid android:color="@color/actionbar_selected" />      
+      <solid android:color="@color/albumcellbutton_selected" />
+      <corners android:radius="4dp" />
     </shape>  
   </item>
   <item>
     <shape>
-      <solid android:color="@color/actionbar" />      
+      <solid android:color="@color/albumcellbutton_background" />
+      <corners android:radius="4dp" />
     </shape>
   </item>
 </selector>

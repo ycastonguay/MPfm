@@ -10,6 +10,9 @@
   <color name="transparentbutton_background">#66AAAAAA</color>
   <color name="transparentbutton_selected">#AACCCCCC</color>
   <color name="transparentbutton_textcolor">#FFFFFF</color>
+  <color name="albumcellbutton_background">#DD444444</color>
+  <color name="albumcellbutton_selected">#F2999999</color>
+  <color name="albumcellbutton_textcolor">#FFFFFF</color>
   <color name="listitem_background">#FFFFFF</color>
   <color name="listitem_selected">#E74C3C</color>
   <color name="listitem_textcolor">#FFFFFF</color>

@@ -10,6 +10,57 @@
     android:layout_height="fill_parent"
     android:scaleType="centerCrop"
     android:background="@color/background" />
+  <FrameLayout
+    android:id="@+id/albumCell_layoutButtons"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerInParent="true"      
+    android:background="#990000FF"    
+    android:visibility="gone">
+    <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:gravity="center"
+      android:layout_centerInParent="true"      
+      android:background="#9900FF00"
+      android:orientation="vertical">
+      <Button
+        android:id="@+id/albumCell_btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:drawableLeft="@drawable/actionbar_play"
+        android:drawablePadding="4dp"
+        android:background="@drawable/albumcellbutton_selector"
+        android:text="Play album"
+        android:textColor="@color/transparentbutton_textcolor"
+        android:textSize="14dp" />
+      <Button
+        android:id="@+id/albumCell_btnAddToPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="6dp"
+        android:drawableLeft="@drawable/actionbar_add"
+        android:drawablePadding="4dp"
+        android:background="@drawable/albumcellbutton_selector"
+        android:text="Add to playlist"
+        android:textColor="@color/transparentbutton_textcolor"
+        android:textSize="14dp" />
+      <Button
+        android:id="@+id/albumCell_btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="6dp"
+        android:drawableLeft="@drawable/actionbar_trash"
+        android:drawablePadding="4dp"
+        android:background="@drawable/albumcellbutton_selector"
+        android:text="Delete"
+        android:textColor="@color/transparentbutton_textcolor"
+        android:textSize="14dp" />
+    </LinearLayout>
+  </FrameLayout>
   <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"

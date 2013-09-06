@@ -88,7 +88,7 @@ namespace MPfm.Android.Classes.Fragments
             int cacheSize = maxMemory / 8;
             BitmapCache = new BitmapCache(Activity, cacheSize, size.X / 2, size.X / 2); // Max size = half the screen (grid has 2 columns)
 
-            _viewFlipper = _view.FindViewById<ViewFlipper>(Resource.Id.mobileLibraryBrowser_viewFlipper);
+            _viewFlipper = _view.FindViewById<ViewFlipper>(Resource.Id.mobileLibraryBrowser_viewFlipper);            
             _imageAlbum = _view.FindViewById<SquareImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
             _lblBreadcrumb = _view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowser_lblBreadcrumb);
             _layoutAlbum = _view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowser_layoutAlbum);
@@ -143,20 +143,18 @@ namespace MPfm.Android.Classes.Fragments
 
         private void GridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
+            // Reset long press buttons
+            var gridAdapter = (MobileLibraryBrowserGridAdapter)((GridView)sender).Adapter;
+            gridAdapter.ShowCellButtons(-1);
+
             OnItemClick(itemClickEventArgs.Position);
         }
 
         private void GridViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
-            
+            var gridAdapter = (MobileLibraryBrowserGridAdapter)((GridView)sender).Adapter;
+            gridAdapter.ShowCellButtons(itemLongClickEventArgs.Position);
         }
-
-        //public override void OnSaveInstanceState(Bundle outState)
-        //{
-        //    //Console.WriteLine("MLBFRAGMENT - ON SAVE INSTANCE STATE");
-        //    outState.PutString("Test", DateTime.Now.ToLongTimeString());
-        //    base.OnSaveInstanceState(outState);
-        //}
 
         //public override void OnResume()
         //{

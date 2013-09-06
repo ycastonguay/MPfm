@@ -509,6 +509,15 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_move.png" />
     <AndroidResource Include="Resources\drawable\transparentbutton_selector.xml" />
     <AndroidResource Include="Resources\drawable\spinner_selector.xml" />
+    <AndroidResource Include="Resources\drawable\albumcellbutton_selector.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_play.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_trash.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_play.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_trash.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_play.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_trash.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_play.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_trash.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
