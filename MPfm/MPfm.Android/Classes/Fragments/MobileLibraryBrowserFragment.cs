@@ -144,16 +144,18 @@ namespace MPfm.Android.Classes.Fragments
         private void GridViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
             // Reset long press buttons
+            Console.WriteLine("MobileLibraryBrowserFragment - GridViewOnItemClick - position: {0}", itemClickEventArgs.Position);
             var gridAdapter = (MobileLibraryBrowserGridAdapter)((GridView)sender).Adapter;
-            gridAdapter.ShowCellButtons(-1);
+            gridAdapter.ResetEditingRow();
 
             OnItemClick(itemClickEventArgs.Position);
         }
 
         private void GridViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
+            Console.WriteLine("MobileLibraryBrowserFragment - GridViewOnItemLongClick - position: {0}", itemLongClickEventArgs.Position);
             var gridAdapter = (MobileLibraryBrowserGridAdapter)((GridView)sender).Adapter;
-            gridAdapter.ShowCellButtons(itemLongClickEventArgs.Position);
+            gridAdapter.SetEditingRow(itemLongClickEventArgs.Position);
         }
 
         //public override void OnResume()

@@ -140,114 +140,117 @@
     <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_fx.so" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\Layout\Player.axml">
+    <AndroidResource Include="Resources\layout\Player.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\GenericCell.axml">
+    <AndroidResource Include="Resources\layout\GenericCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\UpdateLibrary.axml">
+    <AndroidResource Include="Resources\layout\UpdateLibrary.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Splash.axml">
+    <AndroidResource Include="Resources\layout\Splash.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\AudioPreferences.axml">
+    <AndroidResource Include="Resources\layout\AudioPreferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\GeneralPreferences.axml">
+    <AndroidResource Include="Resources\layout\GeneralPreferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\LibraryPreferences.axml">
+    <AndroidResource Include="Resources\layout\LibraryPreferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\TimeShifting.axml">
+    <AndroidResource Include="Resources\layout\TimeShifting.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\PitchShifting.axml">
+    <AndroidResource Include="Resources\layout\PitchShifting.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Loops.axml">
+    <AndroidResource Include="Resources\layout\Loops.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Markers.axml">
+    <AndroidResource Include="Resources\layout\Markers.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\PlayerMetadata.axml">
+    <AndroidResource Include="Resources\layout\PlayerMetadata.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Main.axml">
+    <AndroidResource Include="Resources\layout\Main.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Sync.axml">
+    <AndroidResource Include="Resources\layout\Sync.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\SyncDownload.axml">
+    <AndroidResource Include="Resources\layout\SyncDownload.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\SyncMenu.axml">
+    <AndroidResource Include="Resources\layout\SyncMenu.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\EqualizerPresets.axml">
+    <AndroidResource Include="Resources\layout\EqualizerPresets.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\EqualizerPresetDetails.axml">
+    <AndroidResource Include="Resources\layout\EqualizerPresetDetails.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Preferences.axml">
+    <AndroidResource Include="Resources\layout\Preferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\WidgetPlayer.axml" />
-    <AndroidResource Include="Resources\Layout\WidgetPlayerLoading.axml" />
-    <AndroidResource Include="Resources\Layout\MarkerCell.axml">
+    <AndroidResource Include="Resources\layout\WidgetPlayer.axml" />
+    <AndroidResource Include="Resources\layout\WidgetPlayerLoading.axml" />
+    <AndroidResource Include="Resources\layout\MarkerCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\MarkerDetails.axml">
+    <AndroidResource Include="Resources\layout\MarkerDetails.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\EqualizerPresetFaderCell.axml">
+    <AndroidResource Include="Resources\layout\EqualizerPresetFaderCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\EqualizerPresetCell.axml">
+    <AndroidResource Include="Resources\layout\EqualizerPresetCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\MobileLibraryBrowser.axml">
+    <AndroidResource Include="Resources\layout\MobileLibraryBrowser.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\AlbumCell.axml">
+    <AndroidResource Include="Resources\layout\AlbumCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\SyncWebBrowser.axml">
+    <AndroidResource Include="Resources\layout\SyncWebBrowser.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\SyncMenuCell.axml">
+    <AndroidResource Include="Resources\layout\SyncMenuCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\About.axml">
+    <AndroidResource Include="Resources\layout\About.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\MobileLibraryBrowserCell.axml">
+    <AndroidResource Include="Resources\layout\MobileLibraryBrowserCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\SyncManualConnect.axml">
+    <AndroidResource Include="Resources\layout\SyncManualConnect.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\spinner_dropdown_item.xml">
+    <AndroidResource Include="Resources\layout\spinner_dropdown_item.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\NotificationPlayer.axml">
+    <AndroidResource Include="Resources\layout\NotificationPlayer.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\BigNotificationPlayer.axml">
+    <AndroidResource Include="Resources\layout\BigNotificationPlayer.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\LockScreen.axml">
+    <AndroidResource Include="Resources\layout\LockScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\Playlist.axml">
+    <AndroidResource Include="Resources\layout\Playlist.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Layout\PlaylistCell.axml">
+    <AndroidResource Include="Resources\layout\PlaylistCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout-sw400dp-hdpi\AlbumCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -518,6 +521,8 @@
     <AndroidResource Include="Resources\drawable-xhdpi\actionbar_trash.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_play.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_trash.png" />
+    <AndroidResource Include="Resources\Anim\gridviewoptions_fade_in.xml" />
+    <AndroidResource Include="Resources\Anim\gridviewoptions_fade_out.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

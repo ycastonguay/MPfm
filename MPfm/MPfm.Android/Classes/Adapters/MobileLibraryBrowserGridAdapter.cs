@@ -37,7 +37,9 @@ namespace MPfm.Android.Classes.Adapters
         readonly MobileLibraryBrowserFragment _fragment;
         GridView _gridView;
         List<LibraryBrowserEntity> _items;
-        int _buttonsRowPosition;
+        private int _editingRowPosition;
+
+        public bool IsEditingRow { get; private set; }
 
         public MobileLibraryBrowserGridAdapter(Activity context, MobileLibraryBrowserFragment fragment, GridView gridView, List<LibraryBrowserEntity> items)
         {
@@ -50,7 +52,8 @@ namespace MPfm.Android.Classes.Adapters
 
         public void SetData(IEnumerable<LibraryBrowserEntity> items)
         {
-            _buttonsRowPosition = -1;
+            //_buttonsRowPosition = -1;
+            _editingRowPosition = -1;
             _items = items.ToList();
             NotifyDataSetChanged();
         }
@@ -73,7 +76,6 @@ namespace MPfm.Android.Classes.Adapters
         public override View GetView(int position, View convertView, ViewGroup parent)
         {            
             //Console.WriteLine("MobileLibraryBrowserGridAdapter - GetView - position: {0}", position);
-            //var mainActivity = (MainActivity)_context;
             var item = _items[position];
             string bitmapKey = item.Query.ArtistName + "_" + item.Query.AlbumTitle;
             View view = convertView;
@@ -83,7 +85,12 @@ namespace MPfm.Android.Classes.Adapters
             var artistName = view.FindViewById<TextView>(Resource.Id.albumCell_artistName);
             var albumTitle = view.FindViewById<TextView>(Resource.Id.albumCell_albumTitle);
             var imageView = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
-            var layoutButtons = view.FindViewById<FrameLayout>(Resource.Id.albumCell_layoutButtons);
+
+            // ImageButton is used on phones; Button with text and drawableLeft is used on tablets.
+            var imageAdd = view.FindViewById(Resource.Id.albumCell_btnAddToPlaylist);
+            var imagePlay = view.FindViewById(Resource.Id.albumCell_btnPlay);
+            var imageDelete = view.FindViewById(Resource.Id.albumCell_btnDelete);
+
             artistName.Text = _items[position].Title;            
             albumTitle.Text = _items[position].Subtitle;            
 
@@ -93,10 +100,26 @@ namespace MPfm.Android.Classes.Adapters
                 //Console.WriteLine("MobileLibraryBrowserGridAdapter - GetView - View doesn't seem to be visible!!! position: {0} firstVisiblePosition: {1}", position, _gridView.FirstVisiblePosition);
                 return view;
             }
+            view.Tag = position;
+            imageAdd.Tag = position;
+            imagePlay.Tag = position;
+            imageDelete.Tag = position;
+            imageAdd.SetOnClickListener(this);
+            imagePlay.SetOnClickListener(this);
+            imageDelete.SetOnClickListener(this);
 
-            layoutButtons.Tag = position;
-            layoutButtons.SetOnClickListener(this);
-            layoutButtons.Visibility = position == _buttonsRowPosition ? ViewStates.Visible : ViewStates.Gone;
+            if (IsEditingRow && _editingRowPosition == position)
+            {
+                imageAdd.Visibility = ViewStates.Visible;
+                imagePlay.Visibility = ViewStates.Visible;
+                imageDelete.Visibility = ViewStates.Visible;                
+            }
+            else
+            {
+                imageAdd.Visibility = ViewStates.Gone;
+                imagePlay.Visibility = ViewStates.Gone;
+                imageDelete.Visibility = ViewStates.Gone;
+            }
 
             //if (imageView.Drawable != null)
             //{
@@ -146,36 +169,6 @@ namespace MPfm.Android.Classes.Adapters
             return view;
         }
 
-        public void ShowCellButtons(int position)
-        {
-            int oldPosition = _buttonsRowPosition;
-            _buttonsRowPosition = position;
-
-            var viewOldPosition = _gridView.GetChildAt(oldPosition - _gridView.FirstVisiblePosition);
-            if (viewOldPosition != null)
-            {
-                var oldLayout = viewOldPosition.FindViewById<FrameLayout>(Resource.Id.albumCell_layoutButtons);
-                Animation animOld = AnimationUtils.LoadAnimation(_context, Resource.Animation.fade_out);
-                animOld.AnimationEnd += (sender, args) => {
-                    oldLayout.Visibility = ViewStates.Gone;
-                };
-                oldLayout.StartAnimation(animOld);
-            }
-
-            var view = _gridView.GetChildAt(position - _gridView.FirstVisiblePosition);
-            if (view == null)
-                return;
-
-            // If the user long presses on the same item, fade out buttons
-            if (position == oldPosition)
-                return;
-
-            var layout = view.FindViewById<FrameLayout>(Resource.Id.albumCell_layoutButtons);
-            layout.Visibility = ViewStates.Visible;
-            Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.fade_in);
-            layout.StartAnimation(anim);
-        }
-
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
         {
             try
@@ -210,25 +203,127 @@ namespace MPfm.Android.Classes.Adapters
             }
         }
 
-        public void OnClick(View v)
+        public void ResetEditingRow()
         {
-            // Do not block click on cells that doesn't have buttons shown
-            int position = (int)v.Tag;
-            if (position != _buttonsRowPosition)
+            int visibleCellIndex = _editingRowPosition - _gridView.FirstVisiblePosition;
+            var view = _gridView.GetChildAt(visibleCellIndex);
+            if (view == null)
                 return;
 
-            int oldPosition = _buttonsRowPosition;
-            _buttonsRowPosition = -1;
+            var imageAdd = view.FindViewById(Resource.Id.albumCell_btnAddToPlaylist);
+            var imagePlay = view.FindViewById(Resource.Id.albumCell_btnPlay);
+            var imageDelete = view.FindViewById(Resource.Id.albumCell_btnDelete);
 
-            var viewOldPosition = _gridView.GetChildAt(oldPosition - _gridView.FirstVisiblePosition);
-            if (viewOldPosition != null)
+            // Fade out the controls
+            Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.gridviewoptions_fade_out);
+            anim.AnimationEnd += (sender, args) =>
             {
-                var oldLayout = viewOldPosition.FindViewById<FrameLayout>(Resource.Id.albumCell_layoutButtons);
-                Animation animOld = AnimationUtils.LoadAnimation(_context, Resource.Animation.fade_out);
-                animOld.AnimationEnd += (sender, args) => {
-                    oldLayout.Visibility = ViewStates.Gone;
-                };
-                oldLayout.StartAnimation(animOld);
+                imageAdd.Visibility = ViewStates.Gone;
+                imagePlay.Visibility = ViewStates.Gone;
+                imageDelete.Visibility = ViewStates.Gone;
+            };
+            imageAdd.StartAnimation(anim);
+            imagePlay.StartAnimation(anim);
+            imageDelete.StartAnimation(anim);
+
+            _editingRowPosition = -1;
+            IsEditingRow = false;          
+        }
+
+        public void SetEditingRow(int position)
+        {
+            int visibleCellIndex = position - _gridView.FirstVisiblePosition;
+            var view = _gridView.GetChildAt(visibleCellIndex);
+            if (view == null)
+                return;
+
+            var imageAdd = view.FindViewById(Resource.Id.albumCell_btnAddToPlaylist);
+            var imagePlay = view.FindViewById(Resource.Id.albumCell_btnPlay);
+            var imageDelete = view.FindViewById(Resource.Id.albumCell_btnDelete);
+
+            int oldPosition = _editingRowPosition;
+            _editingRowPosition = position;
+
+            if (IsEditingRow && oldPosition == position)
+            {
+                ResetEditingRow();
+            }
+            else if (IsEditingRow && oldPosition >= 0)
+            {
+                // Fade in the new controls
+                imageAdd.Visibility = ViewStates.Visible;
+                imagePlay.Visibility = ViewStates.Visible;
+                imageDelete.Visibility = ViewStates.Visible;
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.gridviewoptions_fade_in);
+                imageAdd.StartAnimation(anim);
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                // Fade out the older controls
+                int oldPositionVisibleCellIndex = oldPosition - _gridView.FirstVisiblePosition;
+                var viewOldPosition = _gridView.GetChildAt(oldPositionVisibleCellIndex);
+                if (viewOldPosition != null)
+                {
+                    var imageAddOld = viewOldPosition.FindViewById(Resource.Id.albumCell_btnAddToPlaylist);
+                    var imagePlayOld = viewOldPosition.FindViewById(Resource.Id.albumCell_btnPlay);
+                    var imageDeleteOld = viewOldPosition.FindViewById(Resource.Id.albumCell_btnDelete);
+
+                    // Fade out the controls
+                    Animation animOld = AnimationUtils.LoadAnimation(_context, Resource.Animation.gridviewoptions_fade_out);
+                    animOld.AnimationEnd += (sender, args) =>
+                    {
+                        imageAddOld.Visibility = ViewStates.Gone;
+                        imagePlayOld.Visibility = ViewStates.Gone;
+                        imageDeleteOld.Visibility = ViewStates.Gone;
+                    };
+                    imageAddOld.StartAnimation(animOld);
+                    imagePlayOld.StartAnimation(animOld);
+                    imageDeleteOld.StartAnimation(animOld);
+                }
+
+                IsEditingRow = true;
+            }
+            else if (!IsEditingRow)
+            {
+                // Fade in the controls
+                imageAdd.Visibility = ViewStates.Visible;
+                imagePlay.Visibility = ViewStates.Visible;
+                imageDelete.Visibility = ViewStates.Visible;
+                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.gridviewoptions_fade_in);
+                imageAdd.StartAnimation(anim);
+                imagePlay.StartAnimation(anim);
+                imageDelete.StartAnimation(anim);
+
+                IsEditingRow = true;
+            }
+        }
+
+        public void OnClick(View v)
+        {
+            Console.WriteLine("MobileLibraryBrowserGridAdapter - OnClick - {0}", v.GetType().FullName);
+
+            int position = (int)v.Tag;
+            switch (v.Id)
+            {
+                case Resource.Id.albumCell_btnAddToPlaylist:
+                    Console.WriteLine("MLBGA - ADD - position: {0}", position);
+                    break;
+                case Resource.Id.albumCell_btnPlay:
+                    Console.WriteLine("MLBGA - PLAY - position: {0}", position);
+                    _fragment.OnPlayItem(position);
+                    break;
+                case Resource.Id.albumCell_btnDelete:
+                    Console.WriteLine("MLBGA - DELETE - position: {0}", position);
+                    AlertDialog ad = new AlertDialog.Builder(_context)
+                        .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+                        .SetTitle("Delete confirmation")
+                        .SetMessage(string.Format("Are you sure you wish to delete {0}?", _items[position].Title))
+                        .SetCancelable(true)
+                        .SetPositiveButton("OK", (sender, args) => _fragment.OnDeleteItem(position))
+                        .SetNegativeButton("Cancel", (sender, args) => { })
+                        .Create();
+                    ad.Show();
+                    break;
             }
         }
 
