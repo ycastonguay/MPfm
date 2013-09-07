@@ -58,7 +58,9 @@ namespace MPfm.Android
         private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
         private SplashFragment _splashFragment;
+        private ViewFlipper _viewFlipper;
         private LinearLayout _miniPlayer;
+        private LinearLayout _miniPlaylist;
         private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
@@ -67,6 +69,8 @@ namespace MPfm.Android
         private ImageButton _btnPrevious;
         private ImageButton _btnPlayPause;
         private ImageButton _btnNext;
+        private ImageButton _btnPlaylist;
+        private ImageButton _btnPlayer;
         private bool _isPlaying;
         private ArrayAdapter _spinnerAdapter;
         private Fragment _fragment;
@@ -96,14 +100,17 @@ namespace MPfm.Android
             ActionBar.SetListNavigationCallbacks(_spinnerAdapter, this);
             ActionBar.SetSelectedNavigationItem(1);
 
-            // Setup mini player
+            _viewFlipper = FindViewById<ViewFlipper>(Resource.Id.main_viewflipper);
             _miniPlayer = FindViewById<LinearLayout>(Resource.Id.main_miniplayer);
+            _miniPlaylist = FindViewById<LinearLayout>(Resource.Id.main_miniplaylist);
             _lblArtistName = FindViewById<TextView>(Resource.Id.main_miniplayer_lblArtistName);
             _lblAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblAlbumTitle);
             _lblSongTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblSongTitle);
             _btnPrevious = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPrevious);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlayPause);
             _btnNext = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnNext);
+            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlaylist);
+            _btnPlayer = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnPlayer);
             _imageAlbum = FindViewById<SquareImageView>(Resource.Id.main_miniplayer_imageAlbum);
             _miniPlayer.Visibility = ViewStates.Gone;
             _miniPlayer.Click += (sender, args) => {
@@ -116,6 +123,12 @@ namespace MPfm.Android
             _btnPrevious.Click += BtnPreviousOnClick;
             _btnPlayPause.Click += BtnPlayPauseOnClick;
             _btnNext.Click += BtnNextOnClick;
+            _btnPlaylist.Click += BtnPlaylistOnClick;
+            _btnPlayer.Click += BtnPlayerOnClick;
+
+            // Set initial view flipper item
+            int index = _viewFlipper.IndexOfChild(_miniPlayer);
+            _viewFlipper.DisplayedChild = index;
 
             // Create bitmap cache
             Point size = new Point();
@@ -157,18 +170,18 @@ namespace MPfm.Android
                 RunOnUiThread(() => {
                     if (message.Status == PlayerStatusType.Stopped || message.Status == PlayerStatusType.Initialized)
                     {
-                        Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
-                        anim.AnimationEnd += (sender, args) => {
-                            _miniPlayer.Visibility = ViewStates.Gone;
-                        };
-                        _miniPlayer.StartAnimation(anim);
+                        //Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
+                        //anim.AnimationEnd += (sender, args) => {
+                        //    _miniPlayer.Visibility = ViewStates.Gone;
+                        //};
+                        //_miniPlayer.StartAnimation(anim);
                     }
                     
                     if(hasStartedPlaying)
                     {
-                        _miniPlayer.Visibility = ViewStates.Visible;
-                        Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
-                        _miniPlayer.StartAnimation(anim);  
+                        //_miniPlayer.Visibility = ViewStates.Visible;
+                        //Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
+                        //_miniPlayer.StartAnimation(anim);  
                     }
 
                     switch (message.Status)
@@ -401,6 +414,24 @@ namespace MPfm.Android
         private void BtnNextOnClick(object sender, EventArgs eventArgs)
         {
             _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Next));
+        }
+
+        private void BtnPlaylistOnClick(object sender, EventArgs eventArgs)
+        {
+            _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_slide_in);
+            _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_slide_out);
+
+            int index = _viewFlipper.IndexOfChild(_miniPlaylist);
+            _viewFlipper.DisplayedChild = index;
+        }
+
+        private void BtnPlayerOnClick(object sender, EventArgs eventArgs)
+        {
+            _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_back_slide_in);
+            _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_back_slide_out);
+
+            int index = _viewFlipper.IndexOfChild(_miniPlayer);
+            _viewFlipper.DisplayedChild = index;
         }
 
         public bool OnTouch(View v, MotionEvent e)
