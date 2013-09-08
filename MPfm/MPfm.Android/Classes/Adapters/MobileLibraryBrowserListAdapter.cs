@@ -89,6 +89,8 @@ namespace MPfm.Android.Classes.Adapters
             var btnAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
             var btnPlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
             var btnDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
+            var layoutAlbumCount = view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowserCell_layoutAlbumCount);
+            var lblAlbumCount = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_lblAlbumCount);
             var imageAlbum1 = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum1);
             var imageAlbum2 = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum2);
             var imageAlbum3 = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum3);
@@ -147,9 +149,17 @@ namespace MPfm.Android.Classes.Adapters
             imageAlbum2.SetImageBitmap(null);
             imageAlbum3.SetImageBitmap(null);
 
-            for (int a = 0; a < 3; a++)
+            lblAlbumCount.Text = string.Format("+{0}", item.AlbumTitles.Count - 3);
+            imageAlbum1.Visibility = item.AlbumTitles.Count >= 1 ? ViewStates.Visible : ViewStates.Gone;
+            imageAlbum2.Visibility = item.AlbumTitles.Count >= 2 ? ViewStates.Visible : ViewStates.Gone;
+            imageAlbum3.Visibility = item.AlbumTitles.Count >= 3 ? ViewStates.Visible : ViewStates.Gone;
+            layoutAlbumCount.Visibility = item.AlbumTitles.Count >= 4 ? ViewStates.Visible : ViewStates.Gone;
+
+            int albumFetchCount = item.AlbumTitles.Count >= 3 ? 3 : item.AlbumTitles.Count;
+            for (int a = 0; a < albumFetchCount; a++)
             {
-                string bitmapKey = item.Query.ArtistName + "_" + item.Query.AlbumTitle;
+                string bitmapKey = item.Query.ArtistName + "_" + item.AlbumTitles[a];
+                Console.WriteLine("MLBLA - GetView - bitmapKey: {0}", bitmapKey);
                 if (_fragment.BitmapCache.KeyExists(bitmapKey))
                 {
                     ImageView imageAlbum = null;
@@ -168,7 +178,7 @@ namespace MPfm.Android.Classes.Adapters
                 }
                 else
                 {
-                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.Query.AlbumTitle, a);
+                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.AlbumTitles[a], a);
                 }
             }
 
@@ -181,7 +191,7 @@ namespace MPfm.Android.Classes.Adapters
             {
                 //var mainActivity = (MainActivity)_context;
                 int imageIndex = (int) userData;
-                int index = _items.FindIndex(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
+                int index = _items.FindIndex(x => x.Query.ArtistName == artistName);
                 //Console.WriteLine("MobileLibraryBrowserListAdapter - *RECEIVED* album art for {0}/{1} - index: {2}", artistName, albumTitle, index);
                 if (index >= 0)
                 {

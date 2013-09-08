@@ -405,10 +405,12 @@ namespace MPfm.MVP.Presenters
             List<string> artists = _libraryService.SelectDistinctArtistNames(format);
             foreach (string artist in artists)
             {
+                Dictionary<string, List<string>> albums = _libraryService.SelectDistinctAlbumTitles(format, artist);
                 list.Add(new LibraryBrowserEntity()
                 {
                     Title = artist,
                     Type = LibraryBrowserEntityType.Artist,
+                    AlbumTitles = albums[artist].ToList(),
                     Query = new LibraryQuery()
                     {
                         Format = format,

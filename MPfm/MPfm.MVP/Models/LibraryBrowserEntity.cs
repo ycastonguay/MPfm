@@ -26,30 +26,19 @@ namespace MPfm.MVP.Models
     /// </summary>
 	public class LibraryBrowserEntity
 	{
-		/// <summary>
-		/// Entity type (represents what kind of node).
-		/// </summary>
 		public LibraryBrowserEntityType Type { get; set; }
-		/// <summary>
-		/// Item title.
-		/// </summary>
 		public string Title { get; set; }
         public string Subtitle { get; set; }
-		/// <summary>
-		/// Item filter.
-		/// </summary>
 		public LibraryQuery Query { get; set; }
-		/// <summary>
-		/// Sub items (to create a tree view hierarchy).
-		/// </summary>
 		public List<LibraryBrowserEntity> SubItems { get; set; }
-
+        public List<string> AlbumTitles { get; set; }
         public AudioFile AudioFile { get; set; }
 		
 		public LibraryBrowserEntity()
 		{
             Query = new LibraryQuery();
 			SubItems = new List<LibraryBrowserEntity>();
+		    AlbumTitles = new List<string>();
 		}
 	}
 	
