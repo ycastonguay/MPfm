@@ -12,7 +12,7 @@
     android:text="Pitch Shifting"
     android:textSize="20dp"
     android:textColor="#ffffffff"
-    android:padding="8dp" />
+    android:padding="12dp" />
   <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -46,13 +46,13 @@
     <Button
       android:id="@+id/pitchShifting_btnChangeKey"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
+      android:padding="4dp"
       android:background="@drawable/transparentbutton_selector"            
       android:text="Change key"
       android:textColor="@color/transparentbutton_textcolor"
-      android:textSize="14dp"
-      android:padding="12dp" />
+      android:textSize="14dp" />
   </RelativeLayout>
   <RelativeLayout
     android:layout_width="fill_parent"
@@ -126,7 +126,7 @@
     <Button
       android:id="@+id/pitchShifting_btnDecrement"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:layout_marginRight="8dp"
       android:background="@drawable/transparentbutton_selector"      
@@ -136,7 +136,7 @@
     <Button
       android:id="@+id/pitchShifting_btnIncrement"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:background="@drawable/transparentbutton_selector"      
       android:text="+"
@@ -145,7 +145,7 @@
     <Button
       android:id="@+id/pitchShifting_btnReset"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:layout_marginLeft="8dp"
       android:background="@drawable/transparentbutton_selector"            

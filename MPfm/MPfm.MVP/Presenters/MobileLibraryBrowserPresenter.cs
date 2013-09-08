@@ -41,6 +41,7 @@ namespace MPfm.MVP.Presenters
 	public class MobileLibraryBrowserPresenter : BasePresenter<IMobileLibraryBrowserView>, IMobileLibraryBrowserPresenter
 	{
         readonly MobileNavigationManager _navigationManager;
+	    readonly IPlayerService _playerService;
 	    readonly ITinyMessengerHub _messengerHub;
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
@@ -59,7 +60,7 @@ namespace MPfm.MVP.Presenters
 	    public AudioFileFormat Filter { get; private set; }
 		
         public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query,
-                                             ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager,
+                                             ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager, IPlayerService playerService,
                                              ILibraryService libraryService, IAudioFileCacheService audioFileCacheService)
 		{
             _query = query;
@@ -67,6 +68,7 @@ namespace MPfm.MVP.Presenters
             _browserType = browserType;
             _messengerHub = messengerHub;
             _navigationManager = navigationManager;
+            _playerService = playerService;
             _libraryService = libraryService;
 			_audioFileCacheService = audioFileCacheService;
 
@@ -85,6 +87,7 @@ namespace MPfm.MVP.Presenters
             view.OnDeleteItem = DeleteItem;
             view.OnItemClick = ItemClick;
             view.OnPlayItem = PlayItem;
+            view.OnAddItemToPlaylist = AddItemToPlaylist;
             view.OnRequestAlbumArt = RequestAlbumArt;
             view.OnRequestAlbumArtSynchronously = OnRequestAlbumArtSynchronously;
 
@@ -145,7 +148,6 @@ namespace MPfm.MVP.Presenters
         private void RequestAlbumArt(string artistName, string albumTitle)
         {
             // TODO: Add canceling, add detection to not request the same album art multiple times
-
             // Only run one task at a time.
             _currentTask = _currentTask.ContinueWith(t => {
                 // Get the file path of the first file in the album
@@ -161,51 +163,66 @@ namespace MPfm.MVP.Presenters
             });
         }
 
+        private void AddItemToPlaylist(int index)
+        {
+            try
+            {
+                Console.WriteLine("MobileLibraryBrowserPresenter - AddItemToPlaylist - index: {0}", index);
+                Task.Factory.StartNew(() =>
+                {
+                    var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
+                    _playerService.CurrentPlaylist.AddItems(audioFiles);
+                    View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));
+                }, _cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MobileLibraryBrowserPresenter - AddItemToPlaylist - Exception: {0}", ex);
+                View.MobileLibraryBrowserError(ex);
+            }
+        }
+
         private void PlayItem(int index)
         {
             try
             {
                 Console.WriteLine("MobileLibraryBrowserPresenter - PlayItem index: {0}", index);
-                    if (_items[index].Type == LibraryBrowserEntityType.Artist)
+                if (_items[index].Type == LibraryBrowserEntityType.Artist)
+                {
+                    Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
-                        // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
-                        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                        {
-                            Query = _items[index].Query,
-                            FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
-                        });
+                        Query = _items[index].Query,
+                        FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
+                    });
 
-                        _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
-                    }
-                    else if (_items[index].Type == LibraryBrowserEntityType.Album)
+                    _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                }
+                else if (_items[index].Type == LibraryBrowserEntityType.Album)
+                {
+                    Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
-                        // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
-                        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                        {
-                            Query = _items[index].Query,
-                            FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
-                        });
+                        Query = _items[index].Query,
+                        FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
+                    });
 
-                        _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
-                    }
-                    else if (_items[index].Type == LibraryBrowserEntityType.Song)
+                    _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                }
+                else if (_items[index].Type == LibraryBrowserEntityType.Song)
+                {
+                    Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
-                        // TODO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
-                        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                        {
-                            Query = _items[index].Query,
-                            FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
-                        });
+                        Query = _items[index].Query,
+                        FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
+                    });
 
-                        _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
-                    }
+                    _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("MobileLibraryBrowserPresenter - PlayItem - Exception: {0}", ex);
                 View.MobileLibraryBrowserError(ex);
             }
-
         }
 
         private byte[] OnRequestAlbumArtSynchronously(string artistName, string albumTitle)
@@ -222,6 +239,7 @@ namespace MPfm.MVP.Presenters
             var audioFile = (audioFiles != null && audioFiles.Count() > 0) ? audioFiles.ElementAt(0) : null;
             if (audioFile != null)
                 bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+
             return bytesImage;
         }
 

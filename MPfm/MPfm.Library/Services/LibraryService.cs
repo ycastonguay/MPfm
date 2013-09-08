@@ -73,6 +73,11 @@ namespace MPfm.Library.Services
 		{
 			return gateway.SelectAudioFiles();			
 		}
+
+        public IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query)
+        {
+            return gateway.SelectAudioFiles(query.Format, query.ArtistName, query.AlbumTitle, query.SearchTerms);
+        }
 		
 		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
 		{

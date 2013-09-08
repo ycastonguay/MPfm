@@ -163,6 +163,33 @@ namespace MPfm.Android.Classes.Adapters
             }
         }
 
+        public void ResetEditingRow()
+        {
+            int visibleCellIndex = _editingRowPosition - _listView.FirstVisiblePosition;
+            var view = _listView.GetChildAt(visibleCellIndex);
+            if (view == null)
+                return;
+
+            var imageAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
+            var imagePlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
+            var imageDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
+
+            // Fade out the controls
+            Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
+            anim.AnimationEnd += (sender, args) =>
+            {
+                imageAdd.Visibility = ViewStates.Gone;
+                imagePlay.Visibility = ViewStates.Gone;
+                imageDelete.Visibility = ViewStates.Gone;
+            };
+            imageAdd.StartAnimation(anim);
+            imagePlay.StartAnimation(anim);
+            imageDelete.StartAnimation(anim);
+
+            _editingRowPosition = -1;
+            IsEditingRow = false;
+        }
+
         public void SetEditingRow(int position)
         {
             int visibleCellIndex = position - _listView.FirstVisiblePosition;
@@ -179,20 +206,7 @@ namespace MPfm.Android.Classes.Adapters
 
             if(IsEditingRow && oldPosition == position)
             {
-                // Fade out the controls
-                Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
-                anim.AnimationEnd += (sender, args) =>
-                {
-                    imageAdd.Visibility = ViewStates.Gone;
-                    imagePlay.Visibility = ViewStates.Gone;
-                    imageDelete.Visibility = ViewStates.Gone;
-                };
-                imageAdd.StartAnimation(anim);
-                imagePlay.StartAnimation(anim);
-                imageDelete.StartAnimation(anim);
-
-                _editingRowPosition = -1;
-                IsEditingRow = false;
+                ResetEditingRow();
             }
             else if (IsEditingRow && oldPosition >= 0)
             {
@@ -250,7 +264,8 @@ namespace MPfm.Android.Classes.Adapters
             switch(v.Id)
             {
                 case Resource.Id.mobileLibraryBrowserCell_imageAdd:
-                    Console.WriteLine("MLBLA - ADD - position: {0}", position);                    
+                    Console.WriteLine("MLBLA - ADD - position: {0}", position);
+                    _fragment.OnAddItemToPlaylist(position);
                     break;
                 case Resource.Id.mobileLibraryBrowserCell_imagePlay:
                     Console.WriteLine("MLBLA - PLAY - position: {0}", position);
@@ -269,6 +284,8 @@ namespace MPfm.Android.Classes.Adapters
                     ad.Show();
                     break;
             }
+
+            ResetEditingRow();
         }
     }
 }

@@ -42,6 +42,12 @@ namespace MPfm.Android.Classes
         ConnectionChangeReceiver _connectionChangeReceiver;
         private LockReceiver _lockReceiver;
 
+        //private IntentFilter _intentFilter;
+        //private WifiP2pManager _wifiManager;
+        //private WifiP2pManager.Channel _wifiChannel;
+        //private WifiDirectReceiver _wifiDirectReceiver;
+        //private ActionListener _actionListener;
+
 #if __ANDROID_16__
         private AndroidDiscoveryService _discoveryService;
 #endif
@@ -143,6 +149,22 @@ namespace MPfm.Android.Classes
 //#endif
         }
 
+        //private void SetupWifiDirect()
+        //{
+        //    _intentFilter = new IntentFilter();
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pStateChangedAction);
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pPeersChangedAction);
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pConnectionChangedAction);
+        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pThisDeviceChangedAction);
+
+        //    _actionListener = new ActionListener();
+        //    _wifiManager = (WifiP2pManager) GetSystemService(Context.WifiP2pService);
+        //    _wifiChannel = _wifiManager.Initialize(this, MainLooper, null);
+        //    _wifiDirectReceiver = new WifiDirectReceiver();
+        //    RegisterReceiver(_wifiDirectReceiver, _intentFilter);
+
+        //    _wifiManager.DiscoverPeers(_wifiChannel, _actionListener);
+        //}
         public static Context GetApplicationContext()
         {
             return _context;

@@ -23,21 +23,14 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
-using Android.Net.Wifi.P2p;
-using Android.Support.V4.App;
-using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
 using Android.Views.Animations;
 using Android.Widget;
 using Java.Lang;
-using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Fragments;
-using MPfm.Android.Classes.Listeners;
 using MPfm.Android.Classes.Navigation;
-using MPfm.Android.Classes.Receivers;
-using MPfm.Android.Classes.Services;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
@@ -48,7 +41,6 @@ using org.sessionsapp.android;
 using DialogFragment = Android.App.DialogFragment;
 using Fragment = Android.App.Fragment;
 using FragmentTransaction = Android.App.FragmentTransaction;
-using TaskStackBuilder = Android.Support.V4.App.TaskStackBuilder;
 
 namespace MPfm.Android
 {
@@ -70,20 +62,11 @@ namespace MPfm.Android
         private ImageButton _btnPlayPause;
         private ImageButton _btnNext;
         private ImageButton _btnPlaylist;
-        private ImageButton _btnPlayer;
+        private ImageButton _btnLeft;
+        private ImageButton _btnRight;
         private bool _isPlaying;
         private ArrayAdapter _spinnerAdapter;
         private Fragment _fragment;
-
-        //private IntentFilter _intentFilter;
-        //private WifiP2pManager _wifiManager;
-        //private WifiP2pManager.Channel _wifiChannel;
-        //private WifiDirectReceiver _wifiDirectReceiver;
-        //private ActionListener _actionListener;
-
-        //#if __ANDROID_16__
-        //private AndroidDiscoveryService _discoveryService;
-        //#endif
 
         public BitmapCache BitmapCache { get; private set; }
 
@@ -109,26 +92,30 @@ namespace MPfm.Android
             _btnPrevious = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPrevious);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlayPause);
             _btnNext = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnNext);
-            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlaylist);
-            _btnPlayer = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnPlayer);
+            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnPlaylist);          
+            _btnLeft = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnLeft);
+            _btnRight = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnRight);
             _imageAlbum = FindViewById<SquareImageView>(Resource.Id.main_miniplayer_imageAlbum);
-            _miniPlayer.Visibility = ViewStates.Gone;
             _miniPlayer.Click += (sender, args) => {
                 //Console.WriteLine("MainActivity - Mini player click - Showing player view...");
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             };
+            _btnLeft.SetOnTouchListener(this);
+            _btnRight.SetOnTouchListener(this);
             _btnPrevious.SetOnTouchListener(this);
             _btnPlayPause.SetOnTouchListener(this);
             _btnNext.SetOnTouchListener(this);
+            _btnPlaylist.SetOnTouchListener(this);
             _btnPrevious.Click += BtnPreviousOnClick;
             _btnPlayPause.Click += BtnPlayPauseOnClick;
             _btnNext.Click += BtnNextOnClick;
             _btnPlaylist.Click += BtnPlaylistOnClick;
-            _btnPlayer.Click += BtnPlayerOnClick;
+            _btnLeft.Click += BtnLeftOnClick;
+            _btnRight.Click += BtnRightOnClick;
 
             // Set initial view flipper item
-            int index = _viewFlipper.IndexOfChild(_miniPlayer);
-            _viewFlipper.DisplayedChild = index;
+            int realIndex = _viewFlipper.IndexOfChild(_miniPlayer);
+            _viewFlipper.DisplayedChild = realIndex;
 
             // Create bitmap cache
             Point size = new Point();
@@ -168,20 +155,14 @@ namespace MPfm.Android
                 _isPlaying = message.Status == PlayerStatusType.Playing;
                 //Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
                 RunOnUiThread(() => {
-                    if (message.Status == PlayerStatusType.Stopped || message.Status == PlayerStatusType.Initialized)
-                    {
-                        //Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_out_right);
-                        //anim.AnimationEnd += (sender, args) => {
-                        //    _miniPlayer.Visibility = ViewStates.Gone;
-                        //};
-                        //_miniPlayer.StartAnimation(anim);
-                    }
-                    
                     if(hasStartedPlaying)
                     {
-                        //_miniPlayer.Visibility = ViewStates.Visible;
-                        //Animation anim = AnimationUtils.LoadAnimation(this, Resource.Animation.slide_in_left);
-                        //_miniPlayer.StartAnimation(anim);  
+                        //Console.WriteLine("MainActivity - PlayerStatusMessage - HasStartedPlaying");
+                        if (_viewFlipper.Visibility == ViewStates.Gone)
+                        {
+                            //Console.WriteLine("MainActivity - PlayerStatusMessage - Showing view flipper");
+                            _viewFlipper.Visibility = ViewStates.Visible;
+                        }
                     }
 
                     switch (message.Status)
@@ -196,36 +177,12 @@ namespace MPfm.Android
                 });
             });
 
-//#if __ANDROID_16__
-//            if (((int)global::Android.OS.Build.VERSION.SdkInt) >= 16) {
-//                _discoveryService = new AndroidDiscoveryService();
-//                _discoveryService.StartDiscovery();
-//            }
-//#endif
-
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
             _navigationManager.BindOptionsMenuView(this);
             _navigationManager.Start();
         }
-
-        //private void SetupWifiDirect()
-        //{
-        //    _intentFilter = new IntentFilter();
-        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pStateChangedAction);
-        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pPeersChangedAction);
-        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pConnectionChangedAction);
-        //    _intentFilter.AddAction(WifiP2pManager.WifiP2pThisDeviceChangedAction);
-
-        //    _actionListener = new ActionListener();
-        //    _wifiManager = (WifiP2pManager) GetSystemService(Context.WifiP2pService);
-        //    _wifiChannel = _wifiManager.Initialize(this, MainLooper, null);
-        //    _wifiDirectReceiver = new WifiDirectReceiver();
-        //    RegisterReceiver(_wifiDirectReceiver, _intentFilter);
-
-        //    _wifiManager.DiscoverPeers(_wifiChannel, _actionListener);
-        //}
 
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
@@ -235,9 +192,6 @@ namespace MPfm.Android
             {
                 Console.WriteLine("MainActivity - OnNavigationItemSelected - Updating fragment - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
                 _navigationManager.ChangeMobileLibraryBrowserType(MobileNavigationTabType.Artists, (MobileLibraryBrowserType)itemPosition);
-
-                //    var mobileLibraryBrowserFragment = (MobileLibraryBrowserFragment) _fragment;                
-                //    mobileLibraryBrowserFragment.OnChangeBrowserType((MobileLibraryBrowserType)itemPosition);
             }
             return true;
         }
@@ -355,6 +309,7 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - OnCreateOptionsMenu");
             
+            // Crashed on all Samsung devices when using the options menu
             //MenuInflater.Inflate(Resource.Menu.main_menu, menu);
             //var menuItem = menu.Add(new Java.Lang.String("Test"));
             //var menuItem2 = menu.Add(new Java.Lang.String("Test2"));
@@ -418,20 +373,20 @@ namespace MPfm.Android
 
         private void BtnPlaylistOnClick(object sender, EventArgs eventArgs)
         {
-            _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_slide_in);
-            _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_slide_out);
-
-            int index = _viewFlipper.IndexOfChild(_miniPlaylist);
-            _viewFlipper.DisplayedChild = index;
         }
 
-        private void BtnPlayerOnClick(object sender, EventArgs eventArgs)
+        private void BtnLeftOnClick(object sender, EventArgs eventArgs)
         {
             _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_back_slide_in);
             _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_back_slide_out);
+            ShowMiniPlayerSlide(0);
+        }
 
-            int index = _viewFlipper.IndexOfChild(_miniPlayer);
-            _viewFlipper.DisplayedChild = index;
+        private void BtnRightOnClick(object sender, EventArgs eventArgs)
+        {
+            _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_slide_in);
+            _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_slide_out);
+            ShowMiniPlayerSlide(1);
         }
 
         public bool OnTouch(View v, MotionEvent e)
@@ -453,6 +408,15 @@ namespace MPfm.Android
                         case Resource.Id.main_miniplayer_btnNext:
                             _btnNext.SetImageResource(Resource.Drawable.player_next_on);
                             break;
+                        case Resource.Id.main_miniplaylist_btnPlaylist:
+                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist_on);
+                            break;
+                        case Resource.Id.main_miniplaylist_btnLeft:
+                            _btnLeft.SetImageResource(Resource.Drawable.miniplayer_chevronleft_on);
+                            break;
+                        case Resource.Id.main_miniplayer_btnRight:
+                            _btnRight.SetImageResource(Resource.Drawable.miniplayer_chevronright_on);
+                            break;
                     }
                     break;
                 case MotionEventActions.Up:
@@ -469,6 +433,15 @@ namespace MPfm.Android
                             break;
                         case Resource.Id.main_miniplayer_btnNext:
                             _btnNext.SetImageResource(Resource.Drawable.player_next);
+                            break;
+                        case Resource.Id.main_miniplaylist_btnPlaylist:
+                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist);
+                            break;
+                        case Resource.Id.main_miniplaylist_btnLeft:
+                            _btnLeft.SetImageResource(Resource.Drawable.miniplayer_chevronleft);
+                            break;
+                        case Resource.Id.main_miniplayer_btnRight:
+                            _btnRight.SetImageResource(Resource.Drawable.miniplayer_chevronright);
                             break;
                     }
                     break;
@@ -488,6 +461,18 @@ namespace MPfm.Android
             //Console.WriteLine("MainActivity - HideSplash");
             if(_splashFragment.Dialog != null)
                 _splashFragment.Dialog.Dismiss();
+        }
+
+        public void ShowMiniPlayerSlide(int index)
+        {
+            // Refresh new index (if the same index, prevent animation)
+            int realIndex = _viewFlipper.IndexOfChild(index == 0 ? _miniPlayer : _miniPlaylist);
+            if(_viewFlipper.DisplayedChild != realIndex)
+                _viewFlipper.DisplayedChild = realIndex;
+
+            // Make sure view flipper is visible
+            if (_viewFlipper.Visibility == ViewStates.Gone)
+                _viewFlipper.Visibility = ViewStates.Visible;
         }
 
         #region IMobileOptionsMenuView implementation

@@ -207,6 +207,7 @@ namespace MPfm.Android.Classes.Fragments
         public Action<int> OnItemClick { get; set; }
         public Action<int> OnDeleteItem { get; set; }
         public Action<int> OnPlayItem { get; set; }
+        public Action<int> OnAddItemToPlaylist { get; set; }
         public Action<string, string> OnRequestAlbumArt { get; set; }
         public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 
@@ -346,6 +347,17 @@ namespace MPfm.Android.Classes.Fragments
             Activity.RunOnUiThread(() => {
                 _gridAdapter.RefreshAlbumArtCell(artistName, albumTitle, albumArtData);
             });
+        }
+
+        public void NotifyNewPlaylistItems(string text)
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                var mainActivity = (MainActivity) Activity;
+                mainActivity.ShowMiniPlayerSlide(1);
+                Toast toast = Toast.MakeText(Activity, text, ToastLength.Short);
+                toast.Show();             
+            });            
         }
 
         #endregion

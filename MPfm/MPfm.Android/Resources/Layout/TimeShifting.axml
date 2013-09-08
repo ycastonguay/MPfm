@@ -12,7 +12,7 @@
     android:text="Time Shifting"
     android:textSize="20dp"
     android:textColor="#ffffffff"
-    android:padding="8dp" />
+    android:padding="12dp" />
   <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
     <Button
       android:id="@+id/timeShifting_btnDetectTempo"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:background="@drawable/transparentbutton_selector"            
       android:text="Detect tempo"
@@ -126,7 +126,7 @@
     <Button
       android:id="@+id/timeShifting_btnDecrement"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:layout_marginRight="8dp"
       android:background="@drawable/transparentbutton_selector"            
@@ -136,7 +136,7 @@
     <Button
       android:id="@+id/timeShifting_btnIncrement"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:background="@drawable/transparentbutton_selector"            
       android:text="+"
@@ -145,7 +145,7 @@
     <Button
       android:id="@+id/timeShifting_btnReset"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:layout_marginLeft="8dp"
       android:background="@drawable/transparentbutton_selector"            

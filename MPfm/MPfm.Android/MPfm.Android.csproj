@@ -253,6 +253,9 @@
     <AndroidResource Include="Resources\layout-sw400dp-hdpi\AlbumCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout-sw400dp-hdpi\PlayerMetadata.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -523,6 +526,15 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_trash.png" />
     <AndroidResource Include="Resources\Anim\gridviewoptions_fade_in.xml" />
     <AndroidResource Include="Resources\Anim\gridviewoptions_fade_out.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\miniplayer_chevronleft_on.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\miniplayer_chevronright_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\miniplayer_chevronleft_on.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\miniplayer_chevronright_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\miniplayer_chevronleft_on.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\miniplayer_chevronright_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronleft_on.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronright_on.png" />
+    <AndroidResource Include="Resources\drawable\miniplayerchevron_selector.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\miniplayer_chevronleft.png" />
     <AndroidResource Include="Resources\drawable-hdpi\miniplayer_chevronright.png" />
     <AndroidResource Include="Resources\drawable-mdpi\miniplayer_chevronleft.png" />

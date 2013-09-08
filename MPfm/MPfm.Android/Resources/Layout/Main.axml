@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/main_layout"
-  android:orientation="horizontal"
   android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_height="fill_parent"
+  android:background="@color/background"
+  android:orientation="horizontal">
   <ViewFlipper
     android:id="@+id/main_viewflipper"
     android:layout_width="fill_parent"
     android:layout_height="100dp"
     android:layout_alignParentBottom="true"
+    android:visibility="gone"
+    android:background="@color/background"
     android:inAnimation="@anim/flipper_slide_in"
     android:outAnimation="@anim/flipper_slide_out">
     <LinearLayout
@@ -93,6 +96,7 @@
             android:id="@+id/main_miniplayer_lblSongPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="0:00 / 19:43"
             android:textColor="#CCCCCC"
             android:textSize="11dp"
@@ -101,11 +105,11 @@
         </LinearLayout>
       </LinearLayout>
       <ImageButton
-        android:id="@+id/main_miniplayer_btnPlaylist"
+        android:id="@+id/main_miniplayer_btnRight"
         android:layout_width="50dp"
         android:layout_height="100dp"
         android:padding="20dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/miniplayerchevron_selector"
         android:src="@drawable/miniplayer_chevronright" />
     </LinearLayout>
     <LinearLayout
@@ -116,49 +120,124 @@
       android:background="@color/actionbar"
       android:gravity="center_vertical">
       <ImageButton
-        android:id="@+id/main_miniplaylist_btnPlayer"
+        android:id="@+id/main_miniplaylist_btnLeft"
         android:layout_width="50dp"
         android:layout_height="100dp"
         android:padding="20dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/miniplayerchevron_selector"
         android:src="@drawable/miniplayer_chevronleft" />
       <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_weight="1"
         android:orientation="vertical">
         <LinearLayout
           android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:paddingLeft="8dp">
+          android:layout_height="24dp"
+          android:paddingLeft="8dp"
+          android:paddingRight="8dp"
+          android:paddingTop="4dp"
+          android:orientation="horizontal">
           <TextView
             android:id="@+id/main_miniplaylist_lblPlaylist"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:text="Playlist"
+            android:layout_height="wrap_content"            
+            android:textColor="#CCCCCC"
+            android:text="Playlist:"
             android:textSize="14dp"
             android:ellipsize="end"
             android:singleLine="true" />
           <TextView
-            android:id="@+id/main_miniplaylist_lblPlaylistTitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/main_miniplaylist_lblNextSong"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="[Playlist name]"
-            android:textColor="#EEEEEE"
-            android:textSize="12dp"
-            android:ellipsize="end"
-            android:singleLine="true" />
-          <TextView
-            android:id="@+id/main_miniplaylist_lblPlaylistCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="[Playlist count]"
+            android:layout_weight="1"
+            android:gravity="right"
             android:textColor="#CCCCCC"
-            android:textSize="11dp"
+            android:text="Next Song:"
+            android:textSize="14dp"
             android:ellipsize="end"
             android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+          android:layout_width="fill_parent"
+          android:layout_height="68dp"
+          android:layout_marginTop="4dp"
+          android:layout_marginBottom="24dp"
+          android:orientation="horizontal">
+          <ImageButton
+            android:id="@+id/main_miniplaylist_btnPlaylist"
+            android:layout_width="60dp"
+            android:layout_height="44dp"
+            android:padding="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/player_playlist" />
+          <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:paddingLeft="8dp">
+            <TextView
+              android:id="@+id/main_miniplaylist_lblPlaylistTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="[Playlist name]"
+              android:textColor="#EEEEEE"
+              android:textSize="14dp"
+              android:ellipsize="end"
+              android:singleLine="true" />
+            <TextView
+              android:id="@+id/main_miniplaylist_lblPlaylistCount"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="[Playlist count]"
+              android:textColor="#CCCCCC"
+              android:textSize="12dp"
+              android:ellipsize="end"
+              android:singleLine="true" />
+          </LinearLayout>
+          <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp"
+            android:gravity="right"
+            android:background="@drawable/miniplayerchevron_selector"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+            <TextView
+              android:id="@+id/main_miniplaylist_lblNextArtistName"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="right"
+              android:textColor="#FFFFFF"
+              android:text="[Artist name]"
+              android:textSize="14dp"
+              android:ellipsize="end"
+              android:singleLine="true" />
+            <TextView
+              android:id="@+id/main_miniplaylist_lblNextAlbumTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="right"
+              android:text="[Album title]"
+              android:textColor="#EEEEEE"
+              android:textSize="12dp"
+              android:ellipsize="end"
+              android:singleLine="true" />
+            <TextView
+              android:id="@+id/main_miniplaylist_lblNextSongTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="right"
+              android:text="[Title]"
+              android:textColor="#CCCCCC"
+              android:textSize="11dp"
+              android:ellipsize="end"
+              android:singleLine="true" />
+          </LinearLayout>
         </LinearLayout>
       </LinearLayout>
     </LinearLayout>
@@ -169,6 +248,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background"
-    android:layout_above="@+id/main_viewflipper">    
+    android:layout_above="@+id/main_viewflipper">
   </LinearLayout>
 </RelativeLayout>

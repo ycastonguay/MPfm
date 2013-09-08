@@ -15,11 +15,11 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center_horizontal"
-      android:padding="6dip" />
+      android:padding="12dp" />
     <Button
       android:id="@+id/loops_btnAdd"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_alignParentRight="true"
       android:layout_margin="8dp"
       android:background="@drawable/transparentbutton_selector"      
