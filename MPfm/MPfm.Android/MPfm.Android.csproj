@@ -543,6 +543,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\miniplayer_chevronright.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronleft.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronright.png" />
+    <AndroidResource Include="Resources\drawable\listgradient_selector.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

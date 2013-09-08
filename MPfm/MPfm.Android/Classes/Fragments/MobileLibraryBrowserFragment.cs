@@ -40,14 +40,15 @@ namespace MPfm.Android.Classes.Fragments
 {
     public class MobileLibraryBrowserFragment : BaseFragment, IMobileLibraryBrowserView
     {
-        private View _view;
-        private ListView _listViewArtists;
-        private ListView _listViewSongs;
-        private GridView _gridViewAlbums;
-        private MobileLibraryBrowserListAdapter _listAdapterArtists;
-        private MobileLibraryBrowserListAdapter _listAdapterSongs;
-        private MobileLibraryBrowserGridAdapter _gridAdapter;
-        private List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
+        View _view;
+        ListView _listViewArtists;
+        ListView _listViewSongs;
+        GridView _gridViewAlbums;
+        MobileLibraryBrowserListAdapter _listAdapterArtists;
+        MobileLibraryBrowserListAdapter _listAdapterSongs;
+        MobileLibraryBrowserGridAdapter _gridAdapter;
+        List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
+        MobileLibraryBrowserType _browserType;
 
         SquareImageView _imageAlbum;
         LinearLayout _layoutAlbum;
@@ -101,8 +102,6 @@ namespace MPfm.Android.Classes.Fragments
             _listViewSongs = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listViewSongs);
             _listViewPlaylists = _view.FindViewById<ListView>(Resource.Id.mobileLibraryBrowser_listViewPlaylists);
             _gridViewAlbums = _view.FindViewById<GridView>(Resource.Id.mobileLibraryBrowser_gridViewAlbums);
-            //_listView.Visibility = ViewStates.Gone;
-            //_gridView.Visibility = ViewStates.Gone;
 
             _listAdapterArtists = new MobileLibraryBrowserListAdapter(Activity, this, _listViewArtists, _entities.ToList());
             _listViewArtists.SetAdapter(_listAdapterArtists);
@@ -118,14 +117,6 @@ namespace MPfm.Android.Classes.Fragments
             _gridViewAlbums.SetAdapter(_gridAdapter);
             _gridViewAlbums.ItemClick += GridViewOnItemClick;
             _gridViewAlbums.ItemLongClick += GridViewOnItemLongClick;
-
-            //this.RetainInstance = true;
-
-            //if (savedInstanceState != null)
-            //{
-            //    string saved = savedInstanceState.GetString("Test");
-            //    Console.WriteLine("MLBFRAGMENT - ONCREATEVIEW - STATE: {0}", saved);
-            //}
 
             return _view;
         }
@@ -208,7 +199,7 @@ namespace MPfm.Android.Classes.Fragments
         public Action<int> OnDeleteItem { get; set; }
         public Action<int> OnPlayItem { get; set; }
         public Action<int> OnAddItemToPlaylist { get; set; }
-        public Action<string, string> OnRequestAlbumArt { get; set; }
+        public Action<string, string, object> OnRequestAlbumArt { get; set; }
         public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 
         public void MobileLibraryBrowserError(Exception ex)
@@ -224,8 +215,10 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty)
         {
-            Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
-            Activity.RunOnUiThread(() => {
+            //Console.WriteLine("MLBF - RefreshLibraryBrowser - Count: {0} browserType: {1}", entities.Count(), browserType.ToString());
+            Activity.RunOnUiThread(() =>
+            {
+                _browserType = browserType;
                 _entities = entities.ToList();
                 _lblBreadcrumb.Text = breadcrumb;
 
@@ -250,12 +243,6 @@ namespace MPfm.Android.Classes.Fragments
                     case MobileLibraryBrowserType.Artists:
                         int index = _viewFlipper.IndexOfChild(_listViewArtists);
                         _viewFlipper.DisplayedChild = index;
-                        //_layoutAlbum.Visibility = ViewStates.Gone;
-                        //_listViewArtists.Visibility = ViewStates.Visible;
-                        //_gridViewAlbums.Visibility = ViewStates.Gone;
-
-                        //Animation animation = AnimationUtils.LoadAnimation(Activity, Resource.Animation.fade_in);
-                        //_listView.StartAnimation(animation);
 
                         if (_listViewArtists != null)
                         {
@@ -266,12 +253,6 @@ namespace MPfm.Android.Classes.Fragments
                     case MobileLibraryBrowserType.Albums:
                         int index2 = _viewFlipper.IndexOfChild(_gridViewAlbums);
                         _viewFlipper.DisplayedChild = index2;
-                        //_layoutAlbum.Visibility = ViewStates.Gone;
-                        //_listViewArtists.Visibility = ViewStates.Gone;
-                        //_gridViewAlbums.Visibility = ViewStates.Visible;
-
-                        //Animation animation2 = AnimationUtils.LoadAnimation(Activity, Resource.Animation.fade_in);
-                        //_gridView.StartAnimation(animation2);
 
                         if (_gridViewAlbums != null)
                             _gridAdapter.SetData(entities);
@@ -279,9 +260,6 @@ namespace MPfm.Android.Classes.Fragments
                     case MobileLibraryBrowserType.Songs:
                         int index3 = _viewFlipper.IndexOfChild(_layoutSongs);
                         _viewFlipper.DisplayedChild = index3;
-                        //_layoutAlbum.Visibility = ViewStates.Visible;
-                        //_listViewArtists.Visibility = ViewStates.Visible;
-                        //_gridViewAlbums.Visibility = ViewStates.Gone;                            
 
                         if (_entities.Count > 0)
                         {                            
@@ -318,20 +296,8 @@ namespace MPfm.Android.Classes.Fragments
                     case MobileLibraryBrowserType.Playlists:
                         int index4 = _viewFlipper.IndexOfChild(_listViewPlaylists);
                         _viewFlipper.DisplayedChild = index4;
-                        //_layoutAlbum.Visibility = ViewStates.Gone;
-                        //_listViewArtists.Visibility = ViewStates.Visible;
-                        //_gridViewAlbums.Visibility = ViewStates.Gone;
                         break;
                 }
-
-                //if (browserType != MobileLibraryBrowserType.Albums)
-                //{
-                //    if (_listViewArtists != null)
-                //    {
-                //        _listAdapter.SetData(_entities);
-                //        _listViewArtists.SetSelection(0);
-                //    }
-                //}
             });
         }
 
@@ -342,10 +308,19 @@ namespace MPfm.Android.Classes.Fragments
             });
         }
 
-        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
+        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
+            Console.WriteLine("MLBF - RefreshAlbumArtCell - artistName: {0} albumTitle: {1}", artistName, albumTitle);
             Activity.RunOnUiThread(() => {
-                _gridAdapter.RefreshAlbumArtCell(artistName, albumTitle, albumArtData);
+                switch (_browserType)
+                {
+                    case MobileLibraryBrowserType.Artists:
+                        _listAdapterArtists.RefreshAlbumArtCell(artistName, albumTitle, albumArtData, userData);
+                        break;
+                    case MobileLibraryBrowserType.Albums:
+                        _gridAdapter.RefreshAlbumArtCell(artistName, albumTitle, albumArtData);
+                        break;
+                }
             });
         }
 
@@ -354,8 +329,8 @@ namespace MPfm.Android.Classes.Fragments
             Activity.RunOnUiThread(() =>
             {
                 var mainActivity = (MainActivity) Activity;
-                mainActivity.ShowMiniPlayerSlide(1);
-                Toast toast = Toast.MakeText(Activity, text, ToastLength.Short);
+                mainActivity.ShowMiniPlaylist();
+                Toast toast = Toast.MakeText(Activity, text, ToastLength.Long);
                 toast.Show();             
             });            
         }

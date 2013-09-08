@@ -81,7 +81,7 @@ namespace MPfm.Android.Classes.Adapters
             View view = convertView;
             if (view == null) // no view to re-use, create new
                 view = _context.LayoutInflater.Inflate(Resource.Layout.AlbumCell, null);
-
+            
             var artistName = view.FindViewById<TextView>(Resource.Id.albumCell_artistName);
             var albumTitle = view.FindViewById<TextView>(Resource.Id.albumCell_albumTitle);
             var imageView = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
@@ -162,7 +162,7 @@ namespace MPfm.Android.Classes.Adapters
             {
                 //Task.Factory.StartNew(() => {
                     //Console.WriteLine("MobileLibraryBrowserGridAdapter - Requesting album art from presenter - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
-                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.Query.AlbumTitle);
+                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.Query.AlbumTitle, null);
                 //});
             }
 

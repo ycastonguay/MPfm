@@ -463,7 +463,7 @@ namespace MPfm.Android
                 _splashFragment.Dialog.Dismiss();
         }
 
-        public void ShowMiniPlayerSlide(int index)
+        private void ShowMiniPlayerSlide(int index)
         {
             // Refresh new index (if the same index, prevent animation)
             int realIndex = _viewFlipper.IndexOfChild(index == 0 ? _miniPlayer : _miniPlaylist);
@@ -473,6 +473,13 @@ namespace MPfm.Android
             // Make sure view flipper is visible
             if (_viewFlipper.Visibility == ViewStates.Gone)
                 _viewFlipper.Visibility = ViewStates.Visible;
+        }
+
+        public void ShowMiniPlaylist()
+        {
+            _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_slide_in);
+            _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_slide_out);
+            ShowMiniPlayerSlide(1);
         }
 
         #region IMobileOptionsMenuView implementation

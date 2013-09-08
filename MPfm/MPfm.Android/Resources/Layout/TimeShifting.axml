@@ -11,7 +11,7 @@
     android:gravity="center_horizontal"
     android:text="Time Shifting"
     android:textSize="20dp"
-    android:textColor="#ffffffff"
+    android:textColor="#FFFFFF"
     android:padding="12dp" />
   <RelativeLayout
     android:layout_width="fill_parent"
@@ -32,7 +32,7 @@
         android:gravity="left"
         android:text="Detected tempo:"
         android:textSize="14dp"
-        android:textColor="#ffffffff"
+        android:textColor="#CCCCCC"
         android:textStyle="bold" />
       <TextView
         android:id="@+id/timeShifting_lblDetectedTempoValue"
@@ -41,18 +41,18 @@
         android:gravity="left"
         android:text="120 bpm"
         android:textSize="14dp"
-        android:textColor="#ffffffff" />
+        android:textColor="#FFFFFF" />
     </LinearLayout>
     <Button
       android:id="@+id/timeShifting_btnDetectTempo"
       android:layout_width="wrap_content"
       android:layout_height="40dp"
       android:layout_alignParentRight="true"
+      android:padding="12dp"
       android:background="@drawable/transparentbutton_selector"            
       android:text="Detect tempo"
       android:textColor="@color/transparentbutton_textcolor"
-      android:textSize="14dp"
-      android:padding="12dp" />
+      android:textSize="14dp"/>
   </RelativeLayout>
   <RelativeLayout
     android:layout_width="fill_parent"
@@ -68,7 +68,7 @@
       android:gravity="left"
       android:text="Current tempo:"
       android:textSize="14dp"
-      android:textColor="#ffffffff"
+      android:textColor="#CCCCCC"
       android:textStyle="bold" />
     <TextView
       android:id="@+id/timeShifting_lblReferenceTempo"
@@ -78,7 +78,7 @@
       android:gravity="right"
       android:text="Reference tempo:"
       android:textSize="14dp"
-      android:textColor="#ffffffff"
+      android:textColor="#CCCCCC"
       android:textStyle="bold" />
   </RelativeLayout>
   <RelativeLayout
@@ -95,7 +95,7 @@
       android:gravity="left"
       android:text="120 bpm"
       android:textSize="14dp"
-      android:textColor="#ffffffff" />
+      android:textColor="#FFFFFF" />
     <TextView
       android:id="@+id/timeShifting_lblReferenceTempoValue"
       android:layout_width="match_parent"
@@ -104,7 +104,7 @@
       android:gravity="right"
       android:text="120 bpm"
       android:textSize="14dp"
-      android:textColor="#ffffffff" />
+      android:textColor="#FFFFFF" />
   </RelativeLayout>
   <LinearLayout
     android:layout_width="fill_parent"

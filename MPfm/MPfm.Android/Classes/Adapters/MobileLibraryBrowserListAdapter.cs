@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using Android.App;
 using Android.Views;
 using Android.Views.Animations;
@@ -78,6 +79,7 @@ namespace MPfm.Android.Classes.Adapters
             if (view == null) // no view to re-use, create new
                 view = _context.LayoutInflater.Inflate(Resource.Layout.MobileLibraryBrowserCell, null);
 
+            var layoutAlbums = view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowserCell_layoutAlbums);
             var layoutSubtitle = view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowserCell_layoutSubtitle);
             var lblTitle = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_lblTitle);
             var lblTitleWithSubtitle = view.FindViewById<TextView>(Resource.Id.mobileLibraryBrowserCell_lblTitleWithSubtitle);
@@ -87,7 +89,10 @@ namespace MPfm.Android.Classes.Adapters
             var btnAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
             var btnPlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
             var btnDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
-            
+            var imageAlbum1 = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum1);
+            var imageAlbum2 = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum2);
+            var imageAlbum3 = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum3);
+
             if(item.AudioFile != null && item.AudioFile.Id == _nowPlayingAudioFileId)
                 imageNowPlaying.Visibility = ViewStates.Visible;
             else
@@ -125,18 +130,92 @@ namespace MPfm.Android.Classes.Adapters
             switch (item.Type)
             {
                 case LibraryBrowserEntityType.Song:
+                    layoutAlbums.Visibility = ViewStates.Gone;
                     index.Visibility = ViewStates.Visible;
                     lblTitle.Visibility = ViewStates.Gone;            
                     layoutSubtitle.Visibility = ViewStates.Visible;
                     break;
                 default:
+                    layoutAlbums.Visibility = ViewStates.Visible;
                     index.Visibility = ViewStates.Gone;
                     lblTitle.Visibility = ViewStates.Visible;            
                     layoutSubtitle.Visibility = ViewStates.Gone;
                     break;
             }
 
+            imageAlbum1.SetImageBitmap(null);
+            imageAlbum2.SetImageBitmap(null);
+            imageAlbum3.SetImageBitmap(null);
+
+            for (int a = 0; a < 3; a++)
+            {
+                string bitmapKey = item.Query.ArtistName + "_" + item.Query.AlbumTitle;
+                if (_fragment.BitmapCache.KeyExists(bitmapKey))
+                {
+                    ImageView imageAlbum = null;
+                    if (a == 0)
+                        imageAlbum = imageAlbum1;
+                    else if (a == 1)
+                        imageAlbum = imageAlbum2; 
+                    else if (a == 2)
+                        imageAlbum = imageAlbum3;
+
+                    if (imageAlbum != null)
+                    {
+                        imageAlbum.Tag = bitmapKey;
+                        imageAlbum.SetImageBitmap(_fragment.BitmapCache.GetBitmapFromMemoryCache(bitmapKey));
+                    }
+                }
+                else
+                {
+                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.Query.AlbumTitle, a);
+                }
+            }
+
             return view;
+        }
+
+        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
+        {
+            try
+            {
+                //var mainActivity = (MainActivity)_context;
+                int imageIndex = (int) userData;
+                int index = _items.FindIndex(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
+                //Console.WriteLine("MobileLibraryBrowserListAdapter - *RECEIVED* album art for {0}/{1} - index: {2}", artistName, albumTitle, index);
+                if (index >= 0)
+                {
+                    int visibleCellIndex = index - _listView.FirstVisiblePosition;
+                    var view = _listView.GetChildAt(visibleCellIndex);
+                    //Console.WriteLine("MobileLibraryBrowserListAdapter - *RECEIVED* album art for {0}/{1} - index: {2} visibleCellIndex: {3} firstVisiblePosition: {4}", artistName, albumTitle, index, visibleCellIndex, _gridView.FirstVisiblePosition);
+                    if (view != null)
+                    {
+                        //Task.Factory.StartNew(() => {
+                        //Console.WriteLine("MobileLibraryBrowserListAdapter - *LOADING BITMAP* from byte array for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
+                        ImageView image = null;
+                        if(imageIndex == 0)
+                            image = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum1);
+                        else if(imageIndex == 1)
+                            image = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum2);
+                        else if (imageIndex == 2)
+                            image = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum3); 
+                        
+                        if(image != null)
+                            image.Tag = artistName + "_" + albumTitle;
+                        //mainActivity.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
+                        _fragment.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
+                        //});
+                    }
+                    else
+                    {
+                        //Console.WriteLine("MobileLibraryBrowserListAdapter - *GRID VIEW CHILD IS NULL* for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MobileLibraryBrowserListAdapter - Failed to load album art: {0}", ex);
+            }
         }
 
         public void SetNowPlayingRow(int position, AudioFile audioFile)

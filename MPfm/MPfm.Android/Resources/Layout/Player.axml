@@ -64,10 +64,11 @@
   </FrameLayout>
   <LinearLayout
       android:id="@+id/player_layoutButtons"
-      android:orientation="horizontal"
-      android:gravity="center"
       android:layout_width="fill_parent"
-      android:layout_height="60dp">
+      android:layout_height="60dp"
+      android:background="@color/actionbar"
+      android:orientation="horizontal"
+      android:gravity="center">
     <ImageButton
       android:id="@+id/player_btnPrevious"
       android:layout_width="60dp"

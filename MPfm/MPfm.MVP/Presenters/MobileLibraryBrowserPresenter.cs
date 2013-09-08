@@ -145,7 +145,7 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void RequestAlbumArt(string artistName, string albumTitle)
+        private void RequestAlbumArt(string artistName, string albumTitle, object userData)
         {
             // TODO: Add canceling, add detection to not request the same album art multiple times
             // Only run one task at a time.
@@ -158,7 +158,7 @@ namespace MPfm.MVP.Presenters
                 {
                     // Update with with album art byte array
                     byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                    View.RefreshAlbumArtCell(artistName, albumTitle, bytesImage);
+                    View.RefreshAlbumArtCell(artistName, albumTitle, bytesImage, userData);
                 }
             });
         }
@@ -170,9 +170,18 @@ namespace MPfm.MVP.Presenters
                 Console.WriteLine("MobileLibraryBrowserPresenter - AddItemToPlaylist - index: {0}", index);
                 Task.Factory.StartNew(() =>
                 {
-                    var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
-                    _playerService.CurrentPlaylist.AddItems(audioFiles);
-                    View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));
+                    // Check if adding a song or an album
+                    if (_items[index].AudioFile != null)
+                    {
+                        _playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
+                        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
+                    }
+                    else
+                    {
+                        var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
+                        _playerService.CurrentPlaylist.AddItems(audioFiles);
+                        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));                        
+                    }
                 }, _cancellationToken);
             }
             catch (Exception ex)
