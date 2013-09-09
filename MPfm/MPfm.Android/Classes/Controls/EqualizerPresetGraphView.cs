@@ -68,9 +68,9 @@ namespace org.sessionsapp.android
             Invalidate();
         }
 
-        public override void Draw(global::Android.Graphics.Canvas canvas)
+        public override void Draw(Canvas canvas)
         {
-            //Console.WriteLine("************************************************************EqualizerPresetGraphView - Draw - Width: {0} Height: {1}", Width, Height);
+            //Console.WriteLine("EqualizerPresetGraphView - Draw - Width: {0} Height: {1}", Width, Height);
 
             float padding = 6 * Resources.DisplayMetrics.Density;
             float heightAvailable = Height - (padding*2);            
@@ -126,7 +126,7 @@ namespace org.sessionsapp.android
                 float ratio = (band.Gain + 6f) / 12f;
                 float y = padding + heightAvailable - (ratio * (Height - (padding * 2)));
 
-                //Console.WriteLine("************************************************************EqualizerPresetGraphView - Draw - Width: {0} Height: {1} ratio: {2} x: {3} y: {4} padding: {5} heightAvailable: {6}", Width, Height, ratio, x, y, padding, heightAvailable);
+                //Console.WriteLine("EqualizerPresetGraphView - Draw - Width: {0} Height: {1} ratio: {2} x: {3} y: {4} padding: {5} heightAvailable: {6}", Width, Height, ratio, x, y, padding, heightAvailable);
                 points.Add(x);
                 points.Add(y);
 

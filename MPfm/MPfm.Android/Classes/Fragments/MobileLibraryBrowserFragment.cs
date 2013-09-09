@@ -62,6 +62,7 @@ namespace MPfm.Android.Classes.Fragments
         ListView _listViewPlaylists;
 
         public BitmapCache BitmapCache { get; set; }
+        public BitmapCache SmallBitmapCache { get; set; }
 
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base(null)
@@ -88,6 +89,7 @@ namespace MPfm.Android.Classes.Fragments
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             int cacheSize = maxMemory / 8;
             BitmapCache = new BitmapCache(Activity, cacheSize, size.X / 2, size.X / 2); // Max size = half the screen (grid has 2 columns)
+            SmallBitmapCache = new BitmapCache(Activity, cacheSize, 44 * (int)Resources.DisplayMetrics.Density, 44 * (int)Resources.DisplayMetrics.Density);
 
             _viewFlipper = _view.FindViewById<ViewFlipper>(Resource.Id.mobileLibraryBrowser_viewFlipper);            
             _imageAlbum = _view.FindViewById<SquareImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
