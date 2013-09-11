@@ -36,6 +36,7 @@ using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 using TinyMessenger;
 using org.sessionsapp.android;
 using DialogFragment = Android.App.DialogFragment;
@@ -45,7 +46,7 @@ using FragmentTransaction = Android.App.FragmentTransaction;
 namespace MPfm.Android
 {
     [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class MainActivity : BaseActivity, IMobileOptionsMenuView, View.IOnTouchListener, ActionBar.IOnNavigationListener
+    public class MainActivity : BaseActivity, View.IOnTouchListener, ActionBar.IOnNavigationListener, IMobileOptionsMenuView, IPlayerStatusView
     {
         private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
@@ -57,16 +58,23 @@ namespace MPfm.Android
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
+        private TextView _lblNextArtistName;
+        private TextView _lblNextAlbumTitle;
+        private TextView _lblNextSongTitle;
+        private TextView _lblPlaylistCount;
         private SquareImageView _imageAlbum;
         private ImageButton _btnPrevious;
         private ImageButton _btnPlayPause;
         private ImageButton _btnNext;
         private ImageButton _btnPlaylist;
+        private ImageButton _btnShuffle;
+        private ImageButton _btnRepeat;
         private ImageButton _btnLeft;
         private ImageButton _btnRight;
-        private bool _isPlaying;
         private ArrayAdapter _spinnerAdapter;
         private Fragment _fragment;
+        private bool _isPlaying;
+        private bool _mustHideSplash;
 
         public BitmapCache BitmapCache { get; private set; }
 
@@ -74,6 +82,8 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - OnCreate");
             base.OnCreate(bundle);
+
+            _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
 
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
@@ -89,27 +99,34 @@ namespace MPfm.Android
             _lblArtistName = FindViewById<TextView>(Resource.Id.main_miniplayer_lblArtistName);
             _lblAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblAlbumTitle);
             _lblSongTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblSongTitle);
+            _lblNextArtistName = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextArtistName);
+            _lblNextAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextAlbumTitle);
+            _lblNextSongTitle = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextSongTitle);
+            _lblPlaylistCount = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblPlaylistCount);
             _btnPrevious = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPrevious);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlayPause);
             _btnNext = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnNext);
-            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnPlaylist);          
+            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnPlaylist);
+            _btnShuffle = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnShuffle);
+            _btnRepeat = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnRepeat);
             _btnLeft = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnLeft);
             _btnRight = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnRight);
             _imageAlbum = FindViewById<SquareImageView>(Resource.Id.main_miniplayer_imageAlbum);
-            _miniPlayer.Click += (sender, args) => {
-                //Console.WriteLine("MainActivity - Mini player click - Showing player view...");
-                _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
-            };
+            _miniPlayer.Click += (sender, args) => _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             _btnLeft.SetOnTouchListener(this);
             _btnRight.SetOnTouchListener(this);
             _btnPrevious.SetOnTouchListener(this);
             _btnPlayPause.SetOnTouchListener(this);
             _btnNext.SetOnTouchListener(this);
             _btnPlaylist.SetOnTouchListener(this);
-            _btnPrevious.Click += BtnPreviousOnClick;
-            _btnPlayPause.Click += BtnPlayPauseOnClick;
-            _btnNext.Click += BtnNextOnClick;
-            _btnPlaylist.Click += BtnPlaylistOnClick;
+            _btnShuffle.SetOnTouchListener(this);
+            _btnRepeat.SetOnTouchListener(this);
+            _btnPrevious.Click += (sender, args) => OnPlayerPrevious();
+            _btnPlayPause.Click += (sender, args) => OnPlayerPlayPause();
+            _btnNext.Click += (sender, args) => OnPlayerNext();
+            _btnPlaylist.Click += (sender, args) => OnOpenPlaylist();
+            _btnShuffle.Click += (sender, args) => OnPlayerShuffle();
+            _btnRepeat.Click += (sender, args) => OnPlayerRepeat();
             _btnLeft.Click += BtnLeftOnClick;
             _btnRight.Click += BtnRightOnClick;
 
@@ -124,101 +141,22 @@ namespace MPfm.Android
             int cacheSize = maxMemory / 16;
             BitmapCache = new BitmapCache(this, cacheSize, size.X / 6, size.X / 6);
 
-            // Listen to player changes to show/hide the mini player
-            _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
-            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => RunOnUiThread(() => {
-                // Make sure the UI is available
-                if (_lblArtistName != null && message.Data.AudioFileStarted != null)
-                {
-                    _lblArtistName.Text = message.Data.AudioFileStarted.ArtistName;
-                    _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
-                    _lblSongTitle.Text = message.Data.AudioFileStarted.Title;
-
-                    Task.Factory.StartNew(() => {                            
-                        string key = message.Data.AudioFileStarted.ArtistName + "_" + message.Data.AudioFileStarted.AlbumTitle;
-                        //Console.WriteLine("MainActivity - Player Bar - key: {0}", key);
-                        if (_imageAlbum.Tag == null || _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
-                        {
-                            //Console.WriteLine("MainActivity - Player Bar - key: {0} is different than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
-                            _imageAlbum.Tag = key;
-                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(message.Data.AudioFileStarted.FilePath);
-                            if (bytesImage.Length == 0)
-                                _imageAlbum.SetImageBitmap(null);
-                            else
-                                BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);    
-                        }
-                    });
-                }
-            }));
-            _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
-                bool hasStartedPlaying = !_isPlaying && message.Status == PlayerStatusType.Playing;
-                _isPlaying = message.Status == PlayerStatusType.Playing;
-                //Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
-                RunOnUiThread(() => {
-                    if(hasStartedPlaying)
-                    {
-                        //Console.WriteLine("MainActivity - PlayerStatusMessage - HasStartedPlaying");
-                        if (_viewFlipper.Visibility == ViewStates.Gone)
-                        {
-                            //Console.WriteLine("MainActivity - PlayerStatusMessage - Showing view flipper");
-                            _viewFlipper.Visibility = ViewStates.Visible;
-                        }
-                    }
-
-                    switch (message.Status)
-                    {
-                        case PlayerStatusType.Playing:
-                            _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
-                            break;
-                        default:
-                            _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
-                            break;
-                    }
-                });
-            });
-
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
-            _navigationManager = (AndroidNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            _navigationManager.MainActivity = this; // TODO: Is this OK? Shouldn't the reference be cleared when MainActivity is destroyed? Can lead to memory leaks.
+            _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            _navigationManager.MainActivity = this; // Watch out, this can lead to memory leaks!
             _navigationManager.BindOptionsMenuView(this);
+            _navigationManager.BindPlayerStatusView(this);
             _navigationManager.Start();
-        }
-
-        public bool OnNavigationItemSelected(int itemPosition, long itemId)
-        {
-            Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
-            
-            if (_fragment is MobileLibraryBrowserFragment)
-            {
-                Console.WriteLine("MainActivity - OnNavigationItemSelected - Updating fragment - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
-                _navigationManager.ChangeMobileLibraryBrowserType(MobileNavigationTabType.Artists, (MobileLibraryBrowserType)itemPosition);
-            }
-            return true;
         }
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
         {
             Console.WriteLine("MainActivity - Adding tab {0}", title);
 
-            // Add only one fragment which contains a ViewFlipper with all three view types
-            if (type == MobileNavigationTabType.Artists)
-            {
-                _fragment = fragment;
-                FragmentTransaction transaction = FragmentManager.BeginTransaction();
-                transaction.Replace(Resource.Id.main_fragmentContainer, fragment);
-                transaction.Commit();
-            }
-        }
-
-        public void PushTabView(MobileNavigationTabType type, Fragment fragment)
-        {
-            Console.WriteLine("MainActivity - PushTabView type: {0} fragment: {1} fragmentCount: {2}", type.ToString(), fragment.GetType().FullName, FragmentManager.BackStackEntryCount);
-            //_tabPagerAdapter.SetFragment(type, fragment);
-
-            //FragmentTransaction transaction = FragmentManager.BeginTransaction();
-            //transaction.Replace(Resource.Id.main_fragmentContainer, fragment);
-            //transaction.Commit();
-            //transaction.SetCustomAnimations()
+            _fragment = fragment;
+            FragmentTransaction transaction = FragmentManager.BeginTransaction();
+            transaction.Replace(Resource.Id.main_fragmentContainer, fragment);
+            transaction.Commit();
         }
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
@@ -248,41 +186,75 @@ namespace MPfm.Android
             activity.AddSubview(view);
         }
 
-        //protected override void OnStart()
-        //{
-        //    Console.WriteLine("MainActivity - OnStart");
-        //    base.OnStart();
-        //}
+        public void ShowSplash(SplashFragment fragment)
+        {
+            Console.WriteLine("MainActivity - ShowSplash");
+            _splashFragment = fragment;
+            _splashFragment.Show(FragmentManager, "Splash");
+        }
 
-        //protected override void OnRestart()
-        //{
-        //    Console.WriteLine("MainActivity - OnRestart");
-        //    base.OnRestart();
-        //}
+        public void HideSplash()
+        {
+            Console.WriteLine("MainActivity - HideSplash");
 
-        //protected override void OnPause()
-        //{
-        //    Console.WriteLine("MainActivity - OnPause");
-        //    base.OnPause();
-        //}
+            // Try to close splash; if the dialog is not shown yet, the activity will try to close it again when hitting OnResume
+            if (_splashFragment.Dialog != null)
+                _splashFragment.Dialog.Dismiss();
+            else
+                _mustHideSplash = true;
+        }
 
-        //protected override void OnResume()
-        //{
-        //    Console.WriteLine("MainActivity - OnResume");
-        //    base.OnResume();
-        //}
+        public bool OnNavigationItemSelected(int itemPosition, long itemId)
+        {
+            Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
+            if (_fragment is MobileLibraryBrowserFragment)
+            {
+                Console.WriteLine("MainActivity - OnNavigationItemSelected - Updating fragment - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
+                _navigationManager.ChangeMobileLibraryBrowserType(MobileNavigationTabType.Artists, (MobileLibraryBrowserType)itemPosition);
+            }
+            return true;
+        }
 
-        //protected override void OnStop()
-        //{
-        //    Console.WriteLine("MainActivity - OnStop");
-        //    base.OnStop();
-        //}
+        protected override void OnStart()
+        {
+            Console.WriteLine("MainActivity - OnStart");
+            base.OnStart();
+        }
 
-        //protected override void OnDestroy()
-        //{
-        //    Console.WriteLine("MainActivity - OnDestroy");
-        //    base.OnDestroy();
-        //}
+        protected override void OnRestart()
+        {
+            Console.WriteLine("MainActivity - OnRestart");
+            base.OnRestart();
+        }
+
+        protected override void OnPause()
+        {
+            Console.WriteLine("MainActivity - OnPause");
+            base.OnPause();
+        }
+
+        protected override void OnResume()
+        {
+            Console.WriteLine("MainActivity - OnResume");
+            base.OnResume();
+
+            // Try to close splash is not closed yet
+            if(_mustHideSplash && _splashFragment.Dialog != null)
+                _splashFragment.Dialog.Dismiss();
+        }
+
+        protected override void OnStop()
+        {
+            Console.WriteLine("MainActivity - OnStop");
+            base.OnStop();
+        }
+
+        protected override void OnDestroy()
+        {
+            Console.WriteLine("MainActivity - OnDestroy");
+            _navigationManager.MainActivity = null;
+            base.OnDestroy();
+        }
 
         public override void OnBackPressed()
         {
@@ -356,25 +328,6 @@ namespace MPfm.Android
             return base.OnOptionsItemSelected(menuItem);
         }
 
-        private void BtnPreviousOnClick(object sender, EventArgs eventArgs)
-        {
-            _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Previous));
-        }
-
-        private void BtnPlayPauseOnClick(object sender, EventArgs eventArgs)
-        {
-            _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.PlayPause));
-        }
-
-        private void BtnNextOnClick(object sender, EventArgs eventArgs)
-        {
-            _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Next));
-        }
-
-        private void BtnPlaylistOnClick(object sender, EventArgs eventArgs)
-        {
-        }
-
         private void BtnLeftOnClick(object sender, EventArgs eventArgs)
         {
             _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_back_slide_in);
@@ -411,6 +364,12 @@ namespace MPfm.Android
                         case Resource.Id.main_miniplaylist_btnPlaylist:
                             _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist_on);
                             break;
+                        case Resource.Id.main_miniplaylist_btnShuffle:
+                            _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle_on);
+                            break;
+                        case Resource.Id.main_miniplaylist_btnRepeat:
+                            _btnRepeat.SetImageResource(Resource.Drawable.player_repeat_on);
+                            break;
                         case Resource.Id.main_miniplaylist_btnLeft:
                             _btnLeft.SetImageResource(Resource.Drawable.miniplayer_chevronleft_on);
                             break;
@@ -437,6 +396,12 @@ namespace MPfm.Android
                         case Resource.Id.main_miniplaylist_btnPlaylist:
                             _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist);
                             break;
+                        case Resource.Id.main_miniplaylist_btnShuffle:
+                            _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle);
+                            break;
+                        case Resource.Id.main_miniplaylist_btnRepeat:
+                            _btnRepeat.SetImageResource(Resource.Drawable.player_repeat);
+                            break;
                         case Resource.Id.main_miniplaylist_btnLeft:
                             _btnLeft.SetImageResource(Resource.Drawable.miniplayer_chevronleft);
                             break;
@@ -447,20 +412,6 @@ namespace MPfm.Android
                     break;
             }
             return false;
-        }
-
-        public void ShowSplash(SplashFragment fragment)
-        {
-            //Console.WriteLine("MainActivity - ShowSplash");
-            _splashFragment = fragment;
-            _splashFragment.Show(FragmentManager, "Splash");
-        }
-
-        public void HideSplash()
-        {
-            //Console.WriteLine("MainActivity - HideSplash");
-            if(_splashFragment.Dialog != null)
-                _splashFragment.Dialog.Dismiss();
         }
 
         private void ShowMiniPlayerSlide(int index)
@@ -489,6 +440,103 @@ namespace MPfm.Android
         {
             Console.WriteLine("MainActivity - RefreshMenu");
             _options = options;
+        }
+
+        #endregion
+
+        #region IPlayerStatusView implementation
+
+        public Action OnPlayerPlayPause { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; }
+        public Action OnPlayerShuffle { get; set; }
+        public Action OnPlayerRepeat { get; set; }
+        public Action OnOpenPlaylist { get; set; }
+
+        public void RefreshPlayerStatus(PlayerStatusType status)
+        {
+            RunOnUiThread(() =>
+            {
+                bool hasStartedPlaying = !_isPlaying && status == PlayerStatusType.Playing;
+                _isPlaying = status == PlayerStatusType.Playing;
+                //Console.WriteLine("MainActivity - PlayerStatusMessage - Status=" + message.Status.ToString());
+                RunOnUiThread(() =>
+                {
+                    if (hasStartedPlaying)
+                    {
+                        //Console.WriteLine("MainActivity - PlayerStatusMessage - HasStartedPlaying");
+                        if (_viewFlipper.Visibility == ViewStates.Gone)
+                        {
+                            //Console.WriteLine("MainActivity - PlayerStatusMessage - Showing view flipper");
+                            _viewFlipper.Visibility = ViewStates.Visible;
+                        }
+                    }
+
+                    switch (status)
+                    {
+                        case PlayerStatusType.Playing:
+                            _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
+                            break;
+                        default:
+                            _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
+                            break;
+                    }
+                });
+            });
+        }
+
+        public void RefreshAudioFile(AudioFile audioFile)
+        {
+            RunOnUiThread(() =>
+            {
+                // Make sure the UI is available
+                if (_lblArtistName != null && audioFile != null)
+                {
+                    _lblArtistName.Text = audioFile.ArtistName;
+                    _lblAlbumTitle.Text = audioFile.AlbumTitle;
+                    _lblSongTitle.Text = audioFile.Title;
+
+                    //if (message.Data.NextAudioFile != null)
+                    //{
+                    //    _lblNextArtistName.Text = message.Data.NextAudioFile.ArtistName;
+                    //    _lblNextAlbumTitle.Text = message.Data.NextAudioFile.AlbumTitle;
+                    //    _lblNextSongTitle.Text = message.Data.NextAudioFile.Title;
+                    //}
+                    //else
+                    //{
+                    //    _lblNextArtistName.Text = string.Empty;
+                    //    _lblNextAlbumTitle.Text = string.Empty;
+                    //    _lblNextSongTitle.Text = string.Empty;
+                    //}
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        string key = audioFile.ArtistName + "_" + audioFile.AlbumTitle;
+                        //Console.WriteLine("MainActivity - Player Bar - key: {0}", key);
+                        if (_imageAlbum.Tag == null ||
+                            _imageAlbum.Tag.ToString().ToUpper() != key.ToUpper())
+                        {
+                            //Console.WriteLine("MainActivity - Player Bar - key: {0} is different than tag {1} - Fetching album art...", key, (_imageAlbum.Tag == null) ? "null" : _imageAlbum.Tag.ToString());
+                            _imageAlbum.Tag = key;
+                            byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                            if (bytesImage.Length == 0)
+                                _imageAlbum.SetImageBitmap(null);
+                            else
+                                BitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageAlbum);
+                        }
+                    });
+                }
+            });
+
+        }
+
+        public void RefreshPlaylist(Playlist playlist)
+        {
+            RunOnUiThread(() =>
+            {
+                _lblPlaylistCount.Text = string.Format("{0}/{1}", playlist.CurrentItemIndex+1, playlist.Items.Count);
+                ShowMiniPlaylist();
+            });
         }
 
         #endregion

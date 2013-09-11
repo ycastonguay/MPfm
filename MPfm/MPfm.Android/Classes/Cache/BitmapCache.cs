@@ -43,7 +43,7 @@ namespace MPfm.Android.Classes.Cache
 
         public void Clear()
         {
-            lock (memoryCache) {
+            lock (memoryCache) {                
                 memoryCache.EvictAll();
             }
         }
@@ -88,7 +88,7 @@ namespace MPfm.Android.Classes.Cache
 
             lock (memoryCache)
             {
-                //Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                //Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
                 Bitmap bitmap = GetBitmapFromMemoryCache(key);
                 if (bitmap != null)
                 {
@@ -112,7 +112,9 @@ namespace MPfm.Android.Classes.Cache
         {
             lock (memoryCache)
             {
-                //Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+                //Console.WriteLine("BitmapCache - LoadBitmapFromByteArray - key: {0} size: {1} maxSize: {2}", key, memoryCache.Size(), memoryCache.MaxSize());
+
+                // Make sure the bitmap isn't already in the memory cache (might have been added on another thread)
                 Bitmap bitmap = GetBitmapFromMemoryCache(key);
                 if (bitmap != null)
                 {

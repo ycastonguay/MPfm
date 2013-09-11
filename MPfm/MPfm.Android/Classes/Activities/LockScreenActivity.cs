@@ -27,20 +27,24 @@ using Android.OS;
 using Android.Widget;
 using Java.Lang;
 using MPfm.Android.Classes.Cache;
+using MPfm.Android.Classes.Navigation;
 using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Services.Interfaces;
+using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 using TinyMessenger;
-using Exception = System.Exception;
 
 namespace MPfm.Android
 {
     [Activity(Label = "Lock Screen", NoHistory = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class LockScreenActivity : BaseActivity, View.IOnTouchListener
+    public class LockScreenActivity : BaseActivity, View.IOnTouchListener, IPlayerStatusView
     {
+        MobileNavigationManager _navigationManager;
         ITinyMessengerHub _messengerHub;
         IPlayerService _playerService;
         BitmapCache _bitmapCache;
@@ -69,12 +73,16 @@ namespace MPfm.Android
             Console.WriteLine("LockScreenActivity - OnCreate");
             base.OnCreate(bundle);
 
+            _playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
+            _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             int cacheSize = maxMemory / 16;
             _bitmapCache = new BitmapCache(null, cacheSize, 800, 800);
 
             // Create layout and get controls
+            _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.LockScreen);
             _lblArtistName = FindViewById<TextView>(Resource.Id.lockScreen_lblArtistName);
             _lblAlbumTitle = FindViewById<TextView>(Resource.Id.lockScreen_lblAlbumTitle);
@@ -101,51 +109,12 @@ namespace MPfm.Android
             _seekBar.StopTrackingTouch += SeekBarOnStopTrackingTouch;
             _seekBar.ProgressChanged += SeekBarOnProgressChanged;
 
-            _playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-            _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
-            _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>((message) => {
-                RunOnUiThread(() => {
-                    //Console.WriteLine("LockScreenActivity - PlayerPlaylistIndexChangedMessage");
-                    if (message.Data.AudioFileStarted != null)
-                    {
-                        if (_lblArtistName != null)
-                        {
-                            //Console.WriteLine("LockScreenActivity - PlayerPlaylistIndexChangedMessage - Updating controls...");
-                            _lblArtistName.Text = message.Data.AudioFileStarted.ArtistName;
-                            _lblAlbumTitle.Text = message.Data.AudioFileStarted.AlbumTitle;
-                            _lblSongTitle.Text = message.Data.AudioFileStarted.Title;
-                            _lblLength.Text = message.Data.AudioFileStarted.Length;
-                        }
-                    }
-                    GetAlbumArt(message.Data.AudioFileStarted);
-                });
-            });
-            _messengerHub.Subscribe<PlayerStatusMessage>((message) =>
-            {
-                RunOnUiThread(() => {
-                    //Console.WriteLine("LockScreenActivity - PlayerStatusMessage - Status: " + message.Status.ToString());
-                    var status = message.Status;
-                    if (status == PlayerStatusType.Initialized ||
-                        status == PlayerStatusType.Paused ||
-                        status == PlayerStatusType.Stopped)
-                    {
-                        _isPlaying = false;
-                        _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
-                    }
-                    else
-                    {
-                        _isPlaying = true;
-                        _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
-                    }
-                });
-            });
-
             _btnClose.Click += (sender, args) => Finish();
-            _btnPrevious.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Previous));
-            _btnPlayPause.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.PlayPause));
-            _btnNext.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Next));
-            _btnShuffle.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Shuffle));
-            _btnRepeat.Click += (sender, args) => _messengerHub.PublishAsync<PlayerCommandMessage>(new PlayerCommandMessage(this, PlayerCommandMessageType.Repeat));
+            _btnPrevious.Click += (sender, args) => OnPlayerPrevious();
+            _btnPlayPause.Click += (sender, args) => OnPlayerPlayPause();
+            _btnNext.Click += (sender, args) => OnPlayerNext();
+            _btnShuffle.Click += (sender, args) => OnPlayerShuffle();
+            _btnRepeat.Click += (sender, args) => OnPlayerRepeat();
             _btnPlaylist.Click += (sender, args) => {
                 Intent intent = new Intent(this, typeof (PlaylistActivity));
                 intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
@@ -170,12 +139,16 @@ namespace MPfm.Android
                     catch
                     {
                         // Just ignore exception. It's not really worth it to start/stop the timer when the player is playing.
+                        // TODO: In fact reuse the last position instead of returning 0.
                         _lblPosition.Text = "0:00.000";
                         _seekBar.Progress = 0;
                     }
                 });
             };
             _timerSongPosition.Start();
+
+            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
+            ((AndroidNavigationManager)_navigationManager).SetLockScreenActivityInstance(this);
         }
 
         public override void OnAttachedToWindow()
@@ -186,86 +159,25 @@ namespace MPfm.Android
             window.SetWindowAnimations(0);
         }
 
-        protected override void OnStart()
-        {
-            Console.WriteLine("LockScreenActivity - OnStart");
-            base.OnStart();
-        }
-
-        protected override void OnRestart()
-        {
-            Console.WriteLine("LockScreenActivity - OnRestart");
-            base.OnRestart();
-        }
-
-        protected override void OnPause()
-        {
-            Console.WriteLine("LockScreenActivity - OnPause");
-            base.OnPause();
-        }
-
-        protected override void OnResume()
-        {
-            Console.WriteLine("LockScreenActivity - OnResume");
-            base.OnResume();
-
-            if (!_playerService.IsPlaying || _playerService.CurrentPlaylistItem == null)
-                return;
-
-            _lblArtistName.Text = _playerService.CurrentPlaylistItem.AudioFile.ArtistName;
-            _lblAlbumTitle.Text = _playerService.CurrentPlaylistItem.AudioFile.AlbumTitle;
-            _lblSongTitle.Text = _playerService.CurrentPlaylistItem.AudioFile.Title;
-            _lblLength.Text = _playerService.CurrentPlaylistItem.AudioFile.Length;
-            GetAlbumArt(_playerService.CurrentPlaylistItem.AudioFile);
-
-            var status = _playerService.Status;
-            if (status == PlayerStatusType.Initialized ||
-                status == PlayerStatusType.Paused ||
-                status == PlayerStatusType.Stopped)
-            {
-                _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
-            }
-            else
-            {
-                _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
-            }
-        }
-
-        protected override void OnStop()
-        {
-            Console.WriteLine("LockScreenActivity - OnStop");
-            base.OnStop();
-        }
-
-        protected override void OnDestroy()
-        {
-            Console.WriteLine("LockScreenActivity - OnDestroy");
-            base.OnDestroy();
-        }
-
         public override void OnBackPressed()
         {
-            //base.OnBackPressed();
             Console.WriteLine("LockScreenActivity - OnBackPressed");
             Finish();
         }
 
         private void SeekBarOnStartTrackingTouch(object sender, SeekBar.StartTrackingTouchEventArgs e)
         {
-            //Console.WriteLine("LockScreenActivity - SeekBarOnStartTrackingTouch");
             _isPositionChanging = true;
         }
 
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs e)
         {
-            //Console.WriteLine("LockScreenActivity - SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             _messengerHub.PublishAsync<PlayerSetPositionMessage>(new PlayerSetPositionMessage(this, _seekBar.Progress / 100f));
             _isPositionChanging = false;
         }
 
         private void SeekBarOnProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
-            //Console.WriteLine("LockScreenActivity - SeekBarOnProgressChanged");
             if(_isPositionChanging)
             {
                 PlayerPositionEntity entity = RequestPosition((float) _seekBar.Progress/10000f);
@@ -277,7 +189,8 @@ namespace MPfm.Android
         {
             try
             {
-                Console.WriteLine("LockScreenActivity - RequestPosition - positionPercentage: {0}", positionPercentage);
+                // TODO: Move this into PlayerStatusPresenter
+                //Console.WriteLine("LockScreenActivity - RequestPosition - positionPercentage: {0}", positionPercentage);
                 // Calculate new position from 0.0f/1.0f scale
                 long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
@@ -292,7 +205,7 @@ namespace MPfm.Android
                 entity.PositionSamples = (uint)positionSamples;
                 return entity;
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 Console.WriteLine("LockScreenActivity - An error occured while calculating the player position: " + ex.Message);
             }
@@ -361,6 +274,7 @@ namespace MPfm.Android
 
         private void GetAlbumArt(AudioFile audioFile)
         {
+            // TODO: Move this to PlayerStatusPresenter
             _bitmapAlbumArt = null;
             Task.Factory.StartNew(() =>
             {
@@ -389,5 +303,68 @@ namespace MPfm.Android
                 }
             });
         }
+
+        #region IPlayerStatusView implementation
+
+        public Action OnPlayerPlayPause { get; set; }
+        public Action OnPlayerPrevious { get; set; }
+        public Action OnPlayerNext { get; set; }
+        public Action OnPlayerShuffle { get; set; }
+        public Action OnPlayerRepeat { get; set; }
+        public Action OnOpenPlaylist { get; set; }
+
+        public void RefreshPlayerStatus(PlayerStatusType status)
+        {
+            RunOnUiThread(() =>
+            {
+                //Console.WriteLine("LockScreenActivity - PlayerStatusMessage - Status: " + message.Status.ToString());
+                if (status == PlayerStatusType.Initialized ||
+                    status == PlayerStatusType.Paused ||
+                    status == PlayerStatusType.Stopped)
+                {
+                    _isPlaying = false;
+                    _btnPlayPause.SetImageResource(Resource.Drawable.player_play);
+                }
+                else
+                {
+                    _isPlaying = true;
+                    _btnPlayPause.SetImageResource(Resource.Drawable.player_pause);
+                }
+            });
+        }
+
+        public void RefreshAudioFile(AudioFile audioFile)
+        {
+            if (_lblArtistName == null)
+                return;
+
+            RunOnUiThread(() => {
+                if (audioFile != null)
+                {
+                    _lblArtistName.Text = audioFile.ArtistName;
+                    _lblAlbumTitle.Text = audioFile.AlbumTitle;
+                    _lblSongTitle.Text = audioFile.Title;
+                    _lblLength.Text = audioFile.Length;
+                    GetAlbumArt(audioFile);
+                }
+                else
+                {
+                    _lblArtistName.Text = string.Empty;
+                    _lblAlbumTitle.Text = string.Empty;
+                    _lblSongTitle.Text = string.Empty;
+                    _lblLength.Text = string.Empty;
+                }                
+            });
+        }
+
+        public void RefreshPlaylist(Playlist playlist)
+        {
+            RunOnUiThread(() =>
+            {
+                
+            });
+        }
+
+        #endregion
     }
 }

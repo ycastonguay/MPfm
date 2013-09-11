@@ -78,6 +78,9 @@ namespace MPfm.Android.Classes.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            float density = Resources.DisplayMetrics.Density;
+            if (density == 3) density = 2;
+
             //Console.WriteLine("MLBFragment - OnCreateView");
             _view = inflater.Inflate(Resource.Layout.MobileLibraryBrowser, container, false);
 
@@ -87,9 +90,8 @@ namespace MPfm.Android.Classes.Fragments
 
             // Create bitmap cache
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
-            int cacheSize = maxMemory / 8;
-            BitmapCache = new BitmapCache(Activity, cacheSize, size.X / 2, size.X / 2); // Max size = half the screen (grid has 2 columns)
-            SmallBitmapCache = new BitmapCache(Activity, cacheSize, 44 * (int)Resources.DisplayMetrics.Density, 44 * (int)Resources.DisplayMetrics.Density);
+            BitmapCache = new BitmapCache(Activity, maxMemory / 8, size.X / 2, size.X / 2); // Max size = half the screen (grid has 2 columns)
+            SmallBitmapCache = new BitmapCache(Activity, maxMemory / 16, 44 * (int)density, 44 * (int)density);
 
             _viewFlipper = _view.FindViewById<ViewFlipper>(Resource.Id.mobileLibraryBrowser_viewFlipper);            
             _imageAlbum = _view.FindViewById<SquareImageView>(Resource.Id.mobileLibraryBrowser_imageAlbum);
@@ -185,6 +187,7 @@ namespace MPfm.Android.Classes.Fragments
         {
             Console.WriteLine("MLBFragment - OnDestroyView");
             BitmapCache.Clear();
+            SmallBitmapCache.Clear();
             base.OnDestroyView();
         }
 
@@ -312,7 +315,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
-            Console.WriteLine("MLBF - RefreshAlbumArtCell - artistName: {0} albumTitle: {1}", artistName, albumTitle);
+            //Console.WriteLine("MLBF - RefreshAlbumArtCell - artistName: {0} albumTitle: {1}", artistName, albumTitle);
             Activity.RunOnUiThread(() => {
                 switch (_browserType)
                 {
@@ -320,7 +323,7 @@ namespace MPfm.Android.Classes.Fragments
                         _listAdapterArtists.RefreshAlbumArtCell(artistName, albumTitle, albumArtData, userData);
                         break;
                     case MobileLibraryBrowserType.Albums:
-                        _gridAdapter.RefreshAlbumArtCell(artistName, albumTitle, albumArtData);
+                        _gridAdapter.RefreshAlbumArtCell(artistName, albumTitle, albumArtData, userData);
                         break;
                 }
             });
@@ -330,8 +333,6 @@ namespace MPfm.Android.Classes.Fragments
         {
             Activity.RunOnUiThread(() =>
             {
-                var mainActivity = (MainActivity) Activity;
-                mainActivity.ShowMiniPlaylist();
                 Toast toast = Toast.MakeText(Activity, text, ToastLength.Long);
                 toast.Show();             
             });            

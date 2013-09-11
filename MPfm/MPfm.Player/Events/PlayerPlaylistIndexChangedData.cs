@@ -33,24 +33,15 @@ namespace MPfm.Player.Events
         /// i.e. if the RepeatType is off and the playlist is over, this property will be true.
         /// </summary>
         public bool IsPlaybackStopped { get; set; }
-        /// <summary>
-        /// Defines the audio file that just ended.
-        /// </summary>
         public AudioFile AudioFileEnded { get; set; }
-        /// <summary>
-        /// Defines the audio file that just started. Might be null if the playback has stopped.
-        /// </summary>
         public AudioFile AudioFileStarted { get; set; }
+        public AudioFile NextAudioFile { get; set; }
+        public string PlaylistName { get; set; }
+        public int PlaylistIndex { get; set; }
+        public int PlaylistCount { get; set; }
         
-        /// <summary>
-        /// Default constructor for the PlayerPlaylistIndexChangedData class.
-        /// </summary>
         public PlayerPlaylistIndexChangedData()
         {
-            // Set default values
-            IsPlaybackStopped = false;            
-            AudioFileEnded = null;
-            AudioFileStarted = null;
         }
     }
 }

@@ -180,8 +180,9 @@ namespace MPfm.MVP.Presenters
                     {
                         var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
                         _playerService.CurrentPlaylist.AddItems(audioFiles);
-                        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));                        
+                        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));
                     }
+                    _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
                 }, _cancellationToken);
             }
             catch (Exception ex)

@@ -22,8 +22,10 @@ using Android.App;
 using Android.Content;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
+using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
 
@@ -45,6 +47,9 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onPlaylistViewReady;
         private List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>> _tabHistory;
 
+        private IPlayerStatusView _lockScreenView;
+        private IPlayerStatusPresenter _lockScreenPresenter;
+
         public MainActivity MainActivity { get; set; }
 
         public AndroidNavigationManager(ITinyMessengerHub messageHub)
@@ -64,24 +69,6 @@ namespace MPfm.Android.Classes.Navigation
                 }
             });
         }
-
-        //public bool CanRemoveMobileLibraryBrowserFragmentFromBackstack(MobileNavigationTabType tabType)
-        //{
-        //    var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
-        //    if (tab != null)
-        //        return tab.Item2.Count > 1;
-        //    return false;
-        //}
-
-        //public void RecreateMobileLibraryBrowserFragment(MobileNavigationTabType tabType)
-        //{
-        //    var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
-        //    var tabItem = tab.Item2.Last();
-        //    tab.Item2.Remove(tabItem);
-        //    tabItem = tab.Item2.Last();
-        //    //var view = CreateMobileLibraryBrowserView(tabType, tabItem.Item1, tabItem.Item2);
-        //    //MainActivity.PushTabView(tabType, (Fragment) view);
-        //}
 
         public bool CanGoBackInMobileLibraryBrowserBackstack(MobileNavigationTabType tabType)
         {
@@ -187,9 +174,7 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
         {
-            var tab = _tabHistory.FirstOrDefault(x => x.Item1 == type);
-            tab.Item2.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
-            MainActivity.PushTabView(type, (Fragment)view);
+            // Not used on Android
         }
 
         public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
@@ -249,7 +234,7 @@ namespace MPfm.Android.Classes.Navigation
         {
             _onPreferencesViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof (PreferencesActivity));
-            MainActivity.StartActivity(intent);                           
+            MainActivity.StartActivity(intent);
         }
 
         protected override void CreateEqualizerPresetsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
@@ -372,6 +357,19 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onPlaylistViewReady != null)
                 _onPlaylistViewReady(activity);
+        }
+
+        public void SetLockScreenActivityInstance(LockScreenActivity activity)
+        {
+            _lockScreenView = activity;
+            _lockScreenPresenter = Bootstrapper.GetContainer().Resolve<IPlayerStatusPresenter>();
+            _lockScreenPresenter.BindView(_lockScreenView);
+            _lockScreenView.OnViewDestroy = (theView) =>
+            {
+                _lockScreenPresenter.ViewDestroyed();
+                _lockScreenPresenter = null;
+                _lockScreenView = null;
+            };
         }
     }
 }

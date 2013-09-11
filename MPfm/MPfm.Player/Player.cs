@@ -1060,6 +1060,11 @@ namespace MPfm.Player
                     PlayerPlaylistIndexChangedData data = new PlayerPlaylistIndexChangedData();
                     data.IsPlaybackStopped = false;
                     data.AudioFileStarted = _playlist.CurrentItem.AudioFile;
+                    data.PlaylistName = "New playlist 1";
+                    data.PlaylistCount = _playlist.Items.Count;
+                    data.PlaylistIndex = _playlist.CurrentItemIndex; 
+                    if (Playlist.CurrentItemIndex < Playlist.Items.Count - 2)
+                        data.NextAudioFile = Playlist.Items[Playlist.CurrentItemIndex + 1].AudioFile;
                     OnPlaylistIndexChanged(data);
                 }
             }
@@ -2013,6 +2018,9 @@ namespace MPfm.Player
                 // Create data
                 PlayerPlaylistIndexChangedData eventData = new PlayerPlaylistIndexChangedData();
                 eventData.IsPlaybackStopped = playbackStopped;
+                eventData.PlaylistName = "New playlist 1";
+                eventData.PlaylistCount = _playlist.Items.Count;
+                eventData.PlaylistIndex = _playlist.CurrentItemIndex;
 
                 // If the playback hasn't stopped, fill more event data
                 if (playbackStopped)
@@ -2023,21 +2031,18 @@ namespace MPfm.Player
 
                     // Check if EQ is enabled
                     if (_isEQEnabled)
-                    {
-                        // Remove EQ
                         RemoveEQ();
-                    }
 
                     // Dispose channels
                     _playlist.DisposeChannels();
-
-                    // Set flag
                     _isPlaying = false;
                 }
                 else
                 {
                     // Set event data
                     eventData.AudioFileStarted = Playlist.CurrentItem.AudioFile;
+                    if (Playlist.CurrentItemIndex < Playlist.Items.Count - 2)
+                        eventData.NextAudioFile = Playlist.Items[Playlist.CurrentItemIndex + 1].AudioFile;
 
                     // Is this the first item, and did the last song of the playlist just play?
                     if (Playlist.CurrentItemIndex == 0 && playlistBackToStart)

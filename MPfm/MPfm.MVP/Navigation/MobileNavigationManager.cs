@@ -43,6 +43,8 @@ namespace MPfm.MVP.Navigation
         private IAboutPresenter _aboutPresenter;
         private IMobileOptionsMenuView _optionsMenuView;
         private IMobileOptionsMenuPresenter _optionsMenuPresenter;
+        private IPlayerStatusView _playerStatusView;
+        private IPlayerStatusPresenter _playerStatusPresenter;
         private IUpdateLibraryView _updateLibraryView;
         private IUpdateLibraryPresenter _updateLibraryPresenter;
         private IEqualizerPresetsView _equalizerPresetsView;
@@ -88,8 +90,8 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
-        protected IPlayerView PlayerView { get { return _playerView; } }
+        //protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
+        //protected IPlayerView PlayerView { get { return _playerView; } }
 
         private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
@@ -109,18 +111,20 @@ namespace MPfm.MVP.Navigation
         {
             Action onInitDone = () =>
             {                
+#if ANDROID
+                // Only one 'tab' on Android since we re-use the same fragment for different queries
+                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
+                AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
+#elif IOS
                 var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
                 var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
                 var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
                 var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
+                var moreView = CreateOptionsMenuView();
                 AddTab(MobileNavigationTabType.Playlists, "Sessions", MobileLibraryBrowserType.Playlists, new LibraryQuery(), playlistsView);
                 AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
                 AddTab(MobileNavigationTabType.Albums, "Albums", MobileLibraryBrowserType.Albums, new LibraryQuery(), albumsView);
                 AddTab(MobileNavigationTabType.Songs, "Songs", MobileLibraryBrowserType.Songs, new LibraryQuery(), songsView);
-
-                // iOS has one more tab, the More tab (Options Menu equivalent on Android).
-#if IOS
-                var moreView = CreateOptionsMenuView();
                 AddTab(MobileNavigationTabType.More, "More", moreView);
 #endif
 
@@ -140,7 +144,7 @@ namespace MPfm.MVP.Navigation
 
         public virtual void BindOptionsMenuView(IMobileOptionsMenuView view)
         {
-            // This is used only on Android, where the Options menu is bound to the activity.
+            // This is used only on Android, where the Options menu is bound to the main activity.
             _optionsMenuView = view;
             _optionsMenuPresenter = Bootstrapper.GetContainer().Resolve<IMobileOptionsMenuPresenter>();
             _optionsMenuPresenter.BindView(view);
@@ -149,6 +153,20 @@ namespace MPfm.MVP.Navigation
                 _optionsMenuPresenter.ViewDestroyed();
                 _optionsMenuPresenter = null;
                 _optionsMenuView = null;
+            };
+        }
+
+        public virtual void BindPlayerStatusView(IPlayerStatusView view)
+        {
+            // This is used only on Android, where the Options menu is bound to the main activity.
+            _playerStatusView = view;
+            _playerStatusPresenter = Bootstrapper.GetContainer().Resolve<IPlayerStatusPresenter>();
+            _playerStatusPresenter.BindView(view);
+            _playerStatusView.OnViewDestroy = (theView) =>
+            {
+                _playerStatusPresenter.ViewDestroyed();
+                _playerStatusPresenter = null;
+                _playerStatusView = null;
             };
         }
 

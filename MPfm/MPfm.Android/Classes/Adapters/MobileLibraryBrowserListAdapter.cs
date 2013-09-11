@@ -109,19 +109,9 @@ namespace MPfm.Android.Classes.Adapters
             btnDelete.SetOnClickListener(this);
 
             if (IsEditingRow && position == _editingRowPosition)
-            {
                 layoutMenu.Visibility = ViewStates.Visible;
-                btnAdd.Visibility = ViewStates.Visible;
-                btnPlay.Visibility = ViewStates.Visible;
-                btnDelete.Visibility = ViewStates.Visible;
-            }
             else
-            {
                 layoutMenu.Visibility = ViewStates.Gone;
-                btnAdd.Visibility = ViewStates.Gone;
-                btnPlay.Visibility = ViewStates.Gone;
-                btnDelete.Visibility = ViewStates.Gone;
-            }
 
             lblTitle.Text = item.Title;
             lblTitleWithSubtitle.Text = item.Title;
@@ -161,28 +151,28 @@ namespace MPfm.Android.Classes.Adapters
             int albumFetchCount = item.AlbumTitles.Count >= 3 ? 3 : item.AlbumTitles.Count;
             for (int a = 0; a < albumFetchCount; a++)
             {
+                ImageView imageAlbum = null;
+                if (a == 0)
+                    imageAlbum = imageAlbum1;
+                else if (a == 1)
+                    imageAlbum = imageAlbum2;
+                else if (a == 2)
+                    imageAlbum = imageAlbum3;
+
                 string bitmapKey = item.Query.ArtistName + "_" + item.AlbumTitles[a];
+                imageAlbum.Tag = bitmapKey;
+
+                var viewHolder = new ListAlbumCellViewHolder();
+                viewHolder.imageView = imageAlbum;
+                viewHolder.position = position;
+                viewHolder.key = bitmapKey;
+                //view.Tag = viewHolder;
+
                 Console.WriteLine("MLBLA - GetView - bitmapKey: {0}", bitmapKey);
                 if (_fragment.SmallBitmapCache.KeyExists(bitmapKey))
-                {
-                    ImageView imageAlbum = null;
-                    if (a == 0)
-                        imageAlbum = imageAlbum1;
-                    else if (a == 1)
-                        imageAlbum = imageAlbum2; 
-                    else if (a == 2)
-                        imageAlbum = imageAlbum3;
-
-                    if (imageAlbum != null)
-                    {
-                        imageAlbum.Tag = bitmapKey;
-                        imageAlbum.SetImageBitmap(_fragment.SmallBitmapCache.GetBitmapFromMemoryCache(bitmapKey));
-                    }
-                }
+                    imageAlbum.SetImageBitmap(_fragment.SmallBitmapCache.GetBitmapFromMemoryCache(bitmapKey));
                 else
-                {
-                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.AlbumTitles[a], a);
-                }
+                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.AlbumTitles[a], viewHolder);
             }
 
             return view;
@@ -192,38 +182,12 @@ namespace MPfm.Android.Classes.Adapters
         {
             try
             {
-                //var mainActivity = (MainActivity)_context;
-                int imageIndex = (int) userData;
-                int index = _items.FindIndex(x => x.Query.ArtistName == artistName);
-                //Console.WriteLine("MobileLibraryBrowserListAdapter - *RECEIVED* album art for {0}/{1} - index: {2}", artistName, albumTitle, index);
-                if (index >= 0)
-                {
-                    int visibleCellIndex = index - _listView.FirstVisiblePosition;
-                    var view = _listView.GetChildAt(visibleCellIndex);
-                    //Console.WriteLine("MobileLibraryBrowserListAdapter - *RECEIVED* album art for {0}/{1} - index: {2} visibleCellIndex: {3} firstVisiblePosition: {4}", artistName, albumTitle, index, visibleCellIndex, _gridView.FirstVisiblePosition);
-                    if (view != null)
-                    {
-                        //Task.Factory.StartNew(() => {
-                        //Console.WriteLine("MobileLibraryBrowserListAdapter - *LOADING BITMAP* from byte array for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
-                        ImageView image = null;
-                        if(imageIndex == 0)
-                            image = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum1);
-                        else if(imageIndex == 1)
-                            image = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum2);
-                        else if (imageIndex == 2)
-                            image = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAlbum3); 
-                        
-                        if(image != null)
-                            image.Tag = artistName + "_" + albumTitle;
-                        //mainActivity.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
-                        _fragment.SmallBitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
-                        //});
-                    }
-                    else
-                    {
-                        //Console.WriteLine("MobileLibraryBrowserListAdapter - *GRID VIEW CHILD IS NULL* for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
-                    }
-                }
+                var viewHolder = (ListAlbumCellViewHolder) userData;
+                Console.WriteLine("MobileLibraryBrowserListAdapter - RefreshAlbumArtCell - key: {0}/{1} - imageView.Tag: {2}", artistName, albumTitle, viewHolder.imageView.Tag.ToString());
+                if (viewHolder.imageView.Tag.ToString() == artistName + "_" + albumTitle)
+                    _fragment.SmallBitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, viewHolder.imageView);
+                else
+                    Console.WriteLine("MobileLibraryBrowserListAdapter - RefreshAlbumArtCell - ITEM DID NOT MATCH - key: {0}/{1} - imageView.Tag: {2}", artistName, albumTitle, viewHolder.imageView.Tag.ToString());
             }
             catch (Exception ex)
             {
@@ -263,23 +227,13 @@ namespace MPfm.Android.Classes.Adapters
                 return;
 
             var layoutMenu = view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowserCell_layoutMenu);
-            var imageAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
-            var imagePlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
-            var imageDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
 
             // Fade out the controls
             Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
-            anim.AnimationEnd += (sender, args) =>
-            {
+            anim.AnimationEnd += (sender, args) => {
                 layoutMenu.Visibility = ViewStates.Gone;
-                imageAdd.Visibility = ViewStates.Gone;
-                imagePlay.Visibility = ViewStates.Gone;
-                imageDelete.Visibility = ViewStates.Gone;
             };
             layoutMenu.StartAnimation(anim);
-            imageAdd.StartAnimation(anim);
-            imagePlay.StartAnimation(anim);
-            imageDelete.StartAnimation(anim);
 
             _editingRowPosition = -1;
             IsEditingRow = false;
@@ -293,10 +247,6 @@ namespace MPfm.Android.Classes.Adapters
                 return;
 
             var layoutMenu = view.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowserCell_layoutMenu);
-            var imageAdd = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
-            var imagePlay = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
-            var imageDelete = view.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
-
             int oldPosition = _editingRowPosition;
             _editingRowPosition = position;
 
@@ -308,14 +258,8 @@ namespace MPfm.Android.Classes.Adapters
             {
                 // Fade in the new controls
                 layoutMenu.Visibility = ViewStates.Visible;
-                imageAdd.Visibility = ViewStates.Visible;
-                imagePlay.Visibility = ViewStates.Visible;
-                imageDelete.Visibility = ViewStates.Visible;
                 Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_in);
                 layoutMenu.StartAnimation(anim);
-                imageAdd.StartAnimation(anim);
-                imagePlay.StartAnimation(anim);
-                imageDelete.StartAnimation(anim);
 
                 // Fade out the older controls
                 int oldPositionVisibleCellIndex = oldPosition - _listView.FirstVisiblePosition;
@@ -323,23 +267,13 @@ namespace MPfm.Android.Classes.Adapters
                 if (viewOldPosition != null)
                 {
                     var layoutMenuOld = viewOldPosition.FindViewById<LinearLayout>(Resource.Id.mobileLibraryBrowserCell_layoutMenu);
-                    var imageAddOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageAdd);
-                    var imagePlayOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imagePlay);
-                    var imageDeleteOld = viewOldPosition.FindViewById<ImageView>(Resource.Id.mobileLibraryBrowserCell_imageDelete);
 
                     // Fade out the controls
                     Animation animOld = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_out);
-                    animOld.AnimationEnd += (sender, args) =>
-                    {
+                    animOld.AnimationEnd += (sender, args) => {
                         layoutMenuOld.Visibility = ViewStates.Gone;
-                        imageAddOld.Visibility = ViewStates.Gone;
-                        imagePlayOld.Visibility = ViewStates.Gone;
-                        imageDeleteOld.Visibility = ViewStates.Gone;
                     };
-                    layoutMenuOld.StartAnimation(anim);
-                    imageAddOld.StartAnimation(animOld);
-                    imagePlayOld.StartAnimation(animOld);
-                    imageDeleteOld.StartAnimation(animOld);
+                    layoutMenuOld.StartAnimation(animOld);
                 }
 
                 IsEditingRow = true;
@@ -348,14 +282,8 @@ namespace MPfm.Android.Classes.Adapters
             {
                 // Fade in the controls
                 layoutMenu.Visibility = ViewStates.Visible;
-                imageAdd.Visibility = ViewStates.Visible;
-                imagePlay.Visibility = ViewStates.Visible;
-                imageDelete.Visibility = ViewStates.Visible;
                 Animation anim = AnimationUtils.LoadAnimation(_context, Resource.Animation.listviewoptions_fade_in);
                 layoutMenu.StartAnimation(anim);
-                imageAdd.StartAnimation(anim);
-                imagePlay.StartAnimation(anim);
-                imageDelete.StartAnimation(anim);
 
                 IsEditingRow = true;
             }
@@ -390,5 +318,13 @@ namespace MPfm.Android.Classes.Adapters
 
             ResetEditingRow();
         }
+    }
+
+    public class ListAlbumCellViewHolder : Java.Lang.Object
+    {
+        public ImageView imageView;
+        public LibraryBrowserEntity entity;
+        public int position;
+        public string key;
     }
 }

@@ -15,8 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using MPfm.MVP.Messages;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.MVP.Views
 {
@@ -25,5 +28,15 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface IPlayerStatusView : IBaseView
 	{
+        Action OnPlayerPlayPause { get; set; }
+        Action OnPlayerPrevious { get; set; }
+        Action OnPlayerNext { get; set; }
+        Action OnPlayerShuffle { get; set; }
+        Action OnPlayerRepeat { get; set; }
+        Action OnOpenPlaylist { get; set; }
+
+	    void RefreshPlayerStatus(PlayerStatusType status);
+	    void RefreshAudioFile(AudioFile audioFile);
+	    void RefreshPlaylist(Playlist playlist);
 	}
 }

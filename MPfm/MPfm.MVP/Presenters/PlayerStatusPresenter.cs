@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
@@ -29,18 +30,15 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class PlayerStatusPresenter : BasePresenter<IPlayerStatusView>, IPlayerStatusPresenter
 	{
-        ITinyMessengerHub _messageHub;
-        IPlayerService _playerService;
+        readonly MobileNavigationManager _mobileNavigationManager;
+        readonly ITinyMessengerHub _messageHub;
+        readonly IPlayerService _playerService;
 
-        public PlayerStatusPresenter(ITinyMessengerHub messageHub, IPlayerService playerService)
-		{
-            this._playerService = playerService;
-            this._messageHub = messageHub;
-        }
-
-        private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
+        public PlayerStatusPresenter(ITinyMessengerHub messageHub, MobileNavigationManager mobileNavigationManager, IPlayerService playerService)
         {
-            //View.RefreshAudioFile(message.Data.AudioFileStarted);
+            _messageHub = messageHub;
+            _mobileNavigationManager = mobileNavigationManager;
+            _playerService = playerService;
         }
 
         public override void BindView(IPlayerStatusView view)
@@ -48,8 +46,67 @@ namespace MPfm.MVP.Presenters
             // Subscribe to view actions
             base.BindView(view);
 
-            _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(OnPlaylistIndexChanged);
-        }
-    }
-}
+            view.OnPlayerPlayPause = PlayerPlayPause;
+            view.OnPlayerPrevious = PlayerPrevious;
+            view.OnPlayerNext = PlayerNext;
+            view.OnPlayerRepeat = PlayerRepeat;
+            view.OnPlayerShuffle = PlayerShuffle;
+            view.OnOpenPlaylist = OpenPlaylist;
 
+            _messageHub.Subscribe<PlayerStatusMessage>(message => View.RefreshPlayerStatus(message.Status));
+            _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(message => View.RefreshAudioFile(message.Data.AudioFileStarted));
+            _messageHub.Subscribe<PlayerPlaylistUpdatedMessage>(message =>
+            {
+                // Refresh current song as the first song in the playlist if the player was never started
+                if (_playerService.Status == PlayerStatusType.Initialized && _playerService.CurrentPlaylist.Items.Count > 0)
+                    View.RefreshAudioFile(_playerService.CurrentPlaylist.Items[0].AudioFile);
+
+                View.RefreshPlaylist(_playerService.CurrentPlaylist);
+            });
+
+            if (!_playerService.IsInitialized)
+                return;
+
+            // Refresh initial data
+            View.RefreshPlayerStatus(_playerService.Status);
+            View.RefreshPlaylist(_playerService.CurrentPlaylist);
+            if (!_playerService.IsPlaying || _playerService.CurrentPlaylistItem == null)
+                View.RefreshAudioFile(null);
+            else                
+                View.RefreshAudioFile(_playerService.CurrentPlaylistItem.AudioFile);            
+        }
+
+        private void OpenPlaylist()
+	    {
+            _mobileNavigationManager.CreatePlaylistView(View);
+	    }
+
+	    private void PlayerPlayPause()
+	    {
+            if(_playerService.Status == PlayerStatusType.Initialized)
+                _playerService.Play();
+            else
+	            _playerService.Pause();
+	    }
+
+        private void PlayerPrevious()
+        {
+            _playerService.Previous();
+        }
+
+        private void PlayerNext()
+	    {
+            _playerService.Next();
+	    }
+ 
+        private void PlayerShuffle()
+        {
+            
+        }
+
+        private void PlayerRepeat()
+        {
+        }
+
+	}
+}

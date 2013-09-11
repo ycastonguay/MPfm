@@ -54,7 +54,6 @@ namespace MPfm.MVP.Services
         public float TimeShifting { get { return _player.TimeShifting; } }
         public int PitchShifting { get { return _player.PitchShifting; } }
         public PlayerStatusType Status { get; set; }
-        
 
         public delegate void BPMDetected(float bpm);
         /// <summary>

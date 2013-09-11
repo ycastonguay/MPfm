@@ -84,15 +84,22 @@ namespace MPfm.Android.Classes.Adapters
             
             var artistName = view.FindViewById<TextView>(Resource.Id.albumCell_artistName);
             var albumTitle = view.FindViewById<TextView>(Resource.Id.albumCell_albumTitle);
-            var imageView = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
+            var imageView = view.FindViewById<ImageView>(Resource.Id.albumCell_image);            
 
             // ImageButton is used on phones; Button with text and drawableLeft is used on tablets.
             var imageAdd = view.FindViewById(Resource.Id.albumCell_btnAddToPlaylist);
             var imagePlay = view.FindViewById(Resource.Id.albumCell_btnPlay);
             var imageDelete = view.FindViewById(Resource.Id.albumCell_btnDelete);
 
+            imageView.Tag = bitmapKey;
             artistName.Text = _items[position].Title;            
             albumTitle.Text = _items[position].Subtitle;            
+
+            var viewHolder = new GridCellViewHolder();
+            viewHolder.imageView = imageView;
+            viewHolder.position = position;
+            viewHolder.entity = _items[position];
+            view.Tag = viewHolder;
 
             // Try to limit the crazy Android code that spams requests for views that aren't even visible!
             if (position < _gridView.FirstVisiblePosition - 2) // -2 == number of columns
@@ -100,7 +107,7 @@ namespace MPfm.Android.Classes.Adapters
                 //Console.WriteLine("MobileLibraryBrowserGridAdapter - GetView - View doesn't seem to be visible!!! position: {0} firstVisiblePosition: {1}", position, _gridView.FirstVisiblePosition);
                 return view;
             }
-            view.Tag = position;
+
             imageAdd.Tag = position;
             imagePlay.Tag = position;
             imageDelete.Tag = position;
@@ -148,54 +155,37 @@ namespace MPfm.Android.Classes.Adapters
 
             // Check if bitmap is in cache before requesting album art (Android likes to request GetView extremely often for no good reason)
             //Console.WriteLine("MobileLibraryBrowserGridAdapter - Loading album art - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
-            //if(mainActivity.BitmapCache.KeyExists(bitmapKey))
             if(_fragment.BitmapCache.KeyExists(bitmapKey))
             {
                 //Console.WriteLine("MobileLibraryBrowserGridAdapter - Getting album art from cache - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
-                //Task.Factory.StartNew(() => {
+                Task<Bitmap>.Factory.StartNew(() => {
                     imageView.Tag = bitmapKey;
-                    //imageView.SetImageBitmap(mainActivity.BitmapCache.GetBitmapFromMemoryCache(bitmapKey));
-                    imageView.SetImageBitmap(_fragment.BitmapCache.GetBitmapFromMemoryCache(bitmapKey));
-                //});
+                    Bitmap bitmap = _fragment.BitmapCache.GetBitmapFromMemoryCache(bitmapKey);
+                    return bitmap;
+                }).ContinueWith((a) =>
+                {
+                    imageView.SetImageBitmap(a.Result);
+                });
             }
             else
             {
-                //Task.Factory.StartNew(() => {
-                    //Console.WriteLine("MobileLibraryBrowserGridAdapter - Requesting album art from presenter - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
-                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.Query.AlbumTitle, null);
-                //});
+                //Console.WriteLine("MobileLibraryBrowserGridAdapter - Requesting album art from presenter - position: {0} artistName: {1} albumTitle: {2}", position, _items[position].Query.ArtistName, _items[position].Query.AlbumTitle);
+                _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.Query.AlbumTitle, viewHolder);
             }
 
             return view;
         }
 
-        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
+        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
             try
             {
-                //var mainActivity = (MainActivity)_context;
-                int index = _items.FindIndex(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
-                //Console.WriteLine("MobileLibraryBrowserGridAdapter - *RECEIVED* album art for {0}/{1} - index: {2}", artistName, albumTitle, index);
-                if (index >= 0)
-                {
-                    int visibleCellIndex = index - _gridView.FirstVisiblePosition;
-                    var view = _gridView.GetChildAt(visibleCellIndex);
-                    //Console.WriteLine("MobileLibraryBrowserGridAdapter - *RECEIVED* album art for {0}/{1} - index: {2} visibleCellIndex: {3} firstVisiblePosition: {4}", artistName, albumTitle, index, visibleCellIndex, _gridView.FirstVisiblePosition);
-                    if (view != null)
-                    {
-                        //Task.Factory.StartNew(() => {
-                            //Console.WriteLine("MobileLibraryBrowserGridAdapter - *LOADING BITMAP* from byte array for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
-                            var image = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
-                            image.Tag = artistName + "_" + albumTitle;
-                            //mainActivity.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
-                            _fragment.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, image);
-                        //});
-                    }
-                    else
-                    {
-                        //Console.WriteLine("MobileLibraryBrowserGridAdapter - *GRID VIEW CHILD IS NULL* for {0}/{1} - Index found: {2}", artistName, albumTitle, index);
-                    }
-                }                
+                var viewHolder = userData as GridCellViewHolder;
+                Console.WriteLine("MobileLibraryBrowserGridAdapter - RefreshAlbumArtCell - key: {0}/{1} - imageView.Tag: {2}", artistName, albumTitle, viewHolder.imageView.Tag.ToString());
+                if (viewHolder.imageView.Tag.ToString() == artistName + "_" + albumTitle)
+                    _fragment.BitmapCache.LoadBitmapFromByteArray(albumArtData, artistName + "_" + albumTitle, viewHolder.imageView);
+                else
+                    Console.WriteLine("MobileLibraryBrowserGridAdapter - RefreshAlbumArtCell - ITEM DID NOT MATCH - key: {0}/{1} - imageView.Tag: {2}", artistName, albumTitle, viewHolder.imageView.Tag.ToString());
             }
             catch (Exception ex)
             {
@@ -335,5 +325,12 @@ namespace MPfm.Android.Classes.Adapters
             //ImageView imageView = view.FindViewById<ImageView>(Resource.Id.albumCell_image);
             //Console.WriteLine("OnMovedtoScrapHeap view.Tag: {0} view type: {1} imageView.Tag: {2}", view.Tag != null ? view.Tag.ToString() : "null", view.GetType().FullName, imageView != null && imageView.Tag != null ? imageView.Tag : "null");
         }
+    }
+
+    public class GridCellViewHolder : Java.Lang.Object
+    {
+        public ImageView imageView;
+        public LibraryBrowserEntity entity;
+        public int position;
     }
 }
