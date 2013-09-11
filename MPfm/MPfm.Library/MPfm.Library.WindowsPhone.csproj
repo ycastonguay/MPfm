@@ -110,6 +110,7 @@
     <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
     <Compile Include="Database\DatabaseFacade.cs" />
+    <Compile Include="Database\WinRTSQLiteGateway.cs" />
     <Compile Include="ILibrary.cs" />
     <Compile Include="Objects\NetworkState.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
@@ -172,14 +173,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="SQLite.WP80, Version=3.8.0">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.WP80, Version=3.8.0.2">
       <Name>SQLite for Windows Phone</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />
