@@ -154,7 +154,7 @@ namespace MPfm.Library.Database
             {                
                 // Create and open connection
                 connection = GenerateConnection();
-                int rows = connection.Execute(sql, new object[]);
+                int rows = connection.Execute(sql, new object[0]);
                 return rows;
             }
             catch
@@ -180,7 +180,7 @@ namespace MPfm.Library.Database
             try
             {
                 connection = GenerateConnection();
-                object obj = connection.ExecuteScalar<object>(sql, new object[]);
+                object obj = connection.ExecuteScalar<object>(sql, new object[0]);
                 return obj;
             }
             catch
@@ -216,24 +216,24 @@ namespace MPfm.Library.Database
 
             try
             {
-                connection = GenerateConnection();                
+                //connection = GenerateConnection();                
                 //connection.Get<object>()
                 //connection.CreateCommand()
-                connection.Open();
+                //connection.Open();
 
-                // Create command
-                command = factory.CreateCommand();
-                command.CommandText = sql;
-                command.Connection = connection;
+                //// Create command
+                //command = factory.CreateCommand();
+                //command.CommandText = sql;
+                //command.Connection = connection;
 
-                // Create and execute reader
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    // Add key/value to dictionary
-                    object field = reader.GetValue(0);
-                    list.Add(field);
-                }
+                //// Create and execute reader
+                //reader = command.ExecuteReader();
+                //while (reader.Read())
+                //{
+                //    // Add key/value to dictionary
+                //    object field = reader.GetValue(0);
+                //    list.Add(field);
+                //}
 
                 return list;
             }
@@ -243,22 +243,22 @@ namespace MPfm.Library.Database
             }
             finally
             {
-                // Clean up reader and _connection
-                if (reader != null)
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
+                //// Clean up reader and _connection
+                //if (reader != null)
+                //{
+                //    reader.Close();
+                //    reader.Dispose();
+                //}
 				
-				// Dispose command
-                command.Dispose();
+                //// Dispose command
+                //command.Dispose();
 
-                // Close and clean up _connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
+                //// Close and clean up _connection
+                //if (connection.State == ConnectionState.Open)
+                //{
+                //    connection.Close();
+                //    connection.Dispose();
+                //}
             }
         }
 
@@ -270,56 +270,58 @@ namespace MPfm.Library.Database
         public List<Tuple<object, object>> SelectTuple(string sql)
         {
             SQLiteConnection connection = null;
-            DbDataReader reader = null; // No reader for WInRT... argh!            
+            //DbDataReader reader = null; // No reader for WInRT... argh!            
             SQLiteCommand command = null;
             List<Tuple<object, object>> listTuple = new List<Tuple<object, object>>();
 
-            try
-            {
-                // Create and open _connection
-                connection = GenerateConnection();
-                connection.Open();
+            return listTuple;
 
-                // Create command
-                command = factory.CreateCommand();
-                command.CommandText = sql;
-                command.Connection = connection;
+            //try
+            //{
+            //    // Create and open _connection
+            //    connection = GenerateConnection();
+            //    connection.Open();
 
-                // Create and execute reader
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    // Add key/value to dictionary
-                    object field1 = reader.GetValue(0);
-                    object field2 = reader.GetValue(1);                    
-                    listTuple.Add(new Tuple<object, object>(field1, field2));
-                }
+            //    // Create command
+            //    command = factory.CreateCommand();
+            //    command.CommandText = sql;
+            //    command.Connection = connection;
 
-                return listTuple;
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                // Clean up reader and _connection
-                if (reader != null)
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
-				
-				// Dispose command
-                command.Dispose();
+            //    // Create and execute reader
+            //    reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        // Add key/value to dictionary
+            //        object field1 = reader.GetValue(0);
+            //        object field2 = reader.GetValue(1);                    
+            //        listTuple.Add(new Tuple<object, object>(field1, field2));
+            //    }
 
-                // Close and clean up _connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
-            }
+            //    return listTuple;
+            //}
+            //catch
+            //{
+            //    throw;
+            //}
+            //finally
+            //{
+            //    // Clean up reader and _connection
+            //    if (reader != null)
+            //    {
+            //        reader.Close();
+            //        reader.Dispose();
+            //    }
+
+            //    // Dispose command
+            //    command.Dispose();
+
+            //    // Close and clean up _connection
+            //    if (connection.State == ConnectionState.Open)
+            //    {
+            //        connection.Close();
+            //        connection.Dispose();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -349,106 +351,108 @@ namespace MPfm.Library.Database
         public List<T> Select<T>(string sql) where T : new()
         {
             SQLiteConnection connection = null;
-            DbDataReader reader = null;            
+            //DbDataReader reader = null;
             SQLiteCommand command = null;
             List<T> list = new List<T>();
             Dictionary<string, string> dictMap = GetMap<T>();
 
-            try
-            {                
-                // Create and open _connection
-                connection = GenerateConnection();
-                connection.Open();
+            return list;
 
-                // Create command
-                command = factory.CreateCommand();
-                command.CommandText = sql;
-                command.Connection = connection;
+            //try
+            //{                
+            //    // Create and open _connection
+            //    connection = GenerateConnection();
+            //    connection.Open();
 
-                // Create and execute reader
-                reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    // Create object and fill data
-                    T data = new T();
+            //    // Create command
+            //    command = factory.CreateCommand();
+            //    command.CommandText = sql;
+            //    command.Connection = connection;
 
-                    // Cycle through columns
-                    for (int a = 0; a < reader.FieldCount; a++)
-                    {
-                        // Get column info
-                        string fieldName = reader.GetName(a);
-                        Type fieldType = reader.GetFieldType(a);
-                        object fieldValue = reader.GetValue(a);
+            //    // Create and execute reader
+            //    reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        // Create object and fill data
+            //        T data = new T();
 
-                        // Check for map
-                        string propertyName = fieldName;                        
-                        if(dictMap.ContainsKey(fieldName))
-                        {
-                            propertyName = dictMap[fieldName];
-                        }
+            //        // Cycle through columns
+            //        for (int a = 0; a < reader.FieldCount; a++)
+            //        {
+            //            // Get column info
+            //            string fieldName = reader.GetName(a);
+            //            Type fieldType = reader.GetFieldType(a);
+            //            object fieldValue = reader.GetValue(a);
 
-                        // Get property info and fill column if valid
-                        PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
-                        if (info != null)
-                        {
-                            // Set value to null
-                            if (fieldValue is System.DBNull)
-                                fieldValue = null;                                
+            //            // Check for map
+            //            string propertyName = fieldName;                        
+            //            if(dictMap.ContainsKey(fieldName))
+            //            {
+            //                propertyName = dictMap[fieldName];
+            //            }
 
-                            // Check if the type is an enum                                    
-                            if (info.PropertyType.IsEnum)
-                            {
-                                fieldValue = Enum.Parse(info.PropertyType, fieldValue.ToString());
-                            }                                
-                            else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
-                            {
-                                // Guid aren't supported in SQLite, so they are stored as strings.
-                                fieldValue = new Guid(fieldValue.ToString());                                    
-                            }
-                            else if (info.PropertyType.FullName != fieldType.FullName)
-                            {
-                                // Call a convert method in the Convert static class, if available
-                                MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
-                                if (castMethod != null)
-                                {
-                                    fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
-                                }
-                            }
+            //            // Get property info and fill column if valid
+            //            PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+            //            if (info != null)
+            //            {
+            //                // Set value to null
+            //                if (fieldValue is System.DBNull)
+            //                    fieldValue = null;                                
 
-                            // Set property value
-                            info.SetValue(data, fieldValue, null);
-                        }
-                    }
+            //                // Check if the type is an enum                                    
+            //                if (info.PropertyType.IsEnum)
+            //                {
+            //                    fieldValue = Enum.Parse(info.PropertyType, fieldValue.ToString());
+            //                }                                
+            //                else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
+            //                {
+            //                    // Guid aren't supported in SQLite, so they are stored as strings.
+            //                    fieldValue = new Guid(fieldValue.ToString());                                    
+            //                }
+            //                else if (info.PropertyType.FullName != fieldType.FullName)
+            //                {
+            //                    // Call a convert method in the Convert static class, if available
+            //                    MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
+            //                    if (castMethod != null)
+            //                    {
+            //                        fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
+            //                    }
+            //                }
 
-                    // Add item to list
-                    list.Add(data);
-                }
-                
-                return list;
-            }
-            //catch
-            //{
-            //    throw;
+            //                // Set property value
+            //                info.SetValue(data, fieldValue, null);
+            //            }
+            //        }
+
+            //        // Add item to list
+            //        list.Add(data);
+            //    }
+
+            //    return list;
             //}
-            finally
-            {
-                // Clean up reader and _connection
-                if (reader != null)
-                {
-                    reader.Close();
-                    reader.Dispose();
-                }
-				
-				// Dispose command
-                command.Dispose();
+            ////catch
+            ////{
+            ////    throw;
+            ////}
+            //finally
+            //{
+            //    // Clean up reader and _connection
+            //    if (reader != null)
+            //    {
+            //        reader.Close();
+            //        reader.Dispose();
+            //    }
 
-                // Close and clean up _connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
-            }
+            //    // Dispose command
+            //    command.Dispose();
+
+            //    // Close and clean up _connection
+            //    if (connection.State == ConnectionState.Open)
+            //    {
+            //        connection.Close();
+            //        connection.Dispose();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -482,89 +486,91 @@ namespace MPfm.Library.Database
             Dictionary<string, string> dictMap = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
-            try
-            {
-                // Generate query
-                sql.AppendLine("UPDATE [" + tableName + "] SET ");
+            return 0;
 
-                // Scan through properties
-                PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                bool addedOneItem = false;
-                for (int a = 0; a < propertyInfos.Length; a++)
-                {
-                    PropertyInfo propertyInfo = propertyInfos[a];
-                    if (propertyInfo.GetSetMethod() != null)
-                    {
-                        string fieldName = propertyInfo.Name;                    
-                        if (dictMap.ContainsValue(propertyInfo.Name))
-                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name); 
+            //try
+            //{
+            //    // Generate query
+            //    sql.AppendLine("UPDATE [" + tableName + "] SET ");
 
-                        // Add comma if an item was added previously
-                        if(!addedOneItem)
-                            addedOneItem = true;
-                        else
-                            sql.Append(", ");
+            //    // Scan through properties
+            //    PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            //    bool addedOneItem = false;
+            //    for (int a = 0; a < propertyInfos.Length; a++)
+            //    {
+            //        PropertyInfo propertyInfo = propertyInfos[a];
+            //        if (propertyInfo.GetSetMethod() != null)
+            //        {
+            //            string fieldName = propertyInfo.Name;                    
+            //            if (dictMap.ContainsValue(propertyInfo.Name))
+            //                fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name); 
 
-                        // Add database field name
-                        sql.Append("[" + fieldName + "]=");
-                        object value = propertyInfo.GetValue(obj, null);
-                        sql.Append(FormatSQLValue(value));
-                        sql.Append("\n");
-                    }
-                }
+            //            // Add comma if an item was added previously
+            //            if(!addedOneItem)
+            //                addedOneItem = true;
+            //            else
+            //                sql.Append(", ");
 
-                // Generate where clause
-                sql.AppendLine(" WHERE ");
-                addedOneItem = false;
-                for(int a = 0; a < where.Count; a++)
-                {
-                    // Add comma if an item was added previously
-                    if(!addedOneItem)
-                        addedOneItem = true;
-                    else
-                        sql.Append(", ");
+            //            // Add database field name
+            //            sql.Append("[" + fieldName + "]=");
+            //            object value = propertyInfo.GetValue(obj, null);
+            //            sql.Append(FormatSQLValue(value));
+            //            sql.Append("\n");
+            //        }
+            //    }
 
-                    KeyValuePair<string, object> keyValue = where.ElementAt(a);
-                    sql.AppendLine("[" + keyValue.Key + "]=");
-                    sql.Append(FormatSQLValue(keyValue.Value));
+            //    // Generate where clause
+            //    sql.AppendLine(" WHERE ");
+            //    addedOneItem = false;
+            //    for(int a = 0; a < where.Count; a++)
+            //    {
+            //        // Add comma if an item was added previously
+            //        if(!addedOneItem)
+            //            addedOneItem = true;
+            //        else
+            //            sql.Append(", ");
 
-                    // Add an AND keyword if this isn't the last item
-                    if (a < where.Count - 1)
-                    {
-                        sql.Append(" AND ");
-                    }
-                    sql.Append("\n");
-                }
+            //        KeyValuePair<string, object> keyValue = where.ElementAt(a);
+            //        sql.AppendLine("[" + keyValue.Key + "]=");
+            //        sql.Append(FormatSQLValue(keyValue.Value));
 
-                // Create and open _connection
-                connection = GenerateConnection();
-                connection.Open();
+            //        // Add an AND keyword if this isn't the last item
+            //        if (a < where.Count - 1)
+            //        {
+            //            sql.Append(" AND ");
+            //        }
+            //        sql.Append("\n");
+            //    }
 
-                // Create command
-                command = factory.CreateCommand();
-                command.CommandText = sql.ToString();
-                command.Connection = connection;
+            //    // Create and open _connection
+            //    connection = GenerateConnection();
+            //    connection.Open();
 
-                // Execute command
-                int count = command.ExecuteNonQuery();
-                return count;
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-				// Dispose command
-                command.Dispose();
-				
-                // Close and clean up _connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
-            }
+            //    // Create command
+            //    command = factory.CreateCommand();
+            //    command.CommandText = sql.ToString();
+            //    command.Connection = connection;
+
+            //    // Execute command
+            //    int count = command.ExecuteNonQuery();
+            //    return count;
+            //}
+            //catch
+            //{
+            //    throw;
+            //}
+            //finally
+            //{
+            //    // Dispose command
+            //    command.Dispose();
+
+            //    // Close and clean up _connection
+            //    if (connection.State == ConnectionState.Open)
+            //    {
+            //        connection.Close();
+            //        connection.Dispose();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -581,89 +587,91 @@ namespace MPfm.Library.Database
             Dictionary<string, string> dictMap = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
-            try
-            {
-                // Generate query
-                sql.AppendLine("INSERT INTO [" + tableName + "] (");
+            return 0;
 
-                // Scan through properties to set column names
-                PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                bool addedOneItem = false;
-                for (int a = 0; a < propertyInfos.Length; a++)
-                {
-                    PropertyInfo propertyInfo = propertyInfos[a];
-                    if (propertyInfo.GetSetMethod() != null)
-                    {
-                        string fieldName = propertyInfo.Name;
-                        if (dictMap.ContainsValue(propertyInfo.Name))
-                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
+            //try
+            //{
+            //    // Generate query
+            //    sql.AppendLine("INSERT INTO [" + tableName + "] (");
 
-                        // Add comma if an item was added previously
-                        if(!addedOneItem)
-                            addedOneItem = true;
-                        else
-                            sql.Append(", ");
+            //    // Scan through properties to set column names
+            //    PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            //    bool addedOneItem = false;
+            //    for (int a = 0; a < propertyInfos.Length; a++)
+            //    {
+            //        PropertyInfo propertyInfo = propertyInfos[a];
+            //        if (propertyInfo.GetSetMethod() != null)
+            //        {
+            //            string fieldName = propertyInfo.Name;
+            //            if (dictMap.ContainsValue(propertyInfo.Name))
+            //                fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
 
-                        sql.Append("[" + fieldName + "]");
-                        sql.Append("\n");
-                    }
-                }
-                sql.AppendLine(") VALUES (");
+            //            // Add comma if an item was added previously
+            //            if(!addedOneItem)
+            //                addedOneItem = true;
+            //            else
+            //                sql.Append(", ");
 
-                // Scan through properties and set values
-                addedOneItem = false;
-                for (int a = 0; a < propertyInfos.Length; a++)
-                {
-                    PropertyInfo propertyInfo = propertyInfos[a];
-                    if (propertyInfo.GetSetMethod() != null)
-                    {
-                        string fieldName = propertyInfo.Name;
-                        if (dictMap.ContainsValue(propertyInfo.Name))
-                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
+            //            sql.Append("[" + fieldName + "]");
+            //            sql.Append("\n");
+            //        }
+            //    }
+            //    sql.AppendLine(") VALUES (");
 
-                        // Add comma if an item was added previously
-                        if(!addedOneItem)
-                            addedOneItem = true;
-                        else
-                            sql.Append(", ");
+            //    // Scan through properties and set values
+            //    addedOneItem = false;
+            //    for (int a = 0; a < propertyInfos.Length; a++)
+            //    {
+            //        PropertyInfo propertyInfo = propertyInfos[a];
+            //        if (propertyInfo.GetSetMethod() != null)
+            //        {
+            //            string fieldName = propertyInfo.Name;
+            //            if (dictMap.ContainsValue(propertyInfo.Name))
+            //                fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
 
-                        // Get value and determine how to add field value
-                        object value = propertyInfo.GetValue(obj, null);
-                        sql.Append(FormatSQLValue(value));                       
-                        sql.Append("\n");
-                    }
-                }
-                sql.AppendLine(") ");
+            //            // Add comma if an item was added previously
+            //            if(!addedOneItem)
+            //                addedOneItem = true;
+            //            else
+            //                sql.Append(", ");
 
-                // Create and open _connection
-                connection = GenerateConnection();
-                connection.Open();
+            //            // Get value and determine how to add field value
+            //            object value = propertyInfo.GetValue(obj, null);
+            //            sql.Append(FormatSQLValue(value));                       
+            //            sql.Append("\n");
+            //        }
+            //    }
+            //    sql.AppendLine(") ");
 
-                // Create command
-                command = factory.CreateCommand();
-                command.CommandText = sql.ToString();
-                command.Connection = connection;
+            //    // Create and open _connection
+            //    connection = GenerateConnection();
+            //    connection.Open();
 
-                // Execute command
-                int count = command.ExecuteNonQuery();
-                return count;
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-				// Dispose command
-                command.Dispose();
+            //    // Create command
+            //    command = factory.CreateCommand();
+            //    command.CommandText = sql.ToString();
+            //    command.Connection = connection;
 
-                // Close and clean up _connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
-            }
+            //    // Execute command
+            //    int count = command.ExecuteNonQuery();
+            //    return count;
+            //}
+            //catch
+            //{
+            //    throw;
+            //}
+            //finally
+            //{
+            //    // Dispose command
+            //    command.Dispose();
+
+            //    // Close and clean up _connection
+            //    if (connection.State == ConnectionState.Open)
+            //    {
+            //        connection.Close();
+            //        connection.Dispose();
+            //    }
+            //}
         }
 
         /// <summary>

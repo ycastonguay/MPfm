@@ -902,8 +902,14 @@ namespace MPfm.Library.Database
             string query = "SELECT COUNT(*) FROM History WHERE AudioFileId = '" + audioFileId.ToString() + "'";
             object value = _gateway.ExecuteScalar(query);
 
-            // Check value for null
-            if (value == DBNull.Value)
+            bool isNull = false;
+            #if WINDOWSSTORE
+            isNull = value == null;
+            #else
+            isNull = value == DBNull.Value;
+            #endif
+
+            if (isNull)
             {
                 // No play count
                 return 0;
@@ -940,8 +946,13 @@ namespace MPfm.Library.Database
             string query = "SELECT TOP 1 FROM History WHERE AudioFileId = '" + audioFileId.ToString() + "' ORDER BY EventDateTime";
             object value = _gateway.ExecuteScalar(query);
 
-            // Check value for null
-            if (value == DBNull.Value)
+            bool isNull = false;
+#if WINDOWSSTORE
+            isNull = value == null;
+#else
+            isNull = value == DBNull.Value;
+#endif
+            if (isNull)
             {
                 // No last played value
                 return null;
