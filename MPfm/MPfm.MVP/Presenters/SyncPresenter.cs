@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Core;
 using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
@@ -73,7 +74,7 @@ namespace MPfm.MVP.Presenters
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
         {
-            //Console.WriteLine("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+            //Tracing.Log("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
             var device = _devices.FirstOrDefault(x => x.Url == deviceFound.Url);
             if(device == null)
                 _devices.Add(deviceFound);
@@ -83,13 +84,13 @@ namespace MPfm.MVP.Presenters
 
         private void HandleOnDiscoveryProgress(float percentageDone, string status)
         {
-            //Console.WriteLine("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
+            //Tracing.Log("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
             View.RefreshDiscoveryProgress(percentageDone, status);
         }
 
         private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
         {
-            //Console.WriteLine("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
+            //Tracing.Log("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
             View.RefreshDevicesEnded();
         }
 
@@ -108,7 +109,7 @@ namespace MPfm.MVP.Presenters
 
         private void CancelDiscovery()
         {
-            Console.WriteLine("SyncPresenter - CancelDiscovery");
+            Tracing.Log("SyncPresenter - CancelDiscovery");
             _syncDiscoveryService.Cancel();
         }
 
@@ -125,12 +126,12 @@ namespace MPfm.MVP.Presenters
                 // Search for devices in subnet
                 var split = ip.Split('.');
                 string baseIP = split[0] + "." + split[1] + "." + split[2];
-                Console.WriteLine("SyncPresenter - RefreshDevices with baseIP {0}", baseIP);
+                Tracing.Log("SyncPresenter - RefreshDevices with baseIP {0}", baseIP);
                 _syncDiscoveryService.SearchForDevices(baseIP);
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncPresenter - RefreshDevices - Failed to refresh devices: {0}", ex);
+                Tracing.Log("SyncPresenter - RefreshDevices - Failed to refresh devices: {0}", ex);
                 View.SyncError(ex);
             }
         }

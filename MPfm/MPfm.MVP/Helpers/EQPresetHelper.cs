@@ -34,11 +34,15 @@ namespace MPfm.MVP.Helpers
         /// <returns>EQPreset object</returns>
         public static EQPreset Load(string filePath)
         {
+#if WINDOWSSTORE
+            return new EQPreset();
+#else
             XmlSerializer deserializer = new XmlSerializer(typeof(EQPreset));
             TextReader textReader = new StreamReader(filePath);
             Object obj = deserializer.Deserialize(textReader);
             EQPreset theme = (EQPreset)obj;
             return theme;
+#endif
         }
         
         /// <summary>
@@ -48,10 +52,12 @@ namespace MPfm.MVP.Helpers
         /// <param name="eqPreset">EQPreset object</param>
         public static void Save(string filePath, EQPreset eqPreset)
         {
+#if !WINDOWSSTORE
             XmlSerializer serializer = new XmlSerializer(typeof(EQPreset));
             TextWriter textWriter = new StreamWriter(filePath);
             serializer.Serialize(textWriter, eqPreset);
-            textWriter.Close();
+            textWriter.Dispose();
+#endif
         }
     }
 }

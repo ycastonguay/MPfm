@@ -103,6 +103,8 @@
     <Compile Include="Playlists\PlaylistTools.cs" />
     <Compile Include="Playlists\PlaylistFileFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BassNetWrapper\Device.cs" />
+    <Compile Include="BassNetWrapper\Exception.cs" />	
     <Compile Include="Tags\APETag.cs" />
     <Compile Include="Tags\SV7Metadata.cs" />
     <Compile Include="Tags\SV7Tag.cs" />

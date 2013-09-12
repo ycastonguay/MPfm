@@ -71,7 +71,7 @@ namespace MPfm.MVP.Presenters
 
             // Subscribe to messages
             _tokens.Add(_messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
-                Console.WriteLine("MarkersPresenter - Received MarkerdUpdatedMessage - audioFileId: {0}", m.AudioFileId.ToString());
+                Tracing.Log("MarkersPresenter - Received MarkerdUpdatedMessage - audioFileId: {0}", m.AudioFileId.ToString());
                 _audioFileId = m.AudioFileId;
                 RefreshMarkers(_audioFileId);
             }));
@@ -128,7 +128,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while adding a marker: " + ex.Message);
+                Tracing.Log("An error occured while adding a marker: " + ex.Message);
                 View.MarkerError(ex);
             }
         }
@@ -146,7 +146,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while selecting marker: " + ex.Message);
+                Tracing.Log("An error occured while selecting marker: " + ex.Message);
                 View.MarkerError(ex);
             }
         }
@@ -161,7 +161,7 @@ namespace MPfm.MVP.Presenters
             }
             catch (Exception ex)
             {
-                Console.WriteLine("An error occured while deleting marker: " + ex.Message);
+                Tracing.Log("An error occured while deleting marker: " + ex.Message);
                 View.MarkerError(ex);
             }
         }
@@ -175,7 +175,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while refreshing markera: " + ex.Message);
+                Tracing.Log("An error occured while refreshing markera: " + ex.Message);
                 View.MarkerError(ex);
             }
         }

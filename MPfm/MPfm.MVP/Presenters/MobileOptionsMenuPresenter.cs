@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Core;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
@@ -46,7 +47,7 @@ namespace MPfm.MVP.Presenters
 
 	    private void Initialize()
 	    {
-            Console.WriteLine("MobileOptionsMenuPresenter - Initialize");
+            Tracing.Log("MobileOptionsMenuPresenter - Initialize");
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
             //_items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync Library (Other Devices)"));

@@ -109,6 +109,10 @@
       <Project>{394f4601-af24-43a1-bcd3-0784645dab17}</Project>
       <Name>MPfm.Library.WindowsStore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.WindowsStore.csproj">
+      <Project>{1b6e7364-e61f-4037-a636-09094c808d1a}</Project>
+      <Name>MPfm.MVP.WindowsStore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MPfm.Player\MPfm.Player.WindowsStore.csproj">
       <Project>{b096c459-3e2d-4932-a961-de692f6b6c1c}</Project>
       <Name>MPfm.Player.WindowsStore</Name>

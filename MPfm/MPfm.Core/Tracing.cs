@@ -26,12 +26,22 @@ namespace MPfm.Core
     public static class Tracing
     {
         /// <summary>
-        /// Logs the message to configured trace listeners.
+        /// Logs a message to configured trace listeners.
         /// </summary>
         /// <param name="message">Message to log</param>
         public static void Log(string message)
         {
-            LogInternal(string.Format("[{0}] {1}", DateTime.Now, message));
+            LogInternal(message);
+        }
+
+        /// <summary>
+        /// Logs a message with composite format string to configured trace listeners.
+        /// </summary>
+        /// <param name="message">Composite format string</param>
+        /// <param name="args">Object that contains zero or more objects</param>
+        public static void Log(string format, params object[] args)
+        {
+            LogInternal(string.Format(format, args));
         }
 
         /// <summary>
@@ -48,12 +58,12 @@ namespace MPfm.Core
         }
 
         /// <summary>
-        /// Logs the message to configured trace listeners (without time stamp)
+        /// Logs the message to configured trace listeners (with time stamp)
         /// </summary>
         /// <param name="message"></param>
-        public static void LogWithoutTimeStamp(string message)
-        {
-            LogInternal(message);
+        public static void LogWithTimeStamp(string message)
+        {            
+            LogInternal(string.Format("[{0}] {1}", DateTime.Now, message));
         }
 
         private static void LogInternal(string message)

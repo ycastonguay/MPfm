@@ -81,7 +81,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while calculating the marker position: " + ex.Message);
+                Tracing.Log("An error occured while calculating the marker position: " + ex.Message);
                 View.MarkerDetailsError(ex);
             }
         }
@@ -111,7 +111,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while updating a marker: " + ex.Message);
+                Tracing.Log("An error occured while updating a marker: " + ex.Message);
                 View.MarkerDetailsError(ex);
             }
         }
@@ -129,7 +129,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while deleting a marker: " + ex.Message);
+                Tracing.Log("An error occured while deleting a marker: " + ex.Message);
                 View.MarkerDetailsError(ex);
             }
         }
@@ -148,7 +148,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while refreshing a marker: " + ex.Message);
+                Tracing.Log("An error occured while refreshing a marker: " + ex.Message);
                 View.MarkerDetailsError(ex);
             }
         }

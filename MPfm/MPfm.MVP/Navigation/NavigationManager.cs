@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Core;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
@@ -85,7 +86,7 @@ namespace MPfm.MVP.Navigation
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action onInitDone = () =>
             {
-                Console.WriteLine("SplashInitDone");
+                Tracing.Log("SplashInitDone");
                 CreateMainView();
             };
             Action<IBaseView> onViewReady = (view) =>

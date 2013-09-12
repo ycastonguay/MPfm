@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MPfm.Core;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
@@ -167,7 +168,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Console.WriteLine("MobileLibraryBrowserPresenter - AddItemToPlaylist - index: {0}", index);
+                Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - index: {0}", index);
                 Task.Factory.StartNew(() =>
                 {
                     // Check if adding a song or an album
@@ -187,7 +188,7 @@ namespace MPfm.MVP.Presenters
             }
             catch (Exception ex)
             {
-                Console.WriteLine("MobileLibraryBrowserPresenter - AddItemToPlaylist - Exception: {0}", ex);
+                Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - Exception: {0}", ex);
                 View.MobileLibraryBrowserError(ex);
             }
         }
@@ -196,7 +197,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Console.WriteLine("MobileLibraryBrowserPresenter - PlayItem index: {0}", index);
+                Tracing.Log("MobileLibraryBrowserPresenter - PlayItem index: {0}", index);
                 if (_items[index].Type == LibraryBrowserEntityType.Artist)
                 {
                     Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
@@ -230,7 +231,7 @@ namespace MPfm.MVP.Presenters
             }
             catch (Exception ex)
             {
-                Console.WriteLine("MobileLibraryBrowserPresenter - PlayItem - Exception: {0}", ex);
+                Tracing.Log("MobileLibraryBrowserPresenter - PlayItem - Exception: {0}", ex);
                 View.MobileLibraryBrowserError(ex);
             }
         }
@@ -257,20 +258,20 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Console.WriteLine("MobileLibraryBrowserPresenter - DeleteItem index: {0}", index);
+                Tracing.Log("MobileLibraryBrowserPresenter - DeleteItem index: {0}", index);
                 Task.Factory.StartNew(() => {
                     if(_items[index].Type == LibraryBrowserEntityType.Artist)
                     {
                         _libraryService.DeleteAudioFiles(_items[index].Query.ArtistName, string.Empty);
-                        Console.WriteLine("MobileLibraryBrowserPresenter - Deleting files from hard disk...");
+                        Tracing.Log("MobileLibraryBrowserPresenter - Deleting files from hard disk...");
                         var files = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){ ArtistName = _items[index].Query.ArtistName });
                         foreach(var file in files)
                         {
-                            Console.WriteLine("MobileLibraryBrowserPresenter - Deleting {0}...", file.FilePath);
+                            Tracing.Log("MobileLibraryBrowserPresenter - Deleting {0}...", file.FilePath);
                             File.Delete(file.FilePath);
                         }
 
-                        Console.WriteLine("MobileLibraryBrowserPresenter - Removing audio files from cache...");
+                        Tracing.Log("MobileLibraryBrowserPresenter - Removing audio files from cache...");
                         _audioFileCacheService.RemoveAudioFiles(_items[index].Query.ArtistName, string.Empty);
                     }
                     else if(_items[index].Type == LibraryBrowserEntityType.Album)
@@ -287,7 +288,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("MobileLibraryBrowserPresenter - DeleteItem - Exception: {0}", ex);
+                Tracing.Log("MobileLibraryBrowserPresenter - DeleteItem - Exception: {0}", ex);
                 View.MobileLibraryBrowserError(ex);
             }
         }
@@ -332,7 +333,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("MobileLibraryBrowserPresenter - ItemClick - Exception: {0}", ex);
+                Tracing.Log("MobileLibraryBrowserPresenter - ItemClick - Exception: {0}", ex);
                 View.MobileLibraryBrowserError(ex);
             }
 	    }
@@ -349,7 +350,7 @@ namespace MPfm.MVP.Presenters
             for(int a = 0; a < _queryHistory.Count; a++)
             {
                 var history = _queryHistory[a];
-                Console.WriteLine("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - Breadcrumb - query history {0} - browserType: {1} - query.ArtistName: {2} - query.AlbumTitle {3}", a, history.Item1.ToString(), history.Item2.ArtistName, history.Item2.AlbumTitle);
+                Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - Breadcrumb - query history {0} - browserType: {1} - query.ArtistName: {2} - query.AlbumTitle {3}", a, history.Item1.ToString(), history.Item2.ArtistName, history.Item2.AlbumTitle);
                 switch (history.Item1)
                 {
                     case MobileLibraryBrowserType.Playlists:

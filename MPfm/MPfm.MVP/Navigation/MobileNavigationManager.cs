@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using TinyIoC;
 using MPfm.MVP.Views;
@@ -361,7 +362,7 @@ namespace MPfm.MVP.Navigation
                 // The view list can be accessed from different threads.
                 lock (_locker)
                 {
-                    Console.WriteLine("MobileNavigationManager - CreateMobileLibraryBrowserView - Destroying view - type: {0}", tabType.ToString());
+                    Tracing.Log("MobileNavigationManager - CreateMobileLibraryBrowserView - Destroying view - type: {0}", tabType.ToString());
                     if (_mobileLibraryBrowserList.ContainsKey(key))
                     {
                         _mobileLibraryBrowserList[key].Item2.ViewDestroyed();

@@ -108,6 +108,7 @@
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
+    <Compile Include="BassNetWrapper\DriverType.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
     <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
@@ -119,6 +120,8 @@
     <Compile Include="Playlists\PlaylistTools.cs" />
     <Compile Include="Playlists\PlaylistFileFormat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BassNetWrapper\Device.cs" />
+    <Compile Include="BassNetWrapper\Exception.cs" />
     <Compile Include="Tags\APETag.cs" />
     <Compile Include="Tags\SV7Metadata.cs" />
     <Compile Include="Tags\SV7Tag.cs" />

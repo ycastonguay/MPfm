@@ -37,7 +37,7 @@ namespace MPfm.MVP.Services
         private IAudioFileCacheService _audioFileCacheService;
         private ISyncListenerService _syncListenerService;
 
-#if (!IOS && !ANDROID)
+#if (!IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE)
         private TextWriterTraceListener textTraceListener = null;
 #endif
         
@@ -52,20 +52,22 @@ namespace MPfm.MVP.Services
         /// </summary>
         public void Initialize()
         {
+#if !WINDOWSSTORE && !WINDOWS_PHONE
             // Create missing directories
             if(!Directory.Exists(ConfigurationHelper.HomeDirectory))
                 Directory.CreateDirectory(ConfigurationHelper.HomeDirectory);
             if (!Directory.Exists(ConfigurationHelper.PeakFileDirectory))
                 Directory.CreateDirectory(ConfigurationHelper.PeakFileDirectory);
+#endif
 
             CreateTraceListener();
             Tracing.Log("====================================================================");
 
-#if !IOS && !ANDROID // MonoDroid doesn't like Assembly methods
+#if !IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE
             Tracing.Log("Sessions - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA");
 #endif
 
-            Tracing.Log("Started on " + DateTime.Now.ToLongDateString() + " at " + DateTime.Now.ToLongTimeString());
+            Tracing.Log(string.Format("Started on {0}", DateTime.Now));
 
             // Load data needed to start the application
             LoadConfiguration();
@@ -75,7 +77,7 @@ namespace MPfm.MVP.Services
 
         void CreateTraceListener()
         {
-#if (!IOS && !ANDROID)
+#if (!IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE)
             // Check if trace file exists
             if (!File.Exists(ConfigurationHelper.LogFilePath))
                 _fileTracing = File.Create(ConfigurationHelper.LogFilePath);

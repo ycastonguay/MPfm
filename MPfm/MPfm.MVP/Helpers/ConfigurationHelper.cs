@@ -45,6 +45,9 @@ namespace MPfm.MVP.Helpers
 #if IOS || ANDROID
         	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "PeakFiles");
+#elif WINDOWSSTORE || WINDOWSSTORE
+		    HomeDirectory = "TODO";
+		    PeakFileDirectory = "TODO";
 #else
             HomeDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm");
             PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), ".MPfm", "PeakFiles");
@@ -62,11 +65,15 @@ namespace MPfm.MVP.Helpers
         /// <returns>MPfmConfig object</returns>
         public static MPfmConfig Load(string filePath)
         {
+#if WINDOWSSTORE
+            return new MPfmConfig();
+#else
             XmlSerializer deserializer = new XmlSerializer(typeof(MPfmConfig));
             TextReader textReader = new StreamReader(filePath);
             Object obj = deserializer.Deserialize(textReader);
             MPfmConfig theme = (MPfmConfig)obj;
             return theme;
+#endif
         }
         
         /// <summary>
@@ -76,10 +83,12 @@ namespace MPfm.MVP.Helpers
         /// <param name="config">MPfmConfig object</param>
         public static void Save(string filePath, MPfmConfig config)
         {
+#if !WINDOWSSTORE
             XmlSerializer serializer = new XmlSerializer(typeof(MPfmConfig));
             TextWriter textWriter = new StreamWriter(filePath);
             serializer.Serialize(textWriter, config);
-            textWriter.Close();
+            textWriter.Dispose();
+#endif
         }
     }
 }

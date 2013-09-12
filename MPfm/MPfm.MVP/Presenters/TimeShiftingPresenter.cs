@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using MPfm.Core;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
@@ -85,7 +86,7 @@ namespace MPfm.MVP.Presenters
                 float timeShiftingRatio = (_timeShifting + 100) / 200;
                 float timeShiftingValue = (timeShiftingRatio * 100) + 50;
                 float currentTempo = _referenceTempo * (timeShiftingValue / 100);
-                Console.WriteLine("TimeShiftingPresenter - RefreshTimeShiftingView - timeShifting: " + _timeShifting.ToString() + " timeShiftingRatio: " + timeShiftingRatio.ToString() + 
+                Tracing.Log("TimeShiftingPresenter - RefreshTimeShiftingView - timeShifting: " + _timeShifting.ToString() + " timeShiftingRatio: " + timeShiftingRatio.ToString() + 
                                   " timeShiftingValue: " + timeShiftingValue.ToString() + " detectedTempo: " + _detectedTempo.ToString() +
                                   " currentTempo: " + currentTempo.ToString() + " referenceTempo: " + _referenceTempo.ToString());
 
@@ -98,7 +99,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("TimeShiftingPresenter - RefreshTimeShiftingView - Exception: " + ex.Message + "\n" + ex.StackTrace);
+                Tracing.Log("TimeShiftingPresenter - RefreshTimeShiftingView - Exception: " + ex.Message + "\n" + ex.StackTrace);
             }
         }
 
@@ -128,12 +129,12 @@ namespace MPfm.MVP.Presenters
                 {
                     _detectedTempo = bpm;
                 }
-                //Console.WriteLine("TimeShiftingPresenter - HandleOnBPMDetected - bpm: " + bpm.ToString() + " detectedTempo: " + _detectedTempo.ToString());
+                //Tracing.Log("TimeShiftingPresenter - HandleOnBPMDetected - bpm: " + bpm.ToString() + " detectedTempo: " + _detectedTempo.ToString());
                 RefreshTimeShiftingView();
             }
             catch(Exception ex)
             {
-                Console.WriteLine("TimeShiftingPresenter - HandleOnBPMDetected - Exception: " + ex.Message + "\n" + ex.StackTrace);
+                Tracing.Log("TimeShiftingPresenter - HandleOnBPMDetected - Exception: " + ex.Message + "\n" + ex.StackTrace);
             }
         }
 

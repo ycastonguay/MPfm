@@ -19,12 +19,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
+using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+
+#if WINDOWSSTORE
+using Windows.UI.Xaml;
+#elif WINDOWS_PHONE
+using System.Windows.Threading;
+#endif
 
 namespace MPfm.MVP.Presenters
 {
@@ -36,10 +42,17 @@ namespace MPfm.MVP.Presenters
         readonly ISyncClientService _syncClientService;
         List<AudioFile> _audioFiles = new List<AudioFile>();
         SyncDevice _device;
-        Timer _timerUpdateProgress;
         SyncClientDownloadAudioFileProgressEntity _currentProgress;
 
-	    public SyncDownloadPresenter(ISyncClientService syncClientService)
+#if WINDOWS_PHONE
+        private System.Windows.Threading.DispatcherTimer _timerUpdateProgress = null;
+#elif WINDOWSSTORE
+        private Windows.UI.Xaml.DispatcherTimer _timerUpdateProgress = null;
+#else
+        private System.Timers.Timer _timerUpdateProgress = null;
+#endif
+
+        public SyncDownloadPresenter(ISyncClientService syncClientService)
 		{
             _syncClientService = syncClientService;
             _syncClientService.OnDownloadAudioFileStarted += HandleOnDownloadAudioFileStarted;
@@ -48,8 +61,15 @@ namespace MPfm.MVP.Presenters
             _syncClientService.OnDownloadAudioFilesCompleted += HandleOnDownloadAudioFilesCompleted;
 
             // Limit how progress is reported to the UI, Android gets very slow when trying to update text views frequently
-            _timerUpdateProgress = new Timer(200);
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+            _timerUpdateProgress = new System.Timers.Timer();         
+            _timerUpdateProgress.Interval = 40;
             _timerUpdateProgress.Elapsed += TimerUpdateProgressOnElapsed;
+#else
+            _timerUpdateProgress = new DispatcherTimer();
+            _timerUpdateProgress.Interval = new TimeSpan(0, 0, 0, 0, 40);
+            _timerUpdateProgress.Tick += TimerUpdateProgressOnElapsed;
+#endif
 		}
 
         public override void BindView(ISyncDownloadView view)
@@ -65,7 +85,11 @@ namespace MPfm.MVP.Presenters
 
         }
 
-        private void TimerUpdateProgressOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+        private void TimerUpdateProgressOnElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        #else
+        private void TimerUpdateProgressOnElapsed(object sender, object eventArgs)
+        #endif
         {
             if (_currentProgress == null)
                 return;
@@ -102,7 +126,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncDownloadPresenter - ButtonPressed - Exception: {0}", ex);
+                Tracing.Log("SyncDownloadPresenter - ButtonPressed - Exception: {0}", ex);
             }
         }
 
@@ -112,7 +136,7 @@ namespace MPfm.MVP.Presenters
             {
                 _device = device;
                 _audioFiles = audioFiles.ToList();
-                Console.WriteLine("SyncDownloadPresenter - StartSync - url: {0} audioFiles.Count: {1}", _device.Url, _audioFiles.Count);
+                Tracing.Log("SyncDownloadPresenter - StartSync - url: {0} audioFiles.Count: {1}", _device.Url, _audioFiles.Count);
                 View.RefreshDevice(_device);
                 _timerUpdateProgress.Start();
 
@@ -122,7 +146,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncDownloadPresenter - StartSync - Exception: {0}", ex);
+                Tracing.Log("SyncDownloadPresenter - StartSync - Exception: {0}", ex);
             }
         }
     }

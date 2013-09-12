@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Core;
 using MPfm.Player.Objects;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
@@ -105,7 +106,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while reverting the equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while reverting the equalizer preset: " + ex.Message);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -122,7 +123,7 @@ namespace MPfm.MVP.Presenters
                 {
                     var band = _preset.Bands[a];
                     value = _preset.Bands[a].Gain;
-                    Console.WriteLine("NormalizePreset - band {0} value {1}", band, value);
+                    Tracing.Log("NormalizePreset - band {0} value {1}", band, value);
                     if (value > highestValue)
                         highestValue = value;
                 }
@@ -135,7 +136,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while normalizing the equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while normalizing the equalizer preset: " + ex.Message);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -150,7 +151,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while reseting the equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while reseting the equalizer preset: " + ex.Message);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -180,7 +181,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while saving the equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while saving the equalizer preset: " + ex.Message);
                 View.EqualizerPresetDetailsError(ex);
             }
         }
@@ -189,7 +190,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                //Console.WriteLine("EqualizerPresetDetailsPresenter - SetFaderGain - frequency: {0} gain: {1}", frequency, gain);
+                //Tracing.Log("EqualizerPresetDetailsPresenter - SetFaderGain - frequency: {0} gain: {1}", frequency, gain);
                 var band = _preset.Bands.FirstOrDefault(x => x.CenterString == frequency);
                 band.Gain = gain;
                 int index = _preset.Bands.IndexOf(band);
@@ -197,7 +198,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while setting the equalizer preset fader value: " + ex.Message);
+                Tracing.Log("An error occured while setting the equalizer preset fader value: " + ex.Message);
                 View.EqualizerPresetDetailsError(ex);
             }
         }       

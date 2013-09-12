@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
@@ -89,7 +90,7 @@ namespace MPfm.MVP.Presenters
                 }
 
                 // TODO: Check if this takes much memory with Instruments.
-                Console.WriteLine("SyncMenuPresenter - HandleOnReceivedIndex - Creating list of items...");
+                Tracing.Log("SyncMenuPresenter - HandleOnReceivedIndex - Creating list of items...");
                 var artistNames = _syncClientService.GetDistinctArtistNames();
                 _items = new List<SyncMenuItemEntity>();
                 foreach (string artistName in artistNames)
@@ -98,14 +99,14 @@ namespace MPfm.MVP.Presenters
                         ArtistName = artistName
                     });
 
-                Console.WriteLine("SyncMenuPresenter - HandleOnReceivedIndex - Refrehsing view and sync totals...");
+                Tracing.Log("SyncMenuPresenter - HandleOnReceivedIndex - Refrehsing view and sync totals...");
                 View.RefreshLoading(false, 0);
                 RefreshSyncTotal();
                 RefreshItems();
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - HandleOnReceivedIndex - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - HandleOnReceivedIndex - Exception: {0}", ex);
             }
         }
 
@@ -117,7 +118,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - HandleOnDownloadIndexProgress - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - HandleOnDownloadIndexProgress - Exception: {0}", ex);
             }
         }
 
@@ -132,7 +133,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - SelectButton - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - SelectButton - Exception: {0}", ex);
             }
         }
 
@@ -154,7 +155,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - Sync - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - Sync - Exception: {0}", ex);
             }
         }
 
@@ -236,7 +237,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - SelectItemDesktop - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - SelectItemDesktop - Exception: {0}", ex);
             }
         }
 
@@ -340,7 +341,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - SelectItemsMobile - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - SelectItemsMobile - Exception: {0}", ex);
             }
         }       
 
@@ -462,7 +463,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - ExpandItem - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - ExpandItem - Exception: {0}", ex);
             }
         }
 
@@ -510,7 +511,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - SetUrl - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - SetUrl - Exception: {0}", ex);
             }
         }
 
@@ -523,7 +524,7 @@ namespace MPfm.MVP.Presenters
             }
             catch (Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - RefreshItems - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - RefreshItems - Exception: {0}", ex);
             }
         }
 
@@ -542,7 +543,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("SyncMenuPresenter - RefreshSyncTotal - Exception: {0}", ex);
+                Tracing.Log("SyncMenuPresenter - RefreshSyncTotal - Exception: {0}", ex);
             }
         }
     }

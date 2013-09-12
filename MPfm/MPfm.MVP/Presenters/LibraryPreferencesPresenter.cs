@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
@@ -73,7 +74,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("LibraryPreferencesPresenter - ResetLibrary - Failed to reset library: {0}", ex);
+                Tracing.Log("LibraryPreferencesPresenter - ResetLibrary - Failed to reset library: {0}", ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -87,7 +88,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("LibraryPreferencesPresenter - UpdateLibrary - Failed to create and push update library view: {0}", ex);
+                Tracing.Log("LibraryPreferencesPresenter - UpdateLibrary - Failed to create and push update library view: {0}", ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -103,7 +104,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("LibraryPreferencesPresenter - EnableSyncListener - Failed to enable/disable sync listener: {0}", ex);
+                Tracing.Log("LibraryPreferencesPresenter - EnableSyncListener - Failed to enable/disable sync listener: {0}", ex);
                 View.LibraryPreferencesError(ex);
             }
         }
@@ -116,7 +117,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("LibraryPreferencesPresenter - SetSyncListenerPort - Failed to set sync listener port: {0}", ex);
+                Tracing.Log("LibraryPreferencesPresenter - SetSyncListenerPort - Failed to set sync listener port: {0}", ex);
                 View.LibraryPreferencesError(ex);
             }
         }

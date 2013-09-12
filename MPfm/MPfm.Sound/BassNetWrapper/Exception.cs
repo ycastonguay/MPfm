@@ -22,7 +22,9 @@ namespace MPfm.Sound.BassNetWrapper
     /// <summary>
     /// Custom exception class for the MPfm BASS.NET wrapper.
     /// </summary>
+    #if !WINDOWSSTORE && !WINDOWS_PHONE
     [Serializable]
+    #endif
     public class BassNetWrapperException : Exception
     {
         /// <summary>

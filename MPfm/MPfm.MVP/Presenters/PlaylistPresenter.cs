@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using MPfm.Core;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
@@ -36,7 +37,7 @@ namespace MPfm.MVP.Presenters
             _playerService = playerService;
 
             _messageHub.Subscribe<PlayerPlaylistUpdatedMessage>((PlayerPlaylistUpdatedMessage m) => {
-                Console.WriteLine("PlaylistPresenter - PlayerPlaylistUpdated - Refreshing items...");
+                Tracing.Log("PlaylistPresenter - PlayerPlaylistUpdated - Refreshing items...");
                 RefreshItems();
             });
             _messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>(PlayerPlaylistIndexChanged);
@@ -77,7 +78,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("PlaylistPresenter - RefreshItems - Exception: {0}", ex);
+                Tracing.Log("PlaylistPresenter - RefreshItems - Exception: {0}", ex);
                 View.PlaylistError(ex);
             }        
         }
@@ -93,7 +94,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("PlaylistPresenter - NewPlaylist - Exception: {0}", ex);
+                Tracing.Log("PlaylistPresenter - NewPlaylist - Exception: {0}", ex);
                 View.PlaylistError(ex);
             }        
         }
@@ -122,7 +123,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("PlaylistPresenter - SelectPlaylistItem - Exception: {0}", ex);
+                Tracing.Log("PlaylistPresenter - SelectPlaylistItem - Exception: {0}", ex);
                 View.PlaylistError(ex);
             }
         }
@@ -136,7 +137,7 @@ namespace MPfm.MVP.Presenters
             }
             catch (Exception ex)
             {
-                Console.WriteLine("PlaylistPresenter - SelectPlaylistItem - Exception: {0}", ex);
+                Tracing.Log("PlaylistPresenter - SelectPlaylistItem - Exception: {0}", ex);
                 View.PlaylistError(ex);
             }
         }

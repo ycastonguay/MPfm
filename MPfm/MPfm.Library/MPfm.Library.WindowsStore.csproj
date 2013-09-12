@@ -135,6 +135,9 @@
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\WinRT\SyncClientService.cs" />
+    <Compile Include="Services\WinRT\SyncDiscoveryService.cs" />
+    <Compile Include="Services\WinRT\SyncListenerService.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
@@ -145,17 +148,14 @@
     <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
     <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Services\Interfaces\ILibraryService.cs" />
-    <Compile Include="Services\SyncDiscoveryService.cs" />
     <Compile Include="Services\Interfaces\ISyncDiscoveryService.cs" />
     <Compile Include="Services\Interfaces\ISyncListenerService.cs" />
     <Compile Include="Services\Interfaces\ISyncClientService.cs" />
-    <Compile Include="Services\SyncClientService.cs" />
     <Compile Include="Services\AudioFileCacheService.cs" />
     <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
     <Compile Include="Objects\LibraryQuery.cs" />
     <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
     <Compile Include="Objects\SyncDevice.cs" />
-    <Compile Include="Services\SyncListenerService.cs" />
     <Compile Include="ISyncDeviceSpecifications.cs" />
     <Compile Include="Services\UpdateLibraryService.cs" />
     <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />

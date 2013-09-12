@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MPfm.Core;
 using TinyMessenger;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
@@ -147,7 +148,7 @@ namespace MPfm.MVP.Presenters
                         break;
                 }
 
-                Console.WriteLine("PitchShiftingPresenter - RefreshPitchShiftingView");
+                Tracing.Log("PitchShiftingPresenter - RefreshPitchShiftingView");
                 View.RefreshPitchShifting(new PlayerPitchShiftingEntity(){
                     Interval = _interval.ToString("+#;-#;0") + intervalName,
                     IntervalValue = _interval,
@@ -157,7 +158,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("PitchShiftingPresenter - RefreshPitchShiftingView - Exception: {0}", ex);
+                Tracing.Log("PitchShiftingPresenter - RefreshPitchShiftingView - Exception: {0}", ex);
             }
         }
 
@@ -209,7 +210,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Console.WriteLine("PitchShiftingPresenter - IncrementInterval");
+                Tracing.Log("PitchShiftingPresenter - IncrementInterval");
                 if(_interval + 1 > 12)
                     return;
                 _interval += 1;
@@ -226,7 +227,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Console.WriteLine("PitchShiftingPresenter - DecrementInterval");
+                Tracing.Log("PitchShiftingPresenter - DecrementInterval");
                 if(_interval - 1 < -12)
                     return;
                 _interval -= 1;

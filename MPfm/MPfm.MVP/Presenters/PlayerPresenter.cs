@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
@@ -33,6 +32,12 @@ using TinyMessenger;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Library.Services.Interfaces;
 
+#if WINDOWSSTORE
+using Windows.UI.Xaml;
+#elif WINDOWS_PHONE
+using System.Windows.Threading;
+#endif
+
 namespace MPfm.MVP.Presenters
 {
 	/// <summary>
@@ -46,7 +51,13 @@ namespace MPfm.MVP.Presenters
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
         readonly ITinyMessengerHub _messageHub;
-        Timer _timerRefreshSongPosition;
+#if WINDOWS_PHONE
+        private System.Windows.Threading.DispatcherTimer _timerRefreshSongPosition = null;
+#elif WINDOWSSTORE
+        private Windows.UI.Xaml.DispatcherTimer _timerRefreshSongPosition = null;
+#else
+        private System.Timers.Timer _timerRefreshSongPosition = null;
+#endif
 
 		public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService)
 		{	
@@ -55,9 +66,15 @@ namespace MPfm.MVP.Presenters
             _audioFileCacheService = audioFileCacheService;
             _libraryService = libraryService;
 
-			_timerRefreshSongPosition = new Timer();			
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+            _timerRefreshSongPosition = new System.Timers.Timer();			
 			_timerRefreshSongPosition.Interval = 100;
 			_timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
+#else
+            _timerRefreshSongPosition = new DispatcherTimer();
+            _timerRefreshSongPosition.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerRefreshSongPosition.Tick += HandleTimerRefreshSongPositionElapsed;
+#endif
 
             // Subscribe to events
             messageHub.Subscribe<LibraryBrowserItemDoubleClickedMessage>((LibraryBrowserItemDoubleClickedMessage m) => {
@@ -134,7 +151,11 @@ namespace MPfm.MVP.Presenters
             #endif
         }
 
-	    private void HandleTimerRefreshSongPositionElapsed(object sender, ElapsedEventArgs e)
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+        private void HandleTimerRefreshSongPositionElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        #else
+        private void HandleTimerRefreshSongPositionElapsed(object sender, object eventArgs)
+        #endif
 		{
             if(_playerService.IsSettingPosition)
                 return;
@@ -166,7 +187,7 @@ namespace MPfm.MVP.Presenters
         private void OpenPlaylist()
         {
             // Only on mobile devices
-            Console.WriteLine("PlayerPresenter - OpenPlaylist");
+            Tracing.Log("PlayerPresenter - OpenPlaylist");
             _mobileNavigationManager.CreatePlaylistView(View);
         }
 
@@ -323,7 +344,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Console.WriteLine("PlayerPresenter - RequestPosition - positionPercentage: {0}", positionPercentage);
+                Tracing.Log("PlayerPresenter - RequestPosition - positionPercentage: {0}", positionPercentage);
                 // Calculate new position from 0.0f/1.0f scale
                 long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
@@ -340,7 +361,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while calculating the player position: " + ex.Message);
+                Tracing.Log("An error occured while calculating the player position: " + ex.Message);
                 View.PlayerError(ex);
             }
             return new PlayerPositionEntity();

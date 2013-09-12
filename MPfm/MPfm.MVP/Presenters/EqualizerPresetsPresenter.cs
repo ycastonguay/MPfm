@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
+using MPfm.Core;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Messages;
@@ -30,6 +30,12 @@ using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 
+#if WINDOWSSTORE
+using Windows.UI.Xaml;
+#elif WINDOWS_PHONE
+using System.Windows.Threading;
+#endif
+
 namespace MPfm.MVP.Presenters
 {
 	public class EqualizerPresetsPresenter : BasePresenter<IEqualizerPresetsView>, IEqualizerPresetsPresenter
@@ -39,16 +45,30 @@ namespace MPfm.MVP.Presenters
         readonly ITinyMessengerHub _messageHub;
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
-        Timer _timerOutputMeter;
+
+#if WINDOWS_PHONE
+        private System.Windows.Threading.DispatcherTimer _timerOutputMeter = null;
+#elif WINDOWSSTORE
+        private Windows.UI.Xaml.DispatcherTimer _timerOutputMeter = null;
+#else
+        private System.Timers.Timer _timerOutputMeter = null;
+#endif
 
         public EqualizerPresetsPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
-            _timerOutputMeter = new Timer();         
+
+#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+            _timerOutputMeter = new System.Timers.Timer();         
             _timerOutputMeter.Interval = 40;
             _timerOutputMeter.Elapsed += HandleOutputMeterTimerElapsed;
+#else
+            _timerOutputMeter = new DispatcherTimer();
+            _timerOutputMeter.Interval = new TimeSpan(0, 0, 0, 0, 40);
+            _timerOutputMeter.Tick += HandleOutputMeterTimerElapsed;
+#endif
 
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -93,7 +113,11 @@ namespace MPfm.MVP.Presenters
             View.RefreshVolume(_playerService.Volume);
         }
 
-        private void HandleOutputMeterTimerElapsed(object sender, ElapsedEventArgs e)
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+        private void HandleOutputMeterTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        #else
+        private void HandleOutputMeterTimerElapsed(object sender, object eventArgs)
+        #endif
         {
             try
             {
@@ -103,7 +127,7 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 // Log a soft error
-                Console.WriteLine("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
+                Tracing.Log("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
             }
         }
 
@@ -115,7 +139,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while bypassing the equalizer: " + ex.Message);
+                Tracing.Log("An error occured while bypassing the equalizer: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -128,7 +152,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while setting the volume: " + ex.Message);
+                Tracing.Log("An error occured while setting the volume: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -141,7 +165,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while adding an equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while adding an equalizer preset: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -156,7 +180,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while loading an equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while loading an equalizer preset: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -173,7 +197,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while editing an equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while editing an equalizer preset: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -189,7 +213,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while deleting an equalizer preset: " + ex.Message);
+                Tracing.Log("An error occured while deleting an equalizer preset: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
@@ -204,7 +228,7 @@ namespace MPfm.MVP.Presenters
             }
             catch(Exception ex)
             {
-                Console.WriteLine("An error occured while refreshing equalizer presets: " + ex.Message);
+                Tracing.Log("An error occured while refreshing equalizer presets: " + ex.Message);
                 View.EqualizerPresetsError(ex);
             }
         }
