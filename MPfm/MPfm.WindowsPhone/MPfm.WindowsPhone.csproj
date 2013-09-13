@@ -156,6 +156,10 @@
       <Project>{317F03EF-9294-47D4-A915-7ABDC647897A}</Project>
       <Name>MPfm.Library.WindowsPhone</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.WindowsPhone.csproj">
+      <Project>{FC1E0293-0863-4C96-A514-98B70C695DAC}</Project>
+      <Name>MPfm.MVP.WindowsPhone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MPfm.Player\MPfm.Player.WindowsPhone.csproj">
       <Project>{4ACC27D9-C476-4BCA-B5BE-F1A067B5E317}</Project>
       <Name>MPfm.Player.WindowsPhone</Name>
