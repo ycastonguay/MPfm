@@ -1286,14 +1286,14 @@ namespace MPfm.Windows.Classes.Forms
         {
             string songPath = (string)e.Argument;
 
-            // Get image from library
-            Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(songPath);
+            //// Get image from library
+            //Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(songPath);
 
-            // Resize image with quality AA
-            if (image != null)
-                image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
+            //// Resize image with quality AA
+            //if (image != null)
+            //    image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
 
-            e.Result = image;
+            //e.Result = image;
         }
 
         /// <summary>

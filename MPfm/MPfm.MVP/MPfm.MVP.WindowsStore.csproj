@@ -9,8 +9,8 @@
     <ProjectGuid>{1B6E7364-E61F-4037-A636-09094C808D1A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MPfm.Core</RootNamespace>
-    <AssemblyName>MPfm.Core</AssemblyName>
+    <RootNamespace>MPfm.MVP</RootNamespace>
+    <AssemblyName>MPfm.MVP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -98,10 +98,6 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="Lib\PCL\TinyIoC.dll" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
@@ -240,11 +236,6 @@
     <Compile Include="Views\IDesktopEffectsView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TinyIoC">
-      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
       <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
       <Name>MPfm.Core.WindowsStore</Name>
@@ -261,6 +252,15 @@
       <Project>{a0d06cd4-f009-4068-a79c-377a7d2e014c}</Project>
       <Name>MPfm.Sound.WindowsStore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

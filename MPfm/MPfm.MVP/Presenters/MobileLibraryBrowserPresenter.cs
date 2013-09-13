@@ -268,7 +268,12 @@ namespace MPfm.MVP.Presenters
                         foreach(var file in files)
                         {
                             Tracing.Log("MobileLibraryBrowserPresenter - Deleting {0}...", file.FilePath);
+
+#if WINDOWSSTORE || WINDOWS_PHONE
+                            // TODO: Implement this
+#else
                             File.Delete(file.FilePath);
+#endif
                         }
 
                         Tracing.Log("MobileLibraryBrowserPresenter - Removing audio files from cache...");

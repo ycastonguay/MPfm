@@ -176,7 +176,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="TinyIoC">
+    <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>

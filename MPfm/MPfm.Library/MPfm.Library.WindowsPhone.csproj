@@ -138,8 +138,8 @@
     <Compile Include="Objects\LibraryQuery.cs" />
     <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
     <Compile Include="Objects\SyncDevice.cs" />
-    <Compile Include="ISyncDeviceSpecifications.cs" />
-    <Compile Include="Services\UpdateLibraryService.cs" />
+    <Compile Include="ISyncDeviceSpecifications.cs" />    
+	<Compile Include="Services\WinRT\UpdateLibraryService.cs" />	
     <Compile Include="Services\Interfaces\IUpdateLibraryService.cs" />
     <Compile Include="Services\Events\ProcessEndedEventArgs.cs" />
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />

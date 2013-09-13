@@ -114,6 +114,7 @@
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />
     <Compile Include="PeakFiles\PeakFileProgressData.cs" />
     <Compile Include="PeakFiles\PeakFileStartedData.cs" />
+    <Compile Include="PeakFiles\WinRT\PeakFileService.cs" />
     <Compile Include="Tags\APEMetadata.cs" />
     <Compile Include="Playlists\Playlist.cs" />
     <Compile Include="Playlists\PlaylistItem.cs" />
@@ -130,7 +131,6 @@
     <Compile Include="Tags\SV8Tag.cs" />
     <Compile Include="Tags\SV8Metadata.cs" />
     <Compile Include="PeakFiles\IPeakFileService.cs" />
-    <Compile Include="PeakFiles\PeakFileService.cs" />
     <Compile Include="Readers\XingInfoHeaderReader.cs" />
     <Compile Include="BassNetKey.cs" />
   </ItemGroup>

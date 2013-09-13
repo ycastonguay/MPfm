@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,9 +73,6 @@ namespace MPfm.Player
         private Channel _streamChannel = null;
         private Channel _fxChannel = null;
         private MixerChannel _mixerChannel = null;
-
-        public Channel FXChannel { get { return _fxChannel; } }
-        public MixerChannel MixerChannel { get { return _mixerChannel; } }
 
         // Plugin handles
         private int _fxEQHandle;
@@ -1615,7 +1610,7 @@ namespace MPfm.Player
         /// </summary>
         /// <param name="band">Band index</param>
         /// <returns>EQ parameters</returns>
-        public BASS_BFX_PEAKEQ GetEQParams(int band)
+        private BASS_BFX_PEAKEQ GetEQParams(int band)
         {
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ {lBand = band};
             BassWrapper.BASS_FXGetParametersPeakEQ(_fxEQHandle, eq);
@@ -2130,4 +2125,3 @@ namespace MPfm.Player
         #endregion
     }
 }
-#endif

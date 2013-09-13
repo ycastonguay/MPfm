@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-#if !WINDOWSSTORE
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -466,4 +464,3 @@ namespace MPfm.MVP.Services
         }
 	}
 }
-#endif

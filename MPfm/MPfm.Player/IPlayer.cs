@@ -19,12 +19,12 @@ using System;
 using System.Collections.Generic;
 using MPfm.Player.Events;
 using MPfm.Player.Objects;
+using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.Playlists;
 
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-using MPfm.Sound;
-using MPfm.Sound.BassNetWrapper;
 using Un4seen.Bass.AddOn.Fx;
 #endif
 
@@ -42,13 +42,7 @@ namespace MPfm.Player
         int BufferSize { get; set; }
         EQPreset EQPreset { get; set; }
         Loop Loop { get; }
-
-        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         Device Device { get; }
-        Channel FXChannel { get; } // TODO: Remove when Windows will be refactored with MVP
-        MixerChannel MixerChannel { get; } // TODO: Remove when Windows will be refactored with MVP
-        #endif
-
         bool IsSettingPosition { get; }
         bool IsDeviceInitialized { get; }
         bool IsEQBypassed { get; }
@@ -69,10 +63,7 @@ namespace MPfm.Player
         event BPMDetected OnBPMDetected;
 
         void InitializeDevice();
-
-        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
         void InitializeDevice(Device device, int mixerSampleRate);
-        #endif
         void Dispose();
         void FreeDevice();
         void FreePlugins();
@@ -96,9 +87,6 @@ namespace MPfm.Player
 
         void ApplyEQPreset(EQPreset preset);        
         void BypassEQ();
-        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
-        BASS_BFX_PEAKEQ GetEQParams(int band);
-        #endif
         void ResetEQ();
         void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
 

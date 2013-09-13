@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -409,5 +408,3 @@ namespace MPfm.Sound.PeakFiles
         }
     }
 }
-
-#endif

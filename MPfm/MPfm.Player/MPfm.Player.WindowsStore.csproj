@@ -108,9 +108,9 @@
     <Compile Include="Objects\EQPresetBand.cs" />
     <Compile Include="Events\PlayerPlaylistIndexChangedData.cs" />
     <Compile Include="Objects\Loop.cs" />
-    <Compile Include="Objects\Marker.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Objects\Marker.cs" />    
     <Compile Include="Events\AudioInterruptedData.cs" />
+    <Compile Include="WinRT\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">

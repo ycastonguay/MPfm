@@ -20,6 +20,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using MPfm.Core;
+using MPfm.Library;
+using MPfm.Library.Database;
+using MPfm.Library.Objects;
 using MPfm.MVP.Config;
 using MPfm.MVP.Helpers;
 using MPfm.MVP.Services.Interfaces;
@@ -32,7 +35,6 @@ namespace MPfm.MVP.Services
 	/// </summary>
 	public class InitializationService : IInitializationService
 	{
-		// Private variables		
 		private Stream _fileTracing;
         private IAudioFileCacheService _audioFileCacheService;
         private ISyncListenerService _syncListenerService;
@@ -40,12 +42,24 @@ namespace MPfm.MVP.Services
 #if (!IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE)
         private TextWriterTraceListener textTraceListener = null;
 #endif
-        
-		public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService)
-		{
+
+        /// <summary>
+        /// Indicates what database major version is expected. Useful to update the database structure.
+        /// Needs to be used with the DatabaseVersionMinor property.
+        /// </summary>
+        public static int DatabaseVersionMajor { get; private set; }
+
+        /// <summary>
+        /// Indicates what database minor version is expected. Useful to update the database structure.
+        /// Needs to be used with the DatabaseVersionMajor property.
+        /// </summary>
+        public static int DatabaseVersionMinor { get; private set; }
+
+        public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService)
+        {
             _audioFileCacheService = audioFileCacheService;
             _syncListenerService = syncListenerService;
-		}
+        }
         
         /// <summary>
         /// Initializes the application (creates configuration, initializes library, cache, etc.).
@@ -75,7 +89,7 @@ namespace MPfm.MVP.Services
             _audioFileCacheService.RefreshCache();
         }
 
-        void CreateTraceListener()
+        private void CreateTraceListener()
         {
 #if (!IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE)
             // Check if trace file exists
@@ -87,31 +101,39 @@ namespace MPfm.MVP.Services
             Trace.Listeners.Add(textTraceListener);
 #endif
         }
-		
-		void LoadConfiguration()
+
+        private void LoadConfiguration()
         {
             // Check for configuration file
             Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
+
+#if WINDOWSSTORE || WINDOWS_PHONE
+            // TODO: Implement this (async?)
+#else
             if (File.Exists(ConfigurationHelper.ConfigurationFilePath))
                 MPfmConfig.Instance.Load();
-
+#endif
             //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
             //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
 		}
-		
-		void LoadLibrary()
+
+        private void LoadLibrary()
 		{
             try
             {
+#if WINDOWSSTORE || WINDOWS_PHONE
+                // TODO: Implement this
+#else
                 // Check if the database file exists
                 Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", ConfigurationHelper.DatabaseFilePath));
                 if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
-                {                    
+                {
                     // Create database file
                     Tracing.Log("InitializationService.CreateLibrary -- Creating new database file...");
-                    MPfm.Library.Library.CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
+                    CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
                 }
+#endif
             }
             catch (Exception ex)
             {
@@ -120,14 +142,12 @@ namespace MPfm.MVP.Services
 			
             try
             {
-                string databaseVersion = MPfm.Library.Library.GetDatabaseVersion(ConfigurationHelper.DatabaseFilePath);
+                string databaseVersion = GetDatabaseVersion(ConfigurationHelper.DatabaseFilePath);
                 string[] currentVersionSplit = databaseVersion.Split('.');
 
                 // Check integrity of the setting value (should be split in 2)
                 if (currentVersionSplit.Length != 2)
-                {
                     throw new Exception("Error fetching database version; the setting value is invalid!");
-                }
 
                 int currentMajor = 0;
                 int currentMinor = 0;
@@ -143,7 +163,7 @@ namespace MPfm.MVP.Services
 
                 // Check if the database needs to be updated
                 Tracing.Log("InitializationService.CreateLibrary -- Database version is " + databaseVersion + ". Checking if the database version needs to be updated...");
-                MPfm.Library.Library.CheckIfDatabaseVersionNeedsToBeUpdated(ConfigurationHelper.DatabaseFilePath);
+                CheckIfDatabaseVersionNeedsToBeUpdated(ConfigurationHelper.DatabaseFilePath);
             }
             catch (Exception ex)
             {
@@ -159,5 +179,181 @@ namespace MPfm.MVP.Services
                 throw new Exception("Error initializing MPfm: The sync listener could not be started!", ex);
             }       
 		}
+
+        /// <summary>
+        /// Returns the database version from the database file (actually in the Settings table).
+        /// </summary>
+        /// <param name="databaseFilePath">Database file path</param>
+        /// <returns>Database version (ex: "1.04")</returns>
+        private string GetDatabaseVersion(string databaseFilePath)
+        {
+            // Create gateway
+            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
+
+            // Fetch database version
+            Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
+
+            // Check if setting is null
+            if (settingDatabaseVersion == null || String.IsNullOrEmpty(settingDatabaseVersion.SettingValue))
+            {
+                // Yes, this is 1.00 (there was no Setting entry)
+                return "1.00";
+            }
+
+            return settingDatabaseVersion.SettingValue;
+        }
+
+        /// <summary>
+        /// Checks if the library database structure needs to be updated by comparing
+        /// the database version in the Settings table to the expected database version for this
+        /// version of MPfm.Library.dll. If the versions don't match, the database structure will
+        /// be updated by running the appropriate migration scripts in the right order.
+        /// </summary>
+        /// <param name="databaseFilePath">Database file path</param>
+        private void CheckIfDatabaseVersionNeedsToBeUpdated(string databaseFilePath)
+        {
+            int currentMajor = 1;
+            int currentMinor = 0;
+
+            // Create gateway
+            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
+
+            // Get setting
+            Tracing.Log("Main form init -- Fetching database version...");
+            Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
+
+            // Check if setting is null
+            if (settingDatabaseVersion == null || String.IsNullOrEmpty(settingDatabaseVersion.SettingValue))
+            {
+                // Yes, this is 1.00 (there was no Setting entry)
+            }
+            else
+            {
+                // Extract major/minor
+                string[] currentVersionSplit = settingDatabaseVersion.SettingValue.Split('.');
+
+                // Check integrity of the setting value (should be split in 2)
+                if (currentVersionSplit.Length != 2)
+                {
+                    throw new Exception("Error fetching database version; the setting value is invalid!");
+                }
+
+                int.TryParse(currentVersionSplit[0], out currentMajor);
+                int.TryParse(currentVersionSplit[1], out currentMinor);
+            }
+
+            Tracing.Log("Main form init -- Database version is " + currentMajor.ToString() + "." + currentMinor.ToString("00"));
+
+            // Check database version
+            if (DatabaseVersionMajor != currentMajor || DatabaseVersionMinor != currentMinor)
+            {
+                // Loop through versions to update (only minor versions for now)
+                for (int minor = currentMinor; minor < DatabaseVersionMinor; minor++)
+                {
+                    string sql = string.Empty;
+                    string scriptFileName = "MPfm.Library.Scripts.1." + minor.ToString("00") + "-1." + (minor + 1).ToString("00") + ".sql";
+
+                    try
+                    {
+                        // Get the update script for this version
+                        Tracing.Log("Main form init -- Getting database update script (" + scriptFileName + ")...");
+                        sql = GetEmbeddedSQLScript(scriptFileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error getting update script (" + scriptFileName + ")!", ex);
+                    }
+
+                    // Remove the header comments
+                    string[] sqlSplitHeader = sql.Split(new string[] { "--*/" }, StringSplitOptions.None);
+
+                    // Split statements
+                    string[] sqlSplit = sqlSplitHeader[1].Split(new string[] { "/**/" }, StringSplitOptions.None);
+
+                    // Loop through statements
+                    for (int a = 0; a < sqlSplit.Length; a++)
+                    {
+                        try
+                        {
+                            // Execute create script
+                            Tracing.Log("Main form init -- Executing database update script statement " + (a + 1).ToString() + " (" + scriptFileName + ")...");
+                            gateway.ExecuteSQL(sqlSplit[a]);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Check minor version (1.02 had a bug where the version was not updated in the database, so it needs to skip any exception)
+                            if (minor != 1)
+                            {
+                                throw new Exception("Error executing the update script (" + scriptFileName + ")!", ex);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates the MPfm database file at the specified location.
+        /// Executes the SQL needed to create the tables and basic entries.
+        /// </summary>
+        /// <param name="databaseFilePath">Database file path</param>
+        private void CreateDatabaseFile(string databaseFilePath)
+        {
+            // Create database file -- TODO: Replace by interface
+#if IOS || ANDROID || LINUX || MACOSX
+            MonoSQLiteGateway.CreateDatabaseFile(databaseFilePath);
+#elif WINDOWSSTORE || WINDOWS_PHONE
+            WinRTSQLiteGateway.CreateDatabaseFile(databaseFilePath);
+#else
+            SQLiteGateway.CreateDatabaseFile(databaseFilePath);
+#endif
+            
+
+            // Create gateway
+            DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
+
+            // Get SQL
+            string sql = GetEmbeddedSQLScript("MPfm.Library.Scripts.CreateDatabase.sql");
+
+            // Remove the header comments
+            string[] sqlSplitHeader = sql.Split(new string[] { "--*/" }, StringSplitOptions.None);
+
+            // Split statements
+            string[] sqlSplit = sqlSplitHeader[1].Split(new string[] { "/**/" }, StringSplitOptions.None);
+
+            // Loop through statements and execute each script
+            foreach (string sqlStatement in sqlSplit)
+                gateway.ExecuteSQL(sqlStatement);
+        }
+
+        /// <summary>
+        /// Returns an embedded SQL script file from the assembly.
+        /// </summary>
+        /// <param name="fileName">Embedded SQL script file name (fully qualified)
+        /// ex: MPfm.Library.Scripts.CreateDatabase.sql</param>
+        /// <returns>SQL script (in string format)</returns>
+        private string GetEmbeddedSQLScript(string fileName)
+        {
+            string sql = string.Empty;
+
+            Assembly assembly;
+
+#if WINDOWSSTORE || WINDOWS_PHONE
+            assembly = typeof (ISyncDeviceSpecifications).GetTypeInfo().Assembly;
+#else
+            assembly = Assembly.GetAssembly(typeof(ISyncDeviceSpecifications));
+#endif
+
+            // Fetch SQL from MPfm.Library assembly
+            using (Stream stream = assembly.GetManifestResourceStream(fileName))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    sql = reader.ReadToEnd();
+                }
+            }
+
+            return sql;
+        }
 	}
 }
