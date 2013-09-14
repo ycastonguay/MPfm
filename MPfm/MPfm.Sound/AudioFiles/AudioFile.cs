@@ -583,7 +583,6 @@ namespace MPfm.Sound.AudioFiles
 
 		/// <summary>
 		/// Default constructor for the AudioFile class. Requires the path to the audio file.
-		/// Will raise an exception if the file doesn't exists.
 		/// </summary>
 		/// <param name="filePath">Full path to the audio file</param>
 		public AudioFile(string filePath)
@@ -593,7 +592,6 @@ namespace MPfm.Sound.AudioFiles
 
 		/// <summary>
 		/// Constructor for the AudioFile class. Requires the path to the audio file.
-		/// Will raise an exception if the file doesn't exists.
 		/// </summary>
 		/// <param name="filePath">Full path to the audio file</param>
 		/// <param name="id">Unique identifier for database storage (if needed)</param>
@@ -604,7 +602,6 @@ namespace MPfm.Sound.AudioFiles
 
 		/// <summary>
 		/// Constructor for the AudioFile class. Requires the path to the audio file.
-		/// Will raise an exception if the file doesn't exists.
 		/// </summary>
 		/// <param name="filePath">Full path to the audio file</param>
 		/// <param name="id">Unique identifier for database storage (if needed)</param>
@@ -645,17 +642,7 @@ namespace MPfm.Sound.AudioFiles
 
 			// Check if the metadata needs to be fetched
 			if (readMetadata)
-			{
-                // Check if the file exists
-                #if WINDOWSSTORE
-                #else
-                if (!File.Exists(filePath))
-                    throw new Exception("The file at " + filePath + " doesn't exists!");
-                #endif
-
-                // Read tags using TagLib# and binary reader
 				RefreshMetadata();
-			}
 		}
 
 		/// <summary>

@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,8 +29,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
 // The Grouped Items Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234231
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.WindowsStore
 {
@@ -57,9 +58,32 @@ namespace MPfm.WindowsStore
             // TODO: Assign a collection of bindable groups to this.DefaultViewModel["Groups"]
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             greetingOutput.Text = "Hello,, " + nameInput.Text + "!";
+
+            FileOpenPicker openPicker = new FileOpenPicker();
+            openPicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+            openPicker.ViewMode = PickerViewMode.List;
+
+            openPicker.FileTypeFilter.Clear();
+            openPicker.FileTypeFilter.Add(".mp3");
+            openPicker.FileTypeFilter.Add(".flac");
+
+            var file = await openPicker.PickSingleFileAsync();
+
+            if (file == null)
+                return;
+
+            try
+            {
+                AudioFile audioFile = new AudioFile(file.Path);
+                string a = audioFile.FilePath;
+            }
+            catch (Exception ex)
+            {                
+                throw;
+            }            
         }
     }
 }

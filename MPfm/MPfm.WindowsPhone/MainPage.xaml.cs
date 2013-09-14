@@ -17,13 +17,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using Windows.Storage;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MPfm.Sound.AudioFiles;
 using MPfm.WindowsPhone.Resources;
 
 namespace MPfm.WindowsPhone
@@ -37,6 +42,45 @@ namespace MPfm.WindowsPhone
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var folder = ApplicationData.Current.LocalFolder;
+            var audioFolder = await folder.GetFolderAsync("Audio");
+            var files = await audioFolder.GetFilesAsync();
+            foreach (var file in files)
+            {
+                if (file.Path.Contains(".mp3"))
+                {
+                    Debug.WriteLine("Definitely a mp3: " + file.Path);
+                    AudioFile audioFile = new AudioFile(file.Path);
+                    int a = 0;
+                }
+                else
+                {
+                    Debug.WriteLine("Not mp3: " + file.Path);
+                }                
+            }
+
+            //CreateDummyFile();
+            //AudioFile audioFile = new AudioFile();
+        }
+
+        private async Task WriteToFile()
+        {
+            // Get the text data from the textbox. 
+            string data = "hello world";
+            byte[] fileBytes = System.Text.Encoding.UTF8.GetBytes(data.ToCharArray());
+
+            // Get the local folder.
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create dummy data file
+            var dataFolder = await local.CreateFolderAsync("Audio", CreationCollisionOption.OpenIfExists);
+            var file = await dataFolder.CreateFileAsync("DataFile.txt", CreationCollisionOption.ReplaceExisting);
+            using (var s = await file.OpenStreamForWriteAsync())
+                s.Write(fileBytes, 0, fileBytes.Length);
         }
 
         // Sample code for building a localized ApplicationBar

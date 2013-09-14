@@ -108,7 +108,6 @@
     <Compile Include="CacheStore.cs" />
     <Compile Include="Conversion.cs" />
     <Compile Include="DatabaseFieldNameAttribute.cs" />
-    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Normalizer.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
