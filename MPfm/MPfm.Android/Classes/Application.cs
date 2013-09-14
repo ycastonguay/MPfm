@@ -61,7 +61,7 @@ namespace MPfm.Android.Classes
         {
             base.OnCreate();
 
-            _context = ApplicationContext;
+            _context = ApplicationContext; // TODO: Probably creates a memory leak.
 
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();

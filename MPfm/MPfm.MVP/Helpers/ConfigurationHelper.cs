@@ -45,7 +45,7 @@ namespace MPfm.MVP.Helpers
 #if IOS || ANDROID
         	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "PeakFiles");
-#elif WINDOWSSTORE || WINDOWSSTORE
+#elif WINDOWSSTORE || WINDOWS_PHONE
 		    HomeDirectory = "TODO";
 		    PeakFileDirectory = "TODO";
 #else

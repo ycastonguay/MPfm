@@ -1,4 +1,21 @@
-﻿using System;
+﻿// Copyright © 2011-2013 Yanick Castonguay
+//
+// This file is part of MPfm.
+//
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Diagnostics;
 using System.Resources;
 using System.Windows;
@@ -6,7 +23,13 @@ using System.Windows.Markup;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MPfm.Library;
+using MPfm.Library.Database;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Helpers;
+using MPfm.WindowsPhone.Classes;
 using MPfm.WindowsPhone.Resources;
+using TinyIoC;
 
 namespace MPfm.WindowsPhone
 {
@@ -28,11 +51,7 @@ namespace MPfm.WindowsPhone
 
             // Standard XAML initialization
             InitializeComponent();
-
-            // Phone-specific initialization
             InitializePhoneApplication();
-
-            // Language display initialization
             InitializeLanguage();
 
             // Show graphics profiling information while debugging.
@@ -61,6 +80,12 @@ namespace MPfm.WindowsPhone
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            var stuff = new DatabaseFacade("");
+            string path = ConfigurationHelper.DatabaseFilePath;
+            BootstrapApp();
+
+            // Instead of using WMAppManifest to automatically launch a page, do it in code.
+            RootFrame.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -218,6 +243,37 @@ namespace MPfm.WindowsPhone
 
                 throw;
             }
+        }
+
+        private void BootstrapApp()
+        {
+            TinyIoCContainer container = Bootstrapper.GetContainer();
+            container.Register<ISyncDeviceSpecifications, WindowsPhoneSyncDeviceSpecifications>().AsSingleton();
+            //container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
+            //container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
+            //container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            //container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
+            //container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
+            //container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
+            //container.Register<IMarkerDetailsView, MarkerDetailsActivity>().AsMultiInstance();
+            //container.Register<ILoopsView, LoopsFragment>().AsMultiInstance();
+            //container.Register<ITimeShiftingView, TimeShiftingFragment>().AsMultiInstance();
+            //container.Register<IPitchShiftingView, PitchShiftingFragment>().AsMultiInstance();
+            //container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
+            //container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
+            //container.Register<IPlaylistView, PlaylistActivity>().AsMultiInstance();
+            //container.Register<ISyncView, SyncActivity>().AsMultiInstance();
+            //container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
+            //container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
+            //container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();
+            //container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
+            //container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();
+            //container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();
+            //container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
+            //container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
+            //container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            //container.Register<IAboutView, AboutActivity>().AsMultiInstance();
+
         }
     }
 }
