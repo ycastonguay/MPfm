@@ -41,6 +41,8 @@ namespace MPfm.Library.Objects
         OSX = 2, 
         Windows = 3, 
         iOS = 4, 
-        Android = 5
+        Android = 5,
+        WindowsPhone = 6,
+        WindowsStore = 7
 	}
 }

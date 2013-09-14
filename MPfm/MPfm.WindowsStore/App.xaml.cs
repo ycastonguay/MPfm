@@ -1,4 +1,26 @@
-﻿using System.Diagnostics;
+﻿// Copyright © 2011-2013 Yanick Castonguay
+//
+// This file is part of MPfm.
+//
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
+using System.Diagnostics;
+using MPfm.Library;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
+using MPfm.WindowsStore.Classes;
 using MPfm.WindowsStore.Common;
 
 using System;
@@ -16,6 +38,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using TinyIoC;
 
 // The Split App template is documented at http://go.microsoft.com/fwlink/?LinkId=234228
 
@@ -53,6 +76,8 @@ namespace MPfm.WindowsStore
             
             if (rootFrame == null)
             {
+                BootstrapApp();
+
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
                 //Associate the frame with a SuspensionManager key                                
@@ -82,7 +107,8 @@ namespace MPfm.WindowsStore
                 // configuring the new page by passing required information as a navigation
                 // parameter
                 Debug.WriteLine("RootFrame.Content == null; trying to navigate to ItemsPage");
-                if (!rootFrame.Navigate(typeof(ItemsPage), "AllGroups"))
+                //if (!rootFrame.Navigate(typeof(ItemsPage), "AllGroups"))
+                if(!rootFrame.Navigate(typeof(Main), args.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -104,6 +130,37 @@ namespace MPfm.WindowsStore
             var deferral = e.SuspendingOperation.GetDeferral();
             await SuspensionManager.SaveAsync();
             deferral.Complete();
+        }
+
+        private void BootstrapApp()
+        {
+            TinyIoCContainer container = Bootstrapper.GetContainer();
+            container.Register<ISyncDeviceSpecifications, WindowsStoreSyncDeviceSpecifications>().AsSingleton();
+            //container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
+            //container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
+            //container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            //container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
+            //container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
+            //container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
+            //container.Register<IMarkerDetailsView, MarkerDetailsActivity>().AsMultiInstance();
+            //container.Register<ILoopsView, LoopsFragment>().AsMultiInstance();
+            //container.Register<ITimeShiftingView, TimeShiftingFragment>().AsMultiInstance();
+            //container.Register<IPitchShiftingView, PitchShiftingFragment>().AsMultiInstance();
+            //container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
+            //container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
+            //container.Register<IPlaylistView, PlaylistActivity>().AsMultiInstance();
+            //container.Register<ISyncView, SyncActivity>().AsMultiInstance();
+            //container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
+            //container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
+            //container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();
+            //container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
+            //container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();
+            //container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();
+            //container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
+            //container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
+            //container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            //container.Register<IAboutView, AboutActivity>().AsMultiInstance();
+
         }
     }
 }
