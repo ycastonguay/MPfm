@@ -84,6 +84,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Lib\taglib-sharp.dll" />
+    <Content Include="Lib\WindowsPhone\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
@@ -119,16 +120,13 @@
     <Compile Include="BassNetKey.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\taglib-sharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsPhone.csproj">
       <Project>{5CA0AA57-8F15-4DC2-B5C6-25692F200869}</Project>
       <Name>MPfm.Core.WindowsPhone</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="taglib-sharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
