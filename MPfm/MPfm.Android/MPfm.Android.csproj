@@ -100,6 +100,7 @@
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
+    <Compile Include="Classes\Fragments\AddNewPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\SyncManualConnectFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
@@ -262,6 +263,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\PlaylistCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\AddNewPlaylist.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -559,6 +563,17 @@
     <AndroidResource Include="Resources\Anim\scale_test.xml" />
     <AndroidResource Include="Resources\drawable\dialogbutton_selector.xml" />
     <AndroidResource Include="Resources\color\dialoglist_text.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_cancel.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_select.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_cancel.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_select.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_cancel.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_select.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_cancel.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_select.png" />
+    <AndroidResource Include="Resources\color\dialogbutton_text.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

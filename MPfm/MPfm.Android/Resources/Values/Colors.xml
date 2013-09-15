@@ -11,7 +11,7 @@
   <color name="transparentbutton_selected">#AACCCCCC</color>
   <color name="transparentbutton_textcolor">#FFFFFF</color>
   <color name="dialogbutton_background">#FF333333</color>
-  <color name="dialogbutton_selected">#FF999999</color>
+  <color name="dialogbutton_selected">#FF666666</color>
   <color name="dialogbutton_textcolor">#FFFFFF</color>
   <color name="albumcellbutton_background">#DD444444</color>
   <color name="albumcellbutton_selected">#F2999999</color>

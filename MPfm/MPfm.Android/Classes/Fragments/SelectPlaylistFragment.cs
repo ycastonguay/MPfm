@@ -36,6 +36,7 @@ namespace MPfm.Android.Classes.Fragments
         private PlaylistListAdapter _listAdapter;
         private View _view;
         private ListView _listView;
+        private Button _btnAddNewPlaylist;
         private Button _btnCancel;
         private Button _btnSelect;
 
@@ -56,10 +57,17 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.SelectPlaylist, container, false);
 
             _listView = _view.FindViewById<ListView>(Resource.Id.selectPlaylist_listView);
+            _btnAddNewPlaylist = _view.FindViewById<Button>(Resource.Id.selectPlaylist_btnAddNewPlaylist);
             _btnCancel = _view.FindViewById<Button>(Resource.Id.selectPlaylist_btnCancel);
-            _btnCancel.Click += (sender, args) => Dismiss();
             _btnSelect = _view.FindViewById<Button>(Resource.Id.selectPlaylist_btnSelect);
+            _btnSelect.Enabled = false;
+            _btnCancel.Click += (sender, args) => Dismiss();
             _btnSelect.Click += (sender, args) => _parentFragment.OnAddItemToPlaylist(_position);
+            _btnAddNewPlaylist.Click += (sender, args) =>
+            {
+                var fragment = new AddNewPlaylistFragment();
+                fragment.Show(FragmentManager, "AddNewPlaylistFragment");
+            };
 
             _listAdapter = new PlaylistListAdapter(Activity, _listView,
                 new List<string>()
@@ -87,7 +95,7 @@ namespace MPfm.Android.Classes.Fragments
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            Console.WriteLine("Click {0}", e.Position);
+            _btnSelect.Enabled = true;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
