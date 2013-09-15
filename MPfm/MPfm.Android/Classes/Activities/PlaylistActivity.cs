@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -41,7 +41,7 @@ namespace MPfm.Android
         Button _btnNew;
         Button _btnShuffle;
         CustomListView _listView;
-        PlaylistListAdapter _listAdapter;
+        PlaylistItemListAdapter _itemListAdapter;
         Playlist _playlist;
         string _sourceActivityType;
 
@@ -61,8 +61,8 @@ namespace MPfm.Android
             _btnShuffle.Click += BtnShuffleOnClick;
             
             _listView = FindViewById<CustomListView>(Resource.Id.playlist_listView);
-            _listAdapter = new PlaylistListAdapter(this, _listView, new Playlist());
-            _listView.SetAdapter(_listAdapter);
+            _itemListAdapter = new PlaylistItemListAdapter(this, _listView, new Playlist());
+            _listView.SetAdapter(_itemListAdapter);
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
 
@@ -73,13 +73,13 @@ namespace MPfm.Android
             ((AndroidNavigationManager)_navigationManager).SetPlaylistActivityInstance(this);
         }
 
-        public override void OnAttachedToWindow()
-        {
-            Console.WriteLine("PlaylistActivity - OnAttachedToWindow");
-            var window = this.Window;
-            window.AddFlags(WindowManagerFlags.ShowWhenLocked);
-            window.SetWindowAnimations(0);
-        }
+        //public override void OnAttachedToWindow()
+        //{
+        //    Console.WriteLine("PlaylistActivity - OnAttachedToWindow");
+        //    var window = this.Window;
+        //    window.AddFlags(WindowManagerFlags.ShowWhenLocked);
+        //    window.SetWindowAnimations(0);
+        //}
 
         private void BtnNewOnClick(object sender, EventArgs eventArgs)
         {
@@ -98,7 +98,7 @@ namespace MPfm.Android
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
         {
-            var listAdapter = (PlaylistListAdapter)((ListView)sender).Adapter;
+            var listAdapter = (PlaylistItemListAdapter)((ListView)sender).Adapter;
             listAdapter.SetEditingRow(itemLongClickEventArgs.Position);
         }
 
@@ -181,7 +181,7 @@ namespace MPfm.Android
         {
             RunOnUiThread(() => {
                 _playlist = playlist;
-                _listAdapter.SetData(_playlist);
+                _itemListAdapter.SetData(_playlist);
             });
         }
 
@@ -189,7 +189,7 @@ namespace MPfm.Android
         {
             Console.WriteLine("PlaylistActivity - RefreshCurrentlyPlayingSong index: {0} audioFile: {1}", index, audioFile.FilePath);
             RunOnUiThread(() => {
-                _listAdapter.SetNowPlayingRow(index, audioFile);
+                _itemListAdapter.SetNowPlayingRow(index, audioFile);
             });
         }
 

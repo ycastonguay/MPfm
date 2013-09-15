@@ -297,7 +297,7 @@ namespace MPfm.Android.Classes.Adapters
             {
                 case Resource.Id.albumCell_btnAddToPlaylist:
                     Console.WriteLine("MLBGA - ADD - position: {0}", position);
-                    _fragment.OnAddItemToPlaylist(position);
+                    _fragment.AddItemToPlaylist(position);
                     break;
                 case Resource.Id.albumCell_btnPlay:
                     Console.WriteLine("MLBGA - PLAY - position: {0}", position);

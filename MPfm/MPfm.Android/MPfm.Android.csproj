@@ -76,6 +76,7 @@
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
     <Compile Include="Classes\Adapters\PlaylistListAdapter.cs" />
+    <Compile Include="Classes\Adapters\PlaylistItemListAdapter.cs" />
     <Compile Include="Classes\Adapters\SyncMenuListAdapter.cs" />
     <Compile Include="Classes\Adapters\SyncListAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserGridAdapter.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
+    <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\SyncManualConnectFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
     <Compile Include="Classes\Fragments\MarkersFragment.cs" />
@@ -247,13 +249,19 @@
     <AndroidResource Include="Resources\layout\Playlist.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\PlaylistCell.axml">
+    <AndroidResource Include="Resources\layout\PlaylistItemCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout-sw400dp-hdpi\AlbumCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout-sw400dp-hdpi\PlayerMetadata.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\SelectPlaylist.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\PlaylistCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -290,7 +298,9 @@
     <AndroidResource Include="Resources\Values\Styles.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\Values\Colors.xml" />
+    <AndroidResource Include="Resources\Values\Colors.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable\Splash.png" />
     <AndroidResource Include="Resources\Anim\fade_in.xml" />
     <AndroidResource Include="Resources\Anim\fade_out.xml" />
@@ -491,7 +501,9 @@
     <AndroidResource Include="Resources\Anim\flipper_back_slide_in.xml" />
     <AndroidResource Include="Resources\Anim\flipper_back_slide_out.xml" />
     <AndroidResource Include="Resources\drawable\list_selector.xml" />
-    <AndroidResource Include="Resources\color\list_text.xml" />
+    <AndroidResource Include="Resources\color\list_text.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\color\list_secondarytext.xml" />
     <AndroidResource Include="Resources\drawable\button_selector.xml" />
     <AndroidResource Include="Resources\Values\StringArray.xml" />
@@ -545,6 +557,10 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronright.png" />
     <AndroidResource Include="Resources\drawable\listgradient_selector.xml" />
     <AndroidResource Include="Resources\Anim\scale_test.xml" />
+    <AndroidResource Include="Resources\drawable\dialogbutton_selector.xml" />
+    <AndroidResource Include="Resources\color\dialoglist_text.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

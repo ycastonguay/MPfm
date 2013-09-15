@@ -84,7 +84,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Lib\taglib-sharp.dll" />
-    <Content Include="Lib\WindowsPhone\taglib-sharp.dll" />
+    <Content Include="Lib\WindowsPhone\x86\taglib-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFiles\AudioFile.cs" />
@@ -127,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="taglib-sharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\WindowsPhone\ARM\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

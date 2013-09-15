@@ -55,7 +55,7 @@ namespace MPfm.WindowsPhone
                 {
                     Debug.WriteLine("Definitely a mp3: " + file.Path);
                     AudioFile audioFile = new AudioFile(file.Path);
-                    int a = 0;
+                    txtStuff.Text = audioFile.Title;
                 }
                 else
                 {

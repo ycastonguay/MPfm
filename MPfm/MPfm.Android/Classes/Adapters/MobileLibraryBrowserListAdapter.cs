@@ -296,7 +296,7 @@ namespace MPfm.Android.Classes.Adapters
             {
                 case Resource.Id.mobileLibraryBrowserCell_imageAdd:
                     Console.WriteLine("MLBLA - ADD - position: {0}", position);
-                    _fragment.OnAddItemToPlaylist(position);
+                    _fragment.AddItemToPlaylist(position);
                     break;
                 case Resource.Id.mobileLibraryBrowserCell_imagePlay:
                     Console.WriteLine("MLBLA - PLAY - position: {0}", position);
