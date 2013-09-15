@@ -23,6 +23,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
+using Android.Runtime;
 using Android.Views;
 using Android.OS;
 using Android.Views.Animations;
@@ -62,6 +63,7 @@ namespace MPfm.Android
         private TextView _lblNextAlbumTitle;
         private TextView _lblNextSongTitle;
         private TextView _lblPlaylistCount;
+        private Spinner _cboPlaylist;
         private SquareImageView _imageAlbum;
         private ImageButton _btnPrevious;
         private ImageButton _btnPlayPause;
@@ -71,7 +73,8 @@ namespace MPfm.Android
         private ImageButton _btnRepeat;
         private ImageButton _btnLeft;
         private ImageButton _btnRight;
-        private ArrayAdapter _spinnerAdapter;
+        private ArrayAdapter _actionBarSpinnerAdapter;
+        private ArrayAdapter _playlistSpinnerAdapter;
         private Fragment _fragment;
         private bool _isPlaying;
         private bool _mustHideSplash;
@@ -87,10 +90,10 @@ namespace MPfm.Android
 
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
+            _actionBarSpinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.action_list, Resource.Layout.actionbar_spinner_item);
             ActionBar.NavigationMode = ActionBarNavigationMode.List;
             ActionBar.Title = string.Empty;
-            _spinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.action_list, Resource.Layout.spinner_dropdown_item);
-            ActionBar.SetListNavigationCallbacks(_spinnerAdapter, this);
+            ActionBar.SetListNavigationCallbacks(_actionBarSpinnerAdapter, this);
             ActionBar.SetSelectedNavigationItem(1);
 
             _viewFlipper = FindViewById<ViewFlipper>(Resource.Id.main_viewflipper);
@@ -110,6 +113,7 @@ namespace MPfm.Android
             _btnShuffle = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnShuffle);
             _btnRepeat = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnRepeat);
             _btnLeft = FindViewById<ImageButton>(Resource.Id.main_miniplaylist_btnLeft);
+            _cboPlaylist = FindViewById<Spinner>(Resource.Id.main_miniplaylist_cboPlaylist);
             _btnRight = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnRight);
             _imageAlbum = FindViewById<SquareImageView>(Resource.Id.main_miniplayer_imageAlbum);
             _miniPlayer.Click += (sender, args) => _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
@@ -140,6 +144,10 @@ namespace MPfm.Android
             int maxMemory = (int)(Runtime.GetRuntime().MaxMemory() / 1024);
             int cacheSize = maxMemory / 16;
             BitmapCache = new BitmapCache(this, cacheSize, size.X / 6, size.X / 6);
+
+            _playlistSpinnerAdapter = new ArrayAdapter<string>(this, Resource.Layout.playlist_spinner_item, new string[2] {"Hello", "World"});
+            _cboPlaylist.Adapter = _playlistSpinnerAdapter;
+            _cboPlaylist.ItemSelected += CboPlaylistOnItemSelected;
 
             Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
             _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -340,6 +348,11 @@ namespace MPfm.Android
             _viewFlipper.SetInAnimation(this, Resource.Animation.flipper_slide_in);
             _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_slide_out);
             ShowMiniPlayerSlide(1);
+        }
+
+        private void CboPlaylistOnItemSelected(object sender, AdapterView.ItemSelectedEventArgs itemSelectedEventArgs)
+        {
+
         }
 
         public bool OnTouch(View v, MotionEvent e)

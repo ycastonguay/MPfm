@@ -235,7 +235,7 @@
     <AndroidResource Include="Resources\layout\SyncManualConnect.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\spinner_dropdown_item.xml">
+    <AndroidResource Include="Resources\layout\actionbar_spinner_item.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\NotificationPlayer.axml">
@@ -574,6 +574,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_cancel.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_select.png" />
     <AndroidResource Include="Resources\color\dialogbutton_text.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\playlist_spinner_item.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -132,7 +132,7 @@
         android:layout_weight="1"        
         android:orientation="vertical">
         <LinearLayout
-          android:layout_width="wrap_content"
+          android:layout_width="fill_parent"
           android:layout_height="fill_parent"
           android:layout_gravity="center_vertical"
           android:orientation="horizontal">
@@ -215,114 +215,11 @@
             android:orientation="vertical"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
-            <LinearLayout
+            <Spinner
+              android:id="@+id/main_miniplaylist_cboPlaylist"
               android:layout_width="fill_parent"
-              android:layout_height="22dp"              
-              android:orientation="horizontal">
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum1"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum2"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum3"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum4"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:background="@color/background" />
-            </LinearLayout>
-            <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="22dp"
-              android:layout_marginTop="4dp" 
-              android:orientation="horizontal">
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum5"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum6"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum7"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum8"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:background="@color/background" />
-            </LinearLayout>
-            <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="22dp"
-              android:layout_marginTop="4dp" 
-              android:orientation="horizontal">
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum9"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum10"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <ImageView
-                android:id="@+id/main_miniplaylist_imageAlbum11"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:background="@color/background" />
-              <LinearLayout
-                android:id="@+id/main_miniplaylist_layoutAlbumCount"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="2dp"
-                android:background="@color/background"
-                android:orientation="vertical">
-                <TextView
-                  android:id="@+id/main_miniplaylist_lblAlbumCount"
-                  android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
-                  android:gravity="center"
-                  android:text="+2"
-                  android:textColor="#FFFFFF"
-                  android:textSize="12dp" />
-              </LinearLayout>
-            </LinearLayout>
+              android:layout_height="wrap_content"
+              />
             <TextView
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"

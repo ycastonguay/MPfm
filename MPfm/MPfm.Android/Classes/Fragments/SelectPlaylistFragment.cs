@@ -62,7 +62,11 @@ namespace MPfm.Android.Classes.Fragments
             _btnSelect = _view.FindViewById<Button>(Resource.Id.selectPlaylist_btnSelect);
             _btnSelect.Enabled = false;
             _btnCancel.Click += (sender, args) => Dismiss();
-            _btnSelect.Click += (sender, args) => _parentFragment.OnAddItemToPlaylist(_position);
+            _btnSelect.Click += (sender, args) =>
+            {
+                _parentFragment.OnAddItemToPlaylist(_position);
+                Dismiss();
+            };
             _btnAddNewPlaylist.Click += (sender, args) =>
             {
                 var fragment = new AddNewPlaylistFragment();
