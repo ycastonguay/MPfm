@@ -24,11 +24,11 @@ using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
-
 #if WINDOWSSTORE
 using Windows.Storage;
 using MPfm.Core.WinRT;
 #endif
+using MPfm.Sound.Playlists;
 
 namespace MPfm.Library.Services
 {
@@ -37,81 +37,81 @@ namespace MPfm.Library.Services
     /// </summary>
     public class LibraryService : ILibraryService
     {
-		private readonly IDatabaseFacade gateway = null;
+		private readonly IDatabaseFacade _gateway = null;
 		
 		public LibraryService(IDatabaseFacade gateway)
 		{
 			if(gateway == null)
 				throw new ArgumentNullException("The gateway parameter cannot be null!");
 				
-			this.gateway = gateway;
+			this._gateway = gateway;
 		}
 		
 		public void CompactDatabase()
 		{
-			gateway.CompactDatabase();
+			_gateway.CompactDatabase();
 		}
 
         public void ResetLibrary()
         {
-            gateway.ResetLibrary();
+            _gateway.ResetLibrary();
         }
 
         #region Audio Files
 		
 		public IEnumerable<Folder> SelectFolders()
 		{
-			return gateway.SelectFolders();
+			return _gateway.SelectFolders();
 		}
 		
 		public IEnumerable<string> SelectFilePaths()
 		{
-			return gateway.SelectFilePaths();
+			return _gateway.SelectFilePaths();
 		}
 		
 		public IEnumerable<AudioFile> SelectAudioFiles()
 		{
-			return gateway.SelectAudioFiles();			
+			return _gateway.SelectAudioFiles();			
 		}
 
         public IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query)
         {
-            return gateway.SelectAudioFiles(query.Format, query.ArtistName, query.AlbumTitle, query.SearchTerms);
+            return _gateway.SelectAudioFiles(query.Format, query.ArtistName, query.AlbumTitle, query.SearchTerms);
         }
 		
 		public IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search)
 		{
-			return gateway.SelectAudioFiles(format, artistName, albumTitle, search);			
+			return _gateway.SelectAudioFiles(format, artistName, albumTitle, search);			
 		}
 				
 		public void InsertAudioFile(AudioFile audioFile)
 		{
-			gateway.InsertAudioFile(audioFile);
+			_gateway.InsertAudioFile(audioFile);
 		}
 		
 		public void InsertPlaylistFile(PlaylistFile playlistFile)
 		{
-			gateway.InsertPlaylistFile(playlistFile);
+			_gateway.InsertPlaylistFile(playlistFile);
 		}
 
         public void DeleteAudioFile(Guid audioFileId)
         {
-            gateway.DeleteAudioFile(audioFileId);
+            _gateway.DeleteAudioFile(audioFileId);
         }
 
         public void DeleteAudioFiles(string basePath)
         {
-            gateway.DeleteAudioFiles(basePath);
+            _gateway.DeleteAudioFiles(basePath);
         }
 
         public void DeleteAudioFiles(string artistName, string albumTitle)
         {
-            gateway.DeleteAudioFiles(artistName, albumTitle);
+            _gateway.DeleteAudioFiles(artistName, albumTitle);
         }
 		
 		public void RemoveAudioFilesWithBrokenFilePaths()
 		{
-            List<AudioFile> files = gateway.SelectAudioFiles();
+            List<AudioFile> files = _gateway.SelectAudioFiles();
             for (int a = 0; a < files.Count; a++)
             {
                 // If the file doesn't exist, delete the audio file from the database
@@ -122,7 +122,7 @@ namespace MPfm.Library.Services
                     gateway.DeleteAudioFile(files[a].Id);
                 #else
                 if (!File.Exists(files[a].FilePath))
-                    gateway.DeleteAudioFile(files[a].Id);
+                    _gateway.DeleteAudioFile(files[a].Id);
                 #endif
             }
 		}	
@@ -138,7 +138,7 @@ namespace MPfm.Library.Services
             bool folderFound = false;
 
             // Get the list of folders from the database                
-            List<Folder> folders = gateway.SelectFolders();
+            List<Folder> folders = _gateway.SelectFolders();
 
             // Search through folders if the base found can be found
             foreach (Folder folder in folders)
@@ -158,28 +158,57 @@ namespace MPfm.Library.Services
             {
                 // Check if the configured path is part of the specified path
                 if (folder.FolderPath.Contains(folderPath))
-                    gateway.DeleteFolder(folder.FolderId);
+                    _gateway.DeleteFolder(folder.FolderId);
             }
 
             // Add the folder to the list of configured folders
             if (!folderFound)
-                gateway.InsertFolder(folderPath, true);
+                _gateway.InsertFolder(folderPath, true);
 		}		
 		
 		public List<string> SelectDistinctArtistNames(AudioFileFormat format)
 		{
-			return gateway.SelectDistinctArtistNames(format);
+			return _gateway.SelectDistinctArtistNames(format);
 		}
 		
 		public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format)
 		{
-			return gateway.SelectDistinctAlbumTitles(format);
+			return _gateway.SelectDistinctAlbumTitles(format);
 		}
 		
 		public Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName)
 		{
-			return gateway.SelectDistinctAlbumTitles(format, artistName);
+			return _gateway.SelectDistinctAlbumTitles(format, artistName);
 		}
+
+        #endregion
+
+        #region Playlists
+
+        public Playlist SelectPlaylist(Guid playlistId)
+        {
+            return _gateway.SelectPlaylist(playlistId);
+        }
+
+        public List<Playlist> SelectPlaylists()
+        {
+            return _gateway.SelectPlaylists();
+        }
+
+        public void InsertPlaylist(Playlist playlist)
+        {
+            _gateway.InsertPlaylist(playlist);
+        }
+
+        public void UpdatePlaylist(Playlist playlist)
+        {
+            _gateway.UpdatePlaylist(playlist);
+        }
+
+        public void DeletePlaylist(Guid playlistId)
+        {
+            _gateway.DeletePlaylist(playlistId);
+        }
 
         #endregion
 
@@ -187,27 +216,27 @@ namespace MPfm.Library.Services
 
         public void InsertMarker(Marker marker)
         {
-            gateway.InsertMarker(marker);
+            _gateway.InsertMarker(marker);
         }
 
         public Marker SelectMarker(Guid markerId)
         {
-            return gateway.SelectMarker(markerId);
+            return _gateway.SelectMarker(markerId);
         }
 
         public List<Marker> SelectMarkers(Guid audioFileId)
         {
-            return gateway.SelectMarkers(audioFileId);
+            return _gateway.SelectMarkers(audioFileId);
         }
 
         public void UpdateMarker(Marker marker)
         {
-            gateway.UpdateMarker(marker);
+            _gateway.UpdateMarker(marker);
         }
 
         public void DeleteMarker(Guid markerId)
         {
-            gateway.DeleteMarker(markerId);
+            _gateway.DeleteMarker(markerId);
         }
 
         #endregion
@@ -216,27 +245,27 @@ namespace MPfm.Library.Services
         
         public void InsertLoop(Loop loop)
         {
-            gateway.InsertLoop(loop);
+            _gateway.InsertLoop(loop);
         }
         
         public Loop SelectLoop(Guid loopId)
         {
-            return gateway.SelectLoop(loopId);
+            return _gateway.SelectLoop(loopId);
         }
         
         public List<Loop> SelectLoops(Guid audioFileId)
         {
-            return gateway.SelectLoops(audioFileId);
+            return _gateway.SelectLoops(audioFileId);
         }
         
         public void UpdateLoop(Loop loop)
         {
-            gateway.UpdateLoop(loop);
+            _gateway.UpdateLoop(loop);
         }
         
         public void DeleteLoop(Guid loopId)
         {
-            gateway.DeleteLoop(loopId);
+            _gateway.DeleteLoop(loopId);
         }
         
         #endregion
@@ -245,27 +274,27 @@ namespace MPfm.Library.Services
         
         public void InsertEQPreset(EQPreset preset)
         {
-            gateway.InsertEQPreset(preset);
+            _gateway.InsertEQPreset(preset);
         }
 
         public EQPreset SelectEQPreset(Guid presetId)
         {
-            return gateway.SelectEQPreset(presetId);
+            return _gateway.SelectEQPreset(presetId);
         }
 
         public IEnumerable<EQPreset> SelectEQPresets()
         {
-            return gateway.SelectEQPresets();
+            return _gateway.SelectEQPresets();
         }
 
         public void UpdateEQPreset(EQPreset preset)
         {
-            gateway.UpdateEQPreset(preset);
+            _gateway.UpdateEQPreset(preset);
         }
         
         public void DeleteEQPreset(Guid presetId)
         {
-            gateway.DeleteEQPreset(presetId);
+            _gateway.DeleteEQPreset(presetId);
         }
         
         #endregion

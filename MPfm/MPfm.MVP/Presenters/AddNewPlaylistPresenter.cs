@@ -16,9 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Core;
+using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Sound.Playlists;
+using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
 {
@@ -27,19 +32,36 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class AddNewPlaylistPresenter : BasePresenter<IAddNewPlaylistView>, IAddNewPlaylistPresenter
 	{
-	    public AddNewPlaylistPresenter()
-        {
-        }
+	    private readonly ITinyMessengerHub _messengerHub;
+	    private readonly ILibraryService _libraryService;
 
-        public override void BindView(IAddNewPlaylistView view)
+	    public AddNewPlaylistPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService)
+	    {
+	        _messengerHub = messengerHub;
+	        _libraryService = libraryService;
+	    }
+
+	    public override void BindView(IAddNewPlaylistView view)
         {
+            view.OnSavePlaylist = SavePlaylist;
+
             base.BindView(view);
-
-            view.OnSavePlaylist = SavePlaylist;            
         }
 
 	    private void SavePlaylist(string title)
 	    {
+            try
+            {
+                var playlist = new Playlist();
+                playlist.Name = title;
+                _libraryService.InsertPlaylist(playlist);
+                _messengerHub.PublishAsync<PlaylistListUpdatedMessage>(new PlaylistListUpdatedMessage(this));
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while saving playlist: " + ex.Message);
+                View.AddNewPlaylistError(ex);
+            }
 	    }
 	}
 }

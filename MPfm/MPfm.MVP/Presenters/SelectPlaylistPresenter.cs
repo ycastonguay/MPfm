@@ -17,11 +17,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using MPfm.Core;
+using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.Sound.Playlists;
+using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
 {
@@ -32,12 +38,16 @@ namespace MPfm.MVP.Presenters
 	{
         private readonly NavigationManager _navigationManager;
         private readonly MobileNavigationManager _mobileNavigationManager;
-        private LibraryBrowserEntity _item;
-	    private List<PlaylistEntity> _items;
+	    private readonly ITinyMessengerHub _messengerHub;
+	    private readonly ILibraryService _libraryService;
+	    private LibraryBrowserEntity _item;
+	    private List<Playlist> _items;
 
-	    public SelectPlaylistPresenter(LibraryBrowserEntity item)
+	    public SelectPlaylistPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService, LibraryBrowserEntity item)
         {
-            _item = item;
+	        _messengerHub = messengerHub;
+	        _libraryService = libraryService;
+	        _item = item;
 
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -53,55 +63,57 @@ namespace MPfm.MVP.Presenters
 
             base.BindView(view);
 
+            _messengerHub.Subscribe<PlaylistListUpdatedMessage>(message => RefreshPlaylists());
+
             RefreshPlaylists();
         }
 
 	    private void RefreshPlaylists()
 	    {
-	        _items = new List<PlaylistEntity>();
-            _items.Add(new PlaylistEntity() { Title = "Bacon" });
-            _items.Add(new PlaylistEntity() { Title = "Cow" });
-            _items.Add(new PlaylistEntity() { Title = "Tenderloin" });
-            _items.Add(new PlaylistEntity() { Title = "Swine" });
-            _items.Add(new PlaylistEntity() { Title = "Ground" });
-            _items.Add(new PlaylistEntity() { Title = "Round" });
-            _items.Add(new PlaylistEntity() { Title = "Tail" });
-            _items.Add(new PlaylistEntity() { Title = "Pancetta" });
-            _items.Add(new PlaylistEntity() { Title = "Pig" });
-            _items.Add(new PlaylistEntity() { Title = "T-Bone" });
-            _items.Add(new PlaylistEntity() { Title = "Pork" });
-            _items.Add(new PlaylistEntity() { Title = "Chop" });
-            _items.Add(new PlaylistEntity() { Title = "Tongue" });
-            _items.Add(new PlaylistEntity() { Title = "Drumstick" });
-            _items.Add(new PlaylistEntity() { Title = "Jerky" });
-            _items.Add(new PlaylistEntity() { Title = "Steak" });
+	        _items = _libraryService.SelectPlaylists().ToList();
             View.RefreshPlaylists(_items);
 	    }        
 
-	    private void SelectPlaylist(PlaylistEntity playlistEntity)
+	    private void SelectPlaylist(Playlist playlist)
 	    {
-            //Task.Factory.StartNew(() =>
-            //{
-            //    // Check if adding a song or an album
-            //    if (_items[index].AudioFile != null)
-            //    {
-            //        _playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
-            //        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
-            //    }
-            //    else
-            //    {
-            //        var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
-            //        _playerService.CurrentPlaylist.AddItems(audioFiles);
-            //        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));
-            //    }
-            //    _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
-            //}, _cancellationToken);
+            try
+            {
+                //Task.Factory.StartNew(() =>
+                //{
+                //    // Check if adding a song or an album
+                //    if (_items[index].AudioFile != null)
+                //    {
+                //        _playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
+                //        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
+                //    }
+                //    else
+                //    {
+                //        var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
+                //        _playerService.CurrentPlaylist.AddItems(audioFiles);
+                //        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));
+                //    }
+                //    _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
+                //}, _cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while selecting playlist: " + ex.Message);
+                View.SelectPlaylistError(ex);
+            }
 	    }
 
 	    private void AddNewPlaylist()
 	    {
-	        var view = _mobileNavigationManager.CreateAddNewPlaylistView();
-            _mobileNavigationManager.PushDialogView("Add New Playlist", View, view);
+            try
+            {
+                var view = _mobileNavigationManager.CreateAddNewPlaylistView();
+                _mobileNavigationManager.PushDialogView("Add New Playlist", View, view);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while creating AddNewPlaylist view: " + ex.Message);
+                View.SelectPlaylistError(ex);
+            }
 	    }
 	}
 }

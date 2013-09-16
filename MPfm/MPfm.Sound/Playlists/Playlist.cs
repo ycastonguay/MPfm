@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MPfm.Core;
+using MPfm.Core.Attributes;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Sound.Playlists
@@ -28,50 +29,71 @@ namespace MPfm.Sound.Playlists
     /// </summary>
     public class Playlist
     {
-        private List<PlaylistItem> items = null;
+        private List<PlaylistItem> _items = null;
         /// <summary>
-        /// List of playlist items.
+        /// List of playlist _items.
         /// </summary>
+        [DatabaseField(false)]
         public List<PlaylistItem> Items
         {
             get
             {
-                return items;
+                return _items;
             }
         }
 
-        private int currentItemIndex = 0;
+        private int _currentItemIndex = 0;
         /// <summary>
         /// Returns the current playlist item index.
         /// </summary>
+        [DatabaseField(false)]
         public int CurrentItemIndex
         {
             get
             {
-                return currentItemIndex;
+                return _currentItemIndex;
             }
         }
 
-        private PlaylistItem currentItem = null;
+        private PlaylistItem _currentItem = null;
         /// <summary>
         /// Returns the current item.
         /// </summary>
+        [DatabaseField(false)]
         public PlaylistItem CurrentItem
         {
             get
             {
-                return currentItem;
+                return _currentItem;
             }
         }
 
         /// <summary>
+        /// Playlist name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Playlist identifier.
+        /// </summary>
+        public Guid PlaylistId { get; set; }
+
+        /// <summary>
+        /// Playlist last modified.
+        /// </summary>
+        [DatabaseField(false)] // TODO: Save in database... causes an error in Android
+        public DateTime LastModified { get; set; }
+
+        /// <summary>
         /// Playlist file path.
         /// </summary>
+        [DatabaseField(false)]
         public string FilePath { get; set; }
 
         /// <summary>
         /// Playlist format.
         /// </summary>
+        [DatabaseField(false)]
         public PlaylistFileFormat Format { get; set; }
 
         /// <summary>
@@ -79,9 +101,9 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public Playlist()
         {
-            items = new List<PlaylistItem>();
-            currentItemIndex = 0;            
-            FilePath = string.Empty;
+            _items = new List<PlaylistItem>();
+            PlaylistId = Guid.NewGuid();
+            LastModified = DateTime.Now;
             Format = PlaylistFileFormat.Unknown;
         }
 
@@ -136,9 +158,9 @@ namespace MPfm.Sound.Playlists
         {            
             FilePath = string.Empty;
             Format = PlaylistFileFormat.Unknown;
-            items = new List<PlaylistItem>();
-            currentItemIndex = 0;
-            currentItem = null;            
+            _items = new List<PlaylistItem>();
+            _currentItemIndex = 0;
+            _currentItem = null;            
         }
 
         /// <summary>
@@ -148,18 +170,18 @@ namespace MPfm.Sound.Playlists
         {
             #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
             // Free current channel
-            if (currentItem.Channel != null)
+            if (_currentItem.Channel != null)
             {
-                currentItem.Dispose();
-                currentItem = null;
+                _currentItem.Dispose();
+                _currentItem = null;
             }
             #endif
 
-            // Go through items to set them load = false
-            for (int a = 0; a < items.Count; a++)
+            // Go through _items to set them load = false
+            for (int a = 0; a < _items.Count; a++)
             {
                 // Dispose channel, if not null (validation inside method)
-                items[a].Dispose();
+                _items[a].Dispose();
             }
         }
 
@@ -169,8 +191,8 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         private void UpdateCurrentItem()
         {
-            if (currentItem == null && items.Count > 0)
-                currentItem = items[0];
+            if (_currentItem == null && _items.Count > 0)
+                _currentItem = _items[0];
         }
 
         /// <summary>
@@ -195,7 +217,7 @@ namespace MPfm.Sound.Playlists
         }
 
         /// <summary>
-        /// Adds a list of items at the end of the playlist.
+        /// Adds a list of _items at the end of the playlist.
         /// </summary>
         /// <param name="filePaths">List of audio file paths</param>
         public void AddItems(List<string> filePaths)
@@ -214,7 +236,7 @@ namespace MPfm.Sound.Playlists
             //    numberOfFilesToReadMetadata = filePaths.Count;
             //}
 
-            // Loop through items
+            // Loop through _items
             for (int a = 0; a < filePaths.Count; a++)
             {
                 //// Check if metadata needs to be read
@@ -250,7 +272,7 @@ namespace MPfm.Sound.Playlists
         }
 
         /// <summary>
-        /// Adds a list of items at the end of the playlist.
+        /// Adds a list of _items at the end of the playlist.
         /// </summary>
         /// <param name="audioFiles">List of AudioFile instances</param>
         public void AddItems(List<AudioFile> audioFiles)
@@ -274,7 +296,7 @@ namespace MPfm.Sound.Playlists
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
-                currentItemIndex++;
+                _currentItemIndex++;
 
             UpdateCurrentItem();
         }
@@ -291,7 +313,7 @@ namespace MPfm.Sound.Playlists
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
-                currentItemIndex++;
+                _currentItemIndex++;
 
             UpdateCurrentItem();
         }
@@ -311,11 +333,11 @@ namespace MPfm.Sound.Playlists
 
             // Decrement current item index if an item was removed before the current item
             if (index <= CurrentItemIndex)
-                currentItemIndex--;
+                _currentItemIndex--;
         }
 
         /// <summary>
-        /// Remove all playlist items matching the ids in the list.
+        /// Remove all playlist _items matching the ids in the list.
         /// </summary>
         /// <param name="playlistIds">List of playlist ids to remove</param>
         public void RemoveItems(List<Guid> playlistIds)
@@ -332,8 +354,8 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void First()
         {
-            currentItemIndex = 0;
-            currentItem = items[currentItemIndex];
+            _currentItemIndex = 0;
+            _currentItem = _items[_currentItemIndex];
         }
 
         /// <summary>
@@ -342,8 +364,8 @@ namespace MPfm.Sound.Playlists
         /// <param name="index">Playlist item index</param>
         public void GoTo(int index)
         {
-            currentItemIndex = index;
-            currentItem = items[currentItemIndex];
+            _currentItemIndex = index;
+            _currentItem = _items[_currentItemIndex];
         }
 
         /// <summary>
@@ -395,9 +417,9 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void Previous()
         {
-            if (currentItemIndex > 0)
-                currentItemIndex--;
-            currentItem = items[currentItemIndex];
+            if (_currentItemIndex > 0)
+                _currentItemIndex--;
+            _currentItem = _items[_currentItemIndex];
         }
 
         /// <summary>
@@ -405,9 +427,9 @@ namespace MPfm.Sound.Playlists
         /// </summary>
         public void Next()
         {
-            if (currentItemIndex < items.Count - 1)
-                currentItemIndex++;                
-            currentItem = items[currentItemIndex];
+            if (_currentItemIndex < _items.Count - 1)
+                _currentItemIndex++;                
+            _currentItem = _items[_currentItemIndex];
         }
     }
 }

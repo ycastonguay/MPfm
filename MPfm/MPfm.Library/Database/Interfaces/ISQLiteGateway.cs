@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Core;
+using MPfm.Core.Attributes;
 #if !WINDOWSSTORE && !WINDOWS_PHONE
 using System.Data.Common;
 #endif
@@ -32,7 +34,7 @@ namespace MPfm.Library.Database.Interfaces
         DbConnection GenerateConnection();
         #endif
 
-        Dictionary<string, string> GetMap<T>();
+        List<DatabaseFieldMap> GetMap<T>();
         string FormatSQLValue(object value);
         int Execute(string sql);
         object ExecuteScalar(string sql);

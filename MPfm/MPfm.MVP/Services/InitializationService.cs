@@ -43,17 +43,15 @@ namespace MPfm.MVP.Services
         private TextWriterTraceListener textTraceListener = null;
 #endif
 
-        /// <summary>
-        /// Indicates what database major version is expected. Useful to update the database structure.
-        /// Needs to be used with the DatabaseVersionMinor property.
-        /// </summary>
-        public static int DatabaseVersionMajor { get; private set; }
+	    /// <summary>
+	    /// Indicates what database major version is expected. Useful to update the database structure.
+	    /// </summary>
+	    private int _databaseVersionMajor = 1;
 
-        /// <summary>
-        /// Indicates what database minor version is expected. Useful to update the database structure.
-        /// Needs to be used with the DatabaseVersionMajor property.
-        /// </summary>
-        public static int DatabaseVersionMinor { get; private set; }
+	    /// <summary>
+	    /// Indicates what database minor version is expected. Useful to update the database structure.
+	    /// </summary>
+	    private int _databaseVersionMinor = 6;
 
         public InitializationService(IAudioFileCacheService audioFileCacheService, ISyncListenerService syncListenerService)
         {
@@ -245,10 +243,10 @@ namespace MPfm.MVP.Services
             Tracing.Log("Main form init -- Database version is " + currentMajor.ToString() + "." + currentMinor.ToString("00"));
 
             // Check database version
-            if (DatabaseVersionMajor != currentMajor || DatabaseVersionMinor != currentMinor)
+            if (_databaseVersionMajor != currentMajor || _databaseVersionMinor != currentMinor)
             {
                 // Loop through versions to update (only minor versions for now)
-                for (int minor = currentMinor; minor < DatabaseVersionMinor; minor++)
+                for (int minor = currentMinor; minor < _databaseVersionMinor; minor++)
                 {
                     string sql = string.Empty;
                     string scriptFileName = "MPfm.Library.Scripts.1." + minor.ToString("00") + "-1." + (minor + 1).ToString("00") + ".sql";

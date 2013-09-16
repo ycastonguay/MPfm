@@ -15,21 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using MPfm.Sound.AudioFiles;
-using MPfm.Library.Objects;
-
-namespace MPfm.MVP.Models
+namespace MPfm.Core
 {
-    /// <summary>
-    /// Data structure repesenting a playlist.
-    /// </summary>
-	public class PlaylistEntity
-	{
-		public string Title { get; set; }
+    public class DatabaseFieldMap
+    {
+        public string PropertyName { get; set; }
+        public string FieldName { get; set; }
+        public bool SaveToDatabase { get; set; }
 
-        public PlaylistEntity()
-		{
-		}
-	}
+        public DatabaseFieldMap()
+        {
+            SaveToDatabase = true;
+        }
+
+        public DatabaseFieldMap(string propertyName, string fieldName, bool saveToDatabase)
+        {
+            PropertyName = propertyName;
+            FieldName = fieldName;
+            SaveToDatabase = saveToDatabase;
+        }
+    }
 }

@@ -7,20 +7,29 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:padding="12dp"      
+    android:paddingTop="12dp" 
+    android:paddingLeft="12dp" 
+    android:paddingRight="12dp" 
+    android:paddingBottom="0dp" 
     android:text="Please enter a name for the new playlist:"
     android:textColor="#AAAAAA"
     android:textSize="14dp" />
   <EditText
     android:id="@+id/addNewPlaylist_txtName"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="12dp"
+    android:layout_height="wrap_content"    
+    android:paddingTop="2dp"
+    android:paddingBottom="0dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:singleLine="true"
+    android:lines="1"
     android:textSize="16dp"
     android:textColor="#FFFFFF" />
   <LinearLayout
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"    
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
     android:orientation="horizontal">
     <Button
       android:id="@+id/addNewPlaylist_btnCancel"

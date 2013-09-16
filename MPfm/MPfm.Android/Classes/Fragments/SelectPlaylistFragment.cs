@@ -28,12 +28,13 @@ using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.Android.Classes.Fragments
 {
     public class SelectPlaylistFragment : BaseDialogFragment, ISelectPlaylistView
     {
-        private List<PlaylistEntity> _playlists;
+        private List<Playlist> _playlists;
         private PlaylistListAdapter _listAdapter;
         private View _view;
         private ListView _listView;
@@ -66,13 +67,9 @@ namespace MPfm.Android.Classes.Fragments
                 //_parentFragment.OnAddItemToPlaylist(_position);
                 Dismiss();
             };
-            _btnAddNewPlaylist.Click += (sender, args) =>
-            {
-                var fragment = new AddNewPlaylistFragment();
-                fragment.Show(FragmentManager, "AddNewPlaylistFragment");
-            };
+            _btnAddNewPlaylist.Click += (sender, args) => OnAddNewPlaylist();
 
-            _playlists = new List<PlaylistEntity>();
+            _playlists = new List<Playlist>();
             _listAdapter = new PlaylistListAdapter(Activity, _listView, _playlists);
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
@@ -94,7 +91,7 @@ namespace MPfm.Android.Classes.Fragments
         #region ISelectPlaylistView implementation
 
         public Action OnAddNewPlaylist { get; set; }
-        public Action<PlaylistEntity> OnSelectPlaylist { get; set; }
+        public Action<Playlist> OnSelectPlaylist { get; set; }
         
         public void SelectPlaylistError(Exception ex)
         {
@@ -108,7 +105,7 @@ namespace MPfm.Android.Classes.Fragments
             });
         }
 
-        public void RefreshPlaylists(List<PlaylistEntity> playlists)
+        public void RefreshPlaylists(List<Playlist> playlists)
         {
             Activity.RunOnUiThread(() =>
             {

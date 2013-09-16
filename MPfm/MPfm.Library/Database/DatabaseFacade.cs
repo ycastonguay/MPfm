@@ -23,6 +23,7 @@ using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.Library.Database
 {
@@ -609,8 +610,7 @@ namespace MPfm.Library.Database
         /// </summary>
         /// <param name="loopId">Loop to delete</param>
         public void DeleteLoop(Guid loopId)
-        {
-            // Delete loop
+        {            
             _gateway.Delete("Loops", "LoopId", loopId);
         }
 
@@ -618,169 +618,53 @@ namespace MPfm.Library.Database
 
         #region Playlists
 
-        ///// <summary>
-        ///// Selects all the playlists from the database.
-        ///// </summary>
-        ///// <returns>List of playlists</returns>
-        //public static List<Playlist> SelectPlaylists()
-        //{
-        //    List<Playlist> playlists = null;
+        /// <summary>
+        /// Selects all the playlists from the database.
+        /// </summary>
+        /// <returns>List of playlists</returns>
+        public List<Playlist> SelectPlaylists()
+        {
+            List<Playlist> playlists = _gateway.Select<Playlist>("SELECT * FROM Playlists");
+            return playlists;
+        }
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            playlists = context.Playlists.OrderBy(x => x.PlaylistName).ToList();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectPlaylists(): " + ex.Message);
-        //        throw ex;
-        //    }
+        /// <summary>
+        /// Selects a playlist from the database, using its identifier.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier</param>
+        /// <returns>Playlist</returns>
+        public Playlist SelectPlaylist(Guid playlistId)
+        {
+            Playlist playlist = _gateway.SelectOne<Playlist>("SELECT * FROM Playlists WHERE PlaylistId = '" + playlistId.ToString() + "'");
+            return playlist;
+        }
 
-        //    return playlists;
-        //}
+        /// <summary>
+        /// Inserts a playlist into the database.
+        /// </summary>
+        /// <param name="playlist">Playlist to insert</param>
+        public void InsertPlaylist(Playlist playlist)
+        {
+            _gateway.Insert<Playlist>(playlist, "Playlists");
+        }
 
-        ///// <summary>
-        ///// Selects a playlist from the database, using its identifier.
-        ///// </summary>
-        ///// <param name="playlistId">Playlist identifier</param>
-        ///// <returns>Playlist</returns>
-        //public static Playlist SelectPlaylist(Guid playlistId)
-        //{
-        //    Playlist playlist = null;
+        /// <summary>
+        /// Updates a playlist in the database.
+        /// </summary>
+        /// <param name="playlist">Playlist to update</param>
+        public void UpdatePlaylist(Playlist playlist)
+        {
+            _gateway.Update<Playlist>(playlist, "Playlists", "PlaylistId", playlist.PlaylistId.ToString());
+        }
 
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            string strId = playlistId.ToString();
-        //            playlist = context.Playlists.FirstOrDefault(x => x.PlaylistId == strId);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectPlaylist(): " + ex.Message);
-        //        throw ex;
-        //    }
-
-        //    return playlist;
-        //}
-
-        ///// <summary>
-        ///// Selects a playlist from the database, using its name.
-        ///// </summary>
-        ///// <param name="playlistName">Playlist name</param>
-        ///// <returns>Playlist</returns>
-        //public static Playlist SelectPlaylist(string playlistName)
-        //{
-        //    Playlist playlist = null;
-
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            playlist = context.Playlists.FirstOrDefault(x => x.PlaylistName.ToUpper() == playlistName.ToUpper());
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in SelectPlaylist(): " + ex.Message);
-        //        throw ex;
-        //    }
-
-        //    return playlist;
-        //}
-
-        ///// <summary>
-        ///// Checks if a playlist exists in the database, using its name.
-        ///// </summary>
-        ///// <param name="playlistName">Playlist name</param>
-        ///// <returns>True if the playlist exists</returns>
-        //public static bool PlaylistExists(string playlistName)
-        //{
-        //    // Check if playlist exists
-        //    if (SelectPlaylist(playlistName) != null)
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
-        ///// <summary>
-        ///// Inserts a playlist into the database.
-        ///// </summary>
-        ///// <param name="playlist">Playlist to insert</param>
-        //public static void InsertPlaylist(Playlist playlist)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            // Add to database
-        //            context.AddToPlaylists(playlist);
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in InsertPlaylist(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Updates a playlist in the database.
-        ///// </summary>
-        ///// <param name="playlist">Playlist to update</param>
-        //public static void UpdatePlaylist(Playlist playlist)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            Playlist playlistToModify = context.Playlists.FirstOrDefault(x => x.PlaylistId == playlist.PlaylistId);
-        //            if (playlistToModify != null)
-        //            {
-        //                playlistToModify.PlaylistName = playlist.PlaylistName;
-        //                context.SaveChanges();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in UpdatePlaylist(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Deletes a playlist from the database.
-        ///// </summary>
-        ///// <param name="playlistId">Playlist identifier to delete</param>
-        //public static void DeletePlaylist(Guid playlistId)
-        //{
-        //    try
-        //    {
-        //        // Open the connection
-        //        using (MPFM_EF context = new MPFM_EF())
-        //        {
-        //            ExecuteSql(context, "DELETE FROM Playlists WHERE PlaylistId = @PlaylistId", new SQLiteParameter("PlaylistId", playlistId.ToString()));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("MPfm.Library (DataAccess) --  Error in DeletePlaylist(): " + ex.Message);
-        //        throw ex;
-        //    }
-        //}
+        /// <summary>
+        /// Deletes a playlist from the database.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier to delete</param>
+        public void DeletePlaylist(Guid playlistId)
+        {
+            _gateway.Delete("Playlists", "PlaylistId", playlistId);
+        }
 
         #endregion
 

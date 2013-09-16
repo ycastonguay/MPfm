@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using MPfm.Library.Objects;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.Library.Services.Interfaces
 {
@@ -49,6 +50,12 @@ namespace MPfm.Library.Services.Interfaces
 		List<string> SelectDistinctArtistNames(AudioFileFormat format);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format);
 		Dictionary<string, List<string>> SelectDistinctAlbumTitles(AudioFileFormat format, string artistName);
+
+        Playlist SelectPlaylist(Guid playlistId);
+        List<Playlist> SelectPlaylists();
+        void InsertPlaylist(Playlist playlist);
+        void UpdatePlaylist(Playlist playlist);
+        void DeletePlaylist(Guid playlistId);
 
         Marker SelectMarker(Guid markerId);
         List<Marker> SelectMarkers(Guid audioFileId);

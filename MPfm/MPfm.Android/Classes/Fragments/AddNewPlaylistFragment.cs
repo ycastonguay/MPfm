@@ -54,7 +54,11 @@ namespace MPfm.Android.Classes.Fragments
             _btnCancel = _view.FindViewById<Button>(Resource.Id.addNewPlaylist_btnCancel);
             _btnCreate = _view.FindViewById<Button>(Resource.Id.addNewPlaylist_btnCreate);
             _btnCancel.Click += (sender, args) => Dismiss();
-            _btnCreate.Click += (sender, args) => { };
+            _btnCreate.Click += (sender, args) =>
+            {
+                OnSavePlaylist(_txtName.Text);
+                Dismiss();
+            };
             _btnCreate.Enabled = false;
 
             _txtName.TextChanged += (sender, args) => _btnCreate.Enabled = _txtName.Text.Length > 0;
@@ -74,6 +78,14 @@ namespace MPfm.Android.Classes.Fragments
 
         public void AddNewPlaylistError(Exception ex)
         {
+            Activity.RunOnUiThread(() =>
+            {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured in AddNewPlaylist: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
         }
 
         #endregion

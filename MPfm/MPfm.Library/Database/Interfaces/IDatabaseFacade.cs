@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using MPfm.Library.Objects;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.Library.Database.Interfaces
 {
@@ -79,6 +80,12 @@ namespace MPfm.Library.Database.Interfaces
         void UpdateMarker(Marker dto);
         void UpdatePlayCount(Guid audioFileId);
         void UpdateSetting(Setting dto);
+
+        List<Playlist> SelectPlaylists();
+        Playlist SelectPlaylist(Guid playlistId);
+        void InsertPlaylist(Playlist playlist);
+        void UpdatePlaylist(Playlist playlist);
+        void DeletePlaylist(Guid playlistId);
 
 		void CompactDatabase();
     }

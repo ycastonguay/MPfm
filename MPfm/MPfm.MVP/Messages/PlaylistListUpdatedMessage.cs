@@ -15,23 +15,19 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.Player.Objects;
-using MPfm.Sound.Playlists;
+using TinyMessenger;
+using MPfm.Player.Events;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-	/// Select Playlist view interface.
-	/// </summary>
-	public interface ISelectPlaylistView : IBaseView
-	{
-        Action OnAddNewPlaylist { get; set; }
-        Action<Playlist> OnSelectPlaylist { get; set; }
-    
-        void SelectPlaylistError(Exception ex);
-        void RefreshPlaylists(List<Playlist> playlists);
-	}
+    /// <summary>
+    /// Message indicating playlist list has been updated (i.e. new playlist, removed playlist, etc.).
+    /// </summary>
+    public class PlaylistListUpdatedMessage : TinyMessageBase
+    {
+        public PlaylistListUpdatedMessage(object sender) 
+            : base(sender)
+        {
+        }
+    }
 }
