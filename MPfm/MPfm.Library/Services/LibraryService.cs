@@ -212,6 +212,26 @@ namespace MPfm.Library.Services
 
         #endregion
 
+        #region Playlist Items
+
+        public List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId)
+        {
+            var items = _gateway.SelectPlaylistItems(playlistId);
+            return items;
+        }
+
+        public void InsertPlaylistItem(PlaylistAudioFile playlist)
+        {
+            _gateway.InsertPlaylistItem(playlist);
+        }
+
+        public void DeletePlaylistItem(Guid playlistId, Guid audioFileId)
+        {
+            _gateway.DeletePlaylistItem(playlistId, audioFileId);
+        }
+
+        #endregion
+
         #region Markers
 
         public void InsertMarker(Marker marker)

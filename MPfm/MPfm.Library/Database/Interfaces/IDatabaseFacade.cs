@@ -87,6 +87,10 @@ namespace MPfm.Library.Database.Interfaces
         void UpdatePlaylist(Playlist playlist);
         void DeletePlaylist(Guid playlistId);
 
+        List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId);
+        void InsertPlaylistItem(PlaylistAudioFile playlist);
+        void DeletePlaylistItem(Guid playlistId, Guid audioFileId);
+
 		void CompactDatabase();
     }
 }

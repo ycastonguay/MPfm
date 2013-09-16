@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using Android.App;
@@ -363,6 +364,11 @@ namespace MPfm.Android
             {
                 
             });
+        }
+
+        public void RefreshPlaylists(List<PlaylistEntity> playlists, Guid selectedPlaylistId)
+        {
+            
         }
 
         #endregion

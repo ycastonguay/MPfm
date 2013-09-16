@@ -16,7 +16,11 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
@@ -33,12 +37,14 @@ namespace MPfm.MVP.Presenters
         readonly MobileNavigationManager _mobileNavigationManager;
         readonly ITinyMessengerHub _messageHub;
         readonly IPlayerService _playerService;
+	    private readonly ILibraryService _libraryService;
 
-        public PlayerStatusPresenter(ITinyMessengerHub messageHub, MobileNavigationManager mobileNavigationManager, IPlayerService playerService)
+	    public PlayerStatusPresenter(ITinyMessengerHub messageHub, MobileNavigationManager mobileNavigationManager, IPlayerService playerService, ILibraryService libraryService)
         {
             _messageHub = messageHub;
             _mobileNavigationManager = mobileNavigationManager;
             _playerService = playerService;
+            _libraryService = libraryService;
         }
 
         public override void BindView(IPlayerStatusView view)
@@ -63,6 +69,13 @@ namespace MPfm.MVP.Presenters
 
                 View.RefreshPlaylist(_playerService.CurrentPlaylist);
             });
+            _messageHub.Subscribe<PlaylistUpdatedMessage>(message =>
+            {
+                var playlist = _libraryService.SelectPlaylist(message.PlaylistId);
+                View.RefreshPlaylist(playlist);
+                RefreshPlaylists(playlist.PlaylistId);
+            });
+            _messageHub.Subscribe<PlaylistListUpdatedMessage>(message => RefreshPlaylists(Guid.Empty));
 
             if (!_playerService.IsInitialized)
                 return;
@@ -70,11 +83,25 @@ namespace MPfm.MVP.Presenters
             // Refresh initial data
             View.RefreshPlayerStatus(_playerService.Status);
             View.RefreshPlaylist(_playerService.CurrentPlaylist);
+            RefreshPlaylists(Guid.Empty);
             if (!_playerService.IsPlaying || _playerService.CurrentPlaylistItem == null)
                 View.RefreshAudioFile(null);
             else                
                 View.RefreshAudioFile(_playerService.CurrentPlaylistItem.AudioFile);            
         }
+
+	    private void RefreshPlaylists(Guid selectedPlaylistId)
+	    {
+            var playlists = _libraryService.SelectPlaylists();
+            var items = playlists.Select(playlist => new PlaylistEntity()
+            {
+                PlaylistId = playlist.PlaylistId,
+                Name = playlist.Name,
+                LastModified = playlist.LastModified
+            }).ToList();
+
+	        View.RefreshPlaylists(items, selectedPlaylistId);
+	    }
 
         private void OpenPlaylist()
 	    {

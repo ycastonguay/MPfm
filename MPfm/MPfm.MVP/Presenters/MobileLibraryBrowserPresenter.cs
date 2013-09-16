@@ -95,6 +95,7 @@ namespace MPfm.MVP.Presenters
             // Subscribe to any audio file cache update so we can update this screen
             _messengerHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
             _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>(PlayerPlaylistIndexChanged);
+            _messengerHub.Subscribe<PlaylistUpdatedMessage>(PlaylistUpdated);
 
             RefreshLibraryBrowser();
         }
@@ -144,6 +145,11 @@ namespace MPfm.MVP.Presenters
                     View.RefreshCurrentlyPlayingSong(index, _items[index].AudioFile);
                 }
             }
+        }
+
+        private void PlaylistUpdated(PlaylistUpdatedMessage message)
+        {
+            View.NotifyNewPlaylistItems(string.Format("{0} songs were added at the end of the playlist.", message.NewItemCount));
         }
 
         private void RequestAlbumArt(string artistName, string albumTitle, object userData)

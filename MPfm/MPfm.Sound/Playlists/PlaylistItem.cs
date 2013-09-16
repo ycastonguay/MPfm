@@ -72,11 +72,6 @@ namespace MPfm.Sound.Playlists
             }
         }
 
-        /// <summary>
-        /// Pointer to the parent Playlist instance.
-        /// </summary>
-        private Playlist playlist = null;
-
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
 
         /// <summary>
@@ -232,12 +227,10 @@ namespace MPfm.Sound.Playlists
         /// Default constructor for the PlaylistItem class.
         /// Requires a hook to a Playlist instance.
         /// </summary>
-        /// <param name="playlist">Playlist</param>
         /// <param name="audioFile">Audio file metadata</param>
-        public PlaylistItem(Playlist playlist, AudioFile audioFile)
+        public PlaylistItem(AudioFile audioFile)
         {
             this.id = Guid.NewGuid();
-            this.playlist = playlist;
             this.audioFile = audioFile;
 
             tasksDecode = new List<Task>();

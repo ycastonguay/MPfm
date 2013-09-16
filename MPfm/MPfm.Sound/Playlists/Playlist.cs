@@ -202,7 +202,7 @@ namespace MPfm.Sound.Playlists
         public void AddItem(string filePath)
         {
             AudioFile audioFile = new AudioFile(filePath);
-            Items.Add(new PlaylistItem(this, audioFile));
+            Items.Add(new PlaylistItem(audioFile));
             UpdateCurrentItem();
         }
 
@@ -212,7 +212,13 @@ namespace MPfm.Sound.Playlists
         /// <param name="audioFile">Audio file metadata</param>
         public void AddItem(AudioFile audioFile)
         {
-            Items.Add(new PlaylistItem(this, audioFile));
+            Items.Add(new PlaylistItem(audioFile));
+            UpdateCurrentItem();
+        }
+
+        public void AddItem(PlaylistItem playlistItem)
+        {
+            Items.Add(playlistItem);
             UpdateCurrentItem();
         }
 
@@ -265,7 +271,7 @@ namespace MPfm.Sound.Playlists
                 }                
 
                 if (addItem)
-                    Items.Add(new PlaylistItem(this, audioFile));
+                    Items.Add(new PlaylistItem(audioFile));
             }
 
             UpdateCurrentItem();
@@ -281,6 +287,11 @@ namespace MPfm.Sound.Playlists
                 AddItem(audioFile);
         }
 
+        public void AddItems(List<PlaylistItem> playlistItems)
+        {
+            Items.AddRange(playlistItems);
+        }
+
         /// <summary>
         /// Inserts an item at a specific location in the playlist.
         /// </summary>
@@ -292,7 +303,7 @@ namespace MPfm.Sound.Playlists
             AudioFile audioFile = new AudioFile(filePath);
 
             // Add new playlist item at the specified index
-            Items.Insert(index, new PlaylistItem(this, audioFile));
+            Items.Insert(index, new PlaylistItem(audioFile));
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)
@@ -309,7 +320,7 @@ namespace MPfm.Sound.Playlists
         public void InsertItem(AudioFile audioFile, int index)
         {
             // Add new playlist item at the specified index
-            Items.Insert(index, new PlaylistItem(this, audioFile));
+            Items.Insert(index, new PlaylistItem(audioFile));
 
             // Increment current item index if an item was inserted before the current item
             if (index <= CurrentItemIndex)

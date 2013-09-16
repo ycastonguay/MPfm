@@ -130,9 +130,11 @@
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\ApplicationCloseMessage.cs" />
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />
+    <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
+    <Compile Include="Models\PlaylistEntity.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\AddNewPlaylistPresenter.cs" />

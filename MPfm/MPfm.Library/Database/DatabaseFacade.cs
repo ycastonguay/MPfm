@@ -668,6 +668,40 @@ namespace MPfm.Library.Database
 
         #endregion
 
+        #region Playlist Items
+
+        /// <summary>
+        /// Selects a playlist with its items from the database, using its identifier.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier</param>
+        /// <returns>Playlist</returns>
+        public List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId)
+        {
+            var items = _gateway.Select<PlaylistAudioFile>("SELECT * FROM PlaylistItems WHERE PlaylistId = '" + playlistId.ToString() + "'");
+            return items;
+        }
+
+        /// <summary>
+        /// Inserts a playlist item into the database.
+        /// </summary>
+        /// <param name="playlistItem">Playlist item to insert</param>
+        public void InsertPlaylistItem(PlaylistAudioFile playlistItem)
+        {
+            _gateway.Insert<PlaylistAudioFile>(playlistItem, "PlaylistItems");
+        }
+
+        /// <summary>
+        /// Deletes a playlist item from the database.
+        /// </summary>
+        /// <param name="playlistId">Playlist identifier to delete</param>
+        /// <param name="audioFileId">Audio File identifier to delete</param>
+        public void DeletePlaylistItem(Guid playlistId, Guid audioFileId)
+        {
+            //_gateway.Delete("Playlists", "PlaylistId", playlistId);
+        }
+
+        #endregion
+
         #region Settings
 
         /// <summary>

@@ -70,13 +70,29 @@
   <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="52dp"
-    android:paddingLeft="8dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
+    <!--<LinearLayout
+      android:id="@+id/mobileLibraryBrowserCell_layoutCheckmark"
+      android:layout_width="wrap_content"
+      android:layout_height="fill_parent"
+      android:layout_gravity="center"
+      android:padding="12dp"
+      android:background="#FF0000"
+      android:orientation="vertical">
+      <ImageButton
+        android:id="@+id/mobileLibraryBrowserCell_btnCheckmark"
+        android:layout_width="30dp"
+        android:layout_height="22dp"
+        android:layout_gravity="center"        
+        android:background="@android:color/transparent"
+        android:src="@drawable/player_playlist" />
+    </LinearLayout>-->
     <TextView
       android:id="@+id/mobileLibraryBrowserCell_index"
       android:layout_width="32dp"
       android:layout_height="wrap_content"
+      android:layout_marginLeft="8dp"
       android:gravity="center"
       android:textColor="@color/list_secondarytext"
       android:textSize="18dp" />

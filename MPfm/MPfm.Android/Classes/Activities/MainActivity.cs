@@ -34,6 +34,7 @@ using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
@@ -550,6 +551,19 @@ namespace MPfm.Android
                 _lblPlaylistCount.Text = string.Format("{0}/{1}", playlist.CurrentItemIndex+1, playlist.Items.Count);
                 ShowMiniPlaylist();
             });
+        }
+
+        public void RefreshPlaylists(List<PlaylistEntity> playlists, Guid selectedPlaylistId)
+        {
+            RunOnUiThread(() =>
+            {
+                var items = playlists.Select(x => x.Name).ToList();
+                _playlistSpinnerAdapter = new ArrayAdapter<string>(this, Resource.Layout.playlist_spinner_item, items.ToArray());
+                _cboPlaylist.Adapter = _playlistSpinnerAdapter;
+                int index = playlists.FindIndex(x => x.PlaylistId == selectedPlaylistId);
+                if(index >= 0)
+                    _cboPlaylist.SetSelection(index);
+            });            
         }
 
         #endregion

@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 
@@ -38,5 +39,6 @@ namespace MPfm.MVP.Views
 	    void RefreshPlayerStatus(PlayerStatusType status);
 	    void RefreshAudioFile(AudioFile audioFile);
 	    void RefreshPlaylist(Playlist playlist);
+	    void RefreshPlaylists(List<PlaylistEntity> playlists, Guid selectedPlaylistId);
 	}
 }

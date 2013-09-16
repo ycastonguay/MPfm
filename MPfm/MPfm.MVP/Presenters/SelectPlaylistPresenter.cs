@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MPfm.Core;
+using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
@@ -27,6 +28,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.Playlists;
+using TagLib.Ape;
 using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
@@ -40,13 +42,15 @@ namespace MPfm.MVP.Presenters
         private readonly MobileNavigationManager _mobileNavigationManager;
 	    private readonly ITinyMessengerHub _messengerHub;
 	    private readonly ILibraryService _libraryService;
+	    private readonly IAudioFileCacheService _audioFileCacheService;
 	    private LibraryBrowserEntity _item;
-	    private List<Playlist> _items;
+	    private List<PlaylistEntity> _items;
 
-	    public SelectPlaylistPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService, LibraryBrowserEntity item)
+	    public SelectPlaylistPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService, IAudioFileCacheService audioFileCacheService, LibraryBrowserEntity item)
         {
 	        _messengerHub = messengerHub;
 	        _libraryService = libraryService;
+	        _audioFileCacheService = audioFileCacheService;
 	        _item = item;
 
 #if IOS || ANDROID
@@ -70,30 +74,55 @@ namespace MPfm.MVP.Presenters
 
 	    private void RefreshPlaylists()
 	    {
-	        _items = _libraryService.SelectPlaylists().ToList();
-            View.RefreshPlaylists(_items);
-	    }        
+	        var playlists = _libraryService.SelectPlaylists().ToList();
+            _items = new List<PlaylistEntity>();
+	        foreach (var playlist in playlists)
+	        {
+	            var items = _libraryService.SelectPlaylistItems(playlist.PlaylistId);
+	            _items.Add(new PlaylistEntity()
+	            {
+	                PlaylistId = playlist.PlaylistId,
+	                Name = playlist.Name,
+	                LastModified = playlist.LastModified,
+	                ItemCount = items.Count
+	            });
+	        }
 
-	    private void SelectPlaylist(Playlist playlist)
+            View.RefreshPlaylists(_items);
+	    }
+
+        private void SelectPlaylist(PlaylistEntity playlist)
 	    {
             try
             {
-                //Task.Factory.StartNew(() =>
-                //{
-                //    // Check if adding a song or an album
-                //    if (_items[index].AudioFile != null)
-                //    {
-                //        _playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
-                //        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
-                //    }
-                //    else
-                //    {
-                //        var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
-                //        _playerService.CurrentPlaylist.AddItems(audioFiles);
-                //        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));
-                //    }
-                //    _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
-                //}, _cancellationToken);
+                // Check if adding a song or an album
+                if (_item.AudioFile != null)
+                {
+                    //_playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
+                    //View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
+                }
+                else
+                {
+                    var items = _libraryService.SelectPlaylistItems(playlist.PlaylistId).ToList();
+                    var audioFileIds = _audioFileCacheService.SelectAudioFiles(_item.Query).Select(x => x.Id).ToList();
+                    
+                    // Find a list of new items
+                    var newItems = new List<PlaylistAudioFile>();
+                    int position = items.Count;
+                    foreach (Guid audioFileId in audioFileIds)
+                    {
+                        if (!items.Any(x => x.AudioFileId == audioFileId))
+                        {
+                            newItems.Add(new PlaylistAudioFile(playlist.PlaylistId, audioFileId, position));
+                            position++;
+                        }
+                    }
+
+                    foreach(var item in newItems)
+                        _libraryService.InsertPlaylistItem(item);
+
+                    _messengerHub.PublishAsync<PlaylistUpdatedMessage>(new PlaylistUpdatedMessage(this, playlist.PlaylistId, newItems.Count));
+                }                
             }
             catch (Exception ex)
             {

@@ -16,22 +16,17 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.Player.Objects;
-using MPfm.Sound.Playlists;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-	/// Select Playlist view interface.
-	/// </summary>
-	public interface ISelectPlaylistView : IBaseView
-	{
-        Action OnAddNewPlaylist { get; set; }
-        Action<PlaylistEntity> OnSelectPlaylist { get; set; }
-    
-        void SelectPlaylistError(Exception ex);
-        void RefreshPlaylists(List<PlaylistEntity> playlists);
-	}
+    /// <summary>
+    /// Data structure repesenting a playlist without actually detailing its items.
+    /// </summary>
+    public class PlaylistEntity
+    {
+        public Guid PlaylistId { get; set; }
+        public string Name { get; set; }
+        public DateTime LastModified { get; set; }
+        public int ItemCount { get; set; }
+    }
 }

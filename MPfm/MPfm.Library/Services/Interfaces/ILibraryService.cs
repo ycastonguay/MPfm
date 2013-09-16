@@ -57,6 +57,10 @@ namespace MPfm.Library.Services.Interfaces
         void UpdatePlaylist(Playlist playlist);
         void DeletePlaylist(Guid playlistId);
 
+        List<PlaylistAudioFile> SelectPlaylistItems(Guid playlistId);
+        void InsertPlaylistItem(PlaylistAudioFile playlist);
+        void DeletePlaylistItem(Guid playlistId, Guid audioFileId);
+
         Marker SelectMarker(Guid markerId);
         List<Marker> SelectMarkers(Guid audioFileId);
         void InsertMarker(Marker marker);

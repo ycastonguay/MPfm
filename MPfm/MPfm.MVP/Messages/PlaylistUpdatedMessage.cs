@@ -16,22 +16,24 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.Player.Objects;
-using MPfm.Sound.Playlists;
+using TinyMessenger;
+using MPfm.Player.Events;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-	/// Select Playlist view interface.
-	/// </summary>
-	public interface ISelectPlaylistView : IBaseView
-	{
-        Action OnAddNewPlaylist { get; set; }
-        Action<PlaylistEntity> OnSelectPlaylist { get; set; }
-    
-        void SelectPlaylistError(Exception ex);
-        void RefreshPlaylists(List<PlaylistEntity> playlists);
-	}
+    /// <summary>
+    /// Message indicating a playlist has been updated.
+    /// </summary>
+    public class PlaylistUpdatedMessage : TinyMessageBase
+    {
+        public Guid PlaylistId { get; set; }
+        public int NewItemCount { get; set; }
+
+        public PlaylistUpdatedMessage(object sender, Guid playlistId, int newItemCount)
+            : base(sender)
+        {
+            PlaylistId = playlistId;
+            NewItemCount = newItemCount;
+        }
+    }
 }
