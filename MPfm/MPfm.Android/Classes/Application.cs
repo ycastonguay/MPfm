@@ -62,34 +62,7 @@ namespace MPfm.Android.Classes
             base.OnCreate();
 
             _context = ApplicationContext; // TODO: Probably creates a memory leak.
-
-            // Complete IoC configuration
-            TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
-            container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
-            container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
-            container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
-            container.Register<ISplashView, SplashFragment>().AsMultiInstance();
-            container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
-            container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
-            container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
-            container.Register<IMarkerDetailsView, MarkerDetailsActivity>().AsMultiInstance();
-            container.Register<ILoopsView, LoopsFragment>().AsMultiInstance();
-            container.Register<ITimeShiftingView, TimeShiftingFragment>().AsMultiInstance();
-            container.Register<IPitchShiftingView, PitchShiftingFragment>().AsMultiInstance();
-            container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
-            container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
-            container.Register<IPlaylistView, PlaylistActivity>().AsMultiInstance();
-            container.Register<ISyncView, SyncActivity>().AsMultiInstance();
-            container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
-            container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
-            container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();
-            container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
-            container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();
-            container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();
-            container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
-            container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
-            container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
-            container.Register<IAboutView, AboutActivity>().AsMultiInstance();
+            BootstrapApp();
 
             // Set player plugin directory path
             ApplicationInfo appInfo = PackageManager.GetApplicationInfo(PackageName, 0);
@@ -165,9 +138,43 @@ namespace MPfm.Android.Classes
 
         //    _wifiManager.DiscoverPeers(_wifiChannel, _actionListener);
         //}
+
         public static Context GetApplicationContext()
         {
             return _context;
+        }
+
+        private void BootstrapApp()
+        {
+            // Complete IoC configuration
+            TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
+            container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
+            container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
+            container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
+            container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
+            container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
+            container.Register<IMarkerDetailsView, MarkerDetailsActivity>().AsMultiInstance();
+            container.Register<ILoopsView, LoopsFragment>().AsMultiInstance();
+            container.Register<ITimeShiftingView, TimeShiftingFragment>().AsMultiInstance();
+            container.Register<IPitchShiftingView, PitchShiftingFragment>().AsMultiInstance();
+            container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
+            container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
+            container.Register<IPlaylistView, PlaylistActivity>().AsMultiInstance();
+            container.Register<ISyncView, SyncActivity>().AsMultiInstance();
+            container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
+            container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
+            container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();
+            container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
+            container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();
+            container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();
+            container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
+            container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
+            container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
+            container.Register<IAboutView, AboutActivity>().AsMultiInstance();
+            container.Register<ISelectPlaylistView, SelectPlaylistFragment>().AsMultiInstance();
+            container.Register<IAddNewPlaylistView, AddNewPlaylistFragment>().AsMultiInstance();
         }
     }
 }

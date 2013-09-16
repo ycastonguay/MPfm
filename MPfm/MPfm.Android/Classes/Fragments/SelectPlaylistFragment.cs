@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -24,15 +25,15 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class SelectPlaylistFragment : BaseDialogFragment
+    public class SelectPlaylistFragment : BaseDialogFragment, ISelectPlaylistView
     {
-        private readonly int _position = 0;
-        private readonly MobileLibraryBrowserFragment _parentFragment;
+        private List<PlaylistEntity> _playlists;
         private PlaylistListAdapter _listAdapter;
         private View _view;
         private ListView _listView;
@@ -40,10 +41,8 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnCancel;
         private Button _btnSelect;
 
-        public SelectPlaylistFragment(MobileLibraryBrowserFragment parentFragment, int position) : base(null)
+        public SelectPlaylistFragment() : base(null)
         {
-            _parentFragment = parentFragment;
-            _position = position;
         }
 
         public SelectPlaylistFragment(Action<IBaseView> onViewReady) 
@@ -64,7 +63,7 @@ namespace MPfm.Android.Classes.Fragments
             _btnCancel.Click += (sender, args) => Dismiss();
             _btnSelect.Click += (sender, args) =>
             {
-                _parentFragment.OnAddItemToPlaylist(_position);
+                //_parentFragment.OnAddItemToPlaylist(_position);
                 Dismiss();
             };
             _btnAddNewPlaylist.Click += (sender, args) =>
@@ -73,24 +72,8 @@ namespace MPfm.Android.Classes.Fragments
                 fragment.Show(FragmentManager, "AddNewPlaylistFragment");
             };
 
-            _listAdapter = new PlaylistListAdapter(Activity, _listView,
-                new List<string>()
-                {
-                    "Hello",
-                    "World",
-                    "How",
-                    "Are",
-                    "You",
-                    "Today",
-                    "I",
-                    "Hope",
-                    "You",
-                    "Are",
-                    "Having",
-                    "A",
-                    "Fantastic",
-                    "Day"
-                });
+            _playlists = new List<PlaylistEntity>();
+            _listAdapter = new PlaylistListAdapter(Activity, _listView, _playlists);
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
 
@@ -107,5 +90,34 @@ namespace MPfm.Android.Classes.Fragments
             base.OnCreate(savedInstanceState);
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);            
         }
+
+        #region ISelectPlaylistView implementation
+
+        public Action OnAddNewPlaylist { get; set; }
+        public Action<PlaylistEntity> OnSelectPlaylist { get; set; }
+        
+        public void SelectPlaylistError(Exception ex)
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured in SelectPlaylist: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
+        }
+
+        public void RefreshPlaylists(List<PlaylistEntity> playlists)
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                _playlists = playlists.ToList();
+                _listAdapter.SetData(_playlists);
+            });
+        }
+
+        #endregion
+
     }
 }

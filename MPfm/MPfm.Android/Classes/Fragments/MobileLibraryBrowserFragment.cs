@@ -199,8 +199,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void AddItemToPlaylist(int position)
         {
-            SelectPlaylistFragment fragment = new SelectPlaylistFragment(this, position);
-            fragment.Show(FragmentManager, "SelectPlaylistFragment");
+            OnAddItemToPlaylist(position);
         }
 
         #region IMobileLibraryBrowserView implementation

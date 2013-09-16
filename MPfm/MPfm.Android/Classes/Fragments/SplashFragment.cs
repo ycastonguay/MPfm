@@ -25,7 +25,7 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {    
-    public class SplashFragment : BaseDialogFragment, ISplashView, View.IOnClickListener
+    public class SplashFragment : BaseDialogFragment, ISplashView
     {        
         private View _view;
         private TextView _textView;
@@ -44,6 +44,7 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.Splash, container, false);
             _textView = _view.FindViewById<TextView>(Resource.Id.splash_text);
             Dialog.RequestWindowFeature((int) WindowFeatures.NoTitle);
+            //OnViewReady(this); // Call this manually because we can't override this method in the base class
             return _view;
         }
 
@@ -52,11 +53,6 @@ namespace MPfm.Android.Classes.Fragments
             base.OnCreate(savedInstanceState);
             //SetStyle(DialogFragmentStyle.NoFrame, Resource.Style.SplashTheme);
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.SplashTheme);
-        }
-
-        public void OnClick(View v)
-        {
-            
         }
 
         #region ISplashView implementation

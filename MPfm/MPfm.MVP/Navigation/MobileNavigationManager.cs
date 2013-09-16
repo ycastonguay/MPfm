@@ -48,6 +48,10 @@ namespace MPfm.MVP.Navigation
         private IPlayerStatusPresenter _playerStatusPresenter;
         private IUpdateLibraryView _updateLibraryView;
         private IUpdateLibraryPresenter _updateLibraryPresenter;
+        private ISelectPlaylistView _selectPlaylistView;
+        private ISelectPlaylistPresenter _selectPlaylistPresenter;
+        private IAddNewPlaylistView _addNewPlaylistView;
+        private IAddNewPlaylistPresenter _addNewPlaylistPresenter;
         private IEqualizerPresetsView _equalizerPresetsView;
         private IEqualizerPresetsPresenter _equalizerPresetsPresenter;
         private IEqualizerPresetDetailsView _equalizerPresetDetailsView;
@@ -205,6 +209,46 @@ namespace MPfm.MVP.Navigation
                 _updateLibraryView = null;
             };
             return _updateLibraryView;
+        }
+
+        public virtual ISelectPlaylistView CreateSelectPlaylistView(LibraryBrowserEntity item)
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _selectPlaylistPresenter = Bootstrapper.GetContainer().Resolve<ISelectPlaylistPresenter>(new NamedParameterOverloads() { { "item", item } });
+                _selectPlaylistPresenter.BindView((ISelectPlaylistView)view);
+            };
+
+            // Create view and manage view destruction
+            _selectPlaylistView = Bootstrapper.GetContainer().Resolve<ISelectPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _selectPlaylistView.OnViewDestroy = (view) =>
+            {
+                _selectPlaylistPresenter.ViewDestroyed();
+                _selectPlaylistPresenter = null;
+                _selectPlaylistView = null;
+            };
+            return _selectPlaylistView;
+        }
+
+        public virtual IAddNewPlaylistView CreateAddNewPlaylistView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _addNewPlaylistPresenter = Bootstrapper.GetContainer().Resolve<IAddNewPlaylistPresenter>();
+                _addNewPlaylistPresenter.BindView((IAddNewPlaylistView)view);
+            };
+
+            // Create view and manage view destruction
+            _addNewPlaylistView = Bootstrapper.GetContainer().Resolve<IAddNewPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _addNewPlaylistView.OnViewDestroy = (view) =>
+            {
+                _addNewPlaylistPresenter.ViewDestroyed();
+                _addNewPlaylistPresenter = null;
+                _addNewPlaylistView = null;
+            };
+            return _addNewPlaylistView;
         }
 
         protected virtual void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)

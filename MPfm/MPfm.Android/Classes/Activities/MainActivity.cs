@@ -169,7 +169,7 @@ namespace MPfm.Android
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
         {
-            //Console.WriteLine("MainActivity - PushDialogView view: {0} fragmentCount: {1}", view.GetType().FullName, FragmentManager.BackStackEntryCount);
+            Console.WriteLine("MainActivity - PushDialogView view: {0} fragmentCount: {1}", view.GetType().FullName, FragmentManager.BackStackEntryCount);
             var sourceFragment = (Fragment) sourceView;
             var dialogFragment = (DialogFragment)view;
             dialogFragment.Show(sourceFragment.Activity.FragmentManager, viewTitle);

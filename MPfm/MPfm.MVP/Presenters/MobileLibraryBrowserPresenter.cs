@@ -169,22 +169,9 @@ namespace MPfm.MVP.Presenters
             try
             {
                 Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - index: {0}", index);
-                Task.Factory.StartNew(() =>
-                {
-                    // Check if adding a song or an album
-                    if (_items[index].AudioFile != null)
-                    {
-                        _playerService.CurrentPlaylist.AddItem(_items[index].AudioFile);
-                        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist.", _items[index].Title));
-                    }
-                    else
-                    {
-                        var audioFiles = _libraryService.SelectAudioFiles(_items[index].Query).ToList();
-                        _playerService.CurrentPlaylist.AddItems(audioFiles);
-                        View.NotifyNewPlaylistItems(string.Format("'{0}' was added at the end of the current playlist ({1} songs).", _items[index].Title, audioFiles.Count));
-                    }
-                    _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
-                }, _cancellationToken);
+
+                var view = _navigationManager.CreateSelectPlaylistView(_items[index]);
+                _navigationManager.PushDialogView("Select Playlist", View, view);
             }
             catch (Exception ex)
             {

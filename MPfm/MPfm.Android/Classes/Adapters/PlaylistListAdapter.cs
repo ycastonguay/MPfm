@@ -23,24 +23,25 @@ using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using MPfm.Core;
+using MPfm.MVP.Models;
 using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class PlaylistListAdapter : BaseAdapter<string>
+    public class PlaylistListAdapter : BaseAdapter<PlaylistEntity>
     {
         readonly Activity _context;
         readonly ListView _listView;
-        List<string> _playlists;
+        List<PlaylistEntity> _playlists;
 
-        public PlaylistListAdapter(Activity context, ListView listView, List<string> playlists)
+        public PlaylistListAdapter(Activity context, ListView listView, List<PlaylistEntity> playlists)
         {
             _context = context;
             _listView = listView;
             _playlists = playlists;
         }
 
-        public void SetData(List<string> playlists)
+        public void SetData(List<PlaylistEntity> playlists)
         {
             _playlists = playlists;
             NotifyDataSetChanged();
@@ -51,7 +52,7 @@ namespace MPfm.Android.Classes.Adapters
             return position;
         }
 
-        public override string this[int position]
+        public override PlaylistEntity this[int position]
         {
             get { return _playlists[position]; }
         }
@@ -69,7 +70,7 @@ namespace MPfm.Android.Classes.Adapters
                 view = _context.LayoutInflater.Inflate(Resource.Layout.PlaylistCell, null);
 
             var title = view.FindViewById<TextView>(Resource.Id.playlistcell_title);
-            title.Text = _playlists[position];
+            title.Text = _playlists[position].Title;
 
             return view;
         }

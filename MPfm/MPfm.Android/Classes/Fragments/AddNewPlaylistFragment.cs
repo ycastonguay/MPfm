@@ -29,7 +29,7 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class AddNewPlaylistFragment : BaseDialogFragment
+    public class AddNewPlaylistFragment : BaseDialogFragment, IAddNewPlaylistView
     {
         private View _view;
         private Button _btnCancel;
@@ -67,5 +67,16 @@ namespace MPfm.Android.Classes.Fragments
             base.OnCreate(savedInstanceState);
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);            
         }
+
+        #region IAddNewPlaylistView implementation
+
+        public Action<string> OnSavePlaylist { get; set; }
+
+        public void AddNewPlaylistError(Exception ex)
+        {
+        }
+
+        #endregion
+
     }
 }

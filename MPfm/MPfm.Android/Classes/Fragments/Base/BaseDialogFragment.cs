@@ -18,6 +18,7 @@
 using System;
 using Android.App;
 using Android.OS;
+using Android.Views;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments.Base
@@ -34,11 +35,12 @@ namespace MPfm.Android.Classes.Fragments.Base
         public BaseDialogFragment(Action<IBaseView> onViewReady)
         {
             this.OnViewReady = onViewReady;
+            // OnViewReady needs to be called in OnCreateView
         }
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public override void OnStart()
         {
-            base.OnCreate(savedInstanceState);
+            base.OnStart();
             if (OnViewReady != null) OnViewReady(this);
         }
 
