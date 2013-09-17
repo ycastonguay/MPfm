@@ -548,7 +548,8 @@ namespace MPfm.Android
         {
             RunOnUiThread(() =>
             {
-                _lblPlaylistCount.Text = string.Format("{0}/{1}", playlist.CurrentItemIndex+1, playlist.Items.Count);
+                //_lblPlaylistCount.Text = string.Format("{0}/{1}", playlist.CurrentItemIndex+1, playlist.Items.Count);
+                _lblPlaylistCount.Text = string.Format("{0} items", playlist.Items.Count);
                 ShowMiniPlaylist();
             });
         }

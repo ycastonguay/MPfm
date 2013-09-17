@@ -154,67 +154,75 @@
         </LinearLayout>
         <LinearLayout
           android:layout_width="fill_parent"
-          android:layout_height="60dp"          
+          android:layout_height="44dp"          
           android:layout_gravity="center_vertical"
           android:orientation="horizontal">
+          <ImageButton
+            android:id="@+id/main_miniplaylist_btnPlaylist"
+            android:layout_width="60dp"
+            android:layout_height="44dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/player_playlist" />          
           <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"   
+            android:gravity="center_vertical"
             android:orientation="vertical">
-            <ImageButton
-              android:id="@+id/main_miniplaylist_btnPlaylist"
-              android:layout_width="60dp"
-              android:layout_height="44dp"
-              android:background="@android:color/transparent"
-              android:src="@drawable/player_playlist" />
             <TextView
               android:id="@+id/main_miniplaylist_lblPlaylistCount"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:gravity="center"
-              android:text="0 / 0"
+              android:text="0 items"
+              android:textColor="#CCCCCC"
+              android:textSize="12dp"
+              android:ellipsize="end"
+              android:singleLine="true" />
+            <TextView
+              android:id="@+id/main_miniplaylist_lblPlaylistLength"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="1140:24"
               android:textColor="#CCCCCC"
               android:textSize="12dp"
               android:ellipsize="end"
               android:singleLine="true" />
           </LinearLayout>
+          <ImageButton
+            android:id="@+id/main_miniplaylist_btnRepeat"
+            android:layout_width="60dp"
+            android:layout_height="44dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/player_repeat" />
           <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="30dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
-              android:id="@+id/main_miniplaylist_btnRepeat"
-              android:layout_width="60dp"
-              android:layout_height="44dp"
-              android:background="@android:color/transparent"
-              android:src="@drawable/player_repeat" />
             <TextView
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:gravity="center"
               android:text="Off"
               android:textColor="#CCCCCC"
               android:textSize="12dp"
               android:ellipsize="end"
               android:singleLine="true" />
           </LinearLayout>
+          <ImageButton
+            android:id="@+id/main_miniplaylist_btnShuffle"
+            android:layout_width="60dp"
+            android:layout_height="44dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/player_shuffle" />
           <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="30dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical">
-            <ImageButton
-              android:id="@+id/main_miniplaylist_btnShuffle"
-              android:layout_width="60dp"
-              android:layout_height="44dp"
-              android:background="@android:color/transparent"
-              android:src="@drawable/player_shuffle" />
             <TextView
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:gravity="center"
               android:text="Off"
               android:textColor="#CCCCCC"
               android:textSize="12dp"

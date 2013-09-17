@@ -149,7 +149,7 @@ namespace MPfm.MVP.Presenters
 
         private void PlaylistUpdated(PlaylistUpdatedMessage message)
         {
-            View.NotifyNewPlaylistItems(string.Format("{0} songs were added at the end of the playlist.", message.NewItemCount));
+            View.NotifyNewPlaylistItems(string.Format("{0} songs were added to the playlist.", message.NewItemCount));
         }
 
         private void RequestAlbumArt(string artistName, string albumTitle, object userData)

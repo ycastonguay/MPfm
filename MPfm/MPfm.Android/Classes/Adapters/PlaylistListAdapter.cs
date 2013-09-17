@@ -73,7 +73,7 @@ namespace MPfm.Android.Classes.Adapters
             var title = view.FindViewById<TextView>(Resource.Id.playlistcell_title);
             var count = view.FindViewById<TextView>(Resource.Id.playlistcell_count);
             title.Text = _playlists[position].Name;
-            count.Text = _playlists[position].ItemCount.ToString();
+            count.Text = string.Format("{0}", _playlists[position].ItemCount);
 
             return view;
         }
