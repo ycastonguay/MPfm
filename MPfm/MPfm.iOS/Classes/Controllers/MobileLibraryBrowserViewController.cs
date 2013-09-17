@@ -258,7 +258,7 @@ namespace MPfm.iOS.Classes.Controllers
                 if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
                 {
                     cell.Image = null;
-                    OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle);
+                    OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].Query.AlbumTitle, null);
                 } 
                 else
                 {
@@ -456,9 +456,10 @@ namespace MPfm.iOS.Classes.Controllers
         public Action<MobileLibraryBrowserType> OnChangeBrowserType { get; set; }
         public Action<int> OnItemClick { get; set; }
         public Action<int> OnDeleteItem { get; set; }
-        public Action<string, string> OnRequestAlbumArt { get; set; }
+        public Action<string, string, object> OnRequestAlbumArt { get; set; }
         public Action<int> OnPlayItem { get; set; }
         public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
+        public Action<int> OnAddItemToPlaylist { get; set; }
 
         public void MobileLibraryBrowserError(Exception ex)
         {
@@ -468,7 +469,7 @@ namespace MPfm.iOS.Classes.Controllers
             });
         }
 
-        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData)
+        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
             // Note: cannot call UIScreen.MainScreen in a background thread!
 //            int height = 44;
@@ -657,6 +658,11 @@ namespace MPfm.iOS.Classes.Controllers
             });
         }
 
+        public void NotifyNewPlaylistItems(string text)
+        {
+        }
+
         #endregion
+
     }
 }

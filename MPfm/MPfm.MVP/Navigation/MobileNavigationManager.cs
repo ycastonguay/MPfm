@@ -95,8 +95,8 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        //protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
-        //protected IPlayerView PlayerView { get { return _playerView; } }
+        protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
+        protected IPlayerView PlayerView { get { return _playerView; } }
 
         private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
