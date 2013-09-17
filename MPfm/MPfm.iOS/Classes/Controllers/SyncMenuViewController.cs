@@ -225,6 +225,12 @@ namespace MPfm.iOS
             tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.None);
         }
 
+        [Export ("tableView:heightForRowAtIndexPath:")]
+        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 52;
+        }
+
         #region ISyncMenuView implementation
 
         public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }

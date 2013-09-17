@@ -413,7 +413,7 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 44;
+            return 52;
         }
 
         #endregion

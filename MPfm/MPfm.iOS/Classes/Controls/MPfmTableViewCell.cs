@@ -89,21 +89,21 @@ namespace MPfm.iOS.Classes.Controls
 
             RightButton = new UIButton(UIButtonType.Custom);
             RightButton.Hidden = true;
-            RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
+            RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             RightButton.TouchUpInside += HandleRightButtonTouchUpInside;
             AddSubview(RightButton);
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
             ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Hidden = true;
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 0, 22, 44);
+            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
             AddSubview(ImageChevron);
 
             RightImage = new UIImageView(UIImage.FromBundle("Images/Icons/icon_speaker"));
             RightImage.Alpha = 0.7f;
             RightImage.BackgroundColor = UIColor.Clear;
             RightImage.Hidden = true;
-            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 0, 44, 44);
+            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
             AddSubview(RightImage);
         }
 
@@ -125,9 +125,9 @@ namespace MPfm.iOS.Classes.Controls
             if (Accessory != UITableViewCellAccessory.None)
                 textWidth -= 44;
             if (ImageView.Image != null && !ImageView.Hidden)
-                textWidth -= Bounds.Height + padding;
+                textWidth -= 44 + padding;
             if (RightButton.ImageView.Image != null)
-                textWidth -= Bounds.Height + padding;
+                textWidth -= 44 + padding;
             if (!string.IsNullOrEmpty(IndexTextLabel.Text))
                 textWidth -= 22 + padding + padding;
             if (ImageChevron.Image != null && !ImageChevron.Hidden)
@@ -138,13 +138,13 @@ namespace MPfm.iOS.Classes.Controls
             float x = 0;
             if (ImageView.Image != null)
             {
-                ImageView.Frame = new RectangleF(x, 0, Bounds.Height, Bounds.Height);
-                x += Bounds.Height + padding;
+                ImageView.Frame = new RectangleF(x, 4, 44, 44);
+                x += 44 + padding;
             } 
             else if (!string.IsNullOrEmpty(IndexTextLabel.Text))
             {
                 x += padding;
-                IndexTextLabel.Frame = new RectangleF(x, 2, 22, 38);
+                IndexTextLabel.Frame = new RectangleF(x, 6, 22, 38);
                 x += 22 + padding;
             } 
             else
@@ -152,23 +152,23 @@ namespace MPfm.iOS.Classes.Controls
                 x += padding;
             }
 
-            float titleY = 10;
+            float titleY = 10 + 4;
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-                titleY = 2;
+                titleY = 2 + 4;
 
             TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-                DetailTextLabel.Frame = new RectangleF(x, 22, textWidth, 16);
+                DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
 
             if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
-                RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 0, Bounds.Height, Bounds.Height);
+                RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
 
-            ImageChevron.Frame = new RectangleF(screenSize.Width - 22 - RightOffset, 0, 22, 44);
+            ImageChevron.Frame = new RectangleF(screenSize.Width - 22 - RightOffset, 4, 22, 44);
 
             if(ImageChevron.Hidden)
-                RightImage.Frame = new RectangleF(screenSize.Width - 44 - RightOffset, 0, 44, 44);
+                RightImage.Frame = new RectangleF(screenSize.Width - 44 - RightOffset, 4, 44, 44);
             else
-                RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 0, 44, 44);
+                RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 4, 44, 44);
         }
     }
 }

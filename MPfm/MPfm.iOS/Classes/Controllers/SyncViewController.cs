@@ -109,6 +109,12 @@ namespace MPfm.iOS
             OnConnectDevice(_devices[indexPath.Row]);
         }
 
+        [Export ("tableView:heightForRowAtIndexPath:")]
+        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 52;
+        }
+
         partial void actionConnectDeviceManually(NSObject sender)
         {
             // TODO: Popup window asking for host and port.

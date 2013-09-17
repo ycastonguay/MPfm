@@ -199,6 +199,12 @@ namespace MPfm.iOS
             tableView.DeselectRow(indexPath, true);
         }
 
+        [Export ("tableView:heightForRowAtIndexPath:")]
+        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 52;
+        }
+
         private void SetCheckmarkCell(NSIndexPath indexPath)
         {
             _selectedPresetId = _presets[indexPath.Row].EQPresetId;

@@ -145,6 +145,12 @@ namespace MPfm.iOS
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 
+        [Export ("tableView:heightForRowAtIndexPath:")]
+        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 52;
+        }
+
         #region IMobileOptionsMenuView implementation
 
         public Action<MobileOptionsMenuType> OnItemClick { get; set; }
