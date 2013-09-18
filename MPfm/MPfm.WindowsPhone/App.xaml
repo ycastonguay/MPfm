@@ -8,6 +8,35 @@
     <!--Application Resources-->
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:MPfm.WindowsPhone" x:Key="LocalizedStrings"/>
+        <!--<Style x:Key="MyTextBlockStyle" TargetType="phone:LongListSelector" >
+            <Setter Property="LayoutMode" Value="List"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <UserControl>
+                            <Border x:Name="MyBorder" Background="Transparent">
+                                <VisualStateManager.VisualStateGroups  >
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background)" Storyboard.TargetName="MyBorder">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneAccentBrush}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <StackPanel>
+                                    <TextBlock x:Name="textBlock" Text="{Binding}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                </StackPanel>
+                            </Border>
+                        </UserControl>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
