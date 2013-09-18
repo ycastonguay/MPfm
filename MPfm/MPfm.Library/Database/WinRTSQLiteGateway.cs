@@ -80,11 +80,11 @@ namespace MPfm.Library.Database
         /// Returns the list of properties which have different database field names.
         /// </summary>
         /// <typeparam name="T">Object to scan (generic)</typeparam>
-        /// <returns>Dictionary of DatabaseFieldName/PropertyName</returns>
-        public Dictionary<string, string> GetMap<T>()
+        /// <returns>List of DatabaseFieldMap</returns>
+        public List<DatabaseFieldMap> GetMap<T>()
         {
             // Create map by scanning properties
-            Dictionary<string, string> dictMap = new Dictionary<string, string>();            
+            List<DatabaseFieldMap> maps = new List<DatabaseFieldMap>();
             var propertyInfos = typeof(T).GetTypeInfo().DeclaredProperties;
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
@@ -95,14 +95,11 @@ namespace MPfm.Library.Database
                     // Try to cast into attribute map
                     DatabaseFieldAttribute attrMap = attribute as DatabaseFieldAttribute;
                     if (attrMap != null)
-                    {
-                        // Add item to dictionary
-                        dictMap.Add(attrMap.DatabaseFieldName, propertyInfo.Name);
-                    }
+                        maps.Add(new DatabaseFieldMap(propertyInfo.Name, attrMap.DatabaseFieldName, attrMap.SaveToDatabase));
                 }
             }
 
-            return dictMap;
+            return maps;
         }
 
         /// <summary>
@@ -354,7 +351,7 @@ namespace MPfm.Library.Database
             //DbDataReader reader = null;
             SQLiteCommand command = null;
             List<T> list = new List<T>();
-            Dictionary<string, string> dictMap = GetMap<T>();
+            var maps = GetMap<T>();
 
             return list;
 
@@ -483,7 +480,7 @@ namespace MPfm.Library.Database
         {            
             SQLiteConnection connection = null;            
             SQLiteCommand command = null;
-            Dictionary<string, string> dictMap = GetMap<T>();
+            var maps = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
             return 0;
@@ -584,7 +581,7 @@ namespace MPfm.Library.Database
         {
             SQLiteConnection connection = null;
             SQLiteCommand command = null;
-            Dictionary<string, string> dictMap = GetMap<T>();
+            var map = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
             return 0;

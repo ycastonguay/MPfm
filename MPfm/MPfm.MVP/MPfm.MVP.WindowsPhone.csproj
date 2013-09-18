@@ -82,6 +82,36 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-ARM|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-ARM\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-ARM|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug-ARM\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-ARM|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug-ARM\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsPhone.csproj">
       <Project>{5CA0AA57-8F15-4DC2-B5C6-25692F200869}</Project>
@@ -102,11 +132,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Messages\ActivateLockScreenMessage.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
+    <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
+    <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
+    <Compile Include="Models\PlaylistEntity.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
+    <Compile Include="Presenters\AddNewPlaylistPresenter.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAddNewPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
     <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\EditSongMetadataPresenter.cs" />
@@ -120,8 +157,10 @@
     <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IAddNewPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
     <Compile Include="Views\IDesktopFirstRunView.cs" />
     <Compile Include="Views\IEditSongMetadataView.cs" />
@@ -130,6 +169,7 @@
     <Compile Include="Views\ILibraryPreferencesView.cs" />
     <Compile Include="Views\IGeneralPreferencesView.cs" />
     <Compile Include="Views\IAudioPreferencesView.cs" />
+    <Compile Include="Views\ISelectPlaylistView.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Presenters\PlayerPresenter.cs" />
@@ -239,7 +279,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="TinyIoC">
-      <HintPath>Lib\PCL\TinyIoC.dll</HintPath>
+      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
