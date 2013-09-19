@@ -387,6 +387,7 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.AlbumCountLabel.Hidden = item.AlbumTitles.Count >= 3 ? false : true;
 
                 int albumFetchCount = item.AlbumTitles.Count >= 3 ? 3 : item.AlbumTitles.Count;
+                //albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : item.AlbumTitles.Count; // Do not load a third album art when the count is visible!
                 for (int a = 0; a < albumFetchCount; a++)
                 {
                     UIImageView imageAlbum = null;
@@ -398,14 +399,16 @@ namespace MPfm.iOS.Classes.Controllers
                         imageAlbum = cell.ImageAlbum3;
 
                     // Check if album art is cached
-                    string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].Query.AlbumTitle;
+                    string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].AlbumTitles[a];
                     KeyValuePair<string, UIImage> keyPair = _thumbnailImageCache.FirstOrDefault(x => x.Key == key);
                     if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
                     {
+                        Console.WriteLine("MLBVC - GetCell - OnRequestAlbumArt - index: {0} key: {1}", indexPath.Row, key);
                         OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].AlbumTitles[a], imageAlbum);
                     } 
                     else
                     {
+                        Console.WriteLine("MLBVC - GetCell - Taking image from cache - index: {0} key: {1}", indexPath.Row, key);
                         imageAlbum.Image = keyPair.Value;
                     }
 
@@ -581,7 +584,7 @@ namespace MPfm.iOS.Classes.Controllers
                     {
                         case MobileLibraryBrowserType.Artists:
                             // Remove older image from cache if exceeds cache size
-                            if(_thumbnailImageCache.Count > 50)
+                            if(_thumbnailImageCache.Count > 80)
                                 _thumbnailImageCache.RemoveAt(0);
 
                             // Add image to cache
@@ -601,7 +604,11 @@ namespace MPfm.iOS.Classes.Controllers
                             if(userData != null)
                             {
                                 var imageView = (UIImageView)userData;
+                                imageView.Alpha = 0;
                                 imageView.Image = image;
+                                UIView.Animate(0.2, () => {
+                                    imageView.Alpha = 1;
+                                });
                             }
 
                             //if(cellArtistName.Image != image)

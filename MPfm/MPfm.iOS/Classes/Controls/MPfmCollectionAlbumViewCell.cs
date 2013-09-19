@@ -137,7 +137,6 @@ namespace MPfm.iOS.Classes.Controls
             UIView.Animate(0.2, () => {
                 _imageView.Alpha = 1;
             });
-
         }
 
         public void SetHighlight(bool highlighted)
