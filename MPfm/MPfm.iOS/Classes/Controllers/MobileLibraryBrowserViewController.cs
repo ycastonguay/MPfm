@@ -49,6 +49,7 @@ namespace MPfm.iOS.Classes.Controllers
         string _navigationBarSubtitle;
         MobileLibraryBrowserType _browserType;
         List<KeyValuePair<string, UIImage>> _imageCache;
+        List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
         UIButton _btnDelete;
         int _deleteCellIndex = -1;
 
@@ -65,6 +66,7 @@ namespace MPfm.iOS.Classes.Controllers
             // Flush image cache and table view items
             _items.Clear();
             _imageCache.Clear();
+            _thumbnailImageCache.Clear();
             tableView.ReloadData();
         }
         
@@ -124,6 +126,7 @@ namespace MPfm.iOS.Classes.Controllers
             };
             tableView.AddSubview(_btnDelete);
             _imageCache = new List<KeyValuePair<string, UIImage>>();
+            _thumbnailImageCache = new List<KeyValuePair<string, UIImage>>();
             this.NavigationItem.HidesBackButton = true;
 
             UISwipeGestureRecognizer swipe = new UISwipeGestureRecognizer(HandleSwipe);
@@ -337,6 +340,7 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
+            var item = _items[indexPath.Row];
             MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
                 cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
@@ -344,30 +348,84 @@ namespace MPfm.iOS.Classes.Controllers
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
-            cell.TextLabel.Text = _items[indexPath.Row].Title;
+            cell.TextLabel.Text = item.Title;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
-            cell.DetailTextLabel.Text = _items[indexPath.Row].Subtitle;
+            cell.DetailTextLabel.Text = item.Subtitle;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.ImageChevron.Hidden = false;
 
+            cell.ImageAlbum1.Image = null;
+            cell.ImageAlbum2.Image = null;
+            cell.ImageAlbum3.Image = null;
+
+            // Set offset for delete icon
             if (indexPath.Row == _deleteCellIndex)
                 cell.RightOffset = 60;
             else
                 cell.RightOffset = 0;
 
-            if(String.IsNullOrEmpty(_items[indexPath.Row].Subtitle))
+            // Change title font when the item has a subtitle
+            if(String.IsNullOrEmpty(item.Subtitle))
                 cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 
             if (_browserType == MobileLibraryBrowserType.Songs)
             {
-                cell.IndexTextLabel.Text = _items[indexPath.Row].AudioFile.TrackNumber.ToString();
-                if (_currentlyPlayingSongId == _items[indexPath.Row].AudioFile.Id)
+                cell.IndexTextLabel.Text = item.AudioFile.TrackNumber.ToString();
+                if (_currentlyPlayingSongId == item.AudioFile.Id)
                     cell.RightImage.Hidden = false;
                 else
                     cell.RightImage.Hidden = true;
             }
+            else if(_browserType == MobileLibraryBrowserType.Artists)
+            {
+                cell.AlbumCountLabel.Text = string.Format("+{0}", item.AlbumTitles.Count - 2);
+                cell.ImageAlbum1.Hidden = item.AlbumTitles.Count >= 1 ? false : true;
+                cell.ImageAlbum2.Hidden = item.AlbumTitles.Count >= 2 ? false : true;
+                cell.ImageAlbum3.Hidden = item.AlbumTitles.Count >= 3 ? false : true;
+                cell.AlbumCountLabel.Hidden = item.AlbumTitles.Count >= 3 ? false : true;
+
+                int albumFetchCount = item.AlbumTitles.Count >= 3 ? 3 : item.AlbumTitles.Count;
+                for (int a = 0; a < albumFetchCount; a++)
+                {
+                    UIImageView imageAlbum = null;
+                    if (a == 0)
+                        imageAlbum = cell.ImageAlbum1;
+                    else if (a == 1)
+                        imageAlbum = cell.ImageAlbum2;
+                    else if (a == 2)
+                        imageAlbum = cell.ImageAlbum3;
+
+                    // Check if album art is cached
+                    string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].Query.AlbumTitle;
+                    KeyValuePair<string, UIImage> keyPair = _thumbnailImageCache.FirstOrDefault(x => x.Key == key);
+                    if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
+                    {
+                        OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].AlbumTitles[a], imageAlbum);
+                    } 
+                    else
+                    {
+                        imageAlbum.Image = keyPair.Value;
+                    }
+
+    //                string bitmapKey = item.Query.ArtistName + "_" + item.AlbumTitles[a];
+    //                imageAlbum.Tag = bitmapKey;
+    //
+    //                var viewHolder = new ListAlbumCellViewHolder();
+    //                viewHolder.imageView = imageAlbum;
+    //                viewHolder.position = position;
+    //                viewHolder.key = bitmapKey;
+    //                //view.Tag = viewHolder;
+    //
+    //                Console.WriteLine("MLBLA - GetView - bitmapKey: {0}", bitmapKey);
+    //                if (_fragment.SmallBitmapCache.KeyExists(bitmapKey))
+    //                    imageAlbum.SetImageBitmap(_fragment.SmallBitmapCache.GetBitmapFromMemoryCache(bitmapKey));
+    //                else
+    //                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.AlbumTitles[a], viewHolder);
+                }
+            }
+
             return cell;
         }
 
@@ -471,16 +529,27 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
+            Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2}", artistName, albumTitle, _browserType);
             // Note: cannot call UIScreen.MainScreen in a background thread!
 //            int height = 44;
 //            InvokeOnMainThread(() => {
 //                height = (int)(44 * UIScreen.MainScreen.Scale);
 //            });
-            int height = 160;
-            InvokeOnMainThread(() => {
-                height = (int)(160 * UIScreen.MainScreen.Scale);
+            int height = 0;
+            switch (_browserType)
+            {
+                case MobileLibraryBrowserType.Artists:
+                    height = 44;
+                    break;
+                case MobileLibraryBrowserType.Albums:
+                    height = 160;
+                    break;
+            }
+            InvokeOnMainThread(() => { // We have to use the main thread to fetch the scale
+                height = (int)(height * UIScreen.MainScreen.Scale);
             });
             Task<UIImage>.Factory.StartNew(() => {
+                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - Task - artistName: {0} albumTitle: {1} browserType: {2} height: {3}", artistName, albumTitle, _browserType, height);
                 using (NSData imageData = NSData.FromArray(albumArtData))
                 {
                     using (UIImage image = UIImage.LoadFromData(imageData))
@@ -507,27 +576,60 @@ namespace MPfm.iOS.Classes.Controllers
                     return;
 
                 InvokeOnMainThread(() => {
+                    //Console.WriteLine("MLBVC - RefreshAlbumArtCell - ContinueWith - artistName: {0} albumTitle: {1} browserType: {2} userData==null: {3}", artistName, albumTitle, _browserType, userData == null);
+                    switch (_browserType)
+                    {
+                        case MobileLibraryBrowserType.Artists:
+                            // Remove older image from cache if exceeds cache size
+                            if(_thumbnailImageCache.Count > 50)
+                                _thumbnailImageCache.RemoveAt(0);
 
-                    // Remove older image from cache if exceeds cache size
-                    if(_imageCache.Count > 20)
-                        _imageCache.RemoveAt(0);
-                    
-                    // Add image to cache
-                    _imageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
+                            // Add image to cache
+                            _thumbnailImageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
 
-                    // Get item from list
-                    var item = _items.FirstOrDefault(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
-                    if (item == null)
-                        return;
-  
-                    // Get cell from item
-                    int index = _items.IndexOf(item);
-                    var cell = (MPfmCollectionAlbumViewCell)collectionView.VisibleCells.FirstOrDefault(x => x.Tag == index);
-                    if (cell == null)
-                        return;
+                            // Get item from list
+                            var itemArtistName = _items.FirstOrDefault(x => x.Query.ArtistName == artistName);
+                            if (itemArtistName == null)
+                                return;
 
-                    if(cell.Image != image)
-                        cell.SetImage(image);
+                            // Get cell from item
+                            int indexArtistName = _items.IndexOf(itemArtistName);
+                            var cellArtistName = (MPfmTableViewCell)tableView.VisibleCells.FirstOrDefault(x => x.Tag == indexArtistName);
+                            if (cellArtistName == null)
+                                return;
+
+                            if(userData != null)
+                            {
+                                var imageView = (UIImageView)userData;
+                                imageView.Image = image;
+                            }
+
+                            //if(cellArtistName.Image != image)
+                            //    cellArtistName.SetImage(image);
+                            break;
+                        case MobileLibraryBrowserType.Albums:
+                            // Remove older image from cache if exceeds cache size
+                            if(_imageCache.Count > 20)
+                                _imageCache.RemoveAt(0);
+
+                            // Add image to cache
+                            _imageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
+
+                            // Get item from list
+                            var itemAlbumTitle = _items.FirstOrDefault(x => x.Query.ArtistName == artistName && x.Query.AlbumTitle == albumTitle);
+                            if (itemAlbumTitle == null)
+                                return;
+
+                            // Get cell from item
+                            int indexAlbumTitle = _items.IndexOf(itemAlbumTitle);
+                            var cellAlbumTitle = (MPfmCollectionAlbumViewCell)collectionView.VisibleCells.FirstOrDefault(x => x.Tag == indexAlbumTitle);
+                            if (cellAlbumTitle == null)
+                                return;
+
+                            if(cellAlbumTitle.Image != image)
+                                cellAlbumTitle.SetImage(image);
+                            break;
+                    }
 
 //                    // Get cell from item
 //                    int index = _items.IndexOf(item);
