@@ -60,9 +60,9 @@ namespace MPfm.Android
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
-        private TextView _lblNextArtistName;
-        private TextView _lblNextAlbumTitle;
-        private TextView _lblNextSongTitle;
+        //private TextView _lblNextArtistName;
+        //private TextView _lblNextAlbumTitle;
+        //private TextView _lblNextSongTitle;
         private TextView _lblPlaylistCount;
         private Spinner _cboPlaylist;
         private SquareImageView _imageAlbum;
@@ -103,9 +103,9 @@ namespace MPfm.Android
             _lblArtistName = FindViewById<TextView>(Resource.Id.main_miniplayer_lblArtistName);
             _lblAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblAlbumTitle);
             _lblSongTitle = FindViewById<TextView>(Resource.Id.main_miniplayer_lblSongTitle);
-            _lblNextArtistName = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextArtistName);
-            _lblNextAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextAlbumTitle);
-            _lblNextSongTitle = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextSongTitle);
+            //_lblNextArtistName = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextArtistName);
+            //_lblNextAlbumTitle = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextAlbumTitle);
+            //_lblNextSongTitle = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblNextSongTitle);
             _lblPlaylistCount = FindViewById<TextView>(Resource.Id.main_miniplaylist_lblPlaylistCount);
             _btnPrevious = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPrevious);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.main_miniplayer_btnPlayPause);
@@ -548,7 +548,8 @@ namespace MPfm.Android
         {
             RunOnUiThread(() =>
             {
-                _lblPlaylistCount.Text = string.Format("{0}/{1}", playlist.CurrentItemIndex+1, playlist.Items.Count);
+                //_lblPlaylistCount.Text = string.Format("{0}/{1}", playlist.CurrentItemIndex+1, playlist.Items.Count);
+                _lblPlaylistCount.Text = string.Format("{0} items", playlist.Items.Count);
                 ShowMiniPlaylist();
             });
         }

@@ -579,6 +579,11 @@
     <AndroidResource Include="Resources\layout\playlist_spinner_item.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_select_disabled.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_select_disabled.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_select_disabled.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_select_disabled.png" />
+    <AndroidResource Include="Resources\drawable\selectimage_selector.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

@@ -85,7 +85,7 @@ namespace MPfm.WindowsPhone
             BootstrapApp();
 
             // Instead of using WMAppManifest to automatically launch a page, do it in code.
-            RootFrame.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+            RootFrame.Navigate(new Uri("/Classes/Pages/MainPage.xaml", UriKind.Relative));
         }
 
         // Code to execute when the application is activated (brought to foreground)
