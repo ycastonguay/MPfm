@@ -35,6 +35,7 @@ namespace MPfm.Sound.BassNetWrapper
         void GetAttribute(BASSAttribute attribute, ref float value);
         int GetData(byte[] buffer, int length);
         int GetData(IntPtr buffer, int length);
+        int GetData(int[] buffer, int length);
         int GetData(float[] buffer, int length);
         long GetLength();
         int GetMixerData(float[] buffer, int length);

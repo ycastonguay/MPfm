@@ -577,6 +577,17 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         /// <summary>
+        /// Gets data from the channel/stream buffer.
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
+        public int GetData(int[] buffer, int length)
+        {
+            return Bass.BASS_ChannelGetData(handle, buffer, length);
+        }
+
+        /// <summary>
         /// Returns the amount of data the channel has buffered.
         /// </summary>
         /// <returns>
@@ -588,7 +599,18 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         /// <summary>
-        /// Gets data from a mixer channel/stream buffer.
+        /// Gets data from a mixer channel/stream buffer (32-bit integers for non-floating point channels).
+        /// </summary>
+        /// <param name="buffer">Buffer to receive data</param>
+        /// <param name="length">Data length</param>
+        /// <returns>GetData return value</returns>
+        public int GetMixerData(int[] buffer, int length)
+        {
+            return BassMix.BASS_Mixer_ChannelGetData(handle, buffer, length);
+        }
+
+        /// <summary>
+        /// Gets data from a mixer channel/stream buffer (floats for floating point channels).
         /// </summary>
         /// <param name="buffer">Buffer to receive data</param>
         /// <param name="length">Data length</param>

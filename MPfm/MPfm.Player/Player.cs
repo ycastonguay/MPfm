@@ -68,7 +68,6 @@ namespace MPfm.Player
         /// </summary>
         public bool IsSettingPosition { get; private set; }
         
-        private bool _useFloatingPoint;
         private System.Timers.Timer _timerPlayer = null;
         private Channel _streamChannel = null;
         private Channel _fxChannel = null;
@@ -166,6 +165,18 @@ namespace MPfm.Player
             get
             {
                 return _isPaused;
+            }
+        }
+
+        private bool _useFloatingPoint;
+        /// <summary>
+        /// Determines if the device uses floating point.
+        /// </summary>
+        public bool UseFloatingPoint
+        {
+            get
+            {
+                return _useFloatingPoint;
             }
         }
 
@@ -1324,7 +1335,23 @@ namespace MPfm.Player
         }
 
         /// <summary>
-        /// Returns the sample data from the mixer.
+        /// Returns the sample data from the mixer (32-bit integers for non-floating point channels).
+        /// </summary>
+        /// <returns>Sample data length</returns>
+        /// <param name="length">Length of sample data to fetch</param>
+        /// <param name="sampleData">Sample data</param>
+        public int GetMixerData(int length, int[] sampleData)
+        {
+            int dataLength;
+            if (Device.DriverType != DriverType.DirectSound)
+                dataLength = _fxChannel.GetMixerData(sampleData, length);
+            else
+                dataLength = _mixerChannel.GetData(sampleData, length);
+            return dataLength;
+        }
+
+        /// <summary>
+        /// Returns the sample data from the mixer (floats for floating point channels).
         /// </summary>
         /// <returns>Sample data length</returns>
         /// <param name="length">Length of sample data to fetch</param>
@@ -1338,7 +1365,7 @@ namespace MPfm.Player
                 dataLength = _mixerChannel.GetData(sampleData, length);
             return dataLength;
         }
-        
+
         /// <summary>
         /// Gets the position of the currently playing channel, in bytes.
         /// </summary>

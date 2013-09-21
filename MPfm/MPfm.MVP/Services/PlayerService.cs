@@ -44,6 +44,7 @@ namespace MPfm.MVP.Services
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
         public bool IsPlaying { get { return _player.IsPlaying; } }
         public bool IsPaused { get { return _player.IsPaused; } }
+        public bool UseFloatingPoint { get { return _player.UseFloatingPoint; } }
         public RepeatType RepeatType { get { return _player.RepeatType; } }
         public PlaylistItem CurrentPlaylistItem { get { return _player.Playlist.CurrentItem; } }
         public Playlist CurrentPlaylist { get { return _player.Playlist; } }
@@ -131,7 +132,66 @@ namespace MPfm.MVP.Services
             }
         }
 
-        public Tuple<float[], float[]> GetMixerData(double seconds)
+        /// <summary>
+        /// Returns mixer data in short format (only use this for non-floating point channels! i.e. 16-bit).
+        /// Note: This STILL returns 32-bit data to make it easier to calculate values afterwards.
+        /// </summary>
+        /// <param name="seconds">Number of seconds to fetch</param>
+        /// <returns>Tuple of 32-bit integers (left/right)</returns>
+        public Tuple<int[], int[]> GetMixerData(double seconds)
+        {
+            int maxL = 0;
+            int maxR = 0;
+
+            // length of a 20ms window in bytes
+            int lengthToFetch = (int)_player.Seconds2Bytes(seconds);
+            int l4 = lengthToFetch / 4;
+
+            // create a data buffer as needed
+            int[] sampleData = new int[l4];
+            int length = _player.GetMixerData(lengthToFetch, sampleData);
+
+            // as less data might be returned by BASS_ChannelGetData as requested
+            l4 = length / 4;
+            int[] left = new int[l4 / 2];
+            int[] right = new int[l4 / 2];
+            for (int a = 0; a < l4; a++)
+            {
+                int absLevel = Math.Abs(sampleData[a]);
+
+                // decide on L/R channel
+                if (a % 2 == 0)
+                {
+                    // Left channel
+                    left[a / 2] = sampleData[a];
+                    if (absLevel > maxL)
+                        maxL = absLevel;
+                }
+                else
+                {
+                    // Right channel
+                    right[a / 2] = sampleData[a];
+                    if (absLevel > maxR)
+                        maxR = absLevel;
+                }
+            }
+
+            //            // Get min max info from wave block
+            //            if (AudioTools.CheckForDistortion(left, right, true, -3.0f))
+            //            {
+            //                // Show distortion warning "LED"
+            //                //picDistortionWarning.Visible = true;
+            //            }
+
+            return new Tuple<int[], int[]>(left, right);
+        }
+
+        /// <summary>
+        /// Returns mixer data in float format (only use this for floating point channels! i.e. 32-bit).
+        /// </summary>
+        /// <param name="seconds">Number of seconds to fetch</param>
+        /// <returns>Tuple of floats (left/right)</returns>
+        public Tuple<float[], float[]> GetFloatingPointMixerData(double seconds)
         {
             float maxL = 0f;
             float maxR = 0f;

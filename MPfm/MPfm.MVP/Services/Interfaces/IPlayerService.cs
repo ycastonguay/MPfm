@@ -36,6 +36,7 @@ namespace MPfm.MVP.Services.Interfaces
         bool IsSettingPosition { get; }
         bool IsPlaying { get; }
         bool IsPaused { get; }
+        bool UseFloatingPoint { get; }
         PlaylistItem CurrentPlaylistItem { get; }
         Playlist CurrentPlaylist { get; }
         EQPreset EQPreset { get; }
@@ -65,7 +66,8 @@ namespace MPfm.MVP.Services.Interfaces
         void ToggleRepeatType();
 
         int GetDataAvailable();
-        Tuple<float[], float[]> GetMixerData(double seconds);
+        Tuple<int[], int[]> GetMixerData(double seconds);
+        Tuple<float[], float[]> GetFloatingPointMixerData(double seconds);
         PlayerPositionEntity GetPosition();
 
         void SetPosition(double percentage);

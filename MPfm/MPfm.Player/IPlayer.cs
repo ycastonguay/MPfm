@@ -49,6 +49,7 @@ namespace MPfm.Player
         bool IsEQEnabled { get; }
         bool IsPaused { get; }
         bool IsPlaying { get; }
+        bool UseFloatingPoint { get; }
         int MixerSampleRate { get; }
         Playlist Playlist { get; }
         RepeatType RepeatType { get; set; }
@@ -81,6 +82,7 @@ namespace MPfm.Player
         int GetDataAvailable();
         long Seconds2Bytes(double value);
         int GetMixerData(int length, float[] sampleData);
+        int GetMixerData(int length, int[] sampleData);
         long GetPosition();
         void SetPosition(double percentage);
         void SetPosition(long bytes);       

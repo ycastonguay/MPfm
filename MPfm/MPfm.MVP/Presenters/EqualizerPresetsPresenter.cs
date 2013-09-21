@@ -121,8 +121,29 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Tuple<float[], float[]> data = _playerService.GetMixerData(0.02);
-                View.RefreshOutputMeter(data.Item1, data.Item2);
+                if (_playerService.UseFloatingPoint)
+                {
+                    Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
+                    View.RefreshOutputMeter(data.Item1, data.Item2);
+                }
+                else
+                {
+                    Tuple<int[], int[]> data = _playerService.GetMixerData(0.02);
+
+                    // Convert to floats
+                    float[] left = new float[data.Item1.Length];
+                    float[] right = new float[data.Item1.Length];
+                    float half = (float)Int32.MaxValue/2f;
+                    for (int a = 0; a < data.Item1.Length; a++)
+                    {
+                        //left.Add(((float) data.Item1[a] - half) / half);
+                        //right.Add(((float)data.Item2[a] - half) / half);
+                        left[a] = ((float) data.Item1[a] - half) / half;
+                        right[a] = ((float)data.Item2[a] - half) / half;
+                    }
+
+                    View.RefreshOutputMeter(left, right);
+                }
             }
             catch(Exception ex)
             {

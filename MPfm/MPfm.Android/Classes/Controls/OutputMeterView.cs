@@ -177,7 +177,7 @@ namespace org.sessionsapp.android
 
         public override void Draw(global::Android.Graphics.Canvas canvas)
         {
-            Console.WriteLine("OutputMeterView - Draw");
+            //Console.WriteLine("OutputMeterView - Draw");
             //base.Draw(canvas);
 
             //var context = UIGraphics.GetCurrentContext();
@@ -188,11 +188,12 @@ namespace org.sessionsapp.android
                 return;
 
             // By default, the bar width takes the full width of the control (except for stereo)
-            float barWidth = Width / 2;
+            float barWidth = (float)Width / 2;
 
             // at 10ms refresh, get last value.
-            float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax);
-            float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax);
+            float leftMax = WaveDataHistory[0].leftMax;
+            float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax); // No floating point
+            float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax );
             //float maxLeftDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].leftMax);
             //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
 
@@ -218,7 +219,7 @@ namespace org.sessionsapp.android
                 AntiAlias = true,
                 Color = _color0dBLine
             };
-            paintLine.SetStyle(Paint.Style.Fill);            
+            paintLine.SetStyle(Paint.Style.Fill);
             canvas.DrawLine(0, 4, Width, 4, paintLine);
 
             // -----------------------------------------
@@ -238,7 +239,7 @@ namespace org.sessionsapp.android
             //RectangleF rect = new RectangleF(0, Bounds.Height - barHeight, barWidth, height);
             Rect rect = new Rect(0, Height - (int)barHeight, (int)barWidth, (int)height);
 
-            Console.WriteLine("OutputMeterView - DRAW LEFT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxLeftDB: {3}", Height, height, barHeight, maxLeftDB);
+            Console.WriteLine("OutputMeterView - DRAW LEFT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxLeftDB: {3} leftMax: {4}", Height, height, barHeight, maxLeftDB, leftMax);
 
             //RectangleF rectGradient = new RectangleF(0, Bounds.Height, barWidth, height);
             //BackgroundGradient gradient = theme.MeterGradient;
