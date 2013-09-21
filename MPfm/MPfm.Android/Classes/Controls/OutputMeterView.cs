@@ -177,6 +177,8 @@ namespace org.sessionsapp.android
 
         public override void Draw(global::Android.Graphics.Canvas canvas)
         {
+            float density = Resources.DisplayMetrics.Density;
+
             //Console.WriteLine("OutputMeterView - Draw");
             //base.Draw(canvas);
 
@@ -188,12 +190,11 @@ namespace org.sessionsapp.android
                 return;
 
             // By default, the bar width takes the full width of the control (except for stereo)
-            float barWidth = (float)Width / 2;
+            int barWidth = Width / 2;
 
             // at 10ms refresh, get last value.
-            float leftMax = WaveDataHistory[0].leftMax;
-            float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax); // No floating point
-            float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax );
+            float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax);
+            float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax);
             //float maxLeftDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].leftMax);
             //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
 
@@ -236,10 +237,10 @@ namespace org.sessionsapp.android
                 height = 1;
 
             // Create rectangle for bar
-            //RectangleF rect = new RectangleF(0, Bounds.Height - barHeight, barWidth, height);
-            Rect rect = new Rect(0, Height - (int)barHeight, (int)barWidth, (int)height);
+            //RectangleF rect = new RectangleF(0, Bounds.Height - barHeight, barWidth, height); // x, y, w, h
+            Rect rect = new Rect(0, Height - (int)barHeight, barWidth, Height); // l, t, r, b
 
-            Console.WriteLine("OutputMeterView - DRAW LEFT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxLeftDB: {3} leftMax: {4}", Height, height, barHeight, maxLeftDB, leftMax);
+            //Console.WriteLine("OutputMeterView - DRAW LEFT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxLeftDB: {3} leftMax: {4}", Height, height, barHeight, maxLeftDB, leftMax);
 
             //RectangleF rectGradient = new RectangleF(0, Bounds.Height, barWidth, height);
             //BackgroundGradient gradient = theme.MeterGradient;
@@ -270,12 +271,13 @@ namespace org.sessionsapp.android
                 Color = _colorPeakLine
             };
             paintPeakLine.SetStyle(Paint.Style.Fill);
-            canvas.DrawLine(0, Height - (peakLeftDB + 100), barWidth, Height - (peakLeftDB + 100), paintPeakLine);
+            float leftHeight = Height - (peakLeftDB + 100);
+            canvas.DrawLine(0, leftHeight, barWidth, leftHeight, paintPeakLine);
 
-            //// Draw number of db      
-            //string strDB = peakLeftDB.ToString("00.0").Replace(",", ".");
-            //if (maxLeftDB == -100.0f)
-            //    strDB = "-inf";
+            // Draw number of db      
+            string strDB = peakLeftDB.ToString("00.0").Replace(",", ".");
+            if (maxLeftDB == -100.0f)
+                strDB = "-inf";
 
             //// Draw text
             //SizeF sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-CondensedBold", 10);
@@ -285,6 +287,20 @@ namespace org.sessionsapp.android
             ////            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
             //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
             //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
+
+            var paintText = new Paint
+            {
+                AntiAlias = true,
+                Color = Color.White,
+                TextSize = 12 * density
+            }; 
+            //paintText.GetTextBounds(strDB, 0, strDB.Length, new Rect(0, 0, barWidth, (int) (20 * density)));
+            Rect rectText = new Rect();
+            paintText.GetTextBounds(strDB, 0, strDB.Length, rectText);
+            int newX = (barWidth - rectText.Width()) / 2;
+
+            // Draw text
+            canvas.DrawText(strDB, newX, Height - rectText.Height() - 4 - 1, paintText);
 
             // -----------------------------------------
             // RIGHT CHANNEL
@@ -298,9 +314,9 @@ namespace org.sessionsapp.android
 
             // Create rectangle for bar                
             //rect = new RectangleF(barWidth, Bounds.Height - barHeight, barWidth, height);
-            rect = new Rect((int)barWidth, Height - (int)barHeight, (int)barWidth * 2, (int)height);
+            rect = new Rect((int)barWidth, Height - (int)barHeight, barWidth * 2, Height);
 
-            Console.WriteLine("OutputMeterView - DRAW RIGHT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxRightDB: {3}", Height, height, barHeight, maxRightDB);
+            //Console.WriteLine("OutputMeterView - DRAW RIGHT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxRightDB: {3}", Height, height, barHeight, maxRightDB);
             // Check for distortion
             //if (maxLeftDB >= 0.2f)
             //    gradient = theme.MeterDistortionGradient;

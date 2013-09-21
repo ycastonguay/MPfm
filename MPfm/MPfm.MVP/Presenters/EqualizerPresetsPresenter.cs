@@ -130,16 +130,15 @@ namespace MPfm.MVP.Presenters
                 {
                     Tuple<int[], int[]> data = _playerService.GetMixerData(0.02);
 
-                    // Convert to floats
+                    // Convert to floats (TODO: Try to optimize this. I'm sure there's a clever way to do this faster.
                     float[] left = new float[data.Item1.Length];
                     float[] right = new float[data.Item1.Length];
-                    float half = (float)Int32.MaxValue/2f;
                     for (int a = 0; a < data.Item1.Length; a++)
                     {
-                        //left.Add(((float) data.Item1[a] - half) / half);
-                        //right.Add(((float)data.Item2[a] - half) / half);
-                        left[a] = ((float) data.Item1[a] - half) / half;
-                        right[a] = ((float)data.Item2[a] - half) / half;
+                        // The values are already negative to positive, it's just a matter of dividing the value by the max value to get it to -1/+1.
+                        left[a] = (float)data.Item1[a] / (float)Int32.MaxValue;
+                        right[a] = (float)data.Item2[a] / (float)Int32.MaxValue;
+                        //Console.WriteLine("EQPresetPresenter - a: {0} value: {1} newValue: {2}", a, data.Item1[a], left[a]);
                     }
 
                     View.RefreshOutputMeter(left, right);
