@@ -237,8 +237,7 @@ namespace org.sessionsapp.android
                 height = 1;
 
             // Create rectangle for bar
-            //RectangleF rect = new RectangleF(0, Bounds.Height - barHeight, barWidth, height); // x, y, w, h
-            Rect rect = new Rect(0, Height - (int)barHeight, barWidth, Height); // l, t, r, b
+            Rect rect = new Rect(0, Height - (int)barHeight, barWidth, Height);
 
             //Console.WriteLine("OutputMeterView - DRAW LEFT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxLeftDB: {3} leftMax: {4}", Height, height, barHeight, maxLeftDB, leftMax);
 
@@ -259,12 +258,7 @@ namespace org.sessionsapp.android
             paintMeter.SetStyle(Paint.Style.Fill);    
             canvas.DrawRect(rect, paintMeter);
 
-            //// Draw peak line
-            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-            //    new PointF(0, Bounds.Height - (peakLeftDB + 100)), 
-            //    new PointF(barWidth, Bounds.Height - (peakLeftDB + 100))
-            //}, _colorPeakLine, 1, false, false);
-
+            // Draw peak line
             var paintPeakLine = new Paint
             {
                 AntiAlias = true,
@@ -274,19 +268,10 @@ namespace org.sessionsapp.android
             float leftHeight = Height - (peakLeftDB + 100);
             canvas.DrawLine(0, leftHeight, barWidth, leftHeight, paintPeakLine);
 
-            // Draw number of db      
+            // Draw decibel value in text
             string strDB = peakLeftDB.ToString("00.0").Replace(",", ".");
             if (maxLeftDB == -100.0f)
                 strDB = "-inf";
-
-            //// Draw text
-            //SizeF sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-CondensedBold", 10);
-            //float newX = (barWidth - sizeString.Width) / 2;
-            ////            RectangleF rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
-            ////            rectBackgroundText.Inflate(new SizeF(2, 0));
-            ////            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
-            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
-            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
 
             var paintText = new Paint
             {
@@ -294,13 +279,11 @@ namespace org.sessionsapp.android
                 Color = Color.White,
                 TextSize = 12 * density
             }; 
-            //paintText.GetTextBounds(strDB, 0, strDB.Length, new Rect(0, 0, barWidth, (int) (20 * density)));
             Rect rectText = new Rect();
             paintText.GetTextBounds(strDB, 0, strDB.Length, rectText);
             int newX = (barWidth - rectText.Width()) / 2;
-
-            // Draw text
             canvas.DrawText(strDB, newX, Height - rectText.Height() - 4 - 1, paintText);
+            // TODO: Add shadow
 
             // -----------------------------------------
             // RIGHT CHANNEL
@@ -313,8 +296,7 @@ namespace org.sessionsapp.android
                 height = 1;
 
             // Create rectangle for bar                
-            //rect = new RectangleF(barWidth, Bounds.Height - barHeight, barWidth, height);
-            rect = new Rect((int)barWidth, Height - (int)barHeight, barWidth * 2, Height);
+            rect = new Rect(barWidth, Height - (int)barHeight, barWidth * 2, Height);
 
             //Console.WriteLine("OutputMeterView - DRAW RIGHT BAR - ControlHeight: {0} height: {1} barHeight: {2} maxRightDB: {3}", Height, height, barHeight, maxRightDB);
             // Check for distortion
@@ -323,16 +305,14 @@ namespace org.sessionsapp.android
             //CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
             canvas.DrawRect(rect, paintMeter);
 
-            //// Draw peak line
-            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-            //    new PointF(barWidth, Bounds.Height - (peakRightDB + 100)), 
-            //    new PointF(barWidth * 2, Bounds.Height - (peakRightDB + 100))                
-            //}, _colorPeakLine, 1, false, false);
+            // Draw peak line
+            float rightHeight = Height - (peakRightDB + 100);
+            canvas.DrawLine(barWidth, leftHeight, barWidth * 2, rightHeight, paintPeakLine);
 
-            //// Draw number of db      
-            //strDB = peakRightDB.ToString("00.0").Replace(",", ".");
-            //if (maxRightDB == -100.0f)
-            //    strDB = "-inf";
+            // Draw number of db      
+            strDB = peakRightDB.ToString("00.0").Replace(",", ".");
+            if (maxRightDB == -100.0f)
+                strDB = "-inf";
 
             //// Draw number of decibels (with font shadow to make it easier to read)                
             //sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-Bold", 10);
@@ -342,6 +322,12 @@ namespace org.sessionsapp.android
             ////            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
             //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
             //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
+
+            rectText = new Rect();
+            paintText.GetTextBounds(strDB, 0, strDB.Length, rectText);
+            //int newX = (barWidth - rectText.Width()) / 2;
+            newX = ((barWidth - rectText.Width()) / 2) + barWidth;
+            canvas.DrawText(strDB, newX, Height - rectText.Height() - 4 - 1, paintText);
         }
     }
 
