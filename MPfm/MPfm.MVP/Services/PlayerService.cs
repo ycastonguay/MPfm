@@ -151,29 +151,25 @@ namespace MPfm.MVP.Services
             int[] sampleData = new int[l4];
             int length = _player.GetMixerData(lengthToFetch, sampleData);
 
-            // as less data might be returned by BASS_ChannelGetData as requested
+            // From BASS.NET API: Note: an int is 32-bit meaning if we expect to receive 16-bit data stereo a single int value will contain 2 x 16-bit, so a full stereo pair of data
             l4 = length / 4;
             int[] left = new int[l4 / 2];
             int[] right = new int[l4 / 2];
             for (int a = 0; a < l4; a++)
             {
-                int absLevel = Math.Abs(sampleData[a]);
+                int leftValue = Base.LowWord(sampleData[a]);
+                int rightValue = Base.HighWord(sampleData[a]);
 
-                // decide on L/R channel
-                if (a % 2 == 0)
-                {
-                    // Left channel
-                    left[a / 2] = sampleData[a];
-                    if (absLevel > maxL)
-                        maxL = absLevel;
-                }
-                else
-                {
-                    // Right channel
-                    right[a / 2] = sampleData[a];
-                    if (absLevel > maxR)
-                        maxR = absLevel;
-                }
+                int absLevelLeft = Math.Abs(leftValue);
+                int absLevelRight = Math.Abs(rightValue);
+
+                left[a/2] = leftValue;
+                if (absLevelLeft > maxL)
+                    maxL = absLevelLeft;
+
+                right[a/2] = rightValue;
+                if (absLevelRight > maxR)
+                    maxR = absLevelRight;
             }
 
             //            // Get min max info from wave block

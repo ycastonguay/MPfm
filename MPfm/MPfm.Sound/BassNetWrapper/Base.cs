@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using MPfm.Core;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Fx;
@@ -368,6 +369,26 @@ namespace MPfm.Sound.BassNetWrapper
             return Conversion.LevelToDB(level, 65535);
         }
 
+        /// <summary>
+        /// Extracts the low word (16-bit) out of a 32-bit integer.
+        /// </summary>
+        /// <param name="dWord">32-bit integer</param>
+        /// <returns>Low word (16-bit)</returns>
+        public static short LowWord(int dWord)
+        {
+            return Utils.LowWord(dWord);
+        }
+
+        /// <summary>
+        /// Extracts the high word (16-bit) out of a 32-bit integer.
+        /// </summary>
+        /// <param name="dWord">32-bit integer</param>
+        /// <returns>High word (16-bit)</returns>
+        public static short HighWord(int dWord)
+        {
+            return Utils.HighWord(dWord);
+        }
+
         #endregion
 
         #region Error Management
@@ -390,5 +411,6 @@ namespace MPfm.Sound.BassNetWrapper
         }
 
         #endregion
+
     }
 }

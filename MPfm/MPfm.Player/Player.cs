@@ -1342,6 +1342,7 @@ namespace MPfm.Player
         /// <param name="sampleData">Sample data</param>
         public int GetMixerData(int length, int[] sampleData)
         {
+            // NOTE: Do *NOT* try to use the GetData/GetMixerData with short/Int16 array because it crashes under Xamarin.Android.
             int dataLength;
             if (Device.DriverType != DriverType.DirectSound)
                 dataLength = _fxChannel.GetMixerData(sampleData, length);

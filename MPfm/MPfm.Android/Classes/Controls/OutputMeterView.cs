@@ -211,11 +211,7 @@ namespace org.sessionsapp.android
             // Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
             //float barHeight = scaleMultiplier * (maxDB + 100);
 
-            //// Draw 0db line
-            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-            //    new PointF(0, 4), 
-            //    new PointF(Bounds.Width, 4)
-            //}, _color0dBLine, 1, false, false);
+            // Draw 0db line
             var paintLine = new Paint {
                 AntiAlias = true,
                 Color = _color0dBLine
@@ -307,25 +303,15 @@ namespace org.sessionsapp.android
 
             // Draw peak line
             float rightHeight = Height - (peakRightDB + 100);
-            canvas.DrawLine(barWidth, leftHeight, barWidth * 2, rightHeight, paintPeakLine);
+            canvas.DrawLine(barWidth, rightHeight, barWidth * 2, rightHeight, paintPeakLine);
 
             // Draw number of db      
             strDB = peakRightDB.ToString("00.0").Replace(",", ".");
             if (maxRightDB == -100.0f)
                 strDB = "-inf";
 
-            //// Draw number of decibels (with font shadow to make it easier to read)                
-            //sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-Bold", 10);
-            //newX = ((barWidth - sizeString.Width) / 2) + barWidth;
-            ////            rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
-            ////            rectBackgroundText.Inflate(new SizeF(2, 0));
-            ////            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
-            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
-            //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
-
             rectText = new Rect();
             paintText.GetTextBounds(strDB, 0, strDB.Length, rectText);
-            //int newX = (barWidth - rectText.Width()) / 2;
             newX = ((barWidth - rectText.Width()) / 2) + barWidth;
             canvas.DrawText(strDB, newX, Height - rectText.Height() - 4 - 1, paintText);
         }

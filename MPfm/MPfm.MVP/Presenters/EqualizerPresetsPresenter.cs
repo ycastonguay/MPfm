@@ -136,8 +136,8 @@ namespace MPfm.MVP.Presenters
                     for (int a = 0; a < data.Item1.Length; a++)
                     {
                         // The values are already negative to positive, it's just a matter of dividing the value by the max value to get it to -1/+1.
-                        left[a] = (float)data.Item1[a] / (float)Int32.MaxValue;
-                        right[a] = (float)data.Item2[a] / (float)Int32.MaxValue;
+                        left[a] = (float)data.Item1[a] / (float)Int16.MaxValue;
+                        right[a] = (float)data.Item2[a] / (float)Int16.MaxValue;
                         //Console.WriteLine("EQPresetPresenter - a: {0} value: {1} newValue: {2}", a, data.Item1[a], left[a]);
                     }
 
