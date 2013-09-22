@@ -203,13 +203,11 @@ namespace org.sessionsapp.android
             float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Right);
 
             // Set the dB range to display (-100 to +10dB)
-            float dbRangeToDisplay = 110;
+            //float dbRangeToDisplay = 110;
+            float dbRangeToDisplay = 100; // (-100 to 0)
 
             // Get multiplier (110 height to 330 == 3)
             float scaleMultiplier = Height / dbRangeToDisplay;
-
-            // Get bar height -- If value = -100 then 0. If value = 0 then = 100. if value = 10 then = 110.
-            //float barHeight = scaleMultiplier * (maxDB + 100);
 
             // Draw 0db line
             var paintLine = new Paint {
@@ -227,7 +225,7 @@ namespace org.sessionsapp.android
             //float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, ChannelType.Left);
 
             // Calculate bar height
-            float barHeight = maxLeftDB + 100;
+            float barHeight = scaleMultiplier * (maxLeftDB + 100);
             float height = barHeight;
             if (height < 1)
                 height = 1;
@@ -261,8 +259,8 @@ namespace org.sessionsapp.android
                 Color = _colorPeakLine
             };
             paintPeakLine.SetStyle(Paint.Style.Fill);
-            float leftHeight = Height - (peakLeftDB + 100);
-            canvas.DrawLine(0, leftHeight, barWidth, leftHeight, paintPeakLine);
+            float leftPeakHeight = Height - (scaleMultiplier * (peakLeftDB + 100));
+            canvas.DrawLine(0, leftPeakHeight, barWidth, leftPeakHeight, paintPeakLine);
 
             // Draw decibel value in text
             string strDB = peakLeftDB.ToString("00.0").Replace(",", ".");
@@ -286,7 +284,7 @@ namespace org.sessionsapp.android
             //
 
             // Calculate bar height
-            barHeight = maxRightDB + 100;
+            barHeight = scaleMultiplier * (maxRightDB + 100);
             height = barHeight;
             if (height < 1)
                 height = 1;
@@ -302,8 +300,8 @@ namespace org.sessionsapp.android
             canvas.DrawRect(rect, paintMeter);
 
             // Draw peak line
-            float rightHeight = Height - (peakRightDB + 100);
-            canvas.DrawLine(barWidth, rightHeight, barWidth * 2, rightHeight, paintPeakLine);
+            float rightPeakHeight = Height - (scaleMultiplier * (peakRightDB + 100));
+            canvas.DrawLine(barWidth, rightPeakHeight, barWidth * 2, rightPeakHeight, paintPeakLine);
 
             // Draw number of db      
             strDB = peakRightDB.ToString("00.0").Replace(",", ".");
