@@ -128,7 +128,7 @@ namespace MPfm.MVP.Presenters
                 }
                 else
                 {
-                    Tuple<int[], int[]> data = _playerService.GetMixerData(0.02);
+                    Tuple<short[], short[]> data = _playerService.GetMixerData(0.02);
 
                     // Convert to floats (TODO: Try to optimize this. I'm sure there's a clever way to do this faster.
                     float[] left = new float[data.Item1.Length];

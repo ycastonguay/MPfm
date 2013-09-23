@@ -138,7 +138,7 @@ namespace MPfm.MVP.Services
         /// </summary>
         /// <param name="seconds">Number of seconds to fetch</param>
         /// <returns>Tuple of 32-bit integers (left/right)</returns>
-        public Tuple<int[], int[]> GetMixerData(double seconds)
+        public Tuple<short[], short[]> GetMixerData(double seconds)
         {
             int maxL = 0;
             int maxR = 0;
@@ -153,15 +153,15 @@ namespace MPfm.MVP.Services
 
             // From BASS.NET API: Note: an int is 32-bit meaning if we expect to receive 16-bit data stereo a single int value will contain 2 x 16-bit, so a full stereo pair of data
             l4 = length / 4;
-            int[] left = new int[l4 / 2];
-            int[] right = new int[l4 / 2];
+            short[] left = new short[l4 / 2];
+            short[] right = new short[l4 / 2];
             for (int a = 0; a < l4; a++)
             {
-                int leftValue = Base.LowWord(sampleData[a]);
-                int rightValue = Base.HighWord(sampleData[a]);
+                short leftValue = Base.LowWord(sampleData[a]);
+                short rightValue = Base.HighWord(sampleData[a]);
 
-                int absLevelLeft = Math.Abs(leftValue);
-                int absLevelRight = Math.Abs(rightValue);
+                short absLevelLeft = Math.Abs(leftValue);
+                short absLevelRight = Math.Abs(rightValue);
 
                 left[a/2] = leftValue;
                 if (absLevelLeft > maxL)
@@ -179,7 +179,7 @@ namespace MPfm.MVP.Services
             //                //picDistortionWarning.Visible = true;
             //            }
 
-            return new Tuple<int[], int[]>(left, right);
+            return new Tuple<short[], short[]>(left, right);
         }
 
         /// <summary>

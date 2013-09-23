@@ -142,6 +142,9 @@ namespace org.sessionsapp.android
         private void Initialize()
         {
             _waveDataHistory = new List<WaveDataMinMax>();
+
+            if (!IsInEditMode)
+                SetLayerType(LayerType.Hardware, null); // Use GPU instead of CPU (except in IDE such as Eclipse)
         }
 
         /// <summary>
@@ -276,8 +279,10 @@ namespace org.sessionsapp.android
             Rect rectText = new Rect();
             paintText.GetTextBounds(strDB, 0, strDB.Length, rectText);
             int newX = (barWidth - rectText.Width()) / 2;
+            paintText.Color = new Color(30, 30, 30);
+            canvas.DrawText(strDB, newX + 1, Height - rectText.Height() - 4, paintText);
+            paintText.Color = Color.White;
             canvas.DrawText(strDB, newX, Height - rectText.Height() - 4 - 1, paintText);
-            // TODO: Add shadow
 
             // -----------------------------------------
             // RIGHT CHANNEL
@@ -311,6 +316,9 @@ namespace org.sessionsapp.android
             rectText = new Rect();
             paintText.GetTextBounds(strDB, 0, strDB.Length, rectText);
             newX = ((barWidth - rectText.Width()) / 2) + barWidth;
+            paintText.Color = new Color(30, 30, 30);
+            canvas.DrawText(strDB, newX + 1, Height - rectText.Height() - 4, paintText);
+            paintText.Color = Color.White;
             canvas.DrawText(strDB, newX, Height - rectText.Height() - 4 - 1, paintText);
         }
     }

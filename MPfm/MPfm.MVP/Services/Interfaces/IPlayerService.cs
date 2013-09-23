@@ -66,7 +66,7 @@ namespace MPfm.MVP.Services.Interfaces
         void ToggleRepeatType();
 
         int GetDataAvailable();
-        Tuple<int[], int[]> GetMixerData(double seconds);
+        Tuple<short[], short[]> GetMixerData(double seconds);
         Tuple<float[], float[]> GetFloatingPointMixerData(double seconds);
         PlayerPositionEntity GetPosition();
 
