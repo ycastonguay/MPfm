@@ -33,9 +33,15 @@ namespace MPfm.Sound.PeakFiles
     /// </summary>
     public class PeakFileService : IPeakFileService
     {
+#if ANDROID
+        bool _useFloatingPoint = false;
+#else
+        bool _useFloatingPoint = true;
+#endif
+
         Task _currentTask;
         CancellationTokenSource _cancellationTokenSource = null;
-        CancellationToken _cancellationToken;
+        CancellationToken _cancellationToken;        
 
         /// <summary>
         /// Defines the current peak file version. Used when reading peak files to make sure
@@ -86,6 +92,13 @@ namespace MPfm.Sound.PeakFiles
         /// <param name="peakFilePath">Peak file path</param>
         public void GeneratePeakFile(string audioFilePath, string peakFilePath)
         {
+#if ANDROID
+            int[] buffer = null;
+#else
+            float[] buffer = null;
+#endif
+
+
             bool cancelled = false;
             FileStream fileStream = null;
             BinaryWriter binaryWriter = null;
@@ -97,8 +110,6 @@ namespace MPfm.Sound.PeakFiles
             long bytesRead = 0;
             float[] floatLeft = null;
             float[] floatRight = null;
-            //byte[] buffer = null;
-            float[] buffer = null;
             IntPtr data = new IntPtr(); // initialized properly later
             WaveDataMinMax minMax = null;
             List<WaveDataMinMax> listMinMaxForProgressData = new List<WaveDataMinMax>();
@@ -109,8 +120,8 @@ namespace MPfm.Sound.PeakFiles
             {
                 try
                 {
-                    // Get audio file length and divide it by two since we're using floating point
-                    Channel channelDecode = Channel.CreateFileStreamForDecoding(audioFilePath, true);
+                    // Get audio file length and divide it by two since we're using floating point                     
+                    Channel channelDecode = Channel.CreateFileStreamForDecoding(audioFilePath, _useFloatingPoint);
                     audioFileLength = channelDecode.GetLength();
                     audioFileLength /= 2;
 
@@ -142,7 +153,12 @@ namespace MPfm.Sound.PeakFiles
 
                     // Create buffer
                     data = Marshal.AllocHGlobal(chunkSize);
+
+#if ANDROID
+                    buffer = new int[chunkSize];
+#else
                     buffer = new float[chunkSize];
+#endif
 
                     // Is an event binded to OnProcessData?
                     if (OnProcessStarted != null)
@@ -184,11 +200,22 @@ namespace MPfm.Sound.PeakFiles
                         // Loop through sample data to split channels
                         for (int a = 0; a < chunkSize; a++)
                         {
-                            // Check if left or right channel
-                            if (a % 2 == 0)
-                                floatLeft[a / 2] = buffer[a];
+                            if (_useFloatingPoint)
+                            {
+                                // Check if left or right channel
+                                if (a%2 == 0)
+                                    floatLeft[a/2] = buffer[a];
+                                else
+                                    floatRight[a/2] = buffer[a];
+                            }
                             else
-                                floatRight[a / 2] = buffer[a];
+                            {
+                                // Get left/right channel values
+                                short leftValue = Base.LowWord(buffer[a]);
+                                short rightValue = Base.HighWord(buffer[a]);
+                                floatLeft[a/2] = (float)leftValue / (float)Int16.MaxValue;
+                                floatRight[a/2] = (float)rightValue / (float)Int16.MaxValue;
+                            }
                         }
 
                         // Calculate min/max and add it to the min/max list for event progress

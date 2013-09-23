@@ -50,6 +50,7 @@ namespace MPfm.Android
         private bool _isInitialized = false;
         private ITinyMessengerHub _messengerHub;
         private BitmapCache _bitmapCache;
+        private WaveFormView _waveFormView;
         private SquareImageView _imageViewAlbumArt;
         private TextView _lblPosition;
         private TextView _lblLength;
@@ -91,6 +92,7 @@ namespace MPfm.Android
             _viewPager.Adapter = _tabPagerAdapter;
             _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
 
+            _waveFormView = FindViewById<WaveFormView>(Resource.Id.player_waveFormView);
             _imageViewAlbumArt = FindViewById<SquareImageView>(Resource.Id.player_imageViewAlbumArt);
             _lblPosition = FindViewById<TextView>(Resource.Id.player_lblPosition);
             _lblLength = FindViewById<TextView>(Resource.Id.player_lblLength);
@@ -433,6 +435,9 @@ namespace MPfm.Android
                             _bitmapCache.LoadBitmapFromByteArray(bytesImage, key, _imageViewAlbumArt);                            
                     }
                 });
+
+                _waveFormView.SetWaveFormLength(lengthBytes);
+                _waveFormView.LoadPeakFile(audioFile);
             });   
         }
 

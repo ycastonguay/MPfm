@@ -177,18 +177,12 @@ namespace MPfm.Sound.BassNetWrapper
             // Build flags; add base flags
             BASSFlag flags = BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN;
             if (useFloatingPoint)
-            {
-                // Add floating point
                 flags |= BASSFlag.BASS_SAMPLE_FLOAT;
-            }
 
             // Create file stream
             int handle = Bass.BASS_StreamCreate(frequency, numberOfChannels, flags, streamProc, IntPtr.Zero);
             if (handle == 0)
-            {
-                // Check for error
                 Base.CheckForError();
-            }            
             
             // Return new channel instance
             return new Channel(handle, ChannelType.Memory, true, useFloatingPoint) { sampleRate = frequency };
@@ -205,18 +199,12 @@ namespace MPfm.Sound.BassNetWrapper
             // Build flags; add base flags
             BASSFlag flags = BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_STREAM_PRESCAN;
             if (useFloatingPoint)
-            {
-                // Add floating point
                 flags |= BASSFlag.BASS_SAMPLE_FLOAT;
-            }
 
             // Create file stream
             int handle = Bass.BASS_StreamCreateFile(filePath, 0, 0, flags);
             if (handle == 0)
-            {
-                // Check for error
                 Base.CheckForError();
-            }
 
             // Return new channel instance
             return new Channel(handle, ChannelType.Decode, true, useFloatingPoint);
@@ -235,7 +223,6 @@ namespace MPfm.Sound.BassNetWrapper
             BASSFlag flags = BASSFlag.BASS_STREAM_PRESCAN;
             if (decode)
             {
-                // Add decode
                 flags |= BASSFlag.BASS_STREAM_DECODE;
             }
             else
@@ -244,18 +231,12 @@ namespace MPfm.Sound.BassNetWrapper
                 flags |= BASSFlag.BASS_FX_FREESOURCE;
             }
             if (useFloatingPoint)
-            {
-                // Add floating point
                 flags |= BASSFlag.BASS_SAMPLE_FLOAT;
-            }
 
             // Create file stream            
             int handle = BassFx.BASS_FX_TempoCreate(streamHandle, flags); 
             if (handle == 0)
-            {
-                // Check for error
                 Base.CheckForError();
-            }
 
             // Return new channel instance
             return new Channel(handle, ChannelType.FX, decode, useFloatingPoint);
