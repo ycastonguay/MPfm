@@ -279,6 +279,7 @@ namespace MPfm.Android
             {
                 PlayerPositionEntity entity = OnPlayerRequestPosition((float) _seekBar.Progress/100f);
                 _lblPosition.Text = entity.Position;
+                _waveFormView.SecondaryPosition = entity.PositionBytes;
             }
         }
 
@@ -286,6 +287,7 @@ namespace MPfm.Android
         {
             //Console.WriteLine("PlayerActivity - SeekBarOnStartTrackingTouch");
             _isPositionChanging = true;
+            _waveFormView.ShowSecondaryPosition = true;
         }
 
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs stopTrackingTouchEventArgs)
@@ -293,6 +295,7 @@ namespace MPfm.Android
             //Console.WriteLine("PlayerActivity - SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             OnPlayerSetPosition(_seekBar.Progress);
             _isPositionChanging = false;
+            _waveFormView.ShowSecondaryPosition = false;
         }
 
         public bool OnTouch(View v, MotionEvent e)
@@ -408,6 +411,8 @@ namespace MPfm.Android
                     _lblPosition.Text = entity.Position;
                     _seekBar.Progress = (int)entity.PositionPercentage;
                 }
+
+                _waveFormView.Position = entity.PositionBytes;
             });
         }
 
@@ -443,6 +448,7 @@ namespace MPfm.Android
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
+            RunOnUiThread(() => _waveFormView.SetMarkers(markers));
         }
 
         public void RefreshLoops(IEnumerable<Loop> loops)

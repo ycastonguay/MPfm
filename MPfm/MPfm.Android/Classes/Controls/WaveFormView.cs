@@ -44,6 +44,8 @@ namespace org.sessionsapp.android
         private string _status;
         private List<Marker> _markers;
         private Bitmap _imageCache = null;
+        private int _cursorX;
+        private int _secondaryCursorX;
 
         public WaveFormDisplayType DisplayType { get; set; }
 
@@ -81,8 +83,10 @@ namespace org.sessionsapp.android
                     return;
 
                 // Invalidate cursor
-                //RectangleF rectCursor = new RectangleF(_cursorX - 5, 0, 10, Frame.Height);
-                //SetNeedsDisplayInRect(rectCursor);
+                int density = (int) Resources.DisplayMetrics.Density;
+                int x = _cursorX - (5*density);
+                Rect rectCursor = new Rect(x, 0, x + (10 * density), Height);
+                Invalidate(rectCursor);
             }
         }
 
@@ -101,10 +105,11 @@ namespace org.sessionsapp.android
                 if (_isLoading)
                     return;
 
-                // Invalidate cursor. TODO: When the cursor is moving quickly, it dispappears because of the invalidation.
-                //                          Maybe the cursor shouldn't be rendered, but instead be a simple rect over this control?
-                //RectangleF rectCursor = new RectangleF(_secondaryCursorX - 25, 0, 50, Frame.Height);
-                //SetNeedsDisplayInRect(rectCursor);
+                // Invalidate cursor
+                int density = (int)Resources.DisplayMetrics.Density;
+                int x = _secondaryCursorX - (25 * density);
+                Rect rectCursor = new Rect(x, 0, x + (50 * density), Height);
+                Invalidate(rectCursor);
             }
         }
 
@@ -332,14 +337,16 @@ namespace org.sessionsapp.android
         private void DrawWaveFormBitmap(Canvas canvas)
         {
             _isLoading = false;
-            //int heightAvailable = (int)Frame.Height;
+            float density = Resources.DisplayMetrics.Density;
+            int heightAvailable = Height;
 
-            //// Draw bitmap cache
-            //context.DrawImage(Bounds, _imageCache.CGImage);
+            // Draw bitmap cache
+            var paintBitmap = new Paint();
+            canvas.DrawBitmap(_imageCache, 0, 0, paintBitmap);
 
-            //// Calculate position
-            //float positionPercentage = (float)Position / (float)Length;
-            //_cursorX = positionPercentage * Bounds.Width;
+            // Calculate position
+            float positionPercentage = (float)Position / (float)Length;
+            _cursorX = (int) (positionPercentage * Width);
 
             //// Draw markers
             //for (int a = 0; a < _markers.Count; a++)
@@ -361,23 +368,34 @@ namespace org.sessionsapp.android
             //    UIGraphics.PopContext();
             //}
 
-            //// Draw cursor line
+            // Draw cursor line
             //context.SetStrokeColor(new CGColor(0, 0.5f, 1, 1));
             //context.SetLineWidth(1.0f);
             //context.StrokeLineSegments(new PointF[2] { new PointF(_cursorX, 0), new PointF(_cursorX, heightAvailable) });
+            var paintCursor = new Paint
+            {
+                AntiAlias = true,
+                Color = new Color(0, 125, 255),
+                StrokeWidth = 1 * density
+            };
+            paintCursor.SetStyle(Paint.Style.Fill);
+            canvas.DrawLine(_cursorX, 0, _cursorX, heightAvailable, paintCursor);
 
-            //// Check if a secondary cursor must be drawn (i.e. when changing position)
-            //if (_showSecondaryPosition)
-            //{
-            //    float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
-            //    _secondaryCursorX = secondaryPositionPercentage * Bounds.Width;
-            //    _secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
+            // Check if a secondary cursor must be drawn (i.e. when changing position)
+            if (_showSecondaryPosition)
+            {
+                float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
+                _secondaryCursorX = (int) (secondaryPositionPercentage * Width);
+                //_secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
+
+                paintCursor.Color = Color.White;
+                canvas.DrawLine(_secondaryCursorX, 0, _secondaryCursorX, heightAvailable, paintCursor);
 
             //    // Draw cursor line
             //    context.SetStrokeColor(new CGColor(1, 1, 1, 1));
             //    context.SetLineWidth(1.0f);
             //    context.StrokeLineSegments(new PointF[2] { new PointF(_secondaryCursorX, 0), new PointF(_secondaryCursorX, heightAvailable) });
-            //}
+            }
         }
 
         public void RefreshWaveFormBitmap()
