@@ -592,6 +592,7 @@
     <AndroidResource Include="Resources\drawable\thumb.xml" />
     <AndroidResource Include="Resources\drawable\progress_background.xml" />
     <AndroidResource Include="Resources\drawable\progress_fill.xml" />
+    <AndroidResource Include="Resources\drawable\thumb_big.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

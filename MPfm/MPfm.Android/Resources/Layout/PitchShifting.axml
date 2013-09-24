@@ -116,6 +116,15 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
+      android:progressDrawable="@drawable/progress"
+      android:thumb="@drawable/thumb_big"
+      android:thumbOffset="8dp"
+      android:paddingTop="10px" 
+      android:paddingBottom="10px"
+      android:paddingLeft="24px" 
+      android:paddingRight="24px" 
+      android:minHeight="12dp"
+      android:maxHeight="12dp"          
       android:max="24" />
   </LinearLayout>
   <LinearLayout

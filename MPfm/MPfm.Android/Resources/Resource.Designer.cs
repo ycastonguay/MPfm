@@ -433,7 +433,10 @@ namespace MPfm.Android
 			public const int thumb = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int transparentbutton_selector = 2130837573;
+			public const int thumb_big = 2130837573;
+			
+			// aapt resource value: 0x7f020046
+			public const int transparentbutton_selector = 2130837574;
 			
 			static Drawable()
 			{
