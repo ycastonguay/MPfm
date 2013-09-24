@@ -30,6 +30,7 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Managers;
 using MPfm.Android.Classes.Managers.Events;
+using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -37,7 +38,7 @@ using MPfm.Sound.PeakFiles;
 
 namespace org.sessionsapp.android
 {
-    public class WaveFormView : View
+    public class WaveFormView : SurfaceView
     {
         private bool _isLoading;
         private bool _isGeneratingImageCache;
@@ -348,30 +349,52 @@ namespace org.sessionsapp.android
             float positionPercentage = (float)Position / (float)Length;
             _cursorX = (int) (positionPercentage * Width);
 
-            //// Draw markers
-            //for (int a = 0; a < _markers.Count; a++)
-            //{
-            //    float xPct = (float)_markers[a].PositionBytes / (float)Length;
-            //    float x = xPct * Bounds.Width;
+            // Draw markers
+            for (int a = 0; a < _markers.Count; a++)
+            {
+                float xPct = (float)_markers[a].PositionBytes / (float)Length;
+                int x = (int) (xPct * Width);
 
-            //    // Draw cursor line
-            //    context.SetStrokeColor(new CGColor(1, 0, 0, 1));
-            //    context.SetLineWidth(1.0f);
-            //    context.StrokeLineSegments(new PointF[2] { new PointF(x, 0), new PointF(x, heightAvailable) });
+                // Draw cursor line
+                var paintMarkerCursor = new Paint
+                {
+                    AntiAlias = true,
+                    Color = new Color(255, 0, 0),
+                    StrokeWidth = 1 * density
+                };
+                paintMarkerCursor.SetStyle(Paint.Style.Fill);
+                canvas.DrawLine(x, 0, x, heightAvailable, paintMarkerCursor);
 
-            //    // Draw text
-            //    var rectText = new RectangleF(x, 0, 12, 12);
-            //    CoreGraphicsHelper.FillRect(context, rectText, new CGColor(1, 0, 0, 0.7f));
-            //    string letter = Conversion.IndexToLetter(a).ToString();
-            //    UIGraphics.PushContext(context);
-            //    CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(x + 2, 0), letter, "HelveticaNeue", 10, new CGColor(1, 1, 1, 1));
-            //    UIGraphics.PopContext();
-            //}
+                // Draw text
+                //var rectText = new RectangleF(x, 0, 12, 12);
+                //CoreGraphicsHelper.FillRect(context, rectText, new CGColor(1, 0, 0, 0.7f));
+                string letter = Conversion.IndexToLetter(a).ToString();
+                //UIGraphics.PushContext(context);
+                //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(x + 2, 0), letter, "HelveticaNeue", 10, new CGColor(1, 1, 1, 1));
+                //UIGraphics.PopContext();
+
+                int flagWidth = (int) (12*density);
+                Rect rectTextBackground = new Rect(x - flagWidth, 0, x, flagWidth);
+                var paintTextBackground = new Paint
+                {
+                    AntiAlias = true,
+                    Color = new Color(255, 0, 0, 180)
+                };
+                paintTextBackground.SetStyle(Paint.Style.Fill);
+                canvas.DrawRect(rectTextBackground, paintTextBackground);
+
+                //paintText.GetTextBounds(letter, 0, letter.Length, rectText);
+                //int newX = (12 - rectText.Width()) / 2;
+                var paintText = new Paint
+                {
+                    AntiAlias = true,
+                    Color = Color.White,
+                    TextSize = 10 * density
+                };
+                canvas.DrawText(letter, x - ((flagWidth * 3) / 4), (flagWidth * 3) / 4, paintText); // newX, Height - rectText.Height() - 4 - 1, paintText);
+            }
 
             // Draw cursor line
-            //context.SetStrokeColor(new CGColor(0, 0.5f, 1, 1));
-            //context.SetLineWidth(1.0f);
-            //context.StrokeLineSegments(new PointF[2] { new PointF(_cursorX, 0), new PointF(_cursorX, heightAvailable) });
             var paintCursor = new Paint
             {
                 AntiAlias = true,
@@ -390,17 +413,13 @@ namespace org.sessionsapp.android
 
                 paintCursor.Color = Color.White;
                 canvas.DrawLine(_secondaryCursorX, 0, _secondaryCursorX, heightAvailable, paintCursor);
-
-            //    // Draw cursor line
-            //    context.SetStrokeColor(new CGColor(1, 1, 1, 1));
-            //    context.SetLineWidth(1.0f);
-            //    context.StrokeLineSegments(new PointF[2] { new PointF(_secondaryCursorX, 0), new PointF(_secondaryCursorX, heightAvailable) });
             }
         }
 
-        public void RefreshWaveFormBitmap()
+        public void RefreshWaveFormBitmap(int width)
         {
-            GenerateWaveFormBitmap(_audioFile, new Rect(0, 0, Width, Height));
+            RefreshStatus("Generating new bitmap...");
+            GenerateWaveFormBitmap(_audioFile, new Rect(0, 0, width, Height));
         }
 
         private void GenerateWaveFormBitmap(AudioFile audioFile, Rect frame)

@@ -31,7 +31,7 @@ using MPfm.Sound.AudioFiles;
 
 namespace org.sessionsapp.android
 {
-    public class OutputMeterView : View
+    public class OutputMeterView : SurfaceView
     {
         private List<WaveDataMinMax> _waveDataHistory = null;
         /// <summary>
@@ -215,7 +215,8 @@ namespace org.sessionsapp.android
             // Draw 0db line
             var paintLine = new Paint {
                 AntiAlias = true,
-                Color = _color0dBLine
+                Color = _color0dBLine,
+                StrokeWidth = 1 * density
             };
             paintLine.SetStyle(Paint.Style.Fill);
             canvas.DrawLine(0, 4, Width, 4, paintLine);
@@ -247,19 +248,20 @@ namespace org.sessionsapp.android
             //}
             //CoreGraphicsHelper.FillRect(context, rect, _colorMeter1);
 
-            //CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
             var paintMeter = new Paint {
                 AntiAlias = true,
                 Color = _colorMeter1
             };
-            paintMeter.SetStyle(Paint.Style.Fill);    
+            paintMeter.SetStyle(Paint.Style.Fill);
+            paintMeter.SetShader(new LinearGradient(0, 0, 0, Height, _colorMeter2, _colorMeter1, Shader.TileMode.Mirror));
             canvas.DrawRect(rect, paintMeter);
 
             // Draw peak line
             var paintPeakLine = new Paint
             {
                 AntiAlias = true,
-                Color = _colorPeakLine
+                Color = _colorPeakLine,
+                StrokeWidth = 1 * density
             };
             paintPeakLine.SetStyle(Paint.Style.Fill);
             float leftPeakHeight = Height - (scaleMultiplier * (peakLeftDB + 100));
@@ -301,7 +303,7 @@ namespace org.sessionsapp.android
             // Check for distortion
             //if (maxLeftDB >= 0.2f)
             //    gradient = theme.MeterDistortionGradient;
-            //CoreGraphicsHelper.FillGradient(context, rect, _colorMeter1, _colorMeter2);
+            paintMeter.SetShader(new LinearGradient(0, 0, 0, Height, _colorMeterB2, _colorMeterB1, Shader.TileMode.Mirror));
             canvas.DrawRect(rect, paintMeter);
 
             // Draw peak line

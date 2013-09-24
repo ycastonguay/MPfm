@@ -21,8 +21,10 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.Support.V4.View;
+using Android.Util;
 using Android.Views;
 using Android.OS;
 using Android.Widget;
@@ -41,6 +43,7 @@ using MPfm.Sound.AudioFiles;
 using TinyMessenger;
 using org.sessionsapp.android;
 using Exception = System.Exception;
+using Orientation = Android.Content.Res.Orientation;
 
 namespace MPfm.Android
 {
@@ -166,6 +169,14 @@ namespace MPfm.Android
             base.OnStart();
         }
 
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            base.OnConfigurationChanged(newConfig);
+
+            // The window manager returns the width depending on orientation
+            _waveFormView.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
+        }
+
         public void AddSubview(IBaseView view)
         {
             Console.WriteLine("PlayerActivity - AddSubview view: {0}", view.GetType().FullName);
@@ -277,7 +288,7 @@ namespace MPfm.Android
             //Console.WriteLine("PlayerActivity - SeekBarOnProgressChanged");
             if (_isPositionChanging)
             {
-                PlayerPositionEntity entity = OnPlayerRequestPosition((float) _seekBar.Progress/100f);
+                PlayerPositionEntity entity = OnPlayerRequestPosition((float) _seekBar.Progress/10000f);
                 _lblPosition.Text = entity.Position;
                 _waveFormView.SecondaryPosition = entity.PositionBytes;
             }
@@ -293,7 +304,7 @@ namespace MPfm.Android
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs stopTrackingTouchEventArgs)
         {
             //Console.WriteLine("PlayerActivity - SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
-            OnPlayerSetPosition(_seekBar.Progress);
+            OnPlayerSetPosition(_seekBar.Progress / 100f);
             _isPositionChanging = false;
             _waveFormView.ShowSecondaryPosition = false;
         }
@@ -409,7 +420,7 @@ namespace MPfm.Android
                 if (!_isPositionChanging)
                 {
                     _lblPosition.Text = entity.Position;
-                    _seekBar.Progress = (int)entity.PositionPercentage;
+                    _seekBar.Progress = (int) (entity.PositionPercentage * 100);
                 }
 
                 _waveFormView.Position = entity.PositionBytes;
