@@ -19,6 +19,15 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:gravity="center_vertical"
+    android:progressDrawable="@drawable/progress"
+    android:thumb="@drawable/thumb"
+    android:thumbOffset="8dp"
+    android:paddingTop="10px" 
+    android:paddingBottom="10px"
+    android:paddingLeft="24px" 
+    android:paddingRight="24px" 
+    android:minHeight="10dp"
+    android:maxHeight="10dp"     
     android:max="120" />
   <TextView
     android:id="@+id/equalizerPresetFaderCell_lblValue"

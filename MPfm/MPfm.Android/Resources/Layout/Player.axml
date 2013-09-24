@@ -12,26 +12,45 @@
       android:layout_height="wrap_content">
     <TextView
         android:id="@+id/player_lblPosition"
-        android:text="0:00.000"
-        android:textColor="#ffffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:gravity="center_horizontal"
-        android:padding="6dip" />
+        android:text="0:00.000"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="6dp" />
     <SeekBar
         android:id="@+id/player_seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:progressDrawable="@drawable/progress"
+        android:thumb="@drawable/thumb"
+        android:thumbOffset="8dp"
+        android:paddingTop="10px" 
+        android:paddingBottom="10px"
+        android:paddingLeft="24px" 
+        android:paddingRight="24px" 
+        android:minHeight="10dp"
+        android:maxHeight="10dp"             
         android:max="10000" />
     <TextView
         android:id="@+id/player_lblLength"
-        android:text="0.00:000"
-        android:textColor="#ffffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:gravity="center_horizontal"
-        android:padding="6dip" />
+        android:text="0.00:000"
+        android:textColor="#FFFFFF"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="6dp" />
   </LinearLayout>
   <org.sessionsapp.android.WaveFormView
       android:id="@+id/player_waveFormView"

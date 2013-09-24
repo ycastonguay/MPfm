@@ -412,16 +412,28 @@ namespace MPfm.Android
 			public const int player_shuffle_on = 2130837565;
 			
 			// aapt resource value: 0x7f02003e
-			public const int selectimage_selector = 2130837566;
+			public const int progress = 2130837566;
 			
 			// aapt resource value: 0x7f02003f
-			public const int spinner_selector = 2130837567;
+			public const int progress_background = 2130837567;
 			
 			// aapt resource value: 0x7f020040
-			public const int Splash = 2130837568;
+			public const int progress_fill = 2130837568;
 			
 			// aapt resource value: 0x7f020041
-			public const int transparentbutton_selector = 2130837569;
+			public const int selectimage_selector = 2130837569;
+			
+			// aapt resource value: 0x7f020042
+			public const int spinner_selector = 2130837570;
+			
+			// aapt resource value: 0x7f020043
+			public const int Splash = 2130837571;
+			
+			// aapt resource value: 0x7f020044
+			public const int thumb = 2130837572;
+			
+			// aapt resource value: 0x7f020045
+			public const int transparentbutton_selector = 2130837573;
 			
 			static Drawable()
 			{

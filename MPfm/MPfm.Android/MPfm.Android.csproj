@@ -588,6 +588,10 @@
     <AndroidResource Include="Resources\drawable-xhdpi\actionbar_select_disabled.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_select_disabled.png" />
     <AndroidResource Include="Resources\drawable\selectimage_selector.xml" />
+    <AndroidResource Include="Resources\drawable\progress.xml" />
+    <AndroidResource Include="Resources\drawable\thumb.xml" />
+    <AndroidResource Include="Resources\drawable\progress_background.xml" />
+    <AndroidResource Include="Resources\drawable\progress_fill.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
