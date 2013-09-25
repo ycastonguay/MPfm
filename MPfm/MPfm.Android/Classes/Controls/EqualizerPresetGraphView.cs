@@ -31,7 +31,7 @@ using MPfm.Player.Objects;
 
 namespace org.sessionsapp.android
 {
-    public class EqualizerPresetGraphView : View
+    public class EqualizerPresetGraphView : SurfaceView
     {
         private EQPreset _preset;
 

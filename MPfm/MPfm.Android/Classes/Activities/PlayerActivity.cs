@@ -244,6 +244,12 @@ namespace MPfm.Android
                 case Resource.Id.playerMenu_item_effects:
                     Console.WriteLine("PlayerActivity - Menu item click - Showing equalizer presets view...");
                     _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView));
+                    // Why not open this from the presenter instead?
+                    return true;
+                    break;
+                case Resource.Id.playerMenu_item_playlist:
+                    Console.WriteLine("PlayerActivity - Menu item click - Showing playlist view...");
+                    OnOpenPlaylist();
                     return true;
                     break;
                 default:
@@ -251,7 +257,6 @@ namespace MPfm.Android
                     break;
             }
         }
-
 
         private void BtnPlayPauseOnClick(object sender, EventArgs eventArgs)
         {

@@ -508,12 +508,12 @@
     </AndroidResource>
     <AndroidResource Include="Resources\Anim\flipper_back_slide_in.xml" />
     <AndroidResource Include="Resources\Anim\flipper_back_slide_out.xml" />
-    <AndroidResource Include="Resources\drawable\list_selector.xml" />
+    <AndroidResource Include="Resources\drawable\list.xml" />
     <AndroidResource Include="Resources\color\list_text.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\color\list_secondarytext.xml" />
-    <AndroidResource Include="Resources\drawable\button_selector.xml" />
+    <AndroidResource Include="Resources\drawable\button.xml" />
     <AndroidResource Include="Resources\Values\StringArray.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\player_close.png" />
     <AndroidResource Include="Resources\drawable-hdpi\player_close_on.png" />
@@ -533,9 +533,9 @@
     <AndroidResource Include="Resources\drawable-mdpi\icon_move.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon_move.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon_move.png" />
-    <AndroidResource Include="Resources\drawable\transparentbutton_selector.xml" />
-    <AndroidResource Include="Resources\drawable\spinner_selector.xml" />
-    <AndroidResource Include="Resources\drawable\albumcellbutton_selector.xml" />
+    <AndroidResource Include="Resources\drawable\transparentbutton.xml" />
+    <AndroidResource Include="Resources\drawable\spinner.xml" />
+    <AndroidResource Include="Resources\drawable\albumcellbutton.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\actionbar_play.png" />
     <AndroidResource Include="Resources\drawable-hdpi\actionbar_trash.png" />
     <AndroidResource Include="Resources\drawable-mdpi\actionbar_play.png" />
@@ -554,7 +554,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\miniplayer_chevronright_on.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronleft_on.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronright_on.png" />
-    <AndroidResource Include="Resources\drawable\miniplayerchevron_selector.xml" />
+    <AndroidResource Include="Resources\drawable\miniplayerchevron.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\miniplayer_chevronleft.png" />
     <AndroidResource Include="Resources\drawable-hdpi\miniplayer_chevronright.png" />
     <AndroidResource Include="Resources\drawable-mdpi\miniplayer_chevronleft.png" />
@@ -563,9 +563,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\miniplayer_chevronright.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronleft.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\miniplayer_chevronright.png" />
-    <AndroidResource Include="Resources\drawable\listgradient_selector.xml" />
+    <AndroidResource Include="Resources\drawable\listgradient.xml" />
     <AndroidResource Include="Resources\Anim\scale_test.xml" />
-    <AndroidResource Include="Resources\drawable\dialogbutton_selector.xml" />
+    <AndroidResource Include="Resources\drawable\dialogbutton.xml" />
     <AndroidResource Include="Resources\color\dialoglist_text.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -587,12 +587,17 @@
     <AndroidResource Include="Resources\drawable-mdpi\actionbar_select_disabled.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\actionbar_select_disabled.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_select_disabled.png" />
-    <AndroidResource Include="Resources\drawable\selectimage_selector.xml" />
+    <AndroidResource Include="Resources\drawable\selectimage.xml" />
     <AndroidResource Include="Resources\drawable\progress.xml" />
     <AndroidResource Include="Resources\drawable\thumb.xml" />
     <AndroidResource Include="Resources\drawable\progress_background.xml" />
     <AndroidResource Include="Resources\drawable\progress_fill.xml" />
     <AndroidResource Include="Resources\drawable\thumb_big.xml" />
+    <AndroidResource Include="Resources\drawable\roundbutton.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_playlist.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_playlist.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_playlist.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_playlist.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />

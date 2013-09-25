@@ -82,53 +82,54 @@
     </android.support.v4.view.ViewPager>
   </FrameLayout>
   <LinearLayout
-      android:id="@+id/player_layoutButtons"
-      android:layout_width="fill_parent"
-      android:layout_height="60dp"
-      android:background="@color/background"
-      android:orientation="horizontal"
-      android:gravity="center">
+    android:id="@+id/player_layoutButtons"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp"
+    android:background="@color/background"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <ImageButton
+      android:id="@+id/player_btnRepeat"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:background="@drawable/roundbutton"
+      android:src="@drawable/player_repeat" />
     <ImageButton
       android:id="@+id/player_btnPrevious"
-      android:layout_width="60dp"
-      android:layout_height="44dp"
-      android:background="@android:color/transparent"
-      android:src="@drawable/player_previous"
-      android:padding="20dp" />
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginLeft="8dp"
+      android:background="@drawable/roundbutton"
+      android:src="@drawable/player_previous" />
     <ImageButton
       android:id="@+id/player_btnPlayPause"
-      android:layout_width="60dp"
-      android:layout_height="44dp"
-      android:background="@android:color/transparent"
-      android:src="@drawable/player_pause"
-      android:padding="20dp" />
+      android:layout_width="64dp"
+      android:layout_height="64dp"
+      android:layout_marginLeft="8dp"
+      android:background="@drawable/roundbutton"
+      android:src="@drawable/player_pause" />
     <ImageButton
       android:id="@+id/player_btnNext"
-      android:layout_width="60dp"
-      android:layout_height="44dp"
-      android:background="@android:color/transparent"
-      android:src="@drawable/player_next"
-      android:padding="20dp" />
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginLeft="8dp"
+      android:background="@drawable/roundbutton"
+      android:src="@drawable/player_next" />
     <ImageButton
       android:id="@+id/player_btnPlaylist"
       android:layout_width="60dp"
       android:layout_height="44dp"
+      android:layout_marginLeft="8dp"
+      android:visibility="gone"
       android:background="@android:color/transparent"
-      android:src="@drawable/player_playlist"
-      android:padding="20dp" />
-    <ImageButton
-      android:id="@+id/player_btnRepeat"
-      android:layout_width="60dp"
-      android:layout_height="44dp"
-      android:background="@android:color/transparent"
-      android:src="@drawable/player_repeat"
-      android:padding="20dp" />
+      android:src="@drawable/player_playlist" />
     <ImageButton
       android:id="@+id/player_btnShuffle"
-      android:layout_width="60dp"
-      android:layout_height="44dp"
-      android:background="@android:color/transparent"
-      android:src="@drawable/player_shuffle"
-      android:padding="20dp" />
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginLeft="8dp"
+      android:background="@drawable/roundbutton"
+      android:src="@drawable/player_shuffle" />
   </LinearLayout>
 </LinearLayout>

@@ -14,7 +14,7 @@
     android:cacheColorHint="#FFFFFF"
     android:divider="#BBBBBB"
     android:dividerHeight="1px"
-    android:listSelector="@drawable/list_selector" />
+    android:listSelector="@drawable/list" />
   <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
       android:layout_height="wrap_content"
       android:layout_marginRight="12dp"
       android:padding="8dp"
-      android:background="@drawable/button_selector"
+      android:background="@drawable/button"
       android:text="New"
       android:textColor="@color/button_textcolor"
       android:textSize="14dp" />
@@ -37,7 +37,7 @@
       android:layout_height="wrap_content"
       android:layout_marginRight="12dp"
       android:padding="8dp"
-      android:background="@drawable/button_selector"
+      android:background="@drawable/button"
       android:text="Shuffle"
       android:textColor="@color/button_textcolor"
       android:textSize="14dp" />

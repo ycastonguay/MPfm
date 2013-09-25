@@ -43,13 +43,13 @@
     android:cacheColorHint="#333333"
     android:divider="#BBBBBB"
     android:dividerHeight="1px"
-    android:listSelector="@drawable/list_selector" />
+    android:listSelector="@drawable/list" />
   <Button
     android:id="@+id/sync_btnConnectManually"    
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/button_selector"
+    android:background="@drawable/button"
     android:text="Connect manually to device"
     android:textColor="@color/button_textcolor"
     android:textSize="14dp" />

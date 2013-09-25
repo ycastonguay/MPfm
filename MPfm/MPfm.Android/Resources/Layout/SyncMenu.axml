@@ -42,7 +42,7 @@
       android:cacheColorHint="#333333"
       android:divider="#BBBBBB"
       android:dividerHeight="1px"
-      android:listSelector="@drawable/list_selector" />
+      android:listSelector="@drawable/list" />
     <LinearLayout    
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="6dp"
-        android:background="@drawable/button_selector"
+        android:background="@drawable/button"
         android:text="Select all"
         android:textSize="14dp"
         android:textColor="@color/button_textcolor" />

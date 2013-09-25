@@ -24,6 +24,7 @@
     android:paddingRight="12dp"
     android:singleLine="true"
     android:lines="1"
+    android:hint="Playlist Name"
     android:textSize="16dp"
     android:textColor="#FFFFFF" />
   <LinearLayout
@@ -38,7 +39,7 @@
       android:layout_weight="1"
       android:drawableLeft="@drawable/actionbar_cancel"
       android:drawablePadding="2dp"      
-      android:background="@drawable/dialogbutton_selector"
+      android:background="@drawable/dialogbutton"
       android:text="Cancel"
       android:textColor="@color/dialogbutton_text"
       android:textSize="14dp"
@@ -48,9 +49,9 @@
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:drawableLeft="@drawable/selectimage_selector"
+      android:drawableLeft="@drawable/selectimage"
       android:drawablePadding="2dp"      
-      android:background="@drawable/dialogbutton_selector"
+      android:background="@drawable/dialogbutton"
       android:text="Create"
       android:textColor="@color/dialogbutton_text"
       android:textSize="14dp"

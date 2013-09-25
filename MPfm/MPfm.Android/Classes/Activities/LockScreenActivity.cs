@@ -57,7 +57,6 @@ namespace MPfm.Android
         ImageButton _btnPrevious;
         ImageButton _btnPlayPause;
         ImageButton _btnNext;
-        ImageButton _btnPlaylist;
         ImageButton _btnShuffle;
         ImageButton _btnRepeat;
         Button _btnClose;
@@ -93,14 +92,12 @@ namespace MPfm.Android
             _btnPrevious = FindViewById<ImageButton>(Resource.Id.lockScreen_btnPrevious);
             _btnPlayPause = FindViewById<ImageButton>(Resource.Id.lockScreen_btnPlayPause);
             _btnNext = FindViewById<ImageButton>(Resource.Id.lockScreen_btnNext);
-            _btnPlaylist = FindViewById<ImageButton>(Resource.Id.lockScreen_btnPlaylist);
             _btnShuffle = FindViewById<ImageButton>(Resource.Id.lockScreen_btnShuffle);
             _btnRepeat = FindViewById<ImageButton>(Resource.Id.lockScreen_btnRepeat);
             _btnClose = FindViewById<Button>(Resource.Id.lockScreen_btnClose);
             _btnPlayPause.SetOnTouchListener(this);
             _btnPrevious.SetOnTouchListener(this);
             _btnNext.SetOnTouchListener(this);
-            _btnPlaylist.SetOnTouchListener(this);
             _btnRepeat.SetOnTouchListener(this);
             _btnShuffle.SetOnTouchListener(this);
 
@@ -116,11 +113,11 @@ namespace MPfm.Android
             _btnNext.Click += (sender, args) => OnPlayerNext();
             _btnShuffle.Click += (sender, args) => OnPlayerShuffle();
             _btnRepeat.Click += (sender, args) => OnPlayerRepeat();
-            _btnPlaylist.Click += (sender, args) => {
-                Intent intent = new Intent(this, typeof (PlaylistActivity));
-                intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-                StartActivity(intent);
-            };
+            //_btnPlaylist.Click += (sender, args) => {
+            //    Intent intent = new Intent(this, typeof (PlaylistActivity));
+            //    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+            //    StartActivity(intent);
+            //};
 
             _timerSongPosition = new Timer();
             _timerSongPosition.Interval = 100;
@@ -232,9 +229,6 @@ namespace MPfm.Android
                         case Resource.Id.lockScreen_btnNext:
                             _btnNext.SetImageResource(Resource.Drawable.player_next_on);
                             break;
-                        case Resource.Id.lockScreen_btnPlaylist:
-                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist_on);
-                            break;
                         case Resource.Id.lockScreen_btnShuffle:
                             _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle_on);
                             break;
@@ -257,9 +251,6 @@ namespace MPfm.Android
                             break;
                         case Resource.Id.lockScreen_btnNext:
                             _btnNext.SetImageResource(Resource.Drawable.player_next);
-                            break;
-                        case Resource.Id.lockScreen_btnPlaylist:
-                            _btnPlaylist.SetImageResource(Resource.Drawable.player_playlist);
                             break;
                         case Resource.Id.lockScreen_btnShuffle:
                             _btnShuffle.SetImageResource(Resource.Drawable.player_shuffle);

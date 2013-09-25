@@ -5,7 +5,7 @@
   android:singleLine="true"
   android:layout_width="fill_parent"
   android:layout_height="52dp"
-  android:background="@drawable/spinner_selector"
+  android:background="@drawable/spinner"
   android:textColor="#FFFFFF"
   android:textSize="18dp"
 />

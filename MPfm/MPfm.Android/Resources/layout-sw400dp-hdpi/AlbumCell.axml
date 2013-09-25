@@ -23,7 +23,7 @@
     android:textColor="@color/transparentbutton_textcolor"
     android:textSize="14dp"    
     android:visibility="gone"
-    android:background="@drawable/albumcellbutton_selector" />
+    android:background="@drawable/albumcellbutton" />
   <!-- Why a FrameLayout? Because it seems android doesn't like layout_below or layout_above a view with layout_centerInParent. -->
   <FrameLayout
     android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
       android:textColor="@color/transparentbutton_textcolor"
       android:textSize="14dp"
       android:visibility="gone"
-      android:background="@drawable/albumcellbutton_selector" />
+      android:background="@drawable/albumcellbutton" />
   </FrameLayout>
   <FrameLayout
     android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
       android:textColor="@color/transparentbutton_textcolor"
       android:textSize="14dp"
       android:visibility="gone"
-      android:background="@drawable/albumcellbutton_selector" />
+      android:background="@drawable/albumcellbutton" />
   </FrameLayout>
   <LinearLayout
     android:layout_width="fill_parent"

@@ -67,5 +67,5 @@
     android:cacheColorHint="#333333"
     android:divider="#BBBBBB"
     android:dividerHeight="1px"
-    android:listSelector="@drawable/list_selector" />
+    android:listSelector="@drawable/list" />
 </LinearLayout>

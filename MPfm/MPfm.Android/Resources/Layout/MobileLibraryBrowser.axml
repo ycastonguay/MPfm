@@ -37,7 +37,7 @@
       android:cacheColorHint="#FFFFFF"
       android:divider="#BBBBBB"
       android:dividerHeight="1px"
-      android:listSelector="@drawable/list_selector" />
+      android:listSelector="@drawable/list" />
     <ListView
       android:id="@+id/mobileLibraryBrowser_listViewArtists"
       android:layout_width="fill_parent"
@@ -47,7 +47,7 @@
       android:cacheColorHint="#FFFFFF"
       android:divider="#BBBBBB"
       android:dividerHeight="1px"
-      android:listSelector="@drawable/list_selector" />
+      android:listSelector="@drawable/list" />
     <GridView
       android:id="@+id/mobileLibraryBrowser_gridViewAlbums"
       android:layout_width="fill_parent"
@@ -122,7 +122,7 @@
         android:cacheColorHint="#FFFFFF"
         android:divider="#BBBBBB"
         android:dividerHeight="1px"
-        android:listSelector="@drawable/list_selector" />
+        android:listSelector="@drawable/list" />
     </LinearLayout>
   </ViewFlipper>
 </LinearLayout>

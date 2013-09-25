@@ -37,6 +37,7 @@
         android:layout_weight="1"                
         android:singleLine="true"   
         android:imeOptions="actionDone"
+        android:hint="Preset Name"
         android:textSize="16dp"
         android:textColor="#FFFFFF"
         android:padding="10dp" />
@@ -62,7 +63,7 @@
         android:layout_height="wrap_content"        
         android:layout_marginRight="12dp"
         android:padding="8dp"
-        android:background="@drawable/button_selector"
+        android:background="@drawable/button"
         android:text="Normalize"
         android:textColor="@color/button_textcolor"
         android:textSize="14dp" />
@@ -72,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
         android:padding="8dp"
-        android:background="@drawable/button_selector"
+        android:background="@drawable/button"
         android:text="Reset"
         android:textColor="@color/button_textcolor"
         android:textSize="14dp" />
@@ -81,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@drawable/button_selector"
+        android:background="@drawable/button"
         android:text="Delete"
         android:textColor="@color/button_textcolor"
         android:textSize="14dp" />
