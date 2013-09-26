@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -77,7 +77,7 @@ namespace MPfm.Android.Classes.Adapters
 
         public void OnTabSelected(ActionBar.Tab tab, FragmentTransaction ft)
         {
-            //Console.WriteLine("TabPagerAdapter - OnTabSelected tab: {0}", tab.Text);
+            //Console.WriteLine("ViewPagerAdapter - OnTabSelected tab: {0}", tab.Text);
             _viewPager.SetCurrentItem(tab.Position, true);
         }
 

@@ -63,10 +63,15 @@ namespace MPfm.Android
         private ImageButton _btnShuffle;
         private ImageButton _btnRepeat;
         private ImageButton _btnPlaylist;
+        private Button _carrouselDot1;
+        private Button _carrouselDot2;
+        private Button _carrouselDot3;
+        private Button _carrouselDot4;
+        private Button _carrouselDot5;
         private SeekBar _seekBar;
         private List<Fragment> _fragments;
         private ViewPager _viewPager;
-        private TabPagerAdapter _tabPagerAdapter;
+        private ViewPagerAdapter _viewPagerAdapter;
         private MobileNavigationManager _navigationManager;
         private bool _isPositionChanging;
         private bool _isPlaying;
@@ -91,9 +96,10 @@ namespace MPfm.Android
             _fragments = new List<Fragment>();
             _viewPager = FindViewById<ViewPager>(Resource.Id.player_pager);
             _viewPager.OffscreenPageLimit = 4;
-            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
-            _viewPager.Adapter = _tabPagerAdapter;
-            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+            _viewPagerAdapter = new ViewPagerAdapter(FragmentManager, _fragments, _viewPager);
+            _viewPagerAdapter.OnPageChanged += ViewPagerAdapterOnOnPageChanged;
+            _viewPager.Adapter = _viewPagerAdapter;
+            _viewPager.SetOnPageChangeListener(_viewPagerAdapter);
 
             _waveFormView = FindViewById<WaveFormView>(Resource.Id.player_waveFormView);
             _imageViewAlbumArt = FindViewById<SquareImageView>(Resource.Id.player_imageViewAlbumArt);
@@ -106,6 +112,11 @@ namespace MPfm.Android
             _btnRepeat = FindViewById<ImageButton>(Resource.Id.player_btnRepeat);
             _btnPlaylist = FindViewById<ImageButton>(Resource.Id.player_btnPlaylist);
             _seekBar = FindViewById<SeekBar>(Resource.Id.player_seekBar);
+            _carrouselDot1 = FindViewById<Button>(Resource.Id.player_carrouselDot1);
+            _carrouselDot2 = FindViewById<Button>(Resource.Id.player_carrouselDot2);
+            _carrouselDot3 = FindViewById<Button>(Resource.Id.player_carrouselDot3);
+            _carrouselDot4 = FindViewById<Button>(Resource.Id.player_carrouselDot4);
+            _carrouselDot5 = FindViewById<Button>(Resource.Id.player_carrouselDot5);
             _btnPlayPause.Click += BtnPlayPauseOnClick;            
             _btnPrevious.Click += BtnPreviousOnClick;
             _btnNext.Click += BtnNextOnClick;
@@ -163,6 +174,15 @@ namespace MPfm.Android
 
         }
 
+        private void ViewPagerAdapterOnOnPageChanged(int position)
+        {
+            _carrouselDot1.Enabled = position == 0;
+            _carrouselDot2.Enabled = position == 1;
+            _carrouselDot3.Enabled = position == 2;
+            _carrouselDot4.Enabled = position == 3;
+            _carrouselDot5.Enabled = position == 4;
+        }
+
         protected override void OnStart()
         {
             Console.WriteLine("PlayerActivity - OnStart");
@@ -182,8 +202,8 @@ namespace MPfm.Android
             Console.WriteLine("PlayerActivity - AddSubview view: {0}", view.GetType().FullName);
             _fragments.Add((Fragment)view);
 
-            if (_tabPagerAdapter != null)
-                _tabPagerAdapter.NotifyDataSetChanged();
+            if (_viewPagerAdapter != null)
+                _viewPagerAdapter.NotifyDataSetChanged();
         }
 
         protected override void OnRestart()

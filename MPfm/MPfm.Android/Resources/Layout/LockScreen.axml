@@ -107,46 +107,37 @@
       android:layout_width="60dp"
       android:layout_height="60dp"
       android:background="@drawable/roundbutton"
-      android:src="@drawable/player_repeat"
-      android:padding="20dp" />
+      android:src="@drawable/player_repeat" />
     <ImageButton
       android:id="@+id/lockScreen_btnPrevious"
       android:layout_width="60dp"
       android:layout_height="60dp"
       android:background="@drawable/roundbutton"
-      android:src="@drawable/player_previous"
-      android:padding="60dp" />
+      android:src="@drawable/player_previous" />
     <ImageButton
       android:id="@+id/lockScreen_btnPlayPause"
       android:layout_width="100dp"
       android:layout_height="100dp"
       android:background="@drawable/roundbutton"
-      android:src="@drawable/player_pause"
-      android:padding="60dp" />
+      android:src="@drawable/player_pause" />
     <ImageButton
       android:id="@+id/lockScreen_btnNext"
       android:layout_width="60dp"
       android:layout_height="60dp"
       android:background="@drawable/roundbutton"
-      android:src="@drawable/player_next"
-      android:padding="60dp" />
+      android:src="@drawable/player_next" />
     <ImageButton
       android:id="@+id/lockScreen_btnShuffle"
       android:layout_width="60dp"
       android:layout_height="60dp"
       android:background="@drawable/roundbutton"
-      android:src="@drawable/player_shuffle"
-      android:padding="20dp" />
+      android:src="@drawable/player_shuffle" />
   </LinearLayout>
-  <Button
+  <ImageButton
     android:id="@+id/lockScreen_btnClose"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
     android:layout_marginTop="20dp"
-    android:background="@drawable/transparentbutton"
-    android:text="Close"
-    android:textColor="@color/transparentbutton_textcolor"
-    android:textSize="14dp"
-    android:padding="12dp" />
+    android:background="@drawable/roundbutton"
+    android:src="@drawable/player_close" />
 </LinearLayout>

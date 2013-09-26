@@ -36,7 +36,7 @@ namespace MPfm.Android
     {
         private MobileNavigationManager _navigationManager; 
         private ViewPager _viewPager;
-        private TabPagerAdapter _tabPagerAdapter;
+        private ViewPagerAdapter _viewPagerAdapter;
         //private List<Tuple<MobileNavigationTabType, Fragment>> _fragments;        
         private List<Fragment> _fragments;
 
@@ -53,9 +53,9 @@ namespace MPfm.Android
             //_fragments = new List<Tuple<MobileNavigationTabType, Fragment>>();
             _fragments = new List<Fragment>();
             _viewPager = FindViewById<ViewPager>(Resource.Id.preferences_pager);
-            _tabPagerAdapter = new TabPagerAdapter(FragmentManager, _fragments, _viewPager, ActionBar);
-            _viewPager.Adapter = _tabPagerAdapter;
-            _viewPager.SetOnPageChangeListener(_tabPagerAdapter);
+            _viewPagerAdapter = new ViewPagerAdapter(FragmentManager, _fragments, _viewPager);
+            _viewPager.Adapter = _viewPagerAdapter;
+            _viewPager.SetOnPageChangeListener(_viewPagerAdapter);
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager) _navigationManager).SetPreferencesActivityInstance(this);
@@ -73,8 +73,8 @@ namespace MPfm.Android
             //_fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
             _fragments.Add((Fragment)view);
 
-            if (_tabPagerAdapter != null)
-                _tabPagerAdapter.NotifyDataSetChanged();
+            if (_viewPagerAdapter != null)
+                _viewPagerAdapter.NotifyDataSetChanged();
         }
 
         protected override void OnRestart()

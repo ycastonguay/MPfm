@@ -59,7 +59,7 @@ namespace MPfm.Android
         ImageButton _btnNext;
         ImageButton _btnShuffle;
         ImageButton _btnRepeat;
-        Button _btnClose;
+        ImageButton _btnClose;
         SeekBar _seekBar;
         ImageView _imageAlbum;
         Bitmap _bitmapAlbumArt;
@@ -94,7 +94,8 @@ namespace MPfm.Android
             _btnNext = FindViewById<ImageButton>(Resource.Id.lockScreen_btnNext);
             _btnShuffle = FindViewById<ImageButton>(Resource.Id.lockScreen_btnShuffle);
             _btnRepeat = FindViewById<ImageButton>(Resource.Id.lockScreen_btnRepeat);
-            _btnClose = FindViewById<Button>(Resource.Id.lockScreen_btnClose);
+            _btnClose = FindViewById<ImageButton>(Resource.Id.lockScreen_btnClose);
+            _btnClose.SetOnTouchListener(this);
             _btnPlayPause.SetOnTouchListener(this);
             _btnPrevious.SetOnTouchListener(this);
             _btnNext.SetOnTouchListener(this);
@@ -217,6 +218,9 @@ namespace MPfm.Android
                 case MotionEventActions.Down:
                     switch (v.Id)
                     {
+                        case Resource.Id.lockScreen_btnClose:
+                            _btnClose.SetImageResource(Resource.Drawable.player_close_on);
+                            break;
                         case Resource.Id.lockScreen_btnPrevious:
                             _btnPrevious.SetImageResource(Resource.Drawable.player_previous_on);
                             break;
@@ -240,6 +244,9 @@ namespace MPfm.Android
                 case MotionEventActions.Up:
                     switch (v.Id)
                     {
+                        case Resource.Id.lockScreen_btnClose:
+                            _btnClose.SetImageResource(Resource.Drawable.player_close);
+                            break;
                         case Resource.Id.lockScreen_btnPrevious:
                             _btnPrevious.SetImageResource(Resource.Drawable.player_previous);
                             break;

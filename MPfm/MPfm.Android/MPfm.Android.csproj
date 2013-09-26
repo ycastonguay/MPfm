@@ -85,7 +85,7 @@
     <Compile Include="Classes\Adapters\MarkersListAdapter.cs" />
     <Compile Include="Classes\Adapters\PreferencesFragmentPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MainTabStatePagerAdapter.cs" />
-    <Compile Include="Classes\Adapters\TabPagerAdapter.cs" />
+    <Compile Include="Classes\Adapters\ViewPagerAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserListAdapter.cs" />
     <Compile Include="Classes\Application.cs" />
     <Compile Include="Classes\Cache\BitmapLruCache.cs" />
@@ -598,6 +598,7 @@
     <AndroidResource Include="Resources\drawable-mdpi\actionbar_playlist.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\actionbar_playlist.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_playlist.png" />
+    <AndroidResource Include="Resources\drawable\carrouseldot.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\armeabi\" />
