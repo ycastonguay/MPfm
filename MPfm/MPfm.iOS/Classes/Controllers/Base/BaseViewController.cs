@@ -47,7 +47,7 @@ namespace MPfm.iOS.Classes.Controllers.Base
             : base(nibName, bundle)
         {
             OnViewReady = onViewReady;
-        }
+        }       
 
         public virtual void ConfirmedBackButton()
         {
@@ -74,8 +74,8 @@ namespace MPfm.iOS.Classes.Controllers.Base
         {
             base.ViewDidLoad();
 
+            EdgesForExtendedLayout = UIRectEdge.None;
             this.NavigationItem.SetHidesBackButton(true, true);
-            
             OnViewReady(this);
         }
 

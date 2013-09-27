@@ -210,11 +210,13 @@ namespace MPfm.Sound.PeakFiles
                             }
                             else
                             {
+#if ANDROID
                                 // Get left/right channel values
                                 short leftValue = Base.LowWord(buffer[a]);
                                 short rightValue = Base.HighWord(buffer[a]);
                                 floatLeft[a/2] = (float)leftValue / (float)Int16.MaxValue;
                                 floatRight[a/2] = (float)rightValue / (float)Int16.MaxValue;
+#endif
                             }
                         }
 

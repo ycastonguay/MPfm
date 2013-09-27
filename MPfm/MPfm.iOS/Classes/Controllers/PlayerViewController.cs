@@ -88,15 +88,15 @@ namespace MPfm.iOS.Classes.Controllers
             viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
             viewPageControls.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
 
-            sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             sliderPosition.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             sliderPosition.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
 
             // Reduce the song position slider size for iPhone
             if(UserInterfaceIdiomIsPhone)
             {
                 sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
-                sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 3, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
+                sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 10, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
             }
 
             // Setup scroll view and page control
@@ -179,9 +179,9 @@ namespace MPfm.iOS.Classes.Controllers
             else
                 rectVolume = new RectangleF(8 + 320, screenSize.Height - 44 - 50, screenSize.Width - 16 - 320, 46);
             _volumeView = new MPVolumeView(rectVolume);
-            _volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
             _volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
             _volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            _volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
             this.View.AddSubview(_volumeView);
 
             // Only display wave form on iPhone 5+ and iPad
@@ -436,7 +436,7 @@ namespace MPfm.iOS.Classes.Controllers
         {
         }
 
-        public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
+        public async void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             if(audioFile == null)
                 return;
@@ -461,22 +461,22 @@ namespace MPfm.iOS.Classes.Controllers
                 });
 
                 // Load album art + resize in another thread
-                Task<UIImage>.Factory.StartNew(() => {
+                var task = Task<UIImage>.Factory.StartNew(() => {
                     try
                     {
                         byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
                         using (NSData imageData = NSData.FromArray(bytesImage))
                         {
-                            using (UIImage image = UIImage.LoadFromData(imageData))
+                            using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
                             {
-                                if (image != null)
+                                if (imageFullSize != null)
                                 {
                                     try
                                     {
                                         _currentAlbumArtKey = key;                                    
-                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
+                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
                                         return imageResized;
-                                    } 
+                                    }
                                     catch (Exception ex)
                                     {
                                         Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
@@ -485,14 +485,15 @@ namespace MPfm.iOS.Classes.Controllers
                             }
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
                     }
                     
                     return null;
-                }).ContinueWith(t => {
-                    UIImage image = t.Result;
+                });
+                //}).ContinueWith(t => {
+                UIImage image = await task;
                     if(image == null)
                         return;
                     
@@ -511,7 +512,7 @@ namespace MPfm.iOS.Classes.Controllers
                             Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
                         }
                     });
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                //}, TaskScheduler.FromCurrentSynchronizationContext());
             }
 
             // Refresh other fields

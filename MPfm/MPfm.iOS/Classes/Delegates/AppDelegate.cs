@@ -67,6 +67,7 @@ namespace MPfm.iOS.Classes.Delegates
             UIToolbar.Appearance.SetBackgroundImage(new UIImage(), UIToolbarPosition.Bottom, UIBarMetrics.Default);
             UIToolbar.Appearance.BackgroundColor = GlobalTheme.MainColor;
             UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
+            UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.BlackOpaque;
 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
 

@@ -131,7 +131,7 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\MPfm.Sound\Lib\iOS\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="TinyIoC.iOS">
+    <Reference Include="TinyIoC">
       <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -188,8 +188,6 @@
     <Compile Include="Models\PlaylistEntity.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
-    <Compile Include="Presenters\AddNewPlaylistPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\IAddNewPlaylistPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
@@ -207,7 +205,6 @@
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
-    <Compile Include="Views\IAddNewPlaylistView.cs" />
     <Compile Include="Views\ISelectPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
     <Compile Include="Views\IDesktopFirstRunView.cs" />
@@ -323,5 +320,11 @@
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
     <Compile Include="Views\IDesktopPreferencesView.cs" />
     <Compile Include="Views\IDesktopEffectsView.cs" />
+    <Compile Include="Views\IAddMarkerView.cs" />
+    <Compile Include="Views\IAddPlaylistView.cs" />
+    <Compile Include="Presenters\AddMarkerPresenter.cs" />
+    <Compile Include="Presenters\AddPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
   </ItemGroup>
 </Project>

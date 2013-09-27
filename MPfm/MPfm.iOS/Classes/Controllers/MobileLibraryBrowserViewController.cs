@@ -359,6 +359,12 @@ namespace MPfm.iOS.Classes.Controllers
             cell.ImageAlbum1.Image = null;
             cell.ImageAlbum2.Image = null;
             cell.ImageAlbum3.Image = null;
+            //cell.ImageAlbum1.Alpha = 1;
+            cell.ImageAlbum2.Alpha = 0.75f;
+            cell.ImageAlbum3.Alpha = 0.5f;
+            cell.ImageAlbum1.Tag = 1;
+            cell.ImageAlbum2.Tag = 2;
+            cell.ImageAlbum3.Tag = 3;
 
             // Set offset for delete icon
             if (indexPath.Row == _deleteCellIndex)
@@ -373,6 +379,10 @@ namespace MPfm.iOS.Classes.Controllers
             if (_browserType == MobileLibraryBrowserType.Songs)
             {
                 cell.IndexTextLabel.Text = item.AudioFile.TrackNumber.ToString();
+                cell.ImageAlbum1.Hidden = true;
+                cell.ImageAlbum2.Hidden = true;
+                cell.ImageAlbum3.Hidden = true;
+                cell.AlbumCountLabel.Hidden = true;
                 if (_currentlyPlayingSongId == item.AudioFile.Id)
                     cell.RightImage.Hidden = false;
                 else
@@ -384,11 +394,21 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.ImageAlbum1.Hidden = item.AlbumTitles.Count >= 1 ? false : true;
                 cell.ImageAlbum2.Hidden = item.AlbumTitles.Count >= 2 ? false : true;
                 cell.ImageAlbum3.Hidden = item.AlbumTitles.Count >= 3 ? false : true;
-                cell.AlbumCountLabel.Hidden = item.AlbumTitles.Count >= 3 ? false : true;
+                cell.AlbumCountLabel.Hidden = item.AlbumTitles.Count > 3 ? false : true;
 
-                int albumFetchCount = item.AlbumTitles.Count >= 3 ? 3 : item.AlbumTitles.Count;
+                int albumFetchCount = item.AlbumTitles.Count > 3 ? 2 : item.AlbumTitles.Count;
+                albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : albumFetchCount; //
                 //albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : item.AlbumTitles.Count; // Do not load a third album art when the count is visible!
-                for (int a = 0; a < albumFetchCount; a++)
+
+                Console.WriteLine("GetCell - title: {0} index: {1} albumFetchCount: {2}", item.Title, indexPath.Row, albumFetchCount);
+
+                int startIndex = 0;
+                if (item.AlbumTitles.Count > 3)
+                {
+                    startIndex = 1;
+                    albumFetchCount++;
+                }
+                for (int a = startIndex; a < albumFetchCount; a++)
                 {
                     UIImageView imageAlbum = null;
                     if (a == 0)
@@ -399,12 +419,12 @@ namespace MPfm.iOS.Classes.Controllers
                         imageAlbum = cell.ImageAlbum3;
 
                     // Check if album art is cached
-                    string key = _items[indexPath.Row].Query.ArtistName + "_" + _items[indexPath.Row].AlbumTitles[a];
+                    string key = item.Query.ArtistName + "_" + item.AlbumTitles[a];
                     KeyValuePair<string, UIImage> keyPair = _thumbnailImageCache.FirstOrDefault(x => x.Key == key);
                     if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
                     {
                         Console.WriteLine("MLBVC - GetCell - OnRequestAlbumArt - index: {0} key: {1}", indexPath.Row, key);
-                        OnRequestAlbumArt(_items[indexPath.Row].Query.ArtistName, _items[indexPath.Row].AlbumTitles[a], imageAlbum);
+                        OnRequestAlbumArt(item.Query.ArtistName, item.AlbumTitles[a], imageAlbum);
                     } 
                     else
                     {
@@ -530,9 +550,9 @@ namespace MPfm.iOS.Classes.Controllers
             });
         }
 
-        public void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
+        public async void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
-            Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2}", artistName, albumTitle, _browserType);
+            //Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2}", artistName, albumTitle, _browserType);
             // Note: cannot call UIScreen.MainScreen in a background thread!
 //            int height = 44;
 //            InvokeOnMainThread(() => {
@@ -551,35 +571,42 @@ namespace MPfm.iOS.Classes.Controllers
             InvokeOnMainThread(() => { // We have to use the main thread to fetch the scale
                 height = (int)(height * UIScreen.MainScreen.Scale);
             });
-            Task<UIImage>.Factory.StartNew(() => {
-                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - Task - artistName: {0} albumTitle: {1} browserType: {2} height: {3}", artistName, albumTitle, _browserType, height);
-                using (NSData imageData = NSData.FromArray(albumArtData))
+
+            var task = Task<UIImage>.Factory.StartNew(() => {
+                Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2} height: {3}", artistName, albumTitle, _browserType, height);
+                try
                 {
-                    using (UIImage image = UIImage.LoadFromData(imageData))
+                    using (NSData imageData = NSData.FromArray(albumArtData))
                     {
-                        if (image != null)
+                        using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
                         {
-                            try
+                            if (imageFullSize != null)
                             {
-                                UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
+                                UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
+                                Console.WriteLine("MLBVC - RefreshAlbumArtCell - Image resized!");
                                 return imageResized;
-                            } 
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error resizing image " + artistName + " - " + albumTitle + ": " + ex.Message);
                             }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error resizing image " + artistName + " - " + albumTitle + ": " + ex.Message);
+                }
 
+                Console.WriteLine("MLBVC - RefreshAlbumArtCell - Returning null");
                 return null;
-            }).ContinueWith(t => {
-                UIImage image = t.Result;
+            });
+
+            //}).ContinueWith(t => {
+
+                //UIImage image = t.Result;
+            UIImage image = await task;
+                Console.WriteLine("MLBVC - RefreshAlbumArtCell - ContinueWith - artistName: {0} albumTitle: {1} browserType: {2} userData==null: {3} image==null: {4}", artistName, albumTitle, _browserType, userData == null, image == null);
                 if(image == null)
                     return;
 
                 InvokeOnMainThread(() => {
-                    //Console.WriteLine("MLBVC - RefreshAlbumArtCell - ContinueWith - artistName: {0} albumTitle: {1} browserType: {2} userData==null: {3}", artistName, albumTitle, _browserType, userData == null);
                     switch (_browserType)
                     {
                         case MobileLibraryBrowserType.Artists:
@@ -606,8 +633,15 @@ namespace MPfm.iOS.Classes.Controllers
                                 var imageView = (UIImageView)userData;
                                 imageView.Alpha = 0;
                                 imageView.Image = image;
+
+                                float alpha = 1;
+                                if(imageView.Tag == 3)
+                                    alpha = 0.5f;
+                                else if(imageView.Tag == 2)
+                                    alpha = 0.75f;
+
                                 UIView.Animate(0.2, () => {
-                                    imageView.Alpha = 1;
+                                    imageView.Alpha = alpha;
                                 });
                             }
 
@@ -655,7 +689,7 @@ namespace MPfm.iOS.Classes.Controllers
 //                        });
 //                    }
                 });
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
         }
     
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty)

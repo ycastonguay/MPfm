@@ -16,7 +16,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>MinimumOSVersion</key>
-	<string>6.1</string>
+	<string>7.0</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Fonts/Junction.otf</string>
@@ -67,5 +67,7 @@
 	<string>Sessions</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

@@ -54,7 +54,7 @@
     <IpaPackageName />
     <MtouchI18n />
     <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey />
     <CodesignProvision>5C51C790-BB21-4F44-BECA-051A853109C6</CodesignProvision>
   </PropertyGroup>
@@ -107,7 +107,7 @@
     <Reference Include="taglib-sharp">
       <HintPath>Lib\taglib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="TinyIoC.iOS">
+    <Reference Include="TinyIoC">
       <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>

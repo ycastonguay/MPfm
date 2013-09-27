@@ -128,9 +128,7 @@ namespace MPfm.iOS
                 if(e.ButtonIndex == 4)
                     return;
 
-                // Add marker
-                if(OnAddMarker != null)
-                    OnAddMarker((MarkerTemplateNameType)e.ButtonIndex);
+                OnAddMarkerWithTemplate((MarkerTemplateNameType)e.ButtonIndex);
             };
 
             // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
@@ -140,7 +138,8 @@ namespace MPfm.iOS
 
         #region IMarkersView implementation
 
-        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action OnAddMarker { get; set; }
+        public Action<MarkerTemplateNameType> OnAddMarkerWithTemplate { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }
