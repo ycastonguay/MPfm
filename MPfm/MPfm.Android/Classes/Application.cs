@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -174,7 +174,8 @@ namespace MPfm.Android.Classes
             container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
             container.Register<IAboutView, AboutActivity>().AsMultiInstance();
             container.Register<ISelectPlaylistView, SelectPlaylistFragment>().AsMultiInstance();
-            container.Register<IAddNewPlaylistView, AddNewPlaylistFragment>().AsMultiInstance();
+            container.Register<IAddPlaylistView, AddPlaylistFragment>().AsMultiInstance();
+            container.Register<IAddMarkerView, AddMarkerFragment>().AsMultiInstance();
         }
     }
 }

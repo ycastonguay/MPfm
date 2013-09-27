@@ -15,14 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Views;
+using System;
+using System.Collections.Generic;
+using MPfm.MVP.Models;
+using MPfm.Player.Objects;
 
-namespace MPfm.MVP.Presenters.Interfaces
+namespace MPfm.MVP.Views
 {
 	/// <summary>
-    /// Add New Playlist presenter interface.
+	/// Add Playlist view interface.
 	/// </summary>
-    public interface IAddNewPlaylistPresenter : IBasePresenter<IAddNewPlaylistView>
-    {
+	public interface IAddPlaylistView : IBaseView
+	{
+        Action<string> OnSavePlaylist { get; set; }
+    
+        void AddPlaylistError(Exception ex);
 	}
 }

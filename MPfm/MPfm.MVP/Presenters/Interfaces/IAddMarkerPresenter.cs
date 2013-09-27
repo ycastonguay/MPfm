@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,25 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.Player.Objects;
-using MPfm.MVP.Presenters;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-	/// Markers view interface.
+    /// Add Marker presenter interface.
 	/// </summary>
-	public interface IMarkersView : IBaseView
-	{
-        Action OnAddMarker { get; set; }
-        Action<MarkerTemplateNameType> OnAddMarkerWithTemplate { get; set; }
-        Action<Marker> OnEditMarker { get; set; }
-        Action<Marker> OnSelectMarker { get; set; }
-        Action<Marker> OnDeleteMarker { get; set; }
-
-        void MarkerError(Exception ex);
-        void RefreshMarkers(List<Marker> markers);
+    public interface IAddMarkerPresenter : IBasePresenter<IAddMarkerView>
+    {
 	}
 }

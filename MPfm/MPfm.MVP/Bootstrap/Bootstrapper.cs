@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -89,7 +89,8 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IMobileFirstRunPresenter, MobileFirstRunPresenter>().AsSingleton();
             container.Register<IAboutPresenter, AboutPresenter>().AsSingleton();
             container.Register<ISelectPlaylistPresenter, SelectPlaylistPresenter>().AsMultiInstance();
-            container.Register<IAddNewPlaylistPresenter, AddNewPlaylistPresenter>().AsMultiInstance();
+            container.Register<IAddPlaylistPresenter, AddPlaylistPresenter>().AsMultiInstance();
+            container.Register<IAddMarkerPresenter, AddMarkerPresenter>().AsMultiInstance();
         }
         
         /// <summary>

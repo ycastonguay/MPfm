@@ -60,8 +60,9 @@ namespace MPfm.MVP.Presenters
 		}
 
         public override void BindView(IMarkersView view)
-        {            
+        {
             view.OnAddMarker = AddMarker;
+            view.OnAddMarkerWithTemplate = AddMarkerWithTemplate;
             view.OnEditMarker = EditMarker;
             view.OnSelectMarker = SelectMarker;
             view.OnDeleteMarker = DeleteMarker;
@@ -102,7 +103,21 @@ namespace MPfm.MVP.Presenters
 #endif
         }
 
-        private void AddMarker(MarkerTemplateNameType markerTemplateNameType)
+	    private void AddMarker()
+	    {
+            try
+            {
+                var view = _mobileNavigationManager.CreateAddMarkerView();
+                _mobileNavigationManager.PushDialogView("Add Marker", View, view);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("An error occured while creating AddMarker view: " + ex.Message);
+                View.MarkerError(ex);
+            }
+	    }
+
+        private void AddMarkerWithTemplate(MarkerTemplateNameType markerTemplateNameType)
         {
             try
             {

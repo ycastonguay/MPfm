@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -134,7 +134,7 @@ namespace MPfm.MVP.Presenters
 	    {
             try
             {
-                var view = _mobileNavigationManager.CreateAddNewPlaylistView();
+                var view = _mobileNavigationManager.CreateAddPlaylistView();
                 _mobileNavigationManager.PushDialogView("Add New Playlist", View, view);
             }
             catch (Exception ex)

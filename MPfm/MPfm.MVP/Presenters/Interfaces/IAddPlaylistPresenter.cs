@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,20 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.Player.Objects;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-	/// Add New Playlist view interface.
+    /// Add Playlist presenter interface.
 	/// </summary>
-	public interface IAddNewPlaylistView : IBaseView
-	{
-        Action<string> OnSavePlaylist { get; set; }
-    
-        void AddNewPlaylistError(Exception ex);
+    public interface IAddPlaylistPresenter : IBasePresenter<IAddPlaylistView>
+    {
 	}
 }

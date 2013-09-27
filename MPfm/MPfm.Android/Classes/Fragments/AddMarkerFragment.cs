@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -29,39 +30,53 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class AddNewPlaylistFragment : BaseDialogFragment, IAddNewPlaylistView
+    public class AddMarkerFragment : BaseDialogFragment, IAddMarkerView
     {
         private View _view;
+        private RadioButton _radioVerse;
+        private RadioButton _radioChorus;
+        private RadioButton _radioBridge;
+        private RadioButton _radioSolo;
         private Button _btnCancel;
         private Button _btnCreate;
-        private EditText _txtName;
 
-        public AddNewPlaylistFragment() : base(null)
+        public AddMarkerFragment() : base(null)
         {
         }
 
-        public AddNewPlaylistFragment(Action<IBaseView> onViewReady) 
+        public AddMarkerFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Dialog.SetTitle("Add new playlist");
-            _view = inflater.Inflate(Resource.Layout.AddNewPlaylist, container, false);
+            Dialog.SetTitle("Select marker template");
+            _view = inflater.Inflate(Resource.Layout.AddMarker, container, false);
 
-            _txtName = _view.FindViewById<EditText>(Resource.Id.addNewPlaylist_txtName);
-            _btnCancel = _view.FindViewById<Button>(Resource.Id.addNewPlaylist_btnCancel);
-            _btnCreate = _view.FindViewById<Button>(Resource.Id.addNewPlaylist_btnCreate);
+            _btnCancel = _view.FindViewById<Button>(Resource.Id.addMarker_btnCancel);
+            _btnCreate = _view.FindViewById<Button>(Resource.Id.addMarker_btnCreate);
+            _radioVerse = _view.FindViewById<RadioButton>(Resource.Id.addMarker_radioVerse);
+            _radioChorus = _view.FindViewById<RadioButton>(Resource.Id.addMarker_radioChorus);
+            _radioBridge = _view.FindViewById<RadioButton>(Resource.Id.addMarker_radioBridge);
+            _radioSolo = _view.FindViewById<RadioButton>(Resource.Id.addMarker_radioSolo);
             _btnCancel.Click += (sender, args) => Dismiss();
             _btnCreate.Click += (sender, args) =>
             {
-                OnSavePlaylist(_txtName.Text);
+                MarkerTemplateNameType template = MarkerTemplateNameType.None;
+                if(_radioVerse.Checked)
+                    template = MarkerTemplateNameType.Verse;
+                else if (_radioChorus.Checked)
+                    template = MarkerTemplateNameType.Chorus;
+                else if (_radioBridge.Checked)
+                    template = MarkerTemplateNameType.Bridge;
+                else if (_radioSolo.Checked)
+                    template = MarkerTemplateNameType.Solo;
+
+                OnAddMarker(template);
                 Dismiss();
             };
-            _btnCreate.Enabled = false;
-
-            _txtName.TextChanged += (sender, args) => _btnCreate.Enabled = _txtName.Text.Length > 0;
+            _radioVerse.Checked = true;
 
             return _view;
         }
@@ -72,17 +87,17 @@ namespace MPfm.Android.Classes.Fragments
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);            
         }
 
-        #region IAddNewPlaylistView implementation
+        #region IAddMarkerView implementation
 
-        public Action<string> OnSavePlaylist { get; set; }
+        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
 
-        public void AddNewPlaylistError(Exception ex)
+        public void AddMarkerError(Exception ex)
         {
             Activity.RunOnUiThread(() =>
             {
                 AlertDialog ad = new AlertDialog.Builder(Activity).Create();
                 ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in AddNewPlaylist: {0}", ex));
+                ad.SetMessage(string.Format("An error has occured in AddMarker: {0}", ex));
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });

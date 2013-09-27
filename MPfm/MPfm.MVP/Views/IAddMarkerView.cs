@@ -17,23 +17,19 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Player.Objects;
+using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
+using MPfm.Player.Objects;
 
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Markers view interface.
+	/// Add Marker view interface.
 	/// </summary>
-	public interface IMarkersView : IBaseView
+	public interface IAddMarkerView : IBaseView
 	{
-        Action OnAddMarker { get; set; }
-        Action<MarkerTemplateNameType> OnAddMarkerWithTemplate { get; set; }
-        Action<Marker> OnEditMarker { get; set; }
-        Action<Marker> OnSelectMarker { get; set; }
-        Action<Marker> OnDeleteMarker { get; set; }
+        Action<MarkerTemplateNameType> OnAddMarker { get; set; }
 
-        void MarkerError(Exception ex);
-        void RefreshMarkers(List<Marker> markers);
+        void AddMarkerError(Exception ex);
 	}
 }

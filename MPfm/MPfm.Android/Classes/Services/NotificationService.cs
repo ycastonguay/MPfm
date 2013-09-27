@@ -38,8 +38,8 @@ using Process = Android.OS.Process;
 
 namespace org.sessionsapp.android
 {
-    //[Service(Name = "org.sessionsapp.android.NotificationService", Label = "Sessions Widget Service")]//, Process = ":.widget.process")]
-    [Service(Label = "Sessions Notification Service")]//, Process = ":widgetprocess")]
+    //[Service(Name = "org.sessionsapp.android.NotificationService", Label = "Sessions Widget Service")]//, Process = ":.widget.process")] //, Process = ":widgetprocess")]
+    [Service(Label = "Sessions Notification Service")]
     public class NotificationService : Service
     {
         private ITinyMessengerHub _messengerHub;
@@ -142,11 +142,14 @@ namespace org.sessionsapp.android
 
         private Notification CreateNotificationView()
         {
-            var notification = new Notification.Builder(this)
-                .SetOngoing(true)
-                .SetPriority((int)NotificationPriority.Max)
-                .SetSmallIcon(Resource.Drawable.Icon)
-                .Build();
+            var notificationBuilder = new NotificationCompat.Builder(this);
+            notificationBuilder.SetOngoing(true);
+            notificationBuilder.SetSmallIcon(Resource.Drawable.Icon);
+
+            if (((int) global::Android.OS.Build.VERSION.SdkInt) >= 16)
+                notificationBuilder.SetPriority((int) NotificationPriority.Max);
+
+            var notification = notificationBuilder.Build();
 
             // Use the big notification style for Android 4.1+;
             //#if __ANDROID_16__
@@ -168,25 +171,29 @@ namespace org.sessionsapp.android
             intentPlayPause.SetAction(SessionsWidgetActions.SessionsWidgetPlayPause.ToString());
             PendingIntent pendingIntentPlayPause = PendingIntent.GetService(this, 0, intentPlayPause, PendingIntentFlags.UpdateCurrent);
             _notification.ContentView.SetOnClickPendingIntent(Resource.Id.notificationPlayer_btnPlayPause, pendingIntentPlayPause);
-            _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnPlayPause, pendingIntentPlayPause);
 
             Intent intentPrevious = new Intent(this, typeof(NotificationService));
             intentPrevious.SetAction(SessionsWidgetActions.SessionsWidgetPrevious.ToString());
             PendingIntent pendingIntentPrevious = PendingIntent.GetService(this, 0, intentPrevious, PendingIntentFlags.UpdateCurrent);
             _notification.ContentView.SetOnClickPendingIntent(Resource.Id.notificationPlayer_btnPrevious, pendingIntentPrevious);
-            _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnPrevious, pendingIntentPrevious);
 
             Intent intentNext = new Intent(this, typeof(NotificationService));
             intentNext.SetAction(SessionsWidgetActions.SessionsWidgetNext.ToString());
             PendingIntent pendingIntentNext = PendingIntent.GetService(this, 0, intentNext, PendingIntentFlags.UpdateCurrent);
             _notification.ContentView.SetOnClickPendingIntent(Resource.Id.notificationPlayer_btnNext, pendingIntentNext);
-            _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnNext, pendingIntentNext);
 
             Intent intentClose = new Intent(this, typeof(NotificationService));
             intentClose.SetAction(SessionsWidgetActions.SessionsWidgetClose.ToString());
             PendingIntent pendingIntentClose = PendingIntent.GetService(this, 0, intentClose, PendingIntentFlags.UpdateCurrent);
             _notification.ContentView.SetOnClickPendingIntent(Resource.Id.notificationPlayer_btnClose, pendingIntentClose);
-            _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnClose, pendingIntentClose);
+
+            if (((int) global::Android.OS.Build.VERSION.SdkInt) >= 16)
+            {
+                _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnPlayPause, pendingIntentPlayPause);
+                _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnPrevious, pendingIntentPrevious);
+                _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnNext, pendingIntentNext);
+                _notification.BigContentView.SetOnClickPendingIntent(Resource.Id.bigNotificationPlayer_btnClose, pendingIntentClose);
+            }
 
             Intent notificationIntent = new Intent(this, typeof(PlayerActivity));
             //notificationIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop | ActivityFlags.SingleTop); 

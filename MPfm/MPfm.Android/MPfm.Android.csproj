@@ -100,7 +100,8 @@
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
-    <Compile Include="Classes\Fragments\AddNewPlaylistFragment.cs" />
+    <Compile Include="Classes\Fragments\AddPlaylistFragment.cs" />
+    <Compile Include="Classes\Fragments\AddMarkerFragment.cs" />
     <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\SyncManualConnectFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
@@ -269,7 +270,10 @@
     <AndroidResource Include="Resources\layout\PlaylistCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\AddNewPlaylist.axml">
+    <AndroidResource Include="Resources\layout\AddPlaylist.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\AddMarker.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

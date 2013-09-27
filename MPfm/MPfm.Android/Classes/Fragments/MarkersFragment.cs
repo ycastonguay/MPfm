@@ -50,7 +50,7 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.Markers, container, false);
             _listView = _view.FindViewById<ListView>(Resource.Id.markers_listView);
             _btnAdd = _view.FindViewById<Button>(Resource.Id.markers_btnAdd);
-            _btnAdd.Click += (sender, args) => OnAddMarker(MarkerTemplateNameType.Verse);
+            _btnAdd.Click += (sender, args) => OnAddMarker();
 
             _listAdapter = new MarkersListAdapter(Activity, new List<Marker>());
             _listView.SetAdapter(_listAdapter);            
@@ -64,6 +64,7 @@ namespace MPfm.Android.Classes.Fragments
         {
             Console.WriteLine("MarkersFragment - ItemClick - itemPosition: {0}", itemClickEventArgs.Position);
             OnSelectMarker(_markers[itemClickEventArgs.Position]);
+            _listView.ClearFocus();
         }
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
@@ -116,7 +117,8 @@ namespace MPfm.Android.Classes.Fragments
 
         #region IMarkersView implementation
 
-        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action OnAddMarker { get; set; }
+        public Action<MarkerTemplateNameType> OnAddMarkerWithTemplate { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }

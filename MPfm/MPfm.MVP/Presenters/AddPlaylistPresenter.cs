@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -28,20 +28,20 @@ using TinyMessenger;
 namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-    /// Add New Playlist presenter.
+    /// Add Playlist presenter.
 	/// </summary>
-    public class AddNewPlaylistPresenter : BasePresenter<IAddNewPlaylistView>, IAddNewPlaylistPresenter
+    public class AddPlaylistPresenter : BasePresenter<IAddPlaylistView>, IAddPlaylistPresenter
 	{
 	    private readonly ITinyMessengerHub _messengerHub;
 	    private readonly ILibraryService _libraryService;
 
-	    public AddNewPlaylistPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService)
+	    public AddPlaylistPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService)
 	    {
 	        _messengerHub = messengerHub;
 	        _libraryService = libraryService;
 	    }
 
-	    public override void BindView(IAddNewPlaylistView view)
+	    public override void BindView(IAddPlaylistView view)
         {
             view.OnSavePlaylist = SavePlaylist;
 
@@ -60,7 +60,7 @@ namespace MPfm.MVP.Presenters
             catch (Exception ex)
             {
                 Tracing.Log("An error occured while saving playlist: " + ex.Message);
-                View.AddNewPlaylistError(ex);
+                View.AddPlaylistError(ex);
             }
 	    }
 	}

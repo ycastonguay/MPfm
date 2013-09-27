@@ -15,7 +15,7 @@
     android:textColor="#AAAAAA"
     android:textSize="14dp" />
   <EditText
-    android:id="@+id/addNewPlaylist_txtName"
+    android:id="@+id/addPlaylist_txtName"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"    
     android:paddingTop="2dp"
@@ -33,7 +33,7 @@
     android:layout_marginTop="4dp"
     android:orientation="horizontal">
     <Button
-      android:id="@+id/addNewPlaylist_btnCancel"
+      android:id="@+id/addPlaylist_btnCancel"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
@@ -45,7 +45,7 @@
       android:textSize="14dp"
       android:padding="6dp" />
     <Button
-      android:id="@+id/addNewPlaylist_btnCreate"
+      android:id="@+id/addPlaylist_btnCreate"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
