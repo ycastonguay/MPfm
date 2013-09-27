@@ -59,7 +59,6 @@ namespace MPfm.iOS.Classes.Delegates
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
-            var messenger = container.Resolve<ITinyMessengerHub>();
             RegisterViews();
 
             UINavigationBar.Appearance.SetBackgroundImage(new UIImage(), UIBarMetrics.Default);
@@ -69,7 +68,9 @@ namespace MPfm.iOS.Classes.Delegates
             UITabBar.Appearance.SelectionIndicatorImage = new UIImage();
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.BlackOpaque;
 
+
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
+            _window.TintColor = GlobalTheme.SecondaryColor;
 
             // Create tab bar controller, but hide it while the splash screen is visible
             _tabBarController = new MPfmTabBarController();

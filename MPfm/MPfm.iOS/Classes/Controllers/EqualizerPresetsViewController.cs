@@ -72,7 +72,7 @@ namespace MPfm.iOS
                 NavigationController.DismissViewController(true, null);
             };
             var btnDoneView = new UIView(new RectangleF(0, 0, 70, 44));
-            var rect = new RectangleF(btnDoneView.Bounds.X + 5, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
+            var rect = new RectangleF(btnDoneView.Bounds.X + 16, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
             btnDoneView.Bounds = rect;
             btnDoneView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnDoneView);
@@ -87,7 +87,7 @@ namespace MPfm.iOS
             btnAdd.Frame = new RectangleF(0, 0, 70, 44);
             btnAdd.OnButtonClick += HandleButtonAddTouchUpInside;
             var btnAddView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
-            var rect2 = new RectangleF(btnAddView.Bounds.X - 5, btnAddView.Bounds.Y, btnAddView.Bounds.Width, btnAddView.Bounds.Height);
+            var rect2 = new RectangleF(btnAddView.Bounds.X - 16, btnAddView.Bounds.Y, btnAddView.Bounds.Width, btnAddView.Bounds.Height);
             btnAddView.Bounds = rect2;
             btnAddView.AddSubview(btnAdd);
             _btnAdd = new UIBarButtonItem(btnAddView);

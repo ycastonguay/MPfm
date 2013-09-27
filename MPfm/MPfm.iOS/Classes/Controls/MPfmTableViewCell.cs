@@ -77,35 +77,38 @@ namespace MPfm.iOS.Classes.Controls
 
             ImageAlbum1 = new UIImageView();
             ImageAlbum1.BackgroundColor = UIColor.White;
-            //ImageAlbum1.Hidden = true;
-            ImageAlbum1.Alpha = 1f;
+            ImageAlbum1.Hidden = true;
+            ImageAlbum1.Alpha = 0.75f;
             ImageAlbum1.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
             AddSubview(ImageAlbum1);
 
             ImageAlbum2 = new UIImageView();
             ImageAlbum2.BackgroundColor = UIColor.White;
-            //ImageAlbum2.Hidden = true;
-            ImageAlbum2.Alpha = 0.75f;
+            ImageAlbum2.Hidden = true;
+            ImageAlbum2.Alpha = 0.4f;
             ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 132, 4, 44, 44);
             AddSubview(ImageAlbum2);
 
             ImageAlbum3 = new UIImageView();
             ImageAlbum3.BackgroundColor = UIColor.White;
-            //ImageAlbum3.Hidden = true;
-            ImageAlbum3.Alpha = 0.5f;
+            ImageAlbum3.Hidden = true;
+            ImageAlbum3.Alpha = 0.15f;
             ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 186, 4, 44, 44);
             AddSubview(ImageAlbum3);
 
             AlbumCountLabel = new UILabel();
             AlbumCountLabel.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
+            AlbumCountLabel.Alpha = 0.75f;
             AlbumCountLabel.BackgroundColor = GlobalTheme.MainColor;
             AlbumCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 18);
+            AlbumCountLabel.Hidden = true;
             AlbumCountLabel.Text = "+98";
             AlbumCountLabel.TextColor = UIColor.White;
             AlbumCountLabel.TextAlignment = UITextAlignment.Center;
             AlbumCountLabel.HighlightedTextColor = UIColor.White;
             AddSubview(AlbumCountLabel);
 
+            TextLabel.BackgroundColor = UIColor.FromWhiteAlpha(0, 0);
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
@@ -140,6 +143,10 @@ namespace MPfm.iOS.Classes.Controls
             RightImage.Hidden = true;
             RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
             AddSubview(RightImage);
+
+            // Make sure the text label is over all other subviews
+            TextLabel.RemoveFromSuperview();
+            AddSubview(TextLabel);
         }
 
         private void HandleRightButtonTouchUpInside(object sender, EventArgs e)

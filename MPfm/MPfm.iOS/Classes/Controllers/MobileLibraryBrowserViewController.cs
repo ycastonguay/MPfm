@@ -72,6 +72,8 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
+            // TODO: Add TopLayoutGuide when Xamarin will explain how it works (or patch it)
+
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
             collectionView.CollectionViewLayout = new MPfmCollectionViewFlowLayout();
@@ -160,7 +162,6 @@ namespace MPfm.iOS.Classes.Controllers
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-
             var screenSize = UIKitHelper.GetDeviceSize();
 
             if(_deleteCellIndex >= 0)
@@ -359,9 +360,6 @@ namespace MPfm.iOS.Classes.Controllers
             cell.ImageAlbum1.Image = null;
             cell.ImageAlbum2.Image = null;
             cell.ImageAlbum3.Image = null;
-            //cell.ImageAlbum1.Alpha = 1;
-            cell.ImageAlbum2.Alpha = 0.75f;
-            cell.ImageAlbum3.Alpha = 0.5f;
             cell.ImageAlbum1.Tag = 1;
             cell.ImageAlbum2.Tag = 2;
             cell.ImageAlbum3.Tag = 3;
@@ -634,11 +632,11 @@ namespace MPfm.iOS.Classes.Controllers
                                 imageView.Alpha = 0;
                                 imageView.Image = image;
 
-                                float alpha = 1;
+                                float alpha = 0.75f;
                                 if(imageView.Tag == 3)
-                                    alpha = 0.5f;
+                                    alpha = 0.15f;
                                 else if(imageView.Tag == 2)
-                                    alpha = 0.75f;
+                                    alpha = 0.4f;
 
                                 UIView.Animate(0.2, () => {
                                     imageView.Alpha = alpha;

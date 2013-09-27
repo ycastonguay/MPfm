@@ -72,9 +72,8 @@ namespace MPfm.iOS.Classes.Controllers.Base
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-
             EdgesForExtendedLayout = UIRectEdge.None;
+            base.ViewDidLoad();
             this.NavigationItem.SetHidesBackButton(true, true);
             OnViewReady(this);
         }
@@ -82,18 +81,6 @@ namespace MPfm.iOS.Classes.Controllers.Base
         public static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
-        }
-
-        public override bool ShouldAutorotateToInterfaceOrientation(UIInterfaceOrientation toInterfaceOrientation)
-        {
-            // Return true for supported orientations
-            if (UserInterfaceIdiomIsPhone)
-            {
-                return (toInterfaceOrientation != UIInterfaceOrientation.PortraitUpsideDown);
-            } else
-            {
-                return true;
-            }
         }
 	}
 }

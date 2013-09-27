@@ -70,7 +70,7 @@ namespace MPfm.iOS
             btnBack.Frame = new RectangleF(0, 0, 70, 44);
             btnBack.OnButtonClick += HandleButtonBackClick;
             var btnBackView = new UIView(new RectangleF(0, 0, 70, 44));
-            var rect = new RectangleF(btnBackView.Bounds.X + 5, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
+            var rect = new RectangleF(btnBackView.Bounds.X + 16, btnBackView.Bounds.Y, btnBackView.Bounds.Width, btnBackView.Bounds.Height);
             btnBackView.Bounds = rect;
             btnBackView.AddSubview(btnBack);
             _btnBack = new UIBarButtonItem(btnBackView);
@@ -84,7 +84,7 @@ namespace MPfm.iOS
             btnSave.Frame = new RectangleF(0, 0, 60, 44);
             btnSave.OnButtonClick += HandleButtonSaveTouchUpInside;
             var btnSaveView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
-            var rect2 = new RectangleF(btnSaveView.Bounds.X - 5, btnSaveView.Bounds.Y, btnSaveView.Bounds.Width, btnSaveView.Bounds.Height);
+            var rect2 = new RectangleF(btnSaveView.Bounds.X - 16, btnSaveView.Bounds.Y, btnSaveView.Bounds.Width, btnSaveView.Bounds.Height);
             btnSaveView.Bounds = rect2;
             btnSaveView.AddSubview(btnSave);
             _btnSave = new UIBarButtonItem(btnSaveView);
