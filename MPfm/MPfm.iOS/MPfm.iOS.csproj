@@ -377,8 +377,6 @@
     <BundleResource Include="Images\Sliders\thumb%402x.png" />
     <BundleResource Include="Images\Sliders\thumbbig.png" />
     <BundleResource Include="Images\Sliders\thumbbig%402x.png" />
-    <BundleResource Include="Images\Buttons\back.png" />
-    <BundleResource Include="Images\Buttons\back%402x.png" />
     <BundleResource Include="Images\Icons\icon_cloud.png" />
     <BundleResource Include="Images\Icons\icon_cloud%402x.png" />
     <BundleResource Include="Images\Icons\icon_eq.png" />

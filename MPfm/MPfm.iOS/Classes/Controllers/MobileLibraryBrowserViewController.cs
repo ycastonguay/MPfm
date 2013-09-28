@@ -52,6 +52,7 @@ namespace MPfm.iOS.Classes.Controllers
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
         UIButton _btnDelete;
         int _deleteCellIndex = -1;
+        int _menuCellIndex = -1;
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
@@ -134,6 +135,11 @@ namespace MPfm.iOS.Classes.Controllers
             UISwipeGestureRecognizer swipe = new UISwipeGestureRecognizer(HandleSwipe);
             swipe.Direction = UISwipeGestureRecognizerDirection.Right;
             tableView.AddGestureRecognizer(swipe);
+
+            UILongPressGestureRecognizer longPressAlbums = new UILongPressGestureRecognizer(HandleLongPressAlbums);
+            longPressAlbums.MinimumPressDuration = 0.7f;
+            longPressAlbums.WeakDelegate = this;
+            collectionView.AddGestureRecognizer(longPressAlbums);
 
             base.ViewDidLoad();            
         }
@@ -241,6 +247,19 @@ namespace MPfm.iOS.Classes.Controllers
             }
         }
 
+        private void HandleLongPressAlbums(UILongPressGestureRecognizer gestureRecognizer)
+        {
+            if (gestureRecognizer.State != UIGestureRecognizerState.Began)
+                return;
+
+            PointF pt = gestureRecognizer.LocationInView(tableView);
+            NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
+            if (indexPath == null)
+                _menuCellIndex = -1;
+            else
+                _menuCellIndex = indexPath.Row;
+        }
+
         [Export ("collectionView:cellForItemAtIndexPath:")]
         public UICollectionViewCell CellForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
@@ -269,6 +288,14 @@ namespace MPfm.iOS.Classes.Controllers
                     cell.SetImage(keyPair.Value);
                 }
             } 
+
+            cell.PlayButton.Alpha = _menuCellIndex == indexPath.Row ? 1 : 0;
+            cell.AddButton.Alpha = _menuCellIndex == indexPath.Row ? 1 : 0;
+            cell.DeleteButton.Alpha = _menuCellIndex == indexPath.Row ? 1 : 0;
+
+            cell.PlayButton.TouchUpInside += HandleBtnPlayTouchUpInside;
+            cell.AddButton.TouchUpInside += HandleBtnAddTouchUpInside;
+            cell.DeleteButton.TouchUpInside += HandleBtnDeleteTouchUpInside;
 
             return cell;
         }
@@ -318,6 +345,30 @@ namespace MPfm.iOS.Classes.Controllers
         public bool CollectionShouldShowMenuForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
             return true;
+        }
+
+        private void HandleBtnAddTouchUpInside(object sender, EventArgs e)
+        {
+            FadeOutMenu();
+        }
+
+        private void HandleBtnDeleteTouchUpInside(object sender, EventArgs e)
+        {
+            FadeOutMenu();
+        }
+
+        private void HandleBtnPlayTouchUpInside(object sender, EventArgs e)
+        {
+            FadeOutMenu();
+        }
+
+        private void FadeOutMenu()
+        {
+//            UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+//                PlayButton.Alpha = 0;
+//                AddButton.Alpha = 0;
+//                DeleteButton.Alpha = 0;
+//            }, null);
         }
 
 //        [Export ("collectionView:viewForSupplementaryElementOfKind:atIndexPath:")]

@@ -37,6 +37,10 @@ namespace MPfm.iOS.Classes.Controls
         UILabel _lblTitle;
         UILabel _lblSubtitle;
 
+        public UIButton PlayButton { get; set; }
+        public UIButton AddButton { get; set; }
+        public UIButton DeleteButton { get; set; }
+
         public UIImage Image
         {
             get 
@@ -93,7 +97,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             //Frame = new RectangleF(0, 0, 160, 160);
             BackgroundView = new UIView{BackgroundColor = GlobalTheme.BackgroundColor};
-            SelectedBackgroundView = new UIView{BackgroundColor = GlobalTheme.BackgroundColor};
+            SelectedBackgroundView = new UIView{BackgroundColor = GlobalTheme.SecondaryColor};
             ContentView.BackgroundColor = GlobalTheme.BackgroundColor;
             ContentView.AutosizesSubviews = true;
 
@@ -111,6 +115,21 @@ namespace MPfm.iOS.Classes.Controls
             _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             _lblSubtitle.TextColor = new UIColor(0.8f, 0.8f, 0.8f, 1);
             _lblSubtitle.TextAlignment = UITextAlignment.Center;
+           
+            PlayButton = new UIButton(new RectangleF(((Frame.Width - 44) / 2) - 52, (Frame.Height - 44) / 2, 44, 44));
+            PlayButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            PlayButton.SetImage(UIImage.FromBundle("Images/Buttons/previous_on"), UIControlState.Normal);
+            PlayButton.Alpha = 0;
+
+            AddButton = new UIButton(new RectangleF((Frame.Width - 44) / 2, (Frame.Height - 44) / 2, 44, 44));
+            AddButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            AddButton.SetImage(UIImage.FromBundle("Images/Buttons/play_on"), UIControlState.Normal);
+            AddButton.Alpha = 0;
+
+            DeleteButton = new UIButton(new RectangleF(((Frame.Width - 44) / 2) + 52, (Frame.Height - 44) / 2, 44, 44));
+            DeleteButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            DeleteButton.SetImage(UIImage.FromBundle("Images/Buttons/next_on"), UIControlState.Normal);
+            DeleteButton.Alpha = 0;
 
             _imageView = new UIImageView(new RectangleF(0, 0, Frame.Width, Frame.Height));
             _imageView.Alpha = 0;
@@ -123,6 +142,9 @@ namespace MPfm.iOS.Classes.Controls
             ContentView.AddSubview(_labelBackgroundView);
             ContentView.AddSubview(_lblSubtitle);
             ContentView.AddSubview(_lblTitle);
+            ContentView.AddSubview(PlayButton);
+            ContentView.AddSubview(AddButton);
+            ContentView.AddSubview(DeleteButton);
         }
 
         public override void LayoutSubviews()
@@ -143,7 +165,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             if (highlighted)
             {
-                UIView.Animate(0.1, 0.2, UIViewAnimationOptions.CurveEaseIn, () => {
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                     _labelBackgroundView.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                     _lblTitle.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                     _lblSubtitle.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
@@ -152,28 +174,28 @@ namespace MPfm.iOS.Classes.Controls
                     _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X - 8, _labelBackgroundView.Frame.Y - 2, _labelBackgroundView.Frame.Width + 16, _labelBackgroundView.Frame.Height - 2);
                     _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y - 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height - 1);
                     _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y - 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height - 2);
-                }, () => {
-                    Console.WriteLine("CollAlbumViewCell - SetHighlight=true animation completed!");
-                });
+                }, null);
+                UIView.Animate(0.1, 0.7, UIViewAnimationOptions.CurveEaseIn, () => {
+                    PlayButton.Alpha = 1;
+                    AddButton.Alpha = 1;
+                    DeleteButton.Alpha = 1;
+                }, null);
             }
             else
             {
                 // TODO: When quick tapping the cell, the animation will start right away from the "pressed" state. Try to find a way to not animate the cell.
-                UIView.Animate(0.1, 0.2, UIViewAnimationOptions.CurveEaseIn, () => {
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                     // Don't change the order, it is important to set the frame before transform!
                     _labelBackgroundView.Frame = new RectangleF(_labelBackgroundView.Frame.X + 8, _labelBackgroundView.Frame.Y + 2, _labelBackgroundView.Frame.Width - 16, _labelBackgroundView.Frame.Height + 2);
                     _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y + 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height + 1);
                     _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y + 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height + 2);
+                    _imageView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
                     _labelBackgroundView.Transform = CGAffineTransform.MakeScale(1, 1);
                     _lblTitle.Transform = CGAffineTransform.MakeScale(1, 1);
                     _lblSubtitle.Transform = CGAffineTransform.MakeScale(1, 1);
-
-                    _imageView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
-                }, () => {
-                    Console.WriteLine("CollAlbumViewCell - SetHighlight=false animation completed!");
-                });
+                }, null);
             }
-        }
+        }       
     }
 }
