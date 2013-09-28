@@ -103,8 +103,16 @@
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
+    <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
+    <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
+    <Compile Include="Models\PlaylistEntity.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
+    <Compile Include="Presenters\AddMarkerPresenter.cs" />
+    <Compile Include="Presenters\AddPlaylistPresenter.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
     <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\EditSongMetadataPresenter.cs" />
@@ -118,8 +126,11 @@
     <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IAddMarkerView.cs" />
+    <Compile Include="Views\IAddPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
     <Compile Include="Views\IDesktopFirstRunView.cs" />
     <Compile Include="Views\IEditSongMetadataView.cs" />
@@ -128,6 +139,7 @@
     <Compile Include="Views\ILibraryPreferencesView.cs" />
     <Compile Include="Views\IGeneralPreferencesView.cs" />
     <Compile Include="Views\IAudioPreferencesView.cs" />
+    <Compile Include="Views\ISelectPlaylistView.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Presenters\PlayerPresenter.cs" />

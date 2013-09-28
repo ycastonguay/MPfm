@@ -100,15 +100,41 @@ namespace MPfm.Library.Database
             return connection;
         }
 
+        ///// <summary>
+        ///// Returns the list of properties which have different database field names.
+        ///// </summary>
+        ///// <typeparam name="T">Object to scan (generic)</typeparam>
+        ///// <returns>List of DatabaseFieldMap</returns>
+        //public List<DatabaseFieldMap> GetMap<T>()
+        //{
+        //    // Create map by scanning properties
+        //    List<DatabaseFieldMap> maps = new List<DatabaseFieldMap>();
+        //    PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        //    foreach (PropertyInfo propertyInfo in propertyInfos)
+        //    {
+        //        // Scan attributes
+        //        object[] attributes = propertyInfo.GetCustomAttributes(true);
+        //        foreach (object attribute in attributes)
+        //        {
+        //            // Try to cast into attribute map
+        //            DatabaseFieldAttribute attrMap = attribute as DatabaseFieldAttribute;
+        //            if (attrMap != null)
+        //                maps.Add(new DatabaseFieldMap(propertyInfo.Name, attrMap.DatabaseFieldName, attrMap.SaveToDatabase));
+        //        }
+        //    }
+
+        //    return maps;
+        //}
+
         /// <summary>
         /// Returns the list of properties which have different database field names.
         /// </summary>
         /// <typeparam name="T">Object to scan (generic)</typeparam>
-        /// <returns>Dictionary of DatabaseFieldName/PropertyName</returns>
-        public Dictionary<string, string> GetMap<T>()
+        /// <returns>List of DatabaseFieldMap</returns>
+        public List<DatabaseFieldMap> GetMap<T>()
         {
             // Create map by scanning properties
-            Dictionary<string, string> dictMap = new Dictionary<string, string>();
+            List<DatabaseFieldMap> maps = new List<DatabaseFieldMap>();
             PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
@@ -119,14 +145,11 @@ namespace MPfm.Library.Database
                     // Try to cast into attribute map
                     DatabaseFieldAttribute attrMap = attribute as DatabaseFieldAttribute;
                     if (attrMap != null)
-                    {
-                        // Add item to dictionary
-                        dictMap.Add(attrMap.DatabaseFieldName, propertyInfo.Name);
-                    }
+                        maps.Add(new DatabaseFieldMap(propertyInfo.Name, attrMap.DatabaseFieldName, attrMap.SaveToDatabase));
                 }
             }
 
-            return dictMap;
+            return maps;
         }
 
         /// <summary>
@@ -412,7 +435,7 @@ namespace MPfm.Library.Database
             DbDataReader reader = null;            
             DbCommand command = null;
             List<T> list = new List<T>();
-            Dictionary<string, string> dictMap = GetMap<T>();
+            var maps = GetMap<T>();
 
             try
             {                
@@ -441,11 +464,10 @@ namespace MPfm.Library.Database
                         object fieldValue = reader.GetValue(a);
 
                         // Check for map
-                        string propertyName = fieldName;                        
-                        if(dictMap.ContainsKey(fieldName))
-                        {
-                            propertyName = dictMap[fieldName];
-                        }
+                        string propertyName = fieldName;
+                        var map = maps.FirstOrDefault(x => x.FieldName == fieldName);
+                        if (map != null)
+                            propertyName = map.PropertyName;
 
                         // Get property info and fill column if valid
                         PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
@@ -540,7 +562,7 @@ namespace MPfm.Library.Database
             // Declare variables
             DbConnection connection = null;            
             DbCommand command = null;
-            Dictionary<string, string> dictMap = GetMap<T>();
+            var maps = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
             try
@@ -556,21 +578,29 @@ namespace MPfm.Library.Database
                     PropertyInfo propertyInfo = propertyInfos[a];
                     if (propertyInfo.GetSetMethod() != null)
                     {
-                        string fieldName = propertyInfo.Name;                    
-                        if (dictMap.ContainsValue(propertyInfo.Name))
-                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name); 
+                        bool saveToDatabase = true;
+                        string fieldName = propertyInfo.Name;
+                        var map = maps.FirstOrDefault(x => x.PropertyName == propertyInfo.Name);
+                        if (map != null)
+                        {
+                            fieldName = map.FieldName;
+                            saveToDatabase = map.SaveToDatabase;
+                        }
 
-                        // Add comma if an item was added previously
-                        if(!addedOneItem)
-                            addedOneItem = true;
-                        else
-                            sql.Append(", ");
+                        if (saveToDatabase)
+                        {
+                            // Add comma if an item was added previously
+                            if (!addedOneItem)
+                                addedOneItem = true;
+                            else
+                                sql.Append(", ");
 
-                        // Add database field name
-                        sql.Append("[" + fieldName + "]=");
-                        object value = propertyInfo.GetValue(obj, null);
-                        sql.Append(FormatSQLValue(value));
-                        sql.Append("\n");
+                            // Add database field name
+                            sql.Append("[" + fieldName + "]=");
+                            object value = propertyInfo.GetValue(obj, null);
+                            sql.Append(FormatSQLValue(value));
+                            sql.Append("\n");
+                        }
                     }
                 }
 
@@ -640,7 +670,7 @@ namespace MPfm.Library.Database
             // Declare variables
             DbConnection connection = null;
             DbCommand command = null;
-            Dictionary<string, string> dictMap = GetMap<T>();
+            var maps = GetMap<T>();
             StringBuilder sql = new StringBuilder();
 
             try
@@ -656,18 +686,27 @@ namespace MPfm.Library.Database
                     PropertyInfo propertyInfo = propertyInfos[a];
                     if (propertyInfo.GetSetMethod() != null)
                     {
+                        // Check mapping
+                        bool saveToDatabase = true;
                         string fieldName = propertyInfo.Name;
-                        if (dictMap.ContainsValue(propertyInfo.Name))
-                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
+                        var map = maps.FirstOrDefault(x => x.PropertyName == propertyInfo.Name);
+                        if (map != null)
+                        {
+                            fieldName = map.FieldName;
+                            saveToDatabase = map.SaveToDatabase;
+                        }
 
-                        // Add comma if an item was added previously
-                        if(!addedOneItem)
-                            addedOneItem = true;
-                        else
-                            sql.Append(", ");
+                        if (saveToDatabase)
+                        {
+                            // Add comma if an item was added previously
+                            if (!addedOneItem)
+                                addedOneItem = true;
+                            else
+                                sql.Append(", ");
 
-                        sql.Append("[" + fieldName + "]");
-                        sql.Append("\n");
+                            sql.Append("[" + fieldName + "]");
+                            sql.Append("\n");
+                        }
                     }
                 }
                 sql.AppendLine(") VALUES (");
@@ -679,20 +718,26 @@ namespace MPfm.Library.Database
                     PropertyInfo propertyInfo = propertyInfos[a];
                     if (propertyInfo.GetSetMethod() != null)
                     {
+                        // Check mapping
+                        bool saveToDatabase = true;
                         string fieldName = propertyInfo.Name;
-                        if (dictMap.ContainsValue(propertyInfo.Name))
-                            fieldName = dictMap.FindKeyByValue<string, string>(propertyInfo.Name);
+                        var map = maps.FirstOrDefault(x => x.PropertyName == propertyInfo.Name);
+                        if (map != null)
+                            saveToDatabase = map.SaveToDatabase;
 
-                        // Add comma if an item was added previously
-                        if(!addedOneItem)
-                            addedOneItem = true;
-                        else
-                            sql.Append(", ");
+                        if (saveToDatabase)
+                        {
+                            // Add comma if an item was added previously
+                            if (!addedOneItem)
+                                addedOneItem = true;
+                            else
+                                sql.Append(", ");
 
-                        // Get value and determine how to add field value
-                        object value = propertyInfo.GetValue(obj, null);
-                        sql.Append(FormatSQLValue(value));                       
-                        sql.Append("\n");
+                            // Get value and determine how to add field value
+                            object value = propertyInfo.GetValue(obj, null);
+                            sql.Append(FormatSQLValue(value));
+                            sql.Append("\n");
+                        }
                     }
                 }
                 sql.AppendLine(") ");

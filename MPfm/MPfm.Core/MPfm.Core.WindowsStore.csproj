@@ -107,6 +107,7 @@
     <Compile Include="ByteArrayQueue.cs" />
     <Compile Include="CacheStore.cs" />
     <Compile Include="Conversion.cs" />
+    <Compile Include="DatabaseFieldMap.cs" />
     <Compile Include="DatabaseFieldNameAttribute.cs" />
     <Compile Include="Normalizer.cs" />
     <Compile Include="OS.cs" />

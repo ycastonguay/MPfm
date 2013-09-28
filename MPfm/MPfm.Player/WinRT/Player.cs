@@ -36,6 +36,7 @@ namespace MPfm.Player
         public bool IsEQEnabled { get; private set; }
         public bool IsPaused { get; private set; }
         public bool IsPlaying { get; private set; }
+        public bool UseFloatingPoint { get; set; }
         public int MixerSampleRate { get; private set; }
         public Playlist Playlist { get; private set; }
         public RepeatType RepeatType { get; set; }
@@ -119,6 +120,11 @@ namespace MPfm.Player
         }
 
         public int GetMixerData(int length, float[] sampleData)
+        {
+            return 0;
+        }
+
+        public int GetMixerData(int length, int[] sampleData)
         {
             return 0;
         }

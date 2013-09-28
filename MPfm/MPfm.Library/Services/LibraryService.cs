@@ -119,7 +119,7 @@ namespace MPfm.Library.Services
                 var task = ApplicationData.Current.LocalFolder.FileExistsAsync(files[a].FilePath);
                 bool exists = task.Result; // Blocks the thread until the value is returned
                 if(exists)
-                    gateway.DeleteAudioFile(files[a].Id);
+                    _gateway.DeleteAudioFile(files[a].Id);
                 #else
                 if (!File.Exists(files[a].FilePath))
                     _gateway.DeleteAudioFile(files[a].Id);

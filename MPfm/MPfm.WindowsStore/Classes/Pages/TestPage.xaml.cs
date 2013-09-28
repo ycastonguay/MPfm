@@ -37,9 +37,9 @@ namespace MPfm.WindowsStore
     /// <summary>
     /// A page that displays a grouped collection of items.
     /// </summary>
-    public sealed partial class Main : MPfm.WindowsStore.Common.LayoutAwarePage
+    public sealed partial class TestPage : MPfm.WindowsStore.Common.LayoutAwarePage
     {
-        public Main()
+        public TestPage()
         {
             this.InitializeComponent();
         }

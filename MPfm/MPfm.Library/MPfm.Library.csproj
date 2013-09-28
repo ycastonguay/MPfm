@@ -103,6 +103,7 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\1.05-1.06.sql" />
     <EmbeddedResource Include="Scripts\1.03-1.04.sql" />
     <EmbeddedResource Include="Scripts\1.02-1.03.sql" />
     <EmbeddedResource Include="Scripts\1.01-1.02.sql" />

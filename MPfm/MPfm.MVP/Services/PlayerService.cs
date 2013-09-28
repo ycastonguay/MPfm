@@ -140,6 +140,7 @@ namespace MPfm.MVP.Services
         /// <returns>Tuple of 32-bit integers (left/right)</returns>
         public Tuple<short[], short[]> GetMixerData(double seconds)
         {
+#if !WINDOWSSTORE && !WINDOWS_PHONE
             int maxL = 0;
             int maxR = 0;
 
@@ -180,6 +181,10 @@ namespace MPfm.MVP.Services
             //            }
 
             return new Tuple<short[], short[]>(left, right);
+#else
+            return new Tuple<short[], short[]>(new short[1], new short[1]);
+#endif
+
         }
 
         /// <summary>

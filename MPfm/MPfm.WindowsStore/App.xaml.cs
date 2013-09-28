@@ -21,6 +21,7 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.WindowsStore.Classes;
+using MPfm.WindowsStore.Classes.Pages;
 using MPfm.WindowsStore.Common;
 
 using System;
@@ -108,7 +109,8 @@ namespace MPfm.WindowsStore
                 // parameter
                 Debug.WriteLine("RootFrame.Content == null; trying to navigate to ItemsPage");
                 //if (!rootFrame.Navigate(typeof(ItemsPage), "AllGroups"))
-                if(!rootFrame.Navigate(typeof(Main), args.Arguments))
+                //if(!rootFrame.Navigate(typeof(TestPage), args.Arguments))
+                if(!rootFrame.Navigate(typeof(Main), "AllGroups"))
                 {
                     throw new Exception("Failed to create initial page");
                 }
