@@ -27,7 +27,11 @@ using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Helpers;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 using MPfm.WindowsPhone.Classes;
+using MPfm.WindowsPhone.Classes.Navigation;
+using MPfm.WindowsPhone.Classes.Pages;
 using MPfm.WindowsPhone.Resources;
 using TinyIoC;
 
@@ -80,8 +84,8 @@ namespace MPfm.WindowsPhone
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            var stuff = new DatabaseFacade("");
-            string path = ConfigurationHelper.DatabaseFilePath;
+            //var stuff = new DatabaseFacade("");
+            //string path = ConfigurationHelper.DatabaseFilePath;
             BootstrapApp();
 
             // Instead of using WMAppManifest to automatically launch a page, do it in code.
@@ -139,7 +143,8 @@ namespace MPfm.WindowsPhone
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            RootFrame = new PhoneApplicationFrame();
+            //RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures
@@ -249,9 +254,9 @@ namespace MPfm.WindowsPhone
         {
             TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, WindowsPhoneSyncDeviceSpecifications>().AsSingleton();
-            //container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
-            //container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
-            //container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            container.Register<MobileNavigationManager, WindowsPhoneNavigationManager>().AsSingleton();
+            container.Register<IMobileOptionsMenuView, MainPage>().AsMultiInstance();
+            container.Register<ISplashView, SplashPage>().AsMultiInstance();
             //container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
             //container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
             //container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
@@ -262,7 +267,7 @@ namespace MPfm.WindowsPhone
             //container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
             //container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
             //container.Register<IPlaylistView, PlaylistActivity>().AsMultiInstance();
-            //container.Register<ISyncView, SyncActivity>().AsMultiInstance();
+            container.Register<ISyncView, SyncPage>().AsMultiInstance();
             //container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
             //container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
             //container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();

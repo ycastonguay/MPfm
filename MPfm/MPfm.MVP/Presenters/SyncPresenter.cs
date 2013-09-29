@@ -49,7 +49,7 @@ namespace MPfm.MVP.Presenters
             _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
             _syncDiscoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
 
-#if IOS || ANDROID
+#if IOS || ANDROID || WINDOWS_PHONE
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
 #else
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();

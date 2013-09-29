@@ -38,7 +38,7 @@ namespace MPfm.MVP.Presenters
             _playerService = playerService;
 		}
 
-#if IOS
+#if IOS || WINDOWS_PHONE
         // iOS: Use async because ContinueWith has a strange behavior in Xamarin.iOS 7+. TODO: Check for a solution with Xamarin
         public async void Initialize(Action onInitDone)
         {

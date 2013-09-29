@@ -123,8 +123,22 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\ListSyncDeviceControl.xaml.cs">
+      <DependentUpon>ListSyncDeviceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controls\ListSubtitleControl.xaml.cs">
+      <DependentUpon>ListSubtitleControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Controls\ListArtistControl.xaml.cs">
       <DependentUpon>ListArtistControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Navigation\WindowsPhoneNavigationManager.cs" />
+    <Compile Include="Classes\Pages\Base\BasePage.cs" />
+    <Compile Include="Classes\Pages\SplashPage.xaml.cs">
+      <DependentUpon>SplashPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Pages\SyncPage.xaml.cs">
+      <DependentUpon>SyncPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\WindowsPhoneSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Controls\ListSimpleControl.xaml.cs">
@@ -149,6 +163,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Classes\Controls\ListSyncDeviceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Controls\ListSubtitleControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Classes\Controls\ListArtistControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -156,6 +178,10 @@
     <Page Include="Classes\Controls\ListSimpleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Pages\SplashPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Classes\Pages\MainPage.xaml">
       <SubType>Designer</SubType>
@@ -165,8 +191,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Classes\Pages\SyncPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
@@ -192,6 +223,12 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="README_FIRST.txt" />
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
@@ -220,9 +257,16 @@
       <Project>{591A3842-87BC-467F-AA99-42749C8DBFB3}</Project>
       <Name>MPfm.Sound.WindowsPhone</Name>
     </ProjectReference>
+    <ProjectReference Include="MPfm.WindowsPhone.AudioPlaybackAgent\MPfm.WindowsPhone.AudioPlaybackAgent.csproj">
+      <Project>{6CD3D155-7478-4F27-A1DE-043E6D4DE396}</Project>
+      <Name>MPfm.WindowsPhone.AudioPlaybackAgent</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>

@@ -16,10 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-//using System.Collections.Concurrent; // Not supported on WP8 but supported on W8...
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 
@@ -28,8 +32,8 @@ namespace MPfm.Library.Services
     public class SyncDiscoveryService : ISyncDiscoveryService
     {
         bool _isCancelling = false;
-        Task _currentTask;
         CancellationTokenSource _cancellationTokenSource = null;
+        HttpClient _httpClient;
 
         public bool IsRunning { get; private set; }
         public int Port { get; private set; }
@@ -41,6 +45,8 @@ namespace MPfm.Library.Services
         public SyncDiscoveryService()
         {
             Port = 53551;
+            _httpClient = new HttpClient();
+            _httpClient.Timeout = new TimeSpan(0, 0, 0, 0, 800);
         }
 
         /// <summary>
@@ -48,133 +54,102 @@ namespace MPfm.Library.Services
         /// Searches for uncommon IP addresses in a subnet (i.e. 192.168.1.26 to 192.168.1.99, 192.168.1.126 to 192.168.1.255).
         /// </summary>
         /// <param name="baseIP">Base IP address (i.e. 192.168.1)</param>
-        public void SearchForDevices(string baseIP)
+        public async void SearchForDevices(string baseIP)
         {
-            //Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
-            //var commonIPs = new List<string>();
-            //commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".0"), IPAddress.Parse(baseIP + ".25")).ToList());
-            //commonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".100"), IPAddress.Parse(baseIP + ".125")).ToList());
-            //SearchForDevices(commonIPs, (commonDevices) => {
-            //    Console.WriteLine("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
-            //    var uncommonIPs = new List<string>();
-            //    uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".26"), IPAddress.Parse(baseIP + ".99")).ToList());
-            //    uncommonIPs.AddRange(IPAddressRangeFinder.GetIPRange(IPAddress.Parse(baseIP + ".126"), IPAddress.Parse(baseIP + ".255")).ToList());
-            //    SearchForDevices(uncommonIPs, (uncommonDevices) => {
-            //        Console.WriteLine("SyncDiscoveryService - SearchForDevices - Discovery ended!");
-            //        _isCancelling = false;
-            //        var allDevices = new List<SyncDevice>();
-            //        allDevices.AddRange(commonDevices);
-            //        allDevices.AddRange(uncommonDevices);
-            //        if(OnDiscoveryEnded != null)
-            //            OnDiscoveryEnded(allDevices);
-            //    });
-            //});
+            Tracing.Log("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
+            var commonIPs = new List<string>();
+            for(int a = 0; a < 25; a++)
+                commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            for (int a = 100; a < 125; a++)
+                commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            var commonDevices = await SearchForDevicesAsync(commonIPs);
+
+            Tracing.Log("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
+            var uncommonIPs = new List<string>();
+            for (int a = 26; a < 99; a++)
+                uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            for (int a = 126; a < 255; a++)
+                uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            var uncommonDevices = await SearchForDevicesAsync(uncommonIPs);
+
+            Tracing.Log("SyncDiscoveryService - SearchForDevices - Discovery ended!");
+            _isCancelling = false;
+            var allDevices = new List<SyncDevice>();
+            allDevices.AddRange(commonDevices);
+            allDevices.AddRange(uncommonDevices);
+            if (OnDiscoveryEnded != null)
+                OnDiscoveryEnded(allDevices);
         }
 
         /// <summary>
         /// Searches for devices in the IP addresses passed in parameter.
         /// </summary>
         /// <param name="ips">IP addresses to search</param>
-        public void SearchForDevices(List<string> ips)
+        public async void SearchForDevices(List<string> ips)
         {
-            //SearchForDevices(ips, (devices) => {
-            //    if(OnDiscoveryEnded != null)
-            //        OnDiscoveryEnded(devices);
-            //});
+            var devices = await SearchForDevicesAsync(ips);
+            if (OnDiscoveryEnded != null) OnDiscoveryEnded(devices);
         }
 
-        ///// <summary>
-        ///// Searches for devices in the IP addresses passed in parameter.
-        ///// </summary>
-        ///// <param name="ips">IP addresses to search</param>
-        ///// <param name="actionDiscoveryEnded">This action will be triggered when the discovery has ended</param>
-        //private void SearchForDevices(List<string> ips, Action<ConcurrentBag<SyncDevice>> actionDiscoveryEnded)
-        //{
-        //    //int ipCount = 0;
-        //    //_cancellationTokenSource = new CancellationTokenSource();
-        //    //ParallelOptions parallelOptions = new ParallelOptions();
-        //    //parallelOptions.CancellationToken = _cancellationTokenSource.Token;
-        //    //parallelOptions.MaxDegreeOfParallelism = System.Environment.ProcessorCount * 2;            
-        //    //_currentTask = Task.Factory.StartNew(() => {
-        //    //    try
-        //    //    {
-        //    //        Console.WriteLine("SyncDiscoveryService - SearchForDevices - processorCount: {0}", System.Environment.ProcessorCount);
-        //    //        IsRunning = true;
-        //    //        ConcurrentBag<SyncDevice> devices = new ConcurrentBag<SyncDevice>();
-        //    //        Parallel.For(1, ips.Count, parallelOptions, (index, state) =>
-        //    //        {
-        //    //            //// Check for cancel (for some reason this doesn't work!)
-        //    //            //if (_cancellationTokenSource.IsCancellationRequested)
-        //    //            //    state.Stop();
+        /// <summary>
+        /// Searches for devices in the IP addresses passed in parameter.
+        /// </summary>
+        /// <param name="ips">IP addresses to search</param>
+        private async Task<List<SyncDevice>> SearchForDevicesAsync(List<string> ips)
+        {
+            Tracing.Log("SyncDiscoveryService - SearchForDevices - processorCount: {0}", System.Environment.ProcessorCount);
+            IsRunning = true;            
 
-        //    //            if (_isCancelling)
-        //    //            {
-        //    //                Console.WriteLine("SyncDiscoveryService - Cancelling parallel task...");
-        //    //                state.Stop();
-        //    //            }
+            List<SyncDevice> devices = new List<SyncDevice>();
+            for (int a = 0; a < ips.Count; a++)
+            {
+                try
+                {
+                    Tracing.Log("SyncDiscoveryService - Pinging {0}...", ips[a]);
+                    string url = string.Format("http://{0}:{1}/sessionsapp.version", ips[a], Port);
+                    string content = await _httpClient.GetStringAsync(url);
 
-        //    //            try
-        //    //            {
-        //    //                //Console.WriteLine("SyncDiscoveryService - Pinging {0}...", ips[index]);
-        //    //                WebClientTimeout client = new WebClientTimeout(800);
-        //    //                string content = client.DownloadString(string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port));
+                    Tracing.Log("SyncDiscoveryService - Got version from {0}: {1}", ips[a], content);
+                    var device = XmlSerialization.Deserialize<SyncDevice>(content);
+                    if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                    {
+                        device.Url = url;
+                        devices.Add(device);
+                        if (OnDeviceFound != null) OnDeviceFound(device);
+                        Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ips[a]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Ignore IP address
+                    Tracing.Log("SyncDiscoveryService - SearchForDevices - Exception: {0}", ex);
+                }
+                finally
+                {
+                    float percentageDone = ((float)a / (float)ips.Count) * 100;
+                    if (OnDiscoveryProgress != null)
+                        OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
+                }
+            }
+            IsRunning = false;
 
-        //    //                Console.WriteLine("SyncDiscoveryService - Got version from {0}: {1}", ips[index], content);
-        //    //                var device = XmlSerialization.Deserialize<SyncDevice>(content);
-        //    //                if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
-        //    //                {
-        //    //                    device.Url = String.Format("http://{0}:{1}/", ips[index], Port);
-        //    //                    devices.Add(device);
-        //    //                    Console.WriteLine("SyncDiscoveryService - Raising OnDeviceFound event...");
-        //    //                    if (OnDeviceFound != null)
-        //    //                        OnDeviceFound(device);
-        //    //                    Console.WriteLine("SyncDiscoveryService - The following host is available: {0}", ips[index]);
-        //    //                }
-        //    //            }
-        //    //            catch (Exception ex)
-        //    //            {
-        //    //                // Ignore IP address
-        //    //            }
-        //    //            finally
-        //    //            {
-        //    //                ipCount++;
-        //    //                float percentageDone = ((float)ipCount / (float)ips.Count) * 100;
-        //    //                if (OnDiscoveryProgress != null)
-        //    //                    OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));                            
-        //    //            }
-        //    //        });
-
-        //    //        IsRunning = false;
-
-        //    //        Console.WriteLine("SyncDiscoveryService - Discovery done!");
-        //    //        if (actionDiscoveryEnded != null)
-        //    //            actionDiscoveryEnded(devices);
-        //    //    }
-        //    //    catch (OperationCanceledException ex)
-        //    //    {
-        //    //        Console.WriteLine("SyncDiscoveryService - SearchForDevices - OperationCanceledException: {0}", ex);
-        //    //    }
-        //    //    catch (Exception ex)
-        //    //    {
-        //    //        Console.WriteLine("SyncDiscoveryService - SearchForDevices - Exception: {0}", ex);
-        //    //    }
-        //    //});
-        //}
+            return devices;
+        }
 
         /// <summary>
         /// Cancels the discovery process.
         /// </summary>
         public void Cancel()
         {
-            //Console.WriteLine("SyncDiscoveryService - Cancelling process...");
-            //if (IsRunning)
-            //{
-            //    if (_cancellationTokenSource != null)
-            //    {
-            //        _isCancelling = true;
-            //        _cancellationTokenSource.Cancel();
-            //    }
-            //}
+            Console.WriteLine("SyncDiscoveryService - Cancelling process...");
+            if (IsRunning)
+            {
+                if (_cancellationTokenSource != null)
+                {
+                    _isCancelling = true;
+                    _cancellationTokenSource.Cancel();
+                }
+            }
         }
     }
 }

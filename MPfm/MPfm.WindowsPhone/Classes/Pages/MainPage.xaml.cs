@@ -20,32 +20,45 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Navigation;
 using Windows.Storage;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
+using MPfm.Library.Services;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.WindowsPhone.Classes.Controls;
-using MPfm.WindowsPhone.Resources;
+using MPfm.WindowsPhone.Classes.Navigation;
+using MPfm.WindowsPhone.Classes.Pages.Base;
 
-namespace MPfm.WindowsPhone
+namespace MPfm.WindowsPhone.Classes.Pages
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class MainPage : BasePage, IMobileOptionsMenuView
     {
-        // Constructor
+        private SyncDiscoveryService _syncDiscoveryService;
+        private WindowsPhoneNavigationManager _navigationManager;
+        private List<KeyValuePair<MobileOptionsMenuType, string>> _menuOptions;
+
         public MainPage()
         {
             InitializeComponent();
+            SetTheme(LayoutRoot);
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
 
+            //_syncDiscoveryService = Bootstrapper.GetContainer().Resolve<SyncDiscoveryService>();
+            //_syncDiscoveryService.SearchForDevices("192.168.1");
+
             CreateDummyData();
+
+            Debug.WriteLine("MainPage - Ctor - Starting navigation manager...");
+            _navigationManager = (WindowsPhoneNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            _navigationManager.BindOptionsMenuView(this);
+            _navigationManager.Start();
         }
 
         private void CreateDummyData()
@@ -68,14 +81,14 @@ namespace MPfm.WindowsPhone
             list.Add("Zappa Frank");
             listArtists.ItemsSource = list;
 
-            List<string> list2 = new List<string>();
-            list2.Add("sync library (other devices)");
-            list2.Add("sync library (cloud services)");
-            list2.Add("sync library (web browser)");
-            list2.Add("equalizer presets");
-            list2.Add("preferences");
-            list2.Add("about sessions");
-            listMore.ItemsSource = list2;
+            //List<string> list2 = new List<string>();
+            //list2.Add("sync library (other devices)");
+            //list2.Add("sync library (cloud services)");
+            //list2.Add("sync library (web browser)");
+            //list2.Add("equalizer presets");
+            //list2.Add("preferences");
+            //list2.Add("about sessions");
+            //listMore.ItemsSource = list2;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -148,58 +161,47 @@ namespace MPfm.WindowsPhone
             List<UserControl> listItems = new List<UserControl>();
             GetItemsRecursive<UserControl>(listArtists, ref listItems);
 
-            // Selected. 
+            // Selected
             if (e.AddedItems.Count > 0 && e.AddedItems[0] != null)
-            {
                 foreach (UserControl userControl in listItems)
-                {
                     if (e.AddedItems[0].Equals(userControl.DataContext))
-                    {
                         VisualStateManager.GoToState(userControl, "Selected", true);
-                    }
-                }
-            }
-            // Unselected. 
+            // Unselected 
             if (e.RemovedItems.Count > 0 && e.RemovedItems[0] != null)
-            {
                 foreach (UserControl userControl in listItems)
-                {
                     if (e.RemovedItems[0].Equals(userControl.DataContext))
-                    {
                         VisualStateManager.GoToState(userControl, "Normal", true);
-                    }
-                }
-            } 
+
+            //RootFrame.Navigate(new Uri("/Classes/Pages/MainPage.xaml", UriKind.Relative));
+            //var mobileNavigationManager = (WindowsPhoneNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            //mobileNavigationManager.CreateSyncView();
+            //e.AddedItems[]
         }
 
         private void listMore_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Get item of LongListSelector. 
-            List<ListArtistControl> userControlList = new List<ListArtistControl>();
-            GetItemsRecursive<ListArtistControl>(listMore, ref userControlList);
+            List<UserControl> userControlList = new List<UserControl>();
+            GetItemsRecursive<UserControl>(listMore, ref userControlList);
 
-            // Selected. 
+            // Selected
             if (e.AddedItems.Count > 0 && e.AddedItems[0] != null)
-            {
-                foreach (ListArtistControl userControl in userControlList)
-                {
+                foreach (UserControl userControl in userControlList)
                     if (e.AddedItems[0].Equals(userControl.DataContext))
-                    {
                         VisualStateManager.GoToState(userControl, "Selected", true);
-                    }
-                }
-            }
-            // Unselected. 
+            // Unselected
             if (e.RemovedItems.Count > 0 && e.RemovedItems[0] != null)
-            {
-                foreach (ListArtistControl userControl in userControlList)
-                {
+                foreach (UserControl userControl in userControlList)
                     if (e.RemovedItems[0].Equals(userControl.DataContext))
-                    {
                         VisualStateManager.GoToState(userControl, "Normal", true);
-                    }
-                }
-            } 
+
+            var addedItem = e.AddedItems.Count > 0 ? e.AddedItems[0] : null;
+            if (addedItem == null)
+                return;
+
+            var item = _menuOptions.FirstOrDefault(x => x.Value.ToLower() == (string)addedItem);
+            if (!item.Equals(default(KeyValuePair<MobileOptionsMenuType, string>)))
+                OnItemClick(item.Key);
         } 
 
         // Sample code for building a localized ApplicationBar
@@ -217,6 +219,22 @@ namespace MPfm.WindowsPhone
         //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
         //    ApplicationBar.MenuItems.Add(appBarMenuItem);
         //}
+
+        #region IMobileOptionsMenuView implementation
+
+        public Action<MobileOptionsMenuType> OnItemClick { get; set; }
+
+        public void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options)
+        {
+            _menuOptions = options;
+            Dispatcher.BeginInvoke(() =>
+            {
+                var list = _menuOptions.Select(x => x.Value.ToLower()).ToList();
+                listMore.ItemsSource = list;                
+            });
+        }
+
+        #endregion
 
     }
 }

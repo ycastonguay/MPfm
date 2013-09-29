@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-#if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+#if !PCL && !WINDOWSSTORE
 
 using System;
 using System.Net;
@@ -42,8 +42,11 @@ namespace MPfm.Core.Network
         protected override WebRequest GetWebRequest(Uri address)
         {
             var request = base.GetWebRequest(address);
+            // No Timeout property for WebRequest in WP8?
+#if !WINDOWS_PHONE
             if (request != null)
-                request.Timeout = this.Timeout;
+                request.Timeout = this.Timeout;                 
+#endif
             return request;
         }
     }

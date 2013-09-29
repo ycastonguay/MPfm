@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using System.Linq;
@@ -32,8 +33,8 @@ namespace MPfm.Library.Services
         readonly IAudioFileCacheService _audioFileCacheService;
         readonly ISyncDeviceSpecifications _deviceSpecifications;
 
+        HttpClient _httpClient;
         Stopwatch _stopwatch;
-        //WebClientTimeout _webClient;
         long _bytesDownloaded = 0;
         int _filesDownloaded = 0;
         int _errorCount = 0;
@@ -60,6 +61,9 @@ namespace MPfm.Library.Services
         private void Initialize()
         {
             _stopwatch = new Stopwatch();
+            _httpClient = new HttpClient();
+            _httpClient.Timeout = new TimeSpan(0, 0, 3);
+
             //_webClient = new WebClientTimeout(3000);
             //_webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
             //_webClient.DownloadStringCompleted += HandleDownloadStringCompleted;

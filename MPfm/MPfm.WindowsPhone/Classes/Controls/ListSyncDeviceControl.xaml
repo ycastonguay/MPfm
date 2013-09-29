@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MPfm.WindowsPhone.Classes.Controls.ListArtistControl"
+﻿<UserControl x:Class="MPfm.WindowsPhone.Classes.Controls.ListSyncDeviceControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -25,7 +25,8 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <StackPanel Margin="0,0,0,17">
-            <TextBlock x:Name="textBlock" Text="{Binding}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock x:Name="textBlock" Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
+            <TextBlock x:Name="textBlock2" Text="{Binding Url}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -9,7 +9,10 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
 
-    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <SolidColorBrush Color="#20282e"/>
+        </Grid.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal"/>
@@ -23,7 +26,6 @@
         </VisualStateManager.VisualStateGroups>
         <StackPanel Margin="0,0,0,17">
             <TextBlock x:Name="textBlock" Text="{Binding}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
-            <TextBlock x:Name="textBlock2" Text="{Binding}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallStyle}"/>
         </StackPanel>
     </Grid>
 </UserControl>

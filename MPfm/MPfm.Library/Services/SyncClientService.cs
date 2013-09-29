@@ -265,7 +265,7 @@ namespace MPfm.Library.Services
                     Log = string.Empty
                 });
 
-            _stopwatch.Start();
+            _stopwatch.Start();            
             _webClient.DownloadFileAsync(url, localFilePath);
         }
 

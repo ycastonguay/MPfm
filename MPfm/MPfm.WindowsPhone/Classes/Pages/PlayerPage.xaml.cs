@@ -7,10 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using MPfm.WindowsPhone.Classes.Pages.Base;
 
 namespace MPfm.WindowsPhone
 {
-    public partial class PlayerPage : PhoneApplicationPage
+    public partial class PlayerPage : BasePage
     {
         public PlayerPage()
         {
