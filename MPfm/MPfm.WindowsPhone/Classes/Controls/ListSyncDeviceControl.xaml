@@ -18,16 +18,15 @@
                 <VisualState x:Name="Normal"/>
                 <VisualState x:Name="Selected">
                     <Storyboard>
-                        <!--<DoubleAnimation Duration="0" To="48" Storyboard.TargetProperty="(Control.FontSize)" Storyboard.TargetName="textBlock" />-->
-                        <ColorAnimation Duration="0" To="DarkGray" Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock" />
+                        <ColorAnimation Duration="0" To="#36454F" Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" Storyboard.TargetName="LayoutRoot" />
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel Margin="0,0,0,17">
-            <TextBlock x:Name="textBlock" Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Margin="54,0,12,0"/>
-            <TextBlock x:Name="textBlock2" Text="{Binding Url}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallStyle}" Margin="54,0,12,0"/>
+        <StackPanel Margin="8,6,0,0">
+            <TextBlock x:Name="textBlock" Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}" Margin="54,0,12,0" FontSize="24"/>
+            <TextBlock x:Name="textBlock2" Text="{Binding Url}" TextWrapping="Wrap" Style="{StaticResource PhoneTextSmallStyle}" Margin="54,0,12,0" FontSize="16"/>
         </StackPanel>
-        <Image HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="52" Source="/Assets/Tiles/FlipCycleTileMedium.png"/>
+        <Image HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="52" Source="/Assets/Icons/icon_apple.png" Margin="0,8,0,8"/>
     </Grid>
 </UserControl>

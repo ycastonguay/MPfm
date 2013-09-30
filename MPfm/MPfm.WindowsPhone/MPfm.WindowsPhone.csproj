@@ -132,6 +132,7 @@
     <Compile Include="Classes\Controls\ListArtistControl.xaml.cs">
       <DependentUpon>ListArtistControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Helpers\ResolutionHelper.cs" />
     <Compile Include="Classes\Helpers\XamlHelper.cs" />
     <Compile Include="Classes\Navigation\WindowsPhoneNavigationManager.cs" />
     <Compile Include="Classes\Pages\Base\BasePage.cs" />
@@ -151,7 +152,7 @@
     <Compile Include="Classes\Controls\ListSimpleControl.xaml.cs">
       <DependentUpon>ListSimpleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Classes\LocalizedStrings.cs" />
     <Compile Include="Classes\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -223,22 +224,21 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Assets\Icons\icon_android.png" />
+    <Content Include="Assets\Icons\icon_apple.png" />
+    <Content Include="Assets\Icons\icon_linux.png" />
+    <Content Include="Assets\Icons\icon_phone.png" />
+    <Content Include="Assets\Icons\icon_tablet.png" />
+    <Content Include="Assets\Icons\icon_windows.png" />
+    <Content Include="Assets\Tiles\LargeIconicTile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Tiles\FlipCycleTileMedium.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Assets\Tiles\SmallIconicTile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Tiles\FlipCycleTileSmall.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="SplashScreenImage.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Tiles\IconicTileMediumLarge.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Tiles\IconicTileSmall.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="README_FIRST.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
@@ -287,6 +287,7 @@
       <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

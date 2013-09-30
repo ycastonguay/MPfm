@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Windows.Storage;
+using Microsoft.Phone.Shell;
 using MPfm.Library.Services;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
@@ -94,31 +95,51 @@ namespace MPfm.WindowsPhone.Classes.Pages
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            List<string> list = new List<string>();
-            list.Add("test");
-            list.Add("test2");
-            listAlbums.ItemsSource = list;
-            return;
-
-            var folder = ApplicationData.Current.LocalFolder;
-            var audioFolder = await folder.GetFolderAsync("Audio");
-            var files = await audioFolder.GetFilesAsync();
-            foreach (var file in files)
-            {
-                if (file.Path.Contains(".mp3"))
-                {
-                    Debug.WriteLine("Definitely a mp3: " + file.Path);
-                    AudioFile audioFile = new AudioFile(file.Path);
-                    txtStuff.Text = audioFile.Title;
-                }
-                else
-                {
-                    Debug.WriteLine("Not mp3: " + file.Path);
-                }                
-            }
+            //var folder = ApplicationData.Current.LocalFolder;
+            //var audioFolder = await folder.GetFolderAsync("Audio");
+            //var files = await audioFolder.GetFilesAsync();
+            //foreach (var file in files)
+            //{
+            //    if (file.Path.Contains(".mp3"))
+            //    {
+            //        Debug.WriteLine("Definitely a mp3: " + file.Path);
+            //        AudioFile audioFile = new AudioFile(file.Path);
+            //        txtStuff.Text = audioFile.Title;
+            //    }
+            //    else
+            //    {
+            //        Debug.WriteLine("Not mp3: " + file.Path);
+            //    }                
+            //}
 
             //CreateDummyFile();
             //AudioFile audioFile = new AudioFile();
+
+            IconicTileData oIcontile = new IconicTileData();
+            oIcontile.Title = "Hello Iconic Tile!!";
+            oIcontile.Count = 7;
+
+            oIcontile.IconImage = new Uri("Assets/Tiles/LargeIconicTile.png", UriKind.Relative);
+            oIcontile.SmallIconImage = new Uri("Assets/Tiles/SmallIconicTile.png", UriKind.Relative);
+
+            oIcontile.WideContent1 = "windows phone 8 Live tile";
+            oIcontile.WideContent2 = "Icon tile";
+            oIcontile.WideContent3 = "All about Live tiles By WmDev";
+
+            oIcontile.BackgroundColor = Color.FromArgb(255, 54, 69, 79);
+
+            // find the tile object for the application tile that using "Iconic" contains string in it.
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("Iconic".ToString()));
+
+            if (TileToFind != null && TileToFind.NavigationUri.ToString().Contains("Iconic"))
+            {
+                TileToFind.Delete();
+                ShellTile.Create(new Uri("/MainPage.xaml?id=Iconic", UriKind.Relative), oIcontile, true);
+            }
+            else
+            {
+                ShellTile.Create(new Uri("/MainPage.xaml?id=Iconic", UriKind.Relative), oIcontile, true);
+            }
         }
 
         private async Task WriteToFile()

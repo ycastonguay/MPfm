@@ -17,6 +17,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Resources;
 using System.Windows;
 using System.Windows.Markup;
@@ -160,6 +161,7 @@ namespace MPfm.WindowsPhone
             (Resources["PhoneAccentBrush"] as SolidColorBrush).Color = Color.FromArgb(255, 231, 76, 60);
             (Resources["PhoneForegroundBrush"] as SolidColorBrush).Color = Colors.White;
             (Resources["PhoneBackgroundBrush"] as SolidColorBrush).Color = Color.FromArgb(255, 32, 40, 46);
+            SetApplicationTile();
         }
 
         // Do not add any additional code to this method
@@ -282,8 +284,36 @@ namespace MPfm.WindowsPhone
             //container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
             //container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
             //container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
-            //container.Register<IAboutView, AboutActivity>().AsMultiInstance();
+            //container.Register<IAboutView, AboutActivity>().AsMultiInstance();            
+        }
 
+        private void SetApplicationTile()
+        {
+            //// Application Tile is always the first Tile, even if it is not pinned to Start.
+            //ShellTile TileToFind = ShellTile.ActiveTiles.First();
+
+            //// Application should always be found
+            //if (TileToFind != null)
+            //{
+            //    IconicTileData TileData = new IconicTileData()
+            //    {
+            //        Title = "My App title",
+            //        WideContent1 = "New Wide Content 1",
+            //        WideContent2 = "New Wide Content 2",
+            //        WideContent3 = "New Wide Content 3",
+            //        //Count = 2,
+            //        //BackgroundColor = Colors.Blue, 
+            //        //BackgroundColor = new Color { A = 255, R = 200, G = 148, B = 255 },
+            //        //BackgroundColor = Color.FromArgb(255, 200, 148, 55),
+            //        //BackgroundColor = (Color)Application.Current.Resources["PhoneAccentColor"],
+            //        BackgroundColor = Color.FromArgb(255, 200, 148, 55), //Colors.Blue, // HexToColor("#FF7A3B3F"),
+            //        IconImage = new Uri("Assets/Tiles/IconicTileMediumLarge.png", UriKind.Relative),
+            //        SmallIconImage = new Uri("Assets/Tiles/IconicTileSmall.png", UriKind.Relative),
+            //    };
+
+            //    // Update the Application Tile
+            //    TileToFind.Update(TileData);
+            //}
         }
     }
 }

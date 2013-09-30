@@ -101,23 +101,26 @@ namespace MPfm.Library.Services
             IsRunning = true;            
 
             List<SyncDevice> devices = new List<SyncDevice>();
+            List<Task<SyncDevice>> tasks = new List<Task<SyncDevice>>();
             for (int a = 0; a < ips.Count; a++)
             {
                 try
                 {
-                    Tracing.Log("SyncDiscoveryService - Pinging {0}...", ips[a]);
+                    //Tracing.Log("SyncDiscoveryService - Pinging {0}...", ips[a]);
                     string url = string.Format("http://{0}:{1}/sessionsapp.version", ips[a], Port);
-                    string content = await _httpClient.GetStringAsync(url);
+                    tasks.Add(ProcessDevice(url, ips[a]));
 
-                    Tracing.Log("SyncDiscoveryService - Got version from {0}: {1}", ips[a], content);
-                    var device = XmlSerialization.Deserialize<SyncDevice>(content);
-                    if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
-                    {
-                        device.Url = url;
-                        devices.Add(device);
-                        if (OnDeviceFound != null) OnDeviceFound(device);
-                        Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ips[a]);
-                    }
+                    //string content = await _httpClient.GetStringAsync(url);
+
+                    //Tracing.Log("SyncDiscoveryService - Got version from {0}: {1}", ips[a], content);
+                    //var device = XmlSerialization.Deserialize<SyncDevice>(content);
+                    //if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                    //{
+                    //    device.Url = url;
+                    //    devices.Add(device);
+                    //    if (OnDeviceFound != null) OnDeviceFound(device);
+                    //    Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ips[a]);
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -126,14 +129,58 @@ namespace MPfm.Library.Services
                 }
                 finally
                 {
-                    float percentageDone = ((float)a / (float)ips.Count) * 100;
-                    if (OnDiscoveryProgress != null)
-                        OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
+                    //float percentageDone = ((float)a / (float)ips.Count) * 100;
+                    //if (OnDiscoveryProgress != null)
+                    //    OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
                 }
             }
+
+            int b = 0;
+            while (true)
+            {                
+                if (b > tasks.Count - 1)
+                    break;
+
+                float percentageDone = ((float)b / (float)tasks.Count) * 100;
+                if (OnDiscoveryProgress != null)
+                    OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
+
+                Tracing.Log("SyncDiscoveryService - SearchForDevicesAsync - while loop index {0} - done {1}", b, percentageDone);
+
+                var device = await tasks[b];
+                if(device != null)
+                    devices.Add(device);
+                b++;
+            }
+
             IsRunning = false;
 
             return devices;
+        }
+
+        private async Task<SyncDevice> ProcessDevice(string url, string ip)
+        {
+            try
+            {
+                Tracing.Log("SyncDiscoveryService - ProcessDevice - Getting content... url: {0} ip:{1}", url, ip);
+                string content = await _httpClient.GetStringAsync(url);
+                Tracing.Log("SyncDiscoveryService - ProcessDevice - Getting content... done! url: {0} ip:{1}", url, ip);
+                Tracing.Log("SyncDiscoveryService - Got version from {0}: {1}", ip, content);
+                var device = XmlSerialization.Deserialize<SyncDevice>(content);
+                if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                {
+                    device.Url = url;
+                    if (OnDeviceFound != null) OnDeviceFound(device);
+                    Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ip);
+                }
+                return device;
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("SyncDiscoveryService - ProcessDevice - Exception: {0}", ex);
+            }
+
+            return null;
         }
 
         /// <summary>
