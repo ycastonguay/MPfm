@@ -30,6 +30,7 @@ using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.WindowsPhone.Classes.Helpers;
 using MPfm.WindowsPhone.Classes.Navigation;
 using MPfm.WindowsPhone.Classes.Pages.Base;
 
@@ -56,7 +57,7 @@ namespace MPfm.WindowsPhone.Classes.Pages
             base.OnNavigatedTo(e);
 
             var navigationManager = (WindowsPhoneNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            navigationManager.SetSyncViewInstance(this);
+            navigationManager.SetViewInstance(this);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -111,6 +112,32 @@ namespace MPfm.WindowsPhone.Classes.Pages
         }
 
         #endregion
+
+        private void listDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Get item of LongListSelector. 
+            List<UserControl> userControlList = new List<UserControl>();
+            XamlHelper.GetItemsRecursive<UserControl>(listDevices, ref userControlList);
+
+            // Selected
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] != null)
+                foreach (UserControl userControl in userControlList)
+                    if (e.AddedItems[0].Equals(userControl.DataContext))
+                        VisualStateManager.GoToState(userControl, "Selected", true);
+            // Unselected
+            if (e.RemovedItems.Count > 0 && e.RemovedItems[0] != null)
+                foreach (UserControl userControl in userControlList)
+                    if (e.RemovedItems[0].Equals(userControl.DataContext))
+                        VisualStateManager.GoToState(userControl, "Normal", true);
+
+            var addedItem = e.AddedItems.Count > 0 ? e.AddedItems[0] : null;
+            if (addedItem == null)
+                return;
+
+            //var item = _menuOptions.FirstOrDefault(x => x.Value.ToLower() == (string)addedItem);
+            //if (!item.Equals(default(KeyValuePair<MobileOptionsMenuType, string>)))
+                //OnItemClick(item.Key);
+        }
 
     }
 }

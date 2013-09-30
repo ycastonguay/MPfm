@@ -132,8 +132,15 @@
     <Compile Include="Classes\Controls\ListArtistControl.xaml.cs">
       <DependentUpon>ListArtistControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Helpers\XamlHelper.cs" />
     <Compile Include="Classes\Navigation\WindowsPhoneNavigationManager.cs" />
     <Compile Include="Classes\Pages\Base\BasePage.cs" />
+    <Compile Include="Classes\Pages\PreferencesPage.xaml.cs">
+      <DependentUpon>PreferencesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Pages\SyncWebBrowserPage.xaml.cs">
+      <DependentUpon>SyncWebBrowserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Pages\SplashPage.xaml.cs">
       <DependentUpon>SplashPage.xaml</DependentUpon>
     </Compile>
@@ -178,6 +185,14 @@
     <Page Include="Classes\Controls\ListSimpleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Pages\PreferencesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Pages\SyncWebBrowserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Classes\Pages\SplashPage.xaml">
       <Generator>MSBuild:Compile</Generator>

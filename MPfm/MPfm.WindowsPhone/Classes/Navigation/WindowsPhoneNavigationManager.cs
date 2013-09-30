@@ -34,6 +34,8 @@ namespace MPfm.WindowsPhone.Classes.Navigation
     public class WindowsPhoneNavigationManager : MobileNavigationManager
     {
         private Action<IBaseView> _onSyncViewReady;
+        private Action<IBaseView> _onSyncWebBrowserViewReady;
+        private Action<IBaseView> _onPreferencesViewReady;
 
         public override void ShowSplash(ISplashView view)
         {
@@ -94,16 +96,33 @@ namespace MPfm.WindowsPhone.Classes.Navigation
 
         protected override void CreateSyncViewInternal(Action<IBaseView> onViewReady)
         {
-            //base.CreateSyncViewInternal(onViewReady);
             _onSyncViewReady = onViewReady;
-            //var app = (App) Application.Current;
             var frame = Application.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri("/Classes/Pages/SyncPage.xaml", UriKind.Relative));
         }
 
-        public void SetSyncViewInstance(SyncPage page)
+        protected override void CreateSyncWebBrowserViewInternal(Action<IBaseView> onViewReady)
         {
-            _onSyncViewReady(page);
+            _onSyncWebBrowserViewReady = onViewReady;
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            frame.Navigate(new Uri("/Classes/Pages/SyncWebBrowserPage.xaml", UriKind.Relative));
+        }
+
+        protected override void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onPreferencesViewReady = onViewReady;
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            frame.Navigate(new Uri("/Classes/Pages/PreferencesPage.xaml", UriKind.Relative));
+        }
+
+        public void SetViewInstance(BasePage page)
+        {
+            if(page is SyncPage)
+                _onSyncViewReady(page);
+            else if (page is SyncWebBrowserPage)
+                _onSyncWebBrowserViewReady(page);
+            else if (page is PreferencesPage)
+                _onPreferencesViewReady(page);
         }
     }
 }

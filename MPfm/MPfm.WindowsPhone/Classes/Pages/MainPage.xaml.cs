@@ -31,6 +31,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.WindowsPhone.Classes.Controls;
+using MPfm.WindowsPhone.Classes.Helpers;
 using MPfm.WindowsPhone.Classes.Navigation;
 using MPfm.WindowsPhone.Classes.Pages.Base;
 
@@ -136,30 +137,11 @@ namespace MPfm.WindowsPhone.Classes.Pages
                 s.Write(fileBytes, 0, fileBytes.Length);
         }
 
-        /// <summary> 
-        /// Recursive get the item. 
-        /// </summary> 
-        /// <typeparam name="T">The item to get.</typeparam> 
-        /// <param name="parents">Parent container.</param> 
-        /// <param name="objectList">Item list</param> 
-        public static void GetItemsRecursive<T>(DependencyObject parents, ref List<T> objectList) where T : DependencyObject
-        {
-            var childrenCount = VisualTreeHelper.GetChildrenCount(parents);
-            for (int i = 0; i < childrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(parents, i);
-                if (child is T)
-                    objectList.Add(child as T);
-
-                GetItemsRecursive<T>(child, ref objectList);
-            }            
-        }
-
         private void listArtists_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Get item of LongListSelector. 
             List<UserControl> listItems = new List<UserControl>();
-            GetItemsRecursive<UserControl>(listArtists, ref listItems);
+            XamlHelper.GetItemsRecursive<UserControl>(listArtists, ref listItems);
 
             // Selected
             if (e.AddedItems.Count > 0 && e.AddedItems[0] != null)
@@ -182,7 +164,7 @@ namespace MPfm.WindowsPhone.Classes.Pages
         {
             // Get item of LongListSelector. 
             List<UserControl> userControlList = new List<UserControl>();
-            GetItemsRecursive<UserControl>(listMore, ref userControlList);
+            XamlHelper.GetItemsRecursive<UserControl>(listMore, ref userControlList);
 
             // Selected
             if (e.AddedItems.Count > 0 && e.AddedItems[0] != null)

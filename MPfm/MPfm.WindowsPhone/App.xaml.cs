@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Resources;
 using System.Windows;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -143,7 +144,6 @@ namespace MPfm.WindowsPhone
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            //RootFrame = new PhoneApplicationFrame();
             RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
@@ -155,6 +155,11 @@ namespace MPfm.WindowsPhone
 
             // Ensure we don't initialize again
             phoneApplicationInitialized = true;
+
+            // Set theme colors
+            (Resources["PhoneAccentBrush"] as SolidColorBrush).Color = Color.FromArgb(255, 231, 76, 60);
+            (Resources["PhoneForegroundBrush"] as SolidColorBrush).Color = Colors.White;
+            (Resources["PhoneBackgroundBrush"] as SolidColorBrush).Color = Color.FromArgb(255, 32, 40, 46);
         }
 
         // Do not add any additional code to this method
@@ -270,10 +275,10 @@ namespace MPfm.WindowsPhone
             container.Register<ISyncView, SyncPage>().AsMultiInstance();
             //container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
             //container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
-            //container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();
+            container.Register<ISyncWebBrowserView, SyncWebBrowserPage>().AsMultiInstance();
             //container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
             //container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();
-            //container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();
+            container.Register<IPreferencesView, PreferencesPage>().AsMultiInstance();
             //container.Register<IAudioPreferencesView, AudioPreferencesFragment>().AsMultiInstance();
             //container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
             //container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
