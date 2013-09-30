@@ -58,25 +58,25 @@ namespace MPfm.Library.Services
         {
             Tracing.Log("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
             var commonIPs = new List<string>();
-            for(int a = 0; a < 25; a++)
-                commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
-            for (int a = 100; a < 125; a++)
+            //for(int a = 0; a < 25; a++)
+            //    commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            for (int a = 100; a < 120; a++)
                 commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
             var commonDevices = await SearchForDevicesAsync(commonIPs);
 
             Tracing.Log("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
             var uncommonIPs = new List<string>();
-            for (int a = 26; a < 99; a++)
-                uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
-            for (int a = 126; a < 255; a++)
-                uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
-            var uncommonDevices = await SearchForDevicesAsync(uncommonIPs);
+            //for (int a = 26; a < 99; a++)
+            //    uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            //for (int a = 126; a < 255; a++)
+            //    uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            //var uncommonDevices = await SearchForDevicesAsync(uncommonIPs);
 
             Tracing.Log("SyncDiscoveryService - SearchForDevices - Discovery ended!");
             _isCancelling = false;
             var allDevices = new List<SyncDevice>();
             allDevices.AddRange(commonDevices);
-            allDevices.AddRange(uncommonDevices);
+            //allDevices.AddRange(uncommonDevices);
             if (OnDiscoveryEnded != null)
                 OnDiscoveryEnded(allDevices);
         }
@@ -169,7 +169,7 @@ namespace MPfm.Library.Services
                 var device = XmlSerialization.Deserialize<SyncDevice>(content);
                 if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
                 {
-                    device.Url = url;
+                    device.Url = url.Replace("/sessionsapp.version", "");
                     if (OnDeviceFound != null) OnDeviceFound(device);
                     Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ip);
                 }

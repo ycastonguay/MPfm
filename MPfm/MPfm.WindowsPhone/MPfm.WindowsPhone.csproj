@@ -123,6 +123,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\ListSyncMenuControl.xaml.cs">
+      <DependentUpon>ListSyncMenuControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Controls\ListSyncDeviceControl.xaml.cs">
       <DependentUpon>ListSyncDeviceControl.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,12 @@
     <Compile Include="Classes\Helpers\XamlHelper.cs" />
     <Compile Include="Classes\Navigation\WindowsPhoneNavigationManager.cs" />
     <Compile Include="Classes\Pages\Base\BasePage.cs" />
+    <Compile Include="Classes\Pages\SyncDownloadPage.xaml.cs">
+      <DependentUpon>SyncDownloadPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Pages\SyncMenuPage.xaml.cs">
+      <DependentUpon>SyncMenuPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Pages\PreferencesPage.xaml.cs">
       <DependentUpon>PreferencesPage.xaml</DependentUpon>
     </Compile>
@@ -171,6 +180,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Classes\Controls\ListSyncMenuControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Classes\Controls\ListSyncDeviceControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -186,6 +199,14 @@
     <Page Include="Classes\Controls\ListSimpleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Pages\SyncDownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Pages\SyncMenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Classes\Pages\PreferencesPage.xaml">
       <Generator>MSBuild:Compile</Generator>

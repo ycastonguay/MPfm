@@ -86,7 +86,7 @@
                             <ColumnDefinition Width="61*"/>
                             <ColumnDefinition Width="87*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Content="Button" HorizontalAlignment="Left" Margin="59,0,0,463" Click="Button_Click" Height="72" VerticalAlignment="Bottom"/>
+                        <Button Content="Button" HorizontalAlignment="Left" Margin="59,0,0,463" Click="Button_Click" Height="72" VerticalAlignment="Bottom" />
                         <TextBlock x:Name="txtStuff" HorizontalAlignment="Left" Margin="56,48,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Grid.Column="1"/>
                     </Grid>
                 </phone:PivotItem>

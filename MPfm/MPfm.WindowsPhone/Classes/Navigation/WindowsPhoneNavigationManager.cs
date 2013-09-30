@@ -26,6 +26,7 @@ using Microsoft.Phone.Controls;
 using MPfm.Library.Objects;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 using MPfm.WindowsPhone.Classes.Pages;
 using MPfm.WindowsPhone.Classes.Pages.Base;
 
@@ -36,6 +37,8 @@ namespace MPfm.WindowsPhone.Classes.Navigation
         private Action<IBaseView> _onSyncViewReady;
         private Action<IBaseView> _onSyncWebBrowserViewReady;
         private Action<IBaseView> _onPreferencesViewReady;
+        private Action<IBaseView> _onSyncMenuViewReady;
+        private Action<IBaseView> _onSyncDownloadViewReady;
 
         public override void ShowSplash(ISplashView view)
         {
@@ -100,6 +103,20 @@ namespace MPfm.WindowsPhone.Classes.Navigation
             var frame = Application.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri("/Classes/Pages/SyncPage.xaml", UriKind.Relative));
         }
+        
+        protected override void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, SyncDevice device)
+        {
+            _onSyncMenuViewReady = onViewReady;
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            frame.Navigate(new Uri("/Classes/Pages/SyncMenuPage.xaml", UriKind.Relative));
+        }
+
+        protected override void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        {
+            _onSyncDownloadViewReady = onViewReady;
+            var frame = Application.Current.RootVisual as PhoneApplicationFrame;
+            frame.Navigate(new Uri("/Classes/Pages/SyncDownloadPage.xaml", UriKind.Relative));
+        }
 
         protected override void CreateSyncWebBrowserViewInternal(Action<IBaseView> onViewReady)
         {
@@ -119,6 +136,10 @@ namespace MPfm.WindowsPhone.Classes.Navigation
         {
             if(page is SyncPage)
                 _onSyncViewReady(page);
+            else if (page is SyncMenuPage)
+                _onSyncMenuViewReady(page);
+            else if (page is SyncDownloadPage)
+                _onSyncDownloadViewReady(page);
             else if (page is SyncWebBrowserPage)
                 _onSyncWebBrowserViewReady(page);
             else if (page is PreferencesPage)

@@ -1,5 +1,5 @@
 ﻿<local:BasePage
-    x:Class="MPfm.WindowsPhone.Classes.Pages.SyncPage"
+    x:Class="MPfm.WindowsPhone.Classes.Pages.SyncMenuPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -49,7 +49,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,18,0,12">
             <TextBlock Text="SYNC LIBRARY WITH DEVICES" Style="{StaticResource PhoneTextNormalStyle}" FontFamily="Segoe WP Semibold" FontSize="22"/>
-            <TextBlock Text="nearby devices" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="72"/>
+            <TextBlock x:Name="lblTitle" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="72" />
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -59,16 +59,15 @@
                 <RowDefinition Height="480*"/>
             </Grid.RowDefinitions>
             <TextBlock x:Name="lblIPAddress" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="My IP address is" VerticalAlignment="Top" Width="436"/>
-            <TextBlock x:Name="lblStatus" HorizontalAlignment="Left" Margin="10,42,0,0" TextWrapping="Wrap" Text="Refreshing devices..." VerticalAlignment="Top" Width="436"/>
+            <TextBlock x:Name="lblStatus" HorizontalAlignment="Left" Margin="10,42,0,0" TextWrapping="Wrap" Text="Loading..." VerticalAlignment="Top" Width="436"/>
             <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="16" Margin="0,74,0,0" VerticalAlignment="Top" Width="446"/>
-            <phone:LongListSelector x:Name="listDevices" HorizontalAlignment="Left" Height="421" Margin="10,113,0,0" VerticalAlignment="Top" Width="446" Grid.RowSpan="2" SelectionChanged="listDevices_SelectionChanged">
+            <phone:LongListSelector x:Name="listMenu" HorizontalAlignment="Left" Height="494" Margin="10,113,0,0" VerticalAlignment="Top" Width="446" Grid.RowSpan="2" SelectionChanged="listMenu_SelectionChanged">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
-                        <controls:ListSyncDeviceControl />
+                        <controls:ListSyncMenuControl />
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
             </phone:LongListSelector>
-            <Button x:Name="btnConnectManual" Content="Connect manually to device" HorizontalAlignment="Left" Margin="0,413,0,0" Grid.Row="1" VerticalAlignment="Top" Width="456" Click="btnConnectManual_Click"/>
         </Grid>
     </Grid>
 </local:BasePage>

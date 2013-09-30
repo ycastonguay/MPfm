@@ -1,35 +1,147 @@
-﻿using System;
+﻿/* 
+    Copyright (c) 2011 Microsoft Corporation.  All rights reserved.
+    Use of this sample source code is subject to the terms of the Microsoft license 
+    agreement under which you licensed this sample source code and is provided AS-IS.
+    If you did not accept the terms of the license agreement, you are not authorized 
+    to use this sample source code.  For the terms of the license, please see the 
+    license agreement between you and Microsoft.
+  
+    To see all Code Samples for Windows Phone, visit http://go.microsoft.com/fwlink/?LinkID=219604 
+  
+*/
+using System;
 using System.Diagnostics;
 using System.Windows;
 using Microsoft.Phone.BackgroundAudio;
+using System.Collections.Generic;
 
-namespace MPfm.WindowsPhone.AudioPlaybackAgent
+namespace MyAudioPlaybackAgent
 {
     public class AudioPlayer : AudioPlayerAgent
     {
+        private static volatile bool _classInitialized;
+
+        // What's the current track?
+        static int currentTrackNumber = 0;
+
+        // A playlist made up of AudioTrack items.
+        private static List<AudioTrack> _playList = new List<AudioTrack>
+        {
+            new AudioTrack(new Uri(@"C:\Data\Users\DefApps\AppData\{04E03A6B-A909-40F0-BE84-86ECB9D8E7D5}\Local\Audio\Coltrane John - A Love Supreme - Quartet  Acknowledgement (Part 1).mp3", UriKind.Relative),
+                            "A Love Supreme - Acknowledgement (Part 1)", 
+                            "John Coltrane", 
+                            "A Love Supreme", 
+                            null)
+                            //new Uri("shared/media/Ring01.jpg", UriKind.Relative)),
+
+            //new AudioTrack(new Uri("Ring01.wma", UriKind.Relative), 
+            //                "Ringtone 1", 
+            //                "Windows Phone", 
+            //                "Windows Phone Ringtones", 
+            //                new Uri("shared/media/Ring01.jpg", UriKind.Relative)),
+
+            //new AudioTrack(new Uri("Ring02.wma", UriKind.Relative), 
+            //                "Ringtone 2", 
+            //                "Windows Phone", 
+            //                "Windows Phone Ringtones", 
+            //                new Uri("shared/media/Ring02.jpg", UriKind.Relative)),
+
+            //new AudioTrack(new Uri("Ring03.wma", UriKind.Relative), 
+            //                "Ringtone 3", 
+            //                "Windows Phone", 
+            //                "Windows Phone Ringtones", 
+            //                new Uri("shared/media/Ring03.jpg", UriKind.Relative)),
+
+            //// A remote URI
+            //new AudioTrack(new Uri("http://traffic.libsyn.com/wpradio/WPRadio_29.mp3", UriKind.Absolute), 
+            //                "Episode 29", 
+            //                "Windows Phone Radio", 
+            //                "Windows Phone Radio Podcast",
+            //                new Uri("shared/media/Episode29.jpg", UriKind.Relative))
+        };
+
+
         /// <remarks>
-        /// AudioPlayer instances can share the same process.
+        /// AudioPlayer instances can share the same process. 
         /// Static fields can be used to share state between AudioPlayer instances
         /// or to communicate with the Audio Streaming agent.
         /// </remarks>
-        static AudioPlayer()
+        public AudioPlayer()
         {
-            // Subscribe to the managed exception handler
-            Deployment.Current.Dispatcher.BeginInvoke(delegate
+            if (!_classInitialized)
             {
-                Application.Current.UnhandledException += UnhandledException;
-            });
+                _classInitialized = true;
+                // Subscribe to the managed exception handler
+                Deployment.Current.Dispatcher.BeginInvoke(delegate
+                {
+                    Application.Current.UnhandledException += AudioPlayer_UnhandledException;
+                });
+            }
         }
 
         /// Code to execute on Unhandled Exceptions
-        private static void UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
+        private void AudioPlayer_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            if (Debugger.IsAttached)
+            if (System.Diagnostics.Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
-                Debugger.Break();
+                System.Diagnostics.Debugger.Break();
             }
         }
+
+
+        /// <summary>
+        /// Increments the currentTrackNumber and plays the correpsonding track.
+        /// </summary>
+        /// <param name="player">The BackgroundAudioPlayer</param>
+        private void PlayNextTrack(BackgroundAudioPlayer player)
+        {
+            if (++currentTrackNumber >= _playList.Count)
+            {
+                currentTrackNumber = 0;
+            }
+
+            PlayTrack(player);
+        }
+
+
+        /// <summary>
+        /// Decrements the currentTrackNumber and plays the correpsonding track.
+        /// </summary>
+        /// <param name="player">The BackgroundAudioPlayer</param>
+        private void PlayPreviousTrack(BackgroundAudioPlayer player)
+        {
+            if (--currentTrackNumber < 0)
+            {
+                currentTrackNumber = _playList.Count - 1;
+            }
+
+            PlayTrack(player);
+        }
+
+
+        /// <summary>
+        /// Plays the track in our playlist at the currentTrackNumber position.
+        /// </summary>
+        /// <param name="player">The BackgroundAudioPlayer</param>
+        private void PlayTrack(BackgroundAudioPlayer player)
+        {
+            Debug.WriteLine("AudioPlayer - PlayTrack");
+            if (PlayState.Paused == player.PlayerState)
+            {
+                // If we're paused, we already have 
+                // the track set, so just resume playing.
+                player.Play();
+            }
+            else
+            {
+                // Set which track to play. When the TrackReady state is received 
+                // in the OnPlayStateChanged handler, call player.Play().
+                player.Track = _playList[currentTrackNumber];
+            }
+
+        }
+
 
         /// <summary>
         /// Called when the playstate changes, except for the Error state (see OnError)
@@ -40,46 +152,31 @@ namespace MPfm.WindowsPhone.AudioPlaybackAgent
         /// <remarks>
         /// Play State changes cannot be cancelled. They are raised even if the application
         /// caused the state change itself, assuming the application has opted-in to the callback.
-        ///
-        /// Notable playstate events:
+        /// 
+        /// Notable playstate events: 
         /// (a) TrackEnded: invoked when the player has no current track. The agent can set the next track.
         /// (b) TrackReady: an audio track has been set and it is now ready for playack.
-        ///
+        /// 
         /// Call NotifyComplete() only once, after the agent request has been completed, including async callbacks.
         /// </remarks>
         protected override void OnPlayStateChanged(BackgroundAudioPlayer player, AudioTrack track, PlayState playState)
         {
+            Debug.WriteLine("AudioPlayer - OnPlayStateChanged");
             switch (playState)
             {
                 case PlayState.TrackEnded:
-                    player.Track = GetPreviousTrack();
+                    PlayNextTrack(player);
                     break;
+
                 case PlayState.TrackReady:
+                    // The track to play is set in the PlayTrack method.
                     player.Play();
-                    break;
-                case PlayState.Shutdown:
-                    // TODO: Handle the shutdown state here (e.g. save state)
-                    break;
-                case PlayState.Unknown:
-                    break;
-                case PlayState.Stopped:
-                    break;
-                case PlayState.Paused:
-                    break;
-                case PlayState.Playing:
-                    break;
-                case PlayState.BufferingStarted:
-                    break;
-                case PlayState.BufferingStopped:
-                    break;
-                case PlayState.Rewinding:
-                    break;
-                case PlayState.FastForwarding:
                     break;
             }
 
             NotifyComplete();
         }
+
 
         /// <summary>
         /// Called when the user requests an action using application/system provided UI
@@ -93,91 +190,34 @@ namespace MPfm.WindowsPhone.AudioPlaybackAgent
         /// <remarks>
         /// User actions do not automatically make any changes in system state; the agent is responsible
         /// for carrying out the user actions if they are supported.
-        ///
+        /// 
         /// Call NotifyComplete() only once, after the agent request has been completed, including async callbacks.
         /// </remarks>
         protected override void OnUserAction(BackgroundAudioPlayer player, AudioTrack track, UserAction action, object param)
         {
+            Debug.WriteLine("AudioPlayer - OnUserAction");
             switch (action)
             {
                 case UserAction.Play:
-                    if (player.PlayerState != PlayState.Playing)
-                    {
-                        player.Play();
-                    }
+                    PlayTrack(player);
                     break;
-                case UserAction.Stop:
-                    player.Stop();
-                    break;
+
                 case UserAction.Pause:
                     player.Pause();
                     break;
-                case UserAction.FastForward:
-                    player.FastForward();
-                    break;
-                case UserAction.Rewind:
-                    player.Rewind();
-                    break;
-                case UserAction.Seek:
-                    player.Position = (TimeSpan)param;
-                    break;
-                case UserAction.SkipNext:
-                    player.Track = GetNextTrack();
-                    break;
+
                 case UserAction.SkipPrevious:
-                    AudioTrack previousTrack = GetPreviousTrack();
-                    if (previousTrack != null)
-                    {
-                        player.Track = previousTrack;
-                    }
+                    PlayPreviousTrack(player);
+                    break;
+
+                case UserAction.SkipNext:
+                    PlayNextTrack(player);
                     break;
             }
 
             NotifyComplete();
         }
 
-        /// <summary>
-        /// Implements the logic to get the next AudioTrack instance.
-        /// In a playlist, the source can be from a file, a web request, etc.
-        /// </summary>
-        /// <remarks>
-        /// The AudioTrack URI determines the source, which can be:
-        /// (a) Isolated-storage file (Relative URI, represents path in the isolated storage)
-        /// (b) HTTP URL (absolute URI)
-        /// (c) MediaStreamSource (null)
-        /// </remarks>
-        /// <returns>an instance of AudioTrack, or null if the playback is completed</returns>
-        private AudioTrack GetNextTrack()
-        {
-            // TODO: add logic to get the next audio track
-
-            AudioTrack track = null;
-
-            // specify the track
-
-            return track;
-        }
-
-        /// <summary>
-        /// Implements the logic to get the previous AudioTrack instance.
-        /// </summary>
-        /// <remarks>
-        /// The AudioTrack URI determines the source, which can be:
-        /// (a) Isolated-storage file (Relative URI, represents path in the isolated storage)
-        /// (b) HTTP URL (absolute URI)
-        /// (c) MediaStreamSource (null)
-        /// </remarks>
-        /// <returns>an instance of AudioTrack, or null if previous track is not allowed</returns>
-        private AudioTrack GetPreviousTrack()
-        {
-            // TODO: add logic to get the previous audio track
-
-            AudioTrack track = null;
-
-            // specify the track
-
-            return track;
-        }
 
         /// <summary>
         /// Called whenever there is an error with playback, such as an AudioTrack not downloading correctly
@@ -187,11 +227,12 @@ namespace MPfm.WindowsPhone.AudioPlaybackAgent
         /// <param name="error">The error that occured</param>
         /// <param name="isFatal">If true, playback cannot continue and playback of the track will stop</param>
         /// <remarks>
-        /// This method is not guaranteed to be called in all cases. For example, if the background agent
+        /// This method is not guaranteed to be called in all cases. For example, if the background agent 
         /// itself has an unhandled exception, it won't get called back to handle its own errors.
         /// </remarks>
         protected override void OnError(BackgroundAudioPlayer player, AudioTrack track, Exception error, bool isFatal)
         {
+            Debug.WriteLine("AudioPlayer - OnError");
             if (isFatal)
             {
                 Abort();
@@ -212,7 +253,7 @@ namespace MPfm.WindowsPhone.AudioPlaybackAgent
         /// </remarks>
         protected override void OnCancel()
         {
-
+            Debug.WriteLine("AudioPlayer - OnCancel");
         }
     }
 }

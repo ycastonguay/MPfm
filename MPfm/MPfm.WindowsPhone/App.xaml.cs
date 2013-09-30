@@ -249,10 +249,7 @@ namespace MPfm.WindowsPhone
                 // or RightToLeft.
 
                 if (Debugger.IsAttached)
-                {
                     Debugger.Break();
-                }
-
                 throw;
             }
         }
@@ -275,8 +272,8 @@ namespace MPfm.WindowsPhone
             //container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
             //container.Register<IPlaylistView, PlaylistActivity>().AsMultiInstance();
             container.Register<ISyncView, SyncPage>().AsMultiInstance();
-            //container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
-            //container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
+            container.Register<ISyncDownloadView, SyncDownloadPage>().AsMultiInstance();
+            container.Register<ISyncMenuView, SyncMenuPage>().AsMultiInstance();
             container.Register<ISyncWebBrowserView, SyncWebBrowserPage>().AsMultiInstance();
             //container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
             //container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();

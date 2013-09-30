@@ -96,7 +96,7 @@ namespace MPfm.MVP.Presenters
 
         private void ConnectDevice(SyncDevice device)
         {
-#if IOS || ANDROID
+#if IOS || ANDROID || WINDOWS_PHONE
             _mobileNavigationManager.CreateSyncMenuView(device);
 #else
             _navigationManager.CreateSyncMenuView(device);

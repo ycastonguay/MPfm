@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace MPfm.Library.Services
         {
             _stopwatch = new Stopwatch();
             _httpClient = new HttpClient();
-            _httpClient.Timeout = new TimeSpan(0, 0, 3);
+            _httpClient.Timeout = new TimeSpan(0, 0, 0, 0, 1000);
 
             //_webClient = new WebClientTimeout(3000);
             //_webClient.DownloadProgressChanged += HandleDownloadProgressChanged;
@@ -185,14 +186,25 @@ namespace MPfm.Library.Services
             //    _webClient.CancelAsync();
         }
 
-        public void DownloadIndex(string baseUrl)
+        public async void DownloadIndex(string baseUrl)
         {
-            var url = new Uri(new Uri(baseUrl), "/api/index/xml");
-            Cancel();
-
-            //Console.WriteLine("SyncClientService - Downloading index from {0}...", url);
-            //_webClient.DownloadStringAsync(url, url);
-        }
+            try
+            {
+                var url = new Uri(new Uri(baseUrl), "/api/index/xml");
+                Tracing.Log("SyncClientService - DownloadIndex - baseUrl: {0} url: {1}", baseUrl, url);
+                //Cancel();
+                string index = await _httpClient.GetStringAsync(url);
+                Tracing.Log("SyncClientService - DownloadIndex - Finished downloading index. Deserializing XML...", url);
+                _audioFiles = XmlSerialization.Deserialize<List<AudioFile>>(index);
+                Tracing.Log("SyncClientService - DownloadIndex - XML deserialized!");
+                if (OnReceivedIndex != null)
+                    OnReceivedIndex(null);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("SyncClientService - DownloadIndex - Exception: {0}", ex);
+            }
+        }        
 
         public List<string> GetDistinctArtistNames()
         {
@@ -224,6 +236,7 @@ namespace MPfm.Library.Services
             //if (_webClient.IsBusy)
             //    return;
 
+            Tracing.Log("SyncClientService - DownloadAudioFiles - baseUrl: {0}", baseUrl);
             _filesDownloaded = 0;
             _bytesDownloaded = 0;
             _errorCount = 0;
@@ -250,7 +263,7 @@ namespace MPfm.Library.Services
         {
             var url = new Uri(new Uri(_baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
             string localFilePath = GetLibraryLocalPath(audioFile);
-            //Console.WriteLine("SyncClientService - DownloadAudioFile - folderPath: {0} fileName: {1} localFilePath: {2}", folderPath, fileName, localFilePath);
+            //Tracing.Log("SyncClientService - DownloadAudioFile - folderPath: {0} fileName: {1} localFilePath: {2}", folderPath, fileName, localFilePath);
             _lastBytesReceived = 0;
 
             if (OnDownloadAudioFileStarted != null)
