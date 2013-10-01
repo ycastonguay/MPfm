@@ -197,6 +197,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PortableTPL">
+      <HintPath>..\packages\PortableTPL.1.0.1\lib\PortableTPL.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
     </Reference>

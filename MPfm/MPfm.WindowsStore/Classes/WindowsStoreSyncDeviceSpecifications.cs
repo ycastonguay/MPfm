@@ -16,6 +16,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
+using Windows.Networking.Connectivity;
 using MPfm.Library;
 using MPfm.Library.Objects;
 
@@ -32,7 +34,7 @@ namespace MPfm.WindowsStore.Classes
 
         public string GetDeviceName()
         {
-            return "WindowsStore Generic Device";
+            return "Windows Store Generic Device";
         }
 
         public long GetFreeSpace()
@@ -42,7 +44,22 @@ namespace MPfm.WindowsStore.Classes
 
         public string GetIPAddress()
         {
-            return string.Empty;
+            string ip = string.Empty;
+            var icp = NetworkInformation.GetInternetConnectionProfile();
+            if (icp != null && icp.NetworkAdapter != null)
+            {
+                var hostname =
+                    NetworkInformation.GetHostNames()
+                        .SingleOrDefault(
+                            hn =>
+                                hn.IPInformation != null && hn.IPInformation.NetworkAdapter != null
+                                && hn.IPInformation.NetworkAdapter.NetworkAdapterId
+                                == icp.NetworkAdapter.NetworkAdapterId);
+
+                if (hostname != null)
+                    ip = hostname.CanonicalName;
+            }
+            return ip;
         }
 
         public string GetMusicFolderPath()

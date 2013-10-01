@@ -15,13 +15,14 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MPfm.WindowsStore.App">
-      <VisualElements DisplayName="Sessions" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Sessions is a music player for musicians." ForegroundText="light" BackgroundColor="#464646">
+      <VisualElements DisplayName="Sessions" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Sessions is a music player for musicians." ForegroundText="light" BackgroundColor="#20282E">
         <DefaultTile ShowName="allLogos" ShortName="Sessions" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="privateNetworkClientServer" />
     <Capability Name="internetClientServer" />
     <Capability Name="musicLibrary" />
     <Capability Name="internetClient" />

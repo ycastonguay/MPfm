@@ -33,7 +33,11 @@
 
     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource ThemeBackground}"></SolidColorBrush>
     <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="{StaticResource ThemeForeground}"></SolidColorBrush>
-
+    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{StaticResource ThemeSecondary}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ProgressBarBackgroundThemeBrush" Color="{StaticResource ThemeBackground}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ProgressBarBorderThemeBrush" Color="{StaticResource ThemePrimary}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ProgressBarForegroundThemeBrush" Color="{StaticResource ThemeSecondary}"></SolidColorBrush>
+    
     <x:String x:Key="ChevronGlyph">&#xE26B;</x:String>
 
     <!-- RichTextBlock styles -->

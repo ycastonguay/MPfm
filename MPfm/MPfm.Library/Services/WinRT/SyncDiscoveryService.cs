@@ -21,11 +21,17 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
+
+#if WINDOWS_PHONE
+using PortableTPL;
+#else
+using CancellationTokenSource = System.Threading.CancellationTokenSource;
+using Task = System.Threading.Tasks.Task;
+#endif
 
 namespace MPfm.Library.Services
 {
@@ -34,6 +40,7 @@ namespace MPfm.Library.Services
         bool _isCancelling = false;
         CancellationTokenSource _cancellationTokenSource = null;
         HttpClient _httpClient;
+        private System.Threading.Tasks.Task _currentTask;
 
         public bool IsRunning { get; private set; }
         public int Port { get; private set; }
@@ -54,133 +61,129 @@ namespace MPfm.Library.Services
         /// Searches for uncommon IP addresses in a subnet (i.e. 192.168.1.26 to 192.168.1.99, 192.168.1.126 to 192.168.1.255).
         /// </summary>
         /// <param name="baseIP">Base IP address (i.e. 192.168.1)</param>
-        public async void SearchForDevices(string baseIP)
+        public void SearchForDevices(string baseIP)
         {
             Tracing.Log("SyncDiscoveryService - SearchForDevices - Searching for common ips in {0}.*", baseIP);
             var commonIPs = new List<string>();
-            //for(int a = 0; a < 25; a++)
-            //    commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+            for(int a = 0; a < 25; a++)
+                commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
             for (int a = 100; a < 120; a++)
                 commonIPs.Add(string.Format("{0}.{1}", baseIP, a));
-            var commonDevices = await SearchForDevicesAsync(commonIPs);
-
-            Tracing.Log("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
-            var uncommonIPs = new List<string>();
-            //for (int a = 26; a < 99; a++)
-            //    uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
-            //for (int a = 126; a < 255; a++)
-            //    uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
-            //var uncommonDevices = await SearchForDevicesAsync(uncommonIPs);
-
-            Tracing.Log("SyncDiscoveryService - SearchForDevices - Discovery ended!");
-            _isCancelling = false;
-            var allDevices = new List<SyncDevice>();
-            allDevices.AddRange(commonDevices);
-            //allDevices.AddRange(uncommonDevices);
-            if (OnDiscoveryEnded != null)
-                OnDiscoveryEnded(allDevices);
+            SearchForDevices(commonIPs, (commonDevices) =>
+            {
+                Tracing.Log("SyncDiscoveryService - SearchForDevices - Searching for uncommon ips in {0}.*", baseIP);
+                var uncommonIPs = new List<string>();
+                for (int a = 26; a < 99; a++)
+                    uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+                for (int a = 126; a < 255; a++)
+                    uncommonIPs.Add(string.Format("{0}.{1}", baseIP, a));
+                SearchForDevices(uncommonIPs, (uncommonDevices) =>
+                {
+                    Tracing.Log("SyncDiscoveryService - SearchForDevices - Discovery ended!");
+                    _isCancelling = false;
+                    var allDevices = new List<SyncDevice>();
+                    allDevices.AddRange(commonDevices);
+                    allDevices.AddRange(uncommonDevices);
+                    if (OnDiscoveryEnded != null)
+                        OnDiscoveryEnded(allDevices);
+                });
+            });
         }
 
         /// <summary>
         /// Searches for devices in the IP addresses passed in parameter.
         /// </summary>
         /// <param name="ips">IP addresses to search</param>
-        public async void SearchForDevices(List<string> ips)
+        public void SearchForDevices(List<string> ips)
         {
-            var devices = await SearchForDevicesAsync(ips);
-            if (OnDiscoveryEnded != null) OnDiscoveryEnded(devices);
+            SearchForDevices(ips, (devices) =>
+            {
+                if (OnDiscoveryEnded != null)
+                    OnDiscoveryEnded(devices);
+            });
         }
 
-        /// <summary>
-        /// Searches for devices in the IP addresses passed in parameter.
-        /// </summary>
-        /// <param name="ips">IP addresses to search</param>
-        private async Task<List<SyncDevice>> SearchForDevicesAsync(List<string> ips)
-        {
-            Tracing.Log("SyncDiscoveryService - SearchForDevices - processorCount: {0}", System.Environment.ProcessorCount);
-            IsRunning = true;            
+        private void SearchForDevices(List<string> ips, Action<List<SyncDevice>> actionDiscoveryEnded)
+        {            
+            int ipCount = 0;
+            _cancellationTokenSource = new CancellationTokenSource();
+            ParallelOptions parallelOptions = new ParallelOptions();
+            parallelOptions.CancellationToken = _cancellationTokenSource.Token;
 
-            List<SyncDevice> devices = new List<SyncDevice>();
-            List<Task<SyncDevice>> tasks = new List<Task<SyncDevice>>();
-            for (int a = 0; a < ips.Count; a++)
+#if !WINDOWS_PHONE
+            parallelOptions.MaxDegreeOfParallelism = 2; //System.Environment.ProcessorCount; // Not available on WP8
+#endif
+            _currentTask = System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
                 try
                 {
-                    //Tracing.Log("SyncDiscoveryService - Pinging {0}...", ips[a]);
-                    string url = string.Format("http://{0}:{1}/sessionsapp.version", ips[a], Port);
-                    tasks.Add(ProcessDevice(url, ips[a]));
+                    Tracing.Log("SyncDiscoveryService - SearchForDevices - processorCount: {0}", System.Environment.ProcessorCount);
+                    IsRunning = true;
+                    //ConcurrentBag<SyncDevice> devices = new ConcurrentBag<SyncDevice>(); // no ConcurrentBag in WP8
+                    List<SyncDevice> devices = new List<SyncDevice>(); // anonymous async method doesn't work on WP8
+                    //Parallel.For(1, ips.Count, parallelOptions, (index, state) =>
+                    Parallel.For(1, ips.Count, parallelOptions, (index) =>
+                    {
+                        //// Check for cancel (for some reason this doesn't work!)
+                        //if (_cancellationTokenSource.IsCancellationRequested)
+                        //    state.Stop();
 
-                    //string content = await _httpClient.GetStringAsync(url);
+                        //if (_isCancelling)
+                        //{
+                        //    Tracing.Log("SyncDiscoveryService - Cancelling parallel task...");
+                        //    //state.Stop(); // not available on WP8
+                        //}
 
-                    //Tracing.Log("SyncDiscoveryService - Got version from {0}: {1}", ips[a], content);
-                    //var device = XmlSerialization.Deserialize<SyncDevice>(content);
-                    //if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
-                    //{
-                    //    device.Url = url;
-                    //    devices.Add(device);
-                    //    if (OnDeviceFound != null) OnDeviceFound(device);
-                    //    Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ips[a]);
-                    //}
+                        try
+                        {
+                            Tracing.Log("SyncDiscoveryService - Pinging {0}...", ips[index]);
+                            string url = string.Format("http://{0}:{1}/sessionsapp.version", ips[index], Port);
+
+                            //string content = await _httpClient.GetStringAsync(url); // This seems to pile up tasks until they hit await...
+                            var task = _httpClient.GetStringAsync(url);
+                            string content = task.Result; // This is the good way to use tasks and async properly in Parallel.For
+
+                            Tracing.Log("SyncDiscoveryService - Got version from {0}: {1}", ips[index], content);
+                            var device = XmlSerialization.Deserialize<SyncDevice>(content);
+                            if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
+                            {
+                                device.Url = String.Format("http://{0}:{1}/", ips[index], Port);
+                                devices.Add(device);
+                                Tracing.Log("SyncDiscoveryService - Raising OnDeviceFound event...");
+                                if (OnDeviceFound != null)
+                                    OnDeviceFound(device);
+                                Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ips[index]);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Ignore IP address
+                            //Tracing.Log("SyncDiscoveryService - SearchForDevices - Parallel.For - Exception: {0}", ex);
+                        }
+                        finally
+                        {
+                            ipCount++;
+                            float percentageDone = ((float)ipCount / (float)ips.Count) * 100;
+                            if (OnDiscoveryProgress != null)
+                                OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
+                        }
+                    });
+
+                    IsRunning = false;
+
+                    Tracing.Log("SyncDiscoveryService - Discovery done!");
+                    if (actionDiscoveryEnded != null)
+                        actionDiscoveryEnded(devices);
+                }
+                catch (System.OperationCanceledException ex)
+                {
+                    Tracing.Log("SyncDiscoveryService - SearchForDevices - OperationCanceledException: {0}", ex);
                 }
                 catch (Exception ex)
                 {
-                    // Ignore IP address
                     Tracing.Log("SyncDiscoveryService - SearchForDevices - Exception: {0}", ex);
                 }
-                finally
-                {
-                    //float percentageDone = ((float)a / (float)ips.Count) * 100;
-                    //if (OnDiscoveryProgress != null)
-                    //    OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
-                }
-            }
-
-            int b = 0;
-            while (true)
-            {                
-                if (b > tasks.Count - 1)
-                    break;
-
-                float percentageDone = ((float)b / (float)tasks.Count) * 100;
-                if (OnDiscoveryProgress != null)
-                    OnDiscoveryProgress(percentageDone, String.Format("Finding devices on local network ({0:0}%)", percentageDone));
-
-                Tracing.Log("SyncDiscoveryService - SearchForDevicesAsync - while loop index {0} - done {1}", b, percentageDone);
-
-                var device = await tasks[b];
-                if(device != null)
-                    devices.Add(device);
-                b++;
-            }
-
-            IsRunning = false;
-
-            return devices;
-        }
-
-        private async Task<SyncDevice> ProcessDevice(string url, string ip)
-        {
-            try
-            {
-                Tracing.Log("SyncDiscoveryService - ProcessDevice - Getting content... url: {0} ip:{1}", url, ip);
-                string content = await _httpClient.GetStringAsync(url);
-                Tracing.Log("SyncDiscoveryService - ProcessDevice - Getting content... done! url: {0} ip:{1}", url, ip);
-                Tracing.Log("SyncDiscoveryService - Got version from {0}: {1}", ip, content);
-                var device = XmlSerialization.Deserialize<SyncDevice>(content);
-                if (device.SyncVersionId.ToUpper() == SyncListenerService.SyncVersionId.ToUpper())
-                {
-                    device.Url = url.Replace("/sessionsapp.version", "");
-                    if (OnDeviceFound != null) OnDeviceFound(device);
-                    Tracing.Log("SyncDiscoveryService - The following host is available: {0}", ip);
-                }
-                return device;
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log("SyncDiscoveryService - ProcessDevice - Exception: {0}", ex);
-            }
-
-            return null;
+            });
         }
 
         /// <summary>

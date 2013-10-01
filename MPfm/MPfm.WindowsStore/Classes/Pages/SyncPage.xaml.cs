@@ -18,10 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Windows.Storage.Pickers;
+using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
@@ -95,6 +99,11 @@ namespace MPfm.WindowsStore.Classes.Pages
             //}            
         }
 
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #region ISyncView implementation
 
         public Action<SyncDevice> OnConnectDevice { get; set; }
@@ -104,22 +113,46 @@ namespace MPfm.WindowsStore.Classes.Pages
 
         public void SyncError(Exception ex)
         {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                var dialog = new MessageDialog(string.Format("An error has occured in SyncPage: {0}", ex), "Error");
+                dialog.ShowAsync();
+            });
         }
 
         public void RefreshIPAddress(string address)
         {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                lblIPAddress.Text = address;
+            });            
         }
 
         public void RefreshDiscoveryProgress(float percentageDone, string status)
         {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                lblStatus.Text = status;
+                progressBar.Value = percentageDone;
+            });  
         }
 
         public void RefreshDevices(IEnumerable<SyncDevice> devices)
         {
+            Tracing.Log("SyncPage - RefreshDevices - devices.Count: {0}", devices.Count());
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                listView.ItemsSource = devices.ToList();
+            });
         }
 
         public void RefreshDevicesEnded()
         {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                lblStatus.Text = "Refreshed device list successfully.";
+                progressBar.Value = 100;
+            });
         }
 
         public void SyncDevice(SyncDevice device)
@@ -127,6 +160,6 @@ namespace MPfm.WindowsStore.Classes.Pages
         }
 
         #endregion
-
+       
     }
 }
