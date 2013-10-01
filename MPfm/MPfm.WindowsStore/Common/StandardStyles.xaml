@@ -25,6 +25,14 @@
             <x:String x:Key="BackButtonSnappedGlyph">&#xE0C4;</x:String>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colours.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="Generic.xaml"></ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+
+    <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource ThemeBackground}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="{StaticResource ThemeForeground}"></SolidColorBrush>
 
     <x:String x:Key="ChevronGlyph">&#xE26B;</x:String>
 

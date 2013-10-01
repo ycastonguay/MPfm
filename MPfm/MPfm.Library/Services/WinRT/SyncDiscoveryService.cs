@@ -188,7 +188,7 @@ namespace MPfm.Library.Services
         /// </summary>
         public void Cancel()
         {
-            Console.WriteLine("SyncDiscoveryService - Cancelling process...");
+            Tracing.Log("SyncDiscoveryService - Cancelling process...");
             if (IsRunning)
             {
                 if (_cancellationTokenSource != null)

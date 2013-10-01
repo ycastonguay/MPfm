@@ -21,7 +21,7 @@ using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Sound.Playlists;
-using Microsoft.Phone.BackgroundAudio;
+//using Microsoft.Phone.BackgroundAudio;
 
 namespace MPfm.Player
 {

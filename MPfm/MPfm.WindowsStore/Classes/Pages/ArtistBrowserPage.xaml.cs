@@ -1,35 +1,23 @@
-﻿using System.Diagnostics;
-using MPfm.WindowsStore.Data;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
+using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using MPfm.WindowsStore.Classes.Pages.Base;
+using MPfm.WindowsStore.Data;
 
 // The Items Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234233
 
-namespace MPfm.WindowsStore
+namespace MPfm.WindowsStore.Classes.Pages
 {
     /// <summary>
     /// A page that displays a collection of item previews.  In the Split Application this page
     /// is used to display and select one of the available groups.
     /// </summary>
-    public sealed partial class ItemsPage : MPfm.WindowsStore.Common.LayoutAwarePage
+    public sealed partial class ArtistBrowserPage : BasePage
     {
-        public ItemsPage()
+        public ArtistBrowserPage()
         {
-            Debug.WriteLine("ItemsPage - Ctor");
+            Debug.WriteLine("ArtistBrowserPage - Ctor");
             this.InitializeComponent();
         }
 
@@ -45,7 +33,7 @@ namespace MPfm.WindowsStore
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
-            Debug.WriteLine("ItemsPage - LoadState");
+            Debug.WriteLine("ArtistBrowserPage - LoadState");
             var sampleDataGroups = SampleDataSource.GetGroups((String)navigationParameter);
             this.DefaultViewModel["Items"] = sampleDataGroups;
         }
@@ -60,9 +48,9 @@ namespace MPfm.WindowsStore
         {
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
-            Debug.WriteLine("ItemsPage - ItemClick");
+            Debug.WriteLine("ArtistBrowserPage - ItemClick");
             var groupId = ((SampleDataGroup)e.ClickedItem).UniqueId;
-            this.Frame.Navigate(typeof(SplitPage), groupId);
+            this.Frame.Navigate(typeof(SyncPage), groupId);
         }
     }
 }

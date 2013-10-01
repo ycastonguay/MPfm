@@ -17,29 +17,23 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Diagnostics;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-// The Grouped Items Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234231
+using MPfm.Library.Objects;
+using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using MPfm.WindowsStore.Classes.Pages.Base;
 
-namespace MPfm.WindowsStore
+namespace MPfm.WindowsStore.Classes.Pages
 {
     /// <summary>
     /// A page that displays a grouped collection of items.
     /// </summary>
-    public sealed partial class TestPage : MPfm.WindowsStore.Common.LayoutAwarePage
+    public sealed partial class SplashPage : BasePage, ISplashView
     {
-        public TestPage()
+        public SplashPage()
         {
             this.InitializeComponent();
         }
@@ -56,6 +50,9 @@ namespace MPfm.WindowsStore
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             // TODO: Assign a collection of bindable groups to this.DefaultViewModel["Groups"]
+            Debug.WriteLine("SplashPage - LoadState");
+
+            // View is ready
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -85,5 +82,18 @@ namespace MPfm.WindowsStore
                 throw;
             }            
         }
+
+        #region ISplashView implementation
+
+        public void RefreshStatus(string message)
+        {
+        }
+
+        public void InitDone(bool isAppFirstStart)
+        {
+        }
+        
+        #endregion
+
     }
 }

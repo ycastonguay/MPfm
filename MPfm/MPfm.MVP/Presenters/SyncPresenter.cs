@@ -49,7 +49,7 @@ namespace MPfm.MVP.Presenters
             _syncDiscoveryService.OnDiscoveryProgress += HandleOnDiscoveryProgress;
             _syncDiscoveryService.OnDiscoveryEnded += HandleOnDiscoveryEnded;
 
-#if IOS || ANDROID || WINDOWS_PHONE
+#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
 #else
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
@@ -96,7 +96,7 @@ namespace MPfm.MVP.Presenters
 
         private void ConnectDevice(SyncDevice device)
         {
-#if IOS || ANDROID || WINDOWS_PHONE
+#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager.CreateSyncMenuView(device);
 #else
             _navigationManager.CreateSyncMenuView(device);

@@ -21,6 +21,7 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.WindowsStore.Classes;
+using MPfm.WindowsStore.Classes.Navigation;
 using MPfm.WindowsStore.Classes.Pages;
 using MPfm.WindowsStore.Common;
 
@@ -107,10 +108,10 @@ namespace MPfm.WindowsStore
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                Debug.WriteLine("RootFrame.Content == null; trying to navigate to ItemsPage");
-                //if (!rootFrame.Navigate(typeof(ItemsPage), "AllGroups"))
-                //if(!rootFrame.Navigate(typeof(TestPage), args.Arguments))
-                if(!rootFrame.Navigate(typeof(Main), "AllGroups"))
+                Debug.WriteLine("RootFrame.Content == null; trying to navigate to MainPage");
+                //if (!rootFrame.Navigate(typeof(ArtistBrowserPage), "AllGroups"))
+                //if(!rootFrame.Navigate(typeof(SyncPage), args.Arguments))
+                if(!rootFrame.Navigate(typeof(MainPage), "AllGroups"))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -138,9 +139,9 @@ namespace MPfm.WindowsStore
         {
             TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, WindowsStoreSyncDeviceSpecifications>().AsSingleton();
-            //container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
-            //container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
-            //container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            container.Register<MobileNavigationManager, WindowsStoreNavigationManager>().AsSingleton();
+            container.Register<IMobileOptionsMenuView, MainPage>().AsMultiInstance();
+            container.Register<ISplashView, SplashPage>().AsMultiInstance();
             //container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
             //container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();
             //container.Register<IMarkersView, MarkersFragment>().AsMultiInstance();
@@ -151,7 +152,7 @@ namespace MPfm.WindowsStore
             //container.Register<IUpdateLibraryView, UpdateLibraryFragment>().AsMultiInstance();
             //container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserFragment>().AsMultiInstance();
             //container.Register<IPlaylistView, PlaylistActivity>().AsMultiInstance();
-            //container.Register<ISyncView, SyncActivity>().AsMultiInstance();
+            container.Register<ISyncView, SyncPage>().AsMultiInstance();
             //container.Register<ISyncDownloadView, SyncDownloadActivity>().AsMultiInstance();
             //container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
             //container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();

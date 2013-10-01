@@ -4,22 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MPfm.WindowsStore"
     xmlns:localData="using:MPfm.WindowsStore.Data"
-    RequestedTheme="Light">
+    RequestedTheme="Dark">
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
-                <!-- 
-                    Styles that define common aspects of the platform look and feel
-                    Required by Visual Studio project and item templates
-                 -->
                 <ResourceDictionary Source="Common/StandardStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Application-specific resources -->
-
-            <x:String x:Key="AppName">MPfm.WindowsStore</x:String>
+            <x:String x:Key="AppName">Sessions</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

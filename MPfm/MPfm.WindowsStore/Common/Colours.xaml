@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MPfm.WindowsStore.Common">
+    <Color x:Key="ThemeDominant">#FFBFB49F</Color>
+    <Color x:Key="ThemeSubDominant">#FF467302</Color>
+    <Color x:Key="ThemeAccent">#FFF2F2F2</Color>
+    <Color x:Key="ThemeBackground">#FF20282E</Color>
+    <Color x:Key="ThemeForeground">#FFFFFFFF</Color>
+</ResourceDictionary>
