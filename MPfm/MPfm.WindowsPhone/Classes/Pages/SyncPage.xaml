@@ -55,20 +55,26 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="127*"/>
-                <RowDefinition Height="480*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="lblIPAddress" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="My IP address is" VerticalAlignment="Top" Width="436"/>
-            <TextBlock x:Name="lblStatus" HorizontalAlignment="Left" Margin="10,42,0,0" TextWrapping="Wrap" Text="Refreshing devices..." VerticalAlignment="Top" Width="436"/>
-            <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="16" Margin="0,74,0,0" VerticalAlignment="Top" Width="446"/>
-            <phone:LongListSelector x:Name="listDevices" HorizontalAlignment="Left" Height="421" Margin="10,113,0,0" VerticalAlignment="Top" Width="446" Grid.RowSpan="2" SelectionChanged="listDevices_SelectionChanged">
+            <TextBlock Grid.Row="0" x:Name="lblIPAddress" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="My IP address is" VerticalAlignment="Top" Foreground="#FFDDDDDD" />
+            <TextBlock Grid.Row="1" x:Name="lblStatus" HorizontalAlignment="Left" Margin="10,4,0,0" TextWrapping="Wrap" Text="Refreshing devices..." VerticalAlignment="Top" />
+            <ProgressBar Grid.Row="2" x:Name="progressBar" HorizontalAlignment="Left" Height="16" Margin="0,4,0,0" VerticalAlignment="Top" Width="446"/>
+            <phone:LongListSelector Grid.Row="3" x:Name="listDevices" HorizontalAlignment="Left" Height="421" Margin="10,4,0,0" VerticalAlignment="Top" Width="446" Grid.RowSpan="2" SelectionChanged="listDevices_SelectionChanged">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <controls:ListSyncDeviceControl />
                     </DataTemplate>
                 </phone:LongListSelector.ItemTemplate>
             </phone:LongListSelector>
-            <Button x:Name="btnConnectManual" Content="Connect manually to device" HorizontalAlignment="Left" Margin="0,413,0,0" Grid.Row="1" VerticalAlignment="Top" Width="456" Click="btnConnectManual_Click"/>
+            <StackPanel Grid.Row="4" Orientation="Vertical">
+                <Button x:Name="btnRefreshDevices" Content="Cancel refresh" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="456" Click="btnRefreshDevices_Click"/>
+                <Button x:Name="btnConnectManual" Content="Connect manually to device" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="456" Click="btnConnectManual_Click"/>                
+            </StackPanel>
         </Grid>
     </Grid>
 </local:BasePage>

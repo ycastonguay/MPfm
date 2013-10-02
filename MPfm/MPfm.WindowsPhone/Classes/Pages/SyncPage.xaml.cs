@@ -38,6 +38,8 @@ namespace MPfm.WindowsPhone.Classes.Pages
 {
     public partial class SyncPage : BasePage, ISyncView
     {
+        private bool _isDiscovering;
+
         public SyncPage()
         {
             Debug.WriteLine("SyncPage - Ctor - Initializing components...");
@@ -96,6 +98,28 @@ namespace MPfm.WindowsPhone.Classes.Pages
 
         }
 
+        private void btnRefreshDevices_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();
+        }
+
+        private void RefreshDeviceListButton()
+        {
+            if (_isDiscovering)
+            {
+                //btnRefresh.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_cancel_16);
+                btnRefreshDevices.Content = "Cancel refresh";
+            }
+            else
+            {
+                //btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_refresh_16);
+                btnRefreshDevices.Content = "Refresh devices";
+            }
+        }
+
         #region ISyncView implementation
 
         public Action<SyncDevice> OnConnectDevice { get; set; }
@@ -120,6 +144,12 @@ namespace MPfm.WindowsPhone.Classes.Pages
         {
             Dispatcher.BeginInvoke(() =>
             {
+                if (!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    //progressBar.Visible = true;
+                    RefreshDeviceListButton();
+                }
                 lblStatus.Text = status;
                 progressBar.Value = percentageDone;
             });
@@ -137,8 +167,10 @@ namespace MPfm.WindowsPhone.Classes.Pages
         {
             Dispatcher.BeginInvoke(() =>
             {
+                _isDiscovering = false;
                 lblStatus.Text = "Refreshed device list successfully.";
                 progressBar.Value = 100;
+                RefreshDeviceListButton();
             });
         }
 

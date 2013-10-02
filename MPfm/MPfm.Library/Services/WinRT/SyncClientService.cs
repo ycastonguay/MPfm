@@ -192,8 +192,8 @@ namespace MPfm.Library.Services
             {
                 var url = new Uri(new Uri(baseUrl), "/api/index/xml");
                 Tracing.Log("SyncClientService - DownloadIndex - baseUrl: {0} url: {1}", baseUrl, url);
-                //Cancel();
-                string index = await _httpClient.GetStringAsync(url);
+                //Cancel();                
+                string index = await _httpClient.GetStringAsync(url);                
                 Tracing.Log("SyncClientService - DownloadIndex - Finished downloading index. Deserializing XML...", url);
                 _audioFiles = XmlSerialization.Deserialize<List<AudioFile>>(index);
                 Tracing.Log("SyncClientService - DownloadIndex - XML deserialized!");

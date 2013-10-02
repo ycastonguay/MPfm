@@ -42,7 +42,7 @@ namespace MPfm.MVP.Presenters
         List<SyncDevice> _devices = new List<SyncDevice>();
 
         public SyncPresenter(ISyncDiscoveryService syncDiscoveryService, ISyncDeviceSpecifications deviceSpecifications)
-		{
+		{            
             _deviceSpecifications = deviceSpecifications;
             _syncDiscoveryService = syncDiscoveryService;
             _syncDiscoveryService.OnDeviceFound += HandleOnDeviceFound;
@@ -74,7 +74,7 @@ namespace MPfm.MVP.Presenters
 
         private void HandleOnDeviceFound(SyncDevice deviceFound)
         {
-            //Tracing.Log("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
+            Tracing.Log("SyncPresenter - HandleOnDeviceFound - deviceName: {0} url: {1}", deviceFound.Name, deviceFound.Url);
             var device = _devices.FirstOrDefault(x => x.Url == deviceFound.Url);
             if(device == null)
                 _devices.Add(deviceFound);
@@ -84,13 +84,13 @@ namespace MPfm.MVP.Presenters
 
         private void HandleOnDiscoveryProgress(float percentageDone, string status)
         {
-            //Tracing.Log("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
+            Tracing.Log("SyncPresenter - HandleOnDiscoveryProgress - percentageDone: {0} status: {1}", percentageDone, status);
             View.RefreshDiscoveryProgress(percentageDone, status);
         }
 
         private void HandleOnDiscoveryEnded(IEnumerable<SyncDevice> devices)
         {
-            //Tracing.Log("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
+            Tracing.Log("SyncPresenter - HandleOnDiscoveryEnded devices.Count: {0}", devices.Count());
             View.RefreshDevicesEnded();
         }
 
@@ -117,11 +117,14 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                if(_syncDiscoveryService.IsRunning)
-                    return;
-
                 string ip = _deviceSpecifications.GetIPAddress();
                 View.RefreshIPAddress(String.Format("My IP address is {0}", ip));
+
+                var devices = _syncDiscoveryService.GetDeviceList();
+                View.RefreshDevices(devices);
+
+                if(_syncDiscoveryService.IsRunning)
+                    return;
 
                 // Search for devices in subnet
                 var split = ip.Split('.');

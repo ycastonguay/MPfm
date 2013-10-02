@@ -74,7 +74,7 @@
                     </GroupStyle.Panel>
                 </GroupStyle>
             </GridView.GroupStyle>
-            <Button Content="Button" Click="Button_Click"/>
+            <Button Content="Sync Library With Device" Height="52" Click="Button_Click"/>
         </GridView>
 
         <!-- Vertical scrolling list only used when snapped -->
@@ -112,7 +112,7 @@
         </ListView>
 
         <!-- Back button and page title -->
-        <Grid>
+        <Grid Background="#FF36454F">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>

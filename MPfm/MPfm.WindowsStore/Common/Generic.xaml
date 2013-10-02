@@ -88,8 +88,8 @@
       <SolidColorBrush x:Key="ButtonForegroundThemeBrush" Color="#FFFFFFFF" />
       <SolidColorBrush x:Key="ButtonPointerOverBackgroundThemeBrush" Color="#21FFFFFF" />
       <SolidColorBrush x:Key="ButtonPointerOverForegroundThemeBrush" Color="#FFFFFFFF" />
-      <SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="#FFFFFFFF" />
-      <SolidColorBrush x:Key="ButtonPressedForegroundThemeBrush" Color="#FF000000" />
+      <SolidColorBrush x:Key="ButtonPressedBackgroundThemeBrush" Color="#FFE74C3C" />
+      <SolidColorBrush x:Key="ButtonPressedForegroundThemeBrush" Color="#FFFFFFFF" />
       <SolidColorBrush x:Key="CheckBoxBackgroundThemeBrush" Color="#CCFFFFFF" />
       <SolidColorBrush x:Key="CheckBoxBorderThemeBrush" Color="#CCFFFFFF" />
       <SolidColorBrush x:Key="CheckBoxContentDisabledForegroundThemeBrush" Color="#66FFFFFF" />
@@ -188,9 +188,9 @@
       <SolidColorBrush x:Key="ListViewItemSelectedForegroundThemeBrush" Color="#FFFFFFFF" />
       <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBackgroundThemeBrush" Color="#FF313D46" />
       <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBorderThemeBrush" Color="#FF313D46" />
-      <SolidColorBrush x:Key="ProgressBarBackgroundThemeBrush" Color="#59FFFFFF" />
+      <SolidColorBrush x:Key="ProgressBarBackgroundThemeBrush" Color="#FF36454F" />
       <SolidColorBrush x:Key="ProgressBarBorderThemeBrush" Color="Transparent" />
-      <SolidColorBrush x:Key="ProgressBarForegroundThemeBrush" Color="#FF303C45" />
+      <SolidColorBrush x:Key="ProgressBarForegroundThemeBrush" Color="#FFE74C3C" />
       <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="#FF596F7F" />
       <SolidColorBrush x:Key="RadioButtonBackgroundThemeBrush" Color="#CCFFFFFF" />
       <SolidColorBrush x:Key="RadioButtonBorderThemeBrush" Color="#CCFFFFFF" />

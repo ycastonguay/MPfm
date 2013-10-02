@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Windows.UI.Xaml.Navigation;
 using MPfm.MVP.Views;
 using MPfm.WindowsStore.Common;
 
@@ -27,6 +28,12 @@ namespace MPfm.WindowsStore.Classes.Pages.Base
 
         public void ShowView(bool shown)
         {
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            OnViewDestroy(this);
+            base.OnNavigatedFrom(e);
         }
     }
 }

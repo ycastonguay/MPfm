@@ -42,6 +42,7 @@ namespace MPfm.WindowsStore.Classes.Pages
     public sealed partial class SyncPage : BasePage, ISyncView
     {
         private WindowsStoreNavigationManager _navigationManager;
+        private bool _isDiscovering;
 
         public SyncPage()
         {
@@ -101,7 +102,10 @@ namespace MPfm.WindowsStore.Classes.Pages
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
-
+            if (_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();
         }
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -114,11 +118,18 @@ namespace MPfm.WindowsStore.Classes.Pages
                 OnConnectDevice(item);
         }
 
-        private void listView_ItemClick(object sender, ItemClickEventArgs e)
+        private void RefreshDeviceListButton()
         {
-            //var item = (SyncDevice) e.ClickedItem;
-            //if (item != null)
-            //    OnConnectDevice(item);
+            if (_isDiscovering)
+            {
+                //btnRefresh.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_cancel_16);
+                btnRefresh.Content = "Cancel refresh";
+            }
+            else
+            {
+                //btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_refresh_16);
+                btnRefresh.Content = "Refresh devices";
+            }
         }
 
         #region ISyncView implementation
@@ -149,6 +160,12 @@ namespace MPfm.WindowsStore.Classes.Pages
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
+                if (!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    //progressBar.Visible = true;
+                    RefreshDeviceListButton();
+                }
                 lblStatus.Text = status;
                 progressBar.Value = percentageDone;
             });  
@@ -167,8 +184,10 @@ namespace MPfm.WindowsStore.Classes.Pages
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
+                _isDiscovering = false;
                 lblStatus.Text = "Refreshed device list successfully.";
                 progressBar.Value = 100;
+                RefreshDeviceListButton();
             });
         }
 

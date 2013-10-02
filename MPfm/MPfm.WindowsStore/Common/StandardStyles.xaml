@@ -18,6 +18,10 @@
         <ResourceDictionary x:Key="Default">
             <x:String x:Key="BackButtonGlyph">&#xE071;</x:String>
             <x:String x:Key="BackButtonSnappedGlyph">&#xE0BA;</x:String>
+            <x:String x:Key="ProgressBarIndeterminateForegroundThemeBrush">#FFFFD200</x:String>
+            <x:String x:Key="ProgressBarBackgroundThemeBrush">#FFFFD200</x:String>
+            <x:String x:Key="ProgressBarBorderThemeBrush">#FFFFD200</x:String>
+            <x:String x:Key="ProgressBarForegroundThemeBrush">#FFFFD200</x:String>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
@@ -33,11 +37,11 @@
 
     <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{StaticResource ThemeBackground}"></SolidColorBrush>
     <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="{StaticResource ThemeForeground}"></SolidColorBrush>
-    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{StaticResource ThemeSecondary}"></SolidColorBrush>
+    <!--<SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{StaticResource ThemeSecondary}"></SolidColorBrush>
     <SolidColorBrush x:Key="ProgressBarBackgroundThemeBrush" Color="{StaticResource ThemeBackground}"></SolidColorBrush>
     <SolidColorBrush x:Key="ProgressBarBorderThemeBrush" Color="{StaticResource ThemePrimary}"></SolidColorBrush>
-    <SolidColorBrush x:Key="ProgressBarForegroundThemeBrush" Color="{StaticResource ThemeSecondary}"></SolidColorBrush>
-    
+    <SolidColorBrush x:Key="ProgressBarForegroundThemeBrush" Color="{StaticResource ThemeSecondary}"></SolidColorBrush>-->
+
     <x:String x:Key="ChevronGlyph">&#xE26B;</x:String>
 
     <!-- RichTextBlock styles -->

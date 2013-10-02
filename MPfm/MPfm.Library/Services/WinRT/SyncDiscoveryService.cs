@@ -37,10 +37,12 @@ namespace MPfm.Library.Services
 {
     public class SyncDiscoveryService : ISyncDiscoveryService
     {
-        bool _isCancelling = false;
-        CancellationTokenSource _cancellationTokenSource = null;
-        HttpClient _httpClient;
+        private readonly object _lock;
+        private bool _isCancelling = false;
+        private CancellationTokenSource _cancellationTokenSource = null;
+        private HttpClient _httpClient;
         private System.Threading.Tasks.Task _currentTask;
+        private List<SyncDevice> _devices;
 
         public bool IsRunning { get; private set; }
         public int Port { get; private set; }
@@ -51,9 +53,16 @@ namespace MPfm.Library.Services
 
         public SyncDiscoveryService()
         {
+            _lock = new object();
             Port = 53551;
+            _devices = new List<SyncDevice>();
             _httpClient = new HttpClient();
             _httpClient.Timeout = new TimeSpan(0, 0, 0, 0, 800);
+        }
+
+        public List<SyncDevice> GetDeviceList()
+        {
+            return _devices.ToList();
         }
 
         /// <summary>
@@ -115,25 +124,13 @@ namespace MPfm.Library.Services
 #endif
             _currentTask = System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
+                var devices = new List<SyncDevice>();
                 try
                 {
                     Tracing.Log("SyncDiscoveryService - SearchForDevices - processorCount: {0}", System.Environment.ProcessorCount);
                     IsRunning = true;
-                    //ConcurrentBag<SyncDevice> devices = new ConcurrentBag<SyncDevice>(); // no ConcurrentBag in WP8
-                    List<SyncDevice> devices = new List<SyncDevice>(); // anonymous async method doesn't work on WP8
-                    //Parallel.For(1, ips.Count, parallelOptions, (index, state) =>
                     Parallel.For(1, ips.Count, parallelOptions, (index) =>
                     {
-                        //// Check for cancel (for some reason this doesn't work!)
-                        //if (_cancellationTokenSource.IsCancellationRequested)
-                        //    state.Stop();
-
-                        //if (_isCancelling)
-                        //{
-                        //    Tracing.Log("SyncDiscoveryService - Cancelling parallel task...");
-                        //    //state.Stop(); // not available on WP8
-                        //}
-
                         try
                         {
                             Tracing.Log("SyncDiscoveryService - Pinging {0}...", ips[index]);
@@ -149,6 +146,12 @@ namespace MPfm.Library.Services
                             {
                                 device.Url = String.Format("http://{0}:{1}/", ips[index], Port);
                                 devices.Add(device);
+
+                                lock (_lock)
+                                {
+                                    _devices.Add(device);
+                                }
+
                                 Tracing.Log("SyncDiscoveryService - Raising OnDeviceFound event...");
                                 if (OnDeviceFound != null)
                                     OnDeviceFound(device);
@@ -178,11 +181,18 @@ namespace MPfm.Library.Services
                 catch (System.OperationCanceledException ex)
                 {
                     Tracing.Log("SyncDiscoveryService - SearchForDevices - OperationCanceledException: {0}", ex);
+                    IsRunning = false;
+
+                    if (actionDiscoveryEnded != null)
+                        actionDiscoveryEnded(new List<SyncDevice>());
                 }
                 catch (Exception ex)
                 {
                     Tracing.Log("SyncDiscoveryService - SearchForDevices - Exception: {0}", ex);
+                    IsRunning = false;
                 }
+
+                _devices = devices.ToList();
             });
         }
 

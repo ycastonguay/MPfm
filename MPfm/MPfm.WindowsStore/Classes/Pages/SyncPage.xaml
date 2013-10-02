@@ -39,7 +39,7 @@
         </Grid.RowDefinitions>
 
         <!-- Back button and page title -->
-        <Grid>
+        <Grid Background="#FF36454F">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -55,35 +55,35 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" x:Name="lblIPAddress" Text="My IP address is" FontSize="16" />
+            <TextBlock Grid.Row="0" x:Name="lblIPAddress" Text="My IP address is" FontSize="16" Foreground="#FFDDDDDD" />
             <TextBlock Grid.Row="1" x:Name="lblStatus" Text="Loading..." FontSize="16" Margin="0,10,0,0" />
             <ProgressBar Grid.Row="2" x:Name="progressBar" Height="20" Margin="0,10,79,0" RenderTransformOrigin="0.5,0.5">
                 <ProgressBar.RenderTransform>
                     <CompositeTransform ScaleY="-1"/>
                 </ProgressBar.RenderTransform>
             </ProgressBar>
-            <ListView Grid.Row="3" x:Name="listView" Height="Auto" Margin="0,10,80,0" VerticalAlignment="Stretch" SelectionChanged="listView_SelectionChanged" ItemClick="listView_ItemClick">
+            <ListView Grid.Row="3" x:Name="listView" Height="Auto" Margin="0,10,81,0" VerticalAlignment="Stretch" SelectionChanged="listView_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="52" Margin="6">
+                        <Grid Height="52" Margin="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Background="#FF36454F" Width="52" Height="52">
-                                <!--<Image Source="{Binding Image}" Stretch="UniformToFill"/>-->
+                            <Border Width="40" Height="40">
+                                <Image Source="/Assets/Icons/icon_apple.png" Stretch="UniformToFill"/>
                             </Border>
-                            <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
-                                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
-                                <TextBlock Text="{Binding Url}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                            <StackPanel Grid.Column="1" Margin="10,4,0,0">
+                                <TextBlock Text="{Binding Name}" Style="{StaticResource ItemTextStyle}" TextWrapping="NoWrap" LineHeight="20" />
+                                <TextBlock Text="{Binding Url}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" LineHeight="16" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <StackPanel Grid.Row="4" Orientation="Horizontal">
-                <Button x:Name="btnConnectManual" Content="Connect to device manually" Click="btnConnectManual_Click"/>
-                <Button x:Name="btnRefresh" Content="Refresh" Click="btnRefresh_Click"/>
+            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10,0,0">
+                <Button x:Name="btnRefresh" Height="52" Content="Cancel refresh" Click="btnRefresh_Click"/>
+                <Button x:Name="btnConnectManual" Height="52" Margin="0,0,14,0" Content="Connect to device manually" Click="btnConnectManual_Click" />                
             </StackPanel>
         </Grid>
 

@@ -74,7 +74,7 @@ namespace MPfm.WindowsStore.Classes.Pages
 
         private void btnSelectAll_Click(object sender, RoutedEventArgs e)
         {
-
+            OnSelectButtonClick();
         }
 
         #region ISyncMenuView implementation
@@ -117,21 +117,32 @@ namespace MPfm.WindowsStore.Classes.Pages
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
+                Tracing.Log("SyncMenuPage - RefreshLoading - isLoading: {0} progressPercentage: {1}", isLoading, progressPercentage);
                 if (isLoading)
                 {
-                    lblStatus.Text = progressPercentage.ToString();
                     progressBar.Value = progressPercentage;
+                    panelLoading.Visibility = Visibility.Visible;
+
+                    //if (progressPercentage < 100)
+                    //    lblStatus.Text = String.Format("Loading index ({0}%)...", progressPercentage);
+                    //else
+                    //    lblStatus.Text = "Processing index...";
                 }
                 else
                 {
-                    lblStatus.Text = "Download finished!";
+                    //lblStatus.Text = "Download finished!";
                     progressBar.Value = 100;
+                    panelLoading.Visibility = Visibility.Collapsed;
                 }
             });
         }
 
         public void RefreshSelectButton(string text)
         {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                btnSelectAll.Content = text;
+            });
         }
 
         public void RefreshItems(List<SyncMenuItemEntity> items)
@@ -150,6 +161,11 @@ namespace MPfm.WindowsStore.Classes.Pages
 
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                lblTotal.Text = title;
+                lblFreeSpace.Text = subtitle;
+            });
         }
 
         public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)

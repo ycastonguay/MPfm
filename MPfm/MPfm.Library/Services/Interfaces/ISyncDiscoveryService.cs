@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -36,6 +36,7 @@ namespace MPfm.Library.Services.Interfaces
 
         bool IsRunning { get; }
 
+        List<SyncDevice> GetDeviceList();
         void SearchForDevices(List<string> ips);
         void SearchForDevices(string baseIP);
         void Cancel();
