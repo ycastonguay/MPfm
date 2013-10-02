@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
@@ -30,6 +31,27 @@ namespace MPfm.MVP.Models
         public string ArtistName { get; set; }
         public string AlbumTitle { get; set; }
         public AudioFile Song { get; set; }
+
+	    public string Title
+	    {
+	        get
+	        {
+	            switch (ItemType)
+	            {
+	                case SyncMenuItemEntityType.Artist:
+	                    return ArtistName;
+	                    break;
+	                case SyncMenuItemEntityType.Album:
+	                    return AlbumTitle;
+	                    break;
+	                case SyncMenuItemEntityType.Song:
+	                    if (Song != null)
+	                        return Song.Title;
+	                    break;
+	            }
+	            return string.Empty;
+	        }
+	    }
 	}
 	
     public enum SyncMenuItemEntityType

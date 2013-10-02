@@ -63,7 +63,7 @@ namespace MPfm.Library.Services
         {
             _stopwatch = new Stopwatch();
             _httpClient = new HttpClient();
-            _httpClient.Timeout = new TimeSpan(0, 0, 0, 0, 1000);
+            _httpClient.Timeout = new TimeSpan(0, 0, 0, 0, 10000);
 
             //_webClient = new WebClientTimeout(3000);
             //_webClient.DownloadProgressChanged += HandleDownloadProgressChanged;

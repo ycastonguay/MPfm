@@ -53,7 +53,7 @@ namespace MPfm.MVP.Presenters
             _syncClientService.OnDownloadIndexProgress += HandleOnDownloadIndexProgress;
             _syncClientService.OnReceivedIndex += HandleOnReceivedIndex;
 
-#if IOS || ANDROID || WINDOWS_PHONE
+#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
 #else
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
@@ -147,7 +147,7 @@ namespace MPfm.MVP.Presenters
                     return;
                 }
 
-#if IOS || ANDROID || WINDOWS_PHONE
+#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
                 _mobileNavigationManager.CreateSyncDownloadView(_device, _audioFilesToSync);
 #else
                 _navigationManager.CreateSyncDownloadView(_device, _audioFilesToSync);
@@ -161,7 +161,7 @@ namespace MPfm.MVP.Presenters
 
         private void SelectItems(List<SyncMenuItemEntity> items)
         {
-#if IOS || ANDROID || WINDOWS_PHONE
+#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             SelectItemsMobile(items);
 #else
             SelectItemsDesktop(items);

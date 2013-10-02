@@ -16,11 +16,13 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MPfm.Library.Objects;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 using MPfm.WindowsStore.Classes.Pages;
 using MPfm.WindowsStore.Classes.Pages.Base;
 
@@ -29,6 +31,8 @@ namespace MPfm.WindowsStore.Classes.Navigation
     public class WindowsStoreNavigationManager : MobileNavigationManager
     {
         private Action<IBaseView> _onSyncViewReady;
+        private Action<IBaseView> _onSyncMenuViewReady;
+        private Action<IBaseView> _onSyncDownloadViewReady;
 
         public override void ShowSplash(ISplashView view)
         {
@@ -83,10 +87,28 @@ namespace MPfm.WindowsStore.Classes.Navigation
             frame.Navigate(typeof(SyncPage));
         }
 
+        protected override void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, SyncDevice device)
+        {
+            _onSyncMenuViewReady = onViewReady;
+            var frame = Window.Current.Content as Frame;
+            frame.Navigate(typeof(SyncMenuPage));
+        }
+
+        protected override void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        {
+            _onSyncDownloadViewReady = onViewReady;
+            var frame = Window.Current.Content as Frame;
+            frame.Navigate(typeof(SyncDownloadPage));
+        }
+
         public void SetViewInstance(BasePage page)
         {
             if (page is SyncPage)
                 _onSyncViewReady(page);
+            else if (page is SyncMenuPage)
+                _onSyncMenuViewReady(page);
+            else if (page is SyncDownloadPage)
+                _onSyncDownloadViewReady(page);
         }
     }
 }

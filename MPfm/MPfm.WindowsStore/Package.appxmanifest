@@ -18,6 +18,12 @@
       <VisualElements DisplayName="Sessions" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Sessions is a music player for musicians." ForegroundText="light" BackgroundColor="#20282E">
         <DefaultTile ShowName="allLogos" ShortName="Sessions" />
         <SplashScreen Image="Assets\SplashScreen.png" />
+        <InitialRotationPreference>
+          <Rotation Preference="portrait" />
+          <Rotation Preference="landscape" />
+          <Rotation Preference="portraitFlipped" />
+          <Rotation Preference="landscapeFlipped" />
+        </InitialRotationPreference>
       </VisualElements>
     </Application>
   </Applications>

@@ -1,6 +1,6 @@
 ﻿<base:BasePage
     x:Name="pageRoot"
-    x:Class="MPfm.WindowsStore.Classes.Pages.SplashPage"
+    x:Class="MPfm.WindowsStore.Classes.Pages.SyncMenuPage"
     DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -24,7 +24,7 @@
             ItemsPath="TopItems"/>
 
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">Sessions</x:String>
+        <!--<x:String x:Key="AppName">Sessions</x:String>-->
     </Page.Resources>
 
     <!--
@@ -45,16 +45,45 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Grid.Column="1" IsHitTestVisible="false" Style="{StaticResource PageHeaderTextStyle}"/>
+            <TextBlock x:Name="pageTitle" Grid.Column="1" IsHitTestVisible="false" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
-        <StackPanel Grid.Row="1" Margin="120,30,0,0">
-            <TextBlock Text="What's your name?"/>
-            <StackPanel Orientation="Horizontal" Margin="0,20,0,20">
-                <TextBox x:Name="nameInput" Width="300" HorizontalAlignment="Left"/>
-                <Button Content="Say &quot;Hello&quot;" Click="Button_Click"/>
+        <Grid Grid.Row="1" Margin="120,30,0,30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" x:Name="lblIPAddress" Text="My IP address is" FontSize="16" />
+            <TextBlock Grid.Row="1" x:Name="lblStatus" Text="Loading..." FontSize="16" Margin="0,10,0,0" />
+            <ProgressBar Grid.Row="2" x:Name="progressBar" Height="20" Margin="0,10,79,0" RenderTransformOrigin="0.5,0.5">
+                <ProgressBar.RenderTransform>
+                    <CompositeTransform ScaleY="-1"/>
+                </ProgressBar.RenderTransform>
+            </ProgressBar>
+            <ListView Grid.Row="3" x:Name="listView" Height="Auto" Margin="0,10,80,0" VerticalAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="52" Margin="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="#FF36454F" Width="52" Height="52">
+                                <!--<Image Source="{Binding Image}" Stretch="UniformToFill"/>-->
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
+                                <TextBlock Text="{Binding Title}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackPanel Grid.Row="4" Orientation="Horizontal">                
+                <Button x:Name="btnSelectAll" Content="Refresh" Click="btnSelectAll_Click"/>
             </StackPanel>
-            <TextBlock x:Name="greetingOutput"/>
-        </StackPanel>
+        </Grid>
 
         <VisualStateManager.VisualStateGroups>
 
@@ -70,9 +99,9 @@
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PortraitBackButtonStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
 
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Padding">
+                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Padding">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="96,137,10,56"/>
-                        </ObjectAnimationUsingKeyFrames>
+                        </ObjectAnimationUsingKeyFrames>-->
                     </Storyboard>
                 </VisualState>
 
@@ -89,12 +118,12 @@
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
 
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemListView" Storyboard.TargetProperty="Visibility">
+                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemListView" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                        </ObjectAnimationUsingKeyFrames>
+                        </ObjectAnimationUsingKeyFrames>-->
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>

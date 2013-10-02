@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Navigation;
 using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
@@ -39,13 +40,13 @@ namespace MPfm.WindowsStore.Classes.Pages
     /// <summary>
     /// A page that displays a grouped collection of items.
     /// </summary>
-    public sealed partial class SyncPage : BasePage, ISyncView
+    public sealed partial class SyncMenuPage : BasePage, ISyncMenuView
     {
         private WindowsStoreNavigationManager _navigationManager;
 
-        public SyncPage()
+        public SyncMenuPage()
         {
-            Debug.WriteLine("SyncPage - Ctor");
+            Debug.WriteLine("SyncMenuPage - Ctor");
             this.InitializeComponent();
             _navigationManager = (WindowsStoreNavigationManager) Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
         }
@@ -61,122 +62,105 @@ namespace MPfm.WindowsStore.Classes.Pages
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            Debug.WriteLine("SyncPage - LoadState");
+            Debug.WriteLine("SyncMenuPage - LoadState");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Debug.WriteLine("SyncPage - OnNavigatedTo");
+            Debug.WriteLine("SyncMenuPage - OnNavigatedTo");
             base.OnNavigatedTo(e); // Leave this, or the app will crash when clicking the back button
             _navigationManager.SetViewInstance(this);
         }
 
-        private async void btnConnectManual_Click(object sender, RoutedEventArgs e)
-        {
-            //greetingOutput.Text = "Hello,, " + nameInput.Text + "!";
-
-            //FileOpenPicker openPicker = new FileOpenPicker();
-            //openPicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
-            //openPicker.ViewMode = PickerViewMode.List;
-
-            //openPicker.FileTypeFilter.Clear();
-            //openPicker.FileTypeFilter.Add(".mp3");
-            //openPicker.FileTypeFilter.Add(".flac");
-
-            //var file = await openPicker.PickSingleFileAsync();
-
-            //if (file == null)
-            //    return;
-
-            //try
-            //{
-            //    AudioFile audioFile = new AudioFile(file.Path);
-            //    string a = audioFile.FilePath;
-            //}
-            //catch (Exception ex)
-            //{                
-            //    throw;
-            //}            
-        }
-
-        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        private void btnSelectAll_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-                return;
+        #region ISyncMenuView implementation
 
-            var item = (SyncDevice) e.AddedItems[0];
-            if(item != null)
-                OnConnectDevice(item);
-        }
+        public Action<SyncMenuItemEntity, object> OnExpandItem { get; set; }
+        public Action<List<SyncMenuItemEntity>> OnSelectItems { get; set; }
+        public Action<List<AudioFile>> OnRemoveItems { get; set; }
+        public Action OnSync { get; set; }
+        public Action OnSelectButtonClick { get; set; }
+        public Action OnSelectAll { get; set; }
+        public Action OnRemoveAll { get; set; }
 
-        private void listView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            //var item = (SyncDevice) e.ClickedItem;
-            //if (item != null)
-            //    OnConnectDevice(item);
-        }
-
-        #region ISyncView implementation
-
-        public Action<SyncDevice> OnConnectDevice { get; set; }
-        public Action<string> OnConnectDeviceManually { get; set; }
-        public Action OnStartDiscovery { get; set; }
-        public Action OnCancelDiscovery { get; set; }
-
-        public void SyncError(Exception ex)
+        public void SyncMenuError(Exception ex)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                var dialog = new MessageDialog(string.Format("An error has occured in SyncPage: {0}", ex), "Error");
+                var dialog = new MessageDialog(string.Format("An error has occured in SyncMenuPage: {0}", ex), "Error");
                 dialog.ShowAsync();
             });
         }
 
-        public void RefreshIPAddress(string address)
+        public void SyncEmptyError(Exception ex)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                lblIPAddress.Text = address;
-            });            
-        }
-
-        public void RefreshDiscoveryProgress(float percentageDone, string status)
-        {
-            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-            {
-                lblStatus.Text = status;
-                progressBar.Value = percentageDone;
-            });  
-        }
-
-        public void RefreshDevices(IEnumerable<SyncDevice> devices)
-        {
-            Tracing.Log("SyncPage - RefreshDevices - devices.Count: {0}", devices.Count());
-            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
-            {
-                listView.ItemsSource = devices.ToList();
+                var dialog = new MessageDialog(ex.Message, "Error");
+                dialog.ShowAsync();
             });
         }
 
-        public void RefreshDevicesEnded()
+        public void RefreshDevice(SyncDevice device)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
             {
-                lblStatus.Text = "Refreshed device list successfully.";
-                progressBar.Value = 100;
+                pageTitle.Text = device.Name;
             });
         }
 
-        public void SyncDevice(SyncDevice device)
+        public void RefreshLoading(bool isLoading, int progressPercentage)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                if (isLoading)
+                {
+                    lblStatus.Text = progressPercentage.ToString();
+                    progressBar.Value = progressPercentage;
+                }
+                else
+                {
+                    lblStatus.Text = "Download finished!";
+                    progressBar.Value = 100;
+                }
+            });
+        }
+
+        public void RefreshSelectButton(string text)
+        {
+        }
+
+        public void RefreshItems(List<SyncMenuItemEntity> items)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                Tracing.Log("SyncMenuPage - RefreshItems - items.Count: {0}", items.Count);
+                lblStatus.Text = string.Format("RefreshItems - items.Count: {0}", items.Count);
+                listView.ItemsSource = items;
+            });
+        }
+
+        public void RefreshSelection(List<AudioFile> audioFiles)
+        {
+        }
+
+        public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
+        {
+        }
+
+        public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)
+        {
+        }
+
+        public void RemoveItems(int index, int count, object userData)
         {
         }
 
         #endregion
-       
+
     }
 }
