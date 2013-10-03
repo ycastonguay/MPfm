@@ -326,5 +326,8 @@
     <Compile Include="Presenters\AddPlaylistPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
+    <Compile Include="Views\ISelectFoldersView.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
+    <Compile Include="Presenters\SelectFoldersPresenter.cs" />
   </ItemGroup>
 </Project>

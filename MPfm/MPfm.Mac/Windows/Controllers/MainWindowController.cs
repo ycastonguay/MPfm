@@ -533,7 +533,7 @@ namespace MPfm.Mac
 
         partial void actionAddMarker(NSObject sender)
         {
-            OnAddMarker(MarkerTemplateNameType.Verse);
+            OnAddMarkerWithTemplate(MarkerTemplateNameType.Verse);
         }
 
         partial void actionEditMarker(NSObject sender)
@@ -879,7 +879,8 @@ namespace MPfm.Mac
 
         #region IMarkersView implementation
 
-        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public Action OnAddMarker { get; set; }
+        public Action<MarkerTemplateNameType> OnAddMarkerWithTemplate { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }
