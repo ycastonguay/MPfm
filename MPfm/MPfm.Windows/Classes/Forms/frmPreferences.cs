@@ -1345,6 +1345,7 @@ namespace MPfm.Windows.Classes.Forms
 
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
+        public Action OnSelectFolders { get; set; }
         public Action OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
 

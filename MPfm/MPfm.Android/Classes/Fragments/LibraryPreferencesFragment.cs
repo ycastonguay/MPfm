@@ -30,6 +30,7 @@ namespace MPfm.Android.Classes.Fragments
         private View _view;
         private Button _btnResetLibrary;
         private Button _btnUpdateLibrary;
+        private Button _btnSelectFolders;
 
         // Leave an empty constructor or the application will crash at runtime
         public LibraryPreferencesFragment() : base(null) { }
@@ -44,8 +45,10 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.LibraryPreferences, container, false);
             _btnResetLibrary = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnResetLibrary);
             _btnUpdateLibrary = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnUpdateLibrary);
+            _btnSelectFolders = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnSelectFolders);
             _btnResetLibrary.Click += BtnResetLibraryOnClick;
             _btnUpdateLibrary.Click += (sender, args) => OnUpdateLibrary();
+            _btnSelectFolders.Click += (sender, args) => OnSelectFolders();
             return _view;
         }
 
@@ -66,6 +69,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
+        public Action OnSelectFolders { get; set; }
         public Action OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
 

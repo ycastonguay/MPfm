@@ -54,14 +54,16 @@ namespace MPfm.MVP.Presenters
         {
             view.OnResetLibrary = ResetLibrary;
             view.OnUpdateLibrary = UpdateLibrary;
+            view.OnSelectFolders = SelectFolders;
+            
             view.OnEnableSyncListener = EnableSyncListener;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
             base.BindView(view);
             
             Initialize();
-        }       
-        
-        private void Initialize()
+        }
+
+	    private void Initialize()
         {
         }
 
@@ -89,6 +91,20 @@ namespace MPfm.MVP.Presenters
             catch(Exception ex)
             {
                 Tracing.Log("LibraryPreferencesPresenter - UpdateLibrary - Failed to create and push update library view: {0}", ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
+
+        private void SelectFolders()
+        {
+            try
+            {
+                var view = _mobileNavigationManager.CreateSelectFoldersView();
+                _mobileNavigationManager.PushDialogView("Select Folders", View, view);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("LibraryPreferencesPresenter - SelectFolders - Failed to create SelectFolders view: {0}", ex);
                 View.LibraryPreferencesError(ex);
             }
         }

@@ -32,9 +32,11 @@ namespace MPfm.Library.Services
 {
     public class SyncDiscoveryService : ISyncDiscoveryService
     {
+        readonly object _lock;
         bool _isCancelling = false;
         Task _currentTask;
         CancellationTokenSource _cancellationTokenSource = null;
+        List<SyncDevice> _devices;
 
         public bool IsRunning { get; private set; }
         public int Port { get; private set; }
@@ -45,6 +47,8 @@ namespace MPfm.Library.Services
 
         public SyncDiscoveryService()
         {
+            _lock = new object();
+            _devices = new List<SyncDevice>();
             Port = 53551;
         }
 
@@ -74,6 +78,11 @@ namespace MPfm.Library.Services
                         OnDiscoveryEnded(allDevices);
                 });
             });
+        }
+
+        public List<SyncDevice> GetDeviceList()
+        {
+            return _devices.ToList();
         }
 
         /// <summary>
@@ -130,6 +139,12 @@ namespace MPfm.Library.Services
                             {
                                 device.Url = String.Format("http://{0}:{1}/", ips[index], Port);
                                 devices.Add(device);
+
+                                lock (_lock)
+                                {
+                                    _devices.Add(device);
+                                }
+
                                 Console.WriteLine("SyncDiscoveryService - Raising OnDeviceFound event...");
                                 if (OnDeviceFound != null)
                                     OnDeviceFound(device);

@@ -88,6 +88,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IDesktopFirstRunPresenter, DesktopFirstRunPresenter>().AsSingleton();
             container.Register<IMobileFirstRunPresenter, MobileFirstRunPresenter>().AsSingleton();
             container.Register<IAboutPresenter, AboutPresenter>().AsSingleton();
+            container.Register<ISelectFoldersPresenter, SelectFoldersPresenter>().AsMultiInstance();
             container.Register<ISelectPlaylistPresenter, SelectPlaylistPresenter>().AsMultiInstance();
             container.Register<IAddPlaylistPresenter, AddPlaylistPresenter>().AsMultiInstance();
             container.Register<IAddMarkerPresenter, AddMarkerPresenter>().AsMultiInstance();

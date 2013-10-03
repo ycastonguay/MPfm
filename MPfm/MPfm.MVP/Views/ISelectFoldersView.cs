@@ -14,21 +14,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using System.Collections.Generic;
+using MPfm.Library.Objects;
+using MPfm.MVP.Models;
+using MPfm.Player.Objects;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-    /// Library preferences view interface.
+	/// Select Folders view interface.
 	/// </summary>
-    public interface ILibraryPreferencesView : IBaseView
+	public interface ISelectFoldersView : IBaseView
 	{
-        Action OnSelectFolders { get; set; }
-        Action OnResetLibrary { get; set; }
-        Action OnUpdateLibrary { get; set; }
-        Action OnEnableSyncListener { get; set; }
-        Action<int> OnSetSyncListenerPort { get; set; }
-
-        void LibraryPreferencesError(Exception ex);
+        Action OnSaveFolders { get; set; }
+        Action<Folder> OnSelectFolder { get; set; }
+    
+        void SelectFoldersError(Exception ex);
+        void RefreshFolders(List<Folder> folders);
 	}
 }

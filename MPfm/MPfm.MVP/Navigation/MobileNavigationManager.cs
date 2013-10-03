@@ -52,6 +52,8 @@ namespace MPfm.MVP.Navigation
         private ISelectPlaylistPresenter _selectPlaylistPresenter;
         private IAddPlaylistView _addPlaylistView;
         private IAddPlaylistPresenter _addPlaylistPresenter;
+        private ISelectFoldersView _selectFoldersView;
+        private ISelectFoldersPresenter _selectFoldersPresenter;
         private IEqualizerPresetsView _equalizerPresetsView;
         private IEqualizerPresetsPresenter _equalizerPresetsPresenter;
         private IEqualizerPresetDetailsView _equalizerPresetDetailsView;
@@ -251,6 +253,26 @@ namespace MPfm.MVP.Navigation
                 _addPlaylistView = null;
             };
             return _addPlaylistView;
+        }
+
+        public virtual ISelectFoldersView CreateSelectFoldersView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _selectFoldersPresenter = Bootstrapper.GetContainer().Resolve<ISelectFoldersPresenter>();
+                _selectFoldersPresenter.BindView((ISelectFoldersView)view);
+            };
+
+            // Create view and manage view destruction
+            _selectFoldersView = Bootstrapper.GetContainer().Resolve<ISelectFoldersView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _selectFoldersView.OnViewDestroy = (view) =>
+            {
+                _selectFoldersPresenter.ViewDestroyed();
+                _selectFoldersPresenter = null;
+                _selectFoldersView = null;
+            };
+            return _selectFoldersView;
         }
 
         public virtual IAddMarkerView CreateAddMarkerView()

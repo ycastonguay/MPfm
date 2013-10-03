@@ -173,6 +173,7 @@ namespace MPfm.Android.Classes
             container.Register<IGeneralPreferencesView, GeneralPreferencesFragment>().AsMultiInstance();
             container.Register<ILibraryPreferencesView, LibraryPreferencesFragment>().AsMultiInstance();
             container.Register<IAboutView, AboutActivity>().AsMultiInstance();
+            container.Register<ISelectFoldersView, SelectFoldersFragment>().AsMultiInstance();
             container.Register<ISelectPlaylistView, SelectPlaylistFragment>().AsMultiInstance();
             container.Register<IAddPlaylistView, AddPlaylistFragment>().AsMultiInstance();
             container.Register<IAddMarkerView, AddMarkerFragment>().AsMultiInstance();

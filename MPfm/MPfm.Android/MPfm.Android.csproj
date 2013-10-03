@@ -75,6 +75,7 @@
     <Compile Include="Classes\Activities\EqualizerPresetsActivity.cs" />
     <Compile Include="Classes\Activities\MainActivity.cs" />
     <Compile Include="Classes\Activities\PreferencesActivity.cs" />
+    <Compile Include="Classes\Adapters\FolderListAdapter.cs" />
     <Compile Include="Classes\Adapters\PlaylistListAdapter.cs" />
     <Compile Include="Classes\Adapters\PlaylistItemListAdapter.cs" />
     <Compile Include="Classes\Adapters\SyncMenuListAdapter.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
     <Compile Include="Classes\Fragments\AddPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\AddMarkerFragment.cs" />
+    <Compile Include="Classes\Fragments\SelectFoldersFragment.cs" />
     <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\SyncManualConnectFragment.cs" />
     <Compile Include="Classes\Fragments\PlayerMetadataFragment.cs" />
@@ -274,6 +276,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\AddMarker.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\SelectFolders.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\FolderCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

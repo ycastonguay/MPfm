@@ -125,7 +125,9 @@
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
+    <Compile Include="Presenters\SelectFoldersPresenter.cs" />
     <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
     <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="Models\PlayerPositionEntity.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
     <Compile Include="Views\IAddPlaylistView.cs" />
+    <Compile Include="Views\ISelectFoldersView.cs" />
     <Compile Include="Views\ISelectPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
     <Compile Include="Views\IDesktopFirstRunView.cs" />
