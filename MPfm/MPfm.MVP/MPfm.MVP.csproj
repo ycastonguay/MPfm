@@ -118,6 +118,7 @@
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
+    <Compile Include="Models\FolderEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AddMarkerPresenter.cs" />

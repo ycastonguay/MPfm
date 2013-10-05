@@ -585,8 +585,6 @@ namespace MPfm.Windows.Classes.Forms
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.splitLoopsMarkersSongBrowser = new System.Windows.Forms.SplitContainer();
             this.toolStripMain = new MPfm.WindowsControls.ToolStrip();
-            this.btnOpenAudioFiles = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPlay = new System.Windows.Forms.ToolStripButton();
             this.btnPreviousSong = new System.Windows.Forms.ToolStripButton();
             this.btnNextSong = new System.Windows.Forms.ToolStripButton();
@@ -687,7 +685,7 @@ namespace MPfm.Windows.Classes.Forms
             this.miAddSongToPlaylist,
             this.miRemoveSong});
             this.menuSongBrowser.Name = "menuSongBrowser";
-            this.menuSongBrowser.Size = new System.Drawing.Size(217, 114);
+            this.menuSongBrowser.Size = new System.Drawing.Size(217, 92);
             this.menuSongBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.menuSongBrowser_Opening);
             // 
             // miPlaySong
@@ -5445,10 +5443,8 @@ namespace MPfm.Windows.Classes.Forms
             this.toolStripMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(231)))), ((int)(((byte)(234)))));
             this.toolStripMain.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnOpenAudioFiles,
-            this.toolStripSeparator15,
-            this.btnPlay,
             this.btnPreviousSong,
+            this.btnPlay,
             this.btnNextSong,
             this.btnRepeat,
             this.btnShuffle,
@@ -5466,22 +5462,6 @@ namespace MPfm.Windows.Classes.Forms
             this.toolStripMain.Size = new System.Drawing.Size(1178, 37);
             this.toolStripMain.TabIndex = 18;
             this.toolStripMain.Text = "toolStrip1";
-            // 
-            // btnOpenAudioFiles
-            // 
-            this.btnOpenAudioFiles.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenAudioFiles.Image")));
-            this.btnOpenAudioFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpenAudioFiles.Name = "btnOpenAudioFiles";
-            this.btnOpenAudioFiles.Size = new System.Drawing.Size(37, 34);
-            this.btnOpenAudioFiles.Text = "Open";
-            this.btnOpenAudioFiles.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnOpenAudioFiles.ToolTipText = "Opens audio files or a playlist file to play.";
-            this.btnOpenAudioFiles.Click += new System.EventHandler(this.miFileOpenAudioFiles_Click);
-            // 
-            // toolStripSeparator15
-            // 
-            this.toolStripSeparator15.Name = "toolStripSeparator15";
-            this.toolStripSeparator15.Size = new System.Drawing.Size(6, 37);
             // 
             // btnPlay
             // 
@@ -6073,8 +6053,6 @@ namespace MPfm.Windows.Classes.Forms
         private System.Windows.Forms.ToolStripMenuItem miHelpLicense;
         private System.Windows.Forms.ToolStripButton btnShuffle;
         public System.Windows.Forms.ToolStripButton btnThemes;
-        private System.Windows.Forms.ToolStripButton btnOpenAudioFiles;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
         private System.Windows.Forms.ContextMenuStrip menuToolbarLibrary;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;

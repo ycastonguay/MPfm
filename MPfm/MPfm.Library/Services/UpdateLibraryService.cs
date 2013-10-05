@@ -314,7 +314,7 @@ namespace MPfm.MVP.Services
 				OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
 					Title = "Compacting database",
 					Subtitle = "Compacting database...",
-					PercentageDone = 100
+					PercentageDone = 1
 				});                
                 libraryService.CompactDatabase();
 			}

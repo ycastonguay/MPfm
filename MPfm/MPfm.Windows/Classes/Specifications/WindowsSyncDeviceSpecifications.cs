@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using MPfm.Library;
 using MPfm.Library.Objects;
@@ -64,6 +65,11 @@ namespace MPfm.Windows.Classes.Specifications
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        }
+
+        public List<string> GetRootFolderPaths()
+        {
+            return new List<string>();
         }
 
         public void ReportNetworkStateChange(NetworkState networkState)
