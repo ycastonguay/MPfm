@@ -85,6 +85,11 @@ namespace MPfm.WindowsPhone.Classes
             return string.Empty;
         }
 
+        public List<string> GetRootFolderPaths()
+        {
+            return new List<string>();
+        }
+
         public void ReportNetworkStateChange(NetworkState networkState)
         {
         }

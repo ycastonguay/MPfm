@@ -99,13 +99,16 @@ namespace MPfm.MVP.Presenters
 	        {
                 //Tracing.Log("SelectFoldersPresenter - SearchFoldersRecursive - path: {0} folders.Count: {1}", path, folders.Count);
 
+#if !WINDOWS_PHONE && !WINDOWSSTORE
                 // Filter out system folders
 	            if (!path.ToLower().Contains("android/data") && !path.ToLower().Contains("/.") && !path.ToLower().EndsWith("/dcim"))
 	                directories = Directory.EnumerateDirectories(path).ToList();
-	        }
+#endif
+
+            }
 	        catch (Exception ex)
 	        {
-                Console.WriteLine("SelectFoldersPresenter - SearchFoldersRecursive - path: {0} exception: {1}", path, ex);
+                Tracing.Log("SelectFoldersPresenter - SearchFoldersRecursive - path: {0} exception: {1}", path, ex);
 	        }
 
 	        foreach (var directory in directories)
