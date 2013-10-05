@@ -17,8 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MPfm.Core;
+using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
@@ -41,11 +44,13 @@ namespace MPfm.MVP.Presenters
         private readonly MobileNavigationManager _mobileNavigationManager;
 	    private readonly ITinyMessengerHub _messengerHub;
 	    private readonly ILibraryService _libraryService;
+	    private readonly ISyncDeviceSpecifications _deviceSpecifications;
 
-        public SelectFoldersPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService)
+	    public SelectFoldersPresenter(ITinyMessengerHub messengerHub, ILibraryService libraryService, ISyncDeviceSpecifications deviceSpecifications)
         {
 	        _messengerHub = messengerHub;
 	        _libraryService = libraryService;
+            _deviceSpecifications = deviceSpecifications;
 
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -66,13 +71,49 @@ namespace MPfm.MVP.Presenters
             RefreshFolders();
         }
 
-	    private void SelectFolder(Folder folder)
+	    private void SelectFolder(FolderEntity folder)
 	    {
 	    }
 
         private void RefreshFolders()
         {
+            Task.Factory.StartNew(() => {
+                View.RefreshLoading(true);
+
+                var folders = new List<FolderEntity>();
+                var paths = _deviceSpecifications.GetRootFolderPaths();
+                foreach (var path in paths)
+                    SearchFoldersRecursive(path, folders);
+                
+                folders = folders.OrderBy(x => x.Path).ToList();
+
+                View.RefreshLoading(false);
+                View.RefreshFolders(folders);
+            });
         }
+
+	    private void SearchFoldersRecursive(string path, List<FolderEntity> folders)
+	    {
+	        var directories = new List<string>();
+	        try
+	        {
+                //Tracing.Log("SelectFoldersPresenter - SearchFoldersRecursive - path: {0} folders.Count: {1}", path, folders.Count);
+
+                // Filter out system folders
+	            if (!path.ToLower().Contains("android/data") && !path.ToLower().Contains("/.") && !path.ToLower().EndsWith("/dcim"))
+	                directories = Directory.EnumerateDirectories(path).ToList();
+	        }
+	        catch (Exception ex)
+	        {
+                Console.WriteLine("SelectFoldersPresenter - SearchFoldersRecursive - path: {0} exception: {1}", path, ex);
+	        }
+
+	        foreach (var directory in directories)
+	        {
+	            folders.Add(new FolderEntity(directory));
+	            SearchFoldersRecursive(directory, folders);
+	        }
+	    }
 
         private void SaveFolders()
         {

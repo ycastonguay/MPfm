@@ -24,20 +24,20 @@ using MPfm.MVP.Models;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class FolderListAdapter : BaseAdapter<Folder>
+    public class FolderListAdapter : BaseAdapter<FolderEntity>
     {
         readonly Activity _context;
         readonly ListView _listView;
-        List<Folder> _folders;
+        List<FolderEntity> _folders;
 
-        public FolderListAdapter(Activity context, ListView listView, List<Folder> folders)
+        public FolderListAdapter(Activity context, ListView listView, List<FolderEntity> folders)
         {
             _context = context;
             _listView = listView;
             _folders = folders;
         }
 
-        public void SetData(List<Folder> folders)
+        public void SetData(List<FolderEntity> folders)
         {
             _folders = folders;
             NotifyDataSetChanged();
@@ -48,7 +48,7 @@ namespace MPfm.Android.Classes.Adapters
             return position;
         }
 
-        public override Folder this[int position]
+        public override FolderEntity this[int position]
         {
             get { return _folders[position]; }
         }
@@ -65,10 +65,8 @@ namespace MPfm.Android.Classes.Adapters
             if (view == null) // no view to re-use, create new
                 view = _context.LayoutInflater.Inflate(Resource.Layout.FolderCell, null);
 
-            var title = view.FindViewById<TextView>(Resource.Id.playlistcell_title);
-            var count = view.FindViewById<TextView>(Resource.Id.playlistcell_count);
-            title.Text = _folders[position].FolderPath;
-            count.Text = "0";
+            var title = view.FindViewById<TextView>(Resource.Id.foldercell_title);
+            title.Text = _folders[position].Path;
 
             return view;
         }

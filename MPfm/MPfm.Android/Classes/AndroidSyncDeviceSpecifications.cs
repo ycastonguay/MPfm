@@ -16,6 +16,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Android.Content;
 using Android.Net.Wifi;
 using Android.OS;
@@ -48,9 +50,7 @@ namespace MPfm.Android.Classes
         public string GetDeviceName()
         {
             if (String.IsNullOrEmpty(_deviceName))
-            {
                 _deviceName = String.Format("{0} {1} ({2})", global::Android.OS.Build.Manufacturer, global::Android.OS.Build.Product, global::Android.OS.Build.Model);
-            }
             return _deviceName;
         }
 
@@ -71,6 +71,20 @@ namespace MPfm.Android.Classes
         public string GetMusicFolderPath()
         {
             return global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.DirectoryMusic).ToString();
+        }
+
+        public List<string> GetRootFolderPaths()
+        {
+            var paths = new List<string>();
+
+            // Get internal storage path (sometimes refered to 'sdcard' on Samsung devices but it is actually internal storage!)
+            string path = global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+            paths.Add(path);
+
+            // Get external storage paths (i.e. sd cards)
+            //string path2 = global::Android.OS.Environment.GetExternalStoragePublicDirectory(global::Android.OS.Environment.ExternalStorageDirectory).ToString();
+            //bool isMediaMounted = global::Android.OS.Environment.ExternalStorageState.Equals(global::Android.OS.Environment.MediaMounted);            
+            return paths;
         }
 
         public void ReportNetworkStateChange(NetworkState networkState)

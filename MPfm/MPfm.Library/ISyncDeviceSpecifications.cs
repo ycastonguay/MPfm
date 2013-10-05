@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using MPfm.Library.Objects;
 
 namespace MPfm.Library
@@ -31,6 +32,7 @@ namespace MPfm.Library
         long GetFreeSpace();
         string GetIPAddress();
         string GetMusicFolderPath();
+        List<string> GetRootFolderPaths();
         void ReportNetworkStateChange(NetworkState networkState);
     }
 }

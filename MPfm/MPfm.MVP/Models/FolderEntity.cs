@@ -15,25 +15,29 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
-using MPfm.MVP.Models;
-using MPfm.Player.Objects;
-using MPfm.Sound.Playlists;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-	/// Select Folders view interface.
-	/// </summary>
-	public interface ISelectFoldersView : IBaseView
+    /// <summary>
+    /// Data structure repesenting a folder structure.
+    /// </summary>
+	public class FolderEntity
 	{
-        Action OnSaveFolders { get; set; }
-        Action<FolderEntity> OnSelectFolder { get; set; }
-    
-        void SelectFoldersError(Exception ex);
-        void RefreshFolders(List<FolderEntity> folders);
-	    void RefreshLoading(bool isLoading);
+        public string Path { get; set; }
+        public List<FolderEntity> SubFolders { get; set; }
+
+        public FolderEntity()
+		{
+		    SubFolders = new List<FolderEntity>();
+		}
+
+        public FolderEntity(string path)
+        {
+            Path = path;
+            SubFolders = new List<FolderEntity>();
+        }
 	}
 }

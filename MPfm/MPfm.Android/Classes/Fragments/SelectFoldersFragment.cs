@@ -25,6 +25,7 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
@@ -35,9 +36,10 @@ namespace MPfm.Android.Classes.Fragments
 {
     public class SelectFoldersFragment : BaseDialogFragment, ISelectFoldersView
     {
-        private List<Folder> _folders;
+        private List<FolderEntity> _folders;
         private FolderListAdapter _listAdapter;
         private View _view;
+        private LinearLayout _layoutLoading;
         private ListView _listView;
         private Button _btnCancel;
         private Button _btnOK;
@@ -58,6 +60,7 @@ namespace MPfm.Android.Classes.Fragments
             _view = inflater.Inflate(Resource.Layout.SelectFolders, container, false);
 
             _listView = _view.FindViewById<ListView>(Resource.Id.selectFolders_listView);
+            _layoutLoading = _view.FindViewById<LinearLayout>(Resource.Id.selectFolders_layoutLoading);
             _btnCancel = _view.FindViewById<Button>(Resource.Id.selectFolders_btnCancel);
             _btnOK = _view.FindViewById<Button>(Resource.Id.selectFolders_btnOK);
             _btnOK.Enabled = false;
@@ -68,7 +71,7 @@ namespace MPfm.Android.Classes.Fragments
                 Dismiss();
             };
 
-            _folders = new List<Folder>();
+            _folders = new List<FolderEntity>();
             _listAdapter = new FolderListAdapter(Activity, _listView, _folders);
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
@@ -91,7 +94,7 @@ namespace MPfm.Android.Classes.Fragments
         #region ISelectFoldersView implementation
 
         public Action OnSaveFolders { get; set; }
-        public Action<Folder> OnSelectFolder { get; set; }
+        public Action<FolderEntity> OnSelectFolder { get; set; }
 
         public void SelectFoldersError(Exception ex)
         {
@@ -103,15 +106,25 @@ namespace MPfm.Android.Classes.Fragments
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });
-
         }
 
-        public void RefreshFolders(List<Folder> folders)
+        public void RefreshFolders(List<FolderEntity> folders)
         {
+            Tracing.Log("SelectFoldersFragment - RefreshFolders - folders.Count: {0}", folders.Count);
             Activity.RunOnUiThread(() =>
             {
                 _folders = folders.ToList();
                 _listAdapter.SetData(_folders);
+            });
+        }
+
+        public void RefreshLoading(bool isLoading)
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                _layoutLoading.Visibility = isLoading
+                    ? ViewStates.Visible
+                    : ViewStates.Gone;
             });
         }
 
