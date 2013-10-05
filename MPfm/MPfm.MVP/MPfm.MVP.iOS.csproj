@@ -329,5 +329,6 @@
     <Compile Include="Views\ISelectFoldersView.cs" />
     <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
     <Compile Include="Presenters\SelectFoldersPresenter.cs" />
+    <Compile Include="Models\FolderEntity.cs" />
   </ItemGroup>
 </Project>

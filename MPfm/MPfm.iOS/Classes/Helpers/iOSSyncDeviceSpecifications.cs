@@ -21,6 +21,7 @@ using MPfm.Library;
 using MPfm.Library.Objects;
 using MonoTouch.UIKit;
 using MPfm.Library.Services;
+using System.Collections.Generic;
 
 namespace MPfm.iOS.Helpers
 {
@@ -33,13 +34,13 @@ namespace MPfm.iOS.Helpers
 
         public iOSSyncDeviceSpecifications()
         {
-            Console.WriteLine(">>>>>>>>>>>>>>>>>> SETTING REACHABILITY EVENT");
+            Console.WriteLine("iOSSyncDeviceSpecifications - Setting Reachability event...");
             ReachabilityHelper.ReachabilityChanged += HandleReachabilityChanged;
         }
 
         private void HandleReachabilityChanged(object sender, EventArgs e)
         {
-            Console.WriteLine(">>>>>>>>>>>>>>>>>> REACHABILITY CHANGED");
+            Console.WriteLine("iOSSyncDeviceSpecifications - Reachability changed!");
         }
 
         public SyncDeviceType GetDeviceType()
@@ -77,6 +78,11 @@ namespace MPfm.iOS.Helpers
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        }
+
+        public List<string> GetRootFolderPaths()
+        {
+            return new List<string>();
         }
 
         public void ReportNetworkStateChange(NetworkState networkState)

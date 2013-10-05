@@ -175,11 +175,6 @@ namespace MPfm.iOS.Classes.Controls
                     _lblTitle.Frame = new RectangleF(_lblTitle.Frame.X, _lblTitle.Frame.Y - 1, _lblTitle.Frame.Width, _lblTitle.Frame.Height - 1);
                     _lblSubtitle.Frame = new RectangleF(_lblSubtitle.Frame.X, _lblSubtitle.Frame.Y - 4, _lblSubtitle.Frame.Width, _lblSubtitle.Frame.Height - 2);
                 }, null);
-                UIView.Animate(0.1, 0.7, UIViewAnimationOptions.CurveEaseIn, () => {
-                    PlayButton.Alpha = 1;
-                    AddButton.Alpha = 1;
-                    DeleteButton.Alpha = 1;
-                }, null);
             }
             else
             {

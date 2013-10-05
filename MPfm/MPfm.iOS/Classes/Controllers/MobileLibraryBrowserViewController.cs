@@ -35,6 +35,7 @@ using MPfm.iOS.Classes.Controls.Layouts;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using MPfm.Core;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -52,7 +53,7 @@ namespace MPfm.iOS.Classes.Controllers
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
         UIButton _btnDelete;
         int _deleteCellIndex = -1;
-        int _menuCellIndex = -1;
+        int _editingAlbumRowPosition = -1;
 
         public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
@@ -252,17 +253,55 @@ namespace MPfm.iOS.Classes.Controllers
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)
                 return;
 
-            PointF pt = gestureRecognizer.LocationInView(tableView);
-            NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
-            if (indexPath == null)
-                _menuCellIndex = -1;
-            else
-                _menuCellIndex = indexPath.Row;
+            Tracing.Log("MobileLibraryBrowserViewController - HandleLongPressAlbums");
+            PointF pt = gestureRecognizer.LocationInView(collectionView);
+            NSIndexPath indexPath = collectionView.IndexPathForItemAtPoint(pt);
+            SetEditingAlbumRow(indexPath.Row);
+        }
+
+        private void ResetEditingAlbumRow()
+        {
+            SetEditingAlbumRow(-1);
+        }
+
+        private void SetEditingAlbumRow(int position)
+        {
+            int oldPosition = _editingAlbumRowPosition;
+            _editingAlbumRowPosition = position;
+
+            if (oldPosition >= 0)
+            {
+                var oldItem = _items[oldPosition];
+                var oldCell = (MPfmCollectionAlbumViewCell)collectionView.VisibleCells.FirstOrDefault(x => x.Tag == oldPosition);
+                if (oldCell != null)
+                {
+                    UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                        oldCell.PlayButton.Alpha = 0;
+                        oldCell.AddButton.Alpha = 0;
+                        oldCell.DeleteButton.Alpha = 0;
+                    }, null);
+                }
+            }
+
+            if (position >= 0)
+            {
+                var item = _items[position];
+                var cell = (MPfmCollectionAlbumViewCell)collectionView.VisibleCells.FirstOrDefault(x => x.Tag == position);
+                if (cell != null)
+                {
+                    UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                        cell.PlayButton.Alpha = 1;
+                        cell.AddButton.Alpha = 1;
+                        cell.DeleteButton.Alpha = 1;
+                    }, null);
+                }
+            }
         }
 
         [Export ("collectionView:cellForItemAtIndexPath:")]
         public UICollectionViewCell CellForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
+            Tracing.Log("MobileLibraryBrowserViewController - CellForItemAtIndexPath - indexPath.Row: {0}", indexPath.Row);
             var cell = (MPfmCollectionAlbumViewCell)collectionView.DequeueReusableCell(_collectionCellIdentifier, indexPath);
             cell.Tag = indexPath.Row;
 
@@ -289,9 +328,9 @@ namespace MPfm.iOS.Classes.Controllers
                 }
             } 
 
-            cell.PlayButton.Alpha = _menuCellIndex == indexPath.Row ? 1 : 0;
-            cell.AddButton.Alpha = _menuCellIndex == indexPath.Row ? 1 : 0;
-            cell.DeleteButton.Alpha = _menuCellIndex == indexPath.Row ? 1 : 0;
+            cell.PlayButton.Alpha = _editingAlbumRowPosition == indexPath.Row ? 1 : 0;
+            cell.AddButton.Alpha = _editingAlbumRowPosition == indexPath.Row ? 1 : 0;
+            cell.DeleteButton.Alpha = _editingAlbumRowPosition == indexPath.Row ? 1 : 0;
 
             cell.PlayButton.TouchUpInside += HandleBtnPlayTouchUpInside;
             cell.AddButton.TouchUpInside += HandleBtnAddTouchUpInside;
@@ -319,6 +358,7 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("collectionView:didSelectItemAtIndexPath:")]
         public void CollectionDidSelectItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
+            ResetEditingAlbumRow();
             OnItemClick(indexPath.Row);
         }
 
@@ -349,26 +389,17 @@ namespace MPfm.iOS.Classes.Controllers
 
         private void HandleBtnAddTouchUpInside(object sender, EventArgs e)
         {
-            FadeOutMenu();
+            ResetEditingAlbumRow();
         }
 
         private void HandleBtnDeleteTouchUpInside(object sender, EventArgs e)
         {
-            FadeOutMenu();
+            ResetEditingAlbumRow();
         }
 
         private void HandleBtnPlayTouchUpInside(object sender, EventArgs e)
         {
-            FadeOutMenu();
-        }
-
-        private void FadeOutMenu()
-        {
-//            UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-//                PlayButton.Alpha = 0;
-//                AddButton.Alpha = 0;
-//                DeleteButton.Alpha = 0;
-//            }, null);
+            ResetEditingAlbumRow();
         }
 
 //        [Export ("collectionView:viewForSupplementaryElementOfKind:atIndexPath:")]
@@ -744,6 +775,7 @@ namespace MPfm.iOS.Classes.Controllers
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty)
         {
             InvokeOnMainThread(() => {
+                _editingAlbumRowPosition = -1;
                 _items = entities.ToList();
                 _browserType = browserType;
                 _navigationBarTitle = navigationBarTitle;
