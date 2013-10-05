@@ -54,11 +54,26 @@ namespace MPfm.GTK.Windows
 			// Widget MPfm.GTK.Windows.PreferencesWindow
 			this.UIManager = new global::Gtk.UIManager ();
 			global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
-			this.actionAddFolder = new global::Gtk.Action ("actionAddFolder", null, null, "gtk-add");
+			this.actionAddFolder = new global::Gtk.Action (
+				"actionAddFolder",
+				null,
+				null,
+				"gtk-add"
+			);
 			w1.Add (this.actionAddFolder, null);
-			this.actionRemoveFolder = new global::Gtk.Action ("actionRemoveFolder", null, null, "gtk-remove");
+			this.actionRemoveFolder = new global::Gtk.Action (
+				"actionRemoveFolder",
+				null,
+				null,
+				"gtk-remove"
+			);
 			w1.Add (this.actionRemoveFolder, null);
-			this.actionResetLibrary = new global::Gtk.Action ("actionResetLibrary", null, null, "gtk-cancel");
+			this.actionResetLibrary = new global::Gtk.Action (
+				"actionResetLibrary",
+				null,
+				null,
+				"gtk-cancel"
+			);
 			w1.Add (this.actionResetLibrary, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
@@ -369,7 +384,11 @@ namespace MPfm.GTK.Windows
 			// Container child table3.Gtk.Table+TableChild
 			this.imageAudioStatus = new global::Gtk.Image ();
 			this.imageAudioStatus.Name = "imageAudioStatus";
-			this.imageAudioStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-ok", global::Gtk.IconSize.Menu);
+			this.imageAudioStatus.Pixbuf = global::Stetic.IconLoader.LoadIcon (
+				this,
+				"gtk-ok",
+				global::Gtk.IconSize.Menu
+			);
 			this.table3.Add (this.imageAudioStatus);
 			global::Gtk.Table.TableChild w26 = ((global::Gtk.Table.TableChild)(this.table3 [this.imageAudioStatus]));
 			w26.XPadding = ((uint)(6));

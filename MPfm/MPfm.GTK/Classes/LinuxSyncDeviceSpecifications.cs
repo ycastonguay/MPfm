@@ -20,6 +20,7 @@ using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services;
 using System.IO;
+using System.Collections.Generic;
 
 namespace MPfm.GTK.Classes
 {
@@ -64,6 +65,11 @@ namespace MPfm.GTK.Classes
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        }
+
+        public List<string> GetRootFolderPaths()
+        {
+            return new List<string>();
         }
 
         public void ReportNetworkStateChange(NetworkState networkState)

@@ -973,7 +973,11 @@ namespace MPfm.GTK.Windows
 			w78.Spacing = 2;
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w79 = new global::Gtk.Image ();
-			w79.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-add", global::Gtk.IconSize.Menu);
+			w79.Pixbuf = global::Stetic.IconLoader.LoadIcon (
+				this,
+				"gtk-add",
+				global::Gtk.IconSize.Menu
+			);
 			w78.Add (w79);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w81 = new global::Gtk.Label ();
@@ -1029,7 +1033,11 @@ namespace MPfm.GTK.Windows
 			w90.Spacing = 2;
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w91 = new global::Gtk.Image ();
-			w91.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-save", global::Gtk.IconSize.Menu);
+			w91.Pixbuf = global::Stetic.IconLoader.LoadIcon (
+				this,
+				"gtk-save",
+				global::Gtk.IconSize.Menu
+			);
 			w90.Add (w91);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w93 = new global::Gtk.Label ();
@@ -1055,7 +1063,11 @@ namespace MPfm.GTK.Windows
 			w99.Spacing = 2;
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w100 = new global::Gtk.Image ();
-			w100.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-delete", global::Gtk.IconSize.Menu);
+			w100.Pixbuf = global::Stetic.IconLoader.LoadIcon (
+				this,
+				"gtk-delete",
+				global::Gtk.IconSize.Menu
+			);
 			w99.Add (w100);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w102 = new global::Gtk.Label ();

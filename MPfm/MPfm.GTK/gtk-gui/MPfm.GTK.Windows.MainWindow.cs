@@ -118,92 +118,240 @@ namespace MPfm.GTK.Windows
 			// Widget MPfm.GTK.Windows.MainWindow
 			this.UIManager = new global::Gtk.UIManager ();
 			global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
-			this.FileAction = new global::Gtk.Action ("FileAction", global::Mono.Unix.Catalog.GetString ("File"), null, null);
+			this.FileAction = new global::Gtk.Action (
+				"FileAction",
+				global::Mono.Unix.Catalog.GetString("File"),
+				null,
+				null
+			);
 			this.FileAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("File");
 			w1.Add (this.FileAction, null);
-			this.actionExit = new global::Gtk.Action ("actionExit", global::Mono.Unix.Catalog.GetString ("Exit"), null, "gtk-quit");
+			this.actionExit = new global::Gtk.Action (
+				"actionExit",
+				global::Mono.Unix.Catalog.GetString("Exit"),
+				null,
+				"gtk-quit"
+			);
 			this.actionExit.ShortLabel = global::Mono.Unix.Catalog.GetString ("Exit");
 			w1.Add (this.actionExit, null);
-			this.actionAbout = new global::Gtk.Action ("actionAbout", global::Mono.Unix.Catalog.GetString ("About MPfm"), null, null);
+			this.actionAbout = new global::Gtk.Action (
+				"actionAbout",
+				global::Mono.Unix.Catalog.GetString("About MPfm"),
+				null,
+				null
+			);
 			this.actionAbout.ShortLabel = global::Mono.Unix.Catalog.GetString ("About MPfm");
 			w1.Add (this.actionAbout, null);
-			this.actionHelp = new global::Gtk.Action ("actionHelp", global::Mono.Unix.Catalog.GetString ("Help"), null, "gtk-help");
+			this.actionHelp = new global::Gtk.Action (
+				"actionHelp",
+				global::Mono.Unix.Catalog.GetString("Help"),
+				null,
+				"gtk-help"
+			);
 			this.actionHelp.ShortLabel = global::Mono.Unix.Catalog.GetString ("Help");
 			w1.Add (this.actionHelp, null);
-			this.aboutAction = new global::Gtk.Action ("aboutAction", global::Mono.Unix.Catalog.GetString ("About MPfm"), null, "gtk-about");
+			this.aboutAction = new global::Gtk.Action (
+				"aboutAction",
+				global::Mono.Unix.Catalog.GetString("About MPfm"),
+				null,
+				"gtk-about"
+			);
 			this.aboutAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("About MPfm");
 			w1.Add (this.aboutAction, null);
-			this.PlaybackAction = new global::Gtk.Action ("PlaybackAction", global::Mono.Unix.Catalog.GetString ("Playback"), null, null);
+			this.PlaybackAction = new global::Gtk.Action (
+				"PlaybackAction",
+				global::Mono.Unix.Catalog.GetString("Playback"),
+				null,
+				null
+			);
 			this.PlaybackAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Playback");
 			w1.Add (this.PlaybackAction, null);
-			this.actionPlay = new global::Gtk.Action ("actionPlay", global::Mono.Unix.Catalog.GetString ("Play"), null, "gtk-media-play");
+			this.actionPlay = new global::Gtk.Action (
+				"actionPlay",
+				global::Mono.Unix.Catalog.GetString("Play"),
+				null,
+				"gtk-media-play"
+			);
 			this.actionPlay.ShortLabel = global::Mono.Unix.Catalog.GetString ("Play");
 			w1.Add (this.actionPlay, null);
-			this.actionPause = new global::Gtk.Action ("actionPause", global::Mono.Unix.Catalog.GetString ("Pause"), null, "gtk-media-pause");
+			this.actionPause = new global::Gtk.Action (
+				"actionPause",
+				global::Mono.Unix.Catalog.GetString("Pause"),
+				null,
+				"gtk-media-pause"
+			);
 			this.actionPause.ShortLabel = global::Mono.Unix.Catalog.GetString ("Pause");
 			w1.Add (this.actionPause, null);
-			this.actionStop = new global::Gtk.Action ("actionStop", global::Mono.Unix.Catalog.GetString ("Stop"), null, "gtk-media-stop");
+			this.actionStop = new global::Gtk.Action (
+				"actionStop",
+				global::Mono.Unix.Catalog.GetString("Stop"),
+				null,
+				"gtk-media-stop"
+			);
 			this.actionStop.ShortLabel = global::Mono.Unix.Catalog.GetString ("Stop");
 			w1.Add (this.actionStop, null);
-			this.actionPrevious = new global::Gtk.Action ("actionPrevious", global::Mono.Unix.Catalog.GetString ("Previous Song"), null, "gtk-media-previous");
+			this.actionPrevious = new global::Gtk.Action (
+				"actionPrevious",
+				global::Mono.Unix.Catalog.GetString("Previous Song"),
+				null,
+				"gtk-media-previous"
+			);
 			this.actionPrevious.ShortLabel = global::Mono.Unix.Catalog.GetString ("Previous Song");
 			w1.Add (this.actionPrevious, null);
-			this.actionNext = new global::Gtk.Action ("actionNext", global::Mono.Unix.Catalog.GetString ("Next Song"), null, "gtk-media-next");
+			this.actionNext = new global::Gtk.Action (
+				"actionNext",
+				global::Mono.Unix.Catalog.GetString("Next Song"),
+				null,
+				"gtk-media-next"
+			);
 			this.actionNext.ShortLabel = global::Mono.Unix.Catalog.GetString ("Next Song");
 			w1.Add (this.actionNext, null);
-			this.actionRepeatType = new global::Gtk.Action ("actionRepeatType", global::Mono.Unix.Catalog.GetString ("Repeat Type (Off)"), null, "stock_repeat");
+			this.actionRepeatType = new global::Gtk.Action (
+				"actionRepeatType",
+				global::Mono.Unix.Catalog.GetString("Repeat Type (Off)"),
+				null,
+				"stock_repeat"
+			);
 			this.actionRepeatType.ShortLabel = global::Mono.Unix.Catalog.GetString ("Repeat Type (Off)");
 			w1.Add (this.actionRepeatType, null);
-			this.openAction = new global::Gtk.Action ("openAction", global::Mono.Unix.Catalog.GetString ("Open audio files..."), null, "gtk-open");
+			this.openAction = new global::Gtk.Action (
+				"openAction",
+				global::Mono.Unix.Catalog.GetString("Open audio files..."),
+				null,
+				"gtk-open"
+			);
 			this.openAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Open Audio Files");
 			w1.Add (this.openAction, null);
-			this.actionUpdateLibrary = new global::Gtk.Action ("actionUpdateLibrary", global::Mono.Unix.Catalog.GetString ("Update Library"), null, "gtk-refresh");
+			this.actionUpdateLibrary = new global::Gtk.Action (
+				"actionUpdateLibrary",
+				global::Mono.Unix.Catalog.GetString("Update Library"),
+				null,
+				"gtk-refresh"
+			);
 			this.actionUpdateLibrary.ShortLabel = global::Mono.Unix.Catalog.GetString ("Update Library");
 			w1.Add (this.actionUpdateLibrary, null);
-			this.actionSettings = new global::Gtk.Action ("actionSettings", global::Mono.Unix.Catalog.GetString ("Settings"), null, "gtk-preferences");
+			this.actionSettings = new global::Gtk.Action (
+				"actionSettings",
+				global::Mono.Unix.Catalog.GetString("Settings"),
+				null,
+				"gtk-preferences"
+			);
 			this.actionSettings.ShortLabel = global::Mono.Unix.Catalog.GetString ("Settings");
 			w1.Add (this.actionSettings, null);
-			this.actionEffects = new global::Gtk.Action ("actionEffects", global::Mono.Unix.Catalog.GetString ("Effects"), null, "stock_volume");
+			this.actionEffects = new global::Gtk.Action (
+				"actionEffects",
+				global::Mono.Unix.Catalog.GetString("Effects"),
+				null,
+				"stock_volume"
+			);
 			this.actionEffects.ShortLabel = global::Mono.Unix.Catalog.GetString ("Effects");
 			w1.Add (this.actionEffects, null);
-			this.WindowsAction = new global::Gtk.Action ("WindowsAction", global::Mono.Unix.Catalog.GetString ("Windows"), null, null);
+			this.WindowsAction = new global::Gtk.Action (
+				"WindowsAction",
+				global::Mono.Unix.Catalog.GetString("Windows"),
+				null,
+				null
+			);
 			this.WindowsAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Windows");
 			w1.Add (this.WindowsAction, null);
-			this.actionPlaylist = new global::Gtk.Action ("actionPlaylist", global::Mono.Unix.Catalog.GetString ("Playlist"), null, "gtk-dnd-multiple");
+			this.actionPlaylist = new global::Gtk.Action (
+				"actionPlaylist",
+				global::Mono.Unix.Catalog.GetString("Playlist"),
+				null,
+				"gtk-dnd-multiple"
+			);
 			this.actionPlaylist.ShortLabel = global::Mono.Unix.Catalog.GetString ("Playlist");
 			w1.Add (this.actionPlaylist, null);
-			this.actionRemoveLoop = new global::Gtk.Action ("actionRemoveLoop", null, null, "gtk-remove");
+			this.actionRemoveLoop = new global::Gtk.Action (
+				"actionRemoveLoop",
+				null,
+				null,
+				"gtk-remove"
+			);
 			w1.Add (this.actionRemoveLoop, null);
-			this.actionAddMarker = new global::Gtk.Action ("actionAddMarker", null, null, "gtk-add");
+			this.actionAddMarker = new global::Gtk.Action (
+				"actionAddMarker",
+				null,
+				null,
+				"gtk-add"
+			);
 			w1.Add (this.actionAddMarker, null);
-			this.actionRemoveMarker = new global::Gtk.Action ("actionRemoveMarker", null, null, "gtk-remove");
+			this.actionRemoveMarker = new global::Gtk.Action (
+				"actionRemoveMarker",
+				null,
+				null,
+				"gtk-remove"
+			);
 			w1.Add (this.actionRemoveMarker, null);
 			this.addAction = new global::Gtk.Action ("addAction", null, null, "gtk-add");
 			w1.Add (this.addAction, null);
-			this.editAction = new global::Gtk.Action ("editAction", null, null, "gtk-edit");
+			this.editAction = new global::Gtk.Action (
+				"editAction",
+				null,
+				null,
+				"gtk-edit"
+			);
 			w1.Add (this.editAction, null);
-			this.actionEditMarker = new global::Gtk.Action ("actionEditMarker", null, null, "gtk-edit");
+			this.actionEditMarker = new global::Gtk.Action (
+				"actionEditMarker",
+				null,
+				null,
+				"gtk-edit"
+			);
 			w1.Add (this.actionEditMarker, null);
-			this.actionGoToMarker = new global::Gtk.Action ("actionGoToMarker", null, null, "gtk-go-forward");
+			this.actionGoToMarker = new global::Gtk.Action (
+				"actionGoToMarker",
+				null,
+				null,
+				"gtk-go-forward"
+			);
 			w1.Add (this.actionGoToMarker, null);
-			this.actionAddFiles = new global::Gtk.Action ("actionAddFiles", global::Mono.Unix.Catalog.GetString ("Add files to library..."), null, "gtk-add");
+			this.actionAddFiles = new global::Gtk.Action (
+				"actionAddFiles",
+				global::Mono.Unix.Catalog.GetString("Add files to library..."),
+				null,
+				"gtk-add"
+			);
 			this.actionAddFiles.ShortLabel = global::Mono.Unix.Catalog.GetString ("Add files to library...");
 			w1.Add (this.actionAddFiles, null);
-			this.actionAddFolder = new global::Gtk.Action ("actionAddFolder", global::Mono.Unix.Catalog.GetString ("Add folder to library..."), null, "gtk-add");
+			this.actionAddFolder = new global::Gtk.Action (
+				"actionAddFolder",
+				global::Mono.Unix.Catalog.GetString("Add folder to library..."),
+				null,
+				"gtk-add"
+			);
 			this.actionAddFolder.ShortLabel = global::Mono.Unix.Catalog.GetString ("Add folder to library...");
 			w1.Add (this.actionAddFolder, null);
-			this.HelpAction = new global::Gtk.Action ("HelpAction", global::Mono.Unix.Catalog.GetString ("Help"), null, null);
+			this.HelpAction = new global::Gtk.Action (
+				"HelpAction",
+				global::Mono.Unix.Catalog.GetString("Help"),
+				null,
+				null
+			);
 			this.HelpAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Help");
 			w1.Add (this.HelpAction, null);
-			this.actionPlayLoop = new global::Gtk.Action ("actionPlayLoop", null, null, "gtk-media-play");
+			this.actionPlayLoop = new global::Gtk.Action (
+				"actionPlayLoop",
+				null,
+				null,
+				"gtk-media-play"
+			);
 			w1.Add (this.actionPlayLoop, null);
-			this.connectAction = new global::Gtk.Action ("connectAction", null, null, "gtk-connect");
+			this.connectAction = new global::Gtk.Action (
+				"connectAction",
+				null,
+				null,
+				"gtk-connect"
+			);
 			w1.Add (this.connectAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.Windows.MainWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("MPfm: Music Player for Musicians");
-			this.Icon = new global::Gdk.Pixbuf (global::System.IO.Path.Combine (global::System.AppDomain.CurrentDomain.BaseDirectory, "./icon48.png"));
+			this.Icon = new global::Gdk.Pixbuf (global::System.IO.Path.Combine (
+				global::System.AppDomain.CurrentDomain.BaseDirectory,
+				"./icon48.png"
+			));
 			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			this.DefaultWidth = 100;
 			// Container child MPfm.GTK.Windows.MainWindow.Gtk.Container+ContainerChild
@@ -316,7 +464,11 @@ namespace MPfm.GTK.Windows
 			// Container child hbox4.Gtk.Box+BoxChild
 			this.imageAlbumCover = new global::Gtk.Image ();
 			this.imageAlbumCover.Name = "imageAlbumCover";
-			this.imageAlbumCover.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-about", global::Gtk.IconSize.Menu);
+			this.imageAlbumCover.Pixbuf = global::Stetic.IconLoader.LoadIcon (
+				this,
+				"gtk-about",
+				global::Gtk.IconSize.Menu
+			);
 			this.hbox4.Add (this.imageAlbumCover);
 			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.imageAlbumCover]));
 			w12.Position = 0;

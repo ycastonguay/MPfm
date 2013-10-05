@@ -671,7 +671,7 @@ namespace MPfm.GTK.Windows
 
         protected void OnActionAddMarkerActivated(object sender, EventArgs e)
         {
-            OnAddMarker(MarkerTemplateNameType.Verse);
+            OnAddMarkerWithTemplate(MarkerTemplateNameType.Verse);
         }
 
         protected void OnActionEditMarkerActivated(object sender, EventArgs e)
@@ -991,7 +991,8 @@ namespace MPfm.GTK.Windows
 
         #region IMarkersView implementation
 
-        public Action<MarkerTemplateNameType> OnAddMarker { get; set; }
+        public System.Action OnAddMarker { get; set; }
+        public Action<MarkerTemplateNameType> OnAddMarkerWithTemplate { get; set; }
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }

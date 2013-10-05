@@ -245,7 +245,11 @@ namespace MPfm.GTK
 			w25.Spacing = 2;
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w26 = new global::Gtk.Image ();
-			w26.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-go-forward", global::Gtk.IconSize.Menu);
+			w26.Pixbuf = global::Stetic.IconLoader.LoadIcon (
+				this,
+				"gtk-go-forward",
+				global::Gtk.IconSize.Menu
+			);
 			w25.Add (w26);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w28 = new global::Gtk.Label ();

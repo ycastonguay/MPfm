@@ -58,6 +58,7 @@ namespace MPfm.GTK.Windows
 
         #region ILibraryPreferencesView implementation
 
+        public System.Action OnSelectFolders { get; set; }
         public System.Action OnResetLibrary { get; set; }
         public System.Action OnUpdateLibrary { get; set; }
         public System.Action OnEnableSyncListener { get; set; }
