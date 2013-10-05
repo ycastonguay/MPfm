@@ -118,17 +118,20 @@ namespace MPfm.iOS.Classes.Controls
            
             PlayButton = new UIButton(new RectangleF(((Frame.Width - 44) / 2) - 52, (Frame.Height - 44) / 2, 44, 44));
             PlayButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
-            PlayButton.SetImage(UIImage.FromBundle("Images/Buttons/previous_on"), UIControlState.Normal);
+            PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
+            PlayButton.Layer.CornerRadius = 4;
             PlayButton.Alpha = 0;
 
             AddButton = new UIButton(new RectangleF((Frame.Width - 44) / 2, (Frame.Height - 44) / 2, 44, 44));
             AddButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
-            AddButton.SetImage(UIImage.FromBundle("Images/Buttons/play_on"), UIControlState.Normal);
+            AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
+            AddButton.Layer.CornerRadius = 4;
             AddButton.Alpha = 0;
 
             DeleteButton = new UIButton(new RectangleF(((Frame.Width - 44) / 2) + 52, (Frame.Height - 44) / 2, 44, 44));
             DeleteButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
-            DeleteButton.SetImage(UIImage.FromBundle("Images/Buttons/next_on"), UIControlState.Normal);
+            DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
+            DeleteButton.Layer.CornerRadius = 4;
             DeleteButton.Alpha = 0;
 
             _imageView = new UIImageView(new RectangleF(0, 0, Frame.Width, Frame.Height));

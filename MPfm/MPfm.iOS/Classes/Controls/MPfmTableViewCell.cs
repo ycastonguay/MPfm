@@ -42,6 +42,10 @@ namespace MPfm.iOS.Classes.Controls
         public UIImageView ImageAlbum3 { get; private set; }
         public UILabel AlbumCountLabel { get; private set; }
 
+        public UIButton PlayButton { get; set; }
+        public UIButton AddButton { get; set; }
+        public UIButton DeleteButton { get; set; }
+
         public float RightOffset { get; set; }
 
         public delegate void RightButtonTap(MPfmTableViewCell cell);
@@ -86,14 +90,14 @@ namespace MPfm.iOS.Classes.Controls
             ImageAlbum2.BackgroundColor = UIColor.White;
             ImageAlbum2.Hidden = true;
             ImageAlbum2.Alpha = 0.4f;
-            ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 132, 4, 44, 44);
+            ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
             AddSubview(ImageAlbum2);
 
             ImageAlbum3 = new UIImageView();
             ImageAlbum3.BackgroundColor = UIColor.White;
             ImageAlbum3.Hidden = true;
             ImageAlbum3.Alpha = 0.15f;
-            ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 186, 4, 44, 44);
+            ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
             AddSubview(ImageAlbum3);
 
             AlbumCountLabel = new UILabel();
@@ -147,6 +151,27 @@ namespace MPfm.iOS.Classes.Controls
             // Make sure the text label is over all other subviews
             TextLabel.RemoveFromSuperview();
             AddSubview(TextLabel);
+
+            PlayButton = new UIButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44));
+            PlayButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
+            PlayButton.Layer.CornerRadius = 4;
+            PlayButton.Alpha = 0;
+            AddSubview(PlayButton);
+
+            AddButton = new UIButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44));
+            AddButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
+            AddButton.Layer.CornerRadius = 4;
+            AddButton.Alpha = 0;
+            AddSubview(AddButton);
+
+            DeleteButton = new UIButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44));
+            DeleteButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
+            DeleteButton.Layer.CornerRadius = 4;
+            DeleteButton.Alpha = 0;
+            AddSubview(DeleteButton);
         }
 
         private void HandleRightButtonTouchUpInside(object sender, EventArgs e)

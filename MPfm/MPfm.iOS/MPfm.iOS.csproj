@@ -331,6 +331,7 @@
     <Folder Include="Images\Icons\" />
     <Folder Include="Images\Tables\" />
     <Folder Include="Classes\Controls\Layouts\" />
+    <Folder Include="Images\ContextualButtons\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
@@ -458,6 +459,12 @@
     <BundleResource Include="Images\Icons\icon_speaker%402x.png" />
     <BundleResource Include="Images\Icons\icon_speaker_white.png" />
     <BundleResource Include="Images\Icons\icon_speaker_white%402x.png" />
+    <BundleResource Include="Images\ContextualButtons\add.png" />
+    <BundleResource Include="Images\ContextualButtons\trash.png" />
+    <BundleResource Include="Images\ContextualButtons\play.png" />
+    <BundleResource Include="Images\ContextualButtons\add%402x.png" />
+    <BundleResource Include="Images\ContextualButtons\trash%402x.png" />
+    <BundleResource Include="Images\ContextualButtons\play%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
