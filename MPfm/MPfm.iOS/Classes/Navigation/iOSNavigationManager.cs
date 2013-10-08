@@ -52,7 +52,7 @@ namespace MPfm.iOS.Classes.Navigation
                                 if(EqualizerPresetsView == null)
                                     CreateEqualizerPresetsView(null);
                                 else
-                                    PushDialogView("Equalizer Presets", null, EqualizerPresetsView);
+                                    PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Presets", null, EqualizerPresetsView);
                                 break;
                         }
                     });
@@ -90,14 +90,14 @@ namespace MPfm.iOS.Classes.Navigation
             AppDelegate.PushTabView(type, (UIViewController)view);
         }
 
-        public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
+        public override void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view)
         {
-            AppDelegate.PushDialogView(viewTitle, (UIViewController)view);
+            AppDelegate.PushDialogView(presentationType, viewTitle, (UIViewController)view);
         }
 
-        public override void PushDialogSubview(string parentViewTitle, IBaseView view)
+        public override void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view)
         {
-            AppDelegate.PushDialogSubview(parentViewTitle, (UIViewController)view);
+            AppDelegate.PushDialogSubview(presentationType, parentViewTitle, (UIViewController)view);
         }
 
         public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)

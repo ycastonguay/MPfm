@@ -177,7 +177,7 @@ namespace MPfm.MVP.Presenters
                 Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - index: {0}", index);
 
                 var view = _navigationManager.CreateSelectPlaylistView(_items[index]);
-                _navigationManager.PushDialogView("Select Playlist", View, view);
+                _navigationManager.PushDialogView(MobileDialogPresentationType.Overlay, "Select Playlist", View, view);
             }
             catch (Exception ex)
             {
@@ -191,7 +191,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 Tracing.Log("MobileLibraryBrowserPresenter - PlayItem index: {0}", index);
-                if (_items[index].Type == LibraryBrowserEntityType.Artist)
+                if (_items[index].EntityType == LibraryBrowserEntityType.Artist)
                 {
                     Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
@@ -201,7 +201,7 @@ namespace MPfm.MVP.Presenters
 
                     _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
                 }
-                else if (_items[index].Type == LibraryBrowserEntityType.Album)
+                else if (_items[index].EntityType == LibraryBrowserEntityType.Album)
                 {
                     Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
@@ -211,7 +211,7 @@ namespace MPfm.MVP.Presenters
 
                     _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
                 }
-                else if (_items[index].Type == LibraryBrowserEntityType.Song)
+                else if (_items[index].EntityType == LibraryBrowserEntityType.Song)
                 {
                     Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
@@ -253,7 +253,7 @@ namespace MPfm.MVP.Presenters
             {
                 Tracing.Log("MobileLibraryBrowserPresenter - DeleteItem index: {0}", index);
                 Task.Factory.StartNew(() => {
-                    if(_items[index].Type == LibraryBrowserEntityType.Artist)
+                    if(_items[index].EntityType == LibraryBrowserEntityType.Artist)
                     {
                         _libraryService.DeleteAudioFiles(_items[index].Query.ArtistName, string.Empty);
                         Tracing.Log("MobileLibraryBrowserPresenter - Deleting files from hard disk...");
@@ -272,12 +272,12 @@ namespace MPfm.MVP.Presenters
                         Tracing.Log("MobileLibraryBrowserPresenter - Removing audio files from cache...");
                         _audioFileCacheService.RemoveAudioFiles(_items[index].Query.ArtistName, string.Empty);
                     }
-                    else if(_items[index].Type == LibraryBrowserEntityType.Album)
+                    else if(_items[index].EntityType == LibraryBrowserEntityType.Album)
                     {
                         _libraryService.DeleteAudioFiles(_items[index].Query.ArtistName, _items[index].Query.AlbumTitle);
                         _audioFileCacheService.RemoveAudioFiles(_items[index].Query.ArtistName, _items[index].Query.AlbumTitle);
                     }
-                    else if(_items[index].Type == LibraryBrowserEntityType.Song)
+                    else if(_items[index].EntityType == LibraryBrowserEntityType.Song)
                     {
                         _libraryService.DeleteAudioFile(_items[index].AudioFile.Id);
                         _audioFileCacheService.RemoveAudioFile(_items[index].AudioFile.Id);
@@ -409,7 +409,7 @@ namespace MPfm.MVP.Presenters
                 list.Add(new LibraryBrowserEntity()
                 {
                     Title = artist,
-                    Type = LibraryBrowserEntityType.Artist,
+                    EntityType = LibraryBrowserEntityType.Artist,
                     AlbumTitles = albums[artist].ToList(),
                     Query = new LibraryQuery()
                     {
@@ -449,7 +449,7 @@ namespace MPfm.MVP.Presenters
 				list.Add(new LibraryBrowserEntity(){
 					Title = album.Value,
                     Subtitle = album.Key,
-					Type = LibraryBrowserEntityType.Album,
+					EntityType = LibraryBrowserEntityType.Album,
                     Query = new LibraryQuery(){
 						Format = format,
 						ArtistName = artistName,
@@ -486,7 +486,7 @@ namespace MPfm.MVP.Presenters
                     Title = audioFile.Title,
                     Subtitle = audioFile.Length,
                     AudioFile = audioFile,
-                    Type = LibraryBrowserEntityType.Song,
+                    EntityType = LibraryBrowserEntityType.Song,
                     Query = new LibraryQuery()
                     {
                         Format = format,                        

@@ -78,7 +78,7 @@ namespace MPfm.MVP.Presenters
                 case MobileOptionsMenuType.UpdateLibrary:
                 {
                     var view = _navigationManager.CreateUpdateLibraryView();
-                    _navigationManager.PushDialogView("Update Library", View, view);
+                    _navigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Update Library", View, view);
                     break;
                 }
                 case MobileOptionsMenuType.SyncLibrary:

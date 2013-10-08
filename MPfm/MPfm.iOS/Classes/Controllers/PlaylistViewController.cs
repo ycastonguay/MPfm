@@ -80,19 +80,15 @@ namespace MPfm.iOS
             NavigationItem.SetLeftBarButtonItem(_btnDone, true);
             NavigationItem.SetRightBarButtonItem(_btnEdit, true);
 
-            var btnNew = new UIButton(UIButtonType.Custom);
+            var btnNew = new MPfmButton();
             btnNew.SetTitle("New", UIControlState.Normal);
-            btnNew.Layer.CornerRadius = 8;
-            btnNew.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnNew.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnNew.Frame = new RectangleF(0, 12, 50, 30);
             btnNew.TouchUpInside += HandleNewTouchUpInside;
             _btnNew = new UIBarButtonItem(btnNew);
 
-            var btnShuffle = new UIButton(UIButtonType.Custom);
+            var btnShuffle = new MPfmButton();
             btnShuffle.SetTitle("Shuffle", UIControlState.Normal);
-            btnShuffle.Layer.CornerRadius = 8;
-            btnShuffle.Layer.BackgroundColor = GlobalTheme.SecondaryColor.CGColor;
             btnShuffle.Font = UIFont.FromName("HelveticaNeue", 12.0f);
             btnShuffle.Frame = new RectangleF(0, 12, 70, 30);
             btnShuffle.TouchUpInside += HandleShuffleTouchUpInside;

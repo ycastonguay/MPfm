@@ -110,8 +110,8 @@ namespace MPfm.MVP.Navigation
         public abstract void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
-        public abstract void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view);
-        public abstract void PushDialogSubview(string parentViewTitle, IBaseView view);
+        public abstract void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
+        public abstract void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view);
         public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
         public abstract void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view);
         public abstract void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query);
@@ -598,7 +598,7 @@ namespace MPfm.MVP.Navigation
                 _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
 
 #if !ANDROID
-            PushDialogView("Marker Details", sourceView, _markerDetailsView);
+            PushDialogView(MobileDialogPresentationType.Standard, "Marker Details", sourceView, _markerDetailsView);
 #endif
         }
 
@@ -666,7 +666,7 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             
 #if !ANDROID
-            PushDialogView("Equalizer Presets", null, _equalizerPresetsView);
+            PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Presets", null, _equalizerPresetsView);
 #endif
         }
 
@@ -694,7 +694,7 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
 
 #if !ANDROID
-            PushDialogSubview("Equalizer Presets", _equalizerPresetDetailsView);
+            PushDialogSubview(MobileDialogPresentationType.Standard, "Equalizer Presets", _equalizerPresetDetailsView);
 #endif
         }
 
@@ -902,5 +902,11 @@ namespace MPfm.MVP.Navigation
         PreferencesGeneral = 5,
         PreferencesAudio = 6,
         PreferencesLibrary = 7
+    }
+
+    public enum MobileDialogPresentationType
+    {
+        Standard = 0,
+        Overlay = 1
     }
 }

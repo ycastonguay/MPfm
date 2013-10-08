@@ -52,7 +52,7 @@ namespace MPfm.MVP.Presenters
         {
 #if IOS || ANDROID
             var view = _mobileNavigationManager.CreateLoopDetailsView();
-            _mobileNavigationManager.PushDialogView("Loop Details", View, view);
+            _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Loop Details", View, view);
 #else
             string a = string.Empty;
 #endif

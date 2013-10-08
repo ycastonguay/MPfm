@@ -256,6 +256,16 @@
     </Compile>
     <Compile Include="Classes\Helpers\UIKitHelper.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormScaleView.cs" />
+    <Compile Include="Classes\Controllers\SelectPlaylistViewController.cs" />
+    <Compile Include="Classes\Controllers\SelectPlaylistViewController.designer.cs">
+      <DependentUpon>SelectPlaylistViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\AddPlaylistViewController.cs" />
+    <Compile Include="Classes\Controllers\AddPlaylistViewController.designer.cs">
+      <DependentUpon>AddPlaylistViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controls\MPfmButton.cs" />
+    <Compile Include="Classes\Controls\MPfmImageButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -306,6 +316,10 @@
     <InterfaceDefinition Include="XIB\iPhone\SyncDownloadViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPhone\PlaylistViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\PlaylistViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\SelectPlaylistViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\SelectPlaylistViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\AddPlaylistViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\AddPlaylistViewController_iPad.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

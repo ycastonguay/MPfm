@@ -108,7 +108,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 var view = _mobileNavigationManager.CreateAddMarkerView();
-                _mobileNavigationManager.PushDialogView("Add Marker", View, view);
+                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Add Marker", View, view);
             }
             catch (Exception ex)
             {

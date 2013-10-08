@@ -408,18 +408,35 @@ namespace MPfm.iOS.Classes.Controllers
         private void HandleCollectionViewAddTouchUpInside(object sender, EventArgs e)
         {
             Tracing.Log("HandleCollectionViewAddTouchUpInside");
+            OnAddItemToPlaylist(_editingCollectionCellRowPosition);
             ResetEditingCollectionCellRow();
         }
 
         private void HandleCollectionViewDeleteTouchUpInside(object sender, EventArgs e)
         {
             Tracing.Log("HandleCollectionViewDeleteTouchUpInside");
-            ResetEditingCollectionCellRow();
+
+            var item = _items[_editingCollectionCellRowPosition];
+            if (item == null)
+                return;
+
+            var alertView = new UIAlertView("Delete confirmation", string.Format("Are you sure you wish to delete {0}?", item.Title), null, "OK", new string[1] { "Cancel" });
+            alertView.Clicked += (object sender2, UIButtonEventArgs e2) => {
+                switch(e2.ButtonIndex)
+                {
+                    case 0:
+                        OnDeleteItem(_editingCollectionCellRowPosition);
+                        break;
+                }
+                ResetEditingCollectionCellRow();
+            };
+            alertView.Show();
         }
 
         private void HandleCollectionViewPlayTouchUpInside(object sender, EventArgs e)
         {
             Tracing.Log("HandleCollectionViewPlayTouchUpInside");
+            OnPlayItem(_editingCollectionCellRowPosition);
             ResetEditingCollectionCellRow();
         }
 
@@ -674,19 +691,32 @@ namespace MPfm.iOS.Classes.Controllers
 
         private void HandleTableViewAddTouchUpInside(object sender, EventArgs e)
         {
-            Tracing.Log("HandleTableViewAddTouchUpInside");
+            OnAddItemToPlaylist(_editingTableCellRowPosition);
             ResetEditingTableCellRow();
         }
 
         private void HandleTableViewDeleteTouchUpInside(object sender, EventArgs e)
         {
-            Tracing.Log("HandleTableViewDeleteTouchUpInside");
-            ResetEditingTableCellRow();
+            var item = _items[_editingTableCellRowPosition];
+            if (item == null)
+                return;
+
+            var alertView = new UIAlertView("Delete confirmation", string.Format("Are you sure you wish to delete {0}?", item.Title), null, "OK", new string[1] { "Cancel" });
+            alertView.Clicked += (object sender2, UIButtonEventArgs e2) => {
+                switch(e2.ButtonIndex)
+                {
+                    case 0:
+                        OnDeleteItem(_editingTableCellRowPosition);
+                        break;
+                }
+                ResetEditingTableCellRow();
+            };
+            alertView.Show();           
         }
 
         private void HandleTableViewPlayTouchUpInside(object sender, EventArgs e)
         {
-            Tracing.Log("HandleTableViewPlayTouchUpInside");
+            OnPlayItem(_editingTableCellRowPosition);
             ResetEditingTableCellRow();
         }
 

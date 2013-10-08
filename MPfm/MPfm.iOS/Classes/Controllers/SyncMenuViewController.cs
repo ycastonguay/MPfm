@@ -48,10 +48,7 @@ namespace MPfm.iOS
             tableView.WeakDelegate = this;
 
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
-            viewSync.BackgroundColor = GlobalTheme.MainColor;
-            btnSelect.BackgroundColor = GlobalTheme.SecondaryColor;
-            btnSelect.Layer.CornerRadius = 8;
-
+            viewSync.BackgroundColor = GlobalTheme.BackgroundColor;
             btnSelect.SetTitle("Select all", UIControlState.Normal);
             activityIndicator.StartAnimating();
 
@@ -70,7 +67,7 @@ namespace MPfm.iOS
             btnSync.Frame = new RectangleF(0, 0, 70, 44);
             btnSync.OnButtonClick += HandleButtonSyncTouchUpInside;
             var btnSyncView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44));
-            var rect2 = new RectangleF(btnSyncView.Bounds.X - 5, btnSyncView.Bounds.Y, btnSyncView.Bounds.Width, btnSyncView.Bounds.Height);
+            var rect2 = new RectangleF(btnSyncView.Bounds.X - 16, btnSyncView.Bounds.Y, btnSyncView.Bounds.Width, btnSyncView.Bounds.Height);
             btnSyncView.Bounds = rect2;
             btnSyncView.AddSubview(btnSync);
             _btnSync = new UIBarButtonItem(btnSyncView);

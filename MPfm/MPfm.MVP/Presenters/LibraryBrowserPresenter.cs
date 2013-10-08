@@ -114,7 +114,7 @@ namespace MPfm.MVP.Presenters
 		public void TreeNodeExpanded(LibraryBrowserEntity entity, object userData)
         {
             // Check node type
-            if (entity.Type == LibraryBrowserEntityType.Artists)
+            if (entity.EntityType == LibraryBrowserEntityType.Artists)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Artist nodes and refreshing view (RefreshLibraryBrowserNode)...");
                 View.RefreshLibraryBrowserNode(
@@ -123,7 +123,7 @@ namespace MPfm.MVP.Presenters
                     userData
                 );
             } 
-            else if (entity.Type == LibraryBrowserEntityType.Albums)
+            else if (entity.EntityType == LibraryBrowserEntityType.Albums)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Album nodes and refreshing view (RefreshLibraryBrowserNode)...");
                 View.RefreshLibraryBrowserNode(
@@ -132,7 +132,7 @@ namespace MPfm.MVP.Presenters
                     userData
                 );
             } 
-            else if (entity.Type == LibraryBrowserEntityType.Artist)
+            else if (entity.EntityType == LibraryBrowserEntityType.Artist)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting ArtistAlbum nodes and refreshing view (RefreshLibraryBrowserNode)...");
                 View.RefreshLibraryBrowserNode(
@@ -152,17 +152,17 @@ namespace MPfm.MVP.Presenters
         public IEnumerable<LibraryBrowserEntity> TreeNodeExpandable(LibraryBrowserEntity entity)
         {
             // Check node type and get appropriate list
-            if (entity.Type == LibraryBrowserEntityType.Artists)
+            if (entity.EntityType == LibraryBrowserEntityType.Artists)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpandable -- Getting list of distinct artists...");
                 return GetArtistNodes(Filter);
             } 
-            else if (entity.Type == LibraryBrowserEntityType.Albums)
+            else if (entity.EntityType == LibraryBrowserEntityType.Albums)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpandable -- Getting list of distinct albums...");
                 return GetAlbumNodes(Filter);
             } 
-            else if (entity.Type == LibraryBrowserEntityType.Artist)
+            else if (entity.EntityType == LibraryBrowserEntityType.Artist)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpandable -- Getting list of distinct artist albums...");
                 return GetArtistAlbumNodes(Filter, entity.Query.ArtistName);
@@ -201,19 +201,19 @@ namespace MPfm.MVP.Presenters
 
             list.Add(new LibraryBrowserEntity(){
                 Title = "All Songs",
-                Type = LibraryBrowserEntityType.AllSongs
+                EntityType = LibraryBrowserEntityType.AllSongs
             });           
 
 			list.Add(new LibraryBrowserEntity(){
 				Title = "Artists",
-				Type = LibraryBrowserEntityType.Artists,
-				SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node
+				EntityType = LibraryBrowserEntityType.Artists,
+				SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { EntityType = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node
 			});
 			
 			list.Add(new LibraryBrowserEntity(){
 				Title = "Albums",
-				Type = LibraryBrowserEntityType.Albums,
-				SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node
+				EntityType = LibraryBrowserEntityType.Albums,
+				SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { EntityType = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node
 			});
 			
 			return list;
@@ -234,12 +234,12 @@ namespace MPfm.MVP.Presenters
 			{
 				list.Add(new LibraryBrowserEntity(){
 					Title = artist,
-					Type = LibraryBrowserEntityType.Artist,
+					EntityType = LibraryBrowserEntityType.Artist,
                     Query = new LibraryQuery(){
 						Format = format,
 						ArtistName = artist
 					},
-					SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { Type = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node					
+					SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { EntityType = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node					
 				});
 			}
 			
@@ -288,7 +288,7 @@ namespace MPfm.MVP.Presenters
 			{
 				list.Add(new LibraryBrowserEntity(){
 					Title = album,
-					Type = LibraryBrowserEntityType.Album,
+					EntityType = LibraryBrowserEntityType.Album,
                     Query = new LibraryQuery(){
 						Format = format,
 						ArtistName = artistName,

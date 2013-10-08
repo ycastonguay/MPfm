@@ -46,9 +46,7 @@ namespace MPfm.iOS
             tableView.WeakDelegate = this;
 
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
-            viewRefresh.BackgroundColor = GlobalTheme.MainLightColor;
-            btnConnectDeviceManually.BackgroundColor = GlobalTheme.SecondaryColor;
-            btnConnectDeviceManually.Layer.CornerRadius = 8;
+            //viewRefresh.BackgroundColor = GlobalTheme.MainLightColor;
 
             base.ViewDidLoad();
         }

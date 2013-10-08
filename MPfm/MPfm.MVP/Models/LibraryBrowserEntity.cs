@@ -26,7 +26,7 @@ namespace MPfm.MVP.Models
     /// </summary>
 	public class LibraryBrowserEntity
 	{
-		public LibraryBrowserEntityType Type { get; set; }
+		public LibraryBrowserEntityType EntityType { get; set; }
 		public string Title { get; set; }
         public string Subtitle { get; set; }
 		public LibraryQuery Query { get; set; }

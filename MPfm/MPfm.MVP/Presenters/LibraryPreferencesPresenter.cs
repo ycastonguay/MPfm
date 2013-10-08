@@ -86,7 +86,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 var view = _mobileNavigationManager.CreateUpdateLibraryView();
-                _mobileNavigationManager.PushDialogView("Update Library", View, view);
+                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Update Library", View, view);
             }
             catch(Exception ex)
             {
@@ -100,7 +100,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 var view = _mobileNavigationManager.CreateSelectFoldersView();
-                _mobileNavigationManager.PushDialogView("Select Folders", View, view);
+                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Select Folders", View, view);
             }
             catch (Exception ex)
             {

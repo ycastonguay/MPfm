@@ -42,9 +42,9 @@ namespace MPfm.iOS.Classes.Controls
         public UIImageView ImageAlbum3 { get; private set; }
         public UILabel AlbumCountLabel { get; private set; }
 
-        public UIButton PlayButton { get; set; }
-        public UIButton AddButton { get; set; }
-        public UIButton DeleteButton { get; set; }
+        public MPfmImageButton PlayButton { get; set; }
+        public MPfmImageButton AddButton { get; set; }
+        public MPfmImageButton DeleteButton { get; set; }
 
         public float RightOffset { get; set; }
 
@@ -152,24 +152,18 @@ namespace MPfm.iOS.Classes.Controls
             TextLabel.RemoveFromSuperview();
             AddSubview(TextLabel);
 
-            PlayButton = new UIButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44));
-            PlayButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            PlayButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44));
             PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
-            PlayButton.Layer.CornerRadius = 4;
             PlayButton.Alpha = 0;
             AddSubview(PlayButton);
 
-            AddButton = new UIButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44));
-            AddButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            AddButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44));
             AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
-            AddButton.Layer.CornerRadius = 4;
             AddButton.Alpha = 0;
             AddSubview(AddButton);
 
-            DeleteButton = new UIButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44));
-            DeleteButton.BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
+            DeleteButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44));
             DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
-            DeleteButton.Layer.CornerRadius = 4;
             DeleteButton.Alpha = 0;
             AddSubview(DeleteButton);
         }

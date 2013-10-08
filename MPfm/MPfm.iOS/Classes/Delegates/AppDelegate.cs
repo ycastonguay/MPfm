@@ -122,6 +122,8 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<ISyncMenuView, SyncMenuViewController>().AsMultiInstance();
             container.Register<ISyncDownloadView, SyncDownloadViewController>().AsMultiInstance();
             container.Register<IAboutView, AboutViewController>().AsMultiInstance();
+            container.Register<ISelectPlaylistView, SelectPlaylistViewController>().AsMultiInstance();
+            container.Register<IAddPlaylistView, AddPlaylistViewController>().AsMultiInstance();
         }
 
         public void ShowSplash(SplashViewController viewController)
@@ -201,27 +203,44 @@ namespace MPfm.iOS.Classes.Delegates
             });
         }
 
-        public void PushDialogView(string viewTitle, UIViewController viewController)
+        public void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, UIViewController viewController)
         {
             InvokeOnMainThread(() => {
-                var navCtrl = new MPfmNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
-                navCtrl.SetTitle(viewTitle, "");
-                navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
-                navCtrl.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-                navCtrl.ModalInPopover = true;
-                navCtrl.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
-                navCtrl.ViewDismissedEvent += (sender, e) => {
-                    _dialogNavigationControllers.Remove(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
-                };
-                navCtrl.PushViewController(viewController, false);                
-                _dialogNavigationControllers.Add(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
-                _tabBarController.PresentViewController(navCtrl, true, null);
-            });
 
-            // TODO: Remove navCtrl from list when dialog is closed.
+                switch (presentationType)
+                {
+                    case MobileDialogPresentationType.Standard:
+                        var navCtrl = new MPfmNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
+                        navCtrl.SetTitle(viewTitle, "");
+                        navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
+                        navCtrl.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+                        navCtrl.ModalInPopover = true;
+                        navCtrl.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;
+                        navCtrl.ViewDismissedEvent += (sender, e) => {
+                            _dialogNavigationControllers.Remove(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
+                        };
+                        navCtrl.PushViewController(viewController, false);                
+                        _dialogNavigationControllers.Add(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
+                        _tabBarController.PresentViewController(navCtrl, true, null);
+                        // TODO: Remove navCtrl from list when dialog is closed.
+                        break;
+                    case MobileDialogPresentationType.Overlay:
+                        _tabBarController.AddChildViewController(viewController);
+                        var childView = viewController.View;
+                        childView.Frame = _tabBarController.View.Frame;
+                        childView.Alpha = 0;
+                        _tabBarController.View.AddSubview(childView);
+                        viewController.DidMoveToParentViewController(_tabBarController);
+
+                        UIView.Animate(0.2f, () => {
+                            childView.Alpha = 1;
+                        });
+                        break;
+                }
+            });
         }
 
-        public void PushDialogSubview(string parentViewTitle, UIViewController viewController)
+        public void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, UIViewController viewController)
         {
             InvokeOnMainThread(() => {
                 var navCtrl = _dialogNavigationControllers.FirstOrDefault(x => x.Key == parentViewTitle).Value;
