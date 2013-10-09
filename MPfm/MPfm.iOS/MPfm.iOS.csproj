@@ -266,6 +266,9 @@
     </Compile>
     <Compile Include="Classes\Controls\MPfmButton.cs" />
     <Compile Include="Classes\Controls\MPfmImageButton.cs" />
+    <Compile Include="Classes\Controls\MPfmPlaylistTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

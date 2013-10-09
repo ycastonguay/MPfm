@@ -98,10 +98,10 @@ namespace MPfm.iOS.Classes.Controls
             {
                 UIView.Animate(0.1, () => {
                     BackgroundColor = GlobalTheme.SecondaryColor;
-                    if (LabelAlignment == UIControlContentHorizontalAlignment.Left)
-                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-                    else if (LabelAlignment == UIControlContentHorizontalAlignment.Right)
-                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
+//                    if (LabelAlignment == UIControlContentHorizontalAlignment.Left)
+//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
+//                    else if (LabelAlignment == UIControlContentHorizontalAlignment.Right)
+//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
 
                     TitleLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     Image.Transform = CGAffineTransform.MakeScale(1, 1);
@@ -114,10 +114,10 @@ namespace MPfm.iOS.Classes.Controls
                     TitleLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
                     Image.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
 
-                    if(LabelAlignment == UIControlContentHorizontalAlignment.Left)
-                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-                    else if(LabelAlignment == UIControlContentHorizontalAlignment.Right)
-                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
+//                    if(LabelAlignment == UIControlContentHorizontalAlignment.Left)
+//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
+//                    else if(LabelAlignment == UIControlContentHorizontalAlignment.Right)
+//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
                 });
             }
         }

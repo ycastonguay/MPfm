@@ -41,10 +41,13 @@ namespace MPfm.iOS.Classes.Controls
         public UIImageView ImageAlbum2 { get; private set; }
         public UIImageView ImageAlbum3 { get; private set; }
         public UILabel AlbumCountLabel { get; private set; }
+        public UIView SecondaryMenuBackground { get; private set; }
 
         public MPfmImageButton PlayButton { get; set; }
         public MPfmImageButton AddButton { get; set; }
         public MPfmImageButton DeleteButton { get; set; }
+
+        public bool IsTextAnimationEnabled { get; set; }
 
         public float RightOffset { get; set; }
 
@@ -68,16 +71,20 @@ namespace MPfm.iOS.Classes.Controls
 
         public void Initialize()
         {
+            IsTextAnimationEnabled = false;
+            SelectionStyle = UITableViewCellSelectionStyle.None;
             var screenSize = UIKitHelper.GetDeviceSize();
 
-            UIView backView = new UIView(Frame);
-            backView.BackgroundColor = GlobalTheme.LightColor;
-            BackgroundView = backView;
-            BackgroundColor = UIColor.White;
+//            UIView backView = new UIView(Frame);
+//            backView.BackgroundColor = GlobalTheme.LightColor;
+//            BackgroundView = backView;
+//            BackgroundColor = UIColor.White;
             
             UIView backViewSelected = new UIView(Frame);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
-            SelectedBackgroundView = backViewSelected;           
+            SelectedBackgroundView = backViewSelected;     
+            SelectedBackgroundView.Hidden = true;
+            AddSubview(SelectedBackgroundView);
 
             ImageAlbum1 = new UIImageView();
             ImageAlbum1.BackgroundColor = UIColor.White;
@@ -112,14 +119,20 @@ namespace MPfm.iOS.Classes.Controls
             AlbumCountLabel.HighlightedTextColor = UIColor.White;
             AddSubview(AlbumCountLabel);
 
-            TextLabel.BackgroundColor = UIColor.FromWhiteAlpha(0, 0);
+            TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TextLabel.BackgroundColor = UIColor.Clear;
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
+            DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             ImageView.BackgroundColor = UIColor.White;
+
+            // Make sure the text label is over all other subviews
+            DetailTextLabel.RemoveFromSuperview();
+            AddSubview(DetailTextLabel);
 
             IndexTextLabel = new UILabel();
             IndexTextLabel.BackgroundColor = UIColor.Clear;
@@ -152,6 +165,12 @@ namespace MPfm.iOS.Classes.Controls
             TextLabel.RemoveFromSuperview();
             AddSubview(TextLabel);
 
+            SecondaryMenuBackground = new UIView();
+            SecondaryMenuBackground.BackgroundColor = UIColor.White;
+            SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 4, 188, 44);
+            //SecondaryMenuBackground.Alpha = 0;
+            AddSubview(SecondaryMenuBackground);
+
             PlayButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44));
             PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
             PlayButton.Alpha = 0;
@@ -176,7 +195,8 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void LayoutSubviews()
         {
-            base.LayoutSubviews();
+            //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+            SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             var screenSize = UIKitHelper.GetDeviceSize();
             float padding = 8;
@@ -210,14 +230,15 @@ namespace MPfm.iOS.Classes.Controls
             } 
             else
             {
-                x += padding;
+                x += padding + (padding / 2);
             }
 
             float titleY = 10 + 4;
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 titleY = 2 + 4;
 
-            TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
+            if (_isTextLabelAllowedToChangeFrame)
+                TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
 
@@ -230,6 +251,94 @@ namespace MPfm.iOS.Classes.Controls
                 RightImage.Frame = new RectangleF(screenSize.Width - 44 - RightOffset, 4, 44, 44);
             else
                 RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 4, 44, 44);
+        }
+
+        public override void SetHighlighted(bool highlighted, bool animated)
+        {
+            SelectedBackgroundView.Alpha = 1;
+            SelectedBackgroundView.Hidden = !highlighted;
+            TextLabel.TextColor = highlighted ? UIColor.White : UIColor.Black;
+            DetailTextLabel.Highlighted = highlighted;
+            IndexTextLabel.Highlighted = highlighted;
+            DetailTextLabel.TextColor = highlighted ? UIColor.White : UIColor.Gray;
+            //IndexTextLabel.TextColor = highlighted ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
+            SecondaryMenuBackground.BackgroundColor = highlighted ? GlobalTheme.SecondaryColor : GlobalTheme.LightColor;
+
+            base.SetHighlighted(highlighted, animated);
+        }
+
+        public override void SetSelected(bool selected, bool animated)
+        {
+            if(selected)
+                SecondaryMenuBackground.BackgroundColor = GlobalTheme.SecondaryColor;
+
+            TextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
+            DetailTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
+            //IndexTextLabel.TextColor = selected ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
+
+            if (!selected)
+            {
+                UIView.Animate(0.5, () => {
+                    SelectedBackgroundView.Alpha = 0;
+                }, () => {
+                    SelectedBackgroundView.Hidden = true;
+                });
+            }
+            else
+            {
+                SelectedBackgroundView.Hidden = false;
+                SelectedBackgroundView.Alpha = 1;
+            }
+
+            base.SetSelected(selected, animated);
+        }
+
+        public override void TouchesBegan(NSSet touches, UIEvent evt)
+        {
+            AnimatePress(true);
+            base.TouchesBegan(touches, evt);
+        }
+
+        public override void TouchesEnded(NSSet touches, UIEvent evt)
+        {
+            AnimatePress(false);
+            base.TouchesEnded(touches, evt);
+        }
+
+        public override void TouchesCancelled(NSSet touches, UIEvent evt)
+        {
+            AnimatePress(false);
+            base.TouchesCancelled(touches, evt);
+        }
+
+        private bool _isTextLabelAllowedToChangeFrame = true;
+
+        private void AnimatePress(bool on)
+        {
+            if (!IsTextAnimationEnabled)
+                return;
+
+            _isTextLabelAllowedToChangeFrame = !on;
+
+            if (!on)
+            {
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                    // Ignore when scale is lower; it was done on purpose and will be restored to 1 later.
+                    if(TextLabel.Transform.xx < 0.95f) return;
+
+                    TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                }, null);
+            }
+            else
+            {
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                    TextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
+                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
+                }, null);
+            }
         }
     }
 }

@@ -49,22 +49,14 @@ namespace MPfm.iOS
             base.ViewDidLoad();
         }
 
-        public override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-
-            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Select a playlist", "");
-        }
-
         partial void actionAddNewPlaylist(NSObject sender)
         {
-
+            OnAddNewPlaylist();
         }
 
         partial void actionSelect(NSObject sender)
         {
-
+            //OnSelectPlaylist();
         }
 
         partial void actionCancel(NSObject sender)
@@ -87,19 +79,17 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            MPfmPlaylistTableViewCell cell = (MPfmPlaylistTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
+                cell = new MPfmPlaylistTableViewCell(cellStyle, _cellIdentifier);
             }
 
-            //cell.ImageView.Alpha = 0.7f;
             cell.Accessory = UITableViewCellAccessory.None;
-            //cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
-            //cell.ImageChevron.Hidden = false;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             cell.TextLabel.Text = _items[indexPath.Row].Name;
+            cell.TextLabel.TextColor = UIColor.White;
 
             UIView viewBackgroundSelected = new UIView();
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -111,22 +101,8 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            //OnItemClick(_items[indexPath.Row].Key);
+            tableView.DeselectRow(indexPath, true);
         }
-
-//        [Export ("tableView:didHighlightRowAtIndexPath:")]
-//        public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
-//        {
-//            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
-//            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
-//        }
-//
-//        [Export ("tableView:didUnhighlightRowAtIndexPath:")]
-//        public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
-//        {
-//            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
-//            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
-//        }
 
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
@@ -158,4 +134,3 @@ namespace MPfm.iOS
         #endregion
     }
 }
-

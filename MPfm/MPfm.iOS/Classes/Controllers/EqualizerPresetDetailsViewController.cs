@@ -92,14 +92,14 @@ namespace MPfm.iOS
             var btnReset = new MPfmButton();
             btnReset.SetTitle("Reset", UIControlState.Normal);
             btnReset.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-            btnReset.Frame = new RectangleF(0, 12, 60, 30);
+            btnReset.Frame = new RectangleF(0, 12, 60, 40);
             btnReset.TouchUpInside += HandleButtonResetTouchUpInside;
             _btnReset = new UIBarButtonItem(btnReset);
 
             var btnNormalize = new MPfmButton();
             btnNormalize.SetTitle("Normalize", UIControlState.Normal);
             btnNormalize.Font = UIFont.FromName("HelveticaNeue", 12.0f);
-            btnNormalize.Frame = new RectangleF(0, 12, 80, 30);
+            btnNormalize.Frame = new RectangleF(0, 12, 80, 40);
             btnNormalize.TouchUpInside += HandleButtonNormalizeTouchUpInside;
             _btnNormalize = new UIBarButtonItem(btnNormalize);
 

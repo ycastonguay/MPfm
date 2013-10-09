@@ -135,7 +135,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 var view = _mobileNavigationManager.CreateAddPlaylistView();
-                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Add New Playlist", View, view);
+                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Overlay, "Add New Playlist", View, view);
             }
             catch (Exception ex)
             {

@@ -30,8 +30,8 @@ namespace MPfm.iOS.Classes.Controls
     {
         public MPfmTabBar() : base()
         {
-            TintColor = UIColor.FromRGBA(0.3f, 0.3f, 0.3f, 1);
-            SelectedImageTintColor = UIColor.White;
+            //TintColor = UIColor.FromRGBA(0.3f, 0.3f, 0.3f, 1);
+            //SelectedImageTintColor = UIColor.White;
         }
 
         public MPfmTabBar(IntPtr handle) : base (handle)

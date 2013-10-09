@@ -33,7 +33,35 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
+            // Make sure the Done key closes the keyboard
+            txtPlaylistName.ShouldReturn = (a) => {
+                txtPlaylistName.ResignFirstResponder();
+                return true;
+            };
+
             base.ViewDidLoad();
+        }
+
+        private void CloseDialog()
+        {
+            WillMoveToParentViewController(null);
+            UIView.Animate(0.2f, () => {
+                this.View.Alpha = 0;
+            }, () => {
+                View.RemoveFromSuperview();
+                RemoveFromParentViewController();
+            });
+        }
+
+        partial void actionCancel(NSObject sender)
+        {
+            CloseDialog();
+        }
+
+        partial void actionCreate(NSObject sender)
+        {
+            OnSavePlaylist(txtPlaylistName.Text);
+            CloseDialog();
         }
 
         #region IAddPlaylistView implementation
@@ -42,6 +70,10 @@ namespace MPfm.iOS
 
         public void AddPlaylistError(Exception ex)
         {
+            InvokeOnMainThread(() => {
+                var alertView = new UIAlertView("AddPlaylist Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
         }
 
         #endregion

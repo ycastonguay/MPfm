@@ -58,12 +58,14 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
+            Console.WriteLine("MPfmImageButton - TouchesBegan");
             AnimatePress(true);
             base.TouchesBegan(touches, evt);
         }
 
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
+            Console.WriteLine("MPfmImageButton - TouchesEnded");
             AnimatePress(false);
 
             if (OnButtonClick != null)
@@ -74,6 +76,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void TouchesCancelled(NSSet touches, UIEvent evt)
         {
+            Console.WriteLine("MPfmImageButton - TouchesCancelled");
             AnimatePress(false);
             base.TouchesCancelled(touches, evt);
         }
@@ -84,14 +87,14 @@ namespace MPfm.iOS.Classes.Controls
             {
                 UIView.Animate(0.1, () => {
                     BackgroundColor = UIColor.FromRGBA(80, 80, 80, 225);
-                    ImageView.Transform = CGAffineTransform.MakeScale(1, 1);
+                    //ImageView.Transform = CGAffineTransform.MakeScale(1, 1);
                 });
             }
             else
             {
                 UIView.Animate(0.1, () => {
                     BackgroundColor = UIColor.FromRGBA(50, 50, 50, 255);
-                    ImageView.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
+                    //ImageView.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
                 });
             }
         }

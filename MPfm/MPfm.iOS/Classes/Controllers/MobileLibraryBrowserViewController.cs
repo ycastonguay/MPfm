@@ -51,8 +51,6 @@ namespace MPfm.iOS.Classes.Controllers
         MobileLibraryBrowserType _browserType;
         List<KeyValuePair<string, UIImage>> _imageCache;
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
-        UIButton _btnDelete;
-        int _deleteCellIndex = -1;
         int _editingTableCellRowPosition = -1;
         int _editingCollectionCellRowPosition = -1;
 
@@ -90,46 +88,6 @@ namespace MPfm.iOS.Classes.Controllers
             imageViewAlbumCover.BackgroundColor = UIColor.Black;
             viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
 
-            // TODO: Move this to a custom table view instead.
-            _btnDelete = new UIButton(UIButtonType.Custom);
-            _btnDelete.Alpha = 0;
-            _btnDelete.Font = UIFont.FromName("HelveticaNeue-Light", 15);
-            _btnDelete.SetTitle("Delete", UIControlState.Normal);
-            _btnDelete.BackgroundColor = UIColor.Red;
-            _btnDelete.SetTitleColor(UIColor.White, UIControlState.Normal);
-            _btnDelete.SetTitleColor(UIColor.FromRGB(255, 180, 180), UIControlState.Highlighted);
-            _btnDelete.TouchUpInside += (sender, e) => {
-
-                var alertView = new UIAlertView("Delete confirmation", string.Format("Are you sure you wish to delete {0}?", 
-                                                                                     _items[_deleteCellIndex].Title), null, "OK", new string[1]{"Cancel"});
-                alertView.Clicked += (sender2, e2) => {
-                    if(e2.ButtonIndex == 0)
-                    {
-                        // Remove immediately from table view
-                        _items.RemoveAt(_deleteCellIndex);
-                        tableView.BeginUpdates();
-                        tableView.DeleteRows(new NSIndexPath[1]{ NSIndexPath.FromRowSection(_deleteCellIndex, 0) }, UITableViewRowAnimation.Right);
-                        tableView.EndUpdates();
-
-                        OnDeleteItem(_deleteCellIndex);
-                        _deleteCellIndex = -1;
-                        UIView.Animate(0.2, () => {
-                            _btnDelete.Alpha = 0;
-                        });
-                    }
-                    else
-                    {
-                        UIView.Animate(0.2, () => {
-                            var cell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(_deleteCellIndex, 0));
-                            _btnDelete.Alpha = 0;
-                            _btnDelete.Frame = new RectangleF(cell.Frame.Width + 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-                            cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
-                        });
-                    }
-                };
-                alertView.Show();
-            };
-            tableView.AddSubview(_btnDelete);
             _imageCache = new List<KeyValuePair<string, UIImage>>();
             _thumbnailImageCache = new List<KeyValuePair<string, UIImage>>();
             this.NavigationItem.HidesBackButton = true;
@@ -172,28 +130,6 @@ namespace MPfm.iOS.Classes.Controllers
             FlushImages();
         } 
 
-        public override void ViewDidLayoutSubviews()
-        {
-            base.ViewDidLayoutSubviews();
-            var screenSize = UIKitHelper.GetDeviceSize();
-
-            if(_deleteCellIndex >= 0)
-            {
-                _btnDelete.Frame = new RectangleF(screenSize.Width - 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-
-                var cell = tableView.CellAt(NSIndexPath.FromRowSection(_deleteCellIndex, 0));
-                if(cell != null)
-                {
-                    var customCell = (MPfmTableViewCell)cell;
-                    customCell.ImageChevron.Frame = new RectangleF(customCell.Frame.Width - customCell.ImageChevron.Bounds.Width - 60, 0, customCell.ImageChevron.Bounds.Width, customCell.ImageChevron.Bounds.Height);
-                }
-            }
-            else
-            {
-                _btnDelete.Frame = new RectangleF(screenSize.Width + 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-            }
-        }
-
         private void HandleSwipe(UISwipeGestureRecognizer gestureRecognizer)
         {
             var point = gestureRecognizer.LocationInView(tableView);
@@ -202,56 +138,6 @@ namespace MPfm.iOS.Classes.Controllers
             // IndexPath is null when swiping an empty cell
             if (indexPath == null)
                 return;
-
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
-
-            Console.WriteLine("MobileLibraryBrowserViewController - HandleSwipe - row: {0} deleteCellIndex: {1}", indexPath.Row, _deleteCellIndex);
-            if (_deleteCellIndex == -1)
-            {
-                // no previous selection; just show button
-                if(_btnDelete.Alpha == 0)
-                    _btnDelete.Frame = new RectangleF(cell.Frame.Width, cell.Frame.Y, 60, cell.Frame.Height);
-
-                UIView.Animate(0.2, () => {
-                    _deleteCellIndex = indexPath.Row;
-                    _btnDelete.Alpha = 1;
-                    _btnDelete.Frame = new RectangleF(cell.Frame.Width - 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-                    cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width - 60, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
-                });
-            }
-            else if (_deleteCellIndex == indexPath.Row)
-            {
-                // same cell; hide button
-                UIView.Animate(0.2, () => {
-                    _deleteCellIndex = -1;
-                    _btnDelete.Alpha = 0;
-                    _btnDelete.Frame = new RectangleF(cell.Frame.Width + 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-                    cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
-                });
-            }
-            else
-            {
-                // else: hide the button in the other cell.
-                UIView.Animate(0.2, () => {
-                    // Hide button in previous cell
-                    var cellPrevious = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(_deleteCellIndex, 0));
-                    if(cellPrevious != null)
-                    {
-                        cellPrevious.ImageChevron.Frame = new RectangleF(cellPrevious.Frame.Width - cellPrevious.ImageChevron.Bounds.Width, 0, cellPrevious.ImageChevron.Bounds.Width, cellPrevious.ImageChevron.Bounds.Height);
-                        _btnDelete.Frame = new RectangleF(cellPrevious.Frame.Width + 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-                        _btnDelete.Alpha = 0;
-                    }
-                }, () => {
-                    // Show button in new cell
-                    _btnDelete.Frame = new RectangleF(cell.Frame.Width, cell.Frame.Y, 60, cell.Frame.Height);
-                    UIView.Animate(0.2, () => {
-                        _deleteCellIndex = indexPath.Row;
-                        _btnDelete.Alpha = 1;
-                        _btnDelete.Frame = new RectangleF(cell.Frame.Width - 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-                        cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width - 60, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
-                    });
-                });
-            }
         }
 
         private void HandleLongPressCollectionCellRow(UILongPressGestureRecognizer gestureRecognizer)
@@ -475,10 +361,16 @@ namespace MPfm.iOS.Classes.Controllers
                 var oldCell = (MPfmTableViewCell)tableView.VisibleCells.FirstOrDefault(x => x.Tag == oldPosition);
                 if (oldCell != null)
                 {
+                    //oldCell.SecondaryMenuBackground.Alpha = 0;
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                         oldCell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 138, 4, 44, 44);
                         oldCell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 86, 4, 44, 44);
                         oldCell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 34, 4, 44, 44);
+                        //oldCell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 190, 52);
+                        //Console.WriteLine(">>>>>>>>>>> MLB - Scale 1");
+                        oldCell.TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                        oldCell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 188, 4, 188, 44);
+                        oldCell.SecondaryMenuBackground.Alpha = 0;
                         oldCell.PlayButton.Alpha = 0;
                         oldCell.AddButton.Alpha = 0;
                         oldCell.DeleteButton.Alpha = 0;
@@ -495,16 +387,23 @@ namespace MPfm.iOS.Classes.Controllers
                     cell.PlayButton.Alpha = 0;
                     cell.AddButton.Alpha = 0;
                     cell.DeleteButton.Alpha = 0;
+                    cell.SecondaryMenuBackground.Alpha = 0;
                     cell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 138, 4, 44, 44);
                     cell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 86, 4, 44, 44);
                     cell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 34, 4, 44, 44);
+                    //cell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 4, 188, 44);
+                    cell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 188, 4, 188, 44);
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                         cell.PlayButton.Alpha = 1;
                         cell.AddButton.Alpha = 1;
                         cell.DeleteButton.Alpha = 1;
+                        cell.SecondaryMenuBackground.Alpha = 1;
+                        //Console.WriteLine(">>>>>>>>>>> MLB - Scale 0.8f");
+                        cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                         cell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
                         cell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
                         cell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
+                        cell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 188, 4, 188, 44);
                     }, null);
                 }
             }
@@ -537,6 +436,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
+            cell.IsTextAnimationEnabled = true;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
             cell.TextLabel.Text = item.Title;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
@@ -552,12 +452,7 @@ namespace MPfm.iOS.Classes.Controllers
             cell.ImageAlbum1.Tag = 1;
             cell.ImageAlbum2.Tag = 2;
             cell.ImageAlbum3.Tag = 3;
-
-            // Set offset for delete icon
-            if (indexPath.Row == _deleteCellIndex)
-                cell.RightOffset = 60;
-            else
-                cell.RightOffset = 0;
+            cell.RightOffset = 0;
 
             // Change title font when the item has a subtitle
             if(String.IsNullOrEmpty(item.Subtitle))
@@ -566,6 +461,19 @@ namespace MPfm.iOS.Classes.Controllers
             cell.PlayButton.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
             cell.AddButton.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
             cell.DeleteButton.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
+            cell.SecondaryMenuBackground.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
+            if (_editingTableCellRowPosition == indexPath.Row)
+            {
+                cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
+                cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
+            }
+            else
+            {
+                cell.TextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+                cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+                cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+            }
 
             if (_browserType == MobileLibraryBrowserType.Songs)
             {
@@ -591,7 +499,7 @@ namespace MPfm.iOS.Classes.Controllers
                 albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : albumFetchCount; //
                 //albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : item.AlbumTitles.Count; // Do not load a third album art when the count is visible!
 
-                Console.WriteLine("GetCell - title: {0} index: {1} albumFetchCount: {2}", item.Title, indexPath.Row, albumFetchCount);
+                //Console.WriteLine("GetCell - title: {0} index: {1} albumFetchCount: {2}", item.Title, indexPath.Row, albumFetchCount);
 
                 int startIndex = 0;
                 if (item.AlbumTitles.Count > 3)
@@ -614,12 +522,12 @@ namespace MPfm.iOS.Classes.Controllers
                     KeyValuePair<string, UIImage> keyPair = _thumbnailImageCache.FirstOrDefault(x => x.Key == key);
                     if (keyPair.Equals(default(KeyValuePair<string, UIImage>)))
                     {
-                        Console.WriteLine("MLBVC - GetCell - OnRequestAlbumArt - index: {0} key: {1}", indexPath.Row, key);
+                        //Console.WriteLine("MLBVC - GetCell - OnRequestAlbumArt - index: {0} key: {1}", indexPath.Row, key);
                         OnRequestAlbumArt(item.Query.ArtistName, item.AlbumTitles[a], imageAlbum);
                     } 
                     else
                     {
-                        Console.WriteLine("MLBVC - GetCell - Taking image from cache - index: {0} key: {1}", indexPath.Row, key);
+                        //Console.WriteLine("MLBVC - GetCell - Taking image from cache - index: {0} key: {1}", indexPath.Row, key);
                         imageAlbum.Image = keyPair.Value;
                     }
 
@@ -646,15 +554,11 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if(_deleteCellIndex >= 0)
+            if (indexPath.Row == _editingTableCellRowPosition)
             {
-                UIView.Animate(0.2, () => {
-                    var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
-                    _deleteCellIndex = -1;
-                    _btnDelete.Alpha = 0;
-                    _btnDelete.Frame = new RectangleF(cell.Frame.Width + 60, _btnDelete.Frame.Y, 60, _btnDelete.Frame.Height);
-                    cell.ImageChevron.Frame = new RectangleF(cell.Frame.Width - cell.ImageChevron.Bounds.Width, 0, cell.ImageChevron.Bounds.Width, cell.ImageChevron.Bounds.Height);
-                });
+                tableView.DeselectRow(indexPath, true);
+                ResetEditingTableCellRow();
+                return;
             }
 
             OnItemClick(indexPath.Row);
@@ -667,7 +571,8 @@ namespace MPfm.iOS.Classes.Controllers
             if (cell == null)
                 return;
 
-            ResetEditingTableCellRow();
+            if(indexPath.Row != _editingTableCellRowPosition)
+                ResetEditingTableCellRow();
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker_white");
         }
@@ -796,7 +701,7 @@ namespace MPfm.iOS.Classes.Controllers
             });
 
             var task = Task<UIImage>.Factory.StartNew(() => {
-                Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2} height: {3}", artistName, albumTitle, _browserType, height);
+                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2} height: {3}", artistName, albumTitle, _browserType, height);
                 try
                 {
                     using (NSData imageData = NSData.FromArray(albumArtData))
@@ -806,7 +711,7 @@ namespace MPfm.iOS.Classes.Controllers
                             if (imageFullSize != null)
                             {
                                 UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
-                                Console.WriteLine("MLBVC - RefreshAlbumArtCell - Image resized!");
+                                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - Image resized!");
                                 return imageResized;
                             }
                         }
@@ -817,7 +722,7 @@ namespace MPfm.iOS.Classes.Controllers
                     Console.WriteLine("Error resizing image " + artistName + " - " + albumTitle + ": " + ex.Message);
                 }
 
-                Console.WriteLine("MLBVC - RefreshAlbumArtCell - Returning null");
+                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - Returning null");
                 return null;
             });
 
@@ -825,7 +730,7 @@ namespace MPfm.iOS.Classes.Controllers
 
                 //UIImage image = t.Result;
             UIImage image = await task;
-                Console.WriteLine("MLBVC - RefreshAlbumArtCell - ContinueWith - artistName: {0} albumTitle: {1} browserType: {2} userData==null: {3} image==null: {4}", artistName, albumTitle, _browserType, userData == null, image == null);
+                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - ContinueWith - artistName: {0} albumTitle: {1} browserType: {2} userData==null: {3} image==null: {4}", artistName, albumTitle, _browserType, userData == null, image == null);
                 if(image == null)
                     return;
 
