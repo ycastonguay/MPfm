@@ -41,7 +41,7 @@ namespace MPfm.iOS.Classes.Controls
         public UIImageView ImageAlbum2 { get; private set; }
         public UIImageView ImageAlbum3 { get; private set; }
         public UILabel AlbumCountLabel { get; private set; }
-        public UIView SecondaryMenuBackground { get; private set; }
+        //public UIView SecondaryMenuBackground { get; private set; }
 
         public MPfmImageButton PlayButton { get; set; }
         public MPfmImageButton AddButton { get; set; }
@@ -103,7 +103,7 @@ namespace MPfm.iOS.Classes.Controls
             ImageAlbum3 = new UIImageView();
             ImageAlbum3.BackgroundColor = UIColor.White;
             ImageAlbum3.Hidden = true;
-            ImageAlbum3.Alpha = 0.15f;
+            ImageAlbum3.Alpha = 0.2f;
             ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
             AddSubview(ImageAlbum3);
 
@@ -165,11 +165,11 @@ namespace MPfm.iOS.Classes.Controls
             TextLabel.RemoveFromSuperview();
             AddSubview(TextLabel);
 
-            SecondaryMenuBackground = new UIView();
-            SecondaryMenuBackground.BackgroundColor = UIColor.White;
-            SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 4, 188, 44);
-            //SecondaryMenuBackground.Alpha = 0;
-            AddSubview(SecondaryMenuBackground);
+//            SecondaryMenuBackground = new UIView();
+//            SecondaryMenuBackground.BackgroundColor = UIColor.White;
+//            SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 4, 188, 44);
+//            //SecondaryMenuBackground.Alpha = 0;
+//            AddSubview(SecondaryMenuBackground);
 
             PlayButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44));
             PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
@@ -262,15 +262,15 @@ namespace MPfm.iOS.Classes.Controls
             IndexTextLabel.Highlighted = highlighted;
             DetailTextLabel.TextColor = highlighted ? UIColor.White : UIColor.Gray;
             //IndexTextLabel.TextColor = highlighted ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
-            SecondaryMenuBackground.BackgroundColor = highlighted ? GlobalTheme.SecondaryColor : GlobalTheme.LightColor;
+            //SecondaryMenuBackground.BackgroundColor = highlighted ? GlobalTheme.SecondaryColor : GlobalTheme.LightColor;
 
             base.SetHighlighted(highlighted, animated);
         }
 
         public override void SetSelected(bool selected, bool animated)
         {
-            if(selected)
-                SecondaryMenuBackground.BackgroundColor = GlobalTheme.SecondaryColor;
+            //if(selected)
+                //SecondaryMenuBackground.BackgroundColor = GlobalTheme.SecondaryColor;
 
             TextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
             DetailTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
@@ -335,8 +335,8 @@ namespace MPfm.iOS.Classes.Controls
             {
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                     TextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
-                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
-                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
+                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                 }, null);
             }
         }

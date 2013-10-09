@@ -366,14 +366,16 @@ namespace MPfm.iOS.Classes.Controllers
                         oldCell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 138, 4, 44, 44);
                         oldCell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 86, 4, 44, 44);
                         oldCell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 34, 4, 44, 44);
-                        //oldCell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, 190, 52);
-                        //Console.WriteLine(">>>>>>>>>>> MLB - Scale 1");
                         oldCell.TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                        oldCell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 188, 4, 188, 44);
-                        oldCell.SecondaryMenuBackground.Alpha = 0;
+                        oldCell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                        oldCell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.PlayButton.Alpha = 0;
                         oldCell.AddButton.Alpha = 0;
                         oldCell.DeleteButton.Alpha = 0;
+                        oldCell.AlbumCountLabel.Alpha = 0.75f;
+                        oldCell.ImageAlbum1.Alpha = 0.75f;
+                        oldCell.ImageAlbum2.Alpha = 0.4f;
+                        oldCell.ImageAlbum3.Alpha = 0.2f;
                     }, null);
                 }
             }
@@ -387,23 +389,27 @@ namespace MPfm.iOS.Classes.Controllers
                     cell.PlayButton.Alpha = 0;
                     cell.AddButton.Alpha = 0;
                     cell.DeleteButton.Alpha = 0;
-                    cell.SecondaryMenuBackground.Alpha = 0;
+                    cell.AlbumCountLabel.Alpha = 0.75f;
+                    cell.ImageAlbum1.Alpha = 0.75f;
+                    cell.ImageAlbum2.Alpha = 0.4f;
+                    cell.ImageAlbum3.Alpha = 0.2f;
                     cell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 138, 4, 44, 44);
                     cell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 86, 4, 44, 44);
                     cell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 34, 4, 44, 44);
-                    //cell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 4, 188, 44);
-                    cell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 188, 4, 188, 44);
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                         cell.PlayButton.Alpha = 1;
                         cell.AddButton.Alpha = 1;
                         cell.DeleteButton.Alpha = 1;
-                        cell.SecondaryMenuBackground.Alpha = 1;
-                        //Console.WriteLine(">>>>>>>>>>> MLB - Scale 0.8f");
+                        cell.AlbumCountLabel.Alpha = 0;
+                        cell.ImageAlbum1.Alpha = 0;
+                        cell.ImageAlbum2.Alpha = 0;
+                        cell.ImageAlbum3.Alpha = 0;
                         cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                        cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+                        cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                         cell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
                         cell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
                         cell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
-                        cell.SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 188, 4, 188, 44);
                     }, null);
                 }
             }
@@ -461,7 +467,11 @@ namespace MPfm.iOS.Classes.Controllers
             cell.PlayButton.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
             cell.AddButton.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
             cell.DeleteButton.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
-            cell.SecondaryMenuBackground.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
+            cell.AlbumCountLabel.Alpha = _editingTableCellRowPosition == indexPath.Row ? 0 : 0.75f;
+            cell.ImageAlbum1.Alpha = _editingTableCellRowPosition == indexPath.Row ? 0 : 0.75f;
+            cell.ImageAlbum2.Alpha = _editingTableCellRowPosition == indexPath.Row ? 0 : 0.4f;
+            cell.ImageAlbum3.Alpha = _editingTableCellRowPosition == indexPath.Row ? 0 : 0.2f;
+            //cell.SecondaryMenuBackground.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
             if (_editingTableCellRowPosition == indexPath.Row)
             {
                 cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
@@ -530,21 +540,6 @@ namespace MPfm.iOS.Classes.Controllers
                         //Console.WriteLine("MLBVC - GetCell - Taking image from cache - index: {0} key: {1}", indexPath.Row, key);
                         imageAlbum.Image = keyPair.Value;
                     }
-
-    //                string bitmapKey = item.Query.ArtistName + "_" + item.AlbumTitles[a];
-    //                imageAlbum.Tag = bitmapKey;
-    //
-    //                var viewHolder = new ListAlbumCellViewHolder();
-    //                viewHolder.imageView = imageAlbum;
-    //                viewHolder.position = position;
-    //                viewHolder.key = bitmapKey;
-    //                //view.Tag = viewHolder;
-    //
-    //                Console.WriteLine("MLBLA - GetView - bitmapKey: {0}", bitmapKey);
-    //                if (_fragment.SmallBitmapCache.KeyExists(bitmapKey))
-    //                    imageAlbum.SetImageBitmap(_fragment.SmallBitmapCache.GetBitmapFromMemoryCache(bitmapKey));
-    //                else
-    //                    _fragment.OnRequestAlbumArt(item.Query.ArtistName, item.AlbumTitles[a], viewHolder);
                 }
             }
 
@@ -764,7 +759,8 @@ namespace MPfm.iOS.Classes.Controllers
 
                                 float alpha = 0.75f;
                                 if(imageView.Tag == 3)
-                                    alpha = 0.15f;
+                                    //alpha = 0.15f;
+                                    alpha = 0.2f;
                                 else if(imageView.Tag == 2)
                                     alpha = 0.4f;
 
