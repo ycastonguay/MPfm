@@ -54,6 +54,12 @@ namespace MPfm.iOS.Classes.Navigation
                                 else
                                     PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Presets", null, EqualizerPresetsView);
                                 break;
+                            case MobileNavigationManagerCommandMessageType.ShowPlaylistView:
+                                if(PlaylistView == null)
+                                    CreatePlaylistView(null);
+                                else
+                                    PushDialogView(MobileDialogPresentationType.Standard, "Playlist", null, PlaylistView);
+                                break;
                         }
                     });
                 }

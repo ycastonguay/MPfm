@@ -118,10 +118,6 @@ namespace MPfm.iOS
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.ImageChevron.Hidden = false;
 
-            UIView viewBackgroundSelected = new UIView();
-            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
-            cell.SelectedBackgroundView = viewBackgroundSelected;
-
             return cell;
         }
 

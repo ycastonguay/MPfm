@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -12,49 +13,58 @@ namespace MPfm.iOS.Classes.Controllers
 	partial class PlayerViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPageControls { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnNext { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewMain { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnPlayPause { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblSlideMessage { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnPrevious { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblScrubbingType { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnRepeat { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewPosition { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblPosition { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnShuffle { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView imageViewAlbumArt { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSlider sliderPosition { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UILabel lblLength { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnPrevious { get; set; }
+		MonoTouch.UIKit.UILabel lblPosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnPlayPause { get; set; }
+		MonoTouch.UIKit.UILabel lblScrubbingType { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnNext { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
+		MonoTouch.UIKit.UILabel lblSlideMessage { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIPageControl pageControl { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
+
+		[Outlet]
 		MPfm.iOS.Classes.Controls.MPfmWaveFormScrollView scrollViewWaveForm { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmSlider sliderPosition { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewMain { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewPageControls { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewPosition { get; set; }
+
+		[Action ("actionNext:")]
+		partial void actionNext (MonoTouch.Foundation.NSObject sender);
 
 		[Action ("actionPause:")]
 		partial void actionPause (MonoTouch.Foundation.NSObject sender);
@@ -62,8 +72,11 @@ namespace MPfm.iOS.Classes.Controllers
 		[Action ("actionPrevious:")]
 		partial void actionPrevious (MonoTouch.Foundation.NSObject sender);
 
-		[Action ("actionNext:")]
-		partial void actionNext (MonoTouch.Foundation.NSObject sender);
+		[Action ("actionRepeat:")]
+		partial void actionRepeat (MonoTouch.Foundation.NSObject sender);
+
+		[Action ("actionShuffle:")]
+		partial void actionShuffle (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -140,6 +153,16 @@ namespace MPfm.iOS.Classes.Controllers
 			if (scrollViewWaveForm != null) {
 				scrollViewWaveForm.Dispose ();
 				scrollViewWaveForm = null;
+			}
+
+			if (btnRepeat != null) {
+				btnRepeat.Dispose ();
+				btnRepeat = null;
+			}
+
+			if (btnShuffle != null) {
+				btnShuffle.Dispose ();
+				btnShuffle = null;
 			}
 		}
 	}

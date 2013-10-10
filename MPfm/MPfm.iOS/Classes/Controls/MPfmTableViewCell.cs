@@ -128,11 +128,13 @@ namespace MPfm.iOS.Classes.Controls
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
-            ImageView.BackgroundColor = UIColor.White;
+            ImageView.BackgroundColor = UIColor.Clear;
 
             // Make sure the text label is over all other subviews
             DetailTextLabel.RemoveFromSuperview();
+            ImageView.RemoveFromSuperview();
             AddSubview(DetailTextLabel);
+            AddSubview(ImageView);
 
             IndexTextLabel = new UILabel();
             IndexTextLabel.BackgroundColor = UIColor.Clear;

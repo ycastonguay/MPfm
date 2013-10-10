@@ -99,6 +99,7 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
+        protected IPlaylistView PlaylistView { get { return _playlistView; } }
         protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
         protected IPlayerView PlayerView { get { return _playerView; } }
 
@@ -868,8 +869,8 @@ namespace MPfm.MVP.Navigation
                 _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
 
 #if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _playlistView);
-            //PushDialogView("Playlist", View, view);
+            //PushTabView(MobileNavigationTabType.More, _playlistView);
+            PushDialogView(MobileDialogPresentationType.Standard, "Playlist", sourceView, _playlistView);
 #endif
         }
 

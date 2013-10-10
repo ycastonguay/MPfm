@@ -31,7 +31,7 @@ namespace MPfm.MVP.Views
         Action OnToggleShuffle { get; set; }
         Action OnToggleRepeat { get; set; }
 
-        void RefreshAudioFile(AudioFile audioFile);
+        void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount);
         void RefreshShuffle(bool shuffle);
         void RefreshRepeat(RepeatType repeatType);
 	}

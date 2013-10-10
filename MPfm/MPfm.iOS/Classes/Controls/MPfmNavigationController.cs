@@ -137,7 +137,7 @@ namespace MPfm.iOS.Classes.Controls
             _btnPlaylist.ImageChevron.Frame = new RectangleF((80 - 8) / 2, 6, 8, 5);
             _btnPlaylist.ImageChevron.BackgroundColor = UIColor.Clear;
             _btnPlaylist.OnButtonClick += () => {
-                //_messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView));
+                _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlaylistView));
             };
 
             _btnEffects = new MPfmFlatButton();

@@ -58,7 +58,7 @@ namespace MPfm.iOS
                 NavigationController.DismissViewController(true, null);
             };
             var btnDoneView = new UIView(new RectangleF(0, 0, 70, 44));
-            var rect = new RectangleF(btnDoneView.Bounds.X + 5, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
+            var rect = new RectangleF(btnDoneView.Bounds.X + 16, btnDoneView.Bounds.Y, btnDoneView.Bounds.Width, btnDoneView.Bounds.Height);
             btnDoneView.Bounds = rect;
             btnDoneView.AddSubview(btnDone);
             _btnDone = new UIBarButtonItem(btnDoneView);
@@ -72,7 +72,7 @@ namespace MPfm.iOS
             _btnFlatEdit.Frame = new RectangleF(0, 0, 60, 44);
             _btnFlatEdit.OnButtonClick += HandleEditTouchUpInside;
             var btnEditView = new UIView(new RectangleF(UIScreen.MainScreen.Bounds.Width - 60, 0, 60, 44));
-            var rect2 = new RectangleF(btnEditView.Bounds.X - 5, btnEditView.Bounds.Y, btnEditView.Bounds.Width, btnEditView.Bounds.Height);
+            var rect2 = new RectangleF(btnEditView.Bounds.X - 16, btnEditView.Bounds.Y, btnEditView.Bounds.Width, btnEditView.Bounds.Height);
             btnEditView.Bounds = rect2;
             btnEditView.AddSubview(_btnFlatEdit);
             _btnEdit = new UIBarButtonItem(btnEditView);           
@@ -162,6 +162,12 @@ namespace MPfm.iOS
         public void MoveRowAtIndexPath(UITableView tableView, NSIndexPath fromIndexPath, NSIndexPath toIndexPath)
         {
             Console.WriteLine("PlaylistViewController - Move playlist item from {0} to {1}", fromIndexPath.Row, toIndexPath.Row);
+        }
+
+        [Export ("tableView:heightForRowAtIndexPath:")]
+        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 52;
         }
 
         private void HandleEditTouchUpInside()

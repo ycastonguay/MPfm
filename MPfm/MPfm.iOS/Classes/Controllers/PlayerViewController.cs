@@ -45,7 +45,7 @@ namespace MPfm.iOS.Classes.Controllers
         NSTimer _timerHidePlayerMetadata;
         bool _isPositionChanging = false;
         string _currentAlbumArtKey = string.Empty;
-        string _currentNavigationSubtitle = string.Empty;
+        //string _currentNavigationSubtitle = string.Empty;
         PlayerMetadataViewController _playerMetadataViewController;
         float _lastSliderPositionValue = 0;
 
@@ -70,15 +70,11 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
-            btnPrevious.BackgroundColor = GlobalTheme.BackgroundColor;
-            btnPlayPause.BackgroundColor = GlobalTheme.BackgroundColor;
-            btnNext.BackgroundColor = GlobalTheme.BackgroundColor;
-            btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous"), UIControlState.Normal);
-            btnPrevious.SetImage(UIImage.FromBundle("Images/Buttons/previous_on"), UIControlState.Highlighted);
-            btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause"), UIControlState.Normal);
-            btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause_on"), UIControlState.Highlighted);
-            btnNext.SetImage(UIImage.FromBundle("Images/Buttons/next"), UIControlState.Normal);
-            btnNext.SetImage(UIImage.FromBundle("Images/Buttons/next_on"), UIControlState.Highlighted);
+            btnPrevious.GlyphImageView.Image = UIImage.FromBundle("Images/Player/previous");
+            btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
+            btnNext.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");
+            btnShuffle.GlyphImageView.Image = UIImage.FromBundle("Images/Player/shuffle");
+            btnRepeat.GlyphImageView.Image = UIImage.FromBundle("Images/Player/repeat");
 
             viewPosition.BackgroundColor = GlobalTheme.BackgroundColor;
             viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -368,6 +364,16 @@ namespace MPfm.iOS.Classes.Controllers
             OnPlayerNext();
         }
 
+        partial void actionRepeat(NSObject sender)
+        {
+
+        }
+
+        partial void actionShuffle(NSObject sender)
+        {
+
+        }
+
         #region IPlayerView implementation
 
         public Action OnPlayerPlay { get; set; }
@@ -524,12 +530,10 @@ namespace MPfm.iOS.Classes.Controllers
                 switch (status)
                 {
                     case PlayerStatusType.Paused:
-                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/play"), UIControlState.Normal);
-                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/play_on"), UIControlState.Highlighted);
+                        btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/play");
                         break;
                     case PlayerStatusType.Playing:
-                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause"), UIControlState.Normal);
-                        btnPlayPause.SetImage(UIImage.FromBundle("Images/Buttons/pause_on"), UIControlState.Highlighted);
+                        btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
                         break;
                 }
             });

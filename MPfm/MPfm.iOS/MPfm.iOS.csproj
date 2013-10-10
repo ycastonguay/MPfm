@@ -269,6 +269,7 @@
     <Compile Include="Classes\Controls\MPfmPlaylistTableViewCell.cs">
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\MPfmPlayerButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -349,6 +350,7 @@
     <Folder Include="Images\Tables\" />
     <Folder Include="Classes\Controls\Layouts\" />
     <Folder Include="Images\ContextualButtons\" />
+    <Folder Include="Images\Player\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
@@ -484,6 +486,20 @@
     <BundleResource Include="Images\ContextualButtons\play%402x.png" />
     <BundleResource Include="Images\Tables\chevron_top_blue.png" />
     <BundleResource Include="Images\Tables\chevron_top_blue%402x.png" />
+    <BundleResource Include="Images\Player\shuffle.png" />
+    <BundleResource Include="Images\Player\shuffle%402x.png" />
+    <BundleResource Include="Images\Player\next.png" />
+    <BundleResource Include="Images\Player\next%402x.png" />
+    <BundleResource Include="Images\Player\pause.png" />
+    <BundleResource Include="Images\Player\pause%402x.png" />
+    <BundleResource Include="Images\Player\play.png" />
+    <BundleResource Include="Images\Player\play%402x.png" />
+    <BundleResource Include="Images\Player\playlist.png" />
+    <BundleResource Include="Images\Player\playlist%402x.png" />
+    <BundleResource Include="Images\Player\previous.png" />
+    <BundleResource Include="Images\Player\previous%402x.png" />
+    <BundleResource Include="Images\Player\repeat.png" />
+    <BundleResource Include="Images\Player\repeat%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

@@ -45,30 +45,7 @@ namespace MPfm.iOS
             lblTitle.Text = string.Empty;
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
 
-            btnPlaylist.BackgroundColor = UIColor.Clear;
-            btnRepeat.BackgroundColor = UIColor.Clear;
-            btnShuffle.BackgroundColor = UIColor.Clear;
-            btnPlaylist.SetImage(UIImage.FromBundle("Images/Buttons/playlist"), UIControlState.Normal);
-            btnPlaylist.SetImage(UIImage.FromBundle("Images/Buttons/playlist_on"), UIControlState.Highlighted);
-            btnRepeat.SetImage(UIImage.FromBundle("Images/Buttons/repeat"), UIControlState.Normal);
-            btnShuffle.SetImage(UIImage.FromBundle("Images/Buttons/shuffle"), UIControlState.Normal);
-
             base.ViewDidLoad();            
-        }
-
-        partial void actionPlaylist(NSObject sender)
-        {
-            OnOpenPlaylist();
-        }
-
-        partial void actionRepeat(NSObject sender)
-        {
-            OnToggleRepeat();
-        }
-
-        partial void actionShuffle(NSObject sender)
-        {
-            OnToggleShuffle();
         }
 
         public void ShowPanel(bool show, bool swipeUp)
@@ -104,27 +81,13 @@ namespace MPfm.iOS
 
         public void RefreshShuffle(bool shuffle)
         {
-            InvokeOnMainThread(() => {
-                if(shuffle)
-                    btnShuffle.SetImage(UIImage.FromBundle("Images/Buttons/shuffle_on"), UIControlState.Normal);
-                else
-                    btnShuffle.SetImage(UIImage.FromBundle("Images/Buttons/shuffle"), UIControlState.Normal);
-            });
         }
 
         public void RefreshRepeat(RepeatType repeatType)
         {
-            InvokeOnMainThread(() => {
-                if(repeatType == RepeatType.Off)
-                    btnRepeat.SetImage(UIImage.FromBundle("Images/Buttons/repeat"), UIControlState.Normal);
-                else if(repeatType == RepeatType.Playlist)
-                    btnRepeat.SetImage(UIImage.FromBundle("Images/Buttons/repeat_on"), UIControlState.Normal);
-                else
-                    btnRepeat.SetImage(UIImage.FromBundle("Images/Buttons/repeat_song_on"), UIControlState.Normal);
-            });
         }
 
-        public void RefreshAudioFile(AudioFile audioFile)
+        public void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount)
         {
             InvokeOnMainThread(() => {
                 if(audioFile == null)
@@ -132,6 +95,7 @@ namespace MPfm.iOS
                     lblArtistName.Text = string.Empty;
                     lblAlbumTitle.Text = string.Empty;
                     lblTitle.Text = string.Empty;
+                    lblSongCount.Text = string.Empty;
                     
                     // Update AirPlay metadata with generic info
                     if(MPNowPlayingInfoCenter.DefaultCenter != null)
@@ -145,6 +109,8 @@ namespace MPfm.iOS
                     lblArtistName.Text = audioFile.ArtistName;
                     lblAlbumTitle.Text = audioFile.AlbumTitle;
                     lblTitle.Text = audioFile.Title;
+                    lblSongCount.Text = string.Format("{0}/{1}", playlistIndex+1, playlistCount);
+
                     ShowPanel(true, false);
 
                     // Update AirPlay metadata with generic info

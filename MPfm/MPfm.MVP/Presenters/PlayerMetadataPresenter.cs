@@ -53,7 +53,7 @@ namespace MPfm.MVP.Presenters
             // Refresh initial data if player is already playing
             if (_playerService.IsPlaying)
             {
-                View.RefreshAudioFile(_playerService.CurrentPlaylistItem.AudioFile);
+                View.RefreshMetadata(_playerService.CurrentPlaylistItem.AudioFile, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count);
                 View.RefreshRepeat(_playerService.RepeatType);
                 View.RefreshShuffle(_isShuffle);
             }
@@ -61,7 +61,7 @@ namespace MPfm.MVP.Presenters
 
         private void OnPlaylistIndexChanged(PlayerPlaylistIndexChangedMessage message)
         {
-            View.RefreshAudioFile(message.Data.AudioFileStarted);
+            View.RefreshMetadata(message.Data.AudioFileStarted, _playerService.CurrentPlaylist.CurrentItemIndex, _playerService.CurrentPlaylist.Items.Count);
         }
 
         private void OpenPlaylist()
