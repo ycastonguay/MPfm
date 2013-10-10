@@ -79,20 +79,20 @@ namespace MPfm.Mac.Classes.Delegates
             view.TextField.StringValue = libraryBrowserItem.Entity.Title;
 
             // Check icon
-            if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.AllSongs)
+            if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.AllSongs)
             {
                 view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
             } 
-            else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artists)
+            else if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Artists)
             {
                 view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_users");
             } 
-            else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Album ||
-                     libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Albums)
+            else if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Album ||
+                     libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Albums)
             {
                 view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
             } 
-            else if (libraryBrowserItem.Entity.Type == LibraryBrowserEntityType.Artist)
+            else if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Artist)
             {
                 view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_user");
             } 

@@ -594,7 +594,7 @@ namespace MPfm.Mac
         {
             // Check for dummy nodes
             var item = (LibraryBrowserItem)notification.UserInfo["NSObject"];
-            if (item.SubItems.Count > 0 && item.SubItems[0].Entity.Type == LibraryBrowserEntityType.Dummy)
+            if (item.SubItems.Count > 0 && item.SubItems[0].Entity.EntityType == LibraryBrowserEntityType.Dummy)
             {
                 IEnumerable<LibraryBrowserEntity> entities = OnTreeNodeExpandable(item.Entity);
                 //Console.WriteLine("MainWindowController - ItemDidExpand - dummy node - entities.Count: {0}", entities.Count());

@@ -21,6 +21,7 @@ using MPfm.Library.Objects;
 using MPfm.Library.Services;
 using MonoMac.Foundation;
 using System.IO;
+using System.Collections.Generic;
 
 namespace MPfm.Mac
 {
@@ -67,6 +68,11 @@ namespace MPfm.Mac
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        }
+
+        public List<string> GetRootFolderPaths()
+        {
+            return new List<string>();
         }
 
         public void ReportNetworkStateChange(NetworkState networkState)

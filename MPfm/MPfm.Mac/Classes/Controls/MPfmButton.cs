@@ -54,6 +54,7 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
+            //Layer.CornerRadius = 8; // Crashes the app. Bug in MonoMac?
             TextColor = GlobalTheme.ButtonTextColor;
             BackgroundColor = GlobalTheme.ButtonBackgroundColor;
             BackgroundMouseDownColor = GlobalTheme.ButtonBackgroundMouseDownColor;
