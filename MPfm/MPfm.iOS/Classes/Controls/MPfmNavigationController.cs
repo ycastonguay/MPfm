@@ -40,11 +40,13 @@ namespace MPfm.iOS.Classes.Controls
         bool _isPlayerPlaying;
         bool _viewShouldShowPlayerButton;
         bool _viewShouldShowEffectsButton;
+        bool _viewShouldShowPlaylistButton;
         bool _confirmedViewPop;
         UILabel _lblTitle;
         UILabel _lblSubtitle;
         MPfmFlatButton _btnBack;
         MPfmFlatButton _btnEffects;
+        MPfmFlatButton _btnPlaylist;
         MPfmFlatButton _btnNowPlaying;
         ITinyMessengerHub _messengerHub;
 
@@ -123,6 +125,21 @@ namespace MPfm.iOS.Classes.Controls
                     PopViewControllerAnimated(true);
             };
 
+            _btnPlaylist = new MPfmFlatButton();
+            _btnPlaylist.LabelAlignment = UIControlContentHorizontalAlignment.Center;
+            _btnPlaylist.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width - 80) / 2, 0, 80, 44);
+            _btnPlaylist.Alpha = 1;
+            _btnPlaylist.Label.TextAlignment = UITextAlignment.Center;
+            _btnPlaylist.Label.Text = "Playlist";
+            _btnPlaylist.Label.BackgroundColor = UIColor.Clear;
+            _btnPlaylist.Label.Frame = new RectangleF(0, 0, 80, 44);
+            _btnPlaylist.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_top_blue");
+            _btnPlaylist.ImageChevron.Frame = new RectangleF((80 - 8) / 2, 6, 8, 5);
+            _btnPlaylist.ImageChevron.BackgroundColor = UIColor.Clear;
+            _btnPlaylist.OnButtonClick += () => {
+                //_messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView));
+            };
+
             _btnEffects = new MPfmFlatButton();
             _btnEffects.LabelAlignment = UIControlContentHorizontalAlignment.Right;
             _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
@@ -154,6 +171,7 @@ namespace MPfm.iOS.Classes.Controls
             this.NavigationBar.AddSubview(_btnNowPlaying);
             this.NavigationBar.AddSubview(_lblTitle);
             this.NavigationBar.AddSubview(_lblSubtitle);
+            this.NavigationBar.AddSubview(_btnPlaylist);
         }
 
         public override void ViewDidLayoutSubviews()
@@ -214,6 +232,23 @@ namespace MPfm.iOS.Classes.Controls
                         _btnEffects.Alpha = 0;
                     });
                 }
+
+                if(_viewShouldShowPlaylistButton)
+                {
+                    UIView.Animate(0.2f, () => {
+                        _lblTitle.Alpha = 0;
+                        _lblSubtitle.Alpha = 0;
+                        _btnPlaylist.Alpha = 1;
+                    });
+                }
+                else
+                {
+                    UIView.Animate(0.2f, () => {
+                        _lblTitle.Alpha = 1;
+                        _lblSubtitle.Alpha = 1;
+                        _btnPlaylist.Alpha = 0;
+                    });
+                }
             });
         }
 
@@ -269,6 +304,11 @@ namespace MPfm.iOS.Classes.Controls
                 _viewShouldShowEffectsButton = true;
             else
                 _viewShouldShowEffectsButton = false;
+
+            if(VisibleViewController is PlayerViewController)
+                _viewShouldShowPlaylistButton = true;
+            else
+                _viewShouldShowPlaylistButton = false;
         }
 
         public void SetTitle(string title, string subtitle)

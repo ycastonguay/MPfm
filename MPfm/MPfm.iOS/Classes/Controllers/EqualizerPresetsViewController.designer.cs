@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.iOS
 {
@@ -12,36 +13,25 @@ namespace MPfm.iOS
 	partial class EqualizerPresetsViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UISlider sliderMasterVolume { get; set; }
+		MonoTouch.UIKit.UILabel lblBypass { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblMasterVolume { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblBypass { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UISwitch switchBypass { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UITableView tableView { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIView viewOptions { get; set; }
-
-		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblMasterVolumeValue { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (sliderMasterVolume != null) {
-				sliderMasterVolume.Dispose ();
-				sliderMasterVolume = null;
-			}
-
 			if (lblMasterVolume != null) {
 				lblMasterVolume.Dispose ();
 				lblMasterVolume = null;
@@ -70,11 +60,6 @@ namespace MPfm.iOS
 			if (outputMeter != null) {
 				outputMeter.Dispose ();
 				outputMeter = null;
-			}
-
-			if (lblMasterVolumeValue != null) {
-				lblMasterVolumeValue.Dispose ();
-				lblMasterVolumeValue = null;
 			}
 		}
 	}

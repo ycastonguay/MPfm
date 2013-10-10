@@ -46,8 +46,6 @@ namespace MPfm.iOS.Classes.Controllers
         bool _isPositionChanging = false;
         string _currentAlbumArtKey = string.Empty;
         string _currentNavigationSubtitle = string.Empty;
-        MPVolumeView _volumeView;
-        UIBarButtonItem _btnBack;
         PlayerMetadataViewController _playerMetadataViewController;
         float _lastSliderPositionValue = 0;
 
@@ -72,8 +70,6 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
-            var screenSize = UIKitHelper.GetDeviceSize();
-
             btnPrevious.BackgroundColor = GlobalTheme.BackgroundColor;
             btnPlayPause.BackgroundColor = GlobalTheme.BackgroundColor;
             btnNext.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -139,7 +135,6 @@ namespace MPfm.iOS.Classes.Controllers
                     scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y + offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height * 2);
                     scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, (scrollViewWaveForm.WaveFormView.Frame.Height * 2) + 22);
                     viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
-                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 1;
                     lblScrubbingType.Alpha = 1;
                     scrollViewWaveForm.ShowSecondaryPosition(true);
@@ -159,7 +154,6 @@ namespace MPfm.iOS.Classes.Controllers
                     scrollViewWaveForm.Frame = new RectangleF(scrollViewWaveForm.Frame.X, scrollViewWaveForm.Frame.Y - offset, scrollViewWaveForm.Frame.Width, scrollViewWaveForm.Frame.Height / 2);
                     scrollViewWaveForm.WaveFormView.Frame = new RectangleF(scrollViewWaveForm.WaveFormView.Frame.X, scrollViewWaveForm.WaveFormView.Frame.Y, scrollViewWaveForm.WaveFormView.Frame.Width, (scrollViewWaveForm.WaveFormView.Frame.Height - 22) / 2);
                     viewMain.Frame = new RectangleF(viewMain.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height, viewMain.Frame.Width, viewMain.Frame.Height);
-                    _volumeView.Frame = new RectangleF(_volumeView.Frame.X, viewPosition.Frame.Height + scrollViewWaveForm.Frame.Height + viewMain.Frame.Height - 32, _volumeView.Frame.Width, _volumeView.Frame.Height);
                     lblSlideMessage.Alpha = 0;
                     lblScrubbingType.Alpha = 0;
                 });
@@ -170,19 +164,6 @@ namespace MPfm.iOS.Classes.Controllers
                 scrollViewWaveForm.ShowSecondaryPosition(false);
                 _isPositionChanging = false;
             };
-
-            // Create MPVolumeView (only visible on physical iOS device)
-
-            RectangleF rectVolume;
-            if (UserInterfaceIdiomIsPhone)
-                rectVolume = new RectangleF(8, screenSize.Height - 44 - 52, screenSize.Width - 16, 46);
-            else
-                rectVolume = new RectangleF(8 + 320, screenSize.Height - 44 - 50, screenSize.Width - 16 - 320, 46);
-            _volumeView = new MPVolumeView(rectVolume);
-            _volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            _volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            _volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
-            this.View.AddSubview(_volumeView);
 
             // Only display wave form on iPhone 5+ and iPad
             if (DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone3GS ||
@@ -215,23 +196,16 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewWillAppear(animated);
             
-            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
+            //MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            //navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
         }
 
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
 
-            var screenSize = UIKitHelper.GetDeviceSize();
-            if (UserInterfaceIdiomIsPhone)
+            if (!UserInterfaceIdiomIsPhone)
             {
-                //_volumeView.Frame = new RectangleF(8, screenSize.Height - 44 - 52, screenSize.Width - 16, 46);
-            }
-            else
-            {
-                _volumeView.Frame = new RectangleF(8 + 320, screenSize.Height - 44 - 50, screenSize.Width - 16 - 320, 46);
-
                 // Resize scrollview subviews.
                 for (int a = 0; a < scrollView.Subviews.Count(); a++)
                 {
@@ -519,9 +493,9 @@ namespace MPfm.iOS.Classes.Controllers
             InvokeOnMainThread(() => {
                 try
                 {
-                    _currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
-                    MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-                    navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
+                    //_currentNavigationSubtitle = (playlistIndex+1).ToString() + " of " + playlistCount.ToString();
+                    //MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+                    //navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
 
                     ShowPlayerMetadata(true, false);
                     lblLength.Text = audioFile.Length;

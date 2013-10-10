@@ -482,6 +482,8 @@
     <BundleResource Include="Images\ContextualButtons\add%402x.png" />
     <BundleResource Include="Images\ContextualButtons\trash%402x.png" />
     <BundleResource Include="Images\ContextualButtons\play%402x.png" />
+    <BundleResource Include="Images\Tables\chevron_top_blue.png" />
+    <BundleResource Include="Images\Tables\chevron_top_blue%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

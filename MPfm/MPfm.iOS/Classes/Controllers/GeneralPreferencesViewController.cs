@@ -34,6 +34,9 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
+            NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
+            NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+
             base.ViewDidLoad();
         }
         

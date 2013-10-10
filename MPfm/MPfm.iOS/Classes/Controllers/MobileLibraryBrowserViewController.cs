@@ -93,7 +93,7 @@ namespace MPfm.iOS.Classes.Controllers
             this.NavigationItem.HidesBackButton = true;
 
             UISwipeGestureRecognizer swipe = new UISwipeGestureRecognizer(HandleSwipe);
-            swipe.Direction = UISwipeGestureRecognizerDirection.Right;
+            swipe.Direction = UISwipeGestureRecognizerDirection.Left;
             tableView.AddGestureRecognizer(swipe);
 
             UILongPressGestureRecognizer longPressTableView = new UILongPressGestureRecognizer(HandleLongPressTableCellRow);
@@ -105,6 +105,9 @@ namespace MPfm.iOS.Classes.Controllers
             longPressCollectionView.MinimumPressDuration = 0.7f;
             longPressCollectionView.WeakDelegate = this;
             collectionView.AddGestureRecognizer(longPressCollectionView);
+
+            NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
+            NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();            
         }
@@ -132,12 +135,13 @@ namespace MPfm.iOS.Classes.Controllers
 
         private void HandleSwipe(UISwipeGestureRecognizer gestureRecognizer)
         {
-            var point = gestureRecognizer.LocationInView(tableView);
-            var indexPath = tableView.IndexPathForRowAtPoint(point);
+            //Console.WriteLine("MLBVC - HandleSwipe");
+            //var point = gestureRecognizer.LocationInView(tableView);
+            //var indexPath = tableView.IndexPathForRowAtPoint(point);
 
             // IndexPath is null when swiping an empty cell
-            if (indexPath == null)
-                return;
+            //if (indexPath == null)
+            //    return;
         }
 
         private void HandleLongPressCollectionCellRow(UILongPressGestureRecognizer gestureRecognizer)
@@ -549,25 +553,33 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if (indexPath.Row == _editingTableCellRowPosition)
+            Console.WriteLine("MLBVC - RowSelected - row: {0}", indexPath.Row);
+            //if (indexPath.Row == _editingTableCellRowPosition)
+            if(_editingTableCellRowPosition != -1)
             {
+                Console.WriteLine("MLBVC - RowSelected - Deselecting row... - row: {0}", indexPath.Row);
                 tableView.DeselectRow(indexPath, true);
                 ResetEditingTableCellRow();
                 return;
             }
 
+            Console.WriteLine("MLBVC - RowSelected - OnItemClick - row: {0}", indexPath.Row);
             OnItemClick(indexPath.Row);
         }
 
         [Export ("tableView:didHighlightRowAtIndexPath:")]
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
+            Console.WriteLine("MLBVC - DidHighlightRowAtIndexPath - row: {0}", indexPath.Row);
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
             if (cell == null)
                 return;
 
-            if(indexPath.Row != _editingTableCellRowPosition)
-                ResetEditingTableCellRow();
+//            if (indexPath.Row != _editingTableCellRowPosition)
+//            {
+//                Console.WriteLine("MLBVC - DidHighlightRowAtIndexPath - Removing secondary menu... - row: {0}", indexPath.Row);
+//                ResetEditingTableCellRow();
+//            }
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker_white");
         }

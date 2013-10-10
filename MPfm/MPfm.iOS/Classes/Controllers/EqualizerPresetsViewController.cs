@@ -21,19 +21,22 @@ using System.Drawing;
 using System.Linq;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
+using MonoTouch.MediaPlayer;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
-using MPfm.Player.Objects;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS
 {
     public partial class EqualizerPresetsViewController : BaseViewController, IEqualizerPresetsView
     {
+        MPVolumeView _volumeView;
         UIBarButtonItem _btnDone;
         UIBarButtonItem _btnAdd;
         string _cellIdentifier = "EqualizerPresetCell";
@@ -47,6 +50,8 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
+            var screenSize = UIKitHelper.GetDeviceSize();
+
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
@@ -60,10 +65,10 @@ namespace MPfm.iOS
             switchBypass.On = false;
             switchBypass.ValueChanged += HandleSwitchBypassValueChanged;
 
-            sliderMasterVolume.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
-            sliderMasterVolume.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            sliderMasterVolume.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-            sliderMasterVolume.ValueChanged += HandleSliderMasterVolumeValueChanged;
+            //sliderMasterVolume.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+            //sliderMasterVolume.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            //sliderMasterVolume.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            //sliderMasterVolume.ValueChanged += HandleSliderMasterVolumeValueChanged;
 
             var btnDone = new MPfmFlatButton();
             btnDone.Label.Text = "Done";
@@ -98,14 +103,26 @@ namespace MPfm.iOS
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
 
+            // Create MPVolumeView (only visible on physical iOS device)
+            RectangleF rectVolume;
+            if (UserInterfaceIdiomIsPhone)
+                rectVolume = new RectangleF(74, 25, 236, 46);
+            else
+                rectVolume = new RectangleF(74, 25, 236, 46);
+            _volumeView = new MPVolumeView(rectVolume);
+            _volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            _volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+            _volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
+            this.View.AddSubview(_volumeView);
+
             base.ViewDidLoad();
         }
 
-        private void HandleSliderMasterVolumeValueChanged(object sender, EventArgs e)
-        {
-            lblMasterVolumeValue.Text = sliderMasterVolume.Value.ToString("0") + " %";
-            OnSetVolume(sliderMasterVolume.Value / 100);
-        }
+//        private void HandleSliderMasterVolumeValueChanged(object sender, EventArgs e)
+//        {
+//            lblMasterVolumeValue.Text = sliderMasterVolume.Value.ToString("0") + " %";
+//            OnSetVolume(sliderMasterVolume.Value / 100);
+//        }
 
         private void HandleButtonAddTouchUpInside()
         {
@@ -258,8 +275,8 @@ namespace MPfm.iOS
         public void RefreshVolume(float volume)
         {
             InvokeOnMainThread(() => {
-                sliderMasterVolume.Value = volume * 100;
-                lblMasterVolumeValue.Text = (volume * 100).ToString("0") + " %";
+                //sliderMasterVolume.Value = volume * 100;
+                //lblMasterVolumeValue.Text = (volume * 100).ToString("0") + " %";
             });
         }
 

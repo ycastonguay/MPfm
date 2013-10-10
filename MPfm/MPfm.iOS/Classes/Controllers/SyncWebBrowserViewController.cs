@@ -37,6 +37,9 @@ namespace MPfm.iOS
         {
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
 
+            NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
+            NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+
             base.ViewDidLoad();
         }
 

@@ -78,6 +78,9 @@ namespace MPfm.iOS
             viewSync.Hidden = true;
             tableView.Hidden = true;
 
+            NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
+            NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+
             base.ViewDidLoad();
         }       
 

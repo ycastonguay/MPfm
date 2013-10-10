@@ -8,9 +8,7 @@
             <connections>
                 <outlet property="lblBypass" destination="52" id="53"/>
                 <outlet property="lblMasterVolume" destination="56" id="60"/>
-                <outlet property="lblMasterVolumeValue" destination="64" id="65"/>
                 <outlet property="outputMeter" destination="59" id="63"/>
-                <outlet property="sliderMasterVolume" destination="58" id="61"/>
                 <outlet property="switchBypass" destination="51" id="54"/>
                 <outlet property="tableView" destination="17" id="19"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -43,24 +41,13 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="100 %" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="64">
-                            <rect key="frame" x="269" y="25" width="43" height="18"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Master  Volume" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="56">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Master Volume" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="56">
                             <rect key="frame" x="76" y="0.0" width="236" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="0.0" maxValue="100" id="58">
-                            <rect key="frame" x="74" y="23" width="196" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </slider>
                         <view contentMode="scaleToFill" id="59" customClass="MPfmOutputMeterView">
                             <rect key="frame" x="0.0" y="0.0" width="64" height="110"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

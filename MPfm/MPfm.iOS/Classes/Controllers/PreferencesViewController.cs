@@ -45,6 +45,9 @@ namespace MPfm.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
+            NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
+            NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+
             base.ViewDidLoad();
         }
 
