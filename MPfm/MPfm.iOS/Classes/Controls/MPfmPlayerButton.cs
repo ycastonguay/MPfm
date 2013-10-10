@@ -22,12 +22,15 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using MonoTouch.CoreAnimation;
 
 namespace MPfm.iOS.Classes.Controls
 {
     [Register("MPfmPlayerButton")]
     public class MPfmPlayerButton : UIButton
     {
+        private CAShapeLayer _layerCircle;
+
         public UIImageView GlyphImageView { get; private set; }
 
         public delegate void ButtonClick();
@@ -47,9 +50,19 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            BackgroundColor = GlobalTheme.BackgroundColor;
-            //Layer.CornerRadius = 8;
             TintColor = UIColor.White;
+            Layer.BackgroundColor = UIColor.Clear.CGColor;
+
+            float radius = Bounds.Width / 2;
+            _layerCircle = new CAShapeLayer();
+            _layerCircle.AllowsEdgeAntialiasing = true;
+            _layerCircle.Bounds = Bounds;
+            _layerCircle.Path = UIBezierPath.FromRoundedRect(new RectangleF(0, 0, 2f * radius, 2f * radius), radius).CGPath;
+            _layerCircle.Position = new PointF(Bounds.Width / 2, Bounds.Height / 2);
+            _layerCircle.FillColor = GlobalTheme.BackgroundColor.CGColor;
+            _layerCircle.StrokeColor = GlobalTheme.MainLightColor.CGColor;
+            _layerCircle.LineWidth = 1f;
+            Layer.AddSublayer(_layerCircle);
 
             GlyphImageView = new UIImageView();
             GlyphImageView.BackgroundColor = UIColor.Clear;
@@ -63,13 +76,6 @@ namespace MPfm.iOS.Classes.Controls
             TitleLabel.Text = string.Empty;
 
             AddSubview(GlyphImageView);
-        }
-
-        public override void LayoutSubviews()
-        {
-            base.LayoutSubviews();
-
-            //GlyphImageView.Frame = new RectangleF((Frame.Width - 50) / 2, (Frame.Height - 50) / 2, 50, 50);
         }
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -96,30 +102,31 @@ namespace MPfm.iOS.Classes.Controls
 
         private void AnimatePress(bool on)
         {
+            Console.WriteLine("Playerbutton - AnimatePress - on: {0}", on);
             if (!on)
             {
                 UIView.Animate(0.1, () => {
-                    BackgroundColor = GlobalTheme.BackgroundColor;
                     GlyphImageView.Transform = CGAffineTransform.MakeScale(1, 1);
                     GlyphImageView.Alpha = 0.7f;
+                });
+                UIView.Animate(0.05, () => {
+                    _layerCircle.FillColor = GlobalTheme.BackgroundColor.CGColor;
+                    _layerCircle.StrokeColor = GlobalTheme.MainLightColor.CGColor;
+                    _layerCircle.LineWidth = 1f;
                 });
             }
             else
             {
-                UIView.Animate(0.1, () => {
-                    BackgroundColor = GlobalTheme.BackgroundColor;
+                UIView.Animate(0.05, () => {
                     GlyphImageView.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                     GlyphImageView.Alpha = 1f;
                 });
+                UIView.Animate(0.025, () => {
+                    _layerCircle.FillColor = GlobalTheme.MainColor.CGColor;
+                    _layerCircle.StrokeColor = GlobalTheme.LightColor.ColorWithAlpha(0.5f).CGColor;
+                    _layerCircle.LineWidth = 1.5f;
+                });
             }
-        }
-
-        public override void Draw(RectangleF rect)
-        {
-            var context = UIGraphics.GetCurrentContext();
-            var rectCircle = new RectangleF(2, 2, Bounds.Width - 4, Bounds.Height - 4);
-            CoreGraphicsHelper.FillRect(context, Bounds, GlobalTheme.BackgroundColor.CGColor);
-            CoreGraphicsHelper.DrawEllipsis(context, rectCircle, new CGColor(0.6f, 0.6f, 0.6f, 0.6f), 1f);
         }
     }
 }

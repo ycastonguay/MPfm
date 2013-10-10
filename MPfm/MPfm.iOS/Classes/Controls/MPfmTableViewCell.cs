@@ -110,11 +110,13 @@ namespace MPfm.iOS.Classes.Controls
             AlbumCountLabel = new UILabel();
             AlbumCountLabel.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
             AlbumCountLabel.Alpha = 0.75f;
-            AlbumCountLabel.BackgroundColor = GlobalTheme.MainColor;
+            //AlbumCountLabel.BackgroundColor = GlobalTheme.MainColor;
+            AlbumCountLabel.BackgroundColor = UIColor.Clear;
             AlbumCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 18);
             AlbumCountLabel.Hidden = true;
             AlbumCountLabel.Text = "+98";
-            AlbumCountLabel.TextColor = UIColor.White;
+            //AlbumCountLabel.TextColor = UIColor.White;
+            AlbumCountLabel.TextColor = UIColor.Black;
             AlbumCountLabel.TextAlignment = UITextAlignment.Center;
             AlbumCountLabel.HighlightedTextColor = UIColor.White;
             AddSubview(AlbumCountLabel);
