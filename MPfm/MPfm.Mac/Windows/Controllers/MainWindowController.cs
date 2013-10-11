@@ -248,7 +248,7 @@ namespace MPfm.Mac
             lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
             lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);
             lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
-            txtPitchShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            //txtPitchShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             lblDetectedTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             lblReferenceTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             txtCurrentTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
@@ -256,7 +256,7 @@ namespace MPfm.Mac
             lblDetectedTempo.Font = NSFont.FromFontName("Junction", 11);
             lblCurrentTempo.Font = NSFont.FromFontName("Junction", 11);
             lblReferenceTempo.Font = NSFont.FromFontName("Junction", 11);
-            lblSemitones.Font = NSFont.FromFontName("Junction", 11);
+            //lblSemitones.Font = NSFont.FromFontName("Junction", 11);
 
             cboSoundFormat.Font = NSFont.FromFontName("Junction", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Junction", 12);
@@ -507,10 +507,6 @@ namespace MPfm.Mac
         {
         }
 
-        partial void actionStopLoop(NSObject sender)
-        {
-        }
-
         partial void actionAddLoop(NSObject sender)
         {
         }
@@ -545,6 +541,50 @@ namespace MPfm.Mac
         }
 
         partial void actionContextualMenuPlay(NSObject sender)
+        {
+        }
+
+        partial void actionTabActions(NSObject sender)
+        {
+        }
+
+        partial void actionTabInfo(NSObject sender)
+        {
+        }
+
+        partial void actionTabPitchShifting(NSObject sender)
+        {
+        }
+
+        partial void actionTabTimeShifting(NSObject sender)
+        {
+        }
+
+        partial void actionUseTempo(NSObject sender)
+        {
+        }
+
+        partial void actionDecrementTimeShifting(NSObject sender)
+        {
+        }
+
+        partial void actionIncrementTimeShifting(NSObject sender)
+        {
+        }
+
+        partial void actionResetTimeShifting(NSObject sender)
+        {
+        }
+
+        partial void actionSearchBassTabs(NSObject sender)
+        {
+        }
+
+        partial void actionSearchGuitarTabs(NSObject sender)
+        {
+        }
+
+        partial void actionSearchLyrics(NSObject sender)
         {
         }
 

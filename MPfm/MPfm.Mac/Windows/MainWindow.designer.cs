@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoMac.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.Mac
 {
@@ -12,157 +13,148 @@ namespace MPfm.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSTableView tableAlbumCovers { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewAlbumCovers { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewLibraryBrowser { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewSongBrowser { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewTimeShifting { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewSongPosition { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewInformation { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewVolume { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSOutlineView outlineLibraryBrowser { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewLeftHeader { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewRightHeader { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewNowPlaying { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewLibraryBrowser { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewLeft { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewRight { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewPitchShifting { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
-
-		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnAddLoop { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnEditLoop { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveLoop { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnGoToMarker { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnAddMarker { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnEditMarker { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTableView tableLoops { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSButton btnPlaySelectedSong { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSButton btnAddSongToPlaylist { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnEditSongMetadata { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSSlider sliderTimeShifting { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTableView tableSongBrowser { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSSearchField searchSongBrowser { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSSlider sliderVolume { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblVolume { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblFileType { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblBitsPerSample { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblSampleRate { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblBitrate { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSImageView imageAlbumCover { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSSplitView splitMain { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmSongPositionSlider sliderPosition { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblLength { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnChangeKey { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSButton btnDetectTempo { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnEditLoop { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnEditMarker { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnEditSongMetadata { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnGoToMarker { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton btnPlaySelectedSong { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveLoop { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabActions { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabInfo { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabPitchShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabTimeShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnUseTempo { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSPopUpButton cboSoundFormat { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSToolbar toolbarMain { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblArtistName { get; set; }
+		MonoMac.AppKit.NSImageView imageAlbumCover { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblAlbumTitle { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblSongTitle { get; set; }
+		MonoMac.AppKit.NSTextField lblArtistName { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblBitrate { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblBitsPerSample { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblCurrentTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblDetectedTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblDetectedTempoValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblFileSize { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblFileType { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblFilterBySoundFormat { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblGenre { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblLastPlayed { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblLength { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMonoStereo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblNewKey { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblPlayCount { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblReferenceKey { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblReferenceTempo { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblReferenceTempoValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSampleRate { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblSongPath { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblPosition { get; set; }
+		MonoMac.AppKit.NSTextField lblSongTitle { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitleInformation { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitleSongPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSubtitleVolume { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleCurrentSong { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleLibraryBrowser { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblTitleLoops { get; set; }
@@ -174,28 +166,76 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblTitleSongBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblTitleCurrentSong { get; set; }
+		MonoMac.AppKit.NSTextField lblVolume { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblTitleLibraryBrowser { get; set; }
+		MonoMac.AppKit.NSTextField lblYear { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblSubtitleSongPosition { get; set; }
+		MonoMac.AppKit.NSOutlineView outlineLibraryBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblSubtitleInformation { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewAlbumCovers { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblSubtitleVolume { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewLibraryBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblFilterBySoundFormat { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewSongBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblSubtitlePitchShifting { get; set; }
+		MonoMac.AppKit.NSSearchField searchSongBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtPitchShiftingValue { get; set; }
+		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmSongPositionSlider sliderPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSSlider sliderTimeShifting { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSSlider sliderVolume { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSSplitView splitMain { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableAlbumCovers { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableLoops { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableSongBrowser { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSToolbar toolbarMain { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtCurrentTempoValue { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtInterval { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewActions { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewInformation { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewLeft { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewLeftHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewLibraryBrowser { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewLoopsHeader { get; set; }
@@ -204,43 +244,28 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmView viewMarkersHeader { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewNowPlaying { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewPitchShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewRight { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewRightHeader { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewSongBrowserHeader { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblDetectedTempo { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewSongPosition { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblDetectedTempoValue { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewTimeShifting { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField lblCurrentTempo { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField txtCurrentTempoValue { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblReferenceTempo { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblReferenceTempoValue { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblSemitones { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabTimeShifting { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabPitchShifting { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabInfo { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabActions { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewActions { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmView viewVolume { get; set; }
 
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
@@ -248,29 +273,62 @@ namespace MPfm.Mac
 		[Action ("actionAddFolderLibrary:")]
 		partial void actionAddFolderLibrary (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionOpenAudioFiles:")]
-		partial void actionOpenAudioFiles (MonoMac.Foundation.NSObject sender);
+		[Action ("actionAddLoop:")]
+		partial void actionAddLoop (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionUpdateLibrary:")]
-		partial void actionUpdateLibrary (MonoMac.Foundation.NSObject sender);
+		[Action ("actionAddMarker:")]
+		partial void actionAddMarker (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionSoundFormatChanged:")]
-		partial void actionSoundFormatChanged (MonoMac.Foundation.NSObject sender);
+		[Action ("actionAddSongToPlaylist:")]
+		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionPlay:")]
-		partial void actionPlay (MonoMac.Foundation.NSObject sender);
+		[Action ("actionChangeKey:")]
+		partial void actionChangeKey (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionPrevious:")]
-		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
+		[Action ("actionChangeSongPosition:")]
+		partial void actionChangeSongPosition (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionChangeTimeShifting:")]
+		partial void actionChangeTimeShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionChangeVolume:")]
+		partial void actionChangeVolume (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionContextualMenuPlay:")]
+		partial void actionContextualMenuPlay (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionDecrementPitchShifting:")]
+		partial void actionDecrementPitchShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionDecrementTimeShifting:")]
+		partial void actionDecrementTimeShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditLoop:")]
+		partial void actionEditLoop (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditMarker:")]
+		partial void actionEditMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionEditSongMetadata:")]
+		partial void actionEditSongMetadata (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionGoToMarker:")]
+		partial void actionGoToMarker (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionIncrementPitchShfiting:")]
+		partial void actionIncrementPitchShfiting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionIncrementTimeShifting:")]
+		partial void actionIncrementTimeShifting (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionNext:")]
 		partial void actionNext (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionRepeatType:")]
-		partial void actionRepeatType (MonoMac.Foundation.NSObject sender);
+		[Action ("actionOpenAudioFiles:")]
+		partial void actionOpenAudioFiles (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionShuffle:")]
-		partial void actionShuffle (MonoMac.Foundation.NSObject sender);
+		[Action ("actionOpenEffectsWindow:")]
+		partial void actionOpenEffectsWindow (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionOpenMainWindow:")]
 		partial void actionOpenMainWindow (MonoMac.Foundation.NSObject sender);
@@ -278,74 +336,71 @@ namespace MPfm.Mac
 		[Action ("actionOpenPlaylistWindow:")]
 		partial void actionOpenPlaylistWindow (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionOpenEffectsWindow:")]
-		partial void actionOpenEffectsWindow (MonoMac.Foundation.NSObject sender);
-
 		[Action ("actionOpenPreferencesWindow:")]
 		partial void actionOpenPreferencesWindow (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionOpenSyncWindow:")]
 		partial void actionOpenSyncWindow (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionAddSongToPlaylist:")]
-		partial void actionAddSongToPlaylist (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionEditSongMetadata:")]
-		partial void actionEditSongMetadata (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionPlaySelectedSong:")]
-		partial void actionPlaySelectedSong (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionChangeTimeShifting:")]
-		partial void actionChangeTimeShifting (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionChangeSongPosition:")]
-		partial void actionChangeSongPosition (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionChangeVolume:")]
-		partial void actionChangeVolume (MonoMac.Foundation.NSObject sender);
+		[Action ("actionPlay:")]
+		partial void actionPlay (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionPlayLoop:")]
 		partial void actionPlayLoop (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionStopLoop:")]
-		partial void actionStopLoop (MonoMac.Foundation.NSObject sender);
+		[Action ("actionPlaySelectedSong:")]
+		partial void actionPlaySelectedSong (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionAddLoop:")]
-		partial void actionAddLoop (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionEditLoop:")]
-		partial void actionEditLoop (MonoMac.Foundation.NSObject sender);
+		[Action ("actionPrevious:")]
+		partial void actionPrevious (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionRemoveLoop:")]
 		partial void actionRemoveLoop (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionGoToMarker:")]
-		partial void actionGoToMarker (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionAddMarker:")]
-		partial void actionAddMarker (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionEditMarker:")]
-		partial void actionEditMarker (MonoMac.Foundation.NSObject sender);
-
 		[Action ("actionRemoveMarker:")]
 		partial void actionRemoveMarker (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionContextualMenuPlay:")]
-		partial void actionContextualMenuPlay (MonoMac.Foundation.NSObject sender);
+		[Action ("actionRepeatType:")]
+		partial void actionRepeatType (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionTabTimeShifting:")]
-		partial void actionTabTimeShifting (MonoMac.Foundation.NSObject sender);
+		[Action ("actionResetPitchShifting:")]
+		partial void actionResetPitchShifting (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionTabPitchShifting:")]
-		partial void actionTabPitchShifting (MonoMac.Foundation.NSObject sender);
+		[Action ("actionResetTimeShifting:")]
+		partial void actionResetTimeShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSearchBassTabs:")]
+		partial void actionSearchBassTabs (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSearchGuitarTabs:")]
+		partial void actionSearchGuitarTabs (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSearchLyrics:")]
+		partial void actionSearchLyrics (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionShuffle:")]
+		partial void actionShuffle (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionSoundFormatChanged:")]
+		partial void actionSoundFormatChanged (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionTabActions:")]
+		partial void actionTabActions (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionTabInfo:")]
 		partial void actionTabInfo (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionTabActions:")]
-		partial void actionTabActions (MonoMac.Foundation.NSObject sender);
+		[Action ("actionTabPitchShifting:")]
+		partial void actionTabPitchShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionTabTimeShifting:")]
+		partial void actionTabTimeShifting (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionUpdateLibrary:")]
+		partial void actionUpdateLibrary (MonoMac.Foundation.NSObject sender);
+
+		[Action ("actionUseTempo:")]
+		partial void actionUseTempo (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -649,16 +704,6 @@ namespace MPfm.Mac
 				lblFilterBySoundFormat = null;
 			}
 
-			if (lblSubtitlePitchShifting != null) {
-				lblSubtitlePitchShifting.Dispose ();
-				lblSubtitlePitchShifting = null;
-			}
-
-			if (txtPitchShiftingValue != null) {
-				txtPitchShiftingValue.Dispose ();
-				txtPitchShiftingValue = null;
-			}
-
 			if (viewLoopsHeader != null) {
 				viewLoopsHeader.Dispose ();
 				viewLoopsHeader = null;
@@ -704,11 +749,6 @@ namespace MPfm.Mac
 				lblReferenceTempoValue = null;
 			}
 
-			if (lblSemitones != null) {
-				lblSemitones.Dispose ();
-				lblSemitones = null;
-			}
-
 			if (btnTabTimeShifting != null) {
 				btnTabTimeShifting.Dispose ();
 				btnTabTimeShifting = null;
@@ -732,6 +772,61 @@ namespace MPfm.Mac
 			if (viewActions != null) {
 				viewActions.Dispose ();
 				viewActions = null;
+			}
+
+			if (lblYear != null) {
+				lblYear.Dispose ();
+				lblYear = null;
+			}
+
+			if (lblMonoStereo != null) {
+				lblMonoStereo.Dispose ();
+				lblMonoStereo = null;
+			}
+
+			if (lblGenre != null) {
+				lblGenre.Dispose ();
+				lblGenre = null;
+			}
+
+			if (lblFileSize != null) {
+				lblFileSize.Dispose ();
+				lblFileSize = null;
+			}
+
+			if (lblPlayCount != null) {
+				lblPlayCount.Dispose ();
+				lblPlayCount = null;
+			}
+
+			if (lblLastPlayed != null) {
+				lblLastPlayed.Dispose ();
+				lblLastPlayed = null;
+			}
+
+			if (btnUseTempo != null) {
+				btnUseTempo.Dispose ();
+				btnUseTempo = null;
+			}
+
+			if (btnChangeKey != null) {
+				btnChangeKey.Dispose ();
+				btnChangeKey = null;
+			}
+
+			if (lblReferenceKey != null) {
+				lblReferenceKey.Dispose ();
+				lblReferenceKey = null;
+			}
+
+			if (txtInterval != null) {
+				txtInterval.Dispose ();
+				txtInterval = null;
+			}
+
+			if (lblNewKey != null) {
+				lblNewKey.Dispose ();
+				lblNewKey = null;
 			}
 		}
 	}
