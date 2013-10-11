@@ -40,6 +40,7 @@ using MPfm.Mac.Classes.Delegates;
 using MPfm.Player.Objects;
 using MPfm.MVP.Presenters;
 using MPfm.Mac.Classes.Controls;
+using System.Web;
 
 namespace MPfm.Mac
 {
@@ -229,9 +230,15 @@ namespace MPfm.Mac
 
             lblSampleRate.Font = NSFont.FromFontName("Junction", 11f);
             lblBitrate.Font = NSFont.FromFontName("Junction", 11f);
+            lblMonoStereo.Font = NSFont.FromFontName("Junction", 11f);
             lblFileType.Font = NSFont.FromFontName("Junction", 11f);
             lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11f);
             lblFilterBySoundFormat.Font = NSFont.FromFontName("Junction", 11f);
+            lblYear.Font = NSFont.FromFontName("Junction", 11f);
+            lblGenre.Font = NSFont.FromFontName("Junction", 11f);
+            lblFileSize.Font = NSFont.FromFontName("Junction", 11f);
+            lblPlayCount.Font = NSFont.FromFontName("Junction", 11f);
+            lblLastPlayed.Font = NSFont.FromFontName("Junction", 11f);
 
             lblTitleLibraryBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
             lblTitleCurrentSong.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
@@ -242,21 +249,25 @@ namespace MPfm.Mac
             lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
             //lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
             lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            //lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            //lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12); // 8,138
             //lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
 
             lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
             lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);
             lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
-            //txtPitchShiftingValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             lblDetectedTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             lblReferenceTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             txtCurrentTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            lblReferenceKeyValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            lblNewKeyValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            txtIntervalValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
 
             lblDetectedTempo.Font = NSFont.FromFontName("Junction", 11);
             lblCurrentTempo.Font = NSFont.FromFontName("Junction", 11);
             lblReferenceTempo.Font = NSFont.FromFontName("Junction", 11);
-            //lblSemitones.Font = NSFont.FromFontName("Junction", 11);
+            lblReferenceKey.Font = NSFont.FromFontName("Junction", 11);
+            lblInterval.Font = NSFont.FromFontName("Junction", 11);
+            lblNewKey.Font = NSFont.FromFontName("Junction", 11);
 
             cboSoundFormat.Font = NSFont.FromFontName("Junction", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Junction", 12);
@@ -566,26 +577,56 @@ namespace MPfm.Mac
 
         partial void actionDecrementTimeShifting(NSObject sender)
         {
+            OnDecrementTempo();
         }
 
         partial void actionIncrementTimeShifting(NSObject sender)
         {
+            OnIncrementTempo();
         }
 
         partial void actionResetTimeShifting(NSObject sender)
         {
-        }
-
-        partial void actionSearchBassTabs(NSObject sender)
-        {
+            OnResetTimeShifting();
         }
 
         partial void actionSearchGuitarTabs(NSObject sender)
         {
+            try
+            {
+                if(!string.IsNullOrEmpty(lblArtistName.StringValue))
+                    NSWorkspace.SharedWorkspace.OpenUrl(new NSUrl("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(lblArtistName.StringValue) + "+" + HttpUtility.UrlEncode(lblSongTitle.StringValue) + "+guitar+tab"));
+            }
+            catch (Exception ex)
+            {
+                CocoaHelper.ShowAlert("Error searching for guitar tabs", string.Format("An error occured while searching for guitar tabs: {0}", ex), NSAlertStyle.Critical);
+            }
+        }
+
+        partial void actionSearchBassTabs(NSObject sender)
+        {           
+            try
+            {
+                if(!string.IsNullOrEmpty(lblArtistName.StringValue))
+                    NSWorkspace.SharedWorkspace.OpenUrl(new NSUrl("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(lblArtistName.StringValue) + "+" + HttpUtility.UrlEncode(lblSongTitle.StringValue) + "+bass+tab"));
+            }
+            catch (Exception ex)
+            {
+                CocoaHelper.ShowAlert("Error searching for bass tabs", string.Format("An error occured while searching for bass tabs: {0}", ex), NSAlertStyle.Critical);
+            }
         }
 
         partial void actionSearchLyrics(NSObject sender)
         {
+            try
+            {
+                if(!string.IsNullOrEmpty(lblArtistName.StringValue))
+                    NSWorkspace.SharedWorkspace.OpenUrl(new NSUrl("http://www.google.ca/search?q=" + HttpUtility.UrlEncode(lblArtistName.StringValue) + "+" + HttpUtility.UrlEncode(lblSongTitle.StringValue) + "+lyrics"));
+            }
+            catch (Exception ex)
+            {
+                CocoaHelper.ShowAlert("Error searching for lyrics", string.Format("An error occured while searching for lyrics: {0}", ex), NSAlertStyle.Critical);
+            }
         }
 
         [Export ("controlTextDidChange")]

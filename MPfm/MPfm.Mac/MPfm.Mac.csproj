@@ -123,6 +123,7 @@
     <Reference Include="TinyIoC">
       <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Windows\UpdateLibraryWindow.cs" />
