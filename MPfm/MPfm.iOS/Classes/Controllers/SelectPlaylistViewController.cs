@@ -46,6 +46,10 @@ namespace MPfm.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
+            btnAddNewPlaylist.SetImage(UIImage.FromBundle("Images/Buttons/add"));
+            btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+            btnSelect.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+
             base.ViewDidLoad();
         }
 

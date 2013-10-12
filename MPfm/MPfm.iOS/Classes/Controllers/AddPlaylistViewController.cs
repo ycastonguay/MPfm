@@ -39,6 +39,9 @@ namespace MPfm.iOS
                 return true;
             };
 
+            btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+            btnCreate.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+
             base.ViewDidLoad();
         }
 

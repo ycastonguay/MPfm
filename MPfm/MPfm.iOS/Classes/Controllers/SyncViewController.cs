@@ -48,6 +48,8 @@ namespace MPfm.iOS
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
             //viewRefresh.BackgroundColor = GlobalTheme.MainLightColor;
 
+            btnConnectDeviceManually.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+
             NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 

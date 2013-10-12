@@ -29,8 +29,6 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmButton : UIButton
     {
         public UIImageView Image { get; private set; }
-        //public UILabel Label { get; private set; }
-
         public UIControlContentHorizontalAlignment LabelAlignment { get; set; }
 
         public delegate void ButtonClick();
@@ -51,23 +49,62 @@ namespace MPfm.iOS.Classes.Controls
         private void Initialize()
         {
             LabelAlignment = UIControlContentHorizontalAlignment.Left;
-            //BackgroundColor = UIColor.Clear;
             BackgroundColor = GlobalTheme.SecondaryColor;
             Layer.CornerRadius = 8;
             TintColor = UIColor.White;
 
-            TitleLabel.BackgroundColor = UIColor.Clear;
+            TitleLabel.BackgroundColor = UIColor.Clear; //new UIColor(0, 0, 1, 0.4f);
             TitleLabel.TextColor = UIColor.White;
-            TitleLabel.TextAlignment = UITextAlignment.Center;
+            TitleLabel.TextAlignment = UITextAlignment.Left; //UITextAlignment.Center;
             TitleLabel.Font = UIFont.FromName("HelveticaNeue", 14.0f);
+            TitleLabel.Frame = Bounds;
+            TitleLabel.Text = Title(UIControlState.Normal);
 
             Image = new UIImageView();
-            Image.BackgroundColor = UIColor.Clear;
-            Image.Frame = new RectangleF(0, 0, 22, 44);
-            Image.Alpha = 0;
-
-            //AddSubview(Label);
+            Image.BackgroundColor = UIColor.Clear; //new UIColor(0, 1, 0, 0.4f);
+            Image.Frame = new RectangleF(6, 6, 32, 32);
             AddSubview(Image);
+
+            UpdateLayout();
+        }
+
+        private void UpdateLayout()
+        {
+            float padding = 8;
+            string title = Title(UIControlState.Normal);
+
+            UIGraphics.BeginImageContextWithOptions(Bounds.Size, true, 0);
+            var context = UIGraphics.GetCurrentContext();
+            float width = CoreGraphicsHelper.MeasureStringWidth(context, title, TitleLabel.Font.Name, TitleLabel.Font.PointSize);
+            UIGraphics.EndImageContext();
+
+            float totalWidth = width;
+            if (Image.Image != null)
+                totalWidth += Image.Bounds.Width + padding;
+            float imageX = (Bounds.Width - totalWidth) / 2;
+            float textX = Image.Image == null ? imageX : imageX + Image.Bounds.Width + padding;
+
+            Image.Frame = new RectangleF(imageX, 6, 32, 32);
+            TitleLabel.Frame = new RectangleF(textX, 0, width, Bounds.Height);
+
+            //Console.WriteLine("MPfmButton - UpdateLayout - title: {0} width: {1} totalWidth: {2} x: {3}", TitleLabel.Text, width, totalWidth, x);
+        }
+
+        public override void SetTitle(string title, UIControlState forState)
+        {
+            base.SetTitle(title, forState);
+            UpdateLayout();
+        }
+
+        public void SetImage(UIImage image)
+        {
+            Image.Image = image;
+            UpdateLayout();
+        }
+
+        public override void LayoutSubviews()
+        {
+            // Do not call base.LayoutSubviews as this will change the position during an animation
         }
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -98,11 +135,6 @@ namespace MPfm.iOS.Classes.Controls
             {
                 UIView.Animate(0.1, () => {
                     BackgroundColor = GlobalTheme.SecondaryColor;
-//                    if (LabelAlignment == UIControlContentHorizontalAlignment.Left)
-//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-//                    else if (LabelAlignment == UIControlContentHorizontalAlignment.Right)
-//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-
                     TitleLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     Image.Transform = CGAffineTransform.MakeScale(1, 1);
                 });
@@ -113,11 +145,6 @@ namespace MPfm.iOS.Classes.Controls
                     BackgroundColor = GlobalTheme.SecondaryDarkColor;
                     TitleLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
                     Image.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
-
-//                    if(LabelAlignment == UIControlContentHorizontalAlignment.Left)
-//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-//                    else if(LabelAlignment == UIControlContentHorizontalAlignment.Right)
-//                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
                 });
             }
         }

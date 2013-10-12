@@ -371,22 +371,6 @@
     <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Images\emptyalbumart.png" />
-    <BundleResource Include="Images\Buttons\next_on.png" />
-    <BundleResource Include="Images\Buttons\next_on%402x.png" />
-    <BundleResource Include="Images\Buttons\next.png" />
-    <BundleResource Include="Images\Buttons\next%402x.png" />
-    <BundleResource Include="Images\Buttons\pause_on.png" />
-    <BundleResource Include="Images\Buttons\pause_on%402x.png" />
-    <BundleResource Include="Images\Buttons\pause.png" />
-    <BundleResource Include="Images\Buttons\pause%402x.png" />
-    <BundleResource Include="Images\Buttons\play_on.png" />
-    <BundleResource Include="Images\Buttons\play_on%402x.png" />
-    <BundleResource Include="Images\Buttons\play.png" />
-    <BundleResource Include="Images\Buttons\play%402x.png" />
-    <BundleResource Include="Images\Buttons\previous_on.png" />
-    <BundleResource Include="Images\Buttons\previous_on%402x.png" />
-    <BundleResource Include="Images\Buttons\previous.png" />
-    <BundleResource Include="Images\Buttons\previous%402x.png" />
     <BundleResource Include="Images\media.png" />
     <BundleResource Include="Images\media%402x.png" />
     <BundleResource Include="Images\Sliders\slider.png" />
@@ -446,8 +430,6 @@
     <BundleResource Include="Images\Tables\chevron_blue%402x.png" />
     <BundleResource Include="Images\Tables\chevron_left_blue.png" />
     <BundleResource Include="Images\Tables\chevron_left_blue%402x.png" />
-    <BundleResource Include="Images\Buttons\plus_blue.png" />
-    <BundleResource Include="Images\Buttons\plus_blue%402x.png" />
     <BundleResource Include="Images\Tables\plus_blue.png" />
     <BundleResource Include="Images\Tables\plus_blue%402x.png" />
     <BundleResource Include="Images\Tabs\artist.png" />
@@ -458,20 +440,6 @@
     <BundleResource Include="Images\Tabs\song%402x.png" />
     <BundleResource Include="Images\Tabs\sessions.png" />
     <BundleResource Include="Images\Tabs\sessions%402x.png" />
-    <BundleResource Include="Images\Buttons\playlist_on.png" />
-    <BundleResource Include="Images\Buttons\playlist_on%402x.png" />
-    <BundleResource Include="Images\Buttons\playlist.png" />
-    <BundleResource Include="Images\Buttons\playlist%402x.png" />
-    <BundleResource Include="Images\Buttons\repeat_on.png" />
-    <BundleResource Include="Images\Buttons\repeat_on%402x.png" />
-    <BundleResource Include="Images\Buttons\repeat_song_on.png" />
-    <BundleResource Include="Images\Buttons\repeat_song_on%402x.png" />
-    <BundleResource Include="Images\Buttons\repeat.png" />
-    <BundleResource Include="Images\Buttons\repeat%402x.png" />
-    <BundleResource Include="Images\Buttons\shuffle_on.png" />
-    <BundleResource Include="Images\Buttons\shuffle_on%402x.png" />
-    <BundleResource Include="Images\Buttons\shuffle.png" />
-    <BundleResource Include="Images\Buttons\shuffle%402x.png" />
     <BundleResource Include="Images\Tables\chevron_white.png" />
     <BundleResource Include="Images\Tables\chevron_white%402x.png" />
     <BundleResource Include="Images\Icons\icon_speaker.png" />
@@ -500,6 +468,12 @@
     <BundleResource Include="Images\Player\previous%402x.png" />
     <BundleResource Include="Images\Player\repeat.png" />
     <BundleResource Include="Images\Player\repeat%402x.png" />
+    <BundleResource Include="Images\Buttons\select%402x.png" />
+    <BundleResource Include="Images\Buttons\select.png" />
+    <BundleResource Include="Images\Buttons\cancel.png" />
+    <BundleResource Include="Images\Buttons\add.png" />
+    <BundleResource Include="Images\Buttons\add%402x.png" />
+    <BundleResource Include="Images\Buttons\cancel%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
