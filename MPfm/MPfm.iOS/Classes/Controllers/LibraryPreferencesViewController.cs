@@ -37,6 +37,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
+            btnResetLibrary.SetImage(UIImage.FromBundle("Images/Buttons/reset"));
+            btnUpdateLibrary.SetImage(UIImage.FromBundle("Images/Buttons/refresh"));
+
             base.ViewDidLoad();
         }
         

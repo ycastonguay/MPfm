@@ -474,6 +474,14 @@
     <BundleResource Include="Images\Buttons\add.png" />
     <BundleResource Include="Images\Buttons\add%402x.png" />
     <BundleResource Include="Images\Buttons\cancel%402x.png" />
+    <BundleResource Include="Images\Buttons\connect.png" />
+    <BundleResource Include="Images\Buttons\connect%402x.png" />
+    <BundleResource Include="Images\Buttons\folder.png" />
+    <BundleResource Include="Images\Buttons\folder%402x.png" />
+    <BundleResource Include="Images\Buttons\refresh.png" />
+    <BundleResource Include="Images\Buttons\refresh%402x.png" />
+    <BundleResource Include="Images\Buttons\reset.png" />
+    <BundleResource Include="Images\Buttons\reset%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

@@ -46,9 +46,8 @@ namespace MPfm.iOS
             tableView.WeakDelegate = this;
 
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
-            //viewRefresh.BackgroundColor = GlobalTheme.MainLightColor;
 
-            btnConnectDeviceManually.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+            btnConnectDeviceManually.SetImage(UIImage.FromBundle("Images/Buttons/connect"));
 
             NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;

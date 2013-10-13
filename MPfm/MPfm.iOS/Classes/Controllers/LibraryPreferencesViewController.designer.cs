@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.iOS
 {
@@ -12,25 +13,25 @@ namespace MPfm.iOS
 	partial class LibraryPreferencesViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmButton btnResetLibrary { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmButton btnUpdateLibrary { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblEnableSyncListener { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblSyncListenerPort { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UISwitch switchEnableSyncListener { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField txtSyncListenerPort { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblSyncListenerPort { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UIButton btnResetLibrary { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UIButton btnUpdateLibrary { get; set; }
 
 		[Action ("actionResetLibrary:")]
 		partial void actionResetLibrary (MonoTouch.Foundation.NSObject sender);
