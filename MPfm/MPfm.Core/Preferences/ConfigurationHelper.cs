@@ -15,16 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.IO;
-using System.Xml.Serialization;
 using MPfm.MVP.Config;
 
-#if WINDOWSSTORE
-using Windows.Storage;
-#endif
-
-namespace MPfm.MVP.Helpers
+namespace MPfm.Core.Preferences
 {
     /// <summary>
     /// Helper static class for configuration paths.
@@ -49,10 +43,7 @@ namespace MPfm.MVP.Helpers
 #if IOS || ANDROID
         	HomeDirectory = Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             PeakFileDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "PeakFiles");
-#elif WINDOWSSTORE
-		    HomeDirectory = ApplicationData.Current.LocalFolder.Path;
-		    PeakFileDirectory = Path.Combine(ApplicationData.Current.LocalFolder.Path, "PeakFiles");
-#elif WINDOWS_PHONE
+#elif WINDOWSSTORE || WINDOWS_PHONE
 		    HomeDirectory = "TODO";
 		    PeakFileDirectory = "TODO";
 #else

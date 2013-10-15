@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using MPfm.Core;
+using MPfm.Core.WinRT;
 using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.Library.Objects;
@@ -27,6 +28,10 @@ using MPfm.MVP.Config;
 using MPfm.MVP.Helpers;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.Library.Services.Interfaces;
+
+#if WINDOWSSTORE
+using Windows.Storage;
+#endif
 
 namespace MPfm.MVP.Services
 {	
@@ -64,31 +69,21 @@ namespace MPfm.MVP.Services
         /// </summary>
         public void Initialize()
         {
-#if !WINDOWSSTORE && !WINDOWS_PHONE
-            // Create missing directories
-            if(!Directory.Exists(ConfigurationHelper.HomeDirectory))
-                Directory.CreateDirectory(ConfigurationHelper.HomeDirectory);
-            if (!Directory.Exists(ConfigurationHelper.PeakFileDirectory))
-                Directory.CreateDirectory(ConfigurationHelper.PeakFileDirectory);
-#endif
-
+            // Maybe create different implementations per platform?
+            CreateDirectories();
             CreateTraceListener();
+
             Tracing.Log("====================================================================");
+            Tracing.Log(string.Format("Sessions - Started on {0}", DateTime.Now));
 
-#if !IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE
-            Tracing.Log("Sessions - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " ALPHA");
-#endif
-
-            Tracing.Log(string.Format("Started on {0}", DateTime.Now));
-
-            // Load data needed to start the application
             LoadConfiguration();
-            LoadLibrary();
-            _audioFileCacheService.RefreshCache();
+            LoadDatabase();
+            StartSyncService();
+            RefreshAudioFileCache();
         }
 
-        private void CreateTraceListener()
-        {
+	    private void CreateTraceListener()
+        {            
 #if (!IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE)
             // Check if trace file exists
             if (!File.Exists(ConfigurationHelper.LogFilePath))
@@ -100,13 +95,33 @@ namespace MPfm.MVP.Services
 #endif
         }
 
+	    private void CreateDirectories()
+        {
+#if !WINDOWSSTORE && !WINDOWS_PHONE
+            // Create missing directories
+            if(!Directory.Exists(ConfigurationHelper.HomeDirectory))
+                Directory.CreateDirectory(ConfigurationHelper.HomeDirectory);
+            if (!Directory.Exists(ConfigurationHelper.PeakFileDirectory))
+                Directory.CreateDirectory(ConfigurationHelper.PeakFileDirectory);
+#else
+	        CreateDirectoriesWinRT();
+#endif
+        }
+
+	    private async void CreateDirectoriesWinRT()
+	    {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var localSettings = ApplicationData.Current.LocalSettings;
+	        var storageFolder = await localFolder.CreateFolderAsync("PeakFiles", CreationCollisionOption.OpenIfExists);
+	    }
+
         private void LoadConfiguration()
         {
             // Check for configuration file
             Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
 
 #if WINDOWSSTORE || WINDOWS_PHONE
-            // TODO: Implement this (async?)
+            //
 #else
             if (File.Exists(ConfigurationHelper.ConfigurationFilePath))
                 MPfmConfig.Instance.Load();
@@ -116,14 +131,39 @@ namespace MPfm.MVP.Services
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
 		}
 
-        private void LoadLibrary()
+	    private void StartSyncService()
+	    {
+            try
+            {
+                _syncListenerService.Start();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error initializing MPfm: The sync listener could not be started!", ex);
+            }   
+	    }
+
+        private void RefreshAudioFileCache()
+        {
+            _audioFileCacheService.RefreshCache();
+        }
+
+	    private void LoadDatabase()
 		{
             try
             {
-#if WINDOWSSTORE || WINDOWS_PHONE
-                // TODO: Implement this
+#if WINDOWSSTORE
+                Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", ConfigurationHelper.DatabaseFilePath));
+                var storageFolder = ApplicationData.Current.LocalFolder;
+                var task = storageFolder.FileExistsAsync(Path.GetFileName(ConfigurationHelper.DatabaseFilePath));
+                bool databaseExists = task.Result;
+                if (!databaseExists)
+                {
+                    // Create database file
+                    Tracing.Log("InitializationService.CreateLibrary -- Creating new database file...");
+                    CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
+                }                
 #else
-                // Check if the database file exists
                 Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", ConfigurationHelper.DatabaseFilePath));
                 if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
                 {
@@ -166,16 +206,7 @@ namespace MPfm.MVP.Services
             catch (Exception ex)
             {
                 throw new Exception("Error initializing MPfm: The MPfm database could not be updated!", ex);
-            }		
-
-            try
-            {
-                _syncListenerService.Start();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error initializing MPfm: The sync listener could not be started!", ex);
-            }       
+            }		    
 		}
 
         /// <summary>

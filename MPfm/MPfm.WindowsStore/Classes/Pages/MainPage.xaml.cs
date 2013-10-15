@@ -33,10 +33,10 @@ namespace MPfm.WindowsStore.Classes.Pages
         {
             this.InitializeComponent();
 
-            Tracing.Log("MainPage - Ctor - Starting navigation manager...");
+            //Tracing.Log("MainPage - Ctor - Starting navigation manager...");
             _navigationManager = (WindowsStoreNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _navigationManager.BindOptionsMenuView(this);
-            _navigationManager.Start();
+            //_navigationManager.Start();
         }
 
         /// <summary>

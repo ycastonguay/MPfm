@@ -64,7 +64,7 @@ namespace MPfm.Library.Database
         /// </summary>
         public static void CreateDatabaseFile(string databaseFilePath)
         {     
-            // Not available on WinRT... the database needs to already exist!
+            // Just create a connection, if the file doesn't exist, it will create the file.
         }
 
         /// <summary>
@@ -348,108 +348,30 @@ namespace MPfm.Library.Database
         public List<T> Select<T>(string sql) where T : new()
         {
             SQLiteConnection connection = null;
-            //DbDataReader reader = null;
             SQLiteCommand command = null;
             List<T> list = new List<T>();
             var maps = GetMap<T>();
 
+            try
+            {
+                //var mapping = new TableMapping(T);
+                connection = GenerateConnection();                
+                command = connection.CreateCommand(sql, new object[0]);
+                list = command.ExecuteQuery<T>();                
+
+                return list;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+                connection.Dispose();
+            }
+
             return list;
-
-            //try
-            //{                
-            //    // Create and open _connection
-            //    connection = GenerateConnection();
-            //    connection.Open();
-
-            //    // Create command
-            //    command = factory.CreateCommand();
-            //    command.CommandText = sql;
-            //    command.Connection = connection;
-
-            //    // Create and execute reader
-            //    reader = command.ExecuteReader();
-            //    while (reader.Read())
-            //    {
-            //        // Create object and fill data
-            //        T data = new T();
-
-            //        // Cycle through columns
-            //        for (int a = 0; a < reader.FieldCount; a++)
-            //        {
-            //            // Get column info
-            //            string fieldName = reader.GetName(a);
-            //            Type fieldType = reader.GetFieldType(a);
-            //            object fieldValue = reader.GetValue(a);
-
-            //            // Check for map
-            //            string propertyName = fieldName;                        
-            //            if(dictMap.ContainsKey(fieldName))
-            //            {
-            //                propertyName = dictMap[fieldName];
-            //            }
-
-            //            // Get property info and fill column if valid
-            //            PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
-            //            if (info != null)
-            //            {
-            //                // Set value to null
-            //                if (fieldValue is System.DBNull)
-            //                    fieldValue = null;                                
-
-            //                // Check if the type is an enum                                    
-            //                if (info.PropertyType.IsEnum)
-            //                {
-            //                    fieldValue = Enum.Parse(info.PropertyType, fieldValue.ToString());
-            //                }                                
-            //                else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
-            //                {
-            //                    // Guid aren't supported in SQLite, so they are stored as strings.
-            //                    fieldValue = new Guid(fieldValue.ToString());                                    
-            //                }
-            //                else if (info.PropertyType.FullName != fieldType.FullName)
-            //                {
-            //                    // Call a convert method in the Convert static class, if available
-            //                    MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
-            //                    if (castMethod != null)
-            //                    {
-            //                        fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
-            //                    }
-            //                }
-
-            //                // Set property value
-            //                info.SetValue(data, fieldValue, null);
-            //            }
-            //        }
-
-            //        // Add item to list
-            //        list.Add(data);
-            //    }
-
-            //    return list;
-            //}
-            ////catch
-            ////{
-            ////    throw;
-            ////}
-            //finally
-            //{
-            //    // Clean up reader and _connection
-            //    if (reader != null)
-            //    {
-            //        reader.Close();
-            //        reader.Dispose();
-            //    }
-
-            //    // Dispose command
-            //    command.Dispose();
-
-            //    // Close and clean up _connection
-            //    if (connection.State == ConnectionState.Open)
-            //    {
-            //        connection.Close();
-            //        connection.Dispose();
-            //    }
-            //}
         }
 
         /// <summary>

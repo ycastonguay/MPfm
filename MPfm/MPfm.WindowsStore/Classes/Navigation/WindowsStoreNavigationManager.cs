@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MPfm.Library.Objects;
@@ -30,16 +31,24 @@ namespace MPfm.WindowsStore.Classes.Navigation
 {
     public class WindowsStoreNavigationManager : MobileNavigationManager
     {
+        public Rect SplashImageLocation { get; set; }
+
         private Action<IBaseView> _onSyncViewReady;
         private Action<IBaseView> _onSyncMenuViewReady;
         private Action<IBaseView> _onSyncDownloadViewReady;
 
         public override void ShowSplash(ISplashView view)
         {
+            var splashPage = (SplashPage) view;
+            splashPage.SetImageLocation(SplashImageLocation);
+            Window.Current.Content = splashPage;
+            Window.Current.Activate();
         }
 
         public override void HideSplash()
         {
+            var mainPage = new MainPage();
+            Window.Current.Content = mainPage;
         }
 
         public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
@@ -59,11 +68,11 @@ namespace MPfm.WindowsStore.Classes.Navigation
         {
         }
 
-        public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
+        public override void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view)
         {
         }
 
-        public override void PushDialogSubview(string parentViewTitle, IBaseView view)
+        public override void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view)
         {
         }
 

@@ -2012,7 +2012,7 @@ namespace MPfm.Windows.Classes.Forms
                 {
                     var node = new TreeNode(entity.Title);
                     node.Tag = entity;
-                    switch (entity.Type)
+                    switch (entity.EntityType)
                     {
                         case LibraryBrowserEntityType.AllSongs:
                             node.ImageIndex = 12;
@@ -2028,7 +2028,7 @@ namespace MPfm.Windows.Classes.Forms
                             break;
                     }
 
-                    if (entity.Type != LibraryBrowserEntityType.AllSongs)
+                    if (entity.EntityType != LibraryBrowserEntityType.AllSongs)
                         node.Nodes.Add("dummy", "dummy");
 
                     treeLibraryBrowser.Nodes.Add(node);
@@ -2057,7 +2057,7 @@ namespace MPfm.Windows.Classes.Forms
                 {
                     var childNode = new TreeNode(childEntity.Title);
                     childNode.Tag = childEntity;
-                    switch (childEntity.Type)
+                    switch (childEntity.EntityType)
                     {
                         case LibraryBrowserEntityType.Artist:
                             childNode.ImageIndex = 24;
@@ -2070,7 +2070,7 @@ namespace MPfm.Windows.Classes.Forms
                             break;
                     }
 
-                    if (childEntity.Type != LibraryBrowserEntityType.Album)
+                    if (childEntity.EntityType != LibraryBrowserEntityType.Album)
                         childNode.Nodes.Add("dummy", "dummy");
 
                     node.Nodes.Add(childNode);
