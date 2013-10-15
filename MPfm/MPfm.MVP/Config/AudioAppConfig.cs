@@ -22,7 +22,7 @@ namespace MPfm.MVP.Config
     /// <summary>
     /// Class containing all audio settings for MPfm.
     /// </summary>
-    public class AudioAppConfig
+    public class AudioAppConfig : IAppConfig
     {
         public Device AudioDevice { get; set; }
         public int SampleRate { get; set; }
@@ -38,6 +38,6 @@ namespace MPfm.MVP.Config
             SampleRate = 44100;
             Volume = 1;
             BufferSize = 100;
-        }
+        }        
     }
 }

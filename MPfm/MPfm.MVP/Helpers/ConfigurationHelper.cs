@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -64,39 +64,5 @@ namespace MPfm.MVP.Helpers
 			DatabaseFilePath = Path.Combine(HomeDirectory, "MPfm.Database.db");
 			LogFilePath = Path.Combine(HomeDirectory, "MPfm.Log.txt");            
 		}
-
-        /// <summary>
-        /// Loads AppConfig from file.
-        /// </summary>
-        /// <param name="filePath">Configuration file path</param>
-        /// <returns>AppConfig object</returns>
-        public static AppConfig Load(string filePath)
-        {
-#if WINDOWSSTORE
-            return new AppConfig();
-#else
-            XmlSerializer deserializer = new XmlSerializer(typeof(AppConfig));
-            TextReader textReader = new StreamReader(filePath);
-            Object obj = deserializer.Deserialize(textReader);
-            AppConfig theme = (AppConfig)obj;
-            return theme;
-#endif
-        }
-        
-        /// <summary>
-        /// Saves AppConfig to file.
-        /// </summary>
-        /// <param name="filePath">Configuration file path</param>
-        /// <param name="config">AppConfig object</param>
-        public static void Save(string filePath, AppConfig config)
-        {
-#if !WINDOWSSTORE
-            XmlSerializer serializer = new XmlSerializer(typeof(AppConfig));
-            TextWriter textWriter = new StreamWriter(filePath);
-            serializer.Serialize(textWriter, config);
-            textWriter.Dispose();
-#endif
-        }
     }
 }
-

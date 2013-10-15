@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -28,7 +28,7 @@ namespace MPfm.MVP.Config.Providers
         /// Loads application settings from file.
         /// </summary>
         /// <param name="filePath">Configuration file path</param>
-        /// <returns>AppConfig object</returns>
+        /// <returns>AppConfigManager object</returns>
         public RootAppConfig Load(string filePath)
         {
             if (!File.Exists(filePath))
@@ -42,10 +42,10 @@ namespace MPfm.MVP.Config.Providers
         }
 
         /// <summary>
-        /// Saves AppConfig to file.
+        /// Saves AppConfigManager to file.
         /// </summary>
         /// <param name="filePath">Configuration file path</param>
-        /// <param name="config">AppConfig object</param>
+        /// <param name="config">AppConfigManager object</param>
         public void Save(string filePath, RootAppConfig config)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(RootAppConfig));

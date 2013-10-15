@@ -20,7 +20,7 @@ namespace MPfm.MVP.Config
     /// <summary>
     /// Class containing all settings for a single Window for MPfm.
     /// </summary>
-    public class WindowAppConfig
+    public class WindowAppConfig : IAppConfig
     {
         public string Title { get; set; }
         public float X { get; set; }

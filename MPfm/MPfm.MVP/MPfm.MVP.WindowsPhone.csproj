@@ -199,9 +199,10 @@
     <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
     <Compile Include="Views\ISplashView.cs" />
     <Compile Include="Config\RootAppConfig.cs" />    
+	<Compile Include="Config\IAppConfig.cs" />
     <Compile Include="Config\Providers\XmlAppConfigProvider.cs" />
     <Compile Include="Config\Providers\IAppConfigProvider.cs" />
-    <Compile Include="Config\AppConfig.cs" />
+    <Compile Include="Config\AppConfigManager.cs" />
     <Compile Include="Config\AudioAppConfig.cs" />
     <Compile Include="Config\ControlsAppConfig.cs" />
     <Compile Include="Config\TableViewAppConfig.cs" />

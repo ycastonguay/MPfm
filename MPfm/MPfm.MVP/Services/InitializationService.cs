@@ -99,8 +99,8 @@ namespace MPfm.MVP.Services
 	    private void CreateDirectories()
         {
 #if WINDOWSSTORE
-            var task = ApplicationData.Current.LocalFolder.CreateFolderAsync("PeakFiles", CreationCollisionOption.OpenIfExists);
-            var storageFolder = task.GetResults();
+            //var task = ApplicationData.Current.LocalFolder.CreateFolderAsync("PeakFiles", CreationCollisionOption.OpenIfExists);
+            //var storageFolder = task.GetResults();
 #elif WINDOWS_PHONE
             //
 #else
@@ -115,9 +115,9 @@ namespace MPfm.MVP.Services
         private void LoadConfiguration()
         {
             Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
-            AppConfig.Instance.Load();
+            AppConfigManager.Instance.Load();
 
-            //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, AppConfig.Instance);
+            //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, AppConfigManager.Instance);
             //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
 		}

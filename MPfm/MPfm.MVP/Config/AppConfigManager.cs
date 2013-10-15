@@ -25,30 +25,30 @@ namespace MPfm.MVP.Config
     /// <summary>
     /// Singleton containing all application settings.
     /// </summary>
-    public class AppConfig
+    public class AppConfigManager
     {
         private readonly IAppConfigProvider _provider;
         public RootAppConfig Root { get; private set; }
 
         #region Singleton
 
-        private static AppConfig instance;
+        private static AppConfigManager instance;
         /// <summary>
-        /// AppConfig instance.
+        /// AppConfigManager instance.
         /// </summary>
-        public static AppConfig Instance
+        public static AppConfigManager Instance
         {
             get
             {
                 if(instance == null)
-                    instance = new AppConfig();
+                    instance = new AppConfigManager();
                 return instance;
             }
         }
 
         #endregion
 
-        public AppConfig()
+        public AppConfigManager()
         {
             _provider = Bootstrapper.GetContainer().Resolve<IAppConfigProvider>();
             Root = new RootAppConfig();

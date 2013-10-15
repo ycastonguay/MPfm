@@ -22,7 +22,7 @@ using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Config
 {
-    public class RootAppConfig
+    public class RootAppConfig : IAppConfig
     {
         public bool IsFirstRun { get; set; }
         public bool ShowTooltips { get; set; }

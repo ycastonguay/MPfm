@@ -22,7 +22,7 @@ namespace MPfm.MVP.Config
     /// <summary>
     /// Class containing all table view settings for MPfm.
     /// </summary>
-    public class TableViewAppConfig
+    public class TableViewAppConfig : IAppConfig
     {
         public List<TableViewColumnAppConfig> Columns { get; private set; }
 

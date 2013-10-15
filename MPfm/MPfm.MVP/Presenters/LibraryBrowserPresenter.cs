@@ -75,7 +75,7 @@ namespace MPfm.MVP.Presenters
             view.OnTreeNodeDoubleClicked = (entity) => { TreeNodeDoubleClicked(entity); };
 
 //            // Load configuration
-//            if (AppConfig.Instance.ShowTooltips)
+//            if (AppConfigManager.Instance.ShowTooltips)
 
             // Refresh view (first level nodes)
             view.RefreshLibraryBrowser(GetFirstLevelNodes());

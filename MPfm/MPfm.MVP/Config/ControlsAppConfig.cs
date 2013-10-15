@@ -20,7 +20,7 @@ namespace MPfm.MVP.Config
     /// <summary>
     /// Class containing all control settings for MPfm.
     /// </summary>
-    public class ControlsAppConfig
+    public class ControlsAppConfig : IAppConfig
     {
         public TableViewAppConfig TableViewAppSongBrowser { get; set; }
         public TableViewAppConfig TableViewAppPlaylistBrowser { get; set; }

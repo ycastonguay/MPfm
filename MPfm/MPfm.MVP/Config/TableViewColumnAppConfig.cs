@@ -20,7 +20,7 @@ namespace MPfm.MVP.Config
     /// <summary>
     /// Class containing settings for a single table view column for MPfm.
     /// </summary>
-    public class TableViewColumnAppConfig
+    public class TableViewColumnAppConfig : IAppConfig
     {
         public string FieldName { get; set; }
         public string Title { get; set; }

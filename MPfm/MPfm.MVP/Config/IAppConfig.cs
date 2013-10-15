@@ -15,25 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Providers;
+using MPfm.MVP.Helpers;
+using MPfm.Sound.AudioFiles;
+
 namespace MPfm.MVP.Config
 {
-    /// <summary>
-    /// Class containing settings for all windows for MPfm.
-    /// </summary>
-    public class WindowsAppConfig : IAppConfig
+    public interface IAppConfig
     {
-        public WindowAppConfig MainWindowApp { get; set; }
-        public WindowAppConfig PlaylistWindowApp { get; set; }
-        public WindowAppConfig EffectsWindowApp { get; set; }
-        public WindowAppConfig PreferencesWindowApp { get; set; }
-
-        public WindowsAppConfig()
-        {
-            // Set defaults
-            MainWindowApp = new WindowAppConfig();
-            PlaylistWindowApp = new WindowAppConfig();
-            EffectsWindowApp = new WindowAppConfig();
-            PreferencesWindowApp = new WindowAppConfig();
-        }
     }
 }
