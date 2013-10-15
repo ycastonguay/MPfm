@@ -34,6 +34,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using DropBoxSync.iOS;
 
 namespace MPfm.iOS
 {
@@ -124,6 +125,12 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            if (_items[indexPath.Row].Key == MobileOptionsMenuType.SyncLibraryCloud)
+            {
+                DBAccountManager.SharedManager.LinkFromController(this);
+                return;
+            }
+
             OnItemClick(_items[indexPath.Row].Key);
         }
 

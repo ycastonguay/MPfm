@@ -33,6 +33,7 @@ using MPfm.iOS.Classes.Navigation;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Providers;
 using MPfm.iOS.Helpers;
+using DropBoxSync.iOS;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -41,7 +42,10 @@ namespace MPfm.iOS.Classes.Delegates
 	// application events from iOS.
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
-	{		
+	{
+        private string _dropboxAppKey = "6tc6565743i743n";
+        private string _dropboxAppSecret = "fbkt3neevjjl0l2";
+
 		MPfmWindow _window;
         MPfmTabBarController _tabBarController;
         SplashViewController _splashViewController;
@@ -69,6 +73,8 @@ namespace MPfm.iOS.Classes.Delegates
             UIToolbar.Appearance.BackgroundColor = GlobalTheme.MainColor;
             UITabBar.Appearance.TintColor = UIColor.White;
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
+
+            RegisterDropbox();
 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
             _window.TintColor = GlobalTheme.SecondaryColor;
@@ -248,6 +254,33 @@ namespace MPfm.iOS.Classes.Delegates
                 var navCtrl = _dialogNavigationControllers.FirstOrDefault(x => x.Key == parentViewTitle).Value;
                 navCtrl.PushViewController(viewController, true);
             });
+        }
+
+        public void RegisterDropbox()
+        {
+            // The account manager stores all the account info. Create this when your app launches
+            var manager = new DBAccountManager (_dropboxAppKey, _dropboxAppSecret);
+            DBAccountManager.SharedManager = manager;
+
+            var account = manager.LinkedAccount;
+            if (account != null) {
+                var filesystem = new DBFilesystem (account);
+                DBFilesystem.SharedFilesystem = filesystem;
+            }   
+        }
+
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            var account = DBAccountManager.SharedManager.HandleOpenURL (url);
+            if (account != null) {
+                var filesystem = new DBFilesystem (account);
+                DBFilesystem.SharedFilesystem = filesystem;
+                Console.WriteLine ("App linked successfully!");
+                return true;
+            } else {
+                Console.WriteLine ("App is not linked");
+                return false;
+            }
         }
     }
 }

@@ -17,6 +17,9 @@
 
 using MPfm.MVP.Config;
 using MPfm.MVP.Config.Providers;
+using System.Reflection;
+using System.Diagnostics;
+using MonoTouch.Foundation;
 
 namespace MPfm.iOS.Classes.Providers
 {
@@ -24,11 +27,95 @@ namespace MPfm.iOS.Classes.Providers
 	{
         public RootAppConfig Load(string filePath)
         {
-            return new RootAppConfig();
+            var config = new RootAppConfig();
+            config.IsFirstRun = false;
+            SaveRecursive(config, "Root.");
+            config.IsFirstRun = true;
+            LoadRecursive(config, "Root.");
+            return config;
         }
 
         public void Save(string filePath, RootAppConfig config)
         {
+            SaveRecursive(config, "Root.");
+        }
+
+        private void LoadRecursive(IAppConfig config, string keyPreset)
+        {
+            // Create map by scanning properties
+            var keyStore = NSUbiquitousKeyValueStore.DefaultStore;
+            var propertyInfos = config.GetType().GetTypeInfo().DeclaredProperties;
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                var propertyType = propertyInfo.PropertyType;
+                string fullName = keyPreset + propertyInfo.Name;
+                bool isAssignable = typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo());
+                //Debug.WriteLine("{0} - {1} - isAssignable: {2}", fullName, propertyInfo.PropertyType.Name, isAssignable);
+
+                if (propertyType == typeof(int))
+                {
+                    propertyInfo.SetValue(config, (int)keyStore.GetLong(fullName));
+                }
+                else if (propertyType == typeof(bool))
+                {
+                    propertyInfo.SetValue(config, keyStore.GetBool(fullName));
+                }
+                else if (propertyType == typeof(double))
+                {
+                    propertyInfo.SetValue(config, keyStore.GetDouble(fullName));
+                }
+                else if (propertyType == typeof(float))
+                {
+                    propertyInfo.SetValue(config, (float)keyStore.GetDouble(fullName));
+                }
+                else if (propertyType == typeof(string))
+                {
+                    propertyInfo.SetValue(config, keyStore.GetString(fullName));
+                }
+                else if (typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
+                {
+                    var subConfig = (IAppConfig)propertyInfo.GetValue(config);
+                    LoadRecursive(subConfig, keyPreset + propertyType.Name + ".");
+                }
+            }            
+        }
+
+        private void SaveRecursive(IAppConfig config, string keyPreset)
+        {
+            // Create map by scanning properties
+            var keyStore = NSUbiquitousKeyValueStore.DefaultStore;
+            var propertyInfos = config.GetType().GetTypeInfo().DeclaredProperties;
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                var propertyType = propertyInfo.PropertyType;
+                string fullName = keyPreset + propertyInfo.Name;
+                object value = propertyInfo.GetValue(config);
+                bool isAssignable = typeof (IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo());
+                //Debug.WriteLine("{0} - {1} - isAssignable: {2}", fullName, propertyInfo.PropertyType.Name, isAssignable);
+
+                if (propertyType == typeof(int))
+                {
+                    keyStore.SetLong(fullName, (long)(int)value);
+                }
+                else if (propertyType == typeof(bool))
+                {
+                    keyStore.SetBool(fullName, (bool)value);
+                }
+                else if (propertyType == typeof(double) || (propertyType == typeof(float)))
+                {
+                    keyStore.SetDouble(fullName, System.Convert.ToDouble(value));
+                }
+                else if (propertyType == typeof(string))
+                {
+                    string stringValue = value == null ? string.Empty : (string)value;
+                    keyStore.SetString(fullName, stringValue);
+                }
+                else if (typeof (IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
+                {
+                    var subConfig = (IAppConfig)propertyInfo.GetValue(config);
+                    SaveRecursive(subConfig, keyPreset + propertyType.Name + ".");
+                }
+            }
         }
 	}
 }

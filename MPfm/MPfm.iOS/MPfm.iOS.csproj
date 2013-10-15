@@ -56,7 +56,6 @@
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey />
-    <CodesignProvision>5C51C790-BB21-4F44-BECA-051A853109C6</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -109,6 +108,9 @@
     </Reference>
     <Reference Include="TinyIoC">
       <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
+    </Reference>
+    <Reference Include="DropBoxSync.iOS">
+      <HintPath>..\Components\dropboxsync-1.9.1\lib\ios\DropBoxSync.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -520,5 +522,12 @@
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="dropboxsync">
+      <InstallationInProgress>True</InstallationInProgress>
+      <Version>1.9.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>
