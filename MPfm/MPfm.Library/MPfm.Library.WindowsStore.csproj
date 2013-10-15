@@ -99,6 +99,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\1.05-1.06.sql" />
     <EmbeddedResource Include="Scripts\1.03-1.04.sql" />
     <EmbeddedResource Include="Scripts\1.02-1.03.sql" />
     <EmbeddedResource Include="Scripts\1.01-1.02.sql" />

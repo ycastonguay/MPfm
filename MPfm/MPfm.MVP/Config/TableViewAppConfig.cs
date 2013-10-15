@@ -15,18 +15,21 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
+using System.Collections.Generic;
 
-namespace MPfm.MVP.Presenters
+namespace MPfm.MVP.Config
 {
-	/// <summary>
-    /// Audio preferences presenter.
-	/// </summary>
-    public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
-	{
-        public AudioPreferencesPresenter()
-		{	
-		}
-	}
+    /// <summary>
+    /// Class containing all table view settings for MPfm.
+    /// </summary>
+    public class TableViewAppConfig
+    {
+        public List<TableViewColumnAppConfig> Columns { get; private set; }
+
+        public TableViewAppConfig()
+        {
+            // Set defaults
+            Columns = new List<TableViewColumnAppConfig>();
+        }
+    }
 }

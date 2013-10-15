@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,18 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
+using MPfm.MVP.Config;
+using MPfm.MVP.Config.Providers;
 
-namespace MPfm.MVP.Presenters
+namespace MPfm.iOS.Classes.Providers
 {
-	/// <summary>
-    /// Audio preferences presenter.
-	/// </summary>
-    public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
+	public class iOSAppConfigProvider : IAppConfigProvider
 	{
-        public AudioPreferencesPresenter()
-		{	
-		}
+        public RootAppConfig Load(string filePath)
+        {
+            return new RootAppConfig();
+        }
+
+        public void Save(string filePath, RootAppConfig config)
+        {
+        }
 	}
 }

@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,18 +15,26 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
-
-namespace MPfm.MVP.Presenters
+namespace MPfm.MVP.Config
 {
-	/// <summary>
-    /// Audio preferences presenter.
-	/// </summary>
-    public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
-	{
-        public AudioPreferencesPresenter()
-		{	
-		}
-	}
+    /// <summary>
+    /// Class containing all settings for a single Window for MPfm.
+    /// </summary>
+    public class WindowAppConfig
+    {
+        public string Title { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
+        public bool IsMaximized { get; set; }
+        public bool IsVisible { get; set; }
+
+        public WindowAppConfig()
+        {
+            // Set defaults
+            Width = 640;
+            Height = 480;
+        }
+    }
 }

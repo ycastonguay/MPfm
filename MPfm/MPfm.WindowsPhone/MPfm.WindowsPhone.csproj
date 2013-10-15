@@ -157,6 +157,7 @@
     <Compile Include="Classes\Pages\SyncPage.xaml.cs">
       <DependentUpon>SyncPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Providers\WindowsPhoneAppConfigProvider.cs" />
     <Compile Include="Classes\WindowsPhoneSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Controls\ListSimpleControl.xaml.cs">
       <DependentUpon>ListSimpleControl.xaml</DependentUpon>

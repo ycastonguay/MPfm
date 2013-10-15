@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,18 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
-
-namespace MPfm.MVP.Presenters
+namespace MPfm.MVP.Config
 {
-	/// <summary>
-    /// Audio preferences presenter.
-	/// </summary>
-    public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
-	{
-        public AudioPreferencesPresenter()
-		{	
-		}
-	}
+    /// <summary>
+    /// Class containing settings for a single table view column for MPfm.
+    /// </summary>
+    public class TableViewColumnAppConfig
+    {
+        public string FieldName { get; set; }
+        public string Title { get; set; }
+        public int Order { get; set; }
+        public int Width { get; set; }
+        public bool IsVisible { get; set; }
+
+        public TableViewColumnAppConfig()
+        {
+            // Set defaults
+            Width = 50;
+            IsVisible = true;
+        }
+    }
 }

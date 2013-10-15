@@ -270,6 +270,7 @@
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controls\MPfmPlayerButton.cs" />
+    <Compile Include="Classes\Providers\iOSAppConfigProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -351,6 +352,7 @@
     <Folder Include="Classes\Controls\Layouts\" />
     <Folder Include="Images\ContextualButtons\" />
     <Folder Include="Images\Player\" />
+    <Folder Include="Classes\Providers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />

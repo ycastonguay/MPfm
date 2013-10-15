@@ -18,9 +18,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.ApplicationModel.Activation;
+using Windows.Foundation;
 using Windows.Storage.Pickers;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
@@ -33,60 +37,40 @@ namespace MPfm.WindowsStore.Classes.Pages
     /// </summary>
     public sealed partial class SplashPage : BasePage, ISplashView
     {
-        public SplashPage()
+        private Action<IBaseView> _onViewReady;
+
+        public SplashPage(Action<IBaseView> onViewReady)
         {
+            _onViewReady = onViewReady;
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// Populates the page with content passed during navigation.  Any saved state is also
-        /// provided when recreating a page from a prior session.
-        /// </summary>
-        /// <param name="navigationParameter">The parameter value passed to
-        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested.
-        /// </param>
-        /// <param name="pageState">A dictionary of state preserved by this page during an earlier
-        /// session.  This will be null the first time a page is visited.</param>
-        protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
+        public void SetImageLocation(Rect imageLocation)
         {
-            // TODO: Assign a collection of bindable groups to this.DefaultViewModel["Groups"]
-            Debug.WriteLine("SplashPage - LoadState");
+            // Position the extended splash screen image in the same location as the splash screen image.
+            this.extendedSplashImage.SetValue(Canvas.LeftProperty, imageLocation.X);
+            this.extendedSplashImage.SetValue(Canvas.TopProperty, imageLocation.Y);
+            this.extendedSplashImage.Height = imageLocation.Height;
+            this.extendedSplashImage.Width = imageLocation.Width;
 
-            // View is ready
-        }
+            this.lblStatus.SetValue(Canvas.LeftProperty, imageLocation.X + (imageLocation.Width / 2) - 100);
+            this.lblStatus.SetValue(Canvas.TopProperty, imageLocation.Y + imageLocation.Height + 72);
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            greetingOutput.Text = "Hello,, " + nameInput.Text + "!";
+            // Position the extended splash screen's progress ring.
+            this.ProgressRing.SetValue(Canvas.TopProperty, imageLocation.Y + imageLocation.Height + 12);
+            this.ProgressRing.SetValue(Canvas.LeftProperty, imageLocation.X + (imageLocation.Width / 2) - 15);
 
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
-            openPicker.ViewMode = PickerViewMode.List;
-
-            openPicker.FileTypeFilter.Clear();
-            openPicker.FileTypeFilter.Add(".mp3");
-            openPicker.FileTypeFilter.Add(".flac");
-
-            var file = await openPicker.PickSingleFileAsync();
-
-            if (file == null)
-                return;
-
-            try
-            {
-                AudioFile audioFile = new AudioFile(file.Path);
-                string a = audioFile.FilePath;
-            }
-            catch (Exception ex)
-            {                
-                throw;
-            }            
+            _onViewReady(this);
         }
 
         #region ISplashView implementation
 
         public void RefreshStatus(string message)
         {
+            Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                lblStatus.Text = message;
+            });  
         }
 
         public void InitDone(bool isAppFirstStart)

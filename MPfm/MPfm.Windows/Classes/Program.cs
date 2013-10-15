@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using MPfm.Library;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Windows.Classes.Forms;
@@ -56,6 +57,7 @@ namespace MPfm.Windows.Classes
 
             // Finish IoC registration
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, WindowsSyncDeviceSpecifications>().AsSingleton();
+            Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, frmSplash>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, frmMain>().AsMultiInstance();

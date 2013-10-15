@@ -15,18 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Presenters.Interfaces;
-using MPfm.MVP.Views;
+using MPfm.MVP.Config;
+using MPfm.MVP.Config.Providers;
 
-namespace MPfm.MVP.Presenters
+namespace MPfm.WindowsStore.Classes.Providers
 {
-	/// <summary>
-    /// Audio preferences presenter.
-	/// </summary>
-    public class AudioPreferencesPresenter : BasePresenter<IAudioPreferencesView>, IAudioPreferencesPresenter
-	{
-        public AudioPreferencesPresenter()
-		{	
-		}
-	}
+    public class WindowsStoreAppConfigProvider : IAppConfigProvider
+    {
+        public RootAppConfig Load(string filePath)
+        {
+            return new RootAppConfig();
+        }
+
+        public void Save(string filePath, RootAppConfig config)
+        {
+        }
+    }
 }

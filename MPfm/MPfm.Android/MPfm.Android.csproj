@@ -129,6 +129,7 @@
     <Compile Include="Classes\Managers\Events\GeneratePeakFileEventArgs.cs" />
     <Compile Include="Classes\Managers\WaveFormCacheManager.cs" />
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
+    <Compile Include="Classes\Providers\AndroidAppConfigProvider.cs" />
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
     <Compile Include="Classes\Receivers\LockReceiver.cs" />
     <Compile Include="Classes\Receivers\WifiDirectReceiver.cs" />
