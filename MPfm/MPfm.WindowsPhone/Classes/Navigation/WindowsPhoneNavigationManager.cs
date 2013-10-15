@@ -71,12 +71,12 @@ namespace MPfm.WindowsPhone.Classes.Navigation
             Debug.WriteLine("WindowsPhoneNavigationManager - PushTabView");
         }
 
-        public override void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
+        public override void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view)
         {
             Debug.WriteLine("WindowsPhoneNavigationManager - PushDialogView");
         }
 
-        public override void PushDialogSubview(string parentViewTitle, IBaseView view)
+        public override void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view)
         {
             Debug.WriteLine("WindowsPhoneNavigationManager - PushDialogSubview");
         }

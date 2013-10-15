@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -75,7 +75,7 @@ namespace MPfm.MVP.Presenters
             view.OnTreeNodeDoubleClicked = (entity) => { TreeNodeDoubleClicked(entity); };
 
 //            // Load configuration
-//            if (MPfmConfig.Instance.ShowTooltips)
+//            if (AppConfig.Instance.ShowTooltips)
 
             // Refresh view (first level nodes)
             view.RefreshLibraryBrowser(GetFirstLevelNodes());

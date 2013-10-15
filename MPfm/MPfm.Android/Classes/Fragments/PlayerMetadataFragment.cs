@@ -58,7 +58,7 @@ namespace MPfm.Android.Classes.Fragments
         public Action OnToggleShuffle { get; set; }
         public Action OnToggleRepeat { get; set; }
 
-        public void RefreshAudioFile(AudioFile audioFile)
+        public void RefreshMetadata(AudioFile audioFile, int playlistIndex, int playlistCount)
         {            
             Activity.RunOnUiThread(() => {
                 if (audioFile != null)

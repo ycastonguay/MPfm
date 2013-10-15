@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -19,8 +19,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using MPfm.Core;
-using MPfm.Core.WinRT;
 using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.Library.Objects;
@@ -31,6 +31,7 @@ using MPfm.Library.Services.Interfaces;
 
 #if WINDOWSSTORE
 using Windows.Storage;
+using MPfm.Core.WinRT;
 #endif
 
 namespace MPfm.MVP.Services
@@ -97,36 +98,26 @@ namespace MPfm.MVP.Services
 
 	    private void CreateDirectories()
         {
-#if !WINDOWSSTORE && !WINDOWS_PHONE
+#if WINDOWSSTORE
+            var task = ApplicationData.Current.LocalFolder.CreateFolderAsync("PeakFiles", CreationCollisionOption.OpenIfExists);
+            var storageFolder = task.GetResults();
+#elif WINDOWS_PHONE
+            //
+#else
             // Create missing directories
             if(!Directory.Exists(ConfigurationHelper.HomeDirectory))
                 Directory.CreateDirectory(ConfigurationHelper.HomeDirectory);
             if (!Directory.Exists(ConfigurationHelper.PeakFileDirectory))
                 Directory.CreateDirectory(ConfigurationHelper.PeakFileDirectory);
-#else
-	        CreateDirectoriesWinRT();
 #endif
         }
 
-	    private async void CreateDirectoriesWinRT()
-	    {
-            var localFolder = ApplicationData.Current.LocalFolder;
-            var localSettings = ApplicationData.Current.LocalSettings;
-	        var storageFolder = await localFolder.CreateFolderAsync("PeakFiles", CreationCollisionOption.OpenIfExists);
-	    }
-
         private void LoadConfiguration()
         {
-            // Check for configuration file
             Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
+            AppConfig.Instance.Load();
 
-#if WINDOWSSTORE || WINDOWS_PHONE
-            //
-#else
-            if (File.Exists(ConfigurationHelper.ConfigurationFilePath))
-                MPfmConfig.Instance.Load();
-#endif
-            //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, MPfmConfig.Instance);
+            //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, AppConfig.Instance);
             //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
 		}

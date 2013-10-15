@@ -18,11 +18,13 @@
 using System.Diagnostics;
 using MPfm.Library;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.WindowsStore.Classes;
 using MPfm.WindowsStore.Classes.Navigation;
 using MPfm.WindowsStore.Classes.Pages;
+using MPfm.WindowsStore.Classes.Providers;
 using MPfm.WindowsStore.Common;
 
 using System;
@@ -79,7 +81,7 @@ namespace MPfm.WindowsStore
             //// just ensure that the window is active
             //if (rootFrame == null)
             //{
-            //    BootstrapApp();
+            //    ConfigureIoC();
 
             //    // Create a Frame to act as the navigation context and navigate to the first page
             //    rootFrame = new Frame();
@@ -118,7 +120,7 @@ namespace MPfm.WindowsStore
             // Ensure the current window is active
             //Window.Current.Activate();
 
-            BootstrapApp();
+            ConfigureIoC();
             _navigationManager = (WindowsStoreNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             _navigationManager.SplashImageLocation = args.SplashScreen.ImageLocation;
             //_navigationManager.BindOptionsMenuView(this);
@@ -140,10 +142,11 @@ namespace MPfm.WindowsStore
             deferral.Complete();
         }
 
-        private void BootstrapApp()
+        private void ConfigureIoC()
         {
             TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, WindowsStoreSyncDeviceSpecifications>().AsSingleton();
+            container.Register<IAppConfigProvider, WindowsStoreAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, WindowsStoreNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainPage>().AsMultiInstance();
             container.Register<ISplashView, SplashPage>().AsMultiInstance();

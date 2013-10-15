@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,32 +15,21 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.Core.Preferences
+using System.Collections.Generic;
+
+namespace MPfm.MVP.Config
 {
-    public class XmlPreferencesManager : IPreferencesManager
+    /// <summary>
+    /// Class containing all table view settings for MPfm.
+    /// </summary>
+    public class TableViewAppConfig
     {
-        public XmlPreferencesManager()
-        {
-            //var stuff = new Xml
-        }
+        public List<TableViewColumnAppConfig> Columns { get; private set; }
 
-        public bool GetBool(string key)
+        public TableViewAppConfig()
         {
-            return false;
-        }
-
-        public int GetInt(string key)
-        {
-            return 0;
-        }
-
-        public string GetString(string key)
-        {
-            return string.Empty;
-        }
-
-        public void SetValue(string key, object value)
-        {
+            // Set defaults
+            Columns = new List<TableViewColumnAppConfig>();
         }
     }
 }

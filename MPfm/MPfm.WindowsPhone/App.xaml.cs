@@ -28,12 +28,14 @@ using Microsoft.Phone.Shell;
 using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Helpers;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.WindowsPhone.Classes;
 using MPfm.WindowsPhone.Classes.Navigation;
 using MPfm.WindowsPhone.Classes.Pages;
+using MPfm.WindowsPhone.Classes.Providers;
 using MPfm.WindowsPhone.Resources;
 using TinyIoC;
 
@@ -258,6 +260,7 @@ namespace MPfm.WindowsPhone
         {
             TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, WindowsPhoneSyncDeviceSpecifications>().AsSingleton();
+            container.Register<IAppConfigProvider, WindowsPhoneAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, WindowsPhoneNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainPage>().AsMultiInstance();
             container.Register<ISplashView, SplashPage>().AsMultiInstance();

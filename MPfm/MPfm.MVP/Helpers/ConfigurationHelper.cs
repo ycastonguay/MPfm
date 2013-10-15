@@ -66,32 +66,32 @@ namespace MPfm.MVP.Helpers
 		}
 
         /// <summary>
-        /// Loads MPfmConfig from file.
+        /// Loads AppConfig from file.
         /// </summary>
         /// <param name="filePath">Configuration file path</param>
-        /// <returns>MPfmConfig object</returns>
-        public static MPfmConfig Load(string filePath)
+        /// <returns>AppConfig object</returns>
+        public static AppConfig Load(string filePath)
         {
 #if WINDOWSSTORE
-            return new MPfmConfig();
+            return new AppConfig();
 #else
-            XmlSerializer deserializer = new XmlSerializer(typeof(MPfmConfig));
+            XmlSerializer deserializer = new XmlSerializer(typeof(AppConfig));
             TextReader textReader = new StreamReader(filePath);
             Object obj = deserializer.Deserialize(textReader);
-            MPfmConfig theme = (MPfmConfig)obj;
+            AppConfig theme = (AppConfig)obj;
             return theme;
 #endif
         }
         
         /// <summary>
-        /// Saves MPfmConfig to file.
+        /// Saves AppConfig to file.
         /// </summary>
         /// <param name="filePath">Configuration file path</param>
-        /// <param name="config">MPfmConfig object</param>
-        public static void Save(string filePath, MPfmConfig config)
+        /// <param name="config">AppConfig object</param>
+        public static void Save(string filePath, AppConfig config)
         {
 #if !WINDOWSSTORE
-            XmlSerializer serializer = new XmlSerializer(typeof(MPfmConfig));
+            XmlSerializer serializer = new XmlSerializer(typeof(AppConfig));
             TextWriter textWriter = new StreamWriter(filePath);
             serializer.Serialize(textWriter, config);
             textWriter.Dispose();

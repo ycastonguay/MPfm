@@ -15,13 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using MPfm.MVP.Config;
+using MPfm.MVP.Config.Providers;
 
-namespace MPfm.Core.Preferences
+namespace MPfm.Android.Classes.Providers
 {
-    public static class PreferenceKeys
+    public class AndroidAppConfigProvider : IAppConfigProvider
     {
-        public const string AudioBufferLength = "AudioBufferLength";
-        public const string LibrarySyncServerPort = "LibrarySyncServerPort";
+        public RootAppConfig Load(string filePath)
+        {
+            return new RootAppConfig();
+        }
+
+        public void Save(string filePath, RootAppConfig config)
+        {
+        }
     }
 }

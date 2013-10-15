@@ -140,6 +140,7 @@
     <Compile Include="Classes\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Providers\WindowsStoreAppConfigProvider.cs" />
     <Compile Include="Classes\WindowsStoreSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Pages\ArtistBrowserPage.xaml.cs">
       <DependentUpon>ArtistBrowserPage.xaml</DependentUpon>

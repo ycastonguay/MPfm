@@ -122,7 +122,7 @@ namespace MPfm.Android.Classes.Adapters
                 lblSubtitle.Text = item.AudioFile.Length;
             }
 
-            switch (item.Type)
+            switch (item.EntityType)
             {
                 case LibraryBrowserEntityType.Song:
                     layoutAlbums.Visibility = ViewStates.Gone;

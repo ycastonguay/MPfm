@@ -22,9 +22,11 @@ using Android.Content.PM;
 using Android.Runtime;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
+using MPfm.Android.Classes.Providers;
 using MPfm.Android.Classes.Receivers;
 using MPfm.Library;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Android.Classes.Services;
@@ -149,6 +151,7 @@ namespace MPfm.Android.Classes
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
+            container.Register<IAppConfigProvider, AndroidAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
             container.Register<ISplashView, SplashFragment>().AsMultiInstance();
