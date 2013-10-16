@@ -38,7 +38,7 @@ using MPfm.Player.Objects;
 namespace MPfm.Android
 {
     [Activity(Label = "Sync (Cloud)", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class SyncCloudActivity : BaseActivity, ISyncCloudView, DbxDatastore.ISyncStatusListener
+    public class SyncCloudActivity : BaseActivity, ISyncCloudView, DbxDatastore.ISyncStatusListener, DbxAccountManager.IAccountListener
     {
         private MobileNavigationManager _navigationManager;
         private ISyncDeviceSpecifications _syncDeviceSpecifications;
@@ -63,9 +63,16 @@ namespace MPfm.Android
             string appKey = "6tc6565743i743n";
             string appSecret = "fbkt3neevjjl0l2";
             _accountManager = DbxAccountManager.GetInstance(ApplicationContext, appKey, appSecret);
+            _accountManager.AddListener(this);
 
             if (_accountManager.HasLinkedAccount)
                 _account = _accountManager.LinkedAccount;
+
+            if (_account != null)
+            {
+                _store = DbxDatastore.OpenDefault(_account);
+                _store.AddSyncStatusListener(this);
+            }
 
             _syncDeviceSpecifications = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -104,6 +111,7 @@ namespace MPfm.Android
                 else
                 {
                     _accountManager.StartLink(this, 0);
+                    
                 }
                 _lblConnected.Text = string.Format("Is Linked: {0} {1}", _accountManager.HasLinkedAccount, DateTime.Now.ToLongTimeString());
             }
@@ -251,24 +259,29 @@ namespace MPfm.Android
         {
             Console.WriteLine("SyncCloudActivity - OnResume");
             base.OnResume();
-
-            _store = DbxDatastore.OpenDefault(_account);
-            _store.AddSyncStatusListener(this);
         }
 
         protected override void OnStop()
         {
             Console.WriteLine("SyncCloudActivity - OnStop");
             base.OnStop();
-
-            _store.RemoveSyncStatusListener(this);
-            _store.Close();
         }
 
         protected override void OnDestroy()
         {
             Console.WriteLine("SyncCloudActivity - OnDestroy");
             base.OnDestroy();
+
+            if (_accountManager != null)
+            {
+                _accountManager.RemoveListener(this);
+            }
+
+            if (_store != null)
+            {
+                _store.RemoveSyncStatusListener(this);
+                _store.Close();
+            }
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -315,6 +328,13 @@ namespace MPfm.Android
                     _lblValue.Text = string.Format("Error: {0}", ex);
                 }
             }
+        }
+
+        public void OnLinkedAccountChange(DbxAccountManager accountManager, DbxAccount account)
+        {
+            Console.WriteLine("SyncCloudActivity - OnLinkedAccountChange");
+            _account = account.IsLinked ? account : null;
+            _lblConnected.Text = string.Format("Is Linked: {0} {1}", _accountManager.HasLinkedAccount, DateTime.Now.ToLongTimeString());
         }
 
         #region ISyncCloudView implementation
