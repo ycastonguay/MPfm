@@ -42,6 +42,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onSyncMenuViewReady;
         private Action<IBaseView> _onSyncDownloadViewReady;
         private Action<IBaseView> _onSyncWebBrowserViewReady;
+        private Action<IBaseView> _onSyncCloudViewReady;
         private Action<IBaseView> _onMarkerDetailsViewReady;
         private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
         private Action<IBaseView> _onPlaylistViewReady;
@@ -286,6 +287,13 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
+        protected override void CreateSyncCloudViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onSyncCloudViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(SyncCloudActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         protected override void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, SyncDevice device, IEnumerable<Sound.AudioFiles.AudioFile> audioFiles)
         {
             _onSyncDownloadViewReady = onViewReady;
@@ -353,6 +361,12 @@ namespace MPfm.Android.Classes.Navigation
                 _onSyncWebBrowserViewReady(activity);
         }
 
+        public void SetSyncCloudActivityInstance(SyncCloudActivity activity)
+        {
+            if (_onSyncCloudViewReady != null)
+                _onSyncCloudViewReady(activity);
+        }
+
         public void SetPlaylistActivityInstance(PlaylistActivity activity)
         {
             if (_onPlaylistViewReady != null)
@@ -371,5 +385,6 @@ namespace MPfm.Android.Classes.Navigation
                 _lockScreenView = null;
             };
         }
+        
     }
 }

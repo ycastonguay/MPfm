@@ -62,6 +62,8 @@ namespace MPfm.MVP.Navigation
         private IPlayerPresenter _playerPresenter;
         private ISyncView _syncView;
         private ISyncPresenter _syncPresenter;
+        private ISyncCloudView _syncCloudView;
+        private ISyncCloudPresenter _syncCloudPresenter;
         private ISyncWebBrowserView _syncWebBrowserView;
         private ISyncWebBrowserPresenter _syncWebBrowserPresenter;
         private ISyncMenuView _syncMenuView;
@@ -771,6 +773,34 @@ namespace MPfm.MVP.Navigation
             };
 
             CreateSyncWebBrowserViewInternal(onViewReady);
+        }
+
+        protected virtual void CreateSyncCloudViewInternal(Action<IBaseView> onViewReady)
+        {
+            if (_syncCloudView == null)
+                _syncCloudView = Bootstrapper.GetContainer().Resolve<ISyncCloudView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _syncCloudView);
+#endif
+        }
+
+        public virtual void CreateSyncCloudView()
+        {
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _syncCloudView = (ISyncCloudView)view;
+                _syncCloudView.OnViewDestroy = (view2) =>
+                {
+                    _syncCloudPresenter.ViewDestroyed();
+                    _syncCloudPresenter = null;
+                    _syncCloudPresenter = null;
+                };
+                _syncCloudPresenter = Bootstrapper.GetContainer().Resolve<ISyncCloudPresenter>();
+                _syncCloudPresenter.BindView((ISyncCloudView)view);
+            };
+
+            CreateSyncCloudViewInternal(onViewReady);
         }
 
         protected virtual void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, SyncDevice device)

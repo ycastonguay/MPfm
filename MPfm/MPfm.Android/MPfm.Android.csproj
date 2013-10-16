@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
     <Compile Include="Classes\Activities\AboutActivity.cs" />
+    <Compile Include="Classes\Activities\SyncCloudActivity.cs" />
     <Compile Include="Classes\Activities\PlaylistActivity.cs" />
     <Compile Include="Classes\Activities\LockScreenActivity.cs" />
     <Compile Include="Classes\Activities\SyncDownloadActivity.cs" />
@@ -290,6 +291,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\FolderCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\SyncCloud.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

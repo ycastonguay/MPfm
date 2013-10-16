@@ -50,16 +50,16 @@ namespace MPfm.MVP.Presenters
             Tracing.Log("MobileOptionsMenuPresenter - Initialize");
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
             //_items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync Library (Other Devices)"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync (Nearby Devices)"));
 
 #if IOS
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync Library (iTunes)"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync (iTunes)"));
 #elif ANDROID
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync Library with File Sharing"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync (File Share)"));
 #endif
 
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryCloud, "Sync Library (Cloud Services)"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryWebBrowser, "Sync Library (Web Browser)"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryCloud, "Sync (Cloud)"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryWebBrowser, "Sync (Web Browser)"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.EqualizerPresets, "Equalizer Presets"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Preferences, "Preferences"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About Sessions"));
@@ -89,6 +89,11 @@ namespace MPfm.MVP.Presenters
                 case MobileOptionsMenuType.SyncLibraryWebBrowser:
                 {
                     _navigationManager.CreateSyncWebBrowserView();
+                    break;
+                }
+                case MobileOptionsMenuType.SyncLibraryCloud:
+                {
+                    _navigationManager.CreateSyncCloudView();
                     break;
                 }
                 case MobileOptionsMenuType.EqualizerPresets:

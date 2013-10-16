@@ -24,7 +24,6 @@ using Android.Content.PM;
 using Android.Views;
 using Android.OS;
 using Android.Widget;
-using Com.Dropbox.Sync.Android;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
@@ -47,16 +46,10 @@ namespace MPfm.Android
         private SyncListAdapter _listAdapter;
         private List<SyncDevice> _devices;
 
-        private DbxAccountManager _accountManager;
-
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("SyncActivity - OnCreate");
             base.OnCreate(bundle);
-
-            string appKey = "6tc6565743i743n";
-            string appSecret = "fbkt3neevjjl0l2";
-            _accountManager = DbxAccountManager.GetInstance(ApplicationContext, appKey, appSecret);
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.Sync);
@@ -79,17 +72,8 @@ namespace MPfm.Android
 
         private void BtnConnectManuallyOnClick(object sender, EventArgs eventArgs)
         {
-            if (_accountManager.HasLinkedAccount)
-            {
-                var account = _accountManager.LinkedAccount;
-            }
-            else
-            {
-                _accountManager.StartLink(this, 0);
-            }
-
-            //SyncManualConnectFragment fragment = new SyncManualConnectFragment();
-            //fragment.Show(FragmentManager, "SyncManualConnect");
+            SyncManualConnectFragment fragment = new SyncManualConnectFragment();
+            fragment.Show(FragmentManager, "SyncManualConnect");
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
