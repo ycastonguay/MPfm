@@ -22,8 +22,11 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.Runtime;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.OS;
 using Android.Views.Animations;
@@ -280,27 +283,31 @@ namespace MPfm.Android
             }
         }
 
-        public override bool OnPrepareOptionsMenu(IMenu menu)
-        {
-            Console.WriteLine("MainActivity - OnPrepareOptionsMenu");
-            return true;
-        }
+        //public override bool OnPrepareOptionsMenu(IMenu menu)
+        //{
+        //    Console.WriteLine("MainActivity - OnPrepareOptionsMenu");
+        //    //MenuInflater.Inflate(Resource.Menu.main_menu, menu);
+        //    //var menuItem = menu.Add(new Java.Lang.String("Test"));
+        //    //menuItem.SetIcon(Resource.Drawable.actionbar_info);
+        //    return true;
+        //}
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             Console.WriteLine("MainActivity - OnCreateOptionsMenu");
-            
-            // Crashed on all Samsung devices when using the options menu
-            //MenuInflater.Inflate(Resource.Menu.main_menu, menu);
-            //var menuItem = menu.Add(new Java.Lang.String("Test"));
-            //var menuItem2 = menu.Add(new Java.Lang.String("Test2"));
-            //var menuItem3 = menu.Add(new Java.Lang.String("Test3"));
+            MenuInflater.Inflate(Resource.Menu.main_menu, menu);
             foreach (var option in _options)
-            {
-                var menuItem = menu.Add(new Java.Lang.String(option.Value));
+            {                
+                // Unfortunately this crashes when selecting the item.
+                //var spannableString = new SpannableString(new Java.Lang.String(option.Value));
+                //spannableString.SetSpan(new ForegroundColorSpan(Color.White), 0, spannableString.Length(), 0);
+                //var menuItem = menu.Add(spannableString);
+
+                var menuItem = menu.Add(option.Value);
                 switch (option.Key)
                 {
                     case MobileOptionsMenuType.About:
+                        //menuItem.SetShowAsAction(ShowAsAction.Never);
                         menuItem.SetIcon(Resource.Drawable.actionbar_info);
                         break;
                     case MobileOptionsMenuType.EqualizerPresets:
@@ -316,12 +323,15 @@ namespace MPfm.Android
                         menuItem.SetIcon(Resource.Drawable.actionbar_sync);
                         break;
                     case MobileOptionsMenuType.SyncLibraryCloud:
+                        //menuItem.SetShowAsAction(ShowAsAction.Never);
                         menuItem.SetIcon(Resource.Drawable.actionbar_cloud);
                         break;
                     case MobileOptionsMenuType.SyncLibraryFileSharing:
+                        //menuItem.SetShowAsAction(ShowAsAction.Never);
                         menuItem.SetIcon(Resource.Drawable.actionbar_share);
                         break;
                     case MobileOptionsMenuType.SyncLibraryWebBrowser:
+                        //menuItem.SetShowAsAction(ShowAsAction.Never);
                         menuItem.SetIcon(Resource.Drawable.actionbar_earth);
                         break;
                 }

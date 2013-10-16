@@ -620,6 +620,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\actionbar_playlist.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_playlist.png" />
     <AndroidResource Include="Resources\drawable\carrouseldot.xml" />
+    <AndroidResource Include="Resources\drawable\optionsmenu.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="color_black">#000000</color>
+  <color name="white">#000000</color>
   <color name="background">#20282E</color>
   <color name="actionbar">#36454F</color>
   <color name="actionbar_selected">#6D899B</color>

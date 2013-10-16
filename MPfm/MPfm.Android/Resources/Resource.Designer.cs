@@ -143,74 +143,77 @@ namespace MPfm.Android
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f070002
-			public const int actionbar = 2131165186;
-			
 			// aapt resource value: 0x7f070003
-			public const int actionbar_selected = 2131165187;
-			
-			// aapt resource value: 0x7f07000d
-			public const int albumcellbutton_background = 2131165197;
-			
-			// aapt resource value: 0x7f07000e
-			public const int albumcellbutton_selected = 2131165198;
-			
-			// aapt resource value: 0x7f07000f
-			public const int albumcellbutton_textcolor = 2131165199;
-			
-			// aapt resource value: 0x7f070001
-			public const int background = 2131165185;
+			public const int actionbar = 2131165187;
 			
 			// aapt resource value: 0x7f070004
-			public const int button_background = 2131165188;
+			public const int actionbar_selected = 2131165188;
+			
+			// aapt resource value: 0x7f07000e
+			public const int albumcellbutton_background = 2131165198;
+			
+			// aapt resource value: 0x7f07000f
+			public const int albumcellbutton_selected = 2131165199;
+			
+			// aapt resource value: 0x7f070010
+			public const int albumcellbutton_textcolor = 2131165200;
+			
+			// aapt resource value: 0x7f070002
+			public const int background = 2131165186;
 			
 			// aapt resource value: 0x7f070005
-			public const int button_selected = 2131165189;
+			public const int button_background = 2131165189;
 			
 			// aapt resource value: 0x7f070006
-			public const int button_textcolor = 2131165190;
+			public const int button_selected = 2131165190;
+			
+			// aapt resource value: 0x7f070007
+			public const int button_textcolor = 2131165191;
 			
 			// aapt resource value: 0x7f070000
 			public const int color_black = 2131165184;
 			
-			// aapt resource value: 0x7f07000a
-			public const int dialogbutton_background = 2131165194;
-			
 			// aapt resource value: 0x7f07000b
-			public const int dialogbutton_selected = 2131165195;
-			
-			// aapt resource value: 0x7f070013
-			public const int dialogbutton_text = 2131165203;
+			public const int dialogbutton_background = 2131165195;
 			
 			// aapt resource value: 0x7f07000c
-			public const int dialogbutton_textcolor = 2131165196;
+			public const int dialogbutton_selected = 2131165196;
 			
 			// aapt resource value: 0x7f070014
-			public const int dialoglist_text = 2131165204;
+			public const int dialogbutton_text = 2131165204;
+			
+			// aapt resource value: 0x7f07000d
+			public const int dialogbutton_textcolor = 2131165197;
 			
 			// aapt resource value: 0x7f070015
-			public const int list_secondarytext = 2131165205;
+			public const int dialoglist_text = 2131165205;
 			
 			// aapt resource value: 0x7f070016
-			public const int list_text = 2131165206;
+			public const int list_secondarytext = 2131165206;
 			
-			// aapt resource value: 0x7f070010
-			public const int listitem_background = 2131165200;
+			// aapt resource value: 0x7f070017
+			public const int list_text = 2131165207;
 			
 			// aapt resource value: 0x7f070011
-			public const int listitem_selected = 2131165201;
+			public const int listitem_background = 2131165201;
 			
 			// aapt resource value: 0x7f070012
-			public const int listitem_textcolor = 2131165202;
+			public const int listitem_selected = 2131165202;
 			
-			// aapt resource value: 0x7f070007
-			public const int transparentbutton_background = 2131165191;
+			// aapt resource value: 0x7f070013
+			public const int listitem_textcolor = 2131165203;
 			
 			// aapt resource value: 0x7f070008
-			public const int transparentbutton_selected = 2131165192;
+			public const int transparentbutton_background = 2131165192;
 			
 			// aapt resource value: 0x7f070009
-			public const int transparentbutton_textcolor = 2131165193;
+			public const int transparentbutton_selected = 2131165193;
+			
+			// aapt resource value: 0x7f07000a
+			public const int transparentbutton_textcolor = 2131165194;
+			
+			// aapt resource value: 0x7f070001
+			public const int white = 2131165185;
 			
 			static Color()
 			{
@@ -370,82 +373,85 @@ namespace MPfm.Android
 			public const int miniplayerchevron = 2130837551;
 			
 			// aapt resource value: 0x7f020030
-			public const int player_close = 2130837552;
+			public const int optionsmenu = 2130837552;
 			
 			// aapt resource value: 0x7f020031
-			public const int player_close_on = 2130837553;
+			public const int player_close = 2130837553;
 			
 			// aapt resource value: 0x7f020032
-			public const int player_next = 2130837554;
+			public const int player_close_on = 2130837554;
 			
 			// aapt resource value: 0x7f020033
-			public const int player_next_on = 2130837555;
+			public const int player_next = 2130837555;
 			
 			// aapt resource value: 0x7f020034
-			public const int player_pause = 2130837556;
+			public const int player_next_on = 2130837556;
 			
 			// aapt resource value: 0x7f020035
-			public const int player_pause_on = 2130837557;
+			public const int player_pause = 2130837557;
 			
 			// aapt resource value: 0x7f020036
-			public const int player_play = 2130837558;
+			public const int player_pause_on = 2130837558;
 			
 			// aapt resource value: 0x7f020037
-			public const int player_play_on = 2130837559;
+			public const int player_play = 2130837559;
 			
 			// aapt resource value: 0x7f020038
-			public const int player_playlist = 2130837560;
+			public const int player_play_on = 2130837560;
 			
 			// aapt resource value: 0x7f020039
-			public const int player_playlist_on = 2130837561;
+			public const int player_playlist = 2130837561;
 			
 			// aapt resource value: 0x7f02003a
-			public const int player_previous = 2130837562;
+			public const int player_playlist_on = 2130837562;
 			
 			// aapt resource value: 0x7f02003b
-			public const int player_previous_on = 2130837563;
+			public const int player_previous = 2130837563;
 			
 			// aapt resource value: 0x7f02003c
-			public const int player_repeat = 2130837564;
+			public const int player_previous_on = 2130837564;
 			
 			// aapt resource value: 0x7f02003d
-			public const int player_repeat_on = 2130837565;
+			public const int player_repeat = 2130837565;
 			
 			// aapt resource value: 0x7f02003e
-			public const int player_shuffle = 2130837566;
+			public const int player_repeat_on = 2130837566;
 			
 			// aapt resource value: 0x7f02003f
-			public const int player_shuffle_on = 2130837567;
+			public const int player_shuffle = 2130837567;
 			
 			// aapt resource value: 0x7f020040
-			public const int progress = 2130837568;
+			public const int player_shuffle_on = 2130837568;
 			
 			// aapt resource value: 0x7f020041
-			public const int progress_background = 2130837569;
+			public const int progress = 2130837569;
 			
 			// aapt resource value: 0x7f020042
-			public const int progress_fill = 2130837570;
+			public const int progress_background = 2130837570;
 			
 			// aapt resource value: 0x7f020043
-			public const int roundbutton = 2130837571;
+			public const int progress_fill = 2130837571;
 			
 			// aapt resource value: 0x7f020044
-			public const int selectimage = 2130837572;
+			public const int roundbutton = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int spinner = 2130837573;
+			public const int selectimage = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int Splash = 2130837574;
+			public const int spinner = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int thumb = 2130837575;
+			public const int Splash = 2130837575;
 			
 			// aapt resource value: 0x7f020048
-			public const int thumb_big = 2130837576;
+			public const int thumb = 2130837576;
 			
 			// aapt resource value: 0x7f020049
-			public const int transparentbutton = 2130837577;
+			public const int thumb_big = 2130837577;
+			
+			// aapt resource value: 0x7f02004a
+			public const int transparentbutton = 2130837578;
 			
 			static Drawable()
 			{
@@ -1538,11 +1544,11 @@ namespace MPfm.Android
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f0a0005
-			public const int DialogAnimation = 2131361797;
+			// aapt resource value: 0x7f0a0006
+			public const int DialogAnimation = 2131361798;
 			
-			// aapt resource value: 0x7f0a0004
-			public const int DialogTheme = 2131361796;
+			// aapt resource value: 0x7f0a0005
+			public const int DialogTheme = 2131361797;
 			
 			// aapt resource value: 0x7f0a0001
 			public const int MyActionBar = 2131361793;
@@ -1550,11 +1556,14 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f0a0000
 			public const int MyAppTheme = 2131361792;
 			
+			// aapt resource value: 0x7f0a0003
+			public const int MyAppTheme_ActionBar_MenuTextStyle = 2131361795;
+			
 			// aapt resource value: 0x7f0a0002
 			public const int MyAppTheme_ActionBar_TitleTextStyle = 2131361794;
 			
-			// aapt resource value: 0x7f0a0003
-			public const int SplashTheme = 2131361795;
+			// aapt resource value: 0x7f0a0004
+			public const int SplashTheme = 2131361796;
 			
 			static Style()
 			{

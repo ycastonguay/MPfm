@@ -4,16 +4,23 @@
     <item name="android:icon">@drawable/icon_transparent</item>
     <item name="android:logo">@drawable/icon_transparent</item>
     <item name="android:actionBarStyle">@style/MyActionBar</item>
-    <item name="@android:panelFullBackground">#20282E</item>
-    <item name="@android:panelColorBackground">#20282E</item>
-    <item name="@android:panelBackground">#20282E</item>
+    <item name="android:actionMenuTextColor">@color/white</item>
+    <item name="android:actionMenuTextAppearance">@style/MyAppTheme.ActionBar.MenuTextStyle</item>
+    <item name="@android:panelFullBackground">@drawable/optionsmenu</item>
+    <item name="@android:panelColorBackground">@drawable/optionsmenu</item>
+    <item name="@android:panelBackground">@drawable/optionsmenu</item>
   </style>
   <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
     <item name="android:background">@color/actionbar</item>
     <item name="android:titleTextStyle">@style/MyAppTheme.ActionBar.TitleTextStyle</item>
+    <!--<item name="android:actionMenuTextColor">@color/white</item>-->
+    <!--<item name="android:actionMenuTextAppearance">@style/MyAppTheme.ActionBar.MenuTextStyle</item>-->
   </style>
   <style name="MyAppTheme.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
     <item name="android:textColor">#FFFFFF</item>
+  </style>
+  <style name="MyAppTheme.ActionBar.MenuTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Menu">
+    <item name="android:textColor">#FF00FF</item>
   </style>
   <style name="SplashTheme" parent="@android:style/Theme.Holo.Dialog">
     <item name="android:icon">@drawable/icon_transparent</item>
