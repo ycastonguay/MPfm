@@ -46,6 +46,10 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dropbox.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Dropbox.Android.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Support.v13" />
     <Reference Include="mscorlib" />
@@ -149,6 +153,9 @@
     <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_alac.so" />
     <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_ape.so" />
     <AndroidNativeLibrary Include="Lib\armeabi-v7a\libbass_fx.so" />
+    <AndroidNativeLibrary Include="Lib\armeabi\libDropboxSync.so" />
+    <AndroidNativeLibrary Include="Lib\x86\libDropboxSync.so" />
+    <AndroidNativeLibrary Include="Lib\armeabi-v7a\libDropboxSync.so" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\Player.axml">
@@ -312,6 +319,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lib\Dropbox.Android.dll" />
     <Content Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -613,9 +621,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_playlist.png" />
     <AndroidResource Include="Resources\drawable\carrouseldot.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lib\armeabi\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
      Other similar extension points exist, see Microsoft.Common.targets.
