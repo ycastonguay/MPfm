@@ -125,11 +125,12 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if (_items[indexPath.Row].Key == MobileOptionsMenuType.SyncLibraryCloud)
-            {
-                DBAccountManager.SharedManager.LinkFromController(this);
-                return;
-            }
+//            if (_items[indexPath.Row].Key == MobileOptionsMenuType.SyncLibraryCloud)
+//            {
+//                DBAccountManager.SharedManager.LinkFromController(this);
+//                ListFiles("");
+//                return;
+//            }
 
             OnItemClick(_items[indexPath.Row].Key);
         }
@@ -152,6 +153,16 @@ namespace MPfm.iOS
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             return 52;
+        }
+
+        void ListFiles(string path)
+        {
+            DBError error;
+
+            var contents = DBFilesystem.SharedFilesystem.ListFolder(new DBPath(path), out error);
+            foreach (DBFileInfo info in contents) {
+                Console.WriteLine(info.Path);
+            }   
         }
 
         #region IMobileOptionsMenuView implementation

@@ -126,6 +126,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPitchShiftingView, PitchShiftingViewController>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
             container.Register<ISyncView, SyncViewController>().AsMultiInstance();
+            container.Register<ISyncCloudView, SyncCloudViewController>().AsMultiInstance();
             container.Register<ISyncWebBrowserView, SyncWebBrowserViewController>().AsMultiInstance();
             container.Register<ISyncMenuView, SyncMenuViewController>().AsMultiInstance();
             container.Register<ISyncDownloadView, SyncDownloadViewController>().AsMultiInstance();
@@ -259,26 +260,31 @@ namespace MPfm.iOS.Classes.Delegates
         public void RegisterDropbox()
         {
             // The account manager stores all the account info. Create this when your app launches
-            var manager = new DBAccountManager (_dropboxAppKey, _dropboxAppSecret);
+            var manager = new DBAccountManager(_dropboxAppKey, _dropboxAppSecret);
             DBAccountManager.SharedManager = manager;
 
-            var account = manager.LinkedAccount;
-            if (account != null) {
-                var filesystem = new DBFilesystem (account);
-                DBFilesystem.SharedFilesystem = filesystem;
-            }   
+//            var account = manager.LinkedAccount;
+//            if (account != null) 
+//            {
+//                var filesystem = new DBFilesystem(account);
+//                DBFilesystem.SharedFilesystem = filesystem;
+//            }   
         }
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-            var account = DBAccountManager.SharedManager.HandleOpenURL (url);
-            if (account != null) {
-                var filesystem = new DBFilesystem (account);
+            Console.WriteLine("AppDelegate - OpenUrl");
+            var account = DBAccountManager.SharedManager.HandleOpenURL(url);
+            if (account != null) 
+            {
+                var filesystem = new DBFilesystem(account);
                 DBFilesystem.SharedFilesystem = filesystem;
-                Console.WriteLine ("App linked successfully!");
+                Console.WriteLine("AppDelegate - OpenUrl - Dropbox linked successfully!");
                 return true;
-            } else {
-                Console.WriteLine ("App is not linked");
+            } 
+            else 
+            {
+                Console.WriteLine("AppDelegate - OpenUrl - Dropbox is not linked!");
                 return false;
             }
         }

@@ -235,11 +235,11 @@
     <Compile Include="Presenters\SplashPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
     <Compile Include="Views\ISplashView.cs" />
-    <Compile Include="Config\RootAppConfig.cs" />   
+    <Compile Include="Config\RootAppConfig.cs" />
     <Compile Include="Config\Providers\XmlAppConfigProvider.cs" />
     <Compile Include="Config\Providers\IAppConfigProvider.cs" />
-        <Compile Include="Config\IAppConfig.cs" />
-<Compile Include="Config\AppConfigManager.cs" />		
+    <Compile Include="Config\IAppConfig.cs" />
+    <Compile Include="Config\AppConfigManager.cs" />
     <Compile Include="Config\AudioAppConfig.cs" />
     <Compile Include="Config\ControlsAppConfig.cs" />
     <Compile Include="Config\TableViewAppConfig.cs" />
@@ -334,5 +334,8 @@
     <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
     <Compile Include="Presenters\SelectFoldersPresenter.cs" />
     <Compile Include="Models\FolderEntity.cs" />
+    <Compile Include="Views\ISyncCloudView.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncCloudPresenter.cs" />
+    <Compile Include="Presenters\SyncCloudPresenter.cs" />
   </ItemGroup>
 </Project>
