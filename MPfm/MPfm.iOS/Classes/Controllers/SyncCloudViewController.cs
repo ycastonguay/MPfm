@@ -52,6 +52,8 @@ namespace MPfm.iOS
 
             DBError error = null;
             var account = DBAccountManager.SharedManager.LinkedAccount;
+
+            // TODO: account will be null when the user delogs out
             _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
             if(error != null)
                 throw new Exception(error.Description);
@@ -137,7 +139,11 @@ namespace MPfm.iOS
                 DBError error = null;
 
                 var table = _store.GetTable("stuff");
-                var records = table.Query(NSDictionary.FromObjectAndKey(new NSString("hello"), new NSString("world")), out error);
+                //var record = table.GetRecord("H8f7Q9JRhAkzzzmBa-dDww", out error);
+                var records = table.Query(null, out error);
+                if(error != null)
+                    throw new Exception(error.Description);
+
                 if (records.Length == 0)
                 {
                     lblValue.Text = "No value!";
@@ -199,13 +205,8 @@ namespace MPfm.iOS
             try
             {
                 DBError error = null;
-                var account = DBAccountManager.SharedManager.LinkedAccount;
-                _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
-                if(error != null)
-                    throw new Exception(error.Description);
-
                 var table = _store.GetTable("stuff");
-                var records = table.Query(NSDictionary.FromObjectAndKey(new NSString("hello"), new NSString("world")), out error);
+                var records = table.Query(null, out error);
                 if (records.Length == 0)
                 {
                     lblValue.Text = "No value!";
