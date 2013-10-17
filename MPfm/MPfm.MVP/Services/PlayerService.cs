@@ -18,7 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MPfm.Core;
+using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Models;
 using MPfm.Player;
 using MPfm.Player.Events;
@@ -38,6 +40,7 @@ namespace MPfm.MVP.Services
     public class PlayerService : IPlayerService
     {
         private readonly ITinyMessengerHub _messengerHub;
+        private readonly IDropboxService _dropboxService;
         private IPlayer _player;
 
         public bool IsInitialized { get; private set; }
@@ -62,9 +65,10 @@ namespace MPfm.MVP.Services
         /// </summary>
         public event BPMDetected OnBPMDetected;
 
-		public PlayerService(ITinyMessengerHub messageHub)
+		public PlayerService(ITinyMessengerHub messageHub, IDropboxService dropboxService)
 		{
             _messengerHub = messageHub;
+		    _dropboxService = dropboxService;
 		}
         
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
@@ -92,6 +96,18 @@ namespace MPfm.MVP.Services
         void HandleOnPlaylistIndexChanged(PlayerPlaylistIndexChangedData data)
         {
             _messengerHub.PublishAsync(new PlayerPlaylistIndexChangedMessage(this) { Data = data });
+
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    _dropboxService.PushNowPlaying(data.AudioFileStarted, 0, "0:00.000");
+                }
+                catch (Exception ex)
+                {
+                    Tracing.Log("PlayerService - HandleOnPlaylistIndexChanged - Failed to push to Dropbox: {0}", ex);
+                }
+            });
         }
 
         private void UpdatePlayerStatus(PlayerStatusType status)

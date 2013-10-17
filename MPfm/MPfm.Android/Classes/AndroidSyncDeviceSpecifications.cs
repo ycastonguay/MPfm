@@ -21,6 +21,7 @@ using System.Linq;
 using Android.Content;
 using Android.Net.Wifi;
 using Android.OS;
+using Android.Provider;
 using Android.Text.Format;
 using MPfm.Library;
 using MPfm.Library.Objects;
@@ -52,6 +53,11 @@ namespace MPfm.Android.Classes
             if (String.IsNullOrEmpty(_deviceName))
                 _deviceName = String.Format("{0} {1} ({2})", global::Android.OS.Build.Manufacturer, global::Android.OS.Build.Product, global::Android.OS.Build.Model);
             return _deviceName;
+        }
+
+        public string GetDeviceUniqueId()
+        {
+            return Settings.Secure.GetString(_context.ContentResolver, Settings.Secure.AndroidId);
         }
 
         public long GetFreeSpace()

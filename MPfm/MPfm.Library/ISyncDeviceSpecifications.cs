@@ -29,6 +29,7 @@ namespace MPfm.Library
 
         SyncDeviceType GetDeviceType();
         string GetDeviceName();
+        string GetDeviceUniqueId();
         long GetFreeSpace();
         string GetIPAddress();
         string GetMusicFolderPath();

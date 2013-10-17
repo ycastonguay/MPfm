@@ -118,7 +118,97 @@ namespace MPfm.Android.Classes.Services
             }
         }
 
-        public void PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
+        public string PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
+        {
+            try
+            {
+                DbxTable tableNowPlaying = _store.GetTable("nowPlaying");
+                DbxFields queryParams = new DbxFields();
+                queryParams.Set("deviceId", _deviceSpecifications.GetDeviceUniqueId());
+                DbxTable.QueryResult results = tableNowPlaying.Query(queryParams);
+                var list = results.AsList();
+
+                // Edit existing item or insert new item
+                DbxRecord record = list.Count > 0 ? list[0] : tableNowPlaying.Insert();
+                if (record != null)
+                {
+                    record.Set("audioFileId", audioFile.Id.ToString());
+                    record.Set("artistName", audioFile.ArtistName);
+                    record.Set("albumTitle", audioFile.AlbumTitle);
+                    record.Set("title", audioFile.Title);
+                    record.Set("position", "0:00.000");
+                    record.Set("positionBytes", 0);
+                    record.Set("deviceType", _deviceSpecifications.GetDeviceType().ToString());
+                    record.Set("deviceName", _deviceSpecifications.GetDeviceName());
+                    record.Set("deviceId", _deviceSpecifications.GetDeviceUniqueId());
+                    record.Set("ip", _deviceSpecifications.GetIPAddress());
+                    record.Set("timestamp", new Java.Util.Date());
+
+                    _store.Sync();
+                    return record.Id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return string.Empty;
+        }
+
+        public string PullNowPlaying()
+        {
+            string text = string.Empty;
+
+            try
+            {
+                //DbxTable tableStuff = _store.GetTable("stuff");
+                //DbxFields queryParams = new DbxFields();
+                //queryParams.Set("test", true);
+                //queryParams.Set("hello", "world");
+                //DbxTable.QueryResult results = tableStuff.Query(queryParams);
+                //var list = results.AsList();
+                //if (list.Count == 0)
+                //{
+                //    //_lblValue.Text = "No value!";
+                //    return text;
+                //}
+
+                //DbxRecord firstResult = list[0];
+                //string timestamp = firstResult.GetString("timestamp");
+                //string deviceType = firstResult.GetString("deviceType");
+                //string deviceName = firstResult.GetString("deviceName");
+                //text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return text;
+        }
+
+        public void DeleteNowPlaying()
+        {
+            try
+            {
+                DbxTable table = _store.GetTable("nowPlaying");
+                DbxTable.QueryResult results = table.Query();
+                var list = results.AsList();
+                foreach (var record in list)
+                {
+                    record.DeleteRecord();
+                }
+                _store.Sync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        public void PushStuff()
         {
             try
             {
@@ -138,7 +228,7 @@ namespace MPfm.Android.Classes.Services
             }
         }
 
-        public string PullNowPlaying()
+        public string PullStuff()
         {
             string text = string.Empty;
 
@@ -170,7 +260,7 @@ namespace MPfm.Android.Classes.Services
             return text;
         }
 
-        public void DeleteNowPlaying()
+        public void DeleteStuff()
         {
             try
             {

@@ -33,7 +33,12 @@ namespace MPfm.Library.Services.Interfaces
 
         void LinkApp(object view);
         void UnlinkApp();
-        void PushNowPlaying(AudioFile audioFile, long positionBytes, string position);
+
+        void PushStuff();
+        string PullStuff();
+        void DeleteStuff();
+
+        string PushNowPlaying(AudioFile audioFile, long positionBytes, string position);
         string PullNowPlaying();
         void DeleteNowPlaying();
     }

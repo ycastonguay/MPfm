@@ -117,7 +117,7 @@ namespace MPfm.Android
         {            
             try
             {
-                string nowPlaying = _dropbox.PullNowPlaying();
+                string nowPlaying = _dropbox.PullStuff();
                 _lblValue.Text = nowPlaying;
             }
             catch (Exception ex)
@@ -134,7 +134,7 @@ namespace MPfm.Android
         {
             try
             {
-                _dropbox.PushNowPlaying(new AudioFile(), 0, string.Empty);
+                _dropbox.PushStuff();
             }
             catch (Exception ex)
             {
@@ -150,6 +150,7 @@ namespace MPfm.Android
         {
             try
             {
+                _dropbox.DeleteStuff();
                 _dropbox.DeleteNowPlaying();
             }
             catch (Exception ex)
