@@ -73,8 +73,10 @@ namespace MPfm.Windows.Classes
             Bootstrapper.GetContainer().Register<IDesktopEffectsView, frmEffects>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopPreferencesView, frmPreferences>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, frmSync>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncCloudView, frmSyncCloud>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncMenuView, frmSyncMenu>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncDownloadView, frmSyncDownload>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncWebBrowserView, frmSyncWebBrowser>().AsMultiInstance();
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
             _navigationManager.CreateSplashView();

@@ -43,6 +43,11 @@ namespace MPfm.Windows.Classes.Specifications
             return _deviceName;
         }
 
+        public string GetDeviceUniqueId()
+        {
+            return string.Empty;
+        }
+
         public long GetFreeSpace()
         {
             string root = Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));

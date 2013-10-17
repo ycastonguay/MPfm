@@ -29,6 +29,8 @@ namespace MPfm.MVP.Views
         Action OnOpenEffectsWindow { get; set; }
         Action OnOpenPlaylistWindow { get; set; }
         Action OnOpenSyncWindow { get; set; }
+        Action OnOpenSyncCloudWindow { get; set; }
+        Action OnOpenSyncWebBrowserWindow { get; set; }
 
         Action<List<string>> OnAddFilesToLibrary { get; set; }
         Action<string> OnAddFolderToLibrary { get; set; }

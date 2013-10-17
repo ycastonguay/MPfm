@@ -97,6 +97,18 @@
     <Compile Include="Classes\Forms\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Classes\Forms\frmSyncWebBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncWebBrowser.Designer.cs">
+      <DependentUpon>frmSyncWebBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncCloud.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncCloud.Designer.cs">
+      <DependentUpon>frmSyncCloud.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Forms\frmSync.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +223,12 @@
     </Compile>
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Classes\Forms\frmSyncWebBrowser.resx">
+      <DependentUpon>frmSyncWebBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSyncCloud.resx">
+      <DependentUpon>frmSyncCloud.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Classes\Forms\frmFirstRun.resx">
       <DependentUpon>frmFirstRun.cs</DependentUpon>
     </EmbeddedResource>

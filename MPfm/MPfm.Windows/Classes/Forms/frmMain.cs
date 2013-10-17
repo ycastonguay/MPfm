@@ -869,6 +869,16 @@ namespace MPfm.Windows.Classes.Forms
             OnOpenSyncWindow();
         }
 
+        private void btnSyncCloud_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSyncWebBrowser_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
 
         #region Refresh Methods
@@ -1987,6 +1997,8 @@ namespace MPfm.Windows.Classes.Forms
         public Action OnOpenEffectsWindow { get; set; }
         public Action OnOpenPlaylistWindow { get; set; }
         public Action OnOpenSyncWindow { get; set; }
+        public Action OnOpenSyncCloudWindow { get; set; }
+        public Action OnOpenSyncWebBrowserWindow { get; set; }
         public Action<List<string>> OnAddFilesToLibrary { get; set; }
         public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
@@ -2451,6 +2463,7 @@ namespace MPfm.Windows.Classes.Forms
         }
 
         #endregion
+
 
     }
 }

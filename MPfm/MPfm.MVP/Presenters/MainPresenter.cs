@@ -37,51 +37,17 @@ namespace MPfm.MVP.Presenters
 		
 		public override void BindView(IMainView view)
 		{            
-			view.OnOpenPlaylistWindow = OpenPlaylistWindow;
-			view.OnOpenEffectsWindow = OpenEffectsWindow;
-			view.OnOpenPreferencesWindow = OpenPreferencesWindow;
-			view.OnOpenSyncWindow = OpenSyncWindow;
-			view.OnAddFilesToLibrary = AddFilesToLibrary;
-            view.OnAddFolderToLibrary = AddFolderToLibrary;
-            view.OnUpdateLibrary = UpdateLibrary;
+			view.OnOpenPlaylistWindow = () => _navigationManager.CreatePlaylistView();
+		    view.OnOpenEffectsWindow = () => _navigationManager.CreateEffectsView();
+		    view.OnOpenPreferencesWindow = () => _navigationManager.CreatePreferencesView();
+		    view.OnOpenSyncWindow = () => _navigationManager.CreateSyncView();
+            view.OnOpenSyncWindow = () => _navigationManager.CreateSyncCloudView();
+            view.OnOpenSyncWindow = () => _navigationManager.CreateSyncWebBrowserView();
+            view.OnAddFilesToLibrary = (filePaths) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFiles, filePaths, null);
+            view.OnAddFolderToLibrary = (folderPath) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFolder, null, folderPath);
+            view.OnUpdateLibrary = () => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);
 
 			base.BindView(view);
 		}
-
-	    void OpenPlaylistWindow()
-		{
-			_navigationManager.CreatePlaylistView();
-		}
-
-		void OpenEffectsWindow()
-		{
-			_navigationManager.CreateEffectsView();
-		}
-
-		void OpenPreferencesWindow()
-		{
-			_navigationManager.CreatePreferencesView();
-		}
-
-		void OpenSyncWindow()
-		{
-			_navigationManager.CreateSyncView();
-		}
-
-        void AddFolderToLibrary(string folderPath)
-        {
-            _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFolder, null, folderPath);
-        }
-
-        void AddFilesToLibrary(List<string> filePaths)
-        {
-            _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFiles, filePaths, null);
-        }
-
-        void UpdateLibrary()
-        {
-            _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);
-        }
 	}
 }
-

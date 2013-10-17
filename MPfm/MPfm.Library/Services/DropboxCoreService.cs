@@ -56,6 +56,8 @@ namespace MPfm.Library.Services
         {
         }
 
+        public bool HasLinkedAccount { get; private set; }
+
         public void LinkApp(object view)
         {
             try
@@ -192,8 +194,22 @@ namespace MPfm.Library.Services
         {
         }
 
-        public void PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
+        public void PushStuff()
         {
+        }
+
+        public string PullStuff()
+        {
+            return string.Empty;
+        }
+
+        public void DeleteStuff()
+        {
+        }
+
+        public string PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
+        {
+            return string.Empty;
         }
 
         public string PullNowPlaying()

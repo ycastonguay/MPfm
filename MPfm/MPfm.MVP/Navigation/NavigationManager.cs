@@ -80,6 +80,10 @@ namespace MPfm.MVP.Navigation
         ISyncMenuPresenter _syncMenuPresenter;
         ISyncDownloadView _syncDownloadView;
         ISyncDownloadPresenter _syncDownloadPresenter;
+        ISyncCloudView _syncCloudView;
+        ISyncCloudPresenter _syncCloudPresenter;
+        ISyncWebBrowserView _syncWebBrowserView;
+        ISyncWebBrowserPresenter _syncWebBrowserPresenter;
 
         public virtual ISplashView CreateSplashView()
         {
@@ -229,6 +233,60 @@ namespace MPfm.MVP.Navigation
                 _syncView = null;
             };
             return _syncView;
+        }
+
+        public virtual ISyncCloudView CreateSyncCloudView()
+        {
+            // If the view is still visible, just make it the top level window
+            if (_syncCloudView != null)
+            {
+                _syncCloudView.ShowView(true);
+                return _syncCloudView;
+            }
+
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _syncCloudPresenter = Bootstrapper.GetContainer().Resolve<ISyncCloudPresenter>();
+                _syncCloudPresenter.BindView((ISyncCloudView)view);
+            };
+
+            // Create view and manage view destruction
+            _syncCloudView = Bootstrapper.GetContainer().Resolve<ISyncCloudView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _syncCloudView.OnViewDestroy = (view) =>
+            {
+                _syncCloudPresenter.ViewDestroyed();
+                _syncCloudPresenter = null;
+                _syncCloudView = null;
+            };
+            return _syncCloudView;
+        }
+
+        public virtual ISyncWebBrowserView CreateSyncWebBrowserView()
+        {
+            // If the view is still visible, just make it the top level window
+            if (_syncWebBrowserView != null)
+            {
+                _syncWebBrowserView.ShowView(true);
+                return _syncWebBrowserView;
+            }
+
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _syncWebBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserPresenter>();
+                _syncWebBrowserPresenter.BindView((ISyncWebBrowserView)view);
+            };
+
+            // Create view and manage view destruction
+            _syncWebBrowserView = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _syncWebBrowserView.OnViewDestroy = (view) =>
+            {
+                _syncWebBrowserPresenter.ViewDestroyed();
+                _syncWebBrowserPresenter = null;
+                _syncWebBrowserView = null;
+            };
+            return _syncWebBrowserView;
         }
 
         public virtual ISyncMenuView CreateSyncMenuView(SyncDevice device)

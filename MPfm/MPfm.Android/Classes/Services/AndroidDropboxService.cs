@@ -305,7 +305,7 @@ namespace MPfm.Android.Classes.Services
                 {
                     Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange exception: {0}", ex);
                     if (OnDropboxDataChanged != null) OnDropboxDataChanged(string.Format("Error: {0}", ex));
-                    throw;
+                    //throw;
                 }
             }
         }
