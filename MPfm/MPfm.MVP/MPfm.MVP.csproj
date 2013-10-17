@@ -130,6 +130,7 @@
     <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncCloudPresenter.cs" />
     <Compile Include="Presenters\SelectFoldersPresenter.cs" />
     <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\SyncCloudPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Views\ILibraryPreferencesView.cs" />
     <Compile Include="Views\IGeneralPreferencesView.cs" />
     <Compile Include="Views\IAudioPreferencesView.cs" />
+    <Compile Include="Views\ISyncCloudView.cs" />
     <Compile Include="Views\IUpdateLibraryView.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Presenters\PlayerPresenter.cs" />

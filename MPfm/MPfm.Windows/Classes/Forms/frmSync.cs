@@ -26,6 +26,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
+using MPfm.Library.Services;
+using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Views;
 
 namespace MPfm.Windows.Classes.Forms
@@ -66,7 +69,8 @@ namespace MPfm.Windows.Classes.Forms
 
         private void btnConnectManual_Click(object sender, EventArgs e)
         {
-
+            var dropbox = Bootstrapper.GetContainer().Resolve<IDropboxService>();
+            dropbox.LinkApp();
         }
 
         private void btnRefreshDevices_Click(object sender, EventArgs e)

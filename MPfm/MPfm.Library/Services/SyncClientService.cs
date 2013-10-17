@@ -35,7 +35,7 @@ namespace MPfm.Library.Services
         readonly ILibraryService _libraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
         readonly ISyncDeviceSpecifications _deviceSpecifications;
-
+        
         Stopwatch _stopwatch;
         WebClientTimeout _webClient;
         long _bytesDownloaded = 0;
@@ -54,7 +54,7 @@ namespace MPfm.Library.Services
         public event EventHandler OnDownloadAudioFilesCompleted;
 
         public SyncClientService(ILibraryService libraryService, IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications deviceSpecifications)
-        {
+        {            
             _libraryService = libraryService;
             _audioFileCacheService = audioFileCacheService;
             _deviceSpecifications = deviceSpecifications;

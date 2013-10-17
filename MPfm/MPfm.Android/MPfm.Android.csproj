@@ -139,6 +139,7 @@
     <Compile Include="Classes\Receivers\LockReceiver.cs" />
     <Compile Include="Classes\Receivers\WifiDirectReceiver.cs" />
     <Compile Include="Classes\Services\AndroidDiscoveryService.cs" />
+    <Compile Include="Classes\Services\AndroidDropboxService.cs" />
     <Compile Include="Classes\Services\NotificationService.cs" />
     <Compile Include="Classes\Services\WidgetService.cs" />
     <Compile Include="Classes\Widgets\PlayerWidgetProvider.cs" />

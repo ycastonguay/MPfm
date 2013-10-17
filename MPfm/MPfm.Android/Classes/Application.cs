@@ -25,6 +25,7 @@ using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Providers;
 using MPfm.Android.Classes.Receivers;
 using MPfm.Library;
+using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Navigation;
@@ -151,6 +152,7 @@ namespace MPfm.Android.Classes
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
+            container.Register<IDropboxService, AndroidDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, AndroidAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();

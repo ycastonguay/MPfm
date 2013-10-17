@@ -19,6 +19,8 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using MPfm.Library;
+using MPfm.Library.Services;
+using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Navigation;
@@ -57,6 +59,7 @@ namespace MPfm.Windows.Classes
 
             // Finish IoC registration
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, WindowsSyncDeviceSpecifications>().AsSingleton();
+            Bootstrapper.GetContainer().Register<IDropboxService, DropboxCoreService>().AsSingleton();
             Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, frmSplash>().AsMultiInstance();

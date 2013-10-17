@@ -70,6 +70,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Rest, Version=1.1.1.35071, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Spring.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Social.Core, Version=1.0.1.35171, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Spring.Social.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Social.Dropbox, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Spring.Social.Dropbox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -163,6 +179,8 @@
     <Compile Include="Database\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DropboxCoreService.cs" />
+    <Compile Include="Services\Interfaces\IDropboxService.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />
