@@ -234,7 +234,7 @@
             this.btnConnectManual.Location = new System.Drawing.Point(291, 213);
             this.btnConnectManual.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.btnConnectManual.Name = "btnConnectManual";
-            this.btnConnectManual.Size = new System.Drawing.Size(190, 28);
+            this.btnConnectManual.Size = new System.Drawing.Size(181, 28);
             this.btnConnectManual.TabIndex = 96;
             this.btnConnectManual.Text = "Connect manually to a device";
             this.btnConnectManual.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -303,7 +303,7 @@
             this.btnRefreshDevices.Location = new System.Drawing.Point(13, 213);
             this.btnRefreshDevices.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.btnRefreshDevices.Name = "btnRefreshDevices";
-            this.btnRefreshDevices.Size = new System.Drawing.Size(113, 28);
+            this.btnRefreshDevices.Size = new System.Drawing.Size(81, 28);
             this.btnRefreshDevices.TabIndex = 81;
             this.btnRefreshDevices.Text = "Cancel refresh";
             this.btnRefreshDevices.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -449,7 +449,7 @@
             this.Name = "frmSync";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Sync Library With Other Devices";
+            this.Text = "Sync (Nearby Devices)";
             this.panelBackground.ResumeLayout(false);
             this.ResumeLayout(false);
 

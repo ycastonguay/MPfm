@@ -41,8 +41,8 @@ namespace MPfm.MVP.Presenters
 		    view.OnOpenEffectsWindow = () => _navigationManager.CreateEffectsView();
 		    view.OnOpenPreferencesWindow = () => _navigationManager.CreatePreferencesView();
 		    view.OnOpenSyncWindow = () => _navigationManager.CreateSyncView();
-            view.OnOpenSyncWindow = () => _navigationManager.CreateSyncCloudView();
-            view.OnOpenSyncWindow = () => _navigationManager.CreateSyncWebBrowserView();
+            view.OnOpenSyncCloudWindow = () => _navigationManager.CreateSyncCloudView();
+            view.OnOpenSyncWebBrowserWindow = () => _navigationManager.CreateSyncWebBrowserView();
             view.OnAddFilesToLibrary = (filePaths) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFiles, filePaths, null);
             view.OnAddFolderToLibrary = (folderPath) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFolder, null, folderPath);
             view.OnUpdateLibrary = () => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);

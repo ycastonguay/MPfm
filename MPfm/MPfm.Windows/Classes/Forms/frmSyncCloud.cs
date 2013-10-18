@@ -44,32 +44,29 @@ namespace MPfm.Windows.Classes.Forms
             ViewIsReady();
         }
 
-        private void RefreshDeviceListButton()
+        private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (_isDiscovering)
-            {
-                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_cancel_16);
-                btnRefreshDevices.Text = "Cancel refresh";
-            }
-            else
-            {
-                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_refresh_16);
-                btnRefreshDevices.Text = "Refresh devices";
-            }
+
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private void btnLogout_Click(object sender, EventArgs e)
         {
+
         }
 
-        private void btnConnectManual_Click(object sender, EventArgs e)
+        private void btnPull_Click(object sender, EventArgs e)
         {
-            var dropbox = Bootstrapper.GetContainer().Resolve<IDropboxService>();
-            dropbox.LinkApp(this);
+
         }
 
-        private void btnRefreshDevices_Click(object sender, EventArgs e)
+        private void btnPush_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+
         }
 
         #region ISyncCloudView implementation
@@ -88,6 +85,7 @@ namespace MPfm.Windows.Classes.Forms
         }
 
         #endregion
+
 
     }
 }

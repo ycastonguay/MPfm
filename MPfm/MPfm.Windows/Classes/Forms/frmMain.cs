@@ -871,12 +871,12 @@ namespace MPfm.Windows.Classes.Forms
 
         private void btnSyncCloud_Click(object sender, EventArgs e)
         {
-
+            OnOpenSyncCloudWindow();
         }
 
         private void btnSyncWebBrowser_Click(object sender, EventArgs e)
         {
-
+            OnOpenSyncWebBrowserWindow();
         }
 
         #endregion

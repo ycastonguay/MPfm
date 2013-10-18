@@ -44,28 +44,12 @@ namespace MPfm.Windows.Classes.Forms
             ViewIsReady();
         }
 
-        private void RefreshDeviceListButton()
-        {
-            if (_isDiscovering)
-            {
-                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_cancel_16);
-                btnRefreshDevices.Text = "Cancel refresh";
-            }
-            else
-            {
-                btnRefreshDevices.Image = new Bitmap(MPfm.Windows.Properties.Resources.icon_button_refresh_16);
-                btnRefreshDevices.Text = "Refresh devices";
-            }
-        }
-
         private void btnConnect_Click(object sender, EventArgs e)
         {
         }
 
         private void btnConnectManual_Click(object sender, EventArgs e)
         {
-            var dropbox = Bootstrapper.GetContainer().Resolve<IDropboxService>();
-            dropbox.LinkApp(this);
         }
 
         private void btnRefreshDevices_Click(object sender, EventArgs e)
@@ -89,6 +73,16 @@ namespace MPfm.Windows.Classes.Forms
 
         public void RefreshContent(string url, string authenticationCode)
         {
+            MethodInvoker methodUIUpdate = delegate
+            {
+                lblUrl.Text = url;
+                lblAuthenticationCode.Text = authenticationCode;
+            };
+
+            if (InvokeRequired)
+                BeginInvoke(methodUIUpdate);
+            else
+                methodUIUpdate.Invoke();
         }
 
         #endregion
