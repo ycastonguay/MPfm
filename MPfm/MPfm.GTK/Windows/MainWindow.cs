@@ -546,7 +546,6 @@ namespace MPfm.GTK.Windows
 			string text = Title + "\nMPfm: Music Player for Musicians is © 2011-2012 Yanick Castonguay and is released under the GPLv3 license.";
 			text += "\nThe BASS audio library is © 1999-2012 Un4seen Developments.";
 		    text += "\nThe BASS.NET audio library is © 2005-2012 radio42.";
-	
 
 			MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, text);
 			md.Run();
@@ -632,7 +631,7 @@ namespace MPfm.GTK.Windows
 			// Check for dummy node		
 			_storeLibraryBrowser.IterChildren(out iter, args.Iter);
 			LibraryBrowserEntity entityChildren = (LibraryBrowserEntity)_storeLibraryBrowser.GetValue(iter, 0);			
-			if(entityChildren.Type == LibraryBrowserEntityType.Dummy)
+			if(entityChildren.EntityType == LibraryBrowserEntityType.Dummy)
 			{	
 				OnTreeNodeExpanded(entity, args.Iter);
 			}	
@@ -682,6 +681,16 @@ namespace MPfm.GTK.Windows
         {
         }
 		
+        protected void OnActionSyncCloudActivated(object sender, EventArgs e)
+        {
+            OnOpenSyncCloudWindow();
+        }
+
+        protected void OnActionSyncWebBrowserActivated(object sender, EventArgs e)
+        {
+            OnOpenSyncWebBrowserWindow();
+        }
+
 		#endregion
 	
 		private static Gdk.Pixbuf ImageToPixbuf(System.Drawing.Image image)
@@ -705,6 +714,8 @@ namespace MPfm.GTK.Windows
         public System.Action OnOpenEffectsWindow { get; set; }
         public System.Action OnOpenPlaylistWindow { get; set; }
         public System.Action OnOpenSyncWindow { get; set; }
+        public System.Action OnOpenSyncCloudWindow { get; set; }
+        public System.Action OnOpenSyncWebBrowserWindow { get; set; }
 
         public System.Action<List<string>> OnAddFilesToLibrary { get; set; }
         public System.Action<string> OnAddFolderToLibrary { get; set; }
@@ -925,7 +936,7 @@ namespace MPfm.GTK.Windows
                 TreeIter treeIterDummy;
                 _storeLibraryBrowser.IterNthChild(out treeIterDummy, iter, 0);
 				
-				switch(entity.Type)
+				switch(entity.EntityType)
 				{				
                     case LibraryBrowserEntityType.Artists:
     					foreach(LibraryBrowserEntity artist in entities)

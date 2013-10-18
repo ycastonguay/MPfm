@@ -62,6 +62,11 @@ namespace MPfm.GTK.Classes
             return SyncListenerService.GetLocalIPAddress().ToString();
         }
 
+        public string GetDeviceUniqueId()
+        {
+            return string.Empty;
+        }
+
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);

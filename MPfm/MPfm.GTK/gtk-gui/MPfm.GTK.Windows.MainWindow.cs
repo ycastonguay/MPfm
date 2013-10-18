@@ -35,6 +35,8 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.Action HelpAction;
 		private global::Gtk.Action actionPlayLoop;
 		private global::Gtk.Action connectAction;
+		private global::Gtk.Action SyncCloudAction;
+		private global::Gtk.Action SyncWebBrowserAction;
 		private global::Gtk.VBox vboxMain;
 		private global::Gtk.MenuBar menubarMain;
 		private global::Gtk.Toolbar toolbarMain;
@@ -344,6 +346,22 @@ namespace MPfm.GTK.Windows
 				"gtk-connect"
 			);
 			w1.Add (this.connectAction, null);
+			this.SyncCloudAction = new global::Gtk.Action (
+				"SyncCloudAction",
+				global::Mono.Unix.Catalog.GetString("Sync (Cloud)"),
+				null,
+				null
+			);
+			this.SyncCloudAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Sync (Cloud)");
+			w1.Add (this.SyncCloudAction, null);
+			this.SyncWebBrowserAction = new global::Gtk.Action (
+				"SyncWebBrowserAction",
+				global::Mono.Unix.Catalog.GetString("Sync (Web Browser)"),
+				null,
+				null
+			);
+			this.SyncWebBrowserAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Sync (Web Browser)");
+			w1.Add (this.SyncWebBrowserAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.Windows.MainWindow";
@@ -358,7 +376,7 @@ namespace MPfm.GTK.Windows
 			this.vboxMain = new global::Gtk.VBox ();
 			this.vboxMain.Name = "vboxMain";
 			// Container child vboxMain.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'><menu name='FileAction' action='FileAction'><menuitem name='actionAddFiles' action='actionAddFiles'/><menuitem name='actionAddFolder' action='actionAddFolder'/><separator/><menuitem name='openAction' action='openAction'/><separator/><menuitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><separator/><menuitem name='actionExit' action='actionExit'/></menu><menu name='PlaybackAction' action='PlaybackAction'><menuitem name='actionPlay' action='actionPlay'/><menuitem name='actionPause' action='actionPause'/><menuitem name='actionStop' action='actionStop'/><menuitem name='actionPrevious' action='actionPrevious'/><menuitem name='actionNext' action='actionNext'/><menuitem name='actionRepeatType' action='actionRepeatType'/></menu><menu name='WindowsAction' action='WindowsAction'/><menu name='HelpAction' action='HelpAction'><menuitem name='actionHelp' action='actionHelp'/><menuitem name='actionAbout' action='actionAbout'/></menu></menubar></ui>");
+			this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'><menu name='FileAction' action='FileAction'><menuitem name='actionAddFiles' action='actionAddFiles'/><menuitem name='actionAddFolder' action='actionAddFolder'/><separator/><menuitem name='openAction' action='openAction'/><separator/><menuitem name='actionUpdateLibrary' action='actionUpdateLibrary'/><separator/><menuitem name='actionExit' action='actionExit'/></menu><menu name='PlaybackAction' action='PlaybackAction'><menuitem name='actionPlay' action='actionPlay'/><menuitem name='actionPause' action='actionPause'/><menuitem name='actionStop' action='actionStop'/><menuitem name='actionPrevious' action='actionPrevious'/><menuitem name='actionNext' action='actionNext'/><menuitem name='actionRepeatType' action='actionRepeatType'/></menu><menu name='WindowsAction' action='WindowsAction'><menuitem name='SyncCloudAction' action='SyncCloudAction'/><menuitem name='SyncWebBrowserAction' action='SyncWebBrowserAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='actionHelp' action='actionHelp'/><menuitem name='actionAbout' action='actionAbout'/></menu></menubar></ui>");
 			this.menubarMain = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubarMain")));
 			this.menubarMain.Name = "menubarMain";
 			this.vboxMain.Add (this.menubarMain);
@@ -476,7 +494,6 @@ namespace MPfm.GTK.Windows
 			w12.Fill = false;
 			// Container child hbox4.Gtk.Box+BoxChild
 			this.vbox3 = new global::Gtk.VBox ();
-			this.vbox3.Name = "vbox3";
 			this.vbox3.Spacing = 6;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.hbox5 = new global::Gtk.HBox ();
@@ -1085,6 +1102,8 @@ namespace MPfm.GTK.Windows
 			this.actionAddFolder.Activated += new global::System.EventHandler (this.OnActionAddFolderActivated);
 			this.actionPlayLoop.Activated += new global::System.EventHandler (this.OnActionPlayLoopActivated);
 			this.connectAction.Activated += new global::System.EventHandler (this.OnActionSyncLibrary);
+			this.SyncCloudAction.Activated += new global::System.EventHandler (this.OnActionSyncCloudActivated);
+			this.SyncWebBrowserAction.Activated += new global::System.EventHandler (this.OnActionSyncWebBrowserActivated);
 			this.cboSoundFormat.Changed += new global::System.EventHandler (this.OnSoundFormatChanged);
 			this.treeLibraryBrowser.RowActivated += new global::Gtk.RowActivatedHandler (this.OnTreeLibraryBrowserRowActivated);
 			this.treeLibraryBrowser.CursorChanged += new global::System.EventHandler (this.OnTreeLibraryBrowserCursorChanged);
