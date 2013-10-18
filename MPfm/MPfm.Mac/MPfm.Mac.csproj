@@ -219,6 +219,16 @@
     </Compile>
     <Compile Include="Classes\Objects\SyncMenuItem.cs" />
     <Compile Include="Classes\Controls\MPfmTabButton.cs" />
+    <Compile Include="Windows\SyncCloudWindow.cs" />
+    <Compile Include="Windows\SyncCloudWindow.designer.cs">
+      <DependentUpon>SyncCloudWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SyncCloudWindowController.cs" />
+    <Compile Include="Windows\SyncWebBrowserWindow.cs" />
+    <Compile Include="Windows\SyncWebBrowserWindow.designer.cs">
+      <DependentUpon>SyncWebBrowserWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SyncWebBrowserWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -234,6 +244,8 @@
     <InterfaceDefinition Include="Windows\XIB\SyncWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncMenuWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncDownloadWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncCloudWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncWebBrowserWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

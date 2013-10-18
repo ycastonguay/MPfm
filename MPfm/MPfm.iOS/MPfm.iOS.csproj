@@ -278,6 +278,7 @@
     <Compile Include="Classes\Controllers\SyncCloudViewController.designer.cs">
       <DependentUpon>SyncCloudViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Services\iOSDropboxService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -362,6 +363,7 @@
     <Folder Include="Images\ContextualButtons\" />
     <Folder Include="Images\Player\" />
     <Folder Include="Classes\Providers\" />
+    <Folder Include="Classes\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />

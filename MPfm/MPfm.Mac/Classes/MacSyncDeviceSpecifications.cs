@@ -65,6 +65,11 @@ namespace MPfm.Mac
             return SyncListenerService.GetLocalIPAddress().ToString();
         }
 
+        public string GetDeviceUniqueId()
+        {
+            return string.Empty;
+        }
+
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);

@@ -75,6 +75,11 @@ namespace MPfm.iOS.Helpers
              return SyncListenerService.GetLocalIPAddress().ToString();
         }
 
+        public string GetDeviceUniqueId()
+        {
+            return UIDevice.CurrentDevice.IdentifierForVendor.ToString();
+        }
+
         public string GetMusicFolderPath()
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

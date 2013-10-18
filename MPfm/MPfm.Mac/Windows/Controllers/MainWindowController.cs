@@ -888,6 +888,8 @@ namespace MPfm.Mac
         public System.Action OnOpenEffectsWindow { get; set; }
         public System.Action OnOpenPlaylistWindow { get; set; }
         public System.Action OnOpenSyncWindow { get; set; }
+        public System.Action OnOpenSyncCloudWindow { get; set; }
+        public System.Action OnOpenSyncWebBrowserWindow { get; set; }
         public Action<List<string>> OnAddFilesToLibrary { get; set; }
         public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }

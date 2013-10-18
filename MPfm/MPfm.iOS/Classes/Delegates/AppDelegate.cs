@@ -34,6 +34,8 @@ using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Providers;
 using MPfm.iOS.Helpers;
 using DropBoxSync.iOS;
+using MPfm.iOS.Classes.Services;
+using MPfm.Library.Services.Interfaces;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -104,6 +106,7 @@ namespace MPfm.iOS.Classes.Delegates
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
+            container.Register<IDropboxService, iOSDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
             container.Register<ISplashView, SplashViewController>().AsMultiInstance();

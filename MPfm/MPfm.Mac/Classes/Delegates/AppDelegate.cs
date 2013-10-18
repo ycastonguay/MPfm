@@ -18,6 +18,13 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MPfm.Library;
+using MPfm.Library.Services;
+using MPfm.Library.Services.Interfaces;
+using MPfm.MVP;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 using MonoMac.AppKit;
 using MonoMac.CoreAnimation;
 using MonoMac.CoreFoundation;
@@ -25,18 +32,13 @@ using MonoMac.CoreGraphics;
 using MonoMac.CoreText;
 using MonoMac.Foundation;
 using MonoMac.ObjCRuntime;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Views;
 using TinyIoC;
 using MPfm.Mac.Classes.Navigation;
 
 namespace MPfm.Mac.Classes.Delegates
 {
     /// <summary>
-    /// App delegate. Uses Ninject to create the MainWindow.
+    /// App delegate. Uses TinyIoC to create the MainWindow.
     /// </summary>
 	public partial class AppDelegate : NSApplicationDelegate
 	{
@@ -49,6 +51,7 @@ namespace MPfm.Mac.Classes.Delegates
 		public override void FinishedLaunching(NSObject notification)
 		{
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, MacSyncDeviceSpecifications>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<IDropboxService, DropboxCoreService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, MainWindowController>().AsMultiInstance();
@@ -59,6 +62,8 @@ namespace MPfm.Mac.Classes.Delegates
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncMenuView, SyncMenuWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncDownloadView, SyncDownloadWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncCloudView, SyncCloudWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ISyncWebBrowserView, SyncWebBrowserWindowController>().AsMultiInstance();
 
             // Create and start navigation manager
             _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
