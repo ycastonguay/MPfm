@@ -62,6 +62,8 @@ namespace MPfm.MVP.Navigation
         private IPlayerPresenter _playerPresenter;
         private ISyncView _syncView;
         private ISyncPresenter _syncPresenter;
+        private ISyncConnectManualView _syncConnectManualView;
+        private ISyncConnectManualPresenter _syncConnectManualPresenter;
         private ISyncCloudView _syncCloudView;
         private ISyncCloudPresenter _syncCloudPresenter;
         private ISyncWebBrowserView _syncWebBrowserView;
@@ -74,6 +76,8 @@ namespace MPfm.MVP.Navigation
         private IPlaylistPresenter _playlistPresenter;
         private IAddMarkerView _addMarkerView;
         private IAddMarkerPresenter _addMarkerPresenter;
+        private IResumePlaybackView _resumePlaybackView;
+        private IResumePlaybackPresenter _resumePlaybackPresenter;
 
         // Player sub views
         private IPlayerMetadataView _playerMetadataView;
@@ -891,6 +895,34 @@ namespace MPfm.MVP.Navigation
             };
 
             CreateAboutViewInternal(onViewReady);
+        }
+
+        protected virtual void CreateResumePlaybackViewInternal(Action<IBaseView> onViewReady)
+        {
+            if (_resumePlaybackView == null)
+                _resumePlaybackView = Bootstrapper.GetContainer().Resolve<IResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _resumePlaybackView);
+#endif
+        }
+
+        public virtual void CreateResumePlaybackView()
+        {
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _resumePlaybackView = (IResumePlaybackView)view;
+                _resumePlaybackView.OnViewDestroy = (view2) =>
+                {
+                    _resumePlaybackPresenter.ViewDestroyed();
+                    _resumePlaybackPresenter = null;
+                    _resumePlaybackView = null;
+                };
+                _resumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IResumePlaybackPresenter>();
+                _resumePlaybackPresenter.BindView((IResumePlaybackView)view);
+            };
+
+            CreateResumePlaybackViewInternal(onViewReady);
         }
 
         protected virtual void CreatePlaylistViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)

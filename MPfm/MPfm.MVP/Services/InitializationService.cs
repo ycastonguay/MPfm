@@ -130,7 +130,8 @@ namespace MPfm.MVP.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Error initializing MPfm: The sync listener could not be started!", ex);
+                //throw new Exception("Error initializing MPfm: The sync listener could not be started!", ex);
+                Tracing.Log("The sync listener could not be started! Exception: {0}", ex);
             }   
 	    }
 

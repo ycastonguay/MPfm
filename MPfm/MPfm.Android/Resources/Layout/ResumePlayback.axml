@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/resumePlayback_mainLayout"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:background="@color/background">
+  <TextView
+    android:id="@+id/resumePlayback_lblIPAddress"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:text="Please select a device to resume from:"
+    android:textSize="14dp"
+    android:textColor="#CCCCCC" />
+  <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+    <ProgressBar
+      android:id="@+id/resumePlayback_progressBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"      
+      style="@android:style/Widget.ProgressBar.Small"
+      android:indeterminate="true" />
+    <TextView
+      android:id="@+id/resumePlayback_lblStatus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"     
+      android:layout_marginLeft="8dp"      
+      android:text="Refreshing devices..."
+      android:textSize="16dp"
+      android:textColor="#FFFFFF" />
+  </LinearLayout>
+  <ListView
+    android:id="@+id/resumePlayback_listView"
+    android:layout_width="fill_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:background="#FFFFFF"
+    android:cacheColorHint="#333333"
+    android:divider="#BBBBBB"
+    android:dividerHeight="1px"
+    android:listSelector="@drawable/list" />
+  <Button
+    android:id="@+id/resumePlayback_btnConnectManually"    
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/button"
+    android:text="Connect manually to device"
+    android:textColor="@color/button_textcolor"
+    android:textSize="14dp" />
+</LinearLayout>

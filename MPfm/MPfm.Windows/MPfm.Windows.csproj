@@ -97,6 +97,12 @@
     <Compile Include="Classes\Forms\BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Classes\Forms\frmResumePlayback.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmResumePlayback.Designer.cs">
+      <DependentUpon>frmResumePlayback.cs</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Forms\frmSyncWebBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,6 +229,9 @@
     </Compile>
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Classes\Forms\frmResumePlayback.resx">
+      <DependentUpon>frmResumePlayback.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Classes\Forms\frmSyncWebBrowser.resx">
       <DependentUpon>frmSyncWebBrowser.cs</DependentUpon>
     </EmbeddedResource>

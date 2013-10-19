@@ -16,26 +16,23 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class SyncManualConnectFragment : BaseDialogFragment, View.IOnClickListener
+    public class SyncConnectManualFragment : BaseDialogFragment, ISyncConnectManualView, View.IOnClickListener
     {        
         private View _view;
 
         // Leave an empty constructor or the application will crash at runtime
-        public SyncManualConnectFragment() : base(null) { }
+        public SyncConnectManualFragment() : base(null) { }
 
-        public SyncManualConnectFragment(Action<IBaseView> onViewReady) 
+        public SyncConnectManualFragment(Action<IBaseView> onViewReady) 
             : base(onViewReady)
         {
         }

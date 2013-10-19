@@ -35,8 +35,8 @@ using MPfm.Player.Objects;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Sync Library With Other Devices", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class SyncActivity : BaseActivity, ISyncView
+    [Activity(Label = "Resume Playback", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    public class ResumePlaybackActivity : BaseActivity, IResumePlaybackView
     {
         private MobileNavigationManager _navigationManager;
         private TextView _lblIPAddress;
@@ -48,32 +48,30 @@ namespace MPfm.Android
 
         protected override void OnCreate(Bundle bundle)
         {
-            Console.WriteLine("SyncActivity - OnCreate");
+            Console.WriteLine("ResumePlaybackActivity - OnCreate");
             base.OnCreate(bundle);
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            SetContentView(Resource.Layout.Sync);
+            SetContentView(Resource.Layout.ResumePlayback);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
 
-            _lblIPAddress = FindViewById<TextView>(Resource.Id.sync_lblIPAddress);
-            _lblStatus = FindViewById<TextView>(Resource.Id.sync_lblStatus);
-            _btnConnectManually = FindViewById<Button>(Resource.Id.sync_btnConnectManually);
+            _lblIPAddress = FindViewById<TextView>(Resource.Id.resumePlayback_lblIPAddress);
+            _lblStatus = FindViewById<TextView>(Resource.Id.resumePlayback_lblStatus);
+            _btnConnectManually = FindViewById<Button>(Resource.Id.resumePlayback_btnConnectManually);
             _btnConnectManually.Click += BtnConnectManuallyOnClick;
-            
-            _listView = FindViewById<ListView>(Resource.Id.sync_listView);
-            _listAdapter = new SyncListAdapter(this, new List<SyncDevice>());
-            _listView.SetAdapter(_listAdapter);
-            _listView.ItemClick += ListViewOnItemClick;
+
+            _listView = FindViewById<ListView>(Resource.Id.resumePlayback_listView);
+            //_listAdapter = new SyncListAdapter(this, new List<SyncDevice>());
+            //_listView.SetAdapter(_listAdapter);
+            //_listView.ItemClick += ListViewOnItemClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);
+            ((AndroidNavigationManager)_navigationManager).SetResumePlaybackActivityInstance(this);
         }
 
         private void BtnConnectManuallyOnClick(object sender, EventArgs eventArgs)
         {
-            SyncConnectManualFragment fragment = new SyncConnectManualFragment();
-            fragment.Show(FragmentManager, "SyncManualConnect");
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
@@ -84,37 +82,37 @@ namespace MPfm.Android
 
         protected override void OnStart()
         {
-            Console.WriteLine("SyncActivity - OnStart");
+            Console.WriteLine("ResumePlaybackActivity - OnStart");
             base.OnStart();
         }
 
         protected override void OnRestart()
         {
-            Console.WriteLine("SyncActivity - OnRestart");
+            Console.WriteLine("ResumePlaybackActivity - OnRestart");
             base.OnRestart();
         }
 
         protected override void OnPause()
         {
-            Console.WriteLine("SyncActivity - OnPause");
+            Console.WriteLine("ResumePlaybackActivity - OnPause");
             base.OnPause();
         }
 
         protected override void OnResume()
         {
-            Console.WriteLine("SyncActivity - OnResume");
+            Console.WriteLine("ResumePlaybackActivity - OnResume");
             base.OnResume();
         }
 
         protected override void OnStop()
         {
-            Console.WriteLine("SyncActivity - OnStop");
+            Console.WriteLine("ResumePlaybackActivity - OnStop");
             base.OnStop();
         }
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("SyncActivity - OnDestroy");
+            Console.WriteLine("ResumePlaybackActivity - OnDestroy");
             base.OnDestroy();
         }
 

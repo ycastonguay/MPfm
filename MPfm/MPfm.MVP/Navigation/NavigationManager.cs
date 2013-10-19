@@ -47,6 +47,9 @@ namespace MPfm.MVP.Navigation
         ITimeShiftingPresenter _timeShiftingPresenter;
         IPitchShiftingPresenter _pitchShiftingPresenter;
 
+        IResumePlaybackView _resumePlaybackView;
+        IResumePlaybackPresenter _resumePlaybackPresenter;
+
         IMarkerDetailsView _markerDetailsView;
         IMarkerDetailsPresenter _markerDetailsPresenter;
 
@@ -384,6 +387,33 @@ namespace MPfm.MVP.Navigation
                 _updateLibraryView = null;
             };
             return _updateLibraryView;
+        }
+
+        public virtual IResumePlaybackView CreateResumePlaybackView()
+        {
+            // If the view is still visible, just make it the top level window
+            if (_resumePlaybackView != null)
+            {
+                _resumePlaybackView.ShowView(true);
+                return _resumePlaybackView;
+            }
+
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _resumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IResumePlaybackPresenter>();
+                _resumePlaybackPresenter.BindView((IResumePlaybackView)view);
+            };
+
+            // Create view and manage view destruction
+            _resumePlaybackView = Bootstrapper.GetContainer().Resolve<IResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _resumePlaybackView.OnViewDestroy = (view) =>
+            {
+                _resumePlaybackPresenter.ViewDestroyed();
+                _resumePlaybackPresenter = null;
+                _resumePlaybackView = null;
+            };
+            return _resumePlaybackView;
         }
 
         public virtual IDesktopFirstRunView CreateFirstRunView()

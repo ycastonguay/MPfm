@@ -43,6 +43,7 @@ namespace MPfm.MVP.Presenters
 		    view.OnOpenSyncWindow = () => _navigationManager.CreateSyncView();
             view.OnOpenSyncCloudWindow = () => _navigationManager.CreateSyncCloudView();
             view.OnOpenSyncWebBrowserWindow = () => _navigationManager.CreateSyncWebBrowserView();
+            view.OnOpenResumePlayback = () => _navigationManager.CreateResumePlaybackView();
             view.OnAddFilesToLibrary = (filePaths) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFiles, filePaths, null);
             view.OnAddFolderToLibrary = (folderPath) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFolder, null, folderPath);
             view.OnUpdateLibrary = () => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);

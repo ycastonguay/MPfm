@@ -879,6 +879,11 @@ namespace MPfm.Windows.Classes.Forms
             OnOpenSyncWebBrowserWindow();
         }
 
+        private void btnResumePlayback_Click(object sender, EventArgs e)
+        {
+            OnOpenResumePlayback();
+        }
+
         #endregion
 
         #region Refresh Methods
@@ -1999,6 +2004,7 @@ namespace MPfm.Windows.Classes.Forms
         public Action OnOpenSyncWindow { get; set; }
         public Action OnOpenSyncCloudWindow { get; set; }
         public Action OnOpenSyncWebBrowserWindow { get; set; }
+        public Action OnOpenResumePlayback { get; set; }
         public Action<List<string>> OnAddFilesToLibrary { get; set; }
         public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }

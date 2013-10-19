@@ -15,31 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-	/// Options menu view interface for mobile devices.
+    /// Sync Connect Manual preferences presenter.
 	/// </summary>
-    public interface IMobileOptionsMenuView : IBaseView
+    public class SyncConnectManualPresenter : BasePresenter<ISyncConnectManualView>, ISyncConnectManualPresenter
 	{
-        Action<MobileOptionsMenuType> OnItemClick { get; set; }
+        public SyncConnectManualPresenter()
+		{	
+		}
 
-	    void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options);
+        public override void BindView(ISyncConnectManualView view)
+        {
+            base.BindView(view);
+        }     
 	}
-
-    public enum MobileOptionsMenuType
-    {
-        About = 0,
-        Preferences = 1,
-        EqualizerPresets = 2,
-        UpdateLibrary = 3,
-        SyncLibrary = 4,
-        SyncLibraryFileSharing = 5,
-        SyncLibraryWebBrowser = 6,
-        SyncLibraryCloud = 7,
-        ResumePlayback = 8
-    }
 }

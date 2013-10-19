@@ -39,6 +39,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onPreferencesViewReady;
         private Action<IBaseView> _onEqualizerPresetsViewReady;
         private Action<IBaseView> _onSyncViewReady;
+        private Action<IBaseView> _onSyncConnectManualViewReady;
         private Action<IBaseView> _onSyncMenuViewReady;
         private Action<IBaseView> _onSyncDownloadViewReady;
         private Action<IBaseView> _onSyncWebBrowserViewReady;
@@ -46,6 +47,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onMarkerDetailsViewReady;
         private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
         private Action<IBaseView> _onPlaylistViewReady;
+        private Action<IBaseView> _onResumePlaybackViewReady;
         private List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>> _tabHistory;
 
         private IPlayerStatusView _lockScreenView;
@@ -301,6 +303,13 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
+        protected override void CreateResumePlaybackViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onResumePlaybackViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(ResumePlaybackActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         public void SetAboutActivityInstance(AboutActivity activity)
         {
             if (_onAboutViewReady != null)
@@ -371,6 +380,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onPlaylistViewReady != null)
                 _onPlaylistViewReady(activity);
+        }
+
+        public void SetResumePlaybackActivityInstance(ResumePlaybackActivity activity)
+        {
+            if (_onResumePlaybackViewReady != null)
+                _onResumePlaybackViewReady(activity);
         }
 
         public void SetLockScreenActivityInstance(LockScreenActivity activity)

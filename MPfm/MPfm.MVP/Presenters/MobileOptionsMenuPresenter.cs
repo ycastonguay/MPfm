@@ -50,6 +50,7 @@ namespace MPfm.MVP.Presenters
             Tracing.Log("MobileOptionsMenuPresenter - Initialize");
             _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
             //_items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
+            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.ResumePlayback, "Resume Playback"));
             _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync (Nearby Devices)"));
 
 #if IOS
@@ -73,6 +74,11 @@ namespace MPfm.MVP.Presenters
                 case MobileOptionsMenuType.About:
                 {
                     _navigationManager.CreateAboutView();
+                    break;
+                }
+                case MobileOptionsMenuType.ResumePlayback:
+                {
+                    _navigationManager.CreateResumePlaybackView();
                     break;
                 }
                 case MobileOptionsMenuType.UpdateLibrary:

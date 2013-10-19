@@ -81,6 +81,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IPlayerMetadataPresenter, PlayerMetadataPresenter>().AsMultiInstance();
             container.Register<IPlayerStatusPresenter, PlayerStatusPresenter>().AsMultiInstance();
             container.Register<ISyncPresenter, SyncPresenter>().AsMultiInstance();
+            container.Register<ISyncConnectManualPresenter, SyncConnectManualPresenter>().AsMultiInstance();
             container.Register<ISyncCloudPresenter, SyncCloudPresenter>().AsMultiInstance();
             container.Register<ISyncWebBrowserPresenter, SyncWebBrowserPresenter>().AsMultiInstance();
             container.Register<ISyncMenuPresenter, SyncMenuPresenter>().AsMultiInstance();
@@ -93,6 +94,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<ISelectPlaylistPresenter, SelectPlaylistPresenter>().AsMultiInstance();
             container.Register<IAddPlaylistPresenter, AddPlaylistPresenter>().AsMultiInstance();
             container.Register<IAddMarkerPresenter, AddMarkerPresenter>().AsMultiInstance();
+            container.Register<IResumePlaybackPresenter, ResumePlaybackPresenter>().AsMultiInstance();
         }
         
         /// <summary>
