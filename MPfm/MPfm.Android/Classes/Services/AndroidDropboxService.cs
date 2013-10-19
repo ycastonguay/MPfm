@@ -103,6 +103,10 @@ namespace MPfm.Android.Classes.Services
             }
         }
 
+        public void ContinueLinkApp()
+        {
+        }
+
         public void UnlinkApp()
         {
             try
@@ -116,6 +120,10 @@ namespace MPfm.Android.Classes.Services
             {
                 throw;
             }
+        }
+
+        public void InitializeAppFolder()
+        {
         }
 
         public string PushNowPlaying(AudioFile audioFile, long positionBytes, string position)

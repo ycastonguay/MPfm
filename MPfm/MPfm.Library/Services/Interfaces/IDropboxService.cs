@@ -32,7 +32,10 @@ namespace MPfm.Library.Services.Interfaces
         bool HasLinkedAccount { get; }
 
         void LinkApp(object view);
+        void ContinueLinkApp();
         void UnlinkApp();
+
+        void InitializeAppFolder();
 
         void PushStuff();
         string PullStuff();

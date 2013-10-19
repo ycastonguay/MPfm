@@ -22,9 +22,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
@@ -35,18 +37,35 @@ namespace MPfm.Windows.Classes.Forms
 {
     public partial class frmSyncCloud : BaseForm, ISyncCloudView
     {
-        bool _isDiscovering;
+        private IDropboxService _dropbox;
+        private bool _isDiscovering;
 
         public frmSyncCloud(Action<IBaseView> onViewReady)
             : base(onViewReady)
         {
             InitializeComponent();
+
+            _dropbox = Bootstrapper.GetContainer().Resolve<IDropboxService>();
+
             ViewIsReady();
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            Tracing.Log("frmSyncCloud - OnActivated");
+            base.OnActivated(e);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                _dropbox.LinkApp(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("An error occured in SyncCloud: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnLogout_Click(object sender, EventArgs e)

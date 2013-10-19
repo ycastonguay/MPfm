@@ -16,9 +16,9 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 #if !IOS && !ANDROID
-
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,13 +38,16 @@ namespace MPfm.Library.Services
         public const string DropboxAppKey = "m1bcpax276elhfi";
         public const string DropboxAppSecret = "2azbuj2eelkranm";
 
-        readonly ILibraryService _libraryService;
-        readonly IAudioFileCacheService _audioFileCacheService;
-        readonly ISyncDeviceSpecifications _deviceSpecifications;
+        private readonly ILibraryService _libraryService;
+        private readonly IAudioFileCacheService _audioFileCacheService;
+        private readonly ISyncDeviceSpecifications _deviceSpecifications;
+        private DropboxServiceProvider _dropboxServiceProvider;
+        private OAuthToken _oauthToken;
 
         public event DropboxDataChanged OnDropboxDataChanged;
 
-        public DropboxCoreService(ILibraryService libraryService, IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications deviceSpecifications)
+        public DropboxCoreService(ILibraryService libraryService, IAudioFileCacheService audioFileCacheService,
+            ISyncDeviceSpecifications deviceSpecifications)
         {
             _libraryService = libraryService;
             _audioFileCacheService = audioFileCacheService;
@@ -62,32 +65,55 @@ namespace MPfm.Library.Services
         {
             try
             {
-                DropboxServiceProvider dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.AppFolder);
+                _dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret,
+                    AccessLevel.AppFolder);
 
                 /* OAuth 1.0 'dance' */
 
                 // Authorization without callback url
-                //Console.Write("Getting request token...");
-                //OAuthToken oauthToken = dropboxServiceProvider.OAuthOperations.FetchRequestTokenAsync(null , null).Result;                               
-                //Console.WriteLine("Done - FetchRequestToken - secret: {0} value: {1}", oauthToken.Secret, oauthToken.Value);
+                Console.Write("Getting request token...");
+                _oauthToken = _dropboxServiceProvider.OAuthOperations.FetchRequestTokenAsync(null, null).Result;
+                Console.WriteLine("Done - FetchRequestToken - secret: {0} value: {1}", _oauthToken.Secret,
+                    _oauthToken.Value);
 
-                //OAuth1Parameters parameters = new OAuth1Parameters();
-                ////parameters.Add("locale", CultureInfo.CurrentUICulture.IetfLanguageTag); // for a localized version of the authorization website
-                //string authenticateUrl = dropboxServiceProvider.OAuthOperations.BuildAuthorizeUrl(oauthToken.Value, parameters);
-                //Console.WriteLine("Redirect user for authorization");
-                //Process.Start(authenticateUrl);
-                //Console.Write("Press any key when authorization attempt has succeeded");
-                //Console.ReadLine();
+                OAuth1Parameters parameters = new OAuth1Parameters();
+                //parameters.Add("locale", CultureInfo.CurrentUICulture.IetfLanguageTag); // for a localized version of the authorization website
+                string authenticateUrl = _dropboxServiceProvider.OAuthOperations.BuildAuthorizeUrl(_oauthToken.Value,
+                    parameters);
+                Console.WriteLine("Redirect user for authorization");
+                Process.Start(authenticateUrl);
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(ex =>
+                {
+                    if (ex is DropboxApiException)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return true;
+                    }
+                    return false;
+                });
+            }
 
-                //Console.Write("Getting access token...");
-                //AuthorizedRequestToken requestToken = new AuthorizedRequestToken(oauthToken, null);
-                //OAuthToken oauthAccessToken = dropboxServiceProvider.OAuthOperations.ExchangeForAccessTokenAsync(requestToken, null).Result;
-                //Console.WriteLine("Done - FetchAccessToken - secret: {0} value: {1}", oauthAccessToken.Secret, oauthAccessToken.Value);
+        }
 
-                OAuthToken oauthAccessToken2 = new OAuthToken("z20l3g6vs5bbvqcr", "b8eiq09w1gxsyad");
+        public void ContinueLinkApp()
+        {
+            try
+            {
+                Console.Write("Getting access token...");
+                AuthorizedRequestToken requestToken = new AuthorizedRequestToken(_oauthToken, null);
+                OAuthToken oauthAccessToken =
+                    _dropboxServiceProvider.OAuthOperations.ExchangeForAccessTokenAsync(requestToken, null).Result;
+                Console.WriteLine("Done - FetchAccessToken - secret: {0} value: {1}", oauthAccessToken.Secret,
+                    oauthAccessToken.Value);
+
+                //OAuthToken oauthAccessToken2 = new OAuthToken("z20l3g6vs5bbvqcr", "b8eiq09w1gxsyad");
                 /* API */
 
-                IDropbox dropbox = dropboxServiceProvider.GetApi(oauthAccessToken2.Value, oauthAccessToken2.Secret);
+                IDropbox dropbox = _dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
+                //IDropbox dropbox = dropboxServiceProvider.GetApi(oauthAccessToken2.Value, oauthAccessToken2.Secret);
                 //dropbox.Locale = CultureInfo.CurrentUICulture.IetfLanguageTag;
 
                 DropboxProfile profile = dropbox.GetUserProfileAsync().Result;
@@ -103,23 +129,25 @@ namespace MPfm.Library.Services
                 {
                     string cursor = null;
                     while (true)
-                    {                                                
-                        DeltaPage deltaPage = dropbox.DeltaAsync(cursor).Result;                           
+                    {
+                        DeltaPage deltaPage = dropbox.DeltaAsync(cursor).Result;
                         cursor = deltaPage.Cursor;
-                        Console.WriteLine("Delta check - entries: {0} cursor: {1} hasMore: {2} reset: {3}", deltaPage.Entries.Count, deltaPage.Cursor, deltaPage.HasMore, deltaPage.Reset);
+                        Console.WriteLine("Delta check - entries: {0} cursor: {1} hasMore: {2} reset: {3}",
+                            deltaPage.Entries.Count, deltaPage.Cursor, deltaPage.HasMore, deltaPage.Reset);
                         if (deltaPage.Entries.Count > 0)
                         {
                             //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
                             dropbox.DownloadFileAsync("File.txt")
                                 .ContinueWith(task =>
                                 {
-                                    Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path, task.Result.Metadata.Size);
+                                    Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path,
+                                        task.Result.Metadata.Size);
                                     // Save file to "C:\Spring Social.txt"
                                     //using (FileStream fileStream = new FileStream(@"C:\Spring Social.txt", FileMode.Create))
                                     //{
                                     //    fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
                                     //}
-                                });       
+                                });
                         }
                         Thread.Sleep(1000);
                     }
@@ -173,27 +201,29 @@ namespace MPfm.Library.Services
                 //            fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
                 //        }
                 //    });
-
             }
             catch (AggregateException ae)
             {
                 ae.Handle(ex =>
+                {
+                    if (ex is DropboxApiException)
                     {
-                        if (ex is DropboxApiException)
-                        {
-                            Console.WriteLine(ex.Message);
-                            return true;
-                        }
-                        return false;
-                    });
+                        Console.WriteLine(ex.Message);
+                        return true;
+                    }
+                    return false;
+                });
             }
-
         }
 
         public void UnlinkApp()
         {
         }
 
+        public void InitializeAppFolder()
+        {
+        }
+    
         public void PushStuff()
         {
         }
