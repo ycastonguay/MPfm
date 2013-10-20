@@ -49,7 +49,7 @@
                     <MenuItem x:Name="miHelp_About" Header="About Sessions..." Click="MenuItem_Click" />
                 </MenuItem>
             </Menu>
-            <Grid Margin="4">
+            <Grid Margin="0" Background="#FF455865">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -65,38 +65,38 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" x:Name="btnPrevious" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Skips to the previous song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/previous.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/previous.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="1" x:Name="btnPlayPause" Style="{StaticResource PlayerButton}" Width="40" Height="40" ToolTip="Pauses or restarts the playback." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/play.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/play.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="2" x:Name="btnNext" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Skips to the next song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" />
+                    <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="3" x:Name="btnRepeat" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Cycles through repeat types." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="4" x:Name="btnShuffle" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Shuffles the song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <StackPanel Grid.Column="5"></StackPanel>
                 <Button Grid.Column="6" x:Name="btnPlaylist" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Playlist window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/playlist.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/playlist.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="7" x:Name="btnEffects" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Effects window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="8" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/sync.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/sync.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="9" x:Name="btnSyncCloud" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="10" x:Name="btnResumePlayback" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Resume Playback window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/resume.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/resume.png" Stretch="None" Opacity="0.95" />
                 </Button>
                 <Button Grid.Column="11" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" />
+                    <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" Opacity="0.95" />
                 </Button>
             </Grid>
         </DockPanel>
@@ -108,30 +108,46 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="58*"/>
+                        <ColumnDefinition Width="163*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Library Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,2,0,2">
-                        <Label Content="Filter by Sound Format:" Foreground="#CCCCCC" FontFamily="/Resources/Fonts/#Junction" />
-                        <ComboBox>
+                    <Label Grid.Row="0" Content="Library Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Grid.ColumnSpan="2" />
+                    <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Filter by Sound Format:" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Junction" />
+                        <ComboBox Grid.Column="1">
+                            <ComboBoxItem Name="All">All</ComboBoxItem>
+                            <ComboBoxItem Name="APE">APE</ComboBoxItem>
+                            <ComboBoxItem Name="FLAC">FLAC</ComboBoxItem>
+                            <ComboBoxItem Name="MP3">MP3</ComboBoxItem>
+                            <ComboBoxItem Name="MPC">MPC</ComboBoxItem>
+                            <ComboBoxItem Name="OGG">OGG</ComboBoxItem>
+                            <ComboBoxItem Name="WMA">WMA</ComboBoxItem>
+                            <ComboBoxItem Name="WV">WV</ComboBoxItem>
                         </ComboBox>
-                    </StackPanel>
-                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" ItemContainerStyle="{StaticResource TreeViewItemStyle}" SelectedItemChanged="treeViewLibrary_SelectedItemChanged">
+                    </Grid>
+                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" ItemContainerStyle="{StaticResource TreeViewItemStyle}" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" Grid.ColumnSpan="2">
                         <TreeView.Resources>
                             <HierarchicalDataTemplate DataType="{x:Type models:LibraryBrowserEntity}" ItemsSource="{Binding SubItems}">
                                 <StackPanel Orientation="Horizontal" Margin="4">
                                     <Image Source="/Resources/Images/Icons/user.png" Stretch="Uniform" />
-                                    <TextBlock Text="{Binding Title}" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="4,0,0,0" />
+                                    <TextBlock Text="{Binding Title}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="4,0,0,0" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
                         </TreeView.Resources>
                     </TreeView>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Black" ShowsPreview="True" Width="5" />
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" />
             <Grid Grid.Column="2">
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
@@ -232,40 +248,100 @@
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition />
+                                <RowDefinition Height="120" />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="Loops and Markers" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-                            <StackPanel Grid.Row="1" Background="Tomato" Height="60"></StackPanel>
-                            <Grid Grid.Row="2">
+                            <StackPanel Grid.Row="0" Background="#FF1A1E21" Height="60"></StackPanel>
+                            <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
+                                <Grid Grid.Column="0" Background="#FF455865">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                            <Label Content="Loops" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-                                        </StackPanel>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Content="Loops" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                                            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/play.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Play</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewLoops">
                                         </ListView>
                                     </Grid>
                                 </Grid>
-                                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Black" ShowsPreview="True" Width="5" />
-                                <Grid Grid.Column="2">
+                                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" />
+                                <Grid Grid.Column="2" Background="#FF455865">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                            <Label Content="Markers" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-                                        </StackPanel>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Content="Markers" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                                            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/goto.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Go To</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
+                                                <StackPanel Orientation="Horizontal" Margin="4">
+                                                    <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
+                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewMarkers">
                                         </ListView>
                                     </Grid>
@@ -273,7 +349,7 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Black" ShowsPreview="True" Height="5" />
+                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF242F35" ShowsPreview="True" Height="4" />
                     <Grid Grid.Row="2">
                         <!-- Song Browser -->
                         <Grid>
@@ -281,7 +357,21 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="Song Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                            <Grid Grid.Row="0" Background="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="Song Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                                <Grid Grid.Column="1" Background="White" Margin="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Width="200" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                                    <Image Grid.Column="1" Source="/Resources/Images/Icons/search.png" Stretch="None" Margin="4,0,2,0" />
+                                </Grid>
+                            </Grid>
                             <ListView Grid.Row="1" x:Name="listViewSongBrowser">
                             </ListView>
                         </Grid>

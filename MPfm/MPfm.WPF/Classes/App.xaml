@@ -81,6 +81,46 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="Button" x:Key="HeaderImageButton">
+            <!--Set to true to not get any properties from the themes.-->
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="/Resources/Fonts/#TitilliumText22L Lt" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF687985" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF687985" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF455865" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <StackPanel Background="#FF455865">
+                                <Border x:Name="borderButton" Background="#FF455865" Padding="2">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="TabItem">
             <Setter Property="Background" Value="#FF455865" />
             <Setter Property="Foreground" Value="#FF687985" />
@@ -149,6 +189,9 @@
                 </Setter.Value>
             </Setter>-->
         </Style>
+        <Style TargetType="Image">
+            
+        </Style>
         <Style TargetType="Button" x:Key="PlayerButton">
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -164,25 +207,25 @@
                                     <VisualState x:Name="Normal"/>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#CCDDDDDD" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#FF6D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                             <ColorAnimation Duration="0" To="#FF242F35" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#CCFFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#FF6D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                             <ColorAnimation Duration="0" To="#FF344046" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <ColorAnimation Duration="0" To="#99FFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
-                                            <ColorAnimation Duration="0" To="#FF242F35" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#FF455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Ellipse x:Name="ellipsePlayerButton" Fill="#FF242F35" Stroke="#99CCCCCC" StrokeThickness="2" />
+                            <Ellipse x:Name="ellipsePlayerButton" Fill="#FF455865" Stroke="#AA6D899B" StrokeThickness="2" />
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ControlTemplate>
