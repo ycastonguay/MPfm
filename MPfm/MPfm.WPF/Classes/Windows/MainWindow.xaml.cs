@@ -50,11 +50,47 @@ namespace MPfm.WPF.Classes.Windows
         {
             if (sender == miFile_AddFiles)
             {
-                MessageBox.Show("hello");
+                var dialog = new System.Windows.Forms.OpenFileDialog();
+                dialog.Filter = "Audio files (*.mp3,*.flac,*.ogg, *.ape)|*.mp3;*.flac;*.ogg;*.ape";
+                dialog.Multiselect = true;
+                dialog.Title = "Add file(s) to library";
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    
+                }
+            }
+            else if (sender == miFile_AddFolder)
+            {
+                var dialog = new System.Windows.Forms.FolderBrowserDialog();
+                dialog.Description = "Please select a folder to add to the music library";
+                dialog.ShowNewFolderButton = false;
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+
+                }
+            }
+            else if (sender == miFile_OpenAudioFiles)
+            {
+                var dialog = new System.Windows.Forms.OpenFileDialog();
+                dialog.Filter = "Playlist/Audio files (*.mp3,*.flac,*.ogg, *.ape, *.wv, *.mpc, *.wav, *.m3u, *.m3u8, *.pls, *.xspf)|*.mp3;*.flac;*.ogg;*.ape;*.wav;*.wv;*.mpc;*.m3u;*.m3u8;*.pls;*.xspf";
+                dialog.Multiselect = true;
+                dialog.Title = "Select audio files or a playlist file to play";
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+
+                }
             }
             else if (sender == miWindows_Sync)
             {
                 OnOpenSyncWindow();
+            }
+            else if (sender == miWindows_SyncCloud)
+            {
+                OnOpenSyncCloudWindow();
+            }
+            else if (sender == miWindows_SyncWebBrowser)
+            {
+                OnOpenSyncWebBrowserWindow();
             }
         }
 
@@ -65,6 +101,28 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnToolbar_OnClick(object sender, RoutedEventArgs e)
         {
+            if (sender == btnPrevious)
+                OnPlayerPrevious();
+            else if (sender == btnPlayPause)
+                OnPlayerPause();
+            else if (sender == btnNext)
+                OnPlayerNext();
+            else if (sender == btnShuffle)
+                OnPlayerShuffle();
+            else if (sender == btnRepeat)
+                OnPlayerRepeat();
+            else if (sender == btnPlaylist)
+                OnOpenPlaylistWindow();
+            else if (sender == btnEffects)
+                OnOpenEffectsWindow();
+            else if (sender == btnPreferences)
+                OnOpenPreferencesWindow();
+            else if (sender == btnResumePlayback)
+                OnOpenResumePlayback();
+            else if (sender == btnSync)
+                OnOpenSyncWindow();
+            else if (sender == btnSyncCloud)
+                OnOpenSyncCloudWindow();
         }
 
         #region IMainView implementation

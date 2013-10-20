@@ -4,7 +4,7 @@
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:models="clr-namespace:MPfm.MVP.Models;assembly=MPfm.MVP"
         WindowStartupLocation="CenterScreen"
-        Title="Sessions" Height="544.5" Width="880.4">
+        Title="Sessions" Height="600" Width="900" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Window.Resources>
         <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
             <Setter Property="Margin" Value="0,2,0,2" />
@@ -57,6 +57,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -239,6 +240,7 @@
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
@@ -254,7 +256,8 @@
                                         </ListView>
                                     </Grid>
                                 </Grid>
-                                <Grid Grid.Column="1">
+                                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="Black" ShowsPreview="True" Width="5" />
+                                <Grid Grid.Column="2">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />

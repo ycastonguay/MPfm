@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         WindowStartupLocation="CenterScreen"
-        Title="SplashWindow" Height="300" Width="300" WindowStyle="None" ResizeMode="NoResize" Topmost="True">
+        Title="SplashWindow" Height="300" Width="300" WindowStyle="None" ResizeMode="NoResize" Topmost="True" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Grid Background="#FF36454F">
         <Label x:Name="lblStatus" Content="Loading..." HorizontalAlignment="Left" Margin="10,261,0,0" VerticalAlignment="Top" Width="272" Foreground="White" FontSize="14"/>
 

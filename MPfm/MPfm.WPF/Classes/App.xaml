@@ -81,6 +81,74 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="#FF455865" />
+            <Setter Property="Foreground" Value="#FF687985" />
+            <Setter Property="Header" Value="{Binding FileName}" />
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type TabItem}">
+                        <Border x:Name="grid">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="CornflowerBlue" Storyboard.TargetProperty="(TextBlock.Background).(SolidColorBrush.Color)" Storyboard.TargetName="testText" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="GreenYellow" Storyboard.TargetProperty="(TextBlock.Background).(SolidColorBrush.Color)" Storyboard.TargetName="testText" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#99FFFFFF" Storyboard.TargetProperty="(TextBlock.Background).(SolidColorBrush.Color)" Storyboard.TargetName="testText" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter>
+                                <ContentPresenter.Content>
+                                    <TextBlock x:Name="testText" Text="{TemplateBinding Content}" />
+                                </ContentPresenter.Content>
+                            </ContentPresenter>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <!--<Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#CCDDDDDD" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButto2n" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#CCFFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButto2n" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#99FFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButto2n" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Ellipse x:Name="ellipsePlayerButto2n" Fill="#FF242F35" Stroke="#99CCCCCC" StrokeThickness="2" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->
+        </Style>
         <Style TargetType="Button" x:Key="PlayerButton">
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -97,16 +165,19 @@
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
                                             <ColorAnimation Duration="0" To="#CCDDDDDD" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#FF242F35" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
                                             <ColorAnimation Duration="0" To="#CCFFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#FF344046" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <ColorAnimation Duration="0" To="#99FFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#FF242F35" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
