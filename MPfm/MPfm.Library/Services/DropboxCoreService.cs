@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-#if !IOS && !ANDROID
+#if !IOS && !ANDROID && !WINDOWS_PHONE
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

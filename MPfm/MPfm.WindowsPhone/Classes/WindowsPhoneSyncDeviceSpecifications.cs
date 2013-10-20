@@ -41,6 +41,11 @@ namespace MPfm.WindowsPhone.Classes
             return "WindowsPhone Generic Device";
         }
 
+        public string GetDeviceUniqueId()
+        {
+            return string.Empty;
+        }
+
         public long GetFreeSpace()
         {
             return 0;

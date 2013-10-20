@@ -149,6 +149,8 @@
     <Compile Include="Database\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DropboxCoreService.cs" />
+    <Compile Include="Services\Interfaces\IDropboxService.cs" />
     <Compile Include="Services\WinRT\SyncClientService.cs" />
     <Compile Include="Services\WinRT\SyncDiscoveryService.cs" />
     <Compile Include="Services\WinRT\SyncListenerService.cs" />
@@ -217,8 +219,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="SQLite.WP80, Version=3.8.0.2">
-      <Name>SQLite for Windows Phone</Name>
+    <SDKReference Include="SQLite.WP80, Version=3.8.1">
+      <Name>SQLite for Windows Phone %28SQLite.WP80, Version=3.8.1%29</Name>
     </SDKReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

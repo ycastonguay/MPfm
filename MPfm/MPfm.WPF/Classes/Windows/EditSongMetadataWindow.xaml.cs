@@ -17,36 +17,44 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
-using MPfm.Library.Services;
-using MPfm.Library.Services.Interfaces;
-using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
+using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+using MPfm.WPF.Classes.Windows.Base;
 
-namespace MPfm.Windows.Classes.Forms
+namespace MPfm.WPF.Classes.Windows
 {
-    public partial class frmResumePlayback : BaseForm, IResumePlaybackView
+    public partial class EditSongMetadataWindow : BaseWindow, IEditSongMetadataView
     {
-        bool _isDiscovering;
-
-        public frmResumePlayback(Action<IBaseView> onViewReady)
-            : base(onViewReady)
+        public EditSongMetadataWindow(Action<IBaseView> onViewReady) 
+            : base (onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
         }
 
-        private void btnResumePlayback_Click(object sender, EventArgs e)
-        {
+        #region IEditSongMetadataView implementation
 
+        public Action<AudioFile> OnSaveAudioFile { get; set; }
+
+        public void EditSongMetadataError(Exception ex)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                MessageBox.Show(this, string.Format("An error occured in EditSongMetadata: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }));
         }
+
+        public void RefreshAudioFile(AudioFile audioFile)
+        {
+        }
+
+        #endregion
     }
 }
