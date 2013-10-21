@@ -17,10 +17,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.Core;
 using MPfm.MVP.Messages;
@@ -29,7 +33,9 @@ using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.WindowsControls;
 using MPfm.WPF.Classes.Controls;
+using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
@@ -40,12 +46,38 @@ namespace MPfm.WPF.Classes.Windows
     public partial class MainWindow : BaseWindow, IMainView
     {
         private List<LibraryBrowserEntity> _itemsLibraryBrowser;
+        private bool _isPlayerPositionChanging;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
             InitializeComponent();
+            SetLegacyControlTheme();
             ViewIsReady();
+
+            gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
+        }
+
+        private void SetLegacyControlTheme()
+        {
+            var fontRow = new CustomFont("Junction", 8, System.Drawing.Color.FromArgb(255, 0, 0, 0));
+            var fontHeader = new CustomFont("Junction", 8, System.Drawing.Color.FromArgb(255, 255, 255, 255));
+            gridViewSongs.Theme.AlbumCoverBackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
+            gridViewSongs.Theme.HeaderHoverTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
+            gridViewSongs.Theme.HeaderTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
+            gridViewSongs.Theme.IconNowPlayingGradient = new Gradient(System.Drawing.Color.FromArgb(255, 250, 200, 250), System.Drawing.Color.FromArgb(255, 25, 150, 25), LinearGradientMode.Horizontal);
+            gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
+            gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
+
+            faderVolume.FaderHeight = 28;
+            faderVolume.FaderWidth = 10;
+            faderVolume.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
+            faderVolume.Theme.FaderGradient = new BackgroundGradient(System.Drawing.Color.White, System.Drawing.Color.WhiteSmoke, LinearGradientMode.Vertical, System.Drawing.Color.Gray, 0);
+            faderVolume.Theme.FaderShadowGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 188, 188, 188), System.Drawing.Color.Gainsboro, LinearGradientMode.Vertical, System.Drawing.Color.Gray, 0);
+
+            outputMeter.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
+
+            waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -98,8 +130,7 @@ namespace MPfm.WPF.Classes.Windows
 
         private void treeViewLibrary_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Tracing.Log("treeViewLibrary_SelectedItemChanged");
-
+            //Tracing.Log("treeViewLibrary_SelectedItemChanged");
             if (e.NewValue == null)
                 return;
 
@@ -110,7 +141,7 @@ namespace MPfm.WPF.Classes.Windows
 
         private void treeViewLibrary_OnExpanded(object sender, RoutedEventArgs e)
         {            
-            Tracing.Log("treeViewLibrary_OnExpanded");
+            //Tracing.Log("treeViewLibrary_OnExpanded");
             var item = e.OriginalSource as MPfmTreeViewItem;
             if (item != null && item.Items.Count == 1)
             {
@@ -123,6 +154,22 @@ namespace MPfm.WPF.Classes.Windows
                 }
             }
             e.Handled = true;
+        }
+
+        private void gridViewSongs_OnOnSelectedIndexChanged(SongGridViewSelectedIndexChangedData data)
+        {
+        //    if (gridViewSongs.SelectedItems.Count == 0)
+        //        return;
+
+        //    OnTableRowDoubleClicked(gridViewSongs.Items[0].AudioFile);
+        }
+
+        private void GridViewSongsOnDoubleClick(object sender, EventArgs eventArgs)
+        {
+            if (gridViewSongs.SelectedItems.Count == 0)
+                return;
+
+            OnTableRowDoubleClicked(gridViewSongs.SelectedItems[0].AudioFile);
         }
 
         private void BtnToolbar_OnClick(object sender, RoutedEventArgs e)
@@ -149,6 +196,11 @@ namespace MPfm.WPF.Classes.Windows
                 OnOpenSyncWindow();
             else if (sender == btnSyncCloud)
                 OnOpenSyncCloudWindow();
+        }
+
+        private void txtSearchTerms_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnSearchTerms(txtSearchTerms.Text);
         }
 
         #region IMainView implementation
@@ -202,22 +254,25 @@ namespace MPfm.WPF.Classes.Windows
         public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
         {
             Console.WriteLine("MainWindow - RefreshLibraryBrowserNode - entities.Count: {0}", entities.Count());
-            var item = (MPfmTreeViewItem) userData;
-            foreach (var subentity in entities)
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                var subitem = new MPfmTreeViewItem();
-                subitem.Header = subentity;
-                subitem.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
-
-                if (subentity.SubItems.Count > 0)
+                var item = (MPfmTreeViewItem) userData;
+                foreach (var subentity in entities)
                 {
-                    var dummy = new MPfmTreeViewItem();
-                    dummy.IsDummyNode = true;
-                    subitem.Items.Add(dummy);
-                }
+                    var subitem = new MPfmTreeViewItem();
+                    subitem.Header = subentity;
+                    subitem.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
-                item.Items.Add(subitem);
-            }
+                    if (subentity.SubItems.Count > 0)
+                    {
+                        var dummy = new MPfmTreeViewItem();
+                        dummy.IsDummyNode = true;
+                        subitem.Items.Add(dummy);
+                    }
+
+                    item.Items.Add(subitem);
+                }
+            }));
         }
 
         #endregion
@@ -230,18 +285,12 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
-            ////Console.WriteLine("frmMain - RefreshSongBrowser - audioFiles.Count: {0}", audioFiles.Count());
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    //string orderBy = viewSongs2.OrderByFieldName;
-            //    //bool orderByAscending = viewSongs2.OrderByAscending;
-            //    viewSongs2.ImportAudioFiles(audioFiles.ToList());
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                //    //string orderBy = viewSongs2.OrderByFieldName;
+                //    //bool orderByAscending = viewSongs2.OrderByAscending;
+                gridViewSongs.ImportAudioFiles(audioFiles.ToList());
+            }));
         }
 
         #endregion
@@ -266,132 +315,146 @@ namespace MPfm.WPF.Classes.Windows
 
         public void PlayerError(Exception ex)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    MessageBox.Show(string.Format("An error occured in Player: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                MessageBox.Show(this, string.Format("An error occured in Player: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }));
         }
 
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-
-            //    trackPosition.Enabled = status == PlayerStatusType.Playing;
-
-            //    if (status == PlayerStatusType.Playing)
-            //    {
-            //        btnPlay.Text = "Pause";
-            //        btnPlay.Image = MPfm.Windows.Properties.Resources.control_pause;
-            //    }
-            //    else
-            //    {
-            //        btnPlay.Text = "Play";
-            //        btnPlay.Image = MPfm.Windows.Properties.Resources.control_play;
-            //    }
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                //    trackPosition.Enabled = status == PlayerStatusType.Playing;
+                if (status == PlayerStatusType.Playing)
+                {
+                    imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/pause.png"));
+                }
+                else
+                {
+                    imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/play.png"));
+                }
+            }));
         }
 
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    if (!_isPlayerPositionChanging)
-            //    {
-            //        lblCurrentPosition.Text = entity.Position;
-            //        miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
-            //        trackPosition.Value = (int)entity.PositionPercentage * 10;
-            //    }
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                if (!_isPlayerPositionChanging)
+                {
+                    lblPosition.Content = entity.Position;
+                    //miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
+                    //trackPosition.Value = (int)entity.PositionPercentage * 10;
+                }
 
-            //    if (!waveFormMarkersLoops.IsLoading)
-            //        waveFormMarkersLoops.SetPosition(entity.PositionBytes, entity.Position);
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+                if (!waveFormDisplay.IsLoading)
+                    waveFormDisplay.SetPosition(entity.PositionBytes, entity.Position);
+            }));
         }
 
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    btnAddLoop.Enabled = audioFile != null;
-            //    btnAddMarker.Enabled = audioFile != null;
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                //    btnAddLoop.Enabled = audioFile != null;
+                //    btnAddMarker.Enabled = audioFile != null;
 
-            //    if (audioFile == null)
-            //    {
-            //        lblCurrentArtistName.Text = string.Empty;
-            //        lblCurrentAlbumTitle.Text = string.Empty;
-            //        lblCurrentSongTitle.Text = string.Empty;
-            //        lblCurrentFilePath.Text = string.Empty;
-            //        lblFrequency.Text = string.Empty;
-            //        lblBitrate.Text = string.Empty;
-            //        lblBitsPerSample.Text = string.Empty;
-            //        lblSoundFormat.Text = string.Empty;
-            //        lblYear.Text = string.Empty;
-            //        lblMonoStereo.Text = string.Empty;
-            //        lblFileSize.Text = string.Empty;
-            //        lblGenre.Text = string.Empty;
-            //        lblPlayCount.Text = string.Empty;
-            //        lblLastPlayed.Text = string.Empty;
-            //    }
-            //    else
-            //    {
-            //        lblCurrentArtistName.Text = audioFile.ArtistName;
-            //        lblCurrentAlbumTitle.Text = audioFile.AlbumTitle;
-            //        lblCurrentSongTitle.Text = audioFile.Title;
-            //        lblCurrentFilePath.Text = audioFile.FilePath;
-            //        lblLength.Text = audioFile.Length;
-            //        lblFrequency.Text = string.Format("{0} Hz", audioFile.SampleRate);
-            //        lblBitrate.Text = string.Format("{0} kbps", audioFile.Bitrate);
-            //        lblBitsPerSample.Text = string.Format("{0} bits", audioFile.BitsPerSample);
-            //        lblSoundFormat.Text = audioFile.FileType.ToString();
-            //        lblYear.Text = audioFile.Year.ToString();
-            //        lblMonoStereo.Text = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
-            //        lblFileSize.Text = string.Format("{0} bytes", audioFile.FileSize);
-            //        lblGenre.Text = string.Format("{0}", audioFile.Genre);
-            //        lblPlayCount.Text = string.Format("{0} times played", audioFile.PlayCount);
-            //        lblLastPlayed.Text = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
+                    if (audioFile == null)
+                    {
+                        lblArtistName.Content = string.Empty;
+                        lblAlbumTitle.Content = string.Empty;
+                        lblSongTitle.Content = string.Empty;
+                        lblFilePath.Content = string.Empty;
+                //        lblFrequency.Text = string.Empty;
+                //        lblBitrate.Text = string.Empty;
+                //        lblBitsPerSample.Text = string.Empty;
+                //        lblSoundFormat.Text = string.Empty;
+                //        lblYear.Text = string.Empty;
+                //        lblMonoStereo.Text = string.Empty;
+                //        lblFileSize.Text = string.Empty;
+                //        lblGenre.Text = string.Empty;
+                //        lblPlayCount.Text = string.Empty;
+                //        lblLastPlayed.Text = string.Empty;
+                    }
+                    else
+                    {
+                        lblArtistName.Content = audioFile.ArtistName;
+                        lblAlbumTitle.Content = audioFile.AlbumTitle;
+                        lblSongTitle.Content = audioFile.Title;
+                        lblFilePath.Content = audioFile.FilePath;
+                        lblLength.Content = audioFile.Length;
+                //        lblFrequency.Text = string.Format("{0} Hz", audioFile.SampleRate);
+                //        lblBitrate.Text = string.Format("{0} kbps", audioFile.Bitrate);
+                //        lblBitsPerSample.Text = string.Format("{0} bits", audioFile.BitsPerSample);
+                //        lblSoundFormat.Text = audioFile.FileType.ToString();
+                //        lblYear.Text = audioFile.Year.ToString();
+                //        lblMonoStereo.Text = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
+                //        lblFileSize.Text = string.Format("{0} bytes", audioFile.FileSize);
+                //        lblGenre.Text = string.Format("{0}", audioFile.Genre);
+                //        lblPlayCount.Text = string.Format("{0} times played", audioFile.PlayCount);
+                //        lblLastPlayed.Text = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
 
-            //        miTrayArtistName.Text = audioFile.ArtistName;
-            //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
-            //        miTraySongTitle.Text = audioFile.Title;
+                //        miTrayArtistName.Text = audioFile.ArtistName;
+                //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
+                //        miTraySongTitle.Text = audioFile.Title;
 
-            //        viewSongs2.NowPlayingAudioFileId = audioFile.Id;
-            //        viewSongs2.Refresh();
+                        gridViewSongs.NowPlayingAudioFileId = audioFile.Id;
+                        gridViewSongs.Refresh();
 
-            //        try
-            //        {
-            //            // Update the album art in an another thread
-            //            workerAlbumArt.RunWorkerAsync(audioFile.FilePath);
-            //        }
-            //        catch
-            //        {
-            //            // Just do nothing if thread is busy
-            //        }
+                        // Configure wave form
+                        waveFormDisplay.Length = lengthBytes;
+                        waveFormDisplay.LoadWaveForm(audioFile.FilePath);
 
-            //        // Configure wave form
-            //        waveFormMarkersLoops.Length = lengthBytes;
-            //        waveFormMarkersLoops.LoadWaveForm(audioFile.FilePath);
-            //    }
-            //};
+                        int albumWidth = (int) imageAlbum.Width;
+                        int albumHeight = (int) imageAlbum.Height;
+                        var task = Task<System.Drawing.Image>.Factory.StartNew(() =>
+                        {
+                            //// Get image from library
+                            //Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(songPath);
 
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+                            //// Resize image with quality AA
+                            //if (image != null)
+                            //    image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
+
+                            try
+                            {
+                                var image = AudioFile.ExtractImageForAudioFile(audioFile.FilePath);
+                                if (image == null)
+                                    return null;
+
+                                image = ImageManipulation.ResizeImage(image, albumWidth, albumHeight);
+                                return image;
+
+                                //var imageSource = ImageHelper.ImageToImageSource(image);
+                                //Console.WriteLine("imageSource is {0}.{1}", imageSource.Width, imageSource.Height);
+                                //double lowestValue = imageSource.Width < imageSource.Height ? imageSource.Width : imageSource.Height;
+                                //var imageCropped = new CroppedBitmap(new WriteableBitmap(imageSource), new Int32Rect(0, 0, (int)lowestValue, (int)lowestValue));
+                                //imageAlbum.Source = ImageHelper.ImageToImageSource(image);                                
+                                //return imageCropped;
+                                //return imageSource;
+                            }
+                            catch (Exception ex)
+                            {
+                                // Ignore error and return null
+                                Console.WriteLine("An error occured while extracing album art in {0}: {1}", audioFile.FilePath, ex);
+                            }
+
+                            return null;
+                        });
+                        //var croppedBitmap = task.Result;
+                        //if (croppedBitmap != null)
+                        //    imageAlbum.Source = croppedBitmap;
+                        var imageResult = task.Result;
+                        if (imageResult != null)
+                        {
+                            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                            {
+                                imageAlbum.Source = ImageHelper.ImageToImageSource(imageResult);
+                            }));
+                        }
+                    }
+            }));
         }
 
         public void RefreshMarkers(IEnumerable<Marker> markers)

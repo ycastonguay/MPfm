@@ -45,7 +45,7 @@
                 <RowDefinition Height="20" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" x:Name="lblTitle" Margin="4" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Junction">Loading...</TextBlock>
+            <TextBlock Grid.Row="0" x:Name="lblTitle" Margin="4" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Junction">Loading...</TextBlock>
             <TextBlock Grid.Row="1" x:Name="lblSubtitle" Margin="4" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Junction">Loading...</TextBlock>
             <ProgressBar Grid.Row="2" x:Name="progressBar" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Value="50" Margin="4" />
         </Grid>

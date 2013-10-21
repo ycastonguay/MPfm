@@ -50,6 +50,7 @@
     <Reference Include="System.Data.SQLite.Linq">
       <HintPath>..\MPfm.Library\Lib\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +67,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="Classes\App.xaml">
@@ -131,6 +133,7 @@
     <Compile Include="Classes\Controls\MPfmButton.cs" />
     <Compile Include="Classes\Controls\MPfmTreeViewItem.cs" />
     <Compile Include="Classes\Converters\LibraryBrowserImagePathConverter.cs" />
+    <Compile Include="Classes\Helpers\ImageHelper.cs" />
     <Compile Include="Classes\Navigation\WindowsNavigationManager.cs" />
     <Compile Include="Classes\Specifications\WindowsSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Windows\Base\BaseWindow.cs" />
@@ -222,6 +225,10 @@
       <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
       <Name>MPfm.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.Fonts\MPfm.Fonts.csproj">
+      <Project>{26c7dcd4-92b1-4a75-be4e-4bf34b9c5f1f}</Project>
+      <Name>MPfm.Fonts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
       <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
       <Name>MPfm.Library</Name>
@@ -237,6 +244,10 @@
     <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
       <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
       <Name>MPfm.Sound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.WindowsControls\MPfm.WindowsControls.csproj">
+      <Project>{11c9f839-a47e-455e-8d10-661e47de664c}</Project>
+      <Name>MPfm.WindowsControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
