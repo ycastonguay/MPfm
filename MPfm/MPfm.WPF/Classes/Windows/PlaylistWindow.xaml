@@ -6,48 +6,52 @@
         WindowStartupLocation="CenterScreen" Background="#FF242F35"
         Title="Playlist" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Grid Margin="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="4*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="4" Grid.ColumnSpan="2">
-            <Label Content="Sync (Nearby Devices)" Foreground="White" FontSize="16" FontWeight="Bold" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="4,2,4,2" />
-            <Label x:Name="lblIPAddress" Content="My IP address is" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="4,2,4,2" />
-        </StackPanel>
-        <ListView Grid.Row="1" Grid.ColumnSpan="2">
-        </ListView>
-        <Grid Grid.Row="2" Margin="2" Grid.ColumnSpan="2">
+        <Grid Grid.Row="0" Background="#FF455865">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="btnRefresh">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/refresh.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Refresh devices</TextBlock>
+            <Label Grid.Column="0" Content="Playlist" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                    <TextBlock Margin="6,1,0,0">New</TextBlock>
                 </StackPanel>
             </Button>
-            <StackPanel Grid.Column="1"></StackPanel>
-            <Button Grid.Column="2" x:Name="btnManualConnect">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Connect manually to device</TextBlock>
+            <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Image Source="/Resources/Images/Buttons/folder.png" Stretch="None" />
+                    <TextBlock Margin="6,1,0,0">Open</TextBlock>
                 </StackPanel>
             </Button>
-            <Button Grid.Column="3" x:Name="btnConnect">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Connect to device</TextBlock>
+            <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Image Source="/Resources/Images/Buttons/save.png" Stretch="None" />
+                    <TextBlock Margin="6,1,0,0">Save</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Image Source="/Resources/Images/Buttons/save.png" Stretch="None" />
+                    <TextBlock Margin="6,1,0,0">Save as</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="5" Style="{StaticResource HeaderImageButton}">
+                <StackPanel Orientation="Horizontal" Margin="4">
+                    <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
+                    <TextBlock Margin="6,1,0,0">Remove songs</TextBlock>
                 </StackPanel>
             </Button>
         </Grid>
+        <ListView Grid.Row="1">
+        </ListView>
     </Grid>
 </base:BaseWindow>

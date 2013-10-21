@@ -129,6 +129,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Controls\MPfmButton.cs" />
+    <Compile Include="Classes\Controls\MPfmTreeViewItem.cs" />
+    <Compile Include="Classes\Converters\LibraryBrowserImagePathConverter.cs" />
     <Compile Include="Classes\Navigation\WindowsNavigationManager.cs" />
     <Compile Include="Classes\Specifications\WindowsSyncDeviceSpecifications.cs" />
     <Compile Include="Classes\Windows\Base\BaseWindow.cs" />
@@ -289,6 +291,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Icons\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\ok.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

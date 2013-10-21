@@ -1,14 +1,22 @@
 ﻿<base:BaseWindow x:Class="MPfm.WPF.Classes.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
-        xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
+        xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"        
+        xmlns:converters="clr-namespace:MPfm.WPF.Classes.Converters"        
         xmlns:models="clr-namespace:MPfm.MVP.Models;assembly=MPfm.MVP"
         WindowStartupLocation="CenterScreen"
         Title="Sessions" Height="600" Width="900" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Window.Resources>
+        <converters:LibraryBrowserImagePathConverter x:Key="LibraryBrowserImagePathConverter" />
         <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
             <Setter Property="Margin" Value="0,2,0,2" />
         </Style>
+        <DataTemplate x:Key="TreeViewItemTemplate">
+            <StackPanel Orientation="Horizontal" Margin="4">
+                <Image Source="{Binding EntityType, Converter={StaticResource LibraryBrowserImagePathConverter}}" Stretch="Uniform" />
+                <TextBlock Text="{Binding Title}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="6,1,0,0" />
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
     <Grid Background="#FF242F35">
         <Grid.RowDefinitions>
@@ -65,38 +73,38 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" x:Name="btnPrevious" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Skips to the previous song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/previous.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/previous.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="1" x:Name="btnPlayPause" Style="{StaticResource PlayerButton}" Width="40" Height="40" ToolTip="Pauses or restarts the playback." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/play.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/play.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="2" x:Name="btnNext" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Skips to the next song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" />
                 </Button>
                 <Button Grid.Column="3" x:Name="btnRepeat" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Cycles through repeat types." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="4" x:Name="btnShuffle" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Shuffles the song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" />
                 </Button>
                 <StackPanel Grid.Column="5"></StackPanel>
                 <Button Grid.Column="6" x:Name="btnPlaylist" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Playlist window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/playlist.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/playlist.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="7" x:Name="btnEffects" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Effects window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="8" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/sync.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/sync.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="9" x:Name="btnSyncCloud" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="10" x:Name="btnResumePlayback" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Resume Playback window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/resume.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/resume.png" Stretch="None" />
                 </Button>
                 <Button Grid.Column="11" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" Opacity="0.95" />
+                    <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" />
                 </Button>
             </Grid>
         </DockPanel>
@@ -135,15 +143,15 @@
                             <ComboBoxItem Name="WV">WV</ComboBoxItem>
                         </ComboBox>
                     </Grid>
-                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" ItemContainerStyle="{StaticResource TreeViewItemStyle}" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" Grid.ColumnSpan="2">
-                        <TreeView.Resources>
+                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" ItemContainerStyle="{StaticResource TreeViewItemStyle}" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" TreeViewItem.Expanded="treeViewLibrary_OnExpanded" Grid.ColumnSpan="2">
+                        <!--<TreeView.Resources>
                             <HierarchicalDataTemplate DataType="{x:Type models:LibraryBrowserEntity}" ItemsSource="{Binding SubItems}">
                                 <StackPanel Orientation="Horizontal" Margin="4">
                                     <Image Source="/Resources/Images/Icons/user.png" Stretch="Uniform" />
                                     <TextBlock Text="{Binding Title}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="4,0,0,0" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
-                        </TreeView.Resources>
+                        </TreeView.Resources>-->
                     </TreeView>
                 </Grid>
             </Grid>
@@ -275,25 +283,25 @@
                                             <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/play.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Play</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Play</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Add</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Edit</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Remove</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                         </Grid>
@@ -320,25 +328,25 @@
                                             <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/goto.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Go To</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Go To</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Add</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Edit</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
+                                                    <TextBlock Margin="6,1,0,0">Remove</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                         </Grid>

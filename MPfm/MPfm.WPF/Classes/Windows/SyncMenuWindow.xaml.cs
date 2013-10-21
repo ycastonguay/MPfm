@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security;
 using System.Windows;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
@@ -67,10 +69,28 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshDevice(SyncDevice device)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                string title = string.Format("Sync with {0}", device.Name);
+                lblTitle.Content = title;
+                this.Title = title;
+            }));
         }
 
         public void RefreshLoading(bool isLoading, int progressPercentage)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                progressBar.Value = progressPercentage;
+                gridLoading.Visibility = isLoading ? Visibility.Visible : Visibility.Hidden;
+                progressBar.Visibility = isLoading ? Visibility.Visible : Visibility.Hidden;
+                lblLoading.Visibility = isLoading ? Visibility.Visible : Visibility.Hidden;
+
+                if (progressPercentage < 100)
+                    lblLoading.Content = String.Format("Loading index ({0}%)...", progressPercentage);
+                else
+                    lblLoading.Content = "Processing index...";
+            }));
         }
 
         public void RefreshSelectButton(string text)
@@ -79,6 +99,10 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshItems(List<SyncMenuItemEntity> items)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                treeViewItems.ItemsSource = items.ToList();
+            }));
         }
 
         public void RefreshSelection(List<AudioFile> audioFiles)
@@ -87,6 +111,11 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshSyncTotal(string title, string subtitle, bool enoughFreeSpace)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                lblTotal.Content = title;
+                lblFreeSpace.Content = subtitle;
+            }));
         }
 
         public void InsertItems(int index, SyncMenuItemEntity parentItem, List<SyncMenuItemEntity> items, object userData)

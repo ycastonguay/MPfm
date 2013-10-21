@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Threading;
 using MPfm.Core;
 using MPfm.MVP.Messages;
@@ -28,6 +29,7 @@ using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
@@ -55,9 +57,7 @@ namespace MPfm.WPF.Classes.Windows
                 dialog.Multiselect = true;
                 dialog.Title = "Add file(s) to library";
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    
-                }
+                    OnAddFilesToLibrary(dialog.FileNames.ToList());
             }
             else if (sender == miFile_AddFolder)
             {
@@ -65,9 +65,7 @@ namespace MPfm.WPF.Classes.Windows
                 dialog.Description = "Please select a folder to add to the music library";
                 dialog.ShowNewFolderButton = false;
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-
-                }
+                    OnAddFolderToLibrary(dialog.SelectedPath);
             }
             else if (sender == miFile_OpenAudioFiles)
             {
@@ -79,6 +77,10 @@ namespace MPfm.WPF.Classes.Windows
                 {
 
                 }
+            }
+            else if (sender == miFile_UpdateLibrary)
+            {
+                OnUpdateLibrary();
             }
             else if (sender == miWindows_Sync)
             {
@@ -96,7 +98,31 @@ namespace MPfm.WPF.Classes.Windows
 
         private void treeViewLibrary_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Tracing.Log("TreeViewLibraryOnSelectedItemChanged");
+            Tracing.Log("treeViewLibrary_SelectedItemChanged");
+
+            if (e.NewValue == null)
+                return;
+
+            var treeViewItem = e.NewValue as TreeViewItem;
+            var entity = treeViewItem.Header as LibraryBrowserEntity;
+            OnTreeNodeSelected(entity);
+        }
+
+        private void treeViewLibrary_OnExpanded(object sender, RoutedEventArgs e)
+        {            
+            Tracing.Log("treeViewLibrary_OnExpanded");
+            var item = e.OriginalSource as MPfmTreeViewItem;
+            if (item != null && item.Items.Count == 1)
+            {
+                var firstItem = item.Items[0] as MPfmTreeViewItem;
+                if (firstItem.IsDummyNode)
+                {
+                    item.Items.Clear();
+                    var entity = item.Header as LibraryBrowserEntity;
+                    OnTreeNodeExpanded(entity, item);
+                }
+            }
+            e.Handled = true;
         }
 
         private void BtnToolbar_OnClick(object sender, RoutedEventArgs e)
@@ -153,85 +179,45 @@ namespace MPfm.WPF.Classes.Windows
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 _itemsLibraryBrowser = entities.ToList();
-                treeViewLibrary.ItemsSource = _itemsLibraryBrowser;
-                
+                treeViewLibrary.Items.Clear();
+                foreach (var entity in entities)
+                {
+                    var item = new MPfmTreeViewItem();
+                    //item.Expanding += (sender, args) => { Console.WriteLine("Expanding"); };
+                    item.Header = entity;
+                    item.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
-                //treeViewLibrary
-                //treeViewLibrary.Items.Clear();
+                    if (entity.SubItems.Count > 0)
+                    {
+                        var dummy = new MPfmTreeViewItem();
+                        dummy.IsDummyNode = true;
+                        item.Items.Add(dummy);
+                    }
 
-
-                //    foreach (var entity in entities)
-                //    {
-                //        var node = treeViewLibrary.Items.Add(entity.Title);                        
-                        
-
-                //        //        var node = new TreeNode(entity.Title);
-                //        //        node.Tag = entity;
-                //        //        switch (entity.EntityType)
-                //        //        {
-                //        //            case LibraryBrowserEntityType.AllSongs:
-                //        //                node.ImageIndex = 12;
-                //        //                node.SelectedImageIndex = 12;
-                //        //                break;
-                //        //            case LibraryBrowserEntityType.Artists:
-                //        //                node.ImageIndex = 26;
-                //        //                node.SelectedImageIndex = 26;
-                //        //                break;
-                //        //            case LibraryBrowserEntityType.Albums:
-                //        //                node.ImageIndex = 25;
-                //        //                node.SelectedImageIndex = 25;
-                //        //                break;
-                //        //        }
-
-                //        //        if (entity.EntityType != LibraryBrowserEntityType.AllSongs)
-                //        //            node.Nodes.Add("dummy", "dummy");
-
-                //        //        treeLibraryBrowser.Nodes.Add(node);
-                //    }
-
+                    treeViewLibrary.Items.Add(item);
+                }
             }));
         }
 
         public void RefreshLibraryBrowserNode(LibraryBrowserEntity entity, IEnumerable<LibraryBrowserEntity> entities, object userData)
         {
-            //Console.WriteLine("frmMain - RefreshLibraryBrowserNode - entities.Count: {0}", entities.Count());
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    var node = (TreeNode)userData;
-            //    treeLibraryBrowser.BeginUpdate();
+            Console.WriteLine("MainWindow - RefreshLibraryBrowserNode - entities.Count: {0}", entities.Count());
+            var item = (MPfmTreeViewItem) userData;
+            foreach (var subentity in entities)
+            {
+                var subitem = new MPfmTreeViewItem();
+                subitem.Header = subentity;
+                subitem.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
-            //    node.Nodes.Clear();
+                if (subentity.SubItems.Count > 0)
+                {
+                    var dummy = new MPfmTreeViewItem();
+                    dummy.IsDummyNode = true;
+                    subitem.Items.Add(dummy);
+                }
 
-            //    foreach (var childEntity in entities)
-            //    {
-            //        var childNode = new TreeNode(childEntity.Title);
-            //        childNode.Tag = childEntity;
-            //        switch (childEntity.EntityType)
-            //        {
-            //            case LibraryBrowserEntityType.Artist:
-            //                childNode.ImageIndex = 24;
-            //                childNode.SelectedImageIndex = 24;
-            //                break;
-            //            case LibraryBrowserEntityType.Album:
-            //            case LibraryBrowserEntityType.ArtistAlbum:
-            //                childNode.ImageIndex = 25;
-            //                childNode.SelectedImageIndex = 25;
-            //                break;
-            //        }
-
-            //        if (childEntity.EntityType != LibraryBrowserEntityType.Album)
-            //            childNode.Nodes.Add("dummy", "dummy");
-
-            //        node.Nodes.Add(childNode);
-            //    }
-
-            //    treeLibraryBrowser.EndUpdate();
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+                item.Items.Add(subitem);
+            }
         }
 
         #endregion

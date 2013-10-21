@@ -40,6 +40,20 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
+        private void btnOK_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void btnCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnCancelUpdateLibrary();
+        }
+
+        private void btnSaveLog_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
         #region IUpdateLibraryView implementation
 
         public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
@@ -48,6 +62,12 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                lblTitle.Text = entity.Title;
+                lblSubtitle.Text = entity.Subtitle;
+                progressBar.Value = entity.PercentageDone*100;
+            }));
         }
 
         public void AddToLog(string entry)
@@ -56,8 +76,17 @@ namespace MPfm.WPF.Classes.Windows
 
         public void ProcessEnded(bool canceled)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                lblTitle.Text = "Update library completed successfully";
+                lblSubtitle.Text = string.Empty;
+                btnCancel.IsEnabled = false;
+                btnOK.IsEnabled = true;
+                btnSaveLog.IsEnabled = true;
+            }));
         }
 
         #endregion
+
     }
 }

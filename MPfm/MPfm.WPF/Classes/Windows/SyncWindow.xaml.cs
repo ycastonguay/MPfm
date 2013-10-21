@@ -17,7 +17,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.MVP.Messages;
@@ -32,11 +35,49 @@ namespace MPfm.WPF.Classes.Windows
 {
     public partial class SyncWindow : BaseWindow, ISyncView
     {
+        private bool _isDiscovering;
+
         public SyncWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
+        }
+
+        private void RefreshDeviceListButton()
+        {
+            if (_isDiscovering)
+            {
+                imageRefreshButton.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/cancel.png"));
+                lblRefreshButton.Content = "Cancel refresh";
+            }
+            else
+            {
+                imageRefreshButton.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/refresh.png"));
+                lblRefreshButton.Content = "Refresh devices";
+            }
+        }
+
+        private void btnRefresh_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_isDiscovering)
+                OnCancelDiscovery();
+            else
+                OnStartDiscovery();   
+        }
+
+        private void btnConnect_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listView.SelectedItems.Count == 0)
+                return;
+
+            OnCancelDiscovery();
+            OnConnectDevice((SyncDevice)listView.SelectedItems[0]);
+        }
+
+        private void btnConnectManual_OnClick(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         #region ISyncView implementation
@@ -64,14 +105,34 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshDiscoveryProgress(float percentageDone, string status)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                if (!_isDiscovering)
+                {
+                    _isDiscovering = true;
+                    progressBar.Visibility = Visibility.Visible;                    
+                    RefreshDeviceListButton();
+                }
+                progressBar.Value = (int)percentageDone;
+            }));
         }
 
         public void RefreshDevices(IEnumerable<SyncDevice> devices)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                listView.ItemsSource = devices.ToList();
+            }));
         }
 
         public void RefreshDevicesEnded()
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                _isDiscovering = false;
+                progressBar.Visibility = Visibility.Hidden;
+                RefreshDeviceListButton();
+            }));
         }
 
         public void SyncDevice(SyncDevice device)
@@ -79,5 +140,6 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
+
     }
 }

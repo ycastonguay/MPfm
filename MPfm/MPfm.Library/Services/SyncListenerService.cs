@@ -582,9 +582,9 @@ namespace MPfm.Library.Services
                 foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
                 {
                     //Console.WriteLine("GetIPAddress - NetworkInterface: {0} {1}", ni.Name, ni.NetworkInterfaceType.ToString());
-                    if(ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
-                       ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-                    {
+                    if((ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
+                       ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet))
+                    {                        
                         IPAddress ip = null;
                         foreach (var a in ni.GetIPProperties().UnicastAddresses)
                         {
