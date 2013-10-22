@@ -169,7 +169,7 @@
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DropboxCoreService.cs" />
-    <Compile Include="Services\Interfaces\IDropboxService.cs" />
+    <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />

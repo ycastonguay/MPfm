@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -35,7 +35,7 @@ namespace MPfm.Android
     public class SyncCloudActivity : BaseActivity, ISyncCloudView
     {
         private MobileNavigationManager _navigationManager;
-        private IDropboxService _dropbox;
+        private ICloudLibraryService _cloudLibrary;
         private TextView _lblConnected;
         private TextView _lblDataChanged;
         private TextView _lblValue;
@@ -50,8 +50,8 @@ namespace MPfm.Android
             Console.WriteLine("SyncCloudActivity - OnCreate");
             base.OnCreate(bundle);
 
-            _dropbox = Bootstrapper.GetContainer().Resolve<IDropboxService>();
-            _dropbox.OnDropboxDataChanged += OnDropboxDataChanged;
+            _cloudLibrary = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
+            _cloudLibrary.OnDropboxDataChanged += OnCloudLibraryDataChanged;
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.SyncCloud);
@@ -73,7 +73,7 @@ namespace MPfm.Android
             _btnDelete.Click += BtnDeleteOnClick;
             
             //_lblConnected.Text = string.Format("Is Linked: {0} {1}", _accountManager.HasLinkedAccount, DateTime.Now.ToLongTimeString());
-            _lblConnected.Text = string.Format("Is Linked: {0} {1}", _dropbox.HasLinkedAccount, DateTime.Now.ToLongTimeString());
+            _lblConnected.Text = string.Format("Is Linked: {0} {1}", _cloudLibrary.HasLinkedAccount, DateTime.Now.ToLongTimeString());
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetSyncCloudActivityInstance(this);
@@ -83,8 +83,8 @@ namespace MPfm.Android
         {
             try
             {
-                _dropbox.LinkApp(this);
-                _lblConnected.Text = string.Format("Is Linked: {0} {1}", _dropbox.HasLinkedAccount, DateTime.Now.ToLongTimeString());
+                _cloudLibrary.LinkApp(this);
+                _lblConnected.Text = string.Format("Is Linked: {0} {1}", _cloudLibrary.HasLinkedAccount, DateTime.Now.ToLongTimeString());
             }
             catch (Exception ex)
             {
@@ -100,8 +100,8 @@ namespace MPfm.Android
         {
             try
             {
-                _dropbox.UnlinkApp();
-                _lblConnected.Text = string.Format("Is Linked: {0} {1}", _dropbox.HasLinkedAccount, DateTime.Now.ToLongTimeString());
+                _cloudLibrary.UnlinkApp();
+                _lblConnected.Text = string.Format("Is Linked: {0} {1}", _cloudLibrary.HasLinkedAccount, DateTime.Now.ToLongTimeString());
             }
             catch (Exception ex)
             {
@@ -117,7 +117,7 @@ namespace MPfm.Android
         {            
             try
             {
-                string nowPlaying = _dropbox.PullStuff();
+                string nowPlaying = _cloudLibrary.PullStuff();
                 _lblValue.Text = nowPlaying;
             }
             catch (Exception ex)
@@ -134,7 +134,8 @@ namespace MPfm.Android
         {
             try
             {
-                _dropbox.PushStuff();
+                _cloudLibrary.PushStuff();
+                _cloudLibrary.PushPlaylist(null);
             }
             catch (Exception ex)
             {
@@ -150,8 +151,8 @@ namespace MPfm.Android
         {
             try
             {
-                _dropbox.DeleteStuff();
-                _dropbox.DeleteNowPlaying();
+                _cloudLibrary.DeleteStuff();
+                _cloudLibrary.DeleteNowPlaying();
             }
             catch (Exception ex)
             {
@@ -163,7 +164,7 @@ namespace MPfm.Android
             }
         }
 
-        private void OnDropboxDataChanged(string data)
+        private void OnCloudLibraryDataChanged(string data)
         {
             RunOnUiThread(() =>
             {

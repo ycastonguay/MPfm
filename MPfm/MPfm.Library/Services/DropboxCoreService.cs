@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -31,7 +31,7 @@ using Spring.Social.OAuth1;
 
 namespace MPfm.Library.Services
 {
-    public class DropboxCoreService : IDropboxService
+    public class DropboxCoreService : ICloudLibraryService
     {
         //private const string DropboxAppKey = "6tc6565743i743n";
         //private const string DropboxAppSecret = "fbkt3neevjjl0l2";

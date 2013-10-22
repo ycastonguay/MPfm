@@ -152,7 +152,7 @@ namespace MPfm.Android.Classes
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
-            container.Register<IDropboxService, AndroidDropboxService>().AsSingleton();
+            container.Register<ICloudLibraryService, AndroidDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, AndroidAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();

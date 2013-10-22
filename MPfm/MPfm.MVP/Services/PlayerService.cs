@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -40,7 +40,7 @@ namespace MPfm.MVP.Services
     public class PlayerService : IPlayerService
     {
         private readonly ITinyMessengerHub _messengerHub;
-        private readonly IDropboxService _dropboxService;
+        private readonly ICloudLibraryService _cloudLibraryService;
         private IPlayer _player;
 
         public bool IsInitialized { get; private set; }
@@ -65,10 +65,10 @@ namespace MPfm.MVP.Services
         /// </summary>
         public event BPMDetected OnBPMDetected;
 
-		public PlayerService(ITinyMessengerHub messageHub, IDropboxService dropboxService)
+		public PlayerService(ITinyMessengerHub messageHub, ICloudLibraryService cloudLibraryService)
 		{
             _messengerHub = messageHub;
-		    _dropboxService = dropboxService;
+		    _cloudLibraryService = cloudLibraryService;
 		}
         
         public void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod)
@@ -101,7 +101,7 @@ namespace MPfm.MVP.Services
             {
                 try
                 {
-                    _dropboxService.PushNowPlaying(data.AudioFileStarted, 0, "0:00.000");
+                    _cloudLibraryService.PushNowPlaying(data.AudioFileStarted, 0, "0:00.000");
                 }
                 catch (Exception ex)
                 {
@@ -258,11 +258,20 @@ namespace MPfm.MVP.Services
             return new Tuple<float[], float[]>(left, right);
         }
 
+        private void NotifyPlaylistUpdate()
+        {
+            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
+
+            Task.Factory.StartNew(() => {
+                _cloudLibraryService.PushPlaylist(_player.Playlist);
+            });
+        }
+
         public void Play()
         {
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
-            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
+            NotifyPlaylistUpdate();
         }
 
         public void Play(IEnumerable<AudioFile> audioFiles)
@@ -271,7 +280,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.AddItems(audioFiles.ToList());
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
-            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
+            NotifyPlaylistUpdate();
         }
 
         public void Play(IEnumerable<string> filePaths)
@@ -280,7 +289,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.AddItems(filePaths.ToList());
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
-            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
+            NotifyPlaylistUpdate();
         }
 
         public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
@@ -290,7 +299,7 @@ namespace MPfm.MVP.Services
             _player.Playlist.GoTo(startAudioFilePath);
             _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
-            _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
+            NotifyPlaylistUpdate();
         }
 
         public void Stop()

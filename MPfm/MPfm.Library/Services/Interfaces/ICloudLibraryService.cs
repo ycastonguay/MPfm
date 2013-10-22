@@ -16,16 +16,19 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
 
 namespace MPfm.Library.Services.Interfaces
 {
     public delegate void DropboxDataChanged(string data);
 
     /// <summary>
-    /// Interface for the DropboxService class.
+    /// Interface for the cloud service implementations.
     /// </summary>
-    public interface IDropboxService
+    public interface ICloudLibraryService
     {
         event DropboxDataChanged OnDropboxDataChanged;
 
@@ -37,6 +40,8 @@ namespace MPfm.Library.Services.Interfaces
 
         void InitializeAppFolder();
 
+        void PushHello();
+
         void PushStuff();
         string PullStuff();
         void DeleteStuff();
@@ -44,5 +49,11 @@ namespace MPfm.Library.Services.Interfaces
         string PushNowPlaying(AudioFile audioFile, long positionBytes, string position);
         string PullNowPlaying();
         void DeleteNowPlaying();
+
+        string PushPlaylist(Playlist playlist);
+        Playlist PullPlaylist(Guid playlistId);
+        IEnumerable<Playlist> PullPlaylists();
+        void DeletePlaylist(Guid playlistId);
+        void DeletePlaylists();
     }
 }
