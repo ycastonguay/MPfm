@@ -20,6 +20,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
+using MPfm.Library.Objects;
 
 namespace MPfm.Library.Services.Interfaces
 {
@@ -46,8 +47,8 @@ namespace MPfm.Library.Services.Interfaces
         string PullStuff();
         void DeleteStuff();
 
-        string PushNowPlaying(AudioFile audioFile, long positionBytes, string position);
-        string PullNowPlaying();
+        string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position);
+        IEnumerable<CloudDeviceInfo> PullDeviceInfos();
         void DeleteNowPlaying();
 
         string PushPlaylist(Playlist playlist);
@@ -55,5 +56,6 @@ namespace MPfm.Library.Services.Interfaces
         IEnumerable<Playlist> PullPlaylists();
         void DeletePlaylist(Guid playlistId);
         void DeletePlaylists();
+
     }
 }

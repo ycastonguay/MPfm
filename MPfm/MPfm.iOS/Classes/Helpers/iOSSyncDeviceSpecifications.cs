@@ -77,7 +77,7 @@ namespace MPfm.iOS.Helpers
 
         public string GetDeviceUniqueId()
         {
-            return UIDevice.CurrentDevice.IdentifierForVendor.ToString();
+            return UIDevice.CurrentDevice.IdentifierForVendor.AsString();
         }
 
         public string GetMusicFolderPath()

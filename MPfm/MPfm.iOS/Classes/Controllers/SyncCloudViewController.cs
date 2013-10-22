@@ -17,24 +17,24 @@
 
 using System;
 using System.Drawing;
+using System.Linq;
+using DropBoxSync.iOS;
+using MPfm.Library;
+using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controls;
-using DropBoxSync.iOS;
 using MPfm.iOS.Classes.Delegates;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Library;
-using System.Linq;
 
 namespace MPfm.iOS
 {
     public partial class SyncCloudViewController : BaseViewController, ISyncCloudView
     {
-        private ISyncDeviceSpecifications _deviceSpecs;
-        private DBDatastore _store = null;
+        private ICloudLibraryService _cloudLibrary;
 
         public SyncCloudViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncCloudViewController_iPhone" : "SyncCloudViewController_iPad", null)
@@ -45,51 +45,52 @@ namespace MPfm.iOS
         {
             base.ViewDidLoad();
 
-            _deviceSpecs = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
+            _cloudLibrary = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
+            _cloudLibrary.OnDropboxDataChanged += OnCloudLibraryDataChanged;
 
-            if (_store != null && _store.Open)
-                return;
+//            if (_store != null && _store.Open)
+//                return;
 
-            DBError error = null;
-            var account = DBAccountManager.SharedManager.LinkedAccount;
-
-            // TODO: account will be null when the user delogs out
-            _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
-            if(error != null)
-                throw new Exception(error.Description);
-
-            _store.AddObserver (_store, () => {
-                Console.WriteLine("SyncCloudViewController - DBDatastore - Data changed!");
-                if (_store.Status.HasFlag(DBDatastoreStatus.Incoming)) {
-                    // Handle the updated data
-                    Console.WriteLine("SyncCloudViewController - DBDatastore - Incoming data!");
-                    try
-                    {
-                        DBError error2 = null;
-                        var changes = _store.Sync(error2);
-                        if(error2 != null)
-                            throw new Exception(error2.Description);
-
-                        if (!changes.ContainsKey(new NSString("stuff")))
-                            return;
-
-                        var records = (NSSet)changes["stuff"];
-                        foreach(var record in records)
-                        {
-                            var theRecord = (DBRecord)record;
-                            var timestamp = theRecord.ObjectForKey("timestamp");
-                            var deviceType = theRecord.ObjectForKey("deviceType");
-                            var deviceName = theRecord.ObjectForKey("deviceName");
-                            lblValue.Text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange exception: {0}", ex);
-                        lblValue.Text = string.Format("Error: {0}", ex);
-                    }
-                }
-            });
+//            DBError error = null;
+//            var account = DBAccountManager.SharedManager.LinkedAccount;
+//
+//            // TODO: account will be null when the user delogs out
+//            _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
+//            if(error != null)
+//                throw new Exception(error.Description);
+//
+//            _store.AddObserver (_store, () => {
+//                Console.WriteLine("SyncCloudViewController - DBDatastore - Data changed!");
+//                if (_store.Status.HasFlag(DBDatastoreStatus.Incoming)) {
+//                    // Handle the updated data
+//                    Console.WriteLine("SyncCloudViewController - DBDatastore - Incoming data!");
+//                    try
+//                    {
+//                        DBError error2 = null;
+//                        var changes = _store.Sync(error2);
+//                        if(error2 != null)
+//                            throw new Exception(error2.Description);
+//
+//                        if (!changes.ContainsKey(new NSString("stuff")))
+//                            return;
+//
+//                        var records = (NSSet)changes["stuff"];
+//                        foreach(var record in records)
+//                        {
+//                            var theRecord = (DBRecord)record;
+//                            var timestamp = theRecord.ObjectForKey("timestamp");
+//                            var deviceType = theRecord.ObjectForKey("deviceType");
+//                            var deviceName = theRecord.ObjectForKey("deviceName");
+//                            lblValue.Text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
+//                        }
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange exception: {0}", ex);
+//                        lblValue.Text = string.Format("Error: {0}", ex);
+//                    }
+//                }
+//            });
         }
 
         public override void ViewWillAppear(bool animated)
@@ -134,99 +135,103 @@ namespace MPfm.iOS
 
         partial void actionPull(NSObject sender)
         {
-            try
-            {
-                DBError error = null;
-
-                var table = _store.GetTable("stuff");
-                //var record = table.GetRecord("H8f7Q9JRhAkzzzmBa-dDww", out error);
-                var records = table.Query(null, out error);
-                if(error != null)
-                    throw new Exception(error.Description);
-
-                if (records.Length == 0)
-                {
-                    lblValue.Text = "No value!";
-                    return;
-                }
-
-                var firstResult = records[0];
-                var timestamp = firstResult.ObjectForKey("timestamp");
-                var deviceType = firstResult.ObjectForKey("deviceType");
-                var deviceName = firstResult.ObjectForKey("deviceName");
-                lblValue.Text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
-            }
-            catch(Exception ex)
-            {
-                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            }
+//            try
+//            {
+//                DBError error = null;
+//
+//                var table = _store.GetTable("stuff");
+//                //var record = table.GetRecord("H8f7Q9JRhAkzzzmBa-dDww", out error);
+//                var records = table.Query(null, out error);
+//                if(error != null)
+//                    throw new Exception(error.Description);
+//
+//                if (records.Length == 0)
+//                {
+//                    lblValue.Text = "No value!";
+//                    return;
+//                }
+//
+//                var firstResult = records[0];
+//                var timestamp = firstResult.ObjectForKey("timestamp");
+//                var deviceType = firstResult.ObjectForKey("deviceType");
+//                var deviceName = firstResult.ObjectForKey("deviceName");
+//                lblValue.Text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
+//            }
+//            catch(Exception ex)
+//            {
+//                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
+//                alertView.Show();
+//            }
         }
 
         partial void actionPush(NSObject sender)
         {
-            try
-            {
-                DBError error = null;
-                var table = _store.GetTable("stuff");
-                var keys = new NSString[] {
-                    new NSString("hello"),
-                    new NSString("deviceType"),
-                    new NSString("deviceName"),
-                    new NSString("ip"),
-                    new NSString("test"),
-                    new NSString("timestamp")
-                };
-                var values = new NSObject[] {
-                    new NSString("world"),
-                    new NSString(_deviceSpecs.GetDeviceType().ToString()),
-                    new NSString(_deviceSpecs.GetDeviceName()),
-                    new NSString(_deviceSpecs.GetIPAddress()),
-                    NSObject.FromObject(true),
-                    new NSString(DateTime.Now.ToLongTimeString())
-                };
-
-                NSDictionary data = NSDictionary.FromObjectsAndKeys(values, keys);
-                DBRecord stuff = table.Insert(data);
-
-                _store.Sync(error);
-                if(error != null)
-                    throw new Exception(error.Description);
-            }
-            catch(Exception ex)
-            {
-                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            }
+//            try
+//            {
+//                DBError error = null;
+//                var table = _store.GetTable("stuff");
+//                var keys = new NSString[] {
+//                    new NSString("hello"),
+//                    new NSString("deviceType"),
+//                    new NSString("deviceName"),
+//                    new NSString("ip"),
+//                    new NSString("test"),
+//                    new NSString("timestamp")
+//                };
+//                var values = new NSObject[] {
+//                    new NSString("world"),
+//                    new NSString(_deviceSpecs.GetDeviceType().ToString()),
+//                    new NSString(_deviceSpecs.GetDeviceName()),
+//                    new NSString(_deviceSpecs.GetIPAddress()),
+//                    NSObject.FromObject(true),
+//                    new NSString(DateTime.Now.ToLongTimeString())
+//                };
+//
+//                NSDictionary data = NSDictionary.FromObjectsAndKeys(values, keys);
+//                DBRecord stuff = table.Insert(data);
+//
+//                _store.Sync(error);
+//                if(error != null)
+//                    throw new Exception(error.Description);
+//            }
+//            catch(Exception ex)
+//            {
+//                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
+//                alertView.Show();
+//            }
         }
 
         partial void actionDelete(NSObject sender)
         {
-            try
-            {
-                DBError error = null;
-                var table = _store.GetTable("stuff");
-                var records = table.Query(null, out error);
-                if (records.Length == 0)
-                {
-                    lblValue.Text = "No value!";
-                    return;
-                }
+//            try
+//            {
+//                DBError error = null;
+//                var table = _store.GetTable("stuff");
+//                var records = table.Query(null, out error);
+//                if (records.Length == 0)
+//                {
+//                    lblValue.Text = "No value!";
+//                    return;
+//                }
+//
+//                foreach(var record in records)
+//                {
+//                    record.DeleteRecord();
+//                }
+//
+//                _store.Sync(error);
+//                if(error != null)
+//                    throw new Exception(error.Description);
+//            }
+//            catch(Exception ex)
+//            {
+//                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
+//                alertView.Show();
+//            }
+        }
 
-                foreach(var record in records)
-                {
-                    record.DeleteRecord();
-                }
-
-                _store.Sync(error);
-                if(error != null)
-                    throw new Exception(error.Description);
-            }
-            catch(Exception ex)
-            {
-                UIAlertView alertView = new UIAlertView("SyncCloud Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            }
+        private void OnCloudLibraryDataChanged(string data)
+        {
         }
 
         #region ISyncCloudView implementation

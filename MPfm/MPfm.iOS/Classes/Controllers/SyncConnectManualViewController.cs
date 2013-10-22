@@ -16,19 +16,24 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.Library.Objects;
+using System.Drawing;
+using MonoTouch.Foundation;
+using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.iOS
 {
-	/// <summary>
-    /// Resume Playback view interface.
-	/// </summary>
-    public interface IResumePlaybackView : IBaseView
-	{
-        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+    public partial class SyncConnectManualViewController : BaseViewController, ISyncConnectManualView
+    {
+        public SyncConnectManualViewController(Action<IBaseView> onViewReady)
+			: base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncConnectManualViewController_iPhone" : "SyncConnectManualViewController_iPad", null)
+        {
+        }
 
-        void ResumePlaybackError(Exception ex);
-        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
-	}
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+        }
+    }
 }

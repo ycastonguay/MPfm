@@ -244,7 +244,9 @@
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
     <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
-    <Compile Include="Services\Interfaces\IDropboxService.cs" />
     <Compile Include="Services\DropboxCoreService.cs" />
+    <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />
+    <Compile Include="Objects\CloudPlaylist.cs" />
+    <Compile Include="Objects\CloudDeviceInfo.cs" />
   </ItemGroup>
 </Project>

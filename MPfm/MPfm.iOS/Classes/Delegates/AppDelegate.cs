@@ -45,9 +45,6 @@ namespace MPfm.iOS.Classes.Delegates
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate
 	{
-        private string _dropboxAppKey = "6tc6565743i743n";
-        private string _dropboxAppSecret = "fbkt3neevjjl0l2";
-
 		MPfmWindow _window;
         MPfmTabBarController _tabBarController;
         SplashViewController _splashViewController;
@@ -75,8 +72,6 @@ namespace MPfm.iOS.Classes.Delegates
             UIToolbar.Appearance.BackgroundColor = GlobalTheme.MainColor;
             UITabBar.Appearance.TintColor = UIColor.White;
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
-
-            RegisterDropbox();
 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
             _window.TintColor = GlobalTheme.SecondaryColor;
@@ -106,7 +101,7 @@ namespace MPfm.iOS.Classes.Delegates
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
-            container.Register<IDropboxService, iOSDropboxService>().AsSingleton();
+            container.Register<ICloudLibraryService, iOSDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
             container.Register<ISplashView, SplashViewController>().AsMultiInstance();
@@ -130,12 +125,14 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IPlayerMetadataView, PlayerMetadataViewController>().AsMultiInstance();
             container.Register<ISyncView, SyncViewController>().AsMultiInstance();
             container.Register<ISyncCloudView, SyncCloudViewController>().AsMultiInstance();
+            container.Register<ISyncConnectManualView, SyncConnectManualViewController>().AsMultiInstance();
             container.Register<ISyncWebBrowserView, SyncWebBrowserViewController>().AsMultiInstance();
             container.Register<ISyncMenuView, SyncMenuViewController>().AsMultiInstance();
             container.Register<ISyncDownloadView, SyncDownloadViewController>().AsMultiInstance();
             container.Register<IAboutView, AboutViewController>().AsMultiInstance();
             container.Register<ISelectPlaylistView, SelectPlaylistViewController>().AsMultiInstance();
             container.Register<IAddPlaylistView, AddPlaylistViewController>().AsMultiInstance();
+            container.Register<IResumePlaybackView, ResumePlaybackViewController>().AsMultiInstance();
         }
 
         public void ShowSplash(SplashViewController viewController)
@@ -258,20 +255,6 @@ namespace MPfm.iOS.Classes.Delegates
                 var navCtrl = _dialogNavigationControllers.FirstOrDefault(x => x.Key == parentViewTitle).Value;
                 navCtrl.PushViewController(viewController, true);
             });
-        }
-
-        public void RegisterDropbox()
-        {
-            // The account manager stores all the account info. Create this when your app launches
-            var manager = new DBAccountManager(_dropboxAppKey, _dropboxAppSecret);
-            DBAccountManager.SharedManager = manager;
-
-//            var account = manager.LinkedAccount;
-//            if (account != null) 
-//            {
-//                var filesystem = new DBFilesystem(account);
-//                DBFilesystem.SharedFilesystem = filesystem;
-//            }   
         }
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)

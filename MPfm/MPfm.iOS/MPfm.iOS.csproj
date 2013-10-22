@@ -113,6 +113,9 @@
     <Reference Include="DropBoxSync.iOS">
       <HintPath>..\Components\dropboxsync-1.9.1\lib\ios\DropBoxSync.iOS.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\MPfm.Library\Lib\iOS\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -279,6 +282,14 @@
       <DependentUpon>SyncCloudViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Services\iOSDropboxService.cs" />
+    <Compile Include="Classes\Controllers\ResumePlaybackViewController.cs" />
+    <Compile Include="Classes\Controllers\ResumePlaybackViewController.designer.cs">
+      <DependentUpon>ResumePlaybackViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\SyncConnectManualViewController.cs" />
+    <Compile Include="Classes\Controllers\SyncConnectManualViewController.designer.cs">
+      <DependentUpon>SyncConnectManualViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -335,6 +346,10 @@
     <InterfaceDefinition Include="XIB\iPad\AddPlaylistViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPad\SyncCloudViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\SyncCloudViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\ResumePlaybackViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\ResumePlaybackViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\SyncConnectManualViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\SyncConnectManualViewController_iPad.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

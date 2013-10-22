@@ -101,7 +101,7 @@ namespace MPfm.MVP.Services
             {
                 try
                 {
-                    _cloudLibraryService.PushNowPlaying(data.AudioFileStarted, 0, "0:00.000");
+                    _cloudLibraryService.PushDeviceInfo(data.AudioFileStarted, 0, "0:00.000");
                 }
                 catch (Exception ex)
                 {

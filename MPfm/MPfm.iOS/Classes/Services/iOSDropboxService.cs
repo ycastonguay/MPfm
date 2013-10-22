@@ -15,15 +15,35 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Reflection;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using MonoTouch.Foundation;
+using System.Reflection;
+using DropBoxSync.iOS;
+using MPfm.Library;
 using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Bootstrap;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.Playlists;
+using MonoTouch.Foundation;
+using MPfm.Core;
+using Newtonsoft.Json;
+using MPfm.Library.Objects;
 
 namespace MPfm.iOS.Classes.Services
 {
-	public class iOSDropboxService : IDropboxService
+	public class iOSDropboxService : ICloudLibraryService
 	{
+        // Of course, those are temp keys and will be replaced when pushing to the App Store.
+        //private string _dropboxAppKey = "6tc6565743i743n";
+        //private string _dropboxAppSecret = "fbkt3neevjjl0l2";
+        private string _dropboxAppKey = "m1bcpax276elhfi";
+        private string _dropboxAppSecret = "2azbuj2eelkranm";
+
+        private ISyncDeviceSpecifications _deviceSpecifications;
+        private DBDatastore _store;
+        private DBFilesystem _fileSystem ;
+
         public bool HasLinkedAccount
         {
             get
@@ -36,10 +56,69 @@ namespace MPfm.iOS.Classes.Services
 
         public iOSDropboxService()
         {
+            _deviceSpecifications = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
+            Initialize();
         }
 
         private void Initialize()
         {
+            var manager = new DBAccountManager(_dropboxAppKey, _dropboxAppSecret);
+            DBAccountManager.SharedManager = manager;
+
+            // Check if user is logged in 
+            var account = DBAccountManager.SharedManager.LinkedAccount;
+            if (account == null)
+                return;
+
+            if (_store != null && _store.Open)
+                return;
+
+            DBError error = null;
+            _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
+            if(error != null)
+                throw new Exception(error.Description);
+
+            _fileSystem = new DBFilesystem(account);
+            DBFilesystem.SharedFilesystem = _fileSystem;
+
+            _fileSystem.AddObserverForPathAndChildren(_fileSystem, new DBPath("/Devices"), () => {
+                Console.WriteLine("SyncCloudViewController - FileSystem - Data changed!");
+                if(OnDropboxDataChanged != null)
+                    OnDropboxDataChanged(string.Empty);
+            });
+
+//            _store.AddObserver (_store, () => {
+//                Console.WriteLine("SyncCloudViewController - DBDatastore - Data changed!");
+//                if (_store.Status.HasFlag(DBDatastoreStatus.Incoming)) {
+//                    // Handle the updated data
+//                    Console.WriteLine("SyncCloudViewController - DBDatastore - Incoming data!");
+//                    try
+//                    {
+//                        DBError error2 = null;
+//                        var changes = _store.Sync(error2);
+//                        if(error2 != null)
+//                            throw new Exception(error2.Description);
+//
+//                        if (!changes.ContainsKey(new NSString("stuff")))
+//                            return;
+//
+//                        var records = (NSSet)changes["stuff"];
+//                        foreach(var record in records)
+//                        {
+//                            var theRecord = (DBRecord)record;
+//                            var timestamp = theRecord.ObjectForKey("timestamp");
+//                            var deviceType = theRecord.ObjectForKey("deviceType");
+//                            var deviceName = theRecord.ObjectForKey("deviceName");
+//                            //lblValue.Text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
+//                        }
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange exception: {0}", ex);
+//                        //lblValue.Text = string.Format("Error: {0}", ex);
+//                    }
+//                }
+//            });
         }
 
         public void LinkApp(object view)
@@ -47,6 +126,22 @@ namespace MPfm.iOS.Classes.Services
         }
 
         public void UnlinkApp()
+        {
+        }
+
+        public void ContinueLinkApp()
+        {
+        }
+
+        public void InitializeAppFolder()
+        {
+            // Ignore any errors; there is no way to check if the folder exists before (like on Android!)
+            DBError error = null;
+            _fileSystem.CreateFolder(new DBPath("/Devices"), out error);
+            _fileSystem.CreateFolder(new DBPath("/Playlists"), out error);
+        }
+
+        public void PushHello()
         {
         }
 
@@ -63,17 +158,143 @@ namespace MPfm.iOS.Classes.Services
         {
         }
 
-        public string PushNowPlaying(MPfm.Sound.AudioFiles.AudioFile audioFile, long positionBytes, string position)
+        public string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
         {
+            DBError error = null;
+            DBFile file = null;
+
+            try
+            {
+                var nowPlaying = new CloudDeviceInfo(){
+                    AudioFileId = audioFile.Id,
+                    ArtistName = audioFile.ArtistName,
+                    AlbumTitle = audioFile.AlbumTitle,
+                    SongTitle = audioFile.Title,
+                    Position = position,
+                    PositionBytes = positionBytes,
+                    DeviceType = _deviceSpecifications.GetDeviceType().ToString(),
+                    DeviceName = _deviceSpecifications.GetDeviceName(),
+                    DeviceId = _deviceSpecifications.GetDeviceUniqueId(),
+                    IPAddress = _deviceSpecifications.GetIPAddress(),
+                    Timestamp = DateTime.Now
+                };
+
+                // Do we really need to check folder existence before each call?
+                var path = new DBPath(string.Format("/Devices/{0}.json", nowPlaying.DeviceId));
+
+                // Unlike the Android SDK, there is no method to check if a file exists... 
+                var fileInfo = _fileSystem.FileInfoForPath(path, out error);
+                if (fileInfo == null)
+                    file = _fileSystem.CreateFile(path, out error);
+                else
+                    file = _fileSystem.OpenFile(path, out error);
+
+                if(error != null)
+                    throw new Exception(error.Description);
+
+                string json = JsonConvert.SerializeObject(nowPlaying);
+                file.WriteString(json, out error);
+
+                if(error != null)
+                    throw new Exception(error.Description);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("iOSDropboxService - PushNowPlaying - Exception: {0}", ex);
+                throw;
+            }
+            finally
+            {
+                if (file != null)
+                    file.Close();
+            }
+
             return string.Empty;
         }
 
-        public string PullNowPlaying()
+        public IEnumerable<CloudDeviceInfo> PullDeviceInfos()
         {
-            return string.Empty;
+            List<CloudDeviceInfo> devices = new List<CloudDeviceInfo>();
+            DBError error = null;
+            DBFile file = null;
+
+            try
+            {
+                var fileInfos = _fileSystem.ListFolder(new DBPath("/Devices"), out error);
+                if(error != null)
+                    throw new Exception(error.Description);
+
+                foreach(var fileInfo in fileInfos)
+                {
+                    try
+                    {
+                        file = _fileSystem.OpenFile(fileInfo.Path, out error);
+                        if(error != null)
+                            throw new Exception(error.Description);
+
+                        file.Update(out error);
+                        if(error != null)
+                            throw new Exception(error.Description);
+
+                        string json = file.ReadString(out error);
+                        if(error != null)
+                            throw new Exception(error.Description);
+
+                        CloudDeviceInfo device = null;
+                        try
+                        {
+                            device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+                            devices.Add(device);
+                        }
+                        catch(Exception ex)
+                        {
+                            Tracing.Log("iOSDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", fileInfo.Path.Name, ex);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        Tracing.Log("iOSDropboxService - PullDeviceInfos - Failed to download file {0} - ex: {1}", fileInfo.Path.Name, ex);
+                    }
+                    finally
+                    {
+                        if(file != null)
+                            file.Close();                            
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("iOSDropboxService - PushNowPlaying - Exception: {0}", ex);
+                throw;
+            }
+
+            return devices;
         }
 
         public void DeleteNowPlaying()
+        {
+        }
+
+        public string PushPlaylist(Playlist playlist)
+        {
+            return string.Empty;
+        }
+
+        public Playlist PullPlaylist(Guid playlistId)
+        {
+            return new Playlist();
+        }
+
+        public IEnumerable<Playlist> PullPlaylists()
+        {
+            return new List<Playlist>();
+        }
+
+        public void DeletePlaylist(Guid playlistId)
+        {
+        }
+
+        public void DeletePlaylists()
         {
         }
 	}
