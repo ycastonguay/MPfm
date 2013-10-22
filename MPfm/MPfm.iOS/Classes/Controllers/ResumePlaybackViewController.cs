@@ -18,14 +18,15 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
+using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Services;
-using MPfm.Library.Objects;
-using System.Linq;
 
 namespace MPfm.iOS
 {
@@ -43,6 +44,8 @@ namespace MPfm.iOS
         {
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
+
+            this.View.BackgroundColor = GlobalTheme.BackgroundColor;
 
             base.ViewDidLoad();
         }
@@ -73,10 +76,10 @@ namespace MPfm.iOS
             }
 
             cell.ImageView.Hidden = true;
-            cell.TextLabel.Text = string.Format("{0}/{1}/{2}", device.DeviceType, device.DeviceName, device.DeviceId);
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 11);
+            cell.TextLabel.Text = device.DeviceName; //string.Format("{0} ({1})", device.DeviceName, device.DeviceType);
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
             cell.DetailTextLabel.Text = string.Format("{0}/{1}/{2}", device.ArtistName, device.AlbumTitle, device.SongTitle);
-            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 11);
+            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             cell.Accessory = UITableViewCellAccessory.None;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.ImageChevron.Hidden = false;
@@ -87,7 +90,7 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            //OnItemClick(_items[indexPath.Row].Key);
+            OnResumePlayback(_devices[indexPath.Row]);
         }
 
         [Export ("tableView:didHighlightRowAtIndexPath:")]
@@ -112,7 +115,8 @@ namespace MPfm.iOS
 
         partial void actionResumePlayback(NSObject sender)
         {
-
+            //var indexPath = tableView.IndexPathForSelectedRow;
+            //Console.WriteLine("indexPath: {0}", indexPath);
         }
 
         #region IResumePlaybackView implementation

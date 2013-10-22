@@ -22,6 +22,11 @@ using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using System.Threading.Tasks;
 using System.Threading;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Messages;
+using TinyMessenger;
+using System.Linq;
 
 namespace MPfm.MVP.Presenters
 {
@@ -30,19 +35,31 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class ResumePlaybackPresenter : BasePresenter<IResumePlaybackView>, IResumePlaybackPresenter
 	{
+        private readonly MobileNavigationManager _mobileNavigationManager;
+        private readonly NavigationManager _navigationManager;
+        private readonly ITinyMessengerHub _messengerHub;
         private readonly ICloudLibraryService _cloudLibrary;
+        private readonly IAudioFileCacheService _audioFileCacheService;
 
-        public ResumePlaybackPresenter(ICloudLibraryService cloudLibrary)
+        public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary)
 		{
+            _messengerHub = messengerHub;
+            _audioFileCacheService = audioFileCacheService;
             _cloudLibrary = cloudLibrary;
             _cloudLibrary.OnDropboxDataChanged += (data) => {
                 Task.Factory.StartNew(() => {
-                    Console.WriteLine("ResumePlaybackPresenter - OnDropboxDataChanged - Sleeping 1 second...");
-                    Thread.Sleep(1000);
+                    Console.WriteLine("ResumePlaybackPresenter - OnDropboxDataChanged - Sleeping...");
+                    Thread.Sleep(500); // TODO: Wait for download to finish with listener (see Dropbox docs)
                     Console.WriteLine("ResumePlaybackPresenter - OnDropboxDataChanged - Fetching device infos...");
                     RefreshDevices();
                 });
             };
+
+            #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
+            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            #else
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+            #endif
 		}
 
         public override void BindView(IResumePlaybackView view)
@@ -71,9 +88,21 @@ namespace MPfm.MVP.Presenters
 
         private void ResumePlayback(CloudDeviceInfo device)
         {
+            var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == device.AudioFileId);
+            Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) 
+            {
+                Query = new LibraryQuery() {
+                    ArtistName = device.ArtistName,
+                    AlbumTitle = device.AlbumTitle
+                }, 
+                FilePath = audioFile != null ? audioFile.FilePath : string.Empty
+            });
 
-
-
+            #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
+            _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.More, onViewBindedToPresenter);
+            #else
+            _navigationManager.CreateSyncMenuView(device);
+            #endif
         }
 	}
 }
