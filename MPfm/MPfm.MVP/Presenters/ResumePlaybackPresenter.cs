@@ -78,7 +78,7 @@ namespace MPfm.MVP.Presenters
             try
             {
                 var devices = _cloudLibrary.PullDeviceInfos();
-                View.RefreshDevices(devices);
+                View.RefreshDevices(devices.OrderBy(x => x.DeviceName).ToList());
             } 
             catch (Exception ex)
             {
@@ -89,6 +89,12 @@ namespace MPfm.MVP.Presenters
         private void ResumePlayback(CloudDeviceInfo device)
         {
             var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == device.AudioFileId);
+            if (audioFile == null)
+            {
+                audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == device.ArtistName.ToUpper() &&
+                                                                                x.AlbumTitle.ToUpper() == device.AlbumTitle.ToUpper() &&
+                                                                                x.Title.ToUpper() == device.SongTitle.ToUpper());
+            }
             Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) 
             {
                 Query = new LibraryQuery() {

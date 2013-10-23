@@ -68,21 +68,18 @@ namespace MPfm.iOS
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var device = _devices[indexPath.Row];
-            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            MPfmResumePlaybackTableViewCell cell = (MPfmResumePlaybackTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
+                cell = new MPfmResumePlaybackTableViewCell(cellStyle, _cellIdentifier);
             }
 
-            cell.ImageView.Hidden = true;
-            cell.TextLabel.Text = device.DeviceName; //string.Format("{0} ({1})", device.DeviceName, device.DeviceType);
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
-            cell.DetailTextLabel.Text = string.Format("{0}/{1}/{2}", device.ArtistName, device.AlbumTitle, device.SongTitle);
-            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
-            cell.Accessory = UITableViewCellAccessory.None;
-            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
-            cell.ImageChevron.Hidden = false;
+            cell.TextLabel.Text = device.DeviceName;
+            cell.DetailTextLabel.Text = "On-the-fly Playlist";
+            cell.LabelArtistName.Text = device.ArtistName;
+            cell.LabelAlbumTitle.Text = device.AlbumTitle;
+            cell.LabelSongTitle.Text = device.SongTitle;
 
             return cell;
         }
@@ -96,21 +93,21 @@ namespace MPfm.iOS
         [Export ("tableView:didHighlightRowAtIndexPath:")]
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (MPfmResumePlaybackTableViewCell)tableView.CellAt(indexPath);
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
         }
 
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (MPfmResumePlaybackTableViewCell)tableView.CellAt(indexPath);
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 52;
+            return 116;
         }
 
         partial void actionResumePlayback(NSObject sender)

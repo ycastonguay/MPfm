@@ -290,6 +290,9 @@
     <Compile Include="Classes\Controllers\SyncConnectManualViewController.designer.cs">
       <DependentUpon>SyncConnectManualViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\MPfmResumePlaybackTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
