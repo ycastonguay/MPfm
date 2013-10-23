@@ -77,6 +77,7 @@ namespace MPfm.iOS
 
             cell.TextLabel.Text = device.DeviceName;
             cell.DetailTextLabel.Text = "On-the-fly Playlist";
+            cell.LabelLastUpdated.Text = string.Format("Last updated on {0}", device.Timestamp);
             cell.LabelArtistName.Text = device.ArtistName;
             cell.LabelAlbumTitle.Text = device.AlbumTitle;
             cell.LabelSongTitle.Text = device.SongTitle;
@@ -107,7 +108,7 @@ namespace MPfm.iOS
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 116;
+            return 130;
         }
 
         partial void actionResumePlayback(NSObject sender)

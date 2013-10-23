@@ -34,6 +34,7 @@ namespace MPfm.iOS.Classes.Controls
 	public class MPfmResumePlaybackTableViewCell : UITableViewCell
     {
         public bool IsTextAnimationEnabled { get; set; }
+        public UILabel LabelLastUpdated { get; private set; }
         public UILabel LabelArtistName { get; private set; }
         public UILabel LabelAlbumTitle { get; private set; }
         public UILabel LabelSongTitle { get; private set; }
@@ -78,18 +79,25 @@ namespace MPfm.iOS.Classes.Controls
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            DetailTextLabel.TextColor = UIColor.Gray;
+            DetailTextLabel.TextColor = UIColor.DarkGray;
             DetailTextLabel.BackgroundColor = UIColor.Clear;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
             ImageView.Hidden = true;
-            ImageView.BackgroundColor = UIColor.Clear;
 
             // Make sure the text label is over all other subviews
             DetailTextLabel.RemoveFromSuperview();
             ImageView.RemoveFromSuperview();
             AddSubview(DetailTextLabel);
             AddSubview(ImageView);
+
+            LabelLastUpdated = new UILabel();
+            LabelLastUpdated.BackgroundColor = UIColor.Clear;
+            LabelLastUpdated.Font = UIFont.FromName("HelveticaNeue-Light", 12);
+            LabelLastUpdated.TextColor = UIColor.Gray;
+            LabelLastUpdated.LineBreakMode = UILineBreakMode.TailTruncation;
+            LabelLastUpdated.HighlightedTextColor = UIColor.White;
+            AddSubview(LabelLastUpdated);
 
             LabelArtistName = new UILabel();
             LabelArtistName.BackgroundColor = UIColor.Clear;
@@ -134,8 +142,9 @@ namespace MPfm.iOS.Classes.Controls
             LabelArtistName.Frame = new RectangleF(74, 52, 232, 18);
             LabelAlbumTitle.Frame = new RectangleF(74, 68, 232, 18);
             LabelSongTitle.Frame = new RectangleF(74, 84, 232, 18);
+            LabelLastUpdated.Frame = new RectangleF(12, 106, 300, 20);
             ImageAlbum.Frame = new RectangleF(12, 50, 54, 54);
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 36, 22, 44);
+            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 43, 22, 44);
         }
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
