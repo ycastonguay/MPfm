@@ -8,42 +8,12 @@
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="4">
-            <Label Content="Resume Playback" Foreground="White" FontSize="16" FontWeight="Bold" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="4,2,4,2" />
-            <Label x:Name="lblIPAddress" Content="My IP address is" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="4,2,4,2" />
-        </StackPanel>
-        <ListView Grid.Row="1">
+        <Label Grid.Row="0" Background="#FF455865" Content="Resume Playback" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+        <Label Grid.Row="1" Content="Select a device from the list to resume playback:" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="6,8,4,8" />
+        <ListView x:Name="listView" Grid.Row="2">
         </ListView>
-        <Grid Grid.Row="2" Margin="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="btnRefresh">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/refresh.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Refresh devices</TextBlock>
-                </StackPanel>
-            </Button>
-            <StackPanel Grid.Column="1"></StackPanel>
-            <Button Grid.Column="2" x:Name="btnManualConnect">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Connect manually to device</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="3" x:Name="btnConnect">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Connect to device</TextBlock>
-                </StackPanel>
-            </Button>
-        </Grid>        
     </Grid>
 </base:BaseWindow>

@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.Library.Objects;
+using MPfm.Sound.Playlists;
 #if !IOS && !ANDROID && !WINDOWS_PHONE
 using System;
 using System.Collections.Generic;
@@ -223,7 +225,11 @@ namespace MPfm.Library.Services
         public void InitializeAppFolder()
         {
         }
-    
+
+        public void PushHello()
+        {
+        }
+
         public void PushStuff()
         {
         }
@@ -237,6 +243,16 @@ namespace MPfm.Library.Services
         {
         }
 
+        public string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
+        {
+            return string.Empty;
+        }
+
+        public IEnumerable<CloudDeviceInfo> PullDeviceInfos()
+        {
+            return new List<CloudDeviceInfo>();
+        }
+
         public string PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
         {
             return string.Empty;
@@ -248,6 +264,29 @@ namespace MPfm.Library.Services
         }
 
         public void DeleteNowPlaying()
+        {
+        }
+
+        public string PushPlaylist(Playlist playlist)
+        {
+            return string.Empty;
+        }
+
+        public Playlist PullPlaylist(Guid playlistId)
+        {
+            return new Playlist();
+        }
+
+        public IEnumerable<Playlist> PullPlaylists()
+        {
+            return new List<Playlist>();
+        }
+
+        public void DeletePlaylist(Guid playlistId)
+        {
+        }
+
+        public void DeletePlaylists()
         {
         }
     }

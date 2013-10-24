@@ -39,6 +39,23 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
+        private void btnTab_OnClick(object sender, RoutedEventArgs e)
+        {
+            gridGeneral.Visibility = sender == btnTabGeneral ? Visibility.Visible : Visibility.Hidden;
+            gridAudio.Visibility = sender == btnTabAudio ? Visibility.Visible : Visibility.Hidden;
+            gridLibrary.Visibility = sender == btnTabLibrary ? Visibility.Visible : Visibility.Hidden;
+            gridCloud.Visibility = sender == btnTabCloud ? Visibility.Visible : Visibility.Hidden;
+
+            if (sender == btnTabGeneral)
+                lblTitle.Content = "General Preferences";
+            else if (sender == btnTabAudio)
+                lblTitle.Content = "Audio Preferences";
+            else if (sender == btnTabLibrary)
+                lblTitle.Content = "Library Preferences";
+            else if (sender == btnTabCloud)
+                lblTitle.Content = "Cloud Preferences";
+        }
+
         #region IDesktopPreferencesView implementation
 
         public Action OnResetLibrary { get; set; }

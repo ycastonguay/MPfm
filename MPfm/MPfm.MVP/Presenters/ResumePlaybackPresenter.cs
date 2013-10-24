@@ -104,10 +104,9 @@ namespace MPfm.MVP.Presenters
                 FilePath = audioFile != null ? audioFile.FilePath : string.Empty
             });
 
+            // Only need to create the Player view on mobile devices
             #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.More, onViewBindedToPresenter);
-            #else
-            _navigationManager.CreateSyncMenuView(device);
             #endif
         }
 	}

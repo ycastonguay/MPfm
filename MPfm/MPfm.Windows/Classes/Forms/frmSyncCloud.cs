@@ -37,7 +37,7 @@ namespace MPfm.Windows.Classes.Forms
 {
     public partial class frmSyncCloud : BaseForm, ISyncCloudView
     {
-        private IDropboxService _dropbox;
+        private ICloudLibraryService _dropbox;
         private bool _isDiscovering;
 
         public frmSyncCloud(Action<IBaseView> onViewReady)
@@ -45,7 +45,7 @@ namespace MPfm.Windows.Classes.Forms
         {
             InitializeComponent();
 
-            _dropbox = Bootstrapper.GetContainer().Resolve<IDropboxService>();
+            _dropbox = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
 
             ViewIsReady();
         }

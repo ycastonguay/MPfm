@@ -17,26 +17,48 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
 {
     public partial class ResumePlaybackWindow : BaseWindow, IResumePlaybackView
     {
+        private List<CloudDeviceInfo> _devices;
+
         public ResumePlaybackWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
         }
+
+        #region IResumePlaybackView implementation
+
+        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+
+        public void ResumePlaybackError(Exception ex)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                MessageBox.Show(this, string.Format("An error occured in ResumePlayback: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }));
+        }
+
+        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                _devices = devices.ToList();
+                listView.ItemsSource = _devices;
+            }));
+        }
+
+        #endregion
+
     }
 }
