@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="118dp"
+   android:minHeight="118dp"
+   android:maxHeight="118dp"
+   android:padding="6dp"
+   android:orientation="vertical">
+  <TextView
+    android:id="@+id/resumePlaybackCell_lblTitle"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"   
+    android:text="[Title]"
+    android:textColor="@color/list_text"
+    android:textStyle="bold"
+    android:textSize="16dp" />
+  <TextView
+    android:id="@+id/resumePlaybackCell_lblSubtitle"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="[Subtitle]"
+    android:textColor="#222222"
+    android:textSize="14dp" />
+  <LinearLayout 
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:paddingTop="8dp"
+     android:paddingBottom="8dp"
+     android:orientation="horizontal">
+    <ImageView
+      android:id="@+id/resumePlaybackCell_imageAlbum"
+      android:layout_width="54dp"
+      android:layout_height="54dp"
+      android:layout_marginRight="6dp"
+      android:background="#333333" />
+    <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+      <TextView
+        android:id="@+id/resumePlaybackCell_lblArtistName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="[ArtistName]"
+        android:textColor="#000000"
+        android:textSize="12dp" />
+      <TextView
+        android:id="@+id/resumePlaybackCell_lblAlbumTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="[AlbumTitle]"
+        android:textColor="#222222"
+        android:textSize="12dp" />
+      <TextView
+        android:id="@+id/resumePlaybackCell_lblSongTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="[SongTitle]"
+        android:textColor="#444444"
+        android:textSize="12dp" />
+    </LinearLayout>     
+  </LinearLayout>
+  <TextView
+  android:id="@+id/resumePlaybackCell_lblTimestamp"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:text="[Timestamp]"
+  android:textColor="#666666"
+  android:textSize="11dp" />
+</LinearLayout>
