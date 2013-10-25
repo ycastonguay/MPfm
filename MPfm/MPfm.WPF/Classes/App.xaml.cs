@@ -86,6 +86,7 @@ namespace MPfm.WPF.Classes
             Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopEffectsView, EffectsWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopPreferencesView, PreferencesWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ICloudConnectView, CloudConnectWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncCloudView, SyncCloudWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncMenuView, SyncMenuWindow>().AsMultiInstance();

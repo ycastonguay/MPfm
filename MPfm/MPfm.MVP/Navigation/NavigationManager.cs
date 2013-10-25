@@ -64,8 +64,12 @@ namespace MPfm.MVP.Navigation
 
         IDesktopPreferencesView _preferencesView;
         IAudioPreferencesPresenter _audioPreferencesPresenter;
+        ICloudPreferencesPresenter _cloudPreferencesPresenter;
         IGeneralPreferencesPresenter _generalPreferencesPresenter;
         ILibraryPreferencesPresenter _libraryPreferencesPresenter;
+
+        ICloudConnectView _cloudConnectView;
+        ICloudConnectPresenter _cloudConnectPresenter;
 
         IPlaylistView _playlistView;
         IPlaylistPresenter _playlistPresenter;
@@ -167,6 +171,8 @@ namespace MPfm.MVP.Navigation
             Action<IBaseView> onViewReady = (view) => {                    
                 _audioPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
                 _audioPreferencesPresenter.BindView((IAudioPreferencesView)view);
+                _cloudPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ICloudPreferencesPresenter>();
+                _cloudPreferencesPresenter.BindView((ICloudPreferencesView)view);
                 _generalPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
                 _generalPreferencesPresenter.BindView((IGeneralPreferencesView)view);
                 _libraryPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
@@ -178,6 +184,8 @@ namespace MPfm.MVP.Navigation
                 _preferencesView = null;
                 _audioPreferencesPresenter.ViewDestroyed();
                 _audioPreferencesPresenter = null;
+                _cloudPreferencesPresenter.ViewDestroyed();
+                _cloudPreferencesPresenter = null;
                 _generalPreferencesPresenter.ViewDestroyed();
                 _generalPreferencesPresenter = null;
                 _libraryBrowserPresenter.ViewDestroyed();
@@ -414,6 +422,33 @@ namespace MPfm.MVP.Navigation
                 _resumePlaybackView = null;
             };
             return _resumePlaybackView;
+        }
+
+        public virtual ICloudConnectView CreateCloudConnectView()
+        {
+            // If the view is still visible, just make it the top level window
+            if (_cloudConnectView != null)
+            {
+                _cloudConnectView.ShowView(true);
+                return _cloudConnectView;
+            }
+
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _cloudConnectPresenter = Bootstrapper.GetContainer().Resolve<ICloudConnectPresenter>();
+                _cloudConnectPresenter.BindView((ICloudConnectView)view);
+            };
+
+            // Create view and manage view destruction
+            _cloudConnectView = Bootstrapper.GetContainer().Resolve<ICloudConnectView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _cloudConnectView.OnViewDestroy = (view) =>
+            {
+                _cloudConnectPresenter.ViewDestroyed();
+                _cloudConnectPresenter = null;
+                _cloudConnectView = null;
+            };
+            return _cloudConnectView;
         }
 
         public virtual IDesktopFirstRunView CreateFirstRunView()

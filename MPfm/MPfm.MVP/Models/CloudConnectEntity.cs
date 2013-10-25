@@ -18,12 +18,17 @@
 using System;
 using System.Collections.Generic;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-    /// Preferences view for desktop (combines audio/cloud/general/library preferences)
-	/// </summary>
-    public interface IDesktopPreferencesView : IAudioPreferencesView, ICloudPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+	public class CloudConnectEntity
 	{
+        public string CloudServiceName { get; set; }
+        public int CurrentStep { get; set; }
+        public bool IsAuthenticated { get; set; }
+
+        public CloudConnectEntity()
+        {
+            CurrentStep = 1;
+        }
     }
 }

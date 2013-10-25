@@ -18,12 +18,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-    /// Preferences view for desktop (combines audio/cloud/general/library preferences)
-	/// </summary>
-    public interface IDesktopPreferencesView : IAudioPreferencesView, ICloudPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+	public class CloudPreferencesEntity
 	{
+        public bool IsDropboxResumePlaybackEnabled { get; set; }
+
+	    public CloudPreferencesEntity()
+	    {
+	    }
     }
 }

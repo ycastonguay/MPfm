@@ -18,12 +18,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-    /// Preferences view for desktop (combines audio/cloud/general/library preferences)
-	/// </summary>
-    public interface IDesktopPreferencesView : IAudioPreferencesView, ICloudPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+	public class CloudPreferencesStateEntity
 	{
-    }
+	    public bool IsDropboxLinkedToApp { get; set; }
+
+	    public CloudPreferencesStateEntity()
+	    {
+            IsDropboxLinkedToApp = false;
+	    }
+	}
 }

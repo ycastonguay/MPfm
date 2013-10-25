@@ -46,7 +46,8 @@ namespace MPfm.Library.Services
         private DropboxServiceProvider _dropboxServiceProvider;
         private OAuthToken _oauthToken;
 
-        public event DropboxDataChanged OnDropboxDataChanged;
+        public event CloudDataChanged OnCloudDataChanged;
+        public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
 
         public DropboxCoreService(ILibraryService libraryService, IAudioFileCacheService audioFileCacheService,
             ISyncDeviceSpecifications deviceSpecifications)
@@ -67,22 +68,27 @@ namespace MPfm.Library.Services
         {
             try
             {
-                _dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret,
-                    AccessLevel.AppFolder);
+                // Create provider
+                _dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.AppFolder);
 
-                /* OAuth 1.0 'dance' */
+                // Update status
+                if (OnCloudAuthenticationStatusChanged != null)
+                    OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.GetRequestToken);
 
-                // Authorization without callback url
-                Console.Write("Getting request token...");
+                // Authorization without callback url                
+                //Console.Write("Getting request token...");
                 _oauthToken = _dropboxServiceProvider.OAuthOperations.FetchRequestTokenAsync(null, null).Result;
-                Console.WriteLine("Done - FetchRequestToken - secret: {0} value: {1}", _oauthToken.Secret,
-                    _oauthToken.Value);
-
+                //Console.WriteLine("Done - FetchRequestToken - secret: {0} value: {1}", _oauthToken.Secret, _oauthToken.Value);
                 OAuth1Parameters parameters = new OAuth1Parameters();
                 //parameters.Add("locale", CultureInfo.CurrentUICulture.IetfLanguageTag); // for a localized version of the authorization website
-                string authenticateUrl = _dropboxServiceProvider.OAuthOperations.BuildAuthorizeUrl(_oauthToken.Value,
-                    parameters);
-                Console.WriteLine("Redirect user for authorization");
+                string authenticateUrl = _dropboxServiceProvider.OAuthOperations.BuildAuthorizeUrl(_oauthToken.Value, parameters);
+                //Console.WriteLine("Redirect user for authorization");
+
+                // Update status
+                if (OnCloudAuthenticationStatusChanged != null)
+                    OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.OpenWebBrowser);
+
+                // Open web browser for authentication
                 Process.Start(authenticateUrl);
             }
             catch (AggregateException ae)
@@ -106,10 +112,13 @@ namespace MPfm.Library.Services
             {
                 Console.Write("Getting access token...");
                 AuthorizedRequestToken requestToken = new AuthorizedRequestToken(_oauthToken, null);
-                OAuthToken oauthAccessToken =
-                    _dropboxServiceProvider.OAuthOperations.ExchangeForAccessTokenAsync(requestToken, null).Result;
-                Console.WriteLine("Done - FetchAccessToken - secret: {0} value: {1}", oauthAccessToken.Secret,
-                    oauthAccessToken.Value);
+                OAuthToken oauthAccessToken = _dropboxServiceProvider.OAuthOperations.ExchangeForAccessTokenAsync(requestToken, null).Result;
+                Console.WriteLine("Done - FetchAccessToken - secret: {0} value: {1}", oauthAccessToken.Secret, oauthAccessToken.Value);
+
+                // Update status
+                if (OnCloudAuthenticationStatusChanged != null)
+                    OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.RequestAccessToken);
+
 
                 //OAuthToken oauthAccessToken2 = new OAuthToken("z20l3g6vs5bbvqcr", "b8eiq09w1gxsyad");
                 /* API */
@@ -121,53 +130,60 @@ namespace MPfm.Library.Services
                 DropboxProfile profile = dropbox.GetUserProfileAsync().Result;
                 Console.WriteLine("Hi " + profile.DisplayName + "!");
 
+                // Update status
+                if (OnCloudAuthenticationStatusChanged != null)
+                    OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.ConnectedToDropbox);
+
                 // Use step by step debugging, or not             
 
                 //DeltaPage deltaPage = dropbox.DeltaAsync(null).Result;
                 //dropbox.AccessLevel
                 //Entry createFolderEntry = dropbox.CreateFolderAsync("Spring Social").Result;
 
-                Task.Factory.StartNew(() =>
-                {
-                    string cursor = null;
-                    while (true)
-                    {
-                        DeltaPage deltaPage = dropbox.DeltaAsync(cursor).Result;
-                        cursor = deltaPage.Cursor;
-                        Console.WriteLine("Delta check - entries: {0} cursor: {1} hasMore: {2} reset: {3}",
-                            deltaPage.Entries.Count, deltaPage.Cursor, deltaPage.HasMore, deltaPage.Reset);
-                        if (deltaPage.Entries.Count > 0)
-                        {
-                            //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
-                            dropbox.DownloadFileAsync("File.txt")
-                                .ContinueWith(task =>
-                                {
-                                    Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path,
-                                        task.Result.Metadata.Size);
-                                    // Save file to "C:\Spring Social.txt"
-                                    //using (FileStream fileStream = new FileStream(@"C:\Spring Social.txt", FileMode.Create))
-                                    //{
-                                    //    fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
-                                    //}
-                                });
-                        }
-                        Thread.Sleep(1000);
-                    }
-                });
+                //Task.Factory.StartNew(() =>
+                //{
+                //    string cursor = null;
+                //    while (true)
+                //    {
+                //        DeltaPage deltaPage = dropbox.DeltaAsync(cursor).Result;
+                //        cursor = deltaPage.Cursor;
+                //        Console.WriteLine("Delta check - entries: {0} cursor: {1} hasMore: {2} reset: {3}",
+                //            deltaPage.Entries.Count, deltaPage.Cursor, deltaPage.HasMore, deltaPage.Reset);
+                //        if (deltaPage.Entries.Count > 0)
+                //        {
+                //            //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
+                //            dropbox.DownloadFileAsync("File.txt")
+                //                .ContinueWith(task =>
+                //                {
+                //                    Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path,
+                //                        task.Result.Metadata.Size);
+                //                    // Save file to "C:\Spring Social.txt"
+                //                    //using (FileStream fileStream = new FileStream(@"C:\Spring Social.txt", FileMode.Create))
+                //                    //{
+                //                    //    fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
+                //                    //}
+                //                });
+                //        }
+                //        Thread.Sleep(1000);
+                //    }
+                //});
 
-                for (int a = 0; a < 10; a++)
-                {
-                    Thread.Sleep(4000);
-                    string text = string.Format("Windows - Step {0}", a);
-                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
-                    Console.WriteLine(text);
+                //for (int a = 0; a < 10; a++)
+                //{
+                //    Thread.Sleep(4000);
+                //    string text = string.Format("Windows - Step {0}", a);
+                //    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
+                //    Console.WriteLine(text);
 
-                    //var test = new ByteArrayResource(bytes);
-                    Entry uploadFileEntry = dropbox.UploadFileAsync(
-                        //new AssemblyResource("assembly://Spring.ConsoleQuickStart/Spring.ConsoleQuickStart/File.txt"),
-                        new ByteArrayResource(bytes),
-                        "File.txt", true, null, CancellationToken.None).Result;
-                }
+                //    //var test = new ByteArrayResource(bytes);
+                //    Entry uploadFileEntry = dropbox.UploadFileAsync(
+                //        //new AssemblyResource("assembly://Spring.ConsoleQuickStart/Spring.ConsoleQuickStart/File.txt"),
+                //        new ByteArrayResource(bytes),
+                //        "File.txt", true, null, CancellationToken.None).Result;
+                //}
+
+
+
                 //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
                 ////FileRef fileRef = dropbox.CreateFileRefAsync("Spring Social/File.txt").Result;
                 //Entry copyRefEntry = dropbox.CopyFileRefAsync(fileRef.Value, "Spring Social/File_copy_ref.txt").Result;

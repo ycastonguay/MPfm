@@ -85,6 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Classes\Windows\CloudConnectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Classes\Windows\SyncMenuWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,6 +150,9 @@
     <Compile Include="Classes\Windows\Base\BaseWindow.cs" />
     <Compile Include="Classes\Windows\SyncCloudWindow.xaml.cs">
       <DependentUpon>SyncCloudWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\CloudConnectWindow.xaml.cs">
+      <DependentUpon>CloudConnectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Windows\SyncMenuWindow.xaml.cs">
       <DependentUpon>SyncMenuWindow.xaml</DependentUpon>
@@ -315,6 +322,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Buttons\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\cloud.png" />
+    <Resource Include="Resources\Images\Buttons\library.png" />
+    <Resource Include="Resources\Images\Buttons\preferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\audio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\dropbox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

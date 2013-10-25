@@ -15,15 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-    /// Preferences view for desktop (combines audio/cloud/general/library preferences)
+    /// Cloud Connect presenter interface.
 	/// </summary>
-    public interface IDesktopPreferencesView : IAudioPreferencesView, ICloudPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+    public interface ICloudConnectPresenter : IBasePresenter<ICloudConnectView>
 	{
-    }
+	}
 }
+

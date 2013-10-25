@@ -15,49 +15,99 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button x:Name="btnTabGeneral" Click="btnTab_OnClick" Style="{StaticResource TabButton}">
                 <StackPanel Orientation="Horizontal" Margin="0">
-                    <Image Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
-                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">General</Label>
+                    <Image Source="/Resources/Images/Buttons/preferences.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">General</Label>
                 </StackPanel>
             </Button>
             <Button x:Name="btnTabAudio" Click="btnTab_OnClick" Style="{StaticResource TabButton}" Margin="0">
                 <StackPanel Orientation="Horizontal" Margin="0">
-                    <Image Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
-                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Audio</Label>
+                    <Image Source="/Resources/Images/Buttons/audio.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Audio</Label>
                 </StackPanel>
             </Button>
             <Button x:Name="btnTabLibrary" Click="btnTab_OnClick" Style="{StaticResource TabButton}">
                 <StackPanel Orientation="Horizontal" Margin="0">
-                    <Image Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
-                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Library</Label>
+                    <Image Source="/Resources/Images/Buttons/library.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Library</Label>
                 </StackPanel>
             </Button>
             <Button x:Name="btnTabCloud" Click="btnTab_OnClick" Style="{StaticResource TabButton}">
                 <StackPanel Orientation="Horizontal" Margin="0">
-                    <Image Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
-                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Cloud</Label>
+                    <Image Source="/Resources/Images/Buttons/cloud.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Cloud</Label>
                 </StackPanel>
             </Button>
         </StackPanel>
         <Label Grid.Row="1" x:Name="lblTitle" Content="General Preferences" Background="#FF455865" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-        <StackPanel Grid.Row="2" x:Name="gridAudio" Background="DarkOrange" Visibility="Hidden">
-
-        </StackPanel>
-        <StackPanel Grid.Row="2" x:Name="gridLibrary" Background="Brown" Visibility="Hidden">
-
-        </StackPanel>
-        <StackPanel Grid.Row="2" x:Name="gridCloud">
+        <StackPanel Grid.Row="2" x:Name="gridAudio" Visibility="Hidden">
             <StackPanel Background="White" Margin="8,8,8,0">
+                <Label Content="Output" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>
+            <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
+                <Label Content="Mixer" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>
+            <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
+                <Label Content="Status" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2" x:Name="gridLibrary" Visibility="Hidden">
+            <Grid Background="White" Margin="8,8,8,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="250" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Folders" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnAddFolder_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Add folder</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnRemoveFolder_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Remove folder(s)</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnUpdateLibrary_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/refresh.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Update Library</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnResetLibrary_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Reset Library</Label>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <ListView Grid.Row="2" />
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="2" x:Name="gridCloud" Visibility="Visible">
+            <!--<StackPanel Background="White" Margin="8,8,8,0">
                 <Label Content="General" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Enable synchronization" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
-            </StackPanel>
+            </StackPanel>-->
             <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
                 <Label Content="Dropbox" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Login to Dropbox" Width="140" Height="32" Margin="0" HorizontalAlignment="Left" FontSize="11" FontFamily="/Resources/Fonts/#Junction" />
+                    <Button Margin="0" HorizontalAlignment="Left" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Click="btnDropboxLoginLogout_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/dropbox.png" Stretch="None" />
+                            <Label x:Name="lblDropbox_Login" FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Login to Dropbox</Label>
+                        </StackPanel>
+                    </Button>
                     <Label Content="Authenticated:" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" />
-                    <Label Content="False" Foreground="Black" FontSize="12" FontWeight="Bold" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" />                    
-                </StackPanel>                
-                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Enable Resume Playback with Dropbox" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                    <Label x:Name="lblDropbox_Authenticated" Content="False" Foreground="Black" FontSize="12" FontWeight="Bold" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" />                                        
+                </StackPanel>
+                <CheckBox x:Name="chkDropbox_ResumePlayback" VerticalContentAlignment="Center" Margin="4" Content="Enable Resume Playback with Dropbox" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Checked="chkDropboxResumePlayback_OnChecked" />
                 <Label Content="Note: This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song." Foreground="#666666" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Margin="25,0,0,5" Padding="0" />
             </StackPanel>
         </StackPanel>

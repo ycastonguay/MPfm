@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -46,11 +46,11 @@ namespace MPfm.MVP.Presenters
             _messengerHub = messengerHub;
             _audioFileCacheService = audioFileCacheService;
             _cloudLibrary = cloudLibrary;
-            _cloudLibrary.OnDropboxDataChanged += (data) => {
+            _cloudLibrary.OnCloudDataChanged += (data) => {
                 Task.Factory.StartNew(() => {
-                    Console.WriteLine("ResumePlaybackPresenter - OnDropboxDataChanged - Sleeping...");
+                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Sleeping...");
                     Thread.Sleep(500); // TODO: Wait for download to finish with listener (see Dropbox docs)
-                    Console.WriteLine("ResumePlaybackPresenter - OnDropboxDataChanged - Fetching device infos...");
+                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Fetching device infos...");
                     RefreshDevices();
                 });
             };

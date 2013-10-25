@@ -63,6 +63,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Library\Lib\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Rest, Version=1.1.1.35040, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Library\Lib\Spring.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Social.Core, Version=1.0.1.35140, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Library\Lib\Spring.Social.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Social.Dropbox, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Library\Lib\Spring.Social.Dropbox.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Posix" />
@@ -120,12 +136,19 @@
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
+    <Compile Include="Models\CloudConnectEntity.cs" />
+    <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
+    <Compile Include="Models\CloudPreferencesEntity.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
+    <Compile Include="Presenters\CloudConnectPresenter.cs" />
     <Compile Include="Presenters\AddMarkerPresenter.cs" />
     <Compile Include="Presenters\AddPlaylistPresenter.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\CloudPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ICloudConnectPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ICloudPreferencesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IResumePlaybackPresenter.cs" />
@@ -153,6 +176,8 @@
     <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\ICloudConnectView.cs" />
+    <Compile Include="Views\ICloudPreferencesView.cs" />
     <Compile Include="Views\IAddMarkerView.cs" />
     <Compile Include="Views\IAddPlaylistView.cs" />
     <Compile Include="Views\IResumePlaybackView.cs" />

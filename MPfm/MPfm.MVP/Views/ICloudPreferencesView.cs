@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -16,14 +16,20 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
+using MPfm.MVP.Models;
 
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-    /// Preferences view for desktop (combines audio/cloud/general/library preferences)
+    /// Cloud preferences view interface.
 	/// </summary>
-    public interface IDesktopPreferencesView : IAudioPreferencesView, ICloudPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+    public interface ICloudPreferencesView : IBaseView
 	{
-    }
+        Action<CloudPreferencesEntity> OnSetCloudPreferences { get; set; }
+        Action OnDropboxLoginLogout { get; set; }
+
+	    void CloudPreferencesError(Exception ex);
+	    void RefreshCloudPreferences(CloudPreferencesEntity entity);
+	    void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity);
+	}
 }

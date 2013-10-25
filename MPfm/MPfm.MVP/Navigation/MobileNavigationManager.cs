@@ -78,6 +78,8 @@ namespace MPfm.MVP.Navigation
         private IAddMarkerPresenter _addMarkerPresenter;
         private IResumePlaybackView _resumePlaybackView;
         private IResumePlaybackPresenter _resumePlaybackPresenter;
+        private ICloudConnectView _cloudConnectView;
+        private ICloudConnectPresenter _cloudConnectPresenter;
 
         // Player sub views
         private IPlayerMetadataView _playerMetadataView;
@@ -923,6 +925,34 @@ namespace MPfm.MVP.Navigation
             };
 
             CreateResumePlaybackViewInternal(onViewReady);
+        }
+
+        protected virtual void CreateCloudConnectViewInternal(Action<IBaseView> onViewReady)
+        {
+            if (_cloudConnectView == null)
+                _cloudConnectView = Bootstrapper.GetContainer().Resolve<ICloudConnectView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _cloudConnectView);
+#endif
+        }
+
+        public virtual void CreateCloudConnectView()
+        {
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _cloudConnectView = (ICloudConnectView)view;
+                _cloudConnectView.OnViewDestroy = (view2) =>
+                {
+                    _cloudConnectPresenter.ViewDestroyed();
+                    _cloudConnectPresenter = null;
+                    _cloudConnectView = null;
+                };
+                _cloudConnectPresenter = Bootstrapper.GetContainer().Resolve<ICloudConnectPresenter>();
+                _cloudConnectPresenter.BindView((ICloudConnectView)view);
+            };
+
+            CreateCloudConnectViewInternal(onViewReady);
         }
 
         protected virtual void CreatePlaylistViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)

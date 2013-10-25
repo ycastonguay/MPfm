@@ -24,14 +24,16 @@ using MPfm.Library.Objects;
 
 namespace MPfm.Library.Services.Interfaces
 {
-    public delegate void DropboxDataChanged(string data);
+    public delegate void CloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType);
+    public delegate void CloudDataChanged(string data);
 
     /// <summary>
     /// Interface for the cloud service implementations.
     /// </summary>
     public interface ICloudLibraryService
     {
-        event DropboxDataChanged OnDropboxDataChanged;
+        event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
+        event CloudDataChanged OnCloudDataChanged;
 
         bool HasLinkedAccount { get; }
 
@@ -56,6 +58,14 @@ namespace MPfm.Library.Services.Interfaces
         IEnumerable<Playlist> PullPlaylists();
         void DeletePlaylist(Guid playlistId);
         void DeletePlaylists();
+    }
 
+    public enum CloudAuthenticationStatusType
+    {
+        GetRequestToken = 0,
+        OpenWebBrowser = 1,
+        RequestAccessToken = 2,
+        ConnectToDropbox = 3,
+        ConnectedToDropbox = 4
     }
 }
