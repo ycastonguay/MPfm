@@ -15,12 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.ComponentModel;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
 {
@@ -31,11 +35,16 @@ namespace MPfm.MVP.Presenters
 	{
         private readonly MobileNavigationManager _mobileNavigationManager;
         private readonly NavigationManager _navigationManager;
+	    private readonly ITinyMessengerHub _messengerHub;
 	    private readonly ICloudLibraryService _cloudLibraryService;
+	    private bool _isApplicationLinked;
 
-	    public CloudPreferencesPresenter(ICloudLibraryService cloudLibraryService)
+	    public CloudPreferencesPresenter(ITinyMessengerHub messengerHub, ICloudLibraryService cloudLibraryService)
         {
-            _cloudLibraryService = cloudLibraryService;
+	        _messengerHub = messengerHub;
+	        _cloudLibraryService = cloudLibraryService;
+
+	        _messengerHub.Subscribe<CloudConnectStatusChangedMessage>(CloudConnectStatusChanged);
 
 #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -44,7 +53,7 @@ namespace MPfm.MVP.Presenters
 #endif
         }
 
-        public override void BindView(ICloudPreferencesView view)
+	    public override void BindView(ICloudPreferencesView view)
         {
             view.OnDropboxLoginLogout = LoginLogoutDropbox;
             view.OnSetCloudPreferences = SetCloudPreferences;
@@ -54,8 +63,15 @@ namespace MPfm.MVP.Presenters
         }
 
 	    private void Initialize()
-        {
+	    {
+	        _isApplicationLinked = _cloudLibraryService.HasLinkedAccount;
             RefreshPreferences();
+            RefreshState();
+        }
+
+        private void CloudConnectStatusChanged(CloudConnectStatusChangedMessage cloudConnectStatusChangedMessage)
+        {
+            _isApplicationLinked = cloudConnectStatusChangedMessage.IsApplicationLinked;
             RefreshState();
         }
 
@@ -83,7 +99,7 @@ namespace MPfm.MVP.Presenters
 	    {
 	        var state = new CloudPreferencesStateEntity()
 	        {
-	            IsDropboxLinkedToApp = _cloudLibraryService.HasLinkedAccount
+	            IsDropboxLinkedToApp = _isApplicationLinked
 	        };
 	        View.RefreshCloudPreferencesState(state);
 	    }

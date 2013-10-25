@@ -37,6 +37,14 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
+        private void btnResume_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listView.SelectedItems.Count == 0)
+                return;
+
+            OnResumePlayback((CloudDeviceInfo) listView.SelectedItems[0]);
+        }
+
         #region IResumePlaybackView implementation
 
         public Action<CloudDeviceInfo> OnResumePlayback { get; set; }

@@ -36,16 +36,17 @@ namespace MPfm.WPF.Classes.Specifications
             return SyncDeviceType.Windows;
         }
 
-        string _deviceName = string.Empty;
         public string GetDeviceName()
         {
-            _deviceName = System.Environment.MachineName;
-            return _deviceName;
+            return System.Environment.MachineName;;
         }
 
         public string GetDeviceUniqueId()
         {
-            return string.Empty;
+            string machineName = System.Environment.MachineName;
+            machineName = machineName.Replace(" ", "");
+            machineName = machineName.Normalize();
+            return machineName;
         }
 
         public long GetFreeSpace()

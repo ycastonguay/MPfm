@@ -17,10 +17,13 @@
 
 using System;
 using System.Threading.Tasks;
+using Mono.Posix;
 using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using TinyMessenger;
 
 namespace MPfm.MVP.Presenters
 {
@@ -29,12 +32,14 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class CloudConnectPresenter : BasePresenter<ICloudConnectView>, ICloudConnectPresenter
 	{
+	    private readonly ITinyMessengerHub _messengerHub;
 	    private readonly ICloudLibraryService _cloudLibraryService;
 
-        public CloudConnectPresenter(ICloudLibraryService cloudLibraryService)
+        public CloudConnectPresenter(ITinyMessengerHub messengerHub, ICloudLibraryService cloudLibraryService)
         {
+            _messengerHub = messengerHub;
             _cloudLibraryService = cloudLibraryService;
-            _cloudLibraryService.OnCloudAuthenticationStatusChanged += CloudLibraryServiceOnOnCloudAuthenticationStatusChanged;
+            _cloudLibraryService.OnCloudAuthenticationStatusChanged += CloudLibraryServiceOnCloudAuthenticationStatusChanged;
         }
 
 	    public override void BindView(ICloudConnectView view)
@@ -54,8 +59,6 @@ namespace MPfm.MVP.Presenters
                 IsAuthenticated = false
             });
 
-            // Check if user is already authenticated?
-
 	        Task.Factory.StartNew(() =>
 	        {
 	            try
@@ -69,13 +72,20 @@ namespace MPfm.MVP.Presenters
 	        });
 	    }
 
-        private void CloudLibraryServiceOnOnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType)
+        private void CloudLibraryServiceOnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType)
         {
+            Console.WriteLine("CloudConnectPresenter - CloudLibraryServiceOnCloudAuthenticationStatusChanged - statusType: {0}", statusType.ToString());
             View.RefreshStatus(new CloudConnectEntity()
             {
                 CloudServiceName = "Dropbox",
                 CurrentStep = ((int)statusType)+2,
                 IsAuthenticated = statusType == CloudAuthenticationStatusType.ConnectedToDropbox
+            });
+            _messengerHub.PublishAsync<CloudConnectStatusChangedMessage>(new CloudConnectStatusChangedMessage(this)
+            {
+                CloudServiceName = "Dropbox",
+                StatusType = statusType,
+                IsApplicationLinked = statusType == CloudAuthenticationStatusType.ConnectedToDropbox
             });
         }
 

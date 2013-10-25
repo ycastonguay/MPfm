@@ -18,6 +18,7 @@
 using System;
 using MPfm.Library.Objects;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using System.Threading.Tasks;
@@ -39,13 +40,15 @@ namespace MPfm.MVP.Presenters
         private readonly NavigationManager _navigationManager;
         private readonly ITinyMessengerHub _messengerHub;
         private readonly ICloudLibraryService _cloudLibrary;
-        private readonly IAudioFileCacheService _audioFileCacheService;
+	    private readonly IPlayerService _playerService;
+	    private readonly IAudioFileCacheService _audioFileCacheService;
 
-        public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary)
+        public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary, IPlayerService playerService)
 		{
             _messengerHub = messengerHub;
             _audioFileCacheService = audioFileCacheService;
             _cloudLibrary = cloudLibrary;
+            _playerService = playerService;
             _cloudLibrary.OnCloudDataChanged += (data) => {
                 Task.Factory.StartNew(() => {
                     Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Sleeping...");
@@ -107,6 +110,12 @@ namespace MPfm.MVP.Presenters
             // Only need to create the Player view on mobile devices
             #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.More, onViewBindedToPresenter);
+            #else
+            var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
+                ArtistName = device.ArtistName,
+                AlbumTitle = device.AlbumTitle
+            });
+            _playerService.Play(audioFiles, audioFile != null ? audioFile.FilePath : string.Empty);
             #endif
         }
 	}

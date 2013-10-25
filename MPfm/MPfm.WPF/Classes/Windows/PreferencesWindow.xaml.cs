@@ -124,6 +124,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
         {
+            Console.WriteLine("PreferencesWindow - IsDropboxLinkedToApp: {0}", entity.IsDropboxLinkedToApp);
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 if (entity.IsDropboxLinkedToApp)

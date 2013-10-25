@@ -129,6 +129,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Config\AppConfigManager.cs" />
     <Compile Include="Config\IAppConfig.cs" />
+    <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\ApplicationCloseMessage.cs" />
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />

@@ -15,8 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Text;
+using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Sound.Playlists;
+using Newtonsoft.Json;
 #if !IOS && !ANDROID && !WINDOWS_PHONE
 using System;
 using System.Collections.Generic;
@@ -43,6 +46,7 @@ namespace MPfm.Library.Services
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
         private readonly ISyncDeviceSpecifications _deviceSpecifications;
+        private IDropbox _dropbox;
         private DropboxServiceProvider _dropboxServiceProvider;
         private OAuthToken _oauthToken;
 
@@ -103,7 +107,6 @@ namespace MPfm.Library.Services
                     return false;
                 });
             }
-
         }
 
         public void ContinueLinkApp()
@@ -119,106 +122,19 @@ namespace MPfm.Library.Services
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.RequestAccessToken);
 
-
+                // TODO: Take token from storage 
                 //OAuthToken oauthAccessToken2 = new OAuthToken("z20l3g6vs5bbvqcr", "b8eiq09w1gxsyad");
-                /* API */
 
-                IDropbox dropbox = _dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
+                _dropbox = _dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
                 //IDropbox dropbox = dropboxServiceProvider.GetApi(oauthAccessToken2.Value, oauthAccessToken2.Secret);
                 //dropbox.Locale = CultureInfo.CurrentUICulture.IetfLanguageTag;
 
-                DropboxProfile profile = dropbox.GetUserProfileAsync().Result;
+                DropboxProfile profile = _dropbox.GetUserProfileAsync().Result;
                 Console.WriteLine("Hi " + profile.DisplayName + "!");
 
                 // Update status
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.ConnectedToDropbox);
-
-                // Use step by step debugging, or not             
-
-                //DeltaPage deltaPage = dropbox.DeltaAsync(null).Result;
-                //dropbox.AccessLevel
-                //Entry createFolderEntry = dropbox.CreateFolderAsync("Spring Social").Result;
-
-                //Task.Factory.StartNew(() =>
-                //{
-                //    string cursor = null;
-                //    while (true)
-                //    {
-                //        DeltaPage deltaPage = dropbox.DeltaAsync(cursor).Result;
-                //        cursor = deltaPage.Cursor;
-                //        Console.WriteLine("Delta check - entries: {0} cursor: {1} hasMore: {2} reset: {3}",
-                //            deltaPage.Entries.Count, deltaPage.Cursor, deltaPage.HasMore, deltaPage.Reset);
-                //        if (deltaPage.Entries.Count > 0)
-                //        {
-                //            //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
-                //            dropbox.DownloadFileAsync("File.txt")
-                //                .ContinueWith(task =>
-                //                {
-                //                    Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path,
-                //                        task.Result.Metadata.Size);
-                //                    // Save file to "C:\Spring Social.txt"
-                //                    //using (FileStream fileStream = new FileStream(@"C:\Spring Social.txt", FileMode.Create))
-                //                    //{
-                //                    //    fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
-                //                    //}
-                //                });
-                //        }
-                //        Thread.Sleep(1000);
-                //    }
-                //});
-
-                //for (int a = 0; a < 10; a++)
-                //{
-                //    Thread.Sleep(4000);
-                //    string text = string.Format("Windows - Step {0}", a);
-                //    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
-                //    Console.WriteLine(text);
-
-                //    //var test = new ByteArrayResource(bytes);
-                //    Entry uploadFileEntry = dropbox.UploadFileAsync(
-                //        //new AssemblyResource("assembly://Spring.ConsoleQuickStart/Spring.ConsoleQuickStart/File.txt"),
-                //        new ByteArrayResource(bytes),
-                //        "File.txt", true, null, CancellationToken.None).Result;
-                //}
-
-
-
-                //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
-                ////FileRef fileRef = dropbox.CreateFileRefAsync("Spring Social/File.txt").Result;
-                //Entry copyRefEntry = dropbox.CopyFileRefAsync(fileRef.Value, "Spring Social/File_copy_ref.txt").Result;
-                //Entry copyEntry = dropbox.CopyAsync("Spring Social/File.txt", "Spring Social/File_copy.txt").Result;
-                //Entry deleteEntry = dropbox.DeleteAsync("Spring Social/File.txt").Result;
-                //Entry moveEntry = dropbox.MoveAsync("Spring Social/File_copy.txt", "Spring Social/File.txt").Result;
-                //dropbox.DownloadFileAsync("Spring Social/File.txt")
-                //    .ContinueWith(task =>
-                //    {
-                //        Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path, task.Result.Metadata.Size);
-                //        // Save file to "C:\Spring Social.txt"
-                //        using (FileStream fileStream = new FileStream(@"C:\Spring Social.txt", FileMode.Create))
-                //        {
-                //            fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
-                //        }
-                //    });
-                //Entry folderMetadata = dropbox.GetMetadataAsync("Spring Social").Result;
-                //IList<Entry> revisionsEntries = dropbox.GetRevisionsAsync("Spring Social/File.txt").Result;
-                //Entry restoreEntry = dropbox.RestoreAsync("Spring Social/File.txt", revisionsEntries[2].Revision).Result;
-                //IList<Entry> searchResults = dropbox.SearchAsync("Spring Social/", ".txt").Result;
-                //DropboxLink shareableLink = dropbox.GetShareableLinkAsync("Spring Social/File.txt").Result;
-                //DropboxLink mediaLink = dropbox.GetMediaLinkAsync("Spring Social/File.txt").Result;
-                //Entry uploadImageEntry = dropbox.UploadFileAsync(
-                //    new AssemblyResource("assembly://Spring.ConsoleQuickStart/Spring.ConsoleQuickStart/Image.png"),
-                //    "/Spring Social/Image.png", true, null, CancellationToken.None).Result;
-                //dropbox.DownloadThumbnailAsync("Spring Social/Image.png", ThumbnailFormat.Png, ThumbnailSize.Medium)
-                //    .ContinueWith(task =>
-                //    {
-                //        Console.WriteLine("Thumbnail '{0}' downloaded ({1})", task.Result.Metadata.Path, task.Result.Metadata.Size);
-                //        // Save file to "C:\Thumbnail_Medium.png"
-                //        using (FileStream fileStream = new FileStream(@"C:\Thumbnail_Medium.png", FileMode.Create))
-                //        {
-                //            fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
-                //        }
-                //    });
             }
             catch (AggregateException ae)
             {
@@ -236,14 +152,120 @@ namespace MPfm.Library.Services
 
         public void UnlinkApp()
         {
+            //_dropbox.
         }
 
         public void InitializeAppFolder()
         {
+            try
+            {
+                var taskMetadata = _dropbox.GetMetadataAsync("/Playlists");
+                var taskPlaylists = _dropbox.CreateFolderAsync("/Playlists");
+                var taskDevices = _dropbox.CreateFolderAsync("/Devices");
+
+                var metadata = taskMetadata.Result;
+                var folderPlaylists = taskPlaylists.Result;
+                var folderDevices = taskDevices.Result;
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(ex =>
+                {
+                    if (ex is DropboxApiException)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return true;
+                    }
+                    return false;
+                });
+            }
         }
 
         public void PushHello()
         {
+            // Use step by step debugging, or not             
+
+            //DeltaPage deltaPage = dropbox.DeltaAsync(null).Result;
+            //dropbox.AccessLevel
+            //Entry createFolderEntry = dropbox.CreateFolderAsync("Spring Social").Result;
+
+            //Task.Factory.StartNew(() =>
+            //{
+            //    string cursor = null;
+            //    while (true)
+            //    {
+            //        DeltaPage deltaPage = dropbox.DeltaAsync(cursor).Result;
+            //        cursor = deltaPage.Cursor;
+            //        Console.WriteLine("Delta check - entries: {0} cursor: {1} hasMore: {2} reset: {3}",
+            //            deltaPage.Entries.Count, deltaPage.Cursor, deltaPage.HasMore, deltaPage.Reset);
+            //        if (deltaPage.Entries.Count > 0)
+            //        {
+            //            //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
+            //            dropbox.DownloadFileAsync("File.txt")
+            //                .ContinueWith(task =>
+            //                {
+            //                    Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path,
+            //                        task.Result.Metadata.Size);
+            //                    // Save file to "C:\Spring Social.txt"
+            //                    //using (FileStream fileStream = new FileStream(@"C:\Spring Social.txt", FileMode.Create))
+            //                    //{
+            //                    //    fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
+            //                    //}
+            //                });
+            //        }
+            //        Thread.Sleep(1000);
+            //    }
+            //});
+
+            //for (int a = 0; a < 10; a++)
+            //{
+            //    Thread.Sleep(4000);
+            //    string text = string.Format("Windows - Step {0}", a);
+            //    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
+            //    Console.WriteLine(text);
+
+            //    //var test = new ByteArrayResource(bytes);
+            //    Entry uploadFileEntry = dropbox.UploadFileAsync(
+            //        //new AssemblyResource("assembly://Spring.ConsoleQuickStart/Spring.ConsoleQuickStart/File.txt"),
+            //        new ByteArrayResource(bytes),
+            //        "File.txt", true, null, CancellationToken.None).Result;
+            //}
+
+            //FileRef fileRef = dropbox.CreateFileRefAsync("File.txt").Result;
+            ////FileRef fileRef = dropbox.CreateFileRefAsync("Spring Social/File.txt").Result;
+            //Entry copyRefEntry = dropbox.CopyFileRefAsync(fileRef.Value, "Spring Social/File_copy_ref.txt").Result;
+            //Entry copyEntry = dropbox.CopyAsync("Spring Social/File.txt", "Spring Social/File_copy.txt").Result;
+            //Entry deleteEntry = dropbox.DeleteAsync("Spring Social/File.txt").Result;
+            //Entry moveEntry = dropbox.MoveAsync("Spring Social/File_copy.txt", "Spring Social/File.txt").Result;
+            //dropbox.DownloadFileAsync("Spring Social/File.txt")
+            //    .ContinueWith(task =>
+            //    {
+            //        Console.WriteLine("File '{0}' downloaded ({1})", task.Result.Metadata.Path, task.Result.Metadata.Size);
+            //        // Save file to "C:\Spring Social.txt"
+            //        using (FileStream fileStream = new FileStream(@"C:\Spring Social.txt", FileMode.Create))
+            //        {
+            //            fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
+            //        }
+            //    });
+            //Entry folderMetadata = dropbox.GetMetadataAsync("Spring Social").Result;
+            //IList<Entry> revisionsEntries = dropbox.GetRevisionsAsync("Spring Social/File.txt").Result;
+            //Entry restoreEntry = dropbox.RestoreAsync("Spring Social/File.txt", revisionsEntries[2].Revision).Result;
+            //IList<Entry> searchResults = dropbox.SearchAsync("Spring Social/", ".txt").Result;
+            //DropboxLink shareableLink = dropbox.GetShareableLinkAsync("Spring Social/File.txt").Result;
+            //DropboxLink mediaLink = dropbox.GetMediaLinkAsync("Spring Social/File.txt").Result;
+            //Entry uploadImageEntry = dropbox.UploadFileAsync(
+            //    new AssemblyResource("assembly://Spring.ConsoleQuickStart/Spring.ConsoleQuickStart/Image.png"),
+            //    "/Spring Social/Image.png", true, null, CancellationToken.None).Result;
+            //dropbox.DownloadThumbnailAsync("Spring Social/Image.png", ThumbnailFormat.Png, ThumbnailSize.Medium)
+            //    .ContinueWith(task =>
+            //    {
+            //        Console.WriteLine("Thumbnail '{0}' downloaded ({1})", task.Result.Metadata.Path, task.Result.Metadata.Size);
+            //        // Save file to "C:\Thumbnail_Medium.png"
+            //        using (FileStream fileStream = new FileStream(@"C:\Thumbnail_Medium.png", FileMode.Create))
+            //        {
+            //            fileStream.Write(task.Result.Content, 0, task.Result.Content.Length);
+            //        }
+            //    });
         }
 
         public void PushStuff()
@@ -261,12 +283,88 @@ namespace MPfm.Library.Services
 
         public string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
         {
+            try
+            {
+                var device = new CloudDeviceInfo()
+                {
+                    AudioFileId = audioFile.Id,
+                    ArtistName = audioFile.ArtistName,
+                    AlbumTitle = audioFile.AlbumTitle,
+                    SongTitle = audioFile.Title,
+                    Position = position,
+                    PositionBytes = positionBytes,
+                    DeviceType = _deviceSpecifications.GetDeviceType().ToString(),
+                    DeviceName = _deviceSpecifications.GetDeviceName(),
+                    DeviceId = _deviceSpecifications.GetDeviceUniqueId(),
+                    IPAddress = _deviceSpecifications.GetIPAddress(),
+                    Timestamp = DateTime.Now
+                };
+
+                string json = JsonConvert.SerializeObject(device);
+                byte[] bytes = Encoding.UTF8.GetBytes(json);
+                var taskMetadata = _dropbox.UploadFileAsync(new ByteArrayResource(bytes), string.Format("/Devices/{0}.json", device.DeviceId));
+                var entry = taskMetadata.Result;
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(ex =>
+                {
+                    if (ex is DropboxApiException)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return true;
+                    }
+                    return false;
+                });
+            }
             return string.Empty;
         }
 
         public IEnumerable<CloudDeviceInfo> PullDeviceInfos()
         {
-            return new List<CloudDeviceInfo>();
+            List<CloudDeviceInfo> devices = new List<CloudDeviceInfo>();
+
+            try
+            {
+                var entries = _dropbox.SearchAsync("/Devices", ".json").Result;                
+                foreach (var entry in entries)
+                {
+                    try
+                    {
+                        var file = _dropbox.DownloadFileAsync(entry.Path).Result;
+                        var bytes = file.Content;
+                        string json = Encoding.UTF8.GetString(bytes);
+
+                        CloudDeviceInfo device = null;
+                        try
+                        {
+                            device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+                            devices.Add(device);
+                        }
+                        catch (Exception ex)
+                        {
+                            Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", file.Metadata.Path, ex);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to download file - ex: {0}", ex);
+                    }   
+                }
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(ex =>
+                {
+                    if (ex is DropboxApiException)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return true;
+                    }
+                    return false;
+                });
+            }
+            return devices;
         }
 
         public string PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
@@ -307,4 +405,5 @@ namespace MPfm.Library.Services
         }
     }
 }
+
 #endif
