@@ -17,6 +17,7 @@
 
 using System.Text;
 using MPfm.Core;
+using MPfm.Core.Helpers;
 using MPfm.Library.Objects;
 using MPfm.Sound.Playlists;
 using Newtonsoft.Json;
@@ -80,20 +81,26 @@ namespace MPfm.Library.Services
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.GetRequestToken);
 
                 // Authorization without callback url                
-                //Console.Write("Getting request token...");
                 _oauthToken = _dropboxServiceProvider.OAuthOperations.FetchRequestTokenAsync(null, null).Result;
-                //Console.WriteLine("Done - FetchRequestToken - secret: {0} value: {1}", _oauthToken.Secret, _oauthToken.Value);
-                OAuth1Parameters parameters = new OAuth1Parameters();
-                //parameters.Add("locale", CultureInfo.CurrentUICulture.IetfLanguageTag); // for a localized version of the authorization website
-                string authenticateUrl = _dropboxServiceProvider.OAuthOperations.BuildAuthorizeUrl(_oauthToken.Value, parameters);
-                //Console.WriteLine("Redirect user for authorization");
 
                 // Update status
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.OpenWebBrowser);
 
-                // Open web browser for authentication
-                Process.Start(authenticateUrl);
+                // Try to get a previously saved token
+                var token = LoadToken();
+                if (token == null)
+                {
+                    // Open web browser for authentication
+                    OAuth1Parameters parameters = new OAuth1Parameters();
+                    //parameters.Add("locale", CultureInfo.CurrentUICulture.IetfLanguageTag); // for a localized version of the authorization website
+                    string authenticateUrl = _dropboxServiceProvider.OAuthOperations.BuildAuthorizeUrl(_oauthToken.Value, parameters);
+                    Process.Start(authenticateUrl);                    
+                }
+                else
+                {
+                    ContinueLinkApp(token);
+                }
             }
             catch (AggregateException ae)
             {
@@ -111,26 +118,43 @@ namespace MPfm.Library.Services
 
         public void ContinueLinkApp()
         {
+        }
+
+        private void ContinueLinkApp(AuthenticationToken token)
+        {
             try
             {
-                Console.Write("Getting access token...");
-                AuthorizedRequestToken requestToken = new AuthorizedRequestToken(_oauthToken, null);
-                OAuthToken oauthAccessToken = _dropboxServiceProvider.OAuthOperations.ExchangeForAccessTokenAsync(requestToken, null).Result;
-                Console.WriteLine("Done - FetchAccessToken - secret: {0} value: {1}", oauthAccessToken.Secret, oauthAccessToken.Value);
+                OAuthToken oauthAccessToken = null;
+                if (token == null)
+                {
+                    Console.Write("Getting access token...");
+                    AuthorizedRequestToken requestToken = new AuthorizedRequestToken(_oauthToken, null);
+                    oauthAccessToken = _dropboxServiceProvider.OAuthOperations.ExchangeForAccessTokenAsync(requestToken, null).Result;
+                    Console.WriteLine("Done - FetchAccessToken - secret: {0} value: {1}", oauthAccessToken.Secret, oauthAccessToken.Value);
+                }
+                else
+                {
+                    oauthAccessToken = new OAuthToken(token.Value, token.Secret);
+                }
 
                 // Update status
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.RequestAccessToken);
 
-                // TODO: Take token from storage 
-                //OAuthToken oauthAccessToken2 = new OAuthToken("z20l3g6vs5bbvqcr", "b8eiq09w1gxsyad");
-
+                // Connect to Dropbox API
                 _dropbox = _dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
-                //IDropbox dropbox = dropboxServiceProvider.GetApi(oauthAccessToken2.Value, oauthAccessToken2.Secret);
                 //dropbox.Locale = CultureInfo.CurrentUICulture.IetfLanguageTag;
 
+                // Get user name from profile
                 DropboxProfile profile = _dropbox.GetUserProfileAsync().Result;
                 Console.WriteLine("Hi " + profile.DisplayName + "!");
+
+                // Save token to hard disk
+                SaveToken(new AuthenticationToken() {
+                    Value = oauthAccessToken.Value, 
+                    Secret = oauthAccessToken.Secret,
+                    UserName = profile.DisplayName
+                });
 
                 // Update status
                 if (OnCloudAuthenticationStatusChanged != null)
@@ -147,6 +171,64 @@ namespace MPfm.Library.Services
                     }
                     return false;
                 });
+            }
+        }
+
+        private AuthenticationToken LoadToken()
+        {
+            FileStream fileStream = null;
+            try
+            {
+                byte[] bytes = new byte[4096]; // 4k is way enough to store the token
+                string filePath = Path.Combine(PathHelper.HomeDirectory, "dropbox.json");
+                fileStream = File.OpenRead(filePath);
+                fileStream.Read(bytes, 0, (int) fileStream.Length);
+                string json = Encoding.UTF8.GetString(bytes);
+                var token = JsonConvert.DeserializeObject<AuthenticationToken>(json);
+
+                return token;
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("DropboxCoreService - LoadToken - Failed to load token: {0}", ex);
+            }
+            finally
+            {
+                if (fileStream != null)
+                    fileStream.Close();
+            }
+
+            return null;
+        }
+
+        private void SaveToken(AuthenticationToken token)
+        {
+            FileStream fileStream = null;
+            try
+            {
+                // If the file exists, decrypt it before changing its contents
+                string filePath = Path.Combine(PathHelper.HomeDirectory, "dropbox.json");
+                if (File.Exists(filePath))
+                    File.Decrypt(filePath);
+
+                // Write file to disk
+                string json = JsonConvert.SerializeObject(token);
+                byte[] bytes = Encoding.UTF8.GetBytes(json);
+                fileStream = File.OpenWrite(filePath);
+                fileStream.Write(bytes, 0, bytes.Length);
+                fileStream.Close();
+
+                // Encrypt file
+                File.Encrypt(filePath);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("DropboxCoreService - SaveToken - Failed to save token: {0}", ex);
+            }
+            finally
+            {
+                if (fileStream != null)
+                    fileStream.Close();
             }
         }
 

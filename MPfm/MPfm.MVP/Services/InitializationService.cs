@@ -21,6 +21,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using MPfm.Core;
+using MPfm.Core.Helpers;
 using MPfm.Library;
 using MPfm.Library.Database;
 using MPfm.Library.Objects;
@@ -87,10 +88,10 @@ namespace MPfm.MVP.Services
         {            
 #if (!IOS && !ANDROID && !WINDOWSSTORE && !WINDOWS_PHONE)
             // Check if trace file exists
-            if (!File.Exists(ConfigurationHelper.LogFilePath))
-                _fileTracing = File.Create(ConfigurationHelper.LogFilePath);
+            if (!File.Exists(PathHelper.LogFilePath))
+                _fileTracing = File.Create(PathHelper.LogFilePath);
             else
-                _fileTracing = File.Open(ConfigurationHelper.LogFilePath, FileMode.Append);
+                _fileTracing = File.Open(PathHelper.LogFilePath, FileMode.Append);
             textTraceListener = new TextWriterTraceListener(_fileTracing);
             Trace.Listeners.Add(textTraceListener);
 #endif
@@ -105,10 +106,10 @@ namespace MPfm.MVP.Services
             //
 #else
             // Create missing directories
-            if(!Directory.Exists(ConfigurationHelper.HomeDirectory))
-                Directory.CreateDirectory(ConfigurationHelper.HomeDirectory);
-            if (!Directory.Exists(ConfigurationHelper.PeakFileDirectory))
-                Directory.CreateDirectory(ConfigurationHelper.PeakFileDirectory);
+            if(!Directory.Exists(PathHelper.HomeDirectory))
+                Directory.CreateDirectory(PathHelper.HomeDirectory);
+            if (!Directory.Exists(PathHelper.PeakFileDirectory))
+                Directory.CreateDirectory(PathHelper.PeakFileDirectory);
 #endif
         }
 
@@ -117,7 +118,7 @@ namespace MPfm.MVP.Services
             Tracing.Log("InitializationService.CreateConfiguration -- Checking for configuration file...");
             AppConfigManager.Instance.Load();
 
-            //ConfigurationHelper.Save(ConfigurationHelper.ConfigurationFilePath, AppConfigManager.Instance);
+            //PathHelper.Save(PathHelper.ConfigurationFilePath, AppConfigManager.Instance);
             //EQPreset preset = EQPresetHelper.Load("/Users/animal/Documents/test.txt");
             //EQPresetHelper.Save("/Users/animal/Documents/test.txt", new EQPreset());
 		}
@@ -145,23 +146,23 @@ namespace MPfm.MVP.Services
             try
             {
 #if WINDOWSSTORE
-                Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", ConfigurationHelper.DatabaseFilePath));
+                Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", PathHelper.DatabaseFilePath));
                 var storageFolder = ApplicationData.Current.LocalFolder;
-                var task = storageFolder.FileExistsAsync(Path.GetFileName(ConfigurationHelper.DatabaseFilePath));
+                var task = storageFolder.FileExistsAsync(Path.GetFileName(PathHelper.DatabaseFilePath));
                 bool databaseExists = task.Result;
                 if (!databaseExists)
                 {
                     // Create database file
                     Tracing.Log("InitializationService.CreateLibrary -- Creating new database file...");
-                    CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
+                    CreateDatabaseFile(PathHelper.DatabaseFilePath);
                 }                
 #else
-                Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", ConfigurationHelper.DatabaseFilePath));
-                if (!File.Exists(ConfigurationHelper.DatabaseFilePath))
+                Tracing.Log(string.Format("InitializationService.CreateLibrary -- Checking if the database file exists ({0})...", PathHelper.DatabaseFilePath));
+                if (!File.Exists(PathHelper.DatabaseFilePath))
                 {
                     // Create database file
                     Tracing.Log("InitializationService.CreateLibrary -- Creating new database file...");
-                    CreateDatabaseFile(ConfigurationHelper.DatabaseFilePath);
+                    CreateDatabaseFile(PathHelper.DatabaseFilePath);
                 }
 #endif
             }
@@ -172,7 +173,7 @@ namespace MPfm.MVP.Services
 			
             try
             {
-                string databaseVersion = GetDatabaseVersion(ConfigurationHelper.DatabaseFilePath);
+                string databaseVersion = GetDatabaseVersion(PathHelper.DatabaseFilePath);
                 string[] currentVersionSplit = databaseVersion.Split('.');
 
                 // Check integrity of the setting value (should be split in 2)
@@ -193,7 +194,7 @@ namespace MPfm.MVP.Services
 
                 // Check if the database needs to be updated
                 Tracing.Log("InitializationService.CreateLibrary -- Database version is " + databaseVersion + ". Checking if the database version needs to be updated...");
-                CheckIfDatabaseVersionNeedsToBeUpdated(ConfigurationHelper.DatabaseFilePath);
+                CheckIfDatabaseVersionNeedsToBeUpdated(PathHelper.DatabaseFilePath);
             }
             catch (Exception ex)
             {

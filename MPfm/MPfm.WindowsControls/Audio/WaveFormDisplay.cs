@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -29,6 +29,7 @@ using MPfm.MVP.Helpers;
 using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
+using MPfm.Core.Helpers;
 
 namespace MPfm.WindowsControls
 {
@@ -944,8 +945,8 @@ namespace MPfm.WindowsControls
             //}
 
             // Build peak file path
-            //peakFilePath = ConfigurationHelper. PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
-            peakFilePath = Path.Combine(ConfigurationHelper.PeakFileDirectory, filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak");
+            //peakFilePath = PathHelper. PeakFileDirectory + filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak";
+            peakFilePath = Path.Combine(PathHelper.PeakFileDirectory, filePath.Replace(@"\", "_").Replace(":", "_").Replace(".", "_") + ".mpfmPeak");
 
             // Clear history
             WaveDataHistory.Clear();

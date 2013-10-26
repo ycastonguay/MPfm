@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.Core.Helpers;
 using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Services;
@@ -44,7 +45,7 @@ namespace MPfm.MVP.Bootstrap
             var container = TinyIoC.TinyIoCContainer.Current;
 
             // Register services
-            container.Register<IDatabaseFacade>(new DatabaseFacade(ConfigurationHelper.DatabaseFilePath));
+            container.Register<IDatabaseFacade>(new DatabaseFacade(PathHelper.DatabaseFilePath));
             container.Register<ITinyMessengerHub, TinyMessengerHub>().AsSingleton(); 
             container.Register<IInitializationService, InitializationService>().AsSingleton();
             container.Register<IPlayerService, PlayerService>().AsSingleton();
