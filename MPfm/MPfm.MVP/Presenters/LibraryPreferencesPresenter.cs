@@ -18,6 +18,7 @@
 using System;
 using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
+using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
@@ -85,8 +86,12 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+#if IOS || ANDROID
                 var view = _mobileNavigationManager.CreateUpdateLibraryView();
                 _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Update Library", View, view);
+#else
+                _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);
+#endif
             }
             catch(Exception ex)
             {

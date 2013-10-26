@@ -23,6 +23,7 @@ using Android.App;
 using Com.Dropbox.Sync.Android;
 using MPfm.Core;
 using MPfm.Library;
+using MPfm.Library.Objects;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
@@ -170,6 +171,59 @@ namespace MPfm.Android.Classes.Services
                 Tracing.Log("AndroidDropboxService - InitializeAppFolder - Exception: {0}", ex);
                 throw;
             }
+        }
+
+        public string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
+        {
+            return PushNowPlaying_File(audioFile, positionBytes, position);
+        }
+
+        public IEnumerable<CloudDeviceInfo> PullDeviceInfos()
+        {
+            List<CloudDeviceInfo> devices = new List<CloudDeviceInfo>();
+            DbxFile file = null;
+
+            try
+            {
+                var fileInfos = _fileSystem.ListFolder(new DbxPath("/Devices"));
+
+                foreach (var fileInfo in fileInfos)
+                {
+                    try
+                    {
+                        file = _fileSystem.Open(fileInfo.Path);
+                        //file.Update();
+                        string json = file.ReadString();
+
+                        CloudDeviceInfo device = null;
+                        try
+                        {
+                            device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+                            devices.Add(device);
+                        }
+                        catch (Exception ex)
+                        {
+                            Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", fileInfo.Path.Name, ex);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to download file {0} - ex: {1}", fileInfo.Path.Name, ex);
+                    }
+                    finally
+                    {
+                        if (file != null)
+                            file.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("AndroidDropboxService - PullDeviceInfos - Exception: {0}", ex);
+                throw;
+            }
+
+            return devices;
         }
 
         public string PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
@@ -518,6 +572,7 @@ namespace MPfm.Android.Classes.Services
 
             Console.WriteLine("AndroidDropboxService - OnFileChange {0}", file.Path.ToString());
         }
+
     }
 
     public class SerializablePlaylist

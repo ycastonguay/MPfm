@@ -15,23 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.Library.Objects;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-    /// Resume Playback view interface.
+    /// Cloud Connect presenter interface.
 	/// </summary>
-    public interface IResumePlaybackView : IBaseView
+    public interface ICloudConnectPresenter : IBasePresenter<ICloudConnectView>
 	{
-        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
-        Action OnOpenPreferencesView { get; set; }
-        Action OnCheckCloudLoginStatus { get; set; }
-
-        void ResumePlaybackError(Exception ex);
-	    void RefreshAppLinkedStatus(bool isAppLinked);
-        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
 	}
 }
+

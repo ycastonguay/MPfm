@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -17,7 +17,9 @@
 
 using System;
 using MPfm.Library.Objects;
+using MPfm.Library.Services.Exceptions;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using System.Threading.Tasks;
@@ -39,18 +41,21 @@ namespace MPfm.MVP.Presenters
         private readonly NavigationManager _navigationManager;
         private readonly ITinyMessengerHub _messengerHub;
         private readonly ICloudLibraryService _cloudLibrary;
-        private readonly IAudioFileCacheService _audioFileCacheService;
+	    private readonly IPlayerService _playerService;
+	    private readonly IAudioFileCacheService _audioFileCacheService;
+	    private bool _canRefreshCloudLoginStatus;
 
-        public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary)
+	    public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary, IPlayerService playerService)
 		{
             _messengerHub = messengerHub;
             _audioFileCacheService = audioFileCacheService;
             _cloudLibrary = cloudLibrary;
-            _cloudLibrary.OnDropboxDataChanged += (data) => {
+            _playerService = playerService;
+            _cloudLibrary.OnCloudDataChanged += (data) => {
                 Task.Factory.StartNew(() => {
-                    Console.WriteLine("ResumePlaybackPresenter - OnDropboxDataChanged - Sleeping...");
+                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Sleeping...");
                     Thread.Sleep(500); // TODO: Wait for download to finish with listener (see Dropbox docs)
-                    Console.WriteLine("ResumePlaybackPresenter - OnDropboxDataChanged - Fetching device infos...");
+                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Fetching device infos...");
                     RefreshDevices();
                 });
             };
@@ -64,26 +69,52 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(IResumePlaybackView view)
         {
+            view.OnResumePlayback = ResumePlayback;
+            view.OnOpenPreferencesView = OpenPreferencesView;
+            view.OnCheckCloudLoginStatus = CheckCloudLoginStatus;
             base.BindView(view);
 
-            view.OnResumePlayback = ResumePlayback;
+            Task.Factory.StartNew(RefreshDevices);
+        }
 
-            Task.Factory.StartNew(() => {
-                RefreshDevices();
-            });
-        }     
+	    private void OpenPreferencesView()
+	    {            
+#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
+            _mobileNavigationManager.CreateCloudPreferencesView();
+#else
+	        _navigationManager.CreatePreferencesView();
+#endif
+	    }
 
-        private void RefreshDevices()
+        private void CheckCloudLoginStatus()
         {
-            try
-            {
-                var devices = _cloudLibrary.PullDeviceInfos();
-                View.RefreshDevices(devices.OrderBy(x => x.DeviceName).ToList());
-            } 
+            if (!_canRefreshCloudLoginStatus)
+                return;
+
+            View.RefreshAppLinkedStatus(_cloudLibrary.HasLinkedAccount);
+        }
+
+	    private void RefreshDevices()
+	    {
+            // Prevent login status change during loading
+	        _canRefreshCloudLoginStatus = false;
+
+	        try
+	        {
+	            var devices = _cloudLibrary.PullDeviceInfos();
+	            View.RefreshDevices(devices.OrderBy(x => x.DeviceName).ToList());
+                View.RefreshAppLinkedStatus(true);
+	        }
+	        catch (CloudAppNotLinkedException ex)
+	        {
+	            View.RefreshAppLinkedStatus(false);
+	        }
             catch (Exception ex)
             {
                 View.ResumePlaybackError(ex);
             }
+
+	        _canRefreshCloudLoginStatus = true;
         }
 
         private void ResumePlayback(CloudDeviceInfo device)
@@ -104,10 +135,15 @@ namespace MPfm.MVP.Presenters
                 FilePath = audioFile != null ? audioFile.FilePath : string.Empty
             });
 
+            // Only need to create the Player view on mobile devices
             #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.More, onViewBindedToPresenter);
             #else
-            _navigationManager.CreateSyncMenuView(device);
+            var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
+                ArtistName = device.ArtistName,
+                AlbumTitle = device.AlbumTitle
+            });
+            _playerService.Play(audioFiles, audioFile != null ? audioFile.FilePath : string.Empty);
             #endif
         }
 	}

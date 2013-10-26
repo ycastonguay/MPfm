@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.Core.Helpers;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Helpers;
@@ -56,12 +57,12 @@ namespace MPfm.MVP.Config
 
         public void Load()
         {
-            Root = _provider.Load(ConfigurationHelper.ConfigurationFilePath);
+            Root = _provider.Load(PathHelper.ConfigurationFilePath);
         }
 
         public void Save()
         {
-            _provider.Save(ConfigurationHelper.ConfigurationFilePath, Root);
+            _provider.Save(PathHelper.ConfigurationFilePath, Root);
         }
     }
 }

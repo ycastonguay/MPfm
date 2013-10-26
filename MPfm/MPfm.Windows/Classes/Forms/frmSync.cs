@@ -69,7 +69,7 @@ namespace MPfm.Windows.Classes.Forms
 
         private void btnConnectManual_Click(object sender, EventArgs e)
         {
-            var dropbox = Bootstrapper.GetContainer().Resolve<IDropboxService>();
+            var dropbox = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
             dropbox.LinkApp(this);
         }
 

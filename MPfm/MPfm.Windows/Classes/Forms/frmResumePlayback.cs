@@ -48,5 +48,15 @@ namespace MPfm.Windows.Classes.Forms
         {
 
         }
+
+        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+
+        public void ResumePlaybackError(Exception ex)
+        {
+        }
+
+        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        {
+        }
     }
 }

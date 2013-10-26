@@ -16,16 +16,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
-using MPfm.Library.Objects;
-using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
@@ -39,7 +33,57 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
-        #region IDesktopPreferencesView implementation
+        private void btnTab_OnClick(object sender, RoutedEventArgs e)
+        {
+            gridGeneral.Visibility = sender == btnTabGeneral ? Visibility.Visible : Visibility.Hidden;
+            gridAudio.Visibility = sender == btnTabAudio ? Visibility.Visible : Visibility.Hidden;
+            gridLibrary.Visibility = sender == btnTabLibrary ? Visibility.Visible : Visibility.Hidden;
+            gridCloud.Visibility = sender == btnTabCloud ? Visibility.Visible : Visibility.Hidden;
+
+            if (sender == btnTabGeneral)
+                lblTitle.Content = "General Preferences";
+            else if (sender == btnTabAudio)
+                lblTitle.Content = "Audio Preferences";
+            else if (sender == btnTabLibrary)
+                lblTitle.Content = "Library Preferences";
+            else if (sender == btnTabCloud)
+                lblTitle.Content = "Cloud Preferences";
+        }
+
+        private void btnAddFolder_OnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnRemoveFolder_OnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnUpdateLibrary_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnUpdateLibrary();
+        }
+
+        private void btnResetLibrary_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\nThis will *NOT* delete audio files from your hard disk.", "Reset confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
+                return;
+
+            OnResetLibrary();
+        }
+
+        private void btnDropboxLoginLogout_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnDropboxLoginLogout();
+        }
+
+        private void chkDropboxResumePlayback_OnChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #region ILibraryPreferencesView implementation
 
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
@@ -53,6 +97,47 @@ namespace MPfm.WPF.Classes.Windows
             {
                 MessageBox.Show(this, string.Format("An error occured in LibraryPreferences: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }));
+        }
+
+        #endregion
+
+        #region ICloudPreferencesView implementation
+
+        public Action<CloudPreferencesEntity> OnSetCloudPreferences { get; set; }
+        public Action OnDropboxLoginLogout { get; set; }
+
+        public void CloudPreferencesError(Exception ex)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                MessageBox.Show(this, string.Format("An error occured in CloudPreferences: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }));
+        }
+
+        public void RefreshCloudPreferences(CloudPreferencesEntity entity)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                chkDropbox_ResumePlayback.IsChecked = entity.IsDropboxResumePlaybackEnabled;
+            }));
+        }
+
+        public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
+        {
+            Console.WriteLine("PreferencesWindow - IsDropboxLinkedToApp: {0}", entity.IsDropboxLinkedToApp);
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                if (entity.IsDropboxLinkedToApp)
+                {
+                    lblDropbox_Authenticated.Content = "True";
+                    lblDropbox_Login.Content = "Logout from Dropbox";
+                }
+                else
+                {
+                    lblDropbox_Authenticated.Content = "False";
+                    lblDropbox_Login.Content = "Login to Dropbox";
+                }
+            }));            
         }
 
         #endregion

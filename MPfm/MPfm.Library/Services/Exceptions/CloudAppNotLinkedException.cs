@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -16,22 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.Library.Objects;
+using System.Text;
 
-namespace MPfm.MVP.Views
+namespace MPfm.Library.Services.Exceptions
 {
-	/// <summary>
-    /// Resume Playback view interface.
-	/// </summary>
-    public interface IResumePlaybackView : IBaseView
-	{
-        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
-        Action OnOpenPreferencesView { get; set; }
-        Action OnCheckCloudLoginStatus { get; set; }
-
-        void ResumePlaybackError(Exception ex);
-	    void RefreshAppLinkedStatus(bool isAppLinked);
-        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
-	}
+    public class CloudAppNotLinkedException : Exception
+    {
+        public CloudAppNotLinkedException() : base("The application is not linked to the cloud account.")
+        {
+        }
+    }
 }

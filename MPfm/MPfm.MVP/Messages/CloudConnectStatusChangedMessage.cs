@@ -15,23 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.Library.Objects;
+using MPfm.Library.Services.Interfaces;
+using TinyMessenger;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-    /// Resume Playback view interface.
-	/// </summary>
-    public interface IResumePlaybackView : IBaseView
-	{
-        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
-        Action OnOpenPreferencesView { get; set; }
-        Action OnCheckCloudLoginStatus { get; set; }
+    /// <summary>
+    /// Message used to notify the app that the one of the cloud service connection has changed status.
+    /// </summary>
+    public class CloudConnectStatusChangedMessage : TinyMessageBase
+    {
+        public string CloudServiceName { get; set; }
+        public CloudAuthenticationStatusType StatusType { get; set; }
+        public bool IsApplicationLinked { get; set; }
 
-        void ResumePlaybackError(Exception ex);
-	    void RefreshAppLinkedStatus(bool isAppLinked);
-        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
-	}
+        public CloudConnectStatusChangedMessage(object sender) 
+            : base(sender)
+        {
+        }       
+    }
 }

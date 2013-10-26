@@ -17,21 +17,18 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-    /// Resume Playback view interface.
-	/// </summary>
-    public interface IResumePlaybackView : IBaseView
+	public class CloudConnectEntity
 	{
-        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
-        Action OnOpenPreferencesView { get; set; }
-        Action OnCheckCloudLoginStatus { get; set; }
+        public string CloudServiceName { get; set; }
+        public int CurrentStep { get; set; }
+        public bool IsAuthenticated { get; set; }
 
-        void ResumePlaybackError(Exception ex);
-	    void RefreshAppLinkedStatus(bool isAppLinked);
-        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
-	}
+        public CloudConnectEntity()
+        {
+            CurrentStep = 1;
+        }
+    }
 }

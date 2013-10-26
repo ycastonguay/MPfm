@@ -21,9 +21,9 @@ using System.Collections.Generic;
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-    /// Preferences view for desktop (combines audio/general/library preferences)
+    /// Preferences view for desktop (combines audio/cloud/general/library preferences)
 	/// </summary>
-    public interface IDesktopPreferencesView : IAudioPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
+    public interface IDesktopPreferencesView : IAudioPreferencesView, ICloudPreferencesView, IGeneralPreferencesView, ILibraryPreferencesView
 	{
     }
 }

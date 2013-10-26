@@ -91,6 +91,7 @@
     <Compile Include="Classes\Adapters\FolderListAdapter.cs" />
     <Compile Include="Classes\Adapters\PlaylistListAdapter.cs" />
     <Compile Include="Classes\Adapters\PlaylistItemListAdapter.cs" />
+    <Compile Include="Classes\Adapters\ResumePlaybackListAdapter.cs" />
     <Compile Include="Classes\Adapters\SyncMenuListAdapter.cs" />
     <Compile Include="Classes\Adapters\SyncListAdapter.cs" />
     <Compile Include="Classes\Adapters\MobileLibraryBrowserGridAdapter.cs" />
@@ -306,6 +307,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ResumePlayback.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ResumePlaybackCell.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

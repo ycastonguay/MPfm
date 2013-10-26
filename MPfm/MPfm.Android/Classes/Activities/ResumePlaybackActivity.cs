@@ -39,12 +39,9 @@ namespace MPfm.Android
     public class ResumePlaybackActivity : BaseActivity, IResumePlaybackView
     {
         private MobileNavigationManager _navigationManager;
-        private TextView _lblIPAddress;
-        private TextView _lblStatus;
-        private Button _btnConnectManually;
         private ListView _listView;
-        private SyncListAdapter _listAdapter;
-        private List<SyncDevice> _devices;
+        private ResumePlaybackListAdapter _listAdapter;
+        private List<CloudDeviceInfo> _devices;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -56,28 +53,18 @@ namespace MPfm.Android
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
 
-            _lblIPAddress = FindViewById<TextView>(Resource.Id.resumePlayback_lblIPAddress);
-            _lblStatus = FindViewById<TextView>(Resource.Id.resumePlayback_lblStatus);
-            _btnConnectManually = FindViewById<Button>(Resource.Id.resumePlayback_btnConnectManually);
-            _btnConnectManually.Click += BtnConnectManuallyOnClick;
-
             _listView = FindViewById<ListView>(Resource.Id.resumePlayback_listView);
-            //_listAdapter = new SyncListAdapter(this, new List<SyncDevice>());
-            //_listView.SetAdapter(_listAdapter);
-            //_listView.ItemClick += ListViewOnItemClick;
+            _listAdapter = new ResumePlaybackListAdapter(this, new List<CloudDeviceInfo>());
+            _listView.SetAdapter(_listAdapter);
+            _listView.ItemClick += ListViewOnItemClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             ((AndroidNavigationManager)_navigationManager).SetResumePlaybackActivityInstance(this);
         }
 
-        private void BtnConnectManuallyOnClick(object sender, EventArgs eventArgs)
-        {
-        }
-
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            OnCancelDiscovery();
-            OnConnectDevice(_devices[itemClickEventArgs.Position]);
+            OnResumePlayback(_devices[itemClickEventArgs.Position]);
         }
 
         protected override void OnStart()
@@ -116,78 +103,31 @@ namespace MPfm.Android
             base.OnDestroy();
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        #region IResumePlaybackView implementation
+
+        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+
+        public void ResumePlaybackError(Exception ex)
         {
-            switch (item.ItemId)
+            RunOnUiThread(() =>
             {
-                case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
-                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-                    OnCancelDiscovery();
-                    this.StartActivity(intent);
-                    this.Finish();
-                    return true;
-                    break;
-                default:
-                    return base.OnOptionsItemSelected(item);
-                    break;
-            }
-        }
-
-        public override void OnBackPressed()
-        {
-            OnCancelDiscovery();
-            base.OnBackPressed();
-        }
-
-        #region ISyncView implementation
-
-        public Action<SyncDevice> OnConnectDevice { get; set; }
-        public Action<string> OnConnectDeviceManually { get; set; }
-        public Action OnStartDiscovery { get; set; }
-        public Action OnCancelDiscovery { get; set; }
-        
-        public void SyncError(Exception ex)
-        {
-            RunOnUiThread(() => {
                 AlertDialog ad = new AlertDialog.Builder(this).Create();
                 ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in Sync: {0}", ex));
+                ad.SetMessage(string.Format("An error has occured in ResumePlayback: {0}", ex));
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });
         }
 
-        public void RefreshIPAddress(string address)
+        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
         {
-            RunOnUiThread(() => {
-                _lblIPAddress.Text = address;
-            });
-        }
-
-        public void RefreshDiscoveryProgress(float percentageDone, string status)
-        {
-            RunOnUiThread(() => {
-                _lblStatus.Text = status;
-            });
-        }
-
-        public void RefreshDevices(IEnumerable<SyncDevice> devices)
-        {
-            RunOnUiThread(() => {
+            RunOnUiThread(() =>
+            {
                 _devices = devices.ToList();
                 _listAdapter.SetData(_devices);
             });
         }
-
-        public void RefreshDevicesEnded()
-        {
-        }
-
-        public void SyncDevice(SyncDevice device)
-        {
-        }
-
+        
         #endregion
 
     }

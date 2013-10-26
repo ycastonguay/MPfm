@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.Core.Helpers;
 using MPfm.Library.Database;
 using MPfm.Library.Database.Interfaces;
 using MPfm.Library.Services;
@@ -44,7 +45,7 @@ namespace MPfm.MVP.Bootstrap
             var container = TinyIoC.TinyIoCContainer.Current;
 
             // Register services
-            container.Register<IDatabaseFacade>(new DatabaseFacade(ConfigurationHelper.DatabaseFilePath));
+            container.Register<IDatabaseFacade>(new DatabaseFacade(PathHelper.DatabaseFilePath));
             container.Register<ITinyMessengerHub, TinyMessengerHub>().AsSingleton(); 
             container.Register<IInitializationService, InitializationService>().AsSingleton();
             container.Register<IPlayerService, PlayerService>().AsSingleton();
@@ -67,11 +68,13 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IUpdateLibraryPresenter, UpdateLibraryPresenter>().AsSingleton();
             container.Register<IEqualizerPresetsPresenter, EqualizerPresetsPresenter>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsPresenter, EqualizerPresetDetailsPresenter>().AsMultiInstance();
-            container.Register<IPreferencesPresenter, PreferencesPresenter>().AsSingleton();
-            container.Register<IAudioPreferencesPresenter, AudioPreferencesPresenter>().AsSingleton();
-            container.Register<IGeneralPreferencesPresenter, GeneralPreferencesPresenter>().AsSingleton();
-            container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsSingleton();
-            container.Register<IPlaylistPresenter, PlaylistPresenter>().AsSingleton();
+            container.Register<IPreferencesPresenter, PreferencesPresenter>().AsMultiInstance();
+            container.Register<IAudioPreferencesPresenter, AudioPreferencesPresenter>().AsMultiInstance();
+            container.Register<ICloudPreferencesPresenter, CloudPreferencesPresenter>().AsMultiInstance();
+            container.Register<IGeneralPreferencesPresenter, GeneralPreferencesPresenter>().AsMultiInstance();
+            container.Register<ILibraryPreferencesPresenter, LibraryPreferencesPresenter>().AsMultiInstance();
+            container.Register<ICloudConnectPresenter, CloudConnectPresenter>().AsMultiInstance();
+            container.Register<IPlaylistPresenter, PlaylistPresenter>().AsMultiInstance();
             container.Register<ILoopsPresenter, LoopsPresenter>().AsMultiInstance();
             container.Register<ILoopDetailsPresenter, LoopDetailsPresenter>().AsMultiInstance();
             container.Register<IMarkersPresenter, MarkersPresenter>().AsMultiInstance();

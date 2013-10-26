@@ -17,26 +17,79 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
 {
     public partial class ResumePlaybackWindow : BaseWindow, IResumePlaybackView
     {
+        private List<CloudDeviceInfo> _devices;
+
         public ResumePlaybackWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
         }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            OnCheckCloudLoginStatus();
+        }
+
+        private void btnResume_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (listView.SelectedItems.Count == 0)
+                return;
+
+            OnResumePlayback((CloudDeviceInfo) listView.SelectedItems[0]);
+        }
+
+        private void btnOpenPreferencesWindow_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnOpenPreferencesView();
+        }
+
+        #region IResumePlaybackView implementation
+
+        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action OnOpenPreferencesView { get; set; }
+        public Action OnCheckCloudLoginStatus { get; set; }
+
+        public void ResumePlaybackError(Exception ex)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                MessageBox.Show(this, string.Format("An error occured in ResumePlayback: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }));
+        }
+
+        public void RefreshAppLinkedStatus(bool isAppLinked)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                gridLoading.Visibility = Visibility.Hidden; // No more loading from that point
+                gridLogin.Visibility = isAppLinked ? Visibility.Hidden : Visibility.Visible;
+                gridResumePlayback.Visibility = isAppLinked ? Visibility.Visible : Visibility.Hidden;
+            }));            
+        }
+
+        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                _devices = devices.ToList();
+                listView.ItemsSource = _devices;
+            }));
+        }
+
+        #endregion
+
     }
 }

@@ -17,27 +17,25 @@
 
 using System;
 using System.IO;
-using System.Xml.Serialization;
-using MPfm.MVP.Config;
 
 #if WINDOWSSTORE
 using Windows.Storage;
 #endif
 
-namespace MPfm.MVP.Helpers
+namespace MPfm.Core.Helpers
 {
     /// <summary>
     /// Helper static class for configuration paths.
     /// </summary>
-    public static class ConfigurationHelper
+    public static class PathHelper
     {
-		public static string HomeDirectory;
-        public static string PeakFileDirectory;
-		public static string ConfigurationFilePath;
-		public static string DatabaseFilePath;
-		public static string LogFilePath;		
+        public static string HomeDirectory { get; set; }
+        public static string PeakFileDirectory { get; set; }
+        public static string ConfigurationFilePath { get; set; }
+        public static string DatabaseFilePath { get; set; }
+        public static string LogFilePath { get; set; }
 		
-		static ConfigurationHelper()
+		static PathHelper()
 		{
 			// Get assembly directory
 			//string assemblyDirectory = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);

@@ -41,6 +41,9 @@
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -50,7 +53,9 @@
     <Reference Include="System.Data.SQLite.Linq">
       <HintPath>..\MPfm.Library\Lib\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +69,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -75,6 +82,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Classes\Windows\SyncCloudWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\CloudConnectWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -139,6 +150,9 @@
     <Compile Include="Classes\Windows\Base\BaseWindow.cs" />
     <Compile Include="Classes\Windows\SyncCloudWindow.xaml.cs">
       <DependentUpon>SyncCloudWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\CloudConnectWindow.xaml.cs">
+      <DependentUpon>CloudConnectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Windows\SyncMenuWindow.xaml.cs">
       <DependentUpon>SyncMenuWindow.xaml</DependentUpon>
@@ -308,6 +322,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Buttons\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\cloud.png" />
+    <Resource Include="Resources\Images\Buttons\library.png" />
+    <Resource Include="Resources\Images\Buttons\preferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\audio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\dropbox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

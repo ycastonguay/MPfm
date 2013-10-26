@@ -3,22 +3,150 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         WindowStartupLocation="CenterScreen" Background="#FF242F35"
-        Title="Preferences" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico">
+        Title="Preferences" Height="500" Width="680" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Grid Margin="0">
-        <TabControl Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="668" BorderBrush="#FF344046" Background="#FF344046">
-            <TabItem Header="General">
-                <Grid />
-            </TabItem>
-            <TabItem Header="Audio">
-                <Grid />
-            </TabItem>
-            <TabItem Header="Library">
-                <Grid />
-            </TabItem>
-            <TabItem Header="Cloud">
-                <Grid />
-            </TabItem>
-        </TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button x:Name="btnTabGeneral" Click="btnTab_OnClick" Style="{StaticResource TabButton}">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Image Source="/Resources/Images/Buttons/preferences.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">General</Label>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnTabAudio" Click="btnTab_OnClick" Style="{StaticResource TabButton}" Margin="0">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Image Source="/Resources/Images/Buttons/audio.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Audio</Label>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnTabLibrary" Click="btnTab_OnClick" Style="{StaticResource TabButton}">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Image Source="/Resources/Images/Buttons/library.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Library</Label>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnTabCloud" Click="btnTab_OnClick" Style="{StaticResource TabButton}">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Image Source="/Resources/Images/Buttons/cloud.png" Stretch="None" />
+                    <Label FontSize="13" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" Foreground="White" Margin="4,0,0,0">Cloud</Label>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <Label Grid.Row="1" x:Name="lblTitle" Content="General Preferences" Background="#FF455865" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+        <StackPanel Grid.Row="2" x:Name="gridAudio" Visibility="Hidden">
+            <StackPanel Background="White" Margin="8,8,8,0">
+                <Label Content="Output" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>
+            <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
+                <Label Content="Mixer" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>
+            <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
+                <Label Content="Status" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2" x:Name="gridLibrary" Visibility="Hidden">
+            <Grid Background="White" Margin="8,8,8,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="250" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Folders" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnAddFolder_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Add folder</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnRemoveFolder_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Remove folder(s)</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnUpdateLibrary_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/refresh.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Update Library</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0" HorizontalAlignment="Left" Click="btnResetLibrary_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
+                            <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Reset Library</Label>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <ListView Grid.Row="2" />
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="2" x:Name="gridCloud" Visibility="Visible">
+            <!--<StackPanel Background="White" Margin="8,8,8,0">
+                <Label Content="General" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Enable synchronization" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>-->
+            <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
+                <Label Content="Dropbox" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="0" HorizontalAlignment="Left" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Click="btnDropboxLoginLogout_OnClick">
+                        <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
+                            <Image Source="/Resources/Images/Buttons/dropbox.png" Stretch="None" />
+                            <Label x:Name="lblDropbox_Login" FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Login to Dropbox</Label>
+                        </StackPanel>
+                    </Button>
+                    <Label Content="Authenticated:" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" />
+                    <Label x:Name="lblDropbox_Authenticated" Content="False" Foreground="Black" FontSize="12" FontWeight="Bold" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" />                                        
+                </StackPanel>
+                <CheckBox x:Name="chkDropbox_ResumePlayback" VerticalContentAlignment="Center" Margin="4" Content="Enable Resume Playback with Dropbox" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Checked="chkDropboxResumePlayback_OnChecked" />
+                <Label Content="Note: This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song." Foreground="#666666" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Margin="25,0,0,5" Padding="0" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="2" x:Name="gridGeneral" Visibility="Hidden">
+            <StackPanel Background="White" Margin="8,8,8,0">
+                <Label Content="Update Frequency" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Song position:" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                    <Slider Width="200" Margin="4" />
+                    <Label Content="every" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                    <TextBox x:Name="txtUpdateFrequency_SongPosition" Width="60" FontSize="12" Margin="4" />
+                    <Label Content="ms" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Output meter:" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                    <Slider Width="200" Margin="4" />
+                    <Label Content="every" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                    <TextBox x:Name="txtUpdateFrequency_OutputMeter" Width="60" FontSize="12" Margin="4" />
+                    <Label Content="ms" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Background="White" Margin="8,8,8,0">
+                <Label Content="User Interface" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Show tooltips" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Show application in system tray" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                <CheckBox VerticalContentAlignment="Center" Margin="24,4,4,4" Content="Minimize in system tray when the app is closed" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+            </StackPanel>
+            <StackPanel Background="White" Margin="8,8,8,0">
+                <Label Content="Peak Files" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                <RadioButton x:Name="radioPeakFiles_UseDefaultDirectory" VerticalContentAlignment="Center" Margin="4" Content="Use default directory ([dir])" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                <RadioButton x:Name="radioPeakFiles_UseCustomDirectory" VerticalContentAlignment="Center" Margin="4" Content="Use custom directory:" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="24,0,0,0">
+                        <TextBox x:Name="txtPeakFiles_CustomDirectory" Width="300" Height="24" FontSize="12" />
+                        <Button Content="Browse..." Width="80" Height="32" Margin="0" FontSize="11" FontFamily="/Resources/Fonts/#Junction" />
+                    </StackPanel>
+                    <Label Content="Note: You will need to launch the app as administrator to use a custom directory." Foreground="#666666" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Margin="19,0,0,0" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>        
     </Grid>
 </base:BaseWindow>

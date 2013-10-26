@@ -16,22 +16,16 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Views
+namespace MPfm.Library.Objects
 {
-	/// <summary>
-    /// Resume Playback view interface.
-	/// </summary>
-    public interface IResumePlaybackView : IBaseView
-	{
-        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
-        Action OnOpenPreferencesView { get; set; }
-        Action OnCheckCloudLoginStatus { get; set; }
-
-        void ResumePlaybackError(Exception ex);
-	    void RefreshAppLinkedStatus(bool isAppLinked);
-        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
-	}
+    /// <summary>
+	/// Object representing a authentication token (value + secret) and user name.
+    /// </summary>
+    public class AuthenticationToken
+    {
+        public string Value { get; set; }
+        public string Secret { get; set; }
+        public string UserName { get; set; }
+    }
 }
