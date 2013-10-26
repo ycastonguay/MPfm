@@ -27,8 +27,11 @@ namespace MPfm.MVP.Views
     public interface IResumePlaybackView : IBaseView
 	{
         Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        Action OnOpenPreferencesView { get; set; }
+        Action OnCheckCloudLoginStatus { get; set; }
 
         void ResumePlaybackError(Exception ex);
+	    void RefreshAppLinkedStatus(bool isAppLinked);
         void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
 	}
 }

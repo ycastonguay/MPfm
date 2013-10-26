@@ -37,7 +37,6 @@ namespace MPfm.MVP.Presenters
         private readonly NavigationManager _navigationManager;
 	    private readonly ITinyMessengerHub _messengerHub;
 	    private readonly ICloudLibraryService _cloudLibraryService;
-	    private bool _isApplicationLinked;
 
 	    public CloudPreferencesPresenter(ITinyMessengerHub messengerHub, ICloudLibraryService cloudLibraryService)
         {
@@ -64,14 +63,12 @@ namespace MPfm.MVP.Presenters
 
 	    private void Initialize()
 	    {
-	        _isApplicationLinked = _cloudLibraryService.HasLinkedAccount;
             RefreshPreferences();
             RefreshState();
         }
 
         private void CloudConnectStatusChanged(CloudConnectStatusChangedMessage cloudConnectStatusChangedMessage)
         {
-            _isApplicationLinked = cloudConnectStatusChangedMessage.IsApplicationLinked;
             RefreshState();
         }
 
@@ -81,25 +78,27 @@ namespace MPfm.MVP.Presenters
     
         private void LoginLogoutDropbox()
         {
-            //if (_cloudLibraryService.HasLinkedAccount)
-            //    _cloudLibraryService.UnlinkApp();
-            //else
-            //    _cloudLibraryService.LinkApp(View);
+            if (_cloudLibraryService.HasLinkedAccount)
+            {
+                _cloudLibraryService.UnlinkApp();                
+            }
+            else
+            {
+                #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
+                _mobileNavigationManager.CreateCloudConnectView();
+                #else
+                _navigationManager.CreateCloudConnectView();
+                #endif                
+            }
 
-            //RefreshState();
-
-#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
-            _mobileNavigationManager.CreateCloudConnectView();
-#else
-            _navigationManager.CreateCloudConnectView();
-#endif
+            RefreshState();
         }
 
 	    private void RefreshState()
 	    {
 	        var state = new CloudPreferencesStateEntity()
 	        {
-	            IsDropboxLinkedToApp = _isApplicationLinked
+	            IsDropboxLinkedToApp = _cloudLibraryService.HasLinkedAccount
 	        };
 	        View.RefreshCloudPreferencesState(state);
 	    }

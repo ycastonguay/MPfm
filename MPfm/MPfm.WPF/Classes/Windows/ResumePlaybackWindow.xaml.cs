@@ -37,6 +37,12 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            OnCheckCloudLoginStatus();
+        }
+
         private void btnResume_OnClick(object sender, RoutedEventArgs e)
         {
             if (listView.SelectedItems.Count == 0)
@@ -45,9 +51,16 @@ namespace MPfm.WPF.Classes.Windows
             OnResumePlayback((CloudDeviceInfo) listView.SelectedItems[0]);
         }
 
+        private void btnOpenPreferencesWindow_OnClick(object sender, RoutedEventArgs e)
+        {
+            OnOpenPreferencesView();
+        }
+
         #region IResumePlaybackView implementation
 
         public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action OnOpenPreferencesView { get; set; }
+        public Action OnCheckCloudLoginStatus { get; set; }
 
         public void ResumePlaybackError(Exception ex)
         {
@@ -55,6 +68,16 @@ namespace MPfm.WPF.Classes.Windows
             {
                 MessageBox.Show(this, string.Format("An error occured in ResumePlayback: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }));
+        }
+
+        public void RefreshAppLinkedStatus(bool isAppLinked)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                gridLoading.Visibility = Visibility.Hidden; // No more loading from that point
+                gridLogin.Visibility = isAppLinked ? Visibility.Hidden : Visibility.Visible;
+                gridResumePlayback.Visibility = isAppLinked ? Visibility.Visible : Visibility.Hidden;
+            }));            
         }
 
         public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)

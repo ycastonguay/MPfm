@@ -17,6 +17,7 @@
 
 using System;
 using MPfm.Library.Objects;
+using MPfm.Library.Services.Exceptions;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
@@ -42,8 +43,9 @@ namespace MPfm.MVP.Presenters
         private readonly ICloudLibraryService _cloudLibrary;
 	    private readonly IPlayerService _playerService;
 	    private readonly IAudioFileCacheService _audioFileCacheService;
+	    private bool _canRefreshCloudLoginStatus;
 
-        public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary, IPlayerService playerService)
+	    public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary, IPlayerService playerService)
 		{
             _messengerHub = messengerHub;
             _audioFileCacheService = audioFileCacheService;
@@ -67,26 +69,52 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(IResumePlaybackView view)
         {
+            view.OnResumePlayback = ResumePlayback;
+            view.OnOpenPreferencesView = OpenPreferencesView;
+            view.OnCheckCloudLoginStatus = CheckCloudLoginStatus;
             base.BindView(view);
 
-            view.OnResumePlayback = ResumePlayback;
+            Task.Factory.StartNew(RefreshDevices);
+        }
 
-            Task.Factory.StartNew(() => {
-                RefreshDevices();
-            });
-        }     
+	    private void OpenPreferencesView()
+	    {            
+#if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
+            _mobileNavigationManager.CreateCloudPreferencesView();
+#else
+	        _navigationManager.CreatePreferencesView();
+#endif
+	    }
 
-        private void RefreshDevices()
+        private void CheckCloudLoginStatus()
         {
-            try
-            {
-                var devices = _cloudLibrary.PullDeviceInfos();
-                View.RefreshDevices(devices.OrderBy(x => x.DeviceName).ToList());
-            } 
+            if (!_canRefreshCloudLoginStatus)
+                return;
+
+            View.RefreshAppLinkedStatus(_cloudLibrary.HasLinkedAccount);
+        }
+
+	    private void RefreshDevices()
+	    {
+            // Prevent login status change during loading
+	        _canRefreshCloudLoginStatus = false;
+
+	        try
+	        {
+	            var devices = _cloudLibrary.PullDeviceInfos();
+	            View.RefreshDevices(devices.OrderBy(x => x.DeviceName).ToList());
+                View.RefreshAppLinkedStatus(true);
+	        }
+	        catch (CloudAppNotLinkedException ex)
+	        {
+	            View.RefreshAppLinkedStatus(false);
+	        }
             catch (Exception ex)
             {
                 View.ResumePlaybackError(ex);
             }
+
+	        _canRefreshCloudLoginStatus = true;
         }
 
         private void ResumePlayback(CloudDeviceInfo device)

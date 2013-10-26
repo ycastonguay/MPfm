@@ -19,6 +19,7 @@ using System.Text;
 using MPfm.Core;
 using MPfm.Core.Helpers;
 using MPfm.Library.Objects;
+using MPfm.Library.Services.Exceptions;
 using MPfm.Sound.Playlists;
 using Newtonsoft.Json;
 #if !IOS && !ANDROID && !WINDOWS_PHONE
@@ -51,6 +52,8 @@ namespace MPfm.Library.Services
         private DropboxServiceProvider _dropboxServiceProvider;
         private OAuthToken _oauthToken;
 
+        public bool HasLinkedAccount { get; private set; }
+
         public event CloudDataChanged OnCloudDataChanged;
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
 
@@ -65,30 +68,68 @@ namespace MPfm.Library.Services
 
         private void Initialize()
         {
-        }
+            try
+            {
+                Console.WriteLine("DropboxCoreService - Initialize - Initializing service...");
+                var diskToken = LoadTokenFromDisk();
+                var oauthAccessToken = new OAuthToken(diskToken.Value, diskToken.Secret);
 
-        public bool HasLinkedAccount { get; private set; }
+                _dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.AppFolder);
+                _dropbox = _dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
+                //dropbox.Locale = CultureInfo.CurrentUICulture.IetfLanguageTag;
+                HasLinkedAccount = true;
+                Console.WriteLine("DropboxCoreService - Initialize - Finished initializing service!");
+            }
+            catch (AggregateException ae)
+            {
+                HasLinkedAccount = false;
+                ae.Handle(ex =>
+                {
+                    if (ex is DropboxApiException)
+                    {
+                        Console.WriteLine("DropboxCoreService - Initialize - Exception: {0}", ex);
+                        return true;
+                    }
+                    
+                    // Ignore exceptions; if we cannot login on initialize, the user will have to relink the app later. 
+                    // The UI should check the HasLinkedAccount property to see if Dropbox is available.
+                    return true;
+                });
+            }
+            catch (Exception ex)
+            {
+                // Ignore exceptions (see previous comment)
+            }
+        }        
 
         public void LinkApp(object view)
         {
             try
             {
-                // Create provider
-                _dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.AppFolder);
-
-                // Update status
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.GetRequestToken);
+
+                // If the Initialize method has failed the service provider will be null!
+                if(_dropboxServiceProvider == null)
+                    _dropboxServiceProvider = new DropboxServiceProvider(DropboxAppKey, DropboxAppSecret, AccessLevel.AppFolder);
 
                 // Authorization without callback url                
                 _oauthToken = _dropboxServiceProvider.OAuthOperations.FetchRequestTokenAsync(null, null).Result;
 
-                // Update status
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.OpenWebBrowser);
 
-                // Try to get a previously saved token
-                var token = LoadToken();
+                AuthenticationToken token = null;
+                try
+                {
+                    // Try to get a previously saved token
+                    token = LoadTokenFromDisk();
+                }
+                catch
+                {
+                    // Ignore exception; use the web browser to get a new token
+                }
+
                 if (token == null)
                 {
                     // Open web browser for authentication
@@ -104,6 +145,7 @@ namespace MPfm.Library.Services
             }
             catch (AggregateException ae)
             {
+                HasLinkedAccount = false;
                 ae.Handle(ex =>
                 {
                     if (ex is DropboxApiException)
@@ -118,50 +160,49 @@ namespace MPfm.Library.Services
 
         public void ContinueLinkApp()
         {
+            ContinueLinkApp(null);
         }
 
         private void ContinueLinkApp(AuthenticationToken token)
         {
             try
             {
+                // Get access token either from parameter or from API
                 OAuthToken oauthAccessToken = null;
                 if (token == null)
                 {
-                    Console.Write("Getting access token...");
                     AuthorizedRequestToken requestToken = new AuthorizedRequestToken(_oauthToken, null);
                     oauthAccessToken = _dropboxServiceProvider.OAuthOperations.ExchangeForAccessTokenAsync(requestToken, null).Result;
-                    Console.WriteLine("Done - FetchAccessToken - secret: {0} value: {1}", oauthAccessToken.Secret, oauthAccessToken.Value);
                 }
                 else
                 {
                     oauthAccessToken = new OAuthToken(token.Value, token.Secret);
                 }
 
-                // Update status
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.RequestAccessToken);
 
-                // Connect to Dropbox API
+                // Get Dropbox API instance
                 _dropbox = _dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
                 //dropbox.Locale = CultureInfo.CurrentUICulture.IetfLanguageTag;
 
-                // Get user name from profile
+                // Test Dropbox API connection (get user name from profile)
                 DropboxProfile profile = _dropbox.GetUserProfileAsync().Result;
-                Console.WriteLine("Hi " + profile.DisplayName + "!");
+                HasLinkedAccount = true;
 
                 // Save token to hard disk
-                SaveToken(new AuthenticationToken() {
+                SaveTokenToDisk(new AuthenticationToken() {
                     Value = oauthAccessToken.Value, 
                     Secret = oauthAccessToken.Secret,
                     UserName = profile.DisplayName
                 });
-
-                // Update status
+                
                 if (OnCloudAuthenticationStatusChanged != null)
                     OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.ConnectedToDropbox);
             }
             catch (AggregateException ae)
             {
+                HasLinkedAccount = false;
                 ae.Handle(ex =>
                 {
                     if (ex is DropboxApiException)
@@ -174,7 +215,7 @@ namespace MPfm.Library.Services
             }
         }
 
-        private AuthenticationToken LoadToken()
+        private AuthenticationToken LoadTokenFromDisk()
         {
             FileStream fileStream = null;
             try
@@ -190,7 +231,8 @@ namespace MPfm.Library.Services
             }
             catch (Exception ex)
             {
-                Tracing.Log("DropboxCoreService - LoadToken - Failed to load token: {0}", ex);
+                Tracing.Log("DropboxCoreService - LoadTokenFromDisk - Failed to load token: {0}", ex);
+                throw;
             }
             finally
             {
@@ -201,7 +243,7 @@ namespace MPfm.Library.Services
             return null;
         }
 
-        private void SaveToken(AuthenticationToken token)
+        private void SaveTokenToDisk(AuthenticationToken token)
         {
             FileStream fileStream = null;
             try
@@ -223,7 +265,8 @@ namespace MPfm.Library.Services
             }
             catch (Exception ex)
             {
-                Tracing.Log("DropboxCoreService - SaveToken - Failed to save token: {0}", ex);
+                Tracing.Log("DropboxCoreService - SaveTokenToDisk - Failed to save token: {0}", ex);
+                throw;
             }
             finally
             {
@@ -232,9 +275,26 @@ namespace MPfm.Library.Services
             }
         }
 
+        private void DeleteTokenFromDisk()
+        {
+            try
+            {
+                string filePath = Path.Combine(PathHelper.HomeDirectory, "dropbox.json");
+                if(File.Exists(filePath))
+                    File.Delete(filePath);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("DropboxCoreService - DeleteTokenFromDisk - Failed to delete token: {0}", ex);
+                throw;
+            }
+        }
+
         public void UnlinkApp()
         {
-            //_dropbox.
+            DeleteTokenFromDisk();
+            HasLinkedAccount = false;
+            _dropbox = null;
         }
 
         public void InitializeAppFolder()
@@ -367,6 +427,9 @@ namespace MPfm.Library.Services
         {
             try
             {
+                if(!HasLinkedAccount)
+                    throw new CloudAppNotLinkedException();
+
                 var device = new CloudDeviceInfo()
                 {
                     AudioFileId = audioFile.Id,
@@ -408,6 +471,9 @@ namespace MPfm.Library.Services
 
             try
             {
+                if (!HasLinkedAccount)
+                    throw new CloudAppNotLinkedException();
+
                 var entries = _dropbox.SearchAsync("/Devices", ".json").Result;                
                 foreach (var entry in entries)
                 {
