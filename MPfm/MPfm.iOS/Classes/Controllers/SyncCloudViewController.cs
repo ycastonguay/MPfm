@@ -46,7 +46,7 @@ namespace MPfm.iOS
             base.ViewDidLoad();
 
             _cloudLibrary = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
-            _cloudLibrary.OnDropboxDataChanged += OnCloudLibraryDataChanged;
+            _cloudLibrary.OnCloudDataChanged += OnCloudDataChanged;
 
 //            if (_store != null && _store.Open)
 //                return;
@@ -230,7 +230,7 @@ namespace MPfm.iOS
 //            }
         }
 
-        private void OnCloudLibraryDataChanged(string data)
+        private void OnCloudDataChanged(string data)
         {
         }
 

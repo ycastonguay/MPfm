@@ -111,6 +111,9 @@ namespace MPfm.iOS
                 case MobileOptionsMenuType.SyncLibraryFileSharing:
                     cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_share");
                     break;
+                case MobileOptionsMenuType.ResumePlayback:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_resume");
+                    break;
             }
             
             cell.TextLabel.Text = _items[indexPath.Row].Value;

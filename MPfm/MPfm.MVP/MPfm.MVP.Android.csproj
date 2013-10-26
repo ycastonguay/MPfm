@@ -191,7 +191,6 @@
     <Compile Include="Models\LibraryBrowserEntity.cs" />
     <Compile Include="Views\ILibraryBrowserView.cs" />
     <Compile Include="Presenters\LibraryBrowserPresenter.cs" />
-    <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Presenters\SongBrowserPresenter.cs" />
     <Compile Include="Views\ISongBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryBrowserPresenter.cs" />

@@ -44,6 +44,9 @@ namespace MPfm.iOS.Classes.Services
         private DBDatastore _store;
         private DBFilesystem _fileSystem ;
 
+        public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
+        public event CloudDataChanged OnCloudDataChanged;
+
         public bool HasLinkedAccount
         {
             get
@@ -51,8 +54,6 @@ namespace MPfm.iOS.Classes.Services
                 return false;
             }
         }
-
-        public event DropboxDataChanged OnDropboxDataChanged;
 
         public iOSDropboxService()
         {
@@ -83,8 +84,8 @@ namespace MPfm.iOS.Classes.Services
 
             _fileSystem.AddObserverForPathAndChildren(_fileSystem, new DBPath("/Devices"), () => {
                 Console.WriteLine("SyncCloudViewController - FileSystem - Data changed!");
-                if(OnDropboxDataChanged != null)
-                    OnDropboxDataChanged(string.Empty);
+                if(OnCloudDataChanged != null)
+                    OnCloudDataChanged(string.Empty);
             });
 
 //            _store.AddObserver (_store, () => {

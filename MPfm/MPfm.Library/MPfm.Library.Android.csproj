@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -163,6 +163,7 @@
     <Compile Include="Objects\CloudDeviceInfo.cs" />
     <Compile Include="Objects\CloudPlaylist.cs" />
     <Compile Include="Objects\PlaylistAudioFile.cs" />
+    <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Objects\NetworkState.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
     <Compile Include="Objects\History.cs" />

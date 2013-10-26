@@ -100,10 +100,12 @@ namespace MPfm.MVP.Navigation
         // Preferences sub views
         private IPreferencesView _preferencesView;
         private IAudioPreferencesView _audioPreferencesView;
+        private ICloudPreferencesView _cloudPreferencesView;
         private IGeneralPreferencesView _generalPreferencesView;
         private ILibraryPreferencesView _libraryPreferencesView;
         private IPreferencesPresenter _preferencesPresenter;
         private IAudioPreferencesPresenter _audioPreferencesPresenter;
+        private ICloudPreferencesPresenter _cloudPreferencesPresenter;
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
@@ -363,6 +365,29 @@ namespace MPfm.MVP.Navigation
                 };
             }
             return _audioPreferencesView;
+        }
+
+        public virtual ICloudPreferencesView CreateCloudPreferencesView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _cloudPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ICloudPreferencesPresenter>();
+                _cloudPreferencesPresenter.BindView((ICloudPreferencesView)view);
+            };
+
+            // Create view and manage view destruction
+            if(_cloudPreferencesView == null)
+            {
+                _cloudPreferencesView = Bootstrapper.GetContainer().Resolve<ICloudPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _cloudPreferencesView.OnViewDestroy = (view) =>
+                {
+                    _cloudPreferencesPresenter.ViewDestroyed();
+                    _cloudPreferencesPresenter = null;
+                    _cloudPreferencesView = null;
+                };
+            }
+            return _cloudPreferencesView;
         }
 
         public virtual IGeneralPreferencesView CreateGeneralPreferencesView()

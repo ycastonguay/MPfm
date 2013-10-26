@@ -171,5 +171,6 @@
     <Compile Include="Network\IPAddressRangeFinder.cs" />
     <Compile Include="Network\WebClientTimeout.cs" />
     <Compile Include="XmlSerialization.cs" />
+    <Compile Include="Helpers\PathHelper.cs" />
   </ItemGroup>
 </Project>

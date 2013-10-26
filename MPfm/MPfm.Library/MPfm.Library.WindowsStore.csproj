@@ -155,6 +155,7 @@
     <Compile Include="Services\AudioFileCacheService.cs" />
     <Compile Include="Services\Interfaces\IAudioFileCacheService.cs" />
     <Compile Include="Objects\LibraryQuery.cs" />
+    <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Messages\AudioFileCacheUpdatedMessage.cs" />
     <Compile Include="Objects\SyncDevice.cs" />
     <Compile Include="ISyncDeviceSpecifications.cs" />

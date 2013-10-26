@@ -16,13 +16,13 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
-using System.Collections.Generic;
 using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
@@ -35,9 +35,6 @@ namespace MPfm.iOS
         public PreferencesViewController(Action<IBaseView> onViewReady)
             : base (onViewReady, UserInterfaceIdiomIsPhone ? "PreferencesViewController_iPhone" : "PreferencesViewController_iPad", null)
         {
-            _items.Add("Audio");
-            _items.Add("General");
-            _items.Add("Library");
         }
 
         public override void ViewDidLoad()
@@ -74,15 +71,26 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
+            var item = _items[indexPath.Row];
             MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
                 cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
             }
-            
+
+            cell.ImageView.Alpha = 0.7f;
+            if(item.ToUpper().StartsWith("AUDIO"))
+                cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_audio");
+            else if(item.ToUpper().StartsWith("CLOUD"))
+                cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_cloud");
+            else if(item.ToUpper().StartsWith("GENERAL"))
+                cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_settings");
+            else if(item.ToUpper().StartsWith("LIBRARY"))
+                cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_library");
+
             cell.Tag = indexPath.Row;
-            cell.TextLabel.Text = _items[indexPath.Row];
+            cell.TextLabel.Text = item;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             cell.Accessory = UITableViewCellAccessory.None;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");

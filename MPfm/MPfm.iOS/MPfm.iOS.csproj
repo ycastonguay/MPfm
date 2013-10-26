@@ -23,10 +23,12 @@
     <ConsolePause>False</ConsolePause>
     <MtouchDebug>True</MtouchDebug>
     <MtouchSdkVersion>6.0</MtouchSdkVersion>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-v -v -v -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <CrashReportingApiKey />
+    <CrashReportingApiKey>
+    </CrashReportingApiKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -36,7 +38,8 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <MtouchExtraArgs>-v -v -v -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchSdkVersion>6.0</MtouchSdkVersion>
   </PropertyGroup>
@@ -51,11 +54,14 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer: Yanick Castonguay (763X75NJ3E)</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
-    <IpaPackageName />
-    <MtouchI18n />
+    <IpaPackageName>
+    </IpaPackageName>
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <CrashReportingApiKey />
+    <CrashReportingApiKey>
+    </CrashReportingApiKey>
     <CodesignProvision>2BCECEF9-924B-47F1-9491-7EBB70258A12</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -67,9 +73,11 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <IpaPackageName />
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -81,9 +89,11 @@
     <BuildIpa>True</BuildIpa>
     <CodesignKey>iPhone Distribution: Société Radio-Canada</CodesignKey>
     <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <IpaPackageName />
+    <IpaPackageName>
+    </IpaPackageName>
     <CodesignProvision>99ED25A5-B59B-425E-9E09-73A132DB98B4</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
@@ -95,9 +105,11 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
-    <MtouchI18n />
+    <MtouchI18n>
+    </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <IpaPackageName />
+    <IpaPackageName>
+    </IpaPackageName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -293,6 +305,10 @@
     <Compile Include="Classes\Controls\MPfmResumePlaybackTableViewCell.cs">
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controllers\CloudPreferencesViewController.cs" />
+    <Compile Include="Classes\Controllers\CloudPreferencesViewController.designer.cs">
+      <DependentUpon>CloudPreferencesViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -353,6 +369,8 @@
     <InterfaceDefinition Include="XIB\iPad\ResumePlaybackViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\SyncConnectManualViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\SyncConnectManualViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\CloudPreferencesViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\CloudPreferencesViewController_iPad.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -513,6 +531,12 @@
     <BundleResource Include="Images\Buttons\refresh%402x.png" />
     <BundleResource Include="Images\Buttons\reset.png" />
     <BundleResource Include="Images\Buttons\reset%402x.png" />
+    <BundleResource Include="Images\Icons\icon_audio.png" />
+    <BundleResource Include="Images\Icons\icon_audio%402x.png" />
+    <BundleResource Include="Images\Icons\icon_library.png" />
+    <BundleResource Include="Images\Icons\icon_library%402x.png" />
+    <BundleResource Include="Images\Icons\icon_resume.png" />
+    <BundleResource Include="Images\Icons\icon_resume%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
@@ -552,7 +576,6 @@
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="dropboxsync">
-      <InstallationInProgress>False</InstallationInProgress>
       <Version>1.9.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>

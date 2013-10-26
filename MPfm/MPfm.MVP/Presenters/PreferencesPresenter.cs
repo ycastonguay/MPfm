@@ -48,7 +48,8 @@ namespace MPfm.MVP.Presenters
             _items = new List<string>(){
                 "Audio Preferences",
                 "General Preferences",
-                "Library Preferences"
+                "Library Preferences",
+                "Cloud Preferences"
             };
             View.RefreshItems(_items);
         }
@@ -68,6 +69,11 @@ namespace MPfm.MVP.Presenters
             else if(item.ToUpper() == "LIBRARY PREFERENCES")
             {
                 var view = _navigationManager.CreateLibraryPreferencesView();
+                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+            }
+            else if(item.ToUpper() == "CLOUD PREFERENCES")
+            {
+                var view = _navigationManager.CreateCloudPreferencesView();
                 _navigationManager.PushTabView(MobileNavigationTabType.More, view);
             }
         }

@@ -221,7 +221,6 @@
     <Compile Include="Models\LibraryBrowserEntity.cs" />
     <Compile Include="Views\ILibraryBrowserView.cs" />
     <Compile Include="Presenters\LibraryBrowserPresenter.cs" />
-    <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Presenters\SongBrowserPresenter.cs" />
     <Compile Include="Views\ISongBrowserView.cs" />
     <Compile Include="Presenters\Interfaces\ILibraryBrowserPresenter.cs" />
@@ -343,5 +342,15 @@
     <Compile Include="Presenters\Interfaces\ISyncConnectManualPresenter.cs" />
     <Compile Include="Presenters\ResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
+    <Compile Include="Views\ICloudConnectView.cs" />
+    <Compile Include="Views\ICloudPreferencesView.cs" />
+    <Compile Include="Presenters\Interfaces\ICloudConnectPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ICloudPreferencesPresenter.cs" />
+    <Compile Include="Presenters\CloudConnectPresenter.cs" />
+    <Compile Include="Presenters\CloudPreferencesPresenter.cs" />
+    <Compile Include="Models\CloudConnectEntity.cs" />
+    <Compile Include="Models\CloudPreferencesEntity.cs" />
+    <Compile Include="Models\CloudPreferencesStateEntity.cs" />
+    <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />
   </ItemGroup>
 </Project>
