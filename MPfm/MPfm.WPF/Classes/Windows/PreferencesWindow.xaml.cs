@@ -18,6 +18,7 @@
 using System;
 using System.Windows;
 using System.Windows.Threading;
+using MPfm.MVP.Config.Models;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
@@ -26,6 +27,8 @@ namespace MPfm.WPF.Classes.Windows
 {
     public partial class PreferencesWindow : BaseWindow, IDesktopPreferencesView
     {
+        private CloudAppConfig _cloudAppConfig;
+
         public PreferencesWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
@@ -80,7 +83,9 @@ namespace MPfm.WPF.Classes.Windows
 
         private void chkDropboxResumePlayback_OnChecked(object sender, RoutedEventArgs e)
         {
-
+            bool value = chkDropbox_ResumePlayback.IsChecked.HasValue && chkDropbox_ResumePlayback.IsChecked.Value;
+            _cloudAppConfig.IsDropboxResumePlaybackEnabled = value;
+            OnSetCloudPreferences(_cloudAppConfig);
         }
 
         #region ILibraryPreferencesView implementation
@@ -103,7 +108,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region ICloudPreferencesView implementation
 
-        public Action<CloudPreferencesEntity> OnSetCloudPreferences { get; set; }
+        public Action<CloudAppConfig> OnSetCloudPreferences { get; set; }
         public Action OnDropboxLoginLogout { get; set; }
 
         public void CloudPreferencesError(Exception ex)
@@ -114,11 +119,12 @@ namespace MPfm.WPF.Classes.Windows
             }));
         }
 
-        public void RefreshCloudPreferences(CloudPreferencesEntity entity)
+        public void RefreshCloudPreferences(CloudAppConfig config)
         {
+            _cloudAppConfig = config;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                chkDropbox_ResumePlayback.IsChecked = entity.IsDropboxResumePlaybackEnabled;
+                chkDropbox_ResumePlayback.IsChecked = config.IsDropboxResumePlaybackEnabled;
             }));
         }
 

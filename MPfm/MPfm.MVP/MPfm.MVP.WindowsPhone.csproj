@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Config\Models\CloudAppConfig.cs" />
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />

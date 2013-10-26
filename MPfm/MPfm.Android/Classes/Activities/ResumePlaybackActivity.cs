@@ -106,6 +106,8 @@ namespace MPfm.Android
         #region IResumePlaybackView implementation
 
         public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action OnOpenPreferencesView { get; set; }
+        public Action OnCheckCloudLoginStatus { get; set; }
 
         public void ResumePlaybackError(Exception ex)
         {
@@ -117,6 +119,10 @@ namespace MPfm.Android
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });
+        }
+
+        public void RefreshAppLinkedStatus(bool isAppLinked)
+        {
         }
 
         public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)

@@ -17,6 +17,7 @@
 
 using MPfm.Core.Helpers;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Helpers;
 using MPfm.Sound.AudioFiles;

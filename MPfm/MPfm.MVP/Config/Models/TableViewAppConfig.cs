@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 
-namespace MPfm.MVP.Config
+namespace MPfm.MVP.Config.Models
 {
     /// <summary>
     /// Class containing all table view settings for MPfm.

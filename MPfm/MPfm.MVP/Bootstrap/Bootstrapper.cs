@@ -48,7 +48,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IDatabaseFacade>(new DatabaseFacade(PathHelper.DatabaseFilePath));
             container.Register<ITinyMessengerHub, TinyMessengerHub>().AsSingleton(); 
             container.Register<IInitializationService, InitializationService>().AsSingleton();
-            container.Register<IPlayerService, PlayerService>().AsSingleton();
+            container.Register<IPlayerService, PlayerService>().AsSingleton();            
             container.Register<ILibraryService, LibraryService>().AsSingleton();
             container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
             container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();

@@ -18,6 +18,7 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
+using MPfm.MVP.Config.Models;
 
 #if !WINDOWSSTORE
 namespace MPfm.MVP.Config.Providers

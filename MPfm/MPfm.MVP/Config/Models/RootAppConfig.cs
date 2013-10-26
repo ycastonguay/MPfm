@@ -15,12 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config.Providers;
-using MPfm.MVP.Helpers;
 using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP.Config
+namespace MPfm.MVP.Config.Models
 {
     public class RootAppConfig : IAppConfig
     {
@@ -38,6 +35,7 @@ namespace MPfm.MVP.Config
         public int PeakFileWarningThreshold { get; set; }
 
         public AudioAppConfig Audio { get; set; }
+        public CloudAppConfig Cloud { get; set; }
         public ControlsAppConfig Controls { get; set; }       
         public WindowsAppConfig Windows { get; set; }
 
@@ -50,6 +48,7 @@ namespace MPfm.MVP.Config
             OutputMeterUpdateFrequency = 10;
 
             Audio = new AudioAppConfig();
+            Cloud = new CloudAppConfig();
             Controls = new ControlsAppConfig();
             Windows = new WindowsAppConfig();
         }

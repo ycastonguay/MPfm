@@ -15,29 +15,26 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.Sound.BassNetWrapper;
-
-namespace MPfm.MVP.Config
+namespace MPfm.MVP.Config.Models
 {
     /// <summary>
-    /// Class containing all audio settings for MPfm.
+    /// Class containing all settings for a single Window for MPfm.
     /// </summary>
-    public class AudioAppConfig : IAppConfig
+    public class WindowAppConfig : IAppConfig
     {
-        public Device AudioDevice { get; set; }
-        public int SampleRate { get; set; }
-        public float Volume { get; set; }
-        public int BufferSize { get; set; }
-        public bool IsEQEnabled { get; set; }
-        public string EQPreset { get; set; }
+        public string Title { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Width { get; set; }
+        public float Height { get; set; }
+        public bool IsMaximized { get; set; }
+        public bool IsVisible { get; set; }
 
-        public AudioAppConfig()
+        public WindowAppConfig()
         {
             // Set defaults
-            AudioDevice = new Device();
-            SampleRate = 44100;
-            Volume = 1;
-            BufferSize = 100;
-        }        
+            Width = 640;
+            Height = 480;
+        }
     }
 }

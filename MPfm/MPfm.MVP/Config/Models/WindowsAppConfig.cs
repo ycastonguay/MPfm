@@ -15,26 +15,25 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.MVP.Config
+namespace MPfm.MVP.Config.Models
 {
     /// <summary>
-    /// Class containing all settings for a single Window for MPfm.
+    /// Class containing settings for all windows for MPfm.
     /// </summary>
-    public class WindowAppConfig : IAppConfig
+    public class WindowsAppConfig : IAppConfig
     {
-        public string Title { get; set; }
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
-        public bool IsMaximized { get; set; }
-        public bool IsVisible { get; set; }
+        public WindowAppConfig MainWindowApp { get; set; }
+        public WindowAppConfig PlaylistWindowApp { get; set; }
+        public WindowAppConfig EffectsWindowApp { get; set; }
+        public WindowAppConfig PreferencesWindowApp { get; set; }
 
-        public WindowAppConfig()
+        public WindowsAppConfig()
         {
             // Set defaults
-            Width = 640;
-            Height = 480;
+            MainWindowApp = new WindowAppConfig();
+            PlaylistWindowApp = new WindowAppConfig();
+            EffectsWindowApp = new WindowAppConfig();
+            PreferencesWindowApp = new WindowAppConfig();
         }
     }
 }

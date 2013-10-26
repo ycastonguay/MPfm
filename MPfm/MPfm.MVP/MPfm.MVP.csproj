@@ -128,7 +128,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Config\AppConfigManager.cs" />
-    <Compile Include="Config\IAppConfig.cs" />
+    <Compile Include="Config\Models\CloudAppConfig.cs" />
+    <Compile Include="Config\Models\IAppConfig.cs" />
     <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\ApplicationCloseMessage.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
-    <Compile Include="Models\CloudPreferencesEntity.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\CloudConnectPresenter.cs" />
     <Compile Include="Presenters\AddMarkerPresenter.cs" />
@@ -214,15 +214,15 @@
     <Compile Include="Presenters\SplashPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
     <Compile Include="Views\ISplashView.cs" />
-    <Compile Include="Config\RootAppConfig.cs" />
+    <Compile Include="Config\Models\RootAppConfig.cs" />
     <Compile Include="Config\Providers\XmlAppConfigProvider.cs" />
     <Compile Include="Config\Providers\IAppConfigProvider.cs" />
-    <Compile Include="Config\AudioAppConfig.cs" />
-    <Compile Include="Config\ControlsAppConfig.cs" />
-    <Compile Include="Config\TableViewAppConfig.cs" />
-    <Compile Include="Config\TableViewColumnAppConfig.cs" />
-    <Compile Include="Config\WindowAppConfig.cs" />
-    <Compile Include="Config\WindowsAppConfig.cs" />
+    <Compile Include="Config\Models\AudioAppConfig.cs" />
+    <Compile Include="Config\Models\ControlsAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewColumnAppConfig.cs" />
+    <Compile Include="Config\Models\WindowAppConfig.cs" />
+    <Compile Include="Config\Models\WindowsAppConfig.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
     <Compile Include="Views\IPreferencesView.cs" />

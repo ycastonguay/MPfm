@@ -15,17 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-
-namespace MPfm.MVP.Models
+namespace MPfm.MVP.Config.Models
 {
-	public class CloudPreferencesEntity
-	{
-        public bool IsDropboxResumePlaybackEnabled { get; set; }
+    /// <summary>
+    /// Class containing settings for a single table view column for MPfm.
+    /// </summary>
+    public class TableViewColumnAppConfig : IAppConfig
+    {
+        public string FieldName { get; set; }
+        public string Title { get; set; }
+        public int Order { get; set; }
+        public int Width { get; set; }
+        public bool IsVisible { get; set; }
 
-	    public CloudPreferencesEntity()
-	    {
-	    }
+        public TableViewColumnAppConfig()
+        {
+            // Set defaults
+            Width = 50;
+            IsVisible = true;
+        }
     }
 }

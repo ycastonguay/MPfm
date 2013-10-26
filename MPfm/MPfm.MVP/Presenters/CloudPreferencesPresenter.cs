@@ -19,10 +19,14 @@ using System;
 using System.ComponentModel;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config;
+using MPfm.MVP.Config.Models;
+using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
 
@@ -72,8 +76,10 @@ namespace MPfm.MVP.Presenters
             RefreshState();
         }
 
-        private void SetCloudPreferences(CloudPreferencesEntity entity)
+        private void SetCloudPreferences(CloudAppConfig config)
         {
+            AppConfigManager.Instance.Root.Cloud = config;
+            AppConfigManager.Instance.Save();
         }
     
         private void LoginLogoutDropbox()
@@ -105,11 +111,7 @@ namespace MPfm.MVP.Presenters
 
         private void RefreshPreferences()
         {
-            var entity = new CloudPreferencesEntity()
-            {
-                IsDropboxResumePlaybackEnabled = false
-            };
-            View.RefreshCloudPreferences(entity);
+            View.RefreshCloudPreferences(AppConfigManager.Instance.Root.Cloud);
         }
     }
 }

@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.MVP.Config.Models;
 using MPfm.MVP.Models;
 
 namespace MPfm.MVP.Views
@@ -25,11 +26,11 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface ICloudPreferencesView : IBaseView
 	{
-        Action<CloudPreferencesEntity> OnSetCloudPreferences { get; set; }
+        Action<CloudAppConfig> OnSetCloudPreferences { get; set; }
         Action OnDropboxLoginLogout { get; set; }
 
 	    void CloudPreferencesError(Exception ex);
-	    void RefreshCloudPreferences(CloudPreferencesEntity entity);
+	    void RefreshCloudPreferences(CloudAppConfig config);
 	    void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity);
 	}
 }

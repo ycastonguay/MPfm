@@ -51,7 +51,7 @@ namespace MPfm.Android
             base.OnCreate(bundle);
 
             _cloudLibrary = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
-            _cloudLibrary.OnDropboxDataChanged += OnCloudLibraryDataChanged;
+            _cloudLibrary.OnCloudDataChanged += OnCloudLibraryDataChanged;
 
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.SyncCloud);

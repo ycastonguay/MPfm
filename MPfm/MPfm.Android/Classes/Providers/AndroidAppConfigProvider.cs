@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using MPfm.MVP.Config;
+using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config.Providers;
 
 namespace MPfm.Android.Classes.Providers

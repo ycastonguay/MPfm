@@ -41,7 +41,8 @@ namespace MPfm.Android.Classes.Services
         private DbxDatastore _store;
         private DbxFileSystem _fileSystem;
 
-        public event DropboxDataChanged OnDropboxDataChanged;
+        public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
+        public event CloudDataChanged OnCloudDataChanged;
 
         public bool HasLinkedAccount
         {
@@ -527,13 +528,13 @@ namespace MPfm.Android.Classes.Services
                         string deviceType = record.GetString("deviceType");
                         string deviceName = record.GetString("deviceName");
                         string text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
-                        if (OnDropboxDataChanged != null) OnDropboxDataChanged(text);
+                        if (OnCloudDataChanged != null) OnCloudDataChanged(text);
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange exception: {0}", ex);
-                    if (OnDropboxDataChanged != null) OnDropboxDataChanged(string.Format("Error: {0}", ex));
+                    if (OnCloudDataChanged != null) OnCloudDataChanged(string.Format("Error: {0}", ex));
                     //throw;
                 }
             }
