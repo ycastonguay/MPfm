@@ -49,6 +49,8 @@ namespace MPfm.MVP.Navigation
 
         IResumePlaybackView _resumePlaybackView;
         IResumePlaybackPresenter _resumePlaybackPresenter;
+        IStartResumePlaybackView _startResumePlaybackView;
+        IStartResumePlaybackPresenter _startResumePlaybackPresenter;
 
         IMarkerDetailsView _markerDetailsView;
         IMarkerDetailsPresenter _markerDetailsPresenter;
@@ -56,8 +58,8 @@ namespace MPfm.MVP.Navigation
         ILoopDetailsView _loopDetailsView;
         ILoopDetailsPresenter _loopDetailsPresenter;
 
-        IDesktopFirstRunView _firstRunView;
-        IDesktopFirstRunPresenter _firstRunPresenter;
+        IFirstRunView _firstRunView;
+        IFirstRunPresenter _firstRunPresenter;
 
         IEditSongMetadataView _editSongMetadataView;
         IEditSongMetadataPresenter _editSongMetadataPresenter;
@@ -424,6 +426,33 @@ namespace MPfm.MVP.Navigation
             return _resumePlaybackView;
         }
 
+        public virtual IStartResumePlaybackView CreateStartResumePlaybackView()
+        {
+            // If the view is still visible, just make it the top level window
+            if (_startResumePlaybackView != null)
+            {
+                _startResumePlaybackView.ShowView(true);
+                return _startResumePlaybackView;
+            }
+
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>();
+                _startResumePlaybackPresenter.BindView((IStartResumePlaybackView)view);
+            };
+
+            // Create view and manage view destruction
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _startResumePlaybackView.OnViewDestroy = (view) =>
+            {
+                _startResumePlaybackPresenter.ViewDestroyed();
+                _startResumePlaybackPresenter = null;
+                _startResumePlaybackView = null;
+            };
+            return _startResumePlaybackView;
+        }
+
         public virtual ICloudConnectView CreateCloudConnectView()
         {
             // If the view is still visible, just make it the top level window
@@ -451,7 +480,7 @@ namespace MPfm.MVP.Navigation
             return _cloudConnectView;
         }
 
-        public virtual IDesktopFirstRunView CreateFirstRunView()
+        public virtual IFirstRunView CreateFirstRunView()
         {
             if (_firstRunView != null)
             {
@@ -461,11 +490,11 @@ namespace MPfm.MVP.Navigation
 
             Action<IBaseView> onViewReady = (view) =>
             {
-                _firstRunPresenter = Bootstrapper.GetContainer().Resolve<IDesktopFirstRunPresenter>();
-                _firstRunPresenter.BindView((IDesktopFirstRunView)view);
+                _firstRunPresenter = Bootstrapper.GetContainer().Resolve<IFirstRunPresenter>();
+                _firstRunPresenter.BindView((IFirstRunView)view);
             };
 
-            _firstRunView = Bootstrapper.GetContainer().Resolve<IDesktopFirstRunView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _firstRunView = Bootstrapper.GetContainer().Resolve<IFirstRunView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _firstRunView.OnViewDestroy = (view) =>
             {
                 _firstRunPresenter.ViewDestroyed();

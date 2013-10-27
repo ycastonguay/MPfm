@@ -48,6 +48,7 @@ namespace MPfm.Android.Classes.Navigation
         private Action<IBaseView> _onEqualizerPresetDetailsViewReady;
         private Action<IBaseView> _onPlaylistViewReady;
         private Action<IBaseView> _onResumePlaybackViewReady;
+        private Action<IBaseView> _onFirstRunViewReady;
         private List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>> _tabHistory;
 
         private IPlayerStatusView _lockScreenView;
@@ -310,6 +311,13 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
+        protected override void CreateFirstRunViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onFirstRunViewReady = onViewReady;
+            var intent = new Intent(MainActivity, typeof(FirstRunActivity));
+            MainActivity.StartActivity(intent);
+        }
+
         public void SetAboutActivityInstance(AboutActivity activity)
         {
             if (_onAboutViewReady != null)
@@ -386,6 +394,12 @@ namespace MPfm.Android.Classes.Navigation
         {
             if (_onResumePlaybackViewReady != null)
                 _onResumePlaybackViewReady(activity);
+        }
+
+        public void SetFirstRunActivityInstance(FirstRunActivity activity)
+        {
+            if (_onFirstRunViewReady != null)
+                _onFirstRunViewReady(activity);
         }
 
         public void SetLockScreenActivityInstance(LockScreenActivity activity)

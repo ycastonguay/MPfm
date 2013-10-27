@@ -50,7 +50,7 @@ using FragmentTransaction = Android.App.FragmentTransaction;
 
 namespace MPfm.Android
 {
-    [Activity(MainLauncher = true, ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    [Activity(ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class MainActivity : BaseActivity, View.IOnTouchListener, ActionBar.IOnNavigationListener, IMobileOptionsMenuView, IPlayerStatusView
     {
         private ITinyMessengerHub _messengerHub;

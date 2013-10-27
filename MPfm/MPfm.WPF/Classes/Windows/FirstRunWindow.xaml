@@ -5,45 +5,33 @@
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen" Background="#FF242F35"
         Title="Welcome to Sessions" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico">
-    <Grid Margin="0">
+    <Grid Margin="8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="4">
-            <Label Content="Welcome to Sessions!" Foreground="White" FontSize="16" FontWeight="Bold" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="4,2,4,2" />
-            <Label x:Name="lblIPAddress" Content="My IP address is" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="4,2,4,2" />
+        <StackPanel Grid.Row="0" />
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="4">
+            <Label Foreground="White" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="8">
+                Welcome to Sessions!
+            </Label>
+            <TextBlock Foreground="#FFCCCCCC" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" FontFamily="/Resources/Fonts/#Junction" Padding="8">
+                Sessions is a multi-platform music player designed for audiophiles and musicians.
+                You will find many features to help you practice for your next gig or just listening to your library across different platforms easily.
+            </TextBlock>
+            <TextBlock Foreground="#FFCCCCCC" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" FontFamily="/Resources/Fonts/#Junction" Padding="8">
+                If you need some help, just go to the Help section of the Sessions web site (sessionsapp.org).
+            </TextBlock>
+            <Button x:Name="btnClose" Click="btnClose_OnClick">
+                <StackPanel Orientation="Horizontal" Margin="8">
+                    <Image Source="/Resources/Images/Buttons/ok.png" Stretch="None" />
+                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">
+                        Start using Sessions
+                    </Label>
+                </StackPanel>
+            </Button>
         </StackPanel>
-        <ListView Grid.Row="1">
-        </ListView>
-        <Grid Grid.Row="2" Margin="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="btnRefresh">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/refresh.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Refresh devices</TextBlock>
-                </StackPanel>
-            </Button>
-            <StackPanel Grid.Column="1"></StackPanel>
-            <Button Grid.Column="2" x:Name="btnManualConnect">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Connect manually to device</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="3" x:Name="btnConnect">
-                <StackPanel Orientation="Horizontal" Margin="8">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <TextBlock Margin="6,0,0,0">Connect to device</TextBlock>
-                </StackPanel>
-            </Button>
-        </Grid>        
+        <StackPanel Grid.Row="2" />
     </Grid>
 </base:BaseWindow>

@@ -21,6 +21,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Config.Models;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
@@ -69,6 +70,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
+        public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnSelectFolders { get; set; }
         public Action OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
@@ -82,6 +84,10 @@ namespace MPfm.Android.Classes.Fragments
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             }); 
+        }
+
+        public void RefreshLibraryPreferences(LibraryAppConfig config)
+        {
         }
 
         #endregion

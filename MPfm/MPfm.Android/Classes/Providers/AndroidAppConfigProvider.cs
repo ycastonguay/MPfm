@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Config;
+using System.Reflection;
+using Android.Content;
+using Android.Preferences;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config.Providers;
 
@@ -23,13 +25,104 @@ namespace MPfm.Android.Classes.Providers
 {
     public class AndroidAppConfigProvider : IAppConfigProvider
     {
+        private Context _context;
+
+        public AndroidAppConfigProvider()
+        {
+            _context = MPfmApplication.GetApplicationContext();
+        }
+
         public RootAppConfig Load(string filePath)
         {
-            return new RootAppConfig();
+            var config = new RootAppConfig();
+            LoadRecursive(config, "Root.");
+            return config;
         }
 
         public void Save(string filePath, RootAppConfig config)
         {
+            SaveRecursive(config, "Root.");
+        }
+
+        private void LoadRecursive(IAppConfig config, string keyPreset)
+        {
+            // Create map by scanning properties
+            var sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(_context);
+            var propertyInfos = config.GetType().GetTypeInfo().DeclaredProperties;
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                var propertyType = propertyInfo.PropertyType;
+                string fullName = keyPreset + propertyInfo.Name;
+                bool isAssignable = typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo());
+                //Debug.WriteLine("{0} - {1} - isAssignable: {2}", fullName, propertyInfo.PropertyType.Name, isAssignable);
+
+                if (propertyType == typeof(int))
+                {
+                    propertyInfo.SetValue(config, sharedPreferences.GetInt(fullName, 0));
+                }
+                else if (propertyType == typeof(bool))
+                {
+                    propertyInfo.SetValue(config, sharedPreferences.GetBoolean(fullName, false));
+                }
+                else if (propertyType == typeof(double))
+                {
+                    propertyInfo.SetValue(config, sharedPreferences.GetFloat(fullName, 0));
+                }
+                else if (propertyType == typeof(float))
+                {
+                    propertyInfo.SetValue(config, sharedPreferences.GetFloat(fullName, 0));
+                }
+                else if (propertyType == typeof(string))
+                {
+                    propertyInfo.SetValue(config, sharedPreferences.GetString(fullName, string.Empty));
+                }
+                else if (typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
+                {
+                    var subConfig = (IAppConfig)propertyInfo.GetValue(config);
+                    LoadRecursive(subConfig, keyPreset + propertyType.Name + ".");
+                }
+            }
+        }
+
+        private void SaveRecursive(IAppConfig config, string keyPreset)
+        {
+            // Create map by scanning properties
+            var sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(_context);
+            var editor = sharedPreferences.Edit();
+            var propertyInfos = config.GetType().GetTypeInfo().DeclaredProperties;
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                var propertyType = propertyInfo.PropertyType;
+                string fullName = keyPreset + propertyInfo.Name;
+                object value = propertyInfo.GetValue(config);
+                bool isAssignable = typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo());
+                //Debug.WriteLine("{0} - {1} - isAssignable: {2}", fullName, propertyInfo.PropertyType.Name, isAssignable);
+
+                if (propertyType == typeof(int))
+                {
+                    editor.PutInt(fullName, (int) value);
+                }
+                else if (propertyType == typeof(bool))
+                {
+                    editor.PutBoolean(fullName, (bool)value);
+                }
+                else if (propertyType == typeof(double) || (propertyType == typeof(float)))
+                {
+                    editor.PutFloat(fullName, (float)value);
+                }
+                else if (propertyType == typeof(string))
+                {
+                    string stringValue = value == null ? string.Empty : (string)value;
+                    editor.PutString(fullName, stringValue);
+                }
+                else if (typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
+                {
+                    var subConfig = (IAppConfig)propertyInfo.GetValue(config);
+                    SaveRecursive(subConfig, keyPreset + propertyType.Name + ".");
+                }
+            }
+
+            editor.Commit();
         }
     }
 }

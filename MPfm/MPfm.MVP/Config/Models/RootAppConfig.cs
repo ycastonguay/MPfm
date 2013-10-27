@@ -40,6 +40,8 @@ namespace MPfm.MVP.Config.Models
         public ControlsAppConfig Controls { get; set; }       
         public WindowsAppConfig Windows { get; set; }
 
+        public ResumePlaybackAppConfig ResumePlayback { get; set; }
+
         public RootAppConfig()
         {
             // Set defaults
@@ -53,6 +55,8 @@ namespace MPfm.MVP.Config.Models
             Controls = new ControlsAppConfig();
             Library = new LibraryAppConfig();            
             Windows = new WindowsAppConfig();
+
+            ResumePlayback = new ResumePlaybackAppConfig();
         }
     }
 }

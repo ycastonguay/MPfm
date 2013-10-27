@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
+using MPfm.MVP.Config;
 using MPfm.MVP.Models;
 using MPfm.Player;
 using MPfm.Player.Events;
@@ -101,7 +102,16 @@ namespace MPfm.MVP.Services
             {
                 try
                 {
-                    _cloudLibraryService.PushDeviceInfo(data.AudioFileStarted, 0, "0:00.000");
+                    // Store player status locally for resuming playback later
+                    AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId = data.AudioFileStarted.Id.ToString();
+                    AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId = _player.Playlist.PlaylistId.ToString();
+                    AppConfigManager.Instance.Save();
+
+                    // Store player status on Cloud if enabled in preferences
+                    if (AppConfigManager.Instance.Root.Cloud.IsDropboxResumePlaybackEnabled)
+                    {
+                        _cloudLibraryService.PushDeviceInfo(data.AudioFileStarted, 0, "0:00.000");
+                    }
                 }
                 catch (Exception ex)
                 {

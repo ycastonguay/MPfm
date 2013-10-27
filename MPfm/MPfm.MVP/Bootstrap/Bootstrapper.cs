@@ -90,7 +90,6 @@ namespace MPfm.MVP.Bootstrap
             container.Register<ISyncMenuPresenter, SyncMenuPresenter>().AsMultiInstance();
             container.Register<ISyncDownloadPresenter, SyncDownloadPresenter>().AsMultiInstance();
             container.Register<IEditSongMetadataPresenter, EditSongMetadataPresenter>().AsSingleton();
-            container.Register<IDesktopFirstRunPresenter, DesktopFirstRunPresenter>().AsSingleton();
             container.Register<IMobileFirstRunPresenter, MobileFirstRunPresenter>().AsSingleton();
             container.Register<IAboutPresenter, AboutPresenter>().AsSingleton();
             container.Register<ISelectFoldersPresenter, SelectFoldersPresenter>().AsMultiInstance();
@@ -98,6 +97,8 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IAddPlaylistPresenter, AddPlaylistPresenter>().AsMultiInstance();
             container.Register<IAddMarkerPresenter, AddMarkerPresenter>().AsMultiInstance();
             container.Register<IResumePlaybackPresenter, ResumePlaybackPresenter>().AsMultiInstance();
+            container.Register<IStartResumePlaybackPresenter, StartResumePlaybackPresenter>().AsMultiInstance();
+            container.Register<IFirstRunPresenter, FirstRunPresenter>().AsMultiInstance();
         }
         
         /// <summary>

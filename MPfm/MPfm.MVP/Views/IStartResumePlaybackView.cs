@@ -15,15 +15,20 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Models;
-using MPfm.MVP.Views;
+using System;
+using System.Collections.Generic;
+using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Presenters.Interfaces
+namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// First Run presenter interface for desktop devices.
+    /// Start Resume Playback view interface.
 	/// </summary>
-    public interface IDesktopFirstRunPresenter : IBasePresenter<IDesktopFirstRunView>
-	{	
+    public interface IStartResumePlaybackView : IBaseView
+	{
+        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+
+        void StartResumePlaybackError(Exception ex);
+        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
 	}
 }

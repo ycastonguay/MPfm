@@ -183,6 +183,9 @@ namespace MPfm.Android.Classes
             container.Register<ISelectPlaylistView, SelectPlaylistFragment>().AsMultiInstance();
             container.Register<IAddPlaylistView, AddPlaylistFragment>().AsMultiInstance();
             container.Register<IAddMarkerView, AddMarkerFragment>().AsMultiInstance();
+            container.Register<IResumePlaybackView, ResumePlaybackActivity>().AsMultiInstance();
+            container.Register<IStartResumePlaybackView, StartResumePlaybackFragment>().AsMultiInstance();
+            container.Register<IFirstRunView, FirstRunActivity>().AsMultiInstance();
         }
     }
 }

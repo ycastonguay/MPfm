@@ -131,7 +131,9 @@
     <Compile Include="Config\Models\CloudAppConfig.cs" />
     <Compile Include="Config\AppConfigManager.cs" />
     <Compile Include="Config\Models\ControlsAppConfig.cs" />
+    <Compile Include="Config\Models\ResumePlaybackAppConfig.cs" />
     <Compile Include="Config\Models\IAppConfig.cs" />
+    <Compile Include="Config\Models\LibraryAppConfig.cs" />
     <Compile Include="Config\Models\RootAppConfig.cs" />
     <Compile Include="Config\Models\TableViewAppConfig.cs" />
     <Compile Include="Config\Models\TableViewColumnAppConfig.cs" />
@@ -155,8 +157,12 @@
     <Compile Include="Presenters\AddMarkerPresenter.cs" />
     <Compile Include="Presenters\CloudConnectPresenter.cs" />
     <Compile Include="Presenters\CloudPreferencesPresenter.cs" />
+    <Compile Include="Presenters\FirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IFirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ICloudConnectPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ICloudPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IStartResumePlaybackPresenter.cs" />
+    <Compile Include="Presenters\StartResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\SyncConnectManualPresenter.cs" />
     <Compile Include="Presenters\ResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IResumePlaybackPresenter.cs" />
@@ -170,10 +176,8 @@
     <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
-    <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\EditSongMetadataPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileFirstRunPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\IDesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IEditSongMetadataPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileOptionsMenuPresenter.cs" />
     <Compile Include="Presenters\MobileOptionsMenuPresenter.cs" />
@@ -184,9 +188,11 @@
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IFirstRunView.cs" />
     <Compile Include="Views\ICloudConnectView.cs" />
     <Compile Include="Views\ICloudPreferencesView.cs" />
     <Compile Include="Views\IResumePlaybackView.cs" />
+    <Compile Include="Views\IStartResumePlaybackView.cs" />
     <Compile Include="Views\ISyncConnectManualView.cs" />
     <Compile Include="Views\ISyncCloudView.cs" />
     <Compile Include="Views\ISelectFoldersView.cs" />
@@ -194,7 +200,6 @@
     <Compile Include="Views\IAddPlaylistView.cs" />
     <Compile Include="Views\ISelectPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
-    <Compile Include="Views\IDesktopFirstRunView.cs" />
     <Compile Include="Views\IEditSongMetadataView.cs" />
     <Compile Include="Views\IMobileOptionsMenuView.cs" />
     <Compile Include="Views\IMobileLibraryBrowserView.cs" />

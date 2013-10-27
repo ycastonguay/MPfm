@@ -74,6 +74,8 @@
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
     <Compile Include="Classes\Activities\AboutActivity.cs" />
+    <Compile Include="Classes\Activities\FirstRunActivity.cs" />
+    <Compile Include="Classes\Activities\LaunchActivity.cs" />
     <Compile Include="Classes\Activities\ResumePlaybackActivity.cs" />
     <Compile Include="Classes\Activities\SyncCloudActivity.cs" />
     <Compile Include="Classes\Activities\PlaylistActivity.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
     <Compile Include="Classes\Fragments\AddPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\AddMarkerFragment.cs" />
+    <Compile Include="Classes\Fragments\StartResumePlaybackFragment.cs" />
     <Compile Include="Classes\Fragments\SelectFoldersFragment.cs" />
     <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\SyncConnectManualFragment.cs" />
@@ -310,6 +313,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ResumePlaybackCell.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Launch.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\FirstRun.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

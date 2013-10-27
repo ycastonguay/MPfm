@@ -22,6 +22,7 @@ using MPfm.Library;
 using MPfm.Library.Services;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
@@ -41,20 +42,17 @@ namespace MPfm.WPF.Classes
         //protected override void OnStartup(StartupEventArgs e)
         protected void App_Startup(object sender, StartupEventArgs e)
         {
-            //base.OnStartup(e);
             Tracing.Log("App - OnStartup");
-
             CheckForOtherInstances();
             RegisterIoC();
-            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
-            _navigationManager.CreateSplashView();
-            //Application.Run();
 
-            //MainWindow mainWindow = new MainWindow((view) =>
-            //{
-            //    string test = string.Empty;
-            //});
-            //mainWindow.Show();
+            AppConfigManager.Instance.Load();
+            Tracing.Log("App - OnStartup - isFirstRun: {0}", AppConfigManager.Instance.Root.IsFirstRun);
+            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();            
+            if (AppConfigManager.Instance.Root.IsFirstRun)
+                _navigationManager.CreateFirstRunView();
+            else
+                _navigationManager.CreateSplashView();
         }
 
         private void CheckForOtherInstances()
@@ -81,7 +79,7 @@ namespace MPfm.WPF.Classes
             //Bootstrapper.GetContainer().Register<ILoopDetailsView, frmLoopDetails>().AsMultiInstance();
             //Bootstrapper.GetContainer().Register<IMarkerDetailsView, frmMarkerDetails>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IEditSongMetadataView, EditSongMetadataWindow>().AsMultiInstance();
-            Bootstrapper.GetContainer().Register<IDesktopFirstRunView, FirstRunWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IFirstRunView, FirstRunWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopEffectsView, EffectsWindow>().AsMultiInstance();
@@ -93,6 +91,7 @@ namespace MPfm.WPF.Classes
             Bootstrapper.GetContainer().Register<ISyncDownloadView, SyncDownloadWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncWebBrowserView, SyncWebBrowserWindow>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IResumePlaybackView, ResumePlaybackWindow>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IStartResumePlaybackView, StartResumePlaybackWindow>().AsMultiInstance();
         }
     }
 }

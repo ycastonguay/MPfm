@@ -78,8 +78,12 @@ namespace MPfm.MVP.Navigation
         private IAddMarkerPresenter _addMarkerPresenter;
         private IResumePlaybackView _resumePlaybackView;
         private IResumePlaybackPresenter _resumePlaybackPresenter;
+        private IStartResumePlaybackView _startResumePlaybackView;
+        private IStartResumePlaybackPresenter _startResumePlaybackPresenter;
         private ICloudConnectView _cloudConnectView;
         private ICloudConnectPresenter _cloudConnectPresenter;
+        private IFirstRunView _firstRunView;
+        private IFirstRunPresenter _firstRunPresenter;
 
         // Player sub views
         private IPlayerMetadataView _playerMetadataView;
@@ -924,6 +928,34 @@ namespace MPfm.MVP.Navigation
             CreateAboutViewInternal(onViewReady);
         }
 
+        protected virtual void CreateFirstRunViewInternal(Action<IBaseView> onViewReady)
+        {
+            if (_firstRunView == null)
+                _firstRunView = Bootstrapper.GetContainer().Resolve<IFirstRunView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+
+#if !ANDROID
+            PushTabView(MobileNavigationTabType.More, _resumePlaybackView);
+#endif
+        }
+
+        public virtual void CreateFirstRunView()
+        {
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _firstRunView = (IFirstRunView)view;
+                _firstRunView.OnViewDestroy = (view2) =>
+                {
+                    _firstRunPresenter.ViewDestroyed();
+                    _firstRunPresenter = null;
+                    _firstRunView = null;
+                };
+                _firstRunPresenter = Bootstrapper.GetContainer().Resolve<IFirstRunPresenter>();
+                _firstRunPresenter.BindView((IFirstRunView)view);
+            };
+
+            CreateFirstRunViewInternal(onViewReady);
+        }
+
         protected virtual void CreateResumePlaybackViewInternal(Action<IBaseView> onViewReady)
         {
             if (_resumePlaybackView == null)
@@ -950,6 +982,26 @@ namespace MPfm.MVP.Navigation
             };
 
             CreateResumePlaybackViewInternal(onViewReady);
+        }
+
+        public virtual IStartResumePlaybackView CreateStartResumePlaybackView()
+        {
+            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>();
+                _startResumePlaybackPresenter.BindView((IStartResumePlaybackView)view);
+            };
+
+            // Create view and manage view destruction
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _startResumePlaybackView.OnViewDestroy = (view) =>
+            {
+                _startResumePlaybackPresenter.ViewDestroyed();
+                _startResumePlaybackPresenter = null;
+                _startResumePlaybackView = null;
+            };
+            return _startResumePlaybackView;
         }
 
         protected virtual void CreateCloudConnectViewInternal(Action<IBaseView> onViewReady)

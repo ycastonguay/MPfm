@@ -74,8 +74,13 @@ namespace MPfm.Android.Classes.Fragments
 
             // Start update library process
             string musicPath = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryMusic).ToString();
-            OnStartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, musicPath);
-            //OnStartUpdateLibrary(UpdateLibraryMode.WholeLibrary, null, null);
+            var folder = new Folder()
+            {
+                FolderPath = musicPath,
+                IsRecursive = true
+            };
+
+            OnStartUpdateLibrary(new List<string>(), new List<Folder>() { folder });
         }
 
         private void ButtonOnClick(object sender, EventArgs eventArgs)
@@ -92,7 +97,7 @@ namespace MPfm.Android.Classes.Fragments
 
         #region IUpdateLibraryView implementation
 
-        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action<List<string>, List<Folder>> OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
         public Action<string> OnSaveLog { get; set; }
 

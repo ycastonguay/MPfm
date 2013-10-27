@@ -15,18 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Presenters.Interfaces;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Presenters
 {
 	/// <summary>
-	/// First Run view interface for desktop devices.
+    /// First Run presenter.
 	/// </summary>
-    public interface IDesktopFirstRunView : IBaseView
+    public class FirstRunPresenter : BasePresenter<IFirstRunView>, IFirstRunPresenter
 	{
+        public FirstRunPresenter()
+		{	
+		}
+
+        public override void BindView(IFirstRunView view)
+        {
+            base.BindView(view);
+        }     
 	}
 }
-

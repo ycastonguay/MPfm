@@ -15,25 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Presenters
+namespace MPfm.MVP.Presenters.Interfaces
 {
 	/// <summary>
-	/// First Run view presenter for desktop devices.
+    /// Start Resume Playback presenter interface.
 	/// </summary>
-	public class DesktopFirstRunPresenter : BasePresenter<IDesktopFirstRunView>, IDesktopFirstRunPresenter
+    public interface IStartResumePlaybackPresenter : IBasePresenter<IStartResumePlaybackView>
 	{
-        public DesktopFirstRunPresenter()
-		{
-		}
-
-        public override void BindView(IDesktopFirstRunView view)
-        {            
-            base.BindView(view);
-        }
-    }
+	}
 }
 

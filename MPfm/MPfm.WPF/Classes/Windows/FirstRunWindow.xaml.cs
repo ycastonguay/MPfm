@@ -16,27 +16,32 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Threading;
-using MPfm.Library.Objects;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
 {
-    public partial class FirstRunWindow : BaseWindow, IDesktopFirstRunView
+    public partial class FirstRunWindow : BaseWindow, IFirstRunView
     {
         public FirstRunWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
+        }
+
+        private void btnClose_OnClick(object sender, RoutedEventArgs e)
+        {
+            AppConfigManager.Instance.Root.IsFirstRun = false;
+            AppConfigManager.Instance.Save();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
+            navigationManager.CreateSplashView();
+            Close();
         }
     }
 }
