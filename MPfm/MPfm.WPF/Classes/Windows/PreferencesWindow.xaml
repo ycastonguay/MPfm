@@ -4,6 +4,7 @@
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:models="clr-namespace:MPfm.Library.Objects;assembly=MPfm.Library"
         WindowStartupLocation="CenterScreen" Background="#FF242F35"
         Title="Preferences" Height="500" Width="680" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Grid Margin="0">
@@ -53,7 +54,7 @@
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="2" x:Name="gridLibrary" Visibility="Hidden">
+        <StackPanel Grid.Row="2" x:Name="gridLibrary" Visibility="Visible">
             <Grid Background="White" Margin="8,8,8,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -61,36 +62,51 @@
                     <RowDefinition Height="250" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Folders" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Button Margin="0" HorizontalAlignment="Left" Click="btnAddFolder_OnClick">
+                <Grid Grid.Row="1" Margin="2,2,2,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Margin="0" HorizontalAlignment="Left" Click="btnAddFolder_OnClick">
                         <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
                             <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                             <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Add folder</Label>
                         </StackPanel>
                     </Button>
-                    <Button Margin="0" HorizontalAlignment="Left" Click="btnRemoveFolder_OnClick">
+                    <Button Grid.Column="1" Margin="0" HorizontalAlignment="Left" Click="btnRemoveFolder_OnClick">
                         <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
                             <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
                             <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Remove folder(s)</Label>
                         </StackPanel>
                     </Button>
-                    <Button Margin="0" HorizontalAlignment="Left" Click="btnUpdateLibrary_OnClick">
+                    <Button Grid.Column="2" Margin="0" HorizontalAlignment="Left" Click="btnUpdateLibrary_OnClick">
                         <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
                             <Image Source="/Resources/Images/Buttons/refresh.png" Stretch="None" />
                             <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Update Library</Label>
                         </StackPanel>
                     </Button>
-                    <Button Margin="0" HorizontalAlignment="Left" Click="btnResetLibrary_OnClick">
+                    <Button Grid.Column="3" Margin="0" HorizontalAlignment="Left" Click="btnResetLibrary_OnClick">
                         <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
                             <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
                             <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Reset Library</Label>
                         </StackPanel>
                     </Button>
-                </StackPanel>
-                <ListView Grid.Row="2" />
+                </Grid>
+                <ListView Grid.Row="2" x:Name="listViewFolders" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Margin="6">
+                    <ListView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type models:Folder}">
+                            <StackPanel Orientation="Horizontal" Margin="4">
+                                <Image Source="/Resources/Images/Icons/folder.png" Stretch="Uniform" />
+                                <TextBlock Text="{Binding FolderPath}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="6,0,0,0" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </ListView.Resources>
+                </ListView>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="2" x:Name="gridCloud" Visibility="Visible">
+        <StackPanel Grid.Row="2" x:Name="gridCloud" Visibility="Hidden">
             <!--<StackPanel Background="White" Margin="8,8,8,0">
                 <Label Content="General" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Enable synchronization" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Junction" />

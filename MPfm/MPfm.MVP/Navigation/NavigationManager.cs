@@ -372,7 +372,7 @@ namespace MPfm.MVP.Navigation
             return _playlistView;
         }
 
-        public virtual IUpdateLibraryView CreateUpdateLibraryView(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+        public virtual IUpdateLibraryView CreateUpdateLibraryView(List<string> filePaths, List<Folder> folderPaths)
         {
             if (_updateLibraryView != null)
             {
@@ -384,7 +384,7 @@ namespace MPfm.MVP.Navigation
             {
                 _updateLibraryPresenter = Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
                 _updateLibraryPresenter.BindView((IUpdateLibraryView)view);
-                _updateLibraryPresenter.UpdateLibrary(mode, filePaths, folderPath);
+                _updateLibraryPresenter.UpdateLibrary(filePaths, folderPaths);
             };
 
             _updateLibraryView = Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });

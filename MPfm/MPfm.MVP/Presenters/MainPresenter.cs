@@ -16,7 +16,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
+using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Config;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
@@ -44,9 +47,28 @@ namespace MPfm.MVP.Presenters
             view.OnOpenSyncCloudWindow = () => _navigationManager.CreateSyncCloudView();
             view.OnOpenSyncWebBrowserWindow = () => _navigationManager.CreateSyncWebBrowserView();
             view.OnOpenResumePlayback = () => _navigationManager.CreateResumePlaybackView();
-            view.OnAddFilesToLibrary = (filePaths) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFiles, filePaths, null);
-            view.OnAddFolderToLibrary = (folderPath) => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.SpecificFolder, null, folderPath);
-            view.OnUpdateLibrary = () => _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);
+            view.OnAddFilesToLibrary = (filePaths) => _navigationManager.CreateUpdateLibraryView(filePaths, new List<Folder>());
+            view.OnAddFolderToLibrary = (folderPath) =>
+            {
+                var folders = new List<Folder>();
+                folders.Add(new Folder()
+                {
+                    FolderPath = folderPath,
+                    IsRecursive = true
+                });
+
+                // Add to list of configured folders
+                var foundFolder = AppConfigManager.Instance.Root.Library.Folders.FirstOrDefault(x => x.FolderPath == folderPath);
+                if (foundFolder == null)
+                {
+                    AppConfigManager.Instance.Root.Library.Folders.Add(folders[0]);
+                    AppConfigManager.Instance.Save();
+                }
+
+                // Start update library
+                _navigationManager.CreateUpdateLibraryView(new List<string>(), folders);
+            };
+            view.OnUpdateLibrary = () => _navigationManager.CreateUpdateLibraryView(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
 
 			base.BindView(view);
 		}

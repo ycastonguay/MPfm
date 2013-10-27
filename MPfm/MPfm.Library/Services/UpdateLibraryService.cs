@@ -20,58 +20,47 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using MPfm.Library.Objects;
+using MPfm.Library.Services.Events;
+using MPfm.Library.Services.Interfaces;
 using MPfm.Library.UpdateLibrary;
 using MPfm.Sound.AudioFiles;
-using System.Text.RegularExpressions;
-using MPfm.Library.Services.Interfaces;
-using MPfm.Library.Services.Events;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;
 using Mono.Unix.Native;
 #endif
 
-namespace MPfm.MVP.Services
+namespace MPfm.Library.Services
 {
 	/// <summary>
 	///	Service used for updating the library with new audio files using a background worker.
 	/// </summary>
 	public class UpdateLibraryService : IUpdateLibraryService
 	{
-		private ILibraryService libraryService = null;		
-		private BackgroundWorker workerUpdateLibrary = null;
-		private bool cancelUpdateLibrary = false;
+		private readonly ILibraryService _libraryService = null;		
+		private BackgroundWorker _workerUpdateLibrary = null;
+		private bool _cancelUpdateLibrary = false;
 		
 		public event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;	
 		public event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
 		
-		#region Constructor and Dispose
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MPfm.UI.UpdateLibraryService"/> class.
 		/// </summary>
 		public UpdateLibraryService(ILibraryService libraryService)
 		{
 			if(libraryService == null)
-				throw new ArgumentNullException("The libraryService parameter cannot be null!");
+				throw new ArgumentNullException("The _libraryService parameter cannot be null!");
 
-			this.libraryService = libraryService;
-					
-			workerUpdateLibrary = new BackgroundWorker();
-            workerUpdateLibrary.WorkerReportsProgress = true;
-            workerUpdateLibrary.WorkerSupportsCancellation = true;
-            workerUpdateLibrary.DoWork += new DoWorkEventHandler(workerUpdateLibrary_DoWork);
-            workerUpdateLibrary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateLibrary_RunWorkerCompleted);
+			_libraryService = libraryService;
+			_workerUpdateLibrary = new BackgroundWorker();
+            _workerUpdateLibrary.WorkerReportsProgress = true;
+            _workerUpdateLibrary.WorkerSupportsCancellation = true;
+            _workerUpdateLibrary.DoWork += new DoWorkEventHandler(workerUpdateLibrary_DoWork);
+            _workerUpdateLibrary.RunWorkerCompleted += new RunWorkerCompletedEventHandler(workerUpdateLibrary_RunWorkerCompleted);
 		}
-
-		public void Dispose()
-		{
-		}
-
-		#endregion
-		
-		#region Events
 		
 		/// <summary>
 		/// Raises the refresh status event. Wraps the event invocation by
@@ -96,17 +85,13 @@ namespace MPfm.MVP.Services
 				handler(this, e);
 		}
 		
-		#endregion
-		
-		#region IUpdateLibraryPresenter implementation
-		
 		/// <summary>
 		/// Cancels the update library process.
 		/// </summary>
 		public void Cancel()
 		{			
 			// Cancel process
-			cancelUpdateLibrary = true;
+			_cancelUpdateLibrary = true;
 		}
 
 		/// <summary>
@@ -138,31 +123,17 @@ namespace MPfm.MVP.Services
             //        tw.Close();
             //    }
 		}
-			
-		#endregion
 		
-		/// <summary>
-		/// Starts the update library process in a background thread.		
-		/// </summary>
-		/// <param name='mode'>Update library mode</param>
-		/// <param name='filePaths'>Audio file paths to add to the database</param>
-		/// <param name='folderPath'>Folder path to add to the database</param>
-		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+		public void UpdateLibrary(List<string> filePaths, List<Folder> folderPaths)
 		{					
-            UpdateLibraryArgument arg = new UpdateLibraryArgument();
-            arg.Mode = mode;
+            var arg = new UpdateLibraryArgument();
             arg.FilePaths = filePaths;
-            arg.FolderPath = folderPath;
+            arg.FolderPaths = folderPaths;
 			
-			cancelUpdateLibrary = false;
-
-            if (mode == UpdateLibraryMode.SpecificFolder)
-				libraryService.AddFolder(folderPath, true);
-			else if(mode == UpdateLibraryMode.SpecificFiles)
-				libraryService.AddFiles(filePaths);
+			_cancelUpdateLibrary = false;
 
             // Start the background process
-            workerUpdateLibrary.RunWorkerAsync(arg);
+            _workerUpdateLibrary.RunWorkerAsync(arg);
 
             // TODO: Add time elapsed/time remaining
             //    //            // Set start time when the process has finished finding the files and is ready to add files into library
@@ -219,46 +190,31 @@ namespace MPfm.MVP.Services
         {
             List<string> filePaths = new List<string>();    
             UpdateLibraryArgument arg = (UpdateLibraryArgument)e.Argument;
+            filePaths.AddRange(arg.FilePaths);
 						
 			try
 			{			
-            	if (cancelUpdateLibrary) throw new UpdateLibraryException();
-                if (arg.Mode == UpdateLibraryMode.WholeLibrary)
-                {
-                    // Remove broken songs from the library
-					OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
-						Title = "Checking for broken file paths",
-						Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library..",
-						PercentageDone = 0
-					});
-                    libraryService.RemoveAudioFilesWithBrokenFilePaths();
+                // Remove broken songs from the library
+				OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
+					Title = "Checking for broken file paths",
+					Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library..",
+					PercentageDone = 0
+				});
+                _libraryService.RemoveAudioFilesWithBrokenFilePaths();
 
-                    if (cancelUpdateLibrary) throw new UpdateLibraryException();
+                if (_cancelUpdateLibrary) throw new UpdateLibraryException();
 
-                    filePaths = SearchMediaFilesInFolders();
-                }
-                else if (arg.Mode == UpdateLibraryMode.SpecificFiles)
-                {           
-                    // Set the media files passed in the argument
-                    filePaths = arg.FilePaths;
-                }
-                else if (arg.Mode == UpdateLibraryMode.SpecificFolder)
-                {
-                    // Search the files in the specified folder                 
-                    Console.WriteLine("UpdateLibraryService - Looking for audio files in {0}...", arg.FolderPath);
-                    filePaths = SearchMediaFilesInFolders(arg.FolderPath, true);
-                    Console.WriteLine("UpdateLibraryService - Found {0} audio files in {0}", filePaths.Count, arg.FolderPath);
-                }
+                filePaths = SearchMediaFilesInFolders(arg.FolderPaths);
 				
-                if (cancelUpdateLibrary) throw new UpdateLibraryException();
+                if (_cancelUpdateLibrary) throw new UpdateLibraryException();
 				
 				// Get the list of audio files from the database
-				IEnumerable<string> filePathsDatabase = libraryService.SelectFilePaths();				
+				IEnumerable<string> filePathsDatabase = _libraryService.SelectFilePaths();				
 				IEnumerable<string> filePathsToUpdate = filePaths.Except(filePathsDatabase);
 					
 		        for(int a = 0; a < filePathsToUpdate.Count(); a++)
 		        {
-	                if (cancelUpdateLibrary) throw new UpdateLibraryException();							           				
+	                if (_cancelUpdateLibrary) throw new UpdateLibraryException();							           				
 						
 					// Get current file path and calculate stats
 					string filePath = filePathsToUpdate.ElementAt(a);											
@@ -273,12 +229,12 @@ namespace MPfm.MVP.Services
 		                    filePath.ToUpper().Contains(".XSPF"))
 		                {
 		                    PlaylistFile playlistFile = new PlaylistFile(filePath);
-	                    	libraryService.InsertPlaylistFile(playlistFile);							
+	                    	_libraryService.InsertPlaylistFile(playlistFile);							
 		                }
 		                else
 		                {
 		                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
-	                    	libraryService.InsertAudioFile(audioFile);
+	                    	_libraryService.InsertAudioFile(audioFile);
 		                }
 						
 						// Display update
@@ -308,7 +264,7 @@ namespace MPfm.MVP.Services
 		        }
 
                 // Cancel thread if necessary
-                if (cancelUpdateLibrary) throw new UpdateLibraryException();
+                if (_cancelUpdateLibrary) throw new UpdateLibraryException();
 
                 // Compact database						
 				OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
@@ -316,7 +272,7 @@ namespace MPfm.MVP.Services
 					Subtitle = "Compacting database...",
 					PercentageDone = 1
 				});                
-                libraryService.CompactDatabase();
+                _libraryService.CompactDatabase();
 			}
 			catch (UpdateLibraryException ex)
             {
@@ -345,16 +301,10 @@ namespace MPfm.MVP.Services
 			OnRaiseProcessEndedEvent(new ProcessEndedEventArgs(e.Cancelled));
         }
 				
-        /// <summary>
-        /// Searches for songs in all configured folders.
-        /// </summary>
-        /// <returns>List of songs (file paths)</returns>
-        public List<string> SearchMediaFilesInFolders()
+        public List<string> SearchMediaFilesInFolders(List<Folder> folders)
         {
             List<string> files = new List<string>();            
-            IEnumerable<Folder> folders = libraryService.SelectFolders();
-
-            foreach (Folder folder in folders)
+            foreach (var folder in folders)
             {
                 List<string> newFiles = SearchMediaFilesInFolders(folder.FolderPath, (bool)folder.IsRecursive);
                 files.AddRange(newFiles);

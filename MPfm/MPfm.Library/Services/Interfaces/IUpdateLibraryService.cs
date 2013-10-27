@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
 using MPfm.Library.Services.Events;
 
@@ -30,8 +31,7 @@ namespace MPfm.Library.Services.Interfaces
         event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;
         event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
 		
-		void Dispose();
-		void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath);
+		void UpdateLibrary(List<string> filePaths, List<Folder> folderPaths);
 		void Cancel();
 		void SaveLog(string filePath);		
 	}

@@ -16,8 +16,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
+using MPfm.Library.Objects;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
@@ -28,6 +30,7 @@ namespace MPfm.WPF.Classes.Windows
     public partial class PreferencesWindow : BaseWindow, IDesktopPreferencesView
     {
         private CloudAppConfig _cloudAppConfig;
+        private LibraryAppConfig _libraryAppConfig;
 
         public PreferencesWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -55,12 +58,38 @@ namespace MPfm.WPF.Classes.Windows
 
         private void btnAddFolder_OnClick(object sender, RoutedEventArgs e)
         {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.Description = "Please select a folder to add to the music library";
+            dialog.ShowNewFolderButton = false;
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+                return;
 
+            _libraryAppConfig.Folders.Add(new Folder()
+            {
+                FolderPath = dialog.SelectedPath,
+                IsRecursive = true
+            });
+            OnSetLibraryPreferences(_libraryAppConfig);
         }
 
         private void btnRemoveFolder_OnClick(object sender, RoutedEventArgs e)
         {
+            if (listViewFolders.SelectedItem == null)
+                return;
 
+            var result = MessageBox.Show(this, "Do you wish to also remove the audio files from your library?\nNote: This will only remove audio files from the application, not from your hard disk.", "Folder removal confirmation", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if(result == MessageBoxResult.Cancel)
+                return;
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // TODO: Remove files from library
+            }
+
+            var folders = listViewFolders.SelectedItems;
+            foreach (Folder folder in folders)
+                _libraryAppConfig.Folders.Remove(folder);
+            OnSetLibraryPreferences(_libraryAppConfig);
         }
 
         private void btnUpdateLibrary_OnClick(object sender, RoutedEventArgs e)
@@ -70,7 +99,7 @@ namespace MPfm.WPF.Classes.Windows
 
         private void btnResetLibrary_OnClick(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\nThis will *NOT* delete audio files from your hard disk.", "Reset confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
+            if (MessageBox.Show(this, "Are you sure you wish to reset your library?\nNote: This will only remove audio files from the application, not from your hard disk.", "Reset confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
                 return;
 
             OnResetLibrary();
@@ -90,6 +119,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region ILibraryPreferencesView implementation
 
+        public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnSelectFolders { get; set; }
@@ -101,6 +131,16 @@ namespace MPfm.WPF.Classes.Windows
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 MessageBox.Show(this, string.Format("An error occured in LibraryPreferences: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }));
+        }
+
+        public void RefreshLibraryPreferences(LibraryAppConfig config)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                _libraryAppConfig = config;
+                listViewFolders.ItemsSource = config.Folders;
+                listViewFolders.Items.Refresh();
             }));
         }
 

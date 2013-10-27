@@ -17,19 +17,19 @@
 
 using System.Collections.Generic;
 using MPfm.Library.Objects;
-using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Presenters.Interfaces
+namespace MPfm.MVP.Config.Models
 {
-	/// <summary>
-	/// Update Library window presenter interface.
-	/// </summary>
-    public interface IUpdateLibraryPresenter : IBasePresenter<IUpdateLibraryView>
-	{		
-		void UpdateLibrary(List<string> filePaths, List<Folder> folderPaths);
-		void Cancel();
-		void SaveLog(string filePath);		
-	}
-}
+    /// <summary>
+    /// Class containing all library settings.
+    /// </summary>
+    public class LibraryAppConfig : IAppConfig
+    {
+        public List<Folder> Folders { get; set; }
 
+        public LibraryAppConfig()
+        {
+            Folders = new List<Folder>();
+        }        
+    }
+}

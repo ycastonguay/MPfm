@@ -36,6 +36,7 @@ namespace MPfm.MVP.Config.Models
 
         public AudioAppConfig Audio { get; set; }
         public CloudAppConfig Cloud { get; set; }
+        public LibraryAppConfig Library { get; set; }
         public ControlsAppConfig Controls { get; set; }       
         public WindowsAppConfig Windows { get; set; }
 
@@ -50,6 +51,7 @@ namespace MPfm.MVP.Config.Models
             Audio = new AudioAppConfig();
             Cloud = new CloudAppConfig();
             Controls = new ControlsAppConfig();
+            Library = new LibraryAppConfig();            
             Windows = new WindowsAppConfig();
         }
     }

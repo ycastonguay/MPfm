@@ -16,10 +16,13 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using MPfm.Core;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config;
+using MPfm.MVP.Config.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
@@ -53,6 +56,7 @@ namespace MPfm.MVP.Presenters
 
         public override void BindView(ILibraryPreferencesView view)
         {
+            view.OnSetLibraryPreferences = SetLibraryPreferences;
             view.OnResetLibrary = ResetLibrary;
             view.OnUpdateLibrary = UpdateLibrary;
             view.OnSelectFolders = SelectFolders;
@@ -60,12 +64,28 @@ namespace MPfm.MVP.Presenters
             view.OnEnableSyncListener = EnableSyncListener;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
             base.BindView(view);
-            
-            Initialize();
+
+            RefreshPreferences();
         }
 
-	    private void Initialize()
+        private void SetLibraryPreferences(LibraryAppConfig libraryAppConfig)
         {
+            try
+            {
+                AppConfigManager.Instance.Root.Library = libraryAppConfig;
+                AppConfigManager.Instance.Save();
+                RefreshPreferences();
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("LibraryPreferencesPresenter - SetLibraryPreferences - Failed to set preferences: {0}", ex);
+                View.LibraryPreferencesError(ex);
+            }
+        }
+
+        private void RefreshPreferences()
+        {
+            View.RefreshLibraryPreferences(AppConfigManager.Instance.Root.Library);
         }
 
         private void ResetLibrary()
@@ -90,7 +110,7 @@ namespace MPfm.MVP.Presenters
                 var view = _mobileNavigationManager.CreateUpdateLibraryView();
                 _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Update Library", View, view);
 #else
-                _navigationManager.CreateUpdateLibraryView(UpdateLibraryMode.WholeLibrary, null, null);
+                _navigationManager.CreateUpdateLibraryView(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
 #endif
             }
             catch(Exception ex)

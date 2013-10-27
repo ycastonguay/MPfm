@@ -14,7 +14,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
 using System;
+using System.Collections.Generic;
+using MPfm.MVP.Config.Models;
 
 namespace MPfm.MVP.Views
 {
@@ -23,6 +26,7 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface ILibraryPreferencesView : IBaseView
 	{
+        Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         Action OnSelectFolders { get; set; }
         Action OnResetLibrary { get; set; }
         Action OnUpdateLibrary { get; set; }
@@ -30,5 +34,6 @@ namespace MPfm.MVP.Views
         Action<int> OnSetSyncListenerPort { get; set; }
 
         void LibraryPreferencesError(Exception ex);
+        void RefreshLibraryPreferences(LibraryAppConfig config);
 	}
 }

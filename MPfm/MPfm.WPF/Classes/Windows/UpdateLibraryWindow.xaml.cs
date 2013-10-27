@@ -21,12 +21,7 @@ using System.Windows;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
-using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
@@ -56,7 +51,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IUpdateLibraryView implementation
 
-        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action<List<string>, List<Folder>> OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
         public Action<string> OnSaveLog { get; set; }
 

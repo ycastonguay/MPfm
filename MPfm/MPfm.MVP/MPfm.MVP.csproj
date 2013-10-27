@@ -128,6 +128,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Config\AppConfigManager.cs" />
+    <Compile Include="Config\Models\LibraryAppConfig.cs" />
     <Compile Include="Config\Models\CloudAppConfig.cs" />
     <Compile Include="Config\Models\IAppConfig.cs" />
     <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />

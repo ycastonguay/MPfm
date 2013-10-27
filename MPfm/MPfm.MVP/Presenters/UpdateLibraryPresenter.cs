@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
@@ -77,16 +78,9 @@ namespace MPfm.MVP.Presenters
             view.OnSaveLog = SaveLog;
         }
 		
-		/// <summary>
-		/// Starts the update library process in a background thread. 
-		/// The Update Library view will be updated during progress.
-		/// </summary>
-		/// <param name='mode'>Update library mode</param>
-		/// <param name='filePaths'>Audio file paths to add to the database</param>
-		/// <param name='folderPath'>Folder path to add to the database</param>
-		public void UpdateLibrary(UpdateLibraryMode mode, List<string> filePaths, string folderPath)
+		public void UpdateLibrary(List<string> filePaths, List<Folder> folderPaths)
 		{
-			_updateLibraryService.UpdateLibrary(mode, filePaths, folderPath);
+			_updateLibraryService.UpdateLibrary(filePaths, folderPaths);
 		}
 		
 		/// <summary>

@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using MPfm.Library.Objects;
 
 namespace MPfm.Library.UpdateLibrary
 {
@@ -24,28 +25,13 @@ namespace MPfm.Library.UpdateLibrary
     /// </summary>
     public class UpdateLibraryArgument
     {
-        /// <summary>
-        /// Update library mode.
-        /// </summary>
-        public UpdateLibraryMode Mode { get; set; }
-        /// <summary>
-        /// List of files to update (necessary for the SpecificFiles update library mode).
-        /// </summary>
         public List<string> FilePaths { get; set; }
-        /// <summary>
-        /// Folder path to update (necessary for the SpecificFolder update library mode).
-        /// </summary>
-        public string FolderPath { get; set; }
+        public List<Folder> FolderPaths { get; set; }
 
-        /// <summary>
-        /// Constructor for UpdateLibraryArguments.
-        /// </summary>
         public UpdateLibraryArgument()
         {
-            // Set default arguments
-            Mode = UpdateLibraryMode.WholeLibrary;
             FilePaths = new List<string>();
-            FolderPath = string.Empty;
+            FolderPaths = new List<Folder>();
         }
     }
 }
