@@ -20,6 +20,7 @@ using MPfm.MVP.Config.Providers;
 using System.Reflection;
 using System.Diagnostics;
 using MonoTouch.Foundation;
+using MPfm.MVP.Config.Models;
 
 namespace MPfm.iOS.Classes.Providers
 {

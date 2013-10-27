@@ -16,20 +16,20 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
-using MPfm.MVP.Models;
+using MPfm.Library.Objects;
 using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
-using MPfm.MVP.Config.Models;
 
 namespace MPfm.iOS
 {
-    public partial class CloudPreferencesViewController : BaseViewController, ICloudPreferencesView
+    public partial class StartResumePlaybackViewController : BaseViewController, IStartResumePlaybackView
     {
-        public CloudPreferencesViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "CloudPreferencesViewController_iPhone" : "CloudPreferencesViewController_iPad", null)
+        public StartResumePlaybackViewController(Action<IBaseView> onViewReady)
+			: base (onViewReady, UserInterfaceIdiomIsPhone ? "StartResumePlaybackViewController_iPhone" : "StartResumePlaybackViewController_iPad", null)
         {
         }
 
@@ -38,24 +38,15 @@ namespace MPfm.iOS
             base.ViewDidLoad();
         }
 
-        #region ICloudPreferencesView implementation
+        #region IStartResumePlaybackView implementation
 
-        public Action<CloudAppConfig> OnSetCloudPreferences { get; set; }
-        public Action OnDropboxLoginLogout { get; set; }
+        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
 
-        public void CloudPreferencesError(Exception ex)
-        {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("CloudPreferences error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
-        }
-
-        public void RefreshCloudPreferences(CloudAppConfig config)
+        public void StartResumePlaybackError(Exception ex)
         {
         }
 
-        public void RefreshCloudPreferencesState(MPfm.MVP.Models.CloudPreferencesStateEntity entity)
+        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
         {
         }
 

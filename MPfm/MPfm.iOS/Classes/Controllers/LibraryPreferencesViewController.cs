@@ -17,11 +17,12 @@
 
 using System;
 using System.Drawing;
+using MPfm.MVP.Config.Models;
+using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.MVP.Views;
-using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Classes.Controls;
 
 namespace MPfm.iOS
 {
@@ -68,6 +69,7 @@ namespace MPfm.iOS
 
         #region ILibraryPreferencesView implementation
 
+        public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnSelectFolders { get; set; }
@@ -80,6 +82,10 @@ namespace MPfm.iOS
                 var alertView = new UIAlertView("Library Preferences error", ex.Message, null, "OK", null);
                 alertView.Show();
             });
+        }
+
+        public void RefreshLibraryPreferences(LibraryAppConfig config)
+        {
         }
 
         #endregion

@@ -134,6 +134,8 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<ISelectPlaylistView, SelectPlaylistViewController>().AsMultiInstance();
             container.Register<IAddPlaylistView, AddPlaylistViewController>().AsMultiInstance();
             container.Register<IResumePlaybackView, ResumePlaybackViewController>().AsMultiInstance();
+            container.Register<IStartResumePlaybackView, StartResumePlaybackViewController>().AsMultiInstance();
+            container.Register<IFirstRunView, FirstRunViewController>().AsMultiInstance();
         }
 
         public void ShowSplash(SplashViewController viewController)

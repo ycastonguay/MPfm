@@ -309,6 +309,14 @@
     <Compile Include="Classes\Controllers\CloudPreferencesViewController.designer.cs">
       <DependentUpon>CloudPreferencesViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controllers\FirstRunViewController.cs" />
+    <Compile Include="Classes\Controllers\FirstRunViewController.designer.cs">
+      <DependentUpon>FirstRunViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controllers\StartResumePlaybackViewController.cs" />
+    <Compile Include="Classes\Controllers\StartResumePlaybackViewController.designer.cs">
+      <DependentUpon>StartResumePlaybackViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -371,6 +379,10 @@
     <InterfaceDefinition Include="XIB\iPad\SyncConnectManualViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\CloudPreferencesViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\CloudPreferencesViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPad\FirstRunViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\FirstRunViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\StartResumePlaybackViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\StartResumePlaybackViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

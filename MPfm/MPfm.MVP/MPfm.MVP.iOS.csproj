@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -191,10 +191,8 @@
     <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
-    <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\EditSongMetadataPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileFirstRunPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\IDesktopFirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IEditSongMetadataPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileOptionsMenuPresenter.cs" />
     <Compile Include="Presenters\MobileOptionsMenuPresenter.cs" />
@@ -207,7 +205,6 @@
     <Compile Include="Models\PlayerPositionEntity.cs" />
     <Compile Include="Views\ISelectPlaylistView.cs" />
     <Compile Include="Views\IMobileFirstRunView.cs" />
-    <Compile Include="Views\IDesktopFirstRunView.cs" />
     <Compile Include="Views\IEditSongMetadataView.cs" />
     <Compile Include="Views\IMobileOptionsMenuView.cs" />
     <Compile Include="Views\IMobileLibraryBrowserView.cs" />
@@ -234,17 +231,10 @@
     <Compile Include="Presenters\SplashPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
     <Compile Include="Views\ISplashView.cs" />
-    <Compile Include="Config\RootAppConfig.cs" />
+    <Compile Include="Config\Models\RootAppConfig.cs" />
     <Compile Include="Config\Providers\XmlAppConfigProvider.cs" />
     <Compile Include="Config\Providers\IAppConfigProvider.cs" />
-    <Compile Include="Config\IAppConfig.cs" />
     <Compile Include="Config\AppConfigManager.cs" />
-    <Compile Include="Config\AudioAppConfig.cs" />
-    <Compile Include="Config\ControlsAppConfig.cs" />
-    <Compile Include="Config\TableViewAppConfig.cs" />
-    <Compile Include="Config\TableViewColumnAppConfig.cs" />
-    <Compile Include="Config\WindowAppConfig.cs" />
-    <Compile Include="Config\WindowsAppConfig.cs" />
     <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
     <Compile Include="Views\IPreferencesView.cs" />
@@ -349,8 +339,23 @@
     <Compile Include="Presenters\CloudConnectPresenter.cs" />
     <Compile Include="Presenters\CloudPreferencesPresenter.cs" />
     <Compile Include="Models\CloudConnectEntity.cs" />
-    <Compile Include="Models\CloudPreferencesEntity.cs" />
     <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />
+    <Compile Include="Config\Models\AudioAppConfig.cs" />
+    <Compile Include="Config\Models\CloudAppConfig.cs" />
+    <Compile Include="Config\Models\ControlsAppConfig.cs" />
+    <Compile Include="Config\Models\IAppConfig.cs" />
+    <Compile Include="Config\Models\LibraryAppConfig.cs" />
+    <Compile Include="Config\Models\ResumePlaybackAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewColumnAppConfig.cs" />
+    <Compile Include="Config\Models\WindowAppConfig.cs" />
+    <Compile Include="Config\Models\WindowsAppConfig.cs" />
+    <Compile Include="Views\IFirstRunView.cs" />
+    <Compile Include="Views\IStartResumePlaybackView.cs" />
+    <Compile Include="Presenters\FirstRunPresenter.cs" />
+    <Compile Include="Presenters\StartResumePlaybackPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IFirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IStartResumePlaybackPresenter.cs" />
   </ItemGroup>
 </Project>

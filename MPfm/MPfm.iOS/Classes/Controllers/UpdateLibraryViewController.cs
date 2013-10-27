@@ -57,7 +57,12 @@ namespace MPfm.iOS
             base.ViewDidAppear(animated);
 
             string musicPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            OnStartUpdateLibrary(UpdateLibraryMode.SpecificFolder, null, musicPath);
+            var folder = new Folder()
+            {
+                FolderPath = musicPath,
+                IsRecursive = true
+            };
+            OnStartUpdateLibrary(new List<string>(), new List<Folder>(){ folder });
         }
 
         partial void actionButtonClicked(NSObject sender)
@@ -74,7 +79,7 @@ namespace MPfm.iOS
 
         #region IUpdateLibraryView implementation
         
-        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action<List<string>, List<Folder>> OnStartUpdateLibrary { get; set; }
         public Action<string> OnSaveLog { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
         
