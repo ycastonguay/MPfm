@@ -34,6 +34,7 @@ namespace MPfm.Android.Classes.Navigation
     public sealed class AndroidNavigationManager : MobileNavigationManager
     {
         private readonly ITinyMessengerHub _messageHub;
+        private Action<IBaseView> _onSplashViewReady;
         private Action<IBaseView> _onAboutViewReady;
         private Action<IBaseView> _onPlayerViewReady;
         private Action<IBaseView> _onPreferencesViewReady;
@@ -55,6 +56,7 @@ namespace MPfm.Android.Classes.Navigation
         private IPlayerStatusPresenter _lockScreenPresenter;
 
         public MainActivity MainActivity { get; set; }
+        public LaunchActivity LaunchActivity { get; set; }
 
         public AndroidNavigationManager(ITinyMessengerHub messageHub)
         {
@@ -150,12 +152,12 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void ShowSplash(ISplashView view)
         {
-            MainActivity.ShowSplash((SplashFragment) view);
+            //MainActivity.ShowSplash((SplashFragment) view);
         }
 
         public override void HideSplash()
         {
-            MainActivity.HideSplash();
+            //MainActivity.HideSplash();
         }
 
         public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
@@ -193,12 +195,15 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)
         {
-            MainActivity.PushPlayerSubview(playerView, view);
+            //MainActivity.PushPlayerSubview(playerView, view);
+            var activity = (PlayerActivity)playerView;
+            activity.AddSubview(view);
         }
 
         public override void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
         {
-            MainActivity.PushPreferencesSubview(preferencesView, view);
+            var activity = (PreferencesActivity)preferencesView;
+            activity.AddSubview(view);
         }
 
         private Activity GetActivityFromView(IBaseView view)
@@ -218,6 +223,16 @@ namespace MPfm.Android.Classes.Navigation
             sourceActivity.StartActivity(intent);
         }
 
+        protected override void CreateSplashViewInternal(Action<IBaseView> onViewReady)
+        {
+            _onSplashViewReady = onViewReady;
+            //var intent = new Intent(LaunchActivity, typeof(SplashActivity));
+            //LaunchActivity.StartActivity(intent);
+            var intent = new Intent(MPfmApplication.GetApplicationContext(), typeof (SplashActivity));
+            intent.AddFlags(ActivityFlags.NewTask);
+            MPfmApplication.GetApplicationContext().StartActivity(intent);
+        }
+
         protected override void CreateAboutViewInternal(Action<IBaseView> onViewReady)
         {
             _onAboutViewReady = onViewReady;
@@ -230,8 +245,11 @@ namespace MPfm.Android.Classes.Navigation
             // Why is this method necessary on Android? No way to get the activity instance when starting a new activity.
             // No way to create an activity instance other than using intents. No way to pass an object (other than serializable) in intent (i.e. Action onViewReady).
             _onPlayerViewReady = onViewReady;
-            var intent = new Intent(MainActivity, typeof(PlayerActivity));
-            MainActivity.StartActivity(intent);
+            //var intent = new Intent(MainActivity, typeof(PlayerActivity));
+            //MainActivity.StartActivity(intent);
+            var intent = new Intent(MPfmApplication.GetApplicationContext(), typeof (PlayerActivity));
+            intent.AddFlags(ActivityFlags.NewTask);
+            MPfmApplication.GetApplicationContext().StartActivity(intent);
         }
 
         protected override void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
@@ -318,6 +336,12 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
+        public void SetSplashActivityInstance(SplashActivity activity)
+        {
+            if (_onSplashViewReady != null)
+                _onSplashViewReady(activity);
+        }
+       
         public void SetAboutActivityInstance(AboutActivity activity)
         {
             if (_onAboutViewReady != null)

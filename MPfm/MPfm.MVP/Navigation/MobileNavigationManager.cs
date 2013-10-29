@@ -141,8 +141,8 @@ namespace MPfm.MVP.Navigation
             {                
 #if ANDROID
                 // Only one 'tab' on Android since we re-use the same fragment for different queries
-                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
-                AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
+                //var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
+                //AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
 #elif IOS
                 var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
                 var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
@@ -165,13 +165,7 @@ namespace MPfm.MVP.Navigation
                 //if(true == true)
                 {
                     Tracing.Log("LaunchActivity - First run of the application; launching FirstRun activity...");
-
                     CreateFirstRunView();
-
-
-//                    var intent = new Intent(this, typeof(FirstRunActivity));
-//                    StartActivity(intent);
-//                    Finish();
                 }
                 else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
                 {
@@ -187,12 +181,12 @@ namespace MPfm.MVP.Navigation
                         playerService.Play(audioFiles, audioFile.FilePath);
 
                         Action<IBaseView> onViewBindedToPresenter = (theView) => messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) 
-                                                                                                                                                    {
+                        {
                             Query = new LibraryQuery() {
                                 ArtistName = audioFile.ArtistName,
                                 AlbumTitle = audioFile.AlbumTitle
-                            }, 
-                            FilePath = audioFile != null ? audioFile.FilePath : string.Empty
+                            },
+                            FilePath = audioFile.FilePath
                         });
                         CreatePlayerView(MobileNavigationTabType.Playlists, onViewBindedToPresenter);
                     }
@@ -200,7 +194,8 @@ namespace MPfm.MVP.Navigation
 
                 HideSplash();
             };            
-            ShowSplash(CreateSplashView(onInitDone));
+            //ShowSplash(CreateSplashView(onInitDone));
+            CreateSplashView(onInitDone);
         }
 
         private IMobileOptionsMenuView CreateOptionsMenuView()
@@ -239,20 +234,29 @@ namespace MPfm.MVP.Navigation
             };
         }
 
-        public virtual ISplashView CreateSplashView(Action onInitDone)
+        protected virtual void CreateSplashViewInternal(Action<IBaseView> onViewReady)
         {
-            Action<IBaseView> onViewReady = (view) => {
+            if (_splashView == null)
+                _splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+        }
+
+        public virtual void CreateSplashView(Action onInitDone)
+        {
+            Action<IBaseView> onViewReady = (view) =>
+            {
+                _splashView = (ISplashView)view;
+                _splashView.OnViewDestroy = (view2) =>
+                {
+                    _splashPresenter.ViewDestroyed();
+                    _splashPresenter = null;
+                    _splashView = null;
+                };
                 _splashPresenter = Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
                 _splashPresenter.BindView((ISplashView)view);
                 _splashPresenter.Initialize(onInitDone);
             };
-            _splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _splashView.OnViewDestroy = (view) => {
-                _splashPresenter.ViewDestroyed();
-                _splashPresenter = null;
-                _splashView = null;
-            };
-            return _splashView;
+
+            CreateSplashViewInternal(onViewReady);
         }
 
         public virtual IUpdateLibraryView CreateUpdateLibraryView()

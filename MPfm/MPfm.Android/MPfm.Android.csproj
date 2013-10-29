@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Classes\Activities\BaseActivity.cs" />
     <Compile Include="Classes\Activities\AboutActivity.cs" />
+    <Compile Include="Classes\Activities\SplashActivity.cs" />
     <Compile Include="Classes\Activities\FirstRunActivity.cs" />
     <Compile Include="Classes\Activities\LaunchActivity.cs" />
     <Compile Include="Classes\Activities\ResumePlaybackActivity.cs" />

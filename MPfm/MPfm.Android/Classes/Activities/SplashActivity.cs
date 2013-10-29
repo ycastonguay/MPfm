@@ -17,35 +17,31 @@
 
 using System;
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
-using Android.Preferences;
 using Android.Views;
 using Android.OS;
 using MPfm.Android.Classes.Navigation;
-using MPfm.Core;
 using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Config;
 using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Sessions Beta", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden, NoHistory = true, MainLauncher = true)]
-    public class LaunchActivity : Activity
+    [Activity(Label = "Sessions Splash", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden, NoHistory = true)]
+    public class SplashActivity : BaseActivity, ISplashView
     {
         private AndroidNavigationManager _navigationManager;
 
         protected override void OnCreate(Bundle bundle)
         {
-            Console.WriteLine("LaunchActivity - OnCreate");
+            Console.WriteLine("SplashActivity - OnCreate");
             base.OnCreate(bundle);
 
             _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            RequestWindowFeature(WindowFeatures.NoTitle);
-            SetContentView(Resource.Layout.Launch);
-            _navigationManager.LaunchActivity = this;
-            _navigationManager.Start();
-            Finish();
+            SetContentView(Resource.Layout.Splash);
+            //_navigationManager.Start();
+
+            ((AndroidNavigationManager)_navigationManager).SetSplashActivityInstance(this);
 
             //AppConfigManager.Instance.Load();
             //Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
@@ -74,38 +70,56 @@ namespace MPfm.Android
 
         protected override void OnStart()
         {
-            Console.WriteLine("LaunchActivity - OnStart");
+            Console.WriteLine("SplashActivity - OnStart");
             base.OnStart();
         }
 
         protected override void OnRestart()
         {
-            Console.WriteLine("LaunchActivity - OnRestart");
+            Console.WriteLine("SplashActivity - OnRestart");
             base.OnRestart();
         }
 
         protected override void OnPause()
         {
-            Console.WriteLine("LaunchActivity - OnPause");
+            Console.WriteLine("SplashActivity - OnPause");
             base.OnPause();
         }
 
         protected override void OnResume()
         {
-            Console.WriteLine("LaunchActivity - OnResume");
+            Console.WriteLine("SplashActivity - OnResume");
             base.OnResume();
         }
 
         protected override void OnStop()
         {
-            Console.WriteLine("LaunchActivity - OnStop");
+            Console.WriteLine("SplashActivity - OnStop");
             base.OnStop();
         }
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("LaunchActivity - OnDestroy");
+            Console.WriteLine("SplashActivity - OnDestroy");
             base.OnDestroy();
         }
+
+        #region ISplashView implementation
+
+        public void RefreshStatus(string message)
+        {
+            //Console.WriteLine("SplashFragment - RefreshStatus");
+            //Activity.RunOnUiThread(() =>
+            //{
+            //    //_textView.Text = message;
+            //});
+        }
+
+        public void InitDone(bool isFirstAppStart)
+        {
+        }
+
+        #endregion
+
     }
 }

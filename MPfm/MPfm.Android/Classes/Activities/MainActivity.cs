@@ -158,7 +158,7 @@ namespace MPfm.Android
             _navigationManager.MainActivity = this; // Watch out, this can lead to memory leaks!
             _navigationManager.BindOptionsMenuView(this);
             _navigationManager.BindPlayerStatusView(this);
-            _navigationManager.Start();
+            //_navigationManager.Start();
         }
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
@@ -182,20 +182,6 @@ namespace MPfm.Android
         public void PushDialogSubview(string parentViewTitle, IBaseView view)
         {
             //Console.WriteLine("MainActivity - PushDialogSubview parentViewTitle: {0} view: {1}", parentViewTitle, view.GetType().FullName);
-        }
-
-        public void PushPlayerSubview(IPlayerView playerView, IBaseView view)
-        {
-            //Console.WriteLine("MainActivity - PushPlayerSubview - view: {0}", view.GetType().FullName);
-            var activity = (PlayerActivity)playerView;
-            activity.AddSubview(view);
-        }
-
-        public void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
-        {
-            //Console.WriteLine("MainActivity - PushPreferencesSubview - view: {0}", view.GetType().FullName);
-            var activity = (PreferencesActivity)preferencesView;
-            activity.AddSubview(view);
         }
 
         public void ShowSplash(SplashFragment fragment)
