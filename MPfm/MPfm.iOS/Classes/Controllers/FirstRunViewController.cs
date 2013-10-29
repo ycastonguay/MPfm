@@ -34,6 +34,19 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            btnClose.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+        }
+
+        partial void actionClose(NSObject sender)
+        {
+            WillMoveToParentViewController(null);
+            UIView.Animate(0.2f, () => {
+                this.View.Alpha = 0;
+            }, () => {
+                View.RemoveFromSuperview();
+                RemoveFromParentViewController();
+            });
         }
     }
 }

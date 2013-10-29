@@ -36,6 +36,19 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            btnResume.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+            btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+        }
+
+        partial void actionResume(NSObject sender)
+        {
+
+        }
+
+        partial void actionCancel(NSObject sender)
+        {
+
         }
 
         #region IStartResumePlaybackView implementation

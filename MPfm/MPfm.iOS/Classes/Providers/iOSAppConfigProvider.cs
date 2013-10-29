@@ -29,9 +29,6 @@ namespace MPfm.iOS.Classes.Providers
         public RootAppConfig Load(string filePath)
         {
             var config = new RootAppConfig();
-            config.IsFirstRun = false;
-            SaveRecursive(config, "Root.");
-            config.IsFirstRun = true;
             LoadRecursive(config, "Root.");
             return config;
         }
@@ -50,8 +47,6 @@ namespace MPfm.iOS.Classes.Providers
             {
                 var propertyType = propertyInfo.PropertyType;
                 string fullName = keyPreset + propertyInfo.Name;
-                bool isAssignable = typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo());
-                //Debug.WriteLine("{0} - {1} - isAssignable: {2}", fullName, propertyInfo.PropertyType.Name, isAssignable);
 
                 if (propertyType == typeof(int))
                 {
@@ -91,8 +86,6 @@ namespace MPfm.iOS.Classes.Providers
                 var propertyType = propertyInfo.PropertyType;
                 string fullName = keyPreset + propertyInfo.Name;
                 object value = propertyInfo.GetValue(config);
-                bool isAssignable = typeof (IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo());
-                //Debug.WriteLine("{0} - {1} - isAssignable: {2}", fullName, propertyInfo.PropertyType.Name, isAssignable);
 
                 if (propertyType == typeof(int))
                 {

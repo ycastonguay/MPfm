@@ -28,6 +28,10 @@ using MPfm.MVP.Messages;
 using MPfm.Player.Objects;
 using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Config;
+using MPfm.MVP.Services.Interfaces;
+using MPfm.Library.Services.Interfaces;
+using System.Linq;
 
 namespace MPfm.MVP.Navigation
 {
@@ -153,6 +157,47 @@ namespace MPfm.MVP.Navigation
 #endif
 
                 // Finally hide the splash screen, our UI is ready
+                //HideSplash();
+                
+                AppConfigManager.Instance.Load();
+                Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
+                if (AppConfigManager.Instance.Root.IsFirstRun)
+                //if(true == true)
+                {
+                    Tracing.Log("LaunchActivity - First run of the application; launching FirstRun activity...");
+
+                    CreateFirstRunView();
+
+
+//                    var intent = new Intent(this, typeof(FirstRunActivity));
+//                    StartActivity(intent);
+//                    Finish();
+                }
+                else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
+                {
+                    var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
+                    var messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+                    var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
+                    var audioFile = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId));
+
+                    if(audioFile != null)
+                    {
+                        Tracing.Log("LaunchActivity - Resume playback is available; launching Player activity...");
+                        var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
+                        playerService.Play(audioFiles, audioFile.FilePath);
+
+                        Action<IBaseView> onViewBindedToPresenter = (theView) => messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) 
+                                                                                                                                                    {
+                            Query = new LibraryQuery() {
+                                ArtistName = audioFile.ArtistName,
+                                AlbumTitle = audioFile.AlbumTitle
+                            }, 
+                            FilePath = audioFile != null ? audioFile.FilePath : string.Empty
+                        });
+                        CreatePlayerView(MobileNavigationTabType.Playlists, onViewBindedToPresenter);
+                    }
+                }
+
                 HideSplash();
             };            
             ShowSplash(CreateSplashView(onInitDone));
@@ -934,7 +979,7 @@ namespace MPfm.MVP.Navigation
                 _firstRunView = Bootstrapper.GetContainer().Resolve<IFirstRunView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
 
 #if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _resumePlaybackView);
+            PushDialogView(MobileDialogPresentationType.Overlay, "First Run", null, _firstRunView);
 #endif
         }
 

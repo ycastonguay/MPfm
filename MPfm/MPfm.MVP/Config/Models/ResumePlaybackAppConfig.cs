@@ -30,8 +30,8 @@ namespace MPfm.MVP.Config.Models
 
         public ResumePlaybackAppConfig()
         {
-            CurrentAudioFileId = Guid.Empty.ToString();
-            CurrentPlaylistId = Guid.Empty.ToString();
+            //CurrentAudioFileId = Guid.Empty.ToString();
+            //CurrentPlaylistId = Guid.Empty.ToString();
         }        
     }
 }
