@@ -70,7 +70,8 @@ namespace MPfm.Android
             _sourceActivityType = Intent.GetStringExtra("sourceActivity");
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetPlaylistActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetPlaylistActivityInstance(this);
+            _navigationManager.BindPlaylistView(null, this);
         }
 
         //public override void OnAttachedToWindow()

@@ -109,7 +109,7 @@ namespace MPfm.MVP.Presenters
                 }
                 case MobileOptionsMenuType.Preferences:
                 {
-                    _navigationManager.CreatePreferencesView();                    
+                    _navigationManager.CreatePreferencesView();
                     break;
                 }
             }

@@ -59,22 +59,22 @@ namespace MPfm.MVP.Presenters
             if(item.ToUpper() == "AUDIO PREFERENCES")
             {
                 var view = _navigationManager.CreateAudioPreferencesView();
-                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
             }
             else if(item.ToUpper() == "GENERAL PREFERENCES")
             {
                 var view = _navigationManager.CreateGeneralPreferencesView();
-                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
             }
             else if(item.ToUpper() == "LIBRARY PREFERENCES")
             {
                 var view = _navigationManager.CreateLibraryPreferencesView();
-                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
             }
             else if(item.ToUpper() == "CLOUD PREFERENCES")
             {
                 var view = _navigationManager.CreateCloudPreferencesView();
-                _navigationManager.PushTabView(MobileNavigationTabType.More, view);
+                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
             }
         }
 	}

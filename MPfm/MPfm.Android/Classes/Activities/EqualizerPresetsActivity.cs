@@ -76,7 +76,8 @@ namespace MPfm.Android
             _sourceActivityType = Intent.GetStringExtra("sourceActivity");
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetEqualizerPresetsActivityInstance(this);
+            _navigationManager.BindEqualizerPresetsView(null, this);
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)

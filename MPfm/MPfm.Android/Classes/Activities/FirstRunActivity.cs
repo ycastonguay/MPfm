@@ -61,7 +61,8 @@ namespace MPfm.Android
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            ((AndroidNavigationManager)_navigationManager).SetFirstRunActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetFirstRunActivityInstance(this);
+            _navigationManager.BindFirstRunView(this);
         }
 
         protected override void OnStart()

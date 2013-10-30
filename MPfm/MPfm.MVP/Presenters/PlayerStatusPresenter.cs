@@ -105,7 +105,7 @@ namespace MPfm.MVP.Presenters
 
         private void OpenPlaylist()
 	    {
-            _mobileNavigationManager.CreatePlaylistView(View);
+            _mobileNavigationManager.CreatePlaylistView(View);            
 	    }
 
 	    private void PlayerPlayPause()

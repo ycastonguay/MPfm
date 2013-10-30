@@ -59,7 +59,8 @@ namespace MPfm.Android
             _listView.ItemClick += ListViewOnItemClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetResumePlaybackActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetResumePlaybackActivityInstance(this);
+            _navigationManager.BindResumePlaybackView(this);
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)

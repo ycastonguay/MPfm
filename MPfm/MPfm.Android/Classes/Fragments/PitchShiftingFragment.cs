@@ -22,7 +22,9 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
@@ -59,6 +61,13 @@ namespace MPfm.Android.Classes.Fragments
 
             _seekBar.ProgressChanged += SeekBarOnProgressChanged;
             return _view;
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPitchShiftingView(this);
         }
 
         private void SeekBarOnProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)

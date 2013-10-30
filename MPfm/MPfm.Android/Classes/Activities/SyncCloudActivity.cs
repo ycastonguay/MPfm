@@ -76,7 +76,8 @@ namespace MPfm.Android
             _lblConnected.Text = string.Format("Is Linked: {0} {1}", _cloudLibrary.HasLinkedAccount, DateTime.Now.ToLongTimeString());
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncCloudActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetSyncCloudActivityInstance(this);
+            _navigationManager.BindSyncCloudView(this);
         }
 
         private void BtnLoginOnClick(object sender, EventArgs e)

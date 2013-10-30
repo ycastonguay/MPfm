@@ -22,12 +22,14 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class LoopsFragment : BaseFragment, ILoopsView, View.IOnClickListener
+    public class LoopsFragment : BaseFragment, ILoopsView
     {        
         private View _view;
 
@@ -40,9 +42,12 @@ namespace MPfm.Android.Classes.Fragments
             return _view;
         }
 
-        public void OnClick(View v)
+        public override void OnResume()
         {
-            
+            base.OnResume();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindLoopsView(this);
         }
 
         #region ILoopsView implementation

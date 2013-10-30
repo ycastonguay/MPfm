@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using MPfm.Library.Objects;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.MVP.Views
 {
@@ -25,5 +27,6 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IMobileMainView : IBaseView
 	{
+        void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
 	}
 }

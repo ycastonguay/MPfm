@@ -73,7 +73,7 @@ namespace MPfm.Android
             _sourceActivityType = Intent.GetStringExtra("sourceActivity");
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetEqualizerPresetDetailsActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetEqualizerPresetDetailsActivityInstance(this);
         }
 
         protected override void OnStart()

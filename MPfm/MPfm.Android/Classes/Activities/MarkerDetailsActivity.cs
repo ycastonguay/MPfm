@@ -48,7 +48,8 @@ namespace MPfm.Android
             ActionBar.SetHomeButtonEnabled(true);
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetMarkerDetailsActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetMarkerDetailsActivityInstance(this);
+            //_navigationManager.BindMarkerDetailsView(this, );
         }
 
         protected override void OnStart()

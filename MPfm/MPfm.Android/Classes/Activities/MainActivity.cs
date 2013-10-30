@@ -35,10 +35,12 @@ using Java.Lang;
 using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
+using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
+using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
@@ -55,6 +57,8 @@ namespace MPfm.Android
     {
         private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
+        private List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>> _tabHistory;
+        private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
         private SplashFragment _splashFragment;
         private ViewFlipper _viewFlipper;
         private LinearLayout _miniPlayer;
@@ -91,6 +95,7 @@ namespace MPfm.Android
             base.OnCreate(bundle);
 
             _messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+            _tabHistory = new List<Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>>();
 
             RequestWindowFeature(WindowFeatures.ActionBar);
             SetContentView(Resource.Layout.Main);
@@ -159,17 +164,77 @@ namespace MPfm.Android
             _navigationManager.BindOptionsMenuView(this);
             _navigationManager.BindPlayerStatusView(this);
             //_navigationManager.Start();
-            _navigationManager.SetMainActivityInstance(this);
+            //_navigationManager.SetMainActivityInstance(this);
+            _navigationManager.BindMobileMainView(this);
         }
 
-        public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)
+        // This needs to be moved to MainActivity. Only MainActivity manages a backstack of MLBs.
+        public bool CanGoBackInMobileLibraryBrowserBackstack(MobileNavigationTabType tabType)
         {
-            Console.WriteLine("MainActivity - Adding tab {0}", title);
+            var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+            if (tab != null)
+                return tab.Item2.Count > 1;
+            return false;
+        }
 
-            _fragment = fragment;
-            FragmentTransaction transaction = FragmentManager.BeginTransaction();
-            transaction.Replace(Resource.Id.main_fragmentContainer, fragment);
-            transaction.Commit();
+        public void PopMobileLibraryBrowserBackstack(MobileNavigationTabType tabType)
+        {
+            var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+            var tabItem = tab.Item2.Last();
+            tab.Item2.Remove(tabItem);
+            tabItem = tab.Item2.Last();
+
+            //Console.WriteLine("ANDROID NAVMGR -- PopMobileLibraryBrowserBackstack - About to restore: tabType: {0} browserType: {1}", tabType.ToString(), tabItem.Item1.ToString());
+            MobileLibraryBrowserType browserType = MobileLibraryBrowserType.Artists;
+            switch (tabType)
+            {
+                case MobileNavigationTabType.Artists:
+                    browserType = MobileLibraryBrowserType.Artists;
+                    break;
+                case MobileNavigationTabType.Albums:
+                    browserType = MobileLibraryBrowserType.Albums;
+                    break;
+                case MobileNavigationTabType.Songs:
+                    browserType = MobileLibraryBrowserType.Songs;
+                    break;
+                case MobileNavigationTabType.Playlists:
+                    browserType = MobileLibraryBrowserType.Playlists;
+                    break;
+            }
+
+            // Refresh query using presenter
+            // How to get presenter? Well. we have the instance of the view, right? so we can use the view to call the presenter.
+            //var presenter = GetMobileLibraryBrowserPresenter(tabType, browserType);
+            //presenter.PopBackstack(tabItem.Item1, tabItem.Item2);
+        }
+
+        public void ChangeMobileLibraryBrowserType(MobileNavigationTabType tabType, MobileLibraryBrowserType newBrowserType)
+        {
+            MobileLibraryBrowserType browserType = MobileLibraryBrowserType.Artists;
+            switch (tabType)
+            {
+                case MobileNavigationTabType.Artists:
+                    browserType = MobileLibraryBrowserType.Artists;
+                    break;
+                case MobileNavigationTabType.Albums:
+                    browserType = MobileLibraryBrowserType.Albums;
+                    break;
+                case MobileNavigationTabType.Songs:
+                    browserType = MobileLibraryBrowserType.Songs;
+                    break;
+                case MobileNavigationTabType.Playlists:
+                    browserType = MobileLibraryBrowserType.Playlists;
+                    break;
+            }
+
+            _tabHistory.Clear();
+            _tabHistory.Add(new Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>(tabType, new List<Tuple<MobileLibraryBrowserType, LibraryQuery>>() {
+               new Tuple<MobileLibraryBrowserType, LibraryQuery>(newBrowserType, new LibraryQuery())
+            }));
+
+            //var presenter = GetMobileLibraryBrowserPresenter(tabType, browserType);
+            //if (presenter != null)
+             //   presenter.ChangeBrowserType(newBrowserType);
         }
 
         public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
@@ -191,7 +256,7 @@ namespace MPfm.Android
             if (_fragment is MobileLibraryBrowserFragment)
             {
                 Console.WriteLine("MainActivity - OnNavigationItemSelected - Updating fragment - itemPosition: {0} - itemId: {1}", itemPosition, itemId);
-                _navigationManager.ChangeMobileLibraryBrowserType(MobileNavigationTabType.Artists, (MobileLibraryBrowserType)itemPosition);
+                ChangeMobileLibraryBrowserType(MobileNavigationTabType.Artists, (MobileLibraryBrowserType)itemPosition);
             }
             return true;
         }
@@ -240,10 +305,10 @@ namespace MPfm.Android
         public override void OnBackPressed()
         {
             var tabType = MobileNavigationTabType.Artists;
-            if (_navigationManager.CanGoBackInMobileLibraryBrowserBackstack(tabType))
+            if (CanGoBackInMobileLibraryBrowserBackstack(tabType))
             {
                 //Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
-                _navigationManager.PopMobileLibraryBrowserBackstack(tabType);
+                PopMobileLibraryBrowserBackstack(tabType);
             }
             else
             {
@@ -425,6 +490,24 @@ namespace MPfm.Android
             _viewFlipper.SetOutAnimation(this, Resource.Animation.flipper_slide_out);
             ShowMiniPlayerSlide(1);
         }
+
+        #region IMobileMainView implementation
+
+        public void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
+        {
+            Console.WriteLine("MainActivity - Adding tab {0}", title);
+
+            //_tabHistory.Add(new Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>(type, new List<Tuple<MobileLibraryBrowserType, LibraryQuery>>() {
+            //   new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query)
+            //}));
+
+            _fragment = (Fragment)view;
+            FragmentTransaction transaction = FragmentManager.BeginTransaction();
+            transaction.Replace(Resource.Id.main_fragmentContainer, _fragment);
+            transaction.Commit();
+        }
+
+        #endregion
 
         #region IMobileOptionsMenuView implementation
 

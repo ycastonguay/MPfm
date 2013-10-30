@@ -21,6 +21,8 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -45,6 +47,14 @@ namespace MPfm.Android.Classes.Fragments
             _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblAlbumTitle);
             _lblSongTitle = _view.FindViewById<TextView>(Resource.Id.playerMetadata_lblSongTitle);
             return _view;
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPlayerMetadataView(this);
         }
 
         #region IPlayerMetadataView implementation

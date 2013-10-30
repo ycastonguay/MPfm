@@ -137,7 +137,7 @@ namespace MPfm.MVP.Presenters
 
             // Only need to create the Player view on mobile devices
             #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
-            _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.More, onViewBindedToPresenter);
+            _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.More);
             #else
             var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
                 ArtistName = device.ArtistName,

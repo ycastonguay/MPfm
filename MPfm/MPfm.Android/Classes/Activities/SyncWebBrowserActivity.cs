@@ -55,7 +55,8 @@ namespace MPfm.Android
             _lblCode = FindViewById<TextView>(Resource.Id.syncWebBrowser_lblCode);
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncWebBrowserActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetSyncWebBrowserActivityInstance(this);
+            _navigationManager.BindSyncWebBrowserView(this);
         }
 
         protected override void OnStart()

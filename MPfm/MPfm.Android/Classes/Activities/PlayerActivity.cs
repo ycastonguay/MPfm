@@ -152,6 +152,7 @@ namespace MPfm.Android
             }
             else
             {
+
                 Console.WriteLine("PlayerActivity - OnCreate - State is null - isInitialized: {0}", _isInitialized);
             }
 
@@ -162,7 +163,8 @@ namespace MPfm.Android
             //    Console.WriteLine("PlayerActivity - OnCreate - Bundle is null!");
 
             // When Android stops an activity, it recalls OnCreate after, even though the activity is not destroyed (OnDestroy). It actually goes through creating a new object (the ctor is called).
-            ((AndroidNavigationManager)_navigationManager).SetPlayerActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetPlayerActivityInstance(this);
+            _navigationManager.BindPlayerView(MobileNavigationTabType.Playlists, this);
 
             // Activate lock screen if not already activated
             _messengerHub.PublishAsync<ActivateLockScreenMessage>(new ActivateLockScreenMessage(this, true));

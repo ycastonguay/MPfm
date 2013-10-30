@@ -73,7 +73,8 @@ namespace MPfm.Android
             _webView.SetWebViewClient(_webViewClient);
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetAboutActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetAboutActivityInstance(this);
+            _navigationManager.BindAboutView(this);
         }
 
         protected override void OnStart()

@@ -181,7 +181,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, new EQPreset());
+                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, Guid.Empty);
             }
             catch(Exception ex)
             {
@@ -213,7 +213,7 @@ namespace MPfm.MVP.Presenters
                 if(preset == null)
                     return;
 
-                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, preset);
+                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, preset.EQPresetId);
             }
             catch(Exception ex)
             {

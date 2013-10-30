@@ -199,7 +199,7 @@ namespace MPfm.MVP.Presenters
                         FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
                     });
 
-                    _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                    _navigationManager.CreatePlayerView(_tabType);
                 }
                 else if (_items[index].EntityType == LibraryBrowserEntityType.Album)
                 {
@@ -209,7 +209,7 @@ namespace MPfm.MVP.Presenters
                         FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
                     });
 
-                    _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                    _navigationManager.CreatePlayerView(_tabType);
                 }
                 else if (_items[index].EntityType == LibraryBrowserEntityType.Song)
                 {
@@ -219,7 +219,7 @@ namespace MPfm.MVP.Presenters
                         FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
                     });
 
-                    _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                    _navigationManager.CreatePlayerView(_tabType);
                 }
             }
             catch (Exception ex)
@@ -327,7 +327,7 @@ namespace MPfm.MVP.Presenters
     	                Query = _items[index].Query,
                         FilePath = _items[index].AudioFile.FilePath
     	            });
-                _navigationManager.CreatePlayerView(_tabType, onViewBindedToPresenter);
+                _navigationManager.CreatePlayerView(_tabType);
             }
             catch(Exception ex)
             {

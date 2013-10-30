@@ -67,7 +67,8 @@ namespace MPfm.Android
             _listView.ItemClick += ListViewOnItemClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetSyncActivityInstance(this);
+            _navigationManager.BindSyncView(this);
         }
 
         private void BtnConnectManuallyOnClick(object sender, EventArgs eventArgs)

@@ -67,7 +67,7 @@ namespace MPfm.Android
             _lblTotalFilesValue = FindViewById<TextView>(Resource.Id.syncDownload_lblTotalFilesValue);
             
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncDownloadActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetSyncDownloadActivityInstance(this);
         }
 
         protected override void OnStart()

@@ -125,10 +125,6 @@ namespace MPfm.MVP.Navigation
 
         private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
-        public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
-        public abstract void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
-        public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
-        public abstract void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
         public abstract void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
         public abstract void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view);
         public abstract void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query);
@@ -141,36 +137,11 @@ namespace MPfm.MVP.Navigation
 
         private void ContinueAfterSplash()
         {
-            Tracing.Log("MobileNavigationManager - ContinueAfterSplash");
-#if ANDROID
-            // Only one 'tab' on Android since we re-use the same fragment for different queries
-            // can't the sub views be pushed inside IPlayerView, IPreferencesView, etc? i.e.e IPlayerView.PushView(IBaseView view)
-            //CreateMainView();
-            //var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
-            //AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
-#endif
-#if IOS
-            // TO DO: Actually create MainView
-            var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
-            var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
-            var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
-            var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
-            var moreView = CreateOptionsMenuView();
-            AddTab(MobileNavigationTabType.Playlists, "Sessions", MobileLibraryBrowserType.Playlists, new LibraryQuery(), playlistsView);
-            AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
-            AddTab(MobileNavigationTabType.Albums, "Albums", MobileLibraryBrowserType.Albums, new LibraryQuery(), albumsView);
-            AddTab(MobileNavigationTabType.Songs, "Songs", MobileLibraryBrowserType.Songs, new LibraryQuery(), songsView);
-            AddTab(MobileNavigationTabType.More, "More", moreView);
-#endif
-
-            // Finally hide the splash screen, our UI is ready
-            //HideSplash();
-
             AppConfigManager.Instance.Load();
-            Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
+            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
             if (AppConfigManager.Instance.Root.IsFirstRun)
             {
-                Tracing.Log("LaunchActivity - First run of the application; launching FirstRun activity...");
+                Tracing.Log("MobileNavigationManager - First run of the application; launching FirstRun activity...");
                 CreateFirstRunView();
             }
             else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
@@ -182,7 +153,7 @@ namespace MPfm.MVP.Navigation
 
                 if (audioFile != null)
                 {
-                    Tracing.Log("LaunchActivity - Resume playback is available; launching Player activity...");
+                    Tracing.Log("MobileNavigationManager - Resume playback is available; launching Player activity...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
                     playerService.Play(audioFiles, audioFile.FilePath);
 
@@ -195,10 +166,11 @@ namespace MPfm.MVP.Navigation
                         },
                         FilePath = audioFile.FilePath
                     });
-                    CreatePlayerView(MobileNavigationTabType.Playlists, onViewBindedToPresenter);
+                    CreatePlayerView(MobileNavigationTabType.Playlists);
                 }
             }
 
+            // Shouldn't this be done by the presenter instead, who notifies the view? This should be the ONLY view that the NavMgr calls directly...
             _splashView.DestroyView();
         }
 
@@ -297,6 +269,7 @@ namespace MPfm.MVP.Navigation
             // when binding the view (i.e. INavigationManager.BindMarkerDetailsView(Guid markerId))
             Tracing.Log("MobileNavigationManager - BindMobileMainView");
             _mainView = view;
+            _mainPresenter = Bootstrapper.GetContainer().Resolve<IMobileMainPresenter>();
             _mainView.OnViewDestroy = (view2) =>
             {
                 _mainPresenter.ViewDestroyed();
@@ -304,236 +277,221 @@ namespace MPfm.MVP.Navigation
                 _mainView = null;
             };
             _mainPresenter.BindView(view);
+
+#if ANDROID
+            var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
+            _mainView.AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
+#elif IOS
+            var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
+            var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
+            var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
+            var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
+            var moreView = CreateOptionsMenuView();
+            _mainView.AddTab(MobileNavigationTabType.Playlists, "Sessions", MobileLibraryBrowserType.Playlists, new LibraryQuery(), playlistsView);
+            _mainView.AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
+            _mainView.AddTab(MobileNavigationTabType.Albums, "Albums", MobileLibraryBrowserType.Albums, new LibraryQuery(), albumsView);
+            _mainView.AddTab(MobileNavigationTabType.Songs, "Songs", MobileLibraryBrowserType.Songs, new LibraryQuery(), songsView);
+            _mainView.AddTab(MobileNavigationTabType.More, "More", moreView);
+#endif
         }
 
         public virtual IUpdateLibraryView CreateUpdateLibraryView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _updateLibraryPresenter = Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
-                _updateLibraryPresenter.BindView((IUpdateLibraryView)view);
-            };
+            _updateLibraryView = Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>();
+            return _updateLibraryView;
+        }
 
-            // Create view and manage view destruction
-            _updateLibraryView = Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _updateLibraryView.OnViewDestroy = (view) =>
+        public virtual void BindUpdateLibraryView(IUpdateLibraryView view)
+        {
+            _updateLibraryView = view;
+            _updateLibraryPresenter = Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
+            _updateLibraryPresenter.BindView(view);
+            _updateLibraryView.OnViewDestroy = (view2) =>
             {
                 _updateLibraryPresenter.ViewDestroyed();
                 _updateLibraryPresenter = null;
                 _updateLibraryView = null;
             };
-            return _updateLibraryView;
         }
 
         public virtual ISelectPlaylistView CreateSelectPlaylistView(LibraryBrowserEntity item)
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _selectPlaylistPresenter = Bootstrapper.GetContainer().Resolve<ISelectPlaylistPresenter>(new NamedParameterOverloads() { { "item", item } });
-                _selectPlaylistPresenter.BindView((ISelectPlaylistView)view);
-            };
+            _selectPlaylistView = Bootstrapper.GetContainer().Resolve<ISelectPlaylistView>(new NamedParameterOverloads() { { "item", item } });
+            return _selectPlaylistView;
+        }
 
-            // Create view and manage view destruction
-            _selectPlaylistView = Bootstrapper.GetContainer().Resolve<ISelectPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _selectPlaylistView.OnViewDestroy = (view) =>
+        public virtual void BindSelectPlaylistView(ISelectPlaylistView view, LibraryBrowserEntity item)
+        {
+            _selectPlaylistView = view;
+            _selectPlaylistPresenter = Bootstrapper.GetContainer().Resolve<ISelectPlaylistPresenter>(new NamedParameterOverloads() { { "item", item } });
+            _selectPlaylistPresenter.BindView(view);
+            _selectPlaylistView.OnViewDestroy = (view2) =>
             {
                 _selectPlaylistPresenter.ViewDestroyed();
                 _selectPlaylistPresenter = null;
                 _selectPlaylistView = null;
-            };
-            return _selectPlaylistView;
+            };            
         }
 
         public virtual IAddPlaylistView CreateAddPlaylistView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _addPlaylistPresenter = Bootstrapper.GetContainer().Resolve<IAddPlaylistPresenter>();
-                _addPlaylistPresenter.BindView((IAddPlaylistView)view);
-            };
+            _addPlaylistView = Bootstrapper.GetContainer().Resolve<IAddPlaylistView>();
+            return _addPlaylistView;
+        }
 
-            // Create view and manage view destruction
-            _addPlaylistView = Bootstrapper.GetContainer().Resolve<IAddPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _addPlaylistView.OnViewDestroy = (view) =>
+        public virtual void BindAddPlaylistView(IAddPlaylistView view)
+        {
+            _addPlaylistView = view;
+            _addPlaylistPresenter = Bootstrapper.GetContainer().Resolve<IAddPlaylistPresenter>();
+            _addPlaylistPresenter.BindView(view);
+            _addPlaylistView.OnViewDestroy = (view2) =>
             {
                 _addPlaylistPresenter.ViewDestroyed();
                 _addPlaylistPresenter = null;
                 _addPlaylistView = null;
-            };
-            return _addPlaylistView;
+            };            
         }
 
         public virtual ISelectFoldersView CreateSelectFoldersView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _selectFoldersPresenter = Bootstrapper.GetContainer().Resolve<ISelectFoldersPresenter>();
-                _selectFoldersPresenter.BindView((ISelectFoldersView)view);
-            };
+            _selectFoldersView = Bootstrapper.GetContainer().Resolve<ISelectFoldersView>();
+            return _selectFoldersView;
+        }
 
-            // Create view and manage view destruction
-            _selectFoldersView = Bootstrapper.GetContainer().Resolve<ISelectFoldersView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _selectFoldersView.OnViewDestroy = (view) =>
+        public virtual void BindSelectFoldersView(ISelectFoldersView view)
+        {
+            _selectFoldersView = view;
+            _selectFoldersPresenter = Bootstrapper.GetContainer().Resolve<ISelectFoldersPresenter>();
+            _selectFoldersPresenter.BindView(view);
+            _selectFoldersView.OnViewDestroy = (view2) =>
             {
                 _selectFoldersPresenter.ViewDestroyed();
                 _selectFoldersPresenter = null;
                 _selectFoldersView = null;
             };
-            return _selectFoldersView;
         }
 
         public virtual IAddMarkerView CreateAddMarkerView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _addMarkerPresenter = Bootstrapper.GetContainer().Resolve<IAddMarkerPresenter>();
-                _addMarkerPresenter.BindView((IAddMarkerView)view);
-            };
+            _addMarkerView = Bootstrapper.GetContainer().Resolve<IAddMarkerView>();
+            return _addMarkerView;
+        }
 
-            // Create view and manage view destruction
-            _addMarkerView = Bootstrapper.GetContainer().Resolve<IAddMarkerView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _addMarkerView.OnViewDestroy = (view) =>
+        public virtual void BindAddMarkerView(IAddMarkerView view)
+        {
+            _addMarkerView = view;
+            _addMarkerPresenter = Bootstrapper.GetContainer().Resolve<IAddMarkerPresenter>();
+            _addMarkerPresenter.BindView(view);
+            _addMarkerView.OnViewDestroy = (view2) =>
             {
                 _addMarkerPresenter.ViewDestroyed();
                 _addMarkerPresenter = null;
                 _addMarkerView = null;
             };
-            return _addMarkerView;
-        }
-
-        protected virtual void CreatePreferencesViewInternal(Action<IBaseView> onViewReady)
-        {
-            if(_preferencesView == null)
-                _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-            // Android activities are started by an intent and cannot be pushed like iOS
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _preferencesView);
-#endif
         }
 
         public virtual void CreatePreferencesView()
         {
-            Action<IBaseView> onViewReady = (view) => {
-                _preferencesView = (IPreferencesView)view;
-                _preferencesView.OnViewDestroy = (view2) =>
-                {
-                    _preferencesPresenter.ViewDestroyed();
-                    _preferencesPresenter = null;
-                    _preferencesView = null;
-                };
-                _preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
-                _preferencesPresenter.BindView((IPreferencesView)view);
+            if(_preferencesView == null)
+                _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>();
+        }
+
+        public virtual void BindPreferencesView(IPreferencesView view)
+        {
+            _preferencesView = view;
+            _preferencesView.OnViewDestroy = (view2) =>
+            {
+                _preferencesPresenter.ViewDestroyed();
+                _preferencesPresenter = null;
+                _preferencesView = null;
+            };
+            _preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
+            _preferencesPresenter.BindView(view);
                 
 #if ANDROID
-                // On Android, push subviews for preferences since there's generally more space on screen and swiping horizontally is more natural.
-                var general = CreateGeneralPreferencesView();
-                var audio = CreateAudioPreferencesView();
-                var library = CreateLibraryPreferencesView();
-                _preferencesView.PushSubView(general);
-                _preferencesView.PushSubView(audio);
-                _preferencesView.PushSubView(library);
+            // On Android, push subviews for preferences since there's generally more space on screen and swiping horizontally is more natural.
+            var general = CreateGeneralPreferencesView();
+            var audio = CreateAudioPreferencesView();
+            var library = CreateLibraryPreferencesView();
+            _preferencesView.PushSubView(general);
+            _preferencesView.PushSubView(audio);
+            _preferencesView.PushSubView(library);
 #endif
-            };
-            
-            CreatePreferencesViewInternal(onViewReady);
         }
         
         public virtual IAudioPreferencesView CreateAudioPreferencesView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-                {
-                    _audioPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
-                    _audioPreferencesPresenter.BindView((IAudioPreferencesView)view);
-                };
-
-            // Create view and manage view destruction
-            if(_audioPreferencesView == null)
-            {
-                _audioPreferencesView = Bootstrapper.GetContainer().Resolve<IAudioPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _audioPreferencesView.OnViewDestroy = (view) =>
-                {
-                    _audioPreferencesPresenter.ViewDestroyed();
-                    _audioPreferencesPresenter = null;
-                    _audioPreferencesView = null;
-                };
-            }
+            _audioPreferencesView = Bootstrapper.GetContainer().Resolve<IAudioPreferencesView>();
             return _audioPreferencesView;
+        }
+
+        public virtual void BindAudioPreferencesView(IAudioPreferencesView view)
+        {
+            _audioPreferencesView = view;
+            _audioPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IAudioPreferencesPresenter>();
+            _audioPreferencesPresenter.BindView(view);
+            _audioPreferencesView.OnViewDestroy = (view2) =>
+            {
+                _audioPreferencesPresenter.ViewDestroyed();
+                _audioPreferencesPresenter = null;
+                _audioPreferencesView = null;
+            };            
         }
 
         public virtual ICloudPreferencesView CreateCloudPreferencesView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _cloudPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ICloudPreferencesPresenter>();
-                _cloudPreferencesPresenter.BindView((ICloudPreferencesView)view);
-            };
-
-            // Create view and manage view destruction
-            if(_cloudPreferencesView == null)
-            {
-                _cloudPreferencesView = Bootstrapper.GetContainer().Resolve<ICloudPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _cloudPreferencesView.OnViewDestroy = (view) =>
-                {
-                    _cloudPreferencesPresenter.ViewDestroyed();
-                    _cloudPreferencesPresenter = null;
-                    _cloudPreferencesView = null;
-                };
-            }
+            _cloudPreferencesView = Bootstrapper.GetContainer().Resolve<ICloudPreferencesView>();
             return _cloudPreferencesView;
+        }
+
+        public virtual void BindCloudPreferencesView(ICloudPreferencesView view)
+        {
+            _cloudPreferencesView = view;
+            _cloudPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ICloudPreferencesPresenter>();
+            _cloudPreferencesPresenter.BindView(view);
+            _cloudPreferencesView.OnViewDestroy = (view2) =>
+            {
+                _cloudPreferencesPresenter.ViewDestroyed();
+                _cloudPreferencesPresenter = null;
+                _cloudPreferencesView = null;
+            };            
         }
 
         public virtual IGeneralPreferencesView CreateGeneralPreferencesView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _generalPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
-                _generalPreferencesPresenter.BindView((IGeneralPreferencesView)view);
-            };
-
-            // Create view and manage view destruction
-            if(_generalPreferencesView == null)
-            {
-                _generalPreferencesView = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _generalPreferencesView.OnViewDestroy = (view) =>
-                {
-                    _generalPreferencesPresenter.ViewDestroyed();
-                    _generalPreferencesPresenter = null;
-                    _generalPreferencesView = null;
-                };
-            }
+            _generalPreferencesView = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesView>();
             return _generalPreferencesView;
+        }
+
+        public virtual void BindGeneralPreferencesView(IGeneralPreferencesView view)
+        {
+            _generalPreferencesView = view;
+            _generalPreferencesPresenter = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesPresenter>();
+            _generalPreferencesPresenter.BindView(view);
+            _generalPreferencesView.OnViewDestroy = (view2) =>
+            {
+                _generalPreferencesPresenter.ViewDestroyed();
+                _generalPreferencesPresenter = null;
+                _generalPreferencesView = null;
+            };            
         }
 
         public virtual ILibraryPreferencesView CreateLibraryPreferencesView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _libraryPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
-                _libraryPreferencesPresenter.BindView((ILibraryPreferencesView)view);
-            };
-
-            // Create view and manage view destruction
-            if(_libraryPreferencesView == null)
-            {
-                _libraryPreferencesView = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-                _libraryPreferencesView.OnViewDestroy = (view) =>
-                {                    
-                    _libraryPreferencesPresenter.ViewDestroyed();
-                    _libraryPreferencesPresenter = null;
-                    _libraryPreferencesView = null;
-                };
-            }
+            _libraryPreferencesView = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesView>();
             return _libraryPreferencesView;
+        }
+
+        public virtual void BindLibraryPreferencesView(ILibraryPreferencesView view)
+        {
+            _libraryPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
+            _libraryPreferencesPresenter.BindView(view);
+            _libraryPreferencesView.OnViewDestroy = (view2) =>
+            {
+                _libraryPreferencesPresenter.ViewDestroyed();
+                _libraryPreferencesPresenter = null;
+                _libraryPreferencesView = null;
+            };            
         }
 
         protected IMobileLibraryBrowserPresenter GetMobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType)
@@ -596,94 +554,74 @@ namespace MPfm.MVP.Navigation
             return newView;
         }
 
-        protected virtual void CreatePlayerViewInternal(MobileNavigationTabType tabType, Action<IBaseView> onViewReady)
+        public virtual void CreatePlayerView(MobileNavigationTabType tabType)
         {
             if (_playerView == null)
-                _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushTabView(tabType, _playerView);
-#endif
+                _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>();
         }
 
-        public virtual void CreatePlayerView(MobileNavigationTabType tabType, Action<IBaseView> onViewBindedToPresenter)
+        public virtual void BindPlayerView(MobileNavigationTabType tabType, IPlayerView view)
         {
-            Action<IBaseView> onViewReady = (view) => {
-                _playerView = (IPlayerView) view;
-                _playerView.OnViewDestroy = (view2) =>
-                {
-                    _playerPresenter.ViewDestroyed();
-                    _playerPresenter = null;
-                    _playerView = null;
-                };
-                _playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
-                _playerPresenter.BindView((IPlayerView)view);
-
-                var playerMetadata = CreatePlayerMetadataView();
-                var loops = CreateLoopsView();
-                var markers = CreateMarkersView();
-                var timeShifting = CreateTimeShiftingView();
-                var pitchShifting = CreatePitchShiftingView();
-
-                _playerView.PushSubView(playerMetadata);
-                _playerView.PushSubView(loops);
-                _playerView.PushSubView(markers);
-                _playerView.PushSubView(timeShifting);
-                _playerView.PushSubView(pitchShifting);
-
-                if (onViewBindedToPresenter != null)
-                    onViewBindedToPresenter(view);
+            _playerView = view;
+            _playerView.OnViewDestroy = (view2) =>
+            {
+                _playerPresenter.ViewDestroyed();
+                _playerPresenter = null;
+                _playerView = null;
             };
+            _playerPresenter = Bootstrapper.GetContainer().Resolve<IPlayerPresenter>();
+            _playerPresenter.BindView(view);
 
-            if(_playerView == null)
-            {
-                CreatePlayerViewInternal(tabType, onViewReady);
-            }
-            else
-            {
-                onViewBindedToPresenter(_playerView);
-                PushTabView(tabType, MobileLibraryBrowserType.Artists, new LibraryQuery(), _playerView);
-            }
+            // Create sub views
+            var playerMetadata = CreatePlayerMetadataView();
+            var loops = CreateLoopsView();
+            var markers = CreateMarkersView();
+            var timeShifting = CreateTimeShiftingView();
+            var pitchShifting = CreatePitchShiftingView();
+
+            _playerView.PushSubView(playerMetadata);
+            _playerView.PushSubView(loops);
+            _playerView.PushSubView(markers);
+            _playerView.PushSubView(timeShifting);
+            _playerView.PushSubView(pitchShifting);
         }
 
         public virtual IPlayerMetadataView CreatePlayerMetadataView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _playerMetadataPresenter = Bootstrapper.GetContainer().Resolve<IPlayerMetadataPresenter>();
-                _playerMetadataPresenter.BindView((IPlayerMetadataView)view);
-            };
-            
-            // Create view and manage view destruction
-            _playerMetadataView = Bootstrapper.GetContainer().Resolve<IPlayerMetadataView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _playerMetadataView.OnViewDestroy = (view) =>
+            _playerMetadataView = Bootstrapper.GetContainer().Resolve<IPlayerMetadataView>();
+            return _playerMetadataView;
+        }
+
+        public virtual void BindPlayerMetadataView(IPlayerMetadataView view)
+        {
+            _playerMetadataView = view;
+            _playerMetadataPresenter = Bootstrapper.GetContainer().Resolve<IPlayerMetadataPresenter>();
+            _playerMetadataPresenter.BindView(view);
+            _playerMetadataView.OnViewDestroy = (view2) =>
             {
                 _playerMetadataPresenter.ViewDestroyed();
                 _playerMetadataPresenter = null;
                 _playerMetadataView = null;
             };
-            return _playerMetadataView;
         }
 
         public virtual ILoopsView CreateLoopsView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _loopsPresenter = Bootstrapper.GetContainer().Resolve<ILoopsPresenter>();
-                _loopsPresenter.BindView((ILoopsView)view);
-            };
-            
-            // Create view and manage view destruction
-            _loopsView = Bootstrapper.GetContainer().Resolve<ILoopsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _loopsView.OnViewDestroy = (view) =>
+            _loopsView = Bootstrapper.GetContainer().Resolve<ILoopsView>();
+            return _loopsView;
+        }
+
+        public virtual void BindLoopsView(ILoopsView view)
+        {
+            _loopsView = view;
+            _loopsPresenter = Bootstrapper.GetContainer().Resolve<ILoopsPresenter>();
+            _loopsPresenter.BindView(view);
+            _loopsView.OnViewDestroy = (view2) =>
             {
                 _loopsPresenter.ViewDestroyed();
                 _loopsPresenter = null;
                 _loopsView = null;
             };
-            return _loopsView;
         }
 
         public virtual ILoopDetailsView CreateLoopDetailsView()
@@ -708,457 +646,339 @@ namespace MPfm.MVP.Navigation
 
         public virtual IMarkersView CreateMarkersView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _markersPresenter = Bootstrapper.GetContainer().Resolve<IMarkersPresenter>();
-                _markersPresenter.BindView((IMarkersView)view);
-            };
-            
-            // Create view and manage view destruction
-            _markersView = Bootstrapper.GetContainer().Resolve<IMarkersView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _markersView.OnViewDestroy = (view) =>
+            _markersView = Bootstrapper.GetContainer().Resolve<IMarkersView>();
+            return _markersView;
+        }
+
+        public virtual void BindMarkersView(IMarkersView view)
+        {
+            _markersView = view;
+            _markersPresenter = Bootstrapper.GetContainer().Resolve<IMarkersPresenter>();
+            _markersPresenter.BindView(view);
+            _markersView.OnViewDestroy = (view2) =>
             {
                 _markersPresenter.ViewDestroyed();
                 _markersPresenter = null;
                 _markersView = null;
-            };
-            return _markersView;
-        }
-
-        protected virtual void CreateMarkerDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
-        {
-            if (_markerDetailsView == null)
-                _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushDialogView(MobileDialogPresentationType.Standard, "Marker Details", sourceView, _markerDetailsView);
-#endif
+            };           
         }
 
         public virtual void CreateMarkerDetailsView(IBaseView sourceView, Guid markerId)
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _markerDetailsView = (IMarkerDetailsView)view;
-                _markerDetailsView.OnViewDestroy = (view2) =>
-                {
-                    _markerDetailsPresenter.ViewDestroyed();
-                    _markerDetailsPresenter = null;
-                    _markerDetailsView = null;
-                };
-                _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads() { { "markerId", markerId } });
-                _markerDetailsPresenter.BindView((IMarkerDetailsView)view);
-            };
+            if (_markerDetailsView == null)
+                _markerDetailsView = Bootstrapper.GetContainer().Resolve<IMarkerDetailsView>(new NamedParameterOverloads() { { "markerId", markerId } });
+        }
 
-            CreateMarkerDetailsViewInternal(sourceView, onViewReady);
+        public virtual void BindMarkerDetailsView(IMarkerDetailsView view, Guid markerId)
+        {
+            _markerDetailsView = view;
+            _markerDetailsPresenter = Bootstrapper.GetContainer().Resolve<IMarkerDetailsPresenter>(new NamedParameterOverloads() { { "markerId", markerId } });
+            _markerDetailsPresenter.BindView(view);
+            _markerDetailsView.OnViewDestroy = (view2) =>
+            {
+                _markerDetailsPresenter.ViewDestroyed();
+                _markerDetailsPresenter = null;
+                _markerDetailsView = null;
+            };            
         }
 
         public virtual ITimeShiftingView CreateTimeShiftingView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _timeShiftingPresenter = Bootstrapper.GetContainer().Resolve<ITimeShiftingPresenter>();
-                _timeShiftingPresenter.BindView((ITimeShiftingView)view);
-            };
-            
-            // Create view and manage view destruction
-            _timeShiftingView = Bootstrapper.GetContainer().Resolve<ITimeShiftingView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _timeShiftingView.OnViewDestroy = (view) =>
+            _timeShiftingView = Bootstrapper.GetContainer().Resolve<ITimeShiftingView>();
+            return _timeShiftingView;
+        }
+
+        public virtual void BindTimeShiftingView(ITimeShiftingView view)
+        {
+            _timeShiftingView = view;
+            _timeShiftingPresenter = Bootstrapper.GetContainer().Resolve<ITimeShiftingPresenter>();
+            _timeShiftingPresenter.BindView(view);
+            _timeShiftingView.OnViewDestroy = (view2) =>
             {
                 _timeShiftingPresenter.ViewDestroyed();
                 _timeShiftingPresenter = null;
                 _timeShiftingView = null;
             };
-            return _timeShiftingView;
         }
 
         public virtual IPitchShiftingView CreatePitchShiftingView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _pitchShiftingPresenter = Bootstrapper.GetContainer().Resolve<IPitchShiftingPresenter>();
-                _pitchShiftingPresenter.BindView((IPitchShiftingView)view);
-            };
-            
-            // Create view and manage view destruction
-            _pitchShiftingView = Bootstrapper.GetContainer().Resolve<IPitchShiftingView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _pitchShiftingView.OnViewDestroy = (view) =>
+            _pitchShiftingView = Bootstrapper.GetContainer().Resolve<IPitchShiftingView>();
+            return _pitchShiftingView;
+        }
+
+        public virtual void BindPitchShiftingView(IPitchShiftingView view)
+        {
+            _pitchShiftingView = view;
+            _pitchShiftingPresenter = Bootstrapper.GetContainer().Resolve<IPitchShiftingPresenter>();
+            _pitchShiftingPresenter.BindView(view);
+            _pitchShiftingView.OnViewDestroy = (view2) =>
             {
                 _pitchShiftingPresenter.ViewDestroyed();
                 _pitchShiftingPresenter = null;
                 _pitchShiftingView = null;
             };
-            return _pitchShiftingView;
-        }
-
-        protected virtual void CreateEqualizerPresetsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
-        {
-            if(_equalizerPresetsView == null)
-                _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            
-#if !ANDROID
-            PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Presets", null, _equalizerPresetsView);
-#endif
         }
 
         public virtual void CreateEqualizerPresetsView(IBaseView sourceView)
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _equalizerPresetsView = (IEqualizerPresetsView)view;
-                _equalizerPresetsView.OnViewDestroy = (view2) =>
-                {
-                    _equalizerPresetsPresenter.ViewDestroyed();
-                    _equalizerPresetsPresenter = null;
-                    _equalizerPresetsView = null;
-                };
-                _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
-                _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
-            };
-
-            CreateEqualizerPresetsViewInternal(sourceView, onViewReady);
+            if(_equalizerPresetsView == null)
+                _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>();
         }
 
-        protected virtual void CreateEqualizerPresetDetailsViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
+        public virtual void BindEqualizerPresetsView(IBaseView sourceView, IEqualizerPresetsView view)
+        {
+            _equalizerPresetsView = view;
+            _equalizerPresetsView.OnViewDestroy = (view2) =>
+            {
+                _equalizerPresetsPresenter.ViewDestroyed();
+                _equalizerPresetsPresenter = null;
+                _equalizerPresetsView = null;
+            };
+            _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
+            _equalizerPresetsPresenter.BindView(view);
+        }
+
+        public virtual void CreateEqualizerPresetDetailsView(IBaseView sourceView, Guid presetId)
         {
             if (_equalizerPresetDetailsView == null)
-                _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushDialogSubview(MobileDialogPresentationType.Standard, "Equalizer Presets", _equalizerPresetDetailsView);
-#endif
+                _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "presetId", presetId } });
         }
 
-        public virtual void CreateEqualizerPresetDetailsView(IBaseView sourceView, EQPreset preset)
+        public virtual void BindEqualizerPresetDetailsView(IBaseView sourceView, IEqualizerPresetDetailsView view, Guid presetId)
         {
-            Action<IBaseView> onViewReady = (view) =>
+            _equalizerPresetDetailsView = view;
+            _equalizerPresetDetailsView.OnViewDestroy = (view2) =>
             {
-                _equalizerPresetDetailsView = (IEqualizerPresetDetailsView)view;
-                _equalizerPresetDetailsView.OnViewDestroy = (view2) =>
-                {
-                    _equalizerPresetDetailsPresenter.ViewDestroyed();
-                    _equalizerPresetDetailsPresenter = null;
-                    _equalizerPresetDetailsView = null;
-                };
-                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads(){{"preset", preset}});
-                _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
+                _equalizerPresetDetailsPresenter.ViewDestroyed();
+                _equalizerPresetDetailsPresenter = null;
+                _equalizerPresetDetailsView = null;
             };
-
-            CreateEqualizerPresetDetailsViewInternal(sourceView, onViewReady);
-        }
-
-        protected virtual void CreateSyncViewInternal(Action<IBaseView> onViewReady)
-        {
-            if (_syncView == null)
-                _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _syncView);
-#endif
+            _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads(){{"presetId", presetId}});
+            _equalizerPresetDetailsPresenter.BindView(view);
         }
 
         public virtual void CreateSyncView()
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _syncView = (ISyncView)view;
-                _syncView.OnViewDestroy = (view2) =>
-                {
-                    _syncPresenter.ViewDestroyed();
-                    _syncPresenter = null;
-                    _syncView = null;
-                };
-                _syncPresenter = Bootstrapper.GetContainer().Resolve<ISyncPresenter>();
-                _syncPresenter.BindView((ISyncView)view);
-            };
-
-            CreateSyncViewInternal(onViewReady);
+            if (_syncView == null)
+                _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>();
         }
 
-        protected virtual void CreateSyncWebBrowserViewInternal(Action<IBaseView> onViewReady)
+        public virtual void BindSyncView(ISyncView view)
         {
-            if (_syncWebBrowserView == null)
-                _syncWebBrowserView = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _syncWebBrowserView);
-#endif
+            _syncView = view;
+            _syncView.OnViewDestroy = (view2) =>
+            {
+                _syncPresenter.ViewDestroyed();
+                _syncPresenter = null;
+                _syncView = null;
+            };
+            _syncPresenter = Bootstrapper.GetContainer().Resolve<ISyncPresenter>();
+            _syncPresenter.BindView(view);
         }
-        
+
         public virtual void CreateSyncWebBrowserView()
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _syncWebBrowserView = (ISyncWebBrowserView)view;
-                _syncWebBrowserView.OnViewDestroy = (view2) =>
-                {
-                    _syncWebBrowserPresenter.ViewDestroyed();
-                    _syncWebBrowserPresenter = null;
-                    _syncWebBrowserView = null;
-                };
-                _syncWebBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserPresenter>();
-                _syncWebBrowserPresenter.BindView((ISyncWebBrowserView)view);
-            };
-
-            CreateSyncWebBrowserViewInternal(onViewReady);
+            if (_syncWebBrowserView == null)
+                _syncWebBrowserView = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserView>();
         }
-
-        protected virtual void CreateSyncCloudViewInternal(Action<IBaseView> onViewReady)
+        
+        public virtual void BindSyncWebBrowserView(ISyncWebBrowserView view)
         {
-            if (_syncCloudView == null)
-                _syncCloudView = Bootstrapper.GetContainer().Resolve<ISyncCloudView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _syncCloudView);
-#endif
+            _syncWebBrowserView = view;
+            _syncWebBrowserView.OnViewDestroy = (view2) =>
+            {
+                _syncWebBrowserPresenter.ViewDestroyed();
+                _syncWebBrowserPresenter = null;
+                _syncWebBrowserView = null;
+            };
+            _syncWebBrowserPresenter = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserPresenter>();
+            _syncWebBrowserPresenter.BindView(view);
         }
 
         public virtual void CreateSyncCloudView()
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _syncCloudView = (ISyncCloudView)view;
-                _syncCloudView.OnViewDestroy = (view2) =>
-                {
-                    _syncCloudPresenter.ViewDestroyed();
-                    _syncCloudPresenter = null;
-                    _syncCloudPresenter = null;
-                };
-                _syncCloudPresenter = Bootstrapper.GetContainer().Resolve<ISyncCloudPresenter>();
-                _syncCloudPresenter.BindView((ISyncCloudView)view);
-            };
-
-            CreateSyncCloudViewInternal(onViewReady);
+            if (_syncCloudView == null)
+                _syncCloudView = Bootstrapper.GetContainer().Resolve<ISyncCloudView>();
         }
 
-        protected virtual void CreateSyncMenuViewInternal(Action<IBaseView> onViewReady, SyncDevice device)
+        public virtual void BindSyncCloudView(ISyncCloudView view)
         {
-            if (_syncMenuView == null)
-                _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            else
-                _syncMenuPresenter.SetSyncDevice(device);
-            
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _syncMenuView);
-#endif
+            _syncCloudView = view;
+            _syncCloudView.OnViewDestroy = (view2) =>
+            {
+                _syncCloudPresenter.ViewDestroyed();
+                _syncCloudPresenter = null;
+                _syncCloudView = null;
+            };
+            _syncCloudPresenter = Bootstrapper.GetContainer().Resolve<ISyncCloudPresenter>();
+            _syncCloudPresenter.BindView(view);
         }
 
         public virtual void CreateSyncMenuView(SyncDevice device)
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _syncMenuView = (ISyncMenuView)view;
-                _syncMenuView.OnViewDestroy = (view2) =>
-                {
-                    _syncMenuPresenter.ViewDestroyed();
-                    _syncMenuPresenter = null;
-                    _syncMenuView = null;
-                };
-                _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>();
-                _syncMenuPresenter.BindView((ISyncMenuView)view);
-                _syncMenuPresenter.SetSyncDevice(device);
-            };
+            //if (_syncMenuView == null)
+            //    _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            //else
+            //    _syncMenuPresenter.SetSyncDevice(device);
 
-            CreateSyncMenuViewInternal(onViewReady, device);
+            if (_syncMenuView == null)
+                _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>();
         }
 
-        protected virtual void CreateSyncDownloadViewInternal(Action<IBaseView> onViewReady, SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        public virtual void BindSyncMenuView(ISyncMenuView view, SyncDevice device)
         {
-            if (_syncDownloadView == null)
-                _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            else
-                _syncDownloadPresenter.StartSync(device, audioFiles);
-
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _syncDownloadView);
-#endif
+            _syncMenuView = view;
+            _syncMenuView.OnViewDestroy = (view2) =>
+            {
+                _syncMenuPresenter.ViewDestroyed();
+                _syncMenuPresenter = null;
+                _syncMenuView = null;
+            };
+            _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>();
+            _syncMenuPresenter.BindView(view);
+            // Move this to ctor!
+            //_syncMenuPresenter.SetSyncDevice(device);
         }
 
         public virtual void CreateSyncDownloadView(SyncDevice device, IEnumerable<AudioFile> audioFiles)
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _syncDownloadView = (ISyncDownloadView)view;
-                _syncDownloadView.OnViewDestroy = (view2) =>
-                {
-                    _syncDownloadPresenter.ViewDestroyed();
-                    _syncDownloadPresenter = null;
-                    _syncDownloadView = null;
-                };
-                _syncDownloadPresenter = Bootstrapper.GetContainer().Resolve<ISyncDownloadPresenter>();
-                _syncDownloadPresenter.BindView((ISyncDownloadView)view);
-                _syncDownloadPresenter.StartSync(device, audioFiles);
-            };
+            //if (_syncDownloadView == null)
+            //    _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            //else
+            //    _syncDownloadPresenter.StartSync(device, audioFiles);
 
-            CreateSyncDownloadViewInternal(onViewReady, device, audioFiles);
+            if (_syncDownloadView == null)
+                _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>();
         }
 
-        protected virtual void CreateAboutViewInternal(Action<IBaseView> onViewReady)
+        public virtual void BindSyncDownloadView(ISyncDownloadView view, SyncDevice device, IEnumerable<AudioFile> audioFiles)
         {
-            if (_aboutView == null)
-                _aboutView = Bootstrapper.GetContainer().Resolve<IAboutView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _aboutView);
-#endif
+            _syncDownloadView = view;
+            _syncDownloadView.OnViewDestroy = (view2) =>
+            {
+                _syncDownloadPresenter.ViewDestroyed();
+                _syncDownloadPresenter = null;
+                _syncDownloadView = null;
+            };
+            _syncDownloadPresenter = Bootstrapper.GetContainer().Resolve<ISyncDownloadPresenter>();
+            _syncDownloadPresenter.BindView(view);
+            // Move to Ctor
+            //_syncDownloadPresenter.StartSync(device, audioFiles);
         }
 
         public virtual void CreateAboutView()
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _aboutView = (IAboutView)view;
-                _aboutView.OnViewDestroy = (view2) =>
-                {
-                    _aboutPresenter.ViewDestroyed();
-                    _aboutPresenter = null;
-                    _aboutView = null;
-                };
-                _aboutPresenter = Bootstrapper.GetContainer().Resolve<IAboutPresenter>();
-                _aboutPresenter.BindView((IAboutView)view);
-            };
-
-            CreateAboutViewInternal(onViewReady);
+            if (_aboutView == null)
+                _aboutView = Bootstrapper.GetContainer().Resolve<IAboutView>();
         }
 
-        protected virtual void CreateFirstRunViewInternal(Action<IBaseView> onViewReady)
+        public virtual void BindAboutView(IAboutView view)
         {
-            if (_firstRunView == null)
-                _firstRunView = Bootstrapper.GetContainer().Resolve<IFirstRunView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushDialogView(MobileDialogPresentationType.Overlay, "First Run", null, _firstRunView);
-#endif
+            _aboutView = view;
+            _aboutView.OnViewDestroy = (view2) =>
+            {
+                _aboutPresenter.ViewDestroyed();
+                _aboutPresenter = null;
+                _aboutView = null;
+            };
+            _aboutPresenter = Bootstrapper.GetContainer().Resolve<IAboutPresenter>();
+            _aboutPresenter.BindView(view);
         }
 
         public virtual void CreateFirstRunView()
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _firstRunView = (IFirstRunView)view;
-                _firstRunView.OnViewDestroy = (view2) =>
-                {
-                    _firstRunPresenter.ViewDestroyed();
-                    _firstRunPresenter = null;
-                    _firstRunView = null;
-                };
-                _firstRunPresenter = Bootstrapper.GetContainer().Resolve<IFirstRunPresenter>();
-                _firstRunPresenter.BindView((IFirstRunView)view);
-            };
-
-            CreateFirstRunViewInternal(onViewReady);
+            if (_firstRunView == null)
+                _firstRunView = Bootstrapper.GetContainer().Resolve<IFirstRunView>();
         }
 
-        protected virtual void CreateResumePlaybackViewInternal(Action<IBaseView> onViewReady)
+        public virtual void BindFirstRunView(IFirstRunView view)
         {
-            if (_resumePlaybackView == null)
-                _resumePlaybackView = Bootstrapper.GetContainer().Resolve<IResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _resumePlaybackView);
-#endif
+            _firstRunView = view;
+            _firstRunView.OnViewDestroy = (view2) =>
+            {
+                _firstRunPresenter.ViewDestroyed();
+                _firstRunPresenter = null;
+                _firstRunView = null;
+            };
+            _firstRunPresenter = Bootstrapper.GetContainer().Resolve<IFirstRunPresenter>();
+            _firstRunPresenter.BindView(view);
         }
 
         public virtual void CreateResumePlaybackView()
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _resumePlaybackView = (IResumePlaybackView)view;
-                _resumePlaybackView.OnViewDestroy = (view2) =>
-                {
-                    _resumePlaybackPresenter.ViewDestroyed();
-                    _resumePlaybackPresenter = null;
-                    _resumePlaybackView = null;
-                };
-                _resumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IResumePlaybackPresenter>();
-                _resumePlaybackPresenter.BindView((IResumePlaybackView)view);
-            };
+            if (_resumePlaybackView == null)
+                _resumePlaybackView = Bootstrapper.GetContainer().Resolve<IResumePlaybackView>();
+        }
 
-            CreateResumePlaybackViewInternal(onViewReady);
+        public virtual void BindResumePlaybackView(IResumePlaybackView view)
+        {
+            _resumePlaybackView = view;
+            _resumePlaybackView.OnViewDestroy = (view2) =>
+            {
+                _resumePlaybackPresenter.ViewDestroyed();
+                _resumePlaybackPresenter = null;
+                _resumePlaybackView = null;
+            };
+            _resumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IResumePlaybackPresenter>();
+            _resumePlaybackPresenter.BindView(view);
         }
 
         public virtual IStartResumePlaybackView CreateStartResumePlaybackView()
         {
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>();
-                _startResumePlaybackPresenter.BindView((IStartResumePlaybackView)view);
-            };
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>();
+            return _startResumePlaybackView;
+        }
 
-            // Create view and manage view destruction
-            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            _startResumePlaybackView.OnViewDestroy = (view) =>
+        public virtual void BindStartResumePlaybackView(IStartResumePlaybackView view)
+        {
+            _startResumePlaybackView = view;
+            _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>();
+            _startResumePlaybackPresenter.BindView(view);
+            _startResumePlaybackView.OnViewDestroy = (view2) =>
             {
                 _startResumePlaybackPresenter.ViewDestroyed();
                 _startResumePlaybackPresenter = null;
                 _startResumePlaybackView = null;
-            };
-            return _startResumePlaybackView;
-        }
-
-        protected virtual void CreateCloudConnectViewInternal(Action<IBaseView> onViewReady)
-        {
-            if (_cloudConnectView == null)
-                _cloudConnectView = Bootstrapper.GetContainer().Resolve<ICloudConnectView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            PushTabView(MobileNavigationTabType.More, _cloudConnectView);
-#endif
+            };            
         }
 
         public virtual void CreateCloudConnectView()
         {
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                _cloudConnectView = (ICloudConnectView)view;
-                _cloudConnectView.OnViewDestroy = (view2) =>
-                {
-                    _cloudConnectPresenter.ViewDestroyed();
-                    _cloudConnectPresenter = null;
-                    _cloudConnectView = null;
-                };
-                _cloudConnectPresenter = Bootstrapper.GetContainer().Resolve<ICloudConnectPresenter>();
-                _cloudConnectPresenter.BindView((ICloudConnectView)view);
-            };
-
-            CreateCloudConnectViewInternal(onViewReady);
+            if (_cloudConnectView == null)
+                _cloudConnectView = Bootstrapper.GetContainer().Resolve<ICloudConnectView>();
         }
 
-        protected virtual void CreatePlaylistViewInternal(IBaseView sourceView, Action<IBaseView> onViewReady)
+        public virtual void BindCloudConnectView(ICloudConnectView view)
         {
-            if (_playlistView == null)
-                _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-
-#if !ANDROID
-            //PushTabView(MobileNavigationTabType.More, _playlistView);
-            PushDialogView(MobileDialogPresentationType.Standard, "Playlist", sourceView, _playlistView);
-#endif
+            _cloudConnectView = view;
+            _cloudConnectView.OnViewDestroy = (view2) =>
+            {
+                _cloudConnectPresenter.ViewDestroyed();
+                _cloudConnectPresenter = null;
+                _cloudConnectView = null;
+            };
+            _cloudConnectPresenter = Bootstrapper.GetContainer().Resolve<ICloudConnectPresenter>();
+            _cloudConnectPresenter.BindView(view);
         }
 
         public virtual void CreatePlaylistView(IBaseView sourceView)
         {
-            Action<IBaseView> onViewReady = (view) => 
-            {
-                _playlistView = (IPlaylistView)view;
-                _playlistView.OnViewDestroy = (view2) =>
-                {
-                    _playlistPresenter.ViewDestroyed();
-                    _playlistPresenter = null;
-                    _playlistView = null;
-                };
-                _playlistPresenter = Bootstrapper.GetContainer().Resolve<IPlaylistPresenter>();
-                _playlistPresenter.BindView((IPlaylistView)view);
-            };
-            
-            CreatePlaylistViewInternal(sourceView, onViewReady);
+            if (_playlistView == null)
+                _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>();
         }
 
-        public void CreateMainViewToto()
+        public virtual void BindPlaylistView(IBaseView sourceView, IPlaylistView view)
         {
+            _playlistView = view;
+            _playlistView.OnViewDestroy = (view2) =>
+            {
+                _playlistPresenter.ViewDestroyed();
+                _playlistPresenter = null;
+                _playlistView = null;
+            };
+            _playlistPresenter = Bootstrapper.GetContainer().Resolve<IPlaylistPresenter>();
+            _playlistPresenter.BindView(view);
         }
     }
 

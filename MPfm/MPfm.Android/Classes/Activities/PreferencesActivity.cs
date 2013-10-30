@@ -58,7 +58,8 @@ namespace MPfm.Android
             _viewPager.SetOnPageChangeListener(_viewPagerAdapter);
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager) _navigationManager).SetPreferencesActivityInstance(this);
+            //((AndroidNavigationManager) _navigationManager).SetPreferencesActivityInstance(this);
+            _navigationManager.BindPreferencesView(this);
         }
 
         protected override void OnStart()

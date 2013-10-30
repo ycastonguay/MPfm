@@ -30,18 +30,15 @@ namespace MPfm.Android
     [Activity(Label = "Sessions Splash", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden, NoHistory = true)]
     public class SplashActivity : BaseActivity, ISplashView
     {
-        private AndroidNavigationManager _navigationManager;
-
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("SplashActivity - OnCreate");
             base.OnCreate(bundle);
 
-            _navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.Splash);
-            //_navigationManager.Start();
 
-            _navigationManager.BindSplashView(this);
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSplashView(this);
 
             //AppConfigManager.Instance.Load();
             //Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);

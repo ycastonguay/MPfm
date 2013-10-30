@@ -76,7 +76,8 @@ namespace MPfm.Android
             _listView.ItemLongClick += ListViewOnItemLongClick;
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            ((AndroidNavigationManager)_navigationManager).SetSyncMenuActivityInstance(this);
+            //((AndroidNavigationManager)_navigationManager).SetSyncMenuActivityInstance(this);
+            //_navigationManager.BindSyncMenuView(this, null);
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
