@@ -151,12 +151,15 @@
     <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
+    <Compile Include="Navigation\INavigationManager.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\AddPlaylistPresenter.cs" />
     <Compile Include="Presenters\AddMarkerPresenter.cs" />
     <Compile Include="Presenters\CloudConnectPresenter.cs" />
     <Compile Include="Presenters\CloudPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileMainPresenter.cs" />
+    <Compile Include="Presenters\MobileMainPresenter.cs" />
     <Compile Include="Presenters\FirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IFirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ICloudConnectPresenter.cs" />
@@ -188,6 +191,7 @@
     <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
     <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
     <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IMobileMainView.cs" />
     <Compile Include="Views\IFirstRunView.cs" />
     <Compile Include="Views\ICloudConnectView.cs" />
     <Compile Include="Views\ICloudPreferencesView.cs" />

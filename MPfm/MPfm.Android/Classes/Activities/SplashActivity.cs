@@ -41,7 +41,7 @@ namespace MPfm.Android
             SetContentView(Resource.Layout.Splash);
             //_navigationManager.Start();
 
-            ((AndroidNavigationManager)_navigationManager).SetSplashActivityInstance(this);
+            _navigationManager.BindSplashView(this);
 
             //AppConfigManager.Instance.Load();
             //Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);

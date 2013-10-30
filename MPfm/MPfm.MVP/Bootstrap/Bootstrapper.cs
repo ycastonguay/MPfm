@@ -99,6 +99,7 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IResumePlaybackPresenter, ResumePlaybackPresenter>().AsMultiInstance();
             container.Register<IStartResumePlaybackPresenter, StartResumePlaybackPresenter>().AsMultiInstance();
             container.Register<IFirstRunPresenter, FirstRunPresenter>().AsMultiInstance();
+            container.Register<IMobileMainPresenter, MobileMainPresenter>().AsMultiInstance();
         }
         
         /// <summary>

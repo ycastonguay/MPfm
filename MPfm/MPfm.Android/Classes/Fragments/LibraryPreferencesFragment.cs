@@ -34,12 +34,7 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnSelectFolders;
 
         // Leave an empty constructor or the application will crash at runtime
-        public LibraryPreferencesFragment() : base(null) { }
-
-        public LibraryPreferencesFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public LibraryPreferencesFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

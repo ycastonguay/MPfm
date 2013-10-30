@@ -34,6 +34,7 @@ namespace MPfm.Android.Classes.Navigation
     public sealed class AndroidNavigationManager : MobileNavigationManager
     {
         private readonly ITinyMessengerHub _messageHub;
+        private Action<IBaseView> _onMainViewReady;
         private Action<IBaseView> _onSplashViewReady;
         private Action<IBaseView> _onAboutViewReady;
         private Action<IBaseView> _onPlayerViewReady;
@@ -223,11 +224,15 @@ namespace MPfm.Android.Classes.Navigation
             sourceActivity.StartActivity(intent);
         }
 
-        protected override void CreateSplashViewInternal(Action<IBaseView> onViewReady)
+        public override void CreateMobileMainView()
         {
-            _onSplashViewReady = onViewReady;
-            //var intent = new Intent(LaunchActivity, typeof(SplashActivity));
-            //LaunchActivity.StartActivity(intent);
+            var intent = new Intent(MPfmApplication.GetApplicationContext(), typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.NewTask);
+            MPfmApplication.GetApplicationContext().StartActivity(intent);
+        }
+
+        public override void CreateSplashView()
+        {
             var intent = new Intent(MPfmApplication.GetApplicationContext(), typeof (SplashActivity));
             intent.AddFlags(ActivityFlags.NewTask);
             MPfmApplication.GetApplicationContext().StartActivity(intent);
@@ -334,6 +339,12 @@ namespace MPfm.Android.Classes.Navigation
             _onFirstRunViewReady = onViewReady;
             var intent = new Intent(MainActivity, typeof(FirstRunActivity));
             MainActivity.StartActivity(intent);
+        }
+
+        public void SetMainActivityInstance(MainActivity activity)
+        {
+            if (_onMainViewReady != null)
+                _onMainViewReady(activity);
         }
 
         public void SetSplashActivityInstance(SplashActivity activity)

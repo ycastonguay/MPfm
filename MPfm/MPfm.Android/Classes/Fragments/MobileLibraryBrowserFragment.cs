@@ -65,16 +65,7 @@ namespace MPfm.Android.Classes.Fragments
         public BitmapCache SmallBitmapCache { get; set; }
 
         // Leave an empty constructor or the application will crash at runtime
-        public MobileLibraryBrowserFragment() : base(null)
-        {
-            //Console.WriteLine("MobileLibraryBrowserFragment - Empty ctor");
-        }
-
-        public MobileLibraryBrowserFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-            //Console.WriteLine("MobileLibraryBrowserFragment - OnViewReady ctor");
-        }
+        public MobileLibraryBrowserFragment() : base() {}
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

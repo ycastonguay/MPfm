@@ -39,12 +39,7 @@ namespace MPfm.Android.Classes.Fragments
         private ProgressBar _progressBar;      
 
         // Leave an empty constructor or the application will crash at runtime
-        public UpdateLibraryFragment() : base(null) { }
-
-        public UpdateLibraryFragment(System.Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public UpdateLibraryFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

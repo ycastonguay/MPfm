@@ -33,7 +33,6 @@ namespace MPfm.Android
     {
         ITinyMessengerHub _messengerHub;
         List<TinyMessageSubscriptionToken> _tokens = new List<TinyMessageSubscriptionToken>();
-        protected Action<IBaseView> OnViewReady { get; set; }
         public Action<IBaseView> OnViewDestroy { get; set; }
         public void ShowView(bool shown)
         {
@@ -42,12 +41,6 @@ namespace MPfm.Android
 
         public BaseActivity()
         {
-            InitializeBase();
-        }
-
-        public BaseActivity(Action<IBaseView> onViewReady)
-        {
-            this.OnViewReady = onViewReady;
             InitializeBase();
         }
 
@@ -84,11 +77,6 @@ namespace MPfm.Android
                 Intent intent = new Intent(this, typeof(NotificationService));
                 StartService(intent);
             }
-        }
-
-        protected override void OnStop()
-        {
-            base.OnStop();
         }
 
         protected bool IsNotificationServiceRunning()

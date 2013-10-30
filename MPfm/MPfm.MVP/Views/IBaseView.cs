@@ -23,7 +23,7 @@ namespace MPfm.MVP.Views
 	/// Base view interface.
 	/// </summary>
 	public interface IBaseView
-	{        
+	{
         Action<IBaseView> OnViewDestroy { get; set; }
         
         void ShowView(bool shown);

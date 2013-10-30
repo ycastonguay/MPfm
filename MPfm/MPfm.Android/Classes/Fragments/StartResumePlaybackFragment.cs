@@ -44,12 +44,7 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnSelect;
         private int _selectedIndex;
 
-        public StartResumePlaybackFragment() : base(null)
-        {
-        }
-
-        public StartResumePlaybackFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
+        public StartResumePlaybackFragment() : base()
         {
         }
 

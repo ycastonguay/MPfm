@@ -51,7 +51,7 @@ using FragmentTransaction = Android.App.FragmentTransaction;
 namespace MPfm.Android
 {
     [Activity(ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class MainActivity : BaseActivity, View.IOnTouchListener, ActionBar.IOnNavigationListener, IMobileOptionsMenuView, IPlayerStatusView
+    public class MainActivity : BaseActivity, View.IOnTouchListener, ActionBar.IOnNavigationListener, IMobileOptionsMenuView, IPlayerStatusView, IMobileMainView
     {
         private ITinyMessengerHub _messengerHub;
         private AndroidNavigationManager _navigationManager;
@@ -159,6 +159,7 @@ namespace MPfm.Android
             _navigationManager.BindOptionsMenuView(this);
             _navigationManager.BindPlayerStatusView(this);
             //_navigationManager.Start();
+            _navigationManager.SetMainActivityInstance(this);
         }
 
         public void AddTab(MobileNavigationTabType type, string title, Fragment fragment)

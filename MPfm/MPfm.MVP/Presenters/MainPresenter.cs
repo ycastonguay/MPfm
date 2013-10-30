@@ -35,6 +35,7 @@ namespace MPfm.MVP.Presenters
 		
 		public MainPresenter(NavigationManager navigationManager)
 		{
+            // Instead of using preprocessor conditions, the IoC container should tell us which NavMgr to use.
 			_navigationManager = navigationManager;          
 		}
 		
@@ -71,6 +72,7 @@ namespace MPfm.MVP.Presenters
             view.OnUpdateLibrary = () => _navigationManager.CreateUpdateLibraryView(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
 
 			base.BindView(view);
+            
 		}
 	}
 }

@@ -43,12 +43,7 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnSelect;
         private int _selectedIndex;
 
-        public SelectPlaylistFragment() : base(null)
-        {
-        }
-
-        public SelectPlaylistFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
+        public SelectPlaylistFragment() : base()
         {
         }
 

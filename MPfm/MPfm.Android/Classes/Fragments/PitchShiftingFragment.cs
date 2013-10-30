@@ -40,12 +40,7 @@ namespace MPfm.Android.Classes.Fragments
         private Tuple<int, string> _currentKey;
 
         // Leave an empty constructor or the application will crash at runtime
-        public PitchShiftingFragment() : base(null) { }
-
-        public PitchShiftingFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public PitchShiftingFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

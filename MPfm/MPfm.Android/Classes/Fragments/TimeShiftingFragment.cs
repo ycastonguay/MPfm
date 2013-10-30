@@ -39,12 +39,7 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnDecrement;
 
         // Leave an empty constructor or the application will crash at runtime
-        public TimeShiftingFragment() : base(null) { }
-
-        public TimeShiftingFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public TimeShiftingFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

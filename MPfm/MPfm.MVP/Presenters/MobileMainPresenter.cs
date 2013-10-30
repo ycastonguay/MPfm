@@ -15,36 +15,32 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Android.App;
-using Android.OS;
-using Android.Views;
+using System.Collections.Generic;
+using System.Linq;
+using MPfm.Library.Objects;
+using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Config;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 
-namespace MPfm.Android.Classes.Fragments.Base
+namespace MPfm.MVP.Presenters
 {
-    public class BaseDialogFragment : DialogFragment, IBaseView
-    {
-        public Action<IBaseView> OnViewDestroy { get; set; }
-        public void ShowView(bool shown)
-        {
-            // Ignore on Android
-        }
+	/// <summary>
+	/// Mobile Main window presenter.
+	/// </summary>
+	public class MobileMainPresenter : BasePresenter<IMobileMainView>, IMobileMainPresenter
+	{
+		readonly MobileNavigationManager _navigationManager;
 
-        public BaseDialogFragment()
-        {
-        }
-
-        public override void OnStart()
-        {
-            base.OnStart();
-            //if (OnViewReady != null) OnViewReady(this);
-        }
-
-        public override void OnDestroyView()
-        {
-            base.OnDestroyView();
-            if (OnViewDestroy != null) OnViewDestroy(this);
-        }
-    }
+        public MobileMainPresenter(MobileNavigationManager navigationManager)
+		{
+			_navigationManager = navigationManager;          
+		}
+		
+		public override void BindView(IMobileMainView view)
+		{            
+			base.BindView(view);
+		}
+	}
 }

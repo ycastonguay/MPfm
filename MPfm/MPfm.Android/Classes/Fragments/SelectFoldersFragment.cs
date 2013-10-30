@@ -45,12 +45,7 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnOK;
         private int _selectedIndex;
 
-        public SelectFoldersFragment() : base(null)
-        {
-        }
-
-        public SelectFoldersFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
+        public SelectFoldersFragment() : base()
         {
         }
 

@@ -26,20 +26,19 @@ namespace MPfm.Android.Classes.Fragments.Base
     {
         bool _isViewAlreadyBound = false;
 
-        public BaseFragment(Action<IBaseView> onViewReady)
+        public BaseFragment()
         {
-            this.OnViewReady = onViewReady;
         }
 
         public override void OnResume()
         {
             base.OnResume();
-            if (OnViewReady != null && !_isViewAlreadyBound)
-            {
-                // Since OnResume is called if the fragment is reactivated (i.e. not destroyed), we need a flag to know if the view was already bound
-                _isViewAlreadyBound = true;
-                OnViewReady(this);
-            }
+            //if (OnViewReady != null && !_isViewAlreadyBound)
+            //{
+            //    // Since OnResume is called if the fragment is reactivated (i.e. not destroyed), we need a flag to know if the view was already bound
+            //    _isViewAlreadyBound = true;
+            //    OnViewReady(this);
+            //}
         }
 
         public override void OnDestroyView()
@@ -50,7 +49,7 @@ namespace MPfm.Android.Classes.Fragments.Base
 
         #region IBaseView implementation
 
-        protected Action<IBaseView> OnViewReady { get; set; }
+        //public Action<IBaseView> OnViewReady { get; set; }
         public Action<IBaseView> OnViewDestroy { get; set; }
         public void ShowView(bool shown)
         {

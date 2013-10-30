@@ -31,13 +31,7 @@ namespace MPfm.Android.Classes.Fragments
         private TextView _textView;
 
         // Leave an empty constructor or the application will crash at runtime
-        public SplashFragment() : base(null) {}
-
-        public SplashFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-            
-        }
+        public SplashFragment() : base() {}
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

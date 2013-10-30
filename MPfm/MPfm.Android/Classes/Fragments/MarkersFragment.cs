@@ -38,12 +38,7 @@ namespace MPfm.Android.Classes.Fragments
         private List<Marker> _markers; 
 
         // Leave an empty constructor or the application will crash at runtime
-        public MarkersFragment() : base(null) { }
-
-        public MarkersFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public MarkersFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

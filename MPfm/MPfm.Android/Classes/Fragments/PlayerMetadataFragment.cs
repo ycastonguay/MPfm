@@ -35,12 +35,7 @@ namespace MPfm.Android.Classes.Fragments
         private TextView _lblSongTitle;
 
         // Leave an empty constructor or the application will crash at runtime
-        public PlayerMetadataFragment() : base(null) { }
-
-        public PlayerMetadataFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public PlayerMetadataFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

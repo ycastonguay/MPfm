@@ -38,10 +38,12 @@ namespace MPfm.MVP.Navigation
     /// <summary>
     /// Manager class for managing view and presenter instances.
     /// </summary>
-    public abstract class MobileNavigationManager
+    public abstract class MobileNavigationManager : INavigationManager
     {
         private readonly object _locker = new object();
 
+        private IMobileMainView _mainView;
+        private IMobileMainPresenter _mainPresenter;
         private ISplashView _splashView;
         private ISplashPresenter _splashPresenter;
         private IAboutView _aboutView;
@@ -137,65 +139,71 @@ namespace MPfm.MVP.Navigation
 
         public virtual void Start()
         {
-            Action onInitDone = () =>
-            {                
+            Tracing.Log("MobileNavigationManager - Start");
+            CreateSplashView();
+        }
+
+        private void ContinueAfterSplash()
+        {
+            Tracing.Log("MobileNavigationManager - ContinueAfterSplash");
 #if ANDROID
-                // Only one 'tab' on Android since we re-use the same fragment for different queries
-                //var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
-                //AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
-#elif IOS
-                var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
-                var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
-                var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
-                var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
-                var moreView = CreateOptionsMenuView();
-                AddTab(MobileNavigationTabType.Playlists, "Sessions", MobileLibraryBrowserType.Playlists, new LibraryQuery(), playlistsView);
-                AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
-                AddTab(MobileNavigationTabType.Albums, "Albums", MobileLibraryBrowserType.Albums, new LibraryQuery(), albumsView);
-                AddTab(MobileNavigationTabType.Songs, "Songs", MobileLibraryBrowserType.Songs, new LibraryQuery(), songsView);
-                AddTab(MobileNavigationTabType.More, "More", moreView);
+            // Only one 'tab' on Android since we re-use the same fragment for different queries
+            // can't the sub views be pushed inside IPlayerView, IPreferencesView, etc? i.e.e IPlayerView.PushView(IBaseView view)
+            //CreateMainView();
+            //var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
+            //AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
+#endif
+#if IOS
+            // TO DO: Actually create MainView
+            var playlistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Playlists, MobileLibraryBrowserType.Playlists, new LibraryQuery());
+            var artistsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Artists, MobileLibraryBrowserType.Artists, new LibraryQuery());
+            var albumsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Albums, MobileLibraryBrowserType.Albums, new LibraryQuery());
+            var songsView = CreateMobileLibraryBrowserView(MobileNavigationTabType.Songs, MobileLibraryBrowserType.Songs, new LibraryQuery());
+            var moreView = CreateOptionsMenuView();
+            AddTab(MobileNavigationTabType.Playlists, "Sessions", MobileLibraryBrowserType.Playlists, new LibraryQuery(), playlistsView);
+            AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
+            AddTab(MobileNavigationTabType.Albums, "Albums", MobileLibraryBrowserType.Albums, new LibraryQuery(), albumsView);
+            AddTab(MobileNavigationTabType.Songs, "Songs", MobileLibraryBrowserType.Songs, new LibraryQuery(), songsView);
+            AddTab(MobileNavigationTabType.More, "More", moreView);
 #endif
 
-                // Finally hide the splash screen, our UI is ready
-                //HideSplash();
-                
-                AppConfigManager.Instance.Load();
-                Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
-                if (AppConfigManager.Instance.Root.IsFirstRun)
-                //if(true == true)
-                {
-                    Tracing.Log("LaunchActivity - First run of the application; launching FirstRun activity...");
-                    CreateFirstRunView();
-                }
-                else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
-                {
-                    var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-                    var messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
-                    var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
-                    var audioFile = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId));
+            // Finally hide the splash screen, our UI is ready
+            //HideSplash();
 
-                    if(audioFile != null)
+            AppConfigManager.Instance.Load();
+            Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
+            if (AppConfigManager.Instance.Root.IsFirstRun)
+            {
+                Tracing.Log("LaunchActivity - First run of the application; launching FirstRun activity...");
+                CreateFirstRunView();
+            }
+            else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
+            {
+                var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
+                var messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
+                var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
+                var audioFile = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId));
+
+                if (audioFile != null)
+                {
+                    Tracing.Log("LaunchActivity - Resume playback is available; launching Player activity...");
+                    var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
+                    playerService.Play(audioFiles, audioFile.FilePath);
+
+                    Action<IBaseView> onViewBindedToPresenter = (theView) => messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
-                        Tracing.Log("LaunchActivity - Resume playback is available; launching Player activity...");
-                        var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                        playerService.Play(audioFiles, audioFile.FilePath);
-
-                        Action<IBaseView> onViewBindedToPresenter = (theView) => messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) 
+                        Query = new LibraryQuery()
                         {
-                            Query = new LibraryQuery() {
-                                ArtistName = audioFile.ArtistName,
-                                AlbumTitle = audioFile.AlbumTitle
-                            },
-                            FilePath = audioFile.FilePath
-                        });
-                        CreatePlayerView(MobileNavigationTabType.Playlists, onViewBindedToPresenter);
-                    }
+                            ArtistName = audioFile.ArtistName,
+                            AlbumTitle = audioFile.AlbumTitle
+                        },
+                        FilePath = audioFile.FilePath
+                    });
+                    CreatePlayerView(MobileNavigationTabType.Playlists, onViewBindedToPresenter);
                 }
+            }
 
-                HideSplash();
-            };            
-            //ShowSplash(CreateSplashView(onInitDone));
-            CreateSplashView(onInitDone);
+            HideSplash();
         }
 
         private IMobileOptionsMenuView CreateOptionsMenuView()
@@ -234,29 +242,71 @@ namespace MPfm.MVP.Navigation
             };
         }
 
-        protected virtual void CreateSplashViewInternal(Action<IBaseView> onViewReady)
+        public virtual void CreateSplashView()
         {
             if (_splashView == null)
-                _splashView = Bootstrapper.GetContainer().Resolve<ISplashView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+                _splashView = Bootstrapper.GetContainer().Resolve<ISplashView>();
         }
 
-        public virtual void CreateSplashView(Action onInitDone)
+        public virtual void BindSplashView(ISplashView view)
         {
-            Action<IBaseView> onViewReady = (view) =>
+            Tracing.Log("MobileNavigationManager - BindSplashView");
+            _splashView = view;
+            _splashView.OnViewDestroy = (view2) =>
             {
-                _splashView = (ISplashView)view;
-                _splashView.OnViewDestroy = (view2) =>
-                {
-                    _splashPresenter.ViewDestroyed();
-                    _splashPresenter = null;
-                    _splashView = null;
-                };
-                _splashPresenter = Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
-                _splashPresenter.BindView((ISplashView)view);
-                _splashPresenter.Initialize(onInitDone);
+                _splashPresenter.ViewDestroyed();
+                _splashPresenter = null;
+                _splashView = null;
             };
+            _splashPresenter = Bootstrapper.GetContainer().Resolve<ISplashPresenter>();
+            _splashPresenter.BindView(view);
+            _splashPresenter.Initialize(ContinueAfterSplash);
+        }
 
-            CreateSplashViewInternal(onViewReady);
+        public void CreateMainView()
+        {
+        }
+
+        public void BindMainView(IMainView view)
+        {
+            // Not used on mobile devices.
+        }
+
+        public virtual void CreateMobileMainView()
+        {
+            if (_mainView == null)
+                _mainView = Bootstrapper.GetContainer().Resolve<IMobileMainView>();
+
+            // For details view:
+            // .......Resolve<IMarkerDetailsView>(bla... markerId: 'guid');
+            // View implementation ctor:
+            // ctor(...., Guid markerId)
+            // (...)
+            // BindMarkerDetailsView(markerId);
+            //
+            //
+            // Q: Is it a problem if on some platforms where you can't add params to the ctor (for a view implementation)?
+            // A: No, because mobile platforms that don't return the view instance need to have a way to add details 
+            // (i.e. intent params on Android, page params on Windows Store, etc.). 
+            // However... will TinyIoC crash if a namedparam cannot be resolved?
+        }
+
+        public virtual void BindMobileMainView(IMobileMainView view)
+        {
+            // OnViewReady in IBaseView cannot be used anymore because the Android system can create activities by itself. 
+            // The NavMgr or presenter never have a chance to register to OnViewReady! So the activity needs to call the NavMgr to let it know a new view is available.
+            // Fine for normal views, but what about details views (i.e. Edit an entity)? The system simply cannot create a details view by itself! 
+            // If an activity previously created with intent params is restored, the intent param values will also be restored. So these params will be sent to the presenter
+            // when binding the view (i.e. INavigationManager.BindMarkerDetailsView(Guid markerId))
+            Tracing.Log("MobileNavigationManager - BindMobileMainView");
+            _mainView = view;
+            _mainView.OnViewDestroy = (view2) =>
+            {
+                _mainPresenter.ViewDestroyed();
+                _mainPresenter = null;
+                _mainView = null;
+            };
+            _mainPresenter.BindView(view);
         }
 
         public virtual IUpdateLibraryView CreateUpdateLibraryView()
@@ -1108,6 +1158,10 @@ namespace MPfm.MVP.Navigation
             };
             
             CreatePlaylistViewInternal(sourceView, onViewReady);
+        }
+
+        public void CreateMainViewToto()
+        {
         }
     }
 

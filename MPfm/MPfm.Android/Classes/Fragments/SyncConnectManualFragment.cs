@@ -30,12 +30,7 @@ namespace MPfm.Android.Classes.Fragments
         private View _view;
 
         // Leave an empty constructor or the application will crash at runtime
-        public SyncConnectManualFragment() : base(null) { }
-
-        public SyncConnectManualFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public SyncConnectManualFragment() : base() { }
 
         //public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         //{

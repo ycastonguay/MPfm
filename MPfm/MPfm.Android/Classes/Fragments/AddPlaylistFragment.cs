@@ -36,14 +36,7 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnCreate;
         private EditText _txtName;
 
-        public AddPlaylistFragment() : base(null)
-        {
-        }
-
-        public AddPlaylistFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public AddPlaylistFragment() : base() {}
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

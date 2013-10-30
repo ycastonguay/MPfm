@@ -32,12 +32,7 @@ namespace MPfm.Android.Classes.Fragments
         private View _view;
 
         // Leave an empty constructor or the application will crash at runtime
-        public LoopsFragment() : base(null) { }
-
-        public LoopsFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public LoopsFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

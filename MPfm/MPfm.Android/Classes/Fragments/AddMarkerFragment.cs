@@ -40,14 +40,7 @@ namespace MPfm.Android.Classes.Fragments
         private Button _btnCancel;
         private Button _btnCreate;
 
-        public AddMarkerFragment() : base(null)
-        {
-        }
-
-        public AddMarkerFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {
-        }
+        public AddMarkerFragment() : base() {}
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

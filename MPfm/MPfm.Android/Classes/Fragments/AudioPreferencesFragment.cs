@@ -31,12 +31,7 @@ namespace MPfm.Android.Classes.Fragments
         private TextView _lblTitle;
 
         // Leave an empty constructor or the application will crash at runtime
-        public AudioPreferencesFragment() : base(null) { }
-
-        public AudioPreferencesFragment(Action<IBaseView> onViewReady) 
-            : base(onViewReady)
-        {            
-        }
+        public AudioPreferencesFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
