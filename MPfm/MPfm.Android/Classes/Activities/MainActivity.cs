@@ -185,24 +185,6 @@ namespace MPfm.Android
             //Console.WriteLine("MainActivity - PushDialogSubview parentViewTitle: {0} view: {1}", parentViewTitle, view.GetType().FullName);
         }
 
-        public void ShowSplash(SplashFragment fragment)
-        {
-            Console.WriteLine("MainActivity - ShowSplash");
-            _splashFragment = fragment;
-            _splashFragment.Show(FragmentManager, "Splash");
-        }
-
-        public void HideSplash()
-        {
-            Console.WriteLine("MainActivity - HideSplash");
-
-            // Try to close splash; if the dialog is not shown yet, the activity will try to close it again when hitting OnResume
-            if (_splashFragment.Dialog != null)
-                _splashFragment.Dialog.Dismiss();
-            else
-                _mustHideSplash = true;
-        }
-
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
             Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);

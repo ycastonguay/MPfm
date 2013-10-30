@@ -24,5 +24,6 @@ namespace MPfm.MVP.Views
 	{
         void RefreshStatus(string message);
         void InitDone(bool isAppFirstStart);
+	    void DestroyView();
 	}
 }

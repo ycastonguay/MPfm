@@ -119,6 +119,11 @@ namespace MPfm.Android
         {
         }
 
+        public void DestroyView()
+        {
+            Finish();
+        }
+
         #endregion
 
     }

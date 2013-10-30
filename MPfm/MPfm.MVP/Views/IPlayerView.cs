@@ -46,6 +46,7 @@ namespace MPfm.MVP.Views
         Action OnOpenPlaylist { get; set; }
 
         void PlayerError(Exception ex);
+	    void PushSubView(IBaseView view);
         void RefreshPlayerStatus(PlayerStatusType status);
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
 		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);

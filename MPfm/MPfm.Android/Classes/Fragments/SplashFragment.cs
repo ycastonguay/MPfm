@@ -64,6 +64,10 @@ namespace MPfm.Android.Classes.Fragments
         {
         }
 
+        public void DestroyView()
+        {
+        }
+
         #endregion
 
     }

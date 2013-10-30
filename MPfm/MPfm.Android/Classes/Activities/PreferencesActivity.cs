@@ -67,16 +67,6 @@ namespace MPfm.Android
             base.OnStart();
         }
 
-        public void AddSubview(IBaseView view)
-        {
-            Console.WriteLine("PreferencesActivity - AddSubview view: {0}", view.GetType().FullName);
-            //_fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
-            _fragments.Add((Fragment)view);
-
-            if (_viewPagerAdapter != null)
-                _viewPagerAdapter.NotifyDataSetChanged();
-        }
-
         protected override void OnRestart()
         {
             Console.WriteLine("PreferencesActivity - OnRestart");
@@ -127,6 +117,17 @@ namespace MPfm.Android
         #region IPreferencesView implementation
 
         public Action<string> OnSelectItem { get; set; }
+
+        public void PushSubView(IBaseView view)
+        {
+            Console.WriteLine("PreferencesActivity - PushSubView view: {0}", view.GetType().FullName);
+            //_fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
+            _fragments.Add((Fragment)view);
+
+            if (_viewPagerAdapter != null)
+                _viewPagerAdapter.NotifyDataSetChanged();
+        }        
+
         public void RefreshItems(List<string> items)
         {
         }

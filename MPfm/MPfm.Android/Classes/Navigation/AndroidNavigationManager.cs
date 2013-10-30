@@ -151,16 +151,6 @@ namespace MPfm.Android.Classes.Navigation
             tab.Item2.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
         }
 
-        public override void ShowSplash(ISplashView view)
-        {
-            //MainActivity.ShowSplash((SplashFragment) view);
-        }
-
-        public override void HideSplash()
-        {
-            //MainActivity.HideSplash();
-        }
-
         public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
         {
             // Not used on Android
@@ -192,19 +182,6 @@ namespace MPfm.Android.Classes.Navigation
         public override void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view)
         {
             MainActivity.PushDialogSubview(parentViewTitle, view);
-        }
-
-        public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)
-        {
-            //MainActivity.PushPlayerSubview(playerView, view);
-            var activity = (PlayerActivity)playerView;
-            activity.AddSubview(view);
-        }
-
-        public override void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
-        {
-            var activity = (PreferencesActivity)preferencesView;
-            activity.AddSubview(view);
         }
 
         private Activity GetActivityFromView(IBaseView view)

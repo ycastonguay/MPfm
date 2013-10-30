@@ -197,15 +197,6 @@ namespace MPfm.Android
             _waveFormView.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
         }
 
-        public void AddSubview(IBaseView view)
-        {
-            Console.WriteLine("PlayerActivity - AddSubview view: {0}", view.GetType().FullName);
-            _fragments.Add((Fragment)view);
-
-            if (_viewPagerAdapter != null)
-                _viewPagerAdapter.NotifyDataSetChanged();
-        }
-
         protected override void OnRestart()
         {
             Console.WriteLine("PlayerActivity - OnRestart");
@@ -421,6 +412,15 @@ namespace MPfm.Android
                 ad.SetButton("OK", (sender, args) => ad.Dismiss());
                 ad.Show();
             });
+        }
+
+        public void PushSubView(IBaseView view)
+        {
+            Console.WriteLine("PlayerActivity - PushSubView view: {0}", view.GetType().FullName);
+            _fragments.Add((Fragment)view);
+
+            if (_viewPagerAdapter != null)
+                _viewPagerAdapter.NotifyDataSetChanged();
         }
 
         public void RefreshPlayerStatus(PlayerStatusType status)

@@ -28,5 +28,6 @@ namespace MPfm.MVP.Views
         Action<string> OnSelectItem { get; set; }
 
         void RefreshItems(List<string> items);
+        void PushSubView(IBaseView view);
     }
 }

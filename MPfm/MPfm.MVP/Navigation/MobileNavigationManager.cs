@@ -125,16 +125,12 @@ namespace MPfm.MVP.Navigation
 
         private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
-        public abstract void ShowSplash(ISplashView view);
-        public abstract void HideSplash();
         public abstract void AddTab(MobileNavigationTabType type, string title, IBaseView view);
         public abstract void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
         public abstract void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view);
         public abstract void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
         public abstract void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view);
-        public abstract void PushPlayerSubview(IPlayerView playerView, IBaseView view);
-        public abstract void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view);
         public abstract void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query);
 
         public virtual void Start()
@@ -203,7 +199,7 @@ namespace MPfm.MVP.Navigation
                 }
             }
 
-            HideSplash();
+            _splashView.DestroyView();
         }
 
         private IMobileOptionsMenuView CreateOptionsMenuView()
@@ -265,6 +261,7 @@ namespace MPfm.MVP.Navigation
 
         public void CreateMainView()
         {
+            // Not used on mobile devices.
         }
 
         public void BindMainView(IMainView view)
@@ -438,9 +435,9 @@ namespace MPfm.MVP.Navigation
                 var general = CreateGeneralPreferencesView();
                 var audio = CreateAudioPreferencesView();
                 var library = CreateLibraryPreferencesView();
-                PushPreferencesSubview(_preferencesView, general);
-                PushPreferencesSubview(_preferencesView, audio);
-                PushPreferencesSubview(_preferencesView, library);
+                _preferencesView.PushSubView(general);
+                _preferencesView.PushSubView(audio);
+                _preferencesView.PushSubView(library);
 #endif
             };
             
@@ -628,11 +625,11 @@ namespace MPfm.MVP.Navigation
                 var timeShifting = CreateTimeShiftingView();
                 var pitchShifting = CreatePitchShiftingView();
 
-                PushPlayerSubview(_playerView, playerMetadata);
-                PushPlayerSubview(_playerView, loops);
-                PushPlayerSubview(_playerView, markers);
-                PushPlayerSubview(_playerView, timeShifting);
-                PushPlayerSubview(_playerView, pitchShifting);
+                _playerView.PushSubView(playerMetadata);
+                _playerView.PushSubView(loops);
+                _playerView.PushSubView(markers);
+                _playerView.PushSubView(timeShifting);
+                _playerView.PushSubView(pitchShifting);
 
                 if (onViewBindedToPresenter != null)
                     onViewBindedToPresenter(view);
