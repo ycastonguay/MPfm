@@ -239,7 +239,7 @@ namespace MPfm.Android
             {
                 //Console.WriteLine("MainActivity - OnBackPressed - CanRemoveFragment");
                 //PopMobileLibraryBrowserBackstack(tabType);
-                _messengerHub.PublishAsync<MobileLibraryBrowserPopBackstackMessage>(new MobileLibraryBrowserPopBackstackMessage(this, MobileLibraryBrowserType.Artists, new LibraryQuery()));
+                _messengerHub.PublishAsync<MobileLibraryBrowserPopBackstackMessage>(new MobileLibraryBrowserPopBackstackMessage(this));
             }
             else
             {

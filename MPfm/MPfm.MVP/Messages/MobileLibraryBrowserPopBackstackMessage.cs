@@ -27,14 +27,9 @@ namespace MPfm.MVP.Messages
     /// </summary>
     public class MobileLibraryBrowserPopBackstackMessage : TinyMessageBase
     {
-        public LibraryQuery Query { get; set; }
-        public MobileLibraryBrowserType BrowserType { get; set; }
-
-        public MobileLibraryBrowserPopBackstackMessage(object sender, MobileLibraryBrowserType browserType, LibraryQuery query)
+        public MobileLibraryBrowserPopBackstackMessage(object sender)
             : base(sender)
         {
-            BrowserType = browserType;
-            Query = query;
         }
     }
 }

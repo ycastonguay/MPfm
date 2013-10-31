@@ -120,6 +120,13 @@ namespace MPfm.MVP.Presenters
 
         private void ChangeQuery(MobileLibraryBrowserChangeQueryMessage message)
         {
+            // Do not change query if the current query is the same
+            if (_browserType == message.BrowserType &&
+                _query.ArtistName == message.Query.ArtistName &&
+                _query.AlbumTitle == message.Query.AlbumTitle &&
+                _query.Format == message.Query.Format)
+                return;
+
             _queryHistory.Clear();
             SetQuery(message.BrowserType, message.Query);
         }
@@ -130,8 +137,10 @@ namespace MPfm.MVP.Presenters
                 return;
 
             _queryHistory.RemoveAt(_queryHistory.Count - 1);
-            _browserType = message.BrowserType;
-            _query = message.Query;
+            var history = _queryHistory[_queryHistory.Count - 1];
+            _browserType = history.Item1;
+            _query = history.Item2;
+            
             RefreshLibraryBrowser(true);
         }
 
@@ -362,6 +371,10 @@ namespace MPfm.MVP.Presenters
                     _browserType != MobileLibraryBrowserType.Songs)
                 {
                     var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
+                    _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
+                    {
+                        Query = _items[index].Query
+                    });
 
                     // On Android, pushing new fragments on ViewPager is extremely buggy, so instead we refresh the same view with new queries. 
 #if ANDROID
@@ -371,17 +384,12 @@ namespace MPfm.MVP.Presenters
                     _navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
 #endif
 
-                    _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                    {
-                        Query = _items[index].Query                        
-                    });
                     return;
                 }
 
-    	        _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) {
-    	            Query = _items[index].Query,
-                    FilePath = _items[index].AudioFile.FilePath
-    	        });
+                // Start playback and start Player view
+                var audioFiles = _audioFileCacheService.SelectAudioFiles(_query);
+                _playerService.Play(audioFiles, _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty);
                 _navigationManager.CreatePlayerView(_tabType);
             }
             catch(Exception ex)
