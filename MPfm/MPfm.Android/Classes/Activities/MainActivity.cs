@@ -175,11 +175,6 @@ namespace MPfm.Android
             dialogFragment.Show(sourceFragment.Activity.FragmentManager, viewTitle);
         }
 
-        public void PushDialogSubview(string parentViewTitle, IBaseView view)
-        {
-            //Console.WriteLine("MainActivity - PushDialogSubview parentViewTitle: {0} view: {1}", parentViewTitle, view.GetType().FullName);
-        }
-
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
             Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);

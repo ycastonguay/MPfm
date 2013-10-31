@@ -64,11 +64,6 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.PushDialogView(viewTitle, sourceView, view);
         }
 
-        public override void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view)
-        {
-            MainActivity.PushDialogSubview(parentViewTitle, view);
-        }
-
         private Activity GetActivityFromView(IBaseView view)
         {
             if (view is Activity)

@@ -119,14 +119,13 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        protected IPlaylistView PlaylistView { get { return _playlistView; } }
-        protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
-        protected IPlayerView PlayerView { get { return _playerView; } }
+        //protected IPlaylistView PlaylistView { get { return _playlistView; } }
+        //protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
+        //protected IPlayerView PlayerView { get { return _playerView; } }
 
-        private Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
+        private readonly Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
         public abstract void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
-        public abstract void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view);
 
         public virtual void Start()
         {
@@ -146,7 +145,6 @@ namespace MPfm.MVP.Navigation
             else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
             {
                 var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-                var messengerHub = Bootstrapper.GetContainer().Resolve<ITinyMessengerHub>();
                 var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
                 var audioFile = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId));
 
@@ -155,16 +153,6 @@ namespace MPfm.MVP.Navigation
                     Tracing.Log("MobileNavigationManager - Resume playback is available; launching Player activity...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
                     playerService.Play(audioFiles, audioFile.FilePath);
-
-                    Action<IBaseView> onViewBindedToPresenter = (theView) => messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                    {
-                        Query = new LibraryQuery()
-                        {
-                            ArtistName = audioFile.ArtistName,
-                            AlbumTitle = audioFile.AlbumTitle
-                        },
-                        FilePath = audioFile.FilePath
-                    });
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                 }
             }
@@ -493,14 +481,6 @@ namespace MPfm.MVP.Navigation
             };            
         }
 
-        protected IMobileLibraryBrowserPresenter GetMobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType)
-        {
-            var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
-            var viewPresenter = new Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>(null, null);
-            _mobileLibraryBrowserList.TryGetValue(key, out viewPresenter);
-            return viewPresenter == null ? null : viewPresenter.Item2;
-        }
-
         public virtual IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
         {
             var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
@@ -510,14 +490,8 @@ namespace MPfm.MVP.Navigation
             {
                 Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter> viewPresenter;
                 if(_mobileLibraryBrowserList.TryGetValue(key, out viewPresenter))
-                {
                     if(viewPresenter != null)
-                    {
-                        // Force refresh of view - TO DO: Remove this!
-//                        viewPresenter.Item2.SetQuery(browserType, query);
                         return viewPresenter.Item1;
-                    }
-                }
             }
 
             var view = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserView>(new NamedParameterOverloads() { { "tabType", tabType }, { "browserType", browserType }, { "query", query } });
