@@ -127,7 +127,6 @@ namespace MPfm.MVP.Navigation
 
         public abstract void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
         public abstract void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view);
-        public abstract void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query);
 
         public virtual void Start()
         {
@@ -506,19 +505,6 @@ namespace MPfm.MVP.Navigation
         {
             var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
             
-            // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
-            Action<IBaseView> onViewReady = (view) =>
-            {
-                // The view list can be accessed from different threads.
-                lock (_locker)
-                {
-                    var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>(new NamedParameterOverloads() 
-                        {{"tabType", tabType}, {"browserType", browserType}, {"query", query}});
-                    presenter.BindView((IMobileLibraryBrowserView) view);
-                    _mobileLibraryBrowserList.Add(key, new Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>((IMobileLibraryBrowserView)view, presenter));
-                }
-            };
-
             // Check if view already exists
             if(_mobileLibraryBrowserList.ContainsKey(key))
             {
@@ -527,17 +513,21 @@ namespace MPfm.MVP.Navigation
                 {
                     if(viewPresenter != null)
                     {
-                        // Force refresh of view
-                        viewPresenter.Item2.SetQuery(browserType, query);
+                        // Force refresh of view - TO DO: Remove this!
+//                        viewPresenter.Item2.SetQuery(browserType, query);
                         return viewPresenter.Item1;
                     }
                 }
             }
 
-            // Create view and manage view destruction
-            IMobileLibraryBrowserView newView = null;
-            newView = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            newView.OnViewDestroy = (view) =>
+            var view = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserView>(new NamedParameterOverloads() { { "tabType", tabType }, { "browserType", browserType }, { "query", query } });
+            return view;
+        }
+
+        public virtual void BindMobileLibraryBrowserView(IMobileLibraryBrowserView view, MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
+        {
+            var key = new Tuple<MobileNavigationTabType, MobileLibraryBrowserType>(tabType, browserType);
+            view.OnViewDestroy = (view2) =>
             {
                 // The view list can be accessed from different threads.
                 lock (_locker)
@@ -551,7 +541,12 @@ namespace MPfm.MVP.Navigation
                 }
             };
 
-            return newView;
+            lock (_locker)
+            {
+                var presenter = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserPresenter>(new NamedParameterOverloads() { { "tabType", tabType }, { "browserType", browserType }, { "query", query } });
+                presenter.BindView(view);
+                _mobileLibraryBrowserList.Add(key, new Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>(view, presenter));
+            }
         }
 
         public virtual void CreatePlayerView(MobileNavigationTabType tabType)

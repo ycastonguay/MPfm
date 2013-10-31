@@ -59,14 +59,6 @@ namespace MPfm.Android.Classes.Navigation
             });
         }
 
-
-        public override void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
-        {
-            //Console.WriteLine("ANDROID NAVMGR -- NotifyMobileLibraryBrowserQueryChange tabType: {0} browserType: {1}", tabType.ToString(), browserType.ToString());
-            //var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
-            //tab.Item2.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
-        }
-
         public override void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view)
         {
             MainActivity.PushDialogView(viewTitle, sourceView, view);

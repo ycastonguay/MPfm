@@ -84,9 +84,9 @@ namespace MPfm.MVP.Presenters
                 string filePath = m != null ? m.Item.FilePath : null;
                 Play(audioFileCacheService.SelectAudioFiles(m.Query), filePath);
             });
-            messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) => {
-                Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
-            });
+            //messageHub.Subscribe<MobileLibraryBrowserItemClickedMessage>((MobileLibraryBrowserItemClickedMessage m) => {
+            //    Play(audioFileCacheService.SelectAudioFiles(m.Query), m.FilePath);
+            //});
             messageHub.Subscribe<PlayerPlaylistIndexChangedMessage>((PlayerPlaylistIndexChangedMessage m) => {
                 View.RefreshSongInformation(m.Data.AudioFileStarted, playerService.CurrentPlaylistItem.LengthBytes, 
                                             playerService.CurrentPlaylist.Items.IndexOf(playerService.CurrentPlaylistItem), playerService.CurrentPlaylist.Items.Count);

@@ -30,7 +30,11 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Cache;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Android.Classes.Helpers;
+using MPfm.Android.Classes.Navigation;
+using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
 using org.sessionsapp.android;
@@ -40,6 +44,7 @@ namespace MPfm.Android.Classes.Fragments
 {
     public class MobileLibraryBrowserFragment : BaseFragment, IMobileLibraryBrowserView
     {
+        private readonly MobileNavigationTabType _tabType;
         View _view;
         ListView _listViewArtists;
         ListView _listViewSongs;
@@ -49,6 +54,7 @@ namespace MPfm.Android.Classes.Fragments
         MobileLibraryBrowserGridAdapter _gridAdapter;
         List<LibraryBrowserEntity> _entities = new List<LibraryBrowserEntity>();
         MobileLibraryBrowserType _browserType;
+        private readonly LibraryQuery _query;
 
         SquareImageView _imageAlbum;
         LinearLayout _layoutAlbum;
@@ -66,6 +72,13 @@ namespace MPfm.Android.Classes.Fragments
 
         // Leave an empty constructor or the application will crash at runtime
         public MobileLibraryBrowserFragment() : base() {}
+
+        public MobileLibraryBrowserFragment(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query) : base()
+        {
+            _tabType = tabType;
+            _browserType = browserType;
+            _query = query;
+        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -112,6 +125,9 @@ namespace MPfm.Android.Classes.Fragments
             _gridViewAlbums.SetAdapter(_gridAdapter);
             _gridViewAlbums.ItemClick += GridViewOnItemClick;
             _gridViewAlbums.ItemLongClick += GridViewOnItemLongClick;
+
+            var navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindMobileLibraryBrowserView(this, _tabType, _browserType, _query);
 
             return _view;
         }

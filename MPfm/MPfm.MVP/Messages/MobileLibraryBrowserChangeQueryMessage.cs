@@ -15,18 +15,25 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using MPfm.MVP.Models;
-using MPfm.MVP.Views;
-using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
+using MPfm.MVP.Views;
+using TinyMessenger;
 
-namespace MPfm.MVP.Presenters.Interfaces
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-	/// Library browser presenter interface for mobile devices.
-	/// </summary>
-    public interface IMobileLibraryBrowserPresenter : IBasePresenter<IMobileLibraryBrowserView>
-	{
-	}
+    /// <summary>
+    /// Message used to notify that the user wishes to change the query in a IMobileLibraryBrowserView.
+    /// </summary>
+    public class MobileLibraryBrowserChangeQueryMessage : TinyMessageBase
+    {
+        public LibraryQuery Query { get; set; }
+        public MobileLibraryBrowserType BrowserType { get; set; }
+
+        public MobileLibraryBrowserChangeQueryMessage(object sender, MobileLibraryBrowserType browserType, LibraryQuery query) 
+            : base(sender)
+        {
+            BrowserType = browserType;
+            Query = query;
+        }       
+    }
 }

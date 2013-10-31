@@ -92,15 +92,16 @@ namespace MPfm.MVP.Presenters
             view.OnRequestAlbumArt = RequestAlbumArt;
             view.OnRequestAlbumArtSynchronously = OnRequestAlbumArtSynchronously;
 
-            // Subscribe to any audio file cache update so we can update this screen
             _messengerHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
             _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>(PlayerPlaylistIndexChanged);
             _messengerHub.Subscribe<PlaylistUpdatedMessage>(PlaylistUpdated);
+            _messengerHub.Subscribe<MobileLibraryBrowserChangeQueryMessage>(ChangeQuery);
+            _messengerHub.Subscribe<MobileLibraryBrowserPopBackstackMessage>(PopBackstack);
 
             RefreshLibraryBrowser();
         }
 
-	    public void ChangeBrowserType(MobileLibraryBrowserType browserType)
+	    private void ChangeBrowserType(MobileLibraryBrowserType browserType)
 	    {
 	        _browserType = browserType;
             _query = new LibraryQuery();            
@@ -109,7 +110,7 @@ namespace MPfm.MVP.Presenters
             RefreshLibraryBrowser();
 	    }
 
-        public void SetQuery(MobileLibraryBrowserType browserType, LibraryQuery query)
+        private void SetQuery(MobileLibraryBrowserType browserType, LibraryQuery query)
         {
             _queryHistory.Add(new Tuple<MobileLibraryBrowserType, LibraryQuery>(browserType, query));
             _browserType = browserType;
@@ -117,16 +118,72 @@ namespace MPfm.MVP.Presenters
             RefreshLibraryBrowser();
         }
 
-        public void PopBackstack(MobileLibraryBrowserType browserType, LibraryQuery query)
+        private void ChangeQuery(MobileLibraryBrowserChangeQueryMessage message)
+        {
+            _queryHistory.Clear();
+            SetQuery(message.BrowserType, message.Query);
+        }
+
+        private void PopBackstack(MobileLibraryBrowserPopBackstackMessage message)
         {
             if (_queryHistory.Count == 0)
                 return;
 
             _queryHistory.RemoveAt(_queryHistory.Count - 1);
-            _browserType = browserType;
-            _query = query;
+            _browserType = message.BrowserType;
+            _query = message.Query;
             RefreshLibraryBrowser(true);
         }
+
+        //public bool CanGoBackInMobileLibraryBrowserBackstack(MobileNavigationTabType tabType)
+        //{
+        //    var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+        //    if (tab != null)
+        //        return tab.Item2.Count > 1;
+        //    return false;
+        //}
+
+        //public void PopMobileLibraryBrowserBackstack(MobileNavigationTabType tabType)
+        //{
+        //    var tab = _tabHistory.FirstOrDefault(x => x.Item1 == tabType);
+        //    var tabItem = tab.Item2.Last();
+        //    tab.Item2.Remove(tabItem);
+        //    tabItem = tab.Item2.Last();
+
+        //    //Console.WriteLine("ANDROID NAVMGR -- PopMobileLibraryBrowserBackstack - About to restore: tabType: {0} browserType: {1}", tabType.ToString(), tabItem.Item1.ToString());
+        //    MobileLibraryBrowserType browserType = MobileLibraryBrowserType.Artists;
+        //    switch (tabType)
+        //    {
+        //        case MobileNavigationTabType.Artists:
+        //            browserType = MobileLibraryBrowserType.Artists;
+        //            break;
+        //        case MobileNavigationTabType.Albums:
+        //            browserType = MobileLibraryBrowserType.Albums;
+        //            break;
+        //        case MobileNavigationTabType.Songs:
+        //            browserType = MobileLibraryBrowserType.Songs;
+        //            break;
+        //        case MobileNavigationTabType.Playlists:
+        //            browserType = MobileLibraryBrowserType.Playlists;
+        //            break;
+        //    }
+
+        //    _messengerHub.PublishAsync<MobileLibraryBrowserPopBackstackMessage>(new MobileLibraryBrowserPopBackstackMessage(this, tabItem.Item1, tabItem.Item2));
+
+        //    // Refresh query using presenter
+        //    // How to get presenter? Well. we have the instance of the view, right? so we can use the view to call the presenter.
+        //    //var presenter = GetMobileLibraryBrowserPresenter(tabType, browserType);
+        //    //presenter.PopBackstack(tabItem.Item1, tabItem.Item2);
+        //}
+
+        //public void ChangeMobileLibraryBrowserType(MobileNavigationTabType tabType, MobileLibraryBrowserType newBrowserType)
+        //{
+        //    _tabHistory.Clear();
+        //    _tabHistory.Add(new Tuple<MobileNavigationTabType, List<Tuple<MobileLibraryBrowserType, LibraryQuery>>>(tabType, new List<Tuple<MobileLibraryBrowserType, LibraryQuery>>() {
+        //       new Tuple<MobileLibraryBrowserType, LibraryQuery>(newBrowserType, new LibraryQuery())
+        //    }));
+        //    _messengerHub.PublishAsync<MobileLibraryBrowserChangeQueryMessage>(new MobileLibraryBrowserChangeQueryMessage(this, newBrowserType, new LibraryQuery()));
+        //}
 
 	    private void AudioFileCacheUpdated(AudioFileCacheUpdatedMessage message)
 	    {
@@ -307,26 +364,24 @@ namespace MPfm.MVP.Presenters
                     var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
 
                     // On Android, pushing new fragments on ViewPager is extremely buggy, so instead we refresh the same view with new queries. 
-                    // AndroidNavigationManager manages the tab history backstack.
 #if ANDROID
-                    _navigationManager.NotifyMobileLibraryBrowserQueryChange(_tabType, browserType, _items[index].Query);
                     SetQuery(browserType, _items[index].Query);
 #else
                     var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, _items[index].Query);
                     _navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
 #endif
 
+                    _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
+                    {
+                        Query = _items[index].Query                        
+                    });
                     return;
                 }
 
-                // Make sure the view was binded to the presenter before publishing a message
-                // Why is an action used here? Because on desktop devices, IPlayerView is initialized right away. On mobile devices, IPlayerView is only initialized when playback is started.
-                // TO DO: Replace this info on a service. i.e. when initializing presenter, refresh view with query information.
-    	        Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-    	            {
-    	                Query = _items[index].Query,
-                        FilePath = _items[index].AudioFile.FilePath
-    	            });
+    	        _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) {
+    	            Query = _items[index].Query,
+                    FilePath = _items[index].AudioFile.FilePath
+    	        });
                 _navigationManager.CreatePlayerView(_tabType);
             }
             catch(Exception ex)
