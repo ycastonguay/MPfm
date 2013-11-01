@@ -35,6 +35,7 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 using DropBoxSync.iOS;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -43,8 +44,8 @@ namespace MPfm.iOS
         string _cellIdentifier = "MoreCell";
         List<KeyValuePair<MobileOptionsMenuType, string>> _items;
 
-        public MoreViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "MoreViewController_iPhone" : "MoreViewController_iPad", null)
+        public MoreViewController()
+			: base (UserInterfaceIdiomIsPhone ? "MoreViewController_iPhone" : "MoreViewController_iPad", null)
         {
         }
 		
@@ -55,6 +56,9 @@ namespace MPfm.iOS
             tableView.WeakDelegate = this;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindOptionsMenuView(this);
         }
 
         public override void ViewDidDisappear(bool animated)

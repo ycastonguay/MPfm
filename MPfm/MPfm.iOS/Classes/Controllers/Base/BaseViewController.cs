@@ -41,12 +41,9 @@ namespace MPfm.iOS.Classes.Controllers.Base
 
         #endregion
 
-        protected Action<IBaseView> OnViewReady { get; set; }
-
-        public BaseViewController(Action<IBaseView> onViewReady, string nibName, NSBundle bundle)
+        public BaseViewController(string nibName, NSBundle bundle)
             : base(nibName, bundle)
         {
-            OnViewReady = onViewReady;
         }       
 
         public virtual void ConfirmedBackButton()
@@ -75,7 +72,6 @@ namespace MPfm.iOS.Classes.Controllers.Base
             EdgesForExtendedLayout = UIRectEdge.None;
             base.ViewDidLoad();
             this.NavigationItem.SetHidesBackButton(true, true);
-            OnViewReady(this);
         }
 
         public static bool UserInterfaceIdiomIsPhone

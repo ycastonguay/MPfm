@@ -26,6 +26,8 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.Sound.Playlists;
 using MPfm.Sound.AudioFiles;
 using System.Collections.Generic;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -41,8 +43,8 @@ namespace MPfm.iOS
         UIBarButtonItem _btnNew;
         UIBarButtonItem _btnShuffle;
 
-        public PlaylistViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "PlaylistViewController_iPhone" : "PlaylistViewController_iPad", null)
+        public PlaylistViewController()
+            : base (UserInterfaceIdiomIsPhone ? "PlaylistViewController_iPhone" : "PlaylistViewController_iPad", null)
         {
         }
 
@@ -97,6 +99,9 @@ namespace MPfm.iOS
             toolbar.Items = new UIBarButtonItem[2]{ _btnNew, _btnShuffle };
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPlaylistView(null, this);
         }
 
         [Export ("tableView:numberOfRowsInSection:")]

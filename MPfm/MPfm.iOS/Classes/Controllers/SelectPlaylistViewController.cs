@@ -26,6 +26,8 @@ using MPfm.MVP.Models;
 using System.Linq;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -35,8 +37,8 @@ namespace MPfm.iOS
 
         string _cellIdentifier = "SelectPlaylistCell";
 
-        public SelectPlaylistViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "SelectPlaylistViewController_iPhone" : "SelectPlaylistViewController_iPad", null)
+        public SelectPlaylistViewController()
+			: base (UserInterfaceIdiomIsPhone ? "SelectPlaylistViewController_iPhone" : "SelectPlaylistViewController_iPad", null)
         {
         }
 
@@ -51,6 +53,9 @@ namespace MPfm.iOS
             btnSelect.SetImage(UIImage.FromBundle("Images/Buttons/select"));
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            //navigationManager.BindSelectPlaylistView(this, );
         }
 
         partial void actionAddNewPlaylist(NSObject sender)

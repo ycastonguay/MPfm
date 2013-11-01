@@ -26,13 +26,15 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Objects;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class UpdateLibraryViewController : BaseViewController, IUpdateLibraryView
     {
-        public UpdateLibraryViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "UpdateLibraryViewController_iPhone" : "UpdateLibraryViewController_iPad", null)
+        public UpdateLibraryViewController()
+			: base (UserInterfaceIdiomIsPhone ? "UpdateLibraryViewController_iPhone" : "UpdateLibraryViewController_iPad", null)
         {
         }
 		
@@ -50,6 +52,9 @@ namespace MPfm.iOS
             lblSubtitle.Text = string.Empty;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindUpdateLibraryView(this);
         }
 
         public override void ViewDidAppear(bool animated)

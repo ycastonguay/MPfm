@@ -23,22 +23,28 @@ using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.iOS
 {
     public partial class StartResumePlaybackViewController : BaseViewController, IStartResumePlaybackView
     {
-        public StartResumePlaybackViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "StartResumePlaybackViewController_iPhone" : "StartResumePlaybackViewController_iPad", null)
+        public StartResumePlaybackViewController()
+			: base (UserInterfaceIdiomIsPhone ? "StartResumePlaybackViewController_iPhone" : "StartResumePlaybackViewController_iPad", null)
         {
         }
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-
             btnResume.SetImage(UIImage.FromBundle("Images/Buttons/select"));
             btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+
+            base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindStartResumePlaybackView(this);
+
         }
 
         partial void actionResume(NSObject sender)

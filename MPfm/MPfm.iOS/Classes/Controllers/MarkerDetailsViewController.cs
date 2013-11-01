@@ -27,17 +27,21 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class MarkerDetailsViewController : BaseViewController, IMarkerDetailsView
     {
+        Guid _markerId = Guid.Empty;
         Marker _marker = null;
         UIBarButtonItem _btnDone;
 
-        public MarkerDetailsViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "MarkerDetailsViewController_iPhone" : "MarkerDetailsViewController_iPad", null)
+        public MarkerDetailsViewController(Guid markerId)
+            : base (UserInterfaceIdiomIsPhone ? "MarkerDetailsViewController_iPhone" : "MarkerDetailsViewController_iPad", null)
         {
+            _markerId = markerId;
         }
         
         public override void ViewDidLoad()
@@ -101,6 +105,9 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Marker Details", "");
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindMarkerDetailsView(this, _markerId);
         }
 
         private void HandleSliderPositionValueChanged(object sender, EventArgs e)

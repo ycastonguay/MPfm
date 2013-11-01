@@ -63,16 +63,16 @@ namespace MPfm.MVP.Navigation
         void CreatePreferencesView();
         void BindPreferencesView(IPreferencesView view);
 
-        IAudioPreferencesView CreateAudioPreferencesView();
+        void CreateAudioPreferencesView();
         void BindAudioPreferencesView(IAudioPreferencesView view);
 
-        ICloudPreferencesView CreateCloudPreferencesView();
+        void CreateCloudPreferencesView();
         void BindCloudPreferencesView(ICloudPreferencesView view);
 
-        IGeneralPreferencesView CreateGeneralPreferencesView();
+        void CreateGeneralPreferencesView();
         void BindGeneralPreferencesView(IGeneralPreferencesView view);
 
-        ILibraryPreferencesView CreateLibraryPreferencesView();
+        void CreateLibraryPreferencesView();
         void BindLibraryPreferencesView(ILibraryPreferencesView view);
 
         IMobileLibraryBrowserView CreateMobileLibraryBrowserView(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query);

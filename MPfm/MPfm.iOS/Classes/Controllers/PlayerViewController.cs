@@ -37,6 +37,8 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -49,8 +51,8 @@ namespace MPfm.iOS.Classes.Controllers
         PlayerMetadataViewController _playerMetadataViewController;
         float _lastSliderPositionValue = 0;
 
-		public PlayerViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
+		public PlayerViewController()
+			: base (UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
 		}
 
@@ -184,6 +186,9 @@ namespace MPfm.iOS.Classes.Controllers
             // Reset temporary text
             lblLength.Text = string.Empty;
             lblPosition.Text = string.Empty;
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPlayerView(MobileNavigationTabType.Playlists, this);
 
             base.ViewDidLoad();           
 		}
@@ -392,6 +397,19 @@ namespace MPfm.iOS.Classes.Controllers
         public Action OnOpenPlaylist { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
 
+        public void PlayerError(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                var alert = new UIAlertView("An error occured in Player", ex.Message, null, "OK", null);
+                alert.Show();
+            });
+        }
+
+        public void PushSubView(IBaseView view)
+        {
+            AddScrollView((UIViewController)view);
+        }
+
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
             InvokeOnMainThread(() => {
@@ -536,14 +554,6 @@ namespace MPfm.iOS.Classes.Controllers
                         btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
                         break;
                 }
-            });
-        }
-
-        public void PlayerError(Exception ex)
-        {
-            InvokeOnMainThread(() => {
-                var alert = new UIAlertView("An error occured", ex.Message, null, "OK", null);
-                alert.Show();
             });
         }
 

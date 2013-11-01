@@ -22,13 +22,15 @@ using MonoTouch.UIKit;
 using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class GeneralPreferencesViewController : BaseViewController, IGeneralPreferencesView
     {
-        public GeneralPreferencesViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "GeneralPreferencesViewController_iPhone" : "GeneralPreferencesViewController_iPad", null)
+        public GeneralPreferencesViewController()
+            : base (UserInterfaceIdiomIsPhone ? "GeneralPreferencesViewController_iPhone" : "GeneralPreferencesViewController_iPad", null)
         {
         }
         
@@ -38,6 +40,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindGeneralPreferencesView(this);
         }
         
         public override void ViewWillAppear(bool animated)

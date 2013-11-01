@@ -23,19 +23,24 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Config.Models;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class CloudPreferencesViewController : BaseViewController, ICloudPreferencesView
     {
-        public CloudPreferencesViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "CloudPreferencesViewController_iPhone" : "CloudPreferencesViewController_iPad", null)
+        public CloudPreferencesViewController()
+			: base (UserInterfaceIdiomIsPhone ? "CloudPreferencesViewController_iPhone" : "CloudPreferencesViewController_iPad", null)
         {
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindCloudPreferencesView(this);
         }
 
         #region ICloudPreferencesView implementation

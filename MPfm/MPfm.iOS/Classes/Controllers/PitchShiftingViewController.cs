@@ -25,6 +25,8 @@ using MPfm.iOS.Classes.Objects;
 using System.Collections.Generic;
 using MPfm.MVP.Models;
 using System.Linq;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -34,8 +36,8 @@ namespace MPfm.iOS
         Tuple<int, string> _currentKey;
         List<Tuple<int, string>> _keys;
 
-        public PitchShiftingViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "PitchShiftingViewController_iPhone" : "PitchShiftingViewController_iPad", null)
+        public PitchShiftingViewController()
+            : base (UserInterfaceIdiomIsPhone ? "PitchShiftingViewController_iPhone" : "PitchShiftingViewController_iPad", null)
         {
         }
 
@@ -52,6 +54,9 @@ namespace MPfm.iOS
             slider.ValueChanged += HandleSliderValueChanged;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPitchShiftingView(this);
         }
 
         void HandleSliderValueChanged(object sender, EventArgs e)

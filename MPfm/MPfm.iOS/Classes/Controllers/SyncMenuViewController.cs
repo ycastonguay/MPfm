@@ -27,6 +27,8 @@ using MPfm.Sound.AudioFiles;
 using MPfm.MVP.Models;
 using MPfm.iOS.Classes.Controls;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -37,8 +39,8 @@ namespace MPfm.iOS
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
         float _nowPlayingButtonPreviousAlpha = 0;
 
-        public SyncMenuViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncMenuViewController_iPhone" : "SyncMenuViewController_iPad", null)
+        public SyncMenuViewController()
+            : base (UserInterfaceIdiomIsPhone ? "SyncMenuViewController_iPhone" : "SyncMenuViewController_iPad", null)
         {
         }
 
@@ -82,6 +84,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            //navigationManager.BindView(this);
         }       
 
         public override void ViewWillAppear(bool animated)

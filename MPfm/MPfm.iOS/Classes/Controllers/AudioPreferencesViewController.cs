@@ -22,13 +22,15 @@ using MonoTouch.UIKit;
 using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class AudioPreferencesViewController : BaseViewController, IAudioPreferencesView
     {
-        public AudioPreferencesViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "AudioPreferencesViewController_iPhone" : "AudioPreferencesViewController_iPad", null)
+        public AudioPreferencesViewController()
+            : base (UserInterfaceIdiomIsPhone ? "AudioPreferencesViewController_iPhone" : "AudioPreferencesViewController_iPad", null)
         {
         }
         
@@ -38,6 +40,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindAudioPreferencesView(this);
         }
         
         public override void ViewWillAppear(bool animated)

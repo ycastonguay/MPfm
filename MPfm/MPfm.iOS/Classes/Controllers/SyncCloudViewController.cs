@@ -36,8 +36,8 @@ namespace MPfm.iOS
     {
         private ICloudLibraryService _cloudLibrary;
 
-        public SyncCloudViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncCloudViewController_iPhone" : "SyncCloudViewController_iPad", null)
+        public SyncCloudViewController()
+            : base (UserInterfaceIdiomIsPhone ? "SyncCloudViewController_iPhone" : "SyncCloudViewController_iPad", null)
         {
         }
 
@@ -47,6 +47,9 @@ namespace MPfm.iOS
 
             _cloudLibrary = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
             _cloudLibrary.OnCloudDataChanged += OnCloudDataChanged;
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSyncCloudView(this);
 
 //            if (_store != null && _store.Open)
 //                return;

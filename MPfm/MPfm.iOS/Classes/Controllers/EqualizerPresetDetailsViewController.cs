@@ -42,8 +42,8 @@ namespace MPfm.iOS
         UIBarButtonItem _btnNormalize;
         List<MPfmEqualizerFaderView> _faderViews = new List<MPfmEqualizerFaderView>();
         
-        public EqualizerPresetDetailsViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "EqualizerPresetDetailsViewController_iPhone" : "EqualizerPresetDetailsViewController_iPad", null)
+        public EqualizerPresetDetailsViewController()
+            : base (UserInterfaceIdiomIsPhone ? "EqualizerPresetDetailsViewController_iPhone" : "EqualizerPresetDetailsViewController_iPad", null)
         {
         }
         

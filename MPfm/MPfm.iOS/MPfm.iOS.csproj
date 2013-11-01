@@ -206,7 +206,6 @@
     <Compile Include="Classes\Managers\Events\GeneratePeakFileEventArgs.cs" />
     <Compile Include="Classes\Managers\WaveFormCacheManager.cs" />
     <Compile Include="Classes\Managers\Events\GenerateWaveFormEventArgs.cs" />
-    <Compile Include="Classes\Controls\MPfmTabBarController.cs" />
     <Compile Include="Classes\Objects\GlobalTheme.cs" />
     <Compile Include="Classes\Controls\MPfmTabBar.cs" />
     <Compile Include="Classes\Controls\MPfmNavigationBar.cs" />
@@ -317,6 +316,7 @@
     <Compile Include="Classes\Controllers\StartResumePlaybackViewController.designer.cs">
       <DependentUpon>StartResumePlaybackViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controllers\MainViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

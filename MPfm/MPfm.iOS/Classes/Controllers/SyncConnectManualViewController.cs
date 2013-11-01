@@ -21,19 +21,24 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class SyncConnectManualViewController : BaseViewController, ISyncConnectManualView
     {
-        public SyncConnectManualViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncConnectManualViewController_iPhone" : "SyncConnectManualViewController_iPad", null)
+        public SyncConnectManualViewController()
+			: base (UserInterfaceIdiomIsPhone ? "SyncConnectManualViewController_iPhone" : "SyncConnectManualViewController_iPad", null)
         {
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            //var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            //navigationManager.BindSyncConnectManualView(this);
         }
     }
 }

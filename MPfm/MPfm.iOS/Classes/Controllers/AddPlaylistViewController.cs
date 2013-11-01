@@ -21,13 +21,15 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class AddPlaylistViewController : BaseViewController, IAddPlaylistView
     {
-        public AddPlaylistViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "AddPlaylistViewController_iPhone" : "AddPlaylistViewController_iPad", null)
+        public AddPlaylistViewController()
+			: base (UserInterfaceIdiomIsPhone ? "AddPlaylistViewController_iPhone" : "AddPlaylistViewController_iPad", null)
         {
         }
 
@@ -43,6 +45,9 @@ namespace MPfm.iOS
             btnCreate.SetImage(UIImage.FromBundle("Images/Buttons/select"));
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindAddPlaylistView(this);
         }
 
         private void CloseDialog()

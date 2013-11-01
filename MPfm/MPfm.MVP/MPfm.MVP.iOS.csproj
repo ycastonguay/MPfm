@@ -357,5 +357,11 @@
     <Compile Include="Presenters\StartResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IFirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IStartResumePlaybackPresenter.cs" />
+    <Compile Include="Navigation\INavigationManager.cs" />
+    <Compile Include="Views\IMobileMainView.cs" />
+    <Compile Include="Presenters\MobileMainPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileMainPresenter.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
   </ItemGroup>
 </Project>

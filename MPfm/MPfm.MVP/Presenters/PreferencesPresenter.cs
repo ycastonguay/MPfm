@@ -57,25 +57,13 @@ namespace MPfm.MVP.Presenters
         private void SelectItem(string item)
         {
             if(item.ToUpper() == "AUDIO PREFERENCES")
-            {
-                var view = _navigationManager.CreateAudioPreferencesView();
-                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
-            }
+                _navigationManager.CreateAudioPreferencesView();
             else if(item.ToUpper() == "GENERAL PREFERENCES")
-            {
-                var view = _navigationManager.CreateGeneralPreferencesView();
-                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
-            }
+                _navigationManager.CreateGeneralPreferencesView();
             else if(item.ToUpper() == "LIBRARY PREFERENCES")
-            {
-                var view = _navigationManager.CreateLibraryPreferencesView();
-                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
-            }
+                _navigationManager.CreateLibraryPreferencesView();
             else if(item.ToUpper() == "CLOUD PREFERENCES")
-            {
-                var view = _navigationManager.CreateCloudPreferencesView();
-                //_navigationManager.PushTabView(MobileNavigationTabType.More, view);
-            }
+                _navigationManager.CreateCloudPreferencesView();
         }
 	}
 }

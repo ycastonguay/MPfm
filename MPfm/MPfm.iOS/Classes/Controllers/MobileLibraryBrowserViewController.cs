@@ -36,11 +36,18 @@ using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 using MPfm.Core;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.Library.Objects;
 
 namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
+        MobileLibraryBrowserType _browserType;
+        MobileNavigationTabType _tabType;
+        LibraryQuery _query;
+
         Guid _currentlyPlayingSongId;
         bool _viewHasAlreadyBeenShown = false;
         List<LibraryBrowserEntity> _items;
@@ -48,15 +55,17 @@ namespace MPfm.iOS.Classes.Controllers
         NSString _collectionCellIdentifier = new NSString("MobileLibraryBrowserCollectionCell");
         string _navigationBarTitle;
         string _navigationBarSubtitle;
-        MobileLibraryBrowserType _browserType;
         List<KeyValuePair<string, UIImage>> _imageCache;
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
         int _editingTableCellRowPosition = -1;
         int _editingCollectionCellRowPosition = -1;
 
-        public MobileLibraryBrowserViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
+        public MobileLibraryBrowserViewController(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query)
+            : base (UserInterfaceIdiomIsPhone ? "MobileLibraryBrowserViewController_iPhone" : "MobileLibraryBrowserViewController_iPad", null)
         {
+            _tabType = tabType;
+            _browserType = browserType;
+            _query = query;
             _items = new List<LibraryBrowserEntity>();
         }
 
@@ -110,6 +119,9 @@ namespace MPfm.iOS.Classes.Controllers
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();            
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindMobileLibraryBrowserView(this, _tabType, _browserType, _query);
         }
 
         public override void ViewWillAppear(bool animated)

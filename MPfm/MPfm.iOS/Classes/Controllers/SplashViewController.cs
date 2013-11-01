@@ -17,18 +17,19 @@
 
 using System;
 using System.Drawing;
-
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS.Classes.Controllers
 {
     public partial class SplashViewController : BaseViewController, ISplashView
     {
-        public SplashViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
+        public SplashViewController()
+            : base (UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
         {
         }
         
@@ -57,6 +58,9 @@ namespace MPfm.iOS.Classes.Controllers
             lblStatus.Frame = new RectangleF(lblStatus.Frame.X, activityIndicator.Frame.Y, lblStatus.Frame.Width, lblStatus.Frame.Height);
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSplashView(this);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -85,7 +89,11 @@ namespace MPfm.iOS.Classes.Controllers
         public void InitDone(bool isAppFirstStart)
         {
         }
-        
+
+        public void DestroyView()
+        {
+        }
+
         #endregion    
 
     }

@@ -26,6 +26,8 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -34,8 +36,8 @@ namespace MPfm.iOS
         List<SyncDevice> _devices;
         string _cellIdentifier = "SyncDeviceCell";
 
-        public SyncViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncViewController_iPhone" : "SyncViewController_iPad", null)
+        public SyncViewController()
+            : base (UserInterfaceIdiomIsPhone ? "SyncViewController_iPhone" : "SyncViewController_iPad", null)
         {
             _devices = new List<SyncDevice>();
         }
@@ -53,6 +55,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSyncView(this);
         }
 
         public override void ViewWillAppear(bool animated)

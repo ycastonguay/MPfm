@@ -119,12 +119,13 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        //protected IPlaylistView PlaylistView { get { return _playlistView; } }
-        //protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
-        //protected IPlayerView PlayerView { get { return _playerView; } }
+        protected IPlaylistView PlaylistView { get { return _playlistView; } }
+        protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
+        protected IPlayerView PlayerView { get { return _playerView; } }
 
         private readonly Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
+        public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
         public abstract void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
 
         public virtual void Start()
@@ -136,6 +137,11 @@ namespace MPfm.MVP.Navigation
         private void ContinueAfterSplash()
         {
             AppConfigManager.Instance.Load();
+
+            #if IOS
+            CreateMobileMainView();
+            #endif
+
             Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
             if (AppConfigManager.Instance.Root.IsFirstRun)
             {
@@ -153,6 +159,7 @@ namespace MPfm.MVP.Navigation
                     Tracing.Log("MobileNavigationManager - Resume playback is available; launching Player activity...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
                     playerService.Play(audioFiles, audioFile.FilePath);
+                    // TO DO: Start paused; resume playback when player view is ready.
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                 }
             }
@@ -278,7 +285,7 @@ namespace MPfm.MVP.Navigation
             _mainView.AddTab(MobileNavigationTabType.Artists, "Artists", MobileLibraryBrowserType.Artists, new LibraryQuery(), artistsView);
             _mainView.AddTab(MobileNavigationTabType.Albums, "Albums", MobileLibraryBrowserType.Albums, new LibraryQuery(), albumsView);
             _mainView.AddTab(MobileNavigationTabType.Songs, "Songs", MobileLibraryBrowserType.Songs, new LibraryQuery(), songsView);
-            _mainView.AddTab(MobileNavigationTabType.More, "More", moreView);
+            _mainView.AddTab(MobileNavigationTabType.More, "More", MobileLibraryBrowserType.Songs, new LibraryQuery(), moreView);
 #endif
         }
 
@@ -381,6 +388,8 @@ namespace MPfm.MVP.Navigation
         {
             if(_preferencesView == null)
                 _preferencesView = Bootstrapper.GetContainer().Resolve<IPreferencesView>();
+
+            PushTabView(MobileNavigationTabType.More, _preferencesView);
         }
 
         public virtual void BindPreferencesView(IPreferencesView view)
@@ -406,10 +415,12 @@ namespace MPfm.MVP.Navigation
 #endif
         }
         
-        public virtual IAudioPreferencesView CreateAudioPreferencesView()
+        public virtual void CreateAudioPreferencesView()
         {
-            _audioPreferencesView = Bootstrapper.GetContainer().Resolve<IAudioPreferencesView>();
-            return _audioPreferencesView;
+            if(_audioPreferencesView == null)
+                _audioPreferencesView = Bootstrapper.GetContainer().Resolve<IAudioPreferencesView>();
+
+            PushTabView(MobileNavigationTabType.More, _audioPreferencesView);
         }
 
         public virtual void BindAudioPreferencesView(IAudioPreferencesView view)
@@ -425,10 +436,12 @@ namespace MPfm.MVP.Navigation
             };            
         }
 
-        public virtual ICloudPreferencesView CreateCloudPreferencesView()
+        public virtual void CreateCloudPreferencesView()
         {
-            _cloudPreferencesView = Bootstrapper.GetContainer().Resolve<ICloudPreferencesView>();
-            return _cloudPreferencesView;
+            if(_cloudPreferencesView == null)
+                _cloudPreferencesView = Bootstrapper.GetContainer().Resolve<ICloudPreferencesView>();
+
+            PushTabView(MobileNavigationTabType.More, _cloudPreferencesView);
         }
 
         public virtual void BindCloudPreferencesView(ICloudPreferencesView view)
@@ -444,10 +457,12 @@ namespace MPfm.MVP.Navigation
             };            
         }
 
-        public virtual IGeneralPreferencesView CreateGeneralPreferencesView()
+        public virtual void CreateGeneralPreferencesView()
         {
-            _generalPreferencesView = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesView>();
-            return _generalPreferencesView;
+            if(_generalPreferencesView == null)
+                _generalPreferencesView = Bootstrapper.GetContainer().Resolve<IGeneralPreferencesView>();
+
+            PushTabView(MobileNavigationTabType.More, _generalPreferencesView);
         }
 
         public virtual void BindGeneralPreferencesView(IGeneralPreferencesView view)
@@ -463,10 +478,12 @@ namespace MPfm.MVP.Navigation
             };            
         }
 
-        public virtual ILibraryPreferencesView CreateLibraryPreferencesView()
+        public virtual void CreateLibraryPreferencesView()
         {
-            _libraryPreferencesView = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesView>();
-            return _libraryPreferencesView;
+            if(_libraryPreferencesView == null)
+                _libraryPreferencesView = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesView>();
+
+            PushTabView(MobileNavigationTabType.More, _libraryPreferencesView);
         }
 
         public virtual void BindLibraryPreferencesView(ILibraryPreferencesView view)
@@ -527,6 +544,9 @@ namespace MPfm.MVP.Navigation
         {
             if (_playerView == null)
                 _playerView = Bootstrapper.GetContainer().Resolve<IPlayerView>();
+
+            // This is only used on iOS. Shouldn't this be routed to the main view? IMobileMainView.PushTabView?
+            PushTabView(tabType, _playerView);
         }
 
         public virtual void BindPlayerView(MobileNavigationTabType tabType, IPlayerView view)
@@ -731,6 +751,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_syncView == null)
                 _syncView = Bootstrapper.GetContainer().Resolve<ISyncView>();
+
+            PushTabView(MobileNavigationTabType.More, _syncView);
         }
 
         public virtual void BindSyncView(ISyncView view)
@@ -750,6 +772,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_syncWebBrowserView == null)
                 _syncWebBrowserView = Bootstrapper.GetContainer().Resolve<ISyncWebBrowserView>();
+
+            PushTabView(MobileNavigationTabType.More, _syncWebBrowserView);
         }
         
         public virtual void BindSyncWebBrowserView(ISyncWebBrowserView view)
@@ -769,6 +793,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_syncCloudView == null)
                 _syncCloudView = Bootstrapper.GetContainer().Resolve<ISyncCloudView>();
+
+            PushTabView(MobileNavigationTabType.More, _syncCloudView);
         }
 
         public virtual void BindSyncCloudView(ISyncCloudView view)
@@ -840,6 +866,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_aboutView == null)
                 _aboutView = Bootstrapper.GetContainer().Resolve<IAboutView>();
+
+            PushTabView(MobileNavigationTabType.More, _aboutView);
         }
 
         public virtual void BindAboutView(IAboutView view)
@@ -878,6 +906,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_resumePlaybackView == null)
                 _resumePlaybackView = Bootstrapper.GetContainer().Resolve<IResumePlaybackView>();
+
+            PushTabView(MobileNavigationTabType.More, _resumePlaybackView);
         }
 
         public virtual void BindResumePlaybackView(IResumePlaybackView view)

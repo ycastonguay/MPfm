@@ -25,6 +25,8 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
 using MPfm.Player.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -32,8 +34,8 @@ namespace MPfm.iOS
     {
         //NSTimer timer;
 
-        public PlayerMetadataViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "PlayerMetadataViewController_iPhone" : "PlayerMetadataViewController_iPad", null)
+        public PlayerMetadataViewController()
+            : base (UserInterfaceIdiomIsPhone ? "PlayerMetadataViewController_iPhone" : "PlayerMetadataViewController_iPad", null)
         {
         }
 
@@ -45,7 +47,10 @@ namespace MPfm.iOS
             lblTitle.Text = string.Empty;
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
 
-            base.ViewDidLoad();            
+            base.ViewDidLoad();          
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPlayerMetadataView(this);
         }
 
         public void ShowPanel(bool show, bool swipeUp)

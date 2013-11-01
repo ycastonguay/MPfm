@@ -323,7 +323,7 @@ namespace MPfm.MVP.Presenters
                     SetQuery(browserType, _items[index].Query);
 #else
                     var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, _items[index].Query);
-                    _navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
+                    //_navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
 #endif
 
                     return;

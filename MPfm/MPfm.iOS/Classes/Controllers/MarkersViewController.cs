@@ -28,6 +28,8 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
 using MPfm.Core;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -36,8 +38,8 @@ namespace MPfm.iOS
         string _cellIdentifier = "MarkerCell";
         List<Marker> _markers;
 
-        public MarkersViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "MarkersViewController_iPhone" : "MarkersViewController_iPad", null)
+        public MarkersViewController()
+            : base (UserInterfaceIdiomIsPhone ? "MarkersViewController_iPhone" : "MarkersViewController_iPad", null)
         {
             _markers = new List<Marker>();
         }
@@ -57,6 +59,9 @@ namespace MPfm.iOS
             tableView.AddGestureRecognizer(longPress);
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindMarkersView(this);
         }
 
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)

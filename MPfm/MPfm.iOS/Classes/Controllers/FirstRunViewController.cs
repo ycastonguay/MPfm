@@ -21,13 +21,15 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.iOS
 {
     public partial class FirstRunViewController : BaseViewController, IFirstRunView
     {
-        public FirstRunViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "FirstRunViewController_iPhone" : "FirstRunViewController_iPad", null)
+        public FirstRunViewController()
+			: base (UserInterfaceIdiomIsPhone ? "FirstRunViewController_iPhone" : "FirstRunViewController_iPad", null)
         {
         }
 
@@ -36,6 +38,10 @@ namespace MPfm.iOS
             base.ViewDidLoad();
 
             btnClose.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindFirstRunView(this);
+
         }
 
         partial void actionClose(NSObject sender)

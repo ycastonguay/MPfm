@@ -25,6 +25,7 @@ using MPfm.iOS.Classes.Controllers;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.iOS.Classes.Navigation
 {
@@ -45,8 +46,8 @@ namespace MPfm.iOS.Classes.Navigation
                         {
                             case MobileNavigationManagerCommandMessageType.ShowPlayerView:
                                 var navCtrl = (MPfmNavigationController)m.Sender;
-                                if(PlayerView != null)
-                                    PushTabView(navCtrl.TabType, PlayerView);
+                                //if(PlayerView != null)
+                                    //PushTabView(navCtrl.TabType, PlayerView);
                                 break;
                             case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
                                 if(EqualizerPresetsView == null)
@@ -65,60 +66,34 @@ namespace MPfm.iOS.Classes.Navigation
                 }
             });
         }
-		
-		public override void ShowSplash(ISplashView view)
-		{
-			AppDelegate.ShowSplash((SplashViewController)view);
-		}
-		
-		public override void HideSplash()
-		{
-			AppDelegate.HideSplash();
-		}
-		
-		public override void AddTab(MobileNavigationTabType type, string title, IBaseView view)
-		{
-            AppDelegate.AddTab(type, title, (UIViewController)view);
-		}
 
-        public override void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
-        {
-            AppDelegate.AddTab(type, title, (UIViewController)view);
-        }
-		
-		public override void PushTabView(MobileNavigationTabType type, IBaseView view)
-		{
-			AppDelegate.PushTabView(type, (UIViewController)view);
-		}
-
-        public override void PushTabView(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
+        public override void PushTabView(MobileNavigationTabType type, IBaseView view)
         {
             AppDelegate.PushTabView(type, (UIViewController)view);
         }
-
+		
         public override void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view)
         {
             AppDelegate.PushDialogView(presentationType, viewTitle, (UIViewController)view);
         }
 
-        public override void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view)
+        public override void CreateSplashView()
         {
-            AppDelegate.PushDialogSubview(presentationType, parentViewTitle, (UIViewController)view);
+            var view = Bootstrapper.GetContainer().Resolve<ISplashView>();
+            AppDelegate.ShowSplash((SplashViewController)view);
         }
 
-        public override void PushPlayerSubview(IPlayerView playerView, IBaseView view)
+        public override void CreateMobileMainView()
         {
-            var playerViewController = (PlayerViewController)playerView;
-            playerViewController.AddScrollView((UIViewController)view);
+            var view = Bootstrapper.GetContainer().Resolve<IMobileMainView>();
+            // The view tries to bind to the navmgr BEFORE it hits this line.
+            //AppDelegate.ShowMain((MainViewController)view);
         }
 
-        public override void PushPreferencesSubview(IPreferencesView preferencesView, IBaseView view)
+        public override void CreatePlayerView(MobileNavigationTabType tabType)
         {
-            // Not necessary on iOS.
-        }
-
-        public override void NotifyMobileLibraryBrowserQueryChange(MobileNavigationTabType type, MobileLibraryBrowserType browserType, LibraryQuery query)
-        {
+            var view = Bootstrapper.GetContainer().Resolve<IPlayerView>();
+            AppDelegate.PushTabView(tabType, (PlayerViewController)view);
         }
 	}
 }

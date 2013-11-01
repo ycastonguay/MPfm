@@ -23,13 +23,15 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
 using MPfm.MVP.Presenters;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class TimeShiftingViewController : BaseViewController, ITimeShiftingView
     {
-        public TimeShiftingViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "TimeShiftingViewController_iPhone" : "TimeShiftingViewController_iPad", null)
+        public TimeShiftingViewController()
+            : base (UserInterfaceIdiomIsPhone ? "TimeShiftingViewController_iPhone" : "TimeShiftingViewController_iPad", null)
         {
         }
 
@@ -55,6 +57,9 @@ namespace MPfm.iOS
             slider.ValueChanged += HandleSliderValueChanged;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindTimeShiftingView(this);
         }
 
         void HandleSliderValueChanged(object sender, EventArgs e)

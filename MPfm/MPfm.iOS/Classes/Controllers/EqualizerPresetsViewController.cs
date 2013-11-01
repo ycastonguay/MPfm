@@ -31,6 +31,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.iOS
 {
@@ -43,8 +44,8 @@ namespace MPfm.iOS
         List<EQPreset> _presets = new List<EQPreset>();
         Guid _selectedPresetId;
 
-        public EqualizerPresetsViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "EqualizerPresetsViewController_iPhone" : "EqualizerPresetsViewController_iPad", null)
+        public EqualizerPresetsViewController()
+            : base (UserInterfaceIdiomIsPhone ? "EqualizerPresetsViewController_iPhone" : "EqualizerPresetsViewController_iPad", null)
         {
         }
 
@@ -116,6 +117,9 @@ namespace MPfm.iOS
             this.View.AddSubview(_volumeView);
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindEqualizerPresetsView(null, this);
         }
 
 //        private void HandleSliderMasterVolumeValueChanged(object sender, EventArgs e)

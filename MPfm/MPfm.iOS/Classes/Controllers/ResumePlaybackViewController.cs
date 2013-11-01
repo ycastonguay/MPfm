@@ -27,6 +27,8 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Services;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -35,8 +37,8 @@ namespace MPfm.iOS
         string _cellIdentifier = "ResumePlaybackCell";
         List<CloudDeviceInfo> _devices = new List<CloudDeviceInfo>();
 
-        public ResumePlaybackViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "ResumePlaybackViewController_iPhone" : "ResumePlaybackViewController_iPad", null)
+        public ResumePlaybackViewController()
+			: base (UserInterfaceIdiomIsPhone ? "ResumePlaybackViewController_iPhone" : "ResumePlaybackViewController_iPad", null)
         {
         }
 
@@ -48,6 +50,9 @@ namespace MPfm.iOS
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindResumePlaybackView(this);
         }
 
         public override void ViewWillAppear(bool animated)

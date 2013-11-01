@@ -24,6 +24,8 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -32,8 +34,8 @@ namespace MPfm.iOS
         string _cellIdentifier = "PreferencesCell";
         List<string> _items = new List<string>();
 
-        public PreferencesViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "PreferencesViewController_iPhone" : "PreferencesViewController_iPad", null)
+        public PreferencesViewController()
+            : base (UserInterfaceIdiomIsPhone ? "PreferencesViewController_iPhone" : "PreferencesViewController_iPad", null)
         {
         }
 
@@ -46,6 +48,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindPreferencesView(this);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -135,6 +140,11 @@ namespace MPfm.iOS
                 _items = items;
                 tableView.ReloadData();
             });
+        }
+
+        public void PushSubView(IBaseView view)
+        {
+
         }
 
         #endregion

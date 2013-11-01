@@ -46,13 +46,13 @@ namespace MPfm.iOS.Classes.Delegates
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		MPfmWindow _window;
-        MPfmTabBarController _tabBarController;
+        MainViewController _tabBarController;
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
         List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();
         List<KeyValuePair<string, MPfmNavigationController>> _dialogNavigationControllers = new List<KeyValuePair<string, MPfmNavigationController>>();
 
-        public MPfmTabBarController TabBarController { get { return _tabBarController; } }
+        public MainViewController TabBarController { get { return _tabBarController; } }
 
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
@@ -76,10 +76,10 @@ namespace MPfm.iOS.Classes.Delegates
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
             _window.TintColor = GlobalTheme.SecondaryColor;
 
-            // Create tab bar controller, but hide it while the splash screen is visible
-            _tabBarController = new MPfmTabBarController();
-            _tabBarController.View.Hidden = true;
-            _window.RootViewController = _tabBarController;
+//            // Create tab bar controller, but hide it while the splash screen is visible
+//            _tabBarController = new MainViewController();
+//            _tabBarController.View.Hidden = true;
+//            _window.RootViewController = _tabBarController;
 
 			// Start navigation manager
 			_navigationManager = (iOSNavigationManager)container.Resolve<MobileNavigationManager>();
@@ -104,6 +104,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<ICloudLibraryService, iOSDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
+            container.Register<IMobileMainView, MainViewController>().AsMultiInstance();
             container.Register<ISplashView, SplashViewController>().AsMultiInstance();
             container.Register<IMobileOptionsMenuView, MoreViewController>().AsMultiInstance();
             container.Register<IPlayerView, PlayerViewController>().AsMultiInstance();
@@ -136,6 +137,13 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IResumePlaybackView, ResumePlaybackViewController>().AsMultiInstance();
             container.Register<IStartResumePlaybackView, StartResumePlaybackViewController>().AsMultiInstance();
             container.Register<IFirstRunView, FirstRunViewController>().AsMultiInstance();
+        }
+
+        public void ShowMain(MainViewController viewController)
+        {
+            _tabBarController = viewController;
+            //_tabBarController.View.Hidden = true;
+            _window.RootViewController = _tabBarController;
         }
 
         public void ShowSplash(SplashViewController viewController)

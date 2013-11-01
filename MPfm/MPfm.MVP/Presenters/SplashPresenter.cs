@@ -44,7 +44,8 @@ namespace MPfm.MVP.Presenters
         {
             if (_playerService.IsInitialized)
             {
-                onInitDone.Invoke();
+                if(onInitDone != null)
+                    onInitDone.Invoke();
                 return;
             }
 
@@ -68,7 +69,8 @@ namespace MPfm.MVP.Presenters
             };
             _playerService.Initialize(device, 44100, 1000, 100);
             View.InitDone(true);
-            onInitDone.Invoke();
+            if(onInitDone != null)
+                onInitDone.Invoke();
             Console.WriteLine("SplashPresenter - Initialize - Initializing player on main thread... DONE!");
             View.RefreshStatus("Opening app...");
 

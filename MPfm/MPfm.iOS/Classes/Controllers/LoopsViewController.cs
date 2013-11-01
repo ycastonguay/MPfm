@@ -24,13 +24,15 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
     public partial class LoopsViewController : BaseViewController, ILoopsView
     {
-        public LoopsViewController(Action<IBaseView> onViewReady)
-			: base (onViewReady, UserInterfaceIdiomIsPhone ? "LoopsViewController_iPhone" : "LoopsViewController_iPad", null)
+        public LoopsViewController()
+			: base (UserInterfaceIdiomIsPhone ? "LoopsViewController_iPhone" : "LoopsViewController_iPad", null)
         {
         }
 
@@ -40,7 +42,11 @@ namespace MPfm.iOS
             btnAddLoop.Layer.CornerRadius = 8;
             btnAddLoop.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
             btnAddLoop.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
+
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindLoopsView(this);
         }
 
         partial void actionAddLoop(NSObject sender)

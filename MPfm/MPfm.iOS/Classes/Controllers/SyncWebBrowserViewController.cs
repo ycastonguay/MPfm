@@ -23,13 +23,15 @@ using MPfm.MVP.Views;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Controls;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.iOS
 {
     public partial class SyncWebBrowserViewController : BaseViewController, ISyncWebBrowserView
     {
-        public SyncWebBrowserViewController(Action<IBaseView> onViewReady)
-            : base (onViewReady, UserInterfaceIdiomIsPhone ? "SyncWebBrowserViewController_iPhone" : "SyncWebBrowserViewController_iPad", null)
+        public SyncWebBrowserViewController()
+            : base (UserInterfaceIdiomIsPhone ? "SyncWebBrowserViewController_iPhone" : "SyncWebBrowserViewController_iPad", null)
         {
         }
 
@@ -41,6 +43,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSyncWebBrowserView(this);
         }
 
         public override void ViewWillAppear(bool animated)
