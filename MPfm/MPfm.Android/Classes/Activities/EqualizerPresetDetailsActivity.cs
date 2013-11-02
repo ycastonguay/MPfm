@@ -36,7 +36,7 @@ namespace MPfm.Android
     [Activity(Label = "Equalizer Preset Details", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden)]
     public class EqualizerPresetDetailsActivity : BaseActivity, IEqualizerPresetDetailsView, EditText.IOnEditorActionListener
     {
-        private MobileNavigationManager _navigationManager;
+        private string _presetId;
         private string _sourceActivityType;
         private EqualizerPresetFadersListAdapter _listAdapter;
         private ListView _listView;
@@ -51,7 +51,6 @@ namespace MPfm.Android
             Console.WriteLine("EqualizerPresetDetailsActivity - OnCreate");
             base.OnCreate(bundle);
 
-            _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.EqualizerPresetDetails);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
@@ -71,9 +70,10 @@ namespace MPfm.Android
 
             // Save the source activity type for later (for providing Up navigation)
             _sourceActivityType = Intent.GetStringExtra("sourceActivity");
+            _presetId = Intent.GetStringExtra("presetId");
 
-            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            //((AndroidNavigationManager)_navigationManager).SetEqualizerPresetDetailsActivityInstance(this);
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindEqualizerPresetDetailsView(null, this, new Guid(_presetId));
         }
 
         protected override void OnStart()

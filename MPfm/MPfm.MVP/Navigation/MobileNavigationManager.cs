@@ -400,15 +400,15 @@ namespace MPfm.MVP.Navigation
             _preferencesPresenter = Bootstrapper.GetContainer().Resolve<IPreferencesPresenter>();
             _preferencesPresenter.BindView(view);
                 
-#if ANDROID
-            // On Android, push subviews for preferences since there's generally more space on screen and swiping horizontally is more natural.
-            var general = CreateGeneralPreferencesView();
-            var audio = CreateAudioPreferencesView();
-            var library = CreateLibraryPreferencesView();
-            _preferencesView.PushSubView(general);
-            _preferencesView.PushSubView(audio);
-            _preferencesView.PushSubView(library);
-#endif
+//#if ANDROID
+//            // On Android, push subviews for preferences since there's generally more space on screen and swiping horizontally is more natural.
+//            var general = CreateGeneralPreferencesView();
+//            var audio = CreateAudioPreferencesView();
+//            var library = CreateLibraryPreferencesView();
+//            _preferencesView.PushSubView(general);
+//            _preferencesView.PushSubView(audio);
+//            _preferencesView.PushSubView(library);
+//#endif
         }
         
         public virtual void CreateAudioPreferencesView()

@@ -34,29 +34,29 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
+using Newtonsoft.Json;
 
 namespace MPfm.Android
 {
     [Activity(Label = "Sync Menu", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class SyncMenuActivity : BaseActivity, ISyncMenuView
     {
-        private MobileNavigationManager _navigationManager;
-        LinearLayout _loadingLayout;
-        LinearLayout _mainLayout;
-        TextView _lblStatus;
-        TextView _lblTotal;
-        TextView _lblFreeSpace;
-        Button _btnSelectAll;
-        ListView _listView;
-        SyncMenuListAdapter _listAdapter;
-        List<SyncMenuItemEntity> _items;
+        private SyncDevice _device;
+        private LinearLayout _loadingLayout;
+        private LinearLayout _mainLayout;
+        private TextView _lblStatus;
+        private TextView _lblTotal;
+        private TextView _lblFreeSpace;
+        private Button _btnSelectAll;
+        private ListView _listView;
+        private SyncMenuListAdapter _listAdapter;
+        private List<SyncMenuItemEntity> _items;
 
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("SyncMenuActivity - OnCreate");
             base.OnCreate(bundle);
 
-            _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.SyncMenu);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
             ActionBar.SetHomeButtonEnabled(true);
@@ -75,9 +75,11 @@ namespace MPfm.Android
             _listView.ItemClick += ListViewOnItemClick;
             _listView.ItemLongClick += ListViewOnItemLongClick;
 
-            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            //((AndroidNavigationManager)_navigationManager).SetSyncMenuActivityInstance(this);
-            //_navigationManager.BindSyncMenuView(this, null);
+            string json = Intent.GetStringExtra("device");
+            _device = JsonConvert.DeserializeObject<SyncDevice>(json);
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSyncMenuView(this, _device);
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)

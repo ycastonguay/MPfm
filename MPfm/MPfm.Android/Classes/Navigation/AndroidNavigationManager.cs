@@ -28,6 +28,7 @@ using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
+using Newtonsoft.Json;
 using TinyMessenger;
 
 namespace MPfm.Android.Classes.Navigation
@@ -57,6 +58,11 @@ namespace MPfm.Android.Classes.Navigation
                         break;
                 }
             });
+        }
+
+        public override void PushTabView(MobileNavigationTabType type, IBaseView view)
+        {
+            // Not used on Android
         }
 
         public override void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view)
@@ -153,6 +159,8 @@ namespace MPfm.Android.Classes.Navigation
         public override void CreateSyncMenuView(SyncDevice device)
         {
             var intent = new Intent(MainActivity, typeof(SyncMenuActivity));
+            string json = JsonConvert.SerializeObject(device);
+            intent.PutExtra("device", json);
             MainActivity.StartActivity(intent);
         }
 
