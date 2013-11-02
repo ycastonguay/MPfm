@@ -22,6 +22,5 @@ namespace MPfm.MVP.Presenters.Interfaces
 {
 	public interface ISyncMenuPresenter : IBasePresenter<ISyncMenuView>
 	{
-	    void SetSyncDevice(SyncDevice device);
 	}
 }

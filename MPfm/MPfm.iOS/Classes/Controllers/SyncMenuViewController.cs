@@ -34,14 +34,16 @@ namespace MPfm.iOS
 {
     public partial class SyncMenuViewController : BaseViewController, ISyncMenuView
     {
+        SyncDevice _device;
         string _cellIdentifier = "SyncMenuCell";
         UIBarButtonItem _btnSync;
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
         float _nowPlayingButtonPreviousAlpha = 0;
 
-        public SyncMenuViewController()
+        public SyncMenuViewController(SyncDevice device)
             : base (UserInterfaceIdiomIsPhone ? "SyncMenuViewController_iPhone" : "SyncMenuViewController_iPad", null)
         {
+            _device = device;
         }
 
         public override void ViewDidLoad()
@@ -86,7 +88,7 @@ namespace MPfm.iOS
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            //navigationManager.BindView(this);
+            navigationManager.BindSyncMenuView(this, _device);
         }       
 
         public override void ViewWillAppear(bool animated)

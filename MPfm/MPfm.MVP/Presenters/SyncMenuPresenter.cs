@@ -46,8 +46,9 @@ namespace MPfm.MVP.Presenters
         List<SyncMenuItemEntity> _items = new List<SyncMenuItemEntity>();
         List<AudioFile> _audioFilesToSync = new List<AudioFile>();
 
-        public SyncMenuPresenter(ISyncClientService syncClientService, ISyncDeviceSpecifications syncDeviceSpecifications)
+        public SyncMenuPresenter(SyncDevice device, ISyncClientService syncClientService, ISyncDeviceSpecifications syncDeviceSpecifications)
 		{
+            _device = device;
             _syncClientService = syncClientService;
             _syncDeviceSpecifications = syncDeviceSpecifications;
             _syncClientService.OnDownloadIndexProgress += HandleOnDownloadIndexProgress;
@@ -76,7 +77,7 @@ namespace MPfm.MVP.Presenters
 
 	    private void Initialize()
         {
-
+            SetSyncDevice(_device);
         }
 
         private void HandleOnReceivedIndex(Exception exception)
@@ -499,7 +500,7 @@ namespace MPfm.MVP.Presenters
             return selection;
         }
 
-        public void SetSyncDevice(SyncDevice device)
+        private void SetSyncDevice(SyncDevice device)
         {
             try
             {

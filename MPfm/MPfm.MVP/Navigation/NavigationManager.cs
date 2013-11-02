@@ -314,7 +314,6 @@ namespace MPfm.MVP.Navigation
             {                    
                 _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>();
                 _syncMenuPresenter.BindView((ISyncMenuView)view);
-                _syncMenuPresenter.SetSyncDevice(device);
             };
 
             _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });

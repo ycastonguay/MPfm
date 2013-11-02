@@ -736,7 +736,8 @@ namespace MPfm.MVP.Navigation
             if (_equalizerPresetDetailsView == null)
                 _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "presetId", presetId } });
 
-            PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Preset Details", null, _equalizerPresetDetailsView);
+            //PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Preset Details", null, _equalizerPresetDetailsView);
+            PushTabView(MobileNavigationTabType.More, _equalizerPresetDetailsView);
         }
 
         public virtual void BindEqualizerPresetDetailsView(IBaseView sourceView, IEqualizerPresetDetailsView view, Guid presetId)
@@ -817,13 +818,10 @@ namespace MPfm.MVP.Navigation
 
         public virtual void CreateSyncMenuView(SyncDevice device)
         {
-            //if (_syncMenuView == null)
-            //    _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            //else
-            //    _syncMenuPresenter.SetSyncDevice(device);
-
             if (_syncMenuView == null)
-                _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>();
+                _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "device", device } });
+
+            PushTabView(MobileNavigationTabType.More, _syncMenuView);
         }
 
         public virtual void BindSyncMenuView(ISyncMenuView view, SyncDevice device)
@@ -835,10 +833,8 @@ namespace MPfm.MVP.Navigation
                 _syncMenuPresenter = null;
                 _syncMenuView = null;
             };
-            _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>();
+            _syncMenuPresenter = Bootstrapper.GetContainer().Resolve<ISyncMenuPresenter>(new NamedParameterOverloads() { { "device", device } });
             _syncMenuPresenter.BindView(view);
-            // Move this to ctor!
-            //_syncMenuPresenter.SetSyncDevice(device);
         }
 
         public virtual void CreateSyncDownloadView(SyncDevice device, IEnumerable<AudioFile> audioFiles)
