@@ -119,10 +119,6 @@ namespace MPfm.MVP.Navigation
         private IGeneralPreferencesPresenter _generalPreferencesPresenter;
         private ILibraryPreferencesPresenter _libraryPreferencesPresenter;
 
-        protected IPlaylistView PlaylistView { get { return _playlistView; } }
-        protected IEqualizerPresetsView EqualizerPresetsView { get { return _equalizerPresetsView; } }
-        protected IPlayerView PlayerView { get { return _playerView; } }
-
         private readonly Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>> _mobileLibraryBrowserList = new Dictionary<Tuple<MobileNavigationTabType, MobileLibraryBrowserType>, Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter>>();
 
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
@@ -506,9 +502,14 @@ namespace MPfm.MVP.Navigation
             if(_mobileLibraryBrowserList.ContainsKey(key))
             {
                 Tuple<IMobileLibraryBrowserView, IMobileLibraryBrowserPresenter> viewPresenter;
-                if(_mobileLibraryBrowserList.TryGetValue(key, out viewPresenter))
-                    if(viewPresenter != null)
+                if (_mobileLibraryBrowserList.TryGetValue(key, out viewPresenter))
+                {
+                    if (viewPresenter != null)
+                    {
+                        viewPresenter.Item2.ChangeQuery(browserType, query);
                         return viewPresenter.Item1;
+                    }
+                }
             }
 
             var view = Bootstrapper.GetContainer().Resolve<IMobileLibraryBrowserView>(new NamedParameterOverloads() { { "tabType", tabType }, { "browserType", browserType }, { "query", query } });
@@ -713,6 +714,8 @@ namespace MPfm.MVP.Navigation
         {
             if(_equalizerPresetsView == null)
                 _equalizerPresetsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsView>();
+
+            PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Presets", null, _equalizerPresetsView);
         }
 
         public virtual void BindEqualizerPresetsView(IBaseView sourceView, IEqualizerPresetsView view)
@@ -732,6 +735,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_equalizerPresetDetailsView == null)
                 _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "presetId", presetId } });
+
+            PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Preset Details", null, _equalizerPresetDetailsView);
         }
 
         public virtual void BindEqualizerPresetDetailsView(IBaseView sourceView, IEqualizerPresetDetailsView view, Guid presetId)
@@ -965,6 +970,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_playlistView == null)
                 _playlistView = Bootstrapper.GetContainer().Resolve<IPlaylistView>();
+
+            PushDialogView(MobileDialogPresentationType.Standard, "Playlist", null, _playlistView);
         }
 
         public virtual void BindPlaylistView(IBaseView sourceView, IPlaylistView view)

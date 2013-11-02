@@ -194,7 +194,7 @@ namespace MPfm.MVP.Presenters
 	    /// <summary>
 		/// Starts playback.
 		/// </summary>
-		public void Play()
+        private void Play()
 		{            
             try
             {
@@ -228,7 +228,7 @@ namespace MPfm.MVP.Presenters
 		/// Starts the playback of a new playlist.
 		/// </summary>
 		/// <param name='filePaths'>List of audio file paths</param>
-		public void Play(IEnumerable<string> filePaths)
+        private void Play(IEnumerable<string> filePaths)
 		{
             try
             {
@@ -246,7 +246,7 @@ namespace MPfm.MVP.Presenters
 		/// </summary>
 		/// <param name='audioFiles'>List of audio files</param>
 		/// <param name='startAudioFilePath'>File path of the first playlist item to play</param>
-		public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
+        private void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
 		{
             try
             {
@@ -262,7 +262,7 @@ namespace MPfm.MVP.Presenters
 		/// <summary>
 		/// Stops playback.
 		/// </summary>
-		public void Stop()
+        private void Stop()
 		{
             try
             {
@@ -288,7 +288,7 @@ namespace MPfm.MVP.Presenters
 		/// <summary>
 		/// Pauses playback.
 		/// </summary>
-		public void Pause()
+        private void Pause()
 		{
             try
             {
@@ -303,7 +303,7 @@ namespace MPfm.MVP.Presenters
 		/// <summary>
 		/// Skips to the next song in the playlist.
 		/// </summary>
-		public void Next()
+        private void Next()
 		{
             try
             {
@@ -367,7 +367,7 @@ namespace MPfm.MVP.Presenters
             return new PlayerPositionEntity();
         }
         
-        public void SetPosition(float percentage)
+        private void SetPosition(float percentage)
         {
             try
             {
@@ -387,7 +387,7 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        public void SetVolume(float volume)
+        private void SetVolume(float volume)
         {
             try
             {

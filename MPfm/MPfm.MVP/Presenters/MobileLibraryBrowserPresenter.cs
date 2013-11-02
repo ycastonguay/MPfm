@@ -87,8 +87,8 @@ namespace MPfm.MVP.Presenters
             _messengerHub.Subscribe<AudioFileCacheUpdatedMessage>(AudioFileCacheUpdated);
             _messengerHub.Subscribe<PlayerPlaylistIndexChangedMessage>(PlayerPlaylistIndexChanged);
             _messengerHub.Subscribe<PlaylistUpdatedMessage>(PlaylistUpdated);
-            _messengerHub.Subscribe<MobileLibraryBrowserChangeQueryMessage>(ChangeQuery);
             _messengerHub.Subscribe<MobileLibraryBrowserPopBackstackMessage>(PopBackstack);
+            _messengerHub.Subscribe<MobileLibraryBrowserChangeQueryMessage>((m) => { ChangeQuery(m.BrowserType, m.Query); });
 
             RefreshLibraryBrowser();
         }
@@ -110,17 +110,17 @@ namespace MPfm.MVP.Presenters
             RefreshLibraryBrowser();
         }
 
-        private void ChangeQuery(MobileLibraryBrowserChangeQueryMessage message)
+        public void ChangeQuery(MobileLibraryBrowserType browserType, LibraryQuery query)
         {
             // Do not change query if the current query is the same
-            if (_browserType == message.BrowserType &&
-                _query.ArtistName == message.Query.ArtistName &&
-                _query.AlbumTitle == message.Query.AlbumTitle &&
-                _query.Format == message.Query.Format)
+            if (_browserType == browserType &&
+                _query.ArtistName == query.ArtistName &&
+                _query.AlbumTitle == query.AlbumTitle &&
+                _query.Format == query.Format)
                 return;
 
             _queryHistory.Clear();
-            SetQuery(message.BrowserType, message.Query);
+            SetQuery(browserType, query);
         }
 
         private void PopBackstack(MobileLibraryBrowserPopBackstackMessage message)
@@ -324,6 +324,7 @@ namespace MPfm.MVP.Presenters
 #else
                     var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, _items[index].Query);
                     //_navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
+                    _navigationManager.PushTabView(_tabType, newView);
 #endif
 
                     return;

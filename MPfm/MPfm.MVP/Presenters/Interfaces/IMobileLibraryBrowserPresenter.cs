@@ -28,5 +28,6 @@ namespace MPfm.MVP.Presenters.Interfaces
 	/// </summary>
     public interface IMobileLibraryBrowserPresenter : IBasePresenter<IMobileLibraryBrowserView>
 	{
+        void ChangeQuery(MobileLibraryBrowserType browserType, LibraryQuery query);
 	}
 }

@@ -46,20 +46,13 @@ namespace MPfm.iOS.Classes.Navigation
                         {
                             case MobileNavigationManagerCommandMessageType.ShowPlayerView:
                                 var navCtrl = (MPfmNavigationController)m.Sender;
-                                //if(PlayerView != null)
-                                    //PushTabView(navCtrl.TabType, PlayerView);
+                                CreatePlayerView(navCtrl.TabType);
                                 break;
                             case MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView:
-                                if(EqualizerPresetsView == null)
-                                    CreateEqualizerPresetsView(null);
-                                else
-                                    PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Presets", null, EqualizerPresetsView);
+                                CreateEqualizerPresetsView(null);
                                 break;
                             case MobileNavigationManagerCommandMessageType.ShowPlaylistView:
-                                if(PlaylistView == null)
-                                    CreatePlaylistView(null);
-                                else
-                                    PushDialogView(MobileDialogPresentationType.Standard, "Playlist", null, PlaylistView);
+                                CreatePlaylistView(null);
                                 break;
                         }
                     });

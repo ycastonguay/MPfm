@@ -29,11 +29,13 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.iOS
 {
     public partial class EqualizerPresetDetailsViewController : BaseViewController, IEqualizerPresetDetailsView
     {
+        Guid _presetId;
         bool _isPresetModified;
         EQPreset _preset;
         UIBarButtonItem _btnBack;
@@ -42,9 +44,10 @@ namespace MPfm.iOS
         UIBarButtonItem _btnNormalize;
         List<MPfmEqualizerFaderView> _faderViews = new List<MPfmEqualizerFaderView>();
         
-        public EqualizerPresetDetailsViewController()
+        public EqualizerPresetDetailsViewController(Guid presetId)
             : base (UserInterfaceIdiomIsPhone ? "EqualizerPresetDetailsViewController_iPhone" : "EqualizerPresetDetailsViewController_iPad", null)
         {
+            _presetId = presetId;
         }
         
         public override void ViewDidLoad()
@@ -118,6 +121,9 @@ namespace MPfm.iOS
             NavigationController.InteractivePopGestureRecognizer.Enabled = true;
 
             base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindEqualizerPresetDetailsView(null, this, _presetId);
         }
 
         private void HandleButtonSaveTouchUpInside()
