@@ -139,7 +139,11 @@ namespace MPfm.MVP.Presenters
             if (_playerService.Status == PlayerStatusType.WaitingToStart)
             {
                 _playerService.Status = PlayerStatusType.Playing;                
-                //_playerService.Pause();
+                _timerRefreshSongPosition.Start();
+            } 
+            else if (_playerService.Status == PlayerStatusType.StartPaused)
+            {
+                _playerService.Status = PlayerStatusType.Paused;                
                 _timerRefreshSongPosition.Start();
             }
 
