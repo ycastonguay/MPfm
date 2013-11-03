@@ -53,10 +53,9 @@ namespace MPfm.MVP.Services.Interfaces
         void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
         void Dispose();
 
-        void Play();
-        void Play(IEnumerable<AudioFile> audioFiles);
+        void Play();        
         void Play(IEnumerable<string> filePaths);
-        void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath);
+        void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, bool startPaused, bool waitingToStart);
         void Stop();
         void Pause();
         void Next();

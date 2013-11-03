@@ -69,7 +69,7 @@ namespace MPfm.Player
         void FreeDevice();
         void FreePlugins();
 
-        void Play();
+        void Play(bool startPaused);
         void PlayFiles(List<AudioFile> audioFiles);
         void PlayFiles(List<string> filePaths);        
         void Pause();

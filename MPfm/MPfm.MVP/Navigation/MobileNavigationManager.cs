@@ -154,7 +154,7 @@ namespace MPfm.MVP.Navigation
                 {
                     Tracing.Log("MobileNavigationManager - Resume playback is available; launching Player activity...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                    playerService.Play(audioFiles, audioFile.FilePath);
+                    playerService.Play(audioFiles, audioFile.FilePath, true, true);
                     // TO DO: Start paused; resume playback when player view is ready.
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                 }

@@ -856,7 +856,7 @@ namespace MPfm.Player
         /// <summary>
         /// Plays the playlist from the current item index.
         /// </summary>
-        public void Play()
+        public void Play(bool startPaused)
         {
             try
             {
@@ -1047,7 +1047,7 @@ namespace MPfm.Player
                 long length = _playlist.CurrentItem.Channel.GetLength();
                 SetSyncCallback(length);
                 _isPlaying = true;
-                _isPaused = false;
+                _isPaused = startPaused;                
 
                 // Only the DirectSound mode needs to start the main channel since it's not in decode mode.
                 if (_device.DriverType == DriverType.DirectSound)
@@ -1058,6 +1058,9 @@ namespace MPfm.Player
                     // Start playback
                     Tracing.Log("Player.Play -- Starting DirectSound playback...");
                     _mixerChannel.Play(false);
+
+                    if (startPaused)
+                        Base.Pause();
                 }
 
                 // Raise audio file finished event (if an event is subscribed)
@@ -1127,7 +1130,7 @@ namespace MPfm.Player
 
             // Start playback from first item
             _playlist.First();
-            Play();
+            Play(false);
         }
 
         /// <summary>
@@ -1282,7 +1285,7 @@ namespace MPfm.Player
             Stop();
             Playlist.GoTo(index);
             _currentMixPlaylistIndex = index;
-            Play();
+            Play(false);
         }
 
         /// <summary>
@@ -1294,7 +1297,7 @@ namespace MPfm.Player
             Stop();
             Playlist.GoTo(playlistItemId);
             _currentMixPlaylistIndex = Playlist.CurrentItemIndex;
-            Play();
+            Play(false);
         }
 
         /// <summary>

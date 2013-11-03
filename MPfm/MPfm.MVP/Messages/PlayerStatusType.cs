@@ -25,6 +25,16 @@ namespace MPfm.MVP.Messages
         Initialized = 0,
         Stopped = 1,
         Playing = 2,
-        Paused = 3
+        Paused = 3,
+        /// <summary>
+        /// Used when starting playback as paused. 
+        /// This status tells the presenters to start playback when it will be ready to start updating the UI.
+        /// </summary>
+        WaitingToStart = 4,
+        /// <summary>
+        /// Used to start the player but pause the playback immediately.
+        /// Useful when the application starts and resumes the previous sessions; we don't want to force playback on the user.
+        /// </summary>
+        StartPaused = 5
     }
 }

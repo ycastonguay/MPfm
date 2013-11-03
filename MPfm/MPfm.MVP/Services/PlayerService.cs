@@ -280,16 +280,7 @@ namespace MPfm.MVP.Services
 
         public void Play()
         {
-            _player.Play();
-            UpdatePlayerStatus(PlayerStatusType.Playing);
-            NotifyPlaylistUpdate();
-        }
-
-        public void Play(IEnumerable<AudioFile> audioFiles)
-        {
-            _player.Playlist.Clear();
-            _player.Playlist.AddItems(audioFiles.ToList());
-            _player.Play();
+            _player.Play(false);
             UpdatePlayerStatus(PlayerStatusType.Playing);
             NotifyPlaylistUpdate();
         }
@@ -298,18 +289,28 @@ namespace MPfm.MVP.Services
         {
             _player.Playlist.Clear();
             _player.Playlist.AddItems(filePaths.ToList());
-            _player.Play();
+            _player.Play(false);
             UpdatePlayerStatus(PlayerStatusType.Playing);
             NotifyPlaylistUpdate();
         }
 
-        public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath)
+        public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, bool startPaused, bool waitingToStart)
         {
             _player.Playlist.Clear();
             _player.Playlist.AddItems(audioFiles.ToList());
-            _player.Playlist.GoTo(startAudioFilePath);
-            _player.Play();
-            UpdatePlayerStatus(PlayerStatusType.Playing);
+
+            if(!string.IsNullOrEmpty(startAudioFilePath))
+                _player.Playlist.GoTo(startAudioFilePath);
+
+            _player.Play(startPaused);
+
+            if(startPaused)
+                UpdatePlayerStatus(PlayerStatusType.StartPaused);
+            else if(waitingToStart)
+                UpdatePlayerStatus(PlayerStatusType.WaitingToStart);
+            else
+                UpdatePlayerStatus(PlayerStatusType.Playing);
+
             NotifyPlaylistUpdate();
         }
 

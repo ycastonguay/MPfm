@@ -136,10 +136,18 @@ namespace MPfm.MVP.Presenters
                 View.RefreshMarkers(markers);
             }
 
+            if (_playerService.Status == PlayerStatusType.WaitingToStart)
+            {
+                _playerService.Status = PlayerStatusType.Playing;                
+                //_playerService.Pause();
+                _timerRefreshSongPosition.Start();
+            }
+
             View.RefreshPlayerVolume(new PlayerVolumeEntity() {
                 Volume = 100,
                 VolumeString = "100%"
             });
+            View.RefreshPlayerStatus(_playerService.Status);
         }
 
 	    public override void ViewDestroyed()
@@ -211,11 +219,11 @@ namespace MPfm.MVP.Presenters
 		/// Starts the playback of a new playlist.
 		/// </summary>
 		/// <param name='audioFiles'>List of audio files</param>		
-		public void Play(IEnumerable<AudioFile> audioFiles)
+        private void Play(IEnumerable<AudioFile> audioFiles)
 		{
             try
             {
-                _playerService.Play(audioFiles);
+                _playerService.Play(audioFiles, string.Empty, false, false);
                 _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
@@ -250,7 +258,7 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-                _playerService.Play(audioFiles, startAudioFilePath);
+                _playerService.Play(audioFiles, startAudioFilePath, false, false);
                 _timerRefreshSongPosition.Start();
             }
             catch(Exception ex)
