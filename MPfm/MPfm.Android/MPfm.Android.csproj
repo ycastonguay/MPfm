@@ -129,7 +129,6 @@
     <Compile Include="Classes\Fragments\LoopsFragment.cs" />
     <Compile Include="Classes\Fragments\TimeShiftingFragment.cs" />
     <Compile Include="Classes\Fragments\PitchShiftingFragment.cs" />
-    <Compile Include="Classes\Fragments\SplashFragment.cs" />
     <Compile Include="Classes\Fragments\LibraryPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\GeneralPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\UpdateLibraryFragment.cs" />

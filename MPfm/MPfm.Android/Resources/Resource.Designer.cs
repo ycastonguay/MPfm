@@ -1160,7 +1160,7 @@ namespace MPfm.Android
 			public const int selectPlaylist_listView = 2131493082;
 			
 			// aapt resource value: 0x7f0c00dd
-			public const int splash_layout = 2131493085;
+			public const int splash_progressBar = 2131493085;
 			
 			// aapt resource value: 0x7f0c00de
 			public const int splash_text = 2131493086;

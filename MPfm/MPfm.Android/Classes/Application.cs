@@ -156,7 +156,7 @@ namespace MPfm.Android.Classes
             container.Register<IAppConfigProvider, AndroidAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();
-            container.Register<ISplashView, SplashFragment>().AsMultiInstance();
+            container.Register<ISplashView, SplashActivity>().AsMultiInstance();
             container.Register<IMobileMainView, MainActivity>().AsMultiInstance();
             container.Register<IPlayerView, PlayerActivity>().AsMultiInstance();
             container.Register<IPlayerMetadataView, PlayerMetadataFragment>().AsMultiInstance();

@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Reflection;
 using Android.Content;
 using Android.Preferences;
@@ -73,8 +74,14 @@ namespace MPfm.Android.Classes.Providers
                     propertyInfo.SetValue(config, sharedPreferences.GetFloat(fullName, 0));
                 }
                 else if (propertyType == typeof(string))
-                {
+                {                    
                     propertyInfo.SetValue(config, sharedPreferences.GetString(fullName, string.Empty));
+                }
+                else if (propertyType == typeof(DateTime))
+                {
+                    long ticks = sharedPreferences.GetLong(fullName, 0);
+                    DateTime dateTime = new DateTime(ticks);
+                    propertyInfo.SetValue(config, dateTime);
                 }
                 else if (typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
                 {
@@ -114,6 +121,11 @@ namespace MPfm.Android.Classes.Providers
                 {
                     string stringValue = value == null ? string.Empty : (string)value;
                     editor.PutString(fullName, stringValue);
+                }
+                else if (propertyType == typeof(DateTime))
+                {
+                    DateTime dateTime = (DateTime) value;
+                    editor.PutLong(fullName, dateTime.Ticks);
                 }
                 else if (typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
                 {

@@ -30,7 +30,7 @@ using MPfm.MVP.Navigation;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Sessions Beta", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden, NoHistory = true, MainLauncher = true)]
+    [Activity(Label = "Sessions", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden, NoHistory = true, MainLauncher = true)]
     public class LaunchActivity : Activity
     {
         private AndroidNavigationManager _navigationManager;
@@ -46,30 +46,6 @@ namespace MPfm.Android
             _navigationManager.LaunchActivity = this;
             _navigationManager.Start();
             Finish();
-
-            //AppConfigManager.Instance.Load();
-            //Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
-            //if (AppConfigManager.Instance.Root.IsFirstRun)
-            //{
-            //    Tracing.Log("LaunchActivity - First run of the application; launching FirstRun activity...");
-            //    var intent = new Intent(this, typeof(FirstRunActivity));
-            //    StartActivity(intent);
-            //    Finish();
-            //}
-            //else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
-            //{
-            //    Tracing.Log("LaunchActivity - Resume playback is available; launching Player activity... - audioFileId: {0} playlistId: {1}", AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
-            //    var intent = new Intent(this, typeof(PlayerActivity));
-            //    StartActivity(intent);
-            //    Finish();   
-            //}
-            //else
-            //{
-            //    Tracing.Log("LaunchActivity - Resume playback is not available; launching Main activity...");
-            //    var intent = new Intent(this, typeof(MainActivity));
-            //    StartActivity(intent);
-            //    Finish();
-            //}
         }
 
         protected override void OnStart()

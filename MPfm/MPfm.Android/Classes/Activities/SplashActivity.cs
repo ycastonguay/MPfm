@@ -20,6 +20,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Views;
 using Android.OS;
+using Android.Widget;
 using MPfm.Android.Classes.Navigation;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
@@ -27,42 +28,21 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Sessions Splash", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden, NoHistory = true)]
+    [Activity(Label = "Sessions", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize, WindowSoftInputMode = SoftInput.StateHidden, NoHistory = true)]
     public class SplashActivity : BaseActivity, ISplashView
     {
+        private TextView _textView;
+
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("SplashActivity - OnCreate");
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.Splash);
+            _textView = FindViewById<TextView>(Resource.Id.splash_text);
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindSplashView(this);
-
-            //AppConfigManager.Instance.Load();
-            //Console.WriteLine("LaunchActivity - OnCreate - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
-            //if (AppConfigManager.Instance.Root.IsFirstRun)
-            //{
-            //    Tracing.Log("LaunchActivity - First run of the application; launching FirstRun activity...");
-            //    var intent = new Intent(this, typeof(FirstRunActivity));
-            //    StartActivity(intent);
-            //    Finish();
-            //}
-            //else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
-            //{
-            //    Tracing.Log("LaunchActivity - Resume playback is available; launching Player activity... - audioFileId: {0} playlistId: {1}", AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
-            //    var intent = new Intent(this, typeof(PlayerActivity));
-            //    StartActivity(intent);
-            //    Finish();   
-            //}
-            //else
-            //{
-            //    Tracing.Log("LaunchActivity - Resume playback is not available; launching Main activity...");
-            //    var intent = new Intent(this, typeof(MainActivity));
-            //    StartActivity(intent);
-            //    Finish();
-            //}
         }
 
         protected override void OnStart()
@@ -105,11 +85,10 @@ namespace MPfm.Android
 
         public void RefreshStatus(string message)
         {
-            //Console.WriteLine("SplashFragment - RefreshStatus");
-            //Activity.RunOnUiThread(() =>
-            //{
-            //    //_textView.Text = message;
-            //});
+            RunOnUiThread(() =>
+            {
+                _textView.Text = message;
+            });
         }
 
         public void InitDone(bool isFirstAppStart)

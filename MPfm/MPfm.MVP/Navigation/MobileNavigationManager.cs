@@ -157,12 +157,14 @@ namespace MPfm.MVP.Navigation
                 var syncDeviceSpecs = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
 
                 // Compare timestamps from cloud vs local
+                _splashView.RefreshStatus("Fetching device information from the cloud...");
                 var infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
                 CloudDeviceInfo cloudDeviceInfo = null;
                 AudioFile audioFileCloud = null;
                 AudioFile audioFileLocal = null;
                 string localDeviceName = syncDeviceSpecs.GetDeviceName();
-                DateTime localTimestamp = AppConfigManager.Instance.Root.ResumePlayback.Timestamp;
+                //DateTime localTimestamp = AppConfigManager.Instance.Root.ResumePlayback.Timestamp;
+                DateTime localTimestamp = DateTime.MinValue; // Temporary for testing purposes
                 foreach (var deviceInfo in infos)
                 {
                     // Make sure the timestamp is earlier than local, and that this isn't actually the same device!
