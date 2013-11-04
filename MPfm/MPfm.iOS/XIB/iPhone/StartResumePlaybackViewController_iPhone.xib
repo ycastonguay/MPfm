@@ -9,6 +9,7 @@
                 <outlet property="btnCancel" destination="RBq-Ds-ZrE" id="ffw-Xi-gnm"/>
                 <outlet property="btnResume" destination="tKY-ZR-jCC" id="Y2f-R7-gT8"/>
                 <outlet property="imageAlbum" destination="MGJ-oF-TJC" id="qqy-wC-Exs"/>
+                <outlet property="imageIcon" destination="eYh-th-yiQ" id="MqY-Aj-fxf"/>
                 <outlet property="lblAlbumTitle" destination="0T0-kH-zdw" id="5RV-Nh-ExK"/>
                 <outlet property="lblArtistName" destination="8qd-6y-498" id="1JX-Jq-dsu"/>
                 <outlet property="lblDeviceName" destination="qqO-X4-I4H" id="W5D-Ty-TJf"/>
@@ -40,7 +41,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="On-the-fly Playlist" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="nMm-3r-LRt">
-                            <rect key="frame" x="20" y="125" width="240" height="35"/>
+                            <rect key="frame" x="20" y="126" width="240" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                             <color key="textColor" white="0.90265739050000005" alpha="1" colorSpace="calibratedWhite"/>
@@ -74,8 +75,8 @@
                             <color key="textColor" white="0.90265739050000005" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Yanick Castonguay's iPad Air" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="qqO-X4-I4H">
-                            <rect key="frame" x="20" y="104" width="240" height="35"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Yanick Castonguay's iPad Air" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="208" translatesAutoresizingMaskIntoConstraints="NO" id="qqO-X4-I4H">
+                            <rect key="frame" x="50" y="103" width="208" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
                             <color key="textColor" white="0.90265739050000005" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,7 +114,12 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGJ-oF-TJC">
                             <rect key="frame" x="20" y="168" width="70" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eYh-th-yiQ">
+                            <rect key="frame" x="20" y="109" width="24" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" red="0.12549019610000001" green="0.15686274510000001" blue="0.18039215689999999" alpha="0.5" colorSpace="calibratedRGB"/>

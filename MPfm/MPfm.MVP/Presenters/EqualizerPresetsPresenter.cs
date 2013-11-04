@@ -213,6 +213,7 @@ namespace MPfm.MVP.Presenters
                 if(preset == null)
                     return;
 
+                _messageHub.PublishAsync<EqualizerPresetSelectedMessage>(new EqualizerPresetSelectedMessage(this, preset.EQPresetId));
                 _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, preset.EQPresetId);
             }
             catch(Exception ex)

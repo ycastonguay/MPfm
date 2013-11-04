@@ -22,6 +22,9 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UIImageView imageAlbum { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIImageView imageIcon { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UILabel lblAlbumTitle { get; set; }
 
 		[Outlet]
@@ -47,6 +50,31 @@ namespace MPfm.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnCancel != null) {
+				btnCancel.Dispose ();
+				btnCancel = null;
+			}
+
+			if (btnResume != null) {
+				btnResume.Dispose ();
+				btnResume = null;
+			}
+
+			if (imageAlbum != null) {
+				imageAlbum.Dispose ();
+				imageAlbum = null;
+			}
+
+			if (lblAlbumTitle != null) {
+				lblAlbumTitle.Dispose ();
+				lblAlbumTitle = null;
+			}
+
+			if (lblArtistName != null) {
+				lblArtistName.Dispose ();
+				lblArtistName = null;
+			}
+
 			if (lblDeviceName != null) {
 				lblDeviceName.Dispose ();
 				lblDeviceName = null;
@@ -55,21 +83,6 @@ namespace MPfm.iOS
 			if (lblPlaylistName != null) {
 				lblPlaylistName.Dispose ();
 				lblPlaylistName = null;
-			}
-
-			if (imageAlbum != null) {
-				imageAlbum.Dispose ();
-				imageAlbum = null;
-			}
-
-			if (lblArtistName != null) {
-				lblArtistName.Dispose ();
-				lblArtistName = null;
-			}
-
-			if (lblAlbumTitle != null) {
-				lblAlbumTitle.Dispose ();
-				lblAlbumTitle = null;
 			}
 
 			if (lblSongTitle != null) {
@@ -82,14 +95,9 @@ namespace MPfm.iOS
 				lblTimestamp = null;
 			}
 
-			if (btnCancel != null) {
-				btnCancel.Dispose ();
-				btnCancel = null;
-			}
-
-			if (btnResume != null) {
-				btnResume.Dispose ();
-				btnResume = null;
+			if (imageIcon != null) {
+				imageIcon.Dispose ();
+				imageIcon = null;
 			}
 		}
 	}

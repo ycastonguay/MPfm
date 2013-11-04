@@ -15,21 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using TinyMessenger;
 using System;
-using System.Collections.Generic;
-using MPfm.Library.Objects;
-using MPfm.Sound.AudioFiles;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Messages
 {
-	/// <summary>
-    /// Start Resume Playback view interface.
-	/// </summary>
-    public interface IStartResumePlaybackView : IBaseView
-	{
-        Action OnResumePlayback { get; set; }
+    /// <summary>
+    /// Message used to notify that the user has selected an equalizer preset.
+    /// </summary>
+    public class EqualizerPresetSelectedMessage : TinyMessageBase
+    {
+        public Guid EQPresetId { get; set; }
 
-        void StartResumePlaybackError(Exception ex);
-        void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile);
-	}
+        public EqualizerPresetSelectedMessage(object sender, Guid eqPresetId) 
+            : base(sender)
+        {
+            this.EQPresetId = eqPresetId;
+        }       
+    }
 }

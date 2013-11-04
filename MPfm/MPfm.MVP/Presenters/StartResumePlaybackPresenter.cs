@@ -21,6 +21,7 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using System.Linq;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.MVP.Presenters
 {
@@ -32,6 +33,7 @@ namespace MPfm.MVP.Presenters
 	    private readonly IPlayerService _playerService;
 	    private readonly IAudioFileCacheService _audioFileCacheService;
         private CloudDeviceInfo _device;
+        private AudioFile _audioFile;
 
 	    public StartResumePlaybackPresenter(CloudDeviceInfo device, IAudioFileCacheService audioFileCacheService, IPlayerService playerService)
 		{
@@ -50,23 +52,23 @@ namespace MPfm.MVP.Presenters
 
 	    private void RefreshDevice()
 	    {
-            View.RefreshCloudDeviceInfo(_device);
+            _audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == _device.AudioFileId);
+            if (_audioFile == null)
+            {
+                _audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == _device.ArtistName.ToUpper() &&
+                                                                             x.AlbumTitle.ToUpper() == _device.AlbumTitle.ToUpper() &&
+                                                                             x.Title.ToUpper() == _device.SongTitle.ToUpper());
+            }
+            View.RefreshCloudDeviceInfo(_device, _audioFile);
         }
 
         private void ResumePlayback()
         {
-            var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == _device.AudioFileId);
-            if (audioFile == null)
-            {
-                audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == _device.ArtistName.ToUpper() &&
-                                                                                x.AlbumTitle.ToUpper() == _device.AlbumTitle.ToUpper() &&
-                                                                                x.Title.ToUpper() == _device.SongTitle.ToUpper());
-            }
             var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
                 ArtistName = _device.ArtistName,
                 AlbumTitle = _device.AlbumTitle
             });
-            _playerService.Play(audioFiles, audioFile != null ? audioFile.FilePath : string.Empty, 0, false, true);
+            _playerService.Play(audioFiles, _audioFile != null ? _audioFile.FilePath : string.Empty, 0, false, true);
         }
 	}
 }

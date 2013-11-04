@@ -412,6 +412,7 @@
     <Folder Include="Images\Player\" />
     <Folder Include="Classes\Providers\" />
     <Folder Include="Classes\Services\" />
+    <Folder Include="Images\WhiteIcons\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
@@ -549,6 +550,8 @@
     <BundleResource Include="Images\Icons\icon_library%402x.png" />
     <BundleResource Include="Images\Icons\icon_resume.png" />
     <BundleResource Include="Images\Icons\icon_resume%402x.png" />
+    <BundleResource Include="Images\WhiteIcons\android.png" />
+    <BundleResource Include="Images\WhiteIcons\android%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

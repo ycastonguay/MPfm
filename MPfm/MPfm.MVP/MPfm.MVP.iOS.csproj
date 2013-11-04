@@ -363,5 +363,6 @@
     <Compile Include="Presenters\Interfaces\IMobileMainPresenter.cs" />
     <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
+    <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
   </ItemGroup>
 </Project>

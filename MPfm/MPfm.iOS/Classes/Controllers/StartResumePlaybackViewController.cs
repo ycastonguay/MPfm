@@ -25,6 +25,9 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Bootstrap;
+using System.Threading.Tasks;
+using MPfm.iOS.Helpers;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.iOS
 {
@@ -37,14 +40,16 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
+            btnResume.Alpha = 0.7f;
             btnResume.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+            btnCancel.Alpha = 0.7f;
             btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+            imageIcon.Image = UIImage.FromBundle("Images/WhiteIcons/android");
 
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindStartResumePlaybackView(this);
-
         }
 
         partial void actionResume(NSObject sender)
@@ -81,7 +86,7 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshCloudDeviceInfo(CloudDeviceInfo device)
+        public async void RefreshCloudDeviceInfo(CloudDeviceInfo device, AudioFile audioFile)
         {
             InvokeOnMainThread(() => {
                 lblDeviceName.Text = device.DeviceName;
@@ -91,6 +96,74 @@ namespace MPfm.iOS
                 lblSongTitle.Text = device.SongTitle;
                 lblTimestamp.Text = string.Format("Last updated: {0} {1}", device.Timestamp.ToShortDateString(), device.Timestamp.ToLongTimeString());
             });
+
+            int height = 44;
+            InvokeOnMainThread(() => {
+                try
+                {
+                    height = (int)(imageAlbum.Bounds.Height * UIScreen.MainScreen.Scale);
+                    UIView.Animate(0.3, () => {
+                        imageAlbum.Alpha = 0;
+                    });
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image view album art alpha: {0}", ex);
+                }
+            });
+
+            // Load album art + resize in another thread
+            var task = Task<UIImage>.Factory.StartNew(() => {
+                try
+                {
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    {
+                        using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
+                        {
+                            if (imageFullSize != null)
+                            {
+                                try
+                                {
+                                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
+                                    return imageResized;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("StartResumePlaybackViewController - RefreshCloudDeviceInfo - Failed to process image: {0}", ex);
+                }
+
+                return null;
+            });
+            //}).ContinueWith(t => {
+            UIImage image = await task;
+            if(image == null)
+                return;
+
+            InvokeOnMainThread(() => {
+                try
+                {
+                    imageAlbum.Alpha = 0;
+                    imageAlbum.Image = image;              
+
+                    UIView.Animate(0.3, () => {
+                        imageAlbum.Alpha = 1;
+                    });
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("StartResumePlaybackViewController - RefreshCloudDeviceInfo - Failed to set image after processing: {0}", ex);
+                }
+            });
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         #endregion

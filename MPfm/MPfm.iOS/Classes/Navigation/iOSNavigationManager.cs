@@ -70,6 +70,11 @@ namespace MPfm.iOS.Classes.Navigation
             AppDelegate.PushDialogView(presentationType, viewTitle, (UIViewController)view);
         }
 
+        public override void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view)
+        {
+            AppDelegate.PushDialogSubview(presentationType, parentViewTitle, (UIViewController)view);
+        }
+
         public override void CreateSplashView()
         {
             var view = Bootstrapper.GetContainer().Resolve<ISplashView>();

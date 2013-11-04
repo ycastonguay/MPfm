@@ -128,6 +128,7 @@ namespace MPfm.MVP.Navigation
 
         public abstract void PushTabView(MobileNavigationTabType type, IBaseView view);
         public abstract void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
+        public abstract void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, IBaseView view);
 
         public virtual void Start()
         {
@@ -832,8 +833,9 @@ namespace MPfm.MVP.Navigation
             if (_equalizerPresetDetailsView == null)
                 _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "presetId", presetId } });
 
-            //PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Preset Details", null, _equalizerPresetDetailsView);
-            PushTabView(MobileNavigationTabType.More, _equalizerPresetDetailsView);
+            PushDialogSubview(MobileDialogPresentationType.Standard, "Equalizer Presets", _equalizerPresetDetailsView);
+            //PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Preset Details", _equalizerPresetsView, _equalizerPresetDetailsView);
+            //PushTabView(MobileNavigationTabType.More, _equalizerPresetDetailsView);
         }
 
         public virtual void BindEqualizerPresetDetailsView(IBaseView sourceView, IEqualizerPresetDetailsView view, Guid presetId)

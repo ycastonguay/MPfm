@@ -37,11 +37,13 @@ namespace MPfm.MVP.Presenters
         private EQPreset _preset;
         private List<EQPresetBand> _originalPresetBands;
 
-        public EqualizerPresetDetailsPresenter(EQPreset preset, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
+        public EqualizerPresetDetailsPresenter(Guid presetId, ITinyMessengerHub messageHub, IPlayerService playerService, ILibraryService libraryService)
 		{	
             _messageHub = messageHub;
             _playerService = playerService;
             _libraryService = libraryService;
+
+            var preset = libraryService.SelectEQPreset(presetId);
             ChangePreset(preset);
 		}
 
@@ -55,6 +57,13 @@ namespace MPfm.MVP.Presenters
             view.OnSavePreset = SavePreset;
             view.OnSetFaderGain = SetFaderGain;
             view.OnRevertPreset = RevertPreset;
+
+            _messageHub.Subscribe<EqualizerPresetSelectedMessage>((m) =>
+            {
+                _preset = _libraryService.SelectEQPreset(m.EQPresetId);
+                ChangePreset(_preset);
+                View.RefreshPreset(_preset);
+            });
 
             _playerService.ApplyEQPreset(_preset);
             View.RefreshPreset(_preset);
