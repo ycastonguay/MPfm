@@ -15,19 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using MPfm.Library.Objects;
-using MPfm.Library.Services.Exceptions;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
-using System.Threading.Tasks;
-using System.Threading;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Messages;
-using TinyMessenger;
 using System.Linq;
 
 namespace MPfm.MVP.Presenters
@@ -37,34 +29,15 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
     public class StartResumePlaybackPresenter : BasePresenter<IStartResumePlaybackView>, IStartResumePlaybackPresenter
 	{
-        private readonly MobileNavigationManager _mobileNavigationManager;
-        private readonly NavigationManager _navigationManager;
-        private readonly ITinyMessengerHub _messengerHub;
-        private readonly ICloudLibraryService _cloudLibrary;
 	    private readonly IPlayerService _playerService;
 	    private readonly IAudioFileCacheService _audioFileCacheService;
-	    private bool _canRefreshCloudLoginStatus;
+        private CloudDeviceInfo _device;
 
-	    public StartResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary, IPlayerService playerService)
+	    public StartResumePlaybackPresenter(CloudDeviceInfo device, IAudioFileCacheService audioFileCacheService, IPlayerService playerService)
 		{
-            _messengerHub = messengerHub;
+	        _device = device;
             _audioFileCacheService = audioFileCacheService;
-            _cloudLibrary = cloudLibrary;
             _playerService = playerService;
-            _cloudLibrary.OnCloudDataChanged += (data) => {
-                Task.Factory.StartNew(() => {
-                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Sleeping...");
-                    Thread.Sleep(500); // TODO: Wait for download to finish with listener (see Dropbox docs)
-                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Fetching device infos...");
-                    RefreshDevices();
-                });
-            };
-
-            #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
-            _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            #else
-            _navigationManager = Bootstrapper.GetContainer().Resolve<NavigationManager>();
-            #endif
 		}
 
         public override void BindView(IStartResumePlaybackView view)
@@ -72,51 +45,26 @@ namespace MPfm.MVP.Presenters
             view.OnResumePlayback = ResumePlayback;
             base.BindView(view);
 
-            Task.Factory.StartNew(RefreshDevices);
+            RefreshDevice();
         }
 
-	    private void RefreshDevices()
+	    private void RefreshDevice()
 	    {
-            // Prevent login status change during loading
-	        _canRefreshCloudLoginStatus = false;
-
-	        try
-	        {
-	            var devices = _cloudLibrary.PullDeviceInfos();
-	            View.RefreshDevices(devices.OrderBy(x => x.DeviceName).ToList());
-	        }
-	        catch (CloudAppNotLinkedException ex)
-	        {
-	        }
-            catch (Exception ex)
-            {
-                View.StartResumePlaybackError(ex);
-            }
-
-	        _canRefreshCloudLoginStatus = true;
+            View.RefreshCloudDeviceInfo(_device);
         }
 
-        private void ResumePlayback(CloudDeviceInfo device)
+        private void ResumePlayback()
         {
-            var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == device.AudioFileId);
+            var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == _device.AudioFileId);
             if (audioFile == null)
             {
-                audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == device.ArtistName.ToUpper() &&
-                                                                                x.AlbumTitle.ToUpper() == device.AlbumTitle.ToUpper() &&
-                                                                                x.Title.ToUpper() == device.SongTitle.ToUpper());
+                audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == _device.ArtistName.ToUpper() &&
+                                                                                x.AlbumTitle.ToUpper() == _device.AlbumTitle.ToUpper() &&
+                                                                                x.Title.ToUpper() == _device.SongTitle.ToUpper());
             }
-            Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) 
-            {
-                Query = new LibraryQuery() {
-                    ArtistName = device.ArtistName,
-                    AlbumTitle = device.AlbumTitle
-                }, 
-                FilePath = audioFile != null ? audioFile.FilePath : string.Empty
-            });
-
             var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
-                ArtistName = device.ArtistName,
-                AlbumTitle = device.AlbumTitle
+                ArtistName = _device.ArtistName,
+                AlbumTitle = _device.AlbumTitle
             });
             _playerService.Play(audioFiles, audioFile != null ? audioFile.FilePath : string.Empty, 0, false, true);
         }

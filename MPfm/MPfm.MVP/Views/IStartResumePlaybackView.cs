@@ -26,9 +26,9 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IStartResumePlaybackView : IBaseView
 	{
-        Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        Action OnResumePlayback { get; set; }
 
         void StartResumePlaybackError(Exception ex);
-        void RefreshDevices(IEnumerable<CloudDeviceInfo> devices);
+        void RefreshCloudDeviceInfo(CloudDeviceInfo info);
 	}
 }

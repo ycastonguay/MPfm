@@ -221,6 +221,7 @@ namespace MPfm.MVP.Presenters
                         AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id.ToString();
                         AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _playerService.CurrentPlaylist.PlaylistId.ToString();
                         AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = (float)entity.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
+                        AppConfigManager.Instance.Root.ResumePlayback.Timestamp = DateTime.Now;
                         AppConfigManager.Instance.Save();
                     }
                     catch (Exception ex)

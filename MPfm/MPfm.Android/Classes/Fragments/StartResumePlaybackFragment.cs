@@ -26,7 +26,9 @@ using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Sound.Playlists;
@@ -35,49 +37,50 @@ namespace MPfm.Android.Classes.Fragments
 {
     public class StartResumePlaybackFragment : BaseDialogFragment, IStartResumePlaybackView
     {
-        private List<PlaylistEntity> _playlists;
-        private PlaylistListAdapter _listAdapter;
+        private readonly CloudDeviceInfo _device;
         private View _view;
-        private ListView _listView;
-        private Button _btnAddNewPlaylist;
+        private TextView _lblDeviceName;
+        private TextView _lblPlaylistName;
+        private TextView _lblArtistName;
+        private TextView _lblAlbumTitle;
+        private TextView _lblSongTitle;
+        private TextView _lblTimestamp;
         private Button _btnCancel;
-        private Button _btnSelect;
-        private int _selectedIndex;
+        private Button _btnResume;
 
         public StartResumePlaybackFragment() : base()
         {
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public StartResumePlaybackFragment(CloudDeviceInfo device) : base()
         {
-            Dialog.SetTitle("Select a playlist");
-            _view = inflater.Inflate(Resource.Layout.SelectPlaylist, container, false);
-
-            _listView = _view.FindViewById<ListView>(Resource.Id.selectPlaylist_listView);
-            _btnAddNewPlaylist = _view.FindViewById<Button>(Resource.Id.selectPlaylist_btnAddNewPlaylist);
-            _btnCancel = _view.FindViewById<Button>(Resource.Id.selectPlaylist_btnCancel);
-            _btnSelect = _view.FindViewById<Button>(Resource.Id.selectPlaylist_btnSelect);
-            _btnSelect.Enabled = false;
-            _btnCancel.Click += (sender, args) => Dismiss();
-            _btnSelect.Click += (sender, args) =>
-            {
-                //OnSelectPlaylist(_playlists[_selectedIndex]);
-                Dismiss();
-            };
-            //_btnAddNewPlaylist.Click += (sender, args) => OnAddNewPlaylist();
-
-            _playlists = new List<PlaylistEntity>();
-            _listAdapter = new PlaylistListAdapter(Activity, _listView, _playlists);
-            _listView.SetAdapter(_listAdapter);
-            _listView.ItemClick += ListViewOnItemClick;
-
-            return _view;
+            _device = device;
         }
 
-        private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            _btnSelect.Enabled = true;
-            _selectedIndex = e.Position;
+            Dialog.SetTitle("Resume playback");
+            _view = inflater.Inflate(Resource.Layout.StartResumePlayback, container, false);
+
+            _lblDeviceName = _view.FindViewById<TextView>(Resource.Id.startResumePlayback_lblDeviceName);
+            _lblPlaylistName = _view.FindViewById<TextView>(Resource.Id.startResumePlayback_lblPlaylistName);
+            _lblArtistName = _view.FindViewById<TextView>(Resource.Id.startResumePlayback_lblArtistName);
+            _lblAlbumTitle = _view.FindViewById<TextView>(Resource.Id.startResumePlayback_lblAlbumTitle);
+            _lblSongTitle = _view.FindViewById<TextView>(Resource.Id.startResumePlayback_lblSongTitle);
+            _lblTimestamp = _view.FindViewById<TextView>(Resource.Id.startResumePlayback_lblTimestamp);
+            _btnCancel = _view.FindViewById<Button>(Resource.Id.startResumePlayback_btnCancel);
+            _btnResume = _view.FindViewById<Button>(Resource.Id.startResumePlayback_btnResume);
+            _btnCancel.Click += (sender, args) => Dismiss();
+            _btnResume.Click += (sender, args) =>
+            {
+                OnResumePlayback();
+                Dismiss();
+            };
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindStartResumePlaybackView(this);
+
+            return _view;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -88,7 +91,7 @@ namespace MPfm.Android.Classes.Fragments
 
         #region IStartResumePlaybackView implementation
 
-        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action OnResumePlayback { get; set; }
 
         public void StartResumePlaybackError(Exception ex)
         {
@@ -102,8 +105,17 @@ namespace MPfm.Android.Classes.Fragments
             });
         }
 
-        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        public void RefreshCloudDeviceInfo(CloudDeviceInfo info)
         {
+            Activity.RunOnUiThread(() =>
+            {
+                _lblDeviceName.Text = info.DeviceName;
+                _lblPlaylistName.Text = "On-the-fly playlist";
+                _lblArtistName.Text = info.ArtistName;
+                _lblAlbumTitle.Text = info.AlbumTitle;
+                _lblSongTitle.Text = info.SongTitle;
+                _lblTimestamp.Text = string.Format("Last updated: {0} {1}", info.Timestamp.ToShortDateString(), info.Timestamp.ToLongTimeString());
+            });
         }
 
         #endregion

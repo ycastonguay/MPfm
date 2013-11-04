@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.Content;
+using Android.Views.Animations;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
@@ -67,7 +68,22 @@ namespace MPfm.Android.Classes.Navigation
 
         public override void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view)
         {
-            MainActivity.PushDialogView(viewTitle, sourceView, view);
+            Activity activity = null;
+            var fragment = sourceView as Fragment;
+            if (fragment != null)
+            {
+                activity = fragment.Activity;
+            }
+            else
+            {
+                activity = sourceView as Activity;
+            }
+
+            if (activity != null)
+            {
+                var dialogFragment = (DialogFragment) view;
+                dialogFragment.Show(activity.FragmentManager, viewTitle);
+            }
         }
 
         private Activity GetActivityFromView(IBaseView view)

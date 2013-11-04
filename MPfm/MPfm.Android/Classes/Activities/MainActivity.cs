@@ -167,14 +167,6 @@ namespace MPfm.Android
             _mobileLibraryBrowserHistoryCount++;
         }
 
-        public void PushDialogView(string viewTitle, IBaseView sourceView, IBaseView view)
-        {
-            Console.WriteLine("MainActivity - PushDialogView view: {0} fragmentCount: {1}", view.GetType().FullName, FragmentManager.BackStackEntryCount);
-            var sourceFragment = (Fragment) sourceView;
-            var dialogFragment = (DialogFragment)view;
-            dialogFragment.Show(sourceFragment.Activity.FragmentManager, viewTitle);
-        }
-
         public bool OnNavigationItemSelected(int itemPosition, long itemId)
         {
             Console.WriteLine("MainActivity - OnNavigationItemSelected - itemPosition: {0} - itemId: {1}", itemPosition, itemId);

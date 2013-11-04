@@ -25,7 +25,10 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Sound.Playlists;
@@ -34,6 +37,7 @@ namespace MPfm.Android.Classes.Fragments
 {
     public class SelectPlaylistFragment : BaseDialogFragment, ISelectPlaylistView
     {
+        private readonly LibraryBrowserEntity _item;
         private List<PlaylistEntity> _playlists;
         private PlaylistListAdapter _listAdapter;
         private View _view;
@@ -45,6 +49,11 @@ namespace MPfm.Android.Classes.Fragments
 
         public SelectPlaylistFragment() : base()
         {
+        }
+
+        public SelectPlaylistFragment(LibraryBrowserEntity item) : base()
+        {
+            _item = item;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -69,6 +78,9 @@ namespace MPfm.Android.Classes.Fragments
             _listAdapter = new PlaylistListAdapter(Activity, _listView, _playlists);
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSelectPlaylistView(this, _item);
 
             return _view;
         }

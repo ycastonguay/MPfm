@@ -106,6 +106,7 @@ namespace MPfm.MVP.Services
                     AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = data.AudioFileStarted.Id.ToString();
                     AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _player.Playlist.PlaylistId.ToString();
                     AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = 0;
+                    AppConfigManager.Instance.Root.ResumePlayback.Timestamp = DateTime.Now;
                     AppConfigManager.Instance.Save();
 
                     // Store player status on Cloud if enabled in preferences

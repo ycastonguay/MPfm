@@ -28,5 +28,6 @@ namespace MPfm.MVP.Config.Models
         public string AudioFileId { get; set; }
         public string PlaylistId { get; set; }
         public float PositionPercentage { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }

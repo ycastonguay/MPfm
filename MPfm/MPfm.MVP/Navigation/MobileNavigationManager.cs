@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using TinyIoC;
@@ -41,6 +42,9 @@ namespace MPfm.MVP.Navigation
     public abstract class MobileNavigationManager : INavigationManager
     {
         private readonly object _locker = new object();
+
+        private bool _showStartResumePlaybackView;
+        private CloudDeviceInfo _resumeCloudDeviceInfo;
 
         private IMobileMainView _mainView;
         private IMobileMainPresenter _mainPresenter;
@@ -141,23 +145,89 @@ namespace MPfm.MVP.Navigation
             Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2} resumePlayback.positionPercentage: {3}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.AudioFileId, AppConfigManager.Instance.Root.ResumePlayback.PlaylistId, AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage);
             if (AppConfigManager.Instance.Root.IsFirstRun)
             {
-                Tracing.Log("MobileNavigationManager - First run of the application; launching FirstRun activity...");
+                Tracing.Log("MobileNavigationManager - ContinueAfterSplash - First run of the application; launching FirstRun activity...");
                 CreateFirstRunView();
             }
             else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
             {
                 var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
-                var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
-                var audioFile = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId));
+                var cloudLibraryService = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
+                var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();                
 
-                if (audioFile != null)
+                // Compare timestamps from cloud vs local
+                var infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
+                CloudDeviceInfo cloudDeviceInfo = null;
+                AudioFile audioFileCloud = null;
+                AudioFile audioFileLocal = null;
+                DateTime localTimestamp = AppConfigManager.Instance.Root.ResumePlayback.Timestamp;
+                foreach (var deviceInfo in infos)
                 {
-                    Tracing.Log("MobileNavigationManager - Resume playback is available; launching Player activity...");
+                    if (deviceInfo.Timestamp > localTimestamp)
+                    {
+                        // Check if the file can be found in the database
+                        Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Cloud device {0} has earlier timestamp {1} compared to local timestamp {2}", deviceInfo.DeviceName, deviceInfo.Timestamp, localTimestamp);
+                        audioFileCloud = null;
+                        audioFileCloud = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == deviceInfo.AudioFileId);
+                        if (audioFileCloud == null)
+                        {
+                            audioFileCloud = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == deviceInfo.ArtistName.ToUpper() &&
+                                                                                            x.AlbumTitle.ToUpper() == deviceInfo.AlbumTitle.ToUpper() &&
+                                                                                            x.Title.ToUpper() == deviceInfo.SongTitle.ToUpper());
+                        }
+                        if (audioFileCloud != null)
+                        {
+                            cloudDeviceInfo = deviceInfo;
+                            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Found audioFile {0}/{1}/{2} in database!", audioFileCloud.ArtistName, audioFileCloud.AlbumTitle, audioFileCloud.Title);
+                            break;
+                        }
+                    }
+                }
+
+                // Try to get info to resume locally
+                double positionPercentage = 0;
+                var audioFileId = new Guid(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId);
+                audioFileLocal = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == audioFileId);
+                positionPercentage = AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage;
+                Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resuming from local device with audioFile {0} at position {1}", audioFileId, positionPercentage);
+
+                // Try to resume playback
+                if (audioFileLocal != null || audioFileCloud != null)
+                {
+                    AudioFile audioFile = null;
+                    //List<AudioFile> audioFiles = new List<AudioFile>();
+                    if (audioFileLocal == null)
+                    {
+                        // We can only resume from the cloud!
+                        audioFile = audioFileCloud;
+                    }
+                    else if (audioFileCloud == null)
+                    {
+                        // We can only resume from the local device!
+                        audioFile = audioFileLocal;
+                    }
+                    else
+                    {
+                        // By default, resume from local device before showing dialog, so that when the user clicks cancel, the playlist is already loaded.
+                        audioFile = audioFileLocal;
+
+                        // We can resume from both devices; compare timestamps to determine if the dialog must be shown
+                        if (cloudDeviceInfo.Timestamp > localTimestamp)
+                        {
+                            // A cloud device has a timestamp that is earlier than the local device.
+                            // Keep a flag to show the Start Resume Playback view when the Player view will be created. Or else the view will be pushed too soon!
+                            _showStartResumePlaybackView = true;
+                            _resumeCloudDeviceInfo = cloudDeviceInfo;
+                        }
+                    }
+
+                    Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resume playback is available; showing Player view...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                    double positionPercentage = AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage; // Keep a copy of this because the value will change after calling Play()
                     playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
-                    //playerService.SetPosition(positionPercentage*100);                    
                     CreatePlayerView(MobileNavigationTabType.Playlists);
+                }
+                else
+                {
+                    // No info to resume; skip this step and go to IMobileMainView                    
                 }
             }
             else
@@ -581,6 +651,15 @@ namespace MPfm.MVP.Navigation
             _playerView.PushSubView(markers);
             _playerView.PushSubView(timeShifting);
             _playerView.PushSubView(pitchShifting);
+
+            // Check if the Start Resume Playback view must be shown after startup
+            if (_showStartResumePlaybackView)
+            {
+                Tracing.Log("MobileNavigationManager - BindPlayerView - showing Start Resume Playback view...");
+                _showStartResumePlaybackView = false;
+                var startResumePlaybackView = CreateStartResumePlaybackView();
+                PushDialogView(MobileDialogPresentationType.Overlay, "Resume Playback", _playerView, startResumePlaybackView);
+            }
         }
 
         public virtual IPlayerMetadataView CreatePlayerMetadataView()
@@ -933,14 +1012,14 @@ namespace MPfm.MVP.Navigation
 
         public virtual IStartResumePlaybackView CreateStartResumePlaybackView()
         {
-            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>();
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "device", _resumeCloudDeviceInfo } });
             return _startResumePlaybackView;
         }
 
         public virtual void BindStartResumePlaybackView(IStartResumePlaybackView view)
         {
             _startResumePlaybackView = view;
-            _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>();
+            _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>(new NamedParameterOverloads() { { "device", _resumeCloudDeviceInfo } });
             _startResumePlaybackPresenter.BindView(view);
             _startResumePlaybackView.OnViewDestroy = (view2) =>
             {
