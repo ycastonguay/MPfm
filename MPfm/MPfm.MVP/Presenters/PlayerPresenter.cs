@@ -277,7 +277,7 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-                _playerService.Play(audioFiles, string.Empty, false, false);
+                _playerService.Play(audioFiles, string.Empty, 0, false, false);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
             }
@@ -314,7 +314,7 @@ namespace MPfm.MVP.Presenters
 		{
             try
             {
-                _playerService.Play(audioFiles, startAudioFilePath, false, false);
+                _playerService.Play(audioFiles, startAudioFilePath, 0, false, false);
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
             }

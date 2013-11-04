@@ -55,7 +55,7 @@ namespace MPfm.MVP.Services.Interfaces
 
         void Play();        
         void Play(IEnumerable<string> filePaths);
-        void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, bool startPaused, bool waitingToStart);
+        void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart);
         void Stop();
         void Pause();
         void Next();

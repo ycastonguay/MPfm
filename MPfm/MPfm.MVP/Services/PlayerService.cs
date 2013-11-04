@@ -280,7 +280,7 @@ namespace MPfm.MVP.Services
 
         public void Play()
         {
-            _player.Play(false);
+            _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
             NotifyPlaylistUpdate();
         }
@@ -289,12 +289,12 @@ namespace MPfm.MVP.Services
         {
             _player.Playlist.Clear();
             _player.Playlist.AddItems(filePaths.ToList());
-            _player.Play(false);
+            _player.Play();
             UpdatePlayerStatus(PlayerStatusType.Playing);
             NotifyPlaylistUpdate();
         }
 
-        public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, bool startPaused, bool waitingToStart)
+        public void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart)
         {
             _player.Playlist.Clear();
             _player.Playlist.AddItems(audioFiles.ToList());
@@ -302,7 +302,7 @@ namespace MPfm.MVP.Services
             if(!string.IsNullOrEmpty(startAudioFilePath))
                 _player.Playlist.GoTo(startAudioFilePath);
 
-            _player.Play(startPaused);
+            _player.Play(initialPosition, startPaused);
 
             if(startPaused)
                 UpdatePlayerStatus(PlayerStatusType.StartPaused);

@@ -138,7 +138,7 @@ namespace MPfm.MVP.Navigation
             CreateMobileMainView();
             #endif
 
-            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.AudioFileId, AppConfigManager.Instance.Root.ResumePlayback.PlaylistId);
+            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2} resumePlayback.positionPercentage: {3}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.AudioFileId, AppConfigManager.Instance.Root.ResumePlayback.PlaylistId, AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage);
             if (AppConfigManager.Instance.Root.IsFirstRun)
             {
                 Tracing.Log("MobileNavigationManager - First run of the application; launching FirstRun activity...");
@@ -154,11 +154,17 @@ namespace MPfm.MVP.Navigation
                 {
                     Tracing.Log("MobileNavigationManager - Resume playback is available; launching Player activity...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                    playerService.Play(audioFiles, audioFile.FilePath, true, true);
-                    playerService.SetPosition((double)AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage * 100);
-                    // TO DO: Start paused; resume playback when player view is ready.
+                    double positionPercentage = AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage; // Keep a copy of this because the value will change after calling Play()
+                    playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
+                    //playerService.SetPosition(positionPercentage*100);                    
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                 }
+            }
+            else
+            {
+                #if ANDROID
+                CreateMobileMainView();
+                #endif
             }
 
             // Shouldn't this be done by the presenter instead, who notifies the view? This should be the ONLY view that the NavMgr calls directly...

@@ -332,7 +332,7 @@ namespace MPfm.MVP.Presenters
 
                 // Start playback and start Player view
                 var audioFiles = _audioFileCacheService.SelectAudioFiles(_query);
-                _playerService.Play(audioFiles, _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty, false, true);
+                _playerService.Play(audioFiles, _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty, 0, false, true);
                 _navigationManager.CreatePlayerView(_tabType);
             }
             catch(Exception ex)

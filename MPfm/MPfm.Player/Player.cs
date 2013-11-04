@@ -856,7 +856,15 @@ namespace MPfm.Player
         /// <summary>
         /// Plays the playlist from the current item index.
         /// </summary>
-        public void Play(bool startPaused)
+        public void Play()
+        {
+            Play(0, false);
+        }
+
+        /// <summary>
+        /// Plays the playlist from the current item index.
+        /// </summary>
+        public void Play(double initialPosition, bool startPaused)
         {
             try
             {
@@ -1047,20 +1055,25 @@ namespace MPfm.Player
                 long length = _playlist.CurrentItem.Channel.GetLength();
                 SetSyncCallback(length);
                 _isPlaying = true;
-                _isPaused = startPaused;                
 
                 // Only the DirectSound mode needs to start the main channel since it's not in decode mode.
                 if (_device.DriverType == DriverType.DirectSound)
                 {
                     // For iOS: This is required to update the AirPlay/remote player status
-                    Base.Start();
+                    if(!startPaused)
+                        Base.Start();
 
                     // Start playback
                     Tracing.Log("Player.Play -- Starting DirectSound playback...");
                     _mixerChannel.Play(false);
 
                     if (startPaused)
+                    {
+                        SetPosition(initialPosition);
                         Base.Pause();
+                    }
+
+                    _isPaused = startPaused;
                 }
 
                 // Raise audio file finished event (if an event is subscribed)
@@ -1130,7 +1143,7 @@ namespace MPfm.Player
 
             // Start playback from first item
             _playlist.First();
-            Play(false);
+            Play();
         }
 
         /// <summary>
@@ -1285,7 +1298,7 @@ namespace MPfm.Player
             Stop();
             Playlist.GoTo(index);
             _currentMixPlaylistIndex = index;
-            Play(false);
+            Play();
         }
 
         /// <summary>
@@ -1297,7 +1310,7 @@ namespace MPfm.Player
             Stop();
             Playlist.GoTo(playlistItemId);
             _currentMixPlaylistIndex = Playlist.CurrentItemIndex;
-            Play(false);
+            Play();
         }
 
         /// <summary>
