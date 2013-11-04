@@ -49,24 +49,48 @@ namespace MPfm.iOS
 
         partial void actionResume(NSObject sender)
         {
-
+            OnResumePlayback();
+            Close();
         }
 
         partial void actionCancel(NSObject sender)
         {
+            Close();
+        }
 
+        private void Close()
+        {
+            WillMoveToParentViewController(null);
+            UIView.Animate(0.2f, () => {
+                this.View.Alpha = 0;
+            }, () => {
+                View.RemoveFromSuperview();
+                RemoveFromParentViewController();
+            });
         }
 
         #region IStartResumePlaybackView implementation
 
-        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action OnResumePlayback { get; set; }
 
         public void StartResumePlaybackError(Exception ex)
         {
+            InvokeOnMainThread(() => {
+                var alertView = new UIAlertView("StartResumePlayback Error", ex.Message, null, "OK", null);
+                alertView.Show();
+            });
         }
 
-        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        public void RefreshCloudDeviceInfo(CloudDeviceInfo device)
         {
+            InvokeOnMainThread(() => {
+                lblDeviceName.Text = device.DeviceName;
+                lblPlaylistName.Text = "On-the-fly Playlist";
+                lblArtistName.Text = device.ArtistName;
+                lblAlbumTitle.Text = device.AlbumTitle;
+                lblSongTitle.Text = device.SongTitle;
+                lblTimestamp.Text = string.Format("Last updated: {0} {1}", device.Timestamp.ToShortDateString(), device.Timestamp.ToLongTimeString());
+            });
         }
 
         #endregion

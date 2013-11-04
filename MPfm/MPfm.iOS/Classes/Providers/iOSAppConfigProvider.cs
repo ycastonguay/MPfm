@@ -21,6 +21,7 @@ using System.Reflection;
 using System.Diagnostics;
 using MonoTouch.Foundation;
 using MPfm.MVP.Config.Models;
+using System;
 
 namespace MPfm.iOS.Classes.Providers
 {
@@ -68,6 +69,12 @@ namespace MPfm.iOS.Classes.Providers
                 {
                     propertyInfo.SetValue(config, keyStore.GetString(fullName));
                 }
+                else if (propertyType == typeof(DateTime))
+                {
+                    long ticks = keyStore.GetLong(fullName);
+                    DateTime dateTime = new DateTime(ticks);
+                    propertyInfo.SetValue(config, dateTime);
+                }
                 else if (typeof(IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
                 {
                     var subConfig = (IAppConfig)propertyInfo.GetValue(config);
@@ -103,6 +110,11 @@ namespace MPfm.iOS.Classes.Providers
                 {
                     string stringValue = value == null ? string.Empty : (string)value;
                     keyStore.SetString(fullName, stringValue);
+                }
+                else if (propertyType == typeof(DateTime))
+                {
+                    DateTime dateTime = (DateTime)value;
+                    keyStore.SetLong(fullName, dateTime.Ticks);
                 }
                 else if (typeof (IAppConfig).GetTypeInfo().IsAssignableFrom(propertyType.GetTypeInfo()))
                 {

@@ -224,10 +224,13 @@ namespace MPfm.MVP.Navigation
                         }
                     }
 
+                    // Limit the value in case we try to skip beyond 100%
+                    if (positionPercentage > 1)
+                        positionPercentage = 0.99;
+
                     Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resume playback is available; showing Player view...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                    //playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
-                    playerService.Play(audioFiles, audioFile.FilePath, positionPercentage, true, true);
+                    playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                 }
                 else

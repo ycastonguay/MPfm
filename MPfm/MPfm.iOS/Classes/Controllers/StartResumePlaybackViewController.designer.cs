@@ -18,6 +18,27 @@ namespace MPfm.iOS
 		[Outlet]
 		MPfm.iOS.Classes.Controls.MPfmButton btnResume { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIImageView imageAlbum { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblAlbumTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblArtistName { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblDeviceName { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblPlaylistName { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblSongTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblTimestamp { get; set; }
+
 		[Action ("actionCancel:")]
 		partial void actionCancel (MonoTouch.Foundation.NSObject sender);
 
@@ -26,14 +47,49 @@ namespace MPfm.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnResume != null) {
-				btnResume.Dispose ();
-				btnResume = null;
+			if (lblDeviceName != null) {
+				lblDeviceName.Dispose ();
+				lblDeviceName = null;
+			}
+
+			if (lblPlaylistName != null) {
+				lblPlaylistName.Dispose ();
+				lblPlaylistName = null;
+			}
+
+			if (imageAlbum != null) {
+				imageAlbum.Dispose ();
+				imageAlbum = null;
+			}
+
+			if (lblArtistName != null) {
+				lblArtistName.Dispose ();
+				lblArtistName = null;
+			}
+
+			if (lblAlbumTitle != null) {
+				lblAlbumTitle.Dispose ();
+				lblAlbumTitle = null;
+			}
+
+			if (lblSongTitle != null) {
+				lblSongTitle.Dispose ();
+				lblSongTitle = null;
+			}
+
+			if (lblTimestamp != null) {
+				lblTimestamp.Dispose ();
+				lblTimestamp = null;
 			}
 
 			if (btnCancel != null) {
 				btnCancel.Dispose ();
 				btnCancel = null;
+			}
+
+			if (btnResume != null) {
+				btnResume.Dispose ();
+				btnResume = null;
 			}
 		}
 	}
