@@ -68,7 +68,7 @@ namespace MPfm.MVP.Presenters
                 ArtistName = _device.ArtistName,
                 AlbumTitle = _device.AlbumTitle
             });
-            _playerService.Play(audioFiles, _audioFile != null ? _audioFile.FilePath : string.Empty, 0, false, true);
+            _playerService.Play(audioFiles, _audioFile != null ? _audioFile.FilePath : string.Empty, 0, true, false);
         }
 	}
 }

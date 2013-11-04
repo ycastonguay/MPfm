@@ -1060,8 +1060,7 @@ namespace MPfm.Player
                 if (_device.DriverType == DriverType.DirectSound)
                 {
                     // For iOS: This is required to update the AirPlay/remote player status
-                    if(!startPaused)
-                        Base.Start();
+                    Base.Start();
 
                     // Start playback
                     Tracing.Log("Player.Play -- Starting DirectSound playback...");
@@ -1069,7 +1068,9 @@ namespace MPfm.Player
 
                     if (startPaused)
                     {
-                        SetPosition(initialPosition);
+                        if(initialPosition > 0)
+                            SetPosition(initialPosition);
+
                         Base.Pause();
                     }
 
@@ -1155,17 +1156,9 @@ namespace MPfm.Player
             if (_device.DriverType == DriverType.DirectSound)
             {        
                 if (!_isPaused)
-                {
                     Base.Pause();
-                    //_mixerChannel.Pause();
-                }
                 else
-                {
-                    //_mixerChannel.Play(false);
                     Base.Start();
-                    //SetPosition(_positionAfterUnpause);
-                    //_mixerChannel.Pause();
-                }
             }
 
 #if !IOS && !ANDROID

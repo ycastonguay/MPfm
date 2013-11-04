@@ -834,8 +834,6 @@ namespace MPfm.MVP.Navigation
                 _equalizerPresetDetailsView = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsView>(new NamedParameterOverloads() { { "presetId", presetId } });
 
             PushDialogSubview(MobileDialogPresentationType.Standard, "Equalizer Presets", _equalizerPresetDetailsView);
-            //PushDialogView(MobileDialogPresentationType.Standard, "Equalizer Preset Details", _equalizerPresetsView, _equalizerPresetDetailsView);
-            //PushTabView(MobileNavigationTabType.More, _equalizerPresetDetailsView);
         }
 
         public virtual void BindEqualizerPresetDetailsView(IBaseView sourceView, IEqualizerPresetDetailsView view, Guid presetId)
