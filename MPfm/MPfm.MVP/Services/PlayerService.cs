@@ -103,9 +103,9 @@ namespace MPfm.MVP.Services
                 try
                 {
                     // Store player status locally for resuming playback later
-                    AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId = data.AudioFileStarted.Id.ToString();
-                    AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId = _player.Playlist.PlaylistId.ToString();
-                    AppConfigManager.Instance.Root.PositionUpdateFrequency = 777;
+                    AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = data.AudioFileStarted.Id.ToString();
+                    AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _player.Playlist.PlaylistId.ToString();
+                    AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = 0;
                     AppConfigManager.Instance.Save();
 
                     // Store player status on Cloud if enabled in preferences

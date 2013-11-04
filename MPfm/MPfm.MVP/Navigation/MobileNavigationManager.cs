@@ -138,23 +138,24 @@ namespace MPfm.MVP.Navigation
             CreateMobileMainView();
             #endif
 
-            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId, AppConfigManager.Instance.Root.ResumePlayback.CurrentPlaylistId);
+            Tracing.Log("MobileNavigationManager - ContinueAfterSplash - isFirstRun: {0} resumePlayback.currentAudioFileId: {1} resumePlayback.currentPlaylistId: {2}", AppConfigManager.Instance.Root.IsFirstRun, AppConfigManager.Instance.Root.ResumePlayback.AudioFileId, AppConfigManager.Instance.Root.ResumePlayback.PlaylistId);
             if (AppConfigManager.Instance.Root.IsFirstRun)
             {
                 Tracing.Log("MobileNavigationManager - First run of the application; launching FirstRun activity...");
                 CreateFirstRunView();
             }
-            else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId))
+            else if (!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
             {
                 var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
                 var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
-                var audioFile = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(AppConfigManager.Instance.Root.ResumePlayback.CurrentAudioFileId));
+                var audioFile = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == new Guid(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId));
 
                 if (audioFile != null)
                 {
                     Tracing.Log("MobileNavigationManager - Resume playback is available; launching Player activity...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
                     playerService.Play(audioFiles, audioFile.FilePath, true, true);
+                    playerService.SetPosition((double)AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage * 100);
                     // TO DO: Start paused; resume playback when player view is ready.
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                 }

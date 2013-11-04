@@ -31,6 +31,8 @@ using MPfm.Core;
 using TinyMessenger;
 using MPfm.Sound.BassNetWrapper;
 using MPfm.Library.Services.Interfaces;
+using System.Threading.Tasks;
+using MPfm.MVP.Config;
 
 #if WINDOWSSTORE
 using Windows.UI.Xaml;
@@ -49,31 +51,42 @@ namespace MPfm.MVP.Presenters
         readonly NavigationManager _navigationManager;
         readonly IPlayerService _playerService;
         readonly ILibraryService _libraryService;
+        readonly ICloudLibraryService _cloudLibraryService;
         readonly IAudioFileCacheService _audioFileCacheService;
         readonly ITinyMessengerHub _messageHub;
 #if WINDOWS_PHONE
         private System.Windows.Threading.DispatcherTimer _timerRefreshSongPosition = null;
+        private System.Windows.Threading.DispatcherTimer _timerSavePlayerStatus = null;
 #elif WINDOWSSTORE
         private Windows.UI.Xaml.DispatcherTimer _timerRefreshSongPosition = null;
+        private Windows.UI.Xaml.DispatcherTimer _timerSavePlayerStatus = null;
 #else
         private System.Timers.Timer _timerRefreshSongPosition = null;
+        private System.Timers.Timer _timerSavePlayerStatus = null;
 #endif
 
-		public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService)
+        public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService, ICloudLibraryService cloudLibraryService)
 		{	
             _messageHub = messageHub;
             _playerService = playerService;
             _audioFileCacheService = audioFileCacheService;
             _libraryService = libraryService;
+            _cloudLibraryService = cloudLibraryService;
 
 #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
             _timerRefreshSongPosition = new System.Timers.Timer();			
 			_timerRefreshSongPosition.Interval = 100;
 			_timerRefreshSongPosition.Elapsed += HandleTimerRefreshSongPositionElapsed;
+            _timerSavePlayerStatus = new System.Timers.Timer();          
+            _timerSavePlayerStatus.Interval = 5000;
+            _timerSavePlayerStatus.Elapsed += HandleTimerSavePlayerStatusElapsed;
 #else
             _timerRefreshSongPosition = new DispatcherTimer();
             _timerRefreshSongPosition.Interval = new TimeSpan(0, 0, 0, 0, 100);
             _timerRefreshSongPosition.Tick += HandleTimerRefreshSongPositionElapsed;
+            _timerSavePlayerStatus = new DispatcherTimer();
+            _timerSavePlayerStatus.Interval = new TimeSpan(0, 0, 0, 0, 5000);
+            _timerSavePlayerStatus.Tick += HandleTimerSavePlayerStatusElapsed;
 #endif
 
             // Subscribe to events
@@ -140,11 +153,13 @@ namespace MPfm.MVP.Presenters
             {
                 _playerService.Status = PlayerStatusType.Playing;                
                 _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
             } 
             else if (_playerService.Status == PlayerStatusType.StartPaused)
             {
                 _playerService.Status = PlayerStatusType.Paused;                
                 _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
             }
 
             View.RefreshPlayerVolume(new PlayerVolumeEntity() {
@@ -186,6 +201,40 @@ namespace MPfm.MVP.Presenters
 			View.RefreshPlayerPosition(entity);
 		}
 
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+        private void HandleTimerSavePlayerStatusElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        #else
+        private void HandleTimerSavePlayerStatusElapsed(object sender, object eventArgs)
+        #endif
+        {
+            if(_playerService.IsSettingPosition)
+                return;
+
+            PlayerPositionEntity entity = new PlayerPositionEntity();
+            try
+            {
+                entity = _playerService.GetPosition();
+                Task.Factory.StartNew(() => {
+                    try
+                    {
+                        // Store player status locally for resuming playback later
+                        AppConfigManager.Instance.Root.ResumePlayback.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id.ToString();
+                        AppConfigManager.Instance.Root.ResumePlayback.PlaylistId = _playerService.CurrentPlaylist.PlaylistId.ToString();
+                        AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage = (float)entity.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
+                        AppConfigManager.Instance.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        Tracing.Log("PlayerPresenter - HandleTimerSavePlayerStatusElapsed - Failed to save local resume playback info: {0}", ex);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log(string.Format("PlayerPresenter - HandleTimerSavePlayerStatusElapsed - Failed to get player position: {0}", ex));
+            }
+        }
+
 	    public void EditSongMetadata()
 	    {
 #if IOS || ANDROID
@@ -212,6 +261,7 @@ namespace MPfm.MVP.Presenters
             {
                 _playerService.Play();
     			_timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
             }
             catch(Exception ex)
             {
@@ -229,6 +279,7 @@ namespace MPfm.MVP.Presenters
             {
                 _playerService.Play(audioFiles, string.Empty, false, false);
                 _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
             }
             catch(Exception ex)
             {
@@ -246,6 +297,7 @@ namespace MPfm.MVP.Presenters
             {
                 _playerService.Play(filePaths);
                 _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
             }
             catch(Exception ex)
             {
@@ -264,6 +316,7 @@ namespace MPfm.MVP.Presenters
             {
                 _playerService.Play(audioFiles, startAudioFilePath, false, false);
                 _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
             }
             catch(Exception ex)
             {
@@ -281,6 +334,7 @@ namespace MPfm.MVP.Presenters
 				// Stop timer
                 Tracing.Log("PlayerPresenter.Stop -- Stopping timer...");
 				_timerRefreshSongPosition.Stop();
+                _timerSavePlayerStatus.Stop();
 				
 				// Stop player
                 Tracing.Log("PlayerPresenter.Stop -- Stopping playback...");
@@ -390,8 +444,10 @@ namespace MPfm.MVP.Presenters
 
                 Tracing.Log("PlayerPresenter.SetPosition -- Setting position to " + percentage.ToString("0.00") + "%");
                 _timerRefreshSongPosition.Stop();
+                _timerSavePlayerStatus.Stop();
                 _playerService.SetPosition(pct);
                 _timerRefreshSongPosition.Start();
+                _timerSavePlayerStatus.Start();
             }
             catch(Exception ex)
             {

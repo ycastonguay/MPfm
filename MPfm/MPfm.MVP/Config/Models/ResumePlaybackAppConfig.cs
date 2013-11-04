@@ -25,13 +25,8 @@ namespace MPfm.MVP.Config.Models
     /// </summary>
     public class ResumePlaybackAppConfig : IAppConfig
     {
-        public string CurrentAudioFileId { get; set; }
-        public string CurrentPlaylistId { get; set; }
-
-        public ResumePlaybackAppConfig()
-        {
-            //CurrentAudioFileId = Guid.Empty.ToString();
-            //CurrentPlaylistId = Guid.Empty.ToString();
-        }        
+        public string AudioFileId { get; set; }
+        public string PlaylistId { get; set; }
+        public float PositionPercentage { get; set; }
     }
 }
