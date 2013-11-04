@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using MPfm.Core;
+using MPfm.Library;
 using MPfm.MVP.Bootstrap;
 using TinyIoC;
 using MPfm.MVP.Views;
@@ -152,17 +153,20 @@ namespace MPfm.MVP.Navigation
             {
                 var playerService = Bootstrapper.GetContainer().Resolve<IPlayerService>();
                 var cloudLibraryService = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
-                var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();                
+                var audioFileCacheService = Bootstrapper.GetContainer().Resolve<IAudioFileCacheService>();
+                var syncDeviceSpecs = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
 
                 // Compare timestamps from cloud vs local
                 var infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
                 CloudDeviceInfo cloudDeviceInfo = null;
                 AudioFile audioFileCloud = null;
                 AudioFile audioFileLocal = null;
+                string localDeviceName = syncDeviceSpecs.GetDeviceName();
                 DateTime localTimestamp = AppConfigManager.Instance.Root.ResumePlayback.Timestamp;
                 foreach (var deviceInfo in infos)
                 {
-                    if (deviceInfo.Timestamp > localTimestamp)
+                    // Make sure the timestamp is earlier than local, and that this isn't actually the same device!
+                    if (deviceInfo.Timestamp > localTimestamp && deviceInfo.DeviceName != localDeviceName)
                     {
                         // Check if the file can be found in the database
                         Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Cloud device {0} has earlier timestamp {1} compared to local timestamp {2}", deviceInfo.DeviceName, deviceInfo.Timestamp, localTimestamp);
@@ -222,7 +226,8 @@ namespace MPfm.MVP.Navigation
 
                     Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resume playback is available; showing Player view...");
                     var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                    playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
+                    //playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
+                    playerService.Play(audioFiles, audioFile.FilePath, positionPercentage, true, true);
                     CreatePlayerView(MobileNavigationTabType.Playlists);
                 }
                 else

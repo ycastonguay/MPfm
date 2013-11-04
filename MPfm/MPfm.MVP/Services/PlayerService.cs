@@ -110,10 +110,10 @@ namespace MPfm.MVP.Services
                     AppConfigManager.Instance.Save();
 
                     // Store player status on Cloud if enabled in preferences
-                    if (AppConfigManager.Instance.Root.Cloud.IsDropboxResumePlaybackEnabled)
-                    {
+                    //if (AppConfigManager.Instance.Root.Cloud.IsDropboxResumePlaybackEnabled)
+                    //{
                         _cloudLibraryService.PushDeviceInfo(data.AudioFileStarted, 0, "0:00.000");
-                    }
+                    //}
                 }
                 catch (Exception ex)
                 {
