@@ -31,6 +31,7 @@ using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Android.Classes.Services;
+using org.sessionsapp.android;
 
 namespace MPfm.Android.Classes
 {

@@ -31,13 +31,9 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android
 {
-    [Activity(Label = "Preferences", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/MyAppTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class PreferencesActivity : BaseActivity, IPreferencesView
+    [Activity(Label = "Preferences", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/PreferencesTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    public class PreferencesActivity : BasePreferenceActivity, IPreferencesView
     {
-        private MobileNavigationManager _navigationManager; 
-        private ViewPager _viewPager;
-        private ViewPagerAdapter _viewPagerAdapter;
-        //private List<Tuple<MobileNavigationTabType, Fragment>> _fragments;        
         private List<Fragment> _fragments;
 
         protected override void OnCreate(Bundle bundle)
@@ -45,21 +41,30 @@ namespace MPfm.Android
             Console.WriteLine("PreferencesActivity - OnCreate");
             base.OnCreate(bundle);
 
-            SetContentView(Resource.Layout.Preferences);
+            //SetContentView(Resource.Layout.Preferences);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
-            ActionBar.SetHomeButtonEnabled(true);
+            //ActionBar.SetHomeButtonEnabled(true);
 
-            _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            //_fragments = new List<Tuple<MobileNavigationTabType, Fragment>>();
-            _fragments = new List<Fragment>();
-            _viewPager = FindViewById<ViewPager>(Resource.Id.preferences_pager);
-            _viewPagerAdapter = new ViewPagerAdapter(FragmentManager, _fragments, _viewPager);
-            _viewPager.Adapter = _viewPagerAdapter;
-            _viewPager.SetOnPageChangeListener(_viewPagerAdapter);
+            //_fragments = new List<Fragment>();
+            //_viewPager = FindViewById<ViewPager>(Resource.Id.preferences_pager);
+            //_viewPagerAdapter = new ViewPagerAdapter(FragmentManager, _fragments, _viewPager);
+            //_viewPager.Adapter = _viewPagerAdapter;
+            //_viewPager.SetOnPageChangeListener(_viewPagerAdapter);
 
-            // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
-            //((AndroidNavigationManager) _navigationManager).SetPreferencesActivityInstance(this);
-            _navigationManager.BindPreferencesView(this);
+            //AddPreferencesFromResource(Resource.Xml.preferences);
+
+            // The PreferencesActivity is reused as a container for PreferenceFragment. So there is actually multiple instances of this activity.
+            // Thus is it not possible to bind to a presenter (or useful!)
+            //var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            //navigationManager.BindPreferencesView(this);
+
+            ListView.SetBackgroundColor(Resources.GetColor(Resource.Color.background));
+        }
+
+        public override void OnBuildHeaders(IList<Header> target)
+        {
+            //base.OnBuildHeaders(target);
+            LoadHeadersFromResource(Resource.Xml.preferences_headers, target);
         }
 
         protected override void OnStart()
@@ -103,9 +108,6 @@ namespace MPfm.Android
             switch (item.ItemId)
             {
                 case global::Android.Resource.Id.Home:
-                    var intent = new Intent(this, typeof (MainActivity));
-                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-                    this.StartActivity(intent);
                     this.Finish();
                     return true;
                     break;
@@ -123,10 +125,10 @@ namespace MPfm.Android
         {
             Console.WriteLine("PreferencesActivity - PushSubView view: {0}", view.GetType().FullName);
             //_fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
-            _fragments.Add((Fragment)view);
+            //_fragments.Add((Fragment)view);
 
-            if (_viewPagerAdapter != null)
-                _viewPagerAdapter.NotifyDataSetChanged();
+            //if (_viewPagerAdapter != null)
+            //    _viewPagerAdapter.NotifyDataSetChanged();
         }        
 
         public void RefreshItems(List<string> items)

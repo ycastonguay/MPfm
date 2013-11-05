@@ -34,6 +34,18 @@
     <!--<item name="android:padding">8dp</item>-->
     <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
   </style>
+  <!--<style name="PreferencesTheme" parent="@style/MyAppTheme">
+  </style>-->
+  <style name="PreferencesTheme" parent="@android:style/Theme.Holo">
+    <item name="android:icon">@drawable/icon_transparent</item>
+    <item name="android:logo">@drawable/icon_transparent</item>
+    <item name="android:actionBarStyle">@style/MyActionBar</item>
+    <item name="android:actionMenuTextColor">@color/white</item>
+    <item name="android:actionMenuTextAppearance">@style/MyAppTheme.ActionBar.MenuTextStyle</item>
+    <item name="@android:panelFullBackground">@drawable/optionsmenu</item>
+    <item name="@android:panelColorBackground">@drawable/optionsmenu</item>
+    <item name="@android:panelBackground">@drawable/optionsmenu</item>
+  </style>
   <style name="DialogAnimation">    
     <item name="android:windowEnterAnimation">@anim/fade_in</item>
     <item name="android:windowExitAnimation">@anim/fade_out</item>

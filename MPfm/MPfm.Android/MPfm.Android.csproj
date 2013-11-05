@@ -72,8 +72,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Activities\BaseActivity.cs" />
+    <Compile Include="Classes\Activities\Base\BaseActivity.cs" />
     <Compile Include="Classes\Activities\AboutActivity.cs" />
+    <Compile Include="Classes\Activities\Base\BasePreferenceActivity.cs" />
     <Compile Include="Classes\Activities\SplashActivity.cs" />
     <Compile Include="Classes\Activities\FirstRunActivity.cs" />
     <Compile Include="Classes\Activities\LaunchActivity.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Classes\Fragments\Base\BaseDialogFragment.cs" />
     <Compile Include="Classes\Fragments\AddPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\AddMarkerFragment.cs" />
+    <Compile Include="Classes\Fragments\Base\BasePreferenceFragment.cs" />
     <Compile Include="Classes\Fragments\StartResumePlaybackFragment.cs" />
     <Compile Include="Classes\Fragments\SelectFoldersFragment.cs" />
     <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
@@ -357,9 +359,6 @@
     </Content>
     <AndroidResource Include="Resources\Menu\main_menu.xml" />
     <AndroidResource Include="Resources\Values\Styles.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\Values\Colors.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\Splash.png" />
@@ -653,6 +652,16 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_playlist.png" />
     <AndroidResource Include="Resources\drawable\carrouseldot.xml" />
     <AndroidResource Include="Resources\drawable\optionsmenu.xml" />
+    <AndroidResource Include="Resources\Values\Colors.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\xml\preferences_audio.xml" />
+    <AndroidResource Include="Resources\xml\preferences_headers.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\xml\preferences_general.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

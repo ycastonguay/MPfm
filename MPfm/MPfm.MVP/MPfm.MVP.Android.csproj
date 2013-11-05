@@ -143,6 +143,7 @@
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\ApplicationCloseMessage.cs" />
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />
+    <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
     <Compile Include="Messages\PlaylistUpdatedMessage.cs" />

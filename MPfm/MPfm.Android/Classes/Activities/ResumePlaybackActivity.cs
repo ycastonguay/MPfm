@@ -104,6 +104,23 @@ namespace MPfm.Android
             base.OnDestroy();
         }
 
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case global::Android.Resource.Id.Home:
+                    var intent = new Intent(this, typeof(MainActivity));
+                    intent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                    this.StartActivity(intent);
+                    this.Finish();
+                    return true;
+                    break;
+                default:
+                    return base.OnOptionsItemSelected(item);
+                    break;
+            }
+        }
+
         #region IResumePlaybackView implementation
 
         public Action<CloudDeviceInfo> OnResumePlayback { get; set; }

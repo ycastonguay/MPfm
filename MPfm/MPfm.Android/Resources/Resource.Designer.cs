@@ -117,6 +117,12 @@ namespace MPfm.Android
 			// aapt resource value: 0x7f080000
 			public const int action_list = 2131230720;
 			
+			// aapt resource value: 0x7f080001
+			public const int updateInterval = 2131230721;
+			
+			// aapt resource value: 0x7f080002
+			public const int updateIntervalValues = 2131230722;
+			
 			static Array()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -1646,8 +1652,8 @@ namespace MPfm.Android
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f0a0006
-			public const int DialogAnimation = 2131361798;
+			// aapt resource value: 0x7f0a0007
+			public const int DialogAnimation = 2131361799;
 			
 			// aapt resource value: 0x7f0a0005
 			public const int DialogTheme = 2131361797;
@@ -1663,6 +1669,9 @@ namespace MPfm.Android
 			
 			// aapt resource value: 0x7f0a0002
 			public const int MyAppTheme_ActionBar_TitleTextStyle = 2131361794;
+			
+			// aapt resource value: 0x7f0a0006
+			public const int PreferencesTheme = 2131361798;
 			
 			// aapt resource value: 0x7f0a0004
 			public const int SplashTheme = 2131361796;
@@ -1681,7 +1690,16 @@ namespace MPfm.Android
 		{
 			
 			// aapt resource value: 0x7f060000
-			public const int widget_player = 2131099648;
+			public const int preferences_audio = 2131099648;
+			
+			// aapt resource value: 0x7f060001
+			public const int preferences_general = 2131099649;
+			
+			// aapt resource value: 0x7f060002
+			public const int preferences_headers = 2131099650;
+			
+			// aapt resource value: 0x7f060003
+			public const int widget_player = 2131099651;
 			
 			static Xml()
 			{

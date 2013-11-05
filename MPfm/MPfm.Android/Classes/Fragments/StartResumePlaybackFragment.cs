@@ -31,6 +31,7 @@ using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 
 namespace MPfm.Android.Classes.Fragments
@@ -105,7 +106,7 @@ namespace MPfm.Android.Classes.Fragments
             });
         }
 
-        public void RefreshCloudDeviceInfo(CloudDeviceInfo info)
+        public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
         {
             Activity.RunOnUiThread(() =>
             {
