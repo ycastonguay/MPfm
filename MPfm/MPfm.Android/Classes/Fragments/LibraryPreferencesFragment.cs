@@ -17,48 +17,85 @@
 
 using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
+using Android.Preferences;
 using Android.Views;
 using Android.Widget;
+using MPfm.Android;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.Core;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
-namespace MPfm.Android.Classes.Fragments
+namespace org.sessionsapp.android
 {
-    public class LibraryPreferencesFragment : BaseFragment, ILibraryPreferencesView
+    public class LibraryPreferencesFragment : BasePreferenceFragment, ILibraryPreferencesView, ISharedPreferencesOnSharedPreferenceChangeListener
     {        
-        private View _view;
-        private Button _btnResetLibrary;
-        private Button _btnUpdateLibrary;
-        private Button _btnSelectFolders;
-
         // Leave an empty constructor or the application will crash at runtime
         public LibraryPreferencesFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            _view = inflater.Inflate(Resource.Layout.LibraryPreferences, container, false);
-            _btnResetLibrary = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnResetLibrary);
-            _btnUpdateLibrary = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnUpdateLibrary);
-            _btnSelectFolders = _view.FindViewById<Button>(Resource.Id.libraryPreferences_btnSelectFolders);
-            _btnResetLibrary.Click += BtnResetLibraryOnClick;
-            _btnUpdateLibrary.Click += (sender, args) => OnUpdateLibrary();
-            _btnSelectFolders.Click += (sender, args) => OnSelectFolders();
-            return _view;
+            View view = base.OnCreateView(inflater, container, savedInstanceState);
+            view.SetBackgroundColor(Resources.GetColor(Resource.Color.background));
+            return view;
         }
 
-        private void BtnResetLibraryOnClick(object sender, EventArgs eventArgs)
+        public override void OnCreate(Bundle savedInstanceState)
         {
-            AlertDialog ad = new AlertDialog.Builder(Activity)
-                .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
-                .SetTitle("Reset Library")
-                .SetMessage("Are you sure you wish to reset your library?")
-                .SetCancelable(true)
-                .SetPositiveButton("OK", (sender2, args) => OnResetLibrary())
-                .SetNegativeButton("Cancel", (sender2, args) => { })
-                .Create();
-            ad.Show();
+            base.OnCreate(savedInstanceState);
+            AddPreferencesFromResource(Resource.Xml.preferences_library);
+            Activity.ActionBar.Title = "Library Preferences";
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindLibraryPreferencesView(this);
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            PreferenceManager.SharedPreferences.RegisterOnSharedPreferenceChangeListener(this);
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+            PreferenceManager.SharedPreferences.UnregisterOnSharedPreferenceChangeListener(this);
+        }
+
+        public override bool OnPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
+        {
+            //Tracing.Log("LibraryPrefs - OnPreferenceTreeClick - pref: {0}", preference.Title);
+            if (preference.Key == "select_folders")
+            {
+                OnSelectFolders();
+            }
+            else if (preference.Key == "update_library")
+            {
+                OnUpdateLibrary();
+            }
+            else if (preference.Key == "reset_library")
+            {
+                AlertDialog ad = new AlertDialog.Builder(Activity)
+                    .SetIconAttribute(global::Android.Resource.Attribute.AlertDialogIcon)
+                    .SetTitle("Reset Library")
+                    .SetMessage("Are you sure you wish to reset your library?")
+                    .SetCancelable(true)
+                    .SetPositiveButton("OK", (sender2, args) => OnResetLibrary())
+                    .SetNegativeButton("Cancel", (sender2, args) => { })
+                    .Create();
+                ad.Show();
+            }
+
+            return base.OnPreferenceTreeClick(preferenceScreen, preference);
+        }
+
+        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        {
+            Tracing.Log("GeneralPreferencesFragment - OnSharedPreferenceChanged - key: {0}", key);
         }
 
         #region ILibraryPreferencesView implementation
@@ -86,5 +123,6 @@ namespace MPfm.Android.Classes.Fragments
         }
 
         #endregion
+
     }
 }

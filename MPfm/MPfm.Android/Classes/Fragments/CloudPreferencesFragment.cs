@@ -25,15 +25,17 @@ using MPfm.Android;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Core;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Models;
+using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
 namespace org.sessionsapp.android
 {
-    public class AudioPreferencesFragment : BasePreferenceFragment, IAudioPreferencesView, ISharedPreferencesOnSharedPreferenceChangeListener
+    public class CloudPreferencesFragment : BasePreferenceFragment, ICloudPreferencesView, ISharedPreferencesOnSharedPreferenceChangeListener
     {        
         // Leave an empty constructor or the application will crash at runtime
-        public AudioPreferencesFragment() : base() { }
+        public CloudPreferencesFragment() : base() { }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -45,11 +47,11 @@ namespace org.sessionsapp.android
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            AddPreferencesFromResource(Resource.Xml.preferences_audio);
-            Activity.ActionBar.Title = "Audio Preferences";
+            AddPreferencesFromResource(Resource.Xml.preferences_cloud);
+            Activity.ActionBar.Title = "Cloud Preferences";
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            navigationManager.BindAudioPreferencesView(this);
+            navigationManager.BindCloudPreferencesView(this);
         }
 
         public override void OnResume()
@@ -68,5 +70,32 @@ namespace org.sessionsapp.android
         {
             Tracing.Log("GeneralPreferencesFragment - OnSharedPreferenceChanged - key: {0}", key);
         }
+
+        #region ICloudPreferencesView implementation
+
+        public Action<CloudAppConfig> OnSetCloudPreferences { get; set; }
+        public Action OnDropboxLoginLogout { get; set; }
+
+        public void CloudPreferencesError(Exception ex)
+        {
+            Activity.RunOnUiThread(() => {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured in CloudPreferences: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            }); 
+        }
+
+        public void RefreshCloudPreferences(CloudAppConfig config)
+        {
+        }
+
+        public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
+        {
+        }
+
+        #endregion
+
     }
 }

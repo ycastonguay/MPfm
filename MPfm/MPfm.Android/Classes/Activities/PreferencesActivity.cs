@@ -18,15 +18,9 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
-using Android.Support.V4.View;
 using Android.Views;
 using Android.OS;
-using MPfm.Android.Classes.Adapters;
-using MPfm.Android.Classes.Navigation;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android
@@ -34,24 +28,12 @@ namespace MPfm.Android
     [Activity(Label = "Preferences", ScreenOrientation = ScreenOrientation.Sensor, Theme = "@style/PreferencesTheme", ConfigurationChanges = ConfigChanges.KeyboardHidden | ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class PreferencesActivity : BasePreferenceActivity, IPreferencesView
     {
-        private List<Fragment> _fragments;
-
         protected override void OnCreate(Bundle bundle)
         {
             Console.WriteLine("PreferencesActivity - OnCreate");
             base.OnCreate(bundle);
 
-            //SetContentView(Resource.Layout.Preferences);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
-            //ActionBar.SetHomeButtonEnabled(true);
-
-            //_fragments = new List<Fragment>();
-            //_viewPager = FindViewById<ViewPager>(Resource.Id.preferences_pager);
-            //_viewPagerAdapter = new ViewPagerAdapter(FragmentManager, _fragments, _viewPager);
-            //_viewPager.Adapter = _viewPagerAdapter;
-            //_viewPager.SetOnPageChangeListener(_viewPagerAdapter);
-
-            //AddPreferencesFromResource(Resource.Xml.preferences);
 
             // The PreferencesActivity is reused as a container for PreferenceFragment. So there is actually multiple instances of this activity.
             // Thus is it not possible to bind to a presenter (or useful!)
@@ -63,7 +45,6 @@ namespace MPfm.Android
 
         public override void OnBuildHeaders(IList<Header> target)
         {
-            //base.OnBuildHeaders(target);
             LoadHeadersFromResource(Resource.Xml.preferences_headers, target);
         }
 
@@ -123,7 +104,7 @@ namespace MPfm.Android
 
         public void PushSubView(IBaseView view)
         {
-            Console.WriteLine("PreferencesActivity - PushSubView view: {0}", view.GetType().FullName);
+            //Console.WriteLine("PreferencesActivity - PushSubView view: {0}", view.GetType().FullName);
             //_fragments.Add(new Tuple<MobileNavigationTabType, Fragment>(MobileNavigationTabType.More, (Fragment)view));
             //_fragments.Add((Fragment)view);
 

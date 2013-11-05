@@ -24,7 +24,9 @@ using Android.Widget;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using Environment = Android.OS.Environment;
 
@@ -61,6 +63,9 @@ namespace MPfm.Android.Classes.Fragments
             base.OnCreate(savedInstanceState);
             Cancelable = false;
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindUpdateLibraryView(this);
         }
 
         public override void OnStart()

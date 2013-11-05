@@ -572,6 +572,7 @@ namespace MPfm.MVP.Navigation
 
         public virtual void BindLibraryPreferencesView(ILibraryPreferencesView view)
         {
+            _libraryPreferencesView = view;
             _libraryPreferencesPresenter = Bootstrapper.GetContainer().Resolve<ILibraryPreferencesPresenter>();
             _libraryPreferencesPresenter.BindView(view);
             _libraryPreferencesView.OnViewDestroy = (view2) =>

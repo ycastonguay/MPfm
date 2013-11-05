@@ -1,37 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-  android:title="General Preferences"
-  android:icon="@drawable/actionbar_settings">
+  android:title="General Preferences">
   <PreferenceCategory
-      android:title="Update Frequency"
-      android:icon="@drawable/actionbar_settings"
-      android:key="first_category">
-    <CheckBoxPreference
-        android:key="perform_updates"
-        android:summary="Enable or disable data updates"
-        android:title="Enable updates"
-        android:defaultValue="true"
-        />
-    <ListPreference
-        android:key="updates_interval"
-        android:title="Updates interval"
-        android:summary="Define how often updates will be performed"
-        android:defaultValue="1000"
-        android:entries="@array/updateInterval"
-        android:entryValues="@array/updateIntervalValues"
-        android:dependency="perform_updates"
-        />
+    android:title="Update Frequency"    
+    android:key="update_frequency">
+    <Preference
+      android:key="update_frequency_song_position"
+      android:title="Song Position"
+      android:icon="@drawable/actionbar_frequency"
+      android:summary="Defines how often the song position is updated." />
+    <Preference
+      android:key="update_frequency_output_meter"
+      android:title="Output Meter"
+      android:icon="@drawable/actionbar_frequency"
+      android:summary="Defines how often the output meter is updated." />
   </PreferenceCategory>
   <PreferenceCategory
-      android:title="Peak Files"
-      android:icon="@drawable/actionbar_settings"
-      android:key="second_category">
-    <EditTextPreference
-        android:key="welcome_message"
-        android:title="Welcome Message"
-        android:summary="Define the Welcome message to be shown"
-        android:dialogTitle="Welcome Message"
-        android:dialogMessage="Provide a message"
-        android:defaultValue="Default welcome message" />
+    android:title="Peak Files"    
+    android:key="peak_files">
+    <Preference
+      android:key="peak_files_stuff"
+      android:title="Maximum peak file folder size"
+      android:summary="Value here" />
   </PreferenceCategory>
 </PreferenceScreen>

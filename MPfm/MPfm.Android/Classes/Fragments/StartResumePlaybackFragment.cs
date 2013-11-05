@@ -78,16 +78,16 @@ namespace MPfm.Android.Classes.Fragments
                 Dismiss();
             };
 
-            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            navigationManager.BindStartResumePlaybackView(this);
-
             return _view;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);            
+            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindStartResumePlaybackView(this);
         }
 
         #region IStartResumePlaybackView implementation

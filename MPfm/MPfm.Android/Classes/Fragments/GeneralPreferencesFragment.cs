@@ -25,6 +25,8 @@ using Android.Widget;
 using MPfm.Android;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Core;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
 namespace org.sessionsapp.android
@@ -36,13 +38,6 @@ namespace org.sessionsapp.android
 
         // Leave an empty constructor or the application will crash at runtime
         public GeneralPreferencesFragment() : base() { }
-
-        //public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        //{
-        //    _view = inflater.Inflate(Resource.Layout.GeneralPreferences, container, false);
-        //    _lblTitle = _view.FindViewById<TextView>(Resource.Id.fragment_generalSettings_lblTitle);
-        //    return _view;
-        //}
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -56,6 +51,9 @@ namespace org.sessionsapp.android
             base.OnCreate(savedInstanceState);
             AddPreferencesFromResource(Resource.Xml.preferences_general);
             Activity.ActionBar.Title = "General Preferences";
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindGeneralPreferencesView(this);
         }
 
         public override void OnResume()

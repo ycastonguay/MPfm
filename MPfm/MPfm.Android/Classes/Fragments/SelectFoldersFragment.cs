@@ -27,7 +27,9 @@ using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Core;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Sound.Playlists;
@@ -74,16 +76,19 @@ namespace MPfm.Android.Classes.Fragments
             return _view;
         }
 
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSelectFoldersView(this);
+        }
+
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             _btnOK.Enabled = true;
             _selectedIndex = e.Position;
-        }
-
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);            
         }
 
         #region ISelectFoldersView implementation

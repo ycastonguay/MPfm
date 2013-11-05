@@ -122,6 +122,7 @@
     <Compile Include="Classes\Fragments\AddPlaylistFragment.cs" />
     <Compile Include="Classes\Fragments\AddMarkerFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BasePreferenceFragment.cs" />
+    <Compile Include="Classes\Fragments\CloudPreferencesFragment.cs" />
     <Compile Include="Classes\Fragments\StartResumePlaybackFragment.cs" />
     <Compile Include="Classes\Fragments\SelectFoldersFragment.cs" />
     <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
@@ -226,9 +227,6 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\EqualizerPresetDetails.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\Preferences.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\WidgetPlayer.axml" />
@@ -662,6 +660,44 @@
     <AndroidResource Include="Resources\xml\preferences_general.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\xml\preferences_library.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\xml\preferences_cloud.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_update.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_update.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_update.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_update.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_audio.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_dropbox.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_folder.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_frequency.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_library.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_reset.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\actionbar_resume.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_audio.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_dropbox.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_folder.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_frequency.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_library.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_reset.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\actionbar_resume.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_audio.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_dropbox.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_folder.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_frequency.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_library.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_reset.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\actionbar_resume.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_audio.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_dropbox.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_folder.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_frequency.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_library.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_reset.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_resume.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

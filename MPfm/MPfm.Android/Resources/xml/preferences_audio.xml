@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+  android:title="Audio Preferences"
+  android:icon="@drawable/actionbar_settings">
   <PreferenceCategory
-      android:title="Audio First Category"
+      android:title="Update Frequency"
+      android:icon="@drawable/actionbar_settings"
       android:key="first_category">
     <CheckBoxPreference
         android:key="perform_updates"
@@ -20,7 +23,8 @@
         />
   </PreferenceCategory>
   <PreferenceCategory
-      android:title="Audio Second Category"
+      android:title="Peak Files"
+      android:icon="@drawable/actionbar_settings"
       android:key="second_category">
     <EditTextPreference
         android:key="welcome_message"

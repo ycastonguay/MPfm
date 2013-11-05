@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+  android:title="Cloud Preferences"
+  android:icon="@drawable/actionbar_cloud">
+  <PreferenceCategory
+      android:title="Dropbox"
+      android:key="dropbox">
+    <Preference
+      android:title="Login to Dropbox"
+      android:icon="@drawable/actionbar_dropbox"
+      android:key="dropbox_login" />
+    <CheckBoxPreference
+      android:key="dropbox_resume_playback_enabled"
+      android:title="Enable Resume Playback with Dropbox"
+      android:icon="@drawable/actionbar_resume"
+      android:summary="Note: This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song."
+      android:defaultValue="true" />
+  </PreferenceCategory>
+</PreferenceScreen>

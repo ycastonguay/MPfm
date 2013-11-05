@@ -79,22 +79,22 @@ namespace MPfm.Android.Classes.Fragments
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
 
+            return _view;
+        }
+
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
+
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindSelectPlaylistView(this, _item);
-
-            return _view;
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             _btnSelect.Enabled = true;
             _selectedIndex = e.Position;
-        }
-
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);            
         }
 
         #region ISelectPlaylistView implementation
