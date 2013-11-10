@@ -73,6 +73,9 @@ namespace MPfm.Android.Classes.Fragments
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
 
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSelectFoldersView(this);
+
             return _view;
         }
 
@@ -80,9 +83,6 @@ namespace MPfm.Android.Classes.Fragments
         {
             base.OnCreate(savedInstanceState);
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
-
-            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            navigationManager.BindSelectFoldersView(this);
         }
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs e)

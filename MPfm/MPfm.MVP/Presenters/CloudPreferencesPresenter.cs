@@ -90,13 +90,12 @@ namespace MPfm.MVP.Presenters
             }
             else
             {
-
-
                 #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
-                _mobileNavigationManager.CreateCloudConnectView();
+                var view = _mobileNavigationManager.CreateCloudConnectView();
+                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Connect to Dropbox", View, view);
                 #else
                 _navigationManager.CreateCloudConnectView();
-                #endif                
+                #endif
             }
 
             RefreshState();

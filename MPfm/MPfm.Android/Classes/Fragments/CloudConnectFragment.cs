@@ -16,12 +16,17 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
+using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
@@ -33,27 +38,38 @@ namespace MPfm.Android.Classes.Fragments
         // Leave an empty constructor or the application will crash at runtime
         public CloudConnectFragment() : base() { }
 
-        //public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        //{
-        //    _view = inflater.Inflate(Resource.Layout.SyncManualConnect, container, false);
-        //    return _view;
-        //}
-
-        public override Dialog OnCreateDialog(Bundle savedInstanceState)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(Activity, Resource.Style.DialogTheme));
-            LayoutInflater inflater = Activity.LayoutInflater;
-            builder.SetView(inflater.Inflate(Resource.Layout.CloudConnect, null));
-            builder.SetTitle("Connect to Dropbox");
-            builder.SetPositiveButton("Connect", PositiveButtonHandler);
-            builder.SetNegativeButton("Cancel", NegativeButtonHandler);                          
-            return builder.Create();            
+            Dialog.SetTitle("Connecting to Dropbox");
+            _view = inflater.Inflate(Resource.Layout.CloudConnect, container, false);
+
+            //_listView = _view.FindViewById<ListView>(Resource.Id.selectFolders_listView);
+            //_layoutLoading = _view.FindViewById<LinearLayout>(Resource.Id.selectFolders_layoutLoading);
+            //_btnCancel = _view.FindViewById<Button>(Resource.Id.selectFolders_btnCancel);
+            //_btnOK = _view.FindViewById<Button>(Resource.Id.selectFolders_btnOK);
+            //_btnOK.Enabled = false;
+            //_btnCancel.Click += (sender, args) => Dismiss();
+            //_btnOK.Click += (sender, args) =>
+            //{
+            //    OnSaveFolders();
+            //    Dismiss();
+            //};
+
+            //_folders = new List<FolderEntity>();
+            //_listAdapter = new FolderListAdapter(Activity, _listView, _folders);
+            //_listView.SetAdapter(_listAdapter);
+            //_listView.ItemClick += ListViewOnItemClick;
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindCloudConnectView(this);
+
+            return _view;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            //SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
+            SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
         }
 
         private void NegativeButtonHandler(object sender, DialogClickEventArgs dialogClickEventArgs)

@@ -134,7 +134,7 @@ namespace MPfm.MVP.Navigation
         IStartResumePlaybackView CreateStartResumePlaybackView();
         void BindStartResumePlaybackView(IStartResumePlaybackView view);
 
-        void CreateCloudConnectView();
+        ICloudConnectView CreateCloudConnectView();
         void BindCloudConnectView(ICloudConnectView view);
 
         void CreatePlaylistView(IBaseView sourceView);
