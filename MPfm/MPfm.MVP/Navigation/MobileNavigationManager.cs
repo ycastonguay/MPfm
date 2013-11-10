@@ -158,8 +158,20 @@ namespace MPfm.MVP.Navigation
                 var syncDeviceSpecs = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
 
                 // Compare timestamps from cloud vs local
+                
                 _splashView.RefreshStatus("Fetching device information from the cloud...");
-                var infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
+
+                List<CloudDeviceInfo> infos = new List<CloudDeviceInfo>();
+                try
+                {
+                    infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
+                }
+                catch (Exception ex)
+                {
+                    // TODO: When an exception is thrown, it is not shown to the user because this is done in a delegate.
+                    // Not being able to connect to the cloud is a minor error; keep on starting the app as if there was no info for resuming                    
+                }
+
                 CloudDeviceInfo cloudDeviceInfo = null;
                 AudioFile audioFileCloud = null;
                 AudioFile audioFileLocal = null;

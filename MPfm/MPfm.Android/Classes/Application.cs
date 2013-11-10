@@ -174,6 +174,7 @@ namespace MPfm.Android.Classes
             container.Register<ISyncMenuView, SyncMenuActivity>().AsMultiInstance();
             container.Register<ISyncWebBrowserView, SyncWebBrowserActivity>().AsMultiInstance();
             container.Register<ISyncCloudView, SyncCloudActivity>().AsMultiInstance();
+            container.Register<ICloudConnectView, CloudConnectFragment>().AsMultiInstance();
             container.Register<IEqualizerPresetsView, EqualizerPresetsActivity>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsActivity>().AsMultiInstance();
             container.Register<IPreferencesView, PreferencesActivity>().AsMultiInstance();

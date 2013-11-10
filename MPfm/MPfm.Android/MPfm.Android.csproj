@@ -123,6 +123,7 @@
     <Compile Include="Classes\Fragments\AddMarkerFragment.cs" />
     <Compile Include="Classes\Fragments\Base\BasePreferenceFragment.cs" />
     <Compile Include="Classes\Fragments\CloudPreferencesFragment.cs" />
+    <Compile Include="Classes\Fragments\CloudConnectFragment.cs" />
     <Compile Include="Classes\Fragments\StartResumePlaybackFragment.cs" />
     <Compile Include="Classes\Fragments\SelectFoldersFragment.cs" />
     <Compile Include="Classes\Fragments\SelectPlaylistFragment.cs" />
@@ -322,6 +323,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\StartResumePlayback.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\CloudConnect.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

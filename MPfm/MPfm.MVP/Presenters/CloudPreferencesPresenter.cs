@@ -90,6 +90,8 @@ namespace MPfm.MVP.Presenters
             }
             else
             {
+
+
                 #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
                 _mobileNavigationManager.CreateCloudConnectView();
                 #else

@@ -19,6 +19,7 @@ using System;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Preferences;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android;
@@ -68,7 +69,21 @@ namespace org.sessionsapp.android
 
         public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
         {
-            Tracing.Log("GeneralPreferencesFragment - OnSharedPreferenceChanged - key: {0}", key);
+            Tracing.Log("CloudPreferencesFragment - OnSharedPreferenceChanged - key: {0}", key);
+        }
+
+        public override bool OnPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
+        {
+            if (preference.Key == "dropbox_login")
+            {
+                OnDropboxLoginLogout();
+            }
+            else if (preference.Key == "dropbox_resume_playback_enabled")
+            {
+
+            }
+
+            return base.OnPreferenceTreeClick(preferenceScreen, preference);
         }
 
         #region ICloudPreferencesView implementation
