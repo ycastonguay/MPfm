@@ -126,8 +126,19 @@ namespace MPfm.Android.Classes.Services
                 }
                 else
                 {
-                    var activity = (Activity) view;
-                    _accountManager.StartLink(activity, 0);
+                    if (OnCloudAuthenticationStatusChanged != null)
+                        OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.ConnectToDropbox);
+
+                    if (view is Fragment)
+                    {
+                        var fragment = (Fragment) view;
+                        _accountManager.StartLink(fragment, 0);
+                    }
+                    else if (view is Activity)
+                    {
+                        var activity = (Activity)view;
+                        _accountManager.StartLink(activity, 0);                        
+                    }
                 }
             }
             catch (Exception ex)
@@ -138,6 +149,8 @@ namespace MPfm.Android.Classes.Services
 
         public void ContinueLinkApp()
         {
+            if (OnCloudAuthenticationStatusChanged != null)
+                OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.ConnectedToDropbox);
         }
 
         public void UnlinkApp()

@@ -24,27 +24,22 @@ namespace MPfm.Android.Classes.Fragments.Base
 {
     public class BaseFragment : Fragment, IBaseView
     {
-        bool _isViewAlreadyBound = false;
-
-        public BaseFragment()
-        {
-        }
-
-        public override void OnResume()
-        {
-            base.OnResume();
-            //if (OnViewReady != null && !_isViewAlreadyBound)
-            //{
-            //    // Since OnResume is called if the fragment is reactivated (i.e. not destroyed), we need a flag to know if the view was already bound
-            //    _isViewAlreadyBound = true;
-            //    OnViewReady(this);
-            //}
-        }
-
         public override void OnDestroyView()
         {
             base.OnDestroyView();
             if (OnViewDestroy != null) OnViewDestroy(this);
+        }
+
+        protected void ShowErrorDialog(Exception ex)
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
         }
 
         #region IBaseView implementation

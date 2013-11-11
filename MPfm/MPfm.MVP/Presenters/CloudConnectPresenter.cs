@@ -50,6 +50,11 @@ namespace MPfm.MVP.Presenters
             Initialize();
         }
 
+	    public override void ViewDestroyed()
+	    {
+	        _cloudLibraryService.OnCloudAuthenticationStatusChanged -= CloudLibraryServiceOnCloudAuthenticationStatusChanged;
+	    }
+
 	    private void Initialize()
 	    {
             View.RefreshStatus(new CloudConnectEntity()

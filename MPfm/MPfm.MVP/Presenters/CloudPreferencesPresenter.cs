@@ -17,6 +17,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Config;
@@ -86,7 +87,10 @@ namespace MPfm.MVP.Presenters
         {
             if (_cloudLibraryService.HasLinkedAccount)
             {
-                _cloudLibraryService.UnlinkApp();                
+                Task.Factory.StartNew(() =>
+                {
+                    _cloudLibraryService.UnlinkApp();
+                });
             }
             else
             {

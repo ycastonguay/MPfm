@@ -88,13 +88,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void TimeShiftingError(Exception ex)
         {
-            Activity.RunOnUiThread(() => {
-                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in TimeShifting: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)

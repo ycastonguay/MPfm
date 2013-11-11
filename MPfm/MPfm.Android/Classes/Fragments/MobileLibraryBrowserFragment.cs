@@ -221,13 +221,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void MobileLibraryBrowserError(Exception ex)
         {
-            Activity.RunOnUiThread(() => {
-                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in MobileLibraryBrowser: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty)

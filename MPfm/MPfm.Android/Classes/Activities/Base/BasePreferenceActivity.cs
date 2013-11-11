@@ -66,5 +66,18 @@ namespace MPfm.Android
 
             if (OnViewDestroy != null) OnViewDestroy(this);
         }
+
+        protected void ShowErrorDialog(Exception ex)
+        {
+            RunOnUiThread(() =>
+            {
+                AlertDialog ad = new AlertDialog.Builder(this).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
+        }
+
     }
 }

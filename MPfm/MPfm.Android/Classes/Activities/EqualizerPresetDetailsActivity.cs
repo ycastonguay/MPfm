@@ -234,13 +234,7 @@ namespace MPfm.Android
 
         public void EqualizerPresetDetailsError(Exception ex)
         {
-            RunOnUiThread(() => {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in EqualizerPresetDetails: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void ShowMessage(string title, string message)

@@ -138,5 +138,5 @@
       android:textColor="@color/dialogbutton_text"
       android:textSize="14dp"
       android:padding="6dp" />
-  </LinearLayout>
+    </LinearLayout>
   </LinearLayout>

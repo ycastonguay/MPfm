@@ -86,14 +86,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void AddMarkerError(Exception ex)
         {
-            Activity.RunOnUiThread(() =>
-            {
-                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in AddMarker: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         #endregion

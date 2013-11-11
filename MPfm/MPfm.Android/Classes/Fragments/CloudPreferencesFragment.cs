@@ -93,13 +93,7 @@ namespace org.sessionsapp.android
 
         public void CloudPreferencesError(Exception ex)
         {
-            Activity.RunOnUiThread(() => {
-                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in CloudPreferences: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            }); 
+            ShowErrorDialog(ex);
         }
 
         public void RefreshCloudPreferences(CloudAppConfig config)
@@ -108,6 +102,11 @@ namespace org.sessionsapp.android
 
         public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
         {
+            Activity.RunOnUiThread(() =>
+            {
+                var preference = FindPreference("dropbox_login");
+                preference.Title = entity.IsDropboxLinkedToApp ? "Logout from Dropbox" : "Login to Dropbox";
+            });
         }
 
         #endregion

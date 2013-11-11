@@ -407,13 +407,7 @@ namespace MPfm.Android
 
         public void PlayerError(Exception ex)
         {
-            RunOnUiThread(() => {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in Player: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void PushSubView(IBaseView view)

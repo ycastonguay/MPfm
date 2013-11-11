@@ -46,5 +46,17 @@ namespace MPfm.Android.Classes.Fragments.Base
             base.OnDestroyView();
             if (OnViewDestroy != null) OnViewDestroy(this);
         }
+
+        protected void ShowErrorDialog(Exception ex)
+        {
+            Activity.RunOnUiThread(() =>
+            {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
+        }
     }
 }

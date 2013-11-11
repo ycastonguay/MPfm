@@ -96,14 +96,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void StartResumePlaybackError(Exception ex)
         {
-            Activity.RunOnUiThread(() =>
-            {
-                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in StartResumePlayback: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)

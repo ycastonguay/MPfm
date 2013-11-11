@@ -88,13 +88,7 @@ namespace MPfm.Android.Classes.Fragments
 
         public void PitchShiftingError(Exception ex)
         {
-            Activity.RunOnUiThread(() => {
-                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in PitchShifting: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshKeys(List<Tuple<int, string>> keys)

@@ -25,21 +25,16 @@ namespace MPfm.Android.Classes.Fragments.Base
 {
     public class BasePreferenceFragment : PreferenceFragment, IBaseView
     {
-        bool _isViewAlreadyBound = false;
-
-        public BasePreferenceFragment()
+        protected void ShowErrorDialog(Exception ex)
         {
-        }
-
-        public override void OnResume()
-        {
-            base.OnResume();
-            //if (OnViewReady != null && !_isViewAlreadyBound)
-            //{
-            //    // Since OnResume is called if the fragment is reactivated (i.e. not destroyed), we need a flag to know if the view was already bound
-            //    _isViewAlreadyBound = true;
-            //    OnViewReady(this);
-            //}
+            Activity.RunOnUiThread(() =>
+            {
+                AlertDialog ad = new AlertDialog.Builder(Activity).Create();
+                ad.SetCancelable(false);
+                ad.SetMessage(string.Format("An error has occured: {0}", ex));
+                ad.SetButton("OK", (sender, args) => ad.Dismiss());
+                ad.Show();
+            });
         }
 
         public override void OnDestroyView()

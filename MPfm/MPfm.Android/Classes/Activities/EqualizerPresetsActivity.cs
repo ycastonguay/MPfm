@@ -168,13 +168,7 @@ namespace MPfm.Android
 
         public void EqualizerPresetsError(Exception ex)
         {
-            RunOnUiThread(() => {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in EqualizerPresets: {0}", ex));
-                ad.SetButton("OK", (sender, args) => ad.Dismiss());
-                ad.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshPresets(IEnumerable<EQPreset> presets, Guid selectedPresetId, bool isEQBypassed)

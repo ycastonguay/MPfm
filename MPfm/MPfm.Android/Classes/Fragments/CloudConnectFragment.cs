@@ -19,7 +19,9 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
+using Android.Provider;
 using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
@@ -31,9 +33,13 @@ using MPfm.MVP.Views;
 
 namespace MPfm.Android.Classes.Fragments
 {
-    public class CloudConnectFragment : BaseDialogFragment, ICloudConnectView, View.IOnClickListener
-    {        
+    public class CloudConnectFragment : BaseDialogFragment, ICloudConnectView
+    {
         private View _view;
+        private TextView _lblStatus;
+        private Button _btnCancel;
+        private Button _btnOK;
+        private ProgressBar _progressBar;
 
         // Leave an empty constructor or the application will crash at runtime
         public CloudConnectFragment() : base() { }
@@ -43,22 +49,12 @@ namespace MPfm.Android.Classes.Fragments
             Dialog.SetTitle("Connecting to Dropbox");
             _view = inflater.Inflate(Resource.Layout.CloudConnect, container, false);
 
-            //_listView = _view.FindViewById<ListView>(Resource.Id.selectFolders_listView);
-            //_layoutLoading = _view.FindViewById<LinearLayout>(Resource.Id.selectFolders_layoutLoading);
-            //_btnCancel = _view.FindViewById<Button>(Resource.Id.selectFolders_btnCancel);
-            //_btnOK = _view.FindViewById<Button>(Resource.Id.selectFolders_btnOK);
-            //_btnOK.Enabled = false;
-            //_btnCancel.Click += (sender, args) => Dismiss();
-            //_btnOK.Click += (sender, args) =>
-            //{
-            //    OnSaveFolders();
-            //    Dismiss();
-            //};
-
-            //_folders = new List<FolderEntity>();
-            //_listAdapter = new FolderListAdapter(Activity, _listView, _folders);
-            //_listView.SetAdapter(_listAdapter);
-            //_listView.ItemClick += ListViewOnItemClick;
+            _progressBar = _view.FindViewById<ProgressBar>(Resource.Id.cloudConnect_progressBar);
+            _lblStatus = _view.FindViewById<TextView>(Resource.Id.cloudConnect_lblStatus);
+            _btnCancel = _view.FindViewById<Button>(Resource.Id.cloudConnect_btnCancel);
+            _btnCancel.Click += (sender, args) => Dismiss();
+            _btnOK = _view.FindViewById<Button>(Resource.Id.cloudConnect_btnOK);
+            _btnOK.Click += (sender, args) => Dismiss();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindCloudConnectView(this);
@@ -72,19 +68,21 @@ namespace MPfm.Android.Classes.Fragments
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);
         }
 
-        private void NegativeButtonHandler(object sender, DialogClickEventArgs dialogClickEventArgs)
+        public override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
-            
-        }
+            // The Dropbox dialog will return its result here
+            if (resultCode == Result.Canceled)
+            {
+                // The user has cancelled linking the app
+                Dismiss();
+            }
+            else if (resultCode == Result.Ok)
+            {
+                // The app has been linked successfully
+                OnCheckIfAccountIsLinked();
+            }
 
-        private void PositiveButtonHandler(object sender, DialogClickEventArgs dialogClickEventArgs)
-        {
-
-        }
-
-        public void OnClick(View v)
-        {
-            
+            base.OnActivityResult(requestCode, resultCode, data);
         }
 
         #region ICloudConnectView implementation
@@ -93,10 +91,18 @@ namespace MPfm.Android.Classes.Fragments
 
         public void CloudConnectError(Exception ex)
         {
+            ShowErrorDialog(ex);
         }
 
         public void RefreshStatus(CloudConnectEntity entity)
         {
+            Activity.RunOnUiThread(() =>
+            {
+                Dialog.SetTitle(string.Format("Connect to {0}", entity.CloudServiceName));
+                _btnOK.Enabled = entity.IsAuthenticated;
+                _progressBar.Visibility = entity.IsAuthenticated ? ViewStates.Gone : ViewStates.Visible;
+                _lblStatus.Text = string.Format(entity.IsAuthenticated ? "Connected to {0} successfully!" : "Connecting to {0}...", entity.CloudServiceName);
+            });
         }
 
         #endregion
