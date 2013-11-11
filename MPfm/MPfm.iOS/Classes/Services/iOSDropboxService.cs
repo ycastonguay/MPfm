@@ -201,7 +201,7 @@ namespace MPfm.iOS.Classes.Services
             }
             catch (Exception ex)
             {
-                Tracing.Log("iOSDropboxService - PushNowPlaying - Exception: {0}", ex);
+                Tracing.Log("iOSDropboxService - PushDeviceInfo - Exception: {0}", ex);
                 throw;
             }
             finally

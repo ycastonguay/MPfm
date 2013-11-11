@@ -74,12 +74,9 @@ namespace MPfm.iOS.Classes.Delegates
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
-            _window.TintColor = GlobalTheme.SecondaryColor;
 
-//            // Create tab bar controller, but hide it while the splash screen is visible
-//            _tabBarController = new MainViewController();
-//            _tabBarController.View.Hidden = true;
-//            _window.RootViewController = _tabBarController;
+            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+                _window.TintColor = GlobalTheme.SecondaryColor;
 
 			// Start navigation manager
 			_navigationManager = (iOSNavigationManager)container.Resolve<MobileNavigationManager>();
@@ -232,7 +229,10 @@ namespace MPfm.iOS.Classes.Delegates
                     case MobileDialogPresentationType.Standard:
                         var navCtrl = new MPfmNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
                         navCtrl.SetTitle(viewTitle, "");
-                        navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
+
+                        if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+                            navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                
+
                         navCtrl.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                         navCtrl.ModalInPopover = true;
                         navCtrl.ModalTransitionStyle = UIModalTransitionStyle.CrossDissolve;

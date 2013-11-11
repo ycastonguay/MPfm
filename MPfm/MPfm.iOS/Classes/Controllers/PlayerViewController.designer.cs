@@ -80,54 +80,9 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (viewPageControls != null) {
-				viewPageControls.Dispose ();
-				viewPageControls = null;
-			}
-
-			if (viewMain != null) {
-				viewMain.Dispose ();
-				viewMain = null;
-			}
-
-			if (lblSlideMessage != null) {
-				lblSlideMessage.Dispose ();
-				lblSlideMessage = null;
-			}
-
-			if (lblScrubbingType != null) {
-				lblScrubbingType.Dispose ();
-				lblScrubbingType = null;
-			}
-
-			if (viewPosition != null) {
-				viewPosition.Dispose ();
-				viewPosition = null;
-			}
-
-			if (lblPosition != null) {
-				lblPosition.Dispose ();
-				lblPosition = null;
-			}
-
-			if (imageViewAlbumArt != null) {
-				imageViewAlbumArt.Dispose ();
-				imageViewAlbumArt = null;
-			}
-
-			if (sliderPosition != null) {
-				sliderPosition.Dispose ();
-				sliderPosition = null;
-			}
-
-			if (lblLength != null) {
-				lblLength.Dispose ();
-				lblLength = null;
-			}
-
-			if (btnPrevious != null) {
-				btnPrevious.Dispose ();
-				btnPrevious = null;
+			if (btnNext != null) {
+				btnNext.Dispose ();
+				btnNext = null;
 			}
 
 			if (btnPlayPause != null) {
@@ -135,24 +90,9 @@ namespace MPfm.iOS.Classes.Controllers
 				btnPlayPause = null;
 			}
 
-			if (btnNext != null) {
-				btnNext.Dispose ();
-				btnNext = null;
-			}
-
-			if (scrollView != null) {
-				scrollView.Dispose ();
-				scrollView = null;
-			}
-
-			if (pageControl != null) {
-				pageControl.Dispose ();
-				pageControl = null;
-			}
-
-			if (scrollViewWaveForm != null) {
-				scrollViewWaveForm.Dispose ();
-				scrollViewWaveForm = null;
+			if (btnPrevious != null) {
+				btnPrevious.Dispose ();
+				btnPrevious = null;
 			}
 
 			if (btnRepeat != null) {
@@ -163,6 +103,66 @@ namespace MPfm.iOS.Classes.Controllers
 			if (btnShuffle != null) {
 				btnShuffle.Dispose ();
 				btnShuffle = null;
+			}
+
+			if (imageViewAlbumArt != null) {
+				imageViewAlbumArt.Dispose ();
+				imageViewAlbumArt = null;
+			}
+
+			if (lblLength != null) {
+				lblLength.Dispose ();
+				lblLength = null;
+			}
+
+			if (lblPosition != null) {
+				lblPosition.Dispose ();
+				lblPosition = null;
+			}
+
+			if (lblScrubbingType != null) {
+				lblScrubbingType.Dispose ();
+				lblScrubbingType = null;
+			}
+
+			if (lblSlideMessage != null) {
+				lblSlideMessage.Dispose ();
+				lblSlideMessage = null;
+			}
+
+			if (pageControl != null) {
+				pageControl.Dispose ();
+				pageControl = null;
+			}
+
+			if (scrollView != null) {
+				scrollView.Dispose ();
+				scrollView = null;
+			}
+
+			if (scrollViewWaveForm != null) {
+				scrollViewWaveForm.Dispose ();
+				scrollViewWaveForm = null;
+			}
+
+			if (sliderPosition != null) {
+				sliderPosition.Dispose ();
+				sliderPosition = null;
+			}
+
+			if (viewMain != null) {
+				viewMain.Dispose ();
+				viewMain = null;
+			}
+
+			if (viewPageControls != null) {
+				viewPageControls.Dispose ();
+				viewPageControls = null;
+			}
+
+			if (viewPosition != null) {
+				viewPosition.Dispose ();
+				viewPosition = null;
 			}
 		}
 	}

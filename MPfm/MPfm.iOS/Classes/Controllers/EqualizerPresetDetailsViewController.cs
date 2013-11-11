@@ -117,8 +117,11 @@ namespace MPfm.iOS
             for(int a = 0; a < 18; a++)
                 AddFaderToScrollView(a.ToString() + ".0 kHz");
 
-            NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
-            NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+            {
+                NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
+                NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+            }
 
             base.ViewDidLoad();
 

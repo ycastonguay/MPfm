@@ -37,8 +37,11 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
-            NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+            {
+                NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
+                NavigationController.InteractivePopGestureRecognizer.Enabled = true;
+            }
 
             btnResetLibrary.SetImage(UIImage.FromBundle("Images/Buttons/reset"));
             btnUpdateLibrary.SetImage(UIImage.FromBundle("Images/Buttons/refresh"));

@@ -39,6 +39,11 @@ namespace MPfm.iOS
 				lblArtistName = null;
 			}
 
+			if (lblSongCount != null) {
+				lblSongCount.Dispose ();
+				lblSongCount = null;
+			}
+
 			if (lblTitle != null) {
 				lblTitle.Dispose ();
 				lblTitle = null;
@@ -47,11 +52,6 @@ namespace MPfm.iOS
 			if (viewBackground != null) {
 				viewBackground.Dispose ();
 				viewBackground = null;
-			}
-
-			if (lblSongCount != null) {
-				lblSongCount.Dispose ();
-				lblSongCount = null;
 			}
 		}
 	}

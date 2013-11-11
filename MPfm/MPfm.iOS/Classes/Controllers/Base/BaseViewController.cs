@@ -69,7 +69,11 @@ namespace MPfm.iOS.Classes.Controllers.Base
 
         public override void ViewDidLoad()
         {
-            EdgesForExtendedLayout = UIRectEdge.None;
+            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+            {
+                EdgesForExtendedLayout = UIRectEdge.None;
+            }
+
             base.ViewDidLoad();
             this.NavigationItem.SetHidesBackButton(true, true);
         }
