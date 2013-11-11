@@ -25,6 +25,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.iOS.Classes.Controls;
 
 namespace MPfm.iOS
 {
@@ -41,6 +42,19 @@ namespace MPfm.iOS
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindCloudPreferencesView(this);
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+            navCtrl.SetTitle("Cloud Preferences", "Menu");
+        }
+
+        partial void actionLoginDropbox(NSObject sender)
+        {
+            OnDropboxLoginLogout();
         }
 
         #region ICloudPreferencesView implementation

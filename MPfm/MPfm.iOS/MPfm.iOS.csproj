@@ -317,6 +317,10 @@
       <DependentUpon>StartResumePlaybackViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controllers\MainViewController.cs" />
+    <Compile Include="Classes\Controllers\CloudConnectViewController.cs" />
+    <Compile Include="Classes\Controllers\CloudConnectViewController.designer.cs">
+      <DependentUpon>CloudConnectViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -383,6 +387,8 @@
     <InterfaceDefinition Include="XIB\iPhone\FirstRunViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\StartResumePlaybackViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\StartResumePlaybackViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\CloudConnectViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\CloudConnectViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -552,6 +558,7 @@
     <BundleResource Include="Images\Icons\icon_resume%402x.png" />
     <BundleResource Include="Images\WhiteIcons\android.png" />
     <BundleResource Include="Images\WhiteIcons\android%402x.png" />
+    <BundleResource Include="Settings.bundle\Root.plist" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

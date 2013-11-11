@@ -75,6 +75,10 @@ namespace MPfm.iOS.Classes.Controls
             SelectionStyle = UITableViewCellSelectionStyle.None;
             var screenSize = UIKitHelper.GetDeviceSize();
 
+            BackgroundColor = UIColor.Purple;
+            if(BackgroundView != null)
+                BackgroundView.BackgroundColor = UIColor.Red;
+
 //            UIView backView = new UIView(Frame);
 //            backView.BackgroundColor = GlobalTheme.LightColor;
 //            BackgroundView = backView;
@@ -87,21 +91,21 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(SelectedBackgroundView);
 
             ImageAlbum1 = new UIImageView();
-            ImageAlbum1.BackgroundColor = UIColor.White;
+            ImageAlbum1.BackgroundColor = UIColor.Clear;
             ImageAlbum1.Hidden = true;
             ImageAlbum1.Alpha = 0.75f;
             ImageAlbum1.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
             AddSubview(ImageAlbum1);
 
             ImageAlbum2 = new UIImageView();
-            ImageAlbum2.BackgroundColor = UIColor.White;
+            ImageAlbum2.BackgroundColor = UIColor.Clear;
             ImageAlbum2.Hidden = true;
             ImageAlbum2.Alpha = 0.4f;
             ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
             AddSubview(ImageAlbum2);
 
             ImageAlbum3 = new UIImageView();
-            ImageAlbum3.BackgroundColor = UIColor.White;
+            ImageAlbum3.BackgroundColor = UIColor.Clear;
             ImageAlbum3.Hidden = true;
             ImageAlbum3.Alpha = 0.2f;
             ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
@@ -122,13 +126,14 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(AlbumCountLabel);
 
             TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-            TextLabel.BackgroundColor = UIColor.Clear;
+            TextLabel.BackgroundColor = UIColor.Orange;
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
+            DetailTextLabel.BackgroundColor = UIColor.Yellow;
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
             ImageView.BackgroundColor = UIColor.Clear;
 
@@ -199,7 +204,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void LayoutSubviews()
         {
-            //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+            //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             var screenSize = UIKitHelper.GetDeviceSize();

@@ -112,6 +112,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<ICloudPreferencesView, CloudPreferencesViewController>().AsMultiInstance();
             container.Register<IGeneralPreferencesView, GeneralPreferencesViewController>().AsMultiInstance();
             container.Register<ILibraryPreferencesView, LibraryPreferencesViewController>().AsMultiInstance();
+            container.Register<ICloudConnectView, CloudConnectViewController>().AsMultiInstance();
             container.Register<IEqualizerPresetsView, EqualizerPresetsViewController>().AsMultiInstance();
             container.Register<IEqualizerPresetDetailsView, EqualizerPresetDetailsViewController>().AsMultiInstance();
             container.Register<IPlaylistView, PlaylistViewController>().AsMultiInstance();

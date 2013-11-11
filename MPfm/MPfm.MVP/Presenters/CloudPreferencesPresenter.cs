@@ -96,7 +96,7 @@ namespace MPfm.MVP.Presenters
             {
                 #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
                 var view = _mobileNavigationManager.CreateCloudConnectView();
-                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Connect to Dropbox", View, view);
+                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Overlay, "Connect to Dropbox", View, view);
                 #else
                 _navigationManager.CreateCloudConnectView();
                 #endif

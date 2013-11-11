@@ -13,8 +13,6 @@
 	<string>org.mp4m.ios</string>
 	<key>CFBundleName</key>
 	<string>Sessions</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
 	<key>MinimumOSVersion</key>
 	<string>6.0</string>
 	<key>UIAppFonts</key>
@@ -78,5 +76,9 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 </dict>
 </plist>
