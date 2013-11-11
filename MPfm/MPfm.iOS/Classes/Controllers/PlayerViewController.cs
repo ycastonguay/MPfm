@@ -72,6 +72,7 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
+            View.BackgroundColor = GlobalTheme.BackgroundColor;
             btnPrevious.GlyphImageView.Image = UIImage.FromBundle("Images/Player/previous");
             btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
             btnNext.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");

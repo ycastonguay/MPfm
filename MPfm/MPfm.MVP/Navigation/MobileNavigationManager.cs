@@ -1054,8 +1054,8 @@ namespace MPfm.MVP.Navigation
 
         public virtual ICloudConnectView CreateCloudConnectView()
         {
-            if (_cloudConnectView == null)
-                _cloudConnectView = Bootstrapper.GetContainer().Resolve<ICloudConnectView>();
+            //if (_cloudConnectView == null)
+            _cloudConnectView = Bootstrapper.GetContainer().Resolve<ICloudConnectView>();
 
             return _cloudConnectView;
         }

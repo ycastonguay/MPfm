@@ -42,6 +42,9 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTimestamp { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIView viewPanel { get; set; }
+
 		[Action ("actionCancel:")]
 		partial void actionCancel (MonoTouch.Foundation.NSObject sender);
 
@@ -63,6 +66,11 @@ namespace MPfm.iOS
 			if (imageAlbum != null) {
 				imageAlbum.Dispose ();
 				imageAlbum = null;
+			}
+
+			if (imageIcon != null) {
+				imageIcon.Dispose ();
+				imageIcon = null;
 			}
 
 			if (lblAlbumTitle != null) {
@@ -95,9 +103,9 @@ namespace MPfm.iOS
 				lblTimestamp = null;
 			}
 
-			if (imageIcon != null) {
-				imageIcon.Dispose ();
-				imageIcon = null;
+			if (viewPanel != null) {
+				viewPanel.Dispose ();
+				viewPanel = null;
 			}
 		}
 	}

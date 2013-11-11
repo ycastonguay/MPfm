@@ -17,6 +17,7 @@
                 <outlet property="lblSongTitle" destination="76S-yf-9HP" id="VCh-7h-AFe"/>
                 <outlet property="lblTimestamp" destination="c0B-10-zcC" id="LxE-F7-FlN"/>
                 <outlet property="view" destination="1" id="3"/>
+                <outlet property="viewPanel" destination="m0b-MI-hg0" id="e5k-zK-L0j"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

@@ -22,23 +22,13 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblStatus { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		MonoTouch.UIKit.UIView viewPanel { get; set; }
 
 		[Action ("actionOK:")]
 		partial void actionOK (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
-			}
-
-			if (lblStatus != null) {
-				lblStatus.Dispose ();
-				lblStatus = null;
-			}
-
 			if (activityIndicator != null) {
 				activityIndicator.Dispose ();
 				activityIndicator = null;
@@ -47,6 +37,16 @@ namespace MPfm.iOS
 			if (btnOK != null) {
 				btnOK.Dispose ();
 				btnOK = null;
+			}
+
+			if (lblStatus != null) {
+				lblStatus.Dispose ();
+				lblStatus = null;
+			}
+
+			if (viewPanel != null) {
+				viewPanel.Dispose ();
+				viewPanel = null;
 			}
 		}
 	}

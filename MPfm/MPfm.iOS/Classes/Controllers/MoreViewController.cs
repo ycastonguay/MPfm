@@ -146,14 +146,16 @@ namespace MPfm.iOS
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
-            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
+            if(cell != null)
+                cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
         }
 
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
-            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
+            if(cell != null)
+                cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 
         [Export ("tableView:heightForRowAtIndexPath:")]

@@ -40,6 +40,7 @@ namespace MPfm.MVP.Presenters
             _messengerHub = messengerHub;
             _cloudLibraryService = cloudLibraryService;
             _cloudLibraryService.OnCloudAuthenticationStatusChanged += CloudLibraryServiceOnCloudAuthenticationStatusChanged;
+            _cloudLibraryService.OnCloudAuthenticationFailed += CloudLibraryServiceOnCloudAuthenticationFailed;
         }
 
 	    public override void BindView(ICloudConnectView view)
@@ -53,6 +54,7 @@ namespace MPfm.MVP.Presenters
 	    public override void ViewDestroyed()
 	    {
 	        _cloudLibraryService.OnCloudAuthenticationStatusChanged -= CloudLibraryServiceOnCloudAuthenticationStatusChanged;
+            _cloudLibraryService.OnCloudAuthenticationFailed -= CloudLibraryServiceOnCloudAuthenticationFailed;
 	    }
 
 	    private void Initialize()
@@ -76,6 +78,16 @@ namespace MPfm.MVP.Presenters
 	            }
 	        });
 	    }
+
+        private void CloudLibraryServiceOnCloudAuthenticationFailed()
+        {
+            View.RefreshStatus(new CloudConnectEntity()
+                               {
+                CloudServiceName = "Dropbox",
+                CurrentStep = 1,
+                HasAuthenticationFailed = true
+            });
+        }
 
         private void CloudLibraryServiceOnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType)
         {

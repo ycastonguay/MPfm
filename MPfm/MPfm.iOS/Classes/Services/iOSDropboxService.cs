@@ -29,6 +29,7 @@ using MonoTouch.Foundation;
 using MPfm.Core;
 using Newtonsoft.Json;
 using MPfm.Library.Objects;
+using MonoTouch.UIKit;
 
 namespace MPfm.iOS.Classes.Services
 {
@@ -42,16 +43,17 @@ namespace MPfm.iOS.Classes.Services
 
         private ISyncDeviceSpecifications _deviceSpecifications;
         private DBDatastore _store;
-        private DBFilesystem _fileSystem ;
+        private DBFilesystem _fileSystem;
 
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
+        public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
         public event CloudDataChanged OnCloudDataChanged;
 
         public bool HasLinkedAccount
         {
             get
             {
-                return false;
+                return DBAccountManager.SharedManager.LinkedAccount != null;
             }
         }
 
@@ -124,14 +126,38 @@ namespace MPfm.iOS.Classes.Services
 
         public void LinkApp(object view)
         {
+            using (NSAutoreleasePool pool = new NSAutoreleasePool())
+            {
+                pool.InvokeOnMainThread(() =>
+                {
+                    var account = DBAccountManager.SharedManager.LinkedAccount;
+                    if (account == null)
+                    {
+                        DBAccountManager.SharedManager.LinkFromController((UIViewController)view);
+                    }
+                });
+            }
         }
 
         public void UnlinkApp()
         {
+            var account = DBAccountManager.SharedManager.LinkedAccount;
+            if (account.Linked)
+                account.Unlink();
         }
 
         public void ContinueLinkApp()
         {
+            if (HasLinkedAccount)
+            {
+                if (OnCloudAuthenticationStatusChanged != null)
+                    OnCloudAuthenticationStatusChanged(CloudAuthenticationStatusType.ConnectedToDropbox);
+            }
+            else
+            {
+                if (OnCloudAuthenticationFailed != null)
+                    OnCloudAuthenticationFailed();
+            }
         }
 
         public void InitializeAppFolder()

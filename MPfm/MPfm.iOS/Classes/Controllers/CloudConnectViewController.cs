@@ -21,13 +21,23 @@ namespace MPfm.iOS
         {
             base.ViewDidLoad();
 
+            btnOK.TitleLabel.Text = "Cancel";
+            btnOK.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+            viewPanel.Layer.CornerRadius = 8;
+
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindCloudConnectView(this);
         }
 
         partial void actionOK(NSObject sender)
         {
-
+            WillMoveToParentViewController(null);
+            UIView.Animate(0.2f, () => {
+                this.View.Alpha = 0;
+            }, () => {
+                View.RemoveFromSuperview();
+                RemoveFromParentViewController();
+            });
         }
 
         #region ICloudConnectView implementation
@@ -36,10 +46,30 @@ namespace MPfm.iOS
 
         public void CloudConnectError(Exception ex)
         {
+            ShowErrorDialog(ex);
         }
 
         public void RefreshStatus(CloudConnectEntity entity)
         {
+            InvokeOnMainThread(() =>
+            {
+                if(entity.HasAuthenticationFailed)
+                {
+                    lblStatus.Text = "Authentication has failed.";
+                    btnOK.TitleLabel.Text = "OK";
+                    btnOK.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+                    btnOK.UpdateLayout();
+                    activityIndicator.Hidden = true;
+                }
+                else if(entity.IsAuthenticated)
+                {
+                    lblStatus.Text = "Authentication is successful!";
+                    btnOK.TitleLabel.Text = "OK";
+                    btnOK.SetImage(UIImage.FromBundle("Images/Buttons/select"));
+                    btnOK.UpdateLayout();
+                    activityIndicator.Hidden = true;
+                }
+            });
         }
 
         #endregion

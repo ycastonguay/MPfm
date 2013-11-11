@@ -41,11 +41,6 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewDidLoad();
 
-//            RectangleF frame = new RectangleF(0, 0, View.Bounds.Size.Width, 48);
-//            UIView view = new UIView(frame);
-//            view.BackgroundColor = GlobalTheme.MainDarkColor;
-//            TabBar.AddSubview(view);
-
             var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
             appDelegate.ShowMain(this);
 

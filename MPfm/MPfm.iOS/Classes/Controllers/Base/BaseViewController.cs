@@ -78,6 +78,14 @@ namespace MPfm.iOS.Classes.Controllers.Base
             this.NavigationItem.SetHidesBackButton(true, true);
         }
 
+        protected void ShowErrorDialog(Exception ex)
+        {
+            InvokeOnMainThread(() => {
+                var alertView = new UIAlertView("An error has occured", string.Format("{0}", ex), null, "OK", null);
+                alertView.Show();
+            });
+        }
+
         public static bool UserInterfaceIdiomIsPhone
         {
             get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }

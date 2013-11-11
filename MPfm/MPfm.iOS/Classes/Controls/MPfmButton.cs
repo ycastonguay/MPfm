@@ -52,6 +52,7 @@ namespace MPfm.iOS.Classes.Controls
             BackgroundColor = GlobalTheme.SecondaryColor;
             Layer.CornerRadius = 8;
             TintColor = UIColor.White;
+            SetTitleColor(UIColor.White, UIControlState.Normal);
 
             TitleLabel.BackgroundColor = UIColor.Clear;
             TitleLabel.TextColor = UIColor.White;
@@ -68,7 +69,7 @@ namespace MPfm.iOS.Classes.Controls
             UpdateLayout();
         }
 
-        private void UpdateLayout()
+        public void UpdateLayout()
         {
             float padding = 10;
             string title = Title(UIControlState.Normal);

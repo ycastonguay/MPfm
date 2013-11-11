@@ -90,6 +90,7 @@ namespace MPfm.MVP.Presenters
                 Task.Factory.StartNew(() =>
                 {
                     _cloudLibraryService.UnlinkApp();
+                    RefreshState();
                 });
             }
             else
@@ -100,9 +101,9 @@ namespace MPfm.MVP.Presenters
                 #else
                 _navigationManager.CreateCloudConnectView();
                 #endif
-            }
 
-            RefreshState();
+                RefreshState();
+            }
         }
 
 	    private void RefreshState()

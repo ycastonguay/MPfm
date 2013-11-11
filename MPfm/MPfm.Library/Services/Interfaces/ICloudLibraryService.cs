@@ -25,6 +25,7 @@ using MPfm.Library.Objects;
 namespace MPfm.Library.Services.Interfaces
 {
     public delegate void CloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType);
+    public delegate void CloudAuthenticationFailed();
     public delegate void CloudDataChanged(string data);
 
     /// <summary>
@@ -33,6 +34,7 @@ namespace MPfm.Library.Services.Interfaces
     public interface ICloudLibraryService
     {
         event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
+        event CloudAuthenticationFailed OnCloudAuthenticationFailed;
         event CloudDataChanged OnCloudDataChanged;
 
         bool HasLinkedAccount { get; }

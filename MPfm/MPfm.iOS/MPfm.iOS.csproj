@@ -559,6 +559,8 @@
     <BundleResource Include="Images\WhiteIcons\android.png" />
     <BundleResource Include="Images\WhiteIcons\android%402x.png" />
     <BundleResource Include="Settings.bundle\Root.plist" />
+    <BundleResource Include="Images\Buttons\dropbox.png" />
+    <BundleResource Include="Images\Buttons\dropbox%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

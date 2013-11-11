@@ -272,17 +272,20 @@ namespace MPfm.iOS.Classes.Delegates
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
             Console.WriteLine("AppDelegate - OpenUrl");
+            var cloudService = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
             var account = DBAccountManager.SharedManager.HandleOpenURL(url);
             if (account != null) 
             {
+                Console.WriteLine("AppDelegate - OpenUrl - Dropbox linked successfully!");
                 var filesystem = new DBFilesystem(account);
                 DBFilesystem.SharedFilesystem = filesystem;
-                Console.WriteLine("AppDelegate - OpenUrl - Dropbox linked successfully!");
+                cloudService.ContinueLinkApp();
                 return true;
             } 
             else 
             {
                 Console.WriteLine("AppDelegate - OpenUrl - Dropbox is not linked!");
+                cloudService.ContinueLinkApp();
                 return false;
             }
         }

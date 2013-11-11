@@ -25,6 +25,7 @@ namespace MPfm.MVP.Models
         public string CloudServiceName { get; set; }
         public int CurrentStep { get; set; }
         public bool IsAuthenticated { get; set; }
+        public bool HasAuthenticationFailed { get; set; }
 
         public CloudConnectEntity()
         {

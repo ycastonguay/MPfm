@@ -40,9 +40,10 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            btnResume.Alpha = 0.7f;
+            viewPanel.Layer.CornerRadius = 8;
+            btnResume.Alpha = 0.9f;
             btnResume.SetImage(UIImage.FromBundle("Images/Buttons/select"));
-            btnCancel.Alpha = 0.7f;
+            btnCancel.Alpha = 0.9f;
             btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
             imageIcon.Image = UIImage.FromBundle("Images/WhiteIcons/android");
 

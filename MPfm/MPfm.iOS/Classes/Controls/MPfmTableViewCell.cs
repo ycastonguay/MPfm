@@ -204,6 +204,8 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void LayoutSubviews()
         {
+            base.LayoutSubviews();
+
             //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 

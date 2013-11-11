@@ -78,10 +78,7 @@ namespace MPfm.iOS
 
         public void AddPlaylistError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                var alertView = new UIAlertView("AddPlaylist Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         #endregion

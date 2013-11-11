@@ -40,6 +40,8 @@ namespace MPfm.iOS
         {
             base.ViewDidLoad();
 
+            btnLoginDropbox.SetImage(UIImage.FromBundle("Images/Buttons/dropbox"));
+
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindCloudPreferencesView(this);
         }
@@ -74,8 +76,13 @@ namespace MPfm.iOS
         {
         }
 
-        public void RefreshCloudPreferencesState(MPfm.MVP.Models.CloudPreferencesStateEntity entity)
+        public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
         {
+            InvokeOnMainThread(() =>
+            {
+                btnLoginDropbox.TitleLabel.Text = entity.IsDropboxLinkedToApp ? "Logout from Dropbox" : "Login to Dropbox";
+                btnLoginDropbox.UpdateLayout();
+            });
         }
 
         #endregion
