@@ -184,7 +184,7 @@ namespace MPfm.iOS.Classes.Delegates
                 attrSelected.TextShadowColor = UIColor.Clear;
 
                 var navCtrl = new MPfmNavigationController(type);
-                navCtrl.SetTitle(title, "");
+                navCtrl.SetTitle(title);
                 navCtrl.TabBarItem.SetTitleTextAttributes(attr, UIControlState.Normal);
                 navCtrl.TabBarItem.SetTitleTextAttributes(attrSelected, UIControlState.Selected);
                 navCtrl.TabBarItem.Title = title;
@@ -229,7 +229,7 @@ namespace MPfm.iOS.Classes.Delegates
                 {
                     case MobileDialogPresentationType.Standard:
                         var navCtrl = new MPfmNavigationController(MobileNavigationTabType.More); // TODO: Remove tab type
-                        navCtrl.SetTitle(viewTitle, "");
+                        navCtrl.SetTitle(viewTitle);
 
                         if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
                             navCtrl.NavigationBar.TintColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 1);                

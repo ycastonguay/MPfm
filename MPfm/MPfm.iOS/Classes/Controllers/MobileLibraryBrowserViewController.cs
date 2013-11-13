@@ -131,8 +131,20 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewWillAppear(animated);
 
+            string iconName = string.Empty;
+            if (_tabType == MobileNavigationTabType.Albums && _browserType == MobileLibraryBrowserType.Albums)
+                iconName = "albums";
+            else if (_tabType == MobileNavigationTabType.Songs)
+                iconName = "song";
+            else if (_browserType == MobileLibraryBrowserType.Artists)
+                iconName = "artists";
+            else if (_browserType == MobileLibraryBrowserType.Albums)
+                iconName = "artist";
+            else if (_browserType == MobileLibraryBrowserType.Songs)
+                iconName = "album";
+
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle(_navigationBarTitle, _navigationBarSubtitle);
+            navCtrl.SetTitle(_navigationBarSubtitle, iconName);
 
             if(_viewHasAlreadyBeenShown)
                 ReloadImages();

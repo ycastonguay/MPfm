@@ -42,6 +42,8 @@ namespace MPfm.iOS
                 NavigationController.InteractivePopGestureRecognizer.Enabled = true;
             }
 
+            //btn.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -53,7 +55,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("General Preferences", "Menu");
+            navCtrl.SetTitle("General Preferences");
         }
     }
 }

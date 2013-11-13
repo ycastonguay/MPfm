@@ -55,7 +55,7 @@ namespace MPfm.iOS
             {
                 if(entity.HasAuthenticationFailed)
                 {
-                    lblStatus.Text = "Authentication has failed.";
+                    lblStatus.Text = "Authentication failed.";
                     btnOK.TitleLabel.Text = "OK";
                     btnOK.SetImage(UIImage.FromBundle("Images/Buttons/select"));
                     btnOK.UpdateLayout();
@@ -63,7 +63,7 @@ namespace MPfm.iOS
                 }
                 else if(entity.IsAuthenticated)
                 {
-                    lblStatus.Text = "Authentication is successful!";
+                    lblStatus.Text = "Authentication successful!";
                     btnOK.TitleLabel.Text = "OK";
                     btnOK.SetImage(UIImage.FromBundle("Images/Buttons/select"));
                     btnOK.UpdateLayout();

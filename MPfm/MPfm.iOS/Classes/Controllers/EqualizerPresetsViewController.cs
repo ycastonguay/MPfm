@@ -146,7 +146,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Equalizer Presets", "All Presets");
+            navCtrl.SetTitle("Equalizer Presets");
         }
 
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)

@@ -90,7 +90,7 @@ namespace MPfm.iOS.Classes.Controls
             float width = CoreGraphicsHelper.MeasureStringWidth(context, title, TitleLabel.Font.Name, TitleLabel.Font.PointSize);
             UIGraphics.EndImageContext();
 
-            float totalWidth = width;
+            float totalWidth = width + padding;
             if (Image.Image != null)
                 totalWidth += Image.Bounds.Width + padding;
             float imageX = (Bounds.Width - totalWidth) / 2;

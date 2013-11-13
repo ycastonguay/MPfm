@@ -13,24 +13,13 @@ namespace MPfm.iOS
 	partial class CloudPreferencesViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnLoginDropbox { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UISwitch switchEnableResumePlayback { get; set; }
-
-		[Action ("actionLoginDropbox:")]
-		partial void actionLoginDropbox (MonoTouch.Foundation.NSObject sender);
+		MonoTouch.UIKit.UITableView tableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (switchEnableResumePlayback != null) {
-				switchEnableResumePlayback.Dispose ();
-				switchEnableResumePlayback = null;
-			}
-
-			if (btnLoginDropbox != null) {
-				btnLoginDropbox.Dispose ();
-				btnLoginDropbox = null;
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
 			}
 		}
 	}

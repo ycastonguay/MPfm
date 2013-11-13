@@ -321,6 +321,10 @@
     <Compile Include="Classes\Controllers\CloudConnectViewController.designer.cs">
       <DependentUpon>CloudConnectViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controllers\Base\BasePreferencesViewController.cs" />
+    <Compile Include="Classes\Controls\MPfmPreferenceTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -419,6 +423,7 @@
     <Folder Include="Classes\Providers\" />
     <Folder Include="Classes\Services\" />
     <Folder Include="Images\WhiteIcons\" />
+    <Folder Include="Images\Nav\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
@@ -561,6 +566,18 @@
     <BundleResource Include="Settings.bundle\Root.plist" />
     <BundleResource Include="Images\Buttons\dropbox.png" />
     <BundleResource Include="Images\Buttons\dropbox%402x.png" />
+    <BundleResource Include="Images\Nav\album.png" />
+    <BundleResource Include="Images\Nav\album%402x.png" />
+    <BundleResource Include="Images\Nav\albums.png" />
+    <BundleResource Include="Images\Nav\albums%402x.png" />
+    <BundleResource Include="Images\Nav\artist.png" />
+    <BundleResource Include="Images\Nav\artist%402x.png" />
+    <BundleResource Include="Images\Nav\artists.png" />
+    <BundleResource Include="Images\Nav\artists%402x.png" />
+    <BundleResource Include="Images\Nav\equalizer.png" />
+    <BundleResource Include="Images\Nav\equalizer%402x.png" />
+    <BundleResource Include="Images\Nav\song.png" />
+    <BundleResource Include="Images\Nav\song%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

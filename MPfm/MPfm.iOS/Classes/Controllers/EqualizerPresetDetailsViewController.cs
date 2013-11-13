@@ -112,7 +112,7 @@ namespace MPfm.iOS
             
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
-            navCtrl.SetTitle("Equalizer Preset", "16-Band Equalizer");
+            navCtrl.SetTitle("Equalizer Preset");
 
             for(int a = 0; a < 18; a++)
                 AddFaderToScrollView(a.ToString() + ".0 kHz");

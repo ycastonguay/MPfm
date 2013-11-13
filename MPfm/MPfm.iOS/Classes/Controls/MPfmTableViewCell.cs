@@ -74,11 +74,7 @@ namespace MPfm.iOS.Classes.Controls
             IsTextAnimationEnabled = false;
             SelectionStyle = UITableViewCellSelectionStyle.None;
             var screenSize = UIKitHelper.GetDeviceSize();
-
-            BackgroundColor = UIColor.Purple;
-            if(BackgroundView != null)
-                BackgroundView.BackgroundColor = UIColor.Red;
-
+           
 //            UIView backView = new UIView(Frame);
 //            backView.BackgroundColor = GlobalTheme.LightColor;
 //            BackgroundView = backView;

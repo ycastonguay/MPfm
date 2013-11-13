@@ -24,11 +24,15 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using System.Collections.Generic;
 
 namespace MPfm.iOS
 {
-    public partial class AudioPreferencesViewController : BaseViewController, IAudioPreferencesView
+    public partial class AudioPreferencesViewController : BasePreferencesViewController, IAudioPreferencesView
     {
+        string _cellIdentifier = "AudioPreferencesCell";
+        List<string> _items = new List<string>();
+
         public AudioPreferencesViewController()
             : base (UserInterfaceIdiomIsPhone ? "AudioPreferencesViewController_iPhone" : "AudioPreferencesViewController_iPad", null)
         {
@@ -36,6 +40,12 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
+            tableView.WeakDataSource = this;
+            tableView.WeakDelegate = this;
+
+            _items.Add("Bacon");
+            _items.Add("Drumstick");
+
             if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
             {
                 NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
@@ -53,7 +63,61 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Audio Preferences", "Menu");
+            navCtrl.SetTitle("Audio Preferences");
+        }
+
+//        [Export ("tableView:viewForHeaderInSection:")]
+//        public UIView ViewForHeaderInSection(UITableView tableview, int section)
+//        {
+//        }
+
+        [Export ("tableView:titleForHeaderInSection:")]
+        public string TitleForHeaderInSection(UITableView tableview, int section)
+        {
+            return "Audio Mixer";
+        }
+
+        [Export ("numberOfSectionsInTableView:")]
+        public int SectionsInTableView(UITableView tableview)
+        {
+            return 1;
+        }
+
+        [Export ("tableView:numberOfRowsInSection:")]
+        public int RowsInSection(UITableView tableview, int section)
+        {
+            return _items.Count;
+        }
+
+        [Export ("tableView:cellForRowAtIndexPath:")]
+        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            var item = _items[indexPath.Row];
+            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            if (cell == null)
+            {
+                var cellStyle = UITableViewCellStyle.Subtitle;
+                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
+            }
+
+            cell.Tag = indexPath.Row;
+            cell.TextLabel.Text = item;
+            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            cell.Accessory = UITableViewCellAccessory.None;
+
+            return cell;
+        }
+
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            //OnSelectItem(_items[indexPath.Row]);
+        }       
+
+        [Export ("tableView:heightForRowAtIndexPath:")]
+        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 52;
         }
     }
 }

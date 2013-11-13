@@ -101,7 +101,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Sync (Cloud)", "Sync with Dropbox");
+            navCtrl.SetTitle("Sync (Cloud)");
         }
 
         partial void actionEnableSync(NSObject sender)

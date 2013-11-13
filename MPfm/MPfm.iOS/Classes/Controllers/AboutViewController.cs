@@ -53,7 +53,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("About Sessions", "");
+            navCtrl.SetTitle("About Sessions");
         }
 
         #region IAboutView implementation

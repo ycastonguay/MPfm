@@ -61,7 +61,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Preferences", "Menu");
+            navCtrl.SetTitle("Preferences");
         }
 
         public override void ViewDidDisappear(bool animated)

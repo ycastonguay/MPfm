@@ -72,7 +72,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("More Options", "");
+            navCtrl.SetTitle("More Options");
         }
         
         [Export ("tableView:numberOfRowsInSection:")]

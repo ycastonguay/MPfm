@@ -59,7 +59,7 @@ namespace MPfm.iOS
             Console.WriteLine("SyncDownloadViewController - ViewWillAppear");
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Sync Library", "Downloading audio files");
+            navCtrl.SetTitle("Sync Library");
         }
 
         public override void ConfirmedBackButton()

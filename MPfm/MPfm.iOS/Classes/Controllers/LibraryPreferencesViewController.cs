@@ -57,7 +57,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
             
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Library Preferences", "Menu");
+            navCtrl.SetTitle("Library Preferences");
         }
 
         partial void actionResetLibrary(NSObject sender)

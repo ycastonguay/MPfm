@@ -56,7 +56,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Sync Library", "Web Browser");
+            navCtrl.SetTitle("Sync (Web Browser)");
         }
 
         #region ISyncWebBrowserView implementation

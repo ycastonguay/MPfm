@@ -387,19 +387,19 @@ namespace MPfm.MVP.Presenters
             switch (_browserType)
             {
                 case MobileLibraryBrowserType.Playlists:
-                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "All Playlists", breadcrumb, isPopBackstack, isBackstackEmpty);
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "Playlists", breadcrumb, isPopBackstack, isBackstackEmpty);
                     break;
                 case MobileLibraryBrowserType.Artists:
                     _items = GetArtists().ToList();
-                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "All Artists", breadcrumb, isPopBackstack, isBackstackEmpty);
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), "Artists", breadcrumb, isPopBackstack, isBackstackEmpty);
                     break;
                 case MobileLibraryBrowserType.Albums:
                     _items = GetAlbums(_query.ArtistName).ToList();
-                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.ArtistName)) ? "All Albums" : _query.ArtistName, breadcrumb, isPopBackstack, isBackstackEmpty);
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.ArtistName)) ? "Albums" : _query.ArtistName, breadcrumb, isPopBackstack, isBackstackEmpty);
                     break;
                 case MobileLibraryBrowserType.Songs:
                     _items = GetSongs(_query.ArtistName, _query.AlbumTitle).ToList();
-                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.AlbumTitle)) ? "All Songs" : _query.AlbumTitle, breadcrumb, isPopBackstack, isBackstackEmpty);
+                    View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.AlbumTitle)) ? "Songs" : _query.AlbumTitle, breadcrumb, isPopBackstack, isBackstackEmpty);
                     break;
             }
         }

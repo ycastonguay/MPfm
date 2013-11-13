@@ -68,7 +68,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Sync Library", "Connect to a device");
+            navCtrl.SetTitle("Sync (Nearby Devices)");
 
             OnStartDiscovery();
             activityIndicator.StartAnimating();

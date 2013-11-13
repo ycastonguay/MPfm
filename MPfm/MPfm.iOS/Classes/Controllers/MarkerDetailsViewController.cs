@@ -102,7 +102,7 @@ namespace MPfm.iOS
             
             var navCtrl = (MPfmNavigationController)NavigationController;
             navCtrl.SetBackButtonVisible(false);
-            navCtrl.SetTitle("Marker Details", "");
+            navCtrl.SetTitle("Marker Details");
 
             base.ViewDidLoad();
 

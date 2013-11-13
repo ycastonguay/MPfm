@@ -99,7 +99,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Sync Library", "Choose audio files to sync");
+            navCtrl.SetTitle("Sync Library");
 
             _nowPlayingButtonPreviousAlpha = navCtrl.BtnNowPlaying.Alpha;
             navCtrl.BtnNowPlaying.Alpha = 0;

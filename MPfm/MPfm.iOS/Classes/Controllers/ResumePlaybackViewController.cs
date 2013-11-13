@@ -60,7 +60,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Resume Playback", "");
+            navCtrl.SetTitle("Resume Playback");
         }
 
         [Export ("tableView:numberOfRowsInSection:")]

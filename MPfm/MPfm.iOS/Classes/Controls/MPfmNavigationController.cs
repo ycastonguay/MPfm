@@ -43,7 +43,7 @@ namespace MPfm.iOS.Classes.Controls
         bool _viewShouldShowPlaylistButton;
         bool _confirmedViewPop;
         UILabel _lblTitle;
-        UILabel _lblSubtitle;
+        UIImageView _imageViewIcon;
         MPfmFlatButton _btnBack;
         MPfmFlatButton _btnEffects;
         MPfmFlatButton _btnPlaylist;
@@ -84,15 +84,13 @@ namespace MPfm.iOS.Classes.Controls
             _lblTitle.BackgroundColor = UIColor.Clear;
             _lblTitle.Text = "MPfm";
             _lblTitle.TextAlignment = UITextAlignment.Center;
-            _lblTitle.Font = UIFont.FromName("HelveticaNeue-Light", 16);
-            
-            _lblSubtitle = new UILabel(new RectangleF(60, 20, UIScreen.MainScreen.Bounds.Width - 120, 20));
-            _lblSubtitle.LineBreakMode = UILineBreakMode.TailTruncation;
-            _lblSubtitle.TextColor = UIColor.LightGray;
-            _lblSubtitle.BackgroundColor = UIColor.Clear;
-            _lblSubtitle.Text = "Library Browser";
-            _lblSubtitle.TextAlignment = UITextAlignment.Center;
-            _lblSubtitle.Font = UIFont.FromName("HelveticaNeue", 12);
+            _lblTitle.AdjustsFontSizeToFitWidth = true;
+            _lblTitle.MinimumScaleFactor = 14f/16f; // min:14pt max:16pt
+            _lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
+
+            _imageViewIcon = new UIImageView();
+            _imageViewIcon.Image = UIImage.FromBundle("Images/Nav/album");
+            _imageViewIcon.BackgroundColor = UIColor.Clear;
 
             _btnBack = new MPfmFlatButton();
             _btnBack.Alpha = 0;
@@ -104,7 +102,7 @@ namespace MPfm.iOS.Classes.Controls
                 {
                     var alertView = new UIAlertView(viewController.ConfirmBackButtonTitle, viewController.ConfirmBackButtonMessage, null, "OK", new string[1] { "Cancel" });
                     alertView.Clicked += (object sender, UIButtonEventArgs e) => {
-                        Console.WriteLine(">>>>>>>> AlertView button index: {0}", e.ButtonIndex);
+                        Console.WriteLine("AlertView button index: {0}", e.ButtonIndex);
                         switch(e.ButtonIndex)
                         {
                             case 0:
@@ -166,11 +164,17 @@ namespace MPfm.iOS.Classes.Controls
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             };
 
+            // Add image view for MobileLibraryBrowser titles; head icon for artists, vinyl for album, etc. 
+            // add very small image view to the left of the title. acts as a hint for the current filter/backstack status.
+            // Icons can also be used for other pages like sync, playlist, etc.
+            // i.e. Equalizer preset icon - Name of preset. 
+            // That way the user knows he's dealing with a preset.
+
             this.NavigationBar.AddSubview(_btnBack);
             this.NavigationBar.AddSubview(_btnEffects);
             this.NavigationBar.AddSubview(_btnNowPlaying);
             this.NavigationBar.AddSubview(_lblTitle);
-            this.NavigationBar.AddSubview(_lblSubtitle);
+            this.NavigationBar.AddSubview(_imageViewIcon);
             this.NavigationBar.AddSubview(_btnPlaylist);
         }
 
@@ -179,11 +183,12 @@ namespace MPfm.iOS.Classes.Controls
             base.ViewDidLayoutSubviews();
 
             var screenSize = UIKitHelper.GetDeviceSize();
-            _lblTitle.Frame = new RectangleF(78, 4, screenSize.Width - 156, 20);
-            _lblSubtitle.Frame = new RectangleF(78, 20, screenSize.Width - 156, 20);
+            //_lblTitle.Frame = new RectangleF(78, 4, screenSize.Width - 156, 20);
+            _lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
             _btnEffects.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
             _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
+            //_imageViewIcon.Frame = new RectangleF(78, 14, 16, 16);
         }
         
         protected virtual void OnViewDismissed(EventArgs e)
@@ -237,7 +242,6 @@ namespace MPfm.iOS.Classes.Controls
                 {
                     UIView.Animate(0.2f, () => {
                         _lblTitle.Alpha = 0;
-                        _lblSubtitle.Alpha = 0;
                         _btnPlaylist.Alpha = 1;
                     });
                 }
@@ -245,7 +249,6 @@ namespace MPfm.iOS.Classes.Controls
                 {
                     UIView.Animate(0.2f, () => {
                         _lblTitle.Alpha = 1;
-                        _lblSubtitle.Alpha = 1;
                         _btnPlaylist.Alpha = 0;
                     });
                 }
@@ -311,20 +314,35 @@ namespace MPfm.iOS.Classes.Controls
                 _viewShouldShowPlaylistButton = false;
         }
 
-        public void SetTitle(string title, string subtitle)
+        public void SetTitle(string title)
         {
-            if(_lblTitle.Text != title)
-                _lblTitle.Alpha = 0;
+            SetTitle(title, string.Empty);
+        }       
 
-            if(_lblSubtitle.Text != title)
-                _lblSubtitle.Alpha = 0;
+        public void SetTitle(string title, string iconName)
+        {
+            UIGraphics.BeginImageContextWithOptions(View.Frame.Size, true, 0);
+            var context = UIGraphics.GetCurrentContext();
+            float width = CoreGraphicsHelper.MeasureStringWidth(context, title, _lblTitle.Font.Name, _lblTitle.Font.PointSize);
+            UIGraphics.EndImageContext();
+
+            if (_lblTitle.Text != title)
+            {
+                _lblTitle.Alpha = 0;
+                _imageViewIcon.Alpha = 0;
+            }
 
             _lblTitle.Text = title;
-            _lblSubtitle.Text = subtitle;
+            _imageViewIcon.Frame = new RectangleF(((View.Frame.Width - width) / 2) - 16 - 8, 14, 16, 16);
+
+            if (string.IsNullOrEmpty(iconName))
+                _imageViewIcon.Image = null;
+            else
+                _imageViewIcon.Image = UIImage.FromBundle(string.Format("Images/Nav/{0}", iconName));
 
             UIView.Animate(0.2f, delegate() {
                 _lblTitle.Alpha = 1;
-                _lblSubtitle.Alpha = 1;
+                _imageViewIcon.Alpha = 1f;
             });
         }
 
