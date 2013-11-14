@@ -21,6 +21,7 @@ namespace MPfm.iOS
         {
             base.ViewDidLoad();
 
+            activityIndicator.StartAnimating();
             btnOK.TitleLabel.Text = "Cancel";
             btnOK.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
             viewPanel.Layer.CornerRadius = 8;
@@ -55,7 +56,9 @@ namespace MPfm.iOS
             {
                 if(entity.HasAuthenticationFailed)
                 {
-                    lblStatus.Text = "Authentication failed.";
+                    lblStatus.Hidden = true;
+                    lblStatusCenter.Hidden = false;
+                    lblStatusCenter.Text = "Authentication failed.";
                     btnOK.TitleLabel.Text = "OK";
                     btnOK.SetImage(UIImage.FromBundle("Images/Buttons/select"));
                     btnOK.UpdateLayout();
@@ -63,11 +66,18 @@ namespace MPfm.iOS
                 }
                 else if(entity.IsAuthenticated)
                 {
-                    lblStatus.Text = "Authentication successful!";
+                    lblStatus.Hidden = true;
+                    lblStatusCenter.Hidden = false;
+                    lblStatusCenter.Text = "Authentication successful!";
                     btnOK.TitleLabel.Text = "OK";
                     btnOK.SetImage(UIImage.FromBundle("Images/Buttons/select"));
                     btnOK.UpdateLayout();
                     activityIndicator.Hidden = true;
+                }
+                else
+                {
+                    lblStatus.Hidden = false;
+                    lblStatusCenter.Hidden = true;
                 }
             });
         }

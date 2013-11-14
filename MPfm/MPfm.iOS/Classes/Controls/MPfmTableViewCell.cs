@@ -33,6 +33,8 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmTableViewCell")]
     public class MPfmTableViewCell : UITableViewCell
     {
+        private bool _isTextLabelAllowedToChangeFrame = true;
+
         public UILabel IndexTextLabel { get; private set; }
         public UIButton RightButton { get; private set; }
         public UIImageView RightImage { get; private set; }
@@ -317,8 +319,6 @@ namespace MPfm.iOS.Classes.Controls
             AnimatePress(false);
             base.TouchesCancelled(touches, evt);
         }
-
-        private bool _isTextLabelAllowedToChangeFrame = true;
 
         private void AnimatePress(bool on)
         {

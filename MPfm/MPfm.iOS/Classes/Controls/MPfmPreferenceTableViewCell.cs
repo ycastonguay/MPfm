@@ -33,7 +33,15 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmPreferenceTableViewCell")]
     public class MPfmPreferenceTableViewCell : UITableViewCell
     {
+        public delegate void PreferenceValueChanged(PreferenceCellItem item);
+        public event PreferenceValueChanged OnPreferenceValueChanged;
+
+        private PreferenceCellItem _item;
+        private bool _isTextLabelAllowedToChangeFrame = true;
+
         public UIButton RightButton { get; private set; }
+        public UILabel LabelValue { get; private set; }
+        public UISwitch Switch { get; private set; }
 
         public MPfmPreferenceTableViewCell() : base()
         {
@@ -57,25 +65,32 @@ namespace MPfm.iOS.Classes.Controls
             UIView backView = new UIView(Frame);
             backView.BackgroundColor = GlobalTheme.LightColor;
             BackgroundView = backView;
-            BackgroundColor = UIColor.White;
+            //BackgroundColor = UIColor.White;
             
             UIView backViewSelected = new UIView(Frame);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             SelectedBackgroundView = backViewSelected;           
 
-            TextLabel.BackgroundColor = UIColor.FromWhiteAlpha(0, 0);
-            TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
+            //TextLabel.BackgroundColor = UIColor.FromWhiteAlpha(0, 0);
+            TextLabel.BackgroundColor = UIColor.Clear;
+            TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
+            DetailTextLabel.BackgroundColor = UIColor.Clear;
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
-            DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
+            DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             ImageView.BackgroundColor = UIColor.Clear;
 
             RightButton = new UIButton(UIButtonType.Custom);
             RightButton.Hidden = true;
             RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             AddSubview(RightButton);
+
+            Switch = new UISwitch();
+            //Switch.TintColor = GlobalTheme.SecondaryColor;
+            //Switch.ThumbTintColor = GlobalTheme.SecondaryColor;
+            AddSubview(Switch);
 
             // Make sure the text label is over all other subviews
             TextLabel.RemoveFromSuperview();
@@ -98,30 +113,49 @@ namespace MPfm.iOS.Classes.Controls
             if (RightButton.ImageView.Image != null)
                 textWidth -= 44 + padding;
 
-            float x = 4;
+            float x = 12;
             if (ImageView.Image != null)
             {
-                ImageView.Frame = new RectangleF(x, 6, 40, 40);
+                ImageView.Frame = new RectangleF(x, 10, 32, 32);
                 x += 40 + padding;
-            } 
-            else
-            {
-                x += padding;
             }
 
             float titleY = 10 + 4;
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 titleY = 2 + 4;
 
-            TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
+            TextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
+
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-                DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
+                DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth - 52, 16);
 
             if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
                 RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
 
+            Switch.Frame = new RectangleF(screenSize.Width - 66, 10, 60, 44);
+            Switch.ValueChanged += (sender, e) => {
+                _item.Value = Switch.On;
+                if(OnPreferenceValueChanged != null)
+                    OnPreferenceValueChanged(_item);
+            };
         }
 
+        public void SetItem(PreferenceCellItem item)
+        {
+            _item = item;
+            BackgroundView.BackgroundColor = item.Enabled ? UIColor.White : UIColor.FromRGB(0.95f, 0.95f, 0.95f);
+            TextLabel.Text = item.Title;
+            TextLabel.TextColor = item.Enabled ? UIColor.Black : UIColor.FromRGB(0.7f, 0.7f, 0.7f);
+            DetailTextLabel.Text = item.Description;
+            DetailTextLabel.TextColor = item.Enabled ? UIColor.Gray : UIColor.FromRGB(0.85f, 0.85f, 0.85f);
+            Switch.Hidden = item.CellType != PreferenceCellType.Boolean;
+            Switch.Enabled = item.Enabled;
+            SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
+
+            if(item.CellType == PreferenceCellType.Boolean)
+                Switch.On = (bool)item.Value;
+        }
+        
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
             AnimatePress(true);
@@ -142,35 +176,29 @@ namespace MPfm.iOS.Classes.Controls
 
         private void AnimatePress(bool on)
         {
+            //if (!IsTextAnimationEnabled)
+            //    return;
+
+            _isTextLabelAllowedToChangeFrame = !on;
+
             if (!on)
             {
-                UIView.Animate(0.2, () => {
-                    //BackgroundColor = GlobalTheme.SecondaryColor;
-                    //                    if (LabelAlignment == UIControlContentHorizontalAlignment.Left)
-                    //                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-                    //                    else if (LabelAlignment == UIControlContentHorizontalAlignment.Right)
-                    //                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                    // Ignore when scale is lower; it was done on purpose and will be restored to 1 later.
+                    if(TextLabel.Transform.xx < 0.95f) return;
 
-                    //TextLabel.Frame = new RectangleF(TextLabel.Frame.X - 26, TextLabel.Frame.Y, TextLabel.Frame.Width, TextLabel.Frame.Height);
-                    //Console.WriteLine(">>>>>>>>>>> TVC - Scale 1");
-                    if(TextLabel.Transform.xx < 0.95f) return; // Ignore when scale is lower; it was done on purpose and will be restored to 1 later.
                     TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-                    //Image.Transform = CGAffineTransform.MakeScale(1, 1);
-                });
+                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+                    ImageView.Transform = CGAffineTransform.MakeScale(1, 1);
+                }, null);
             }
             else
             {
-                UIView.Animate(0.2, () => {
-                    //BackgroundColor = GlobalTheme.SecondaryDarkColor;
-                    //Console.WriteLine(">>>>>>>>>>> TVC - Scale 0.95f");
-                    TextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
-                    //Image.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
-                    //TextLabel.Frame = new RectangleF(TextLabel.Frame.X + 26, TextLabel.Frame.Y, TextLabel.Frame.Width, TextLabel.Frame.Height);
-                    //                    if(LabelAlignment == UIControlContentHorizontalAlignment.Left)
-                                            //TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X - 8, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-                    //                    else if(LabelAlignment == UIControlContentHorizontalAlignment.Right)
-                    //                        TitleLabel.Frame = new RectangleF(TitleLabel.Frame.X + 4, TitleLabel.Frame.Y, TitleLabel.Frame.Width, TitleLabel.Frame.Height);
-                });
+                UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+                    TextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+                    ImageView.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
+                }, null);
             }
         }
     }

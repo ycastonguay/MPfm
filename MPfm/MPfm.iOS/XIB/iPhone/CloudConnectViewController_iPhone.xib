@@ -10,6 +10,7 @@
                 <outlet property="activityIndicator" destination="ykm-SB-3fO" id="HgR-BS-pYI"/>
                 <outlet property="btnOK" destination="C8G-SI-aVP" id="vX2-Pb-3pp"/>
                 <outlet property="lblStatus" destination="vDq-x0-BKq" id="d8a-71-KoM"/>
+                <outlet property="lblStatusCenter" destination="76G-gn-LRP" id="K6D-jc-nfP"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="viewPanel" destination="GaE-lC-mle" id="zqs-nx-1e5"/>
             </connections>
@@ -41,7 +42,14 @@
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Connecting to Dropbox..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vDq-x0-BKq">
                             <rect key="frame" x="20" y="61" width="240" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                            <color key="textColor" white="0.90265739050000005" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Connecting to Dropbox..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="76G-gn-LRP">
+                            <rect key="frame" x="20" y="31" width="240" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                             <color key="textColor" white="0.90265739050000005" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>

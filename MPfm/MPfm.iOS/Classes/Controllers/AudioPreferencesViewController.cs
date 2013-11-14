@@ -25,13 +25,22 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using System.Collections.Generic;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS
 {
     public partial class AudioPreferencesViewController : BasePreferencesViewController, IAudioPreferencesView
     {
         string _cellIdentifier = "AudioPreferencesCell";
-        List<string> _items = new List<string>();
+        List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
+
+        #region BasePreferencesViewController
+
+        public override string CellIdentifier { get { return _cellIdentifier; } }
+        public override UITableView TableView { get { return tableView; } }
+        public override List<PreferenceCellItem> Items { get { return _items; } }
+
+        #endregion
 
         public AudioPreferencesViewController()
             : base (UserInterfaceIdiomIsPhone ? "AudioPreferencesViewController_iPhone" : "AudioPreferencesViewController_iPad", null)
@@ -40,18 +49,7 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            tableView.WeakDataSource = this;
-            tableView.WeakDelegate = this;
-
-            _items.Add("Bacon");
-            _items.Add("Drumstick");
-
-            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-            {
-                NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
-                NavigationController.InteractivePopGestureRecognizer.Enabled = true;
-            }
-
+            GenerateItems();
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -66,58 +64,30 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Audio Preferences");
         }
 
-//        [Export ("tableView:viewForHeaderInSection:")]
-//        public UIView ViewForHeaderInSection(UITableView tableview, int section)
-//        {
-//        }
-
-        [Export ("tableView:titleForHeaderInSection:")]
-        public string TitleForHeaderInSection(UITableView tableview, int section)
+        private void GenerateItems()
         {
-            return "Audio Mixer";
-        }
-
-        [Export ("numberOfSectionsInTableView:")]
-        public int SectionsInTableView(UITableView tableview)
-        {
-            return 1;
-        }
-
-        [Export ("tableView:numberOfRowsInSection:")]
-        public int RowsInSection(UITableView tableview, int section)
-        {
-            return _items.Count;
-        }
-
-        [Export ("tableView:cellForRowAtIndexPath:")]
-        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-        {
-            var item = _items[indexPath.Row];
-            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
-            if (cell == null)
+            // We assume the items are in order for sections
+            _items = new List<PreferenceCellItem>();
+            _items.Add(new PreferenceCellItem()
             {
-                var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
-            }
-
-            cell.Tag = indexPath.Row;
-            cell.TextLabel.Text = item;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
-            cell.Accessory = UITableViewCellAccessory.None;
-
-            return cell;
+                Id = "login_dropbox",
+                CellType = PreferenceCellType.Button,
+                HeaderTitle = "Dropbox",
+                Title = "Login to Dropbox",
+                IconName = "dropbox"
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "enable_dropbox_resume_playback",
+                CellType = PreferenceCellType.Boolean,
+                HeaderTitle = "Dropbox",
+                FooterTitle = "This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song.",
+                Title = "Enable Resume Playback"
+            });
         }
 
-        [Export ("tableView:didSelectRowAtIndexPath:")]
-        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        public override void PreferenceValueChanged(PreferenceCellItem item)
         {
-            //OnSelectItem(_items[indexPath.Row]);
-        }       
-
-        [Export ("tableView:heightForRowAtIndexPath:")]
-        public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
-        {
-            return 52;
         }
     }
 }

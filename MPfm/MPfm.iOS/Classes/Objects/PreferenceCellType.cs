@@ -15,18 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.MVP.Config.Models
+namespace MPfm.iOS.Classes.Objects
 {
-    /// <summary>
-    /// Class containing all cloud settings.
-    /// </summary>
-    public class CloudAppConfig : IAppConfig
+    public enum PreferenceCellType
     {
-        public bool IsDropboxResumePlaybackEnabled { get; set; }
-        public bool IsDropboxResumePlaybackWifiOnlyEnabled { get; set; }
-
-        public CloudAppConfig()
-        {
-        }        
+        Button = 0,
+        Boolean = 1,
+        String = 2,
+        Integer = 3,
+        Frequency = 4
     }
 }

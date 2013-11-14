@@ -15,18 +15,25 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.MVP.Config.Models
-{
-    /// <summary>
-    /// Class containing all cloud settings.
-    /// </summary>
-    public class CloudAppConfig : IAppConfig
-    {
-        public bool IsDropboxResumePlaybackEnabled { get; set; }
-        public bool IsDropboxResumePlaybackWifiOnlyEnabled { get; set; }
+using MonoTouch.UIKit;
 
-        public CloudAppConfig()
+namespace MPfm.iOS.Classes.Objects
+{
+    public class PreferenceCellItem
+    {
+        public string Id { get; set; }
+        public PreferenceCellType CellType { get; set; }
+        public string Title { get; set; }
+        public string HeaderTitle { get; set; }
+        public string FooterTitle { get; set; }
+        public string Description { get; set; }
+        public string IconName { get; set; }
+        public object Value { get; set; }
+        public bool Enabled { get; set; }
+
+        public PreferenceCellItem()
         {
-        }        
+            Enabled = true;
+        }
     }
 }

@@ -325,6 +325,8 @@
     <Compile Include="Classes\Controls\MPfmPreferenceTableViewCell.cs">
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Objects\PreferenceCellType.cs" />
+    <Compile Include="Classes\Objects\PreferenceCellItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -578,6 +580,8 @@
     <BundleResource Include="Images\Nav\equalizer%402x.png" />
     <BundleResource Include="Images\Nav\song.png" />
     <BundleResource Include="Images\Nav\song%402x.png" />
+    <BundleResource Include="Images\Icons\dropbox.png" />
+    <BundleResource Include="Images\Icons\dropbox%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

@@ -10,6 +10,7 @@
                 <outlet property="activityIndicator" destination="P8v-W5-4IA" id="R4w-Av-uLM"/>
                 <outlet property="btnOK" destination="I4f-Yy-sT3" id="cbd-Ug-i9u"/>
                 <outlet property="lblStatus" destination="p2p-f8-FTa" id="R7T-OE-7eZ"/>
+                <outlet property="lblStatusCenter" destination="bEZ-hw-9tr" id="Oyd-eK-T6H"/>
                 <outlet property="view" destination="2" id="3"/>
                 <outlet property="viewPanel" destination="vJd-Gp-w1r" id="4CP-UW-GUg"/>
             </connections>
@@ -40,6 +41,13 @@
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Connecting to Dropbox..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2p-f8-FTa">
                             <rect key="frame" x="31" y="68" width="176" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <color key="textColor" white="0.90265739050000005" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Connecting to Dropbox..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEZ-hw-9tr">
+                            <rect key="frame" x="31" y="34" width="176" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                             <color key="textColor" white="0.90265739050000005" alpha="1" colorSpace="calibratedWhite"/>

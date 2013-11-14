@@ -22,6 +22,9 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblStatus { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UILabel lblStatusCenter { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIView viewPanel { get; set; }
 
 		[Action ("actionOK:")]
@@ -47,6 +50,11 @@ namespace MPfm.iOS
 			if (viewPanel != null) {
 				viewPanel.Dispose ();
 				viewPanel = null;
+			}
+
+			if (lblStatusCenter != null) {
+				lblStatusCenter.Dispose ();
+				lblStatusCenter = null;
 			}
 		}
 	}
