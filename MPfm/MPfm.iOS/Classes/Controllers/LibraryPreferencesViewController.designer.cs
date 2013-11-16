@@ -13,67 +13,13 @@ namespace MPfm.iOS
 	partial class LibraryPreferencesViewController
 	{
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnResetLibrary { get; set; }
-
-		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnUpdateLibrary { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblEnableSyncListener { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblSyncListenerPort { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UISwitch switchEnableSyncListener { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UITextField txtSyncListenerPort { get; set; }
-
-		[Action ("actionResetLibrary:")]
-		partial void actionResetLibrary (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionUpdateLibrary:")]
-		partial void actionUpdateLibrary (MonoTouch.Foundation.NSObject sender);
+		MonoTouch.UIKit.UITableView tableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
-			}
-
-			if (lblEnableSyncListener != null) {
-				lblEnableSyncListener.Dispose ();
-				lblEnableSyncListener = null;
-			}
-
-			if (switchEnableSyncListener != null) {
-				switchEnableSyncListener.Dispose ();
-				switchEnableSyncListener = null;
-			}
-
-			if (txtSyncListenerPort != null) {
-				txtSyncListenerPort.Dispose ();
-				txtSyncListenerPort = null;
-			}
-
-			if (lblSyncListenerPort != null) {
-				lblSyncListenerPort.Dispose ();
-				lblSyncListenerPort = null;
-			}
-
-			if (btnResetLibrary != null) {
-				btnResetLibrary.Dispose ();
-				btnResetLibrary = null;
-			}
-
-			if (btnUpdateLibrary != null) {
-				btnUpdateLibrary.Dispose ();
-				btnUpdateLibrary = null;
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
 			}
 		}
 	}

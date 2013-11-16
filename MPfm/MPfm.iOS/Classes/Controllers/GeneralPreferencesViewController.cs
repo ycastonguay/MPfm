@@ -24,11 +24,25 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.iOS.Classes.Objects;
+using System.Collections.Generic;
 
 namespace MPfm.iOS
 {
-    public partial class GeneralPreferencesViewController : BaseViewController, IGeneralPreferencesView
+    public partial class GeneralPreferencesViewController : BasePreferencesViewController, IGeneralPreferencesView
     {
+        string _cellIdentifier = "CloudPreferencesCell";
+        //CloudAppConfig _config;
+        List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
+
+        #region BasePreferencesViewController
+
+        public override string CellIdentifier { get { return _cellIdentifier; } }
+        public override UITableView TableView { get { return tableView; } }
+        public override List<PreferenceCellItem> Items { get { return _items; } }
+
+        #endregion
+
         public GeneralPreferencesViewController()
             : base (UserInterfaceIdiomIsPhone ? "GeneralPreferencesViewController_iPhone" : "GeneralPreferencesViewController_iPad", null)
         {
@@ -36,14 +50,7 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-            {
-                NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
-                NavigationController.InteractivePopGestureRecognizer.Enabled = true;
-            }
-
-            //btn.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
-
+            GenerateItems();
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -57,5 +64,65 @@ namespace MPfm.iOS
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("General Preferences");
         }
+
+        private void GenerateItems()
+        {
+            // We assume the items are in order for sections
+            _items = new List<PreferenceCellItem>();
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "update_frequency_song_position",
+                CellType = PreferenceCellType.Frequency,
+                HeaderTitle = "Update Frequency",
+                Title = "Song Position"
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "update_frequency_output_meter",
+                CellType = PreferenceCellType.Frequency,
+                HeaderTitle = "Update Frequency",
+                Title = "Output Meter",
+                FooterTitle = "Warning: Lower values require more CPU and memory."
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "peak_files_folder_size",
+                CellType = PreferenceCellType.Text,
+                HeaderTitle = "Peak Files",
+                Title = "Peak file folder size: 1425 MB"
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "delete_peak_files",
+                CellType = PreferenceCellType.Button,
+                HeaderTitle = "Peak Files",
+                Title = "Delete Peak Files",
+                IconName = "dropbox"
+            });
+        }
+
+        public override void PreferenceValueChanged(PreferenceCellItem item)
+        {
+            //            var localItem = _items.FirstOrDefault(x => x.Id == item.Id);
+            //            if (localItem == null)
+            //                return;
+            //
+            //            localItem.Value = item.Value;
+            //
+            //            if (item.Id == "enable_dropbox_resume_playback")
+            //                _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
+            //            else if (item.Id == "enable_dropbox_resume_playback_wifi_only")
+            //                _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
+            //
+            //            OnSetCloudPreferences(_config);
+        }
+
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            //            var item = _items[indexPath.Row];
+            //            if (item.Id == "login_dropbox")
+            //                OnDropboxLoginLogout();
+        }  
     }
 }

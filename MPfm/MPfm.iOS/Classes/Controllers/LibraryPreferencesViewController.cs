@@ -43,9 +43,6 @@ namespace MPfm.iOS
                 NavigationController.InteractivePopGestureRecognizer.Enabled = true;
             }
 
-            btnResetLibrary.SetImage(UIImage.FromBundle("Images/Buttons/reset"));
-            btnUpdateLibrary.SetImage(UIImage.FromBundle("Images/Buttons/refresh"));
-
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -60,20 +57,20 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Library Preferences");
         }
 
-        partial void actionResetLibrary(NSObject sender)
-        {
-            var alertView = new UIAlertView("Reset Library", "Are you sure you wish to reset your library?", null, "OK", new string[1]{"Cancel"});
-            alertView.Clicked += (sender2, e) => {
-                if(e.ButtonIndex == 0)
-                    OnResetLibrary();
-            };
-            alertView.Show();
-        }
-
-        partial void actionUpdateLibrary(NSObject sender)
-        {
-            OnUpdateLibrary();
-        }
+//        partial void actionResetLibrary(NSObject sender)
+//        {
+//            var alertView = new UIAlertView("Reset Library", "Are you sure you wish to reset your library?", null, "OK", new string[1]{"Cancel"});
+//            alertView.Clicked += (sender2, e) => {
+//                if(e.ButtonIndex == 0)
+//                    OnResetLibrary();
+//            };
+//            alertView.Show();
+//        }
+//
+//        partial void actionUpdateLibrary(NSObject sender)
+//        {
+//            OnUpdateLibrary();
+//        }
 
         #region ILibraryPreferencesView implementation
 

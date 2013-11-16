@@ -150,9 +150,12 @@ namespace MPfm.iOS.Classes.Controls
             DetailTextLabel.TextColor = item.Enabled ? UIColor.Gray : UIColor.FromRGB(0.85f, 0.85f, 0.85f);
             Switch.Hidden = item.CellType != PreferenceCellType.Boolean;
             Switch.Enabled = item.Enabled;
-            SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
+            SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.CellType != PreferenceCellType.Text && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
 
-            if(item.CellType == PreferenceCellType.Boolean)
+            if (item.Value == null)
+                return;
+
+            if (item.CellType == PreferenceCellType.Boolean)
                 Switch.On = (bool)item.Value;
         }
         

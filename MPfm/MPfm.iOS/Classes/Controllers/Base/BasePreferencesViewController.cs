@@ -115,7 +115,7 @@ namespace MPfm.iOS.Classes.Controllers.Base
         {
             var distinct = Items.Select(x => x.FooterTitle).Where(x => !string.IsNullOrEmpty(x)).Distinct().ToList();
 
-            if(distinct.Count > 0)
+            if(distinct.Count > 0 && section <= distinct.Count - 1)
                 return distinct[section];
 
             return string.Empty;
@@ -139,12 +139,17 @@ namespace MPfm.iOS.Classes.Controllers.Base
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var item = Items[indexPath.Row];
+            var distinct = Items.Select(x => x.HeaderTitle).Distinct().ToList();
+            string headerTitle = distinct[indexPath.Section];
+            var items = Items.Where(x => x.HeaderTitle == headerTitle).ToList();
+            var item = items[indexPath.Row];
+
             MPfmPreferenceTableViewCell cell = (MPfmPreferenceTableViewCell)tableView.DequeueReusableCell(CellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
                 cell = new MPfmPreferenceTableViewCell(cellStyle, CellIdentifier);
+                cell.OnPreferenceValueChanged += PreferenceValueChanged;
             }
 
             if (!string.IsNullOrEmpty(item.IconName))
@@ -156,7 +161,6 @@ namespace MPfm.iOS.Classes.Controllers.Base
             cell.Tag = indexPath.Row;
             cell.Accessory = UITableViewCellAccessory.None;
             cell.SetItem(item);
-            cell.OnPreferenceValueChanged += PreferenceValueChanged;
 
             return cell;
         }           

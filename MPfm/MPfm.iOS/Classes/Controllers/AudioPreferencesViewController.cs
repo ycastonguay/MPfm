@@ -69,7 +69,7 @@ namespace MPfm.iOS
             // We assume the items are in order for sections
             _items = new List<PreferenceCellItem>();
             _items.Add(new PreferenceCellItem()
-            {
+                       {
                 Id = "login_dropbox",
                 CellType = PreferenceCellType.Button,
                 HeaderTitle = "Dropbox",
@@ -77,17 +77,45 @@ namespace MPfm.iOS
                 IconName = "dropbox"
             });
             _items.Add(new PreferenceCellItem()
-            {
+                       {
                 Id = "enable_dropbox_resume_playback",
                 CellType = PreferenceCellType.Boolean,
                 HeaderTitle = "Dropbox",
-                FooterTitle = "This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song.",
-                Title = "Enable Resume Playback"
+                Title = "Enable Resume Playback",
+                Description = "Resume playback from other devices"
+            });
+            _items.Add(new PreferenceCellItem()
+                       {
+                Id = "enable_dropbox_resume_playback_wifi_only",
+                CellType = PreferenceCellType.Boolean,
+                HeaderTitle = "Dropbox",
+                Title = "Synchronize only on Wi-Fi",
+                FooterTitle = "Resume Playback will take a small amount of bandwidth when the player switches to a new song (≈1kb/call)."
             });
         }
 
         public override void PreferenceValueChanged(PreferenceCellItem item)
         {
+//            var localItem = _items.FirstOrDefault(x => x.Id == item.Id);
+//            if (localItem == null)
+//                return;
+//
+//            localItem.Value = item.Value;
+//
+//            if (item.Id == "enable_dropbox_resume_playback")
+//                _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
+//            else if (item.Id == "enable_dropbox_resume_playback_wifi_only")
+//                _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
+//
+//            OnSetCloudPreferences(_config);
         }
+
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+//            var item = _items[indexPath.Row];
+//            if (item.Id == "login_dropbox")
+//                OnDropboxLoginLogout();
+        }  
     }
 }
