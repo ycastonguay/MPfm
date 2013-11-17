@@ -46,7 +46,7 @@ namespace MPfm.MVP.Services.Interfaces
         float TimeShifting { get; }
         int PitchShifting { get; }
         float Volume { get; set; }
-        PlayerStatusType Status { get; set; }
+        PlayerStatusType Status { get; }
 
         event PlayerService.BPMDetected OnBPMDetected;
 
@@ -60,6 +60,7 @@ namespace MPfm.MVP.Services.Interfaces
         void Pause();
         void Next();
         void Previous();
+        void Resume();
         void GoTo(int index);
         void GoTo(Guid playlistItemId);
         void ToggleRepeatType();

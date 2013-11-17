@@ -69,12 +69,12 @@ namespace MPfm.iOS.Classes.Controls
             });
             _messengerHub.Subscribe<PlayerStatusMessage>((message) => {
                 //Console.WriteLine("NavCtrl (" + TabType.ToString() + ") - PlayerStatusMessage - Status=" + message.Status.ToString());
-                if(message.Status == PlayerStatusType.Playing)
+                if(message.Status == PlayerStatusType.Playing ||
+                   message.Status == PlayerStatusType.Paused)
                     _isPlayerPlaying = true;
                 else
                     _isPlayerPlaying = false;
                 
-                // TODO: Stop vinyl animation when player is paused                
                 UpdateNowPlayingView();
             });
 
@@ -82,7 +82,7 @@ namespace MPfm.iOS.Classes.Controls
             _lblTitle = new UILabel(new RectangleF(60, 4, UIScreen.MainScreen.Bounds.Width - 120, 20));
             _lblTitle.TextColor = UIColor.White;
             _lblTitle.BackgroundColor = UIColor.Clear;
-            _lblTitle.Text = "MPfm";
+            _lblTitle.Text = "";
             _lblTitle.TextAlignment = UITextAlignment.Center;
             _lblTitle.AdjustsFontSizeToFitWidth = true;
             _lblTitle.MinimumScaleFactor = 14f/16f; // min:14pt max:16pt
@@ -110,7 +110,7 @@ namespace MPfm.iOS.Classes.Controls
                                 _confirmedViewPop = true;
                                 PopViewControllerAnimated(true);
                                 break;
-                                default:
+                            default:
                                 break;
                         }
                     };
@@ -164,12 +164,6 @@ namespace MPfm.iOS.Classes.Controls
                 _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlayerView));
             };
 
-            // Add image view for MobileLibraryBrowser titles; head icon for artists, vinyl for album, etc. 
-            // add very small image view to the left of the title. acts as a hint for the current filter/backstack status.
-            // Icons can also be used for other pages like sync, playlist, etc.
-            // i.e. Equalizer preset icon - Name of preset. 
-            // That way the user knows he's dealing with a preset.
-
             this.NavigationBar.AddSubview(_btnBack);
             this.NavigationBar.AddSubview(_btnEffects);
             this.NavigationBar.AddSubview(_btnNowPlaying);
@@ -184,7 +178,7 @@ namespace MPfm.iOS.Classes.Controls
 
             var screenSize = UIKitHelper.GetDeviceSize();
             //_lblTitle.Frame = new RectangleF(78, 4, screenSize.Width - 156, 20);
-            _lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
+            //_lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
             _btnEffects.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
             _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
@@ -242,12 +236,14 @@ namespace MPfm.iOS.Classes.Controls
                 {
                     UIView.Animate(0.2f, () => {
                         _lblTitle.Alpha = 0;
+                        _imageViewIcon.Alpha = 0;
                         _btnPlaylist.Alpha = 1;
                     });
                 }
                 else
                 {
                     UIView.Animate(0.2f, () => {
+                        _imageViewIcon.Alpha = 1;
                         _lblTitle.Alpha = 1;
                         _btnPlaylist.Alpha = 0;
                     });
@@ -321,10 +317,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public void SetTitle(string title, string iconName)
         {
-            UIGraphics.BeginImageContextWithOptions(View.Frame.Size, true, 0);
-            var context = UIGraphics.GetCurrentContext();
-            float width = CoreGraphicsHelper.MeasureStringWidth(context, title, _lblTitle.Font.Name, _lblTitle.Font.PointSize);
-            UIGraphics.EndImageContext();
+            var screenSize = UIKitHelper.GetDeviceSize();
 
             if (_lblTitle.Text != title)
             {
@@ -333,12 +326,24 @@ namespace MPfm.iOS.Classes.Controls
             }
 
             _lblTitle.Text = title;
-            _imageViewIcon.Frame = new RectangleF(((View.Frame.Width - width) / 2) - 16 - 8, 14, 16, 16);
 
             if (string.IsNullOrEmpty(iconName))
+            {
+                _lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
                 _imageViewIcon.Image = null;
+            }
             else
+            {
+                UIGraphics.BeginImageContextWithOptions(View.Frame.Size, true, 0);
+                var context = UIGraphics.GetCurrentContext();
+                float width = CoreGraphicsHelper.MeasureStringWidth(context, title, _lblTitle.Font.Name, _lblTitle.Font.PointSize);
+                UIGraphics.EndImageContext();
+
+                float titleWidth = width > screenSize.Width - 156 - 24 ? screenSize.Width - 156 - 24 : width;
+                _lblTitle.Frame = new RectangleF((screenSize.Width - titleWidth + 24) / 2, 0, titleWidth, 44);
                 _imageViewIcon.Image = UIImage.FromBundle(string.Format("Images/Nav/{0}", iconName));
+                _imageViewIcon.Frame = new RectangleF(((screenSize.Width - titleWidth + 24) / 2) - 24, 14, 16, 16);
+            }
 
             UIView.Animate(0.2f, delegate() {
                 _lblTitle.Alpha = 1;

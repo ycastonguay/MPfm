@@ -149,15 +149,10 @@ namespace MPfm.MVP.Presenters
                 View.RefreshMarkers(markers);
             }
 
-            if (_playerService.Status == PlayerStatusType.WaitingToStart)
+            if (_playerService.Status == PlayerStatusType.WaitingToStart || 
+                _playerService.Status == PlayerStatusType.StartPaused)
             {
-                _playerService.Status = PlayerStatusType.Playing;                
-                _timerRefreshSongPosition.Start();
-                _timerSavePlayerStatus.Start();
-            } 
-            else if (_playerService.Status == PlayerStatusType.StartPaused)
-            {
-                _playerService.Status = PlayerStatusType.Paused;                
+                _playerService.Resume();
                 _timerRefreshSongPosition.Start();
                 _timerSavePlayerStatus.Start();
             }

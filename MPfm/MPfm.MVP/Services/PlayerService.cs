@@ -58,7 +58,7 @@ namespace MPfm.MVP.Services
         public float Volume { get { return _player.Volume; } set { _player.Volume = value; }  }
         public float TimeShifting { get { return _player.TimeShifting; } }
         public int PitchShifting { get { return _player.PitchShifting; } }
-        public PlayerStatusType Status { get; set; }
+        public PlayerStatusType Status { get; private set; }
 
         public delegate void BPMDetected(float bpm);
         /// <summary>
@@ -365,6 +365,19 @@ namespace MPfm.MVP.Services
         {
             _player.GoTo(playlistItemId);
             UpdatePlayerStatus(PlayerStatusType.Playing);
+        }
+
+        public void Resume()
+        {
+            switch (Status)
+            {
+                case PlayerStatusType.WaitingToStart:
+                    UpdatePlayerStatus(PlayerStatusType.Playing);
+                    break;
+                case PlayerStatusType.StartPaused:
+                    UpdatePlayerStatus(PlayerStatusType.Paused);
+                    break;
+            }
         }
 
         public void ToggleRepeatType()

@@ -191,11 +191,11 @@ namespace MPfm.iOS.Classes.Delegates
                 if(title.ToUpper() == "MORE")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/more");
                 else if(title.ToUpper() == "ARTISTS")
-                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/artist");
+                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/artists");
                 else if(title.ToUpper() == "ALBUMS")
-                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/album");
+                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/albums");
                 else if(title.ToUpper() == "SONGS")
-                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/song");
+                    navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/songs");
                 else if(title.ToUpper() == "SESSIONS")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/sessions");
 
