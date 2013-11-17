@@ -260,9 +260,9 @@ namespace MPfm.iOS.Classes.Controllers
             {
                 viewController.View.Frame = new RectangleF(scrollSubviewsLength * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height);
                 scrollView.AddSubview(viewController.View);
-                //pageControl.Pages = scrollSubviewsLength;
-                pageControl.Pages = 5;
-                scrollView.ContentSize = new SizeF(scrollSubviewsLength * scrollView.Frame.Width, scrollView.Frame.Height);
+                pageControl.Pages = scrollSubviewsLength + 1;
+                //pageControl.Pages = 5;
+                scrollView.ContentSize = new SizeF((scrollSubviewsLength + 1) * scrollView.Frame.Width, scrollView.Frame.Height);
             }
             else
             {

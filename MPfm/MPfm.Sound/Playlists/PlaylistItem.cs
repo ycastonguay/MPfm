@@ -258,10 +258,7 @@ namespace MPfm.Sound.Playlists
 
             // Check if a channel already exists
             if(channel != null)
-            {
-                // Dispose channel
                 Dispose();
-            }
 
             // Load channel
             channel = Channel.CreateFileStreamForDecoding(audioFile.FilePath, useFloatingPoint);
@@ -271,16 +268,11 @@ namespace MPfm.Sound.Playlists
 
             // Check if the channel is using floating point
             if (channel.IsFloatingPoint)
-            {
-                // Divide value by 2
                 lengthBytes /= 2;
-            }
 
             // Check if this is a FLAC file over 44100Hz
             if (audioFile.FileType == AudioFileFormat.FLAC && audioFile.SampleRate > 44100)
-            {
                 lengthBytes = (long)((float)lengthBytes * 1.5f);
-            }
 
             lengthSamples = ConvertAudio.ToPCM(lengthBytes, (uint)audioFile.BitsPerSample, 2);
             lengthMilliseconds = (int)ConvertAudio.ToMS(lengthSamples, (uint)audioFile.SampleRate);

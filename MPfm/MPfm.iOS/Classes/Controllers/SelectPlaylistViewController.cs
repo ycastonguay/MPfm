@@ -34,12 +34,14 @@ namespace MPfm.iOS
     public partial class SelectPlaylistViewController : BaseViewController, ISelectPlaylistView
     {
         List<PlaylistEntity> _items;
+        LibraryBrowserEntity _item;
 
         string _cellIdentifier = "SelectPlaylistCell";
 
-        public SelectPlaylistViewController()
+        public SelectPlaylistViewController(LibraryBrowserEntity item)
 			: base (UserInterfaceIdiomIsPhone ? "SelectPlaylistViewController_iPhone" : "SelectPlaylistViewController_iPad", null)
         {
+            _item = item;
         }
 
         public override void ViewDidLoad()
@@ -55,7 +57,7 @@ namespace MPfm.iOS
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            //navigationManager.BindSelectPlaylistView(this, );
+            navigationManager.BindSelectPlaylistView(this, _item);
         }
 
         partial void actionAddNewPlaylist(NSObject sender)

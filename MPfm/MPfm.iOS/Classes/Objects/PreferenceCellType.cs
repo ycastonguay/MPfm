@@ -24,6 +24,6 @@ namespace MPfm.iOS.Classes.Objects
         Boolean = 2,
         String = 3,
         Integer = 4,
-        Frequency = 5
+        Slider = 5
     }
 }

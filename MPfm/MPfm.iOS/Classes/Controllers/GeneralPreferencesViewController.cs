@@ -72,14 +72,14 @@ namespace MPfm.iOS
             _items.Add(new PreferenceCellItem()
             {
                 Id = "update_frequency_song_position",
-                CellType = PreferenceCellType.Frequency,
+                CellType = PreferenceCellType.Slider,
                 HeaderTitle = "Update Frequency",
                 Title = "Song Position"
             });
             _items.Add(new PreferenceCellItem()
             {
                 Id = "update_frequency_output_meter",
-                CellType = PreferenceCellType.Frequency,
+                CellType = PreferenceCellType.Slider,
                 HeaderTitle = "Update Frequency",
                 Title = "Output Meter",
                 FooterTitle = "Warning: Lower values require more CPU and memory."
