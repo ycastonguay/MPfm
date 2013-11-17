@@ -588,6 +588,12 @@
     <BundleResource Include="Images\Tabs\albums%402x.png" />
     <BundleResource Include="Images\Nav\albums.png" />
     <BundleResource Include="Images\Nav\albums%402x.png" />
+    <BundleResource Include="Images\Icons\delete.png" />
+    <BundleResource Include="Images\Icons\delete%402x.png" />
+    <BundleResource Include="Images\Icons\reset.png" />
+    <BundleResource Include="Images\Icons\reset%402x.png" />
+    <BundleResource Include="Images\Icons\update.png" />
+    <BundleResource Include="Images\Icons\update%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

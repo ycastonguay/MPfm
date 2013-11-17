@@ -40,7 +40,8 @@ namespace MPfm.iOS.Classes.Controls
         private bool _isTextLabelAllowedToChangeFrame = true;
 
         public UIButton RightButton { get; private set; }
-        public UILabel LabelValue { get; private set; }
+        public UILabel ValueTextLabel { get; private set; }
+        public UISlider Slider { get; private set; }
         public UISwitch Switch { get; private set; }
 
         public MPfmPreferenceTableViewCell() : base()
@@ -82,10 +83,22 @@ namespace MPfm.iOS.Classes.Controls
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             ImageView.BackgroundColor = UIColor.Clear;
 
+            ValueTextLabel = new UILabel();
+            ValueTextLabel.BackgroundColor = UIColor.Clear;
+            ValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            ValueTextLabel.TextColor = UIColor.Gray;
+            ValueTextLabel.TextAlignment = UITextAlignment.Right;
+            ValueTextLabel.HighlightedTextColor = UIColor.White;
+            AddSubview(ValueTextLabel);
+
             RightButton = new UIButton(UIButtonType.Custom);
             RightButton.Hidden = true;
             RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             AddSubview(RightButton);
+
+            Slider = new UISlider();
+            Slider.Hidden = true;
+            AddSubview(Slider);
 
             Switch = new UISwitch();
             //Switch.TintColor = GlobalTheme.SecondaryColor;
@@ -116,8 +129,8 @@ namespace MPfm.iOS.Classes.Controls
             float x = 12;
             if (ImageView.Image != null)
             {
-                ImageView.Frame = new RectangleF(x, 10, 32, 32);
-                x += 40 + padding;
+                ImageView.Frame = new RectangleF(x, 14, 24, 24);
+                x += 32 + padding;
             }
 
             float titleY = 10 + 4;
@@ -125,6 +138,7 @@ namespace MPfm.iOS.Classes.Controls
                 titleY = 2 + 4;
 
             TextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
+            ValueTextLabel.Frame = new RectangleF(0, titleY, Bounds.Width - 16, 22);
 
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth - 52, 16);
@@ -136,8 +150,10 @@ namespace MPfm.iOS.Classes.Controls
             Switch.ValueChanged += (sender, e) => {
                 _item.Value = Switch.On;
                 if(OnPreferenceValueChanged != null)
-                    OnPreferenceValueChanged(_item);
+                    OnPreferenceValueChanged(_item);               
             };
+
+            Slider.Frame = new RectangleF(12, 48, Bounds.Width - 24, 44);
         }
 
         public void SetItem(PreferenceCellItem item)
@@ -150,13 +166,29 @@ namespace MPfm.iOS.Classes.Controls
             DetailTextLabel.TextColor = item.Enabled ? UIColor.Gray : UIColor.FromRGB(0.85f, 0.85f, 0.85f);
             Switch.Hidden = item.CellType != PreferenceCellType.Boolean;
             Switch.Enabled = item.Enabled;
-            SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.CellType != PreferenceCellType.Text && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
+            Slider.Hidden = item.CellType != PreferenceCellType.Slider;
+            SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
 
             if (item.Value == null)
                 return;
 
-            if (item.CellType == PreferenceCellType.Boolean)
-                Switch.On = (bool)item.Value;
+            switch (item.CellType)
+            {
+                case PreferenceCellType.Button:
+                    break;
+                case PreferenceCellType.Boolean:
+                    Switch.On = (bool)item.Value;
+                    break;
+                case PreferenceCellType.String:
+                    break;
+                case PreferenceCellType.Integer:
+                    ValueTextLabel.Text = ((int)item.Value).ToString();
+                    break;
+                case PreferenceCellType.Slider:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
         
         public override void TouchesBegan(NSSet touches, UIEvent evt)

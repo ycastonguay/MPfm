@@ -25,11 +25,26 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using System.Collections.Generic;
+using MPfm.iOS.Classes.Objects;
+using System.Linq;
 
 namespace MPfm.iOS
 {
-    public partial class LibraryPreferencesViewController : BaseViewController, ILibraryPreferencesView
+    public partial class LibraryPreferencesViewController : BasePreferencesViewController, ILibraryPreferencesView
     {
+        string _cellIdentifier = "CloudPreferencesCell";
+        //CloudAppConfig _config;
+        List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
+
+        #region BasePreferencesViewController
+
+        public override string CellIdentifier { get { return _cellIdentifier; } }
+        public override UITableView TableView { get { return tableView; } }
+        public override List<PreferenceCellItem> Items { get { return _items; } }
+
+        #endregion
+
         public LibraryPreferencesViewController()
             : base (UserInterfaceIdiomIsPhone ? "LibraryPreferencesViewController_iPhone" : "LibraryPreferencesViewController_iPad", null)
         {
@@ -37,12 +52,7 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-            {
-                NavigationController.InteractivePopGestureRecognizer.WeakDelegate = this;
-                NavigationController.InteractivePopGestureRecognizer.Enabled = true;
-            }
-
+            GenerateItems();
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -57,20 +67,84 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Library Preferences");
         }
 
-//        partial void actionResetLibrary(NSObject sender)
-//        {
-//            var alertView = new UIAlertView("Reset Library", "Are you sure you wish to reset your library?", null, "OK", new string[1]{"Cancel"});
-//            alertView.Clicked += (sender2, e) => {
-//                if(e.ButtonIndex == 0)
-//                    OnResetLibrary();
-//            };
-//            alertView.Show();
-//        }
+        private void GenerateItems()
+        {
+            // We assume the items are in order for sections
+            _items = new List<PreferenceCellItem>();
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "sync_server_enabled",
+                CellType = PreferenceCellType.Boolean,
+                HeaderTitle = "Sync Service",
+                Title = "Enable Sync Service"
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "sync_server_port",
+                CellType = PreferenceCellType.Integer,
+                HeaderTitle = "Sync Service",
+                Title = "HTTP Port",
+                FooterTitle = "Note: The sync service is only used when Wi-Fi is available.",
+                Value = 53551
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "library_reset",
+                CellType = PreferenceCellType.Button,
+                HeaderTitle = "Library",
+                Title = "Reset Library",
+                IconName = "reset"
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "library_update",
+                CellType = PreferenceCellType.Button,
+                HeaderTitle = "Library",
+                Title = "Update Library",
+                FooterTitle = "Total library size: 8420 MB",             
+                IconName = "update"
+            });
+        }
+
+        public override void PreferenceValueChanged(PreferenceCellItem item)
+        {
+            var localItem = _items.FirstOrDefault(x => x.Id == item.Id);
+            if (localItem == null)
+                return;
+
+            localItem.Value = item.Value;
+
+//            if (item.Id == "enable_dropbox_resume_playback")
+//                _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
+//            else if (item.Id == "enable_dropbox_resume_playback_wifi_only")
+//                _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
 //
-//        partial void actionUpdateLibrary(NSObject sender)
-//        {
-//            OnUpdateLibrary();
-//        }
+//            OnSetCloudPreferences(_config);
+        }
+
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var distinct = _items.Select(x => x.HeaderTitle).Distinct().ToList();
+            string headerTitle = distinct[indexPath.Section];
+            var items = _items.Where(x => x.HeaderTitle == headerTitle).ToList();
+            var item = items[indexPath.Row];
+            tableView.DeselectRow(indexPath, true);
+
+            if (item.Id == "library_reset")
+            {
+                var alertView = new UIAlertView("Reset Library", "Are you sure you wish to reset your library?", null, "OK", new string[1]{"Cancel"});
+                alertView.Clicked += (sender2, e) => {
+                    if(e.ButtonIndex == 0)
+                        OnResetLibrary();
+                };
+                alertView.Show();
+            }
+            else if (item.Id == "library_update")
+            {
+                OnUpdateLibrary();
+            }
+        }
 
         #region ILibraryPreferencesView implementation
 

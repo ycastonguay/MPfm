@@ -174,8 +174,15 @@ namespace MPfm.iOS.Classes.Controllers.Base
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 52;
-        }
+            var distinct = Items.Select(x => x.HeaderTitle).Distinct().ToList();
+            string headerTitle = distinct[indexPath.Section];
+            var items = Items.Where(x => x.HeaderTitle == headerTitle).ToList();
+            var item = items[indexPath.Row];
 
+            if (item.CellType == PreferenceCellType.Slider)
+                return 104;
+            else
+                return 52;
+        }
 	}
 }

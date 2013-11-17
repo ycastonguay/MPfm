@@ -86,18 +86,12 @@ namespace MPfm.iOS
             });
             _items.Add(new PreferenceCellItem()
             {
-                Id = "peak_files_folder_size",
-                CellType = PreferenceCellType.Text,
-                HeaderTitle = "Peak Files",
-                Title = "Peak file folder size: 1425 MB"
-            });
-            _items.Add(new PreferenceCellItem()
-            {
                 Id = "delete_peak_files",
                 CellType = PreferenceCellType.Button,
                 HeaderTitle = "Peak Files",
                 Title = "Delete Peak Files",
-                IconName = "dropbox"
+                FooterTitle = "Peak file folder size: 1425 MB",
+                IconName = "delete"
             });
         }
 

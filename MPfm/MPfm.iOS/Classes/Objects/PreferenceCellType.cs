@@ -19,11 +19,10 @@ namespace MPfm.iOS.Classes.Objects
 {
     public enum PreferenceCellType
     {
-        Text = 0,
-        Button = 1,
-        Boolean = 2,
-        String = 3,
-        Integer = 4,
-        Slider = 5
+        Button = 0,
+        Boolean = 1,
+        String = 2,
+        Integer = 3,
+        Slider = 4
     }
 }
