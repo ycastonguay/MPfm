@@ -74,7 +74,11 @@ namespace MPfm.iOS
                 Id = "update_frequency_song_position",
                 CellType = PreferenceCellType.Slider,
                 HeaderTitle = "Update Frequency",
-                Title = "Song Position"
+                Title = "Song Position",
+                ScaleName = "ms",
+                Value = 10,
+                MinValue = 10,
+                MaxValue = 100
             });
             _items.Add(new PreferenceCellItem()
             {
@@ -82,7 +86,22 @@ namespace MPfm.iOS
                 CellType = PreferenceCellType.Slider,
                 HeaderTitle = "Update Frequency",
                 Title = "Output Meter",
+                ScaleName = "ms",
+                Value = 10,
+                MinValue = 10,
+                MaxValue = 100,
                 FooterTitle = "Warning: Lower values require more CPU and memory."
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "peak_files_maximum_size",
+                CellType = PreferenceCellType.Slider,
+                HeaderTitle = "Peak Files",
+                Title = "Maximum Peak Folder Size",
+                ScaleName = "MB",
+                Value = 100,
+                MinValue = 50,
+                MaxValue = 1000
             });
             _items.Add(new PreferenceCellItem()
             {

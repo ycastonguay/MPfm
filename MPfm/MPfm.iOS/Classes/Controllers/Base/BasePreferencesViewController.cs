@@ -89,12 +89,13 @@ namespace MPfm.iOS.Classes.Controllers.Base
                 return null;
 
             var label = new UILabel();
-            label.Frame = new RectangleF(12, 4, View.Frame.Width - 24, 48);
+            label.Frame = new RectangleF(12, 8, View.Frame.Width - 24, 48);
             label.BackgroundColor = UIColor.Clear;
             label.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
             label.Font = UIFont.FromName("HelveticaNeue-Light", 13);
             label.Text = sectionTitle;
             label.Lines = 3;
+            label.SizeToFit();
 
             var view = new UIView();
             //view.BackgroundColor = UIColor.Yellow;

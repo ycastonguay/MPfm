@@ -27,6 +27,7 @@ namespace MPfm.iOS.Classes.Objects
         public string HeaderTitle { get; set; }
         public string FooterTitle { get; set; }
         public string Description { get; set; }
+        public string ScaleName { get; set; }
         public string IconName { get; set; }
         public bool Enabled { get; set; }
 
