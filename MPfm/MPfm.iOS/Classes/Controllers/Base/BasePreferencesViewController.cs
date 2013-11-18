@@ -94,7 +94,7 @@ namespace MPfm.iOS.Classes.Controllers.Base
             label.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
             label.Font = UIFont.FromName("HelveticaNeue-Light", 13);
             label.Text = sectionTitle;
-            label.Lines = 3;
+            label.Lines = 5;
             label.SizeToFit();
 
             var view = new UIView();

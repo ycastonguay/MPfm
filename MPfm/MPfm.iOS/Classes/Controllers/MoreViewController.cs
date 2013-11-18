@@ -36,13 +36,14 @@ using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 using DropBoxSync.iOS;
 using MPfm.MVP.Navigation;
+using MPfm.MVP.Models;
 
 namespace MPfm.iOS
 {
     public partial class MoreViewController : BaseViewController, IMobileOptionsMenuView
     {
         string _cellIdentifier = "MoreCell";
-        List<KeyValuePair<MobileOptionsMenuType, string>> _items;
+        List<MobileOptionsMenuEntity> _items;
 
         public MoreViewController()
 			: base (UserInterfaceIdiomIsPhone ? "MoreViewController_iPhone" : "MoreViewController_iPad", null)
@@ -51,9 +52,11 @@ namespace MPfm.iOS
 		
         public override void ViewDidLoad()
         {
-            _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
+            _items = new List<MobileOptionsMenuEntity>();
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
+            tableView.BackgroundColor = UIColor.FromRGB(0.85f, 0.85f, 0.85f);
+            tableView.BackgroundView = null;
 
             base.ViewDidLoad();
 
@@ -75,24 +78,23 @@ namespace MPfm.iOS
             navCtrl.SetTitle("More Options");
         }
         
-        [Export ("tableView:numberOfRowsInSection:")]
-        public int RowsInSection(UITableView tableview, int section)
-        {
-            return _items.Count;
-        }
-        
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            var distinct = _items.Select(x => x.HeaderTitle).Distinct().ToList();
+            string headerTitle = distinct[indexPath.Section];
+            var items = _items.Where(x => x.HeaderTitle == headerTitle).ToList();
+            var item = items[indexPath.Row];
+
+            MPfmPreferenceTableViewCell cell = (MPfmPreferenceTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;
-                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
+                cell = new MPfmPreferenceTableViewCell(cellStyle, _cellIdentifier);
             }
 
             cell.ImageView.Alpha = 0.7f;
-            switch (_items[indexPath.Row].Key)
+            switch (item.MenuType)
             {
                 case MobileOptionsMenuType.About:
                     cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_info");
@@ -118,34 +120,123 @@ namespace MPfm.iOS
                 case MobileOptionsMenuType.ResumePlayback:
                     cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_resume");
                     break;
+                case MobileOptionsMenuType.AudioPreferences:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_audio");
+                    break;   
+                case MobileOptionsMenuType.CloudPreferences:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_cloud");
+                    break;   
+                case MobileOptionsMenuType.GeneralPreferences:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_settings");
+                    break;   
+                case MobileOptionsMenuType.LibraryPreferences:
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_library");
+                    break;   
             }
             
-            cell.TextLabel.Text = _items[indexPath.Row].Value;
+            cell.TextLabel.Text = item.Title;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             cell.Accessory = UITableViewCellAccessory.None;
+            cell.IsLargeIcon = true;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
             cell.ImageChevron.Hidden = false;
 
             return cell;
         }
 
+        [Export ("tableView:viewForHeaderInSection:")]
+        public UIView ViewForHeaderInSection(UITableView tableview, int section)
+        {
+            string sectionTitle = TitleForHeaderInSection(tableview, section);
+            if(string.IsNullOrEmpty(sectionTitle))
+                return null;
+
+            var label = new UILabel();
+            label.Frame = new RectangleF(12, 18, View.Frame.Width, 34);
+            label.BackgroundColor = UIColor.Clear;
+            label.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
+            label.Font = UIFont.FromName("HelveticaNeue", 14);
+            label.Text = sectionTitle;
+
+            var view = new UIView();
+            //view.BackgroundColor = UIColor.Yellow;
+            view.AddSubview(label);
+
+            return view;
+        }
+
+//        [Export ("tableView:viewForFooterInSection:")]
+//        public UIView ViewForFooterInSection(UITableView tableview, int section)
+//        {
+//            string sectionTitle = TitleForFooterInSection(tableview, section);
+//            if(string.IsNullOrEmpty(sectionTitle))
+//                return null;
+//
+//            var label = new UILabel();
+//            label.Frame = new RectangleF(12, 8, View.Frame.Width - 24, 48);
+//            label.BackgroundColor = UIColor.Clear;
+//            label.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
+//            label.Font = UIFont.FromName("HelveticaNeue-Light", 13);
+//            label.Text = sectionTitle;
+//            label.Lines = 5;
+//            label.SizeToFit();
+//
+//            var view = new UIView();
+//            //view.BackgroundColor = UIColor.Yellow;
+//            view.AddSubview(label);
+//
+//            return view;
+//        }
+
+        [Export ("tableView:titleForHeaderInSection:")]
+        public string TitleForHeaderInSection(UITableView tableview, int section)
+        {
+            var distinct = _items.Select(x => x.HeaderTitle).Where(x => !string.IsNullOrEmpty(x)).Distinct().ToList();
+            return distinct[section].ToUpper();
+        }
+
+//        [Export ("tableView:titleForFooterInSection:")]
+//        public string TitleForFooterInSection(UITableView tableview, int section)
+//        {
+//            var distinct = _items.Select(x => x.FooterTitle).Where(x => !string.IsNullOrEmpty(x)).Distinct().ToList();
+//
+//            if(distinct.Count > 0 && section <= distinct.Count - 1)
+//                return distinct[section];
+//
+//            return string.Empty;
+//        }
+
+        [Export ("numberOfSectionsInTableView:")]
+        public int SectionsInTableView(UITableView tableview)
+        {
+            var distinct = _items.Select(x => x.HeaderTitle).Distinct().ToList();
+            return distinct.Count;
+        }
+
+        [Export ("tableView:numberOfRowsInSection:")]
+        public int RowsInSection(UITableView tableview, int section)
+        {
+            var distinct = _items.Select(x => x.HeaderTitle).Distinct().ToList();
+            string headerTitle = distinct[section];
+            return _items.Count(x => x.HeaderTitle == headerTitle);
+        }
+
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-//            if (_items[indexPath.Row].Key == MobileOptionsMenuType.SyncLibraryCloud)
-//            {
-//                DBAccountManager.SharedManager.LinkFromController(this);
-//                ListFiles("");
-//                return;
-//            }
+            var distinct = _items.Select(x => x.HeaderTitle).Distinct().ToList();
+            string headerTitle = distinct[indexPath.Section];
+            var items = _items.Where(x => x.HeaderTitle == headerTitle).ToList();
+            var item = items[indexPath.Row];
+            tableView.DeselectRow(indexPath, true);
 
-            OnItemClick(_items[indexPath.Row].Key);
+            OnItemClick(item.MenuType);
         }
 
         [Export ("tableView:didHighlightRowAtIndexPath:")]
         public void DidHighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (MPfmPreferenceTableViewCell)tableView.CellAt(indexPath);
             if(cell != null)
                 cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
         }
@@ -153,13 +244,19 @@ namespace MPfm.iOS
         [Export ("tableView:didUnhighlightRowAtIndexPath:")]
         public void DidUnhighlightRowAtIndexPath(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+            var cell = (MPfmPreferenceTableViewCell)tableView.CellAt(indexPath);
             if(cell != null)
                 cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
         }
 
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            return 52;
+        }
+
+        [Export ("tableView:heightForHeaderInSection:")]
+        public float HeightForHeaderInSection(UITableView tableView, int section)
         {
             return 52;
         }
@@ -178,7 +275,7 @@ namespace MPfm.iOS
 
         public Action<MobileOptionsMenuType> OnItemClick { get; set; }
         
-        public void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options)
+        public void RefreshMenu(List<MobileOptionsMenuEntity> options)
         {
             InvokeOnMainThread(() => {
                 _items = options;

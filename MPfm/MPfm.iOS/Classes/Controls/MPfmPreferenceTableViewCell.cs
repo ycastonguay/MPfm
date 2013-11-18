@@ -39,7 +39,9 @@ namespace MPfm.iOS.Classes.Controls
         private PreferenceCellItem _item;
         private bool _isTextLabelAllowedToChangeFrame = true;
 
+        public bool IsLargeIcon { get; set; }
         public UIButton RightButton { get; private set; }
+        public UIImageView ImageChevron { get; private set; }
         public UILabel ValueTextLabel { get; private set; }
         public UILabel MinValueTextLabel { get; private set; }
         public UILabel MaxValueTextLabel { get; private set; }
@@ -113,6 +115,12 @@ namespace MPfm.iOS.Classes.Controls
             RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             AddSubview(RightButton);
 
+            ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
+            ImageChevron.BackgroundColor = UIColor.Clear;
+            ImageChevron.Hidden = true;
+            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
+            AddSubview(ImageChevron);   
+
             Slider = new UISlider();
             Slider.Hidden = true;
             Slider.ValueChanged += (sender, e) => {
@@ -122,6 +130,7 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(Slider);
 
             Switch = new UISwitch();
+            Switch.Hidden = true;
             //Switch.TintColor = GlobalTheme.SecondaryColor;
             //Switch.ThumbTintColor = GlobalTheme.SecondaryColor;
             Switch.ValueChanged += (sender, e) => {
@@ -155,8 +164,16 @@ namespace MPfm.iOS.Classes.Controls
             float x = 12;
             if (ImageView.Image != null)
             {
-                ImageView.Frame = new RectangleF(x, 14, 24, 24);
-                x += 32 + padding;
+                if (IsLargeIcon)
+                {
+                    ImageView.Frame = new RectangleF(x, 6, 40, 40);
+                    x += 44 + padding;
+                }
+                else
+                {
+                    ImageView.Frame = new RectangleF(x, 14, 24, 24);
+                    x += 32 + padding;
+                }
             }
 
             float titleY = 10 + 4;

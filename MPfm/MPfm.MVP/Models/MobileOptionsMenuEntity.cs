@@ -17,17 +17,35 @@
 
 using System;
 using System.Collections.Generic;
-using MPfm.MVP.Models;
+using MPfm.MVP.Views;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-	/// Options menu view interface for mobile devices.
-	/// </summary>
-    public interface IMobileOptionsMenuView : IBaseView
+	public class MobileOptionsMenuEntity
 	{
-        Action<MobileOptionsMenuType> OnItemClick { get; set; }
+        public string Title { get; set; }
+        public string HeaderTitle { get; set; }
+        public MobileOptionsMenuType MenuType { get; set; }
 
-        void RefreshMenu(List<MobileOptionsMenuEntity> options);
-	}   
+        public MobileOptionsMenuEntity()
+        {
+        }
+    }
+
+    public enum MobileOptionsMenuType
+    {
+        About = 0,
+        Preferences = 1,
+        EqualizerPresets = 2,
+        UpdateLibrary = 3,
+        SyncLibrary = 4,
+        SyncLibraryFileSharing = 5,
+        SyncLibraryWebBrowser = 6,
+        SyncLibraryCloud = 7,
+        ResumePlayback = 8,
+        AudioPreferences = 9,
+        CloudPreferences = 10,
+        GeneralPreferences = 11,
+        LibraryPreferences = 12
+    }
 }

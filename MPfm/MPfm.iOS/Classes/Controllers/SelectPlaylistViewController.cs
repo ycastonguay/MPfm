@@ -46,7 +46,9 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
+            viewPanel.Layer.CornerRadius = 8;
             _items = new List<PlaylistEntity>();
+            tableView.BackgroundColor = UIColor.Clear;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
@@ -101,6 +103,12 @@ namespace MPfm.iOS
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             cell.TextLabel.Text = _items[indexPath.Row].Name;
             cell.TextLabel.TextColor = UIColor.White;
+            cell.TextLabel.BackgroundColor = UIColor.Clear;
+            cell.BackgroundColor = UIColor.Clear;
+
+            UIView viewBackground = new UIView();
+            viewBackground.BackgroundColor = UIColor.Clear;
+            cell.BackgroundView = viewBackground;
 
             UIView viewBackgroundSelected = new UIView();
             viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;

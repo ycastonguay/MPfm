@@ -21,6 +21,9 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UITextField txtPlaylistName { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIView viewPanel { get; set; }
+
 		[Action ("actionCancel:")]
 		partial void actionCancel (MonoTouch.Foundation.NSObject sender);
 
@@ -29,11 +32,6 @@ namespace MPfm.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (txtPlaylistName != null) {
-				txtPlaylistName.Dispose ();
-				txtPlaylistName = null;
-			}
-
 			if (btnCancel != null) {
 				btnCancel.Dispose ();
 				btnCancel = null;
@@ -42,6 +40,16 @@ namespace MPfm.iOS
 			if (btnCreate != null) {
 				btnCreate.Dispose ();
 				btnCreate = null;
+			}
+
+			if (txtPlaylistName != null) {
+				txtPlaylistName.Dispose ();
+				txtPlaylistName = null;
+			}
+
+			if (viewPanel != null) {
+				viewPanel.Dispose ();
+				viewPanel = null;
 			}
 		}
 	}

@@ -69,28 +69,27 @@ namespace MPfm.iOS
             // We assume the items are in order for sections
             _items = new List<PreferenceCellItem>();
             _items.Add(new PreferenceCellItem()
-                       {
-                Id = "login_dropbox",
-                CellType = PreferenceCellType.Button,
-                HeaderTitle = "Dropbox",
-                Title = "Login to Dropbox",
-                IconName = "dropbox"
+            {
+                Id = "buffer_size",
+                CellType = PreferenceCellType.Slider,
+                HeaderTitle = "Audio Mixer",
+                Title = "Buffer Size",
+                ScaleName = "ms",
+                Value = 1000,
+                MinValue = 100,
+                MaxValue = 5000
             });
             _items.Add(new PreferenceCellItem()
-                       {
-                Id = "enable_dropbox_resume_playback",
-                CellType = PreferenceCellType.Boolean,
-                HeaderTitle = "Dropbox",
-                Title = "Enable Resume Playback",
-                Description = "Resume playback from other devices"
-            });
-            _items.Add(new PreferenceCellItem()
-                       {
-                Id = "enable_dropbox_resume_playback_wifi_only",
-                CellType = PreferenceCellType.Boolean,
-                HeaderTitle = "Dropbox",
-                Title = "Synchronize only on Wi-Fi",
-                FooterTitle = "Resume Playback will take a small amount of bandwidth when the player switches to a new song (≈1kb/call)."
+            {
+                Id = "update_period",
+                CellType = PreferenceCellType.Slider,
+                HeaderTitle = "Audio Mixer",
+                Title = "Update Period",
+                ScaleName = "ms",
+                Value = 100,
+                MinValue = 10,
+                MaxValue = 1000,
+                FooterTitle = "Warning: Lower values require more CPU and memory. Audio sample rate is locked at 44100Hz."
             });
         }
 

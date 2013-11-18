@@ -76,7 +76,8 @@ namespace MPfm.iOS
                 Id = "sync_server_enabled",
                 CellType = PreferenceCellType.Boolean,
                 HeaderTitle = "Sync Service",
-                Title = "Enable Sync Service"
+                Title = "Enable Sync Service",
+                Description = "Allows remote devices to access this library"
             });
             _items.Add(new PreferenceCellItem()
             {

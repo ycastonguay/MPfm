@@ -24,6 +24,9 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UITableView tableView { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIView viewPanel { get; set; }
+
 		[Action ("actionAddNewPlaylist:")]
 		partial void actionAddNewPlaylist (MonoTouch.Foundation.NSObject sender);
 
@@ -53,6 +56,11 @@ namespace MPfm.iOS
 			if (tableView != null) {
 				tableView.Dispose ();
 				tableView = null;
+			}
+
+			if (viewPanel != null) {
+				viewPanel.Dispose ();
+				viewPanel = null;
 			}
 		}
 	}

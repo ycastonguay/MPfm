@@ -41,6 +41,7 @@ namespace MPfm.iOS
                 return true;
             };
 
+            viewPanel.Layer.CornerRadius = 8;
             btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
             btnCreate.SetImage(UIImage.FromBundle("Images/Buttons/select"));
 

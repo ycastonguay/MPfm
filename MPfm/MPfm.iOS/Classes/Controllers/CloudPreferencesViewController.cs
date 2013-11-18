@@ -75,26 +75,42 @@ namespace MPfm.iOS
             {
                 Id = "login_dropbox",
                 CellType = PreferenceCellType.Button,
-                HeaderTitle = "Dropbox",
+                HeaderTitle = "Cloud Services",
                 Title = "Login to Dropbox",
                 IconName = "dropbox"
             });
             _items.Add(new PreferenceCellItem()
             {
-                Id = "enable_dropbox_resume_playback",
+                Id = "enable_resume_playback",
                 CellType = PreferenceCellType.Boolean,
-                HeaderTitle = "Dropbox",
+                HeaderTitle = "Sync",
                 Title = "Enable Resume Playback",
                 Description = "Resume playback from other devices",
                 Value = _config.IsDropboxResumePlaybackEnabled
             });
             _items.Add(new PreferenceCellItem()
             {
-                Id = "enable_dropbox_resume_playback_wifi_only",
+                Id = "enable_playlist_sync",
                 CellType = PreferenceCellType.Boolean,
-                HeaderTitle = "Dropbox",
+                HeaderTitle = "Sync",
+                Title = "Sync Playlists",
+                Value = _config.IsDropboxResumePlaybackEnabled
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "enable_equalizer_presets_sync",
+                CellType = PreferenceCellType.Boolean,
+                HeaderTitle = "Sync",
+                Title = "Sync Equalizer Presets",
+                Value = _config.IsDropboxResumePlaybackEnabled
+            });
+            _items.Add(new PreferenceCellItem()
+            {
+                Id = "enable_resume_playback_wifi_only",
+                CellType = PreferenceCellType.Boolean,
+                HeaderTitle = "Sync",
                 Title = "Synchronize only on Wi-Fi",
-                FooterTitle = "Resume Playback will take a small amount of bandwidth when the player switches to a new song (≈1kb/call).",
+                FooterTitle = "The cloud provider will be used to synchronize data between devices, excluding audio files. A small amount of bandwidth (≈1kb/call) is used every time you update a playlist, update a preset or skip to a different song.",
                 Value = _config.IsDropboxResumePlaybackWifiOnlyEnabled
             });
         }
@@ -107,9 +123,9 @@ namespace MPfm.iOS
 
             localItem.Value = item.Value;
 
-            if (item.Id == "enable_dropbox_resume_playback")
+            if (item.Id == "enable_resume_playback")
                 _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
-            else if (item.Id == "enable_dropbox_resume_playback_wifi_only")
+            else if (item.Id == "enable_resume_playback_wifi_only")
                 _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
 
             OnSetCloudPreferences(_config);
@@ -149,15 +165,13 @@ namespace MPfm.iOS
         {
             InvokeOnMainThread(() =>
             {
-                var itemLogin = _items.FirstOrDefault(x => x.Id == "login_dropbox");
-                var itemEnableResumePlayback = _items.FirstOrDefault(x => x.Id == "enable_dropbox_resume_playback");
-                var itemEnableResumePlaybackWifiOnly = _items.FirstOrDefault(x => x.Id == "enable_dropbox_resume_playback_wifi_only");
-                if(itemLogin == null)
-                    return;
-
-                itemLogin.Title = entity.IsDropboxLinkedToApp ? "Logout from Dropbox" : "Login to Dropbox";
-                itemEnableResumePlayback.Enabled = entity.IsDropboxLinkedToApp;
-                itemEnableResumePlaybackWifiOnly.Enabled = entity.IsDropboxLinkedToApp;
+                foreach(var item in _items)
+                {
+                    if(item.Id == "login_dropbox")
+                        item.Title = entity.IsDropboxLinkedToApp ? "Logout from Dropbox" : "Login to Dropbox";
+                    else
+                        item.Enabled = entity.IsDropboxLinkedToApp;
+                }
                 tableView.ReloadData();
             });
         }

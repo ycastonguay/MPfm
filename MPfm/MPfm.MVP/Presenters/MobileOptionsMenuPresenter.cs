@@ -21,6 +21,7 @@ using MPfm.Core;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.MVP.Models;
 
 namespace MPfm.MVP.Presenters
 {
@@ -30,7 +31,7 @@ namespace MPfm.MVP.Presenters
 	public class MobileOptionsMenuPresenter : BasePresenter<IMobileOptionsMenuView>, IMobileOptionsMenuPresenter
 	{
         readonly MobileNavigationManager _navigationManager;
-        List<KeyValuePair<MobileOptionsMenuType, string>> _items;
+        List<MobileOptionsMenuEntity> _items;
         
         public MobileOptionsMenuPresenter(MobileNavigationManager navigationManager)
 		{
@@ -48,22 +49,84 @@ namespace MPfm.MVP.Presenters
 	    private void Initialize()
 	    {
             Tracing.Log("MobileOptionsMenuPresenter - Initialize");
-            _items = new List<KeyValuePair<MobileOptionsMenuType, string>>();
-            //_items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.UpdateLibrary, "Update Library"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.ResumePlayback, "Resume Playback"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync (Nearby Devices)"));
+            _items = new List<MobileOptionsMenuEntity>();
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Resume Playback",
+                HeaderTitle = "Player",
+                MenuType = MobileOptionsMenuType.ResumePlayback
+            });
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Equalizer Presets",
+                HeaderTitle = "Player",
+                MenuType = MobileOptionsMenuType.EqualizerPresets
+            });
+
+             _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Nearby Devices",
+                HeaderTitle = "Sync",
+                MenuType = MobileOptionsMenuType.SyncLibrary
+            });
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Cloud",
+                HeaderTitle = "Sync",
+                MenuType = MobileOptionsMenuType.SyncLibraryCloud
+            });
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Web Browser",
+                HeaderTitle = "Sync",
+                MenuType = MobileOptionsMenuType.SyncLibraryWebBrowser
+            });
+
 
 #if IOS
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync (iTunes)"));
-#elif ANDROID
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync (File Share)"));
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Audio",
+                HeaderTitle = "Preferences",
+                MenuType = MobileOptionsMenuType.AudioPreferences
+            });
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Cloud",
+                HeaderTitle = "Preferences",
+                MenuType = MobileOptionsMenuType.CloudPreferences
+            });
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "General",
+                HeaderTitle = "Preferences",
+                MenuType = MobileOptionsMenuType.GeneralPreferences
+            });
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Library",
+                HeaderTitle = "Preferences",
+                MenuType = MobileOptionsMenuType.LibraryPreferences
+            });
+#elif
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "Preferences",
+                HeaderTitle = "Other",
+                MenuType = MobileOptionsMenuType.Preferences
+            });
 #endif
 
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryCloud, "Sync (Cloud)"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryWebBrowser, "Sync (Web Browser)"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.EqualizerPresets, "Equalizer Presets"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Preferences, "Preferences"));
-            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About Sessions"));
+            _items.Add(new MobileOptionsMenuEntity() { 
+                Title = "About Sessions",
+                HeaderTitle = "Other",
+                MenuType = MobileOptionsMenuType.About
+            });
+
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.ResumePlayback, "Resume Playback"));
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibrary, "Sync (Nearby Devices)"));
+//
+//#if IOS
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync (iTunes)"));
+//#elif ANDROID
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryFileSharing, "Sync (File Share)"));
+//#endif
+//
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryCloud, "Sync (Cloud)"));
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.SyncLibraryWebBrowser, "Sync (Web Browser)"));
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.EqualizerPresets, "Equalizer Presets"));
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.Preferences, "Preferences"));
+//            _items.Add(new KeyValuePair<MobileOptionsMenuType, string>(MobileOptionsMenuType.About, "About Sessions"));
             View.RefreshMenu(_items);
 	    }
 
@@ -110,6 +173,26 @@ namespace MPfm.MVP.Presenters
                 case MobileOptionsMenuType.Preferences:
                 {
                     _navigationManager.CreatePreferencesView();
+                    break;
+                }
+                case MobileOptionsMenuType.AudioPreferences:
+                {
+                    _navigationManager.CreateAudioPreferencesView();
+                    break;
+                }
+                case MobileOptionsMenuType.CloudPreferences:
+                {
+                    _navigationManager.CreateCloudPreferencesView();
+                    break;
+                }
+                case MobileOptionsMenuType.GeneralPreferences:
+                {
+                    _navigationManager.CreateGeneralPreferencesView();
+                    break;
+                }
+                case MobileOptionsMenuType.LibraryPreferences:
+                {
+                    _navigationManager.CreateLibraryPreferencesView();
                     break;
                 }
             }
