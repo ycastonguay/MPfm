@@ -365,5 +365,6 @@
     <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
     <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
     <Compile Include="Models\MobileOptionsMenuEntity.cs" />
+    <Compile Include="Models\ResumePlaybackEntity.cs" />
   </ItemGroup>
 </Project>

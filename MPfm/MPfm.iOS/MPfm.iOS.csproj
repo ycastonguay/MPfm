@@ -596,6 +596,10 @@
     <BundleResource Include="Images\Icons\update%402x.png" />
     <BundleResource Include="Images\Buttons\cloud.png" />
     <BundleResource Include="Images\Buttons\cloud%402x.png" />
+    <BundleResource Include="Images\Icons\wifi.png" />
+    <BundleResource Include="Images\Icons\wifi%402x.png" />
+    <BundleResource Include="Images\Icons\android.png" />
+    <BundleResource Include="Images\Icons\android%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

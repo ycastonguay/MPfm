@@ -16,19 +16,21 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Exceptions;
+using MPfm.Library.Services.Interfaces;
+using TinyMessenger;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.Services.Interfaces;
-using System.Threading.Tasks;
-using System.Threading;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.MVP.Messages;
-using TinyMessenger;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace MPfm.MVP.Presenters
 {
@@ -99,51 +101,75 @@ namespace MPfm.MVP.Presenters
             // Prevent login status change during loading
 	        _canRefreshCloudLoginStatus = false;
 
-	        try
-	        {
-	            var devices = _cloudLibrary.PullDeviceInfos();
-	            View.RefreshDevices(devices.OrderBy(x => x.DeviceName).ToList());
-                View.RefreshAppLinkedStatus(true);
-	        }
-	        catch (CloudAppNotLinkedException ex)
-	        {
-	            View.RefreshAppLinkedStatus(false);
-	        }
-            catch (Exception ex)
+            Task.Factory.StartNew(() =>
             {
-                View.ResumePlaybackError(ex);
-            }
 
-	        _canRefreshCloudLoginStatus = true;
+                try
+                {
+                    var devices = _cloudLibrary.PullDeviceInfos();
+                    var entities = new List<ResumePlaybackEntity>();
+                    foreach (var device in devices)
+                    {
+                        var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == device.AudioFileId);
+                        if (audioFile == null)
+                        {
+                            audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == device.ArtistName.ToUpper() &&
+                            x.AlbumTitle.ToUpper() == device.AlbumTitle.ToUpper() &&
+                            x.Title.ToUpper() == device.SongTitle.ToUpper());
+                        }
+                        var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
+                            ArtistName = device.ArtistName,
+                            AlbumTitle = device.AlbumTitle
+                        });
+
+                        bool canResume = audioFiles.Count() > 0;
+
+                        entities.Add(new ResumePlaybackEntity() {
+                            DeviceInfo = device,
+                            LocalAudioFilePath = audioFile == null ? string.Empty : audioFile.FilePath,
+                            CanResumePlayback = canResume
+                        });
+                    }
+
+                    View.RefreshDevices(entities.OrderByDescending(x => x.CanResumePlayback).ThenBy(x => x.DeviceInfo.DeviceName).ToList());
+                    View.RefreshAppLinkedStatus(true);
+                } catch (CloudAppNotLinkedException ex)
+                {
+                    View.RefreshAppLinkedStatus(false);
+                } catch (Exception ex)
+                {
+                    View.ResumePlaybackError(ex);
+                }
+
+                _canRefreshCloudLoginStatus = true;
+            });
         }
 
-        private void ResumePlayback(CloudDeviceInfo device)
+        private void ResumePlayback(ResumePlaybackEntity entity)
         {
-            var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == device.AudioFileId);
+            var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == entity.DeviceInfo.AudioFileId);
             if (audioFile == null)
             {
-                audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == device.ArtistName.ToUpper() &&
-                                                                                x.AlbumTitle.ToUpper() == device.AlbumTitle.ToUpper() &&
-                                                                                x.Title.ToUpper() == device.SongTitle.ToUpper());
+                audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == entity.DeviceInfo.ArtistName.ToUpper() &&
+                                                                             x.AlbumTitle.ToUpper() == entity.DeviceInfo.AlbumTitle.ToUpper() &&
+                                                                             x.Title.ToUpper() == entity.DeviceInfo.SongTitle.ToUpper());
             }
-            Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) 
-            {
-                Query = new LibraryQuery() {
-                    ArtistName = device.ArtistName,
-                    AlbumTitle = device.AlbumTitle
-                }, 
-                FilePath = audioFile != null ? audioFile.FilePath : string.Empty
+            var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
+                ArtistName = entity.DeviceInfo.ArtistName,
+                AlbumTitle = entity.DeviceInfo.AlbumTitle
             });
+
+            if (audioFiles.Count() == 0)
+            {
+                View.AudioFilesNotFoundError("No audio files found", "Unfortunately, you cannot resume this playlist because none of the audio files could be found on your device.");
+                return;
+            }
+
+            _playerService.Play(audioFiles, audioFile != null ? audioFile.FilePath : string.Empty, 0, false, false);
 
             // Only need to create the Player view on mobile devices
             #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.More);
-            #else
-            var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
-                ArtistName = device.ArtistName,
-                AlbumTitle = device.AlbumTitle
-            });
-            _playerService.Play(audioFiles, audioFile != null ? audioFile.FilePath : string.Empty);
             #endif
         }
 	}

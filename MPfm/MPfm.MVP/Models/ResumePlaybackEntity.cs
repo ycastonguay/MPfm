@@ -18,22 +18,13 @@
 using System;
 using System.Collections.Generic;
 using MPfm.Library.Objects;
-using MPfm.MVP.Models;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Models
 {
-	/// <summary>
-    /// Resume Playback view interface.
-	/// </summary>
-    public interface IResumePlaybackView : IBaseView
+	public class ResumePlaybackEntity
 	{
-        Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
-        Action OnOpenPreferencesView { get; set; }
-        Action OnCheckCloudLoginStatus { get; set; }
-
-        void ResumePlaybackError(Exception ex);
-        void AudioFilesNotFoundError(string title, string message);
-	    void RefreshAppLinkedStatus(bool isAppLinked);
-        void RefreshDevices(IEnumerable<ResumePlaybackEntity> devices);
-	}
+        public CloudDeviceInfo DeviceInfo { get; set; }
+        public bool CanResumePlayback { get; set; }
+        public string LocalAudioFilePath { get; set; }
+    }
 }

@@ -76,11 +76,13 @@ namespace MPfm.iOS.Classes.Controls
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             SelectedBackgroundView = backViewSelected;           
 
-            //TextLabel.BackgroundColor = UIColor.FromWhiteAlpha(0, 0);
-            TextLabel.BackgroundColor = UIColor.Clear;
+            TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+            TextLabel.BackgroundColor = UIColor.Yellow;
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+            TextLabel.TextAlignment = UITextAlignment.Left;
             TextLabel.TextColor = UIColor.Black;
             TextLabel.HighlightedTextColor = UIColor.White;
+            DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
             DetailTextLabel.BackgroundColor = UIColor.Clear;
             DetailTextLabel.TextColor = UIColor.Gray;
             DetailTextLabel.HighlightedTextColor = UIColor.White;
@@ -147,10 +149,15 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void LayoutSubviews()
         {
-            base.LayoutSubviews();
+            //base.LayoutSubviews();
 
             var screenSize = UIKitHelper.GetDeviceSize();
             float padding = 8;
+
+            if(BackgroundView != null)
+                BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+            if(SelectedBackgroundView != null)
+                SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             // Determine width available for text
             float textWidth = Bounds.Width;
@@ -162,7 +169,7 @@ namespace MPfm.iOS.Classes.Controls
                 textWidth -= 44 + padding;
 
             float x = 12;
-            if (ImageView.Image != null)
+            if (ImageView.Image != null && _isTextLabelAllowedToChangeFrame)
             {
                 if (IsLargeIcon)
                 {
@@ -182,7 +189,8 @@ namespace MPfm.iOS.Classes.Controls
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 titleY = 2 + 4;
 
-            TextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
+            if(_isTextLabelAllowedToChangeFrame)
+                TextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
             ValueTextLabel.Frame = new RectangleF(0, titleY, Bounds.Width - 12, 22);
 
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
@@ -231,6 +239,7 @@ namespace MPfm.iOS.Classes.Controls
                     MaxValueTextLabel.Text = string.Format("{0} {1}", item.MaxValue, item.ScaleName);
                     Slider.MinValue = item.MinValue;
                     Slider.MaxValue = item.MaxValue;
+                    Slider.Value = (int)item.Value;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -257,9 +266,6 @@ namespace MPfm.iOS.Classes.Controls
 
         private void AnimatePress(bool on)
         {
-            //if (!IsTextAnimationEnabled)
-            //    return;
-
             _isTextLabelAllowedToChangeFrame = !on;
 
             if (!on)

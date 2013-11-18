@@ -106,7 +106,7 @@ namespace MPfm.iOS
                     cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_settings");
                     break;
                 case MobileOptionsMenuType.SyncLibrary:
-                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_mobile");
+                    cell.ImageView.Image = UIImage.FromBundle("Images/Icons/wifi");
                     break;
                 case MobileOptionsMenuType.SyncLibraryWebBrowser:
                     cell.ImageView.Image = UIImage.FromBundle("Images/Icons/icon_web");
@@ -135,7 +135,6 @@ namespace MPfm.iOS
             }
             
             cell.TextLabel.Text = item.Title;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             cell.Accessory = UITableViewCellAccessory.None;
             cell.IsLargeIcon = true;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");

@@ -110,7 +110,7 @@ namespace MPfm.iOS
                 CellType = PreferenceCellType.Boolean,
                 HeaderTitle = "Sync",
                 Title = "Synchronize only on Wi-Fi",
-                FooterTitle = "The cloud provider will be used to synchronize data between devices, excluding audio files. A small amount of bandwidth (≈1kb/call) is used every time you update a playlist, update a preset or skip to a different song.",
+                FooterTitle = "The cloud service will be used to synchronize data between devices, excluding audio files. A small amount of bandwidth (≈1kb/call) is used every time you update a playlist, update a preset or skip to a different song.",
                 Value = _config.IsDropboxResumePlaybackWifiOnlyEnabled
             });
         }

@@ -29,13 +29,17 @@ using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Services;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.Sound.AudioFiles;
+using System.Threading.Tasks;
+using MPfm.iOS.Helpers;
+using MPfm.MVP.Models;
 
 namespace MPfm.iOS
 {
     public partial class ResumePlaybackViewController : BaseViewController, IResumePlaybackView
     {
         string _cellIdentifier = "ResumePlaybackCell";
-        List<CloudDeviceInfo> _devices = new List<CloudDeviceInfo>();
+        List<ResumePlaybackEntity> _devices = new List<ResumePlaybackEntity>();
 
         public ResumePlaybackViewController()
 			: base (UserInterfaceIdiomIsPhone ? "ResumePlaybackViewController_iPhone" : "ResumePlaybackViewController_iPad", null)
@@ -83,7 +87,7 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var device = _devices[indexPath.Row];
+            var entity = _devices[indexPath.Row];
             MPfmResumePlaybackTableViewCell cell = (MPfmResumePlaybackTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
@@ -91,12 +95,24 @@ namespace MPfm.iOS
                 cell = new MPfmResumePlaybackTableViewCell(cellStyle, _cellIdentifier);
             }
 
-            cell.TextLabel.Text = device.DeviceName;
+            if (cell.TextLabel.Text == entity.DeviceInfo.DeviceName)
+                return cell;
+
+            cell.ImageIcon.Image = UIImage.FromBundle("/Images/Icons/android");
+            cell.TextLabel.Text = entity.DeviceInfo.DeviceName;
             cell.DetailTextLabel.Text = "On-the-fly Playlist";
-            cell.LabelLastUpdated.Text = string.Format("Last updated on {0}", device.Timestamp);
-            cell.LabelArtistName.Text = device.ArtistName;
-            cell.LabelAlbumTitle.Text = device.AlbumTitle;
-            cell.LabelSongTitle.Text = device.SongTitle;
+            cell.LabelLastUpdated.Text = string.Format("Last updated on {0}", entity.DeviceInfo.Timestamp);
+            cell.LabelArtistName.Text = entity.DeviceInfo.ArtistName;
+            cell.LabelAlbumTitle.Text = entity.DeviceInfo.AlbumTitle;
+            cell.LabelSongTitle.Text = entity.DeviceInfo.SongTitle;
+
+            cell.UserInteractionEnabled = entity.CanResumePlayback;
+            //cell.BackgroundView.BackgroundColor = entity.CanResumePlayback ? UIColor.White : UIColor.FromRGB(0.85f, 0.85f, 0.85f);
+            cell.LabelCellDisabled.Alpha = entity.CanResumePlayback ? 0 : 1;
+            cell.ViewOverlay.Alpha = entity.CanResumePlayback ? 0 : 1;
+
+            cell.ImageAlbum.Image = null;
+            LoadAlbumArt(cell.ImageAlbum, entity.LocalAudioFilePath);
 
             return cell;
         }
@@ -104,6 +120,7 @@ namespace MPfm.iOS
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            tableView.DeselectRow(indexPath, true);
             OnResumePlayback(_devices[indexPath.Row]);
         }
 
@@ -138,9 +155,67 @@ namespace MPfm.iOS
             OnOpenPreferencesView();
         }
 
+        public async void LoadAlbumArt(UIImageView imageView, string audioFilePath)
+        {
+            int height = 108;
+
+            // Load album art + resize in another thread
+            var task = Task<UIImage>.Factory.StartNew(() => {
+                try
+                {
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFilePath);                        
+                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    {
+                        using (UIImage imageFullSize = UIImage.LoadFromData(imageData))
+                        {
+                            if (imageFullSize != null)
+                            {
+                                try
+                                {
+                                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
+                                    return imageResized;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error resizing image {0}: {1}", audioFilePath, ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Failed to process image: {0}", ex);
+                }
+
+                return null;
+            });
+            //}).ContinueWith(t => {
+            UIImage image = await task;
+            if(image == null)
+                return;
+
+            InvokeOnMainThread(() => {
+                try
+                {
+                    imageView.Alpha = 0;
+                    imageView.Image = image;              
+
+                    UIView.Animate(0.3, () => {
+                        imageView.Alpha = 1;
+                    });
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Failed to set image after processing: {0}", ex);
+                }
+            });
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
         #region IResumePlaybackView implementation
 
-        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
         public Action OnOpenPreferencesView { get; set; }
         public Action OnCheckCloudLoginStatus { get; set; }
 
@@ -149,22 +224,33 @@ namespace MPfm.iOS
             ShowErrorDialog(ex);
         }
 
-        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        public void AudioFilesNotFoundError(string title, string message)
         {
-            Console.WriteLine("ResumePlaybackViewController - RefreshDevices - devices.Count: {0}", devices.Count());
             InvokeOnMainThread(() => {
-                lblTitle.Alpha = 0;
-                tableView.Alpha = 0;
-                activityIndicator.StopAnimating();
+                var alertView = new UIAlertView(title, message, null, "OK", null);
+                alertView.Show();
+            });
+        }
 
-                UIView.Animate(0.2, () => {
-                    lblTitle.Alpha = 1;
-                    tableView.Alpha = 1;
-                    lblLoading.Alpha = 0;
-                    activityIndicator.Alpha = 0;
-                });
+        public void RefreshDevices(IEnumerable<ResumePlaybackEntity> entities)
+        {
+            Console.WriteLine("ResumePlaybackViewController - RefreshDevices - devices.Count: {0}", entities.Count());
+            InvokeOnMainThread(() => {
+                if(activityIndicator.IsAnimating)
+                {
+                    lblTitle.Alpha = 0;
+                    tableView.Alpha = 0;
+                    activityIndicator.StopAnimating();
 
-                _devices = devices.ToList();
+                    UIView.Animate(0.2, () => {
+                        lblTitle.Alpha = 1;
+                        tableView.Alpha = 1;
+                        lblLoading.Alpha = 0;
+                        activityIndicator.Alpha = 0;
+                    });
+                }
+
+                _devices = entities.ToList();
                 tableView.ReloadData();
             });
         }
