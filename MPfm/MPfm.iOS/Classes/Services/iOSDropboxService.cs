@@ -30,6 +30,7 @@ using MPfm.Core;
 using Newtonsoft.Json;
 using MPfm.Library.Objects;
 using MonoTouch.UIKit;
+using MPfm.Library.Services.Exceptions;
 
 namespace MPfm.iOS.Classes.Services
 {
@@ -247,6 +248,9 @@ namespace MPfm.iOS.Classes.Services
 
             try
             {
+                if(_fileSystem == null)
+                    throw new CloudAppNotLinkedException();
+
                 var fileInfos = _fileSystem.ListFolder(new DBPath("/Devices"), out error);
                 if(error != null)
                     throw new Exception(error.Description);

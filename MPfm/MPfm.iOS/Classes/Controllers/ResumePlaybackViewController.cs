@@ -47,7 +47,16 @@ namespace MPfm.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
-            this.View.BackgroundColor = GlobalTheme.BackgroundColor;
+            lblLoading.Alpha = 1;
+            activityIndicator.Alpha = 1;
+            lblTitle.Alpha = 0;
+            tableView.Alpha = 0;
+            viewAppNotLinked.Alpha = 0;
+
+            activityIndicator.StartAnimating();
+            View.BackgroundColor = GlobalTheme.BackgroundColor;
+            viewAppNotLinked.BackgroundColor = GlobalTheme.BackgroundColor;
+            btnOpenCloudPreferences.SetImage(UIImage.FromBundle("Images/Buttons/cloud"));
 
             base.ViewDidLoad();
 
@@ -61,6 +70,8 @@ namespace MPfm.iOS
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Resume Playback");
+
+            OnCheckCloudLoginStatus();
         }
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -122,6 +133,11 @@ namespace MPfm.iOS
             //Console.WriteLine("indexPath: {0}", indexPath);
         }
 
+        partial void actionOpenCloudPreferences(NSObject sender)
+        {
+            OnOpenPreferencesView();
+        }
+
         #region IResumePlaybackView implementation
 
         public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
@@ -130,15 +146,24 @@ namespace MPfm.iOS
 
         public void ResumePlaybackError(Exception ex)
         {
-            InvokeOnMainThread(() => {
-                UIAlertView alertView = new UIAlertView("ResumePlayback Error", ex.Message, null, "OK", null);
-                alertView.Show();
-            });
+            ShowErrorDialog(ex);
         }
 
         public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
         {
+            Console.WriteLine("ResumePlaybackViewController - RefreshDevices - devices.Count: {0}", devices.Count());
             InvokeOnMainThread(() => {
+                lblTitle.Alpha = 0;
+                tableView.Alpha = 0;
+                activityIndicator.StopAnimating();
+
+                UIView.Animate(0.2, () => {
+                    lblTitle.Alpha = 1;
+                    tableView.Alpha = 1;
+                    lblLoading.Alpha = 0;
+                    activityIndicator.Alpha = 0;
+                });
+
                 _devices = devices.ToList();
                 tableView.ReloadData();
             });
@@ -146,6 +171,18 @@ namespace MPfm.iOS
 
         public void RefreshAppLinkedStatus(bool isAppLinked)
         {
+            Console.WriteLine("ResumePlaybackViewController - RefreshAppLinkedStatus - isAppLinked: {0}", isAppLinked);
+            InvokeOnMainThread(() => {
+                activityIndicator.StopAnimating();
+
+                UIView.Animate(0.2, () => {
+                    lblLoading.Alpha = 0;
+                    activityIndicator.Alpha = 0;
+                    lblTitle.Alpha = isAppLinked ? 1 : 0;
+                    tableView.Alpha = isAppLinked ? 1 : 0;
+                    viewAppNotLinked.Alpha = isAppLinked ? 0 : 1;
+                });
+            });
         }
 
         #endregion

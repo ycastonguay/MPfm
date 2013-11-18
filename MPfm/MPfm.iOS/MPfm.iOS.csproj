@@ -594,6 +594,8 @@
     <BundleResource Include="Images\Icons\reset%402x.png" />
     <BundleResource Include="Images\Icons\update.png" />
     <BundleResource Include="Images\Icons\update%402x.png" />
+    <BundleResource Include="Images\Buttons\cloud.png" />
+    <BundleResource Include="Images\Buttons\cloud%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

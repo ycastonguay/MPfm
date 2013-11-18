@@ -166,11 +166,13 @@ namespace MPfm.iOS.Classes.Controls
             {
                 if (IsLargeIcon)
                 {
+                    x = 8;
                     ImageView.Frame = new RectangleF(x, 6, 40, 40);
                     x += 44 + padding;
                 }
                 else
                 {
+                    x = 12;
                     ImageView.Frame = new RectangleF(x, 14, 24, 24);
                     x += 32 + padding;
                 }
