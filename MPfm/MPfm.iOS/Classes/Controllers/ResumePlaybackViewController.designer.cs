@@ -19,12 +19,6 @@ namespace MPfm.iOS
 		MPfm.iOS.Classes.Controls.MPfmButton btnOpenCloudPreferences { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmButton btnResumePlayback { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblLoading { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
@@ -33,17 +27,25 @@ namespace MPfm.iOS
 		[Outlet]
 		MonoTouch.UIKit.UIView viewAppNotLinked { get; set; }
 
+		[Outlet]
+		MonoTouch.UIKit.UIView viewLoading { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewTable { get; set; }
+
 		[Action ("actionOpenCloudPreferences:")]
 		partial void actionOpenCloudPreferences (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionResumePlayback:")]
-		partial void actionResumePlayback (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnResumePlayback != null) {
-				btnResumePlayback.Dispose ();
-				btnResumePlayback = null;
+			if (btnOpenCloudPreferences != null) {
+				btnOpenCloudPreferences.Dispose ();
+				btnOpenCloudPreferences = null;
+			}
+
+			if (lblTitle != null) {
+				lblTitle.Dispose ();
+				lblTitle = null;
 			}
 
 			if (tableView != null) {
@@ -56,24 +58,19 @@ namespace MPfm.iOS
 				viewAppNotLinked = null;
 			}
 
-			if (btnOpenCloudPreferences != null) {
-				btnOpenCloudPreferences.Dispose ();
-				btnOpenCloudPreferences = null;
+			if (viewTable != null) {
+				viewTable.Dispose ();
+				viewTable = null;
+			}
+
+			if (viewLoading != null) {
+				viewLoading.Dispose ();
+				viewLoading = null;
 			}
 
 			if (activityIndicator != null) {
 				activityIndicator.Dispose ();
 				activityIndicator = null;
-			}
-
-			if (lblLoading != null) {
-				lblLoading.Dispose ();
-				lblLoading = null;
-			}
-
-			if (lblTitle != null) {
-				lblTitle.Dispose ();
-				lblTitle = null;
 			}
 		}
 	}

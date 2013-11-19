@@ -51,10 +51,11 @@ namespace MPfm.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
-            lblLoading.Alpha = 1;
-            activityIndicator.Alpha = 1;
-            lblTitle.Alpha = 0;
-            tableView.Alpha = 0;
+            viewLoading.BackgroundColor = GlobalTheme.BackgroundColor;
+            viewTable.BackgroundColor = GlobalTheme.BackgroundColor;
+            viewAppNotLinked.BackgroundColor = GlobalTheme.BackgroundColor;
+            viewLoading.Alpha = 1;
+            viewTable.Alpha = 0;
             viewAppNotLinked.Alpha = 0;
 
             activityIndicator.StartAnimating();
@@ -142,12 +143,6 @@ namespace MPfm.iOS
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             return 130;
-        }
-
-        partial void actionResumePlayback(NSObject sender)
-        {
-            //var indexPath = tableView.IndexPathForSelectedRow;
-            //Console.WriteLine("indexPath: {0}", indexPath);
         }
 
         partial void actionOpenCloudPreferences(NSObject sender)
@@ -238,15 +233,12 @@ namespace MPfm.iOS
             InvokeOnMainThread(() => {
                 if(activityIndicator.IsAnimating)
                 {
-                    lblTitle.Alpha = 0;
-                    tableView.Alpha = 0;
+                    viewTable.Alpha = 0;
                     activityIndicator.StopAnimating();
 
                     UIView.Animate(0.2, () => {
-                        lblTitle.Alpha = 1;
-                        tableView.Alpha = 1;
-                        lblLoading.Alpha = 0;
-                        activityIndicator.Alpha = 0;
+                        viewTable.Alpha = 1;
+                        viewLoading.Alpha = 0;
                     });
                 }
 
@@ -262,10 +254,8 @@ namespace MPfm.iOS
                 activityIndicator.StopAnimating();
 
                 UIView.Animate(0.2, () => {
-                    lblLoading.Alpha = 0;
-                    activityIndicator.Alpha = 0;
-                    lblTitle.Alpha = isAppLinked ? 1 : 0;
-                    tableView.Alpha = isAppLinked ? 1 : 0;
+                    viewLoading.Alpha = 0;
+                    viewTable.Alpha = isAppLinked ? 1 : 0;
                     viewAppNotLinked.Alpha = isAppLinked ? 0 : 1;
                 });
             });
