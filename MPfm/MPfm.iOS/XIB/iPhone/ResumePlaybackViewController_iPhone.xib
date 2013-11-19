@@ -8,7 +8,6 @@
             <connections>
                 <outlet property="activityIndicator" destination="Qf3-fh-X4v" id="TtF-bB-GhE"/>
                 <outlet property="btnOpenCloudPreferences" destination="UEz-bI-6fi" id="zhs-Nz-q1v"/>
-                <outlet property="lblLoading" destination="UGn-de-wTw" id="LXK-bD-Kdd"/>
                 <outlet property="lblTitle" destination="Fmt-h4-3LP" id="UHe-Le-0an"/>
                 <outlet property="tableView" destination="nYx-or-spr" id="cV6-1X-Ld5"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -76,7 +75,7 @@
                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </tableView>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a device to resume playback:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fmt-h4-3LP">
-                            <rect key="frame" x="14" y="7" width="292" height="26"/>
+                            <rect key="frame" x="14" y="7" width="279" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

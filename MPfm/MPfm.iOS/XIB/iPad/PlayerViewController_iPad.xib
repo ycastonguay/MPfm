@@ -94,7 +94,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10000" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="MPfmSlider">
+                        <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="10000" translatesAutoresizingMaskIntoConstraints="NO" id="9" customClass="MPfmSlider">
                             <rect key="frame" x="76" y="0.0" width="610" height="23"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </slider>
@@ -108,7 +108,9 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="9" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="78" id="AuT-HB-ARz"/>
                         <constraint firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="10" id="ag4-xH-LrV"/>
+                        <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="84" id="l2S-4d-YZ2"/>
                     </constraints>
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6" userLabel="WaveFormScrollView" customClass="MPfmWaveFormScrollView">

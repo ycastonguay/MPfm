@@ -239,6 +239,11 @@ namespace MPfm.iOS.Classes.Controls
             WaveFormScaleView.AudioFile = audioFile;
         }
 
+        public void RefreshWaveFormBitmap(float width)
+        {
+            WaveFormView.RefreshWaveFormBitmap(width);
+        }
+
         public void SetWaveFormLength(long lengthBytes)
         {
             WaveFormView.Length = lengthBytes;

@@ -89,10 +89,6 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Reduce the song position slider size for iPhone
             sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
-//            if (UserInterfaceIdiomIsPhone)
-//            {
-//                sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 10, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
-//            }
 
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;
@@ -228,7 +224,14 @@ namespace MPfm.iOS.Classes.Controllers
                 scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
             }
 
-            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, View.Frame.Width - 140, sliderPosition.Frame.Height);
+            // IMPORTANT: Keep this property here to override the new Frame position by AutoLayout
+            sliderPosition.TranslatesAutoresizingMaskIntoConstraints = true;
+
+            // We need to keep a negative Y because of scaling issues (i.e. 70% of normal size)
+            sliderPosition.Frame = new RectangleF(70, -8, View.Frame.Width - 140, 40); 
+
+            Tracing.Log("PlayerVC - ViewDidLayoutSubviews - width: {0}", View.Frame.Width);
+            scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
         }
 
         private void HandleScrollViewSwipeDown(UISwipeGestureRecognizer gestureRecognizer)

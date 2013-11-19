@@ -340,7 +340,16 @@ namespace MPfm.iOS.Classes.Controls
 
         public void RefreshWaveFormBitmap()
         {
-            GenerateWaveFormBitmap(_audioFile, Frame);
+            RefreshWaveFormBitmap(Frame.Width);
+        }
+
+        public void RefreshWaveFormBitmap(float width)
+        {
+            if (_audioFile == null)
+                return;
+
+            RefreshStatus("Generating new bitmap...");
+            GenerateWaveFormBitmap(_audioFile, new RectangleF(Frame.X, Frame.Y, width, Frame.Height));
         }
 
         private void GenerateWaveFormBitmap(AudioFile audioFile, RectangleF frame)
