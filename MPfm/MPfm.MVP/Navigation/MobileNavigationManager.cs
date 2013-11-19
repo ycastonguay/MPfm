@@ -210,47 +210,55 @@ namespace MPfm.MVP.Navigation
                 Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resuming from local device with audioFile {0} at position {1}", audioFileId, positionPercentage);
 
                 // Try to resume playback
-                if (audioFileLocal != null || audioFileCloud != null)
+                try
                 {
-                    AudioFile audioFile = null;
-                    //List<AudioFile> audioFiles = new List<AudioFile>();
-                    if (audioFileLocal == null)
+                    if (audioFileLocal != null || audioFileCloud != null)
                     {
-                        // We can only resume from the cloud!
-                        audioFile = audioFileCloud;
-                    }
-                    else if (audioFileCloud == null)
-                    {
-                        // We can only resume from the local device!
-                        audioFile = audioFileLocal;
+                        AudioFile audioFile = null;
+                        //List<AudioFile> audioFiles = new List<AudioFile>();
+                        if (audioFileLocal == null)
+                        {
+                            // We can only resume from the cloud!
+                            audioFile = audioFileCloud;
+                        }
+                        else if (audioFileCloud == null)
+                        {
+                            // We can only resume from the local device!
+                            audioFile = audioFileLocal;
+                        }
+                        else
+                        {
+                            // By default, resume from local device before showing dialog, so that when the user clicks cancel, the playlist is already loaded.
+                            audioFile = audioFileLocal;
+
+                            // We can resume from both devices; compare timestamps to determine if the dialog must be shown
+                            if (cloudDeviceInfo.Timestamp > localTimestamp)
+                            {
+                                // A cloud device has a timestamp that is earlier than the local device.
+                                // Keep a flag to show the Start Resume Playback view when the Player view will be created. Or else the view will be pushed too soon!
+                                _showStartResumePlaybackView = true;
+                                _resumeCloudDeviceInfo = cloudDeviceInfo;
+                            }
+                        }
+
+                        // Limit the value in case we try to skip beyond 100%
+                        if (positionPercentage > 1)
+                            positionPercentage = 0.99;
+
+                        Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resume playback is available; showing Player view...");
+                        var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
+                        playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
+                        CreatePlayerView(MobileNavigationTabType.Playlists);
                     }
                     else
                     {
-                        // By default, resume from local device before showing dialog, so that when the user clicks cancel, the playlist is already loaded.
-                        audioFile = audioFileLocal;
-
-                        // We can resume from both devices; compare timestamps to determine if the dialog must be shown
-                        if (cloudDeviceInfo.Timestamp > localTimestamp)
-                        {
-                            // A cloud device has a timestamp that is earlier than the local device.
-                            // Keep a flag to show the Start Resume Playback view when the Player view will be created. Or else the view will be pushed too soon!
-                            _showStartResumePlaybackView = true;
-                            _resumeCloudDeviceInfo = cloudDeviceInfo;
-                        }
+                        // No info to resume; skip this step and go to IMobileMainView                    
                     }
-
-                    // Limit the value in case we try to skip beyond 100%
-                    if (positionPercentage > 1)
-                        positionPercentage = 0.99;
-
-                    Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resume playback is available; showing Player view...");
-                    var audioFiles = audioFileCacheService.AudioFiles.Where(x => x.ArtistName == audioFile.ArtistName && x.AlbumTitle == audioFile.AlbumTitle).ToList();
-                    playerService.Play(audioFiles, audioFile.FilePath, positionPercentage*100, true, true);
-                    CreatePlayerView(MobileNavigationTabType.Playlists);
                 }
-                else
+                catch(Exception ex)
                 {
-                    // No info to resume; skip this step and go to IMobileMainView                    
+                    // If we cannot resume playback, this will simply go to IMobileMainView
+                    Tracing.Log("MobileNavigationManager - Failed to resume playback: {0}", ex);
                 }
             }
             else
