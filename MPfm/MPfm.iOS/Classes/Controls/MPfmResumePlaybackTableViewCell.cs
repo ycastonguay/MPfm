@@ -161,6 +161,8 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void LayoutSubviews()
         {
+            base.LayoutSubviews();
+
             BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
@@ -172,7 +174,7 @@ namespace MPfm.iOS.Classes.Controls
             LabelLastUpdated.Frame = new RectangleF(12, 106, Frame.Width - 24, 20);
             ImageIcon.Frame = new RectangleF(12, 12, 30, 30);
             ImageAlbum.Frame = new RectangleF(12, 50, 54, 54);
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 43, 22, 44);
+            ImageChevron.Frame = new RectangleF(Frame.Width - 22, 43, 22, 44);
             ViewOverlay.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
             LabelCellDisabled.Frame = new RectangleF(12, 0, Frame.Width - 24, Frame.Height);
         }

@@ -88,11 +88,11 @@ namespace MPfm.iOS.Classes.Controllers
             sliderPosition.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
 
             // Reduce the song position slider size for iPhone
-            if(UserInterfaceIdiomIsPhone)
-            {
-                sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
-                sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 10, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
-            }
+            sliderPosition.Transform = CGAffineTransform.MakeScale(0.7f, 0.7f);
+//            if (UserInterfaceIdiomIsPhone)
+//            {
+//                sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y - 10, UIScreen.MainScreen.Bounds.Width - 140, sliderPosition.Frame.Height);
+//            }
 
             // Setup scroll view and page control
             scrollView.WeakDelegate = this;
@@ -227,6 +227,8 @@ namespace MPfm.iOS.Classes.Controllers
 
                 scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
             }
+
+            sliderPosition.Frame = new RectangleF(70, sliderPosition.Frame.Y, View.Frame.Width - 140, sliderPosition.Frame.Height);
         }
 
         private void HandleScrollViewSwipeDown(UISwipeGestureRecognizer gestureRecognizer)

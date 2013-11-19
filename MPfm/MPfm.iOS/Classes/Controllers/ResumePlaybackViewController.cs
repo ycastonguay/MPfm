@@ -51,6 +51,7 @@ namespace MPfm.iOS
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
+            View.BackgroundColor = GlobalTheme.BackgroundColor;;
             viewLoading.BackgroundColor = GlobalTheme.BackgroundColor;
             viewTable.BackgroundColor = GlobalTheme.BackgroundColor;
             viewAppNotLinked.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -59,8 +60,6 @@ namespace MPfm.iOS
             viewAppNotLinked.Alpha = 0;
 
             activityIndicator.StartAnimating();
-            View.BackgroundColor = GlobalTheme.BackgroundColor;
-            viewAppNotLinked.BackgroundColor = GlobalTheme.BackgroundColor;
             btnOpenCloudPreferences.SetImage(UIImage.FromBundle("Images/Buttons/cloud"));
 
             base.ViewDidLoad();

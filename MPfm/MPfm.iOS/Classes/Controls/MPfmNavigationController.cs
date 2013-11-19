@@ -177,12 +177,11 @@ namespace MPfm.iOS.Classes.Controls
             base.ViewDidLayoutSubviews();
 
             var screenSize = UIKitHelper.GetDeviceSize();
-            //_lblTitle.Frame = new RectangleF(78, 4, screenSize.Width - 156, 20);
-            //_lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
             _btnEffects.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
             _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
-            //_imageViewIcon.Frame = new RectangleF(78, 14, 16, 16);
+            _btnPlaylist.Frame = new RectangleF((screenSize.Width - 80) / 2, 0, 80, 44);
+            SetTitleFrame();
         }
         
         protected virtual void OnViewDismissed(EventArgs e)
@@ -334,15 +333,8 @@ namespace MPfm.iOS.Classes.Controls
             }
             else
             {
-                UIGraphics.BeginImageContextWithOptions(View.Frame.Size, true, 0);
-                var context = UIGraphics.GetCurrentContext();
-                float width = CoreGraphicsHelper.MeasureStringWidth(context, title, _lblTitle.Font.Name, _lblTitle.Font.PointSize);
-                UIGraphics.EndImageContext();
-
-                float titleWidth = width > screenSize.Width - 156 - 24 ? screenSize.Width - 156 - 24 : width;
-                _lblTitle.Frame = new RectangleF((screenSize.Width - titleWidth + 24) / 2, 0, titleWidth, 44);
                 _imageViewIcon.Image = UIImage.FromBundle(string.Format("Images/Nav/{0}", iconName));
-                _imageViewIcon.Frame = new RectangleF(((screenSize.Width - titleWidth + 24) / 2) - 24, 14, 16, 16);
+                SetTitleFrame();
             }
 
             UIView.Animate(0.2f, delegate() {
@@ -354,6 +346,27 @@ namespace MPfm.iOS.Classes.Controls
         public void SetBackButtonVisible(bool visible)
         {
             _btnBack.Hidden = !visible;
+        }
+
+        private void SetTitleFrame()
+        {
+            var screenSize = UIKitHelper.GetDeviceSize();
+
+            if (_imageViewIcon.Image == null)
+            {
+                _lblTitle.Frame = new RectangleF(78, 0, screenSize.Width - 156, 44);
+            }
+            else
+            {
+                UIGraphics.BeginImageContextWithOptions(View.Frame.Size, true, 0);
+                var context = UIGraphics.GetCurrentContext();
+                float width = CoreGraphicsHelper.MeasureStringWidth(context, _lblTitle.Text, _lblTitle.Font.Name, _lblTitle.Font.PointSize);
+                UIGraphics.EndImageContext();
+
+                float titleWidth = width > screenSize.Width - 156 - 24 ? screenSize.Width - 156 - 24 : width;
+                _lblTitle.Frame = new RectangleF((screenSize.Width - titleWidth + 24) / 2, 0, titleWidth, 44);
+                _imageViewIcon.Frame = new RectangleF(((screenSize.Width - titleWidth + 24) / 2) - 24, 14, 16, 16);
+            }
         }
     }
 }
