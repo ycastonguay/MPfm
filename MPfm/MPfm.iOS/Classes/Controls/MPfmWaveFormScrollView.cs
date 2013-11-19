@@ -94,7 +94,7 @@ namespace MPfm.iOS.Classes.Controls
             UITapGestureRecognizer doubleTap = new UITapGestureRecognizer((recognizer) => {
                 _zoomScale = 1.0f;
                 _offsetRatio = 0;
-                UpdateZoomScale(0);
+                UpdateZoomScale(0, Bounds.Width);
                 WaveFormView.RefreshWaveFormBitmap();
                 WaveFormScaleView.SetNeedsDisplay();
                 
@@ -165,7 +165,7 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             this.DidZoom += delegate(object sender, EventArgs e) {
-                UpdateZoomScale(_offsetRatio);
+                UpdateZoomScale(_offsetRatio, Bounds.Width);
                 WaveFormScaleView.SetNeedsDisplay();
             };
 
@@ -188,11 +188,12 @@ namespace MPfm.iOS.Classes.Controls
         {
             base.LayoutSubviews();
 
+            Tracing.Log("WaveFormScrollView - LayoutSubviews - Bounds.Width: {0} - Frame.Width: {1}", Bounds.Width, Frame.Width);
             _lblZoom.Frame = new RectangleF(ContentOffset.X + ((Bounds.Width - 70) / 2), (Bounds.Height - 20) / 2, 54, 20);
             _viewCenterLine.Frame = new RectangleF(ContentOffset.X + (Bounds.Width / 2), 0, 1, Bounds.Height);
         }
 
-        private void UpdateZoomScale(float offsetRatio)
+        private void UpdateZoomScale(float offsetRatio, float width)
         {
             _zoomScale *= ZoomScale;
             _zoomScale = (_zoomScale < MinimumZoomScale) ? MinimumZoomScale : _zoomScale;
@@ -203,16 +204,16 @@ namespace MPfm.iOS.Classes.Controls
             
             if(ScrollViewMode == WaveFormScrollViewMode.Standard)
             {
-                WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, WaveFormView.Frame.Height);
-                WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, _scaleHeight);
+                WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, width * _zoomScale, WaveFormView.Frame.Height);
+                WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, width * _zoomScale, _scaleHeight);
                 ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
                 ContentOffset = new PointF(WaveFormView.Frame.Width * offsetRatio, 0);
             }
             else if(ScrollViewMode == WaveFormScrollViewMode.SelectPosition)
             {
-                WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, WaveFormView.Frame.Height);
-                WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, UIScreen.MainScreen.Bounds.Width * _zoomScale, _scaleHeight);
-                ContentSize = new SizeF(WaveFormView.Frame.Width + Bounds.Width, Bounds.Height);
+                WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, width * _zoomScale, WaveFormView.Frame.Height);
+                WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, width * _zoomScale, _scaleHeight);
+                ContentSize = new SizeF(WaveFormView.Frame.Width + width, Bounds.Height);
                 ContentOffset = new PointF(WaveFormView.Frame.Width * offsetRatio, 0);
             }
         }
@@ -241,7 +242,10 @@ namespace MPfm.iOS.Classes.Controls
 
         public void RefreshWaveFormBitmap(float width)
         {
+            Tracing.Log("WaveFormScrollView - RefreshWaveFormBitmap - width: {0}", width);
             WaveFormView.RefreshWaveFormBitmap(width);
+            WaveFormScaleView.SetNeedsDisplay();
+            UpdateZoomScale(_offsetRatio, width);
         }
 
         public void SetWaveFormLength(long lengthBytes)

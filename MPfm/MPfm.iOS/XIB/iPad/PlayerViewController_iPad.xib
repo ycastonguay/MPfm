@@ -48,24 +48,30 @@
                             <rect key="frame" x="0.0" y="709" width="768" height="24"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <subviews>
-                                <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="18">
+                                <pageControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="18">
                                     <rect key="frame" x="-1" y="-8" width="768" height="36"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 </pageControl>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="18" firstAttribute="leading" secondItem="17" secondAttribute="leading" constant="-1" id="rdh-4y-TrB"/>
+                                <constraint firstAttribute="trailing" secondItem="18" secondAttribute="trailing" constant="1" id="wAt-Tt-spT"/>
+                            </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="17" secondAttribute="bottom" id="7Aa-dz-IDg"/>
                         <constraint firstItem="13" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="ERq-Dx-1z4"/>
+                        <constraint firstItem="17" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="HGI-nD-LFb"/>
                         <constraint firstItem="12" firstAttribute="leading" secondItem="4" secondAttribute="leading" id="OMv-b3-ttb"/>
                         <constraint firstAttribute="bottom" secondItem="13" secondAttribute="bottom" constant="24" id="OXC-Mi-VeV"/>
                         <constraint firstAttribute="trailing" secondItem="12" secondAttribute="trailing" id="Q3q-dA-Lcw"/>
                         <constraint firstAttribute="bottom" secondItem="12" secondAttribute="bottom" id="Q9c-h5-daJ"/>
                         <constraint firstAttribute="trailing" secondItem="13" secondAttribute="trailing" id="QPO-r2-0x4"/>
                         <constraint firstItem="13" firstAttribute="top" secondItem="4" secondAttribute="top" id="iwt-Yh-Xak"/>
+                        <constraint firstAttribute="trailing" secondItem="17" secondAttribute="trailing" id="jE1-wr-1fb"/>
                         <constraint firstItem="12" firstAttribute="top" secondItem="4" secondAttribute="top" id="taX-SA-7Lx"/>
                     </constraints>
                 </view>
@@ -80,17 +86,17 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" fixedFrame="YES" text="Slide your finger down to adjust the scrubbing rate" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                            <rect key="frame" x="10" y="22" width="301" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" ambiguous="YES" misplaced="YES" text="Slide your finger down to adjust the scrubbing rate" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                            <rect key="frame" x="10" y="22" width="746" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" fixedFrame="YES" text="Quarter-speed scrubbing" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                            <rect key="frame" x="10" y="40" width="301" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" ambiguous="YES" misplaced="YES" text="Quarter-speed scrubbing" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7">
+                            <rect key="frame" x="10" y="40" width="746" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -108,7 +114,11 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="7" secondAttribute="trailing" constant="12" id="745-p5-ECL"/>
                         <constraint firstItem="9" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="78" id="AuT-HB-ARz"/>
+                        <constraint firstItem="7" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="10" id="KTI-FK-XPN"/>
+                        <constraint firstItem="8" firstAttribute="leading" secondItem="5" secondAttribute="leading" constant="10" id="Ses-cP-2n7"/>
+                        <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="12" id="Wwh-EG-IN2"/>
                         <constraint firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="10" id="ag4-xH-LrV"/>
                         <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="84" id="l2S-4d-YZ2"/>
                     </constraints>

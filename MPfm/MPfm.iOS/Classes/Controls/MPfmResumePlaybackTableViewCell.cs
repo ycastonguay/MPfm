@@ -38,6 +38,7 @@ namespace MPfm.iOS.Classes.Controls
         public UILabel LabelArtistName { get; private set; }
         public UILabel LabelAlbumTitle { get; private set; }
         public UILabel LabelSongTitle { get; private set; }
+        public UIView ViewSeparator { get; private set; }
         public UIView ViewOverlay { get; private set; }
         public UILabel LabelCellDisabled { get; private set; }
         public UIImageView ImageChevron { get; private set; }
@@ -147,6 +148,10 @@ namespace MPfm.iOS.Classes.Controls
             ViewOverlay.Alpha = 0;
             AddSubview(ViewOverlay);
 
+            ViewSeparator = new UIView();
+            ViewSeparator.BackgroundColor = UIColor.FromRGBA(0.75f, 0.75f, 0.75f, 0.5f);
+            AddSubview(ViewSeparator);
+
             LabelCellDisabled = new UILabel();
             LabelCellDisabled.BackgroundColor = UIColor.Clear;
             LabelCellDisabled.Font = UIFont.FromName("HelveticaNeue-Light", 14);
@@ -161,7 +166,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void LayoutSubviews()
         {
-            base.LayoutSubviews();
+            //base.LayoutSubviews();
 
             BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
@@ -176,6 +181,7 @@ namespace MPfm.iOS.Classes.Controls
             ImageAlbum.Frame = new RectangleF(12, 50, 54, 54);
             ImageChevron.Frame = new RectangleF(Frame.Width - 22, 43, 22, 44);
             ViewOverlay.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+            ViewSeparator.Frame = new RectangleF(0, Frame.Height - 1, Frame.Width, 1);
             LabelCellDisabled.Frame = new RectangleF(12, 0, Frame.Width - 24, Frame.Height);
         }
 

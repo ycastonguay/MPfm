@@ -201,27 +201,30 @@ namespace MPfm.iOS.Classes.Controllers
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
+            Tracing.Log("PlayerVC - ViewDidLayoutSubviews - View.Width: {0} - scrollView.Width: {1}", View.Frame.Width, scrollView.Frame.Width);
 
             if (!UserInterfaceIdiomIsPhone)
             {
-                // Resize scrollview subviews.
+                // Resize scrollview subviews
+                float width = View.Frame.Width;
+                float height = viewMain.Frame.Height - 24; // 24 = Page Control
                 for (int a = 0; a < scrollView.Subviews.Count(); a++)
                 {
                     var view = scrollView.Subviews[a];
 
                     if (a == 0)
-                        view.Frame = new RectangleF(0, 0, scrollView.Frame.Width, scrollView.Frame.Height);
+                        view.Frame = new RectangleF(0, 0, width, height);
                     else if (a == 1)
-                        view.Frame = new RectangleF(scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                        view.Frame = new RectangleF(width, 0, width, height / 2);
                     else if (a == 2)
-                        view.Frame = new RectangleF(scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                        view.Frame = new RectangleF(width, height / 2, width, height / 2);
                     else if (a == 3)
-                        view.Frame = new RectangleF(2 * scrollView.Frame.Width, 0, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                        view.Frame = new RectangleF(2 * width, 0, width, height / 2);
                     else if (a == 4)
-                        view.Frame = new RectangleF(2 * scrollView.Frame.Width, scrollView.Frame.Height / 2, scrollView.Frame.Width, scrollView.Frame.Height / 2);
+                        view.Frame = new RectangleF(2 * width, height / 2, width, height / 2);
                 }
 
-                scrollView.ContentSize = new SizeF(3 * scrollView.Frame.Width, scrollView.Frame.Height);
+                scrollView.ContentSize = new SizeF(3 * width, height);
             }
 
             // IMPORTANT: Keep this property here to override the new Frame position by AutoLayout
@@ -229,8 +232,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             // We need to keep a negative Y because of scaling issues (i.e. 70% of normal size)
             sliderPosition.Frame = new RectangleF(70, -8, View.Frame.Width - 140, 40); 
-
-            Tracing.Log("PlayerVC - ViewDidLayoutSubviews - width: {0}", View.Frame.Width);
+            
             scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
         }
 

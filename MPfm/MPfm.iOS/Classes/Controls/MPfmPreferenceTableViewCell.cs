@@ -45,6 +45,7 @@ namespace MPfm.iOS.Classes.Controls
         public UILabel ValueTextLabel { get; private set; }
         public UILabel MinValueTextLabel { get; private set; }
         public UILabel MaxValueTextLabel { get; private set; }
+        public UIView ViewSeparator { get; private set; }
         public UISlider Slider { get; private set; }
         public UISwitch Switch { get; private set; }
 
@@ -117,6 +118,10 @@ namespace MPfm.iOS.Classes.Controls
             RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             AddSubview(RightButton);
 
+            ViewSeparator = new UIView();
+            ViewSeparator.BackgroundColor = UIColor.FromRGBA(0.75f, 0.75f, 0.75f, 0.5f);
+            AddSubview(ViewSeparator);
+
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
             ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Hidden = true;
@@ -153,6 +158,8 @@ namespace MPfm.iOS.Classes.Controls
 
             var screenSize = UIKitHelper.GetDeviceSize();
             float padding = 8;
+
+            ViewSeparator.Frame = new RectangleF(0, Frame.Height - 1, Frame.Width, 1);
 
             if(BackgroundView != null)
                 BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
@@ -199,6 +206,7 @@ namespace MPfm.iOS.Classes.Controls
             if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
                 RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
 
+            ImageChevron.Frame = new RectangleF(screenSize.Width - 22, 4, 22, 44);
             Switch.Frame = new RectangleF(screenSize.Width - 62, 10, 60, 44);
             MinValueTextLabel.Frame = new RectangleF(12, 48, 60, 44);
             MaxValueTextLabel.Frame = new RectangleF(Bounds.Width - 60 - 12, 48, 60, 44);

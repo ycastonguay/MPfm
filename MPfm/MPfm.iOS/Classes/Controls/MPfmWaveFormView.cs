@@ -348,7 +348,7 @@ namespace MPfm.iOS.Classes.Controls
             if (_audioFile == null)
                 return;
 
-            RefreshStatus("Generating new bitmap...");
+            //RefreshStatus("Generating new bitmap...");
             GenerateWaveFormBitmap(_audioFile, new RectangleF(Frame.X, Frame.Y, width, Frame.Height));
         }
 
@@ -363,13 +363,13 @@ namespace MPfm.iOS.Classes.Controls
             }
         }
 
-        public void SetFrame(RectangleF frame)
-        {
-            Frame = frame;
-            InvokeOnMainThread(() => {
-                GenerateWaveFormBitmap(_audioFile, frame);
-            });
-        }
+//        public void SetFrame(RectangleF frame)
+//        {
+//            Frame = frame;
+//            InvokeOnMainThread(() => {
+//                GenerateWaveFormBitmap(_audioFile, frame);
+//            });
+//        }
 
         public override void Draw(RectangleF rect)
         {
