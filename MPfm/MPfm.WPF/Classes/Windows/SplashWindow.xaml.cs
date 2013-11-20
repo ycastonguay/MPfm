@@ -50,6 +50,10 @@ namespace MPfm.WPF.Classes.Windows
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(Close));
         }
 
+        public void DestroyView()
+        {
+        }
+
         #endregion
     }
 }

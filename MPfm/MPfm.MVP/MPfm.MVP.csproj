@@ -136,6 +136,9 @@
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
     <Compile Include="Messages\ApplicationCloseMessage.cs" />
     <Compile Include="Messages\ActivateLockScreenMessage.cs" />
+    <Compile Include="Messages\EqualizerPresetSelectedMessage.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserChangeQueryMessage.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserPopBackstackMessage.cs" />
     <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
@@ -143,7 +146,11 @@
     <Compile Include="Models\CloudConnectEntity.cs" />
     <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
+    <Compile Include="Models\MobileOptionsMenuEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
+    <Compile Include="Models\ResumePlaybackEntity.cs" />
+    <Compile Include="Models\SongBrowserFilterEntity.cs" />
+    <Compile Include="Navigation\INavigationManager.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\CloudConnectPresenter.cs" />
     <Compile Include="Presenters\AddMarkerPresenter.cs" />
@@ -156,12 +163,14 @@
     <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IFirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileMainPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IStartResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISyncCloudPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISyncConnectManualPresenter.cs" />
+    <Compile Include="Presenters\MobileMainPresenter.cs" />
     <Compile Include="Presenters\StartResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\ResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\SelectFoldersPresenter.cs" />
@@ -186,6 +195,7 @@
     <Compile Include="Views\IAddMarkerView.cs" />
     <Compile Include="Views\IAddPlaylistView.cs" />
     <Compile Include="Views\IFirstRunView.cs" />
+    <Compile Include="Views\IMobileMainView.cs" />
     <Compile Include="Views\IStartResumePlaybackView.cs" />
     <Compile Include="Views\IResumePlaybackView.cs" />
     <Compile Include="Views\ISelectFoldersView.cs" />

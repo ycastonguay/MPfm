@@ -21,6 +21,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
+using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
 
@@ -28,7 +29,7 @@ namespace MPfm.WPF.Classes.Windows
 {
     public partial class ResumePlaybackWindow : BaseWindow, IResumePlaybackView
     {
-        private List<CloudDeviceInfo> _devices;
+        private List<ResumePlaybackEntity> _devices;
 
         public ResumePlaybackWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -48,7 +49,7 @@ namespace MPfm.WPF.Classes.Windows
             if (listView.SelectedItems.Count == 0)
                 return;
 
-            OnResumePlayback((CloudDeviceInfo) listView.SelectedItems[0]);
+            OnResumePlayback((ResumePlaybackEntity) listView.SelectedItems[0]);
         }
 
         private void btnOpenPreferencesWindow_OnClick(object sender, RoutedEventArgs e)
@@ -58,7 +59,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IResumePlaybackView implementation
 
-        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
         public Action OnOpenPreferencesView { get; set; }
         public Action OnCheckCloudLoginStatus { get; set; }
 
@@ -68,6 +69,10 @@ namespace MPfm.WPF.Classes.Windows
             {
                 MessageBox.Show(this, string.Format("An error occured in ResumePlayback: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }));
+        }
+
+        public void AudioFilesNotFoundError(string title, string message)
+        {
         }
 
         public void RefreshAppLinkedStatus(bool isAppLinked)
@@ -80,7 +85,7 @@ namespace MPfm.WPF.Classes.Windows
             }));            
         }
 
-        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        public void RefreshDevices(IEnumerable<ResumePlaybackEntity> devices)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {

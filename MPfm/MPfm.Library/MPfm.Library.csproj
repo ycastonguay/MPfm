@@ -185,6 +185,7 @@
     <Compile Include="Services\DropboxCoreService.cs" />
     <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />
+    <Compile Include="Services\Interfaces\ICloudService.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />

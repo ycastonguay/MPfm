@@ -24,10 +24,14 @@ using MPfm.Library.Objects;
 
 namespace MPfm.Library.Services.Interfaces
 {
+    public delegate void CloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType);
+    public delegate void CloudAuthenticationFailed();
+    public delegate void CloudDataChanged(string data);
+
     /// <summary>
     /// Interface for the cloud service implementations.
     /// </summary>
-    public interface ICloudLibraryService
+    public interface ICloudService
     {
         event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         event CloudAuthenticationFailed OnCloudAuthenticationFailed;
@@ -40,21 +44,14 @@ namespace MPfm.Library.Services.Interfaces
         void UnlinkApp();
 
         void InitializeAppFolder();
+    }
 
-        void PushHello();
-
-        void PushStuff();
-        string PullStuff();
-        void DeleteStuff();
-
-        string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position);
-        IEnumerable<CloudDeviceInfo> PullDeviceInfos();
-        void DeleteNowPlaying();
-
-        string PushPlaylist(Playlist playlist);
-        Playlist PullPlaylist(Guid playlistId);
-        IEnumerable<Playlist> PullPlaylists();
-        void DeletePlaylist(Guid playlistId);
-        void DeletePlaylists();
+    public enum CloudAuthenticationStatusType
+    {
+        GetRequestToken = 0,
+        OpenWebBrowser = 1,
+        RequestAccessToken = 2,
+        ConnectToDropbox = 3,
+        ConnectedToDropbox = 4
     }
 }

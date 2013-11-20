@@ -22,6 +22,7 @@ using System.Windows;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.MVP.Views;
+using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Windows.Base;
 
 namespace MPfm.WPF.Classes.Windows
@@ -42,7 +43,7 @@ namespace MPfm.WPF.Classes.Windows
             if (listView.SelectedItems.Count == 0)
                 return;
 
-            OnResumePlayback((CloudDeviceInfo) listView.SelectedItems[0]);
+            OnResumePlayback();
         }
 
         private void btnOpenPreferencesWindow_OnClick(object sender, RoutedEventArgs e)
@@ -51,7 +52,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IStartResumePlaybackView implementation
 
-        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action OnResumePlayback { get; set; }
 
         public void StartResumePlaybackError(Exception ex)
         {
@@ -59,6 +60,10 @@ namespace MPfm.WPF.Classes.Windows
             {
                 MessageBox.Show(this, string.Format("An error occured in ResumePlayback: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }));
+        }
+
+        public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
+        {
         }
 
         public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)

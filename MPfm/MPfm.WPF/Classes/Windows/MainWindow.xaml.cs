@@ -321,6 +321,10 @@ namespace MPfm.WPF.Classes.Windows
             }));
         }
 
+        public void PushSubView(IBaseView view)
+        {
+        }
+
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
