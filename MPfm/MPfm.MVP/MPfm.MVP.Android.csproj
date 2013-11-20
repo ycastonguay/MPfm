@@ -153,7 +153,9 @@
     <Compile Include="Models\CloudConnectEntity.cs" />
     <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
+    <Compile Include="Models\MobileOptionsMenuEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
+    <Compile Include="Models\ResumePlaybackEntity.cs" />
     <Compile Include="Navigation\INavigationManager.cs" />
     <Compile Include="Navigation\MobileNavigationManager.cs" />
     <Compile Include="Presenters\AudioPreferencesPresenter.cs" />

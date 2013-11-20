@@ -29,6 +29,7 @@ using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
@@ -41,7 +42,7 @@ namespace MPfm.Android
         private MobileNavigationManager _navigationManager;
         private ListView _listView;
         private ResumePlaybackListAdapter _listAdapter;
-        private List<CloudDeviceInfo> _devices;
+        private List<ResumePlaybackEntity> _devices;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -54,7 +55,7 @@ namespace MPfm.Android
             ActionBar.SetHomeButtonEnabled(true);
 
             _listView = FindViewById<ListView>(Resource.Id.resumePlayback_listView);
-            _listAdapter = new ResumePlaybackListAdapter(this, new List<CloudDeviceInfo>());
+            _listAdapter = new ResumePlaybackListAdapter(this, new List<ResumePlaybackEntity>());
             _listView.SetAdapter(_listAdapter);
             _listView.ItemClick += ListViewOnItemClick;
 
@@ -123,7 +124,7 @@ namespace MPfm.Android
 
         #region IResumePlaybackView implementation
 
-        public Action<CloudDeviceInfo> OnResumePlayback { get; set; }
+        public Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
         public Action OnOpenPreferencesView { get; set; }
         public Action OnCheckCloudLoginStatus { get; set; }
 
@@ -132,11 +133,15 @@ namespace MPfm.Android
             ShowErrorDialog(ex);
         }
 
+        public void AudioFilesNotFoundError(string title, string message)
+        {
+        }
+
         public void RefreshAppLinkedStatus(bool isAppLinked)
         {
         }
 
-        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
+        public void RefreshDevices(IEnumerable<ResumePlaybackEntity> devices)
         {
             RunOnUiThread(() =>
             {

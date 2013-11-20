@@ -60,7 +60,7 @@ namespace MPfm.Android
         private ViewFlipper _viewFlipper;
         private LinearLayout _miniPlayer;
         private LinearLayout _miniPlaylist;
-        private List<KeyValuePair<MobileOptionsMenuType, string>> _options;
+        private List<MobileOptionsMenuEntity> _options;
         private TextView _lblArtistName;
         private TextView _lblAlbumTitle;
         private TextView _lblSongTitle;
@@ -255,8 +255,8 @@ namespace MPfm.Android
                 //spannableString.SetSpan(new ForegroundColorSpan(Color.White), 0, spannableString.Length(), 0);
                 //var menuItem = menu.Add(spannableString);
 
-                var menuItem = menu.Add(option.Value);
-                switch (option.Key)
+                var menuItem = menu.Add(option.Title);
+                switch (option.MenuType)
                 {
                     case MobileOptionsMenuType.About:
                         //menuItem.SetShowAsAction(ShowAsAction.Never);
@@ -294,8 +294,8 @@ namespace MPfm.Android
 
         public override bool OnOptionsItemSelected(IMenuItem menuItem)
         {
-            var option = _options.FirstOrDefault(x => x.Value == menuItem.TitleFormatted.ToString());
-            OnItemClick(option.Key);
+            var option = _options.FirstOrDefault(x => x.Title == menuItem.TitleFormatted.ToString());
+            OnItemClick(option.MenuType);
             return base.OnOptionsItemSelected(menuItem);
         }
 
@@ -430,7 +430,7 @@ namespace MPfm.Android
         #region IMobileOptionsMenuView implementation
 
         public Action<MobileOptionsMenuType> OnItemClick { get; set; }
-        public void RefreshMenu(List<KeyValuePair<MobileOptionsMenuType, string>> options)
+        public void RefreshMenu(List<MobileOptionsMenuEntity> options)
         {
             Console.WriteLine("MainActivity - RefreshMenu");
             _options = options;

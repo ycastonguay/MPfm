@@ -99,7 +99,7 @@ namespace MPfm.MVP.Presenters
                 HeaderTitle = "Preferences",
                 MenuType = MobileOptionsMenuType.LibraryPreferences
             });
-#elif
+#else
             _items.Add(new MobileOptionsMenuEntity() { 
                 Title = "Preferences",
                 HeaderTitle = "Other",

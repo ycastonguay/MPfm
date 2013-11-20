@@ -42,6 +42,7 @@ namespace MPfm.Android.Classes.Services
         private DbxFileSystem _fileSystem;
 
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
+        public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
         public event CloudDataChanged OnCloudDataChanged;
 
         public bool HasLinkedAccount

@@ -23,22 +23,23 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Core;
 using MPfm.Library.Objects;
+using MPfm.MVP.Models;
 using MPfm.Player.Objects;
 
 namespace MPfm.Android.Classes.Adapters
 {
-    public class ResumePlaybackListAdapter : BaseAdapter<CloudDeviceInfo>
+    public class ResumePlaybackListAdapter : BaseAdapter<ResumePlaybackEntity>
     {
         readonly Activity _context;
-        List<CloudDeviceInfo> _items;
+        List<ResumePlaybackEntity> _items;
 
-        public ResumePlaybackListAdapter(Activity context, List<CloudDeviceInfo> items)
+        public ResumePlaybackListAdapter(Activity context, List<ResumePlaybackEntity> items)
         {
             _context = context;
             _items = items;
         }
 
-        public void SetData(IEnumerable<CloudDeviceInfo> items)
+        public void SetData(IEnumerable<ResumePlaybackEntity> items)
         {
             _items = items.ToList();
             NotifyDataSetChanged();
@@ -49,7 +50,7 @@ namespace MPfm.Android.Classes.Adapters
             return position;
         }
 
-        public override CloudDeviceInfo this[int position]
+        public override ResumePlaybackEntity this[int position]
         {
             get { return _items[position]; }
         }
@@ -74,12 +75,12 @@ namespace MPfm.Android.Classes.Adapters
             var lblTimestamp = view.FindViewById<TextView>(Resource.Id.resumePlaybackCell_lblTimestamp);
             var imageAlbum = view.FindViewById<ImageView>(Resource.Id.resumePlaybackCell_imageAlbum);
 
-            lblTitle.Text = item.DeviceName;
+            lblTitle.Text = item.DeviceInfo.DeviceName;
             lblSubtitle.Text = "On-the-fly playlist";
-            lblArtistName.Text = item.ArtistName;
-            lblAlbumTitle.Text = item.AlbumTitle;
-            lblSongTitle.Text = item.SongTitle;
-            lblTimestamp.Text = string.Format("Last updated on {0}", item.Timestamp);
+            lblArtistName.Text = item.DeviceInfo.ArtistName;
+            lblAlbumTitle.Text = item.DeviceInfo.AlbumTitle;
+            lblSongTitle.Text = item.DeviceInfo.SongTitle;
+            lblTimestamp.Text = string.Format("Last updated on {0}", item.DeviceInfo.Timestamp);
 
             return view;
         }
