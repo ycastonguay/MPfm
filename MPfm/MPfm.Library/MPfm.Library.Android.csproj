@@ -163,6 +163,7 @@
     <Compile Include="Objects\CloudDeviceInfo.cs" />
     <Compile Include="Objects\CloudPlaylist.cs" />
     <Compile Include="Objects\PlaylistAudioFile.cs" />
+    <Compile Include="Services\CloudLibraryService.cs" />
     <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Objects\NetworkState.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />

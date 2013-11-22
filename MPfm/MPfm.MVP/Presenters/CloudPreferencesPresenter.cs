@@ -41,12 +41,12 @@ namespace MPfm.MVP.Presenters
         private readonly MobileNavigationManager _mobileNavigationManager;
         private readonly NavigationManager _navigationManager;
 	    private readonly ITinyMessengerHub _messengerHub;
-	    private readonly ICloudLibraryService _cloudLibraryService;
+	    private readonly ICloudService _cloudService;
 
-	    public CloudPreferencesPresenter(ITinyMessengerHub messengerHub, ICloudLibraryService cloudLibraryService)
+	    public CloudPreferencesPresenter(ITinyMessengerHub messengerHub, ICloudService cloudService)
         {
 	        _messengerHub = messengerHub;
-	        _cloudLibraryService = cloudLibraryService;
+            _cloudService = cloudService;
 
 	        _messengerHub.Subscribe<CloudConnectStatusChangedMessage>(CloudConnectStatusChanged);
 
@@ -85,11 +85,11 @@ namespace MPfm.MVP.Presenters
     
         private void LoginLogoutDropbox()
         {
-            if (_cloudLibraryService.HasLinkedAccount)
+            if (_cloudService.HasLinkedAccount)
             {
                 Task.Factory.StartNew(() =>
                 {
-                    _cloudLibraryService.UnlinkApp();
+                    _cloudService.UnlinkApp();
                     RefreshState();
                 });
             }
@@ -110,7 +110,7 @@ namespace MPfm.MVP.Presenters
 	    {
 	        var state = new CloudPreferencesStateEntity()
 	        {
-	            IsDropboxLinkedToApp = _cloudLibraryService.HasLinkedAccount
+                IsDropboxLinkedToApp = _cloudService.HasLinkedAccount
 	        };
 	        View.RefreshCloudPreferencesState(state);
 	    }

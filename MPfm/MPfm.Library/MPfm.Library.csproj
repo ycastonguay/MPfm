@@ -182,6 +182,7 @@
     <Compile Include="Database\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CloudLibraryService.cs" />
     <Compile Include="Services\DropboxCoreService.cs" />
     <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />

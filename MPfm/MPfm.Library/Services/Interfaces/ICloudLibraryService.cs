@@ -24,37 +24,23 @@ using MPfm.Library.Objects;
 
 namespace MPfm.Library.Services.Interfaces
 {
+    public delegate void DeviceInfoUpdated(IEnumerable<CloudDeviceInfo> deviceInfos);
+
     /// <summary>
     /// Interface for the cloud service implementations.
     /// </summary>
     public interface ICloudLibraryService
     {
-        event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
-        event CloudAuthenticationFailed OnCloudAuthenticationFailed;
-        event CloudDataChanged OnCloudDataChanged;
+        // Do we expose the device infos directly instead of using Pull? A property or GetDeviceInfos would get a cached list.
+        // Exposing the list directly would lead the consumer to add/remove stuff. We want GetDeviceInfos instad.
 
         bool HasLinkedAccount { get; }
 
-        void LinkApp(object view);
-        void ContinueLinkApp();
-        void UnlinkApp();
+        event DeviceInfoUpdated OnDeviceInfoUpdated;
 
         void InitializeAppFolder();
-
-        void PushHello();
-
-        void PushStuff();
-        string PullStuff();
-        void DeleteStuff();
-
-        string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position);
-        IEnumerable<CloudDeviceInfo> PullDeviceInfos();
-        void DeleteNowPlaying();
-
-        string PushPlaylist(Playlist playlist);
-        Playlist PullPlaylist(Guid playlistId);
-        IEnumerable<Playlist> PullPlaylists();
-        void DeletePlaylist(Guid playlistId);
-        void DeletePlaylists();
+        void PushDeviceInfo(AudioFile audioFile, long positionBytes, string position);
+        //void PullDeviceInfos(); //Do we need pull? 
+        IEnumerable<CloudDeviceInfo> GetDeviceInfos();
     }
 }

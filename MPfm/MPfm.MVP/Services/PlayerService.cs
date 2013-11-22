@@ -275,7 +275,7 @@ namespace MPfm.MVP.Services
             _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
 
             Task.Factory.StartNew(() => {
-                _cloudLibraryService.PushPlaylist(_player.Playlist);
+                //_cloudLibraryService.PushPlaylist(_player.Playlist);
             });
         }
 

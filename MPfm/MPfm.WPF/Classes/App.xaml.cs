@@ -71,7 +71,7 @@ namespace MPfm.WPF.Classes
         {
             // Finish IoC registration
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, WindowsSyncDeviceSpecifications>().AsSingleton();
-            Bootstrapper.GetContainer().Register<ICloudLibraryService, DropboxCoreService>().AsSingleton();
+            Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();            
             Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
             Bootstrapper.GetContainer().Register<NavigationManager, WindowsNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();

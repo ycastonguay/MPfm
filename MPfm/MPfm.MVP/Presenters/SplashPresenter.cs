@@ -38,71 +38,23 @@ namespace MPfm.MVP.Presenters
             _playerService = playerService;
 		}
 
-#if IOS || WINDOWS_PHONE
-        // iOS: Use async because ContinueWith has a strange behavior in Xamarin.iOS 7+. TODO: Check for a solution with Xamarin
-        public async void Initialize(Action onInitDone)
-        {
-            if (_playerService.IsInitialized)
-            {
-                if(onInitDone != null)
-                    onInitDone.Invoke();
-                return;
-            }
-
-            var task = Task<string>.Factory.StartNew(() =>
-                                                     {
-                Console.WriteLine("SplashPresenter - Initialize - Initializing service on another thread...");
-                View.RefreshStatus("Loading...");
-                _initializationService.Initialize();
-                Console.WriteLine("SplashPresenter - Initialize - Initializing service on another thread... DONE!");
-                return string.Empty;
-            });
-            Console.WriteLine("SplashPresenter - Initialize - Before task");
-            string test = await task;
-            Console.WriteLine("SplashPresenter - Initialize - After task");
-
-            // Initialize player
-            Console.WriteLine("SplashPresenter - Initialize - Initializing player on main thread...");
-            Device device = new Device(){
-                DriverType = DriverType.DirectSound,
-                Id = -1
-            };
-            _playerService.Initialize(device, 44100, 1000, 100);
-            View.InitDone(true);
-            if(onInitDone != null)
-                onInitDone.Invoke();
-            Console.WriteLine("SplashPresenter - Initialize - Initializing player on main thread... DONE!");
-            View.RefreshStatus("Opening app...");
-
-            //            Task.Factory.StartNew(() =>
-            //            {
-            //                Console.WriteLine("SplashPresenter - Initialize - Initializing service on another thread...");
-            //                View.RefreshStatus("Loading...");
-            //                _initializationService.Initialize();
-            //            }).ContinueWith((a) =>
-            //            {
-            //                // Initialize player
-            //                Console.WriteLine("SplashPresenter - Initialize - Initializing player on main thread...");
-            //                Device device = new Device(){
-            //                    DriverType = DriverType.DirectSound,
-            //                    Id = -1
-            //                };
-            //                _playerService.Initialize(device, 44100, 1000, 100);
-            //                View.InitDone(true);
-            //                onInitDone.Invoke();
-            //                Console.WriteLine("SplashPresenter - Initialize - Initializing player on main thread... DONE!");
-            //                View.RefreshStatus("Opening app...");
-            //            }, taskScheduler);
-
-        }
-#else
         public void Initialize(Action onInitDone)
         {
             if (_playerService.IsInitialized)
             {
-                onInitDone.Invoke();
+                onInitDone();
                 return;
             }
+
+            // Initialize player
+            View.RefreshStatus("Initializing player...");
+            Device device = new Device()
+            {
+                DriverType = DriverType.DirectSound,
+                Id = -1
+            };
+            _playerService.Initialize(device, 44100, 1000, 100);
+            View.RefreshStatus("Init player done");
 
             TaskScheduler taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             #if LINUX
@@ -110,23 +62,16 @@ namespace MPfm.MVP.Presenters
             taskScheduler = TaskScheduler.Default;
             #endif
             Task.Factory.StartNew(() =>
-                                  {
-                View.RefreshStatus("Loading...");
+            {
+                View.RefreshStatus("Starting initialization service...");
                 _initializationService.Initialize();
+                View.RefreshStatus("Starting initialization service (2)...");
             }).ContinueWith((a) =>
-                            {
-                // Initialize player
-                Device device = new Device(){
-                    DriverType = DriverType.DirectSound,
-                    Id = -1
-                };
-                _playerService.Initialize(device, 44100, 1000, 100);
+            {
                 View.InitDone(true);
                 onInitDone.Invoke();
                 View.RefreshStatus("Opening app...");
             }, taskScheduler);
         }
-#endif
-
 	}
 }

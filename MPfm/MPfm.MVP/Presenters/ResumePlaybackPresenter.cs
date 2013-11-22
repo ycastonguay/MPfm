@@ -53,14 +53,7 @@ namespace MPfm.MVP.Presenters
             _audioFileCacheService = audioFileCacheService;
             _cloudLibrary = cloudLibrary;
             _playerService = playerService;
-            _cloudLibrary.OnCloudDataChanged += (data) => {
-                Task.Factory.StartNew(() => {
-                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Sleeping...");
-                    Thread.Sleep(500); // TODO: Wait for download to finish with listener (see Dropbox docs)
-                    Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Fetching device infos...");
-                    RefreshDevices();
-                });
-            };
+            _cloudLibrary.OnDeviceInfoUpdated += CloudLibraryOnDeviceInfoUpdated;
 
             #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -69,7 +62,19 @@ namespace MPfm.MVP.Presenters
             #endif
 		}
 
-        public override void BindView(IResumePlaybackView view)
+	    private void CloudLibraryOnDeviceInfoUpdated(IEnumerable<CloudDeviceInfo> deviceInfos)
+	    {
+            //_cloudLibrary.OnCloudDataChanged += (data) => {
+            //    Task.Factory.StartNew(() => {
+            //        Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Sleeping...");
+            //        Thread.Sleep(500); // TODO: Wait for download to finish with listener (see Dropbox docs)
+            //        Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Fetching device infos...");
+            //        RefreshDevices();
+            //    });
+            //};
+        }
+
+	    public override void BindView(IResumePlaybackView view)
         {
             view.OnResumePlayback = ResumePlayback;
             view.OnOpenPreferencesView = OpenPreferencesView;
@@ -98,51 +103,51 @@ namespace MPfm.MVP.Presenters
 
 	    private void RefreshDevices()
 	    {
-            // Prevent login status change during loading
-	        _canRefreshCloudLoginStatus = false;
+            //// Prevent login status change during loading
+            //_canRefreshCloudLoginStatus = false;
 
-            Task.Factory.StartNew(() =>
-            {
+            //Task.Factory.StartNew(() =>
+            //{
 
-                try
-                {
-                    var devices = _cloudLibrary.PullDeviceInfos();
-                    var entities = new List<ResumePlaybackEntity>();
-                    foreach (var device in devices)
-                    {
-                        var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == device.AudioFileId);
-                        if (audioFile == null)
-                        {
-                            audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == device.ArtistName.ToUpper() &&
-                            x.AlbumTitle.ToUpper() == device.AlbumTitle.ToUpper() &&
-                            x.Title.ToUpper() == device.SongTitle.ToUpper());
-                        }
-                        var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
-                            ArtistName = device.ArtistName,
-                            AlbumTitle = device.AlbumTitle
-                        });
+            //    try
+            //    {
+            //        var devices = _cloudLibrary.PullDeviceInfos();
+            //        var entities = new List<ResumePlaybackEntity>();
+            //        foreach (var device in devices)
+            //        {
+            //            var audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == device.AudioFileId);
+            //            if (audioFile == null)
+            //            {
+            //                audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == device.ArtistName.ToUpper() &&
+            //                x.AlbumTitle.ToUpper() == device.AlbumTitle.ToUpper() &&
+            //                x.Title.ToUpper() == device.SongTitle.ToUpper());
+            //            }
+            //            var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
+            //                ArtistName = device.ArtistName,
+            //                AlbumTitle = device.AlbumTitle
+            //            });
 
-                        bool canResume = audioFiles.Count() > 0;
+            //            bool canResume = audioFiles.Count() > 0;
 
-                        entities.Add(new ResumePlaybackEntity() {
-                            DeviceInfo = device,
-                            LocalAudioFilePath = audioFile == null ? string.Empty : audioFile.FilePath,
-                            CanResumePlayback = canResume
-                        });
-                    }
+            //            entities.Add(new ResumePlaybackEntity() {
+            //                DeviceInfo = device,
+            //                LocalAudioFilePath = audioFile == null ? string.Empty : audioFile.FilePath,
+            //                CanResumePlayback = canResume
+            //            });
+            //        }
 
-                    View.RefreshDevices(entities.OrderByDescending(x => x.CanResumePlayback).ThenBy(x => x.DeviceInfo.DeviceName).ToList());
-                    View.RefreshAppLinkedStatus(true);
-                } catch (CloudAppNotLinkedException ex)
-                {
-                    View.RefreshAppLinkedStatus(false);
-                } catch (Exception ex)
-                {
-                    View.ResumePlaybackError(ex);
-                }
+            //        View.RefreshDevices(entities.OrderByDescending(x => x.CanResumePlayback).ThenBy(x => x.DeviceInfo.DeviceName).ToList());
+            //        View.RefreshAppLinkedStatus(true);
+            //    } catch (CloudAppNotLinkedException ex)
+            //    {
+            //        View.RefreshAppLinkedStatus(false);
+            //    } catch (Exception ex)
+            //    {
+            //        View.ResumePlaybackError(ex);
+            //    }
 
-                _canRefreshCloudLoginStatus = true;
-            });
+            //    _canRefreshCloudLoginStatus = true;
+            //});
         }
 
         private void ResumePlayback(ResumePlaybackEntity entity)

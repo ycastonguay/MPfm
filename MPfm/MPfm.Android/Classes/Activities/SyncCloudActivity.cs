@@ -35,7 +35,6 @@ namespace MPfm.Android
     public class SyncCloudActivity : BaseActivity, ISyncCloudView
     {
         private MobileNavigationManager _navigationManager;
-        private ICloudLibraryService _cloudLibrary;
         private TextView _lblConnected;
         private TextView _lblDataChanged;
         private TextView _lblValue;
@@ -50,9 +49,6 @@ namespace MPfm.Android
             Console.WriteLine("SyncCloudActivity - OnCreate");
             base.OnCreate(bundle);
 
-            _cloudLibrary = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
-            _cloudLibrary.OnCloudDataChanged += OnCloudLibraryDataChanged;
-
             _navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             SetContentView(Resource.Layout.SyncCloud);
             ActionBar.SetDisplayHomeAsUpEnabled(true);
@@ -66,111 +62,10 @@ namespace MPfm.Android
             _btnPull = FindViewById<Button>(Resource.Id.syncCloud_btnPull);
             _btnPush = FindViewById<Button>(Resource.Id.syncCloud_btnPush);
             _btnDelete = FindViewById<Button>(Resource.Id.syncCloud_btnDelete);
-            _btnLogin.Click += BtnLoginOnClick;
-            _btnLogout.Click += BtnLogoutOnClick;
-            _btnPull.Click += BtnPullOnClick;
-            _btnPush.Click += BtnPushOnClick;
-            _btnDelete.Click += BtnDeleteOnClick;
-            
-            //_lblConnected.Text = string.Format("Is Linked: {0} {1}", _accountManager.HasLinkedAccount, DateTime.Now.ToLongTimeString());
-            _lblConnected.Text = string.Format("Is Linked: {0} {1}", _cloudLibrary.HasLinkedAccount, DateTime.Now.ToLongTimeString());
 
             // Since the onViewReady action could not be added to an intent, tell the NavMgr the view is ready
             //((AndroidNavigationManager)_navigationManager).SetSyncCloudActivityInstance(this);
             _navigationManager.BindSyncCloudView(this);
-        }
-
-        private void BtnLoginOnClick(object sender, EventArgs e)
-        {
-            try
-            {
-                _cloudLibrary.LinkApp(this);
-                _lblConnected.Text = string.Format("Is Linked: {0} {1}", _cloudLibrary.HasLinkedAccount, DateTime.Now.ToLongTimeString());
-            }
-            catch (Exception ex)
-            {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in SyncCloud: {0}", ex));
-                ad.SetButton("OK", (sender2, args2) => ad.Dismiss());
-                ad.Show();
-            }
-        }
-
-        private void BtnLogoutOnClick(object sender, EventArgs e)
-        {
-            try
-            {
-                _cloudLibrary.UnlinkApp();
-                _lblConnected.Text = string.Format("Is Linked: {0} {1}", _cloudLibrary.HasLinkedAccount, DateTime.Now.ToLongTimeString());
-            }
-            catch (Exception ex)
-            {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in SyncCloud: {0}", ex));
-                ad.SetButton("OK", (sender2, args2) => ad.Dismiss());
-                ad.Show();
-            }
-        }
-
-        private void BtnPullOnClick(object sender, EventArgs e)
-        {            
-            try
-            {
-                string nowPlaying = _cloudLibrary.PullStuff();
-                _lblValue.Text = nowPlaying;
-            }
-            catch (Exception ex)
-            {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in SyncCloud: {0}", ex));
-                ad.SetButton("OK", (sender2, args2) => ad.Dismiss());
-                ad.Show();
-            }
-        }
-
-        private void BtnPushOnClick(object sender, EventArgs e)
-        {
-            try
-            {
-                _cloudLibrary.PushStuff();
-                _cloudLibrary.PushPlaylist(null);
-            }
-            catch (Exception ex)
-            {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in SyncCloud: {0}", ex));
-                ad.SetButton("OK", (sender2, args2) => ad.Dismiss());
-                ad.Show();
-            }
-        }
-
-        private void BtnDeleteOnClick(object sender, EventArgs e)
-        {
-            try
-            {
-                _cloudLibrary.DeleteStuff();
-                _cloudLibrary.DeleteNowPlaying();
-            }
-            catch (Exception ex)
-            {
-                AlertDialog ad = new AlertDialog.Builder(this).Create();
-                ad.SetCancelable(false);
-                ad.SetMessage(string.Format("An error has occured in SyncCloud: {0}", ex));
-                ad.SetButton("OK", (sender2, args2) => ad.Dismiss());
-                ad.Show();
-            }
-        }
-
-        private void OnCloudLibraryDataChanged(string data)
-        {
-            RunOnUiThread(() =>
-            {
-                _lblValue.Text = data;
-            });
         }
 
         protected override void OnStart()

@@ -33,14 +33,14 @@ namespace MPfm.MVP.Presenters
     public class CloudConnectPresenter : BasePresenter<ICloudConnectView>, ICloudConnectPresenter
 	{
 	    private readonly ITinyMessengerHub _messengerHub;
-	    private readonly ICloudLibraryService _cloudLibraryService;
+	    private readonly ICloudService _cloudService;
 
-        public CloudConnectPresenter(ITinyMessengerHub messengerHub, ICloudLibraryService cloudLibraryService)
+        public CloudConnectPresenter(ITinyMessengerHub messengerHub, ICloudService cloudService)
         {
             _messengerHub = messengerHub;
-            _cloudLibraryService = cloudLibraryService;
-            _cloudLibraryService.OnCloudAuthenticationStatusChanged += CloudLibraryServiceOnCloudAuthenticationStatusChanged;
-            _cloudLibraryService.OnCloudAuthenticationFailed += CloudLibraryServiceOnCloudAuthenticationFailed;
+            _cloudService = cloudService;
+            _cloudService.OnCloudAuthenticationStatusChanged += CloudLibraryServiceOnCloudAuthenticationStatusChanged;
+            _cloudService.OnCloudAuthenticationFailed += CloudLibraryServiceOnCloudAuthenticationFailed;
         }
 
 	    public override void BindView(ICloudConnectView view)
@@ -53,8 +53,8 @@ namespace MPfm.MVP.Presenters
 
 	    public override void ViewDestroyed()
 	    {
-	        _cloudLibraryService.OnCloudAuthenticationStatusChanged -= CloudLibraryServiceOnCloudAuthenticationStatusChanged;
-            _cloudLibraryService.OnCloudAuthenticationFailed -= CloudLibraryServiceOnCloudAuthenticationFailed;
+            _cloudService.OnCloudAuthenticationStatusChanged -= CloudLibraryServiceOnCloudAuthenticationStatusChanged;
+            _cloudService.OnCloudAuthenticationFailed -= CloudLibraryServiceOnCloudAuthenticationFailed;
 	    }
 
 	    private void Initialize()
@@ -70,7 +70,7 @@ namespace MPfm.MVP.Presenters
 	        {
 	            try
 	            {
-                    _cloudLibraryService.LinkApp(View);
+                    _cloudService.LinkApp(View);
 	            }
 	            catch (Exception ex)
 	            {
@@ -112,7 +112,7 @@ namespace MPfm.MVP.Presenters
             {
                 try
                 {
-                    _cloudLibraryService.ContinueLinkApp();
+                    _cloudService.ContinueLinkApp();
                 }
                 catch (Exception ex)
                 {

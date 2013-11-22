@@ -26,7 +26,7 @@ namespace MPfm.Library.Services.Interfaces
 {
     public delegate void CloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType);
     public delegate void CloudAuthenticationFailed();
-    public delegate void CloudDataChanged(string data);
+    public delegate void CloudDataChanged(string path, string data);
 
     /// <summary>
     /// Interface for the cloud service implementations.
@@ -43,7 +43,11 @@ namespace MPfm.Library.Services.Interfaces
         void ContinueLinkApp();
         void UnlinkApp();
 
-        void InitializeAppFolder();
+        void CreateFolder(string path);
+        List<string> ListFiles(string path); 
+        void WatchFile(string path);
+        byte[] DownloadFile(string path);
+        void UploadFile(string path, byte[] data);
     }
 
     public enum CloudAuthenticationStatusType

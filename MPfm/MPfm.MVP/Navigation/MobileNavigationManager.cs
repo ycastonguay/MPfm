@@ -164,7 +164,8 @@ namespace MPfm.MVP.Navigation
                 List<CloudDeviceInfo> infos = new List<CloudDeviceInfo>();
                 try
                 {
-                    infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
+                    // TODO: Move most of this stuff to SplashPresenter
+                    //infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
                 }
                 catch (Exception ex)
                 {
