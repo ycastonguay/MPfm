@@ -249,5 +249,7 @@
     <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />
     <Compile Include="Objects\CloudPlaylist.cs" />
     <Compile Include="Objects\CloudDeviceInfo.cs" />
+    <Compile Include="Services\Interfaces\ICloudService.cs" />
+    <Compile Include="Services\CloudLibraryService.cs" />
   </ItemGroup>
 </Project>

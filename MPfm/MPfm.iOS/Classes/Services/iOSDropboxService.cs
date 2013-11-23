@@ -20,21 +20,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using DropBoxSync.iOS;
+using MPfm.Core;
 using MPfm.Library;
+using MPfm.Library.Objects;
+using MPfm.Library.Services.Exceptions;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 using MonoTouch.Foundation;
-using MPfm.Core;
-using Newtonsoft.Json;
-using MPfm.Library.Objects;
 using MonoTouch.UIKit;
-using MPfm.Library.Services.Exceptions;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace MPfm.iOS.Classes.Services
 {
-	public class iOSDropboxService : ICloudLibraryService
+	public class iOSDropboxService : ICloudService
 	{
         // Of course, those are temp keys and will be replaced when pushing to the App Store.
         //private string _dropboxAppKey = "6tc6565743i743n";
@@ -42,13 +43,12 @@ namespace MPfm.iOS.Classes.Services
         private string _dropboxAppKey = "m1bcpax276elhfi";
         private string _dropboxAppSecret = "2azbuj2eelkranm";
 
-        private ISyncDeviceSpecifications _deviceSpecifications;
         private DBDatastore _store;
         private DBFilesystem _fileSystem;
 
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
-        public event CloudDataChanged OnCloudDataChanged;
+		public event CloudFileDownloaded OnCloudFileDownloaded;
 
         public bool HasLinkedAccount
         {
@@ -60,7 +60,6 @@ namespace MPfm.iOS.Classes.Services
 
         public iOSDropboxService()
         {
-            _deviceSpecifications = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
             Initialize();
         }
 
@@ -87,8 +86,8 @@ namespace MPfm.iOS.Classes.Services
 
             _fileSystem.AddObserverForPathAndChildren(_fileSystem, new DBPath("/Devices"), () => {
                 Console.WriteLine("SyncCloudViewController - FileSystem - Data changed!");
-                if(OnCloudDataChanged != null)
-                    OnCloudDataChanged(string.Empty);
+//                if(OnCloudDataChanged != null)
+//                    OnCloudDataChanged(string.Empty);
             });
 
 //            _store.AddObserver (_store, () => {
@@ -161,172 +160,207 @@ namespace MPfm.iOS.Classes.Services
             }
         }
 
-        public void InitializeAppFolder()
+        public static DateTime NSDateToDateTime(MonoTouch.Foundation.NSDate date)
         {
-            // Ignore any errors; there is no way to check if the folder exists before (like on Android!)
-            DBError error = null;
-            _fileSystem.CreateFolder(new DBPath("/Devices"), out error);
-            _fileSystem.CreateFolder(new DBPath("/Playlists"), out error);
+            return (new DateTime(2001,1,1,0,0,0)).AddSeconds(date.SecondsSinceReferenceDate);
         }
 
-        public void PushHello()
-        {
-        }
+		public void CreateFolder(string path)
+		{
+			ThrowExceptionIfAppNotLinked();
 
-        public void PushStuff()
-        {
-        }
+			DBError error = null;
+			var dbPath = new DBPath(path);
+			_fileSystem.CreateFolder(dbPath, out error);
+			if(error != null)
+				throw new Exception(error.Description);
+		}
 
-        public string PullStuff()
-        {
-            return string.Empty;
-        }
+		public bool FileExists(string path)
+		{
+			ThrowExceptionIfAppNotLinked();
 
-        public void DeleteStuff()
-        {
-        }
+			// Unlike the Android SDK, there is no method to check if a file exists... 
+			DBError error = null;
+			DBPath dbPath = new DBPath(path);
+			var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
+			if(error != null)
+				throw new Exception(error.Description);
 
-        public string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
-        {
-            DBError error = null;
-            DBFile file = null;
+			return fileInfo != null;
+		}
 
-            try
-            {
-                var nowPlaying = new CloudDeviceInfo(){
-                    AudioFileId = audioFile.Id,
-                    ArtistName = audioFile.ArtistName,
-                    AlbumTitle = audioFile.AlbumTitle,
-                    SongTitle = audioFile.Title,
-                    Position = position,
-                    PositionBytes = positionBytes,
-                    DeviceType = _deviceSpecifications.GetDeviceType().ToString(),
-                    DeviceName = _deviceSpecifications.GetDeviceName(),
-                    DeviceId = _deviceSpecifications.GetDeviceUniqueId(),
-                    IPAddress = _deviceSpecifications.GetIPAddress(),
-                    Timestamp = DateTime.Now
-                };
+		public List<string> ListFiles(string path, string extension)
+		{
+			ThrowExceptionIfAppNotLinked();
 
-                // Do we really need to check folder existence before each call?
-                var path = new DBPath(string.Format("/Devices/{0}.json", nowPlaying.DeviceId));
+			DBError error = null;
+			var fileInfos = _fileSystem.ListFolder(new DBPath("/Devices"), out error);
+			if(error != null)
+				throw new Exception(error.Description);
 
-                // Unlike the Android SDK, there is no method to check if a file exists... 
-                var fileInfo = _fileSystem.FileInfoForPath(path, out error);
-                if (fileInfo == null)
-                    file = _fileSystem.CreateFile(path, out error);
-                else
-                    file = _fileSystem.OpenFile(path, out error);
+			var files = fileInfos.Select(x => x.Path.Name).ToList();
+			return files;
+		}
 
-                if(error != null)
-                    throw new Exception(error.Description);
+		public void WatchFile(string path)
+		{
 
-                string json = JsonConvert.SerializeObject(nowPlaying);
-                file.WriteString(json, out error);
+		}
 
-                if(error != null)
-                    throw new Exception(error.Description);
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log("iOSDropboxService - PushDeviceInfo - Exception: {0}", ex);
-                throw;
-            }
-            finally
-            {
-                if (file != null)
-                    file.Close();
-            }
+		public void StopWatchFile(string path)
+		{
 
-            return string.Empty;
-        }
+		}
 
-        public IEnumerable<CloudDeviceInfo> PullDeviceInfos()
-        {
-            List<CloudDeviceInfo> devices = new List<CloudDeviceInfo>();
-            DBError error = null;
-            DBFile file = null;
+		public void DownloadFile(string path)
+		{
+			ThrowExceptionIfAppNotLinked();
 
-            try
-            {
-                if(_fileSystem == null)
-                    throw new CloudAppNotLinkedException();
+			DBError error = null;
+			DBFile file = null;
+			var dbPath = new DBPath(path);
 
-                var fileInfos = _fileSystem.ListFolder(new DBPath("/Devices"), out error);
-                if(error != null)
-                    throw new Exception(error.Description);
+			file = _fileSystem.OpenFile(dbPath, out error);
+			if(error != null)
+				throw new Exception(error.Description);
 
-                foreach(var fileInfo in fileInfos)
-                {
-                    try
-                    {
-                        file = _fileSystem.OpenFile(fileInfo.Path, out error);
-                        if(error != null)
-                            throw new Exception(error.Description);
+//			file.Update(out error);
+//			if(error != null)
+//				throw new Exception(error.Description);
 
-                        file.Update(out error);
-                        if(error != null)
-                            throw new Exception(error.Description);
+			var data = file.ReadData(out error);
+			if(error != null)
+				throw new Exception(error.Description);
 
-                        string json = file.ReadString(out error);
-                        if(error != null)
-                            throw new Exception(error.Description);
+			byte[] bytes = new byte[data.Length];
+			System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
 
-                        CloudDeviceInfo device = null;
-                        try
-                        {
-                            device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
-                            devices.Add(device);
-                        }
-                        catch(Exception ex)
-                        {
-                            Tracing.Log("iOSDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", fileInfo.Path.Name, ex);
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        Tracing.Log("iOSDropboxService - PullDeviceInfos - Failed to download file {0} - ex: {1}", fileInfo.Path.Name, ex);
-                    }
-                    finally
-                    {
-                        if(file != null)
-                            file.Close();                            
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log("iOSDropboxService - PushNowPlaying - Exception: {0}", ex);
-                throw;
-            }
+			if (OnCloudFileDownloaded != null)
+				OnCloudFileDownloaded(path, bytes);
+		}
 
-            return devices;
-        }
+		public void UploadFile(string path, byte[] data)
+		{
+			ThrowExceptionIfAppNotLinked();
 
-        public void DeleteNowPlaying()
-        {
-        }
+			DBError error = null;
+			DBFile file = null;
+			var dbPath = new DBPath(path);
 
-        public string PushPlaylist(Playlist playlist)
-        {
-            return string.Empty;
-        }
+			try
+			{
+				// Unlike the Android SDK, there is no method to check if a file exists... 
+				var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
+				if(error != null)
+					throw new Exception(error.Description);
 
-        public Playlist PullPlaylist(Guid playlistId)
-        {
-            return new Playlist();
-        }
+				if (fileInfo == null)
+					file = _fileSystem.CreateFile(dbPath, out error);
+				else
+					file = _fileSystem.OpenFile(dbPath, out error);
+				if(error != null)
+					throw new Exception(error.Description);
 
-        public IEnumerable<Playlist> PullPlaylists()
-        {
-            return new List<Playlist>();
-        }
+				NSData nsData = NSData.FromArray(data);
+				file.WriteData(nsData, out error);
+				if(error != null)
+					throw new Exception(error.Description);
+			}
+			finally
+			{
+				if (file != null)
+					file.Close();
+			}
+		}
 
-        public void DeletePlaylist(Guid playlistId)
-        {
-        }
+		private void ThrowExceptionIfAppNotLinked()
+		{
+			if(_fileSystem == null)
+				throw new CloudAppNotLinkedException();
+		}
 
-        public void DeletePlaylists()
-        {
-        }
+//        public IEnumerable<T> SyncFolder<T>(string path)
+//        {
+//            List<CloudDeviceInfo> devices = new List<CloudDeviceInfo>();
+//            DBError error = null;
+//            DBFile file = null;
+//
+//            try
+//            {
+//                if(_fileSystem == null)
+//                    throw new CloudAppNotLinkedException();
+//
+//                Tracing.Log("iOSDropboxService - SyncFolder - ListFolder");
+//                var fileInfos = _fileSystem.ListFolder(new DBPath(path), out error);
+//                if(error != null)
+//                    throw new Exception(error.Description);
+//
+//                foreach(var fileInfo in fileInfos)
+//                {
+//                    try
+//                    {
+//                        SyncFile(fileInfo.Path);
+//                    }
+//                    catch(Exception ex)
+//                    {
+//                        Tracing.Log("iOSDropboxService - SyncFolder - Failed to download file {0} - ex: {1}", fileInfo.Path.Name, ex);
+//                    }
+//                    finally
+//                    {
+//                        if(file != null)
+//                            file.Close();                            
+//                    }
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                Tracing.Log("iOSDropboxService - SyncFolder - Exception: {0}", ex);
+//                throw;
+//            }
+//
+//            return devices;
+//        }
+//
+//        private void SyncFile(DBPath filePath)
+//        {
+//            DBError error = null;
+//            DBFile file = null;
+//
+//            Tracing.Log("iOSDropboxService - SyncFile - OpenFile - fileInfo.Path: {0} - timestamp: {1}", fileInfo.Path, NSDateToDateTime(fileInfo.ModifiedTime));
+//            file = _fileSystem.OpenFile(filePath, out error);
+//            if(error != null)
+//                throw new Exception(error.Description);
+//
+//            //                        file.Update(out error);
+//            //                        if(error != null)
+//            //                            throw new Exception(error.Description);
+//
+//            // Check if a newer file is available
+//            if(file.NewerStatus != null)
+//            {
+//                file.AddObserver(this, () => {
+//                    Tracing.Log("iOSDropboxService - PullDevicesInfos - ReadString - fileInfo.Path: {0} - timestamp: {1} - fileStatus.cached: {2} fileStatus.state: {3} fileStatus.progress: {4} fileStatus.error: {5} newerStatus: {6}", fileInfo.Path, NSDateToDateTime(fileInfo.ModifiedTime), file.Status.Cached, file.Status.State, file.Status.Progress, file.Status.Error != null, file.NewerStatus != null);
+//                });
+//            }
+//
+//            Tracing.Log("iOSDropboxService - SyncFile - ReadString - fileInfo.Path: {0} - timestamp: {1} - fileStatus.cached: {2} fileStatus.state: {3} fileStatus.progress: {4} fileStatus.error: {5} newerStatus: {6}", fileInfo.Path, NSDateToDateTime(fileInfo.ModifiedTime), file.Status.Cached, file.Status.State, file.Status.Progress, file.Status.Error != null, file.NewerStatus != null);
+//            string json = file.ReadString(out error);
+//            if(error != null)
+//                throw new Exception(error.Description);
+//
+//            CloudDeviceInfo device = null;
+//            try
+//            {
+//                Tracing.Log("iOSDropboxService - SyncFile - Deserialize - fileInfo.Path: {0} - timestamp: {1} - fileStatus.cached: {2} fileStatus.state: {3} fileStatus.progress: {4} fileStatus.error: {5} newerStatus: {6}", fileInfo.Path, NSDateToDateTime(fileInfo.ModifiedTime), file.Status.Cached, file.Status.State, file.Status.Progress, file.Status.Error != null, file.NewerStatus != null);
+//                device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+//                devices.Add(device);
+//            }
+//            catch(Exception ex)
+//            {
+//                Tracing.Log("iOSDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", fileInfo.Path.Name, ex);
+//            }
+//        }
+
 	}
 }

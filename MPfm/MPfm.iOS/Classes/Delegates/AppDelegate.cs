@@ -98,7 +98,7 @@ namespace MPfm.iOS.Classes.Delegates
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
-            container.Register<ICloudLibraryService, iOSDropboxService>().AsSingleton();
+            container.Register<ICloudService, iOSDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
             container.Register<IMobileMainView, MainViewController>().AsMultiInstance();
@@ -272,7 +272,7 @@ namespace MPfm.iOS.Classes.Delegates
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
             Console.WriteLine("AppDelegate - OpenUrl");
-            var cloudService = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
+            var cloudService = Bootstrapper.GetContainer().Resolve<ICloudService>();
             var account = DBAccountManager.SharedManager.HandleOpenURL(url);
             if (account != null) 
             {

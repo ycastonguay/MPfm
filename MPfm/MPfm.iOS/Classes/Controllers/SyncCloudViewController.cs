@@ -46,7 +46,6 @@ namespace MPfm.iOS
             base.ViewDidLoad();
 
             _cloudLibrary = Bootstrapper.GetContainer().Resolve<ICloudLibraryService>();
-            _cloudLibrary.OnCloudDataChanged += OnCloudDataChanged;
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindSyncCloudView(this);
