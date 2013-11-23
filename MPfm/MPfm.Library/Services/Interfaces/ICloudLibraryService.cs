@@ -24,7 +24,9 @@ using MPfm.Library.Objects;
 
 namespace MPfm.Library.Services.Interfaces
 {
-    public delegate void DeviceInfoUpdated(IEnumerable<CloudDeviceInfo> deviceInfos);
+    public delegate void DeviceInfosDownloadProgress(float percentage);
+    public delegate void DeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos);
+    public delegate void DeviceInfoUpdated(CloudDeviceInfo deviceInfo);
 
     /// <summary>
     /// Interface for the cloud service implementations.
@@ -36,6 +38,8 @@ namespace MPfm.Library.Services.Interfaces
 
         bool HasLinkedAccount { get; }
 
+        event DeviceInfosDownloadProgress OnDeviceInfosDownloadProgress;
+        event DeviceInfosAvailable OnDeviceInfosAvailable;
         event DeviceInfoUpdated OnDeviceInfoUpdated;
 
         void InitializeAppFolder();

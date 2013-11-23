@@ -160,7 +160,7 @@ namespace MPfm.Android.Classes.Services
             return _fileSystem.Exists(new DbxPath(path));
         }
 
-        public List<string> ListFiles(string path)
+        public List<string> ListFiles(string path, string extension)
         {
             var fileInfos = _fileSystem.ListFolder(new DbxPath(path));
             var files = fileInfos.Select(fileInfo => fileInfo.Path.Name).ToList();

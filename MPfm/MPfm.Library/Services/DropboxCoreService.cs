@@ -20,6 +20,7 @@ using System.Text;
 using MPfm.Core;
 using MPfm.Core.Helpers;
 using MPfm.Library.Objects;
+using MPfm.Library.Services.Exceptions;
 using Newtonsoft.Json;
 #if !IOS && !ANDROID && !WINDOWS_PHONE
 using System;
@@ -44,12 +45,10 @@ namespace MPfm.Library.Services
         private DropboxServiceProvider _dropboxServiceProvider;
         private OAuthToken _oauthToken;
 
+        public event CloudFileDownloaded OnCloudFileDownloaded;
         public bool HasLinkedAccount { get; private set; }
 
-        public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
-        public event 
-
-OnCloudDataChanged;
+        public event CloudAuthenticationFailed OnCloudAuthenticationFailed;        
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
 
         public DropboxCoreService()
@@ -290,6 +289,8 @@ OnCloudDataChanged;
 
         public void CreateFolder(string path)
         {
+            ThrowExceptionIfAppIsNotLinked();
+
             var entry = _dropbox.CreateFolderAsync(path).Result;
 
             //try
@@ -310,10 +311,21 @@ OnCloudDataChanged;
             //}
         }
 
-        public List<string> ListFiles(string path)
+        public bool FileExists(string path)
         {
+            ThrowExceptionIfAppIsNotLinked();
+
+            var metadata = _dropbox.GetMetadataAsync(path);
+            throw new NotImplementedException();
+            return false;
+        }
+
+        public List<string> ListFiles(string path, string extension)
+        {
+            ThrowExceptionIfAppIsNotLinked();
+
             var strings = new List<string>();
-            var entries = _dropbox.SearchAsync(path, string.Empty).Result;
+            var entries = _dropbox.SearchAsync(path, extension).Result;
             foreach (var entry in entries)
                 strings.Add(entry.Path);
 
@@ -324,15 +336,31 @@ OnCloudDataChanged;
         {
         }
 
-        public byte[] DownloadFile(string path)
+        public void StopWatchFile(string path)
         {
+        }
+
+        public void DownloadFile(string path)
+        {
+            ThrowExceptionIfAppIsNotLinked();
+
             var file = _dropbox.DownloadFileAsync(path).Result;
-            return file.Content;
+
+            if (OnCloudFileDownloaded != null)
+                OnCloudFileDownloaded(path, file.Content);
         }
 
         public void UploadFile(string path, byte[] data)
         {
+            ThrowExceptionIfAppIsNotLinked();
+
             _dropbox.UploadFileAsync(new ByteArrayResource(data), path);
+        }
+
+        private void ThrowExceptionIfAppIsNotLinked()
+        {
+            if (!HasLinkedAccount)
+                throw new CloudAppNotLinkedException();
         }
     }
 }

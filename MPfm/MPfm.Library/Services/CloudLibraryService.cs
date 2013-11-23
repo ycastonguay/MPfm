@@ -40,6 +40,9 @@ namespace MPfm.Library.Services
         private List<string> _deviceInfosLeftToDownload;
 
         public bool HasLinkedAccount { get { return _cloudService.HasLinkedAccount; } }
+        
+        public event DeviceInfosDownloadProgress OnDeviceInfosDownloadProgress;
+        public event DeviceInfosAvailable OnDeviceInfosAvailable;
         public event DeviceInfoUpdated OnDeviceInfoUpdated;
 
         public CloudLibraryService(ICloudService cloudService, ILibraryService libraryService, IAudioFileCacheService audioFileCacheService,
@@ -63,28 +66,35 @@ namespace MPfm.Library.Services
 
         private void CloudServiceOnCloudFileDownloaded(string path, byte[] data)
         {
-            // Check if pull device infos has ended.
-            // Keep a list of requested device infos, and once this is empty, notify consumer?
-
-            _deviceInfosLeftToDownload.Remove(path);
-            Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1}", path, _deviceInfosLeftToDownload.Count);
-            if (_deviceInfosLeftToDownload.Count == 0)
+            try
             {
-                Tracing.Log(">>>>> CloudLibraryService - CloudServiceOnCloudFileDownloaded - DONE");
+                string json = Encoding.UTF8.GetString(data);
+                var device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+
+                // Try to update the list instead of adding/removing item
+                int itemIndex = _deviceInfos.FindIndex(x => x.DeviceId == device.DeviceId);
+                if (itemIndex == -1)
+                    _deviceInfos.Add(device);
+                else
+                    _deviceInfos[itemIndex] = device;
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("AndroidDropboxService - Failed to deserialize JSON for path {0} - ex: {1}", path, ex);
             }
 
-            //string json = Encoding.UTF8.GetString(bytes);
+            if (OnDeviceInfosDownloadProgress != null)
+                OnDeviceInfosDownloadProgress(_deviceInfos.Count / (_deviceInfos.Count + _deviceInfosLeftToDownload.Count));
 
-            //CloudDeviceInfo device = null;
-            //try
-            //{
-            //    device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
-            //    devices.Add(device);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", filePath, ex);
-            //}
+            // On iOS and Android, the filePath is relative; on desktop devices it is absolute.
+            _deviceInfosLeftToDownload.Remove(path);
+            Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1} deviceInfos.Count: {2}", path, _deviceInfosLeftToDownload.Count, _deviceInfos.Count);
+            if (_deviceInfosLeftToDownload.Count == 0)
+            {
+                Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - Finished download files!");
+                if (OnDeviceInfosAvailable != null)
+                    OnDeviceInfosAvailable(_deviceInfos);
+            }
         }
 
         public void InitializeAppFolder()
@@ -130,29 +140,28 @@ namespace MPfm.Library.Services
             Task.Factory.StartNew(() =>
             {
                 const string folderPath = "/Devices";
-                var filePaths = _cloudService.ListFiles(folderPath);
-                _deviceInfosLeftToDownload = filePaths.Select(x => string.Format("{0}/{1}", folderPath, x)).ToList();
+                var filePaths = _cloudService.ListFiles(folderPath, ".json");
+                if (filePaths.Count == 0)
+                    return;
+
+                _deviceInfosLeftToDownload = filePaths[0].Contains("/") ? filePaths.ToList() : filePaths.Select(x => string.Format("{0}/{1}", folderPath, x)).ToList();
                 foreach (var filePath in filePaths)
                 {
                     try
                     {
+                        // On iOS and Android, the filePath is relative; on desktop devices it is absolute.
                         Tracing.Log("AndroidDropboxService - PullDeviceInfos - filePath: {0}", filePath);
-                        //_cloudService.WatchFile(filePath);
-                        _cloudService.DownloadFile(string.Format("{0}/{1}", folderPath, filePath));
+                        string downloadFilePath = filePath;
+                        if (!filePath.Contains("/"))
+                            downloadFilePath = string.Format("{0}/{1}", folderPath, filePath);
+
+                        _cloudService.DownloadFile(downloadFilePath);
                     }
                     catch (Exception ex)
                     {
                         Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to download file - ex: {0}", ex);
                     }
                 }
-
-                // What do we do about file statuses? 
-                // on iOS + Android, we cannot simply redownload the file. On desktop, we can. In fact, on desktop, deltas are not managed the same way.
-
-                //_deviceInfos.Clear();
-                //_deviceInfos.AddRange(devices);
-                //if (OnDeviceInfoUpdated != null)
-                //    OnDeviceInfoUpdated(_deviceInfos);
             });
         }
 

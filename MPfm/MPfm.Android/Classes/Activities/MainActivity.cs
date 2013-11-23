@@ -154,7 +154,7 @@ namespace MPfm.Android
             _cboPlaylist.Adapter = _playlistSpinnerAdapter;
             _cboPlaylist.ItemSelected += CboPlaylistOnItemSelected;
 
-            Console.WriteLine("MainActivity - OnCreate - Starting navigation manager...");
+            Console.WriteLine("MainActivity - OnCreate - Binding presenters...");
             var navigationManager = (AndroidNavigationManager)Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.MainActivity = this; // Watch out, this can lead to memory leaks!
             navigationManager.BindOptionsMenuView(this);
