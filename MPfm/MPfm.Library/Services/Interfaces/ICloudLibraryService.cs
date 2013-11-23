@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -40,7 +40,7 @@ namespace MPfm.Library.Services.Interfaces
 
         void InitializeAppFolder();
         void PushDeviceInfo(AudioFile audioFile, long positionBytes, string position);
-        //void PullDeviceInfos(); //Do we need pull? 
+        void PullDeviceInfos();
         IEnumerable<CloudDeviceInfo> GetDeviceInfos();
     }
 }

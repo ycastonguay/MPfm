@@ -17,9 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Webkit;
 using Com.Dropbox.Sync.Android;
 using Java.IO;
 using MPfm.Core;
@@ -34,10 +36,11 @@ namespace MPfm.Android.Classes.Services
         private DbxAccount _account;
         //private DbxDatastore _store;
         private DbxFileSystem _fileSystem;
+        private List<DbxFile> _watchedFiles; 
 
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
-        public event CloudDataChanged OnCloudDataChanged;
+        public event CloudFileDownloaded OnCloudFileDownloaded;
 
         public bool HasLinkedAccount
         {
@@ -64,6 +67,8 @@ namespace MPfm.Android.Classes.Services
 
             try
             {
+                _watchedFiles = new List<DbxFile>();
+
                 _accountManager = DbxAccountManager.GetInstance(MPfmApplication.GetApplicationContext(), appKey, appSecret);
                 _accountManager.AddListener(this);
 
@@ -140,23 +145,19 @@ namespace MPfm.Android.Classes.Services
 
         public void UnlinkApp()
         {
-            try
-            {
-                if (_accountManager.HasLinkedAccount)
-                {
-                    _accountManager.Unlink();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            if (_accountManager.HasLinkedAccount)
+                _accountManager.Unlink();
         }
 
         public void CreateFolder(string path)
         {
             if(!_fileSystem.Exists(new DbxPath(path)))
                 _fileSystem.CreateFolder(new DbxPath(path));
+        }
+
+        public bool FileExists(string path)
+        {
+            return _fileSystem.Exists(new DbxPath(path));
         }
 
         public List<string> ListFiles(string path)
@@ -168,19 +169,30 @@ namespace MPfm.Android.Classes.Services
 
         public void WatchFile(string path)
         {
+            DbxFile file = _fileSystem.Open(new DbxPath(path));
+            file.AddListener(this);
+            _watchedFiles.Add(file);
         }
 
-        public byte[] DownloadFile(string path)
+        public void StopWatchFile(string path)
+        {
+            var file = _watchedFiles.FirstOrDefault(x => x.Path.Name == path);
+            if (file != null)
+            {
+                file.Close();
+                _watchedFiles.Remove(file);
+            }
+        }
+
+        public void DownloadFile(string path)
         {
             DbxFile file = null;
             byte[] bytes = null;
 
             try
             {
-                file = _fileSystem.Open(new DbxPath(path));
-                bytes = new byte[(int)file.ReadStream.Length];
-                var dataIs = new DataInputStream(file.ReadStream);
-                dataIs.ReadFully(bytes);
+                file = _fileSystem.Open(new DbxPath(path));                
+                bytes = ReadFully(file.ReadStream);
             }
             finally
             {
@@ -188,7 +200,8 @@ namespace MPfm.Android.Classes.Services
                     file.Close();
             }
 
-            return bytes;
+            if (OnCloudFileDownloaded != null)
+                OnCloudFileDownloaded(path, bytes);
         }
 
         public void UploadFile(string path, byte[] data)
@@ -199,10 +212,7 @@ namespace MPfm.Android.Classes.Services
             {
                 var dbxPath = new DbxPath(path);
                 bool fileExists = _fileSystem.Exists(dbxPath);
-                if (fileExists)
-                    file = _fileSystem.Open(dbxPath);
-                else
-                    file = _fileSystem.Create(dbxPath);
+                file = fileExists ? _fileSystem.Open(dbxPath) : _fileSystem.Create(dbxPath);
                 file.WriteStream.Write(data, 0, data.Length);
             }
             finally
@@ -212,82 +222,19 @@ namespace MPfm.Android.Classes.Services
             }
         }
 
-        //public void InitializeAppFolder()
-        //{
-        //    try
-        //    {
-        //        // Create base folders if they don't exist
-        //        var pathPlaylists = new DbxPath("/Playlists");
-        //        var pathDevices = new DbxPath("/Devices");
-        //        if(!_fileSystem.Exists(pathPlaylists))
-        //            _fileSystem.CreateFolder(pathPlaylists);
-        //        if (!_fileSystem.Exists(pathDevices))
-        //            _fileSystem.CreateFolder(pathDevices);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("AndroidDropboxService - InitializeAppFolder - Exception: {0}", ex);
-        //        throw;
-        //    }
-        //}
-
-        //public string PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
-        //{
-        //    return PushNowPlaying_File(audioFile, positionBytes, position);
-        //}
-
-        //public IEnumerable<CloudDeviceInfo> PullDeviceInfos()
-        //{
-        //    List<CloudDeviceInfo> devices = new List<CloudDeviceInfo>();
-        //    DbxFile file = null;
-
-        //    try
-        //    {
-        //        var fileInfos = _fileSystem.ListFolder(new DbxPath("/Devices"));
-
-        //        foreach (var fileInfo in fileInfos)
-        //        {
-        //            try
-        //            {
-        //                file = _fileSystem.Open(fileInfo.Path);
-        //                //file.Update();
-        //                string json = file.ReadString();
-
-        //                CloudDeviceInfo device = null;
-        //                try
-        //                {
-        //                    device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
-        //                    devices.Add(device);
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", fileInfo.Path.Name, ex);
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to download file {0} - ex: {1}", fileInfo.Path.Name, ex);
-        //            }
-        //            finally
-        //            {
-        //                if (file != null)
-        //                    file.Close();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("AndroidDropboxService - PullDeviceInfos - Exception: {0}", ex);
-        //        throw;
-        //    }
-
-        //    return devices;
-        //}
-
-        //public string PushNowPlaying(AudioFile audioFile, long positionBytes, string position)
-        //{
-        //    return PushNowPlaying_File(audioFile, positionBytes, position);
-        //}
+        public static byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
 
         //private string PushNowPlaying_Datastore(AudioFile audioFile, long positionBytes, string position)
         //{
@@ -324,49 +271,6 @@ namespace MPfm.Android.Classes.Services
         //        throw;
         //    }
 
-        //    return string.Empty;
-        //}
-
-        //private string PushNowPlaying_File(AudioFile audioFile, long positionBytes, string position)
-        //{
-        //    DbxFile file = null;
-
-        //    try
-        //    {
-        //        var nowPlaying = new SerializableNowPlaying(){
-        //            AudioFileId = audioFile.Id,
-        //            ArtistName = audioFile.ArtistName,
-        //            AlbumTitle = audioFile.AlbumTitle,
-        //            SongTitle = audioFile.Title,
-        //            Position = position,
-        //            PositionBytes = positionBytes,
-        //            DeviceType = _deviceSpecifications.GetDeviceType().ToString(),
-        //            DeviceName = _deviceSpecifications.GetDeviceName(),
-        //            DeviceId = _deviceSpecifications.GetDeviceUniqueId(),
-        //            IPAddress = _deviceSpecifications.GetIPAddress(),
-        //            Timestamp = DateTime.Now
-        //        };
-
-        //        // Do we really need to check folder existence before each call?
-        //        var path = new DbxPath(string.Format("/Devices/{0}.json", nowPlaying.DeviceId));
-        //        bool fileExists = _fileSystem.Exists(path);
-        //        if (fileExists)
-        //            file = _fileSystem.Open(path);
-        //        else
-        //            file = _fileSystem.Create(path);
-
-        //        string json = JsonConvert.SerializeObject(nowPlaying);
-        //        file.WriteString(json);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("AndroidDropboxService - PushNowPlaying_File - Exception: {0}", ex);
-        //    }
-        //    finally
-        //    {
-        //        if (file != null)
-        //            file.Close();
-        //    }
         //    return string.Empty;
         //}
 
@@ -421,151 +325,6 @@ namespace MPfm.Android.Classes.Services
         //    }
         //}
 
-        //public void PushHello()
-        //{
-        //    DbxFile testFile = null;
-        //    try
-        //    {
-        //        var path = new DbxPath("hello.txt");
-        //        bool fileExists = _fileSystem.Exists(path);
-        //        if (fileExists)
-        //            testFile = _fileSystem.Open(path);
-        //        else
-        //            testFile = _fileSystem.Create(path);
-
-        //        testFile.WriteString(string.Format("Hello from Captain Obvious in {0} Land! I am on the spaceship {1} (code name: {2}) in the area {3}. Things are looking quite obvious to me! This message was sent on {4}.", _deviceSpecifications.GetDeviceType(), _deviceSpecifications.GetDeviceName(), _deviceSpecifications.GetDeviceUniqueId(), _deviceSpecifications.GetIPAddress(), DateTime.Now));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("AndroidDropboxService - PushPlaylist - Exception: {0}", ex);
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        if (testFile != null)
-        //            testFile.Close();
-        //    }
-        //}
-
-        //public string PushPlaylist(Playlist playlist)
-        //{
-        //    DbxFile testFile = null;
-
-        //    try
-        //    {
-        //        // Do we really need to check folder existence before each call?
-        //        var path = new DbxPath(string.Format("/Playlists/{0}.json", playlist.PlaylistId));
-        //        bool fileExists = _fileSystem.Exists(path);
-        //        if(fileExists)
-        //            testFile = _fileSystem.Open(path);
-        //        else
-        //            testFile = _fileSystem.Create(path);
-
-        //        string json = JsonConvert.SerializeObject(playlist);
-        //        testFile.WriteString(json);
-        //        //testFile.WriteString(string.Format("Hello from Captain Obvious in {0} Land! I am on the spaceship {1} (code name: {2}) in the area {3}. Things are looking quite obvious to me! This message was sent on {4}.", _deviceSpecifications.GetDeviceType(), _deviceSpecifications.GetDeviceName(), _deviceSpecifications.GetDeviceUniqueId(), _deviceSpecifications.GetIPAddress(), DateTime.Now));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Tracing.Log("AndroidDropboxService - PushPlaylist - Exception: {0}", ex);
-        //    }
-        //    finally
-        //    {
-        //        if (testFile != null)
-        //            testFile.Close();
-        //    }
-        //    return string.Empty;
-        //}
-
-        //public Playlist PullPlaylist(Guid playlistId)
-        //{
-        //    return null;
-        //}
-
-        //public IEnumerable<Playlist> PullPlaylists()
-        //{
-        //    return new List<Playlist>();
-        //}
-
-        //public void DeletePlaylist(Guid playlistId)
-        //{
-        //}
-
-        //public void DeletePlaylists()
-        //{
-        //}
-
-        //public void PushStuff()
-        //{
-        //    try
-        //    {
-        //        DbxTable tableStuff = _store.GetTable("stuff");
-        //        DbxRecord stuff = tableStuff.Insert();
-        //        stuff.Set("hello", "world");
-        //        stuff.Set("deviceType", _deviceSpecifications.GetDeviceType().ToString());
-        //        stuff.Set("deviceName", _deviceSpecifications.GetDeviceName());
-        //        stuff.Set("ip", _deviceSpecifications.GetIPAddress());
-        //        stuff.Set("test", true);
-        //        stuff.Set("timestamp", DateTime.Now.ToLongTimeString());
-        //        _store.Sync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw;
-        //    }
-        //}
-
-        //public string PullStuff()
-        //{
-        //    string text = string.Empty;
-
-        //    try
-        //    {
-        //        DbxTable tableStuff = _store.GetTable("stuff");
-        //        DbxFields queryParams = new DbxFields();
-        //        queryParams.Set("test", true);
-        //        queryParams.Set("hello", "world");
-        //        DbxTable.QueryResult results = tableStuff.Query(queryParams);
-        //        var list = results.AsList();
-        //        if (list.Count == 0)
-        //        {
-        //            //_lblValue.Text = "No value!";
-        //            return text;
-        //        }
-
-        //        DbxRecord firstResult = list[0];
-        //        string timestamp = firstResult.GetString("timestamp");
-        //        string deviceType = firstResult.GetString("deviceType");
-        //        string deviceName = firstResult.GetString("deviceName");
-        //        text = string.Format("{0} {1} {2}", deviceType, deviceName, timestamp);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw;
-        //    }
-
-        //    return text;
-        //}
-
-        //public void DeleteStuff()
-        //{
-        //    try
-        //    {
-        //        DbxTable tableStuff = _store.GetTable("stuff");
-        //        DbxTable.QueryResult results = tableStuff.Query();
-        //        var list = results.AsList();
-        //        foreach (var record in list)
-        //        {
-        //            record.DeleteRecord();
-        //        }
-        //        _store.Sync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw;
-        //    }
-        //}
-
         public void OnDatastoreStatusChange(DbxDatastore store)
         {
         //    Console.WriteLine("SyncCloudActivity - OnDatastoreStatusChange - hasIncoming: {0}", store.SyncStatus.HasIncoming);
@@ -601,7 +360,6 @@ namespace MPfm.Android.Classes.Services
         {
             Console.WriteLine("AndroidDropboxService - OnLinkedAccountChange");
             _account = account.IsLinked ? account : null;
-            //_lblConnected.Text = string.Format("Is Linked: {0} {1}", _accountManager.HasLinkedAccount, DateTime.Now.ToLongTimeString());
         }
 
         public void OnSyncStatusChange(DbxFileSystem fileSystem)
@@ -628,7 +386,7 @@ namespace MPfm.Android.Classes.Services
             if (file == null)
                 return;
 
-            Console.WriteLine("AndroidDropboxService - OnFileChange {0}", file.Path.ToString());
+            Console.WriteLine("AndroidDropboxService - OnFileChange - path: {0} syncStatus: {1}", file.Path, file.SyncStatus);
         }
 
     }

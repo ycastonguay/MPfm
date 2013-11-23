@@ -17,6 +17,8 @@
 
 using System;
 using System.Threading.Tasks;
+using MPfm.Core;
+using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
@@ -28,14 +30,16 @@ namespace MPfm.MVP.Presenters
 	/// Splash screen presenter.
 	/// </summary>
 	public class SplashPresenter : BasePresenter<ISplashView>, ISplashPresenter
-	{       
-        readonly IInitializationService _initializationService;
-        readonly IPlayerService _playerService;
+	{
+        private readonly IInitializationService _initializationService;
+        private readonly IPlayerService _playerService;
+	    private readonly ICloudLibraryService _cloudLibraryService;
 
-		public SplashPresenter(IInitializationService initializationService, IPlayerService playerService)
+	    public SplashPresenter(IInitializationService initializationService, IPlayerService playerService, ICloudLibraryService cloudLibraryService)
 		{
             _initializationService = initializationService;
             _playerService = playerService;
+		    _cloudLibraryService = cloudLibraryService;
 		}
 
         public void Initialize(Action onInitDone)
@@ -65,6 +69,17 @@ namespace MPfm.MVP.Presenters
             {
                 View.RefreshStatus("Starting initialization service...");
                 _initializationService.Initialize();
+
+                try
+                {                    
+                    _cloudLibraryService.PullDeviceInfos();
+                }
+                catch (Exception ex)
+                {
+                    // If the cloud service fails, launch the app anyway, this is not vital for running the app   
+                    Tracing.Log("SplashPresenter - Initialize - PullDeviceInfos exception: {0}", ex);
+                }
+
                 View.RefreshStatus("Starting initialization service (2)...");
             }).ContinueWith((a) =>
             {

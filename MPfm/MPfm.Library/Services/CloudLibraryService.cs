@@ -17,6 +17,7 @@
 
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.Library.Objects;
 using MPfm.Library.Services.Exceptions;
@@ -34,7 +35,9 @@ namespace MPfm.Library.Services
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
         private readonly ISyncDeviceSpecifications _deviceSpecifications;
-        private readonly List<CloudDeviceInfo> _deviceInfos; 
+        private readonly List<CloudDeviceInfo> _deviceInfos;
+
+        private List<string> _deviceInfosLeftToDownload;
 
         public bool HasLinkedAccount { get { return _cloudService.HasLinkedAccount; } }
         public event DeviceInfoUpdated OnDeviceInfoUpdated;
@@ -46,29 +49,50 @@ namespace MPfm.Library.Services
             _libraryService = libraryService;
             _audioFileCacheService = audioFileCacheService;
             _deviceSpecifications = deviceSpecifications;
+
             _deviceInfos = new List<CloudDeviceInfo>();
+            _deviceInfosLeftToDownload = new List<string>();
 
             Initialize();
         }
 
         private void Initialize()
         {
-            _cloudService.OnCloudDataChanged += CloudServiceOnCloudDataChanged;
-
-            PullDeviceInfos();            
+            _cloudService.OnCloudFileDownloaded += CloudServiceOnCloudFileDownloaded;
         }
 
-        private void CloudServiceOnCloudDataChanged(string path, string data)
+        private void CloudServiceOnCloudFileDownloaded(string path, byte[] data)
         {
             // Check if pull device infos has ended.
-
             // Keep a list of requested device infos, and once this is empty, notify consumer?
+
+            _deviceInfosLeftToDownload.Remove(path);
+            Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1}", path, _deviceInfosLeftToDownload.Count);
+            if (_deviceInfosLeftToDownload.Count == 0)
+            {
+                Tracing.Log(">>>>> CloudLibraryService - CloudServiceOnCloudFileDownloaded - DONE");
+            }
+
+            //string json = Encoding.UTF8.GetString(bytes);
+
+            //CloudDeviceInfo device = null;
+            //try
+            //{
+            //    device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+            //    devices.Add(device);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", filePath, ex);
+            //}
         }
 
         public void InitializeAppFolder()
         {
-            _cloudService.CreateFolder("/Devices");
-            _cloudService.CreateFolder("/Playlists");
+            if(!_cloudService.FileExists("/Devices"))
+                _cloudService.CreateFolder("/Devices");
+            if (!_cloudService.FileExists("/Playlists"))
+                _cloudService.CreateFolder("/Playlists");
         }
 
         public void PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
@@ -98,39 +122,38 @@ namespace MPfm.Library.Services
 
         public void PullDeviceInfos()
         {
-            //List<CloudDeviceInfo> devices = new List<CloudDeviceInfo>();
+            Tracing.Log("AndroidDropboxService - PullDeviceInfos");
 
-            //if (!HasLinkedAccount)
-            //    throw new CloudAppNotLinkedException();
+            if (!HasLinkedAccount)
+                throw new CloudAppNotLinkedException();
 
-            //var filePaths = _cloudService.ListFiles("/Devices");
-            //foreach (var filePath in filePaths)
-            //{
-            //    try
-            //    {
-            //        _cloudService.WatchFile(filePath);
+            Task.Factory.StartNew(() =>
+            {
+                const string folderPath = "/Devices";
+                var filePaths = _cloudService.ListFiles(folderPath);
+                _deviceInfosLeftToDownload = filePaths.Select(x => string.Format("{0}/{1}", folderPath, x)).ToList();
+                foreach (var filePath in filePaths)
+                {
+                    try
+                    {
+                        Tracing.Log("AndroidDropboxService - PullDeviceInfos - filePath: {0}", filePath);
+                        //_cloudService.WatchFile(filePath);
+                        _cloudService.DownloadFile(string.Format("{0}/{1}", folderPath, filePath));
+                    }
+                    catch (Exception ex)
+                    {
+                        Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to download file - ex: {0}", ex);
+                    }
+                }
 
-            //        var bytes = _cloudService.DownloadFile(filePath);
-            //        string json = Encoding.UTF8.GetString(bytes);
+                // What do we do about file statuses? 
+                // on iOS + Android, we cannot simply redownload the file. On desktop, we can. In fact, on desktop, deltas are not managed the same way.
 
-            //        CloudDeviceInfo device = null;
-            //        try
-            //        {
-            //            device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
-            //            devices.Add(device);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to deserialize JSON for path {0} - ex: {1}", filePath, ex);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to download file - ex: {0}", ex);
-            //    }
-            //}
-
-            //return devices;
+                //_deviceInfos.Clear();
+                //_deviceInfos.AddRange(devices);
+                //if (OnDeviceInfoUpdated != null)
+                //    OnDeviceInfoUpdated(_deviceInfos);
+            });
         }
 
         public IEnumerable<CloudDeviceInfo> GetDeviceInfos()

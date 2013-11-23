@@ -47,7 +47,9 @@ namespace MPfm.Library.Services
         public bool HasLinkedAccount { get; private set; }
 
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
-        public event CloudDataChanged OnCloudDataChanged;
+        public event 
+
+OnCloudDataChanged;
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
 
         public DropboxCoreService()
