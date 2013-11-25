@@ -131,7 +131,7 @@ namespace MPfm.MVP.Presenters
 	            {
                     if (_hasFinishedInitialization)
                         return;
-
+                    
 	                View.InitDone(true);
 	                _onInitDone();
 	                View.RefreshStatus("Opening app...");

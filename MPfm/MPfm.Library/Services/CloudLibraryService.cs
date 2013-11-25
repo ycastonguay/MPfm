@@ -31,6 +31,7 @@ namespace MPfm.Library.Services
 {
     public class CloudLibraryService : ICloudLibraryService
     {
+        private readonly object _locker = new object();
         private readonly ICloudService _cloudService;
         private readonly ILibraryService _libraryService;
         private readonly IAudioFileCacheService _audioFileCacheService;
@@ -66,68 +67,84 @@ namespace MPfm.Library.Services
 
         private void CloudServiceOnCloudFileDownloaded(string path, byte[] data)
         {
-            try
+            lock (_locker)
             {
-                string json = Encoding.UTF8.GetString(data);
-                var device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+                try
+                {
+                    Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0}", path);
+                    string json = Encoding.UTF8.GetString(data);
+                    var device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
 
-                // Try to update the list instead of adding/removing item
-                int itemIndex = _deviceInfos.FindIndex(x => x.DeviceId == device.DeviceId);
-                if (itemIndex == -1)
-                    _deviceInfos.Add(device);
-                else
-                    _deviceInfos[itemIndex] = device;
-            }
-            catch (Exception ex)
-            {
-                Tracing.Log("AndroidDropboxService - Failed to deserialize JSON for path {0} - ex: {1}", path, ex);
-            }
+                    Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} device: {1} artist: {2}", path, device.DeviceName, device.ArtistName);
 
-            if (OnDeviceInfosDownloadProgress != null)
-                OnDeviceInfosDownloadProgress(_deviceInfos.Count / (_deviceInfos.Count + _deviceInfosLeftToDownload.Count));
+                    // Try to update the list instead of adding/removing item
+                    int itemIndex = _deviceInfos.FindIndex(x => x.DeviceId == device.DeviceId);
+                    if (itemIndex == -1)
+                        _deviceInfos.Add(device);
+                    else
+                        _deviceInfos[itemIndex] = device;
+                }
+                catch (Exception ex)
+                {
+                    Tracing.Log("AndroidDropboxService - Failed to deserialize JSON for path {0} - ex: {1}", path, ex);
+                }
 
-            // On iOS and Android, the filePath is relative; on desktop devices it is absolute.
-            _deviceInfosLeftToDownload.Remove(path);
-            Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1} deviceInfos.Count: {2}", path, _deviceInfosLeftToDownload.Count, _deviceInfos.Count);
-            if (_deviceInfosLeftToDownload.Count == 0)
-            {
-                Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - Finished download files!");
-                if (OnDeviceInfosAvailable != null)
-                    OnDeviceInfosAvailable(_deviceInfos);
+                if (OnDeviceInfosDownloadProgress != null)
+                    OnDeviceInfosDownloadProgress(_deviceInfos.Count/(_deviceInfos.Count + _deviceInfosLeftToDownload.Count));
+
+                // Check if list is already empty; do not raise OnDeviceInfosAvailable multiple times
+                if (_deviceInfosLeftToDownload.Count == 0)
+                    return;
+
+                _deviceInfosLeftToDownload.Remove(path);
+                Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1} deviceInfos.Count: {2}", path, _deviceInfosLeftToDownload.Count, _deviceInfos.Count);
+                if (_deviceInfosLeftToDownload.Count == 0)
+                {
+                    Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - Finished downloading files!");
+                    _cloudService.CloseAllFiles();
+                    if (OnDeviceInfosAvailable != null)
+                        OnDeviceInfosAvailable(_deviceInfos);
+                }
             }
         }
 
         public void InitializeAppFolder()
         {
-            if(!_cloudService.FileExists("/Devices"))
-                _cloudService.CreateFolder("/Devices");
-            if (!_cloudService.FileExists("/Playlists"))
-                _cloudService.CreateFolder("/Playlists");
+            Task.Factory.StartNew(() =>
+            {
+                if (!_cloudService.FileExists("/Devices"))
+                    _cloudService.CreateFolder("/Devices");
+                if (!_cloudService.FileExists("/Playlists"))
+                    _cloudService.CreateFolder("/Playlists");
+            });
         }
 
         public void PushDeviceInfo(AudioFile audioFile, long positionBytes, string position)
-        {
+        {            
             if (!HasLinkedAccount)
                 throw new CloudAppNotLinkedException();
 
-            var device = new CloudDeviceInfo()
+            Task.Factory.StartNew(() =>
             {
-                AudioFileId = audioFile.Id,
-                ArtistName = audioFile.ArtistName,
-                AlbumTitle = audioFile.AlbumTitle,
-                SongTitle = audioFile.Title,
-                Position = position,
-                PositionBytes = positionBytes,
-                DeviceType = _deviceSpecifications.GetDeviceType().ToString(),
-                DeviceName = _deviceSpecifications.GetDeviceName(),
-                DeviceId = _deviceSpecifications.GetDeviceUniqueId(),
-                IPAddress = _deviceSpecifications.GetIPAddress(),
-                Timestamp = DateTime.Now
-            };
+                var device = new CloudDeviceInfo()
+                {
+                    AudioFileId = audioFile.Id,
+                    ArtistName = audioFile.ArtistName,
+                    AlbumTitle = audioFile.AlbumTitle,
+                    SongTitle = audioFile.Title,
+                    Position = position,
+                    PositionBytes = positionBytes,
+                    DeviceType = _deviceSpecifications.GetDeviceType().ToString(),
+                    DeviceName = _deviceSpecifications.GetDeviceName(),
+                    DeviceId = _deviceSpecifications.GetDeviceUniqueId(),
+                    IPAddress = _deviceSpecifications.GetIPAddress(),
+                    Timestamp = DateTime.Now
+                };
 
-            string json = JsonConvert.SerializeObject(device);
-            byte[] bytes = Encoding.UTF8.GetBytes(json);
-            _cloudService.UploadFile(string.Format("/Devices/{0}.json", device.DeviceId), bytes);
+                string json = JsonConvert.SerializeObject(device);
+                byte[] bytes = Encoding.UTF8.GetBytes(json);
+                _cloudService.UploadFile(string.Format("/Devices/{0}.json", device.DeviceId), bytes);
+            });
         }
 
         public void PullDeviceInfos()

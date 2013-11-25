@@ -46,10 +46,11 @@ namespace MPfm.Library.Services.Interfaces
         void CreateFolder(string path);
         bool FileExists(string path);
         List<string> ListFiles(string path, string extension);
-        void WatchFile(string path);
-        void StopWatchFile(string path);
         void DownloadFile(string path);
         void UploadFile(string path, byte[] data);
+        void WatchFile(string path);
+        void StopWatchFile(string path);
+        void CloseAllFiles();
     }
 
     public enum CloudAuthenticationStatusType
