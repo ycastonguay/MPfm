@@ -78,9 +78,21 @@ namespace org.sessionsapp.android
             {
                 OnDropboxLoginLogout();
             }
-            else if (preference.Key == "dropbox_resume_playback_enabled")
+            else if (preference.Key == "cloud_resume_playback_enabled")
             {
 
+            }
+            else if (preference.Key == "cloud_sync_playlists")
+            {
+                
+            }
+            else if (preference.Key == "cloud_sync_presets")
+            {
+                
+            }
+            else if (preference.Key == "cloud_sync_wifi_only")
+            {
+                
             }
 
             return base.OnPreferenceTreeClick(preferenceScreen, preference);

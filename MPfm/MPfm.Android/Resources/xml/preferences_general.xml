@@ -1,26 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:sessionsapp="http://sessionsapp.org"
   android:title="General Preferences">
   <PreferenceCategory
-    android:title="Update Frequency"    
+    android:title="Update Frequency"
+    android:summary="Testing testing"
     android:key="update_frequency">
-    <Preference
+    <org.sessionsapp.android.SeekBarPreference
       android:key="update_frequency_song_position"
       android:title="Song Position"
-      android:icon="@drawable/actionbar_frequency"
-      android:summary="Defines how often the song position is updated." />
-    <Preference
+      android:icon="@android:color/transparent"
+      android:max="1000"
+      sessionsapp:units="ms" />
+    <org.sessionsapp.android.SeekBarPreference
       android:key="update_frequency_output_meter"
       android:title="Output Meter"
-      android:icon="@drawable/actionbar_frequency"
-      android:summary="Defines how often the output meter is updated." />
+      android:icon="@android:color/transparent"
+      android:max="1000"
+      sessionsapp:units="ms"
+      android:summary="Value here" />
+    <Preference
+      android:key="update_frequency_footer"
+      android:title=""
+      android:icon="@android:color/transparent"
+      android:summary="Warning: Lower values require more CPU and memory."
+      android:selectable="false"
+      android:enabled="false" />
   </PreferenceCategory>
   <PreferenceCategory
     android:title="Peak Files"    
     android:key="peak_files">
+    <org.sessionsapp.android.SeekBarPreference
+      android:key="peak_files_maximum_folder_size"
+      android:title="Maximum Peak Folder Size"
+      android:icon="@android:color/transparent"
+      android:max="1000"
+      sessionsapp:units="ms"
+      android:summary="Value here" />      
     <Preference
-      android:key="peak_files_stuff"
-      android:title="Maximum peak file folder size"
-      android:summary="Value here" />
+      android:key="peak_files_delete"
+      android:icon="@drawable/actionbar_trash"
+      android:title="Delete Peak Files" />
+    <Preference
+      android:key="peak_files_footer"
+      android:title=""
+      android:icon="@android:color/transparent"
+      android:summary="Peak file folder size: 1420 MB"
+      android:selectable="false"
+      android:enabled="false" />
   </PreferenceCategory>
 </PreferenceScreen>

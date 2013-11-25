@@ -153,6 +153,7 @@
     <Compile Include="Classes\Managers\Events\GeneratePeakFileEventArgs.cs" />
     <Compile Include="Classes\Managers\WaveFormCacheManager.cs" />
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
+    <Compile Include="Classes\Preferences\SeekBarPreference.cs" />
     <Compile Include="Classes\Providers\AndroidAppConfigProvider.cs" />
     <Compile Include="Classes\Receivers\ConnectionChangeReceiver.cs" />
     <Compile Include="Classes\Receivers\LockReceiver.cs" />
@@ -705,6 +706,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_library.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_reset.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\actionbar_resume.png" />
+    <AndroidResource Include="Resources\layout\seekbar_preference.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

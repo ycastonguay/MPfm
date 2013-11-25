@@ -340,6 +340,10 @@ namespace MPfm.Library.Services
         {
         }
 
+        public void CloseAllFiles()
+        {
+        }
+
         public void DownloadFile(string path)
         {
             ThrowExceptionIfAppIsNotLinked();

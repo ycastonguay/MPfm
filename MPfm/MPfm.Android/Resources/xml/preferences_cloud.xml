@@ -3,17 +3,43 @@
   android:title="Cloud Preferences"
   android:icon="@drawable/actionbar_cloud">
   <PreferenceCategory
-      android:title="Dropbox"
-      android:key="dropbox">
+    android:title="Cloud Services"
+    android:key="cloud_services">
     <Preference
-      android:title="Login to Dropbox"
+      android:title="Login to Dropbox"      
       android:icon="@drawable/actionbar_dropbox"
       android:key="dropbox_login" />
+    <Preference
+      android:key="cloud_services_footer"
+      android:title=""
+      android:icon="@android:color/transparent"
+      android:summary="The cloud service will be used to synchronize data between devices, excluding audio files. A small amount of bandwidth (~1kb/call) is used every time you update a playlist, update a preset or play a new song."
+      android:selectable="false"
+      android:enabled="false" />
+  </PreferenceCategory>
+  <PreferenceCategory
+    android:title="Sync"
+    android:key="cloud_sync">
     <CheckBoxPreference
-      android:key="dropbox_resume_playback_enabled"
+      android:key="cloud_resume_playback"
       android:title="Enable Resume Playback"
       android:icon="@drawable/actionbar_resume"
-      android:summary="Note: This will take a small amount of bandwidth (about 1 kilobyte) every time the player switches to a new song."
+      android:summary="Resume playback from other devices"
+      android:defaultValue="true" />
+    <CheckBoxPreference
+      android:key="cloud_sync_playlists"
+      android:title="Sync Playlists"
+      android:icon="@android:color/transparent"
+      android:defaultValue="true" />
+    <CheckBoxPreference
+      android:key="cloud_sync_presets"
+      android:title="Sync Equalizer Presets"
+      android:icon="@android:color/transparent"
+      android:defaultValue="true" />
+    <CheckBoxPreference
+      android:key="cloud_sync_wifi_only"
+      android:title="Enable Resume Playback"
+      android:icon="@android:color/transparent"
       android:defaultValue="true" />
   </PreferenceCategory>
 </PreferenceScreen>

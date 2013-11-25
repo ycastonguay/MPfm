@@ -405,7 +405,7 @@ namespace MPfm.Android.Classes.Services
             Task.Factory.StartNew(() =>
             {
                 try
-                {
+                {                    
                     Tracing.Log("AndroidDropboxService - OnFileChange - path: {0} syncStatus: {1} bytesTransfered: {2} bytesTotal: {3} isCached: {4} isLatest: {5}", file.Path.Name, file.SyncStatus.Pending, file.SyncStatus.BytesTransferred, file.SyncStatus.BytesTotal, file.SyncStatus.IsCached, file.SyncStatus.IsLatest);
                     if (file.NewerStatus != null)
                     {
@@ -414,6 +414,8 @@ namespace MPfm.Android.Classes.Services
                         {
                             Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! Updating file...");
                             file.Update();
+
+                            // TODO: Maybe add a lock so ReadFully isn't called twice for the same file
                             byte[] bytes = ReadFully(file.ReadStream);
 
                             Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (2)");
