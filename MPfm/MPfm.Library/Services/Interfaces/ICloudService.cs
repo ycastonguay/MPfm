@@ -27,6 +27,7 @@ namespace MPfm.Library.Services.Interfaces
     public delegate void CloudAuthenticationStatusChanged(CloudAuthenticationStatusType statusType);
     public delegate void CloudAuthenticationFailed();
     public delegate void CloudFileDownloaded(string path, byte[] data);
+	public delegate void CloudPathChanged(string path);
 
     /// <summary>
     /// Interface for the cloud service implementations.
@@ -36,6 +37,7 @@ namespace MPfm.Library.Services.Interfaces
         event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         event CloudAuthenticationFailed OnCloudAuthenticationFailed;
         event CloudFileDownloaded OnCloudFileDownloaded;
+		event CloudPathChanged OnCloudPathChanged;
 
         bool HasLinkedAccount { get; }
 
@@ -48,8 +50,10 @@ namespace MPfm.Library.Services.Interfaces
         List<string> ListFiles(string path, string extension);
         void DownloadFile(string path);
         void UploadFile(string path, byte[] data);
-        void WatchFile(string path);
+		void WatchFolder(string path);
+		void WatchFile(string path);
         void StopWatchFile(string path);
+		void StopWatchFolder(string path);
         void CloseAllFiles();
     }
 

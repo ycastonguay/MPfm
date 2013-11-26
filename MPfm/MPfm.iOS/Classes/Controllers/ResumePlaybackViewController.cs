@@ -78,6 +78,20 @@ namespace MPfm.iOS
             OnCheckCloudLoginStatus();
         }
 
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
+
+			OnViewAppeared();
+		}
+
+		public override void ViewDidDisappear(bool animated)
+		{
+			base.ViewDidDisappear(animated);
+
+			OnViewHidden();
+		}
+
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableview, int section)
         {
@@ -95,8 +109,8 @@ namespace MPfm.iOS
                 cell = new MPfmResumePlaybackTableViewCell(cellStyle, _cellIdentifier);
             }
 
-            if (cell.TextLabel.Text == entity.DeviceInfo.DeviceName)
-                return cell;
+//            if (cell.TextLabel.Text == entity.DeviceInfo.DeviceName)
+//                return cell;
 
             cell.ImageIcon.Image = UIImage.FromBundle("/Images/Icons/android");
             cell.TextLabel.Text = entity.DeviceInfo.DeviceName;
@@ -212,6 +226,8 @@ namespace MPfm.iOS
         public Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
         public Action OnOpenPreferencesView { get; set; }
         public Action OnCheckCloudLoginStatus { get; set; }
+		public Action OnViewAppeared { get; set; }
+		public Action OnViewHidden { get; set; }
 
         public void ResumePlaybackError(Exception ex)
         {

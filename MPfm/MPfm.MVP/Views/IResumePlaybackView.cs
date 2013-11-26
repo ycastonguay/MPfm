@@ -30,6 +30,8 @@ namespace MPfm.MVP.Views
         Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
         Action OnOpenPreferencesView { get; set; }
         Action OnCheckCloudLoginStatus { get; set; }
+        Action OnViewAppeared { get; set; }
+        Action OnViewHidden { get; set; }
 
         void ResumePlaybackError(Exception ex);
         void AudioFilesNotFoundError(string title, string message);

@@ -46,5 +46,7 @@ namespace MPfm.Library.Services.Interfaces
         void PushDeviceInfo(AudioFile audioFile, long positionBytes, string position);
         void PullDeviceInfos();
         IEnumerable<CloudDeviceInfo> GetDeviceInfos();
+		void WatchDeviceInfos();
+		void StopWatchingDeviceInfos();
     }
 }

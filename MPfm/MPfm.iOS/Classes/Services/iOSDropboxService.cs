@@ -51,6 +51,7 @@ namespace MPfm.iOS.Classes.Services
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
 		public event CloudFileDownloaded OnCloudFileDownloaded;
+		public event CloudPathChanged OnCloudPathChanged;
 
         public bool HasLinkedAccount
         {
@@ -88,11 +89,11 @@ namespace MPfm.iOS.Classes.Services
             _fileSystem = new DBFilesystem(account);
             DBFilesystem.SharedFilesystem = _fileSystem;
 
-            _fileSystem.AddObserverForPathAndChildren(_fileSystem, new DBPath("/Devices"), () => {
-                Console.WriteLine("SyncCloudViewController - FileSystem - Data changed!");
-//                if(OnCloudDataChanged != null)
-//                    OnCloudDataChanged(string.Empty);
-            });
+//			_fileSystem.AddObserverForPathAndChildren(_fileSystem, new DBPath("/Devices"), () => {
+//				Console.WriteLine("iOSDropboxService - FileSystem - Data changed!");
+////                if(OnCloudDataChanged != null)
+////                    OnCloudDataChanged(string.Empty);
+//            });
 
 //            _store.AddObserver (_store, () => {
 //                Console.WriteLine("SyncCloudViewController - DBDatastore - Data changed!");
@@ -207,14 +208,48 @@ namespace MPfm.iOS.Classes.Services
 			return files;
 		}
 
+		public void WatchFolder(string path)
+		{
+			ThrowExceptionIfAppNotLinked();
+
+			Console.WriteLine("iOSDropboxService - Watching folder {0}", path);
+			_fileSystem.AddObserverForPathAndChildren(this, new DBPath(path), () => {
+				Console.WriteLine("iOSDropboxService - FileSystem - Data changed on {0}", path);
+				if(OnCloudPathChanged != null)
+					OnCloudPathChanged(path);
+			});
+		}
+
+		public void StopWatchFolder(string path)
+		{
+			ThrowExceptionIfAppNotLinked();
+
+			Console.WriteLine("iOSDropboxService - Removing watch on folder {0}", path);
+			//_fileSystem.RemoveObserver(_fileSystem, new NSString(path));
+			_fileSystem.RemoveObserver(this);
+		}
+
 		public void WatchFile(string path)
 		{
+			ThrowExceptionIfAppNotLinked();
+
+			DBError error = null;
+			var dbPath = new DBPath(path);
+			var file = _fileSystem.OpenFile(dbPath, out error);
+			if (error != null)
+				throw new Exception(error.Description);
+			if (file == null)
+				return;
+
+			file.AddObserver(this, () => {
+				ProcessWatchedFile(file, path);
+			});
+			_watchedFiles.Add(file);
 
 		}
 
 		public void StopWatchFile(string path)
 		{
-
 		}
 
 		public void DownloadFile(string path)
@@ -235,13 +270,22 @@ namespace MPfm.iOS.Classes.Services
 
 						if(file.NewerStatus == null)
 						{
-							Tracing.Log("iOSDropboxService - DownloadFile - File is already latest version; getting {0}", path);
-							var data = file.ReadData(out error);
-							if (error != null)
-								throw new Exception(error.Description);
+							byte[] bytes = null;
+							try
+							{
+								Tracing.Log("iOSDropboxService - DownloadFile - File is already latest version; getting {0}", path);
+								var data = file.ReadData(out error);
+								if (error != null)
+									throw new Exception(error.Description);
 
-							byte[] bytes = new byte[data.Length];
-							System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
+								bytes = new byte[data.Length];
+								System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
+							}
+							finally
+							{
+								if (file != null)
+									file.Close();
+							}
 
 							if (OnCloudFileDownloaded != null)
 								OnCloudFileDownloaded(path, bytes);
@@ -251,34 +295,7 @@ namespace MPfm.iOS.Classes.Services
 							Tracing.Log("iOSDropboxService - DownloadFile - File needs to be updated; adding observer to {0}", path);
 							_watchedFiles.Add(file);
 							file.AddObserver(this, () => {
-								Tracing.Log("iOSDropboxService - DownloadFile - File changed - {0}", path);
-								DBFileStatus status = file.NewerStatus;
-
-								// If file.NewerStatus is null, the file hasn't changed.
-								if (status == null) return;
-
-								if (status.Cached) 
-								{
-									Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is cached; updating {0}", path);
-									file.Update(out error);
-									if (error != null)
-										throw new Exception(error.Description);
-
-									var data = file.ReadData(out error);
-									if (error != null)
-										throw new Exception(error.Description);
-
-									byte[] bytes = new byte[data.Length];
-									System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
-
-									if (OnCloudFileDownloaded != null)
-										OnCloudFileDownloaded(path, bytes);
-								} 
-								else
-								{
-									// The file is still downloading
-									Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is still downloading {0}", path);
-								}
+								ProcessWatchedFile(file, path);
 							});
 						}
 				});
@@ -289,6 +306,49 @@ namespace MPfm.iOS.Classes.Services
 				{
 					return false;
 				});
+			}
+		}
+
+		private void ProcessWatchedFile(DBFile file, string filePath)
+		{
+			Tracing.Log("iOSDropboxService - DownloadFile - File changed - {0}", filePath);
+			DBError error = null;
+			DBFileStatus status = file.NewerStatus;
+
+			// If file.NewerStatus is null, the file hasn't changed.
+			if (status == null) return;
+
+			if (status.Cached) 
+			{
+				Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is cached; updating {0}", filePath);
+				file.Update(out error);
+				if (error != null)
+					throw new Exception(error.Description);
+
+				byte[] bytes = null;
+				try
+				{
+					var data = file.ReadData(out error);
+					if (error != null)
+						throw new Exception(error.Description);
+
+					bytes = new byte[data.Length];
+					System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
+				}
+				finally
+				{
+					// Do we really need to close here? Or CloseAllFiles?
+					if (file != null)
+						file.Close();
+				}
+
+				if (OnCloudFileDownloaded != null)
+					OnCloudFileDownloaded(filePath, bytes);
+			} 
+			else
+			{
+				// The file is still downloading
+				Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is still downloading {0}", filePath);
 			}
 		}
 

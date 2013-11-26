@@ -42,18 +42,19 @@ namespace MPfm.MVP.Presenters
         private readonly MobileNavigationManager _mobileNavigationManager;
         private readonly NavigationManager _navigationManager;
         private readonly ITinyMessengerHub _messengerHub;
-        private readonly ICloudLibraryService _cloudLibrary;
+        private readonly ICloudLibraryService _cloudLibraryService;
 	    private readonly IPlayerService _playerService;
 	    private readonly IAudioFileCacheService _audioFileCacheService;
 	    private bool _canRefreshCloudLoginStatus;
 
-	    public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibrary, IPlayerService playerService)
+	    public ResumePlaybackPresenter(ITinyMessengerHub messengerHub, IAudioFileCacheService audioFileCacheService, ICloudLibraryService cloudLibraryService, IPlayerService playerService)
 		{
             _messengerHub = messengerHub;
             _audioFileCacheService = audioFileCacheService;
-            _cloudLibrary = cloudLibrary;
+            _cloudLibraryService = cloudLibraryService;
             _playerService = playerService;            
-            _cloudLibrary.OnDeviceInfoUpdated += CloudLibraryOnDeviceInfoUpdated;
+            _cloudLibraryService.OnDeviceInfoUpdated += CloudLibraryOnDeviceInfoUpdated;
+            _cloudLibraryService.OnDeviceInfosAvailable += CloudLibraryOnDeviceInfosAvailable;
 
             #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -62,16 +63,15 @@ namespace MPfm.MVP.Presenters
             #endif
 		}
 
+        private void CloudLibraryOnDeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos)
+        {
+            RefreshDevices();
+        }
+
 	    private void CloudLibraryOnDeviceInfoUpdated(CloudDeviceInfo deviceInfo)
 	    {
-            //_cloudLibrary.OnCloudDataChanged += (data) => {
-            //    Task.Factory.StartNew(() => {
-            //        Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Sleeping...");
-            //        Thread.Sleep(500); // TODO: Wait for download to finish with listener (see Dropbox docs)
-            //        Console.WriteLine("ResumePlaybackPresenter - OnCloudDataChanged - Fetching device infos...");
-            //        RefreshDevices();
-            //    });
-            //};
+            // TODO: Change CloudLibraryService so it can update one device at a time
+            RefreshDevices();
         }
 
 	    public override void BindView(IResumePlaybackView view)
@@ -79,9 +79,11 @@ namespace MPfm.MVP.Presenters
             view.OnResumePlayback = ResumePlayback;
             view.OnOpenPreferencesView = OpenPreferencesView;
             view.OnCheckCloudLoginStatus = CheckCloudLoginStatus;
+            view.OnViewAppeared = ViewAppeared;
+            view.OnViewHidden = ViewHidden;
             base.BindView(view);
 
-            Task.Factory.StartNew(RefreshDevices);
+            ForceRefreshDevices();
         }
 
 	    private void OpenPreferencesView()
@@ -93,15 +95,34 @@ namespace MPfm.MVP.Presenters
 #endif
 	    }
 
+        private void ViewAppeared()
+        {
+            // Get updates that we might have missed while the screen was hidden
+            ForceRefreshDevices();
+
+            // Watch changes after first refresh
+            _cloudLibraryService.WatchDeviceInfos();
+        }
+
+        private void ViewHidden()
+        {
+            _cloudLibraryService.StopWatchingDeviceInfos();
+        }
+
         private void CheckCloudLoginStatus()
         {
             if (!_canRefreshCloudLoginStatus)
                 return;
 
-            View.RefreshAppLinkedStatus(_cloudLibrary.HasLinkedAccount);
+            View.RefreshAppLinkedStatus(_cloudLibraryService.HasLinkedAccount);
         }
 
-	    private void RefreshDevices()
+        private void ForceRefreshDevices()
+        {
+            _cloudLibraryService.PullDeviceInfos();
+        }
+
+        private void RefreshDevices()
 	    {
             // Prevent login status change during loading
             _canRefreshCloudLoginStatus = false;
@@ -110,7 +131,7 @@ namespace MPfm.MVP.Presenters
             {
                 try
                 {
-                    var devices = _cloudLibrary.GetDeviceInfos();
+                    var devices = _cloudLibraryService.GetDeviceInfos();
                     var entities = new List<ResumePlaybackEntity>();
                     foreach (var device in devices)
                     {

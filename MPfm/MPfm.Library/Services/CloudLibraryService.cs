@@ -63,19 +63,29 @@ namespace MPfm.Library.Services
         private void Initialize()
         {
             _cloudService.OnCloudFileDownloaded += CloudServiceOnCloudFileDownloaded;
+			_cloudService.OnCloudPathChanged += CloudServiceOnCloudPathChanged;
+        }
+
+		private void CloudServiceOnCloudPathChanged(string path)
+        {
+			// Unfortunately this only tells us something in the folder has changed, not the exact file
+			Tracing.Log("CloudLibraryService - CloudServiceOnCloudPathChanged - path: {0}", path);
+			if (path == "/Devices")
+				PullDeviceInfos();
         }
 
         private void CloudServiceOnCloudFileDownloaded(string path, byte[] data)
         {
             lock (_locker)
             {
+				CloudDeviceInfo device = null;
                 try
                 {
                     Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0}", path);
                     string json = Encoding.UTF8.GetString(data);
-                    var device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
+                    device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
 
-                    Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} device: {1} artist: {2}", path, device.DeviceName, device.ArtistName);
+					Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} device: {1} artist: {2} song: {3}", path, device.DeviceName, device.ArtistName, device.SongTitle);
 
                     // Try to update the list instead of adding/removing item
                     int itemIndex = _deviceInfos.FindIndex(x => x.DeviceId == device.DeviceId);
@@ -93,8 +103,12 @@ namespace MPfm.Library.Services
                     OnDeviceInfosDownloadProgress(_deviceInfos.Count/(_deviceInfos.Count + _deviceInfosLeftToDownload.Count));
 
                 // Check if list is already empty; do not raise OnDeviceInfosAvailable multiple times
-                if (_deviceInfosLeftToDownload.Count == 0)
-                    return;
+				if (_deviceInfosLeftToDownload.Count == 0)
+				{
+					if (OnDeviceInfoUpdated != null && device != null)
+						OnDeviceInfoUpdated(device);
+					return;
+				}
 
                 _deviceInfosLeftToDownload.Remove(path);
                 Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1} deviceInfos.Count: {2}", path, _deviceInfosLeftToDownload.Count, _deviceInfos.Count);
@@ -181,6 +195,34 @@ namespace MPfm.Library.Services
                 }
             });
         }
+
+		public void WatchDeviceInfos()
+		{
+			_cloudService.WatchFolder("/Devices");
+
+//			Task.Factory.StartNew(() =>
+//			{
+//				const string folderPath = "/Devices";
+//				var filePaths = _cloudService.ListFiles(folderPath, ".json");
+//				if (filePaths.Count == 0)
+//					return;
+//
+//				foreach(var filePath in filePaths)
+//				{
+//					string downloadFilePath = filePath;
+//					if (!filePath.Contains("/"))
+//						downloadFilePath = string.Format("{0}/{1}", folderPath, filePath);
+//
+//					_cloudService.WatchFile(downloadFilePath);
+//				}
+//			});
+		}
+
+		public void StopWatchingDeviceInfos()
+		{
+			_cloudService.CloseAllFiles();
+			_cloudService.StopWatchFolder("/Devices");
+		}
 
         public IEnumerable<CloudDeviceInfo> GetDeviceInfos()
         {
