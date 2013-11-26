@@ -12,7 +12,7 @@
     android:layout_alignParentTop="true"
     android:orientation="horizontal"
     android:paddingTop="6dp"
-    android:paddingBottom="6dp">
+    android:paddingBottom="2dp">
     <TextView
       android:id="@+id/seekBarPreference_lblTitle"
       android:layout_width="0dp"
@@ -39,7 +39,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/seekBarPreference_layoutTitle"
-    android:paddingTop="6dp"
+    android:paddingTop="2dp"
     android:paddingBottom="6dp"
     android:orientation="horizontal">
     <TextView

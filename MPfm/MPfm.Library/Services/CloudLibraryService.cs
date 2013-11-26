@@ -70,7 +70,7 @@ namespace MPfm.Library.Services
         {
 			// Unfortunately this only tells us something in the folder has changed, not the exact file
 			Tracing.Log("CloudLibraryService - CloudServiceOnCloudPathChanged - path: {0}", path);
-			if (path == "/Devices")
+			if (path.Contains("Devices")) // No slash on Android
 				PullDeviceInfos();
         }
 

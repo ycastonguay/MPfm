@@ -21,10 +21,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
+using Android.OS;
 using Android.Webkit;
+using Android.Widget;
 using Com.Dropbox.Sync.Android;
 using Java.IO;
 using MPfm.Core;
+using MPfm.Library.Services.Exceptions;
 using MPfm.Library.Services.Interfaces;
 using Console = System.Console;
 
@@ -36,11 +39,12 @@ namespace MPfm.Android.Classes.Services
         private DbxAccount _account;
         //private DbxDatastore _store;
         private DbxFileSystem _fileSystem;
-        private List<DbxFile> _watchedFiles; 
+        private List<DbxFile> _watchedFiles;
 
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
         public event CloudFileDownloaded OnCloudFileDownloaded;
+        public event CloudPathChanged OnCloudPathChanged;
 
         public bool HasLinkedAccount
         {
@@ -149,8 +153,16 @@ namespace MPfm.Android.Classes.Services
                 _accountManager.Unlink();
         }
 
+        private void ThrowExceptionIfAppNotLinked()
+        {
+            if (_fileSystem == null)
+                throw new CloudAppNotLinkedException();
+        }
+
         public void CreateFolder(string path)
         {
+            ThrowExceptionIfAppNotLinked();
+
             if(!_fileSystem.Exists(new DbxPath(path)))
                 _fileSystem.CreateFolder(new DbxPath(path));
         }
@@ -162,13 +174,32 @@ namespace MPfm.Android.Classes.Services
 
         public List<string> ListFiles(string path, string extension)
         {
+            ThrowExceptionIfAppNotLinked();
+
             var fileInfos = _fileSystem.ListFolder(new DbxPath(path));
             var files = fileInfos.Select(fileInfo => fileInfo.Path.Name).ToList();
             return files;
         }
 
+        public void WatchFolder(string path)
+        {
+            ThrowExceptionIfAppNotLinked();
+
+            _fileSystem.AddPathListener(this, new DbxPath(path), DbxFileSystem.PathListenerMode.PathOrChild);
+        }
+
+        public void StopWatchFolder(string path)
+        {
+            ThrowExceptionIfAppNotLinked();
+            
+            // TODO: Use path instead
+            _fileSystem.RemovePathListenerForAll(this);
+        }
+
         public void WatchFile(string path)
         {
+            ThrowExceptionIfAppNotLinked();
+
             DbxFile file = _fileSystem.Open(new DbxPath(path));
             file.AddListener(this);
             _watchedFiles.Add(file);
@@ -176,6 +207,8 @@ namespace MPfm.Android.Classes.Services
 
         public void StopWatchFile(string path)
         {
+            ThrowExceptionIfAppNotLinked();
+
             var file = _watchedFiles.FirstOrDefault(x => x.Path.Name == path);
             if (file != null)
             {
@@ -186,6 +219,8 @@ namespace MPfm.Android.Classes.Services
 
         public void CloseAllFiles()
         {
+            ThrowExceptionIfAppNotLinked();
+
             foreach (var file in _watchedFiles)
             {
                 file.RemoveListener(this);
@@ -196,14 +231,13 @@ namespace MPfm.Android.Classes.Services
 
         public void DownloadFile(string path)
         {
-            DbxFile file = null;
-            byte[] bytes = null;
+            ThrowExceptionIfAppNotLinked();
 
-            file = _fileSystem.Open(new DbxPath(path));
+            DbxFile file = _fileSystem.Open(new DbxPath(path));
             Tracing.Log("AndroidDropboxService - DownloadFile - path: {0} isCached: {1} isLatest: {2}", path, file.SyncStatus.IsCached, file.SyncStatus.IsLatest);
             if (file.NewerStatus == null)
             {
-                bytes = ReadFully(file.ReadStream);
+                byte[] bytes = ReadFully(file.ReadStream);
                 file.Close();
 
                 if (OnCloudFileDownloaded != null)
@@ -221,8 +255,9 @@ namespace MPfm.Android.Classes.Services
 
         public void UploadFile(string path, byte[] data)
         {
-            DbxFile file = null;
+            ThrowExceptionIfAppNotLinked();
 
+            DbxFile file = null;
             try
             {
                 var dbxPath = new DbxPath(path);
@@ -386,14 +421,17 @@ namespace MPfm.Android.Classes.Services
         {
             Tracing.Log("AndroidDropboxService - OnPathChange - path: {0}", registeredPath.Name);
 
-            Task.Factory.StartNew(() =>
-            {
-                var fileInfos = fileSystem.ListFolder(registeredPath);
-                foreach(var fileInfo in fileInfos)
-                {
-                    Tracing.Log("AndroidDropboxService - OnPathChange - path: {0} size: {1} modifiedTime: {2} isFolder: {3}", fileInfo.Path.Name, fileInfo.Size, fileInfo.ModifiedTime, fileInfo.IsFolder);
-                }
-            });
+            if (OnCloudPathChanged != null)
+                OnCloudPathChanged(registeredPath.Name);
+
+            //Task.Factory.StartNew(() =>
+            //{
+            //    var fileInfos = fileSystem.ListFolder(registeredPath);
+            //    foreach(var fileInfo in fileInfos)
+            //    {
+            //        Tracing.Log("AndroidDropboxService - OnPathChange - path: {0} size: {1} modifiedTime: {2} isFolder: {3}", fileInfo.Path.Name, fileInfo.Size, fileInfo.ModifiedTime, fileInfo.IsFolder);
+            //    }
+            //});
         }
 
         public void OnFileChange(DbxFile file)
@@ -404,37 +442,42 @@ namespace MPfm.Android.Classes.Services
 
             Task.Factory.StartNew(() =>
             {
-                try
-                {                    
-                    Tracing.Log("AndroidDropboxService - OnFileChange - path: {0} syncStatus: {1} bytesTransfered: {2} bytesTotal: {3} isCached: {4} isLatest: {5}", file.Path.Name, file.SyncStatus.Pending, file.SyncStatus.BytesTransferred, file.SyncStatus.BytesTotal, file.SyncStatus.IsCached, file.SyncStatus.IsLatest);
-                    if (file.NewerStatus != null)
+                ProcessWatchedFile(file);
+            });
+        }
+
+        private void ProcessWatchedFile(DbxFile file)
+        {
+            try
+            {
+                Tracing.Log("AndroidDropboxService - OnFileChange - path: {0} syncStatus: {1} bytesTransfered: {2} bytesTotal: {3} isCached: {4} isLatest: {5}", file.Path.Name, file.SyncStatus.Pending, file.SyncStatus.BytesTransferred, file.SyncStatus.BytesTotal, file.SyncStatus.IsCached, file.SyncStatus.IsLatest);
+                if (file.NewerStatus != null)
+                {
+                    Tracing.Log("AndroidDropboxService - OnFileChange - path: {0} newerStatus: {1} bytesTransfered: {2} bytesTotal: {3} isCached: {4} isLatest: {5}", file.Path.Name, file.NewerStatus.Pending, file.NewerStatus.BytesTransferred, file.NewerStatus.BytesTotal, file.NewerStatus.IsCached, file.NewerStatus.IsLatest);
+                    if (file.NewerStatus.IsLatest)
                     {
-                        Tracing.Log("AndroidDropboxService - OnFileChange - path: {0} newerStatus: {1} bytesTransfered: {2} bytesTotal: {3} isCached: {4} isLatest: {5}", file.Path.Name, file.NewerStatus.Pending, file.NewerStatus.BytesTransferred, file.NewerStatus.BytesTotal, file.NewerStatus.IsCached, file.NewerStatus.IsLatest);
-                        if (file.NewerStatus.IsLatest)
+                        Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! Updating file...");
+                        file.Update();
+
+                        // TODO: Maybe add a lock so ReadFully isn't called twice for the same file
+                        byte[] bytes = ReadFully(file.ReadStream);
+
+                        Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (2)");
+                        if (OnCloudFileDownloaded != null)
                         {
-                            Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! Updating file...");
-                            file.Update();
-
-                            // TODO: Maybe add a lock so ReadFully isn't called twice for the same file
-                            byte[] bytes = ReadFully(file.ReadStream);
-
-                            Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (2)");
-                            if (OnCloudFileDownloaded != null)
-                            {
-                                Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (3)");
-                                OnCloudFileDownloaded(string.Format("/Devices/{0}", file.Path.Name), bytes);
-                                Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (4)");
-                            }
-                            Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (5)");
+                            Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (3)");
+                            OnCloudFileDownloaded(string.Format("/Devices/{0}", file.Path.Name), bytes);
+                            Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (4)");
                         }
+                        Tracing.Log("AndroidDropboxService - OnFileChange - Finished downloading! (5)");
                     }
                 }
-                catch (Exception ex)
-                {
-                    // Ignore file close exceptions
-                    Tracing.Log("AndroidDropboxService - OnFileChanged - Exception: {0}", ex);
-                }
-            });
+            }
+            catch (Exception ex)
+            {
+                // Ignore file close exceptions
+                Tracing.Log("AndroidDropboxService - OnFileChanged - Exception: {0}", ex);
+            }
         }
     }
 }

@@ -85,12 +85,14 @@ namespace MPfm.Android
         {
             Console.WriteLine("ResumePlaybackActivity - OnPause");
             base.OnPause();
+            OnViewHidden();
         }
 
         protected override void OnResume()
         {
             Console.WriteLine("ResumePlaybackActivity - OnResume");
             base.OnResume();
+            OnViewAppeared();
         }
 
         protected override void OnStop()
@@ -127,6 +129,8 @@ namespace MPfm.Android
         public Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
         public Action OnOpenPreferencesView { get; set; }
         public Action OnCheckCloudLoginStatus { get; set; }
+        public Action OnViewAppeared { get; set; }
+        public Action OnViewHidden { get; set; }
 
         public void ResumePlaybackError(Exception ex)
         {

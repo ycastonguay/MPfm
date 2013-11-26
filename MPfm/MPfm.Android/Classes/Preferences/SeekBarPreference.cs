@@ -126,6 +126,8 @@ namespace org.sessionsapp.android
 
         public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
         {
+            if (_lblValue != null)
+                _lblValue.Text = string.Format("{0} {1}", progress, _units);
         }
 
         public void OnStartTrackingTouch(SeekBar seekBar)
