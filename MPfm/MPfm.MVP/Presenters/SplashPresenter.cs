@@ -91,12 +91,12 @@ namespace MPfm.MVP.Presenters
 
 	        Task.Factory.StartNew(() =>
 	        {
-	            View.RefreshStatus("Initializing application...");
+	            View.RefreshStatus("Initializing app...");
 	            _initializationService.Initialize();
 
 	            try
 	            {
-	                View.RefreshStatus("Downloading files from cloud...");
+                    View.RefreshStatus("Syncing data from cloud...");
 	                _timerDownloadFiles.Start();
 	                _cloudLibraryService.PullDeviceInfos();
 	            }

@@ -158,14 +158,10 @@ namespace MPfm.MVP.Navigation
                 var syncDeviceSpecs = Bootstrapper.GetContainer().Resolve<ISyncDeviceSpecifications>();
 
                 // Compare timestamps from cloud vs local
-                
-                _splashView.RefreshStatus("Fetching device information from the cloud...");
-
                 List<CloudDeviceInfo> infos = new List<CloudDeviceInfo>();
                 try
                 {
-                    // TODO: Move most of this stuff to SplashPresenter
-                    //infos = cloudLibraryService.PullDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
+                    infos = cloudLibraryService.GetDeviceInfos().OrderByDescending(x => x.Timestamp).ToList();
                 }
                 catch (Exception ex)
                 {

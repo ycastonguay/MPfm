@@ -32,10 +32,11 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MPfm.iOS.Classes.Services
 {
-	public class iOSDropboxService : ICloudService
+	public class iOSDropboxService : NSObject, ICloudService
 	{
         // Of course, those are temp keys and will be replaced when pushing to the App Store.
         //private string _dropboxAppKey = "6tc6565743i743n";
@@ -43,8 +44,9 @@ namespace MPfm.iOS.Classes.Services
         private string _dropboxAppKey = "m1bcpax276elhfi";
         private string _dropboxAppSecret = "2azbuj2eelkranm";
 
-        private DBDatastore _store;
+		//private DBDatastore _store;
         private DBFilesystem _fileSystem;
+		private List<DBFile> _watchedFiles;
 
         public event CloudAuthenticationStatusChanged OnCloudAuthenticationStatusChanged;
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;
@@ -65,6 +67,8 @@ namespace MPfm.iOS.Classes.Services
 
         private void Initialize()
         {
+			_watchedFiles = new List<DBFile>();
+
             var manager = new DBAccountManager(_dropboxAppKey, _dropboxAppSecret);
             DBAccountManager.SharedManager = manager;
 
@@ -73,13 +77,13 @@ namespace MPfm.iOS.Classes.Services
             if (account == null)
                 return;
 
-            if (_store != null && _store.Open)
-                return;
-
-            DBError error = null;
-            _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
-            if(error != null)
-                throw new Exception(error.Description);
+//            if (_store != null && _store.Open)
+//                return;
+//
+//            DBError error = null;
+//            _store = DBDatastore.OpenDefaultStoreForAccount(account, out error);
+//            if(error != null)
+//                throw new Exception(error.Description);
 
             _fileSystem = new DBFilesystem(account);
             DBFilesystem.SharedFilesystem = _fileSystem;
@@ -217,61 +221,133 @@ namespace MPfm.iOS.Classes.Services
 		{
 			ThrowExceptionIfAppNotLinked();
 
-			DBError error = null;
-			DBFile file = null;
-			var dbPath = new DBPath(path);
+			try
+			{
+				Task.Factory.StartNew(() =>
+				{
+					DBError error = null;
+					DBFile file = null;
+					var dbPath = new DBPath(path);
 
-			file = _fileSystem.OpenFile(dbPath, out error);
-			if(error != null)
-				throw new Exception(error.Description);
+					file = _fileSystem.OpenFile(dbPath, out error);
+					if (error != null)
+						throw new Exception(error.Description);
 
-//			file.Update(out error);
-//			if(error != null)
-//				throw new Exception(error.Description);
+						if(file.NewerStatus == null)
+						{
+							Tracing.Log("iOSDropboxService - DownloadFile - File is already latest version; getting {0}", path);
+							var data = file.ReadData(out error);
+							if (error != null)
+								throw new Exception(error.Description);
 
-			var data = file.ReadData(out error);
-			if(error != null)
-				throw new Exception(error.Description);
+							byte[] bytes = new byte[data.Length];
+							System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
 
-			byte[] bytes = new byte[data.Length];
-			System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
+							if (OnCloudFileDownloaded != null)
+								OnCloudFileDownloaded(path, bytes);
+						}
+						else
+						{
+							Tracing.Log("iOSDropboxService - DownloadFile - File needs to be updated; adding observer to {0}", path);
+							_watchedFiles.Add(file);
+							file.AddObserver(this, () => {
+								Tracing.Log("iOSDropboxService - DownloadFile - File changed - {0}", path);
+								DBFileStatus status = file.NewerStatus;
 
-			if (OnCloudFileDownloaded != null)
-				OnCloudFileDownloaded(path, bytes);
+								// If file.NewerStatus is null, the file hasn't changed.
+								if (status == null) return;
+
+								if (status.Cached) 
+								{
+									Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is cached; updating {0}", path);
+									file.Update(out error);
+									if (error != null)
+										throw new Exception(error.Description);
+
+									var data = file.ReadData(out error);
+									if (error != null)
+										throw new Exception(error.Description);
+
+									byte[] bytes = new byte[data.Length];
+									System.Runtime.InteropServices.Marshal.Copy(data.Bytes, bytes, 0, Convert.ToInt32(data.Length));
+
+									if (OnCloudFileDownloaded != null)
+										OnCloudFileDownloaded(path, bytes);
+								} 
+								else
+								{
+									// The file is still downloading
+									Tracing.Log("iOSDropboxService - DownloadFile - File changed - File is still downloading {0}", path);
+								}
+							});
+						}
+				});
+			}
+			catch(AggregateException ae)
+			{
+				ae.Handle((ex) =>
+				{
+					return false;
+				});
+			}
 		}
 
 		public void UploadFile(string path, byte[] data)
 		{
 			ThrowExceptionIfAppNotLinked();
 
-			DBError error = null;
-			DBFile file = null;
-			var dbPath = new DBPath(path);
-
 			try
 			{
-				// Unlike the Android SDK, there is no method to check if a file exists... 
-				var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
-				if(error != null)
-					throw new Exception(error.Description);
+				Task.Factory.StartNew(() =>
+				{
+					DBError error = null;
+					DBFile file = null;
+					var dbPath = new DBPath(path);
 
-				if (fileInfo == null)
-					file = _fileSystem.CreateFile(dbPath, out error);
-				else
-					file = _fileSystem.OpenFile(dbPath, out error);
-				if(error != null)
-					throw new Exception(error.Description);
+					try
+					{
+						// Unlike the Android SDK, there is no method to check if a file exists... 
+						var fileInfo = _fileSystem.FileInfoForPath(dbPath, out error);
+//						if (error != null) // Ignore error; API always returns 2002 error when the file doesn't exist
+//							throw new Exception(error.Description);
 
-				NSData nsData = NSData.FromArray(data);
-				file.WriteData(nsData, out error);
-				if(error != null)
-					throw new Exception(error.Description);
+						if (fileInfo == null)
+							file = _fileSystem.CreateFile(dbPath, out error);
+						else
+							file = _fileSystem.OpenFile(dbPath, out error);
+						if (error != null)
+							throw new Exception(error.Description);
+
+						NSData nsData = NSData.FromArray(data);
+						file.WriteData(nsData, out error);
+						if (error != null)
+							throw new Exception(error.Description);
+					}
+					finally
+					{
+						if (file != null)
+							file.Close();
+					}
+				});
 			}
-			finally
+			catch(AggregateException ae)
 			{
-				if (file != null)
-					file.Close();
+				ae.Handle((ex) =>
+				{
+					return false;
+				});
 			}
+
+		}
+
+		public void CloseAllFiles()
+		{
+			foreach (var file in _watchedFiles)
+			{
+				file.RemoveObserver(this);
+				file.Close();                
+			}
+			_watchedFiles.Clear();
 		}
 
 		private void ThrowExceptionIfAppNotLinked()

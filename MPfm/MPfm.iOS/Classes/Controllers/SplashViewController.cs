@@ -23,6 +23,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -82,7 +83,21 @@ namespace MPfm.iOS.Classes.Controllers
         public void RefreshStatus(string message)
         {
             InvokeOnMainThread(() => {
-                lblStatus.Text = message;
+				lblStatus.Text = message;
+				lblStatus.TextAlignment = UITextAlignment.Left;
+
+				float padding = 10;
+				UIGraphics.BeginImageContextWithOptions(lblStatus.Bounds.Size, true, 0);
+	            var context = UIGraphics.GetCurrentContext();
+				float width = CoreGraphicsHelper.MeasureStringWidth(context, message, lblStatus.Font.Name, lblStatus.Font.PointSize);
+	            UIGraphics.EndImageContext();
+
+				float totalWidth = width + 44 + padding;
+				float spinnerX = (UIScreen.MainScreen.Bounds.Width - totalWidth) / 2;
+				float textX = spinnerX + activityIndicator.Bounds.Width + padding;
+
+				activityIndicator.Frame = new RectangleF(spinnerX, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
+				lblStatus.Frame = new RectangleF(textX, lblStatus.Frame.Y, width, lblStatus.Frame.Height);
             });
         }
         
