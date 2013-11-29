@@ -44,6 +44,7 @@ namespace MPfm.iOS.Classes.Controllers
 {
 	public partial class PlayerViewController : BaseViewController, IPlayerView
 	{
+		Guid _currentAudioFileId;
         NSTimer _timerHidePlayerMetadata;
         bool _isPositionChanging = false;
         string _currentAlbumArtKey = string.Empty;
@@ -446,6 +447,11 @@ namespace MPfm.iOS.Classes.Controllers
         {
             if(audioFile == null)
                 return;
+
+			// Prevent refreshing song twice
+			if (_currentAudioFileId == audioFile.Id)
+				return;
+			_currentAudioFileId = audioFile.Id;
 
             // Check if the album art needs to be refreshed
             string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();

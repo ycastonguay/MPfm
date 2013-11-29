@@ -196,7 +196,7 @@ namespace MPfm.iOS.Classes.Delegates
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/albums");
                 else if(title.ToUpper() == "SONGS")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/songs");
-                else if(title.ToUpper() == "SESSIONS")
+				else if(title.ToUpper() == "PLAYLISTS")
                     navCtrl.TabBarItem.Image = UIImage.FromBundle("Images/Tabs/sessions");
 
                 navCtrl.PushViewController(viewController, false);

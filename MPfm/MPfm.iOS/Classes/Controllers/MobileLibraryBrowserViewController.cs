@@ -82,17 +82,25 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
-            // TODO: Add TopLayoutGuide when Xamarin will explain how it works (or patch it)
+			activityIndicator.StartAnimating();
+			//viewLoading.BackgroundColor = UIColor.FromRGBA(0.2f, 0.2f, 0.2f, 0.2f);
+			//viewLoading.Layer.CornerRadius = 8;
+			viewLoading.BackgroundColor = UIColor.Clear;
 
+			// TODO: Add TopLayoutGuide when Xamarin will explain how it works (or patch it)
+			View.BackgroundColor = GlobalTheme.BackgroundColor;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
             collectionView.CollectionViewLayout = new MPfmCollectionViewFlowLayout();
             collectionView.BackgroundColor = GlobalTheme.BackgroundColor;
             collectionView.WeakDataSource = this;
             collectionView.WeakDelegate = this;
-            collectionView.Alpha = 1;
             collectionView.ContentSize = new SizeF(160, 160);
             collectionView.RegisterClassForCell(typeof(MPfmCollectionAlbumViewCell), _collectionCellIdentifier);
+
+			viewAlbumCover.Hidden = _browserType != MobileLibraryBrowserType.Songs;
+			tableView.Alpha = 0;
+			collectionView.Alpha = (_browserType == MobileLibraryBrowserType.Songs && _tabType != MobileNavigationTabType.Songs) ? 1 : 0;
 
             imageViewAlbumCover.BackgroundColor = UIColor.Black;
             viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
@@ -131,20 +139,8 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewWillAppear(animated);
 
-            string iconName = string.Empty;
-            if (_tabType == MobileNavigationTabType.Albums && _browserType == MobileLibraryBrowserType.Albums)
-                iconName = "albums";
-            else if (_tabType == MobileNavigationTabType.Songs)
-                iconName = "song";
-            else if (_browserType == MobileLibraryBrowserType.Artists)
-                iconName = "artists";
-            else if (_browserType == MobileLibraryBrowserType.Albums)
-                iconName = "artist";
-            else if (_browserType == MobileLibraryBrowserType.Songs)
-                iconName = "album";
-
-            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle(_navigationBarSubtitle, iconName);
+			Tracing.Log("MLBVC - ViewWillAppear - RefreshNavBar");
+			RefreshNavigationBar(_navigationBarSubtitle);
 
             if(_viewHasAlreadyBeenShown)
                 ReloadImages();
@@ -159,6 +155,50 @@ namespace MPfm.iOS.Classes.Controllers
             tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
             FlushImages();
         } 
+
+		public override void WillMoveToParentViewController(UIViewController parent)
+		{
+			base.WillMoveToParentViewController(parent);
+
+			//_items = new List<LibraryBrowserEntity>();
+			//collectionView.ReloadData();
+			//tableView.ReloadData();
+
+			Tracing.Log("MLBVC - WillMoveToParentViewController - RefreshNavBar");
+			_navigationBarSubtitle = string.Empty;
+			RefreshNavigationBar(string.Empty);
+		}
+
+		private void RefreshNavigationBar(string defaultTitle)
+		{
+			string navTitle = string.Empty;
+			if (_browserType == MobileLibraryBrowserType.Artists && _tabType == MobileNavigationTabType.Artists)
+				navTitle = "Artists";
+			else if (_browserType == MobileLibraryBrowserType.Albums && _tabType == MobileNavigationTabType.Albums)
+				navTitle = "Albums";
+			else if (_browserType == MobileLibraryBrowserType.Songs && _tabType == MobileNavigationTabType.Songs)
+				navTitle = "Albums";
+			else
+				navTitle = defaultTitle;
+
+			string iconName = string.Empty;
+			if (string.IsNullOrEmpty(navTitle))
+				iconName = string.Empty;
+			else if (_tabType == MobileNavigationTabType.Albums && _browserType == MobileLibraryBrowserType.Albums)
+				iconName = "albums";
+			else if (_tabType == MobileNavigationTabType.Songs)
+				iconName = "song";
+			else if (_browserType == MobileLibraryBrowserType.Artists)
+				iconName = "artists";
+			else if (_browserType == MobileLibraryBrowserType.Albums)
+				iconName = "artist";
+			else if (_browserType == MobileLibraryBrowserType.Songs)
+				iconName = "album";
+
+			Tracing.Log("MLBVC - RefreshNavBar - defaultTitle: {0} navTitle: {1} iconName: {2}", defaultTitle, navTitle, iconName);
+			MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+			navCtrl.SetTitle(navTitle, iconName);
+		}
 
         private void HandleSwipe(UISwipeGestureRecognizer gestureRecognizer)
         {
@@ -864,37 +904,69 @@ namespace MPfm.iOS.Classes.Controllers
                 _browserType = browserType;
                 _navigationBarTitle = navigationBarTitle;
                 _navigationBarSubtitle = navigationBarSubtitle;
+				Tracing.Log("MLBVC - RefreshLibraryBrowser - RefreshNavBar - browserType: {0}", browserType);
+				RefreshNavigationBar(_navigationBarSubtitle);
 
                 // Reset scroll bar
                 tableView.ScrollRectToVisible(new RectangleF(0, 0, 1, 1), false);
 
+				// Fade out loading
+				if(viewLoading.Alpha > 0)
+				{
+					activityIndicator.StopAnimating();
+					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+						viewLoading.Alpha = 0;
+					}, null);
+				}
+
                 if(browserType == MobileLibraryBrowserType.Albums)
                 {
                     tableView.Hidden = true;
-                    if(!collectionView.Hidden)
-                    {
-                        // Prevent the first useless refresh (this "flashes" the album art image views")
-                        //Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing collection view...");
-                        collectionView.ReloadData();
-                    }
-                    collectionView.Hidden = false;
+					collectionView.Hidden = false;
+					if(_browserType == MobileLibraryBrowserType.Albums && _tabType != MobileNavigationTabType.Albums)
+					{
+						collectionView.Alpha = 1;
+						collectionView.ReloadData();
+					}
+					else
+					{
+						collectionView.Alpha = 0;
+						collectionView.ReloadData();
+
+						UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+							collectionView.Alpha = 1;
+						}, null);
+					}
                 }
                 else
                 {
-                    tableView.Hidden = false;
-                    collectionView.Hidden = true;
-                    //Console.WriteLine("MLBVC - RefreshLibraryBrowser - Refreshing table view...");
-                    tableView.ReloadData();
+					collectionView.Hidden = true;
+					tableView.Hidden = false;
+					if(_browserType == MobileLibraryBrowserType.Songs && _tabType != MobileNavigationTabType.Songs)
+					{
+						tableView.Alpha = 1;
+						tableView.ReloadData();
+					}
+					else
+					{
+						tableView.Alpha = 0;
+						tableView.ReloadData();
+
+						UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
+							tableView.Alpha = 1;
+						}, null);
+					}
                 }
 
                 // Hide album cover if not showing songs
                 if(browserType != MobileLibraryBrowserType.Songs)
                 {
                     viewAlbumCover.Hidden = true;
-                    tableView.Frame = this.View.Frame;
+					tableView.Frame = new RectangleF(View.Frame.X, View.Frame.Y - 44 - 20, View.Frame.Width, View.Frame.Height);
                 }
                 else
                 {
+					viewAlbumCover.Hidden = false;
                     if(_items.Count == 0)
                         return;
 
@@ -905,7 +977,7 @@ namespace MPfm.iOS.Classes.Controllers
 
                     // Note: cannot call UIScreen.MainScreen in a background thread!
                     int height = (int)(viewAlbumCover.Bounds.Height * UIScreen.MainScreen.Scale);
-                    imageViewAlbumCover.Image = UIImage.FromBundle("Images/emptyalbumart");
+					imageViewAlbumCover.Image = null;
                     Task<UIImage>.Factory.StartNew(() => {
                         byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
                         using (NSData imageData = NSData.FromArray(bytesImage))

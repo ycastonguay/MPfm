@@ -43,6 +43,9 @@ namespace MPfm.iOS.Helpers
         
         public static float MeasureStringWidth(CGContext context, string text, string fontName, float fontSize)
         {
+			if (string.IsNullOrEmpty(text))
+				return 0;
+
             context.SaveState();
             PointF pos = context.TextPosition;
             context.SelectFont(fontName, fontSize, CGTextEncoding.MacRoman);
