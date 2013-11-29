@@ -82,7 +82,10 @@ namespace MPfm.MVP.Presenters
 
         private void Initialize()
         {
-
+            _device = _syncClientService.CurrentDevice;
+            Tracing.Log("SyncDownloadPresenter - Initialize - url: {0} audioFiles.Count: {1}", _device.Url, _audioFiles.Count);
+            View.RefreshDevice(_device);
+            _timerUpdateProgress.Start();
         }
 
         #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
@@ -141,7 +144,7 @@ namespace MPfm.MVP.Presenters
                 _timerUpdateProgress.Start();
 
                 Task.Factory.StartNew(() => {
-                    _syncClientService.DownloadAudioFiles(_device.Url, audioFiles);
+                    _syncClientService.DownloadAudioFiles(_device, audioFiles);
                 });
             }
             catch(Exception ex)

@@ -119,8 +119,8 @@ namespace MPfm.MVP.Navigation
         void CreateSyncMenuView(SyncDevice device);
         void BindSyncMenuView(ISyncMenuView view, SyncDevice device);
 
-        void CreateSyncDownloadView(SyncDevice device, IEnumerable<AudioFile> audioFiles);
-        void BindSyncDownloadView(ISyncDownloadView view, SyncDevice device, IEnumerable<AudioFile> audioFiles);
+        void CreateSyncDownloadView();
+        void BindSyncDownloadView(ISyncDownloadView view);
 
         void CreateAboutView();
         void BindAboutView(IAboutView view);

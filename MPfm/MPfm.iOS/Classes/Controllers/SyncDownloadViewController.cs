@@ -49,7 +49,7 @@ namespace MPfm.iOS
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            //navigationManager.BindSyncDownloadView(this,);
+            navigationManager.BindSyncDownloadView(this);
         }
 
         public override void ViewWillAppear(bool animated)

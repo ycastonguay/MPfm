@@ -29,6 +29,7 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.Core;
 
 namespace MPfm.iOS
 {
@@ -78,9 +79,9 @@ namespace MPfm.iOS
 
             NavigationItem.SetRightBarButtonItem(_btnSync, true);
 
-            viewLoading.Hidden = false;
-            viewSync.Hidden = true;
-            tableView.Hidden = true;
+			viewLoading.Hidden = false;
+			viewSync.Hidden = true;
+			tableView.Hidden = true;
 
             if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
             {
@@ -88,10 +89,10 @@ namespace MPfm.iOS
                 NavigationController.InteractivePopGestureRecognizer.Enabled = true;
             }
 
-            base.ViewDidLoad();
+			var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+			navigationManager.BindSyncMenuView(this, _device);
 
-            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            navigationManager.BindSyncMenuView(this, _device);
+            base.ViewDidLoad();
         }       
 
         public override void ViewWillAppear(bool animated)
@@ -99,7 +100,7 @@ namespace MPfm.iOS
             base.ViewWillAppear(animated);
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            navCtrl.SetTitle("Sync Library");
+			navCtrl.SetTitle(_device.Name);
 
             _nowPlayingButtonPreviousAlpha = navCtrl.BtnNowPlaying.Alpha;
             navCtrl.BtnNowPlaying.Alpha = 0;
@@ -112,6 +113,27 @@ namespace MPfm.iOS
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.BtnNowPlaying.Alpha = _nowPlayingButtonPreviousAlpha;
         }
+
+		public override void DidMoveToParentViewController(UIViewController parent)
+		{
+			base.DidMoveToParentViewController(parent);
+
+			// Make sure loading is visible if the view is reused
+			viewLoading.Hidden = false;
+			viewSync.Hidden = true;
+			tableView.Hidden = true;
+
+			// Make sure table is empty
+			_items.Clear();
+			tableView.ReloadData();
+
+//			if (parent == null)
+//				return;		
+
+//			Tracing.Log("SyncMenuViewController - DidMoveToParentViewController - Binding to presenter...");
+//			var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+//			navigationManager.BindSyncMenuView(this, _device);
+		}
 
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
         {
@@ -269,6 +291,11 @@ namespace MPfm.iOS
 
         public void RefreshDevice(SyncDevice device)
         {
+			InvokeOnMainThread(() => {
+				_device = device;
+				MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+				navCtrl.SetTitle(_device.Name);
+			});
         }
 
         public void RefreshLoading(bool isLoading, int progressPercentage)

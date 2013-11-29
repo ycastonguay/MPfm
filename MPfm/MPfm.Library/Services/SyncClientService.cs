@@ -41,10 +41,10 @@ namespace MPfm.Library.Services
         long _bytesDownloaded = 0;
         int _filesDownloaded = 0;
         int _errorCount = 0;
-        string _baseUrl = string.Empty;
         List<AudioFile> _audioFiles = new List<AudioFile>();
-        
         long _lastBytesReceived = 0;
+
+		public SyncDevice CurrentDevice { get; private set; }
 
         public event ReceivedIndex OnReceivedIndex;
         public event DownloadIndexProgress OnDownloadIndexProgress;
@@ -185,9 +185,9 @@ namespace MPfm.Library.Services
                 _webClient.CancelAsync();
         }
 
-        public void DownloadIndex(string baseUrl)
+		public void DownloadIndex(SyncDevice device)
         {
-            var url = new Uri(new Uri(baseUrl), "/api/index/xml");
+			var url = new Uri(new Uri(device.Url), "/api/index/xml");
             Cancel();
 
             Console.WriteLine("SyncClientService - Downloading index from {0}...", url);
@@ -219,7 +219,7 @@ namespace MPfm.Library.Services
             return _audioFiles.Where(x => x.ArtistName.ToUpper() == artistName.ToUpper() && x.AlbumTitle.ToUpper() == albumTitle.ToUpper()).ToList();
         }
 
-        public void DownloadAudioFiles(string baseUrl, IEnumerable<AudioFile> audioFiles)
+		public void DownloadAudioFiles(SyncDevice device, IEnumerable<AudioFile> audioFiles)
         {
             if (_webClient.IsBusy)
                 return;
@@ -227,7 +227,7 @@ namespace MPfm.Library.Services
             _filesDownloaded = 0;
             _bytesDownloaded = 0;
             _errorCount = 0;
-            _baseUrl = baseUrl;
+			CurrentDevice = device;
             _audioFiles = audioFiles.ToList();
 
             if (OnDownloadAudioFileProgress != null)
@@ -248,7 +248,7 @@ namespace MPfm.Library.Services
 
         private void DownloadAudioFile(AudioFile audioFile)
         {
-            var url = new Uri(new Uri(_baseUrl), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
+			var url = new Uri(new Uri(CurrentDevice.Url), string.Format("/api/audiofile/{0}", audioFile.Id.ToString()));
             string localFilePath = GetLibraryLocalPath(audioFile);
             //Console.WriteLine("SyncClientService - DownloadAudioFile - folderPath: {0} fileName: {1} localFilePath: {2}", folderPath, fileName, localFilePath);
             _lastBytesReceived = 0;

@@ -29,6 +29,7 @@ using MPfm.MVP.Models;
 using MPfm.Library;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Bootstrap;
+using System.Threading.Tasks;
 
 namespace MPfm.MVP.Presenters
 {
@@ -148,8 +149,15 @@ namespace MPfm.MVP.Presenters
                     return;
                 }
 
+                //_device = device;
+                //_timerUpdateProgress.Start();
+
+                Task.Factory.StartNew(() => {
+                    _syncClientService.DownloadAudioFiles(_device, _audioFilesToSync);
+                });
+
 #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
-                _mobileNavigationManager.CreateSyncDownloadView(_device, _audioFilesToSync);
+                _mobileNavigationManager.CreateSyncDownloadView();
 #else
                 _navigationManager.CreateSyncDownloadView(_device, _audioFilesToSync);
 #endif
@@ -506,7 +514,7 @@ namespace MPfm.MVP.Presenters
             {
                 _device = device;
                 _audioFilesToSync.Clear();
-                _syncClientService.DownloadIndex(_device.Url);
+                _syncClientService.DownloadIndex(_device);
                 View.RefreshDevice(device);
                 View.RefreshLoading(true, 0);
             }

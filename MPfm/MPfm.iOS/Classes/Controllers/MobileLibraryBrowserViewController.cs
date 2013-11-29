@@ -154,7 +154,14 @@ namespace MPfm.iOS.Classes.Controllers
 
             tableView.DeselectRow(tableView.IndexPathForSelectedRow, false);
             FlushImages();
-        } 
+        }
+
+		public override void DidMoveToParentViewController(UIViewController parent)
+		{
+			base.DidMoveToParentViewController(parent);
+
+			Tracing.Log("MLBVC - DidMoveToParentViewController");
+		} 
 
 		public override void WillMoveToParentViewController(UIViewController parent)
 		{
@@ -197,7 +204,9 @@ namespace MPfm.iOS.Classes.Controllers
 
 			Tracing.Log("MLBVC - RefreshNavBar - defaultTitle: {0} navTitle: {1} iconName: {2}", defaultTitle, navTitle, iconName);
 			MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-			navCtrl.SetTitle(navTitle, iconName);
+
+			if(navCtrl != null)
+				navCtrl.SetTitle(navTitle, iconName);
 		}
 
         private void HandleSwipe(UISwipeGestureRecognizer gestureRecognizer)

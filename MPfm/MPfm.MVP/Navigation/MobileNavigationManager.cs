@@ -1,4 +1,4 @@
-﻿﻿// Copyright © 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -934,6 +934,8 @@ namespace MPfm.MVP.Navigation
         {
             if (_syncMenuView == null)
                 _syncMenuView = Bootstrapper.GetContainer().Resolve<ISyncMenuView>(new NamedParameterOverloads() { { "device", device } });
+            else
+                BindSyncMenuView(_syncMenuView, device);
 
             PushTabView(MobileNavigationTabType.More, _syncMenuView);
         }
@@ -951,18 +953,13 @@ namespace MPfm.MVP.Navigation
             _syncMenuPresenter.BindView(view);
         }
 
-        public virtual void CreateSyncDownloadView(SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        public virtual void CreateSyncDownloadView()
         {
-            //if (_syncDownloadView == null)
-            //    _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
-            //else
-            //    _syncDownloadPresenter.StartSync(device, audioFiles);
-
             if (_syncDownloadView == null)
                 _syncDownloadView = Bootstrapper.GetContainer().Resolve<ISyncDownloadView>();
         }
 
-        public virtual void BindSyncDownloadView(ISyncDownloadView view, SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        public virtual void BindSyncDownloadView(ISyncDownloadView view)
         {
             _syncDownloadView = view;
             _syncDownloadView.OnViewDestroy = (view2) =>
@@ -973,8 +970,6 @@ namespace MPfm.MVP.Navigation
             };
             _syncDownloadPresenter = Bootstrapper.GetContainer().Resolve<ISyncDownloadPresenter>();
             _syncDownloadPresenter.BindView(view);
-            // Move to Ctor
-            //_syncDownloadPresenter.StartSync(device, audioFiles);
         }
 
         public virtual void CreateAboutView()

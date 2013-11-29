@@ -37,10 +37,11 @@ namespace MPfm.Library.Services.Interfaces
         event DownloadAudioFileStatus OnDownloadAudioFileProgress;
         event DownloadAudioFileStatus OnDownloadAudioFileCompleted;
         event EventHandler OnDownloadAudioFilesCompleted;
+		SyncDevice CurrentDevice { get; }
 
         void Cancel();
-        void DownloadIndex(string baseUrl);
-        void DownloadAudioFiles(string baseUrl, IEnumerable<AudioFile> audioFiles);
+		void DownloadIndex(SyncDevice device);
+		void DownloadAudioFiles(SyncDevice device, IEnumerable<AudioFile> audioFiles);
         List<string> GetDistinctArtistNames();
         List<string> GetDistinctAlbumTitles(string artistName);
         List<AudioFile> GetAudioFiles();
