@@ -62,7 +62,6 @@
     <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
-    <CodesignProvision>2BCECEF9-924B-47F1-9491-7EBB70258A12</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>

@@ -42,8 +42,8 @@ namespace MPfm.iOS.Classes.Controls
         {
             var screenSize = UIKitHelper.GetDeviceSize();
             var context = UIGraphics.GetCurrentContext();
-            CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainDarkColor.CGColor);
-            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 0, screenSize.Width, 2), GlobalTheme.MainLightColor.CGColor);
+			CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.BackgroundColor.CGColor);
+			//CoreGraphicsHelper.FillRect(context, new RectangleF(0, 0, screenSize.Width, 2), GlobalTheme.MainDarkColor.CGColor);
         }
 
         public override void LayoutSubviews()

@@ -36,7 +36,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             var screenSize = UIKitHelper.GetDeviceSize();
             var context = UIGraphics.GetCurrentContext();
-            CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainColor.CGColor);
+			CoreGraphicsHelper.FillRect(context, rect, GlobalTheme.MainColor.CGColor);
             CoreGraphicsHelper.FillRect(context, new RectangleF(0, 42, screenSize.Width, 2), GlobalTheme.MainLightColor.CGColor);
         }
 

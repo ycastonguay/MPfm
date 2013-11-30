@@ -36,6 +36,7 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
+			View.BackgroundColor = UIColor.White;
             Console.WriteLine("SplashViewController - UIScreen width: {0} height: {1}", UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
             if (UIScreen.MainScreen.Bounds.Height == 568)
                 imageView.Image = UIImage.FromBundle("Images/Splash/splash_default-568h");

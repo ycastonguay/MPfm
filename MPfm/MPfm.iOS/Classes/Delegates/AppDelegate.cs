@@ -36,6 +36,7 @@ using MPfm.iOS.Helpers;
 using DropBoxSync.iOS;
 using MPfm.iOS.Classes.Services;
 using MPfm.Library.Services.Interfaces;
+using System.Drawing;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -74,9 +75,13 @@ namespace MPfm.iOS.Classes.Delegates
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
 			_window = new MPfmWindow(UIScreen.MainScreen.Bounds);
+			_window.BackgroundColor = GlobalTheme.MainColor;
 
-            if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-                _window.TintColor = GlobalTheme.SecondaryColor;
+			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+			{
+				_window.TintColor = GlobalTheme.SecondaryColor;
+				//UINavigationBar.Appearance.BarTintColor = UIColor.Yellow;
+			}
 
 			// Start navigation manager
 			_navigationManager = (iOSNavigationManager)container.Resolve<MobileNavigationManager>();
@@ -171,6 +176,13 @@ namespace MPfm.iOS.Classes.Delegates
             });
         }
 
+		public void ShowMiniPlayer()
+		{
+			UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+				_tabBarController.View.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height - 64);
+			}, null);
+		}
+
         public void AddTab(MobileNavigationTabType type, string title, UIViewController viewController)
         {
             InvokeOnMainThread(() => {
@@ -218,6 +230,9 @@ namespace MPfm.iOS.Classes.Delegates
 
                 var navCtrl = _navigationControllers.FirstOrDefault(x => x.Key == type).Value;
                 navCtrl.PushViewController(viewController, true);
+
+				if(viewController is AboutViewController)
+					ShowMiniPlayer();
             });
         }
 
