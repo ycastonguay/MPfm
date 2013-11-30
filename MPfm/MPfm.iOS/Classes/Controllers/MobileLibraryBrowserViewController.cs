@@ -98,12 +98,12 @@ namespace MPfm.iOS.Classes.Controllers
             collectionView.ContentSize = new SizeF(160, 160);
             collectionView.RegisterClassForCell(typeof(MPfmCollectionAlbumViewCell), _collectionCellIdentifier);
 
-			viewAlbumCover.Hidden = _browserType != MobileLibraryBrowserType.Songs;
+			//viewAlbumCover.Hidden = _browserType != MobileLibraryBrowserType.Songs;
 			tableView.Alpha = 0;
 			collectionView.Alpha = (_browserType == MobileLibraryBrowserType.Songs && _tabType != MobileNavigationTabType.Songs) ? 1 : 0;
 
-            imageViewAlbumCover.BackgroundColor = UIColor.Black;
-            viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
+			//imageViewAlbumCover.BackgroundColor = UIColor.Black;
+			//viewAlbumCover.BackgroundColor = GlobalTheme.MainDarkColor;
 
             _imageCache = new List<KeyValuePair<string, UIImage>>();
             _thumbnailImageCache = new List<KeyValuePair<string, UIImage>>();
@@ -970,54 +970,54 @@ namespace MPfm.iOS.Classes.Controllers
                 // Hide album cover if not showing songs
                 if(browserType != MobileLibraryBrowserType.Songs)
                 {
-                    viewAlbumCover.Hidden = true;
+					//viewAlbumCover.Hidden = true;
 					tableView.Frame = new RectangleF(View.Frame.X, View.Frame.Y - 44 - 20, View.Frame.Width, View.Frame.Height);
                 }
                 else
                 {
-					viewAlbumCover.Hidden = false;
+					//viewAlbumCover.Hidden = false;
                     if(_items.Count == 0)
                         return;
 
                     var audioFile = _items[0].AudioFile;
-                    lblArtistName.Text = audioFile.ArtistName;
-                    lblAlbumTitle.Text = audioFile.AlbumTitle;
-                    lblSubtitle1.Text = _items.Count().ToString() + " songs";
+//                    lblArtistName.Text = audioFile.ArtistName;
+//                    lblAlbumTitle.Text = audioFile.AlbumTitle;
+//                    lblSubtitle1.Text = _items.Count().ToString() + " songs";
 
-                    // Note: cannot call UIScreen.MainScreen in a background thread!
-                    int height = (int)(viewAlbumCover.Bounds.Height * UIScreen.MainScreen.Scale);
-					imageViewAlbumCover.Image = null;
-                    Task<UIImage>.Factory.StartNew(() => {
-                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
-                        using (NSData imageData = NSData.FromArray(bytesImage))
-                        {
-                            using (UIImage image = UIImage.LoadFromData(imageData))
-                            {
-                                if (image != null)
-                                {
-                                    try
-                                    {
-                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
-                                        return imageResized;
-                                    } 
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
-                                    }
-                                }
-                            }
-                        }
-                        
-                        return null;
-                    }).ContinueWith(t => {
-                        UIImage image = t.Result;
-                        if(image == null)
-                            return;
-                        
-                        InvokeOnMainThread(() => {
-                            imageViewAlbumCover.Image = image;                                                                                               
-                        });
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
+//                    // Note: cannot call UIScreen.MainScreen in a background thread!
+//                    int height = (int)(viewAlbumCover.Bounds.Height * UIScreen.MainScreen.Scale);
+//					imageViewAlbumCover.Image = null;
+//                    Task<UIImage>.Factory.StartNew(() => {
+//                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+//                        using (NSData imageData = NSData.FromArray(bytesImage))
+//                        {
+//                            using (UIImage image = UIImage.LoadFromData(imageData))
+//                            {
+//                                if (image != null)
+//                                {
+//                                    try
+//                                    {
+//                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
+//                                        return imageResized;
+//                                    } 
+//                                    catch (Exception ex)
+//                                    {
+//                                        Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        
+//                        return null;
+//                    }).ContinueWith(t => {
+//                        UIImage image = t.Result;
+//                        if(image == null)
+//                            return;
+//                        
+//                        InvokeOnMainThread(() => {
+//                            imageViewAlbumCover.Image = image;                                                                                               
+//                        });
+//                    }, TaskScheduler.FromCurrentSynchronizationContext());
                 }
             });
         }

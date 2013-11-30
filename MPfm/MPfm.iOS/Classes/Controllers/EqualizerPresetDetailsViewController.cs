@@ -30,6 +30,8 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.MVP.Bootstrap;
+using MPfm.iOS.Helpers;
+using MPfm.Core;
 
 namespace MPfm.iOS
 {
@@ -52,7 +54,7 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            scrollView.BackgroundColor = GlobalTheme.BackgroundColor;
+			scrollView.BackgroundColor = GlobalTheme.BackgroundColor;
             toolbar.BackgroundColor = GlobalTheme.MainColor;
             viewOptions.BackgroundColor = GlobalTheme.BackgroundColor;
             lblPresetName.TextColor = UIColor.White;
@@ -129,6 +131,27 @@ namespace MPfm.iOS
             navigationManager.BindEqualizerPresetDetailsView(null, this, _presetId);
         }
 
+		public override void ViewDidLayoutSubviews()
+		{
+			base.ViewDidLayoutSubviews();
+
+			var screenSize = UIKitHelper.GetDeviceSize();
+			scrollView.ContentSize = new SizeF(screenSize.Width, _faderViews.Count * 44);
+
+			Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - width: {0} faderCount: {1}", screenSize.Width, _faderViews.Count);
+			float y = 0;
+			for (int a = 0; a < scrollView.Subviews.Count(); a++)
+			{
+				Tracing.Log("EqualizerPresetDetailsVC - ViewDidLayoutSubviews - a: {0} a*44: {1}", a, (a * 44));
+				var view = scrollView.Subviews[a];
+				if (view is MPfmEqualizerFaderView)
+				{
+					view.Frame = new RectangleF(0, y, screenSize.Width, 44);
+					y += 44;
+				}
+			}
+		}
+
         private void HandleButtonSaveTouchUpInside()
         {
             _isPresetModified = false;
@@ -177,6 +200,7 @@ namespace MPfm.iOS
 
         private void AddFaderToScrollView(string frequency)
         {
+			Tracing.Log("EqualizerPresetDetailsVC - AddFaderToScrollView - frequency: {0} faderCount: {1}", frequency, _faderViews.Count);
             MPfmEqualizerFaderView view = new MPfmEqualizerFaderView();
             view.Frame = new RectangleF(0, _faderViews.Count * 44, scrollView.Frame.Width, 44);
             view.SetValue(frequency, 0);

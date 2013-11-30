@@ -149,6 +149,17 @@ namespace MPfm.iOS
             navCtrl.SetTitle("Equalizer Presets");
         }
 
+		public override void ViewDidLayoutSubviews()
+		{
+			base.ViewDidLayoutSubviews();
+
+			var screenSize = UIKitHelper.GetDeviceSize();
+			if (UserInterfaceIdiomIsPhone)
+				_volumeView.Frame = new RectangleF(74, 25, 236, 46);
+			else
+				_volumeView.Frame = new RectangleF(100, 58, screenSize.Width - 112, 46);
+		}
+
         private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
         {
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)

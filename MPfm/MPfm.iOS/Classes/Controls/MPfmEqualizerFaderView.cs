@@ -58,7 +58,7 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            BackgroundColor = GlobalTheme.BackgroundColor;
+			BackgroundColor = GlobalTheme.BackgroundColor;
 
             _lblFrequency = new UILabel(new RectangleF(12, 4, 60, 36));
             _lblFrequency.BackgroundColor = UIColor.Clear;
@@ -85,6 +85,16 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(_lblValue);
             AddSubview(_slider);
         }
+
+		public override void LayoutSubviews()
+		{
+			base.LayoutSubviews();
+
+			var screenSize = UIKitHelper.GetDeviceSize();
+			_lblFrequency.Frame = new RectangleF(12, 4, 60, 36);
+			_lblValue.Frame = new RectangleF(screenSize.Width - 60 - 14, 4, 60, 36);
+			_slider.Frame = new RectangleF(62, 4, screenSize.Width - 120 - 14, 36);
+		}
 
         protected virtual void OnValueChanged(MPfmEqualizerFaderValueChangedEventArgs e)
         {

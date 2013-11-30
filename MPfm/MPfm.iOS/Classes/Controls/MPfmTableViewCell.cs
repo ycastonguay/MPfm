@@ -112,7 +112,6 @@ namespace MPfm.iOS.Classes.Controls
             AlbumCountLabel = new UILabel();
             AlbumCountLabel.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
             AlbumCountLabel.Alpha = 0.75f;
-            //AlbumCountLabel.BackgroundColor = GlobalTheme.MainColor;
             AlbumCountLabel.BackgroundColor = UIColor.Clear;
             AlbumCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 18);
             AlbumCountLabel.Hidden = true;
@@ -260,6 +259,11 @@ namespace MPfm.iOS.Classes.Controls
                 RightImage.Frame = new RectangleF(screenSize.Width - 44 - RightOffset, 4, 44, 44);
             else
                 RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 4, 44, 44);
+
+			ImageAlbum1.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
+			ImageAlbum2.Frame = new RectangleF(screenSize.Width - 130, 4, 44, 44);
+			ImageAlbum3.Frame = new RectangleF(screenSize.Width - 182, 4, 44, 44);
+			AlbumCountLabel.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
