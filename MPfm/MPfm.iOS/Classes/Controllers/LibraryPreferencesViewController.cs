@@ -34,7 +34,7 @@ namespace MPfm.iOS
     public partial class LibraryPreferencesViewController : BasePreferencesViewController, ILibraryPreferencesView
     {
         string _cellIdentifier = "CloudPreferencesCell";
-        //CloudAppConfig _config;
+		LibraryAppConfig _config;
         List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
 
         #region BasePreferencesViewController
@@ -52,7 +52,6 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            GenerateItems();
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -70,23 +69,32 @@ namespace MPfm.iOS
         private void GenerateItems()
         {
             // We assume the items are in order for sections
+			int port = _config.SyncServicePort >= 80 && _config.SyncServicePort <= 65535 ? _config.SyncServicePort : 53351;
             _items = new List<PreferenceCellItem>();
             _items.Add(new PreferenceCellItem()
             {
-                Id = "sync_server_enabled",
+				Id = "sync_service_enabled",
                 CellType = PreferenceCellType.Boolean,
                 HeaderTitle = "Sync Service",
                 Title = "Enable Sync Service",
-                Description = "Allows remote devices to access this library"
+				Description = "Allows remote devices to access this library",
+				Value = _config.IsSyncServiceEnabled
             });
             _items.Add(new PreferenceCellItem()
             {
-                Id = "sync_server_port",
+				Id = "sync_service_port",
                 CellType = PreferenceCellType.Integer,
                 HeaderTitle = "Sync Service",
                 Title = "HTTP Port",
                 FooterTitle = "Note: The sync service is only used when Wi-Fi is available.",
-                Value = 53551
+				Enabled = !_config.IsSyncServiceEnabled,
+				Value = port,
+				ValidateFailErrorMessage = "The sync service HTTP port must be between 80 and 65535.",
+				ValidateValueDelegate = (value) => {
+					int newPort = 0;
+					int.TryParse(value, out newPort);
+					return (newPort >= 80 && newPort <= 65535);
+				}
             });
             _items.Add(new PreferenceCellItem()
             {
@@ -115,12 +123,12 @@ namespace MPfm.iOS
 
             localItem.Value = item.Value;
 
-//            if (item.Id == "enable_dropbox_resume_playback")
-//                _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
-//            else if (item.Id == "enable_dropbox_resume_playback_wifi_only")
-//                _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
-//
-//            OnSetCloudPreferences(_config);
+			if (item.Id == "sync_service_enabled")
+				_config.IsSyncServiceEnabled = (bool)item.Value;
+			else if (item.Id == "sync_service_port")
+				_config.SyncServicePort = (int)item.Value;
+
+			OnSetLibraryPreferences(_config);
         }
 
         [Export ("tableView:didSelectRowAtIndexPath:")]
@@ -132,19 +140,20 @@ namespace MPfm.iOS
             var item = items[indexPath.Row];
             tableView.DeselectRow(indexPath, true);
 
-            if (item.Id == "library_reset")
-            {
-                var alertView = new UIAlertView("Reset Library", "Are you sure you wish to reset your library?", null, "OK", new string[1]{"Cancel"});
-                alertView.Clicked += (sender2, e) => {
-                    if(e.ButtonIndex == 0)
-                        OnResetLibrary();
-                };
-                alertView.Show();
-            }
-            else if (item.Id == "library_update")
-            {
-                OnUpdateLibrary();
-            }
+			if (item.Id == "library_reset")
+			{
+				var alertView = new UIAlertView("Reset Library", "Are you sure you wish to reset your library?", null, "OK", new string[1]{ "Cancel" });
+				alertView.Clicked += (sender2, e) =>
+				{
+					if (e.ButtonIndex == 0)
+						OnResetLibrary();
+				};
+				alertView.Show();
+			}
+			else if (item.Id == "library_update")
+			{
+				OnUpdateLibrary();
+			}
         }
 
         #region ILibraryPreferencesView implementation
@@ -153,7 +162,7 @@ namespace MPfm.iOS
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnSelectFolders { get; set; }
-        public Action OnEnableSyncListener { get; set; }
+		public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
 
         public void LibraryPreferencesError(Exception ex)
@@ -166,6 +175,11 @@ namespace MPfm.iOS
 
         public void RefreshLibraryPreferences(LibraryAppConfig config)
         {
+			_config = config;
+			InvokeOnMainThread(() => {                
+				GenerateItems();
+				tableView.ReloadData();
+			});
         }
 
         #endregion

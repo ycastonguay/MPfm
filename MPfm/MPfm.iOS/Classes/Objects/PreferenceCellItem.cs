@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MonoTouch.UIKit;
 
 namespace MPfm.iOS.Classes.Objects
@@ -34,6 +35,8 @@ namespace MPfm.iOS.Classes.Objects
         public object Value { get; set; }
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
+		public Func<string, bool> ValidateValueDelegate { get; set; }
+		public string ValidateFailErrorMessage { get; set; }
 
         public PreferenceCellItem()
         {

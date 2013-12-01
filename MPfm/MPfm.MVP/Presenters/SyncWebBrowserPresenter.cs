@@ -32,27 +32,28 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class SyncWebBrowserPresenter : BasePresenter<ISyncWebBrowserView>, ISyncWebBrowserPresenter
 	{
-        readonly ISyncDeviceSpecifications _deviceSpecifications;
+        private readonly ISyncDeviceSpecifications _deviceSpecifications;
+        private readonly ISyncListenerService _syncListenerService;
 
-        public SyncWebBrowserPresenter(ISyncDeviceSpecifications deviceSpecifications)
+        public SyncWebBrowserPresenter(ISyncDeviceSpecifications deviceSpecifications, ISyncListenerService syncListenerService)
         {
             _deviceSpecifications = deviceSpecifications;
+            _syncListenerService = syncListenerService;
         }
 
         public override void BindView(ISyncWebBrowserView view)
         {
+            view.OnViewAppeared = ViewAppeared;
             base.BindView(view);
-
-            Initialize();
         }       
 
-        private void Initialize()
+        private void ViewAppeared()
         {
             try
             {
                 //string ip = SyncListenerService.GetLocalIPAddress().ToString();
                 string ip = _deviceSpecifications.GetIPAddress();
-                string url = String.Format("http://{0}:53551", ip);
+                string url = String.Format("http://{0}:{1}", ip, _syncListenerService.Port);
                 View.RefreshContent(url, SyncListenerService.AuthenticationCode);
             }
             catch(Exception ex)

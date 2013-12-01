@@ -86,7 +86,7 @@ namespace MPfm.iOS
                 HeaderTitle = "Sync",
                 Title = "Enable Resume Playback",
                 Description = "Resume playback from other devices",
-                Value = _config.IsDropboxResumePlaybackEnabled
+                Value = _config.IsResumePlaybackEnabled
             });
             _items.Add(new PreferenceCellItem()
             {
@@ -94,7 +94,7 @@ namespace MPfm.iOS
                 CellType = PreferenceCellType.Boolean,
                 HeaderTitle = "Sync",
                 Title = "Sync Playlists",
-                Value = _config.IsDropboxResumePlaybackEnabled
+				Value = _config.IsSyncPlaylistsEnabled
             });
             _items.Add(new PreferenceCellItem()
             {
@@ -102,7 +102,7 @@ namespace MPfm.iOS
                 CellType = PreferenceCellType.Boolean,
                 HeaderTitle = "Sync",
                 Title = "Sync Equalizer Presets",
-                Value = _config.IsDropboxResumePlaybackEnabled
+				Value = _config.IsSyncPresetsEnabled
             });
             _items.Add(new PreferenceCellItem()
             {
@@ -111,7 +111,7 @@ namespace MPfm.iOS
                 HeaderTitle = "Sync",
                 Title = "Synchronize only on Wi-Fi",
                 FooterTitle = "The cloud service will be used to synchronize data between devices, excluding audio files. A small amount of bandwidth (≈1kb/call) is used every time you update a playlist, update a preset or skip to a different song.",
-                Value = _config.IsDropboxResumePlaybackWifiOnlyEnabled
+				Value = _config.IsSyncOnlyOnWifiEnabled
             });
         }
 
@@ -124,9 +124,13 @@ namespace MPfm.iOS
             localItem.Value = item.Value;
 
             if (item.Id == "enable_resume_playback")
-                _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
+                _config.IsResumePlaybackEnabled = (bool)item.Value;
             else if (item.Id == "enable_resume_playback_wifi_only")
-                _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
+				_config.IsSyncOnlyOnWifiEnabled = (bool)item.Value;
+			else if (item.Id == "enable_equalizer_presets_sync")
+				_config.IsSyncPresetsEnabled = (bool)item.Value;
+			else if (item.Id == "enable_playlist_sync")
+				_config.IsSyncPlaylistsEnabled = (bool)item.Value;
 
             OnSetCloudPreferences(_config);
         }

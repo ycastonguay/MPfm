@@ -61,7 +61,7 @@ namespace MPfm.MVP.Presenters
             view.OnUpdateLibrary = UpdateLibrary;
             view.OnSelectFolders = SelectFolders;
             
-            view.OnEnableSyncListener = EnableSyncListener;
+            view.OnEnableSyncListener = EnableSyncService;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
             base.BindView(view);
 
@@ -72,8 +72,15 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
+                // Save config
                 AppConfigManager.Instance.Root.Library = libraryAppConfig;
                 AppConfigManager.Instance.Save();
+
+                // Update service configuration
+                EnableSyncService(libraryAppConfig.IsSyncServiceEnabled);
+                SetSyncListenerPort(libraryAppConfig.SyncServicePort);
+
+                // Make sure preferences are in sync
                 RefreshPreferences();
             }
             catch (Exception ex)
@@ -134,13 +141,14 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void EnableSyncListener()
+        private void EnableSyncService(bool enabled)
         {
             try
             {
-                if(_syncListenerService.IsRunning)
+                
+                if(!enabled && _syncListenerService.IsRunning)
                     _syncListenerService.Stop();
-                else 
+                else if(enabled && !_syncListenerService.IsRunning)
                     _syncListenerService.Start();
             }
             catch(Exception ex)
@@ -154,7 +162,8 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _syncListenerService.SetPort(port);
+                if(_syncListenerService.Port != port)
+                    _syncListenerService.SetPort(port);
             }
             catch(Exception ex)
             {

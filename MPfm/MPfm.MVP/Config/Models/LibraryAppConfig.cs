@@ -25,11 +25,14 @@ namespace MPfm.MVP.Config.Models
     /// </summary>
     public class LibraryAppConfig : IAppConfig
     {
+        public bool IsSyncServiceEnabled { get; set; }
+        public int SyncServicePort { get; set; }
         public List<Folder> Folders { get; set; }
 
         public LibraryAppConfig()
         {
             Folders = new List<Folder>();
+            SyncServicePort = 53551;
         }        
     }
 }

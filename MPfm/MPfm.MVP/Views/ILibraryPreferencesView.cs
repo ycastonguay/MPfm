@@ -30,7 +30,7 @@ namespace MPfm.MVP.Views
         Action OnSelectFolders { get; set; }
         Action OnResetLibrary { get; set; }
         Action OnUpdateLibrary { get; set; }
-        Action OnEnableSyncListener { get; set; }
+        Action<bool> OnEnableSyncListener { get; set; }
         Action<int> OnSetSyncListenerPort { get; set; }
 
         void LibraryPreferencesError(Exception ex);

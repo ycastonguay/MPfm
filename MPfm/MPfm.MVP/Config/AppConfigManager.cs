@@ -59,6 +59,10 @@ namespace MPfm.MVP.Config
         public void Load()
         {
             Root = _provider.Load(PathHelper.ConfigurationFilePath);
+
+            // Fix any important values that could have been corrupted for some reason
+            if (Root.Library.SyncServicePort < 80 || Root.Library.SyncServicePort > 65535)
+                Root.Library.SyncServicePort = 53551;
         }
 
         public void Save()

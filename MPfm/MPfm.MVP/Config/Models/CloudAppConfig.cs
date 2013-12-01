@@ -22,8 +22,10 @@ namespace MPfm.MVP.Config.Models
     /// </summary>
     public class CloudAppConfig : IAppConfig
     {
-        public bool IsDropboxResumePlaybackEnabled { get; set; }
-        public bool IsDropboxResumePlaybackWifiOnlyEnabled { get; set; }
+        public bool IsResumePlaybackEnabled { get; set; }
+        public bool IsSyncOnlyOnWifiEnabled { get; set; }
+        public bool IsSyncPlaylistsEnabled { get; set; }
+        public bool IsSyncPresetsEnabled { get; set; }
 
         public CloudAppConfig()
         {

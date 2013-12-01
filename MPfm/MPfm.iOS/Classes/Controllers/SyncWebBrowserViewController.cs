@@ -57,9 +57,13 @@ namespace MPfm.iOS
 
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Sync (Web Browser)");
+
+			OnViewAppeared();
         }
 
         #region ISyncWebBrowserView implementation
+
+		public Action OnViewAppeared { get; set; }
 
         public void SyncWebBrowserError(Exception ex)
         {

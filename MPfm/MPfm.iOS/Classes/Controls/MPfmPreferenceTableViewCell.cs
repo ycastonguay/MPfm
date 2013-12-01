@@ -27,6 +27,7 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using MPfm.Core;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -42,6 +43,7 @@ namespace MPfm.iOS.Classes.Controls
         public bool IsLargeIcon { get; set; }
         public UIButton RightButton { get; private set; }
         public UIImageView ImageChevron { get; private set; }
+		public UITextField ValueTextField { get; private set; }
         public UILabel ValueTextLabel { get; private set; }
         public UILabel MinValueTextLabel { get; private set; }
         public UILabel MaxValueTextLabel { get; private set; }
@@ -90,7 +92,20 @@ namespace MPfm.iOS.Classes.Controls
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             ImageView.BackgroundColor = UIColor.Clear;
 
-            ValueTextLabel = new UILabel();
+			ValueTextField = new UITextField();
+			ValueTextField.WeakDelegate = this;
+			ValueTextField.Hidden = true;
+			ValueTextField.UserInteractionEnabled = false;
+			ValueTextField.BackgroundColor = UIColor.Clear;
+			ValueTextField.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+			ValueTextField.TextColor = UIColor.Gray;
+			ValueTextField.TextAlignment = UITextAlignment.Right;
+			ValueTextField.Placeholder = "53551";
+			ValueTextField.KeyboardType = UIKeyboardType.NumberPad;
+			ValueTextField.ReturnKeyType = UIReturnKeyType.Done;
+			AddSubview(ValueTextField);
+
+			ValueTextLabel = new UILabel();
             ValueTextLabel.BackgroundColor = UIColor.Clear;
             ValueTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
             ValueTextLabel.TextColor = UIColor.Gray;
@@ -150,6 +165,11 @@ namespace MPfm.iOS.Classes.Controls
             // Make sure the text label is over all other subviews
             TextLabel.RemoveFromSuperview();
             AddSubview(TextLabel);
+
+			// Make sure the Done key closes the keyboard
+			ValueTextField.ShouldReturn = (a) => {
+				return ValidateAndSaveValue();
+			};
         }
 
         public override void LayoutSubviews()
@@ -199,6 +219,7 @@ namespace MPfm.iOS.Classes.Controls
             if(_isTextLabelAllowedToChangeFrame)
                 TextLabel.Frame = new RectangleF(x, titleY, textWidth - 52, 22);
             ValueTextLabel.Frame = new RectangleF(0, titleY, Bounds.Width - 12, 22);
+			ValueTextField.Frame = new RectangleF(Bounds.Width - 112, titleY, 100, 22);
 
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth - 52, 16);
@@ -213,6 +234,28 @@ namespace MPfm.iOS.Classes.Controls
             Slider.Frame = new RectangleF(12 + 60, 48, Bounds.Width - 24 - 120, 44);
         }
 
+		public override void SetSelected(bool selected, bool animated)
+		{
+			//Tracing.Log("PreferenceTableViewCell - SetSelected - selected: {0}", selected);
+			base.SetSelected(selected, animated);		
+
+			if (_item == null)
+				return;
+
+			if (selected && _item.CellType == PreferenceCellType.Integer && _item.Enabled)
+			{
+				if (!ValueTextField.IsFirstResponder)
+				{
+					ValueTextField.UserInteractionEnabled = true;
+					ValueTextField.BecomeFirstResponder();
+				}
+				else
+				{
+					ValidateAndSaveValue();
+				}
+			}
+		}
+
         public void SetItem(PreferenceCellItem item)
         {
             _item = item;
@@ -225,6 +268,11 @@ namespace MPfm.iOS.Classes.Controls
             Switch.Enabled = item.Enabled;
             Slider.Hidden = item.CellType != PreferenceCellType.Slider;
             SelectionStyle = item.CellType != PreferenceCellType.Boolean && item.CellType != PreferenceCellType.Slider && item.Enabled ? UITableViewCellSelectionStyle.Default : UITableViewCellSelectionStyle.None;
+			ValueTextField.Hidden = item.CellType != PreferenceCellType.Integer;
+
+			ValueTextLabel.Text = string.Empty;
+			ValueTextField.Text = string.Empty;
+			ValueTextField.Tag = (int)item.CellType;
 
             if (item.Value == null)
                 return;
@@ -239,7 +287,7 @@ namespace MPfm.iOS.Classes.Controls
                 case PreferenceCellType.String:
                     break;
                 case PreferenceCellType.Integer:
-                    ValueTextLabel.Text = string.Format("{0} {1}", (int)item.Value, item.ScaleName);
+					ValueTextField.Text = string.Format("{0} {1}", (int)item.Value, item.ScaleName);
                     break;
                 case PreferenceCellType.Slider:
                     ValueTextLabel.Text = string.Format("{0} {1}", (int)item.Value, item.ScaleName);
@@ -296,5 +344,45 @@ namespace MPfm.iOS.Classes.Controls
                 }, null);
             }
         }
+
+		[Export("textFieldShouldEndEditing:")]
+		private bool TextFieldShouldEndEditing(UITextField textField)
+		{
+			return ValidateAndSaveValue();
+		}
+
+		private bool ValidateAndSaveValue()
+		{
+			bool validated = ValidateValue();
+			if (validated)
+			{
+				int value = 0;
+				int.TryParse(ValueTextField.Text, out value);
+				_item.Value = value;
+				ValueTextField.ResignFirstResponder();
+				ValueTextField.UserInteractionEnabled = false;
+
+				if(OnPreferenceValueChanged != null)
+					OnPreferenceValueChanged(_item);
+			}
+
+			return validated;
+		}
+
+		private bool ValidateValue()
+		{
+			if (_item.ValidateValueDelegate != null)
+			{
+				bool validated = _item.ValidateValueDelegate(ValueTextField.Text);
+				if (!validated)
+				{
+					var alertView = new UIAlertView("Validation failed", _item.ValidateFailErrorMessage, null, "OK", null);
+					alertView.Show();
+				}
+				return validated;
+			}
+			return true;
+		}
     }
 }
+ 

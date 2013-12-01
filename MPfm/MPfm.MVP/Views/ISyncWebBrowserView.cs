@@ -27,6 +27,8 @@ namespace MPfm.MVP.Views
 	/// </summary>
 	public interface ISyncWebBrowserView : IBaseView
 	{
+        Action OnViewAppeared { get; set; }
+
         void SyncWebBrowserError(Exception ex);
         void RefreshContent(string url, string authenticationCode);
 	}
