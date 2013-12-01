@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+using System;
+using MPfm.MVP.Config.Models;
 
 namespace MPfm.MVP.Views
 {
@@ -22,6 +24,10 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IGeneralPreferencesView : IBaseView
 	{        
+        Action<GeneralAppConfig> OnSetGeneralPreferences { get; set; }
+        Action OnDeletePeakFiles { get; set; }
+
+        void GeneralPreferencesError(Exception ex);
+        void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize);
 	}
 }
-

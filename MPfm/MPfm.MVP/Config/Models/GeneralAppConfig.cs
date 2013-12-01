@@ -15,25 +15,25 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using MPfm.MVP.Config.Models;
+using MPfm.Library.Objects;
 
-namespace MPfm.MVP.Views
+namespace MPfm.MVP.Config.Models
 {
-	/// <summary>
-    /// Library preferences view interface.
-	/// </summary>
-    public interface ILibraryPreferencesView : IBaseView
-	{
-        Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
-        Action OnSelectFolders { get; set; }
-        Action OnResetLibrary { get; set; }
-        Action OnUpdateLibrary { get; set; }
-        Action<bool> OnEnableSyncListener { get; set; }
-        Action<int> OnSetSyncListenerPort { get; set; }
+    /// <summary>
+    /// Class containing all general settings.
+    /// </summary>
+    public class GeneralAppConfig : IAppConfig
+    {
+        public int MaximumPeakFolderSize { get; set; }
+        public int SongPositionUpdateFrequency { get; set; }
+        public int OutputMeterUpdateFrequency { get; set; }
 
-        void LibraryPreferencesError(Exception ex);
-        void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize);
-	}
+        public GeneralAppConfig()
+        {
+            MaximumPeakFolderSize = 100;
+            SongPositionUpdateFrequency = 20;
+            OutputMeterUpdateFrequency = 20;
+        }        
+    }
 }

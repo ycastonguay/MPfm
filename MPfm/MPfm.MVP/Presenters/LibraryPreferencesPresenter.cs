@@ -26,6 +26,7 @@ using MPfm.MVP.Config.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using System.Linq;
 
 namespace MPfm.MVP.Presenters
 {
@@ -60,7 +61,6 @@ namespace MPfm.MVP.Presenters
             view.OnResetLibrary = ResetLibrary;
             view.OnUpdateLibrary = UpdateLibrary;
             view.OnSelectFolders = SelectFolders;
-            
             view.OnEnableSyncListener = EnableSyncService;
             view.OnSetSyncListenerPort = SetSyncListenerPort;
             base.BindView(view);
@@ -92,7 +92,8 @@ namespace MPfm.MVP.Presenters
 
         private void RefreshPreferences()
         {
-            View.RefreshLibraryPreferences(AppConfigManager.Instance.Root.Library);
+            string size = string.Format("{0:0.00} GB", _audioFileCacheService.AudioFiles.Sum(x => x.FileSize) / 1000000000f);
+            View.RefreshLibraryPreferences(AppConfigManager.Instance.Root.Library, size);
         }
 
         private void ResetLibrary()

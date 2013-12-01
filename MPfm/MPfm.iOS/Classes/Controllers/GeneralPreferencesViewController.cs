@@ -26,14 +26,18 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.iOS.Classes.Objects;
 using System.Collections.Generic;
+using MPfm.MVP.Config.Models;
+using System.Linq;
 
 namespace MPfm.iOS
 {
     public partial class GeneralPreferencesViewController : BasePreferencesViewController, IGeneralPreferencesView
     {
-        string _cellIdentifier = "CloudPreferencesCell";
+		private GeneralAppConfig _config;
+		private string _peakFolderSize;
+		private string _cellIdentifier = "CloudPreferencesCell";
         //CloudAppConfig _config;
-        List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
+		private List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
 
         #region BasePreferencesViewController
 
@@ -50,7 +54,6 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            GenerateItems();
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -76,7 +79,7 @@ namespace MPfm.iOS
                 HeaderTitle = "Update Frequency",
                 Title = "Song Position",
                 ScaleName = "ms",
-                Value = 10,
+				Value = _config.SongPositionUpdateFrequency,
                 MinValue = 10,
                 MaxValue = 100
             });
@@ -87,7 +90,7 @@ namespace MPfm.iOS
                 HeaderTitle = "Update Frequency",
                 Title = "Output Meter",
                 ScaleName = "ms",
-                Value = 10,
+				Value = _config.OutputMeterUpdateFrequency,
                 MinValue = 10,
                 MaxValue = 100,
                 FooterTitle = "Warning: Lower values require more CPU and memory."
@@ -99,7 +102,7 @@ namespace MPfm.iOS
                 HeaderTitle = "Peak Files",
                 Title = "Maximum Peak Folder Size",
                 ScaleName = "MB",
-                Value = 100,
+				Value = _config.MaximumPeakFolderSize,
                 MinValue = 50,
                 MaxValue = 1000
             });
@@ -109,33 +112,70 @@ namespace MPfm.iOS
                 CellType = PreferenceCellType.Button,
                 HeaderTitle = "Peak Files",
                 Title = "Delete Peak Files",
-                FooterTitle = "Peak file folder size: 1425 MB",
+				FooterTitle = "Peak file folder size: " + _peakFolderSize,
                 IconName = "delete"
             });
         }
 
-        public override void PreferenceValueChanged(PreferenceCellItem item)
-        {
-            //            var localItem = _items.FirstOrDefault(x => x.Id == item.Id);
-            //            if (localItem == null)
-            //                return;
-            //
-            //            localItem.Value = item.Value;
-            //
-            //            if (item.Id == "enable_dropbox_resume_playback")
-            //                _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
-            //            else if (item.Id == "enable_dropbox_resume_playback_wifi_only")
-            //                _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
-            //
-            //            OnSetCloudPreferences(_config);
-        }
+		public override void PreferenceValueChanged(PreferenceCellItem item)
+		{
+			var localItem = _items.FirstOrDefault(x => x.Id == item.Id);
+			if (localItem == null)
+				return;
 
-        [Export ("tableView:didSelectRowAtIndexPath:")]
-        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
-            //            var item = _items[indexPath.Row];
-            //            if (item.Id == "login_dropbox")
-            //                OnDropboxLoginLogout();
-        }  
+			localItem.Value = item.Value;
+
+			if (item.Id == "update_frequency_song_position")
+				_config.SongPositionUpdateFrequency = (int)item.Value;
+			else if (item.Id == "update_frequency_output_meter")
+				_config.OutputMeterUpdateFrequency = (int)item.Value;
+			else if (item.Id == "peak_files_maximum_size")
+				_config.MaximumPeakFolderSize = (int)item.Value;
+
+			OnSetGeneralPreferences(_config);
+		}
+
+		[Export ("tableView:didSelectRowAtIndexPath:")]
+		public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			var distinct = _items.Select(x => x.HeaderTitle).Distinct().ToList();
+			string headerTitle = distinct[indexPath.Section];
+			var items = _items.Where(x => x.HeaderTitle == headerTitle).ToList();
+			var item = items[indexPath.Row];
+			tableView.DeselectRow(indexPath, true);
+
+			if (item.Id == "delete_peak_files")
+			{
+				var alertView = new UIAlertView("Delete Peak Files", "Are you sure you wish to delete the peak files folder? Peak files can always be generated later.", null, "OK", new string[1]{ "Cancel" });
+				alertView.Clicked += (sender2, e) =>
+				{
+					if (e.ButtonIndex == 0)
+						OnDeletePeakFiles();
+				};
+				alertView.Show();
+			}
+		}
+
+		#region IGeneralPreferencesView implementation  
+
+		public Action<GeneralAppConfig> OnSetGeneralPreferences { get; set; }
+		public Action OnDeletePeakFiles { get; set; }
+
+		public void GeneralPreferencesError(Exception ex)
+		{
+			ShowErrorDialog(ex);
+		}
+
+		public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
+		{
+			_config = config;
+			_peakFolderSize = peakFolderSize;
+			InvokeOnMainThread(() => {                
+				GenerateItems();
+				tableView.ReloadData();
+			});
+		}
+
+		#endregion
     }
 }

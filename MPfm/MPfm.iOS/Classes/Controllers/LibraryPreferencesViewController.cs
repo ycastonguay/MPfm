@@ -33,9 +33,10 @@ namespace MPfm.iOS
 {
     public partial class LibraryPreferencesViewController : BasePreferencesViewController, ILibraryPreferencesView
     {
-        string _cellIdentifier = "CloudPreferencesCell";
-		LibraryAppConfig _config;
-        List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
+		private string _cellIdentifier = "CloudPreferencesCell";
+		private LibraryAppConfig _config;
+		private string _librarySize;
+		private List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
 
         #region BasePreferencesViewController
 
@@ -69,7 +70,6 @@ namespace MPfm.iOS
         private void GenerateItems()
         {
             // We assume the items are in order for sections
-			int port = _config.SyncServicePort >= 80 && _config.SyncServicePort <= 65535 ? _config.SyncServicePort : 53351;
             _items = new List<PreferenceCellItem>();
             _items.Add(new PreferenceCellItem()
             {
@@ -88,7 +88,7 @@ namespace MPfm.iOS
                 Title = "HTTP Port",
                 FooterTitle = "Note: The sync service is only used when Wi-Fi is available.",
 				Enabled = !_config.IsSyncServiceEnabled,
-				Value = port,
+				Value = _config.SyncServicePort,
 				ValidateFailErrorMessage = "The sync service HTTP port must be between 80 and 65535.",
 				ValidateValueDelegate = (value) => {
 					int newPort = 0;
@@ -110,7 +110,7 @@ namespace MPfm.iOS
                 CellType = PreferenceCellType.Button,
                 HeaderTitle = "Library",
                 Title = "Update Library",
-                FooterTitle = "Total library size: 8420 MB",             
+				FooterTitle = "Total library size: " + _librarySize,             
                 IconName = "update"
             });
         }
@@ -173,9 +173,10 @@ namespace MPfm.iOS
             });
         }
 
-        public void RefreshLibraryPreferences(LibraryAppConfig config)
+		public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
         {
 			_config = config;
+			_librarySize = librarySize;
 			InvokeOnMainThread(() => {                
 				GenerateItems();
 				tableView.ReloadData();

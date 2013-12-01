@@ -63,7 +63,13 @@ namespace MPfm.MVP.Config
             // Fix any important values that could have been corrupted for some reason
             if (Root.Library.SyncServicePort < 80 || Root.Library.SyncServicePort > 65535)
                 Root.Library.SyncServicePort = 53551;
-        }
+            if (Root.General.SongPositionUpdateFrequency < 10 || Root.General.SongPositionUpdateFrequency > 100)
+                Root.General.SongPositionUpdateFrequency = 20;
+            if (Root.General.OutputMeterUpdateFrequency < 10 || Root.General.OutputMeterUpdateFrequency > 100)
+                Root.General.OutputMeterUpdateFrequency = 20;
+            if (Root.General.MaximumPeakFolderSize < 10 || Root.General.OutputMeterUpdateFrequency > 1000)
+                Root.General.MaximumPeakFolderSize = 100;
+       }
 
         public void Save()
         {

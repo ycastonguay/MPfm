@@ -149,7 +149,11 @@ namespace MPfm.iOS.Classes.Controls
                 _item.Value = (int)Slider.Value;
                 ValueTextLabel.Text = string.Format("{0} {1}", (int)_item.Value, _item.ScaleName);
             };
-            AddSubview(Slider);
+			Slider.TouchUpInside += (sender, e) => {
+				if(OnPreferenceValueChanged != null)
+					OnPreferenceValueChanged(_item);       			
+			};
+			AddSubview(Slider);
 
             Switch = new UISwitch();
             Switch.Hidden = true;
