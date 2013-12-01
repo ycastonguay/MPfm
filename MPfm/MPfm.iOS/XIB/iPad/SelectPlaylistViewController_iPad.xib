@@ -38,7 +38,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ed1-hO-9u7">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ed1-hO-9u7">
                             <rect key="frame" x="20" y="127" width="660" height="649"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -56,35 +56,45 @@
                                 <action selector="actionAddNewPlaylist:" destination="-1" eventType="touchUpInside" id="LdG-Zg-CnI"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-sk-8mT" customClass="MPfmButton">
-                            <rect key="frame" x="264" y="794" width="116" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
-                            <state key="normal" title="Cancel">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="actionCancel:" destination="-1" eventType="touchUpInside" id="206-zk-XcR"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-Ka-aDx" customClass="MPfmButton">
-                            <rect key="frame" x="388" y="794" width="116" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
-                            <state key="normal" title="Select">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="actionSelect:" destination="-1" eventType="touchUpInside" id="Z0u-pJ-eYG"/>
-                            </connections>
-                        </button>
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="72p-az-t1d">
+                            <rect key="frame" x="230" y="797" width="240" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-sk-8mT" customClass="MPfmButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="116" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
+                                    <state key="normal" title="Cancel">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="actionCancel:" destination="-1" eventType="touchUpInside" id="206-zk-XcR"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-Ka-aDx" customClass="MPfmButton">
+                                    <rect key="frame" x="124" y="0.0" width="116" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
+                                    <state key="normal" title="Select">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="actionSelect:" destination="-1" eventType="touchUpInside" id="Z0u-pJ-eYG"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.12549019610000001" green="0.15686274510000001" blue="0.18039215689999999" alpha="0.5" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="Ed1-hO-9u7" firstAttribute="top" secondItem="2Mn-td-9Ex" secondAttribute="bottom" constant="18" id="5px-pa-pRw"/>
-                        <constraint firstItem="xyD-Ka-aDx" firstAttribute="top" secondItem="Ed1-hO-9u7" secondAttribute="bottom" constant="18" id="7t4-98-2y1"/>
-                        <constraint firstItem="Ed1-hO-9u7" firstAttribute="leading" secondItem="E0S-ud-1SI" secondAttribute="leading" constant="20" id="9AX-1B-iBR"/>
-                        <constraint firstAttribute="trailing" secondItem="Ed1-hO-9u7" secondAttribute="trailing" constant="20" id="d2f-MR-cXh"/>
+                        <constraint firstItem="Ed1-hO-9u7" firstAttribute="top" secondItem="E0S-ud-1SI" secondAttribute="top" constant="127" id="0Mo-iU-Abz"/>
+                        <constraint firstAttribute="centerX" secondItem="72p-az-t1d" secondAttribute="centerX" id="HoU-35-RgQ"/>
+                        <constraint firstAttribute="bottom" secondItem="72p-az-t1d" secondAttribute="bottom" constant="13" id="MBV-kI-yfQ"/>
+                        <constraint firstItem="Ed1-hO-9u7" firstAttribute="leading" secondItem="E0S-ud-1SI" secondAttribute="leading" constant="20" id="Xzr-9h-rLy"/>
+                        <constraint firstAttribute="bottom" secondItem="Ed1-hO-9u7" secondAttribute="bottom" constant="78" id="ncp-pm-wMY"/>
+                        <constraint firstAttribute="centerX" secondItem="2Mn-td-9Ex" secondAttribute="centerX" id="uGE-2h-pio"/>
+                        <constraint firstAttribute="trailing" secondItem="Ed1-hO-9u7" secondAttribute="trailing" constant="20" id="y5e-7b-jhC"/>
                     </constraints>
                 </view>
             </subviews>
