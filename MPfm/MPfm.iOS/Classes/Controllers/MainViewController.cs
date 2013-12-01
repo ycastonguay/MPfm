@@ -16,17 +16,15 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Core;
+using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
+using MPfm.MVP.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using System.Drawing;
-using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Classes.Controls;
-using MPfm.MVP.Views;
-using MPfm.MVP.Navigation;
-using MPfm.Library.Objects;
 using MPfm.iOS.Classes.Delegates;
-using MPfm.MVP.Bootstrap;
-using MPfm.Core;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -34,19 +32,22 @@ namespace MPfm.iOS.Classes.Controllers
     {
         public MainViewController() : base()
         {
-            this.SetValueForKey(new MPfmTabBar(), new NSString("tabBar"));            
+            this.SetValueForKey(new MPfmTabBar(), new NSString("tabBar"));
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+			var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
             appDelegate.ShowMain(this);
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindMobileMainView(this);
         }
+
+		public override bool ShouldAutomaticallyForwardRotationMethods { get { return true; } }
+		public override bool ShouldAutomaticallyForwardAppearanceMethods { get { return true; } }
 
         #region IMobileMainView implementation
 

@@ -53,6 +53,12 @@ namespace MPfm.iOS
             navigationManager.BindStartResumePlaybackView(this);
         }
 
+		public override void WillAnimateRotation(UIInterfaceOrientation toInterfaceOrientation, double duration)
+		{
+			var screenSize = UIKitHelper.GetDeviceSize();
+			View.Frame = new RectangleF(0, 0, screenSize.Width, screenSize.Height);
+		}
+
         partial void actionResume(NSObject sender)
         {
             OnResumePlayback();

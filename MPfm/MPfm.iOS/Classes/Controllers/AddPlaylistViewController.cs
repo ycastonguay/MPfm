@@ -23,6 +23,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.MVP.Views;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS
 {
@@ -61,6 +62,12 @@ namespace MPfm.iOS
                 RemoveFromParentViewController();
             });
         }
+
+		public override void WillAnimateRotation(UIInterfaceOrientation toInterfaceOrientation, double duration)
+		{
+			var screenSize = UIKitHelper.GetDeviceSize();
+			View.Frame = new RectangleF(0, 0, screenSize.Width, screenSize.Height);
+		}
 
         partial void actionCancel(NSObject sender)
         {

@@ -28,6 +28,8 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.Core;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS
 {
@@ -61,6 +63,12 @@ namespace MPfm.iOS
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindSelectPlaylistView(this, _item);
         }
+
+		public override void WillAnimateRotation(UIInterfaceOrientation toInterfaceOrientation, double duration)
+		{
+			var screenSize = UIKitHelper.GetDeviceSize();
+			View.Frame = new RectangleF(0, 0, screenSize.Width, screenSize.Height);
+		}
 
         partial void actionAddNewPlaylist(NSObject sender)
         {
