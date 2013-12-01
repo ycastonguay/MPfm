@@ -69,6 +69,10 @@ namespace MPfm.MVP.Config
                 Root.General.OutputMeterUpdateFrequency = 20;
             if (Root.General.MaximumPeakFolderSize < 10 || Root.General.OutputMeterUpdateFrequency > 1000)
                 Root.General.MaximumPeakFolderSize = 100;
+            if (Root.Audio.BufferSize < 100 || Root.Audio.BufferSize > 5000)
+                Root.Audio.BufferSize = 1000;
+            if (Root.Audio.UpdatePeriod < 100 || Root.Audio.UpdatePeriod > 1000)
+                Root.Audio.UpdatePeriod = 100;
        }
 
         public void Save()

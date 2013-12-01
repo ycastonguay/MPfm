@@ -28,6 +28,7 @@ namespace MPfm.MVP.Config.Models
         public int SampleRate { get; set; }
         public float Volume { get; set; }
         public int BufferSize { get; set; }
+        public int UpdatePeriod { get; set; }
         public bool IsEQEnabled { get; set; }
         public string EQPreset { get; set; }
 
@@ -37,7 +38,8 @@ namespace MPfm.MVP.Config.Models
             AudioDevice = new Device();
             SampleRate = 44100;
             Volume = 1;
-            BufferSize = 100;
+            BufferSize = 1000;
+            UpdatePeriod = 100;
         }        
     }
 }

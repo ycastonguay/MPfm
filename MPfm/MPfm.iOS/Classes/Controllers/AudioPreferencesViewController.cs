@@ -26,11 +26,14 @@ using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using System.Collections.Generic;
 using MPfm.iOS.Classes.Objects;
+using MPfm.MVP.Config.Models;
+using System.Linq;
 
 namespace MPfm.iOS
 {
     public partial class AudioPreferencesViewController : BasePreferencesViewController, IAudioPreferencesView
     {
+		AudioAppConfig _config;
         string _cellIdentifier = "AudioPreferencesCell";
         List<PreferenceCellItem> _items = new List<PreferenceCellItem>();
 
@@ -49,7 +52,6 @@ namespace MPfm.iOS
         
         public override void ViewDidLoad()
         {
-            GenerateItems();
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -75,7 +77,7 @@ namespace MPfm.iOS
                 HeaderTitle = "Audio Mixer",
                 Title = "Buffer Size",
                 ScaleName = "ms",
-                Value = 1000,
+				Value = _config.BufferSize,
                 MinValue = 100,
                 MaxValue = 5000
             });
@@ -86,35 +88,53 @@ namespace MPfm.iOS
                 HeaderTitle = "Audio Mixer",
                 Title = "Update Period",
                 ScaleName = "ms",
-                Value = 100,
+				Value = _config.UpdatePeriod,
                 MinValue = 10,
                 MaxValue = 1000,
                 FooterTitle = "Warning: Lower values require more CPU and memory. Audio sample rate is locked at 44100Hz."
             });
         }
 
-        public override void PreferenceValueChanged(PreferenceCellItem item)
-        {
-//            var localItem = _items.FirstOrDefault(x => x.Id == item.Id);
-//            if (localItem == null)
-//                return;
-//
-//            localItem.Value = item.Value;
-//
-//            if (item.Id == "enable_dropbox_resume_playback")
-//                _config.IsDropboxResumePlaybackEnabled = (bool)item.Value;
-//            else if (item.Id == "enable_dropbox_resume_playback_wifi_only")
-//                _config.IsDropboxResumePlaybackWifiOnlyEnabled = (bool)item.Value;
-//
-//            OnSetCloudPreferences(_config);
-        }
+		public override void PreferenceValueChanged(PreferenceCellItem item)
+		{
+			var localItem = _items.FirstOrDefault(x => x.Id == item.Id);
+			if (localItem == null)
+				return;
 
-        [Export ("tableView:didSelectRowAtIndexPath:")]
-        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
-//            var item = _items[indexPath.Row];
-//            if (item.Id == "login_dropbox")
-//                OnDropboxLoginLogout();
-        }  
+			localItem.Value = item.Value;
+
+			if (item.Id == "buffer_size")
+				_config.BufferSize = (int)item.Value;
+			else if (item.Id == "update_period")
+				_config.UpdatePeriod = (int)item.Value;
+
+			OnSetAudioPreferences(_config);
+		}
+
+		[Export ("tableView:didSelectRowAtIndexPath:")]
+		public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+		}
+
+		#region IAudioPreferencesView implementation
+
+		public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+
+		public void AudioPreferencesError(Exception ex)
+		{
+			ShowErrorDialog(ex);
+		}
+
+		public void RefreshAudioPreferences(AudioAppConfig config)
+		{
+			_config = config;
+			InvokeOnMainThread(() => {                
+				GenerateItems();
+				tableView.ReloadData();
+			});
+		}
+
+		#endregion
+
     }
 }

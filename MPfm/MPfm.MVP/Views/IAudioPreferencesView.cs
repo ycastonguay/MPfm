@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+using System;
+using MPfm.MVP.Config.Models;
 
 namespace MPfm.MVP.Views
 {
@@ -22,6 +24,9 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IAudioPreferencesView : IBaseView
 	{        
+        Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+
+        void AudioPreferencesError(Exception ex);
+        void RefreshAudioPreferences(AudioAppConfig config);
 	}
 }
-

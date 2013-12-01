@@ -17,6 +17,10 @@
 
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
+using MPfm.MVP.Config.Models;
+using MPfm.MVP.Config;
+using System;
+using MPfm.Core;
 
 namespace MPfm.MVP.Presenters
 {
@@ -28,5 +32,41 @@ namespace MPfm.MVP.Presenters
         public AudioPreferencesPresenter()
 		{	
 		}
+
+        public override void BindView(IAudioPreferencesView view)
+        {
+            view.OnSetAudioPreferences = SetAudioPreferences;
+            base.BindView(view);
+
+            RefreshPreferences();
+        }
+
+        private void SetAudioPreferences(AudioAppConfig audioAppConfig)
+        {
+            try
+            {
+                AppConfigManager.Instance.Root.Audio = audioAppConfig;
+                AppConfigManager.Instance.Save();
+                RefreshPreferences();
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("AudioPreferencesPresenter - SetAudioPreferences - Failed to set preferences: {0}", ex);
+                View.AudioPreferencesError(ex);
+            }
+        }
+
+        private void RefreshPreferences()
+        {
+            try
+            {
+                View.RefreshAudioPreferences(AppConfigManager.Instance.Root.Audio);
+            } 
+            catch (Exception ex)
+            {
+                Tracing.Log("AudioPreferencesPresenter - RefreshPreferences - Failed to refresh preferences: {0}", ex);
+                View.AudioPreferencesError(ex);
+            }
+        }
 	}
 }
