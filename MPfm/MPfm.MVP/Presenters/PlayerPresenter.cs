@@ -57,12 +57,15 @@ namespace MPfm.MVP.Presenters
 #if WINDOWS_PHONE
         private System.Windows.Threading.DispatcherTimer _timerRefreshSongPosition = null;
         private System.Windows.Threading.DispatcherTimer _timerSavePlayerStatus = null;
+        private System.Windows.Threading.DispatcherTimer _timerOutputMeter = null;
 #elif WINDOWSSTORE
         private Windows.UI.Xaml.DispatcherTimer _timerRefreshSongPosition = null;
         private Windows.UI.Xaml.DispatcherTimer _timerSavePlayerStatus = null;
+        private Windows.UI.Xaml.DispatcherTimer _timerOutputMeter = null;
 #else
         private System.Timers.Timer _timerRefreshSongPosition = null;
         private System.Timers.Timer _timerSavePlayerStatus = null;
+        private System.Timers.Timer _timerOutputMeter = null;
 #endif
 
         public PlayerPresenter(ITinyMessengerHub messageHub, IPlayerService playerService, IAudioFileCacheService audioFileCacheService, ILibraryService libraryService, ICloudLibraryService cloudLibraryService)
@@ -80,6 +83,9 @@ namespace MPfm.MVP.Presenters
             _timerSavePlayerStatus = new System.Timers.Timer();          
             _timerSavePlayerStatus.Interval = 5000;
             _timerSavePlayerStatus.Elapsed += HandleTimerSavePlayerStatusElapsed;
+            _timerOutputMeter = new System.Timers.Timer();         
+            _timerOutputMeter.Interval = 40;
+            _timerOutputMeter.Elapsed += HandleOutputMeterTimerElapsed;
 #else
             _timerRefreshSongPosition = new DispatcherTimer();
             _timerRefreshSongPosition.Interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -87,6 +93,9 @@ namespace MPfm.MVP.Presenters
             _timerSavePlayerStatus = new DispatcherTimer();
             _timerSavePlayerStatus.Interval = new TimeSpan(0, 0, 0, 0, 5000);
             _timerSavePlayerStatus.Tick += HandleTimerSavePlayerStatusElapsed;
+            _timerOutputMeter = new DispatcherTimer();
+            _timerOutputMeter.Interval = new TimeSpan(0, 0, 0, 0, 40);
+            _timerOutputMeter.Tick += HandleOutputMeterTimerElapsed;
 #endif
 
             // Subscribe to events
@@ -109,6 +118,22 @@ namespace MPfm.MVP.Presenters
             });
             messageHub.Subscribe<PlayerStatusMessage>((PlayerStatusMessage m) => {
                 View.RefreshPlayerStatus(m.Status);
+
+                if(!View.IsOutputMeterEnabled)
+                    return;
+
+                switch(m.Status)
+                {
+                    case PlayerStatusType.Playing:
+                        _timerOutputMeter.Start();
+                        break;
+                    case PlayerStatusType.Paused:
+                        _timerOutputMeter.Stop();
+                        break;
+                    case PlayerStatusType.Stopped:
+                        _timerOutputMeter.Stop();
+                        break;
+                }
             });
             messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
                 var markers = libraryService.SelectMarkers(m.AudioFileId);
@@ -162,6 +187,9 @@ namespace MPfm.MVP.Presenters
                 VolumeString = "100%"
             });
             View.RefreshPlayerStatus(_playerService.Status);
+
+            if (_playerService.IsPlaying && View.IsOutputMeterEnabled)
+                _timerOutputMeter.Start();
         }
 
 	    public override void ViewDestroyed()
@@ -228,6 +256,45 @@ namespace MPfm.MVP.Presenters
             catch (Exception ex)
             {
                 Tracing.Log(string.Format("PlayerPresenter - HandleTimerSavePlayerStatusElapsed - Failed to get player position: {0}", ex));
+            }
+        }
+
+
+        #if !PCL && !WINDOWSSTORE && !WINDOWS_PHONE
+        private void HandleOutputMeterTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        #else
+        private void HandleOutputMeterTimerElapsed(object sender, object eventArgs)
+        #endif
+        {
+            try
+            {
+                if (_playerService.UseFloatingPoint)
+                {
+                    Tuple<float[], float[]> data = _playerService.GetFloatingPointMixerData(0.02);
+                    View.RefreshOutputMeter(data.Item1, data.Item2);
+                }
+                else
+                {
+                    Tuple<short[], short[]> data = _playerService.GetMixerData(0.02);
+
+                    // Convert to floats (TODO: Try to optimize this. I'm sure there's a clever way to do this faster.
+                    float[] left = new float[data.Item1.Length];
+                    float[] right = new float[data.Item1.Length];
+                    for (int a = 0; a < data.Item1.Length; a++)
+                    {
+                        // The values are already negative to positive, it's just a matter of dividing the value by the max value to get it to -1/+1.
+                        left[a] = (float)data.Item1[a] / (float)Int16.MaxValue;
+                        right[a] = (float)data.Item2[a] / (float)Int16.MaxValue;
+                        //Console.WriteLine("EQPresetPresenter - a: {0} value: {1} newValue: {2}", a, data.Item1[a], left[a]);
+                    }
+
+                    View.RefreshOutputMeter(left, right);
+                }
+            }
+            catch(Exception ex)
+            {
+                // Log a soft error
+                Tracing.Log("EqualizerPresetsPresenter - Error fetching output meter data: " + ex.Message + "\n" + ex.StackTrace);
             }
         }
 

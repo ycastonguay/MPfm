@@ -230,7 +230,7 @@ namespace MPfm.iOS.Classes.Controls
             //float vuLeft = AudioTools.GetVUMeterValue(WaveDataHistory, 100, ChannelType.Left);
 
             // Calculate bar height
-            float barHeight = maxLeftDB + 100;
+			float barHeight = scaleMultiplier * (maxLeftDB + 100);
             float height = barHeight;
             if (height < 1)
                 height = 1;
@@ -272,7 +272,7 @@ namespace MPfm.iOS.Classes.Controls
             //
 
             // Calculate bar height
-            barHeight = maxRightDB + 100;
+			barHeight = scaleMultiplier * (maxRightDB + 100);
             height = barHeight;
             if (height < 1)
                 height = 1;

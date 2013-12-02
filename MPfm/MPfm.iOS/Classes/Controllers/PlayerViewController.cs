@@ -279,9 +279,16 @@ namespace MPfm.iOS.Classes.Controllers
 				float offset = scrollView.ContentOffset.X / oldWidth;
 				scrollView.ContentSize = new SizeF(3 * width, height);
 				scrollView.ContentOffset = new PointF(offset * width, 0);
-
-				Tracing.Log("PlayerVC - ViewDidLayoutSubviews - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2}", View.Frame.Width, scrollView.ContentSize, scrollView.ContentOffset);
+				//Tracing.Log("PlayerVC - ViewDidLayoutSubviews - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2}", View.Frame.Width, scrollView.ContentSize, scrollView.ContentOffset);
             }
+
+			//Tracing.Log("PlayerVC - ViewDidLayoutSubviews - BEFORE - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2}", View.Frame.Width, scrollViewWaveForm.ContentSize, scrollViewWaveForm.ContentOffset);
+			//float zoom = scrollViewWaveForm.ContentSize.Width / View.Frame.Height;
+			//float offsetWaveForm = scrollViewWaveForm.ContentOffset.X / scrollViewWaveForm.ContentSize.Width;
+			//scrollViewWaveForm.ContentSize = new SizeF(View.Frame.Width * zoom, scrollViewWaveForm.ContentSize.Height);
+			//scrollViewWaveForm.ContentOffset = new PointF(offsetWaveForm * (zoom * View.Frame.Width), 0);
+			scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
+			//Tracing.Log("PlayerVC - ViewDidLayoutSubviews - AFTER - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2} zoom: {3} offsetWaveForm: {4}", View.Frame.Width, scrollViewWaveForm.ContentSize, scrollViewWaveForm.ContentOffset, zoom, offsetWaveForm);
 
             // IMPORTANT: Keep this property here to override the new Frame position by AutoLayout
             sliderPosition.TranslatesAutoresizingMaskIntoConstraints = true;
@@ -289,7 +296,6 @@ namespace MPfm.iOS.Classes.Controllers
             // We need to keep a negative Y because of scaling issues (i.e. 70% of normal size)
             sliderPosition.Frame = new RectangleF(70, -8, View.Frame.Width - 140, 40); 
             
-            scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
         }
 
         private void HandleScrollViewSwipeDown(UISwipeGestureRecognizer gestureRecognizer)
@@ -444,6 +450,8 @@ namespace MPfm.iOS.Classes.Controllers
         }
 
         #region IPlayerView implementation
+
+		public bool IsOutputMeterEnabled { get { return true; } }
 
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
@@ -625,6 +633,14 @@ namespace MPfm.iOS.Classes.Controllers
                 }
             });
         }
+
+		public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+		{
+			InvokeOnMainThread(() => {
+				outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+				outputMeter.SetNeedsDisplay();
+			});
+		}
 
         #endregion
 	}

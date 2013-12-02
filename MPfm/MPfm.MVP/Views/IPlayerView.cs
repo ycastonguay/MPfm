@@ -29,6 +29,8 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IPlayerView : IBaseView
 	{
+        bool IsOutputMeterEnabled { get; }
+
         Action OnPlayerPlay { get; set; }
         Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         Action OnPlayerPause { get; set; }
@@ -53,7 +55,8 @@ namespace MPfm.MVP.Views
         void RefreshMarkers(IEnumerable<Marker> markers);
         void RefreshLoops(IEnumerable<Loop> loops);
         void RefreshPlayerVolume(PlayerVolumeEntity entity);
-        void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);                
+        void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity);
+        void RefreshOutputMeter(float[] dataLeft, float[] dataRight);
 	}
 }
 
