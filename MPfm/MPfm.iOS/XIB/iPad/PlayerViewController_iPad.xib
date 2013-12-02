@@ -245,7 +245,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TN5-AR-NKj">
-                    <rect key="frame" x="0.0" y="882" width="218" height="78"/>
+                    <rect key="frame" x="0.0" y="883" width="218" height="78"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TnV-d3-0Xw" customClass="MPfmOutputMeterView">
@@ -253,8 +253,8 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="More Bass please" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKR-nQ-mgs">
-                            <rect key="frame" x="50" y="52" width="163" height="21"/>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="More Bass please" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKR-nQ-mgs">
+                            <rect key="frame" x="52" y="52" width="153" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -282,7 +282,7 @@
                 <constraint firstAttribute="centerX" secondItem="kLq-Aa-pB9" secondAttribute="centerX" id="5Lm-db-aBf"/>
                 <constraint firstAttribute="bottom" secondItem="4" secondAttribute="bottom" constant="77" id="EaN-fi-nUQ"/>
                 <constraint firstAttribute="trailing" secondItem="AkF-DC-GeZ" secondAttribute="trailing" id="GBD-F3-uOG"/>
-                <constraint firstAttribute="bottom" secondItem="TN5-AR-NKj" secondAttribute="bottom" id="LZh-Np-FeD"/>
+                <constraint firstAttribute="bottom" secondItem="TN5-AR-NKj" secondAttribute="bottom" constant="-1" id="LZh-Np-FeD"/>
                 <constraint firstAttribute="trailing" secondItem="6" secondAttribute="trailing" id="NE8-B9-P36"/>
                 <constraint firstItem="5" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="QPh-4B-k0D"/>
                 <constraint firstItem="kLq-Aa-pB9" firstAttribute="leading" secondItem="TN5-AR-NKj" secondAttribute="trailing" constant="1" id="QsQ-Cx-bKe"/>

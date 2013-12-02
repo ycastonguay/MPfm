@@ -191,6 +191,8 @@ namespace MPfm.iOS.Classes.Controls
             if (WaveDataHistory == null || WaveDataHistory.Count == 0)
                 return;
 
+			float fontSize = Bounds.Width < 50 ? 8 : 10;
+
             // By default, the bar width takes the full width of the control (except for stereo)
             float barWidth = Bounds.Width;
 
@@ -249,8 +251,8 @@ namespace MPfm.iOS.Classes.Controls
 
             // Draw peak line
             CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                new PointF(0, Bounds.Height - (peakLeftDB + 100)), 
-                new PointF(barWidth, Bounds.Height - (peakLeftDB + 100))
+				new PointF(0, Bounds.Height - (scaleMultiplier * (peakLeftDB + 100))), 
+				new PointF(barWidth, Bounds.Height - (scaleMultiplier * (peakLeftDB + 100)))
             }, _colorPeakLine, 1, false, false);
 
             // Draw number of db      
@@ -259,13 +261,13 @@ namespace MPfm.iOS.Classes.Controls
                 strDB = "-inf";
 
             // Draw text
-            SizeF sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-CondensedBold", 10);
+			SizeF sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-CondensedBold", fontSize);
             float newX = (barWidth - sizeString.Width) / 2;
 //            RectangleF rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
 //            rectBackgroundText.Inflate(new SizeF(2, 0));
 //            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
-            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
-            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
+			CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", fontSize, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
+			CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", fontSize, new CGColor(1, 1, 1));
 
             // -----------------------------------------
             // RIGHT CHANNEL
@@ -291,18 +293,18 @@ namespace MPfm.iOS.Classes.Controls
 
             // Draw peak line
             CoreGraphicsHelper.DrawLine(context, new List<PointF>(){
-                new PointF(barWidth, Bounds.Height - (peakRightDB + 100)), 
-                new PointF(barWidth * 2, Bounds.Height - (peakRightDB + 100))                
+				new PointF(barWidth, Bounds.Height - (scaleMultiplier * (peakRightDB + 100))), 
+				new PointF(barWidth * 2, Bounds.Height - (scaleMultiplier * (peakRightDB + 100)))
             }, _colorPeakLine, 1, false, false);
 
             // Draw number of decibels (with font shadow to make it easier to read)                
-            sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-Bold", 10);
+			sizeString = CoreGraphicsHelper.MeasureText(context, strDB, "HelveticaNeue-Bold", fontSize);
             newX = ((barWidth - sizeString.Width) / 2) + barWidth;
 //            rectBackgroundText = new RectangleF(newX, Bounds.Height - sizeString.Height - 4, sizeString.Width, sizeString.Height);
 //            rectBackgroundText.Inflate(new SizeF(2, 0));
 //            CoreGraphicsHelper.FillRect(context, rectBackgroundText, new CGColor(0.1f, 0.1f, 0.1f, 0.25f));
-            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
-            CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", 10, new CGColor(1, 1, 1));
+			CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX + 1, Bounds.Height - sizeString.Height - 4), strDB, "HelveticaNeue-CondensedBold", fontSize, new CGColor(0.1f, 0.1f, 0.1f, 0.2f));
+			CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(newX, Bounds.Height - sizeString.Height - 4 - 1), strDB, "HelveticaNeue-CondensedBold", fontSize, new CGColor(1, 1, 1));
         }
     }
 
