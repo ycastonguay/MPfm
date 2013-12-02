@@ -59,6 +59,13 @@ namespace MPfm.iOS
             navigationManager.BindPitchShiftingView(this);
         }
 
+		public override void ViewDidLayoutSubviews()
+		{
+			base.ViewDidLayoutSubviews();
+
+			viewButtons.Frame = new RectangleF((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
+		}
+
         void HandleSliderValueChanged(object sender, EventArgs e)
         {
             OnSetInterval((int)slider.Value);

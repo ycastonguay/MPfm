@@ -425,6 +425,7 @@
     <Folder Include="Classes\Services\" />
     <Folder Include="Images\WhiteIcons\" />
     <Folder Include="Images\Nav\" />
+    <Folder Include="Images\SmallWhiteIcons\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
@@ -599,6 +600,14 @@
     <BundleResource Include="Images\Icons\wifi%402x.png" />
     <BundleResource Include="Images\Icons\android.png" />
     <BundleResource Include="Images\Icons\android%402x.png" />
+    <BundleResource Include="Images\Buttons\volume_low.png" />
+    <BundleResource Include="Images\Buttons\volume_low%402x.png" />
+    <BundleResource Include="Images\Buttons\volume_high.png" />
+    <BundleResource Include="Images\Buttons\volume_high%402x.png" />
+    <BundleResource Include="Images\SmallWhiteIcons\volume_high.png" />
+    <BundleResource Include="Images\SmallWhiteIcons\volume_high%402x.png" />
+    <BundleResource Include="Images\SmallWhiteIcons\volume_low.png" />
+    <BundleResource Include="Images\SmallWhiteIcons\volume_low%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

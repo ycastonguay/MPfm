@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.iOS
 {
@@ -12,22 +13,16 @@ namespace MPfm.iOS
 	partial class TimeShiftingViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnDecrementTempo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UISlider slider { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnIncrementTempo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDetectedTempoValue { get; set; }
+		MonoTouch.UIKit.UIButton btnReset { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDetectedTempo { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblReferenceTempo { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblReferenceTempoValue { get; set; }
+		MonoTouch.UIKit.UIButton btnUseTempo { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblCurrentTempo { get; set; }
@@ -36,31 +31,40 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblCurrentTempoValue { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnReset { get; set; }
+		MonoTouch.UIKit.UILabel lblDetectedTempo { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblDetectedTempoValue { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblReferenceTempo { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblReferenceTempoValue { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UISlider slider { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnDecrementTempo { get; set; }
+		MonoTouch.UIKit.UIView viewButtons { get; set; }
 
-		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnIncrementTempo { get; set; }
+		[Action ("actionDecrementTempo:")]
+		partial void actionDecrementTempo (MonoTouch.Foundation.NSObject sender);
 
-		[Outlet]
-		MonoTouch.UIKit.UIButton btnUseTempo { get; set; }
+		[Action ("actionIncrementTempo:")]
+		partial void actionIncrementTempo (MonoTouch.Foundation.NSObject sender);
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoTouch.Foundation.NSObject sender);
 
 		[Action ("actionUseTempo:")]
 		partial void actionUseTempo (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionIncrementTempo:")]
-		partial void actionIncrementTempo (MonoTouch.Foundation.NSObject sender);
-
-		[Action ("actionDecrementTempo:")]
-		partial void actionDecrementTempo (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -127,6 +131,11 @@ namespace MPfm.iOS
 			if (btnUseTempo != null) {
 				btnUseTempo.Dispose ();
 				btnUseTempo = null;
+			}
+
+			if (viewButtons != null) {
+				viewButtons.Dispose ();
+				viewButtons = null;
 			}
 		}
 	}

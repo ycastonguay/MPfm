@@ -71,7 +71,7 @@ namespace MPfm.iOS.Classes.Controls
 
             // IDEA: Put the equalizer line in the Equalizer Presets screen (in UITableViewCell)
             // IDEA: Put the value of the band currently changing over the graph (i.e. +3.5dB)
-            CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0.1f, 0.1f, 0.1f));
+			CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor.CGColor);
 
             // Draw center line
             CoreGraphicsHelper.DrawLine(context, new List<PointF>(){

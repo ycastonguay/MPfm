@@ -28,7 +28,16 @@ namespace MPfm.iOS.Classes.Controllers
 		MPfm.iOS.Classes.Controls.MPfmPlayerButton btnShuffle { get; set; }
 
 		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmEqualizerPresetGraphView graphView { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIImageView imageViewAlbumArt { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView imageViewVolumeHigh { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIImageView imageViewVolumeLow { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblLength { get; set; }
@@ -37,10 +46,16 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UILabel lblPosition { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UILabel lblPresetName { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UILabel lblScrubbingType { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblSlideMessage { get; set; }
+
+		[Outlet]
+		MPfm.iOS.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIPageControl pageControl { get; set; }
@@ -55,6 +70,9 @@ namespace MPfm.iOS.Classes.Controllers
 		MPfm.iOS.Classes.Controls.MPfmSlider sliderPosition { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIView viewEffects { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIView viewMain { get; set; }
 
 		[Outlet]
@@ -62,6 +80,9 @@ namespace MPfm.iOS.Classes.Controllers
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewPosition { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewVolume { get; set; }
 
 		[Action ("actionNext:")]
 		partial void actionNext (MonoTouch.Foundation.NSObject sender);
@@ -110,6 +131,16 @@ namespace MPfm.iOS.Classes.Controllers
 				imageViewAlbumArt = null;
 			}
 
+			if (imageViewVolumeHigh != null) {
+				imageViewVolumeHigh.Dispose ();
+				imageViewVolumeHigh = null;
+			}
+
+			if (imageViewVolumeLow != null) {
+				imageViewVolumeLow.Dispose ();
+				imageViewVolumeLow = null;
+			}
+
 			if (lblLength != null) {
 				lblLength.Dispose ();
 				lblLength = null;
@@ -150,6 +181,11 @@ namespace MPfm.iOS.Classes.Controllers
 				sliderPosition = null;
 			}
 
+			if (viewEffects != null) {
+				viewEffects.Dispose ();
+				viewEffects = null;
+			}
+
 			if (viewMain != null) {
 				viewMain.Dispose ();
 				viewMain = null;
@@ -163,6 +199,26 @@ namespace MPfm.iOS.Classes.Controllers
 			if (viewPosition != null) {
 				viewPosition.Dispose ();
 				viewPosition = null;
+			}
+
+			if (viewVolume != null) {
+				viewVolume.Dispose ();
+				viewVolume = null;
+			}
+
+			if (lblPresetName != null) {
+				lblPresetName.Dispose ();
+				lblPresetName = null;
+			}
+
+			if (graphView != null) {
+				graphView.Dispose ();
+				graphView = null;
+			}
+
+			if (outputMeter != null) {
+				outputMeter.Dispose ();
+				outputMeter = null;
 			}
 		}
 	}

@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.iOS
 {
@@ -12,22 +13,7 @@ namespace MPfm.iOS
 	partial class PitchShiftingViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTitle { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UISlider slider { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblInterval { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblNewKey { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UILabel lblKey { get; set; }
-
-		[Outlet]
-		MonoTouch.UIKit.UIButton btnReset { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnChangeKey { get; set; }
 
 		[Outlet]
 		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnDecrementInterval { get; set; }
@@ -36,13 +22,31 @@ namespace MPfm.iOS
 		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnIncrementInterval { get; set; }
 
 		[Outlet]
-		MPfm.iOS.Classes.Controls.MPfmSemiTransparentButton btnChangeKey { get; set; }
+		MonoTouch.UIKit.UIButton btnReset { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblInterval { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblKey { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblNewKey { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblTitle { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UISlider slider { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
 
-		[Action ("actionReset:")]
-		partial void actionReset (MonoTouch.Foundation.NSObject sender);
+		[Outlet]
+		MonoTouch.UIKit.UIView viewButtons { get; set; }
+
+		[Action ("actionChangeKey:")]
+		partial void actionChangeKey (MonoTouch.Foundation.NSObject sender);
 
 		[Action ("actionDecrementInterval:")]
 		partial void actionDecrementInterval (MonoTouch.Foundation.NSObject sender);
@@ -50,8 +54,8 @@ namespace MPfm.iOS
 		[Action ("actionIncrementInterval:")]
 		partial void actionIncrementInterval (MonoTouch.Foundation.NSObject sender);
 
-		[Action ("actionChangeKey:")]
-		partial void actionChangeKey (MonoTouch.Foundation.NSObject sender);
+		[Action ("actionReset:")]
+		partial void actionReset (MonoTouch.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -103,6 +107,11 @@ namespace MPfm.iOS
 			if (viewBackground != null) {
 				viewBackground.Dispose ();
 				viewBackground = null;
+			}
+
+			if (viewButtons != null) {
+				viewButtons.Dispose ();
+				viewButtons = null;
 			}
 		}
 	}

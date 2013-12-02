@@ -25,6 +25,7 @@ using MPfm.MVP.Presenters;
 using MPfm.iOS.Classes.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS
 {
@@ -61,6 +62,13 @@ namespace MPfm.iOS
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindTimeShiftingView(this);
         }
+
+		public override void ViewDidLayoutSubviews()
+		{
+			base.ViewDidLayoutSubviews();
+
+			viewButtons.Frame = new RectangleF((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
+		}
 
         void HandleSliderValueChanged(object sender, EventArgs e)
         {

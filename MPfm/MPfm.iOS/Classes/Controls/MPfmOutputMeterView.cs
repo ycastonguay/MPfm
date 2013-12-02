@@ -185,7 +185,7 @@ namespace MPfm.iOS.Classes.Controls
         public override void Draw(RectangleF rectToDraw)
         {
             var context = UIGraphics.GetCurrentContext();
-            CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0.1f, 0.1f, 0.1f));
+			CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor.CGColor);
 
             // If the wave data is empty, skip rendering 
             if (WaveDataHistory == null || WaveDataHistory.Count == 0)

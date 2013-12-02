@@ -46,6 +46,7 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
+			tableView.BackgroundColor = UIColor.Clear;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 

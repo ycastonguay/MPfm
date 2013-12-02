@@ -38,6 +38,7 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
+			tableView.BackgroundColor = UIColor.Clear;
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
             btnAddLoop.Layer.CornerRadius = 8;
             btnAddLoop.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;

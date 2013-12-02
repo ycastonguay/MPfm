@@ -52,6 +52,8 @@ namespace MPfm.iOS.Classes.Controllers
         PlayerMetadataViewController _playerMetadataViewController;
         float _lastSliderPositionValue = 0;
 
+		MPVolumeView _volumeView;
+
 		public PlayerViewController()
 			: base (UserInterfaceIdiomIsPhone ? "PlayerViewController_iPhone" : "PlayerViewController_iPad", null)
 		{
@@ -79,6 +81,18 @@ namespace MPfm.iOS.Classes.Controllers
             btnNext.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");
             btnShuffle.GlyphImageView.Image = UIImage.FromBundle("Images/Player/shuffle");
             btnRepeat.GlyphImageView.Image = UIImage.FromBundle("Images/Player/repeat");
+
+			// Check for iPad controls
+			if (imageViewVolumeLow != null)
+			{
+				imageViewVolumeLow.Alpha = 0.125f;
+				imageViewVolumeLow.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_low");
+				imageViewVolumeHigh.Alpha = 0.125f;
+				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_high");
+
+				graphView.BackgroundColor = GlobalTheme.BackgroundColor;
+				outputMeter.BackgroundColor = GlobalTheme.BackgroundColor;
+			}
 
             viewPosition.BackgroundColor = GlobalTheme.BackgroundColor;
             viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -185,6 +199,17 @@ namespace MPfm.iOS.Classes.Controllers
             lblLength.Text = string.Empty;
             lblPosition.Text = string.Empty;
 
+			// Create MPVolumeView (only visible on iPad or maybe in the future on iPhone with a scroll view)
+			if (!UserInterfaceIdiomIsPhone)
+			{
+				RectangleF rectVolume = new RectangleF(12, 20, 100, 46);
+				_volumeView = new MPVolumeView(rectVolume);
+				_volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+				_volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+				_volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
+				viewVolume.AddSubview(_volumeView);
+			}
+
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindPlayerView(MobileNavigationTabType.Playlists, this);
 
@@ -204,28 +229,58 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewDidLayoutSubviews();
             Tracing.Log("PlayerVC - ViewDidLayoutSubviews - View.Width: {0} - scrollView.Width: {1}", View.Frame.Width, scrollView.Frame.Width);
 
+			if (graphView != null)
+				graphView.SetNeedsDisplay();
+
+			if(_volumeView != null)
+				_volumeView.Frame = new RectangleF(16 + 16 + 12, 32, viewVolume.Frame.Width - 88, 46);
+
             if (!UserInterfaceIdiomIsPhone)
             {
-                // Resize scrollview subviews
-                float width = View.Frame.Width;
-                float height = viewMain.Frame.Height - 24; // 24 = Page Control
-                for (int a = 0; a < scrollView.Subviews.Count(); a++)
-                {
-                    var view = scrollView.Subviews[a];
+				// Resize scrollview subviews
+				float width = View.Frame.Width;
+				float height = viewMain.Frame.Height - 24; // 24 = Page Control
+				if (UIDevice.CurrentDevice.Orientation == UIDeviceOrientation.Portrait ||
+				    UIDevice.CurrentDevice.Orientation == UIDeviceOrientation.PortraitUpsideDown)
+				{
+					for (int a = 0; a < scrollView.Subviews.Count(); a++)
+					{
+						var view = scrollView.Subviews[a];
+						if (a == 0)
+							view.Frame = new RectangleF(0, 0, width, height);
+						else if (a == 1)
+							view.Frame = new RectangleF(width, 0, width, height / 2);
+						else if (a == 2)
+							view.Frame = new RectangleF(width, height / 2, width, height / 2);
+						else if (a == 3)
+							view.Frame = new RectangleF(2 * width, 0, width, height / 2);
+						else if (a == 4)
+							view.Frame = new RectangleF(2 * width, height / 2, width, height / 2);
+					}
+				}
+				else
+				{
+					for (int a = 0; a < scrollView.Subviews.Count(); a++)
+					{
+						var view = scrollView.Subviews[a];
+						if (a == 0)
+							view.Frame = new RectangleF(0, 0, width, height);
+						else if (a == 1)
+							view.Frame = new RectangleF(width, 0, width / 2, height);
+						else if (a == 2)
+							view.Frame = new RectangleF(width + (width / 2), 0, width / 2, height);
+						else if (a == 3)
+							view.Frame = new RectangleF(2 * width, 0, width/ 2, height);
+						else if (a == 4)
+							view.Frame = new RectangleF((2 * width) + (width / 2), 0, width / 2, height);
+					}
+				}
+				float oldWidth = scrollView.ContentSize.Width / 3f;
+				float offset = scrollView.ContentOffset.X / oldWidth;
+				scrollView.ContentSize = new SizeF(3 * width, height);
+				scrollView.ContentOffset = new PointF(offset * width, 0);
 
-                    if (a == 0)
-                        view.Frame = new RectangleF(0, 0, width, height);
-                    else if (a == 1)
-                        view.Frame = new RectangleF(width, 0, width, height / 2);
-                    else if (a == 2)
-                        view.Frame = new RectangleF(width, height / 2, width, height / 2);
-                    else if (a == 3)
-                        view.Frame = new RectangleF(2 * width, 0, width, height / 2);
-                    else if (a == 4)
-                        view.Frame = new RectangleF(2 * width, height / 2, width, height / 2);
-                }
-
-                scrollView.ContentSize = new SizeF(3 * width, height);
+				Tracing.Log("PlayerVC - ViewDidLayoutSubviews - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2}", View.Frame.Width, scrollView.ContentSize, scrollView.ContentOffset);
             }
 
             // IMPORTANT: Keep this property here to override the new Frame position by AutoLayout
