@@ -525,8 +525,12 @@ namespace MPfm.iOS.Classes.Controllers
             cell.IsTextAnimationEnabled = true;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
             cell.TextLabel.Text = item.Title;
+			cell.TextLabel.TextColor = UIColor.Black;
+			cell.TextLabel.HighlightedTextColor = UIColor.White;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             cell.DetailTextLabel.Text = item.Subtitle;
+			cell.DetailTextLabel.TextColor = UIColor.Gray;
+			cell.DetailTextLabel.HighlightedTextColor = UIColor.White;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");

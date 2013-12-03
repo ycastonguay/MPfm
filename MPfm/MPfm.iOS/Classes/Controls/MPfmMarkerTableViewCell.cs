@@ -27,21 +27,16 @@ using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
+using MPfm.Core;
 
 namespace MPfm.iOS.Classes.Controls
 {
-    [Register("MPfmTableViewCell")]
-    public class MPfmTableViewCell : UITableViewCell
+	[Register("MPfmMarkerTableViewCell")]
+	public class MPfmMarkerTableViewCell : UITableViewCell
     {
         private bool _isTextLabelAllowedToChangeFrame = true;
 
         public UILabel IndexTextLabel { get; private set; }
-        public UIButton RightButton { get; private set; }
-        public UIImageView RightImage { get; private set; }
-        public UIImageView ImageChevron { get; private set; }
-        public UIImageView ImageAlbum1 { get; private set; }
-        public UIImageView ImageAlbum2 { get; private set; }
-        public UIImageView ImageAlbum3 { get; private set; }
         public UILabel AlbumCountLabel { get; private set; }
         //public UIView SecondaryMenuBackground { get; private set; }
 
@@ -53,20 +48,17 @@ namespace MPfm.iOS.Classes.Controls
 
         public float RightOffset { get; set; }
 
-        public delegate void RightButtonTap(MPfmTableViewCell cell);
-        public event RightButtonTap OnRightButtonTap;
-
-        public MPfmTableViewCell() : base()
+		public MPfmMarkerTableViewCell() : base()
         {
             Initialize();
         }
 
-        public MPfmTableViewCell(RectangleF frame) : base(frame)
+		public MPfmMarkerTableViewCell(RectangleF frame) : base(frame)
         {
             Initialize();
         }
 
-        public MPfmTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
+		public MPfmMarkerTableViewCell(UITableViewCellStyle style, string reuseIdentifier) : base(style, reuseIdentifier)
         {
             Initialize();
         }
@@ -75,7 +67,6 @@ namespace MPfm.iOS.Classes.Controls
         {
             IsTextAnimationEnabled = false;
             SelectionStyle = UITableViewCellSelectionStyle.None;
-            var screenSize = UIKitHelper.GetDeviceSize();
            
 //            UIView backView = new UIView(Frame);
 //            backView.BackgroundColor = GlobalTheme.LightColor;
@@ -87,27 +78,6 @@ namespace MPfm.iOS.Classes.Controls
             SelectedBackgroundView = backViewSelected;     
             SelectedBackgroundView.Hidden = true;
             AddSubview(SelectedBackgroundView);
-
-            ImageAlbum1 = new UIImageView();
-            ImageAlbum1.BackgroundColor = UIColor.Clear;
-            ImageAlbum1.Hidden = true;
-            ImageAlbum1.Alpha = 0.75f;
-            ImageAlbum1.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
-            AddSubview(ImageAlbum1);
-
-            ImageAlbum2 = new UIImageView();
-            ImageAlbum2.BackgroundColor = UIColor.Clear;
-            ImageAlbum2.Hidden = true;
-            ImageAlbum2.Alpha = 0.4f;
-            ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
-            AddSubview(ImageAlbum2);
-
-            ImageAlbum3 = new UIImageView();
-            ImageAlbum3.BackgroundColor = UIColor.Clear;
-            ImageAlbum3.Hidden = true;
-            ImageAlbum3.Alpha = 0.2f;
-            ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
-            AddSubview(ImageAlbum3);
 
             AlbumCountLabel = new UILabel();
             AlbumCountLabel.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
@@ -125,10 +95,10 @@ namespace MPfm.iOS.Classes.Controls
             TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
             TextLabel.BackgroundColor = UIColor.Orange;
             TextLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
-			TextLabel.TextColor = UIColor.Black;
+			TextLabel.TextColor = UIColor.White;
 			TextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			DetailTextLabel.TextColor = UIColor.Gray;
+			DetailTextLabel.TextColor = UIColor.LightGray;
 			DetailTextLabel.HighlightedTextColor = UIColor.White;
             DetailTextLabel.BackgroundColor = UIColor.Yellow;
             DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
@@ -147,25 +117,6 @@ namespace MPfm.iOS.Classes.Controls
             IndexTextLabel.TextAlignment = UITextAlignment.Center;
             IndexTextLabel.HighlightedTextColor = UIColor.White;
             AddSubview(IndexTextLabel);
-
-            RightButton = new UIButton(UIButtonType.Custom);
-            RightButton.Hidden = true;
-            RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
-            RightButton.TouchUpInside += HandleRightButtonTouchUpInside;
-            AddSubview(RightButton);
-
-            ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
-            ImageChevron.BackgroundColor = UIColor.Clear;
-            ImageChevron.Hidden = true;
-            ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
-            AddSubview(ImageChevron);           
-
-            RightImage = new UIImageView(UIImage.FromBundle("Images/Icons/icon_speaker"));
-            RightImage.Alpha = 0.7f;
-            RightImage.BackgroundColor = UIColor.Clear;
-            RightImage.Hidden = true;
-            RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
-            AddSubview(RightImage);
 
             // Make sure the text label is over all other subviews
             TextLabel.RemoveFromSuperview();
@@ -193,12 +144,6 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(DeleteButton);
         }
 
-        private void HandleRightButtonTouchUpInside(object sender, EventArgs e)
-        {
-            if (OnRightButtonTap != null)
-                OnRightButtonTap(this);
-        }
-
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
@@ -215,14 +160,8 @@ namespace MPfm.iOS.Classes.Controls
                 textWidth -= 44;
             if (ImageView.Image != null && !ImageView.Hidden)
                 textWidth -= 44 + padding;
-            if (RightButton.ImageView.Image != null)
-                textWidth -= 44 + padding;
             if (!string.IsNullOrEmpty(IndexTextLabel.Text))
                 textWidth -= 22 + padding + padding;
-            if (ImageChevron.Image != null && !ImageChevron.Hidden)
-                textWidth -= 22;
-            if (RightImage.Image != null && !RightImage.Hidden)
-                textWidth -= 44;
 
             float x = 0;
             if (ImageView.Image != null)
@@ -250,43 +189,45 @@ namespace MPfm.iOS.Classes.Controls
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
 
-            if (RightButton.ImageView.Image != null || !string.IsNullOrEmpty(RightButton.Title(UIControlState.Normal)))
-                RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
-
-            ImageChevron.Frame = new RectangleF(screenSize.Width - 22 - RightOffset, 4, 22, 44);
-
-            if(ImageChevron.Hidden)
-                RightImage.Frame = new RectangleF(screenSize.Width - 44 - RightOffset, 4, 44, 44);
-            else
-                RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 4, 44, 44);
-
-			ImageAlbum1.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
-			ImageAlbum2.Frame = new RectangleF(screenSize.Width - 130, 4, 44, 44);
-			ImageAlbum3.Frame = new RectangleF(screenSize.Width - 182, 4, 44, 44);
 			AlbumCountLabel.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
         {
-            SelectedBackgroundView.Alpha = 1;
-            SelectedBackgroundView.Hidden = !highlighted;
-            TextLabel.TextColor = highlighted ? UIColor.White : UIColor.Black;
+			Tracing.Log("MarkerTableViewCell - SetHighlighted - highlighted: {0} animated: {1}", highlighted, animated);
+//            SelectedBackgroundView.Alpha = 1;
+//            SelectedBackgroundView.Hidden = !highlighted;
             DetailTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
             DetailTextLabel.TextColor = highlighted ? UIColor.White : UIColor.Gray;
             //IndexTextLabel.TextColor = highlighted ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
             //SecondaryMenuBackground.BackgroundColor = highlighted ? GlobalTheme.SecondaryColor : GlobalTheme.LightColor;
 
+			if (!highlighted)
+			{
+				UIView.Animate(0.5, () => {
+					SelectedBackgroundView.Alpha = 0;
+				}, () => {
+					SelectedBackgroundView.Hidden = true;
+				});
+			}
+			else
+			{
+				SelectedBackgroundView.Hidden = false;
+				SelectedBackgroundView.Alpha = 1;
+			}
+
             base.SetHighlighted(highlighted, animated);
         }
 
         public override void SetSelected(bool selected, bool animated)
         {
+			Tracing.Log("MarkerTableViewCell - SetSelected - selected: {0} animated: {1}", selected, animated);
+
             //if(selected)
                 //SecondaryMenuBackground.BackgroundColor = GlobalTheme.SecondaryColor;
 
-            TextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
-            DetailTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
+			DetailTextLabel.TextColor = selected ? UIColor.White : UIColor.LightGray;
             //IndexTextLabel.TextColor = selected ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
 
             if (!selected)

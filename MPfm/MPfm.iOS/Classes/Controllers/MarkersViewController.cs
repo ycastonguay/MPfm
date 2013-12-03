@@ -18,6 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MPfm.Core;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
@@ -27,9 +30,6 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
-using MPfm.Core;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
 
 namespace MPfm.iOS
 {
@@ -37,6 +37,7 @@ namespace MPfm.iOS
     {
         string _cellIdentifier = "MarkerCell";
         List<Marker> _markers;
+		int _currentEditIndex = -1;
 
         public MarkersViewController()
             : base (UserInterfaceIdiomIsPhone ? "MarkersViewController_iPhone" : "MarkersViewController_iPad", null)
@@ -72,9 +73,19 @@ namespace MPfm.iOS
 
             PointF pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
-            if (indexPath != null)
-                if(OnEditMarker != null)
-                    OnEditMarker(_markers[indexPath.Row]);
+			if (indexPath != null)
+			{
+				Tracing.Log("MarkersViewController - HandleLongPress");
+
+				// Execute animation for new row height (as simple as that!)
+				_currentEditIndex = _currentEditIndex == indexPath.Row ? -1 : indexPath.Row;
+				tableView.BeginUpdates();
+				//tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.Bottom);
+				tableView.EndUpdates();
+
+//				if (OnEditMarker != null)
+//					OnEditMarker(_markers[indexPath.Row]);
+			}
         }
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -86,30 +97,23 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+			MPfmMarkerTableViewCell cell = (MPfmMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;                
-                cell = new MPfmTableViewCell(cellStyle, _cellIdentifier);
+				cell = new MPfmMarkerTableViewCell(cellStyle, _cellIdentifier);
             }
 
             cell.Tag = indexPath.Row;
             cell.BackgroundColor = UIColor.Clear;
-            cell.BackgroundView = null;
             cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
             cell.IndexTextLabel.BackgroundColor = UIColor.FromRGBA(1, 0, 0, 0.7f);
             cell.IndexTextLabel.TextColor = UIColor.White;
             cell.TextLabel.Text = _markers[indexPath.Row].Name;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
-            cell.TextLabel.TextColor = UIColor.White;
             cell.DetailTextLabel.Text = _markers[indexPath.Row].Position;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
-            cell.DetailTextLabel.TextColor = UIColor.LightGray;
 
-            UIView viewBackgroundSelected = new UIView();
-            viewBackgroundSelected.BackgroundColor = GlobalTheme.SecondaryColor;
-            cell.SelectedBackgroundView = viewBackgroundSelected;
-            
             return cell;
         }
         
@@ -122,6 +126,27 @@ namespace MPfm.iOS
                 tableView.DeselectRow(indexPath, true);
             }
         }
+
+		[Export ("tableView:heightForRowAtIndexPath:")]
+		public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} indexPath.Section: {1} _currentEditIndex: {2}", indexPath.Row, indexPath.Section, _currentEditIndex);
+			return indexPath.Row == _currentEditIndex ? 104 : 52;
+		}
+
+		[Export ("tableView:heightForFooterInSection:")]
+		public float HeightForFooterInSection(UITableView tableView, int section)
+		{
+			// This will create an "invisible" footer
+			return 0.01f;
+		}
+
+		[Export ("tableView:viewForFooterInSection:")]
+		public UIView ViewForFooterInSection(UITableView tableview, int section)
+		{
+			// Remove extra separators
+			return new UIView();
+		}
 
         partial void actionAddMarker(NSObject sender)
         {

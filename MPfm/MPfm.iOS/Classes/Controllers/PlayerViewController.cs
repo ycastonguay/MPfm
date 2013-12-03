@@ -451,7 +451,7 @@ namespace MPfm.iOS.Classes.Controllers
 
         #region IPlayerView implementation
 
-		public bool IsOutputMeterEnabled { get { return true; } }
+		public bool IsOutputMeterEnabled { get { return !UserInterfaceIdiomIsPhone; } }
 
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
@@ -637,8 +637,11 @@ namespace MPfm.iOS.Classes.Controllers
 		public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
 		{
 			InvokeOnMainThread(() => {
-				outputMeter.AddWaveDataBlock(dataLeft, dataRight);
-				outputMeter.SetNeedsDisplay();
+				if(outputMeter != null)
+				{
+					outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+					outputMeter.SetNeedsDisplay();
+				}
 			});
 		}
 

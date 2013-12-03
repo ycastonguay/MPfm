@@ -63,7 +63,8 @@ namespace MPfm.iOS
 		{
 			base.ViewDidLayoutSubviews();
 
-			viewButtons.Frame = new RectangleF((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
+			if(viewButtons != null)
+				viewButtons.Frame = new RectangleF((View.Frame.Width - viewButtons.Frame.Width) / 2f, viewButtons.Frame.Y, viewButtons.Frame.Width, viewButtons.Frame.Height);
 		}
 
         void HandleSliderValueChanged(object sender, EventArgs e)

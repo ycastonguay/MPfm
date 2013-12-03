@@ -326,6 +326,9 @@
     </Compile>
     <Compile Include="Classes\Objects\PreferenceCellType.cs" />
     <Compile Include="Classes\Objects\PreferenceCellItem.cs" />
+    <Compile Include="Classes\Controls\MPfmMarkerTableViewCell.cs">
+      <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
