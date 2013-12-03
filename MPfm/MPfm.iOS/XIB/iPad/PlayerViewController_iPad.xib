@@ -30,6 +30,7 @@
                 <outlet property="viewEffects" destination="TN5-AR-NKj" id="kn7-4Y-3Ig"/>
                 <outlet property="viewMain" destination="4" id="20"/>
                 <outlet property="viewPageControls" destination="17" id="19"/>
+                <outlet property="viewPlayerButtons" destination="kLq-Aa-pB9" id="uec-dt-1x7"/>
                 <outlet property="viewPosition" destination="5" id="23"/>
                 <outlet property="viewVolume" destination="AkF-DC-GeZ" id="8RV-ol-Zzf"/>
             </connections>

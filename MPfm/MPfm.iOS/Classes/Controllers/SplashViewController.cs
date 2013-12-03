@@ -38,8 +38,9 @@ namespace MPfm.iOS.Classes.Controllers
         {
 			View.BackgroundColor = UIColor.White;
 
-			if(UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-				SetNeedsStatusBarAppearanceUpdate();
+			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+				//SetNeedsStatusBarAppearanceUpdate();
+				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.Default, true);
 
             Console.WriteLine("SplashViewController - UIScreen width: {0} height: {1}", UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 //            if (UIScreen.MainScreen.Bounds.Height == 568)
@@ -82,11 +83,6 @@ namespace MPfm.iOS.Classes.Controllers
                 activityIndicator.Alpha = 1;
             }, null);
         }
-
-		public override UIStatusBarStyle PreferredStatusBarStyle()
-		{
-			return UIStatusBarStyle.Default;
-		}
 
         #region ISplashView implementation
         

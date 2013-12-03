@@ -64,6 +64,9 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UIScrollView scrollView { get; set; }
 
 		[Outlet]
+		MonoTouch.UIKit.UIScrollView scrollViewPlayer { get; set; }
+
+		[Outlet]
 		MPfm.iOS.Classes.Controls.MPfmWaveFormScrollView scrollViewWaveForm { get; set; }
 
 		[Outlet]
@@ -77,6 +80,9 @@ namespace MPfm.iOS.Classes.Controllers
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewPageControls { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UIView viewPlayerButtons { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewPosition { get; set; }
@@ -126,6 +132,11 @@ namespace MPfm.iOS.Classes.Controllers
 				btnShuffle = null;
 			}
 
+			if (graphView != null) {
+				graphView.Dispose ();
+				graphView = null;
+			}
+
 			if (imageViewAlbumArt != null) {
 				imageViewAlbumArt.Dispose ();
 				imageViewAlbumArt = null;
@@ -151,6 +162,11 @@ namespace MPfm.iOS.Classes.Controllers
 				lblPosition = null;
 			}
 
+			if (lblPresetName != null) {
+				lblPresetName.Dispose ();
+				lblPresetName = null;
+			}
+
 			if (lblScrubbingType != null) {
 				lblScrubbingType.Dispose ();
 				lblScrubbingType = null;
@@ -161,6 +177,11 @@ namespace MPfm.iOS.Classes.Controllers
 				lblSlideMessage = null;
 			}
 
+			if (outputMeter != null) {
+				outputMeter.Dispose ();
+				outputMeter = null;
+			}
+
 			if (pageControl != null) {
 				pageControl.Dispose ();
 				pageControl = null;
@@ -169,6 +190,11 @@ namespace MPfm.iOS.Classes.Controllers
 			if (scrollView != null) {
 				scrollView.Dispose ();
 				scrollView = null;
+			}
+
+			if (scrollViewPlayer != null) {
+				scrollViewPlayer.Dispose ();
+				scrollViewPlayer = null;
 			}
 
 			if (scrollViewWaveForm != null) {
@@ -206,19 +232,9 @@ namespace MPfm.iOS.Classes.Controllers
 				viewVolume = null;
 			}
 
-			if (lblPresetName != null) {
-				lblPresetName.Dispose ();
-				lblPresetName = null;
-			}
-
-			if (graphView != null) {
-				graphView.Dispose ();
-				graphView = null;
-			}
-
-			if (outputMeter != null) {
-				outputMeter.Dispose ();
-				outputMeter = null;
+			if (viewPlayerButtons != null) {
+				viewPlayerButtons.Dispose ();
+				viewPlayerButtons = null;
 			}
 		}
 	}

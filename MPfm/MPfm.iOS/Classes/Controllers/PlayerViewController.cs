@@ -75,24 +75,17 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		public override void ViewDidLoad()
         {
+			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+			{
+				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, true);
+			}
+
             View.BackgroundColor = GlobalTheme.BackgroundColor;
             btnPrevious.GlyphImageView.Image = UIImage.FromBundle("Images/Player/previous");
             btnPlayPause.GlyphImageView.Image = UIImage.FromBundle("Images/Player/pause");
             btnNext.GlyphImageView.Image = UIImage.FromBundle("Images/Player/next");
             btnShuffle.GlyphImageView.Image = UIImage.FromBundle("Images/Player/shuffle");
             btnRepeat.GlyphImageView.Image = UIImage.FromBundle("Images/Player/repeat");
-
-			// Check for iPad controls
-			if (imageViewVolumeLow != null)
-			{
-				imageViewVolumeLow.Alpha = 0.125f;
-				imageViewVolumeLow.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_low");
-				imageViewVolumeHigh.Alpha = 0.125f;
-				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_high");
-
-				graphView.BackgroundColor = GlobalTheme.BackgroundColor;
-				outputMeter.BackgroundColor = GlobalTheme.BackgroundColor;
-			}
 
             viewPosition.BackgroundColor = GlobalTheme.BackgroundColor;
             viewMain.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -111,12 +104,17 @@ namespace MPfm.iOS.Classes.Controllers
             scrollView.ShowsHorizontalScrollIndicator = false;
             scrollView.ShowsVerticalScrollIndicator = false;
             scrollView.DelaysContentTouches = false;
-            UISwipeGestureRecognizer swipeDown = new UISwipeGestureRecognizer(HandleScrollViewSwipeDown);
+            
+			UISwipeGestureRecognizer swipeDown = new UISwipeGestureRecognizer(HandleScrollViewSwipeDown);
             swipeDown.Direction = UISwipeGestureRecognizerDirection.Down;
             scrollView.AddGestureRecognizer(swipeDown);
-            UISwipeGestureRecognizer swipeUp = new UISwipeGestureRecognizer(HandleScrollViewSwipeUp);
+            
+			UISwipeGestureRecognizer swipeUp = new UISwipeGestureRecognizer(HandleScrollViewSwipeUp);
             swipeUp.Direction = UISwipeGestureRecognizerDirection.Up;
             scrollView.AddGestureRecognizer(swipeUp);
+
+			scrollViewPlayer.PagingEnabled = true;
+			scrollViewPlayer.DelaysContentTouches = false;
 
             // TODO: Block slider when the player is paused.
             sliderPosition.ScrubbingTypeChanged += (sender, e) => {
@@ -200,14 +198,39 @@ namespace MPfm.iOS.Classes.Controllers
             lblPosition.Text = string.Empty;
 
 			// Create MPVolumeView (only visible on iPad or maybe in the future on iPhone with a scroll view)
-			if (!UserInterfaceIdiomIsPhone)
+			RectangleF rectVolume = new RectangleF(12, 10, 100, 46);
+			_volumeView = new MPVolumeView(rectVolume);
+			_volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+			_volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+			_volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
+			viewVolume.AddSubview(_volumeView);
+
+			graphView.BackgroundColor = GlobalTheme.BackgroundColor;
+			outputMeter.BackgroundColor = GlobalTheme.BackgroundColor;
+			imageViewVolumeLow.Alpha = 0.125f;
+			imageViewVolumeHigh.Alpha = 0.125f;
+
+			if (UserInterfaceIdiomIsPhone)
 			{
-				RectangleF rectVolume = new RectangleF(12, 20, 100, 46);
-				_volumeView = new MPVolumeView(rectVolume);
-				_volumeView.SetMinimumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-				_volumeView.SetMaximumVolumeSliderImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-				_volumeView.SetVolumeThumbImage(UIImage.FromBundle("Images/Sliders/thumbbig"), UIControlState.Normal);
-				viewVolume.AddSubview(_volumeView);
+				viewVolume.RemoveFromSuperview();
+				viewPlayerButtons.RemoveFromSuperview();
+				viewEffects.RemoveFromSuperview();
+				scrollViewPlayer.AddSubview(viewEffects);
+				scrollViewPlayer.AddSubview(viewPlayerButtons);
+				scrollViewPlayer.AddSubview(viewVolume);
+				scrollViewPlayer.ContentSize = new SizeF(3 * UIScreen.MainScreen.Bounds.Width, 72);
+				viewEffects.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				viewPlayerButtons.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				viewVolume.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width * 2, 0, UIScreen.MainScreen.Bounds.Width, 72);
+				scrollViewPlayer.ContentOffset = new PointF(UIScreen.MainScreen.Bounds.Width, 0);
+
+				imageViewVolumeLow.Image = UIImage.FromBundle("Images/Buttons/volume_low");
+				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/Buttons/volume_high");
+			}
+			else
+			{
+				imageViewVolumeLow.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_low");
+				imageViewVolumeHigh.Image = UIImage.FromBundle("Images/SmallWhiteIcons/volume_high");
 			}
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
@@ -232,7 +255,9 @@ namespace MPfm.iOS.Classes.Controllers
 			if (graphView != null)
 				graphView.SetNeedsDisplay();
 
-			if(_volumeView != null)
+			if(UserInterfaceIdiomIsPhone)
+				_volumeView.Frame = new RectangleF(48, 25, viewVolume.Frame.Width - 96, 46);
+			else
 				_volumeView.Frame = new RectangleF(16 + 16 + 12, 32, viewVolume.Frame.Width - 88, 46);
 
             if (!UserInterfaceIdiomIsPhone)
@@ -279,16 +304,9 @@ namespace MPfm.iOS.Classes.Controllers
 				float offset = scrollView.ContentOffset.X / oldWidth;
 				scrollView.ContentSize = new SizeF(3 * width, height);
 				scrollView.ContentOffset = new PointF(offset * width, 0);
-				//Tracing.Log("PlayerVC - ViewDidLayoutSubviews - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2}", View.Frame.Width, scrollView.ContentSize, scrollView.ContentOffset);
             }
 
-			//Tracing.Log("PlayerVC - ViewDidLayoutSubviews - BEFORE - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2}", View.Frame.Width, scrollViewWaveForm.ContentSize, scrollViewWaveForm.ContentOffset);
-			//float zoom = scrollViewWaveForm.ContentSize.Width / View.Frame.Height;
-			//float offsetWaveForm = scrollViewWaveForm.ContentOffset.X / scrollViewWaveForm.ContentSize.Width;
-			//scrollViewWaveForm.ContentSize = new SizeF(View.Frame.Width * zoom, scrollViewWaveForm.ContentSize.Height);
-			//scrollViewWaveForm.ContentOffset = new PointF(offsetWaveForm * (zoom * View.Frame.Width), 0);
 			scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
-			//Tracing.Log("PlayerVC - ViewDidLayoutSubviews - AFTER - width: {0} scrollView.ContentSize: {1} scrollView.ContentOffset: {2} zoom: {3} offsetWaveForm: {4}", View.Frame.Width, scrollViewWaveForm.ContentSize, scrollViewWaveForm.ContentOffset, zoom, offsetWaveForm);
 
             // IMPORTANT: Keep this property here to override the new Frame position by AutoLayout
             sliderPosition.TranslatesAutoresizingMaskIntoConstraints = true;
@@ -451,7 +469,9 @@ namespace MPfm.iOS.Classes.Controllers
 
         #region IPlayerView implementation
 
-		public bool IsOutputMeterEnabled { get { return !UserInterfaceIdiomIsPhone; } }
+		// TODO: Remove output meter for iPhone 4/4S?
+		//public bool IsOutputMeterEnabled { get { return !UserInterfaceIdiomIsPhone; } }
+		public bool IsOutputMeterEnabled { get { return true; } }
 
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
