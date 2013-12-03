@@ -46,6 +46,7 @@ namespace MPfm.MVP.Views
         Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
         Action OnEditSongMetadata { get; set; }
         Action OnOpenPlaylist { get; set; }
+        Action OnOpenEffects { get; set; }
 
         void PlayerError(Exception ex);
 	    void PushSubView(IBaseView view);

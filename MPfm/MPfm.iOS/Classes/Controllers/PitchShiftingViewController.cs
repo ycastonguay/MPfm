@@ -44,9 +44,6 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
-            btnReset.Layer.CornerRadius = 8;
-            btnReset.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnReset.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);

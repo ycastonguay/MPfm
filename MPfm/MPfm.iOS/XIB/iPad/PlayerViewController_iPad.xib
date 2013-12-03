@@ -245,7 +245,7 @@
                         <constraint firstAttribute="trailing" secondItem="yFd-Nz-R3R" secondAttribute="trailing" constant="16" id="yG0-9F-iOL"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TN5-AR-NKj">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TN5-AR-NKj" customClass="MPfmScaleView">
                     <rect key="frame" x="0.0" y="883" width="218" height="78"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>

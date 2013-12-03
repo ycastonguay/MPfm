@@ -16,9 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Navigation;
@@ -27,10 +25,8 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using TinyMessenger;
 using MPfm.iOS.Classes.Controllers;
-using MonoTouch.CoreAnimation;
-using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
 using MPfm.iOS.Classes.Controllers.Base;
+using MPfm.iOS.Helpers;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -45,12 +41,12 @@ namespace MPfm.iOS.Classes.Controls
         UILabel _lblTitle;
         UIImageView _imageViewIcon;
         MPfmFlatButton _btnBack;
-        MPfmFlatButton _btnEffects;
         MPfmFlatButton _btnPlaylist;
+		//MPfmFlatButton _btnPlaylist;
         MPfmFlatButton _btnNowPlaying;
         ITinyMessengerHub _messengerHub;
 
-        public MPfmFlatButton BtnEffects { get { return _btnEffects; } }
+        public MPfmFlatButton BtnEffects { get { return _btnPlaylist; } }
         public MPfmFlatButton BtnNowPlaying { get { return _btnNowPlaying; } }
         public MobileNavigationTabType TabType { get; set; }
 
@@ -124,31 +120,16 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             _btnPlaylist = new MPfmFlatButton();
-            _btnPlaylist.LabelAlignment = UIControlContentHorizontalAlignment.Center;
-            _btnPlaylist.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width - 80) / 2, 0, 80, 44);
-            _btnPlaylist.Alpha = 1;
-            _btnPlaylist.Label.TextAlignment = UITextAlignment.Center;
-            _btnPlaylist.Label.Text = "Playlist";
-            _btnPlaylist.Label.BackgroundColor = UIColor.Clear;
-            _btnPlaylist.Label.Frame = new RectangleF(0, 0, 80, 44);
-            _btnPlaylist.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_top_blue");
-            _btnPlaylist.ImageChevron.Frame = new RectangleF((80 - 8) / 2, 6, 8, 5);
-            _btnPlaylist.ImageChevron.BackgroundColor = UIColor.Clear;
+            _btnPlaylist.LabelAlignment = UIControlContentHorizontalAlignment.Right;
+			_btnPlaylist.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 80, 0, 80, 44);
+            _btnPlaylist.Alpha = 0;
+            _btnPlaylist.Label.TextAlignment = UITextAlignment.Right;
+			_btnPlaylist.Label.Text = "Playlist";
+			_btnPlaylist.Label.Frame = new RectangleF(0, 0, 54, 44);
+            _btnPlaylist.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
+			_btnPlaylist.ImageChevron.Frame = new RectangleF(80 - 22, 0, 22, 44);
             _btnPlaylist.OnButtonClick += () => {
-                _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlaylistView));
-            };
-
-            _btnEffects = new MPfmFlatButton();
-            _btnEffects.LabelAlignment = UIControlContentHorizontalAlignment.Right;
-            _btnEffects.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 70, 0, 70, 44);
-            _btnEffects.Alpha = 0;
-            _btnEffects.Label.TextAlignment = UITextAlignment.Right;
-            _btnEffects.Label.Text = "Effects";
-            _btnEffects.Label.Frame = new RectangleF(0, 0, 44, 44);
-            _btnEffects.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_blue");
-            _btnEffects.ImageChevron.Frame = new RectangleF(70 - 22, 0, 22, 44);
-            _btnEffects.OnButtonClick += () => {
-                _messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowEqualizerPresetsView));
+				_messengerHub.PublishAsync<MobileNavigationManagerCommandMessage>(new MobileNavigationManagerCommandMessage(this, MobileNavigationManagerCommandMessageType.ShowPlaylistView));
             };
 
             _btnNowPlaying = new MPfmFlatButton();
@@ -165,11 +146,10 @@ namespace MPfm.iOS.Classes.Controls
             };
 
             this.NavigationBar.AddSubview(_btnBack);
-            this.NavigationBar.AddSubview(_btnEffects);
+            this.NavigationBar.AddSubview(_btnPlaylist);
             this.NavigationBar.AddSubview(_btnNowPlaying);
             this.NavigationBar.AddSubview(_lblTitle);
             this.NavigationBar.AddSubview(_imageViewIcon);
-            this.NavigationBar.AddSubview(_btnPlaylist);
         }
 
         public override void ViewDidLayoutSubviews()
@@ -178,9 +158,8 @@ namespace MPfm.iOS.Classes.Controls
 
             var screenSize = UIKitHelper.GetDeviceSize();
             _btnBack.Frame = new RectangleF(0, 0, 70, 44);
-            _btnEffects.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
+			_btnPlaylist.Frame = new RectangleF(screenSize.Width - 80, 0, 80, 44);
             _btnNowPlaying.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
-            _btnPlaylist.Frame = new RectangleF((screenSize.Width - 80) / 2, 0, 80, 44);
             SetTitleFrame();
         }
         
@@ -219,33 +198,33 @@ namespace MPfm.iOS.Classes.Controls
                 if(_viewShouldShowEffectsButton)
                 {
                     UIView.Animate(0.2f, () => {
-                        _btnEffects.Frame = new RectangleF(screenSize.Width - 70, 0, 70, 44);
-                        _btnEffects.Alpha = 1;
-                    });
-                }
-                else
-                {
-                    UIView.Animate(0.2f, () => {
-                        _btnEffects.Frame = new RectangleF(screenSize.Width, 0, 70, 44);
-                        _btnEffects.Alpha = 0;
-                    });
-                }
-
-                if(_viewShouldShowPlaylistButton)
-                {
-                    UIView.Animate(0.2f, () => {
-                        _lblTitle.Alpha = 0;
-                        _imageViewIcon.Alpha = 0;
+						_btnPlaylist.Frame = new RectangleF(screenSize.Width - 80, 0, 80, 44);
                         _btnPlaylist.Alpha = 1;
                     });
                 }
                 else
                 {
                     UIView.Animate(0.2f, () => {
-                        _imageViewIcon.Alpha = 1;
-                        _lblTitle.Alpha = 1;
+						_btnPlaylist.Frame = new RectangleF(screenSize.Width, 0, 80, 44);
                         _btnPlaylist.Alpha = 0;
                     });
+                }
+
+                if(_viewShouldShowPlaylistButton)
+                {
+                    UIView.Animate(0.2f, () => {
+						//_lblTitle.Alpha = 0;
+                        _imageViewIcon.Alpha = 0;
+						//_btnPlaylist.Alpha = 1;
+                    });
+                }
+                else
+                {
+                    UIView.Animate(0.2f, () => {
+                        _imageViewIcon.Alpha = 1;
+						//_lblTitle.Alpha = 1;
+						//_btnPlaylist.Alpha = 0;
+					});
                 }
             });
         }

@@ -113,8 +113,11 @@ namespace MPfm.iOS.Classes.Controllers
             swipeUp.Direction = UISwipeGestureRecognizerDirection.Up;
             scrollView.AddGestureRecognizer(swipeUp);
 
-			scrollViewPlayer.PagingEnabled = true;
-			scrollViewPlayer.DelaysContentTouches = false;
+			if (scrollViewPlayer != null)
+			{
+				scrollViewPlayer.PagingEnabled = true;
+				scrollViewPlayer.DelaysContentTouches = false;
+			}
 
             // TODO: Block slider when the player is paused.
             sliderPosition.ScrubbingTypeChanged += (sender, e) => {
@@ -209,6 +212,7 @@ namespace MPfm.iOS.Classes.Controllers
 			outputMeter.BackgroundColor = GlobalTheme.BackgroundColor;
 			imageViewVolumeLow.Alpha = 0.125f;
 			imageViewVolumeHigh.Alpha = 0.125f;
+			viewEffects.OnScaleViewClicked += () => OnOpenEffects();
 
 			if (UserInterfaceIdiomIsPhone)
 			{
@@ -243,8 +247,8 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewWillAppear(animated);
             
-            //MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
-            //navCtrl.SetTitle("Now Playing", _currentNavigationSubtitle);
+            MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
+			navCtrl.SetTitle("Now Playing", "Now Playing");
         }
 
         public override void ViewDidLayoutSubviews()
@@ -487,6 +491,7 @@ namespace MPfm.iOS.Classes.Controllers
         public Action OnPlayerRepeat { get; set; }
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
+		public Action OnOpenEffects { get; set; }
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
 
         public void PlayerError(Exception ex)

@@ -329,6 +329,7 @@
     <Compile Include="Classes\Controls\MPfmMarkerTableViewCell.cs">
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\MPfmScaleView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

@@ -64,6 +64,9 @@ namespace MPfm.iOS.Classes.Delegates
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+//			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+//				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.Default, true);
+
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
             RegisterViews();
 

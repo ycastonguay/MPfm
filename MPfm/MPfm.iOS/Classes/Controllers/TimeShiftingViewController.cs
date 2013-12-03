@@ -39,18 +39,6 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
-            btnReset.Layer.CornerRadius = 8;
-            btnReset.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnReset.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
-            btnUseTempo.Layer.CornerRadius = 8;
-            btnUseTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnUseTempo.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
-            btnDecrementTempo.Layer.CornerRadius = 8;
-            btnDecrementTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnDecrementTempo.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
-            btnIncrementTempo.Layer.CornerRadius = 8;
-            btnIncrementTempo.Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            btnIncrementTempo.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 
             slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
             slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);

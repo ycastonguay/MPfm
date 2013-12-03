@@ -73,7 +73,7 @@ namespace MPfm.iOS.Classes.Controllers
 		MPfm.iOS.Classes.Controls.MPfmSlider sliderPosition { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView viewEffects { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmScaleView viewEffects { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewMain { get; set; }
@@ -222,6 +222,11 @@ namespace MPfm.iOS.Classes.Controllers
 				viewPageControls = null;
 			}
 
+			if (viewPlayerButtons != null) {
+				viewPlayerButtons.Dispose ();
+				viewPlayerButtons = null;
+			}
+
 			if (viewPosition != null) {
 				viewPosition.Dispose ();
 				viewPosition = null;
@@ -230,11 +235,6 @@ namespace MPfm.iOS.Classes.Controllers
 			if (viewVolume != null) {
 				viewVolume.Dispose ();
 				viewVolume = null;
-			}
-
-			if (viewPlayerButtons != null) {
-				viewPlayerButtons.Dispose ();
-				viewPlayerButtons = null;
 			}
 		}
 	}

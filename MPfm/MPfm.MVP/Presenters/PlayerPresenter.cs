@@ -163,6 +163,7 @@ namespace MPfm.MVP.Presenters
             view.OnPlayerRequestPosition = RequestPosition;
             view.OnEditSongMetadata = EditSongMetadata;
             view.OnOpenPlaylist = OpenPlaylist;
+            view.OnOpenEffects = OpenEffects;
 
             // If the player is already playing, refresh initial data
             if (_playerService.IsPlaying)
@@ -310,9 +311,12 @@ namespace MPfm.MVP.Presenters
 
         private void OpenPlaylist()
         {
-            // Only on mobile devices
-            Tracing.Log("PlayerPresenter - OpenPlaylist");
             _mobileNavigationManager.CreatePlaylistView(View);
+        }
+
+        private void OpenEffects()
+        {
+            _mobileNavigationManager.CreateEqualizerPresetsView(View);
         }
 
 	    /// <summary>
