@@ -612,6 +612,7 @@
     <BundleResource Include="Images\SmallWhiteIcons\volume_high%402x.png" />
     <BundleResource Include="Images\SmallWhiteIcons\volume_low.png" />
     <BundleResource Include="Images\SmallWhiteIcons\volume_low%402x.png" />
+    <BundleResource Include="Images\Splash\splash_default-568h_2%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

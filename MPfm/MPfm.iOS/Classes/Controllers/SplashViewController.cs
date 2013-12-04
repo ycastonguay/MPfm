@@ -38,21 +38,35 @@ namespace MPfm.iOS.Classes.Controllers
         {
 			View.BackgroundColor = UIColor.White;
 
-			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
-				//SetNeedsStatusBarAppearanceUpdate();
-				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.Default, true);
+//			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+//				//SetNeedsStatusBarAppearanceUpdate();
+//				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.Default, true);
 
             Console.WriteLine("SplashViewController - UIScreen width: {0} height: {1}", UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
-//            if (UIScreen.MainScreen.Bounds.Height == 568)
-//                imageView.Image = UIImage.FromBundle("Images/Splash/splash_default-568h");
-//            else if (UIScreen.MainScreen.Bounds.Height == 768)
-//                imageView.Image = UIImage.FromBundle("Images/Splash/splash_landscape");
-//            else if (UIScreen.MainScreen.Bounds.Height == 1024)
-//                imageView.Image = UIImage.FromBundle("Images/Splash/splash_portrait");
-//            else
-//                imageView.Image = UIImage.FromBundle("Images/Splash/splash_default");
+			imageViewOverlay.Alpha = 0;
+			if (UIScreen.MainScreen.Bounds.Height == 568)
+			{
+				imageView.Image = UIImage.FromBundle("Images/Splash/splash_default-568h");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_default-568h_2");
+			}
+			else if (UIScreen.MainScreen.Bounds.Height == 768)
+			{
+				imageView.Image = UIImage.FromBundle("Images/Splash/splash_landscape");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_landscape");
+			}
+			else if (UIScreen.MainScreen.Bounds.Height == 1024)
+			{			
+				imageView.Image = UIImage.FromBundle("Images/Splash/splash_portrait");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_portrait");
+			}
+			else
+			{
+				imageView.Image = UIImage.FromBundle("Images/Splash/splash_default");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_default");
+			}
 
-            imageViewLogo.Image = UIImage.FromBundle("Images/Splash/app_badge");
+			//imageView.Alpha = 0;
+			imageViewLogo.Image = UIImage.FromBundle("Images/Splash/app_badge");
 			//lblStatus.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 
             imageViewLogo.Alpha = 0;
@@ -75,10 +89,9 @@ namespace MPfm.iOS.Classes.Controllers
             base.ViewWillAppear(animated);
             imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y + 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
             UIView.Animate(0.5, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
-
                 imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y - 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
-
-                imageViewLogo.Alpha = 1;
+				imageViewOverlay.Alpha = 1;
+				//imageViewLogo.Alpha = 1;
                 lblStatus.Alpha = 1;
                 activityIndicator.Alpha = 1;
             }, null);

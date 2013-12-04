@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.iOS.Classes.Controllers
 {
@@ -12,16 +13,19 @@ namespace MPfm.iOS.Classes.Controllers
 	partial class SplashViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageView { get; set; }
+		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStatus { get; set; }
+		MonoTouch.UIKit.UIImageView imageView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIImageView imageViewLogo { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIActivityIndicatorView activityIndicator { get; set; }
+		MonoTouch.UIKit.UIImageView imageViewOverlay { get; set; }
+
+		[Outlet]
+		MonoTouch.UIKit.UILabel lblStatus { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -43,6 +47,11 @@ namespace MPfm.iOS.Classes.Controllers
 			if (activityIndicator != null) {
 				activityIndicator.Dispose ();
 				activityIndicator = null;
+			}
+
+			if (imageViewOverlay != null) {
+				imageViewOverlay.Dispose ();
+				imageViewOverlay = null;
 			}
 		}
 	}
