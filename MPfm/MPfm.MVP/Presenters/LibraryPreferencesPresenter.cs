@@ -116,7 +116,7 @@ namespace MPfm.MVP.Presenters
             {
 #if IOS || ANDROID
                 var view = _mobileNavigationManager.CreateUpdateLibraryView();
-                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Standard, "Update Library", View, view);
+                _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.NotificationBar, "Update Library", View, view);
 #else
                 _navigationManager.CreateUpdateLibraryView(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
 #endif

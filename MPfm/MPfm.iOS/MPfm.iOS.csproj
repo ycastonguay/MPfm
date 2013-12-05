@@ -330,6 +330,11 @@
       <DependentUpon>MPfmCollectionViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controls\MPfmScaleView.cs" />
+    <Compile Include="Classes\Controllers\PlayerStatusViewController.cs" />
+    <Compile Include="Classes\Controllers\PlayerStatusViewController.designer.cs">
+      <DependentUpon>PlayerStatusViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Controls\MPfmTabBarController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -398,6 +403,8 @@
     <InterfaceDefinition Include="XIB\iPhone\StartResumePlaybackViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\CloudConnectViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\CloudConnectViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\PlayerStatusViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\PlayerStatusViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -613,6 +620,8 @@
     <BundleResource Include="Images\SmallWhiteIcons\volume_low.png" />
     <BundleResource Include="Images\SmallWhiteIcons\volume_low%402x.png" />
     <BundleResource Include="Images\Splash\splash_default-568h_2%402x.png" />
+    <BundleResource Include="Images\Player\down.png" />
+    <BundleResource Include="Images\Player\down%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

@@ -9,7 +9,7 @@
             <connections>
                 <outlet property="activityIndicator" destination="7" id="11"/>
                 <outlet property="imageView" destination="6" id="9"/>
-                <outlet property="imageViewLogo" destination="4" id="8"/>
+                <outlet property="imageViewOverlay" destination="Y83-kY-gTv" id="hd2-8z-iZM"/>
                 <outlet property="lblStatus" destination="5" id="10"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
@@ -23,8 +23,8 @@
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4">
-                    <rect key="frame" x="142" y="260" width="484" height="504"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y83-kY-gTv">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5">
@@ -62,10 +62,6 @@
                     </subviews>
                 </view>
             </subviews>
-            <constraints>
-                <constraint firstAttribute="centerY" secondItem="4" secondAttribute="centerY" id="uHm-rF-woB"/>
-                <constraint firstAttribute="centerX" secondItem="4" secondAttribute="centerX" id="ubY-AA-g5S"/>
-            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
         </view>
     </objects>

@@ -28,6 +28,7 @@ using MPfm.iOS.Classes.Objects;
 using MPfm.Library.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.iOS.Classes.Delegates;
 
 namespace MPfm.iOS
 {
@@ -41,20 +42,18 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
             this.View.BackgroundColor = GlobalTheme.BackgroundColor;
-            button.BackgroundColor = GlobalTheme.SecondaryColor;
-            button.Layer.CornerRadius = 8;
-
-            lblTitle.Font = UIFont.FromName("HelveticaNeue", 16);
-            lblSubtitle.Font = UIFont.FromName("HelveticaNeue", 14);
-            button.Font = UIFont.FromName("HelveticaNeue-Bold", 16);
+			//button.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
 
             lblTitle.Text = "Initializing...";
             lblSubtitle.Text = string.Empty;
+			btnClose.GlyphImageView.Image = UIImage.FromBundle("Images/Player/down");
 
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindUpdateLibraryView(this);
+
+			UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
         }
 
         public override void ViewDidAppear(bool animated)
@@ -70,17 +69,12 @@ namespace MPfm.iOS
             OnStartUpdateLibrary(new List<string>(), new List<Folder>(){ folder });
         }
 
-        partial void actionButtonClicked(NSObject sender)
-        {
-            if(button.Title(UIControlState.Normal) == "OK")
-            {
-                DismissViewController(true, null);
-            }
-            else
-            {
-                OnCancelUpdateLibrary();
-            }
-        }
+		partial void actionClose(NSObject sender)
+		{
+			OnCancelUpdateLibrary();
+			var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+			appDelegate.RemoveChildFromMainViewController(this);
+		}
 
         #region IUpdateLibraryView implementation
         
@@ -105,9 +99,10 @@ namespace MPfm.iOS
             InvokeOnMainThread(() => {
                 lblTitle.Text = "Update library successful.";
                 lblSubtitle.Text = string.Empty;
-                button.SetTitle("OK", UIControlState.Normal);
+				//button.SetTitle("OK", UIControlState.Normal);
                 activityIndicator.StopAnimating();
                 activityIndicator.Hidden = true;
+				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
             });
         }
         

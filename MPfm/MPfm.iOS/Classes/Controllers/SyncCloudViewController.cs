@@ -111,7 +111,7 @@ namespace MPfm.iOS
                 if(account == null)
                 {
                     var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
-                    DBAccountManager.SharedManager.LinkFromController(appDelegate.TabBarController);
+					DBAccountManager.SharedManager.LinkFromController(appDelegate.MainViewController);
                 }
             }
             catch(Exception ex)

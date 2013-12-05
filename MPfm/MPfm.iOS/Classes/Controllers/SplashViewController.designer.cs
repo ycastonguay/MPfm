@@ -19,9 +19,6 @@ namespace MPfm.iOS.Classes.Controllers
 		MonoTouch.UIKit.UIImageView imageView { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIImageView imageViewLogo { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UIImageView imageViewOverlay { get; set; }
 
 		[Outlet]
@@ -29,29 +26,24 @@ namespace MPfm.iOS.Classes.Controllers
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (imageView != null) {
-				imageView.Dispose ();
-				imageView = null;
-			}
-
-			if (lblStatus != null) {
-				lblStatus.Dispose ();
-				lblStatus = null;
-			}
-
-			if (imageViewLogo != null) {
-				imageViewLogo.Dispose ();
-				imageViewLogo = null;
-			}
-
 			if (activityIndicator != null) {
 				activityIndicator.Dispose ();
 				activityIndicator = null;
 			}
 
+			if (imageView != null) {
+				imageView.Dispose ();
+				imageView = null;
+			}
+
 			if (imageViewOverlay != null) {
 				imageViewOverlay.Dispose ();
 				imageViewOverlay = null;
+			}
+
+			if (lblStatus != null) {
+				lblStatus.Dispose ();
+				lblStatus = null;
 			}
 		}
 	}

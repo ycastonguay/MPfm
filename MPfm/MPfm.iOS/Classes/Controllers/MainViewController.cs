@@ -25,19 +25,34 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
+using MPfm.iOS.Classes.Objects;
+using System.Drawing;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MPfm.iOS.Classes.Controllers
 {
-    public class MainViewController : UITabBarController, IMobileMainView
+	public class MainViewController : UIViewController, IMobileMainView
     {
+		private bool _isAnimating;
+		private List<Tuple<UIViewController, MobileDialogPresentationType>> _viewControllers;
+
+		public MPfmTabBarController TabBarController { get; private set; }
+
         public MainViewController() : base()
         {
-            this.SetValueForKey(new MPfmTabBar(), new NSString("tabBar"));
+			_viewControllers = new List<Tuple<UIViewController, MobileDialogPresentationType>>();
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+			//View.BackgroundColor = GlobalTheme.BackgroundColor;
+			View.BackgroundColor = GlobalTheme.MainColor;
+			TabBarController = new MPfmTabBarController();
+			View.AddSubview(TabBarController.View);
+			// Is it needed to add ChildViewController? So far rotation works.
 
 			var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
             appDelegate.ShowMain(this);
@@ -45,6 +60,88 @@ namespace MPfm.iOS.Classes.Controllers
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindMobileMainView(this);
         }
+
+		public override void ViewDidLayoutSubviews()
+		{
+			base.ViewDidLayoutSubviews();
+			UpdateLayout();
+		}
+
+		private void UpdateLayout()
+		{
+			if (_isAnimating)
+				return;
+
+			var notificationViews = _viewControllers.Where(x => x.Item2 == MobileDialogPresentationType.NotificationBar).ToList();
+			for (int i = 0; i < notificationViews.Count; i++)
+			{
+				var viewCtrl = notificationViews[i].Item1;
+				float height = (i + 1) * 54;
+				viewCtrl.View.Frame = new RectangleF(0, View.Bounds.Height - height, View.Bounds.Width, 54);
+			}
+			TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViews.Count * 54));
+		}
+
+		public void AddViewController(UIViewController viewController, MobileDialogPresentationType presentationType)
+		{
+			_viewControllers.Add(new Tuple<UIViewController, MobileDialogPresentationType>(viewController, presentationType));
+			AddChildViewController(viewController);
+			var view = viewController.View;		
+			view.Alpha = 0;
+			View.AddSubview(view);
+			viewController.View.BringSubviewToFront(view);
+			viewController.DidMoveToParentViewController(this);
+
+			switch (presentationType)
+			{
+				case MobileDialogPresentationType.Overlay:
+					view.Frame = new RectangleF(0, 0, View.Frame.Width, View.Frame.Height);
+					break;
+				case MobileDialogPresentationType.NotificationBar:
+					view.Frame = new RectangleF(0, View.Frame.Height, View.Frame.Width, 54);
+					break;
+			}		
+
+			int notificationViewCount = _viewControllers.Count(x => x.Item2 == MobileDialogPresentationType.NotificationBar);
+			switch (presentationType)
+			{
+				case MobileDialogPresentationType.Overlay:
+					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () => view.Alpha = 1, null);
+					break;
+				case MobileDialogPresentationType.NotificationBar:
+					//view.BackgroundColor = GlobalTheme.MainColor;
+					UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+						_isAnimating = true;
+						//view.BackgroundColor = GlobalTheme.BackgroundColor;
+						view.Alpha = 1;
+						view.Frame = new RectangleF(0, View.Frame.Height - (notificationViewCount * 54), View.Frame.Width, 54);
+						TabBarController.View.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height - (notificationViewCount * 54));
+					}, () => {
+						_isAnimating = false;
+					});
+					break;
+			}
+		}
+
+		public void RemoveViewController(UIViewController viewController)
+		{
+			var item = _viewControllers.FirstOrDefault(x => x.Item1 == viewController);
+			if (item == null)
+				return;
+
+			UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+				_isAnimating = true;
+				viewController.View.Alpha = 0;
+				viewController.View.Frame = new RectangleF(0, View.Frame.Height, View.Frame.Width, 54);
+				TabBarController.View.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+			}, () => {
+				_isAnimating = false;
+				_viewControllers.Remove(item);
+				viewController.WillMoveToParentViewController(null);
+				viewController.View.RemoveFromSuperview();
+				viewController.RemoveFromParentViewController();
+			});
+		}
 
 		public override bool ShouldAutomaticallyForwardRotationMethods { get { return true; } }
 		public override bool ShouldAutomaticallyForwardAppearanceMethods { get { return true; } }

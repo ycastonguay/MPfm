@@ -85,7 +85,7 @@ namespace MPfm.iOS.Classes.Navigation
         {
             var view = Bootstrapper.GetContainer().Resolve<IMobileMainView>();
             // The view tries to bind to the navmgr BEFORE it hits this line.
-            //AppDelegate.ShowMain((MainViewController)view);
+            AppDelegate.ShowMain((MainViewController)view);
         }
 
         public override void CreatePlayerView(MobileNavigationTabType tabType)

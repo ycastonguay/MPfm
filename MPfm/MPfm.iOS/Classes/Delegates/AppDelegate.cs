@@ -47,13 +47,13 @@ namespace MPfm.iOS.Classes.Delegates
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		MPfmWindow _window;
-        MainViewController _tabBarController;
+		MainViewController _mainViewController;
         SplashViewController _splashViewController;
 		iOSNavigationManager _navigationManager;
         List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>> _navigationControllers = new List<KeyValuePair<MobileNavigationTabType, MPfmNavigationController>>();
         List<KeyValuePair<string, MPfmNavigationController>> _dialogNavigationControllers = new List<KeyValuePair<string, MPfmNavigationController>>();
 
-        public MainViewController TabBarController { get { return _tabBarController; } }
+		public MainViewController MainViewController { get { return _mainViewController; } }
 
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
@@ -147,9 +147,9 @@ namespace MPfm.iOS.Classes.Delegates
 
         public void ShowMain(MainViewController viewController)
         {
-            _tabBarController = viewController;
+			_mainViewController = viewController;
             //_tabBarController.View.Hidden = true;
-            _window.RootViewController = _tabBarController;
+			_window.RootViewController = _mainViewController;
         }
 
         public void ShowSplash(SplashViewController viewController)
@@ -158,7 +158,7 @@ namespace MPfm.iOS.Classes.Delegates
                 _splashViewController = viewController;
                 _splashViewController.View.Frame = _window.Frame;
                 _splashViewController.View.AutoresizingMask = UIViewAutoresizing.All;
-                _window.AddSubview(_splashViewController.View);
+				_window.AddSubview(_splashViewController.View); // This cannot receive rotation changes
                 _window.MakeKeyAndVisible();
 
                 // The application is now ready to receive remote events
@@ -170,7 +170,7 @@ namespace MPfm.iOS.Classes.Delegates
         {
             InvokeOnMainThread(() => {
                 _window.BringSubviewToFront(_splashViewController.View);
-                _tabBarController.View.Hidden = false;
+				_mainViewController.View.Hidden = false;
                 UIView.Animate(0.25f, () => {
                     _splashViewController.View.Alpha = 0.0f;
                 }, () => {
@@ -178,13 +178,6 @@ namespace MPfm.iOS.Classes.Delegates
                 });
             });
         }
-
-		public void ShowMiniPlayer()
-		{
-			UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
-				_tabBarController.View.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height - 64);
-			}, null);
-		}
 
         public void AddTab(MobileNavigationTabType type, string title, UIViewController viewController)
         {
@@ -218,10 +211,10 @@ namespace MPfm.iOS.Classes.Delegates
                 _navigationControllers.Add(new KeyValuePair<MobileNavigationTabType, MPfmNavigationController>(type, navCtrl));
 
                 var list = new List<UIViewController>();
-                if (_tabBarController.ViewControllers != null)
-                    list = _tabBarController.ViewControllers.ToList();
+				if (_mainViewController.TabBarController.ViewControllers != null)
+					list = _mainViewController.TabBarController.ViewControllers.ToList();
                 list.Add(navCtrl);
-                _tabBarController.ViewControllers = list.ToArray();
+				_mainViewController.TabBarController.ViewControllers = list.ToArray();
             });
         }
 
@@ -233,9 +226,6 @@ namespace MPfm.iOS.Classes.Delegates
 
                 var navCtrl = _navigationControllers.FirstOrDefault(x => x.Key == type).Value;
                 navCtrl.PushViewController(viewController, true);
-
-				if(viewController is AboutViewController)
-					ShowMiniPlayer();
             });
         }
 
@@ -260,21 +250,15 @@ namespace MPfm.iOS.Classes.Delegates
                         };
                         navCtrl.PushViewController(viewController, false);                
                         _dialogNavigationControllers.Add(new KeyValuePair<string, MPfmNavigationController>(viewTitle, navCtrl));
-                        _tabBarController.PresentViewController(navCtrl, true, null);
+						_mainViewController.PresentViewController(navCtrl, true, null);
                         // TODO: Remove navCtrl from list when dialog is closed.
                         break;
                     case MobileDialogPresentationType.Overlay:
-                        _tabBarController.AddChildViewController(viewController);
-                        var childView = viewController.View;
-                        childView.Frame = _tabBarController.View.Frame;
-                        childView.Alpha = 0;
-                        _tabBarController.View.AddSubview(childView);
-                        viewController.DidMoveToParentViewController(_tabBarController);
-
-                        UIView.Animate(0.2f, () => {
-                            childView.Alpha = 1;
-                        });
+						_mainViewController.AddViewController(viewController, MobileDialogPresentationType.Overlay);
                         break;
+					case MobileDialogPresentationType.NotificationBar:
+						_mainViewController.AddViewController(viewController, MobileDialogPresentationType.NotificationBar);
+						break;
                 }
             });
         }
@@ -286,6 +270,11 @@ namespace MPfm.iOS.Classes.Delegates
                 navCtrl.PushViewController(viewController, true);
             });
         }
+
+		public void RemoveChildFromMainViewController(UIViewController viewController)
+		{
+			_mainViewController.RemoveViewController(viewController);
+		}
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {

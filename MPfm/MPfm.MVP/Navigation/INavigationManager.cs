@@ -34,6 +34,8 @@ namespace MPfm.MVP.Navigation
         void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, IBaseView sourceView, IBaseView view);
         void Start();
         void BindOptionsMenuView(IMobileOptionsMenuView view);
+
+        void CreatePlayerStatusView();
         void BindPlayerStatusView(IPlayerStatusView view);
 
         void CreateSplashView();

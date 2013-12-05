@@ -164,7 +164,7 @@ namespace MPfm.iOS
 
             // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
             AppDelegate appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
-            actionSheet.ShowFromTabBar(appDelegate.TabBarController.TabBar);
+			actionSheet.ShowFromTabBar(appDelegate.MainViewController.TabBarController.TabBar);
         }
 
         #region IMarkersView implementation

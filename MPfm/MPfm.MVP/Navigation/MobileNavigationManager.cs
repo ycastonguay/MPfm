@@ -291,6 +291,12 @@ namespace MPfm.MVP.Navigation
             };
         }
 
+        public virtual void CreatePlayerStatusView()
+        {
+            if (_playerStatusView == null)
+                _playerStatusView = Bootstrapper.GetContainer().Resolve<IPlayerStatusView>();
+        }
+
         public virtual void BindPlayerStatusView(IPlayerStatusView view)
         {
             // This is used only on Android, where the Options menu is bound to the main activity.
@@ -1110,6 +1116,7 @@ namespace MPfm.MVP.Navigation
     public enum MobileDialogPresentationType
     {
         Standard = 0,
-        Overlay = 1
+        Overlay = 1,
+        NotificationBar = 2
     }
 }
