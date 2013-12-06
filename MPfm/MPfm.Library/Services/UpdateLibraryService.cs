@@ -26,6 +26,7 @@ using MPfm.Library.Services.Events;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.UpdateLibrary;
 using MPfm.Sound.AudioFiles;
+using System.Threading.Tasks;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;
@@ -42,6 +43,8 @@ namespace MPfm.Library.Services
 		private readonly ILibraryService _libraryService = null;		
 		private BackgroundWorker _workerUpdateLibrary = null;
 		private bool _cancelUpdateLibrary = false;
+
+		public bool IsUpdatingLibrary { get { return _workerUpdateLibrary.IsBusy; } }
 		
 		public event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;	
 		public event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
@@ -266,13 +269,16 @@ namespace MPfm.Library.Services
                 // Cancel thread if necessary
                 if (_cancelUpdateLibrary) throw new UpdateLibraryException();
 
-                // Compact database						
-				OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
-					Title = "Compacting database",
-					Subtitle = "Compacting database...",
-					PercentageDone = 1
-				});                
-                _libraryService.CompactDatabase();
+//                // Compact database						
+				// TODO: Lags like hell on iOS, completely blocks the UI thread even though it is done in another thread... 
+//				OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
+//					Title = "Compacting database",
+//					Subtitle = "Compacting database...",
+//					PercentageDone = 1
+//				});             
+//				Task.Factory.StartNew(() => {   
+//                	_libraryService.CompactDatabase();
+//				});
 			}
 			catch (UpdateLibraryException ex)
             {

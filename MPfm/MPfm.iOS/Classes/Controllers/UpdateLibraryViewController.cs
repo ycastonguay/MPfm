@@ -41,46 +41,38 @@ namespace MPfm.iOS
 		
         public override void ViewDidLoad()
         {
-            this.View.BackgroundColor = GlobalTheme.BackgroundColor;
-			//button.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
-
-            lblTitle.Text = "Initializing...";
-            lblSubtitle.Text = string.Empty;
+            View.BackgroundColor = GlobalTheme.BackgroundColor;
 			btnClose.GlyphImageView.Image = UIImage.FromBundle("Images/Player/down");
 
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindUpdateLibraryView(this);
-
-			UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
         }
 
-        public override void ViewDidAppear(bool animated)
-        {
-            base.ViewDidAppear(animated);
-
-            string musicPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            var folder = new Folder()
-            {
-                FolderPath = musicPath,
-                IsRecursive = true
-            };
-            OnStartUpdateLibrary(new List<string>(), new List<Folder>(){ folder });
-        }
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
+			OnStartUpdateLibrary();
+		}
 
 		partial void actionClose(NSObject sender)
 		{
-			OnCancelUpdateLibrary();
+			Close();
+		}
+
+		private void Close()
+		{
+			//OnCancelUpdateLibrary();
 			var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
 			appDelegate.RemoveChildFromMainViewController(this);
 		}
 
         #region IUpdateLibraryView implementation
         
-        public Action<List<string>, List<Folder>> OnStartUpdateLibrary { get; set; }
-        public Action<string> OnSaveLog { get; set; }
+        public Action OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
+		public Action<string> OnSaveLog { get; set; }
         
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
@@ -93,6 +85,19 @@ namespace MPfm.iOS
         public void AddToLog(string entry)
         {
         }
+
+		public void ProcessStarted()
+		{
+			InvokeOnMainThread(() => {
+				lblTitle.Text = "Initializing...";
+				lblSubtitle.Text = string.Empty;
+				btnClose.Alpha = 1;
+				lblTitle.Alpha = 1;
+				lblTitle.Frame = new RectangleF(46, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
+				activityIndicator.StartAnimating();
+				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
+			});
+		}
         
         public void ProcessEnded(bool canceled)
         {
@@ -101,8 +106,21 @@ namespace MPfm.iOS
                 lblSubtitle.Text = string.Empty;
 				//button.SetTitle("OK", UIControlState.Normal);
                 activityIndicator.StopAnimating();
-                activityIndicator.Hidden = true;
+				//activityIndicator.Hidden = true;
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
+
+				UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+					activityIndicator.Alpha = 0;
+					btnClose.Alpha = 0;
+					lblTitle.Frame = new RectangleF(12, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
+				}, () => {
+					UIView.Animate(1.0, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
+						//btnClose.Alpha = 0;
+						lblTitle.Alpha = 0;
+					}, () => {
+						Close();
+					});
+				});
             });
         }
         

@@ -84,6 +84,10 @@ namespace MPfm.iOS.Classes.Controllers
 
 		public void AddViewController(UIViewController viewController, MobileDialogPresentationType presentationType)
 		{
+			var itemExists = _viewControllers.FirstOrDefault(x => x.Item1 == viewController);
+			if (itemExists != null)
+				return;
+
 			_viewControllers.Add(new Tuple<UIViewController, MobileDialogPresentationType>(viewController, presentationType));
 			AddChildViewController(viewController);
 			var view = viewController.View;		
@@ -95,10 +99,10 @@ namespace MPfm.iOS.Classes.Controllers
 			switch (presentationType)
 			{
 				case MobileDialogPresentationType.Overlay:
-					view.Frame = new RectangleF(0, 0, View.Frame.Width, View.Frame.Height);
+					view.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height);
 					break;
 				case MobileDialogPresentationType.NotificationBar:
-					view.Frame = new RectangleF(0, View.Frame.Height, View.Frame.Width, 54);
+					view.Frame = new RectangleF(0, View.Bounds.Height, View.Bounds.Width, 54);
 					break;
 			}		
 
@@ -114,8 +118,8 @@ namespace MPfm.iOS.Classes.Controllers
 						_isAnimating = true;
 						//view.BackgroundColor = GlobalTheme.BackgroundColor;
 						view.Alpha = 1;
-						view.Frame = new RectangleF(0, View.Frame.Height - (notificationViewCount * 54), View.Frame.Width, 54);
-						TabBarController.View.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height - (notificationViewCount * 54));
+						view.Frame = new RectangleF(0, View.Bounds.Height - (notificationViewCount * 54), View.Bounds.Width, 54);
+						TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViewCount * 54));
 					}, () => {
 						_isAnimating = false;
 					});
@@ -131,9 +135,9 @@ namespace MPfm.iOS.Classes.Controllers
 
 			UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 				_isAnimating = true;
-				viewController.View.Alpha = 0;
-				viewController.View.Frame = new RectangleF(0, View.Frame.Height, View.Frame.Width, 54);
-				TabBarController.View.Frame = new RectangleF(0, 0, UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
+				//viewController.View.Alpha = 0;
+				viewController.View.Frame = new RectangleF(0, View.Bounds.Height, View.Bounds.Width, 54);
+				TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height);
 			}, () => {
 				_isAnimating = false;
 				_viewControllers.Remove(item);

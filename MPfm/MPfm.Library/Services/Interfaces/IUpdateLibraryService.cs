@@ -28,6 +28,7 @@ namespace MPfm.Library.Services.Interfaces
 	/// </summary>
 	public interface IUpdateLibraryService
 	{
+		bool IsUpdatingLibrary { get; }
         event EventHandler<RefreshStatusEventArgs> RaiseRefreshStatusEvent;
         event EventHandler<ProcessEndedEventArgs> RaiseProcessEndedEvent;
 		

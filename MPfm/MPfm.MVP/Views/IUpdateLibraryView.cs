@@ -28,12 +28,13 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IUpdateLibraryView : IBaseView
 	{
-        Action<List<string>, List<Folder>> OnStartUpdateLibrary { get; set; }
+        Action OnStartUpdateLibrary { get; set; }
         Action OnCancelUpdateLibrary { get; set; }
 	    Action<string> OnSaveLog { get; set; }
 
 	    void RefreshStatus(UpdateLibraryEntity entity);
 		void AddToLog(string entry);
+        void ProcessStarted();
 		void ProcessEnded(bool canceled);
 	}
 }

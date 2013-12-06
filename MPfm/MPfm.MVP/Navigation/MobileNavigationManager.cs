@@ -398,7 +398,8 @@ namespace MPfm.MVP.Navigation
 
         public virtual IUpdateLibraryView CreateUpdateLibraryView()
         {
-            _updateLibraryView = Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>();
+            if(_updateLibraryView == null)
+                _updateLibraryView = Bootstrapper.GetContainer().Resolve<IUpdateLibraryView>();
             return _updateLibraryView;
         }
 

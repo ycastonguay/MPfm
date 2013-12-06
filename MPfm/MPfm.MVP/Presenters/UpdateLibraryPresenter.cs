@@ -24,6 +24,8 @@ using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Services.Events;
+using MPfm.Library;
+using System.Threading.Tasks;
 
 #if (MACOSX || LINUX)
 using Mono.Unix;
@@ -39,13 +41,16 @@ namespace MPfm.MVP.Presenters
 	{
 	    readonly IAudioFileCacheService _audioFileCacheService;
 		readonly IUpdateLibraryService _updateLibraryService;
+        readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
 		
-		public UpdateLibraryPresenter(IAudioFileCacheService audioFileCacheService, IUpdateLibraryService updateLibraryService)
+        public UpdateLibraryPresenter(IAudioFileCacheService audioFileCacheService, IUpdateLibraryService updateLibraryService, 
+                                      ISyncDeviceSpecifications syncDeviceSpecifications)
 		{
 		    _audioFileCacheService = audioFileCacheService;
 			_updateLibraryService = updateLibraryService;
             _updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
             _updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);
+            _syncDeviceSpecifications = syncDeviceSpecifications;
 		}
 
         /// <summary>
@@ -65,62 +70,49 @@ namespace MPfm.MVP.Presenters
         /// <param name="e">Event arguments</param>
         protected void updateLibraryService_RaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
         {
-            _audioFileCacheService.RefreshCache();
-            View.ProcessEnded(e.Canceled);   
+            Task.Factory.StartNew(() =>
+            {
+                _audioFileCacheService.RefreshCache();
+                View.ProcessEnded(e.Canceled);   
+            });
         }
 
         public override void BindView(IUpdateLibraryView view)
         {
             base.BindView(view);
 
-            view.OnStartUpdateLibrary = UpdateLibrary;
+            view.OnStartUpdateLibrary = StartUpdateLibrary;
             view.OnCancelUpdateLibrary = Cancel;
             view.OnSaveLog = SaveLog;
+        }
+
+        public void StartUpdateLibrary()
+        {
+            var folder = new Folder()
+            {
+                FolderPath = _syncDeviceSpecifications.GetMusicFolderPath(),
+                IsRecursive = true
+            };
+            UpdateLibrary(new List<string>(), new List<Folder>(){ folder });
         }
 		
 		public void UpdateLibrary(List<string> filePaths, List<Folder> folderPaths)
 		{
-			_updateLibraryService.UpdateLibrary(filePaths, folderPaths);
+            if (_updateLibraryService.IsUpdatingLibrary)
+                return;
+
+            View.ProcessStarted();
+	        _updateLibraryService.UpdateLibrary(filePaths, folderPaths);
 		}
 		
-		/// <summary>
-		/// Cancels the update library process.
-		/// </summary>
 		public void Cancel()
 		{	
 			_updateLibraryService.Cancel();
 		}
 
-		/// <summary>
-		/// Saves the update library process log to the specified file path.
-		/// </summary>
-		/// <param name='filePath'>Log file path</param>
 		public void SaveLog(string filePath)
 		{			
 			_updateLibraryService.SaveLog(filePath);
-
-            //// Generate the name of the log
-            //saveLogDialog.FileName = "MPfm_UpdateLibraryLog_" + DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString("00") + "-" + DateTime.Now.Day.ToString("00") + ".txt";
-            //    TextWriter tw = null;
-            //    try
-            //    {
-            //        // Open text writer
-            //        tw = new StreamWriter(saveLogDialog.FileName);
-
-            //        foreach (String item in lbLog.Items)
-            //        {
-            //            tw.WriteLine(item);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        // Display error
-            //        MessageBox.Show("Failed to save the file to " + saveLogDialog.FileName + "!\n\nException:\n" + ex.Message + "\n" + ex.StackTrace, "Failed to save the file", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //    finally
-            //    {
-            //        tw.Close();
-            //    }
 		}
 	}
 }
