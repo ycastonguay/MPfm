@@ -77,14 +77,22 @@ namespace MPfm.iOS
 			{
 				Tracing.Log("MarkersViewController - HandleLongPress");
 
+				var cell = (MPfmMarkerTableViewCell)tableView.CellAt(indexPath);
+				var previousCell = (MPfmMarkerTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(_currentEditIndex, 0));
+
 				// Execute animation for new row height (as simple as that!)
 				_currentEditIndex = _currentEditIndex == indexPath.Row ? -1 : indexPath.Row;
 				tableView.BeginUpdates();
 				//tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.Bottom);
 				tableView.EndUpdates();
 
-//				if (OnEditMarker != null)
-//					OnEditMarker(_markers[indexPath.Row]);
+				if (previousCell != null)
+					previousCell.CollapseCell();
+				if (cell != null)
+					if(_currentEditIndex == -1)
+						cell.CollapseCell();
+					else
+						cell.ExpandCell();
 			}
         }
 
@@ -107,12 +115,9 @@ namespace MPfm.iOS
             cell.Tag = indexPath.Row;
             cell.BackgroundColor = UIColor.Clear;
             cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
-            cell.IndexTextLabel.BackgroundColor = UIColor.FromRGBA(1, 0, 0, 0.7f);
-            cell.IndexTextLabel.TextColor = UIColor.White;
             cell.TextLabel.Text = _markers[indexPath.Row].Name;
-            cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+			cell.TextField.Text = _markers[indexPath.Row].Name;
             cell.DetailTextLabel.Text = _markers[indexPath.Row].Position;
-            cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 12);
 
             return cell;
         }
@@ -130,8 +135,8 @@ namespace MPfm.iOS
 		[Export ("tableView:heightForRowAtIndexPath:")]
 		public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} indexPath.Section: {1} _currentEditIndex: {2}", indexPath.Row, indexPath.Section, _currentEditIndex);
-			return indexPath.Row == _currentEditIndex ? 104 : 52;
+			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} indexPath.Section: {1} _currentEditIndex: {2}", indexPath.Row, indexPath.Section, _currentEditIndex);
+			return indexPath.Row == _currentEditIndex ? 138 : 52;
 		}
 
 		[Export ("tableView:heightForFooterInSection:")]

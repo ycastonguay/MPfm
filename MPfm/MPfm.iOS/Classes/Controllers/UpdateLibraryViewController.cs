@@ -74,11 +74,15 @@ namespace MPfm.iOS
         public Action OnCancelUpdateLibrary { get; set; }
 		public Action<string> OnSaveLog { get; set; }
         
+		private float _percentageDone;
         public void RefreshStatus(UpdateLibraryEntity entity)
         {
             InvokeOnMainThread(() => {
-                lblTitle.Text = entity.Title;
-                lblSubtitle.Text = entity.Subtitle;
+				if(lblSubtitle.Text == entity.Title)
+					return;
+
+				lblTitle.Text = "Updating library";
+				lblSubtitle.Text = entity.Title + "...";
             });
         }
         
@@ -93,9 +97,14 @@ namespace MPfm.iOS
 				lblSubtitle.Text = string.Empty;
 				btnClose.Alpha = 1;
 				lblTitle.Alpha = 1;
-				lblTitle.Frame = new RectangleF(46, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
 				activityIndicator.StartAnimating();
+				activityIndicator.Alpha = 1;					
 				UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
+
+				if(!UserInterfaceIdiomIsPhone)
+					lblTitle.Frame = new RectangleF(46, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
+				else
+					lblTitle.Frame = new RectangleF(44, lblTitle.Frame.Y, lblTitle.Frame.Width, lblTitle.Frame.Height);
 			});
 		}
         

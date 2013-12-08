@@ -32,18 +32,34 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmSemiTransparentButton")]
     public class MPfmSemiTransparentButton : UIButton
     {
-		private bool _isTextLabelAllowedToChangeFrame;
-        private bool _isTouchDown;
-
+		private bool _isTextLabelAllowedToChangeFrame = true;
         public Action OnTouchesBegan;
         public Action OnTouchesMoved;
         public Action OnTouchesEnded;
 
-        public MPfmSemiTransparentButton(IntPtr handle) : base(handle)
-        {
+		public float DefaultAlpha { get; set; }
+
+		public MPfmSemiTransparentButton() : base()
+		{
+			Initialize();
+		}
+
+		public MPfmSemiTransparentButton(IntPtr handle) : base(handle)
+		{
+			Initialize();
+		}
+
+		public MPfmSemiTransparentButton(RectangleF frame) : base(frame)
+		{
+			Initialize();
+		}
+
+		private void Initialize()
+		{
+			DefaultAlpha = 0.8f;
+
             // Add custom background to button
             SetTitleColor(UIColor.White, UIControlState.Normal);
-            //SetTitleColor(UIColor.DarkGray, UIControlState.Highlighted);
 			TitleLabel.BackgroundColor = UIColor.Clear;
 			TitleLabel.TextColor = UIColor.White;
 			TitleLabel.Text = CurrentTitle;
@@ -53,17 +69,24 @@ namespace MPfm.iOS.Classes.Controls
 			Layer.BorderWidth = 1f;
 			Layer.BorderColor = GlobalTheme.MainLightColor.CGColor;
 			Layer.BackgroundColor = GlobalTheme.PlayerPanelButtonColor.CGColor;
-            Alpha = 0.8f;
+			Alpha = DefaultAlpha;
         }
 
 		public override void LayoutSubviews()
 		{
 			//base.LayoutSubviews();
-
-			//Tracing.Log("SemiTransparentButton - LayoutSubviews - Frame: {0} Bounds: {1} TitleLabel.Frame: {2}", Frame, Bounds, TitleLabel.Frame);
+			Tracing.Log("SemiTransparentButton - LayoutSubviews - title: {0}", TitleLabel.Text);
 
 			if(_isTextLabelAllowedToChangeFrame)
 				TitleLabel.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
+		}
+
+		public override void SetTitle(string title, UIControlState forState)
+		{
+			Tracing.Log("SemiTransparentButton - SetTitle - title: {0}", title);
+			base.SetTitle(title, forState);
+			TitleLabel.Text = title;
+			SetNeedsDisplay();
 		}
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -72,8 +95,6 @@ namespace MPfm.iOS.Classes.Controls
                 OnTouchesBegan();
 
 			AnimatePress(true);
-
-            _isTouchDown = true;
             base.TouchesBegan(touches, evt);
         }
 
@@ -92,8 +113,6 @@ namespace MPfm.iOS.Classes.Controls
                 OnTouchesEnded();
 
 			AnimatePress(false);
-
-            _isTouchDown = false;
             base.TouchesEnded(touches, evt);
         }
 
@@ -109,18 +128,14 @@ namespace MPfm.iOS.Classes.Controls
 			if (!on)
 			{
 				UIView.Animate(0.1, () => {
-					//BackgroundColor = GlobalTheme.SecondaryColor;
-					Alpha = 0.7f;
-					//TitleLabel.TextColor = GlobalTheme.LightColor;
+					Alpha = DefaultAlpha;
 					TitleLabel.Transform = CGAffineTransform.MakeScale(1, 1);
 				});
 			}
 			else
 			{
 				UIView.Animate(0.1, () => {
-					//BackgroundColor = GlobalTheme.SecondaryDarkColor;
 					Alpha = 1;
-					//TitleLabel.TextColor = UIColor.LightGray;
 					TitleLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
 				});
 			}

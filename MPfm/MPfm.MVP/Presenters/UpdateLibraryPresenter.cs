@@ -70,6 +70,11 @@ namespace MPfm.MVP.Presenters
         /// <param name="e">Event arguments</param>
         protected void updateLibraryService_RaiseProcessEndedEvent(object sender, ProcessEndedEventArgs e)
         {
+            View.RefreshStatus(new UpdateLibraryEntity() {
+                Title = "Refreshing cache",
+                Subtitle = "Refreshing cache",
+                PercentageDone = 100
+            });
             Task.Factory.StartNew(() =>
             {
                 _audioFileCacheService.RefreshCache();

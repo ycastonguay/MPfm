@@ -200,7 +200,7 @@ namespace MPfm.Library.Services
                 // Remove broken songs from the library
 				OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
 					Title = "Checking for broken file paths",
-					Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library..",
+					Subtitle = "Checking if songs have been deleted on your hard disk but not removed from the library",
 					PercentageDone = 0
 				});
                 _libraryService.RemoveAudioFilesWithBrokenFilePaths();
@@ -242,7 +242,7 @@ namespace MPfm.Library.Services
 						
 						// Display update
 						OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
-							Title = "Adding media file to the library",
+							Title = "Adding audio files to the library",
 							Subtitle = "Adding " + Path.GetFileName(filePath),
 							FilePath = filePath,
 							PercentageDone = percentCompleted,
@@ -255,7 +255,7 @@ namespace MPfm.Library.Services
 						//view.AddToLog("File could not be added: " + filePath);
                         Console.WriteLine("UpdateLibraryService - Could not add {0}: {1}", filePath, ex);
 						OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
-							Title = "Adding media file to the library",
+							Title = "Adding audio files to the library",
 							Subtitle = "Adding " + filePath,
 							FilePath = filePath,
                             PercentageDone = percentCompleted,
@@ -307,7 +307,7 @@ namespace MPfm.Library.Services
 			OnRaiseProcessEndedEvent(new ProcessEndedEventArgs(e.Cancelled));
         }
 				
-        public List<string> SearchMediaFilesInFolders(List<Folder> folders)
+		private List<string> SearchMediaFilesInFolders(List<Folder> folders)
         {
             List<string> files = new List<string>();            
             foreach (var folder in folders)
@@ -325,7 +325,7 @@ namespace MPfm.Library.Services
         /// <param name="folderPath">Path to search</param>
         /// <param name="recursive">Recursive (if true, will search for sub-folders)</param>
         /// <returns>List of songs (file paths)</returns>
-        public List<string> SearchMediaFilesInFolders(string folderPath, bool recursive)
+		private List<string> SearchMediaFilesInFolders(string folderPath, bool recursive)
         {
 			// Declare variables
             List<string> arrayFiles = new List<string>();			
