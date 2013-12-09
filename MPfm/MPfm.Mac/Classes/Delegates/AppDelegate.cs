@@ -51,7 +51,7 @@ namespace MPfm.Mac.Classes.Delegates
 		public override void FinishedLaunching(NSObject notification)
 		{
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, MacSyncDeviceSpecifications>().AsSingleton();   
-            Bootstrapper.GetContainer().Register<IDropboxService, DropboxCoreService>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, MainWindowController>().AsMultiInstance();

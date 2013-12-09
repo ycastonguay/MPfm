@@ -724,6 +724,7 @@ namespace MPfm.Mac
 
         #region IPlayerView implementation
 
+        public bool IsOutputMeterEnabled { get { return false; } }
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -739,6 +740,8 @@ namespace MPfm.Mac
         public Action OnPlayerShuffle { get; set; }
         public Action OnPlayerRepeat { get; set; }
         public Action OnOpenPlaylist { get; set; }
+        public Action OnOpenEffects { get; set; }
+        public Action OnOpenResumePlayback { get; set; }
 
         public void RefreshPlayerStatus(PlayerStatusType status)
         {
@@ -839,6 +842,10 @@ namespace MPfm.Mac
             });
         }
 
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
+        {
+        }
+
         #endregion
 
 		#region ISongBrowserView implementation
@@ -861,10 +868,10 @@ namespace MPfm.Mac
 
 		#region ILibraryBrowserView implementation
 
-        public System.Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
-        public System.Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
-        public System.Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
-        public System.Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
+        public Action<AudioFileFormat> OnAudioFileFormatFilterChanged { get; set; }
+        public Action<LibraryBrowserEntity> OnTreeNodeSelected { get; set; }
+        public Action<LibraryBrowserEntity, object> OnTreeNodeExpanded { get; set; }     
+        public Action<LibraryBrowserEntity> OnTreeNodeDoubleClicked { get; set; }
         public Func<LibraryBrowserEntity, IEnumerable<LibraryBrowserEntity>> OnTreeNodeExpandable { get; set; }
 
 		public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities)
@@ -884,15 +891,19 @@ namespace MPfm.Mac
 
         #region IMainView implementation
 
-        public System.Action OnOpenPreferencesWindow { get; set; }
-        public System.Action OnOpenEffectsWindow { get; set; }
-        public System.Action OnOpenPlaylistWindow { get; set; }
-        public System.Action OnOpenSyncWindow { get; set; }
-        public System.Action OnOpenSyncCloudWindow { get; set; }
-        public System.Action OnOpenSyncWebBrowserWindow { get; set; }
+        public Action OnOpenPreferencesWindow { get; set; }
+        public Action OnOpenEffectsWindow { get; set; }
+        public Action OnOpenPlaylistWindow { get; set; }
+        public Action OnOpenSyncWindow { get; set; }
+        public Action OnOpenSyncCloudWindow { get; set; }
+        public Action OnOpenSyncWebBrowserWindow { get; set; }
         public Action<List<string>> OnAddFilesToLibrary { get; set; }
         public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
+
+        public void PushSubView(IBaseView view)
+        {
+        }
 
         #endregion
 
@@ -984,6 +995,5 @@ namespace MPfm.Mac
         }
 
         #endregion
-
 	}
 }

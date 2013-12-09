@@ -22,6 +22,8 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.MVP.Views;
+using MPfm.MVP.Config.Models;
+using MPfm.MVP.Models;
 
 namespace MPfm.Mac
 {
@@ -57,14 +59,66 @@ namespace MPfm.Mac
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
         public Action OnSelectFolders { get; set; }
-        public Action OnEnableSyncListener { get; set; }
+        public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
+        public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
 
         public void LibraryPreferencesError(Exception ex)
         {
         }
 
+        public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
+        {
+        }
+
         #endregion
 
+        #region IGeneralPreferencesView implementation
+
+        public Action<GeneralAppConfig> OnSetGeneralPreferences { get; set; }
+        public Action OnDeletePeakFiles { get; set; }
+
+        public void GeneralPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
+        {
+        }
+
+        #endregion
+
+        #region ICloudPreferencesView implementation
+
+        public Action<CloudAppConfig> OnSetCloudPreferences { get; set; }
+        public Action OnDropboxLoginLogout { get; set; }
+
+        public void CloudPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshCloudPreferences(CloudAppConfig config)
+        {
+        }
+
+        public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region IAudioPreferencesView implementation
+
+        public System.Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+
+        public void AudioPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshAudioPreferences(AudioAppConfig config)
+        {
+        }
+
+        #endregion
     }
 }

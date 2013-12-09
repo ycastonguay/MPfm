@@ -93,7 +93,7 @@ namespace MPfm.Mac
 
 		#region IUpdateLibraryView implementation
 
-        public Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public Action OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
         public Action<string> OnSaveLog { get; set; }
 
@@ -111,6 +111,10 @@ namespace MPfm.Mac
 		{
 		
 		}
+
+        public void ProcessStarted()
+        {
+        }
 
 		public void ProcessEnded(bool canceled)
 		{

@@ -252,6 +252,14 @@ namespace MPfm.iOS.Classes.Controllers
 			navCtrl.SetTitle("Now Playing", "Now Playing");
         }
 
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
+
+//			if (scrollViewPlayer != null)
+//				scrollViewPlayer.FlashScrollIndicators();
+		}
+
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();

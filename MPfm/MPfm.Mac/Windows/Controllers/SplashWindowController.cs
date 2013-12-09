@@ -121,6 +121,10 @@ namespace MPfm.Mac
         {
         }
 
+        public void DestroyView()
+        {
+        }
+
         public void InitDone(bool isAppFirstStart)
         {
             InvokeOnMainThread(delegate {

@@ -70,6 +70,8 @@ namespace MPfm.Mac
 
         #region ISyncWebBrowserView implementation
 
+        public Action OnViewAppeared { get; set; }
+
         public void SyncWebBrowserError(Exception ex)
         {
             InvokeOnMainThread(delegate {
