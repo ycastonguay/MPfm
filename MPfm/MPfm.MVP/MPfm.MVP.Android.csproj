@@ -131,6 +131,7 @@
     <Compile Include="Config\Models\CloudAppConfig.cs" />
     <Compile Include="Config\AppConfigManager.cs" />
     <Compile Include="Config\Models\ControlsAppConfig.cs" />
+    <Compile Include="Config\Models\GeneralAppConfig.cs" />
     <Compile Include="Config\Models\ResumePlaybackAppConfig.cs" />
     <Compile Include="Config\Models\IAppConfig.cs" />
     <Compile Include="Config\Models\LibraryAppConfig.cs" />

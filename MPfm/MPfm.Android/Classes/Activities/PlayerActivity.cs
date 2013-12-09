@@ -389,6 +389,7 @@ namespace MPfm.Android
 
         #region IPlayerView implementation
 
+        public bool IsOutputMeterEnabled { get { return false; } }
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -404,6 +405,7 @@ namespace MPfm.Android
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
+        public Action OnOpenEffects { get; set; }
 
         public void PlayerError(Exception ex)
         {
@@ -492,6 +494,10 @@ namespace MPfm.Android
         }
 
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
         }
 

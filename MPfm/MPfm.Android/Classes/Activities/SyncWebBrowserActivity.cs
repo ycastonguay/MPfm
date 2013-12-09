@@ -114,6 +114,8 @@ namespace MPfm.Android
 
         #region ISyncWebBrowser implementation
 
+        public Action OnViewAppeared { get; set; }
+
         public void SyncWebBrowserError(Exception ex)
         {
             ShowErrorDialog(ex);

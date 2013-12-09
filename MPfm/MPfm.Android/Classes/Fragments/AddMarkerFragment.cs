@@ -25,6 +25,8 @@ using Android.Views;
 using Android.Widget;
 using MPfm.Android.Classes.Adapters;
 using MPfm.Android.Classes.Fragments.Base;
+using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Navigation;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 
@@ -78,6 +80,9 @@ namespace MPfm.Android.Classes.Fragments
         {
             base.OnCreate(savedInstanceState);
             SetStyle((int)DialogFragmentStyle.Normal, (int)Resource.Style.DialogTheme);            
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindAddMarkerView(this);
         }
 
         #region IAddMarkerView implementation

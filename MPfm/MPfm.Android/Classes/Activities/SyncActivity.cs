@@ -147,6 +147,7 @@ namespace MPfm.Android
 
         public Action<SyncDevice> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
+        public Action OnOpenConnectDevice { get; set; }
         public Action OnStartDiscovery { get; set; }
         public Action OnCancelDiscovery { get; set; }
         

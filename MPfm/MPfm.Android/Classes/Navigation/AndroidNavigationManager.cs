@@ -198,7 +198,7 @@ namespace MPfm.Android.Classes.Navigation
             MainActivity.StartActivity(intent);
         }
 
-        public override void CreateSyncDownloadView(SyncDevice device, IEnumerable<AudioFile> audioFiles)
+        public override void CreateSyncDownloadView()
         {
             var intent = new Intent(MainActivity, typeof(SyncDownloadActivity));
             // Pass params to intent

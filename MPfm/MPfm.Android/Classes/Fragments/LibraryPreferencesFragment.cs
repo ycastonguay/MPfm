@@ -104,12 +104,16 @@ namespace org.sessionsapp.android
         public Action OnUpdateLibrary { get; set; }
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnSelectFolders { get; set; }
-        public Action OnEnableSyncListener { get; set; }
+        public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
 
         public void LibraryPreferencesError(Exception ex)
         {
             ShowErrorDialog(ex);
+        }
+
+        public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
+        {
         }
 
         public void RefreshLibraryPreferences(LibraryAppConfig config)

@@ -26,6 +26,7 @@ using MPfm.Android;
 using MPfm.Android.Classes.Fragments.Base;
 using MPfm.Core;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Config.Models;
 using MPfm.MVP.Navigation;
 using MPfm.MVP.Views;
 
@@ -72,5 +73,21 @@ namespace org.sessionsapp.android
         {
             Tracing.Log("GeneralPreferencesFragment - OnSharedPreferenceChanged - key: {0}", key);
         }
+
+        #region IGeneralPreferencesView implementation
+
+        public Action<GeneralAppConfig> OnSetGeneralPreferences { get; set; }
+        public Action OnDeletePeakFiles { get; set; }
+        
+        public void GeneralPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
+        {
+        }
+
+        #endregion
+
     }
 }
