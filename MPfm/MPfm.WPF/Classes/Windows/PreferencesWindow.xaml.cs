@@ -113,7 +113,7 @@ namespace MPfm.WPF.Classes.Windows
         private void chkDropboxResumePlayback_OnChecked(object sender, RoutedEventArgs e)
         {
             bool value = chkDropbox_ResumePlayback.IsChecked.HasValue && chkDropbox_ResumePlayback.IsChecked.Value;
-            _cloudAppConfig.IsDropboxResumePlaybackEnabled = value;
+            _cloudAppConfig.IsResumePlaybackEnabled = value;
             OnSetCloudPreferences(_cloudAppConfig);
         }
 
@@ -122,6 +122,7 @@ namespace MPfm.WPF.Classes.Windows
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnResetLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
+        Action<bool> ILibraryPreferencesView.OnEnableSyncListener { get; set; }
         public Action OnSelectFolders { get; set; }
         public Action OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
@@ -132,6 +133,10 @@ namespace MPfm.WPF.Classes.Windows
             {
                 MessageBox.Show(this, string.Format("An error occured in LibraryPreferences: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }));
+        }
+
+        public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
+        {
         }
 
         public void RefreshLibraryPreferences(LibraryAppConfig config)
@@ -164,7 +169,7 @@ namespace MPfm.WPF.Classes.Windows
             _cloudAppConfig = config;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                chkDropbox_ResumePlayback.IsChecked = config.IsDropboxResumePlaybackEnabled;
+                chkDropbox_ResumePlayback.IsChecked = config.IsResumePlaybackEnabled;
             }));
         }
 
@@ -184,6 +189,35 @@ namespace MPfm.WPF.Classes.Windows
                     lblDropbox_Login.Content = "Login to Dropbox";
                 }
             }));            
+        }
+
+        #endregion
+
+        #region IAudioPreferencesView implementation
+
+        public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+
+        public void AudioPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshAudioPreferences(AudioAppConfig config)
+        {
+        }
+
+        #endregion
+
+        #region IGeneralPreferencesView implementation
+
+        public Action<GeneralAppConfig> OnSetGeneralPreferences { get; set; }
+        public Action OnDeletePeakFiles { get; set; }
+
+        public void GeneralPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
+        {
         }
 
         #endregion

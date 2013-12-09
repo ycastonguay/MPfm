@@ -297,6 +297,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IPlayerView implementation
 
+        public bool IsOutputMeterEnabled { get; private set; }
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -312,6 +313,7 @@ namespace MPfm.WPF.Classes.Windows
         public Func<float, PlayerPositionEntity> OnPlayerRequestPosition { get; set; }
         public Action OnEditSongMetadata { get; set; }
         public Action OnOpenPlaylist { get; set; }
+        public Action OnOpenEffects { get; set; }
 
         public void PlayerError(Exception ex)
         {
@@ -503,6 +505,10 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
+        {
+        }
+
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
         }
 

@@ -78,9 +78,13 @@ namespace MPfm.MVP.Presenters
                     {
                         string peakFileFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PeakFiles");
                         var info = new DirectoryInfo(peakFileFolder);
-                        float length = (float)info.GetFiles().Sum(x => x.Length);
-                        _peakFolderSize = string.Format("{0:0.00} MB", length / 1000000f);
-                        View.RefreshGeneralPreferences(AppConfigManager.Instance.Root.General, _peakFolderSize);
+                        if (info.Exists)
+                        {
+                            var files = info.GetFiles();
+                            float length = (float) files.Sum(x => x.Length);
+                            _peakFolderSize = string.Format("{0:0.00} MB", length/1000000f);
+                            View.RefreshGeneralPreferences(AppConfigManager.Instance.Root.General, _peakFolderSize);
+                        }
                     });
                 }
             } 

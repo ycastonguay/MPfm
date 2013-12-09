@@ -114,7 +114,7 @@ namespace MPfm.MVP.Presenters
             var view = _mobileNavigationManager.CreateSyncConnectManualView();
             _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Overlay, "Connect to device manually", View, view);
             #else
-            _navigationManager.CreateSyncConnectManualView();
+            //_navigationManager.CreateSyncConnectManualView();
             #endif
         }
 

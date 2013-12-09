@@ -40,7 +40,9 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #region ISyncWebBrowserView implementation
-        
+
+        public Action OnViewAppeared { get; set; }
+
         public void SyncWebBrowserError(Exception ex)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>

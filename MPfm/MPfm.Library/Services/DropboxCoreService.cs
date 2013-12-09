@@ -46,6 +46,7 @@ namespace MPfm.Library.Services
         private OAuthToken _oauthToken;
 
         public event CloudFileDownloaded OnCloudFileDownloaded;
+        public event CloudPathChanged OnCloudPathChanged;
         public bool HasLinkedAccount { get; private set; }
 
         public event CloudAuthenticationFailed OnCloudAuthenticationFailed;        
@@ -332,11 +333,19 @@ namespace MPfm.Library.Services
             return strings;
         }
 
+        public void WatchFolder(string path)
+        {
+        }
+
         public void WatchFile(string path)
         {
         }
 
         public void StopWatchFile(string path)
+        {
+        }
+
+        public void StopWatchFolder(string path)
         {
         }
 

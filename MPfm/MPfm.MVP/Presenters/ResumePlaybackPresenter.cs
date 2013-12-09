@@ -97,16 +97,30 @@ namespace MPfm.MVP.Presenters
 
         private void ViewAppeared()
         {
-            // Get updates that we might have missed while the screen was hidden
-            ForceRefreshDevices();
+            try
+            {
+                // Get updates that we might have missed while the screen was hidden
+                ForceRefreshDevices();
 
-            // Watch changes after first refresh
-            _cloudLibraryService.WatchDeviceInfos();
+                // Watch changes after first refresh
+                _cloudLibraryService.WatchDeviceInfos();
+            }
+            catch (Exception ex)
+            {
+                View.ResumePlaybackError(ex);
+            }
         }
 
         private void ViewHidden()
         {
-            _cloudLibraryService.StopWatchingDeviceInfos();
+            try
+            {
+                _cloudLibraryService.StopWatchingDeviceInfos();
+            }
+            catch (Exception ex)
+            {
+                View.ResumePlaybackError(ex);
+            }
         }
 
         private void CheckCloudLoginStatus()
@@ -119,7 +133,14 @@ namespace MPfm.MVP.Presenters
 
         private void ForceRefreshDevices()
         {
-            _cloudLibraryService.PullDeviceInfos();
+            try
+            {
+                _cloudLibraryService.PullDeviceInfos();
+            }
+            catch (Exception ex)
+            {
+                View.ResumePlaybackError(ex);
+            }
         }
 
         private void RefreshDevices()

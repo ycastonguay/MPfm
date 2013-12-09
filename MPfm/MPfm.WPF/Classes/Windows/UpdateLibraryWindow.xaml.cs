@@ -51,7 +51,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IUpdateLibraryView implementation
 
-        public Action<List<string>, List<Folder>> OnStartUpdateLibrary { get; set; }
+        public Action OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
         public Action<string> OnSaveLog { get; set; }
 
@@ -66,6 +66,10 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         public void AddToLog(string entry)
+        {
+        }
+
+        public void ProcessStarted()
         {
         }
 

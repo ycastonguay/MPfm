@@ -62,6 +62,8 @@ namespace MPfm.WPF.Classes.Windows
         public Action<ResumePlaybackEntity> OnResumePlayback { get; set; }
         public Action OnOpenPreferencesView { get; set; }
         public Action OnCheckCloudLoginStatus { get; set; }
+        public Action OnViewAppeared { get; set; }
+        public Action OnViewHidden { get; set; }
 
         public void ResumePlaybackError(Exception ex)
         {
