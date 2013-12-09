@@ -36,16 +36,47 @@ namespace MPfm.iOS
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
+			viewPanel.Layer.CornerRadius = 8;
+			btnCancel.SetImage(UIImage.FromBundle("Images/Buttons/cancel"));
+			btnConnect.SetImage(UIImage.FromBundle("Images/Buttons/select"));
 
-			//var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-			//navigationManager.BindSyncConnectManualView(this);
+			// Make sure the Done key closes the keyboard
+			txtUrl.ShouldReturn = (a) => {
+				txtUrl.ResignFirstResponder();
+				return true;
+			};
+
+			base.ViewDidLoad();
+
+			var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+			navigationManager.BindSyncConnectManualView(this);
         }
 
 		public override void WillAnimateRotation(UIInterfaceOrientation toInterfaceOrientation, double duration)
 		{
 			var screenSize = UIKitHelper.GetDeviceSize();
 			View.Frame = new RectangleF(0, 0, screenSize.Width, screenSize.Height);
+		}
+
+		partial void actionCancel(NSObject sender)
+		{
+			Close();
+		}
+
+		partial void actionConnect(NSObject sender)
+		{
+			Close();
+		}
+
+		private void Close()
+		{
+			WillMoveToParentViewController(null);
+			UIView.Animate(0.2f, () => {
+				this.View.Alpha = 0;
+			}, () => {
+				View.RemoveFromSuperview();
+				RemoveFromParentViewController();
+			});
 		}
     }
 }

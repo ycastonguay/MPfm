@@ -492,6 +492,25 @@ namespace MPfm.MVP.Navigation
             };
         }
 
+        public virtual ISyncConnectManualView CreateSyncConnectManualView()
+        {
+            _syncConnectManualView = Bootstrapper.GetContainer().Resolve<ISyncConnectManualView>();
+            return _syncConnectManualView;
+        }
+
+        public virtual void BindSyncConnectManualView(ISyncConnectManualView view)
+        {
+            _syncConnectManualView = view;
+            _syncConnectManualPresenter = Bootstrapper.GetContainer().Resolve<ISyncConnectManualPresenter>();
+            _syncConnectManualPresenter.BindView(view);
+            _syncConnectManualView.OnViewDestroy = (view2) =>
+            {
+                _syncConnectManualPresenter.ViewDestroyed();
+                _syncConnectManualPresenter = null;
+                _syncConnectManualView = null;
+            };            
+        }
+
         public virtual void CreatePreferencesView()
         {
             if(_preferencesView == null)

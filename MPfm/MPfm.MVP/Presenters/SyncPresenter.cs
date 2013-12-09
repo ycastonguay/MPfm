@@ -60,6 +60,7 @@ namespace MPfm.MVP.Presenters
         {
             view.OnConnectDevice = ConnectDevice;
             view.OnConnectDeviceManually = ConnectDeviceManually;
+            view.OnOpenConnectDevice = OpenConnectDevice;
             view.OnCancelDiscovery = CancelDiscovery;
             view.OnStartDiscovery = RefreshDevices;
             base.BindView(view);
@@ -105,6 +106,16 @@ namespace MPfm.MVP.Presenters
 
         private void ConnectDeviceManually(string url)
         {
+        }
+
+        private void OpenConnectDevice()
+        {
+            #if IOS || ANDROID || WINDOWS_PHONE || WINDOWSSTORE
+            var view = _mobileNavigationManager.CreateSyncConnectManualView();
+            _mobileNavigationManager.PushDialogView(MobileDialogPresentationType.Overlay, "Connect to device manually", View, view);
+            #else
+            _navigationManager.CreateSyncConnectManualView();
+            #endif
         }
 
         private void CancelDiscovery()

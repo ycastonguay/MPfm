@@ -153,17 +153,26 @@ namespace MPfm.iOS.Classes.Controls
 				if(OnPreferenceValueChanged != null)
 					OnPreferenceValueChanged(_item);       			
 			};
+			if(!UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+			{
+				Slider.MinimumTrackTintColor = GlobalTheme.SecondaryColor;
+//				Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
+//				Slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+//				Slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
+			}
 			AddSubview(Slider);
 
             Switch = new UISwitch();
             Switch.Hidden = true;
-            //Switch.TintColor = GlobalTheme.SecondaryColor;
-            //Switch.ThumbTintColor = GlobalTheme.SecondaryColor;
             Switch.ValueChanged += (sender, e) => {
                 _item.Value = Switch.On;
                 if(OnPreferenceValueChanged != null)
                     OnPreferenceValueChanged(_item);               
             };
+			if(!UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+				Switch.OnTintColor = GlobalTheme.SecondaryColor;
+			else
+				Switch.TintColor = GlobalTheme.SecondaryColor;
             AddSubview(Switch);
 
             // Make sure the text label is over all other subviews
@@ -232,10 +241,14 @@ namespace MPfm.iOS.Classes.Controls
                 RightButton.Frame = new RectangleF(screenSize.Width - 44, 4, 44, 44);
 
             ImageChevron.Frame = new RectangleF(screenSize.Width - 22, 4, 22, 44);
-            Switch.Frame = new RectangleF(screenSize.Width - 62, 10, 60, 44);
             MinValueTextLabel.Frame = new RectangleF(12, 48, 60, 44);
             MaxValueTextLabel.Frame = new RectangleF(Bounds.Width - 60 - 12, 48, 60, 44);
             Slider.Frame = new RectangleF(12 + 60, 48, Bounds.Width - 24 - 120, 44);
+
+			if(UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+				Switch.Frame = new RectangleF(screenSize.Width - 62, 10, 60, 44);
+			else
+				Switch.Frame = new RectangleF(screenSize.Width - 93, 12, 91, 44);
         }
 
 		public override void SetSelected(bool selected, bool animated)

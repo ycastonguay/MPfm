@@ -103,6 +103,7 @@ namespace MPfm.iOS.Classes.Controls
 			TextField.BackgroundColor = UIColor.FromRGBA(0.8f, 0.8f, 0.8f, 0.075f);
 			TextField.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 			TextField.TextColor = UIColor.White;
+			TextField.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 			TextField.ReturnKeyType = UIReturnKeyType.Done;
 			AddSubview(TextField);
 
@@ -126,12 +127,14 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(IndexTextLabel);
 
 			DeleteButton = new MPfmSemiTransparentButton();
+			DeleteButton.Alpha = 0;
 			DeleteButton.SetTitle("Delete", UIControlState.Normal);
 			DeleteButton.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 			DeleteButton.TouchUpInside += HandleOnDeleteButtonClick;
 			AddSubview(DeleteButton);
 
 			PunchInButton = new MPfmSemiTransparentButton();
+			PunchInButton.Alpha = 0;
 			PunchInButton.SetTitle("Punch In", UIControlState.Normal);
 			PunchInButton.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 			PunchInButton.TouchUpInside += HandleOnPunchInButtonClick;
@@ -142,6 +145,7 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(TextLabel);
 
 			Slider = new UISlider(new RectangleF(0, 0, 10, 10));
+			Slider.Alpha = 0;
 			Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
 			Slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 			Slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider_gray").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
@@ -266,6 +270,9 @@ namespace MPfm.iOS.Classes.Controls
 			{
 				TextField.Alpha = 1;
 				TextLabel.Alpha = 0;
+				Slider.Alpha = 1;
+				DeleteButton.Alpha = 1;
+				PunchInButton.Alpha = 1;
 			}, null);
 		}
 
@@ -276,7 +283,11 @@ namespace MPfm.iOS.Classes.Controls
 			{
 				TextField.Alpha = 0;
 				TextLabel.Alpha = 1;
+				Slider.Alpha = 0;
+				DeleteButton.Alpha = 0;
+				PunchInButton.Alpha = 0;
 			}, null);
+			TextField.ResignFirstResponder();
 		}
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)

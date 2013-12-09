@@ -28,6 +28,7 @@ using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
+using MPfm.Core;
 
 namespace MPfm.iOS
 {
@@ -81,6 +82,13 @@ namespace MPfm.iOS
             OnCancelDiscovery();
         }
 
+		public override void ViewDidLayoutSubviews()
+		{
+			base.ViewDidLayoutSubviews();
+
+			Tracing.Log("!!!!>>> SyncViewCtrl - ViewDidLayoutSubviews - button.Frame: {0} button.Bounds: {1}", btnConnectDeviceManually.Frame, btnConnectDeviceManually.Bounds);
+		}
+
         [Export ("tableView:numberOfRowsInSection:")]
         public int RowsInSection(UITableView tableView, int section)
         {
@@ -128,8 +136,7 @@ namespace MPfm.iOS
 
         partial void actionConnectDeviceManually(NSObject sender)
         {
-            // TODO: Popup window asking for host and port.
-            //OnConnectDeviceManually("");
+			OnOpenConnectDevice();
         }
 
         #region ISyncView implementation
@@ -138,6 +145,7 @@ namespace MPfm.iOS
         public Action OnCancelDiscovery { get; set; }
         public Action<SyncDevice> OnConnectDevice { get; set; }
         public Action<string> OnConnectDeviceManually { get; set; }
+		public Action OnOpenConnectDevice { get; set; }
 
         public void SyncError(Exception ex)
         {

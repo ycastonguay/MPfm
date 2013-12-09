@@ -29,6 +29,7 @@ namespace MPfm.MVP.Views
 	{
         Action<SyncDevice> OnConnectDevice { get; set; }
         Action<string> OnConnectDeviceManually { get; set; }
+        Action OnOpenConnectDevice { get; set; }
         Action OnStartDiscovery { get; set; }
         Action OnCancelDiscovery { get; set; }
 

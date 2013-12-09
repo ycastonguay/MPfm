@@ -115,6 +115,7 @@ namespace MPfm.iOS.Classes.Controllers
 
 			if (scrollViewPlayer != null)
 			{
+				scrollViewPlayer.IndicatorStyle = UIScrollViewIndicatorStyle.White;
 				scrollViewPlayer.PagingEnabled = true;
 				scrollViewPlayer.DelaysContentTouches = false;
 			}
