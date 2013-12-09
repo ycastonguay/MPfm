@@ -37,6 +37,7 @@ namespace MPfm.iOS
 {
     public partial class EqualizerPresetsViewController : BaseViewController, IEqualizerPresetsView
     {
+		bool _isViewVisible;
         MPVolumeView _volumeView;
         UIBarButtonItem _btnDone;
         UIBarButtonItem _btnAdd;
@@ -148,6 +149,18 @@ namespace MPfm.iOS
             MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
             navCtrl.SetTitle("Equalizer Presets");
         }
+
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
+			_isViewVisible = true;
+		}
+
+		public override void ViewDidDisappear(bool animated)
+		{
+			base.ViewDidDisappear(animated);
+			_isViewVisible = false;
+		}
 
 		public override void ViewDidLayoutSubviews()
 		{
@@ -282,8 +295,11 @@ namespace MPfm.iOS
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
             InvokeOnMainThread(() => {
-                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
-                outputMeter.SetNeedsDisplay();
+				if(_isViewVisible)
+				{
+		            outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+		            outputMeter.SetNeedsDisplay();
+				}
             });
         }
 

@@ -183,6 +183,7 @@ namespace MPfm.iOS.Classes.Controllers
                 DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone4S)
             {
                 scrollViewWaveForm.Hidden = true;
+				scrollViewWaveForm.UserInteractionEnabled = false;
             }
 
             // Create text attributes for navigation bar button
@@ -483,8 +484,19 @@ namespace MPfm.iOS.Classes.Controllers
         #region IPlayerView implementation
 
 		// TODO: Remove output meter for iPhone 4/4S?
-		//public bool IsOutputMeterEnabled { get { return !UserInterfaceIdiomIsPhone; } }
-		public bool IsOutputMeterEnabled { get { return true; } }
+		public bool IsOutputMeterEnabled
+		{ 
+			get 
+			{ 
+				if (DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone3GS ||
+				   DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone4 ||
+				   DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone4S)
+				{
+					return false;
+				}
+				return true; 
+			} 
+		}
 
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
@@ -634,8 +646,12 @@ namespace MPfm.iOS.Classes.Controllers
 
                     ShowPlayerMetadata(true, false);
                     lblLength.Text = audioFile.Length;
-                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
-                    scrollViewWaveForm.LoadPeakFile(audioFile);
+
+					if(IsOutputMeterEnabled)
+					{
+	                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
+	                    scrollViewWaveForm.LoadPeakFile(audioFile);
+					}
                 }
                 catch(Exception ex)
                 {

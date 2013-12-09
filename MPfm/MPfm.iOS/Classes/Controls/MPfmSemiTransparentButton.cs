@@ -75,7 +75,7 @@ namespace MPfm.iOS.Classes.Controls
 		public override void LayoutSubviews()
 		{
 			//base.LayoutSubviews();
-			Tracing.Log("SemiTransparentButton - LayoutSubviews - title: {0}", TitleLabel.Text);
+			//Tracing.Log("SemiTransparentButton - LayoutSubviews - title: {0}", TitleLabel.Text);
 
 			if(_isTextLabelAllowedToChangeFrame)
 				TitleLabel.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
@@ -83,7 +83,7 @@ namespace MPfm.iOS.Classes.Controls
 
 		public override void SetTitle(string title, UIControlState forState)
 		{
-			Tracing.Log("SemiTransparentButton - SetTitle - title: {0}", title);
+			//Tracing.Log("SemiTransparentButton - SetTitle - title: {0}", title);
 			base.SetTitle(title, forState);
 			TitleLabel.Text = title;
 			SetNeedsDisplay();
