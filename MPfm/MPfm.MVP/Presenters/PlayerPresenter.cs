@@ -208,13 +208,14 @@ namespace MPfm.MVP.Presenters
         private void HandleTimerRefreshSongPositionElapsed(object sender, object eventArgs)
         #endif
 		{
-            if(_playerService.IsSettingPosition)
-                return;
-
             //int available = playerService.GetDataAvailable();
 			PlayerPositionEntity entity = new PlayerPositionEntity();
 		    try
 		    {
+                // This might throw an exception when the application is closing
+                if (_playerService.IsSettingPosition)
+                    return;
+
 		        entity = _playerService.GetPosition();
 		    }
 		    catch (Exception ex)

@@ -198,6 +198,19 @@ namespace MPfm.WindowsControls
             }
         }
 
+        public int ValueWithoutEvent
+        {
+            get
+            {
+                return value;
+            }
+            set
+            {
+                this.value = value;
+                this.Refresh();
+            }
+        }
+
         /// <summary>
         /// Private value for the Margin property.
         /// </summary>

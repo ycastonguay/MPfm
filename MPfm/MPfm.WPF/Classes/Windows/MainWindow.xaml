@@ -63,58 +63,66 @@
                     <MenuItem x:Name="miHelp_About" Header="About Sessions..." Click="MenuItem_Click" />
                 </MenuItem>
             </Menu>
-            <Grid Margin="0" Background="#FF242F35">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" x:Name="btnPrevious" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Skips to the previous song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/previous.png" Stretch="None" />
-                </Button>
-                <Button Grid.Column="1" x:Name="btnPlayPause" Style="{StaticResource PlayerButton}" Width="40" Height="40" ToolTip="Pauses or restarts the playback." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/play.png" Stretch="None" x:Name="imagePlayPause" />
-                </Button>
-                <Button Grid.Column="2" x:Name="btnNext" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Skips to the next song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" />
-                </Button>
-                <Button Grid.Column="3" x:Name="btnRepeat" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Cycles through repeat types." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" />
-                </Button>
-                <Button Grid.Column="4" x:Name="btnShuffle" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Shuffles the song in the playlist." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" />
-                </Button>
-                <StackPanel Grid.Column="5"></StackPanel>
-                <Button Grid.Column="6" x:Name="btnPlaylist" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Playlist window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/playlist.png" Stretch="None" />
-                </Button>
-                <Button Grid.Column="7" x:Name="btnEffects" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Effects window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" />
-                </Button>
-                <Button Grid.Column="8" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/sync.png" Stretch="None" />
-                </Button>
-                <Button Grid.Column="9" x:Name="btnSyncCloud" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" />
-                </Button>
-                <Button Grid.Column="10" x:Name="btnResumePlayback" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Resume Playback window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/resume.png" Stretch="None" />
-                </Button>
-                <Button Grid.Column="11" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="34" Height="34" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
-                    <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" />
-                </Button>
-            </Grid>
+            <DockPanel>
+                <DockPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF242F35" Offset="0"/>
+                        <GradientStop Color="#FF455865" Offset="1"/>
+                    </LinearGradientBrush>
+                </DockPanel.Background>
+                <Grid Margin="4,6,4,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" x:Name="btnPrevious" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Skips to the previous song in the playlist." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/previous.png" Stretch="None" />
+                    </Button>
+                    <Button Grid.Column="1" x:Name="btnPlayPause" Style="{StaticResource PlayerButton}" Width="50" Height="50" Margin="0" ToolTip="Pauses or restarts the playback." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/play.png" Stretch="None" x:Name="imagePlayPause" />
+                    </Button>
+                    <Button Grid.Column="2" x:Name="btnNext" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Skips to the next song in the playlist." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/next.png" Stretch="None" Margin="2,0,0,0" />
+                    </Button>
+                    <Button Grid.Column="3" x:Name="btnRepeat" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Cycles through repeat types." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/repeat.png" Stretch="None" />
+                    </Button>
+                    <Button Grid.Column="4" x:Name="btnShuffle" Style="{StaticResource PlayerButton}" Width="44" Height="44" Margin="0" ToolTip="Shuffles the song in the playlist." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/shuffle.png" Stretch="None" />
+                    </Button>
+                    <StackPanel Grid.Column="5"></StackPanel>
+                    <Button Grid.Column="6" x:Name="btnPlaylist" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Playlist window." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/playlist.png" Stretch="None" />
+                    </Button>
+                    <Button Grid.Column="7" x:Name="btnEffects" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Effects window." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/effects.png" Stretch="None" />
+                    </Button>
+                    <Button Grid.Column="8" x:Name="btnSync" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync window." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/sync.png" Stretch="None" />
+                    </Button>
+                    <Button Grid.Column="9" x:Name="btnSyncCloud" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Sync (Cloud) window." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/cloud.png" Stretch="None" />
+                    </Button>
+                    <Button Grid.Column="10" x:Name="btnResumePlayback" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Resume Playback window." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/resume.png" Stretch="None" />
+                    </Button>
+                    <Button Grid.Column="11" x:Name="btnPreferences" Style="{StaticResource PlayerButton}" Width="40" Height="40" Margin="1" ToolTip="Opens the Preferences window." Click="BtnToolbar_OnClick">
+                        <Image Source="/Resources/Images/Toolbar/preferences.png" Stretch="None" />
+                    </Button>
+                </Grid>
+            </DockPanel>
         </DockPanel>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="#FF455865">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="Auto" />
@@ -127,12 +135,12 @@
                         <ColumnDefinition Width="163*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="27" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Library Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Grid.ColumnSpan="2" />
-                    <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2" Background="#FF242F35">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
@@ -161,8 +169,8 @@
                     </TreeView>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" />
-            <Grid Grid.Column="2">
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" Margin="0,27,0,0" />
+            <Grid Grid.Column="2" Background="#FF242F35">
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -170,14 +178,14 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Grid.RowDefinitions>                            
+                        <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <!-- Current Song -->
                         <Grid Grid.Row="0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="27" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
@@ -211,7 +219,7 @@
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Droid Sans Mono" Margin="2" />
                                             <WindowsFormsHost Grid.Column="1">
-                                                <wc:TrackBar x:Name="trackPosition" />
+                                                <wc:TrackBar x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
                                             </WindowsFormsHost>
                                             <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Droid Sans Mono" Margin="2" />
                                         </Grid>
@@ -251,13 +259,13 @@
                                                         <ColumnDefinition Width="40" />
                                                     </Grid.ColumnDefinitions>
                                                     <WindowsFormsHost Grid.Column="0">
-                                                        <wc:Fader x:Name="faderVolume" />
+                                                        <wc:Fader x:Name="faderVolume" Minimum="0" Maximum="100" OnFaderValueChanged="FaderVolume_OnFaderValueChanged" />
                                                     </WindowsFormsHost>
                                                     <WindowsFormsHost Grid.Column="1">
                                                         <wc:OutputMeter x:Name="outputMeter" />
                                                     </WindowsFormsHost>
                                                 </Grid>
-                                                <Label Grid.Row="1" Content="100 %" Foreground="White" HorizontalContentAlignment="Center" />
+                                                <Label Grid.Row="1" x:Name="lblVolume" Content="100 %" Foreground="White" HorizontalContentAlignment="Center" />
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -398,7 +406,7 @@
                             </Grid>
                             <WindowsFormsHost Grid.Row="1">
                                 <wc:SongGridView x:Name="gridViewSongs" OnSelectedIndexChanged="gridViewSongs_OnOnSelectedIndexChanged" />
-                            </WindowsFormsHost>                            
+                            </WindowsFormsHost>
                         </Grid>
                     </Grid>
                 </Grid>

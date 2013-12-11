@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 using MPfm.Library;
 using MPfm.Library.Objects;
 using MPfm.Library.Services;
@@ -56,6 +57,14 @@ namespace MPfm.WPF.Classes.Windows.Base
         public void ShowView(bool shown)
         {
             // Never called on WPF
+        }
+
+        protected void ShowErrorDialog(Exception ex)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                MessageBox.Show(this, string.Format("An error occured: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }));
         }
     }
 }

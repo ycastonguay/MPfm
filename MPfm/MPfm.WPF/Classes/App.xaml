@@ -253,25 +253,25 @@
                                     <VisualState x:Name="Normal"/>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF6D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
-                                            <ColorAnimation Duration="0" To="#FF344046" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#996D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#99344046" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FF6D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
-                                            <ColorAnimation Duration="0" To="#FF455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#996D899B" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#99455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <ColorAnimation Duration="0" To="#99FFFFFF" Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
-                                            <ColorAnimation Duration="0" To="#FF455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
+                                            <ColorAnimation Duration="0" To="#99455865" Storyboard.TargetProperty="(Ellipse.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ellipsePlayerButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Ellipse x:Name="ellipsePlayerButton" Fill="#FF242F35" Stroke="#AA6D899B" StrokeThickness="2" />
+                            <Ellipse x:Name="ellipsePlayerButton" Fill="#FF242F35" Stroke="#996D899B" StrokeThickness="2" />
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </ControlTemplate>

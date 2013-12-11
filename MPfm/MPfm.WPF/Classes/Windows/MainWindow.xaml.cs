@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -203,6 +204,31 @@ namespace MPfm.WPF.Classes.Windows
             OnSearchTerms(txtSearchTerms.Text);
         }
 
+        private void TrackPosition_OnMouseDown(object sender, MouseEventArgs e)
+        {
+            _isPlayerPositionChanging = true;
+        }
+
+        private void TrackPosition_OnMouseUp(object sender, MouseEventArgs e)
+        {
+            _isPlayerPositionChanging = false;
+            OnPlayerSetPosition((float) trackPosition.Value / 10f);
+        }
+
+        private void TrackPosition_OnTrackBarValueChanged()
+        {
+            if (OnPlayerRequestPosition == null || !_isPlayerPositionChanging)
+                return;
+            
+            var position = OnPlayerRequestPosition((float) trackPosition.Value/1000f);
+            lblPosition.Content = position.Position;
+        }
+
+        private void FaderVolume_OnFaderValueChanged(object sender, EventArgs e)
+        {
+            OnPlayerSetVolume(faderVolume.Value);
+        }
+
         #region IMainView implementation
 
         public Action OnOpenPreferencesWindow { get; set; }
@@ -317,10 +343,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void PlayerError(Exception ex)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                MessageBox.Show(this, string.Format("An error occured in Player: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }));
+            ShowErrorDialog(ex);
         }
 
         public void PushSubView(IBaseView view)
@@ -345,13 +368,13 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 if (!_isPlayerPositionChanging)
                 {
                     lblPosition.Content = entity.Position;
                     //miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
-                    //trackPosition.Value = (int)entity.PositionPercentage * 10;
+                    trackPosition.Value = (int)entity.PositionPercentage * 10;
                 }
 
                 if (!waveFormDisplay.IsLoading)
@@ -361,7 +384,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 //    btnAddLoop.Enabled = audioFile != null;
                 //    btnAddMarker.Enabled = audioFile != null;
@@ -491,17 +514,12 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshPlayerVolume(PlayerVolumeEntity entity)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    lblVolume.Text = entity.VolumeString;
-            //    if (faderVolume.Value != (int)entity.Volume)
-            //        faderVolume.Value = (int)entity.Volume;
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                lblVolume.Content = entity.VolumeString;
+                if (faderVolume.Value != (int)entity.Volume)
+                    faderVolume.ValueWithoutEvent = (int) entity.Volume;
+            }));
         }
 
         public void RefreshPlayerTimeShifting(PlayerTimeShiftingEntity entity)
@@ -524,15 +542,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void MarkerError(Exception ex)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    MessageBox.Show(string.Format("An error occured in Markers: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            ShowErrorDialog(ex);
         }
 
         public void RefreshMarkers(List<Marker> markers)
@@ -566,15 +576,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void LoopError(Exception ex)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    MessageBox.Show(string.Format("An error occured in Loops: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            ShowErrorDialog(ex);
         }
 
         public void RefreshLoops(List<Loop> loops)
@@ -593,15 +595,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void TimeShiftingError(Exception ex)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    MessageBox.Show(string.Format("An error occured in TimeShifting: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            ShowErrorDialog(ex);
         }
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
@@ -632,15 +626,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void PitchShiftingError(Exception ex)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    MessageBox.Show(string.Format("An error occured in PitchShifting: {0}", ex), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            ShowErrorDialog(ex);
         }
 
         public void RefreshKeys(List<Tuple<int, string>> keys)
