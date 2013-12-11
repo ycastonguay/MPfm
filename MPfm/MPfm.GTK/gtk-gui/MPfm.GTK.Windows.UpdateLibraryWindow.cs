@@ -22,35 +22,20 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.Label lblErrorLog;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.TextView textviewErrorLog;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
 			// Widget MPfm.GTK.Windows.UpdateLibraryWindow
 			this.UIManager = new global::Gtk.UIManager ();
 			global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
-			this.actionOK = new global::Gtk.Action (
-				"actionOK",
-				global::Mono.Unix.Catalog.GetString("OK"),
-				null,
-				"gtk-apply"
-			);
+			this.actionOK = new global::Gtk.Action ("actionOK", global::Mono.Unix.Catalog.GetString ("OK"), null, "gtk-apply");
 			this.actionOK.Sensitive = false;
 			this.actionOK.ShortLabel = global::Mono.Unix.Catalog.GetString ("OK");
 			w1.Add (this.actionOK, null);
-			this.actionCancel = new global::Gtk.Action (
-				"actionCancel",
-				null,
-				null,
-				"gtk-cancel"
-			);
+			this.actionCancel = new global::Gtk.Action ("actionCancel", null, null, "gtk-cancel");
 			w1.Add (this.actionCancel, null);
-			this.actionSaveLog = new global::Gtk.Action (
-				"actionSaveLog",
-				global::Mono.Unix.Catalog.GetString("Save Log"),
-				null,
-				"gtk-floppy"
-			);
+			this.actionSaveLog = new global::Gtk.Action ("actionSaveLog", global::Mono.Unix.Catalog.GetString ("Save Log"), null, "gtk-floppy");
 			this.actionSaveLog.Sensitive = false;
 			this.actionSaveLog.ShortLabel = global::Mono.Unix.Catalog.GetString ("Save Log");
 			w1.Add (this.actionSaveLog, null);

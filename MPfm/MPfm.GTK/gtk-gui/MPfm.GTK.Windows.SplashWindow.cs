@@ -7,7 +7,7 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.Image imageBackground;
 		private global::Gtk.Label lblStatus;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);

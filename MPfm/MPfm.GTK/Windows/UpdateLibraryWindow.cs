@@ -73,7 +73,7 @@ namespace MPfm.GTK.Windows
 
         #region IUpdateLibraryView implementation
 
-        public System.Action<UpdateLibraryMode, List<string>, string> OnStartUpdateLibrary { get; set; }
+        public System.Action OnStartUpdateLibrary { get; set; }
         public System.Action OnCancelUpdateLibrary { get; set; }
         public System.Action<string> OnSaveLog { get; set; }
 	
@@ -104,6 +104,10 @@ namespace MPfm.GTK.Windows
 //				textviewErrorLog.Buffer.Text += entry + "\n";
 //			});			
 		}
+
+        public void ProcessStarted()
+        {
+        }
 		
 		public void ProcessEnded(bool canceled)
 		{

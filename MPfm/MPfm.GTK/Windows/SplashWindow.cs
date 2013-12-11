@@ -77,6 +77,10 @@ namespace MPfm.GTK.Windows
 			});					
 		}
 
+        public void DestroyView()
+        {
+        }
+
 		#endregion
 
 	}

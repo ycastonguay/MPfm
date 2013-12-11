@@ -83,30 +83,33 @@ namespace MPfm.MVP.Presenters
             _playerService.Initialize(device, 44100, 1000, 100);
             View.RefreshStatus("Init player done");
 
-            _taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 #if LINUX
             // Mono on Linux crashes for some reason if FromCurrentSynchronizationContext is used... weird!            
             _taskScheduler = TaskScheduler.Default;
+#else
+            _taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 #endif
 
-	        Task.Factory.StartNew(() =>
-	        {
-	            View.RefreshStatus("Initializing app...");
-	            _initializationService.Initialize();
+            var cancellationToken = new CancellationToken();
+            Task.Factory.StartNew(() =>
+            {
+                View.RefreshStatus("Initializing app...");
+                _initializationService.Initialize();
 
-	            try
-	            {
+                try
+                {
                     View.RefreshStatus("Syncing data from cloud...");
-	                _timerDownloadFiles.Start();
-	                _cloudLibraryService.PullDeviceInfos();
-	            }
-	            catch (Exception ex)
-	            {
-	                // If the cloud service fails, launch the app anyway, this is not vital for running the app   
-	                Tracing.Log("SplashPresenter - Initialize - PullDeviceInfos exception: {0}", ex);
-	                Close();
-	            }
-	        });
+                    _timerDownloadFiles.Start();
+                    _cloudLibraryService.PullDeviceInfos();
+                } 
+                catch (Exception ex)
+                {
+                    // If the cloud service fails, launch the app anyway, this is not vital for running the app   
+                    Tracing.Log("SplashPresenter - Initialize - PullDeviceInfos exception: {0}", ex);
+                    Close();
+                }
+            //};
+            }, cancellationToken, TaskCreationOptions.LongRunning, _taskScheduler);
 	    }
 
         private void CloudLibraryServiceOnDeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos)

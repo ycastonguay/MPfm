@@ -30,7 +30,7 @@ namespace MPfm.GTK
 		private global::Gtk.Label lblTotal;
 		private global::Gtk.Label lblFreeSpace;
 		private global::Gtk.Button btnSync;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
@@ -208,6 +208,7 @@ namespace MPfm.GTK
 			this.hbox2.Spacing = 6;
 			// Container child hbox2.Gtk.Box+BoxChild
 			this.vbox3 = new global::Gtk.VBox ();
+			this.vbox3.Name = "vbox3";
 			this.vbox3.Spacing = 6;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.lblTotal = new global::Gtk.Label ();
@@ -237,36 +238,20 @@ namespace MPfm.GTK
 			this.btnSync.CanFocus = true;
 			this.btnSync.Name = "btnSync";
 			this.btnSync.UseUnderline = true;
-			// Container child btnSync.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w24 = new global::Gtk.Alignment (0.5F, 0.5F, 0F, 0F);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w25 = new global::Gtk.HBox ();
-			w25.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w26 = new global::Gtk.Image ();
-			w26.Pixbuf = global::Stetic.IconLoader.LoadIcon (
-				this,
-				"gtk-go-forward",
-				global::Gtk.IconSize.Menu
-			);
-			w25.Add (w26);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w28 = new global::Gtk.Label ();
-			w28.LabelProp = global::Mono.Unix.Catalog.GetString ("Sync");
-			w28.UseUnderline = true;
-			w25.Add (w28);
-			w24.Add (w25);
-			this.btnSync.Add (w24);
+			this.btnSync.Label = global::Mono.Unix.Catalog.GetString ("Sync");
+			global::Gtk.Image w24 = new global::Gtk.Image ();
+			w24.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-go-forward", global::Gtk.IconSize.Menu);
+			this.btnSync.Image = w24;
 			this.hbox2.Add (this.btnSync);
-			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.btnSync]));
-			w32.Position = 1;
-			w32.Expand = false;
-			w32.Fill = false;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.btnSync]));
+			w25.Position = 1;
+			w25.Expand = false;
+			w25.Fill = false;
 			this.vbox2.Add (this.hbox2);
-			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.hbox2]));
-			w33.Position = 4;
-			w33.Expand = false;
-			w33.Fill = false;
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.hbox2]));
+			w26.Position = 4;
+			w26.Expand = false;
+			w26.Fill = false;
 			this.Add (this.vbox2);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

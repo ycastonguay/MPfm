@@ -19,6 +19,8 @@ using System;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 using System.Collections.Generic;
+using MPfm.MVP.Config.Models;
+using MPfm.MVP.Models;
 
 namespace MPfm.GTK.Windows
 {
@@ -52,7 +54,7 @@ namespace MPfm.GTK.Windows
 			//args.RetVal = true;
 			
 			// Hide window instead
-			//this.HideAll();
+			//this.Hi
 			Console.WriteLine("PreferencesWindow - OnDeleteEvent");
 		}
 
@@ -61,14 +63,66 @@ namespace MPfm.GTK.Windows
         public System.Action OnSelectFolders { get; set; }
         public System.Action OnResetLibrary { get; set; }
         public System.Action OnUpdateLibrary { get; set; }
-        public System.Action OnEnableSyncListener { get; set; }
+        public System.Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
+        public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
 
         public void LibraryPreferencesError(Exception ex)
         {
         }
 
+        public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
+        {
+        }
+
         #endregion
 
+        #region IGeneralPreferencesView implementation
+
+        public Action<GeneralAppConfig> OnSetGeneralPreferences { get; set; }
+        public System.Action OnDeletePeakFiles { get; set; }
+
+        public void GeneralPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
+        {
+        }
+
+        #endregion
+
+        #region ICloudPreferencesView implementation
+
+        public Action<CloudAppConfig> OnSetCloudPreferences { get; set; }
+        public System.Action OnDropboxLoginLogout { get; set; }
+
+        public void CloudPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshCloudPreferences(CloudAppConfig config)
+        {
+        }
+
+        public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
+        {
+        }
+
+        #endregion
+
+        #region IAudioPreferencesView implementation
+
+        public Action<MPfm.MVP.Config.Models.AudioAppConfig> OnSetAudioPreferences { get; set; }
+
+        public void AudioPreferencesError(Exception ex)
+        {
+        }
+
+        public void RefreshAudioPreferences(AudioAppConfig config)
+        {
+        }
+
+        #endregion
 	}
 }

@@ -15,7 +15,7 @@ namespace MPfm.GTK
 		private global::Gtk.Button btnPull;
 		private global::Gtk.Button btnPush;
 		private global::Gtk.Button btnDelete;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);

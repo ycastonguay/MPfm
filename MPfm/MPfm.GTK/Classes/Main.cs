@@ -29,6 +29,7 @@ using MPfm.GTK.Windows;
 using MPfm.Library;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Config.Providers;
+using MPfm.Library.Services;
 
 namespace MPfm.GTK.Classes
 {
@@ -43,7 +44,7 @@ namespace MPfm.GTK.Classes
             Bootstrapper.GetContainer().Register<NavigationManager, GtkNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, LinuxSyncDeviceSpecifications>().AsSingleton();
             Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
-            Bootstrapper.GetContainer().Register<IDropboxService, MPfm.Library.Services.DropboxCoreService>().AsSingleton();
+            Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();
 			Bootstrapper.GetContainer().Register<ISplashView, SplashWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IMainView, MainWindow>().AsMultiInstance();
 			Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindow>().AsMultiInstance();

@@ -12,7 +12,7 @@ namespace MPfm.GTK
 		private global::Gtk.Label label5;
 		private global::Gtk.Label label6;
 		private global::Gtk.Label lblAuthenticationCode;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);

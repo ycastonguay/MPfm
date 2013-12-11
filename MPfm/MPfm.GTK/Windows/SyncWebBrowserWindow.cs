@@ -42,6 +42,8 @@ namespace MPfm.GTK
 
         #region ISyncWebBrowserView implementation
 
+        public System.Action OnViewAppeared { get; set; }
+
         public void SyncWebBrowserError(Exception ex)
         {
             Gtk.Application.Invoke(delegate

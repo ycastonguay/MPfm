@@ -720,11 +720,13 @@ namespace MPfm.GTK.Windows
         public System.Action<List<string>> OnAddFilesToLibrary { get; set; }
         public System.Action<string> OnAddFolderToLibrary { get; set; }
         public System.Action OnUpdateLibrary { get; set; }
+        public System.Action OnOpenResumePlayback { get; set; }
 
         #endregion
 			
 		#region IPlayerView implementation
 			
+        public bool IsOutputMeterEnabled { get { return false; } }
         public System.Action OnPlayerPlay { get; set; }
         public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public System.Action OnPlayerPause { get; set; }
@@ -740,6 +742,11 @@ namespace MPfm.GTK.Windows
         public System.Action OnPlayerShuffle { get; set; }
         public System.Action OnPlayerRepeat { get; set; }
         public System.Action OnOpenPlaylist { get; set; }
+        public System.Action OnOpenEffects { get; set; }
+
+        public void PushSubView(IBaseView view)
+        {
+        }
 
 		public void RefreshPlayerStatus(PlayerStatusType status)
         {
@@ -885,6 +892,10 @@ namespace MPfm.GTK.Windows
         }
 
         public void RefreshLoops(IEnumerable<Loop> loops)
+        {
+        }
+
+        public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
         }
 			

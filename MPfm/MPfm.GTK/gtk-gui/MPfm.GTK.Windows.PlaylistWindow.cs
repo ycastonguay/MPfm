@@ -17,79 +17,36 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.Toolbar toolbar;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.TreeView treePlaylistBrowser;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
 			// Widget MPfm.GTK.Windows.PlaylistWindow
 			this.UIManager = new global::Gtk.UIManager ();
 			global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
-			this.newAction = new global::Gtk.Action (
-				"newAction",
-				global::Mono.Unix.Catalog.GetString("New"),
-				null,
-				"gtk-new"
-			);
+			this.newAction = new global::Gtk.Action ("newAction", global::Mono.Unix.Catalog.GetString ("New"), null, "gtk-new");
 			this.newAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("New");
 			w1.Add (this.newAction, null);
-			this.openAction = new global::Gtk.Action (
-				"openAction",
-				global::Mono.Unix.Catalog.GetString("Open"),
-				null,
-				"gtk-open"
-			);
+			this.openAction = new global::Gtk.Action ("openAction", global::Mono.Unix.Catalog.GetString ("Open"), null, "gtk-open");
 			this.openAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Open");
 			w1.Add (this.openAction, null);
-			this.saveAction = new global::Gtk.Action (
-				"saveAction",
-				null,
-				null,
-				"gtk-save"
-			);
+			this.saveAction = new global::Gtk.Action ("saveAction", null, null, "gtk-save");
 			w1.Add (this.saveAction, null);
-			this.saveAsAction = new global::Gtk.Action (
-				"saveAsAction",
-				null,
-				null,
-				"gtk-save-as"
-			);
+			this.saveAsAction = new global::Gtk.Action ("saveAsAction", null, null, "gtk-save-as");
 			w1.Add (this.saveAsAction, null);
-			this.actionNewPlaylist = new global::Gtk.Action (
-				"actionNewPlaylist",
-				null,
-				null,
-				"gtk-new"
-			);
+			this.actionNewPlaylist = new global::Gtk.Action ("actionNewPlaylist", null, null, "gtk-new");
 			w1.Add (this.actionNewPlaylist, null);
-			this.actionOpenPlaylist = new global::Gtk.Action (
-				"actionOpenPlaylist",
-				null,
-				null,
-				"gtk-open"
-			);
+			this.actionOpenPlaylist = new global::Gtk.Action ("actionOpenPlaylist", null, null, "gtk-open");
 			w1.Add (this.actionOpenPlaylist, null);
-			this.actionSavePlaylist = new global::Gtk.Action (
-				"actionSavePlaylist",
-				null,
-				null,
-				"gtk-save"
-			);
+			this.actionSavePlaylist = new global::Gtk.Action ("actionSavePlaylist", null, null, "gtk-save");
 			w1.Add (this.actionSavePlaylist, null);
-			this.actionSavePlaylistAs = new global::Gtk.Action (
-				"actionSavePlaylistAs",
-				null,
-				null,
-				"gtk-save-as"
-			);
+			this.actionSavePlaylistAs = new global::Gtk.Action ("actionSavePlaylistAs", null, null, "gtk-save-as");
 			w1.Add (this.actionSavePlaylistAs, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "MPfm.GTK.Windows.PlaylistWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("Playlist");
-			this.Icon = new global::Gdk.Pixbuf (global::System.IO.Path.Combine (
-				global::System.AppDomain.CurrentDomain.BaseDirectory,
-				"./icon48.png"
-			));
+			this.Icon = new global::Gdk.Pixbuf (global::System.IO.Path.Combine (global::System.AppDomain.CurrentDomain.BaseDirectory, "./icon48.png"));
 			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			// Container child MPfm.GTK.Windows.PlaylistWindow.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();

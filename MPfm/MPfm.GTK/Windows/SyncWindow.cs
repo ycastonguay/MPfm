@@ -149,6 +149,7 @@ namespace MPfm.GTK
         public Action<string> OnConnectDeviceManually { get; set; }
         public System.Action OnStartDiscovery { get; set; }
         public System.Action OnCancelDiscovery { get; set; }
+        public System.Action OnOpenConnectDevice { get; set; }
 
         public void SyncError(Exception ex)
         {
@@ -209,5 +210,6 @@ namespace MPfm.GTK
         }
 
         #endregion
+
 	}
 }
