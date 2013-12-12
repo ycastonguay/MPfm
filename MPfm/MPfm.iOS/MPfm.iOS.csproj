@@ -335,6 +335,7 @@
       <DependentUpon>PlayerStatusViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controls\MPfmTabBarController.cs" />
+    <Compile Include="Classes\Controls\MPfmSemiTransparentRoundButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -622,6 +623,14 @@
     <BundleResource Include="Images\Splash\splash_default-568h_2%402x.png" />
     <BundleResource Include="Images\Player\down.png" />
     <BundleResource Include="Images\Player\down%402x.png" />
+    <BundleResource Include="Images\Player\add.png" />
+    <BundleResource Include="Images\Player\add%402x.png" />
+    <BundleResource Include="Images\Player\punch_in.png" />
+    <BundleResource Include="Images\Player\punch_in%402x.png" />
+    <BundleResource Include="Images\Player\remove.png" />
+    <BundleResource Include="Images\Player\remove%402x.png" />
+    <BundleResource Include="Images\Player\undo.png" />
+    <BundleResource Include="Images\Player\undo%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

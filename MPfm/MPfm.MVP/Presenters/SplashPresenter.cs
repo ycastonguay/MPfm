@@ -108,8 +108,8 @@ namespace MPfm.MVP.Presenters
                     Tracing.Log("SplashPresenter - Initialize - PullDeviceInfos exception: {0}", ex);
                     Close();
                 }
-            //};
-            }, cancellationToken, TaskCreationOptions.LongRunning, _taskScheduler);
+            });
+                    //}, cancellationToken, TaskCreationOptions.LongRunning, _taskScheduler);
 	    }
 
         private void CloudLibraryServiceOnDeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos)

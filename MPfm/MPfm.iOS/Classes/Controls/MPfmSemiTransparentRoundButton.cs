@@ -26,8 +26,8 @@ using MonoTouch.CoreAnimation;
 
 namespace MPfm.iOS.Classes.Controls
 {
-    [Register("MPfmPlayerButton")]
-    public class MPfmPlayerButton : UIButton
+	[Register("MPfmSemiTransparentRoundButton")]
+	public class MPfmSemiTransparentRoundButton : UIButton
     {
         private CAShapeLayer _layerCircle;
 
@@ -36,13 +36,13 @@ namespace MPfm.iOS.Classes.Controls
         public delegate void ButtonClick();
         public event ButtonClick OnButtonClick;
 
-		public MPfmPlayerButton() 
+		public MPfmSemiTransparentRoundButton() 
             : base()
         {
             Initialize();
         }
 
-		public MPfmPlayerButton(IntPtr handle) 
+		public MPfmSemiTransparentRoundButton(IntPtr handle) 
             : base(handle)
         {
             Initialize();
@@ -59,8 +59,8 @@ namespace MPfm.iOS.Classes.Controls
             _layerCircle.Bounds = Bounds;
             _layerCircle.Path = UIBezierPath.FromRoundedRect(new RectangleF(0, 0, 2f * radius, 2f * radius), radius).CGPath;
             _layerCircle.Position = new PointF(Bounds.Width / 2, Bounds.Height / 2);
-            _layerCircle.FillColor = GlobalTheme.BackgroundColor.CGColor;
-            _layerCircle.StrokeColor = GlobalTheme.MainLightColor.CGColor;
+			_layerCircle.FillColor = GlobalTheme.BackgroundColor.ColorWithAlpha(0.5f).CGColor;
+			_layerCircle.StrokeColor = GlobalTheme.MainLightColor.ColorWithAlpha(0.8f).CGColor;
             _layerCircle.LineWidth = 1f;
             Layer.AddSublayer(_layerCircle);
 
@@ -119,8 +119,8 @@ namespace MPfm.iOS.Classes.Controls
                     GlyphImageView.Alpha = 0.7f;
                 });
                 UIView.Animate(0.05, () => {
-                    _layerCircle.FillColor = GlobalTheme.BackgroundColor.CGColor;
-                    _layerCircle.StrokeColor = GlobalTheme.MainLightColor.CGColor;
+					_layerCircle.FillColor = GlobalTheme.BackgroundColor.ColorWithAlpha(0.5f).CGColor;
+					_layerCircle.StrokeColor = GlobalTheme.MainLightColor.ColorWithAlpha(0.8f).CGColor;
                     _layerCircle.LineWidth = 1f;
                 });
             }

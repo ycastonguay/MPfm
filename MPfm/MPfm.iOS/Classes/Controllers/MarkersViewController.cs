@@ -52,8 +52,9 @@ namespace MPfm.iOS
             tableView.WeakDelegate = this;
 
             viewBackground.BackgroundColor = GlobalTheme.PlayerPanelBackgroundColor;
-            btnAddMarker.BackgroundColor = GlobalTheme.PlayerPanelButtonColor;
-            btnAddMarker.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
+			//btnAddMarker.BackgroundColor = GlobalTheme.PlayerPanelButtonColor;
+			//btnAddMarker.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
+			btnAddMarker.GlyphImageView.Image = UIImage.FromBundle("Images/Player/add");
 
             UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
             longPress.MinimumPressDuration = 0.7f;
@@ -84,15 +85,22 @@ namespace MPfm.iOS
 				_currentEditIndex = _currentEditIndex == indexPath.Row ? -1 : indexPath.Row;
 				tableView.BeginUpdates();
 				//tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.Bottom);
-				tableView.EndUpdates();
+				tableView.EndUpdates();			
 
 				if (previousCell != null)
 					previousCell.CollapseCell();
 				if (cell != null)
-					if(_currentEditIndex == -1)
+				{
+					if (_currentEditIndex == -1)
+					{
 						cell.CollapseCell();
+					}
 					else
+					{
 						cell.ExpandCell();
+						tableView.ScrollToRow(indexPath, UITableViewScrollPosition.Top, true);
+					}
+				}
 			}
         }
 
@@ -136,14 +144,15 @@ namespace MPfm.iOS
 		public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
 			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} indexPath.Section: {1} _currentEditIndex: {2}", indexPath.Row, indexPath.Section, _currentEditIndex);
-			return indexPath.Row == _currentEditIndex ? 138 : 52;
+			return indexPath.Row == _currentEditIndex ? 172 : 52; //138 : 52;
 		}
 
 		[Export ("tableView:heightForFooterInSection:")]
 		public float HeightForFooterInSection(UITableView tableView, int section)
 		{
 			// This will create an "invisible" footer
-			return 0.01f;
+			//return 0.01f;
+			return 1f;
 		}
 
 		[Export ("tableView:viewForFooterInSection:")]

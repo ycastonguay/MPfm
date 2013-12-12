@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoTouch.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.iOS
 {
@@ -12,13 +13,13 @@ namespace MPfm.iOS
 	partial class MarkersViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmSemiTransparentRoundButton btnAddMarker { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnAddMarker { get; set; }
+		MonoTouch.UIKit.UITableView tableView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }

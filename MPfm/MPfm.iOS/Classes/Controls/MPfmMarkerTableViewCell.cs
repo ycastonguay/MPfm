@@ -39,10 +39,12 @@ namespace MPfm.iOS.Classes.Controls
         public UILabel IndexTextLabel { get; private set; }
         //public UIView SecondaryMenuBackground { get; private set; }
 
-		public MPfmSemiTransparentButton DeleteButton { get; set; }
-		public MPfmSemiTransparentButton PunchInButton { get; set; }
+		public MPfmSemiTransparentRoundButton DeleteButton { get; set; }
+		public MPfmSemiTransparentRoundButton PunchInButton { get; set; }
+		public MPfmSemiTransparentRoundButton UndoButton { get; set; }
 		public UISlider Slider { get; set; }
 		public UITextField TextField { get; set; }
+		public UILabel TitleLabel { get; set; }
 
         public bool IsTextAnimationEnabled { get; set; }
         public float RightOffset { get; set; }
@@ -107,6 +109,12 @@ namespace MPfm.iOS.Classes.Controls
 			TextField.ReturnKeyType = UIReturnKeyType.Done;
 			AddSubview(TextField);
 
+			TitleLabel = new UILabel();
+			TitleLabel.Text = "Position";
+			TitleLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+			TitleLabel.TextColor = UIColor.FromRGB(0.8f, 0.8f, 0.8f);
+			AddSubview(TitleLabel);
+
 			// Add padding to text field
 			UIView paddingView = new UIView(new RectangleF(0, 0, 4, 20));
 			TextField.LeftView = paddingView;
@@ -114,6 +122,7 @@ namespace MPfm.iOS.Classes.Controls
 
 			// Make sure the Done key closes the keyboard
 			TextField.ShouldReturn = (a) => {
+				TextLabel.Text = TextField.Text;
 				TextField.ResignFirstResponder();
 				return true;
 			};
@@ -126,19 +135,23 @@ namespace MPfm.iOS.Classes.Controls
             IndexTextLabel.HighlightedTextColor = UIColor.White;
             AddSubview(IndexTextLabel);
 
-			DeleteButton = new MPfmSemiTransparentButton();
+			DeleteButton = new MPfmSemiTransparentRoundButton();
 			DeleteButton.Alpha = 0;
-			DeleteButton.SetTitle("Delete", UIControlState.Normal);
-			DeleteButton.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+			DeleteButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/remove");
 			DeleteButton.TouchUpInside += HandleOnDeleteButtonClick;
 			AddSubview(DeleteButton);
 
-			PunchInButton = new MPfmSemiTransparentButton();
+			PunchInButton = new MPfmSemiTransparentRoundButton();
 			PunchInButton.Alpha = 0;
-			PunchInButton.SetTitle("Punch In", UIControlState.Normal);
-			PunchInButton.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+			PunchInButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/punch_in");
 			PunchInButton.TouchUpInside += HandleOnPunchInButtonClick;
 			AddSubview(PunchInButton);
+
+			UndoButton = new MPfmSemiTransparentRoundButton();
+			UndoButton.Alpha = 0;
+			UndoButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/undo");
+			UndoButton.TouchUpInside += HandleOnUndoButtonClick;
+			AddSubview(UndoButton);
 
             // Make sure the text label is over all other subviews
             TextLabel.RemoveFromSuperview();
@@ -177,6 +190,11 @@ namespace MPfm.iOS.Classes.Controls
 
 		}
 
+		private void HandleOnUndoButtonClick(object sender, EventArgs e)
+		{
+
+		}
+
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
@@ -202,16 +220,23 @@ namespace MPfm.iOS.Classes.Controls
                 x += padding + (padding / 2);
             }
 
-            if (_isTextLabelAllowedToChangeFrame)
+			if (_isTextLabelAllowedToChangeFrame)
+			{
 				TextLabel.Frame = new RectangleF(x, 6, Bounds.Width - 120, 38);
-            if (!string.IsNullOrEmpty(DetailTextLabel.Text))
-				DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128, 6, 120, 38);
+				TitleLabel.Frame = new RectangleF(padding, 6 + 35, Bounds.Width, 38);
+				if (PunchInButton.Alpha > 0)
+					DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128 - 48, 6, 120, 38);
+				else
+					DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128, 6, 120, 38);
+			}
 
-			TextField.Frame = new RectangleF(x - 4, 7, Bounds.Width - 120, 38);
-			Slider.Frame = new RectangleF(8, 48, Bounds.Width - 12, 36);
-
-			DeleteButton.Frame = new RectangleF(8, 86, (Bounds.Width - 48) / 2, 44);
-			PunchInButton.Frame = new RectangleF(((Bounds.Width - 48) / 2) + 36, 86, (Bounds.Width - 48) / 2, 44);
+			TextField.Frame = new RectangleF(x - 4, 7, Bounds.Width - 120 - 48, 38);
+			Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12, 36);
+			DeleteButton.Frame = new RectangleF(Bounds.Width - 44, 6, 44, 44);
+			//UndoButton.Frame = new RectangleF((Bounds.Width - 50 - 14 - 50) / 2, 76 + 34, 50, 50);
+			//PunchInButton.Frame = new RectangleF(((Bounds.Width - 50 - 14 - 50) / 2) + 50 + 14, 76 + 34, 50, 50);
+			UndoButton.Frame = new RectangleF((Bounds.Width - 44 - 14 - 44) / 2, 76 + 34, 44, 44);
+			PunchInButton.Frame = new RectangleF(((Bounds.Width - 44 - 14 - 44) / 2) + 44 + 14, 76 + 34, 44, 44);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
@@ -273,6 +298,8 @@ namespace MPfm.iOS.Classes.Controls
 				Slider.Alpha = 1;
 				DeleteButton.Alpha = 1;
 				PunchInButton.Alpha = 1;
+				UndoButton.Alpha = 1;
+				DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128 - 48, 6, 120, 38);
 			}, null);
 		}
 
@@ -286,7 +313,10 @@ namespace MPfm.iOS.Classes.Controls
 				Slider.Alpha = 0;
 				DeleteButton.Alpha = 0;
 				PunchInButton.Alpha = 0;
+				UndoButton.Alpha = 0;
+				DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128, 6, 120, 38);
 			}, null);
+			TextLabel.Text = TextField.Text;
 			TextField.ResignFirstResponder();
 		}
 
