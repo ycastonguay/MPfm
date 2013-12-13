@@ -34,6 +34,17 @@ namespace MPfm.iOS.Classes.Controls
 	[Register("MPfmMarkerTableViewCell")]
 	public class MPfmMarkerTableViewCell : UITableViewCell
     {
+		public delegate void DeleteMarker(Guid markerId);
+		public delegate void PunchInMarker(Guid markerId);
+		public delegate void UndoMarker(Guid markerId);
+		public delegate void ChangeMarkerPosition(Guid markerId, float newPositionPercentage);
+		public delegate void SetMarkerPosition(Guid markerId, float newPositionPercentage);
+		public event DeleteMarker OnDeleteMarker;
+		public event PunchInMarker OnPunchInMarker;
+		public event UndoMarker OnUndoMarker;
+		public event ChangeMarkerPosition OnChangeMarkerPosition;
+		public event SetMarkerPosition OnSetMarkerPosition;
+
         private bool _isTextLabelAllowedToChangeFrame = true;
 
         public UILabel IndexTextLabel { get; private set; }
@@ -48,6 +59,8 @@ namespace MPfm.iOS.Classes.Controls
 
         public bool IsTextAnimationEnabled { get; set; }
         public float RightOffset { get; set; }
+
+		public Guid MarkerId { get; set; }
 
 		public MPfmMarkerTableViewCell() : base()
         {
@@ -162,15 +175,8 @@ namespace MPfm.iOS.Classes.Controls
 			Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
 			Slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 			Slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider_gray").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-			Slider.ValueChanged += (sender, e) =>
-			{
-				DetailTextLabel.Text = string.Format("{0}", Slider.Value);
-			};
-			Slider.TouchUpInside += (sender, e) => 
-			{
-				//if(OnPreferenceValueChanged != null)
-				//	OnPreferenceValueChanged(_item);       			
-			};
+			Slider.ValueChanged += (sender, e) => OnChangeMarkerPosition(MarkerId, Slider.Value);
+			Slider.TouchUpInside += (sender, e) => OnSetMarkerPosition(MarkerId, Slider.Value);
 			AddSubview(Slider);
 
 //            SecondaryMenuBackground = new UIView();
@@ -182,17 +188,20 @@ namespace MPfm.iOS.Classes.Controls
 
 		private void HandleOnDeleteButtonClick(object sender, EventArgs e)
 		{
-
+			if (OnDeleteMarker != null)
+				OnDeleteMarker(MarkerId);
 		}
 
 		private void HandleOnPunchInButtonClick(object sender, EventArgs e)
 		{
-
+			if (OnPunchInMarker != null)
+				OnPunchInMarker(MarkerId);
 		}
 
 		private void HandleOnUndoButtonClick(object sender, EventArgs e)
 		{
-
+			if (OnUndoMarker != null)
+				OnUndoMarker(MarkerId);
 		}
 
         public override void LayoutSubviews()

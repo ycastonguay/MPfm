@@ -264,7 +264,7 @@ namespace MPfm.iOS.Classes.Controllers
         public override void ViewDidLayoutSubviews()
         {
             base.ViewDidLayoutSubviews();
-            Tracing.Log("PlayerVC - ViewDidLayoutSubviews - View.Width: {0} - scrollView.Width: {1}", View.Frame.Width, scrollView.Frame.Width);
+			//Tracing.Log("PlayerVC - ViewDidLayoutSubviews - View.Width: {0} - scrollView.Width: {1}", View.Frame.Width, scrollView.Frame.Width);
 
 			if (graphView != null)
 				graphView.SetNeedsDisplay();

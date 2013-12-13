@@ -30,6 +30,7 @@ using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
+using System.Linq;
 
 namespace MPfm.iOS
 {
@@ -48,6 +49,7 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
 			tableView.BackgroundColor = UIColor.Clear;
+			tableView.DelaysContentTouches = true;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
@@ -74,17 +76,17 @@ namespace MPfm.iOS
 
             PointF pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
+			NSIndexPath indexPathEdit = NSIndexPath.FromRowSection(_currentEditIndex, 0);
 			if (indexPath != null)
 			{
 				Tracing.Log("MarkersViewController - HandleLongPress");
 
 				var cell = (MPfmMarkerTableViewCell)tableView.CellAt(indexPath);
-				var previousCell = (MPfmMarkerTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(_currentEditIndex, 0));
+				var previousCell = (MPfmMarkerTableViewCell)tableView.CellAt(indexPathEdit);
 
 				// Execute animation for new row height (as simple as that!)
 				_currentEditIndex = _currentEditIndex == indexPath.Row ? -1 : indexPath.Row;
 				tableView.BeginUpdates();
-				//tableView.ReloadRows(new NSIndexPath[1] { indexPath }, UITableViewRowAnimation.Bottom);
 				tableView.EndUpdates();			
 
 				if (previousCell != null)
@@ -93,7 +95,8 @@ namespace MPfm.iOS
 				{
 					if (_currentEditIndex == -1)
 					{
-						cell.CollapseCell();
+						if(indexPath.Row != indexPathEdit.Row)
+							cell.CollapseCell();
 					}
 					else
 					{
@@ -113,23 +116,31 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
+			var item = _markers[indexPath.Row];
 			MPfmMarkerTableViewCell cell = (MPfmMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
                 var cellStyle = UITableViewCellStyle.Subtitle;                
 				cell = new MPfmMarkerTableViewCell(cellStyle, _cellIdentifier);
+				cell.OnDeleteMarker += HandleOnDeleteMarker;
+				cell.OnPunchInMarker += HandleOnPunchInMarker;
+				cell.OnUndoMarker += HandleOnUndoMarker;
+				cell.OnChangeMarkerPosition += HandleOnChangeMarkerPosition;
+				cell.OnSetMarkerPosition += HandleOnSetMarkerPosition;
             }
 
             cell.Tag = indexPath.Row;
             cell.BackgroundColor = UIColor.Clear;
             cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
-            cell.TextLabel.Text = _markers[indexPath.Row].Name;
-			cell.TextField.Text = _markers[indexPath.Row].Name;
-            cell.DetailTextLabel.Text = _markers[indexPath.Row].Position;
+			cell.TextLabel.Text = item.Name;
+			cell.TextField.Text = item.Name;
+			cell.DetailTextLabel.Text = item.Position;
+			cell.Slider.Value = item.PositionPercentage;
+			cell.MarkerId = item.MarkerId;
 
             return cell;
         }
-        
+		        
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
@@ -181,6 +192,45 @@ namespace MPfm.iOS
 			actionSheet.ShowFromTabBar(appDelegate.MainViewController.TabBarController.TabBar);
         }
 
+		private void HandleOnDeleteMarker(Guid markerId)
+		{
+			var item = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+			if (item == null)
+				return;
+
+			var alertView = new UIAlertView("Delete confirmation", string.Format("Are you sure you wish to delete {0}?", item.Name), null, "OK", new string[1] { "Cancel" });
+			alertView.Clicked += (object sender2, UIButtonEventArgs e2) => {
+				switch(e2.ButtonIndex)
+				{
+					case 0:
+						OnDeleteMarker(item);
+						break;
+				}
+				_currentEditIndex = -1;
+			};
+			alertView.Show();
+		}
+
+		private void HandleOnPunchInMarker(Guid markerId)
+		{
+			OnPunchInMarker(markerId);
+		}
+
+		private void HandleOnUndoMarker(Guid markerId)
+		{
+			OnUndoMarker(markerId);
+		}
+
+		private void HandleOnChangeMarkerPosition(Guid markerId, float newPositionPercentage)
+		{
+			OnChangeMarkerPosition(markerId, newPositionPercentage);
+		}
+
+		private void HandleOnSetMarkerPosition(Guid markerId, float newPositionPercentage)
+		{
+			OnSetMarkerPosition(markerId, newPositionPercentage);
+		}
+
         #region IMarkersView implementation
 
         public Action OnAddMarker { get; set; }
@@ -188,6 +238,11 @@ namespace MPfm.iOS
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }
+		public Action<Marker> OnUpdateMarker { get; set; }
+		public Action<Guid, float> OnChangeMarkerPosition { get; set; }
+		public Action<Guid, float> OnSetMarkerPosition { get; set; }
+		public Action<Guid> OnPunchInMarker { get; set; }
+		public Action<Guid> OnUndoMarker { get; set; }
 
         public void MarkerError(Exception ex)
         {
@@ -204,6 +259,26 @@ namespace MPfm.iOS
                 tableView.ReloadData();
             });
         }
+
+		public void RefreshMarkerPosition(Marker marker)
+		{
+			InvokeOnMainThread(() => {
+				int index = _markers.FindIndex(x => x.MarkerId == marker.MarkerId);
+				if(index >= 0)
+					_markers[index] = marker;
+
+				tableView.ReloadData();
+
+//				var marker = _markers.FirstOrDefault(x => x.MarkerId == marker.MarkerId);
+//				if(marker == null)
+//					return;
+//
+//				marker.Position = position;
+				//marker.PositionBytes
+				//marker.PositionSamples
+
+			});
+		}
 
         #endregion
     }

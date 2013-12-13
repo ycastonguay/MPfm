@@ -29,6 +29,7 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmPlayerButton")]
     public class MPfmPlayerButton : UIButton
     {
+		private bool _isAnimating;
         private CAShapeLayer _layerCircle;
 
         public UIImageView GlyphImageView { get; private set; }
@@ -67,7 +68,6 @@ namespace MPfm.iOS.Classes.Controls
             GlyphImageView = new UIImageView();
             GlyphImageView.BackgroundColor = UIColor.Clear;
             GlyphImageView.Layer.AnchorPoint = new PointF(0.5f, 0.5f);
-            //GlyphImageView.Frame = new RectangleF(0, 0, 50, 50);
             GlyphImageView.Frame = new RectangleF((Frame.Width - 50) / 2, (Frame.Height - 50) / 2, 50, 50);
             GlyphImageView.Alpha = 0.7f;
 
@@ -84,7 +84,9 @@ namespace MPfm.iOS.Classes.Controls
 
 			float radius = Bounds.Width / 2;
 			_layerCircle.Path = UIBezierPath.FromRoundedRect(new RectangleF(0, 0, 2f * radius, 2f * radius), radius).CGPath;
-			GlyphImageView.Frame = new RectangleF((Frame.Width - 50) / 2, (Frame.Height - 50) / 2, 50, 50);
+
+			//if(!_isAnimating)
+			//	GlyphImageView.Frame = new RectangleF((Frame.Width - 50) / 2, (Frame.Height - 50) / 2, 50, 50);
 		}
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -111,13 +113,13 @@ namespace MPfm.iOS.Classes.Controls
 
         private void AnimatePress(bool on)
         {
-            Console.WriteLine("Playerbutton - AnimatePress - on: {0}", on);
             if (!on)
             {
                 UIView.Animate(0.1, () => {
+					_isAnimating = true;
                     GlyphImageView.Transform = CGAffineTransform.MakeScale(1, 1);
                     GlyphImageView.Alpha = 0.7f;
-                });
+				}, () => _isAnimating = false);
                 UIView.Animate(0.05, () => {
                     _layerCircle.FillColor = GlobalTheme.BackgroundColor.CGColor;
                     _layerCircle.StrokeColor = GlobalTheme.MainLightColor.CGColor;
@@ -127,9 +129,10 @@ namespace MPfm.iOS.Classes.Controls
             else
             {
                 UIView.Animate(0.05, () => {
+					_isAnimating = true;
                     GlyphImageView.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
                     GlyphImageView.Alpha = 1f;
-                });
+				}, () => _isAnimating = false);
                 UIView.Animate(0.025, () => {
                     _layerCircle.FillColor = GlobalTheme.MainColor.CGColor;
                     _layerCircle.StrokeColor = GlobalTheme.LightColor.ColorWithAlpha(0.5f).CGColor;

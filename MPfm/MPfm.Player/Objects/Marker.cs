@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.Core.Attributes;
 
 namespace MPfm.Player.Objects
 {
@@ -53,6 +54,10 @@ namespace MPfm.Player.Objects
         /// Marker position (in samples).
         /// </summary>
         public uint PositionSamples { get; set; }
+
+		[DatabaseField(false)] // Do not save to database
+		public float PositionPercentage { get; set; }
+
 
         /// <summary>
         /// Default constructor for the Marker class.

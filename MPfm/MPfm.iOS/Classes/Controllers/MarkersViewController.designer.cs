@@ -19,7 +19,7 @@ namespace MPfm.iOS
 		MonoTouch.UIKit.UILabel lblTitle { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITableView tableView { get; set; }
+		MPfm.iOS.Classes.Controls.MPfmTableView tableView { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UIView viewBackground { get; set; }
@@ -29,9 +29,9 @@ namespace MPfm.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (tableView != null) {
-				tableView.Dispose ();
-				tableView = null;
+			if (btnAddMarker != null) {
+				btnAddMarker.Dispose ();
+				btnAddMarker = null;
 			}
 
 			if (lblTitle != null) {
@@ -39,9 +39,9 @@ namespace MPfm.iOS
 				lblTitle = null;
 			}
 
-			if (btnAddMarker != null) {
-				btnAddMarker.Dispose ();
-				btnAddMarker = null;
+			if (tableView != null) {
+				tableView.Dispose ();
+				tableView = null;
 			}
 
 			if (viewBackground != null) {

@@ -66,6 +66,11 @@ namespace MPfm.MVP.Presenters
             view.OnEditMarker = EditMarker;
             view.OnSelectMarker = SelectMarker;
             view.OnDeleteMarker = DeleteMarker;
+            view.OnChangeMarkerPosition = ChangeMarkerPosition;
+            view.OnSetMarkerPosition = SetMarkerPosition;
+            view.OnUpdateMarker = UpdateMarker;
+            view.OnPunchInMarker = PunchInMarker;
+            view.OnUndoMarker = UndoMarker;
 
             // This will bind the view; data can be refreshed afterwards
             base.BindView(view);
@@ -133,6 +138,7 @@ namespace MPfm.MVP.Presenters
                 int ms = (int)ConvertAudio.ToMS(marker.PositionSamples, (uint)_playerService.CurrentPlaylistItem.AudioFile.SampleRate);
                 marker.Position = Conversion.MillisecondsToTimeString((ulong)ms);
                 marker.AudioFileId = _playerService.CurrentPlaylistItem.AudioFile.Id;
+                marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
                 _libraryService.InsertMarker(marker);
 
                 _messageHub.PublishAsync(new MarkerUpdatedMessage(this){ 
@@ -186,6 +192,10 @@ namespace MPfm.MVP.Presenters
             try
             {
                 _markers = _libraryService.SelectMarkers(audioFileId);
+
+                foreach(var marker in _markers)
+                    marker.PositionPercentage = (float)marker.PositionBytes / (float)_playerService.CurrentPlaylistItem.LengthBytes;
+
                 View.RefreshMarkers(_markers);
             }
             catch(Exception ex)
@@ -195,26 +205,38 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void ChangePosition(Guid markerId, float newPositionPercentage)
+
+        private void ChangeMarkerPosition(Guid markerId, float newPositionPercentage)
+        {
+            var lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+            long positionBytes = (long)(newPositionPercentage * lengthBytes);
+            ChangeMarkerPosition(markerId, positionBytes);
+        }
+
+        private void ChangeMarkerPosition(Guid markerId, long positionBytes)
         {
             try
             {
-//                _marker = _libraryService.SelectMarker(_markerId);
-////                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-////                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-//
-//                // Calculate new position from 0.0f/1.0f scale
-//                long positionBytes = (long)(newPositionPercentage * _lengthBytes);
-//                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)_audioFile.BitsPerSample, _audioFile.AudioChannels);
-//                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)_audioFile.SampleRate);
-//                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
-//
-//                // Update local marker and update view
-//                _marker.Position = positionString;
-//                _marker.PositionBytes = positionBytes;
-//                _marker.PositionSamples = (uint)positionSamples;
-//                float positionPercentage = (float)_marker.PositionBytes / (float)_lengthBytes;
-//                View.RefreshMarkerPosition(positionString, positionPercentage);
+                // TODO: In another thread!
+                Tracing.Log("MarkersPresenter - ChangeMarkerPosition - markerId: {0} positionBytes: {1}", markerId, positionBytes);
+                var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+                var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+                var lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+
+                // Calculate new position from 0.0f/1.0f scale
+                long positionSamples = ConvertAudio.ToPCM(positionBytes, (uint)audioFile.BitsPerSample, audioFile.AudioChannels);
+                int positionMS = (int)ConvertAudio.ToMS(positionSamples, (uint)audioFile.SampleRate);
+                string positionString = Conversion.MillisecondsToTimeString((ulong)positionMS);
+                float positionPercentage = (float)marker.PositionBytes / (float)lengthBytes;
+
+                // Update marker and update view
+                marker.Position = positionString;
+                marker.PositionBytes = positionBytes;
+                marker.PositionSamples = (uint)positionSamples;
+                marker.PositionPercentage = positionPercentage;
+
+                //UpdateMarker(marker); // Do not save marker all the time when the position keeps changing. Maybe call UpdateMarker instead at MouseUp/TouchUp
+                View.RefreshMarkerPosition(marker);
             }
             catch(Exception ex)
             {
@@ -223,27 +245,30 @@ namespace MPfm.MVP.Presenters
             }
         }
 
+        private void SetMarkerPosition(Guid markerId, float newPositionPercentage)
+        {
+            ChangeMarkerPosition(markerId, newPositionPercentage);
+            var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+            UpdateMarker(marker);
+        }
+
         private void UpdateMarker(Marker marker)
         {
             try
             {
-//                if(string.IsNullOrEmpty(marker.Name))
-//                {
-//                    View.MarkerError(new ArgumentNullException("The marker name must not be empty!"));
-//                    return;
-//                }
-//
-//                // Copy everything except position
-//                _marker.Name = marker.Name;
-//                _marker.Comments = marker.Comments;
-//
-//                // Update marker and close view
-//                _libraryService.UpdateMarker(_marker);
-//                _messageHub.PublishAsync(new MarkerUpdatedMessage(this){ 
-//                    AudioFileId = _audioFile.Id,
-//                    MarkerId = _markerId
-//                });
-//                View.DismissView();
+                Tracing.Log("MarkersPresenter - UpdateMarker - markerId: {0}", marker.MarkerId);
+                if(string.IsNullOrEmpty(marker.Name))
+                {
+                    View.MarkerError(new ArgumentNullException("The marker name must not be empty!"));
+                    return;
+                }
+
+                // Update marker and close view
+                _libraryService.UpdateMarker(marker);
+                _messageHub.PublishAsync(new MarkerUpdatedMessage(this){ 
+                    AudioFileId = marker.AudioFileId,
+                    MarkerId = marker.MarkerId
+                });
             }
             catch(Exception ex)
             {
@@ -252,24 +277,53 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void RefreshMarker(Guid markerId)
+        private void PunchInMarker(Guid markerId)
         {
             try
             {
-//                // Make a local copy of data in case the song changes
-//                _marker = _libraryService.SelectMarker(_markerId);
-//                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
-//                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
-//                float positionPercentage = (float)_marker.PositionBytes / (float)_lengthBytes;
-//                View.RefreshMarker(_marker, _audioFile);
-//                View.RefreshMarkerPosition(_marker.Position, positionPercentage);
+                Tracing.Log("MarkersPresenter - PunchInMarker - markerId: {0}", markerId);
+                var position = _playerService.GetPosition();
+                ChangeMarkerPosition(markerId, position.PositionBytes);
+                var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+                UpdateMarker(marker);
             }
             catch(Exception ex)
             {
-                Tracing.Log("An error occured while refreshing a marker: " + ex.Message);
+                Tracing.Log("An error occured while punching in a marker: " + ex.Message);
                 View.MarkerError(ex);
             }
         }
+
+        private void UndoMarker(Guid markerId)
+        {
+            try
+            {
+            }
+            catch(Exception ex)
+            {
+                Tracing.Log("An error occured while undoing a marker: " + ex.Message);
+                View.MarkerError(ex);
+            }
+        }
+
+//        private void RefreshMarker(Guid markerId)
+//        {
+//            try
+//            {
+////                // Make a local copy of data in case the song changes
+////                _marker = _libraryService.SelectMarker(_markerId);
+////                _audioFile = _playerService.CurrentPlaylistItem.AudioFile;
+////                _lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
+////                float positionPercentage = (float)_marker.PositionBytes / (float)_lengthBytes;
+////                View.RefreshMarker(_marker, _audioFile);
+////                View.RefreshMarkerPosition(_marker.Position, positionPercentage);
+//            }
+//            catch(Exception ex)
+//            {
+//                Tracing.Log("An error occured while refreshing a marker: " + ex.Message);
+//                View.MarkerError(ex);
+//            }
+//        }
 
     }
 
