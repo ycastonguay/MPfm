@@ -58,24 +58,106 @@ namespace MPfm.iOS
 			//btnAddMarker.Alpha = GlobalTheme.PlayerPanelButtonAlpha;
 			btnAddMarker.GlyphImageView.Image = UIImage.FromBundle("Images/Player/add");
 
-            UILongPressGestureRecognizer longPress = new UILongPressGestureRecognizer(HandleLongPress);
-            longPress.MinimumPressDuration = 0.7f;
-            longPress.WeakDelegate = this;
-            tableView.AddGestureRecognizer(longPress);
-
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindMarkersView(this);
         }
 
-        private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
+        [Export ("tableView:numberOfRowsInSection:")]
+        public int RowsInSection(UITableView tableview, int section)
         {
-            if (gestureRecognizer.State != UIGestureRecognizerState.Began)
-                return;
+            return _markers.Count;
+        }
+        
+        [Export ("tableView:cellForRowAtIndexPath:")]
+        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+			var item = _markers[indexPath.Row];
+			MPfmMarkerTableViewCell cell = (MPfmMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+            if (cell == null)
+            {
+                var cellStyle = UITableViewCellStyle.Subtitle;                
+				cell = new MPfmMarkerTableViewCell(cellStyle, _cellIdentifier);
+				cell.OnLongPressMarker += HandleOnLongPressMarker;
+				cell.OnDeleteMarker += HandleOnDeleteMarker;
+				cell.OnPunchInMarker += HandleOnPunchInMarker;
+				cell.OnUndoMarker += HandleOnUndoMarker;
+				cell.OnChangeMarkerPosition += HandleOnChangeMarkerPosition;
+				cell.OnSetMarkerPosition += HandleOnSetMarkerPosition;
+            }
 
-            PointF pt = gestureRecognizer.LocationInView(tableView);
-            NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
+            cell.Tag = indexPath.Row;
+            cell.BackgroundColor = UIColor.Clear;
+            cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
+			cell.TextLabel.Text = item.Name;
+			cell.TextField.Text = item.Name;
+			cell.DetailTextLabel.Text = item.Position;
+			cell.Slider.Value = item.PositionPercentage;
+			cell.MarkerId = item.MarkerId;
+
+			return cell;
+        }
+			        
+        [Export ("tableView:didSelectRowAtIndexPath:")]
+        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if(OnSelectMarker != null)
+            {
+                OnSelectMarker(_markers[indexPath.Row]);
+                tableView.DeselectRow(indexPath, true);
+            }
+        }
+
+		[Export ("tableView:heightForRowAtIndexPath:")]
+		public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} indexPath.Section: {1} _currentEditIndex: {2}", indexPath.Row, indexPath.Section, _currentEditIndex);
+			return indexPath.Row == _currentEditIndex ? 172 : 52;
+		}
+
+		[Export ("tableView:heightForFooterInSection:")]
+		public float HeightForFooterInSection(UITableView tableView, int section)
+		{
+			// This will create an "invisible" footer
+			return 0.01f;
+			//return 1f;
+		}
+
+		[Export ("tableView:viewForFooterInSection:")]
+		public UIView ViewForFooterInSection(UITableView tableview, int section)
+		{
+			// Remove extra separators
+			return new UIView();
+		}
+
+        partial void actionAddMarker(NSObject sender)
+        {
+            // Show a list of templates for the marker name
+            UIActionSheet actionSheet = new UIActionSheet("Select a marker name template:", null, "Cancel", null, new string[4] { "Verse", "Chorus", "Bridge", "Solo" });
+            actionSheet.Style = UIActionSheetStyle.BlackTranslucent;
+            actionSheet.Clicked += (eventSender, e) => {
+
+                // Check for cancel
+                if(e.ButtonIndex == 4)
+                    return;
+
+                OnAddMarkerWithTemplate((MarkerTemplateNameType)e.ButtonIndex);
+            };
+
+            // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
+            AppDelegate appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+			actionSheet.ShowFromTabBar(appDelegate.MainViewController.TabBarController.TabBar);
+        }
+
+		private void HandleOnLongPressMarker(Guid markerId)
+		{
+			Tracing.Log("HandleOnLongPressMarker - markerId: {0}", markerId);
+			int index = _markers.FindIndex(x => x.MarkerId == markerId);
+			if (index == -1)
+				return;
+
+			NSIndexPath indexPath = NSIndexPath.FromRowSection(index, 0);
 			NSIndexPath indexPathEdit = NSIndexPath.FromRowSection(_currentEditIndex, 0);
 			if (indexPath != null)
 			{
@@ -105,92 +187,7 @@ namespace MPfm.iOS
 					}
 				}
 			}
-        }
-
-        [Export ("tableView:numberOfRowsInSection:")]
-        public int RowsInSection(UITableView tableview, int section)
-        {
-            return _markers.Count;
-        }
-        
-        [Export ("tableView:cellForRowAtIndexPath:")]
-        public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-        {
-			var item = _markers[indexPath.Row];
-			MPfmMarkerTableViewCell cell = (MPfmMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
-            if (cell == null)
-            {
-                var cellStyle = UITableViewCellStyle.Subtitle;                
-				cell = new MPfmMarkerTableViewCell(cellStyle, _cellIdentifier);
-				cell.OnDeleteMarker += HandleOnDeleteMarker;
-				cell.OnPunchInMarker += HandleOnPunchInMarker;
-				cell.OnUndoMarker += HandleOnUndoMarker;
-				cell.OnChangeMarkerPosition += HandleOnChangeMarkerPosition;
-				cell.OnSetMarkerPosition += HandleOnSetMarkerPosition;
-            }
-
-            cell.Tag = indexPath.Row;
-            cell.BackgroundColor = UIColor.Clear;
-            cell.IndexTextLabel.Text = Conversion.IndexToLetter(indexPath.Row).ToString();
-			cell.TextLabel.Text = item.Name;
-			cell.TextField.Text = item.Name;
-			cell.DetailTextLabel.Text = item.Position;
-			cell.Slider.Value = item.PositionPercentage;
-			cell.MarkerId = item.MarkerId;
-
-            return cell;
-        }
-		        
-        [Export ("tableView:didSelectRowAtIndexPath:")]
-        public void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
-            if(OnSelectMarker != null)
-            {
-                OnSelectMarker(_markers[indexPath.Row]);
-                tableView.DeselectRow(indexPath, true);
-            }
-        }
-
-		[Export ("tableView:heightForRowAtIndexPath:")]
-		public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
-		{
-			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} indexPath.Section: {1} _currentEditIndex: {2}", indexPath.Row, indexPath.Section, _currentEditIndex);
-			return indexPath.Row == _currentEditIndex ? 172 : 52; //138 : 52;
 		}
-
-		[Export ("tableView:heightForFooterInSection:")]
-		public float HeightForFooterInSection(UITableView tableView, int section)
-		{
-			// This will create an "invisible" footer
-			//return 0.01f;
-			return 1f;
-		}
-
-		[Export ("tableView:viewForFooterInSection:")]
-		public UIView ViewForFooterInSection(UITableView tableview, int section)
-		{
-			// Remove extra separators
-			return new UIView();
-		}
-
-        partial void actionAddMarker(NSObject sender)
-        {
-            // Show a list of templates for the marker name
-            UIActionSheet actionSheet = new UIActionSheet("Select a marker name template:", null, "Cancel", null, new string[4] { "Verse", "Chorus", "Bridge", "Solo" });
-            actionSheet.Style = UIActionSheetStyle.BlackTranslucent;
-            actionSheet.Clicked += (eventSender, e) => {
-
-                // Check for cancel
-                if(e.ButtonIndex == 4)
-                    return;
-
-                OnAddMarkerWithTemplate((MarkerTemplateNameType)e.ButtonIndex);
-            };
-
-            // Must use the tab bar controller to spawn the action sheet correctly. Remember, we're in a UIScrollView...
-            AppDelegate appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
-			actionSheet.ShowFromTabBar(appDelegate.MainViewController.TabBarController.TabBar);
-        }
 
 		private void HandleOnDeleteMarker(Guid markerId)
 		{
@@ -282,4 +279,38 @@ namespace MPfm.iOS
 
         #endregion
     }
+
+//	public class MarkersLongPressGestureRecognizer : UILongPressGestureRecognizer
+//	{
+//		private bool _cancelTouches = false;
+//
+//		public MarkersLongPressGestureRecognizer(Action<UILongPressGestureRecognizer> action) 
+//			: base(action)
+//		{
+//
+//		}
+//
+//		public override bool CancelsTouchesInView
+//		{
+//			get
+//			{
+//				Tracing.Log("MarkersLongPressGR - CancelsTouchesInView - Get value _cancelTouches: {0}", _cancelTouches);
+//				return _cancelTouches;
+//			}
+//			set
+//			{
+//				Tracing.Log("MarkersLongPressGR - CancelsTouchesInView - Set value: {0} _cancelTouches: {1}", value, _cancelTouches);
+//				_cancelTouches = value;
+//			}
+//		}
+//
+//		public override PointF LocationInView(UIView view)
+//		{
+//			// Find a way to cancel long press on controls of MarkersTableViewCell
+//			var location = base.LocationInView(view);
+//			_cancelTouches = location.Y > 44;
+//			Tracing.Log("MarkersLongPressGR - LocationInView - view: {0} - location: {1} cancelTouches: {2}", view.GetType().FullName, location, _cancelTouches);
+//			return location;
+//		}
+//	}
 }

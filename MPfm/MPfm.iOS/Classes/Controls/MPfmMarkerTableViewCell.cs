@@ -34,11 +34,13 @@ namespace MPfm.iOS.Classes.Controls
 	[Register("MPfmMarkerTableViewCell")]
 	public class MPfmMarkerTableViewCell : UITableViewCell
     {
+		public delegate void LongPressMarker(Guid markerId);
 		public delegate void DeleteMarker(Guid markerId);
 		public delegate void PunchInMarker(Guid markerId);
 		public delegate void UndoMarker(Guid markerId);
 		public delegate void ChangeMarkerPosition(Guid markerId, float newPositionPercentage);
 		public delegate void SetMarkerPosition(Guid markerId, float newPositionPercentage);
+		public event LongPressMarker OnLongPressMarker;
 		public event DeleteMarker OnDeleteMarker;
 		public event PunchInMarker OnPunchInMarker;
 		public event UndoMarker OnUndoMarker;
@@ -46,10 +48,9 @@ namespace MPfm.iOS.Classes.Controls
 		public event SetMarkerPosition OnSetMarkerPosition;
 
         private bool _isTextLabelAllowedToChangeFrame = true;
+		private UIView _backgroundView;
 
         public UILabel IndexTextLabel { get; private set; }
-        //public UIView SecondaryMenuBackground { get; private set; }
-
 		public MPfmSemiTransparentRoundButton DeleteButton { get; set; }
 		public MPfmSemiTransparentRoundButton PunchInButton { get; set; }
 		public MPfmSemiTransparentRoundButton UndoButton { get; set; }
@@ -83,10 +84,19 @@ namespace MPfm.iOS.Classes.Controls
             SelectionStyle = UITableViewCellSelectionStyle.None;
            
 //            UIView backView = new UIView(Frame);
-//            backView.BackgroundColor = GlobalTheme.LightColor;
+//			backView.BackgroundColor = UIColor.Blue;
 //            BackgroundView = backView;
-//            BackgroundColor = UIColor.White;
+
+			_backgroundView = new UIView(Frame);
+			_backgroundView.BackgroundColor = UIColor.Clear;
+			AddSubview(_backgroundView);
             
+			// Adding gesture recognizer to BackgroundView doesn't work
+			var longPress = new UILongPressGestureRecognizer(HandleLongPress);
+			longPress.MinimumPressDuration = 0.7f;
+			longPress.WeakDelegate = this;
+			_backgroundView.AddGestureRecognizer(longPress);
+
             UIView backViewSelected = new UIView(Frame);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             SelectedBackgroundView = backViewSelected;     
@@ -186,6 +196,18 @@ namespace MPfm.iOS.Classes.Controls
 //            AddSubview(SecondaryMenuBackground);
         }
 
+		private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
+		{
+			//Tracing.Log("MarkerTableViewCell - HandleLongPress - state: {0}", gestureRecognizer.State);
+			if (gestureRecognizer.State != UIGestureRecognizerState.Began)
+				return;
+
+			PointF pt = gestureRecognizer.LocationInView(BackgroundView);
+			//Tracing.Log("MarkerTableViewCell - HandleLongPress - point: {0}", pt);
+			if (OnLongPressMarker != null)
+				OnLongPressMarker(MarkerId);
+		}
+
 		private void HandleOnDeleteButtonClick(object sender, EventArgs e)
 		{
 			if (OnDeleteMarker != null)
@@ -210,6 +232,7 @@ namespace MPfm.iOS.Classes.Controls
 
 			float padding = 8;
             //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
+			_backgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             float x = 0;
