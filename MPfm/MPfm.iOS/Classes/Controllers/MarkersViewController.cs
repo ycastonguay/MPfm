@@ -38,7 +38,7 @@ namespace MPfm.iOS
     {
         string _cellIdentifier = "MarkerCell";
         List<Marker> _markers;
-		int _currentEditIndex = -1;
+		Guid _currentEditMarkerId = Guid.Empty;
 
         public MarkersViewController()
             : base (UserInterfaceIdiomIsPhone ? "MarkersViewController_iPhone" : "MarkersViewController_iPad", null)
@@ -73,11 +73,13 @@ namespace MPfm.iOS
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
+			//Tracing.Log("MarkersViewController - GetCell - indexPath.Row: {0}", indexPath.Row);
 			var item = _markers[indexPath.Row];
 			MPfmMarkerTableViewCell cell = (MPfmMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
-            if (cell == null)
-            {
-                var cellStyle = UITableViewCellStyle.Subtitle;                
+			if (cell == null)
+			{
+				Tracing.Log("MarkersViewController - GetCell - CREATING NEW cell - indexPath.Row: {0}", indexPath.Row);
+				var cellStyle = UITableViewCellStyle.Subtitle;                
 				cell = new MPfmMarkerTableViewCell(cellStyle, _cellIdentifier);
 				cell.OnLongPressMarker += HandleOnLongPressMarker;
 				cell.OnDeleteMarker += HandleOnDeleteMarker;
@@ -85,7 +87,11 @@ namespace MPfm.iOS
 				cell.OnUndoMarker += HandleOnUndoMarker;
 				cell.OnChangeMarkerPosition += HandleOnChangeMarkerPosition;
 				cell.OnSetMarkerPosition += HandleOnSetMarkerPosition;
-            }
+			}
+			else
+			{
+				Tracing.Log("MarkersViewController - GetCell - REUSING cell - indexPath.Row: {0}", indexPath.Row);
+			}
 
             cell.Tag = indexPath.Row;
             cell.BackgroundColor = UIColor.Clear;
@@ -95,6 +101,26 @@ namespace MPfm.iOS
 			cell.DetailTextLabel.Text = item.Position;
 			cell.Slider.Value = item.PositionPercentage;
 			cell.MarkerId = item.MarkerId;
+
+			// Check if the reused cell should be expanded
+			int editIndex = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
+			Tracing.Log("!!! MarkersViewController - GetCell - indexPath.Row: {0} editIndex: {1} cellExpanded: {2}", indexPath.Row, editIndex, cell.IsExpanded);
+			if (cell.IsExpanded)
+			{
+				if (editIndex != indexPath.Row)
+				{
+					Tracing.Log("MarkersViewController - GetCell - COLLAPSING reused cell - indexPath.Row: {0}", indexPath.Row);
+					cell.CollapseCell(false);
+				}
+			}
+			else
+			{
+				if (editIndex == indexPath.Row)
+				{
+					Tracing.Log("MarkersViewController - GetCell - EXPANDING reused cell - indexPath.Row: {0}", indexPath.Row);
+					cell.ExpandCell(false);
+				}
+			}
 
 			return cell;
         }
@@ -112,8 +138,9 @@ namespace MPfm.iOS
 		[Export ("tableView:heightForRowAtIndexPath:")]
 		public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} indexPath.Section: {1} _currentEditIndex: {2}", indexPath.Row, indexPath.Section, _currentEditIndex);
-			return indexPath.Row == _currentEditIndex ? 172 : 52;
+			int index = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
+			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} index: {1} _currentEditMarkerId: {2}", indexPath.Row, index, _currentEditMarkerId);
+			return index == indexPath.Row ? 172 : 52;
 		}
 
 		[Export ("tableView:heightForFooterInSection:")]
@@ -153,12 +180,13 @@ namespace MPfm.iOS
 		private void HandleOnLongPressMarker(Guid markerId)
 		{
 			Tracing.Log("HandleOnLongPressMarker - markerId: {0}", markerId);
+			int previousIndex = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
 			int index = _markers.FindIndex(x => x.MarkerId == markerId);
 			if (index == -1)
 				return;
 
 			NSIndexPath indexPath = NSIndexPath.FromRowSection(index, 0);
-			NSIndexPath indexPathEdit = NSIndexPath.FromRowSection(_currentEditIndex, 0);
+			NSIndexPath indexPathEdit = NSIndexPath.FromRowSection(previousIndex, 0);
 			if (indexPath != null)
 			{
 				Tracing.Log("MarkersViewController - HandleLongPress");
@@ -167,22 +195,22 @@ namespace MPfm.iOS
 				var previousCell = (MPfmMarkerTableViewCell)tableView.CellAt(indexPathEdit);
 
 				// Execute animation for new row height (as simple as that!)
-				_currentEditIndex = _currentEditIndex == indexPath.Row ? -1 : indexPath.Row;
+				_currentEditMarkerId = _currentEditMarkerId == markerId ? Guid.Empty : markerId;
 				tableView.BeginUpdates();
 				tableView.EndUpdates();			
 
 				if (previousCell != null)
-					previousCell.CollapseCell();
+					previousCell.CollapseCell(true);
 				if (cell != null)
 				{
-					if (_currentEditIndex == -1)
+					if (_currentEditMarkerId == Guid.Empty)
 					{
 						if(indexPath.Row != indexPathEdit.Row)
-							cell.CollapseCell();
+							cell.CollapseCell(true);
 					}
 					else
 					{
-						cell.ExpandCell();
+						cell.ExpandCell(true);
 						tableView.ScrollToRow(indexPath, UITableViewScrollPosition.Top, true);
 					}
 				}
@@ -200,10 +228,10 @@ namespace MPfm.iOS
 				switch(e2.ButtonIndex)
 				{
 					case 0:
+						_currentEditMarkerId = Guid.Empty;
 						OnDeleteMarker(item);
 						break;
 				}
-				_currentEditIndex = -1;
 			};
 			alertView.Show();
 		}
@@ -265,52 +293,9 @@ namespace MPfm.iOS
 					_markers[index] = marker;
 
 				tableView.ReloadData();
-
-//				var marker = _markers.FirstOrDefault(x => x.MarkerId == marker.MarkerId);
-//				if(marker == null)
-//					return;
-//
-//				marker.Position = position;
-				//marker.PositionBytes
-				//marker.PositionSamples
-
 			});
 		}
 
         #endregion
     }
-
-//	public class MarkersLongPressGestureRecognizer : UILongPressGestureRecognizer
-//	{
-//		private bool _cancelTouches = false;
-//
-//		public MarkersLongPressGestureRecognizer(Action<UILongPressGestureRecognizer> action) 
-//			: base(action)
-//		{
-//
-//		}
-//
-//		public override bool CancelsTouchesInView
-//		{
-//			get
-//			{
-//				Tracing.Log("MarkersLongPressGR - CancelsTouchesInView - Get value _cancelTouches: {0}", _cancelTouches);
-//				return _cancelTouches;
-//			}
-//			set
-//			{
-//				Tracing.Log("MarkersLongPressGR - CancelsTouchesInView - Set value: {0} _cancelTouches: {1}", value, _cancelTouches);
-//				_cancelTouches = value;
-//			}
-//		}
-//
-//		public override PointF LocationInView(UIView view)
-//		{
-//			// Find a way to cancel long press on controls of MarkersTableViewCell
-//			var location = base.LocationInView(view);
-//			_cancelTouches = location.Y > 44;
-//			Tracing.Log("MarkersLongPressGR - LocationInView - view: {0} - location: {1} cancelTouches: {2}", view.GetType().FullName, location, _cancelTouches);
-//			return location;
-//		}
-//	}
 }

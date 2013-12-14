@@ -60,6 +60,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public bool IsTextAnimationEnabled { get; set; }
         public float RightOffset { get; set; }
+		public bool IsExpanded { get; private set; }
 
 		public Guid MarkerId { get; set; }
 
@@ -273,7 +274,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void SetHighlighted(bool highlighted, bool animated)
         {
-			Tracing.Log("MarkerTableViewCell - SetHighlighted - highlighted: {0} animated: {1}", highlighted, animated);
+			//Tracing.Log("MarkerTableViewCell - SetHighlighted - highlighted: {0} animated: {1}", highlighted, animated);
 //            SelectedBackgroundView.Alpha = 1;
 //            SelectedBackgroundView.Hidden = !highlighted;
             DetailTextLabel.Highlighted = highlighted;
@@ -281,11 +282,7 @@ namespace MPfm.iOS.Classes.Controls
 
 			if (!highlighted)
 			{
-				UIView.Animate(0.5, () => {
-					SelectedBackgroundView.Alpha = 0;
-				}, () => {
-					SelectedBackgroundView.Hidden = true;
-				});
+				UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => SelectedBackgroundView.Hidden = true);
 			}
 			else
 			{
@@ -298,18 +295,11 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void SetSelected(bool selected, bool animated)
         {
-			Tracing.Log("MarkerTableViewCell - SetSelected - selected: {0} animated: {1}", selected, animated);
-
-            //if(selected)
-                //SecondaryMenuBackground.BackgroundColor = GlobalTheme.SecondaryColor;
+			//Tracing.Log("MarkerTableViewCell - SetSelected - selected: {0} animated: {1}", selected, animated);
 
             if (!selected)
             {
-                UIView.Animate(0.5, () => {
-                    SelectedBackgroundView.Alpha = 0;
-                }, () => {
-                    SelectedBackgroundView.Hidden = true;
-                });
+                UIView.Animate(0.5, () => SelectedBackgroundView.Alpha = 0, () => SelectedBackgroundView.Hidden = true);
             }
             else
             {
@@ -320,34 +310,56 @@ namespace MPfm.iOS.Classes.Controls
             base.SetSelected(selected, animated);
         }
 
-		public void ExpandCell()
+		public void ExpandCell(bool animated)
 		{
 			Tracing.Log("MarkerTableViewCell - ExpandCell - title: {0}", TextLabel.Text);
-			UIView.Animate(0.2, () =>
+			if (animated)
 			{
-				TextField.Alpha = 1;
-				TextLabel.Alpha = 0;
-				Slider.Alpha = 1;
-				DeleteButton.Alpha = 1;
-				PunchInButton.Alpha = 1;
-				UndoButton.Alpha = 1;
-				DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128 - 48, 6, 120, 38);
-			}, null);
+				UIView.Animate(0.2, ExpandCell, () => IsExpanded = true);
+			}
+			else
+			{
+				ExpandCell();
+				IsExpanded = true;
+			}
 		}
 
-		public void CollapseCell()
+		private void ExpandCell()
+		{
+			TextField.Alpha = 1;
+			TextLabel.Alpha = 0;
+			Slider.Alpha = 1;
+			DeleteButton.Alpha = 1;
+			PunchInButton.Alpha = 1;
+			UndoButton.Alpha = 1;
+			DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128 - 48, 6, 120, 38);
+		}
+
+		public void CollapseCell(bool animated)
 		{
 			Tracing.Log("MarkerTableViewCell - CollapseCell - title: {0}", TextLabel.Text);
-			UIView.Animate(0.2, () =>
+			if (animated)
 			{
-				TextField.Alpha = 0;
-				TextLabel.Alpha = 1;
-				Slider.Alpha = 0;
-				DeleteButton.Alpha = 0;
-				PunchInButton.Alpha = 0;
-				UndoButton.Alpha = 0;
-				DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128, 6, 120, 38);
-			}, null);
+				UIView.Animate(0.2, CollapseCell, () => IsExpanded = false);
+			}
+			else
+			{
+				CollapseCell();
+				IsExpanded = false;
+			}
+
+		}
+
+		private void CollapseCell()
+		{
+			TextField.Alpha = 0;
+			TextLabel.Alpha = 1;
+			Slider.Alpha = 0;
+			DeleteButton.Alpha = 0;
+			PunchInButton.Alpha = 0;
+			UndoButton.Alpha = 0;
+			DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128, 6, 120, 38);
+
 			TextLabel.Text = TextField.Text;
 			TextField.ResignFirstResponder();
 		}
