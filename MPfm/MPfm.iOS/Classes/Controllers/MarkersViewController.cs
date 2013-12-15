@@ -78,12 +78,13 @@ namespace MPfm.iOS
 			MPfmMarkerTableViewCell cell = (MPfmMarkerTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
 			if (cell == null)
 			{
-				Tracing.Log("MarkersViewController - GetCell - CREATING NEW cell - indexPath.Row: {0}", indexPath.Row);
+				//Tracing.Log("MarkersViewController - GetCell - CREATING NEW cell - indexPath.Row: {0}", indexPath.Row);
 				var cellStyle = UITableViewCellStyle.Subtitle;                
 				cell = new MPfmMarkerTableViewCell(cellStyle, _cellIdentifier);
 				cell.OnLongPressMarker += HandleOnLongPressMarker;
 				cell.OnDeleteMarker += HandleOnDeleteMarker;
 				cell.OnPunchInMarker += HandleOnPunchInMarker;
+				cell.OnChangeMarkerName += HandleOnChangeMarkerName; 
 				cell.OnChangeMarkerPosition += HandleOnChangeMarkerPosition;
 				cell.OnSetMarkerPosition += HandleOnSetMarkerPosition;
 			}
@@ -123,7 +124,7 @@ namespace MPfm.iOS
 
 			return cell;
         }
-			        
+				        
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
@@ -246,6 +247,11 @@ namespace MPfm.iOS
 			OnUndoMarker(markerId);
 		}
 
+		private void HandleOnChangeMarkerName(Guid markerId, string newName)
+		{
+			OnChangeMarkerName(markerId, newName);
+		}
+
 		private void HandleOnChangeMarkerPosition(Guid markerId, float newPositionPercentage)
 		{
 			OnChangeMarkerPosition(markerId, newPositionPercentage);
@@ -264,6 +270,7 @@ namespace MPfm.iOS
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }
 		public Action<Marker> OnUpdateMarker { get; set; }
+		public Action<Guid, string> OnChangeMarkerName { get; set; }
 		public Action<Guid, float> OnChangeMarkerPosition { get; set; }
 		public Action<Guid, float> OnSetMarkerPosition { get; set; }
 		public Action<Guid> OnPunchInMarker { get; set; }

@@ -39,12 +39,14 @@ namespace MPfm.iOS.Classes.Controls
 		public delegate void PunchInMarker(Guid markerId);
 		public delegate void UndoMarker(Guid markerId);
 		public delegate void ChangeMarkerPosition(Guid markerId, float newPositionPercentage);
+		public delegate void ChangeMarkerName(Guid markerId, string newName);
 		public delegate void SetMarkerPosition(Guid markerId, float newPositionPercentage);
 		public event LongPressMarker OnLongPressMarker;
 		public event DeleteMarker OnDeleteMarker;
 		public event PunchInMarker OnPunchInMarker;
 		public event UndoMarker OnUndoMarker;
 		public event ChangeMarkerPosition OnChangeMarkerPosition;
+		public event ChangeMarkerName OnChangeMarkerName;
 		public event SetMarkerPosition OnSetMarkerPosition;
 
         private bool _isTextLabelAllowedToChangeFrame = true;
@@ -146,6 +148,13 @@ namespace MPfm.iOS.Classes.Controls
 
 			// Make sure the Done key closes the keyboard
 			TextField.ShouldReturn = (a) => {
+				if(OnChangeMarkerName != null)
+				{
+					var markerId2 = MarkerId;
+					var text = TextField.Text;	
+					OnChangeMarkerName(MarkerId, TextField.Text);
+				}
+
 				TextLabel.Text = TextField.Text;
 				TextField.ResignFirstResponder();
 				return true;
