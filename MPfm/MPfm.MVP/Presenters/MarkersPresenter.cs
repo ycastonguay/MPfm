@@ -185,6 +185,10 @@ namespace MPfm.MVP.Presenters
                 {
                     _markers.Remove(marker);
                     _libraryService.DeleteMarker(marker.MarkerId);
+                    _messageHub.PublishAsync(new MarkerUpdatedMessage(this) { 
+                        AudioFileId = marker.AudioFileId,
+                        MarkerId = marker.MarkerId
+                    });
                     View.RefreshMarkers(_markers);
                 } 
                 catch (Exception ex)
