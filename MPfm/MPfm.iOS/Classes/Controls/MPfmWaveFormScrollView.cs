@@ -268,6 +268,11 @@ namespace MPfm.iOS.Classes.Controls
             WaveFormView.SetMarkers(markers);
         }
 
+		public void SetMarkerPosition(Marker marker)
+		{
+			WaveFormView.SetMarkerPosition(marker);
+		}
+
         public void SetPosition(long position)
         {
             WaveFormView.Position = position;

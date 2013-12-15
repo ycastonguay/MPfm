@@ -90,7 +90,7 @@ namespace MPfm.iOS
 			}
 			else
 			{
-				Tracing.Log("MarkersViewController - GetCell - REUSING cell - indexPath.Row: {0}", indexPath.Row);
+				//Tracing.Log("MarkersViewController - GetCell - REUSING cell - indexPath.Row: {0}", indexPath.Row);
 			}
 
             cell.Tag = indexPath.Row;
@@ -104,12 +104,12 @@ namespace MPfm.iOS
 
 			// Check if the reused cell should be expanded
 			int editIndex = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
-			Tracing.Log("!!! MarkersViewController - GetCell - indexPath.Row: {0} editIndex: {1} cellExpanded: {2}", indexPath.Row, editIndex, cell.IsExpanded);
+			//Tracing.Log("!!! MarkersViewController - GetCell - indexPath.Row: {0} editIndex: {1} cellExpanded: {2}", indexPath.Row, editIndex, cell.IsExpanded);
 			if (cell.IsExpanded)
 			{
 				if (editIndex != indexPath.Row)
 				{
-					Tracing.Log("MarkersViewController - GetCell - COLLAPSING reused cell - indexPath.Row: {0}", indexPath.Row);
+					//Tracing.Log("MarkersViewController - GetCell - COLLAPSING reused cell - indexPath.Row: {0}", indexPath.Row);
 					cell.CollapseCell(false);
 				}
 			}
@@ -117,7 +117,7 @@ namespace MPfm.iOS
 			{
 				if (editIndex == indexPath.Row)
 				{
-					Tracing.Log("MarkersViewController - GetCell - EXPANDING reused cell - indexPath.Row: {0}", indexPath.Row);
+					//Tracing.Log("MarkersViewController - GetCell - EXPANDING reused cell - indexPath.Row: {0}", indexPath.Row);
 					cell.ExpandCell(false);
 				}
 			}
@@ -279,20 +279,32 @@ namespace MPfm.iOS
 
         public void RefreshMarkers(List<Marker> markers)
         {
+			//Tracing.Log("MarkersViewController - RefreshMarkers - markers.Count: {0}", markers.Count);
             InvokeOnMainThread(() => {
                 _markers = markers;
                 tableView.ReloadData();
             });
         }
 
-		public void RefreshMarkerPosition(Marker marker)
+		public void RefreshMarkerPosition(Marker marker, int newIndex)
 		{
 			InvokeOnMainThread(() => {
 				int index = _markers.FindIndex(x => x.MarkerId == marker.MarkerId);
+				Tracing.Log("MarkersViewController - RefreshMarkerPosition - markerId: {0} position: {1} index: {2} newIndex: {3}", marker.MarkerId, marker.Position, index, newIndex);
 				if(index >= 0)
 					_markers[index] = marker;
 
-				tableView.ReloadData();
+				// Update position
+				var cell = tableView.CellAt(NSIndexPath.FromRowSection(index, 0));
+				if(cell != null)
+					cell.DetailTextLabel.Text = marker.Position;
+
+				// Check for row movement
+				if(index != newIndex)
+				{
+					tableView.MoveRow(NSIndexPath.FromRowSection(index, 0), NSIndexPath.FromRowSection(newIndex, 0));
+					tableView.ScrollToRow(NSIndexPath.FromRowSection(newIndex, 0), UITableViewScrollPosition.Top, true);
+				}
 			});
 		}
 

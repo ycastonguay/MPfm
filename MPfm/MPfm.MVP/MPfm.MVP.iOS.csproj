@@ -367,5 +367,6 @@
     <Compile Include="Models\MobileOptionsMenuEntity.cs" />
     <Compile Include="Models\ResumePlaybackEntity.cs" />
     <Compile Include="Config\Models\GeneralAppConfig.cs" />
+    <Compile Include="Messages\MarkerPositionUpdatedMessage.cs" />
   </ItemGroup>
 </Project>

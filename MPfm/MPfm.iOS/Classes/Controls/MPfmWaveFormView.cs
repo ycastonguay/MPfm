@@ -247,6 +247,21 @@ namespace MPfm.iOS.Classes.Controls
             SetNeedsDisplay();
         }
 
+		public void SetMarkerPosition(Marker marker)
+		{
+			var localMarker = _markers.FirstOrDefault(x => x.MarkerId == marker.MarkerId);
+			if (localMarker == null)
+				return;
+		
+			localMarker.Position = marker.Position;
+			localMarker.PositionBytes = marker.PositionBytes;
+			localMarker.PositionPercentage = marker.PositionPercentage;
+			localMarker.PositionSamples = marker.PositionSamples;
+
+			// TODO: Only refresh the old/new marker positions
+			SetNeedsDisplay();
+		}
+
         public void FlushCache()
         {
             _waveFormCacheManager.FlushCache();

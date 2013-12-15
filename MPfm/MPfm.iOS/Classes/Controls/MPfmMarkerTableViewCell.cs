@@ -203,7 +203,7 @@ namespace MPfm.iOS.Classes.Controls
 			if (gestureRecognizer.State != UIGestureRecognizerState.Began)
 				return;
 
-			PointF pt = gestureRecognizer.LocationInView(BackgroundView);
+			//PointF pt = gestureRecognizer.LocationInView(BackgroundView);
 			//Tracing.Log("MarkerTableViewCell - HandleLongPress - point: {0}", pt);
 			if (OnLongPressMarker != null)
 				OnLongPressMarker(MarkerId);

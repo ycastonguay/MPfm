@@ -234,9 +234,11 @@ namespace MPfm.MVP.Presenters
                 marker.PositionBytes = positionBytes;
                 marker.PositionSamples = (uint)positionSamples;
                 marker.PositionPercentage = positionPercentage;
+                _messageHub.PublishAsync<MarkerPositionUpdatedMessage>(new MarkerPositionUpdatedMessage(this, marker));
 
-                //UpdateMarker(marker); // Do not save marker all the time when the position keeps changing. Maybe call UpdateMarker instead at MouseUp/TouchUp
-                View.RefreshMarkerPosition(marker);
+                // Check new index
+                int index = _markers.OrderBy(x => x.PositionBytes).ToList().FindIndex(x => x.MarkerId == markerId);
+                View.RefreshMarkerPosition(marker, index);
             }
             catch(Exception ex)
             {

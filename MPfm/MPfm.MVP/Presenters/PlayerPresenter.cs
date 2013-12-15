@@ -139,6 +139,9 @@ namespace MPfm.MVP.Presenters
                 var markers = libraryService.SelectMarkers(m.AudioFileId);
                 View.RefreshMarkers(markers);
             });
+            messageHub.Subscribe<MarkerPositionUpdatedMessage>((MarkerPositionUpdatedMessage m) => {
+                View.RefreshMarkerPosition(m.Marker);
+            });
 
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();

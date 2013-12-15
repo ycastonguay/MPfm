@@ -40,6 +40,6 @@ namespace MPfm.MVP.Views
 
         void MarkerError(Exception ex);
         void RefreshMarkers(List<Marker> markers);
-        void RefreshMarkerPosition(Marker marker);
+        void RefreshMarkerPosition(Marker marker, int newIndex);
 	}
 }
