@@ -53,7 +53,7 @@ namespace MPfm.iOS.Classes.Controls
         public UILabel IndexTextLabel { get; private set; }
 		public MPfmSemiTransparentRoundButton DeleteButton { get; set; }
 		public MPfmSemiTransparentRoundButton PunchInButton { get; set; }
-		public MPfmSemiTransparentRoundButton UndoButton { get; set; }
+		//public MPfmSemiTransparentRoundButton UndoButton { get; set; }
 		public UISlider Slider { get; set; }
 		public UITextField TextField { get; set; }
 		public UILabel TitleLabel { get; set; }
@@ -171,11 +171,11 @@ namespace MPfm.iOS.Classes.Controls
 			PunchInButton.TouchUpInside += HandleOnPunchInButtonClick;
 			AddSubview(PunchInButton);
 
-			UndoButton = new MPfmSemiTransparentRoundButton();
-			UndoButton.Alpha = 0;
-			UndoButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/undo");
-			UndoButton.TouchUpInside += HandleOnUndoButtonClick;
-			AddSubview(UndoButton);
+//			UndoButton = new MPfmSemiTransparentRoundButton();
+//			UndoButton.Alpha = 0;
+//			UndoButton.GlyphImageView.Image = UIImage.FromBundle("Images/Player/undo");
+//			UndoButton.TouchUpInside += HandleOnUndoButtonClick;
+//			AddSubview(UndoButton);
 
             // Make sure the text label is over all other subviews
             TextLabel.RemoveFromSuperview();
@@ -264,12 +264,12 @@ namespace MPfm.iOS.Classes.Controls
 			}
 
 			TextField.Frame = new RectangleF(x - 4, 7, Bounds.Width - 120 - 48, 38);
-			Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12, 36);
+			//Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12, 36);
+			Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12 - 44 - 12, 36);
 			DeleteButton.Frame = new RectangleF(Bounds.Width - 44, 6, 44, 44);
-			//UndoButton.Frame = new RectangleF((Bounds.Width - 50 - 14 - 50) / 2, 76 + 34, 50, 50);
-			//PunchInButton.Frame = new RectangleF(((Bounds.Width - 50 - 14 - 50) / 2) + 50 + 14, 76 + 34, 50, 50);
-			UndoButton.Frame = new RectangleF((Bounds.Width - 44 - 14 - 44) / 2, 76 + 34, 44, 44);
-			PunchInButton.Frame = new RectangleF(((Bounds.Width - 44 - 14 - 44) / 2) + 44 + 14, 76 + 34, 44, 44);
+			PunchInButton.Frame = new RectangleF(Bounds.Width - 44, 68, 44, 44);
+			//UndoButton.Frame = new RectangleF((Bounds.Width - 44 - 14 - 44) / 2, 76 + 34, 44, 44);
+			//PunchInButton.Frame = new RectangleF(((Bounds.Width - 44 - 14 - 44) / 2) + 44 + 14, 76 + 34, 44, 44);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
@@ -331,7 +331,7 @@ namespace MPfm.iOS.Classes.Controls
 			Slider.Alpha = 1;
 			DeleteButton.Alpha = 1;
 			PunchInButton.Alpha = 1;
-			UndoButton.Alpha = 1;
+			//UndoButton.Alpha = 1;
 			DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128 - 48, 6, 120, 38);
 		}
 
@@ -357,7 +357,7 @@ namespace MPfm.iOS.Classes.Controls
 			Slider.Alpha = 0;
 			DeleteButton.Alpha = 0;
 			PunchInButton.Alpha = 0;
-			UndoButton.Alpha = 0;
+			//UndoButton.Alpha = 0;
 			DetailTextLabel.Frame = new RectangleF(Bounds.Width - 128, 6, 120, 38);
 
 			TextLabel.Text = TextField.Text;

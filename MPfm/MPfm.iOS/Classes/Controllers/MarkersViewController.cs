@@ -84,7 +84,6 @@ namespace MPfm.iOS
 				cell.OnLongPressMarker += HandleOnLongPressMarker;
 				cell.OnDeleteMarker += HandleOnDeleteMarker;
 				cell.OnPunchInMarker += HandleOnPunchInMarker;
-				cell.OnUndoMarker += HandleOnUndoMarker;
 				cell.OnChangeMarkerPosition += HandleOnChangeMarkerPosition;
 				cell.OnSetMarkerPosition += HandleOnSetMarkerPosition;
 			}
@@ -140,7 +139,8 @@ namespace MPfm.iOS
 		{
 			int index = _markers.FindIndex(x => x.MarkerId == _currentEditMarkerId);
 			//Tracing.Log("MarkersViewController - HeightForRow - indexPath.Row: {0} index: {1} _currentEditMarkerId: {2}", indexPath.Row, index, _currentEditMarkerId);
-			return index == indexPath.Row ? 172 : 52;
+			//return index == indexPath.Row ? 172 : 52;
+			return index == indexPath.Row ? 126 : 52;
 		}
 
 		[Export ("tableView:heightForFooterInSection:")]
@@ -302,7 +302,7 @@ namespace MPfm.iOS
 				// Check for row movement
 				if(index != newIndex)
 				{
-					tableView.MoveRow(NSIndexPath.FromRowSection(index, 0), NSIndexPath.FromRowSection(newIndex, 0));
+					//tableView.MoveRow(NSIndexPath.FromRowSection(index, 0), NSIndexPath.FromRowSection(newIndex, 0));
 					tableView.ScrollToRow(NSIndexPath.FromRowSection(newIndex, 0), UITableViewScrollPosition.Top, true);
 				}
 			});
