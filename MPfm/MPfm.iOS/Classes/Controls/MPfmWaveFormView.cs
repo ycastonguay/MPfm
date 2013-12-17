@@ -43,6 +43,7 @@ namespace MPfm.iOS.Classes.Controls
     [Register("MPfmWaveFormView")]
     public class MPfmWaveFormView : UIView
     {
+		private Guid _activeMarkerId = Guid.Empty;
         private List<Marker> _markers = new List<Marker>();
         private string _status = "";
         private bool _isLoading = false;
@@ -241,7 +242,35 @@ namespace MPfm.iOS.Classes.Controls
         {
         }
 
-        public void SetMarkers(IEnumerable<Marker> markers)
+		public void SetActiveMarker(Guid markerId)
+		{
+			if(markerId != _activeMarkerId)
+				InvalidateMarker(_activeMarkerId);
+
+			_activeMarkerId = markerId;
+			InvalidateMarker(_activeMarkerId);
+		}
+
+		private void InvalidateMarker(Guid markerId)
+		{
+			try
+			{
+				var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+				if (marker == null)
+					return;
+
+				float xPct = (float)marker.PositionBytes / (float)Length;
+				float xMarker = xPct * Bounds.Width;
+				RectangleF rectCursor = new RectangleF(xMarker - 5, 0, 25, Frame.Height);
+				SetNeedsDisplayInRect(rectCursor);
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WaveFormView - InvalidateMarker - ex: {0}", ex);
+			}
+		}
+
+		public void SetMarkers(IEnumerable<Marker> markers)
         {
             _markers = markers.ToList();
             SetNeedsDisplay();
@@ -321,13 +350,14 @@ namespace MPfm.iOS.Classes.Controls
                 float x = xPct * Bounds.Width;
 
                 // Draw cursor line
-                context.SetStrokeColor(new CGColor(1, 0, 0, 1));
+				var color = _markers[a].MarkerId == _activeMarkerId ? GlobalTheme.SecondaryLightColor : new UIColor(1, 0, 0, 1);
+				context.SetStrokeColor(color.CGColor);
                 context.SetLineWidth(1.0f);
                 context.StrokeLineSegments(new PointF[2] { new PointF(x, 0), new PointF(x, heightAvailable) });
 
                 // Draw text
                 var rectText = new RectangleF(x, 0, 12, 12);
-                CoreGraphicsHelper.FillRect(context, rectText, new CGColor(1, 0, 0, 0.7f));
+				CoreGraphicsHelper.FillRect(context, rectText, color.ColorWithAlpha(0.7f).CGColor);
                 string letter = Conversion.IndexToLetter(a).ToString();
                 UIGraphics.PushContext(context);
                 CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(x+2, 0), letter, "HelveticaNeue", 10, new CGColor(1, 1, 1, 1));

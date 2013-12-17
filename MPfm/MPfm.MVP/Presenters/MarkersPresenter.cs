@@ -70,6 +70,7 @@ namespace MPfm.MVP.Presenters
             view.OnChangeMarkerName = ChangeMarkerName;
             view.OnChangeMarkerPosition = ChangeMarkerPosition;
             view.OnSetMarkerPosition = SetMarkerPosition;
+            view.OnSetActiveMarker = SetActiveMarker;
             view.OnUpdateMarker = UpdateMarker;
             view.OnPunchInMarker = PunchInMarker;
             view.OnUndoMarker = UndoMarker;
@@ -205,6 +206,7 @@ namespace MPfm.MVP.Presenters
             {
                 try
                 {
+                    Tracing.Log("MarkersPresenter - RefreshMarkers");
                     _markers = _libraryService.SelectMarkers(audioFileId);
 
                     foreach (var marker in _markers)
@@ -218,6 +220,11 @@ namespace MPfm.MVP.Presenters
                     View.MarkerError(ex);
                 }
             });
+        }
+
+        private void SetActiveMarker(Guid markerId)
+        {
+            _messageHub.PublishAsync<MarkerActivatedMessage>(new MarkerActivatedMessage(this, markerId));
         }
 
         private void ChangeMarkerName(Guid markerId, string name)
@@ -252,7 +259,20 @@ namespace MPfm.MVP.Presenters
                 try
                 {
                     //Tracing.Log("MarkersPresenter - ChangeMarkerPosition - markerId: {0} positionBytes: {1}", markerId, positionBytes);
-                    var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+                    // Instead of using FirstOrDefault, search in a simple loop so we don't have an exception that the list is modified
+                    Marker marker = null;
+                    for(int a = 0; a < _markers.Count; a++)
+                    {
+                        if(_markers[a].MarkerId == markerId)
+                        {
+                            marker = _markers[a];
+                            break;
+                        }
+                    }
+
+                    if(marker == null)
+                        return;
+
                     var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                     var lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
 

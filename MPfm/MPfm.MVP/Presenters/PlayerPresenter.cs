@@ -142,6 +142,9 @@ namespace MPfm.MVP.Presenters
             messageHub.Subscribe<MarkerPositionUpdatedMessage>((MarkerPositionUpdatedMessage m) => {
                 View.RefreshMarkerPosition(m.Marker);
             });
+            messageHub.Subscribe<MarkerActivatedMessage>((MarkerActivatedMessage m) => {
+                View.RefreshActiveMarker(m.MarkerId);
+            });
 
 #if IOS || ANDROID
             _mobileNavigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();

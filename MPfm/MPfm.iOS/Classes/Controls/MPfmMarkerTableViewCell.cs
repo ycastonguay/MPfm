@@ -50,6 +50,7 @@ namespace MPfm.iOS.Classes.Controls
 		public event SetMarkerPosition OnSetMarkerPosition;
 
         private bool _isTextLabelAllowedToChangeFrame = true;
+		private float _sliderValue;
 		private UIView _backgroundView;
 
         public UILabel IndexTextLabel { get; private set; }
@@ -191,7 +192,11 @@ namespace MPfm.iOS.Classes.Controls
 			Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
 			Slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 			Slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider_gray").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
-			Slider.ValueChanged += (sender, e) => OnChangeMarkerPosition(MarkerId, Slider.Value);
+			Slider.ValueChanged += (sender, e) =>
+			{
+				_sliderValue = Slider.Value;
+				OnChangeMarkerPosition(MarkerId, Slider.Value);
+			};
 			Slider.TouchDown += (sender, e) => {
 				//Tracing.Log("MarkerTableViewCell - TouchDown");
 				// There's a bug in UISlider inside a UITableView inside a UIScrollView; the table view offset will change when changing slider value
@@ -202,7 +207,9 @@ namespace MPfm.iOS.Classes.Controls
 				//Tracing.Log("MarkerTableViewCell - TouchUpInside");
 				var tableView = (MPfmTableView)GetTableView();
 				tableView.BlockContentOffsetChange = false;
-				OnSetMarkerPosition(MarkerId, Slider.Value);
+
+				// Take the last value from ValueChanged to prevent getting a slightly different value when the finger leaves the screen
+				OnSetMarkerPosition(MarkerId, _sliderValue); 
 			};
 			AddSubview(Slider);
 

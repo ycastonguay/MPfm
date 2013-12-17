@@ -554,6 +554,11 @@ namespace MPfm.iOS.Classes.Controllers
 			InvokeOnMainThread(() => scrollViewWaveForm.SetMarkerPosition(marker));
 		}
 
+		public void RefreshActiveMarker(Guid markerId)
+		{
+			InvokeOnMainThread(() => scrollViewWaveForm.SetActiveMarker(markerId));
+		}
+
         public void RefreshLoops(IEnumerable<Loop> loops)
         {
         }

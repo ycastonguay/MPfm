@@ -263,6 +263,11 @@ namespace MPfm.iOS.Classes.Controls
             WaveFormScaleView.AudioFileLength = lengthBytes;
         }
 
+		public void SetActiveMarker(Guid markerId)
+		{
+			WaveFormView.SetActiveMarker(markerId);
+		}
+
         public void SetMarkers(IEnumerable<Marker> markers)
         {
             WaveFormView.SetMarkers(markers);
@@ -271,6 +276,7 @@ namespace MPfm.iOS.Classes.Controls
 		public void SetMarkerPosition(Marker marker)
 		{
 			WaveFormView.SetMarkerPosition(marker);
+			ProcessAutoScroll(marker.PositionBytes);
 		}
 
         public void SetPosition(long position)
@@ -326,17 +332,21 @@ namespace MPfm.iOS.Classes.Controls
         }
 
         public void SetSecondaryPosition(long position)
-        {
-            WaveFormView.SecondaryPosition = position;
+		{
+			WaveFormView.SecondaryPosition = position;
+			ProcessAutoScroll(position);
+		}
 
+		private void ProcessAutoScroll(long position)
+		{
             // Process autoscroll
             if (_zoomScale > 1)
             {
                 float positionPercentage = (float)position / (float)WaveFormView.Length;
                 float cursorX = (positionPercentage * WaveFormView.Bounds.Width);
-                float scrollStartX = ContentOffset.X;
+				//float scrollStartX = ContentOffset.X;
                 float scrollCenterX = ContentOffset.X + Bounds.Width / 2;
-                float scrollEndX = Bounds.Width + ContentOffset.X;
+				//float scrollEndX = Bounds.Width + ContentOffset.X;
                 //Console.WriteLine("WaveFormScrollView - AutoScroll - positionPct: {0} cursorX: {1} contentOffset.X: {2} waveFormView.Width: {3} scrollStartX: {4} scrollCenterX: {5} scrollEndX: {6}", positionPercentage, cursorX, ContentOffset.X, WaveFormView.Bounds.Width, scrollStartX, scrollCenterX, scrollEndX);
 
                 if (cursorX != scrollCenterX)

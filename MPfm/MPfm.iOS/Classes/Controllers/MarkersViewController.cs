@@ -204,6 +204,7 @@ namespace MPfm.iOS
 					previousCell.CollapseCell(true);
 				if (cell != null)
 				{
+					OnSetActiveMarker(_currentEditMarkerId);
 					if (_currentEditMarkerId == Guid.Empty)
 					{
 						if(indexPath.Row != indexPathEdit.Row)
@@ -273,6 +274,7 @@ namespace MPfm.iOS
 		public Action<Guid, string> OnChangeMarkerName { get; set; }
 		public Action<Guid, float> OnChangeMarkerPosition { get; set; }
 		public Action<Guid, float> OnSetMarkerPosition { get; set; }
+		public Action<Guid> OnSetActiveMarker { get; set; }
 		public Action<Guid> OnPunchInMarker { get; set; }
 		public Action<Guid> OnUndoMarker { get; set; }
 

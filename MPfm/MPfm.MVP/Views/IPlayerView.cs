@@ -54,6 +54,7 @@ namespace MPfm.MVP.Views
 		void RefreshPlayerPosition(PlayerPositionEntity entity);
 		void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount);
         void RefreshMarkers(IEnumerable<Marker> markers);
+        void RefreshActiveMarker(Guid markerId);
         void RefreshMarkerPosition(Marker marker);
         void RefreshLoops(IEnumerable<Loop> loops);
         void RefreshPlayerVolume(PlayerVolumeEntity entity);

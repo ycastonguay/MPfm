@@ -35,6 +35,7 @@ namespace MPfm.MVP.Views
         Action<Marker> OnUpdateMarker { get; set; }
         Action<Guid> OnPunchInMarker { get; set; }
         Action<Guid> OnUndoMarker { get; set; }
+        Action<Guid> OnSetActiveMarker { get; set; }
         Action<Guid, string> OnChangeMarkerName { get; set; }
         Action<Guid, float> OnChangeMarkerPosition { get; set; }
         Action<Guid, float> OnSetMarkerPosition { get; set; }
