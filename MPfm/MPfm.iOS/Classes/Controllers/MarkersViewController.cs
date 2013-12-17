@@ -49,7 +49,7 @@ namespace MPfm.iOS
         public override void ViewDidLoad()
         {
 			tableView.BackgroundColor = UIColor.Clear;
-			tableView.DelaysContentTouches = true;
+			tableView.DelaysContentTouches = false;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 
@@ -297,7 +297,7 @@ namespace MPfm.iOS
 		{
 			InvokeOnMainThread(() => {
 				int index = _markers.FindIndex(x => x.MarkerId == marker.MarkerId);
-				Tracing.Log("MarkersViewController - RefreshMarkerPosition - markerId: {0} position: {1} index: {2} newIndex: {3}", marker.MarkerId, marker.Position, index, newIndex);
+				//Tracing.Log("MarkersViewController - RefreshMarkerPosition - markerId: {0} position: {1} index: {2} newIndex: {3}", marker.MarkerId, marker.Position, index, newIndex);
 				if(index >= 0)
 					_markers[index] = marker;
 

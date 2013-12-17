@@ -79,7 +79,7 @@ namespace MPfm.MVP.Presenters
 
             // Subscribe to messages
             _tokens.Add(_messageHub.Subscribe<MarkerUpdatedMessage>((MarkerUpdatedMessage m) => {
-                Tracing.Log("MarkersPresenter - Received MarkerdUpdatedMessage - audioFileId: {0}", m.AudioFileId.ToString());
+                //Tracing.Log("MarkersPresenter - Received MarkerUpdatedMessage - audioFileId: {0}", m.AudioFileId.ToString());
                 _audioFileId = m.AudioFileId;
                 RefreshMarkers(_audioFileId);
             }));
@@ -251,8 +251,7 @@ namespace MPfm.MVP.Presenters
             {
                 try
                 {
-                    // TODO: In another thread!
-                    Tracing.Log("MarkersPresenter - ChangeMarkerPosition - markerId: {0} positionBytes: {1}", markerId, positionBytes);
+                    //Tracing.Log("MarkersPresenter - ChangeMarkerPosition - markerId: {0} positionBytes: {1}", markerId, positionBytes);
                     var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
                     var audioFile = _playerService.CurrentPlaylistItem.AudioFile;
                     var lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
@@ -286,6 +285,7 @@ namespace MPfm.MVP.Presenters
         {
             ChangeMarkerPosition(markerId, newPositionPercentage);
             var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
+            Tracing.Log("MarkersPresenter - SetMarkerPosition - markerId: {0} position: {1}", markerId, marker.Position);
             UpdateMarker(marker);
         }
 

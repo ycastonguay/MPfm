@@ -63,7 +63,6 @@ namespace MPfm.iOS.Classes.Controls
         public bool IsTextAnimationEnabled { get; set; }
         public float RightOffset { get; set; }
 		public bool IsExpanded { get; private set; }
-
 		public Guid MarkerId { get; set; }
 
 		public MPfmMarkerTableViewCell() : base()
@@ -149,11 +148,7 @@ namespace MPfm.iOS.Classes.Controls
 			// Make sure the Done key closes the keyboard
 			TextField.ShouldReturn = (a) => {
 				if(OnChangeMarkerName != null)
-				{
-					var markerId2 = MarkerId;
-					var text = TextField.Text;	
 					OnChangeMarkerName(MarkerId, TextField.Text);
-				}
 
 				TextLabel.Text = TextField.Text;
 				TextField.ResignFirstResponder();
@@ -191,12 +186,24 @@ namespace MPfm.iOS.Classes.Controls
             AddSubview(TextLabel);
 
 			Slider = new UISlider(new RectangleF(0, 0, 10, 10));
+			Slider.ExclusiveTouch = true;
 			Slider.Alpha = 0;
 			Slider.SetThumbImage(UIImage.FromBundle("Images/Sliders/thumb"), UIControlState.Normal);
 			Slider.SetMinTrackImage(UIImage.FromBundle("Images/Sliders/slider2").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 			Slider.SetMaxTrackImage(UIImage.FromBundle("Images/Sliders/slider_gray").CreateResizableImage(new UIEdgeInsets(0, 8, 0, 8), UIImageResizingMode.Tile), UIControlState.Normal);
 			Slider.ValueChanged += (sender, e) => OnChangeMarkerPosition(MarkerId, Slider.Value);
-			Slider.TouchUpInside += (sender, e) => OnSetMarkerPosition(MarkerId, Slider.Value);
+			Slider.TouchDown += (sender, e) => {
+				//Tracing.Log("MarkerTableViewCell - TouchDown");
+				// There's a bug in UISlider inside a UITableView inside a UIScrollView; the table view offset will change when changing slider value
+				var tableView = (MPfmTableView)GetTableView();
+				tableView.BlockContentOffsetChange = true;
+			};
+			Slider.TouchUpInside += (sender, e) => {
+				//Tracing.Log("MarkerTableViewCell - TouchUpInside");
+				var tableView = (MPfmTableView)GetTableView();
+				tableView.BlockContentOffsetChange = false;
+				OnSetMarkerPosition(MarkerId, Slider.Value);
+			};
 			AddSubview(Slider);
 
 //            SecondaryMenuBackground = new UIView();
@@ -205,6 +212,14 @@ namespace MPfm.iOS.Classes.Controls
 //            //SecondaryMenuBackground.Alpha = 0;
 //            AddSubview(SecondaryMenuBackground);
         }
+
+		private UITableView GetTableView()
+		{
+			UIView view = Superview;
+			while (!(view is UITableView))
+				view = view.Superview;
+			return (UITableView)view;
+		}
 
 		private void HandleLongPress(UILongPressGestureRecognizer gestureRecognizer)
 		{
@@ -273,7 +288,6 @@ namespace MPfm.iOS.Classes.Controls
 			}
 
 			TextField.Frame = new RectangleF(x - 4, 7, Bounds.Width - 120 - 48, 38);
-			//Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12, 36);
 			Slider.Frame = new RectangleF(8, 38 + 34, Bounds.Width - 12 - 44 - 12, 36);
 			DeleteButton.Frame = new RectangleF(Bounds.Width - 44, 6, 44, 44);
 			PunchInButton.Frame = new RectangleF(Bounds.Width - 44, 68, 44, 44);
@@ -375,18 +389,27 @@ namespace MPfm.iOS.Classes.Controls
 
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
+			//Tracing.Log("MarkerTableViewCell - TouchesBegan - eventType: {0}", evt.Type);
             AnimatePress(true);
             base.TouchesBegan(touches, evt);
         }
 
+		public override void TouchesMoved(NSSet touches, UIEvent evt)
+		{
+			//Tracing.Log("MarkerTableViewCell - TouchesMoved - eventType: {0}", evt.Type);
+			base.TouchesMoved(touches, evt);
+		}
+
         public override void TouchesEnded(NSSet touches, UIEvent evt)
         {
+			//Tracing.Log("MarkerTableViewCell - TouchesEnded - eventType: {0}", evt.Type);
             AnimatePress(false);
             base.TouchesEnded(touches, evt);
         }
 
         public override void TouchesCancelled(NSSet touches, UIEvent evt)
         {
+			//Tracing.Log("MarkerTableViewCell - TouchesCancelled - eventType: {0}", evt.Type);
             AnimatePress(false);
             base.TouchesCancelled(touches, evt);
         }
@@ -418,5 +441,42 @@ namespace MPfm.iOS.Classes.Controls
                 }, null);
             }
         }
+
+//		public override UIView HitTest(PointF point, UIEvent uievent)
+//		{
+//			Tracing.Log("MarkerTableViewCell - HitTest - point: {0} eventType: {1}", point, uievent.Type);
+//			return base.HitTest(point, uievent);
+//
+////			var thumbFrame = GetThumbRect();
+////			if (thumbFrame.Contains(point))
+////			{
+////				Tracing.Log("Slider - HitTest (inside thumb) - point: {0} eventType: {1}", point, uievent.Type);
+////				return base.HitTest(point, uievent);
+////			}
+////			else
+////			{
+////				Tracing.Log("Slider - HitTest (outside thumb) - point: {0} eventType: {1}", point, uievent.Type);
+////				return Superview.HitTest(point, uievent);
+////			}
+//		}
+//
+//		public override bool PointInside(PointF point, UIEvent uievent)
+//		{
+//			bool value = base.PointInside(point, uievent);
+//			Tracing.Log("MarkerTableViewCell - PointInside - point: {0} eventType: {1} baseValue: {2}", point, uievent.Type, value);
+//			foreach (var view in Subviews)
+//			{
+//				Tracing.Log(".. MarkerTableViewCell - PointInside - subview: {0}", view.GetType().FullName);
+////				if (!view.Hidden && view.UserInteractionEnabled && view.PointInside(ConvertPointToView(point, view), uievent))
+////				{
+////					Tracing.Log("Slider - PointInside TRUE - point: {0} eventType: {1} baseValue: {2}", point, uievent.Type, value);
+////					return true;
+////				}
+//			}
+////			Tracing.Log("Slider - PointInside FALSE - point: {0} eventType: {1} baseValue: {2}", point, uievent.Type, value);
+////			return false;
+//
+//			return value;
+//		}
     }
 }

@@ -550,10 +550,8 @@ namespace MPfm.iOS.Classes.Controllers
 
 		public void RefreshMarkerPosition(Marker marker)
 		{
-			Tracing.Log("PlayerViewController - RefreshMarkerPosition - position: {0}", marker.Position);
-			InvokeOnMainThread(() => {
-				scrollViewWaveForm.SetMarkerPosition(marker);
-			});
+			//Tracing.Log("PlayerViewController - RefreshMarkerPosition - position: {0}", marker.Position);
+			InvokeOnMainThread(() => scrollViewWaveForm.SetMarkerPosition(marker));
 		}
 
         public void RefreshLoops(IEnumerable<Loop> loops)
