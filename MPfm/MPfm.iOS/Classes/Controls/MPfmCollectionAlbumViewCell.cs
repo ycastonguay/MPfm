@@ -62,6 +62,7 @@ namespace MPfm.iOS.Classes.Controls
             set
             {
                 _lblTitle.Text = value;
+				//_lblTitle.SizeToFit();
             }
         }
 
@@ -96,21 +97,25 @@ namespace MPfm.iOS.Classes.Controls
         private void Initialize()
         {
             //Frame = new RectangleF(0, 0, 160, 160);
-            BackgroundView = new UIView{BackgroundColor = GlobalTheme.BackgroundColor};
+			BackgroundView = new UIView{BackgroundColor = GlobalTheme.BackgroundColor};
             SelectedBackgroundView = new UIView{BackgroundColor = GlobalTheme.SecondaryColor};
-            ContentView.BackgroundColor = GlobalTheme.BackgroundColor;
+			ContentView.BackgroundColor = GlobalTheme.BackgroundDarkerColor;
             ContentView.AutosizesSubviews = true;
 
             _labelBackgroundView = new UIView(new RectangleF(0, Frame.Height - 36, Frame.Width, 36));
             _labelBackgroundView.BackgroundColor = new UIColor(0, 0, 0, 0.5f);
 
-            _lblTitle = new UILabel(new RectangleF(8, Frame.Height - 36, Frame.Width - 16, 20));
-            _lblTitle.BackgroundColor = UIColor.Clear;
-            _lblTitle.Font = UIFont.FromName("HelveticaNeue", 12);
+			//_lblTitle = new UILabel(new RectangleF(8, Frame.Height - 36, Frame.Width - 16, 20));
+			_lblTitle = new UILabel(new RectangleF(8, Frame.Height - 36, Frame.Width - 16, 36));
+			_lblTitle.BackgroundColor = UIColor.Clear;
+			//_lblTitle.Font = UIFont.FromName("HelveticaNeue", 12);
+			_lblTitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             _lblTitle.TextColor = UIColor.White;
             _lblTitle.TextAlignment = UITextAlignment.Center;
+			_lblTitle.Lines = 2;
 
             _lblSubtitle = new UILabel(new RectangleF(8, Frame.Height - 20, Frame.Width - 16, 18));
+			_lblSubtitle.Hidden = true;
             _lblSubtitle.BackgroundColor = UIColor.Clear;
             _lblSubtitle.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             _lblSubtitle.TextColor = new UIColor(0.8f, 0.8f, 0.8f, 1);
@@ -136,7 +141,7 @@ namespace MPfm.iOS.Classes.Controls
 
             _imageView = new UIImageView(new RectangleF(0, 0, Frame.Width, Frame.Height));
             _imageView.Alpha = 0;
-            _imageView.BackgroundColor = GlobalTheme.BackgroundColor;
+			_imageView.BackgroundColor = GlobalTheme.BackgroundDarkColor;
             _imageView.Center = ContentView.Center;
             _imageView.AutoresizingMask = UIViewAutoresizing.None;
             _imageView.ClipsToBounds = true;

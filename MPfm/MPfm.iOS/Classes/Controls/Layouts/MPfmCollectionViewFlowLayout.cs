@@ -15,29 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Classes.Controls.Layouts
 {
     [Register("MPfmCollectionViewFlowLayout")]
     public class MPfmCollectionViewFlowLayout : UICollectionViewFlowLayout
     {
-        public MPfmCollectionViewFlowLayout() : base()
+		public MPfmCollectionViewFlowLayout() : base()
         {
+			// Remove spacing between items on iPhone to stack two album arts in width
+			float spacing = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone ? 0 : 8;
             ItemSize = new SizeF(160, 160);
-            SectionInset = new UIEdgeInsets(0, 0, 0, 0);
-            MinimumInteritemSpacing = 0;
-            MinimumLineSpacing = 0;
+			SectionInset = new UIEdgeInsets(spacing, spacing, spacing, spacing);
+			HeaderReferenceSize = new SizeF(0, 52);
+			MinimumInteritemSpacing = spacing;
+			MinimumLineSpacing = spacing;
         }
     }
 }

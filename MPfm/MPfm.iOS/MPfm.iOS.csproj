@@ -337,6 +337,7 @@
     <Compile Include="Classes\Controls\MPfmTabBarController.cs" />
     <Compile Include="Classes\Controls\MPfmSemiTransparentRoundButton.cs" />
     <Compile Include="Classes\Controls\MPfmTableView.cs" />
+    <Compile Include="Classes\Controls\MPfmCollectionHeaderView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
