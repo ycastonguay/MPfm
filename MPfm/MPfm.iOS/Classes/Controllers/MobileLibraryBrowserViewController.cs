@@ -291,7 +291,7 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("collectionView:cellForItemAtIndexPath:")]
         public UICollectionViewCell CellForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
-			Tracing.Log("MobileLibraryBrowserViewController - CellForItemAtIndexPath - indexPath.row: {0} .section: {1}", indexPath.Row, indexPath.Section);
+			//Tracing.Log("MobileLibraryBrowserViewController - CellForItemAtIndexPath - indexPath.row: {0} .section: {1}", indexPath.Row, indexPath.Section);
 			var item = _itemsWithSections[indexPath.Section].Item2[indexPath.Row];
             var cell = (MPfmCollectionAlbumViewCell)collectionView.DequeueReusableCell(_collectionCellIdentifier, indexPath);
             cell.Tag = indexPath.Row;
@@ -414,7 +414,12 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("collectionView:viewForSupplementaryElementOfKind:atIndexPath:")]
         public UICollectionReusableView ViewForSupplementaryElement(UICollectionView collectionView, string viewForSupplementaryElementOfKind, NSIndexPath indexPath)
         {
-			Tracing.Log("MobileLibraryBrowserViewCtrl - ViewForSupplementaryElement - kind: {0} section: {1} row: {2}", viewForSupplementaryElementOfKind, indexPath.Section, indexPath.Row);
+			//Tracing.Log("MobileLibraryBrowserViewCtrl - ViewForSupplementaryElement - kind: {0} section: {1} row: {2}", viewForSupplementaryElementOfKind, indexPath.Section, indexPath.Row);
+
+//			// Do not show header when item count is 1
+//			if (_itemsWithSections.Count <= 1)
+//				return null;
+
 			if (viewForSupplementaryElementOfKind == "UICollectionElementKindSectionHeader")
 			{
 				var view = (MPfmCollectionHeaderView)collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier, indexPath);

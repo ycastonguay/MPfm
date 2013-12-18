@@ -53,7 +53,7 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-			BackgroundColor = GlobalTheme.MainDarkColor;
+			BackgroundColor = GlobalTheme.MainDarkColor;//.ColorWithAlpha(0.85f);
 
 			float fontSize = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone ? 16f : 18f;
 			TextLabel = new UILabel();
