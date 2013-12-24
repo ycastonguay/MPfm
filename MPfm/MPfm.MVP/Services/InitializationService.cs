@@ -243,7 +243,7 @@ namespace MPfm.MVP.Services
             DatabaseFacade gateway = new DatabaseFacade(databaseFilePath);
 
             // Get setting
-            Tracing.Log("Main form init -- Fetching database version...");
+            Tracing.Log("InitializationService - Fetching database version...");
             Setting settingDatabaseVersion = gateway.SelectSetting("DatabaseVersion");
 
             // Check if setting is null
@@ -266,7 +266,7 @@ namespace MPfm.MVP.Services
                 int.TryParse(currentVersionSplit[1], out currentMinor);
             }
 
-            Tracing.Log("Main form init -- Database version is " + currentMajor.ToString() + "." + currentMinor.ToString("00"));
+            Tracing.Log("InitializationService - Database version is " + currentMajor.ToString() + "." + currentMinor.ToString("00"));
 
             // Check database version
             if (_databaseVersionMajor != currentMajor || _databaseVersionMinor != currentMinor)
@@ -280,7 +280,7 @@ namespace MPfm.MVP.Services
                     try
                     {
                         // Get the update script for this version
-                        Tracing.Log("Main form init -- Getting database update script (" + scriptFileName + ")...");
+                        Tracing.Log("InitializationService - Getting database update script (" + scriptFileName + ")...");
                         sql = GetEmbeddedSQLScript(scriptFileName);
                     }
                     catch (Exception ex)
@@ -300,7 +300,7 @@ namespace MPfm.MVP.Services
                         try
                         {
                             // Execute create script
-                            Tracing.Log("Main form init -- Executing database update script statement " + (a + 1).ToString() + " (" + scriptFileName + ")...");
+                            Tracing.Log("InitializationService - Executing database update script statement " + (a + 1).ToString() + " (" + scriptFileName + ")...");
                             gateway.ExecuteSQL(sqlSplit[a]);
                         }
                         catch (Exception ex)

@@ -63,8 +63,6 @@ namespace MPfm.Library.Database
         /// <param name="databaseFilePath">Database file path</param>
         public MonoSQLiteGateway(string databaseFilePath)
         {
-            // Initialize factory
-            Tracing.Log("SQLiteGateway init -- Initializing database factory (" + databaseFilePath + ")...");					
             this.databaseFilePath = databaseFilePath;
         }
 

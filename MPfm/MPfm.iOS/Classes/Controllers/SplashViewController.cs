@@ -42,7 +42,6 @@ namespace MPfm.iOS.Classes.Controllers
 //				//SetNeedsStatusBarAppearanceUpdate();
 //				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.Default, true);
 
-            Console.WriteLine("SplashViewController - UIScreen width: {0} height: {1}", UIScreen.MainScreen.Bounds.Width, UIScreen.MainScreen.Bounds.Height);
 			imageViewOverlay.Alpha = 0;
 			if (UIScreen.MainScreen.Bounds.Height == 568)
 			{

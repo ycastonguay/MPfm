@@ -148,7 +148,6 @@ namespace MPfm.MVP.Presenters
                         break;
                 }
 
-                Tracing.Log("PitchShiftingPresenter - RefreshPitchShiftingView");
                 View.RefreshPitchShifting(new PlayerPitchShiftingEntity(){
                     Interval = _interval.ToString("+#;-#;0") + intervalName,
                     IntervalValue = _interval,
@@ -210,7 +209,6 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Tracing.Log("PitchShiftingPresenter - IncrementInterval");
                 if(_interval + 1 > 12)
                     return;
                 _interval += 1;
@@ -227,7 +225,6 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Tracing.Log("PitchShiftingPresenter - DecrementInterval");
                 if(_interval - 1 < -12)
                     return;
                 _interval -= 1;

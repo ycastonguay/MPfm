@@ -69,7 +69,7 @@ namespace MPfm.Library.Services
 		private void CloudServiceOnCloudPathChanged(string path)
         {
 			// Unfortunately this only tells us something in the folder has changed, not the exact file
-			Tracing.Log("CloudLibraryService - CloudServiceOnCloudPathChanged - path: {0}", path);
+			//Tracing.Log("CloudLibraryService - CloudServiceOnCloudPathChanged - path: {0}", path);
 			if (path.Contains("Devices")) // No slash on Android
 				PullDeviceInfos();
         }
@@ -81,11 +81,10 @@ namespace MPfm.Library.Services
 				CloudDeviceInfo device = null;
                 try
                 {
-                    Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0}", path);
+					//Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0}", path);
                     string json = Encoding.UTF8.GetString(data);
                     device = JsonConvert.DeserializeObject<CloudDeviceInfo>(json);
-
-					Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} device: {1} artist: {2} song: {3}", path, device.DeviceName, device.ArtistName, device.SongTitle);
+					//Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} device: {1} artist: {2} song: {3}", path, device.DeviceName, device.ArtistName, device.SongTitle);
 
                     // Try to update the list instead of adding/removing item
                     int itemIndex = _deviceInfos.FindIndex(x => x.DeviceId == device.DeviceId);
@@ -96,7 +95,7 @@ namespace MPfm.Library.Services
                 }
                 catch (Exception ex)
                 {
-                    Tracing.Log("AndroidDropboxService - Failed to deserialize JSON for path {0} - ex: {1}", path, ex);
+					Tracing.Log("CloudLibraryService - Failed to deserialize JSON for path {0} - ex: {1}", path, ex);
                 }
 
                 if (OnDeviceInfosDownloadProgress != null)
@@ -111,10 +110,10 @@ namespace MPfm.Library.Services
 				}
 
                 _deviceInfosLeftToDownload.Remove(path);
-                Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1} deviceInfos.Count: {2}", path, _deviceInfosLeftToDownload.Count, _deviceInfos.Count);
+				//Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - path: {0} deviceInfosLeftToDownload.Count: {1} deviceInfos.Count: {2}", path, _deviceInfosLeftToDownload.Count, _deviceInfos.Count);
                 if (_deviceInfosLeftToDownload.Count == 0)
                 {
-                    Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - Finished downloading files!");
+					Tracing.Log("CloudLibraryService - CloudServiceOnCloudFileDownloaded - Finished downloading files!");
                     _cloudService.CloseAllFiles();
                     if (OnDeviceInfosAvailable != null)
                         OnDeviceInfosAvailable(_deviceInfos);
@@ -163,7 +162,7 @@ namespace MPfm.Library.Services
 
         public void PullDeviceInfos()
         {
-            Tracing.Log("AndroidDropboxService - PullDeviceInfos");
+			//Tracing.Log("CloudLibraryService - PullDeviceInfos");
 
             if (!HasLinkedAccount)
                 throw new CloudAppNotLinkedException();
@@ -181,7 +180,7 @@ namespace MPfm.Library.Services
                     try
                     {
                         // On iOS and Android, the filePath is relative; on desktop devices it is absolute.
-                        Tracing.Log("AndroidDropboxService - PullDeviceInfos - filePath: {0}", filePath);
+						//Tracing.Log("CloudLibraryService - PullDeviceInfos - filePath: {0}", filePath);
                         string downloadFilePath = filePath;
                         if (!filePath.Contains("/"))
                             downloadFilePath = string.Format("{0}/{1}", folderPath, filePath);
@@ -190,7 +189,7 @@ namespace MPfm.Library.Services
                     }
                     catch (Exception ex)
                     {
-                        Tracing.Log("AndroidDropboxService - PullDeviceInfos - Failed to download file - ex: {0}", ex);
+						Tracing.Log("CloudLibraryService - PullDeviceInfos - Failed to download file - ex: {0}", ex);
                     }
                 }
             });

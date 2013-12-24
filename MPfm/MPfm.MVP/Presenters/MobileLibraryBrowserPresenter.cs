@@ -182,8 +182,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - id: {0}", id);
-
+                //Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - id: {0}", id);
                 var item = _items.FirstOrDefault(x => x.Id == id);
                 if(item == null)
                     return;
@@ -202,7 +201,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Tracing.Log("MobileLibraryBrowserPresenter - PlayItem id: {0}", id);
+                //Tracing.Log("MobileLibraryBrowserPresenter - PlayItem id: {0}", id);
                 var item = _items.FirstOrDefault(x => x.Id == id);
                 if(item == null)
                     return;
@@ -243,7 +242,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Tracing.Log("MobileLibraryBrowserPresenter - DeleteItem id: {0}", id);
+                //Tracing.Log("MobileLibraryBrowserPresenter - DeleteItem id: {0}", id);
                 Task.Factory.StartNew(() => {
                     var item = _items.FirstOrDefault(x => x.Id == id);
                     if(item == null)
@@ -256,7 +255,7 @@ namespace MPfm.MVP.Presenters
                         var files = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){ ArtistName = item.Query.ArtistName });
                         foreach(var file in files)
                         {
-                            Tracing.Log("MobileLibraryBrowserPresenter - Deleting {0}...", file.FilePath);
+                            //Tracing.Log("MobileLibraryBrowserPresenter - Deleting {0}...", file.FilePath);
 
 #if WINDOWSSTORE || WINDOWS_PHONE
                             // TODO: Implement this
@@ -265,7 +264,7 @@ namespace MPfm.MVP.Presenters
 #endif
                         }
 
-                        Tracing.Log("MobileLibraryBrowserPresenter - Removing audio files from cache...");
+                        //Tracing.Log("MobileLibraryBrowserPresenter - Removing audio files from cache...");
                         _audioFileCacheService.RemoveAudioFiles(item.Query.ArtistName, string.Empty);
                     }
                     else if(item.EntityType == LibraryBrowserEntityType.Album)
@@ -341,7 +340,7 @@ namespace MPfm.MVP.Presenters
 
         private void RefreshLibraryBrowser(bool isPopBackstack)
         {
-            Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - isPopBackstack: {0}", isPopBackstack);
+            //Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - isPopBackstack: {0}", isPopBackstack);
             Task.Factory.StartNew(() =>
                 {
                 // Build breadcrumb
@@ -349,7 +348,7 @@ namespace MPfm.MVP.Presenters
                 for(int a = 0; a < _queryHistory.Count; a++)
                 {
                     var history = _queryHistory[a];
-                    Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - Breadcrumb - query history {0} - browserType: {1} - query.ArtistName: {2} - query.AlbumTitle {3}", a, history.Item1.ToString(), history.Item2.ArtistName, history.Item2.AlbumTitle);
+                    //Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - Breadcrumb - query history {0} - browserType: {1} - query.ArtistName: {2} - query.AlbumTitle {3}", a, history.Item1.ToString(), history.Item2.ArtistName, history.Item2.AlbumTitle);
                     switch (history.Item1)
                     {
                         case MobileLibraryBrowserType.Playlists:

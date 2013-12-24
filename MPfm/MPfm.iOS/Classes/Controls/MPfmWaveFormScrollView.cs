@@ -147,7 +147,7 @@ namespace MPfm.iOS.Classes.Controls
 
             this.ViewForZoomingInScrollView = delegate {
                 _offsetRatio = (ContentOffset.X / ContentSize.Width);
-				Tracing.Log("WaveFormScrollView - ViewForZoomingInScrollView - offsetRatio: {0} contentOffset: {1} contentSize: {2}", _offsetRatio, ContentOffset, ContentSize);
+				//Tracing.Log("WaveFormScrollView - ViewForZoomingInScrollView - offsetRatio: {0} contentOffset: {1} contentSize: {2}", _offsetRatio, ContentOffset, ContentSize);
 				return WaveFormView;
             };
 
@@ -201,13 +201,13 @@ namespace MPfm.iOS.Classes.Controls
             _zoomScale = (_zoomScale > MaximumZoomScale) ? MaximumZoomScale : _zoomScale;
             ZoomScale = 1.0f;
             _lblZoom.Text = (_zoomScale * 100).ToString("0") + "%";
-			Tracing.Log("MPfmWaveFormScrollView - UpdateZoomScale - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
+			//Tracing.Log("MPfmWaveFormScrollView - UpdateZoomScale - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
 			UpdateContentSizeAndOffset(width);
         }
 
 		private void UpdateContentSizeAndOffset(float width)
 		{
-			Tracing.Log("MPfmWaveFormScrollView - UpdateContentSizeAndOffset - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
+			//Tracing.Log("MPfmWaveFormScrollView - UpdateContentSizeAndOffset - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
 			if(ScrollViewMode == WaveFormScrollViewMode.Standard)
 			{
 				WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, width * _zoomScale, WaveFormView.Frame.Height);
@@ -248,10 +248,9 @@ namespace MPfm.iOS.Classes.Controls
 
         public void RefreshWaveFormBitmap(float width)
         {
-			Tracing.Log("WaveFormScrollView - RefreshWaveFormBitmap - width: {0} offsetRatio: {1}", width, _offsetRatio);
+			//Tracing.Log("WaveFormScrollView - RefreshWaveFormBitmap - width: {0} offsetRatio: {1}", width, _offsetRatio);
             WaveFormView.RefreshWaveFormBitmap(width);
             WaveFormScaleView.SetNeedsDisplay();
-			Tracing.Log("WaveFormScrollView - RefreshWaveFormBitmap (2) - width: {0} offsetRatio: {1}", width, _offsetRatio);
 			UpdateZoomScale(width);
 			//ZoomScale = 1.0f;
 			//UpdateContentSizeAndOffset(width);

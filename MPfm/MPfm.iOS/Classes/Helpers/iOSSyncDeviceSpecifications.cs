@@ -34,7 +34,6 @@ namespace MPfm.iOS.Helpers
 
         public iOSSyncDeviceSpecifications()
         {
-            Console.WriteLine("iOSSyncDeviceSpecifications - Setting Reachability event...");
             ReachabilityHelper.ReachabilityChanged += HandleReachabilityChanged;
         }
 

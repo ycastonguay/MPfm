@@ -232,7 +232,7 @@ namespace MPfm.iOS.Classes.Controls
         [Export("navigationBar:shouldPushItem:")]
         public bool ShouldPushItem(UINavigationItem item)
         {
-            Console.WriteLine("NavCtrl - ShouldPushItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
+			//Console.WriteLine("NavCtrl - ShouldPushItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
             SetButtonVisibility();
             UpdateNowPlayingView();
 
@@ -251,7 +251,7 @@ namespace MPfm.iOS.Classes.Controls
         [Export("navigationBar:shouldPopItem:")]
         public bool ShouldPopItem(UINavigationItem item)
         {
-            Console.WriteLine("NavCtrl - ShouldPopItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
+			//Console.WriteLine("NavCtrl - ShouldPopItem - VisibleViewCtrl: {0}", VisibleViewController.GetType().FullName);
             SetButtonVisibility();
             UpdateNowPlayingView();
 

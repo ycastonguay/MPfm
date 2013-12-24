@@ -206,7 +206,6 @@ namespace MPfm.MVP.Presenters
             {
                 try
                 {
-                    Tracing.Log("MarkersPresenter - RefreshMarkers");
                     _markers = _libraryService.SelectMarkers(audioFileId);
 
                     foreach (var marker in _markers)
@@ -305,7 +304,7 @@ namespace MPfm.MVP.Presenters
         {
             ChangeMarkerPosition(markerId, newPositionPercentage);
             var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
-            Tracing.Log("MarkersPresenter - SetMarkerPosition - markerId: {0} position: {1}", markerId, marker.Position);
+            //Tracing.Log("MarkersPresenter - SetMarkerPosition - markerId: {0} position: {1}", markerId, marker.Position);
             UpdateMarker(marker);
         }
 
@@ -315,7 +314,7 @@ namespace MPfm.MVP.Presenters
             {            
                 try
                 {
-                    Tracing.Log("MarkersPresenter - UpdateMarker - markerId: {0}", marker.MarkerId);
+                        //Tracing.Log("MarkersPresenter - UpdateMarker - markerId: {0}", marker.MarkerId);
                     if (string.IsNullOrEmpty(marker.Name))
                     {
                         View.MarkerError(new ArgumentNullException("The marker name must not be empty!"));
@@ -343,7 +342,7 @@ namespace MPfm.MVP.Presenters
 //            {
                 try
                 {
-                    Tracing.Log("MarkersPresenter - PunchInMarker - markerId: {0}", markerId);
+                //Tracing.Log("MarkersPresenter - PunchInMarker - markerId: {0}", markerId);
                     var position = _playerService.GetPosition();
                     ChangeMarkerPosition(markerId, position.PositionBytes);
                     var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);

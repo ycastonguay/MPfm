@@ -16,23 +16,19 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.Sound.AudioFiles;
-using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controllers.Base;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Controls.Layouts;
-using MPfm.iOS.Classes.Delegates;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
 using MPfm.Core;
@@ -44,19 +40,16 @@ namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
-		List<Tuple<string, List<LibraryBrowserEntity>>> _itemsWithSections;
-		//List<LibraryBrowserEntity> _items;
+		List<Tuple<string, List<LibraryBrowserEntity>>> _items;
         MobileLibraryBrowserType _browserType;
         MobileNavigationTabType _tabType;
         LibraryQuery _query;
-
         Guid _currentlyPlayingSongId;
         bool _viewHasAlreadyBeenShown = false;
         string _cellIdentifier = "MobileLibraryBrowserCell";
 		NSString _headerCellIdentifier = new NSString("MobileLibraryBrowserHeaderCell");
         NSString _collectionCellIdentifier = new NSString("MobileLibraryBrowserCollectionCell");
 		NSString _collectionCellHeaderIdentifier = new NSString("MobileLibraryBrowserCollectionHeaderCell");
-        string _navigationBarTitle;
         string _navigationBarSubtitle;
         List<KeyValuePair<string, UIImage>> _imageCache;
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
@@ -69,8 +62,7 @@ namespace MPfm.iOS.Classes.Controllers
             _tabType = tabType;
             _browserType = browserType;
             _query = query;
-			//_items = new List<LibraryBrowserEntity>();
-			_itemsWithSections = new List<Tuple<string, List<LibraryBrowserEntity>>>();
+			_items = new List<Tuple<string, List<LibraryBrowserEntity>>>();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -79,7 +71,7 @@ namespace MPfm.iOS.Classes.Controllers
 
             // Flush image cache and table view items
 			//_items.Clear();
-			_itemsWithSections.Clear();
+			_items.Clear();
             _imageCache.Clear();
             _thumbnailImageCache.Clear();
             tableView.ReloadData();
@@ -142,7 +134,6 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.ViewWillAppear(animated);
 
-			Tracing.Log("MLBVC - ViewWillAppear - RefreshNavBar");
 			RefreshNavigationBar(_navigationBarSubtitle);
 
             if(_viewHasAlreadyBeenShown)
@@ -159,13 +150,6 @@ namespace MPfm.iOS.Classes.Controllers
             FlushImages();
         }
 
-		public override void DidMoveToParentViewController(UIViewController parent)
-		{
-			base.DidMoveToParentViewController(parent);
-
-			Tracing.Log("MLBVC - DidMoveToParentViewController");
-		} 
-
 		public override void WillMoveToParentViewController(UIViewController parent)
 		{
 			base.WillMoveToParentViewController(parent);
@@ -174,7 +158,7 @@ namespace MPfm.iOS.Classes.Controllers
 			//collectionView.ReloadData();
 			//tableView.ReloadData();
 
-			Tracing.Log("MLBVC - WillMoveToParentViewController - RefreshNavBar");
+			//Tracing.Log("MLBVC - WillMoveToParentViewController - RefreshNavBar");
 			_navigationBarSubtitle = string.Empty;
 			RefreshNavigationBar(string.Empty);
 		}
@@ -205,7 +189,7 @@ namespace MPfm.iOS.Classes.Controllers
 			else if (_browserType == MobileLibraryBrowserType.Songs)
 				iconName = "album";
 
-			Tracing.Log("MLBVC - RefreshNavBar - defaultTitle: {0} navTitle: {1} iconName: {2}", defaultTitle, navTitle, iconName);
+			//Tracing.Log("MLBVC - RefreshNavBar - defaultTitle: {0} navTitle: {1} iconName: {2}", defaultTitle, navTitle, iconName);
 			MPfmNavigationController navCtrl = (MPfmNavigationController)this.NavigationController;
 
 			if(navCtrl != null)
@@ -217,7 +201,7 @@ namespace MPfm.iOS.Classes.Controllers
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)
                 return;
 
-            Tracing.Log("MobileLibraryBrowserViewController - HandleLongPressCollectionCellRow");
+			Tracing.Log("MobileLibraryBrowserViewController - HandleLongPressCollectionCellRow");
             PointF pt = gestureRecognizer.LocationInView(collectionView);
             NSIndexPath indexPath = collectionView.IndexPathForItemAtPoint(pt);
 			if(indexPath != null)
@@ -279,7 +263,7 @@ namespace MPfm.iOS.Classes.Controllers
         public UICollectionViewCell CellForItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
 			//Tracing.Log("MobileLibraryBrowserViewController - CellForItemAtIndexPath - indexPath.row: {0} .section: {1}", indexPath.Row, indexPath.Section);
-			var item = _itemsWithSections[indexPath.Section].Item2[indexPath.Row];
+			var item = _items[indexPath.Section].Item2[indexPath.Row];
             var cell = (MPfmCollectionAlbumViewCell)collectionView.DequeueReusableCell(_collectionCellIdentifier, indexPath);
             cell.Tag = indexPath.Row;
 
@@ -322,20 +306,20 @@ namespace MPfm.iOS.Classes.Controllers
         public int NumberOfItemsInSection(UICollectionView collectionView, int section)
         {
             // Prevent loading table view cells when using a collection view
-			return _browserType == MobileLibraryBrowserType.Albums && _itemsWithSections.Count - 1 >= section ? _itemsWithSections[section].Item2.Count : 0;
+			return _browserType == MobileLibraryBrowserType.Albums && _items.Count - 1 >= section ? _items[section].Item2.Count : 0;
         }
 
         [Export ("numberOfSectionsInCollectionView:")]
         public int NumberOfSectionsInCollectionView(UICollectionView collectionView)
         {
-			return _browserType == MobileLibraryBrowserType.Albums ? _itemsWithSections.Count : 0;
+			return _browserType == MobileLibraryBrowserType.Albums ? _items.Count : 0;
         }
 
         [Export ("collectionView:didSelectItemAtIndexPath:")]
         public void CollectionDidSelectItemAtIndexPath(UICollectionView collectionView, NSIndexPath indexPath)
         {
             ResetEditingCollectionCellRow();
-			Guid id = _itemsWithSections[indexPath.Section].Item2[indexPath.Row].Id;
+			Guid id = _items[indexPath.Section].Item2[indexPath.Row].Id;
 			OnItemClick(id);
         }
 
@@ -367,7 +351,7 @@ namespace MPfm.iOS.Classes.Controllers
         private void HandleCollectionViewAddTouchUpInside(object sender, EventArgs e)
         {
             Tracing.Log("HandleCollectionViewAddTouchUpInside");
-			Guid id = _itemsWithSections[_editingRowSection].Item2[_editingRowPosition].Id;
+			Guid id = _items[_editingRowSection].Item2[_editingRowPosition].Id;
 			OnAddItemToPlaylist(id);
             ResetEditingCollectionCellRow();
         }
@@ -376,7 +360,7 @@ namespace MPfm.iOS.Classes.Controllers
         {
             Tracing.Log("HandleCollectionViewDeleteTouchUpInside");
 
-			var item = _itemsWithSections[_editingRowSection].Item2[_editingRowPosition];
+			var item = _items[_editingRowSection].Item2[_editingRowPosition];
             if (item == null)
                 return;
 
@@ -396,7 +380,7 @@ namespace MPfm.iOS.Classes.Controllers
         private void HandleCollectionViewPlayTouchUpInside(object sender, EventArgs e)
         {
 			Tracing.Log("MobileLibraryBrowserViewCtrl - HandleCollectionViewPlayTouchUpInside");
-			Guid id = _itemsWithSections[_editingRowSection].Item2[_editingRowPosition].Id;
+			Guid id = _items[_editingRowSection].Item2[_editingRowPosition].Id;
 			OnPlayItem(id);
             ResetEditingCollectionCellRow();
         }
@@ -413,8 +397,8 @@ namespace MPfm.iOS.Classes.Controllers
 			if (viewForSupplementaryElementOfKind == "UICollectionElementKindSectionHeader")
 			{
 				var view = (MPfmCollectionHeaderView)collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier, indexPath);
-				if(indexPath.Section <= _itemsWithSections.Count - 1)
-					view.TextLabel.Text = _itemsWithSections[indexPath.Section].Item1;
+				if(indexPath.Section <= _items.Count - 1)
+					view.TextLabel.Text = _items[indexPath.Section].Item1;
 				return view;
 			}
 			return null;
@@ -507,7 +491,7 @@ namespace MPfm.iOS.Classes.Controllers
 		[Export ("numberOfSectionsInTableView:")]
 		public int NumberOfSectionsInTableView(UITableView tableView)
 		{
-			return _browserType != MobileLibraryBrowserType.Albums ? _itemsWithSections.Count : 0;
+			return _browserType != MobileLibraryBrowserType.Albums ? _items.Count : 0;
 		}
 
         [Export ("tableView:numberOfRowsInSection:")]
@@ -517,7 +501,7 @@ namespace MPfm.iOS.Classes.Controllers
 			if (_browserType == MobileLibraryBrowserType.Albums)
 				return 0;
 
-			return _itemsWithSections.Count - 1 >= section ? _itemsWithSections[section].Item2.Count : 0;
+			return _items.Count - 1 >= section ? _items[section].Item2.Count : 0;
         }
 
 		[Export ("tableView:viewForHeaderInSection:")]
@@ -530,8 +514,8 @@ namespace MPfm.iOS.Classes.Controllers
 			if (header == null)
 				header = new MPfmAlbumHeaderView();
 
-			var audioFile = _itemsWithSections[section].Item2[0].AudioFile; // there is at least one song per section
-			int songCount = _itemsWithSections[section].Item2.Count;
+			var audioFile = _items[section].Item2[0].AudioFile; // there is at least one song per section
+			int songCount = _items[section].Item2.Count;
 
 			header.ArtistNameLabel.Text = audioFile.ArtistName;
 			header.AlbumTitleLabel.Text = audioFile.AlbumTitle;
@@ -543,7 +527,7 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:cellForRowAtIndexPath:")]
         public UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-			var item = _itemsWithSections[indexPath.Section].Item2[indexPath.Row];
+			var item = _items[indexPath.Section].Item2[indexPath.Row];
 			MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
             if (cell == null)
             {
@@ -625,9 +609,7 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.AlbumCountLabel.Hidden = item.AlbumTitles.Count > 3 ? false : true;
 
                 int albumFetchCount = item.AlbumTitles.Count > 3 ? 2 : item.AlbumTitles.Count;
-                albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : albumFetchCount; //
-                //albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : item.AlbumTitles.Count; // Do not load a third album art when the count is visible!
-
+                albumFetchCount = item.AlbumTitles.Count == 3 ? 3 : albumFetchCount;
                 //Console.WriteLine("GetCell - title: {0} index: {1} albumFetchCount: {2}", item.Title, indexPath.Row, albumFetchCount);
 
                 int startIndex = 0;
@@ -678,7 +660,7 @@ namespace MPfm.iOS.Classes.Controllers
             }
 
             Console.WriteLine("MLBVC - RowSelected - OnItemClick - row: {0}", indexPath.Row);
-			Guid id = _itemsWithSections[indexPath.Section].Item2[indexPath.Row].Id;
+			Guid id = _items[indexPath.Section].Item2[indexPath.Row].Id;
 			OnItemClick(id);
         }
 
@@ -724,14 +706,14 @@ namespace MPfm.iOS.Classes.Controllers
 
         private void HandleTableViewAddTouchUpInside(object sender, EventArgs e)
         {
-			Guid id = _itemsWithSections[_editingRowSection].Item2[_editingRowPosition].Id;
+			Guid id = _items[_editingRowSection].Item2[_editingRowPosition].Id;
 			OnAddItemToPlaylist(id);
             ResetEditingTableCellRow();
         }
 
         private void HandleTableViewDeleteTouchUpInside(object sender, EventArgs e)
         {
-			var item = _itemsWithSections[_editingRowSection].Item2[_editingRowPosition];
+			var item = _items[_editingRowSection].Item2[_editingRowPosition];
             if (item == null)
                 return;
 
@@ -750,7 +732,7 @@ namespace MPfm.iOS.Classes.Controllers
 
         private void HandleTableViewPlayTouchUpInside(object sender, EventArgs e)
         {
-			Guid id = _itemsWithSections[_editingRowSection].Item2[_editingRowPosition].Id;
+			Guid id = _items[_editingRowSection].Item2[_editingRowPosition].Id;
 			OnPlayItem(id);
             ResetEditingTableCellRow();
         }
@@ -811,11 +793,6 @@ namespace MPfm.iOS.Classes.Controllers
         public async void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
             //Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2}", artistName, albumTitle, _browserType);
-            // Note: cannot call UIScreen.MainScreen in a background thread!
-//            int height = 44;
-//            InvokeOnMainThread(() => {
-//                height = (int)(44 * UIScreen.MainScreen.Scale);
-//            });
             int height = 0;
             switch (_browserType)
             {
@@ -841,7 +818,6 @@ namespace MPfm.iOS.Classes.Controllers
                             if (imageFullSize != null)
                             {
                                 UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
-                                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - Image resized!");
                                 return imageResized;
                             }
                         }
@@ -852,96 +828,59 @@ namespace MPfm.iOS.Classes.Controllers
                     Console.WriteLine("Error resizing image " + artistName + " - " + albumTitle + ": " + ex.Message);
                 }
 
-                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - Returning null");
                 return null;
             });
+            
+			UIImage image = await task;
+            if(image == null)
+                return;
 
-            //}).ContinueWith(t => {
+			//Console.WriteLine("MLBVC - RefreshAlbumArtCell - ContinueWith - artistName: {0} albumTitle: {1} browserType: {2} userData==null: {3} image==null: {4}", artistName, albumTitle, _browserType, userData == null, image == null);
+            InvokeOnMainThread(() => {
+                switch (_browserType)
+                {
+                    case MobileLibraryBrowserType.Artists:
+                        // Remove older image from cache if exceeds cache size
+                        if(_thumbnailImageCache.Count > 80)
+                            _thumbnailImageCache.RemoveAt(0);
 
-                //UIImage image = t.Result;
-            UIImage image = await task;
-                //Console.WriteLine("MLBVC - RefreshAlbumArtCell - ContinueWith - artistName: {0} albumTitle: {1} browserType: {2} userData==null: {3} image==null: {4}", artistName, albumTitle, _browserType, userData == null, image == null);
-                if(image == null)
-                    return;
+                        // Add image to cache
+                        _thumbnailImageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
 
-                InvokeOnMainThread(() => {
-                    switch (_browserType)
-                    {
-                        case MobileLibraryBrowserType.Artists:
-                            // Remove older image from cache if exceeds cache size
-                            if(_thumbnailImageCache.Count > 80)
-                                _thumbnailImageCache.RemoveAt(0);
+                        if(userData != null)
+                        {
+                            var imageView = (UIImageView)userData;
+                            imageView.Alpha = 0;
+                            imageView.Image = image;
 
-                            // Add image to cache
-                            _thumbnailImageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
+                            float alpha = 0.75f;
+                            if(imageView.Tag == 3)
+                                //alpha = 0.15f;
+                                alpha = 0.2f;
+                            else if(imageView.Tag == 2)
+                                alpha = 0.4f;
 
-//                            // Get item from list
-//						//var itemArtistName = _items.FirstOrDefault(x => x.Query.ArtistName == artistName);
-//							var itemArtistName = _itemsWithSections.FirstOrDefault(x => x.Item1 == artistName);
-//                            if (itemArtistName == null)
-//                                return;
-//
-//                            // Get cell from item
-//                            int indexArtistName = _items.IndexOf(itemArtistName);
-//                            var cellArtistName = (MPfmTableViewCell)tableView.VisibleCells.FirstOrDefault(x => x.Tag == indexArtistName);
-//                            if (cellArtistName == null)
-//                                return;
+                            UIView.Animate(0.2, () => {
+                                imageView.Alpha = alpha;
+                            });
+                        }
+                        break;
+                    case MobileLibraryBrowserType.Albums:
+                        // Remove older image from cache if exceeds cache size
+                        if(_imageCache.Count > 20)
+                            _imageCache.RemoveAt(0);
 
-                            if(userData != null)
-                            {
-                                var imageView = (UIImageView)userData;
-                                imageView.Alpha = 0;
-                                imageView.Image = image;
+                        _imageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
+						var indexPath = (NSIndexPath)userData;
+						var cellAlbumTitle = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+						if (cellAlbumTitle == null)
+                            return;
 
-                                float alpha = 0.75f;
-                                if(imageView.Tag == 3)
-                                    //alpha = 0.15f;
-                                    alpha = 0.2f;
-                                else if(imageView.Tag == 2)
-                                    alpha = 0.4f;
-
-                                UIView.Animate(0.2, () => {
-                                    imageView.Alpha = alpha;
-                                });
-                            }
-
-                            //if(cellArtistName.Image != image)
-                            //    cellArtistName.SetImage(image);
-                            break;
-                        case MobileLibraryBrowserType.Albums:
-                            // Remove older image from cache if exceeds cache size
-                            if(_imageCache.Count > 20)
-                                _imageCache.RemoveAt(0);
-
-                            _imageCache.Add(new KeyValuePair<string, UIImage>(artistName + "_" + albumTitle, image));
-							var indexPath = (NSIndexPath)userData;
-							var cellAlbumTitle = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
-							if (cellAlbumTitle == null)
-                                return;
-
-                            if(cellAlbumTitle.Image != image)
-                                cellAlbumTitle.SetImage(image);
-                            break;
-                    }
-
-//                    // Get cell from item
-//                    int index = _items.IndexOf(item);
-//                    var cell = tableView.VisibleCells.FirstOrDefault(x => x.Tag == index);
-//                    if (cell == null)
-//                        return;
-//
-//                    // Make sure cell is available
-//                    if(cell != null && cell.ImageView != null)
-//                    {
-//                        cell.ImageView.Alpha = 0;
-//                        cell.ImageView.Image = image;
-//                        cell.ImageView.Frame = new RectangleF(0, 0, 44, 44);
-//                        UIView.Animate(0.1, () => {
-//                            cell.ImageView.Alpha = 1;
-//                        });
-//                    }
-                });
-            //}, TaskScheduler.FromCurrentSynchronizationContext());
+                        if(cellAlbumTitle.Image != image)
+                            cellAlbumTitle.SetImage(image);
+                        break;
+                }
+            });
         }
     
         public void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty)
@@ -950,26 +889,20 @@ namespace MPfm.iOS.Classes.Controllers
 				_editingRowSection = -1;
 				_editingRowPosition = -1;
                 _browserType = browserType;
-                _navigationBarTitle = navigationBarTitle;
                 _navigationBarSubtitle = navigationBarSubtitle;
-				Tracing.Log("MLBVC - RefreshLibraryBrowser - RefreshNavBar - browserType: {0}", browserType);
 				RefreshNavigationBar(_navigationBarSubtitle);
 
                 // Reset scroll bar
                 tableView.ScrollRectToVisible(new RectangleF(0, 0, 1, 1), false);
 
-				if(browserType == MobileLibraryBrowserType.Songs)
-					browserType = MobileLibraryBrowserType.Songs;
-
 				// Generate list of items with sections
-				_itemsWithSections.Clear();
+				_items.Clear();
 				if(browserType == MobileLibraryBrowserType.Playlists || browserType == MobileLibraryBrowserType.Artists || 
 				   browserType == MobileLibraryBrowserType.Albums)
 				{
-					//var distinctArtists = entities.OrderBy(x => x.Subtitle).Select(x => x.Subtitle).Distinct().ToList();
 					var distinctArtists = entities.Select(x => x.Subtitle).OrderBy(x => x).Distinct().ToList();
 					foreach(var artist in distinctArtists)
-						_itemsWithSections.Add(new Tuple<string, List<LibraryBrowserEntity>>(artist, entities.Where(x => x.Subtitle == artist).ToList()));
+						_items.Add(new Tuple<string, List<LibraryBrowserEntity>>(artist, entities.Where(x => x.Subtitle == artist).ToList()));
 				}
 				else if(browserType == MobileLibraryBrowserType.Songs)
 				{
@@ -979,7 +912,7 @@ namespace MPfm.iOS.Classes.Controllers
 						var distinctAlbums = entities.Where(x => x.AudioFile.ArtistName == artist).Select(x => x.AudioFile.AlbumTitle).OrderBy(x => x).Distinct().ToList();
 						foreach(var album in distinctAlbums)
 						{
-							_itemsWithSections.Add(new Tuple<string, List<LibraryBrowserEntity>>(string.Format("{0}_{1}", artist, album), entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).OrderBy(x => x.AudioFile.TrackNumber).ToList()));
+							_items.Add(new Tuple<string, List<LibraryBrowserEntity>>(string.Format("{0}_{1}", artist, album), entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).OrderBy(x => x.AudioFile.TrackNumber).ToList()));
 						}
 					}
 				}
@@ -988,9 +921,7 @@ namespace MPfm.iOS.Classes.Controllers
 				if(viewLoading.Alpha > 0)
 				{
 					activityIndicator.StopAnimating();
-					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-						viewLoading.Alpha = 0;
-					}, null);
+					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => viewLoading.Alpha = 0, null);
 				}
 
                 if(browserType == MobileLibraryBrowserType.Albums)
@@ -1006,10 +937,7 @@ namespace MPfm.iOS.Classes.Controllers
 					{
 						collectionView.Alpha = 0;
 						collectionView.ReloadData();
-
-						UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-							collectionView.Alpha = 1;
-						}, null);
+						UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => collectionView.Alpha = 1, null);
 					}
                 }
                 else
@@ -1025,87 +953,40 @@ namespace MPfm.iOS.Classes.Controllers
 					{
 						tableView.Alpha = 0;
 						tableView.ReloadData();
-
-						UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-							tableView.Alpha = 1;
-						}, null);
+						UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => tableView.Alpha = 1, null);
 					}
                 }
 
                 // Hide album cover if not showing songs
                 if(browserType != MobileLibraryBrowserType.Songs)
                 {
-					//viewAlbumCover.Hidden = true;
 					tableView.Frame = new RectangleF(View.Frame.X, View.Frame.Y - 44 - 20, View.Frame.Width, View.Frame.Height);
                 }
                 else
                 {
-					//viewAlbumCover.Hidden = false;
-					if(_itemsWithSections.Count == 0)
+					if(_items.Count == 0)
                         return;
-
-					//var audioFile = _items[0].AudioFile;
-//                    lblArtistName.Text = audioFile.ArtistName;
-//                    lblAlbumTitle.Text = audioFile.AlbumTitle;
-//                    lblSubtitle1.Text = _items.Count().ToString() + " songs";
-
-//                    // Note: cannot call UIScreen.MainScreen in a background thread!
-//                    int height = (int)(viewAlbumCover.Bounds.Height * UIScreen.MainScreen.Scale);
-//					imageViewAlbumCover.Image = null;
-//                    Task<UIImage>.Factory.StartNew(() => {
-//                        byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
-//                        using (NSData imageData = NSData.FromArray(bytesImage))
-//                        {
-//                            using (UIImage image = UIImage.LoadFromData(imageData))
-//                            {
-//                                if (image != null)
-//                                {
-//                                    try
-//                                    {
-//                                        UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
-//                                        return imageResized;
-//                                    } 
-//                                    catch (Exception ex)
-//                                    {
-//                                        Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        
-//                        return null;
-//                    }).ContinueWith(t => {
-//                        UIImage image = t.Result;
-//                        if(image == null)
-//                            return;
-//                        
-//                        InvokeOnMainThread(() => {
-//                            imageViewAlbumCover.Image = image;                                                                                               
-//                        });
-//                    }, TaskScheduler.FromCurrentSynchronizationContext());
                 }
             });
         }
 
 		public void RefreshCurrentlyPlayingSong(Guid id, AudioFile audioFile)
         {
-			Console.WriteLine("MLBVC - RefreshCurrentlyPlayingSong id: {0} audioFile: {1}", id, audioFile.FilePath);
-
+			//Console.WriteLine("MLBVC - RefreshCurrentlyPlayingSong id: {0} audioFile: {1}", id, audioFile.FilePath);
             _currentlyPlayingSongId = audioFile != null ? audioFile.Id : Guid.Empty;
             InvokeOnMainThread(() => {
 
 				// Only shown on Artists/Songs view types.
-				//Tuple<string, List<LibraryBrowserEntity>> section = null;
 				int sectionIndex = -1;
 				if(_browserType == MobileLibraryBrowserType.Artists)
-					sectionIndex = _itemsWithSections.FindIndex(x => x.Item1 == audioFile.ArtistName);
+					sectionIndex = _items.FindIndex(x => x.Item1 == audioFile.ArtistName);
 				else if(_browserType == MobileLibraryBrowserType.Songs)
-					sectionIndex = _itemsWithSections.FindIndex(x => x.Item1 == string.Format("{0}_{1}", audioFile.ArtistName, audioFile.AlbumTitle));
+					sectionIndex = _items.FindIndex(x => x.Item1 == string.Format("{0}_{1}", audioFile.ArtistName, audioFile.AlbumTitle));
 
 				if(sectionIndex == -1)
 					return;
 
-				int index = _itemsWithSections[sectionIndex].Item2.FindIndex(x => x.Id == id);
+				int index = _items[sectionIndex].Item2.FindIndex(x => x.Id == id);
 				if(index == -1)
 					return;
 
@@ -1113,10 +994,10 @@ namespace MPfm.iOS.Classes.Controllers
 				if(cell == null)
 					return;
 
-				if(_itemsWithSections[sectionIndex].Item2[index].AudioFile == null)
+				if(_items[sectionIndex].Item2[index].AudioFile == null)
 					return;
 
-				cell.RightImage.Hidden = id == _itemsWithSections[sectionIndex].Item2[index].AudioFile.Id ? false : true;
+				cell.RightImage.Hidden = id == _items[sectionIndex].Item2[index].AudioFile.Id ? false : true;
 
 
 //                    if(_items[cell.Tag].AudioFile != null)

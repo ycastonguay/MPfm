@@ -60,7 +60,6 @@ namespace MPfm.iOS.Managers
 
         public WaveFormCacheManager(IPeakFileService peakFileService)
         {
-            Console.WriteLine("WaveFormCacheManager - Constructor");
             _peakFileService = peakFileService;
             _peakFileService.OnProcessStarted += HandleOnPeakFileProcessStarted;
             _peakFileService.OnProcessData += HandleOnPeakFileProcessData;
@@ -120,7 +119,7 @@ namespace MPfm.iOS.Managers
         
         void HandleOnPeakFileProcessDone(PeakFileDoneData data)
         {
-            Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
+			//Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
             OnGeneratePeakFileEnded(new GeneratePeakFileEventArgs(){
                 AudioFilePath = data.AudioFilePath,
                 PercentageDone = 100,
@@ -130,7 +129,7 @@ namespace MPfm.iOS.Managers
 
         public void FlushCache()
         {
-            Console.WriteLine("WaveFormCacheManager - FlushCache");
+			//Console.WriteLine("WaveFormCacheManager - FlushCache");
             _waveDataCache = null;
             _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();
             _bitmapCache = null;
@@ -140,10 +139,10 @@ namespace MPfm.iOS.Managers
         public void LoadPeakFile(AudioFile audioFile)
         {
             // Check if another peak file is already loading
-            Console.WriteLine("WaveFormCacheManager - LoadPeakFile audioFile: " + audioFile.FilePath);
+			//Console.WriteLine("WaveFormCacheManager - LoadPeakFile audioFile: " + audioFile.FilePath);
             if (_peakFileService.IsLoading)
             {
-                Console.WriteLine("WaveFormCacheManager - Cancelling current peak file generation...");
+				//Console.WriteLine("WaveFormCacheManager - Cancelling current peak file generation...");
                 _peakFileService.Cancel();
             }
             
@@ -153,7 +152,7 @@ namespace MPfm.iOS.Managers
             {
                 try
                 {
-                    Console.WriteLine("WaveFormCacheManager - Creating folder " + peakFileFolder + "...");
+					//Console.WriteLine("WaveFormCacheManager - Creating folder " + peakFileFolder + "...");
                     Directory.CreateDirectory(peakFileFolder);
                 }
                 catch(Exception ex)
@@ -177,7 +176,7 @@ namespace MPfm.iOS.Managers
 
                     try
                     {
-                        Console.WriteLine("WaveFormCacheManager - Reading peak file: " + peakFilePath);
+						//Console.WriteLine("WaveFormCacheManager - Reading peak file: " + peakFilePath);
                         data = _peakFileService.ReadPeakFile(peakFilePath);
                         if(data != null)
                             return data;
@@ -189,7 +188,7 @@ namespace MPfm.iOS.Managers
                     
                     try
                     {
-                        Console.WriteLine("WaveFormCacheManager - Peak file could not be loaded - Generating " + peakFilePath + "...");
+						//Console.WriteLine("WaveFormCacheManager - Peak file could not be loaded - Generating " + peakFilePath + "...");
                         OnGeneratePeakFileBegun(new GeneratePeakFileEventArgs());
                         _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
                     } 
@@ -199,15 +198,15 @@ namespace MPfm.iOS.Managers
                     }
                     return null;
                 }, TaskCreationOptions.LongRunning).ContinueWith(t => {
-                    Console.WriteLine("WaveFormCacheManager - Read peak file over.");
+					//Console.WriteLine("WaveFormCacheManager - Read peak file over.");
                     List<WaveDataMinMax> data = (List<WaveDataMinMax>)t.Result;
                     if (data == null)
                     {
-                        Console.WriteLine("WaveFormCacheManager - Could not load a peak file from disk (i.e. generating a new peak file).");
+						//Console.WriteLine("WaveFormCacheManager - Could not load a peak file from disk (i.e. generating a new peak file).");
                         return;
                     }
 
-                    Console.WriteLine("WaveFormCacheManager - Adding wave data to cache...");
+					//Console.WriteLine("WaveFormCacheManager - Adding wave data to cache...");
                     if(!_waveDataCache.ContainsKey(audioFile.FilePath))                    
                         _waveDataCache.Add(audioFile.FilePath, data);
 
@@ -245,7 +244,7 @@ namespace MPfm.iOS.Managers
                 CGContext context;
                 try
                 {
-                    Console.WriteLine("WaveFormCacheManager - Creating image cache...");
+					//Console.WriteLine("WaveFormCacheManager - Creating image cache...");
                     UIGraphics.BeginImageContextWithOptions(bounds.Size, false, 0);
                     context = UIGraphics.GetCurrentContext();
 
@@ -254,7 +253,7 @@ namespace MPfm.iOS.Managers
                     context.ScaleCTM(1, -1);
                     if (context == null)
                     {
-                        Console.WriteLine("Error initializing image cache context!");
+						Console.WriteLine("Error initializing image cache context!");
                         return null;
                     }
                 }
@@ -494,7 +493,7 @@ namespace MPfm.iOS.Managers
                 }
                 return imageCache;                
             }, TaskCreationOptions.LongRunning).ContinueWith(t => {
-                Console.WriteLine("WaveFormCacheManager - Created image successfully.");
+				//Console.WriteLine("WaveFormCacheManager - Created image successfully.");
                 OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs(){
                     AudioFilePath = audioFile.FilePath,
                     Zoom = zoom,

@@ -86,9 +86,9 @@ namespace MPfm.MVP.Presenters
                 float timeShiftingRatio = (_timeShifting + 100) / 200;
                 float timeShiftingValue = (timeShiftingRatio * 100) + 50;
                 float currentTempo = _referenceTempo * (timeShiftingValue / 100);
-                Tracing.Log("TimeShiftingPresenter - RefreshTimeShiftingView - timeShifting: " + _timeShifting.ToString() + " timeShiftingRatio: " + timeShiftingRatio.ToString() + 
-                                  " timeShiftingValue: " + timeShiftingValue.ToString() + " detectedTempo: " + _detectedTempo.ToString() +
-                                  " currentTempo: " + currentTempo.ToString() + " referenceTempo: " + _referenceTempo.ToString());
+//                Tracing.Log("TimeShiftingPresenter - RefreshTimeShiftingView - timeShifting: " + _timeShifting.ToString() + " timeShiftingRatio: " + timeShiftingRatio.ToString() + 
+//                                  " timeShiftingValue: " + timeShiftingValue.ToString() + " detectedTempo: " + _detectedTempo.ToString() +
+//                                  " currentTempo: " + currentTempo.ToString() + " referenceTempo: " + _referenceTempo.ToString());
 
                 View.RefreshTimeShifting(new PlayerTimeShiftingEntity(){
                     TimeShiftingValue = timeShiftingValue,

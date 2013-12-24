@@ -154,7 +154,7 @@ namespace MPfm.iOS.Classes.Controllers
 
         public void AddTab(MobileNavigationTabType type, string title, MobileLibraryBrowserType browserType, LibraryQuery query, IBaseView view)
         {
-            Tracing.Log("MainViewController - AddTab - type: {0} title: {1} browserType: {2}", type, title, browserType);
+			//Tracing.Log("MainViewController - AddTab - type: {0} title: {1} browserType: {2}", type, title, browserType);
             var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
             appDelegate.AddTab(type, title, (UIViewController)view);
         }

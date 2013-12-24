@@ -410,7 +410,7 @@ namespace MPfm.iOS.Classes.Controllers
 
         private void ShowPlayerMetadata(bool show, bool swipeUp)
         {
-            Console.WriteLine("PlayerVC - ShowPlayerMetadata: {0}", show);
+			//Console.WriteLine("PlayerVC - ShowPlayerMetadata: {0}", show);
 
             if (_playerMetadataViewController != null)
                 _playerMetadataViewController.ShowPanel(show, swipeUp);

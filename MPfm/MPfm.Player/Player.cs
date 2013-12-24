@@ -606,22 +606,22 @@ namespace MPfm.Player
 	            {
 #if IOS
                     // Load decoding plugins (http://www.un4seen.com/forum/?topic=13851.msg96559#msg96559)
-                    Console.WriteLine("Loading iOS plugins (FLAC)...");
+					Console.WriteLine("Player init -- Loading iOS plugins (FLAC)...");
                     _flacPluginHandle = Base.LoadPlugin("BASSFLAC");
-                    Console.WriteLine("Loading iOS plugins (WV)...");
+					Console.WriteLine("Player init -- Loading iOS plugins (WV)...");
                     _wvPluginHandle = Base.LoadPlugin("BASSWV");
-                    Console.WriteLine("Loading iOS plugins (APE)...");
+					Console.WriteLine("Player init -- Loading iOS plugins (APE)...");
                     _apePluginHandle = Base.LoadPlugin("BASS_APE");
-                    Console.WriteLine("Loading iOS plugins (MPC)...");
+					Console.WriteLine("Player init -- Loading iOS plugins (MPC)...");
                     _mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
 
-                    Console.WriteLine("Configuring IOSNOTIFY delegate...");
+					Console.WriteLine("Player init -- Configuring IOSNOTIFY delegate...");
                     _iosNotifyProc = new IOSNOTIFYPROC(IOSNotifyProc);
                     IntPtr ptr = Marshal.GetFunctionPointerForDelegate(_iosNotifyProc);
                     Bass.BASS_SetConfigPtr((BASSConfig)46, ptr);
                     //Bass.BASS_SetConfigPtr(BASSIOSConfig.BASS_CONFIG_IOS_NOTIFY, ptr);
 
-                    Console.WriteLine("Configuring AirPlay and remote control...");
+					Console.WriteLine("Player init -- Configuring AirPlay and remote control...");
                     Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_IOS_MIXAUDIO, 0); // 0 = AirPlay
 #else
 
@@ -872,11 +872,11 @@ namespace MPfm.Player
                 {
                     if (_currentLoop != null)
                     {
-                        Tracing.Log("Player.Play -- Stopping current loop...");
+						//Tracing.Log("Player.Play -- Stopping current loop...");
                         StopLoop();
                     }
 
-                    Tracing.Log("Player.Play -- Stopping playback...");
+					//Tracing.Log("Player.Play -- Stopping playback...");
                     Stop();
                 }
 
@@ -906,7 +906,7 @@ namespace MPfm.Player
                 try
                 {
                     // Create the streaming channel (set the frequency to the first file in the list)
-                    Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + _playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
+					//Tracing.Log("Player.Play -- Creating streaming channel (SampleRate: " + _playlist.CurrentItem.AudioFile.SampleRate + " Hz, FloatingPoint: true)...");
 
 #if IOS
                     _streamProc = new STREAMPROC(StreamCallbackIOS);
@@ -915,7 +915,7 @@ namespace MPfm.Player
 #endif
 
                     _streamChannel = Channel.CreateStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, _streamProc);
-                    Tracing.Log("Player.Play -- Creating time shifting channel...");
+					//Tracing.Log("Player.Play -- Creating time shifting channel...");
                     _fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, true, _useFloatingPoint);
                 }
                 catch(Exception ex)
@@ -934,7 +934,7 @@ namespace MPfm.Player
                     try
                     {
                         // Create mixer stream
-                        Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
+						//Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
                         _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, false);
                         _mixerChannel.AddChannel(_fxChannel.Handle);
                         AddBPMCallbacks();
@@ -1037,14 +1037,14 @@ namespace MPfm.Player
                 _mixerChannel.Volume = Volume;
 
                 // Load 18-band equalizer
-                Tracing.Log("Player.Play -- Creating equalizer (Preset: " + _currentEQPreset + ")...");
+				//Tracing.Log("Player.Play -- Creating equalizer (Preset: " + _currentEQPreset + ")...");
                 AddEQ(_currentEQPreset);
 
                 // Check if EQ is bypassed
                 if (_isEQBypassed)
                 {
                     // Reset EQ
-                    Tracing.Log("Player.Play -- Equalizer is bypassed; resetting EQ...");
+					//Tracing.Log("Player.Play -- Equalizer is bypassed; resetting EQ...");
                     ResetEQ();
                 }
 
@@ -1063,7 +1063,7 @@ namespace MPfm.Player
                     Base.Start();
 
                     // Start playback
-                    Tracing.Log("Player.Play -- Starting DirectSound playback...");
+					//Tracing.Log("Player.Play -- Starting DirectSound playback...");
                     _mixerChannel.Play(false);
 
                     if (startPaused)
@@ -1128,7 +1128,7 @@ namespace MPfm.Player
                 throw new Exception("There must be at least one file in the audioFiles parameter.");
 
             // Check if all file paths exist
-            Tracing.Log("Player.PlayFiles -- Playing a list of " + audioFiles.Count.ToString() + " files.");
+			//Tracing.Log("Player.PlayFiles -- Playing a list of " + audioFiles.Count.ToString() + " files.");
             foreach (AudioFile audioFile in audioFiles)
                 if (!File.Exists(audioFile.FilePath))
                     throw new Exception("The file at " + audioFile.FilePath + " doesn't exist!");
@@ -1855,35 +1855,35 @@ namespace MPfm.Player
                         return Playlist.CurrentItem.Channel.GetData(buffer, length);
                     }
 
-                    Tracing.Log("StreamCallback -- Playlist is over!");
+					//Tracing.Log("StreamCallback -- Playlist is over!");
                     return (int)BASSStreamProc.BASS_STREAMPROC_END;
                 }
                 else
                 {
-                    Tracing.Log("StreamCallback -- Setting next playlist index...");
+					//Tracing.Log("StreamCallback -- Setting next playlist index...");
                     _currentMixPlaylistIndex++;
                 }
 
-                Tracing.Log("StreamCallback -- Locking channel...");
+				//Tracing.Log("StreamCallback -- Locking channel...");
                 _mixerChannel.Lock(true);
 
-                Tracing.Log("StreamCallback -- Getting main channel position...");
+				//Tracing.Log("StreamCallback -- Getting main channel position...");
                 long position = _mixerChannel.GetPosition(_fxChannel.Handle);
 //                if (_useFloatingPoint)
 //                    position /= 2;
 
                 // Get remanining data in buffer
-                Tracing.Log("StreamCallback -- Getting BASS_DATA_AVAILABLE...");
+				//Tracing.Log("StreamCallback -- Getting BASS_DATA_AVAILABLE...");
                 int buffered = _mixerChannel.GetData(IntPtr.Zero, (int)BASSData.BASS_DATA_AVAILABLE);                
 
-                Tracing.Log("StreamCallback -- Getting current channel length (mix index)...");
+				//Tracing.Log("StreamCallback -- Getting current channel length (mix index)...");
                 long audioLength = Playlist.Items[_currentMixPlaylistIndex].Channel.GetLength();
 
-                Tracing.Log("StreamCallback -- Setting new sync...");
+				//Tracing.Log("StreamCallback -- Setting new sync...");
                 long syncPos = position + buffered + audioLength;
                 SetSyncCallback(syncPos);
 
-                Tracing.Log("StreamCallback -- Unlocking channel...");
+				//Tracing.Log("StreamCallback -- Unlocking channel...");
                 _mixerChannel.Lock(false);
 
                 // Return data from the new channel

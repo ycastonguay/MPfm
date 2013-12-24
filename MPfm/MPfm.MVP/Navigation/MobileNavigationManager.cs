@@ -319,7 +319,6 @@ namespace MPfm.MVP.Navigation
 
         public virtual void BindSplashView(ISplashView view)
         {
-            Tracing.Log("MobileNavigationManager - BindSplashView");
             _splashView = view;
             _splashView.OnViewDestroy = (view2) =>
             {
@@ -368,7 +367,6 @@ namespace MPfm.MVP.Navigation
             // Fine for normal views, but what about details views (i.e. Edit an entity)? The system simply cannot create a details view by itself! 
             // If an activity previously created with intent params is restored, the intent param values will also be restored. So these params will be sent to the presenter
             // when binding the view (i.e. INavigationManager.BindMarkerDetailsView(Guid markerId))
-            Tracing.Log("MobileNavigationManager - BindMobileMainView");
             _mainView = view;
             _mainPresenter = Bootstrapper.GetContainer().Resolve<IMobileMainPresenter>();
             _mainView.OnViewDestroy = (view2) =>
@@ -1082,7 +1080,6 @@ namespace MPfm.MVP.Navigation
         {
             //if (_cloudConnectView == null)
             _cloudConnectView = Bootstrapper.GetContainer().Resolve<ICloudConnectView>();
-
             return _cloudConnectView;
         }
 

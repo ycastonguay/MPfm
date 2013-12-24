@@ -201,7 +201,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             InvokeOnMainThread(() => {
                 // TODO: Check if cancelled? This will not fire another LoadPeakFile if the peak file gen was cancelled.
-                Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
+				//Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
                 if(!e.Cancelled)
                     _waveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
             });
@@ -304,7 +304,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-            Console.WriteLine("WaveFormView - LoadPeakFile " + audioFile.FilePath);
+			//Console.WriteLine("WaveFormView - LoadPeakFile " + audioFile.FilePath);
             _audioFile = audioFile;
             RefreshStatus("Loading peak file...");
             _waveFormCacheManager.LoadPeakFile(audioFile);
@@ -402,7 +402,7 @@ namespace MPfm.iOS.Classes.Controls
             if(!_isGeneratingImageCache)
             {
                 _isGeneratingImageCache = true;
-                Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
+				//Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
                 _waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, frame, 1, _length);
                 _isGeneratingImageCache = false;
             }

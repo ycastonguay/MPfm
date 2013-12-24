@@ -58,7 +58,7 @@ namespace MPfm.iOS.Helpers
         {
             get
             {
-                Console.WriteLine("system library is {0}.", MonoTouch.Constants.SystemLibrary);
+				//Console.WriteLine("system library is {0}.", MonoTouch.Constants.SystemLibrary);
                 var pLen = Marshal.AllocHGlobal(sizeof(int));
                 sysctlbyname(HardwareProperty, IntPtr.Zero, pLen, IntPtr.Zero, 0);
                 
