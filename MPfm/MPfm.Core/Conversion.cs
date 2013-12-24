@@ -134,6 +134,28 @@ namespace MPfm.Core
 			return timeString;
 		}
 
+		public static long TimeStringToMilliseconds(string time)
+		{
+			long totalms = 0;
+			int mins = 0;
+			int secs = 0;
+			int ms = 0;
+
+			var split = time.Split(new char[2]{ ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
+			if(split.Length >= 0)
+				int.TryParse(split[0], out mins);
+			if(split.Length >= 1)
+				int.TryParse(split[1], out secs);
+			if(split.Length >= 2)
+				int.TryParse(split[2], out ms);
+
+			totalms += ms;
+			totalms += secs * 1000;
+			totalms += mins * 1000 * 60;
+
+			return totalms;
+		}
+
 		/// <summary>
 		/// Converts a TimeSpan to a time string (0:00.000 format).
 		/// </summary>

@@ -53,13 +53,12 @@ namespace MPfm.iOS.Classes.Controls
 			ContentView.BackgroundColor = UIColor.Clear;
 
 			var view = new UIView(Bounds);
-			view.BackgroundColor = GlobalTheme.BackgroundDarkColor.ColorWithAlpha(0.8f);
+			view.BackgroundColor = GlobalTheme.BackgroundDarkColor.ColorWithAlpha(0.95f);
 			BackgroundView = view;
 
 			ArtistNameLabel = new UILabel();
 			ArtistNameLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
 			ArtistNameLabel.BackgroundColor = UIColor.Clear;
-			ArtistNameLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
 			ArtistNameLabel.TextColor = UIColor.White;
 			ArtistNameLabel.HighlightedTextColor = UIColor.White;
 			ContentView.AddSubview(ArtistNameLabel);
@@ -67,7 +66,6 @@ namespace MPfm.iOS.Classes.Controls
 			AlbumTitleLabel = new UILabel();
 			AlbumTitleLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
 			AlbumTitleLabel.BackgroundColor = UIColor.Clear;
-			AlbumTitleLabel.Font = UIFont.FromName("HelveticaNeue", 14);
 			AlbumTitleLabel.TextColor = UIColor.White;
 			AlbumTitleLabel.HighlightedTextColor = UIColor.White;
 			ContentView.AddSubview(AlbumTitleLabel);
@@ -75,7 +73,6 @@ namespace MPfm.iOS.Classes.Controls
 			TotalTimeLabel = new UILabel();
 			TotalTimeLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
 			TotalTimeLabel.BackgroundColor = UIColor.Clear;
-			TotalTimeLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 			TotalTimeLabel.TextColor = UIColor.White;
 			TotalTimeLabel.HighlightedTextColor = UIColor.White;
 			ContentView.AddSubview(TotalTimeLabel);
@@ -83,14 +80,28 @@ namespace MPfm.iOS.Classes.Controls
 			SongCountLabel = new UILabel();
 			SongCountLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
 			SongCountLabel.BackgroundColor = UIColor.Clear;
-			SongCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 			SongCountLabel.TextColor = UIColor.White;
 			SongCountLabel.HighlightedTextColor = UIColor.White;
 			ContentView.AddSubview(SongCountLabel);
 
 			AlbumImageView = new UIImageView();
-			AlbumImageView.BackgroundColor = UIColor.Clear;
+			AlbumImageView.BackgroundColor = GlobalTheme.BackgroundDarkerColor.ColorWithAlpha(0.7f);
 			ContentView.AddSubview(AlbumImageView);
+
+			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
+			{
+				ArtistNameLabel.Font = UIFont.FromName("HelveticaNeue-Light", 18);
+				AlbumTitleLabel.Font = UIFont.FromName("HelveticaNeue", 17);
+				TotalTimeLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+				SongCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
+			}
+			else
+			{
+				ArtistNameLabel.Font = UIFont.FromName("HelveticaNeue-Medium", 14);
+				AlbumTitleLabel.Font = UIFont.FromName("HelveticaNeue", 14);
+				TotalTimeLabel.Font = UIFont.FromName("HelveticaNeue-Light", 13);
+				SongCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 13);
+			}
 		}
 
 		public override void LayoutSubviews()
@@ -98,11 +109,27 @@ namespace MPfm.iOS.Classes.Controls
 			base.LayoutSubviews();
 
 			BackgroundView.Frame = Bounds;
-			ArtistNameLabel.Frame = new RectangleF(94, 2, Bounds.Width - 80 - 28, 20);
-			AlbumTitleLabel.Frame = new RectangleF(94, 22, Bounds.Width - 80 - 28, 20);
-			TotalTimeLabel.Frame = new RectangleF(94, 42, Bounds.Width - 80 - 28, 20);
-			SongCountLabel.Frame = new RectangleF(94, 62, Bounds.Width - 80 - 28, 20);
-			AlbumImageView.Frame = new RectangleF(0, 0, 84, 84);
+
+			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
+			{
+				//float x = AlbumImageView.Image == null ? 4 : 92;
+				float x = 104;
+				ArtistNameLabel.Frame = new RectangleF(x, 4, Bounds.Width - 80 - 28, 24);
+				AlbumTitleLabel.Frame = new RectangleF(x, 29, Bounds.Width - 80 - 28, 22);
+				SongCountLabel.Frame = new RectangleF(x, 52, Bounds.Width - 80 - 28, 18);
+				TotalTimeLabel.Frame = new RectangleF(x, 72, Bounds.Width - 80 - 28, 18);
+				AlbumImageView.Frame = new RectangleF(0, 0, 96, 96);
+			}
+			else
+			{
+				//float x = AlbumImageView.Image == null ? 4 : 92;
+				float x = 92;
+				ArtistNameLabel.Frame = new RectangleF(x, 4, Bounds.Width - 80 - 28, 18);
+				AlbumTitleLabel.Frame = new RectangleF(x, 23, Bounds.Width - 80 - 28, 18);
+				SongCountLabel.Frame = new RectangleF(x, 42, Bounds.Width - 80 - 28, 18);
+				TotalTimeLabel.Frame = new RectangleF(x, 60, Bounds.Width - 80 - 28, 18);
+				AlbumImageView.Frame = new RectangleF(0, 0, 84, 84);
+			}
 		}
     }
 }

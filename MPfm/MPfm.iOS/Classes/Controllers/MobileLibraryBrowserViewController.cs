@@ -40,7 +40,7 @@ namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
-		List<Tuple<string, List<LibraryBrowserEntity>>> _items;
+		List<Tuple<SectionIndex, List<LibraryBrowserEntity>>> _items;
         MobileLibraryBrowserType _browserType;
         MobileNavigationTabType _tabType;
         LibraryQuery _query;
@@ -62,7 +62,7 @@ namespace MPfm.iOS.Classes.Controllers
             _tabType = tabType;
             _browserType = browserType;
             _query = query;
-			_items = new List<Tuple<string, List<LibraryBrowserEntity>>>();
+			_items = new List<Tuple<SectionIndex, List<LibraryBrowserEntity>>>();
         }
 
         public override void DidReceiveMemoryWarning()
@@ -397,8 +397,8 @@ namespace MPfm.iOS.Classes.Controllers
 			if (viewForSupplementaryElementOfKind == "UICollectionElementKindSectionHeader")
 			{
 				var view = (MPfmCollectionHeaderView)collectionView.DequeueReusableSupplementaryView(UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier, indexPath);
-				if(indexPath.Section <= _items.Count - 1)
-					view.TextLabel.Text = _items[indexPath.Section].Item1;
+				if (indexPath.Section <= _items.Count - 1)
+					view.TextLabel.Text = _items[indexPath.Section].Item1.Title;
 				return view;
 			}
 			return null;
@@ -517,10 +517,48 @@ namespace MPfm.iOS.Classes.Controllers
 			var audioFile = _items[section].Item2[0].AudioFile; // there is at least one song per section
 			int songCount = _items[section].Item2.Count;
 
+			string totalLength = _items[section].Item1.TotalLength.Substring(0, _items[section].Item1.TotalLength.IndexOf(".", StringComparison.Ordinal));
 			header.ArtistNameLabel.Text = audioFile.ArtistName;
 			header.AlbumTitleLabel.Text = audioFile.AlbumTitle;
-			header.TotalTimeLabel.Text = "110:22";
+			header.TotalTimeLabel.Text = totalLength;
 			header.SongCountLabel.Text = string.Format(songCount == 1 ? "{0} song" : "{0} songs", songCount);
+
+			int height = UserInterfaceIdiomIsPhone ? (int)(84f * UIScreen.MainScreen.Scale) : (int)(96f * UIScreen.MainScreen.Scale); 
+			header.AlbumImageView.Image = null;
+			Task<UIImage>.Factory.StartNew(() => {
+			    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+			    using (NSData imageData = NSData.FromArray(bytesImage))
+			    {
+			        using (UIImage image = UIImage.LoadFromData(imageData))
+			        {
+			            if (image != null)
+			            {
+			                try
+			                {
+			                    UIImage imageResized = CoreGraphicsHelper.ScaleImage(image, height);
+			                    return imageResized;
+			                } 
+			                catch (Exception ex)
+			                {
+								Console.WriteLine("MobileLibraryBrowserViewController - ViewForHeaderInSection - section: {0} - Error resizing image {1}/{2}: {3}", section, audioFile.ArtistName, audioFile.AlbumTitle, ex);
+			                }
+			            }
+			        }
+			    }
+			    
+			    return null;
+			}).ContinueWith(t => {
+			    UIImage image = t.Result;
+			    if(image == null)
+			        return;
+
+				InvokeOnMainThread(() => {
+					header.AlbumImageView.Alpha = 0;
+					header.AlbumImageView.Image = image;
+					UIView.Animate(0.2, () => header.AlbumImageView.Alpha = 1);
+				});
+			}, TaskScheduler.FromCurrentSynchronizationContext());
+
 			return header;
 		}
 
@@ -701,7 +739,7 @@ namespace MPfm.iOS.Classes.Controllers
 		[Export ("tableView:heightForHeaderInSection:")]
 		public float HeightForHeaderInSection(UITableView tableView, int section)
 		{
-			return _browserType == MobileLibraryBrowserType.Songs ? 84 : 0;
+			return _browserType == MobileLibraryBrowserType.Songs ? UserInterfaceIdiomIsPhone ? 84 : 96 : 0;
 		}
 
         private void HandleTableViewAddTouchUpInside(object sender, EventArgs e)
@@ -902,7 +940,13 @@ namespace MPfm.iOS.Classes.Controllers
 				{
 					var distinctArtists = entities.Select(x => x.Subtitle).OrderBy(x => x).Distinct().ToList();
 					foreach(var artist in distinctArtists)
-						_items.Add(new Tuple<string, List<LibraryBrowserEntity>>(artist, entities.Where(x => x.Subtitle == artist).ToList()));
+					{
+						var sectionIndex = new SectionIndex(){
+							ArtistName = artist,
+							Title = artist
+						};
+						_items.Add(new Tuple<SectionIndex, List<LibraryBrowserEntity>>(sectionIndex, entities.Where(x => x.Subtitle == artist).ToList()));
+					}
 				}
 				else if(browserType == MobileLibraryBrowserType.Songs)
 				{
@@ -912,7 +956,22 @@ namespace MPfm.iOS.Classes.Controllers
 						var distinctAlbums = entities.Where(x => x.AudioFile.ArtistName == artist).Select(x => x.AudioFile.AlbumTitle).OrderBy(x => x).Distinct().ToList();
 						foreach(var album in distinctAlbums)
 						{
-							_items.Add(new Tuple<string, List<LibraryBrowserEntity>>(string.Format("{0}_{1}", artist, album), entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).OrderBy(x => x.AudioFile.TrackNumber).ToList()));
+							var list = entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).OrderBy(x => x.AudioFile.TrackNumber).ToList();
+
+							// Calculate total length
+							long ms = 0;
+							string totalLength = string.Empty;
+							foreach(var item in list)
+								ms += Conversion.TimeStringToMilliseconds(item.AudioFile.Length);
+							totalLength = Conversion.MillisecondsToTimeString((ulong)ms);
+
+							var sectionIndex = new SectionIndex(){
+								ArtistName = artist,
+								AlbumTitle = album,
+								Title = artist,
+								TotalLength = totalLength
+							};
+							_items.Add(new Tuple<SectionIndex, List<LibraryBrowserEntity>>(sectionIndex, list));
 						}
 					}
 				}
@@ -979,9 +1038,9 @@ namespace MPfm.iOS.Classes.Controllers
 				// Only shown on Artists/Songs view types.
 				int sectionIndex = -1;
 				if(_browserType == MobileLibraryBrowserType.Artists)
-					sectionIndex = _items.FindIndex(x => x.Item1 == audioFile.ArtistName);
+					sectionIndex = _items.FindIndex(x => x.Item1.ArtistName == audioFile.ArtistName);
 				else if(_browserType == MobileLibraryBrowserType.Songs)
-					sectionIndex = _items.FindIndex(x => x.Item1 == string.Format("{0}_{1}", audioFile.ArtistName, audioFile.AlbumTitle));
+					sectionIndex = _items.FindIndex(x => x.Item1.ArtistName == audioFile.ArtistName && x.Item1.AlbumTitle == audioFile.AlbumTitle);
 
 				if(sectionIndex == -1)
 					return;
@@ -1019,5 +1078,12 @@ namespace MPfm.iOS.Classes.Controllers
 
         #endregion
 
+		public class SectionIndex
+		{
+			public string Title { get; set; }
+			public string ArtistName { get; set; }
+			public string AlbumTitle { get; set; }
+			public string TotalLength { get; set; }
+		}
     }
 }
