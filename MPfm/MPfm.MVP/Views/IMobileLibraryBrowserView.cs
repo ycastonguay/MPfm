@@ -28,16 +28,16 @@ namespace MPfm.MVP.Views
     public interface IMobileLibraryBrowserView : IBaseView
 	{
         Action<MobileLibraryBrowserType> OnChangeBrowserType { get; set; }
-        Action<int> OnItemClick { get; set; }
-        Action<int> OnDeleteItem { get; set; }
-		Action<int> OnPlayItem { get; set; }
-        Action<int> OnAddItemToPlaylist { get; set; }
+        Action<Guid> OnItemClick { get; set; }
+        Action<Guid> OnDeleteItem { get; set; }
+        Action<Guid> OnPlayItem { get; set; }
+        Action<Guid> OnAddItemToPlaylist { get; set; }
         Action<string, string, object> OnRequestAlbumArt { get; set; }
         Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 
         void MobileLibraryBrowserError(Exception ex);
         void RefreshLibraryBrowser(IEnumerable<LibraryBrowserEntity> entities, MobileLibraryBrowserType browserType, string navigationBarTitle, string navigationBarSubtitle, string breadcrumb, bool isPopBackstack, bool isBackstackEmpty);
-	    void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile);
+        void RefreshCurrentlyPlayingSong(Guid id, AudioFile audioFile);
         void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData);
 	    void NotifyNewPlaylistItems(string text);
 	}

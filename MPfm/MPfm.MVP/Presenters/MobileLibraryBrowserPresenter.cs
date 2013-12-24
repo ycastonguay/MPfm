@@ -150,7 +150,7 @@ namespace MPfm.MVP.Presenters
                 index = _items.FindIndex(x => x.AudioFile.FilePath == message.Data.AudioFileStarted.FilePath);
                 if(index >= 0)
                 {
-                    View.RefreshCurrentlyPlayingSong(index, _items[index].AudioFile);
+                    View.RefreshCurrentlyPlayingSong(_items[index].Id, _items[index].AudioFile);
                 }
             }
         }
@@ -178,13 +178,17 @@ namespace MPfm.MVP.Presenters
             });
         }
 
-        private void AddItemToPlaylist(int index)
+        private void AddItemToPlaylist(Guid id)
         {
             try
             {
-                Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - index: {0}", index);
+                Tracing.Log("MobileLibraryBrowserPresenter - AddItemToPlaylist - id: {0}", id);
 
-                var view = _navigationManager.CreateSelectPlaylistView(_items[index]);
+                var item = _items.FirstOrDefault(x => x.Id == id);
+                if(item == null)
+                    return;
+
+                var view = _navigationManager.CreateSelectPlaylistView(item);
                 _navigationManager.PushDialogView(MobileDialogPresentationType.Overlay, "Select Playlist", View, view);
             }
             catch (Exception ex)
@@ -194,41 +198,21 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-        private void PlayItem(int index)
+        private void PlayItem(Guid id)
         {
             try
             {
-                Tracing.Log("MobileLibraryBrowserPresenter - PlayItem index: {0}", index);
-                if (_items[index].EntityType == LibraryBrowserEntityType.Artist)
-                {
-                    Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                    {
-                        Query = _items[index].Query,
-                        FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
-                    });
+                Tracing.Log("MobileLibraryBrowserPresenter - PlayItem id: {0}", id);
+                var item = _items.FirstOrDefault(x => x.Id == id);
+                if(item == null)
+                    return;
 
-                    _navigationManager.CreatePlayerView(_tabType);
-                }
-                else if (_items[index].EntityType == LibraryBrowserEntityType.Album)
-                {
-                    Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
+                Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
-                        Query = _items[index].Query,
-                        FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
+                        Query = item.Query,
+                        FilePath = item.AudioFile != null ? item.AudioFile.FilePath : string.Empty
                     });
-
-                    _navigationManager.CreatePlayerView(_tabType);
-                }
-                else if (_items[index].EntityType == LibraryBrowserEntityType.Song)
-                {
-                    Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                    {
-                        Query = _items[index].Query,
-                        FilePath = _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty
-                    });
-
-                    _navigationManager.CreatePlayerView(_tabType);
-                }
+                _navigationManager.CreatePlayerView(_tabType);
             }
             catch (Exception ex)
             {
@@ -255,17 +239,21 @@ namespace MPfm.MVP.Presenters
             return bytesImage;
         }
 
-        private void DeleteItem(int index)
+        private void DeleteItem(Guid id)
         {
             try
             {
-                Tracing.Log("MobileLibraryBrowserPresenter - DeleteItem index: {0}", index);
+                Tracing.Log("MobileLibraryBrowserPresenter - DeleteItem id: {0}", id);
                 Task.Factory.StartNew(() => {
-                    if(_items[index].EntityType == LibraryBrowserEntityType.Artist)
+                    var item = _items.FirstOrDefault(x => x.Id == id);
+                    if(item == null)
+                        return;
+
+                    if(item.EntityType == LibraryBrowserEntityType.Artist)
                     {
-                        _libraryService.DeleteAudioFiles(_items[index].Query.ArtistName, string.Empty);
+                        _libraryService.DeleteAudioFiles(item.Query.ArtistName, string.Empty);
                         Tracing.Log("MobileLibraryBrowserPresenter - Deleting files from hard disk...");
-                        var files = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){ ArtistName = _items[index].Query.ArtistName });
+                        var files = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){ ArtistName = item.Query.ArtistName });
                         foreach(var file in files)
                         {
                             Tracing.Log("MobileLibraryBrowserPresenter - Deleting {0}...", file.FilePath);
@@ -278,17 +266,17 @@ namespace MPfm.MVP.Presenters
                         }
 
                         Tracing.Log("MobileLibraryBrowserPresenter - Removing audio files from cache...");
-                        _audioFileCacheService.RemoveAudioFiles(_items[index].Query.ArtistName, string.Empty);
+                        _audioFileCacheService.RemoveAudioFiles(item.Query.ArtistName, string.Empty);
                     }
-                    else if(_items[index].EntityType == LibraryBrowserEntityType.Album)
+                    else if(item.EntityType == LibraryBrowserEntityType.Album)
                     {
-                        _libraryService.DeleteAudioFiles(_items[index].Query.ArtistName, _items[index].Query.AlbumTitle);
-                        _audioFileCacheService.RemoveAudioFiles(_items[index].Query.ArtistName, _items[index].Query.AlbumTitle);
+                        _libraryService.DeleteAudioFiles(item.Query.ArtistName, item.Query.AlbumTitle);
+                        _audioFileCacheService.RemoveAudioFiles(item.Query.ArtistName, item.Query.AlbumTitle);
                     }
-                    else if(_items[index].EntityType == LibraryBrowserEntityType.Song)
+                    else if(item.EntityType == LibraryBrowserEntityType.Song)
                     {
-                        _libraryService.DeleteAudioFile(_items[index].AudioFile.Id);
-                        _audioFileCacheService.RemoveAudioFile(_items[index].AudioFile.Id);
+                        _libraryService.DeleteAudioFile(item.AudioFile.Id);
+                        _audioFileCacheService.RemoveAudioFile(item.AudioFile.Id);
                     }
                 });
             }
@@ -299,7 +287,7 @@ namespace MPfm.MVP.Presenters
             }
         }
 
-	    private void ItemClick(int index)
+        private void ItemClick(Guid id)
 	    {
             try
             {
@@ -308,6 +296,10 @@ namespace MPfm.MVP.Presenters
                 // ALBUMS TAB: Albums --> Songs --> Player
                 // SONGS TAB: Songs --> Player
 
+                var item = _items.FirstOrDefault(x => x.Id == id);
+                if(item == null)
+                    return;
+
                 // Check if another MobileLibraryBrowser view needs to be pushed
                 if ((_tabType == MobileNavigationTabType.Artists || _tabType == MobileNavigationTabType.Albums) &&
                     _browserType != MobileLibraryBrowserType.Songs)
@@ -315,14 +307,14 @@ namespace MPfm.MVP.Presenters
                     var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
                     _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
                     {
-                        Query = _items[index].Query
+                            Query = item.Query
                     });
 
                     // On Android, pushing new fragments on ViewPager is extremely buggy, so instead we refresh the same view with new queries. 
 #if ANDROID
                     SetQuery(browserType, _items[index].Query);
 #else
-                    var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, _items[index].Query);
+                    var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, item.Query);
                     //_navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
                     _navigationManager.PushTabView(_tabType, newView);
 #endif
@@ -332,7 +324,7 @@ namespace MPfm.MVP.Presenters
 
                 // Start playback and start Player view
                 var audioFiles = _audioFileCacheService.SelectAudioFiles(_query);
-                _playerService.Play(audioFiles, _items[index].AudioFile != null ? _items[index].AudioFile.FilePath : string.Empty, 0, false, true);
+                _playerService.Play(audioFiles, item.AudioFile != null ? item.AudioFile.FilePath : string.Empty, 0, false, true);
                 _navigationManager.CreatePlayerView(_tabType);
             }
             catch(Exception ex)
@@ -349,6 +341,7 @@ namespace MPfm.MVP.Presenters
 
         private void RefreshLibraryBrowser(bool isPopBackstack)
         {
+            Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - isPopBackstack: {0}", isPopBackstack);
             Task.Factory.StartNew(() =>
                 {
                 // Build breadcrumb
@@ -404,7 +397,7 @@ namespace MPfm.MVP.Presenters
                         View.RefreshLibraryBrowser(_items, _browserType, _tabType.ToString(), (String.IsNullOrEmpty(_query.AlbumTitle)) ? "Songs" : _query.AlbumTitle, breadcrumb, isPopBackstack, isBackstackEmpty);
                         break;
                 }
-                    });
+            });
         }
 
         private IEnumerable<LibraryBrowserEntity> GetArtists()

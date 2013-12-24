@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.Library.Objects;
+using System;
 
 namespace MPfm.MVP.Models
 {
@@ -26,6 +27,7 @@ namespace MPfm.MVP.Models
     /// </summary>
 	public class LibraryBrowserEntity
 	{
+        public Guid Id { get; set; }
 		public LibraryBrowserEntityType EntityType { get; set; }
 		public string Title { get; set; }
         public string Subtitle { get; set; }
@@ -36,6 +38,7 @@ namespace MPfm.MVP.Models
 		
 		public LibraryBrowserEntity()
 		{
+            Id = Guid.NewGuid();
             Query = new LibraryQuery();
 			SubItems = new List<LibraryBrowserEntity>();
 		    AlbumTitles = new List<string>();
