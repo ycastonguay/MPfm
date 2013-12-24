@@ -112,7 +112,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IMobileMainView, MainViewController>().AsMultiInstance();
             container.Register<ISplashView, SplashViewController>().AsMultiInstance();
             container.Register<IMobileOptionsMenuView, MoreViewController>().AsMultiInstance();
-            container.Register<IPlayerView, PlayerViewController>().AsMultiInstance();
+			container.Register<IPlayerView, PlayerViewController>().AsSingleton();
             container.Register<IUpdateLibraryView, UpdateLibraryViewController>().AsMultiInstance();
             container.Register<IMobileLibraryBrowserView, MobileLibraryBrowserViewController>().AsMultiInstance();
             container.Register<IPreferencesView, PreferencesViewController>().AsMultiInstance();

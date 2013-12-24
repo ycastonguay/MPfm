@@ -979,7 +979,7 @@ namespace MPfm.iOS.Classes.Controllers
 						var distinctAlbums = entities.Where(x => x.AudioFile.ArtistName == artist).Select(x => x.AudioFile.AlbumTitle).OrderBy(x => x).Distinct().ToList();
 						foreach(var album in distinctAlbums)
 						{
-							_itemsWithSections.Add(new Tuple<string, List<LibraryBrowserEntity>>(string.Format("{0}_{1}", artist, album), entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).ToList()));
+							_itemsWithSections.Add(new Tuple<string, List<LibraryBrowserEntity>>(string.Format("{0}_{1}", artist, album), entities.Where(x => x.AudioFile.ArtistName == artist && x.AudioFile.AlbumTitle == album).OrderBy(x => x.AudioFile.TrackNumber).ToList()));
 						}
 					}
 				}
