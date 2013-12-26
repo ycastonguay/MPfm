@@ -232,25 +232,41 @@ namespace MPfm.WPF.Classes.Windows
         private void BtnTimeShifting_OnClick(object sender, RoutedEventArgs e)
         {
             ResetHeaderButtonStyles();
+            ResetHeaderPanelVisibility();
             btnTimeShifting.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+            panelTimeShifting.Visibility = Visibility.Visible;            
         }
 
         private void BtnPitchShifting_OnClick(object sender, RoutedEventArgs e)
         {
             ResetHeaderButtonStyles();
+            ResetHeaderPanelVisibility();
             btnPitchShifting.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+            panelPitchShifting.Visibility = Visibility.Visible;
         }
 
         private void BtnInfo_OnClick(object sender, RoutedEventArgs e)
         {
             ResetHeaderButtonStyles();
+            ResetHeaderPanelVisibility();
             btnInfo.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+            panelInfo.Visibility = Visibility.Visible;
         }
 
         private void BtnActions_OnClick(object sender, RoutedEventArgs e)
         {
             ResetHeaderButtonStyles();
+            ResetHeaderPanelVisibility();
             btnActions.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+            panelActions.Visibility = Visibility.Visible;
+        }
+
+        private void ResetHeaderPanelVisibility()
+        {
+            panelTimeShifting.Visibility = Visibility.Hidden;
+            panelPitchShifting.Visibility = Visibility.Hidden;
+            panelInfo.Visibility = Visibility.Hidden;
+            panelActions.Visibility = Visibility.Hidden;
         }
 
         private void ResetHeaderButtonStyles()
