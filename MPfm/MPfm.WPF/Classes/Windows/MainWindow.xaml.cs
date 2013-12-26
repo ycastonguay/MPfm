@@ -61,8 +61,8 @@ namespace MPfm.WPF.Classes.Windows
 
         private void SetLegacyControlTheme()
         {
-            var fontRow = new CustomFont("Junction", 8, System.Drawing.Color.FromArgb(255, 0, 0, 0));
-            var fontHeader = new CustomFont("Junction", 8, System.Drawing.Color.FromArgb(255, 255, 255, 255));
+            var fontRow = new CustomFont("Roboto", 8, System.Drawing.Color.FromArgb(255, 0, 0, 0));
+            var fontHeader = new CustomFont("Roboto", 8, System.Drawing.Color.FromArgb(255, 255, 255, 255));
             gridViewSongs.Theme.AlbumCoverBackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
             gridViewSongs.Theme.HeaderHoverTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
             gridViewSongs.Theme.HeaderTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);

@@ -19,8 +19,8 @@
         </Style>
         <DataTemplate x:Key="TreeViewItemTemplate">
             <StackPanel Orientation="Horizontal" Margin="4">
-                <Image Source="{Binding EntityType, Converter={StaticResource LibraryBrowserImagePathConverter}}" Stretch="Uniform" />
-                <TextBlock Text="{Binding Title}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="6,1,0,0" />
+                <Image Source="{Binding EntityType, Converter={StaticResource LibraryBrowserImagePathConverter}}" Stretch="Uniform" Opacity="0.7" />
+                <TextBlock Text="{Binding Title}" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="#333333" Margin="6,1,0,0" />
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
@@ -145,7 +145,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="Filter by Sound Format:" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Junction" />
+                        <Label Grid.Column="0" Content="Filter by Sound Format:" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
                         <ComboBox Grid.Column="1">
                             <ComboBoxItem Name="All">All</ComboBoxItem>
                             <ComboBoxItem Name="APE">APE</ComboBoxItem>
@@ -231,7 +231,7 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF455865">
-                                        <Button x:Name="btnTimeShifting" Width="60" Height="30" Content="Time" Style="{StaticResource HeaderButton}" Click="BtnTimeShifting_OnClick" />
+                                        <Button x:Name="btnTimeShifting" Width="60" Height="30" Content="Time" Style="{StaticResource HeaderButtonSelected}" Click="BtnTimeShifting_OnClick" />
                                         <Button x:Name="btnPitchShifting" Width="60" Content="Pitch" Style="{StaticResource HeaderButton}" Click="BtnPitchShifting_OnClick" />
                                         <Button x:Name="btnInfo" Width="60" Content="Info" Style="{StaticResource HeaderButton}" Click="BtnInfo_OnClick" />
                                         <Button x:Name="btnActions" Width="60" Content="Actions" Style="{StaticResource HeaderButton}" Click="BtnActions_OnClick" />
@@ -240,7 +240,7 @@
                                 </Grid>
                                 <Grid Grid.Column="3">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="30" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Label Content="Volume" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="8" HorizontalContentAlignment="Center" />
@@ -262,7 +262,7 @@
                                                     <wc:OutputMeter x:Name="outputMeter" />
                                                 </WindowsFormsHost>
                                             </Grid>
-                                            <Label Grid.Row="1" x:Name="lblVolume" Content="100 %" Foreground="White" HorizontalContentAlignment="Center" />
+                                            <Label Grid.Row="1" x:Name="lblVolume" Content="100 %" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="White" HorizontalContentAlignment="Center" />
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -396,7 +396,7 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="txtSearchTerms" Grid.Column="0" Width="200" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Junction" TextChanged="txtSearchTerms_TextChanged" />
+                                    <TextBox x:Name="txtSearchTerms" Grid.Column="0" Width="200" Padding="0,2,0,0" Background="White" Foreground="Black" BorderBrush="#00FFFFFF" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" TextChanged="txtSearchTerms_TextChanged" />
                                     <Image Grid.Column="1" Source="/Resources/Images/Icons/search.png" Stretch="None" Margin="4,0,2,0" />
                                 </Grid>
                             </Grid>

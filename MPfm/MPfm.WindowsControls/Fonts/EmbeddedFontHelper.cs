@@ -72,6 +72,17 @@ namespace MPfm.WindowsControls
             return font;
         }
 
+        public static EmbeddedFont GetRoboto()
+        {
+            // Create font object
+            EmbeddedFont font = new EmbeddedFont();
+            font.AssemblyPath = "MPfm.Fonts.dll";
+            font.Name = "Roboto Regular";
+            font.ResourceName = "MPfm.Fonts.Roboto-Regular.ttf";
+            return font;
+        }
+
+
         /// <summary>
         /// Returns the Junction embedded font.
         /// </summary>
@@ -111,6 +122,7 @@ namespace MPfm.WindowsControls
             EmbeddedFontCollection collection = new EmbeddedFontCollection();
             collection.Add(GetLeagueGothic(), assemblyPath);
             collection.Add(GetJunction(), assemblyPath);
+            collection.Add(GetRoboto(), assemblyPath);
             collection.Add(GetTitillium(), assemblyPath);
             collection.Add(GetDroidSansMono(), assemblyPath);
             return collection;

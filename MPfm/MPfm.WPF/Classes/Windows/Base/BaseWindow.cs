@@ -39,6 +39,7 @@ namespace MPfm.WPF.Classes.Windows.Base
         public BaseWindow(Action<IBaseView> onViewReady)
         {
             OnViewReady = onViewReady;
+            SnapsToDevicePixels = true;
         }
 
         protected override void OnClosed(EventArgs e)
