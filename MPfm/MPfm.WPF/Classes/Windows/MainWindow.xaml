@@ -226,47 +226,43 @@
                                     </StackPanel>
                                 </Grid>
                                 <Grid Grid.Column="2">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                            <Button Content="Time" Style="{StaticResource HeaderButton}" />
-                                            <Button Content="Pitch" Style="{StaticResource HeaderButton}" />
-                                            <Button Content="Info" Style="{StaticResource HeaderButton}" />
-                                            <Button Content="Actions" Style="{StaticResource HeaderButton}" />
-                                        </StackPanel>
-                                        <Grid Grid.Row="1"></Grid>
-                                    </Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF455865">
+                                        <Button x:Name="btnTimeShifting" Width="60" Height="30" Content="Time" Style="{StaticResource HeaderButton}" Click="BtnTimeShifting_OnClick" />
+                                        <Button x:Name="btnPitchShifting" Width="60" Content="Pitch" Style="{StaticResource HeaderButton}" Click="BtnPitchShifting_OnClick" />
+                                        <Button x:Name="btnInfo" Width="60" Content="Info" Style="{StaticResource HeaderButton}" Click="BtnInfo_OnClick" />
+                                        <Button x:Name="btnActions" Width="60" Content="Actions" Style="{StaticResource HeaderButton}" Click="BtnActions_OnClick" />
+                                    </StackPanel>
+                                    <Grid Grid.Row="1"></Grid>
                                 </Grid>
                                 <Grid Grid.Column="3">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Label Content="Volume" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="8" HorizontalContentAlignment="Center" />
-                                        <Grid Grid.Row="1">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition />
-                                                        <ColumnDefinition Width="40" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <WindowsFormsHost Grid.Column="0">
-                                                        <wc:Fader x:Name="faderVolume" Minimum="0" Maximum="100" OnFaderValueChanged="FaderVolume_OnFaderValueChanged" />
-                                                    </WindowsFormsHost>
-                                                    <WindowsFormsHost Grid.Column="1">
-                                                        <wc:OutputMeter x:Name="outputMeter" />
-                                                    </WindowsFormsHost>
-                                                </Grid>
-                                                <Label Grid.Row="1" x:Name="lblVolume" Content="100 %" Foreground="White" HorizontalContentAlignment="Center" />
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Label Content="Volume" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="8" HorizontalContentAlignment="Center" />
+                                    <Grid Grid.Row="1">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="40" />
+                                                </Grid.ColumnDefinitions>
+                                                <WindowsFormsHost Grid.Column="0">
+                                                    <wc:Fader x:Name="faderVolume" Minimum="0" Maximum="100" OnFaderValueChanged="FaderVolume_OnFaderValueChanged" />
+                                                </WindowsFormsHost>
+                                                <WindowsFormsHost Grid.Column="1">
+                                                    <wc:OutputMeter x:Name="outputMeter" />
+                                                </WindowsFormsHost>
                                             </Grid>
+                                            <Label Grid.Row="1" x:Name="lblVolume" Content="100 %" Foreground="White" HorizontalContentAlignment="Center" />
                                         </Grid>
                                     </Grid>
                                 </Grid>

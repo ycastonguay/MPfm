@@ -229,6 +229,39 @@ namespace MPfm.WPF.Classes.Windows
             OnPlayerSetVolume(faderVolume.Value);
         }
 
+        private void BtnTimeShifting_OnClick(object sender, RoutedEventArgs e)
+        {
+            ResetHeaderButtonStyles();
+            btnTimeShifting.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+        }
+
+        private void BtnPitchShifting_OnClick(object sender, RoutedEventArgs e)
+        {
+            ResetHeaderButtonStyles();
+            btnPitchShifting.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+        }
+
+        private void BtnInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            ResetHeaderButtonStyles();
+            btnInfo.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+        }
+
+        private void BtnActions_OnClick(object sender, RoutedEventArgs e)
+        {
+            ResetHeaderButtonStyles();
+            btnActions.Style = System.Windows.Application.Current.Resources["HeaderButtonSelected"] as Style;
+        }
+
+        private void ResetHeaderButtonStyles()
+        {
+            var res = System.Windows.Application.Current.Resources;
+            btnTimeShifting.Style = res["HeaderButton"] as Style;
+            btnPitchShifting.Style = res["HeaderButton"] as Style;
+            btnInfo.Style = res["HeaderButton"] as Style;
+            btnActions.Style = res["HeaderButton"] as Style;
+        }
+
         #region IMainView implementation
 
         public Action OnOpenPreferencesWindow { get; set; }
@@ -508,6 +541,14 @@ namespace MPfm.WPF.Classes.Windows
             //    methodUIUpdate.Invoke();
         }
 
+        public void RefreshActiveMarker(Guid markerId)
+        {
+        }
+
+        public void RefreshMarkerPosition(Marker marker)
+        {
+        }
+
         public void RefreshLoops(IEnumerable<Loop> loops)
         {
         }
@@ -539,6 +580,13 @@ namespace MPfm.WPF.Classes.Windows
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }
+        public Action<Marker> OnUpdateMarker { get; set; }
+        public Action<Guid> OnPunchInMarker { get; set; }
+        public Action<Guid> OnUndoMarker { get; set; }
+        public Action<Guid> OnSetActiveMarker { get; set; }
+        public Action<Guid, string> OnChangeMarkerName { get; set; }
+        public Action<Guid, float> OnChangeMarkerPosition { get; set; }
+        public Action<Guid, float> OnSetMarkerPosition { get; set; }
 
         public void MarkerError(Exception ex)
         {
@@ -565,6 +613,10 @@ namespace MPfm.WPF.Classes.Windows
             //    BeginInvoke(methodUIUpdate);
             //else
             //    methodUIUpdate.Invoke();
+        }
+
+        public void RefreshMarkerPosition(Marker marker, int newIndex)
+        {
         }
 
         #endregion
@@ -650,6 +702,7 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
+
 
     }
 }
