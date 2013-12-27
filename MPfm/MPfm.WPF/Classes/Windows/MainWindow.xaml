@@ -18,7 +18,7 @@
             <Setter Property="Margin" Value="0,2,0,2" />
         </Style>
         <DataTemplate x:Key="TreeViewItemTemplate">
-            <StackPanel Orientation="Horizontal" Margin="4">
+            <StackPanel Orientation="Horizontal" Margin="2">
                 <Image Source="{Binding EntityType, Converter={StaticResource LibraryBrowserImagePathConverter}}" Stretch="Uniform" Opacity="0.7" />
                 <TextBlock Text="{Binding Title}" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="#333333" Margin="6,1,0,0" />
             </StackPanel>
@@ -139,14 +139,14 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Library Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Grid.ColumnSpan="2" />
+                    <Label Grid.Row="0" Content="Library Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" Grid.ColumnSpan="2" />
                     <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2" Background="#FF242F35">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="Filter by Sound Format:" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                        <ComboBox Grid.Column="1">
+                        <Label Grid.Column="0" Content="Filter by Sound Format:" Foreground="#CCCCCC" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" />
+                        <ComboBox Grid.Column="1" Margin="0,2,0,0">
                             <ComboBoxItem Name="All">All</ComboBoxItem>
                             <ComboBoxItem Name="APE">APE</ComboBoxItem>
                             <ComboBoxItem Name="FLAC">FLAC</ComboBoxItem>
@@ -189,7 +189,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="Current Song" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                            <Label Grid.Row="0" Content="Current Song" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="170" />
@@ -204,24 +204,24 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0" Orientation="Vertical" Margin="6">
-                                        <Label x:Name="lblArtistName" Content="[Artist Name]" Foreground="White" FontSize="22" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="1,1,1,1" />
-                                        <Label x:Name="lblAlbumTitle" Content="[Album Title]" Foreground="White" FontSize="18" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="1,1,1,1" />
-                                        <Label x:Name="lblSongTitle" Content="[Song Title]" Foreground="#DDDDDD" FontSize="16" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="1,3,3,3" />
-                                        <Label x:Name="lblFilePath" Content="[File Path]" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="1,3,0,3" />
+                                        <Label x:Name="lblArtistName" Content="[Artist Name]" Foreground="White" FontSize="22" FontFamily="/Resources/Fonts/#Roboto Thin" Padding="1,1,1,1" />
+                                        <Label x:Name="lblAlbumTitle" Content="[Album Title]" Foreground="White" FontSize="18" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,1,1,1" />
+                                        <Label x:Name="lblSongTitle" Content="[Song Title]" Foreground="#DDDDDD" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,3,3" />
+                                        <Label x:Name="lblFilePath" Content="[File Path]" Foreground="#AAAAAA" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,0,3" />
                                     </StackPanel>
                                     <StackPanel Grid.Row="1" Orientation="Vertical">
-                                        <Label Content="Song Position / Length" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="8,4,4,4" />
+                                        <Label Content="Song Position / Length" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="7,4,4,4" />
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Droid Sans Mono" Margin="2" />
+                                            <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
                                             <WindowsFormsHost Grid.Column="1">
                                                 <wc:TrackBar x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
                                             </WindowsFormsHost>
-                                            <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Droid Sans Mono" Margin="2" />
+                                            <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
                                         </Grid>
                                     </StackPanel>
                                 </Grid>
@@ -418,8 +418,8 @@
                                         <RowDefinition Height="30" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Label Content="Volume" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" Padding="8" HorizontalContentAlignment="Center" />
-                                    <Grid Grid.Row="1">
+                                    <Label Content="Volume" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="8" HorizontalContentAlignment="Center" />
+                                    <Grid Grid.Row="1" Margin="0,8,0,0">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
@@ -474,29 +474,29 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Content="Loops" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                                            <Label Grid.Column="0" Content="Loops" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/play.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Play</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Play</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Add</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Edit</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Remove</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                         </Grid>
@@ -519,29 +519,29 @@
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" Content="Markers" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                                            <Label Grid.Column="0" Content="Markers" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/goto.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Go To</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Go To</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Add</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Edit</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                             <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
                                                 <StackPanel Orientation="Horizontal" Margin="4">
                                                     <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                                                    <TextBlock Margin="6,1,0,0">Remove</TextBlock>
+                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
                                                 </StackPanel>
                                             </Button>
                                         </Grid>
@@ -565,7 +565,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="Song Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+                                <Label Grid.Column="0" Content="Song Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                 <Grid Grid.Column="1" Background="White" Margin="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
