@@ -278,6 +278,54 @@ namespace MPfm.WPF.Classes.Windows
             btnActions.Style = res["HeaderButton"] as Style;
         }
 
+        private void BtnUseThisTempo_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnIncrementTime_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnDecrementTime_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnResetTime_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnChangeKey_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnIncrementPitch_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnDecrementPitch_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnResetPitch_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnEditSongMetadata_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnSearchGuitarTabs_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnSearchBassTabs_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnSearchLyrics_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
         #region IMainView implementation
 
         public Action OnOpenPreferencesWindow { get; set; }
@@ -718,7 +766,6 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
-
 
     }
 }
