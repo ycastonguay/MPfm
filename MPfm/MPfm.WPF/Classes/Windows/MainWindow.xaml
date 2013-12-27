@@ -237,7 +237,7 @@
                                         <Button x:Name="btnActions" Width="60" Content="Actions" Style="{StaticResource HeaderButton}" Click="BtnActions_OnClick" />
                                     </StackPanel>
                                     <Grid Grid.Row="1">
-                                        <Grid x:Name="panelTimeShifting" Margin="8">                                            
+                                        <Grid x:Name="panelTimeShifting" Margin="8" Visibility="Hidden">                                            
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
                                                 <RowDefinition Height="Auto" />
@@ -245,61 +245,115 @@
                                             </Grid.RowDefinitions>
                                             <Grid Grid.Row="0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <StackPanel Grid.Column="0">
                                                     <Border Height="40">
                                                         <StackPanel VerticalAlignment="Center">
                                                             <Label Content="Detected tempo:" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0,1,0,1" />
-                                                            <Label Content="120 bpm" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" />
+                                                            <Label Content="120 bpm" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" />
                                                         </StackPanel>
                                                     </Border>
                                                     <Border Height="40">
                                                         <StackPanel VerticalAlignment="Center">
                                                             <Label Content="Current tempo:" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0,1,0,1" />
-                                                            <Label Content="120 bpm" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" />
+                                                            <Label Content="120 bpm" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" />
                                                         </StackPanel>
                                                     </Border>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1">
-                                                    <Border Height="40">
-                                                        <Button Margin="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                                            <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                                                                <Image Source="/Resources/Images/Buttons/ok.png" Stretch="None" Margin="0,0,0,1" />
-                                                                <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Use this tempo</Label>
+                                                    <StackPanel Height="40" HorizontalAlignment="Right">
+                                                        <Button Margin="0">
+                                                            <StackPanel Orientation="Horizontal" Margin="4,2,2,2">
+                                                                <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Use this tempo</Label>
                                                             </StackPanel>
                                                         </Button>
-                                                    </Border>
+                                                    </StackPanel>
                                                     <Border Height="40">
                                                         <StackPanel VerticalAlignment="Center">
                                                             <Label Content="Reference tempo:" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0,1,0,1" HorizontalContentAlignment="Right" />
-                                                            <Label Content="120 bpm" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" HorizontalContentAlignment="Right" />
+                                                            <Label Content="120 bpm" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" HorizontalContentAlignment="Right" />
                                                         </StackPanel>
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>
-                                            <Slider Grid.Row="1" Minimum="50" Value="100" Maximum="150" Margin="0,4,0,4" />
-                                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Button Margin="0" HorizontalAlignment="Right">
-                                                    <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                                                        <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" Margin="0,0,0,1" />
-                                                    </StackPanel>
+                                            <Slider Grid.Row="1" Minimum="50" Value="100" Maximum="150" Margin="0,2,0,6" />
+                                            <Grid Grid.Row="2" HorizontalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="36" />
+                                                    <ColumnDefinition Width="36" />
+                                                    <ColumnDefinition Width="36" />
+                                                </Grid.ColumnDefinitions>
+                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30">
+                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                                                 </Button>
-                                                <Button Margin="0" HorizontalAlignment="Right">
-                                                    <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                                                        <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" Margin="0,0,0,1" />
-                                                    </StackPanel>
+                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30">
+                                                    <Image Source="/Resources/Images/Buttons/minus.png" Stretch="None" />
                                                 </Button>
-                                                <Button Margin="0" HorizontalAlignment="Right">
-                                                    <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                                                        <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" Margin="0,0,0,1" />
-                                                        <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Reset</Label>
-                                                    </StackPanel>
+                                                <Button Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30">
+                                                    <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
                                                 </Button>
-                                            </StackPanel>
+                                            </Grid>
                                         </Grid>
-                                        <Grid x:Name="panelPitchShifting" Background="Blue" Visibility="Hidden">
+                                        <Grid x:Name="panelPitchShifting" Margin="8" Visibility="Visible">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0">
+                                                    <Border Height="40">
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <Label Content="Reference key:" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0,1,0,1" />
+                                                            <Label Content="C" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Border Height="40">
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <Label Content="Interval (semitones):" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0,1,0,1" />
+                                                            <Label Content="0" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1">
+                                                    <StackPanel Height="40" HorizontalAlignment="Right">
+                                                        <Button Margin="0">
+                                                            <StackPanel Orientation="Horizontal" Margin="4,2,2,2">                                                                
+                                                                <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Change key</Label>
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </StackPanel>
+                                                    <Border Height="40">
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <Label Content="Current key:" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0,1,0,1" HorizontalContentAlignment="Right" />
+                                                            <Label Content="C" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="0,1,0,1" HorizontalContentAlignment="Right" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Grid>
+                                            <Slider Grid.Row="1" Minimum="50" Value="100" Maximum="150" Margin="0,2,0,6" />
+                                            <Grid Grid.Row="2" HorizontalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="36" />
+                                                    <ColumnDefinition Width="36" />
+                                                    <ColumnDefinition Width="36" />
+                                                </Grid.ColumnDefinitions>
+                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30">
+                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
+                                                </Button>
+                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30">
+                                                    <Image Source="/Resources/Images/Buttons/minus.png" Stretch="None" />
+                                                </Button>
+                                                <Button Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30">
+                                                    <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
+                                                </Button>
+                                            </Grid>                                            
                                         </Grid>
                                         <Grid x:Name="panelInfo" Background="Yellow" Visibility="Hidden">
                                         </Grid>
