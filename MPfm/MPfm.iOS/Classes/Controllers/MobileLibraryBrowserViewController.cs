@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MPfm.MVP.Models;
@@ -35,11 +36,13 @@ using MPfm.Core;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.Library.Objects;
+using MPfm.Core.Helpers;
 
 namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
+		readonly object _locker = new object();
 		List<Tuple<SectionIndex, List<LibraryBrowserEntity>>> _items;
         MobileLibraryBrowserType _browserType;
         MobileNavigationTabType _tabType;
@@ -831,6 +834,20 @@ namespace MPfm.iOS.Classes.Controllers
         public async void RefreshAlbumArtCell(string artistName, string albumTitle, byte[] albumArtData, object userData)
         {
             //Console.WriteLine("MLBVC - RefreshAlbumArtCell - artistName: {0} albumTitle: {1} browserType: {2}", artistName, albumTitle, _browserType);
+			if (albumArtData != null && albumArtData.Length > 0)
+			{
+				Task.Factory.StartNew(() =>
+				{
+					lock (_locker)
+					{
+						string filePath = Path.Combine(PathHelper.PeakFileDirectory, string.Format("{0}_{1}.png", artistName, albumTitle));
+						if(!File.Exists(filePath))
+							using (var file = File.Open(filePath, FileMode.OpenOrCreate))
+								file.Write(albumArtData, 0, albumArtData.Length);
+					}
+				});
+			}
+
             int height = 0;
             switch (_browserType)
             {

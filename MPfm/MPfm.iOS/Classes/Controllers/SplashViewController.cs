@@ -24,11 +24,20 @@ using MPfm.MVP.Views;
 using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Navigation;
 using MPfm.iOS.Helpers;
+using MonoTouch.CoreGraphics;
+using System.IO;
+using MPfm.Core.Helpers;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MPfm.iOS.Classes.Objects;
 
 namespace MPfm.iOS.Classes.Controllers
 {
     public partial class SplashViewController : BaseViewController, ISplashView
     {
+		private List<string> _imageFilePaths;
+
         public SplashViewController()
             : base (UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
         {
@@ -36,12 +45,13 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
-			View.BackgroundColor = UIColor.White;
+			View.BackgroundColor = GlobalTheme.MainColor;
 
 //			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
 //				//SetNeedsStatusBarAppearanceUpdate();
 //				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.Default, true);
 
+			imageView.Alpha = UserInterfaceIdiomIsPhone ? 1 : 0;
 			imageViewOverlay.Alpha = 0;
 			if (UIScreen.MainScreen.Bounds.Height == 568)
 			{
@@ -78,11 +88,70 @@ namespace MPfm.iOS.Classes.Controllers
 			activityIndicator.Frame = new RectangleF(activityIndicator.Frame.X, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
             lblStatus.Frame = new RectangleF(lblStatus.Frame.X, activityIndicator.Frame.Y, lblStatus.Frame.Width, lblStatus.Frame.Height);
 
+			_imageFilePaths = Directory.EnumerateFiles(PathHelper.PeakFileDirectory, "*.png").ToList();
+//			foreach (string file in files)
+//			{
+//				Console.WriteLine(file);
+//			}
+
+			float albumSize = UserInterfaceIdiomIsPhone ? 90 : 120;
+			float albumSizeDiagonal = (float)(Math.Sqrt(Math.Pow(albumSize, 2) + Math.Pow(albumSize, 2)));
+			//Console.WriteLine("@@@@@@@@@@@@@ albumSize: {0} albumSizeDiagonal: {1}", albumSize, albumSizeDiagonal);
+			double delay = 0;
+			int numberOfItemsWidth = (int)Math.Round(View.Bounds.Width / albumSize) + 1;
+			int numberOfItemsHeight = (int)Math.Round(View.Bounds.Height / albumSize) + 1;
+			float width = 0;
+			float height = 0;
+			for (int a = 0; a < numberOfItemsHeight * 2; a++)
+			{
+				width = a % 2 == 0 ? -(albumSizeDiagonal / 2f) : (albumSizeDiagonal / 4f);
+				for (int b = 0; b < numberOfItemsWidth; b++)
+				{
+					var view = new UIImageView();
+					view.Frame = new RectangleF(width * 2, height, albumSize, albumSize);
+					//view.BackgroundColor = UIColor.FromRGB(rnd.Next(1, 255), rnd.Next(1, 255), rnd.Next(1, 255));
+					view.Alpha = 0;
+					View.AddSubview(view);
+					View.BringSubviewToFront(activityIndicator);
+					View.BringSubviewToFront(lblStatus);
+					//View.SendSubviewToBack(view);
+
+					Rotate(view, delay, width * 2, height, albumSize);
+
+					delay += 0.02;
+					width += albumSizeDiagonal - (albumSizeDiagonal / 2f);
+				}
+
+				height += albumSizeDiagonal - (albumSizeDiagonal / 2f);
+			}
+
             base.ViewDidLoad();
 
             var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
             navigationManager.BindSplashView(this);
         }
+
+		private void Rotate(UIImageView view, double delay, float x, float y, float size)
+		{
+			//Task.Factory.StartNew(() =>
+			Random rnd = new Random();
+			UIImage image = null;
+			if (_imageFilePaths.Count > 0)
+			{
+				int index = rnd.Next(0, _imageFilePaths.Count - 1);
+				image = UIImage.FromFile(_imageFilePaths[index]);
+			}
+
+			InvokeOnMainThread(() => {
+				view.Image = image;
+				UIView.Animate(0.2, delay, UIViewAnimationOptions.CurveEaseIn, () =>
+					{
+						view.Transform = CGAffineTransform.MakeRotation((float)Math.PI / 4f);
+						view.Center = new PointF(x, y);
+						view.Alpha = 0.125f;
+					}, null);		
+			});
+		}
 
         public override void ViewWillAppear(bool animated)
         {
@@ -90,8 +159,8 @@ namespace MPfm.iOS.Classes.Controllers
 			//imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y + 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
             UIView.Animate(0.5, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
 				//imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y - 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
-				imageViewOverlay.Alpha = 1;
 				//imageViewLogo.Alpha = 1;
+				imageViewOverlay.Alpha = UserInterfaceIdiomIsPhone ? 1 : 0;
                 lblStatus.Alpha = 1;
                 activityIndicator.Alpha = 1;
             }, null);
@@ -111,7 +180,7 @@ namespace MPfm.iOS.Classes.Controllers
 				float width = CoreGraphicsHelper.MeasureStringWidth(context, message, lblStatus.Font.Name, lblStatus.Font.PointSize);
 	            UIGraphics.EndImageContext();
 
-				float totalWidth = width + 44 + padding;
+				float totalWidth = width + activityIndicator.Bounds.Width + padding;
 				float spinnerX = (UIScreen.MainScreen.Bounds.Width - totalWidth) / 2;
 				float textX = spinnerX + activityIndicator.Bounds.Width + padding;
 

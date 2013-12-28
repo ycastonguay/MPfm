@@ -340,9 +340,7 @@ namespace MPfm.MVP.Presenters
 
         private void RefreshLibraryBrowser(bool isPopBackstack)
         {
-            //Tracing.Log("MobileLibraryBrowserPresenter - RefreshLibraryBrowser - isPopBackstack: {0}", isPopBackstack);
-            Task.Factory.StartNew(() =>
-                {
+            Task.Factory.StartNew(() => {
                 // Build breadcrumb
                 string breadcrumb = string.Empty;
                 for(int a = 0; a < _queryHistory.Count; a++)
@@ -469,11 +467,16 @@ namespace MPfm.MVP.Presenters
 
         private IEnumerable<LibraryBrowserEntity> GetSongs(string artistName, string albumTitle)
         {
+            // This should be replaced by the audio file cache, no?
             var format = AudioFileFormat.All;
             var list = new List<LibraryBrowserEntity>();
-            var audioFiles = _libraryService.SelectAudioFiles(format, artistName, albumTitle, string.Empty);
+            var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery() {
+                ArtistName = artistName,
+                AlbumTitle = albumTitle,
+                Format = format
+            });
 
-            // If a single album is specified, order songs by disc number/track number
+            // If a single album is specified, order songs by disc number/track number.
             if (!String.IsNullOrEmpty(albumTitle))
                 audioFiles = audioFiles.OrderBy(x => x.DiscNumber).ThenBy(x => x.TrackNumber).ToList();
             else
