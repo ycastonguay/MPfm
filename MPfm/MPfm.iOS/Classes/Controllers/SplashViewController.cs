@@ -45,58 +45,59 @@ namespace MPfm.iOS.Classes.Controllers
         
         public override void ViewDidLoad()
         {
-			View.BackgroundColor = GlobalTheme.MainColor;
+			_imageFilePaths = Directory.EnumerateFiles(PathHelper.PeakFileDirectory, "*.png").ToList();
 
 //			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
 //				//SetNeedsStatusBarAppearanceUpdate();
 //				UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.Default, true);
+					
+			View.BackgroundColor = GlobalTheme.BackgroundColor;
+            lblStatus.Alpha = 0;
+            activityIndicator.Alpha = 0;
+            activityIndicator.StartAnimating();
+			activityIndicator.Frame = new RectangleF(activityIndicator.Frame.X, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
+            lblStatus.Frame = new RectangleF(lblStatus.Frame.X, activityIndicator.Frame.Y, lblStatus.Frame.Width, lblStatus.Frame.Height);
 
-			imageView.Alpha = UserInterfaceIdiomIsPhone ? 1 : 0;
+			LoadBackgroundImages();
+			BuildAlbumArtBackground();
+		
+            base.ViewDidLoad();
+
+            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
+            navigationManager.BindSplashView(this);
+        }
+
+		private void LoadBackgroundImages()
+		{
+			imageView.Alpha = 1;
 			imageViewOverlay.Alpha = 0;
 			if (UIScreen.MainScreen.Bounds.Height == 568)
 			{
 				imageView.Image = UIImage.FromBundle("Images/Splash/splash_default-568h");
-				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_default-568h_2");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_default-568h_overlay");
 			}
 			else if (UIScreen.MainScreen.Bounds.Height == 768)
 			{
 				imageView.Image = UIImage.FromBundle("Images/Splash/splash_landscape");
-				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_landscape");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_landscape_overlay");
 			}
 			else if (UIScreen.MainScreen.Bounds.Height == 1024)
 			{			
 				imageView.Image = UIImage.FromBundle("Images/Splash/splash_portrait");
-				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_portrait");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_portrait_overlay");
 			}
 			else
 			{
 				imageView.Image = UIImage.FromBundle("Images/Splash/splash_default");
-				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_default");
+				imageViewOverlay.Image = UIImage.FromBundle("Images/Splash/splash_default_overlay");
 			}
+		}
 
-			//imageView.Alpha = 0;
-			//imageViewLogo.Image = UIImage.FromBundle("Images/Splash/app_badge");
-			//lblStatus.Font = UIFont.FromName("HelveticaNeue-Light", 14);
-
-			//imageViewLogo.Alpha = 0;
-            lblStatus.Alpha = 0;
-            activityIndicator.Alpha = 0;
-            activityIndicator.StartAnimating();
-
-			//imageViewLogo.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width - imageViewLogo.Bounds.Width) / 2.0f, (UIScreen.MainScreen.Bounds.Height - imageViewLogo.Bounds.Height) / 2.0f, imageViewLogo.Bounds.Width, imageViewLogo.Bounds.Height);
-			//activityIndicator.Frame = new RectangleF(activityIndicator.Frame.X, imageViewLogo.Frame.Y + imageViewLogo.Frame.Height + 28, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
-			activityIndicator.Frame = new RectangleF(activityIndicator.Frame.X, activityIndicator.Frame.Y, activityIndicator.Frame.Width, activityIndicator.Frame.Height);
-            lblStatus.Frame = new RectangleF(lblStatus.Frame.X, activityIndicator.Frame.Y, lblStatus.Frame.Width, lblStatus.Frame.Height);
-
-			_imageFilePaths = Directory.EnumerateFiles(PathHelper.PeakFileDirectory, "*.png").ToList();
-//			foreach (string file in files)
-//			{
-//				Console.WriteLine(file);
-//			}
-
+		private void BuildAlbumArtBackground()
+		{
 			float albumSize = UserInterfaceIdiomIsPhone ? 90 : 120;
 			float albumSizeDiagonal = (float)(Math.Sqrt(Math.Pow(albumSize, 2) + Math.Pow(albumSize, 2)));
-			//Console.WriteLine("@@@@@@@@@@@@@ albumSize: {0} albumSizeDiagonal: {1}", albumSize, albumSizeDiagonal);
+			//Console.WriteLine("albumSize: {0} albumSizeDiagonal: {1}", albumSize, albumSizeDiagonal);
 			double delay = 0;
 			int numberOfItemsWidth = (int)Math.Round(View.Bounds.Width / albumSize) + 1;
 			int numberOfItemsHeight = (int)Math.Round(View.Bounds.Height / albumSize) + 1;
@@ -109,14 +110,11 @@ namespace MPfm.iOS.Classes.Controllers
 				{
 					var view = new UIImageView();
 					view.Frame = new RectangleF(width * 2, height, albumSize, albumSize);
-					//view.BackgroundColor = UIColor.FromRGB(rnd.Next(1, 255), rnd.Next(1, 255), rnd.Next(1, 255));
 					view.Alpha = 0;
 					View.AddSubview(view);
 					View.BringSubviewToFront(activityIndicator);
 					View.BringSubviewToFront(lblStatus);
-					//View.SendSubviewToBack(view);
-
-					Rotate(view, delay, width * 2, height, albumSize);
+					RotateAlbumArt(view, delay, width * 2, height);
 
 					delay += 0.02;
 					width += albumSizeDiagonal - (albumSizeDiagonal / 2f);
@@ -124,14 +122,9 @@ namespace MPfm.iOS.Classes.Controllers
 
 				height += albumSizeDiagonal - (albumSizeDiagonal / 2f);
 			}
+		}
 
-            base.ViewDidLoad();
-
-            var navigationManager = Bootstrapper.GetContainer().Resolve<MobileNavigationManager>();
-            navigationManager.BindSplashView(this);
-        }
-
-		private void Rotate(UIImageView view, double delay, float x, float y, float size)
+		private void RotateAlbumArt(UIImageView view, double delay, float x, float y)
 		{
 			//Task.Factory.StartNew(() =>
 			Random rnd = new Random();
@@ -156,11 +149,8 @@ namespace MPfm.iOS.Classes.Controllers
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-			//imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y + 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
             UIView.Animate(0.5, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
-				//imageViewLogo.Frame = new RectangleF(imageViewLogo.Frame.X, imageViewLogo.Frame.Y - 50, imageViewLogo.Frame.Width, imageViewLogo.Frame.Height);
-				//imageViewLogo.Alpha = 1;
-				imageViewOverlay.Alpha = UserInterfaceIdiomIsPhone ? 1 : 0;
+				imageViewOverlay.Alpha = 1;
                 lblStatus.Alpha = 1;
                 activityIndicator.Alpha = 1;
             }, null);

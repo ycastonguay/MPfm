@@ -199,6 +199,8 @@ namespace MPfm.iOS.Classes.Controllers
 				navCtrl.SetTitle(navTitle, iconName);
 		}
 
+		#region UICollectionView DataSource/Delegate
+
         private void HandleLongPressCollectionCellRow(UILongPressGestureRecognizer gestureRecognizer)
         {
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)
@@ -407,6 +409,8 @@ namespace MPfm.iOS.Classes.Controllers
 			return null;
         }
 
+		#endregion
+
         #region UITableView DataSource/Delegate
 
         private void HandleLongPressTableCellRow(UILongPressGestureRecognizer gestureRecognizer)
@@ -513,7 +517,11 @@ namespace MPfm.iOS.Classes.Controllers
 			if (_browserType != MobileLibraryBrowserType.Songs)
 				return null;
 
-			MPfmAlbumHeaderView header = (MPfmAlbumHeaderView)tableView.DequeueReusableHeaderFooterView(_headerCellIdentifier);
+			// TODO: DequeueReusableHeaderFooterView is supposed to work on iOS 6 but it crashes on iPhone 4S iOS 6.1.2
+			MPfmAlbumHeaderView header = null;
+			if(UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
+				header = (MPfmAlbumHeaderView)tableView.DequeueReusableHeaderFooterView(_headerCellIdentifier);
+
 			if (header == null)
 				header = new MPfmAlbumHeaderView();
 
@@ -691,7 +699,6 @@ namespace MPfm.iOS.Classes.Controllers
         [Export ("tableView:didSelectRowAtIndexPath:")]
         public void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            Console.WriteLine("MLBVC - RowSelected - row: {0}", indexPath.Row);
 			if(_editingRowPosition != -1)
             {
                 Console.WriteLine("MLBVC - RowSelected - Deselecting row... - row: {0}", indexPath.Row);

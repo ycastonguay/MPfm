@@ -624,7 +624,6 @@
     <BundleResource Include="Images\SmallWhiteIcons\volume_high%402x.png" />
     <BundleResource Include="Images\SmallWhiteIcons\volume_low.png" />
     <BundleResource Include="Images\SmallWhiteIcons\volume_low%402x.png" />
-    <BundleResource Include="Images\Splash\splash_default-568h_2%402x.png" />
     <BundleResource Include="Images\Player\down.png" />
     <BundleResource Include="Images\Player\down%402x.png" />
     <BundleResource Include="Images\Player\add.png" />
@@ -635,6 +634,11 @@
     <BundleResource Include="Images\Player\remove%402x.png" />
     <BundleResource Include="Images\Player\undo.png" />
     <BundleResource Include="Images\Player\undo%402x.png" />
+    <BundleResource Include="Images\Splash\splash_portrait_overlay%402x.png" />
+    <BundleResource Include="Images\Splash\splash_portrait_overlay.png" />
+    <BundleResource Include="Images\Splash\splash_default-568h_overlay%402x.png" />
+    <BundleResource Include="Images\Splash\splash_default_overlay%402x.png" />
+    <BundleResource Include="Images\Splash\splash_default_overlay.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

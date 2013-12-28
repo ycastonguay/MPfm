@@ -108,6 +108,9 @@ namespace MPfm.iOS.Classes.Controls
 		{
 			base.LayoutSubviews();
 
+			if (BackgroundView == null || ArtistNameLabel == null)
+				return;
+
 			BackgroundView.Frame = Bounds;
 
 			if (UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad)
