@@ -406,17 +406,19 @@ namespace MPfm.Library.Database
         /// <returns>List of objects</returns>
         public List<T> Select<T>(string sql) where T : new()
         {
-            // Declare variables
-            DbConnection connection = null;
-            DbDataReader reader = null;            
-            DbCommand command = null;
+			SqliteConnection connection = null;
+			SqliteDataReader reader = null;
+			SqliteCommand command = null;
             List<T> list = new List<T>();
             List<DatabaseFieldMap> maps = GetMap<T>();
+			List<Tuple<PropertyInfo, Delegate, Delegate>> propertyInfos = new List<Tuple<PropertyInfo, Delegate, Delegate>>();
 
             try
             {                
                 // Create and open connection
-                connection = GenerateConnection();
+				//connection = GenerateConnection();
+				connection = new SqliteConnection();
+				connection.ConnectionString = "Data Source=" + databaseFilePath;       
                 connection.Open();
 
                 // Create command
@@ -424,68 +426,92 @@ namespace MPfm.Library.Database
                 command.CommandText = sql;
                 command.Connection = connection;
 
-                // Create and execute reader
-                reader = command.ExecuteReader();
+				// Create and execute reader
+				reader = command.ExecuteReader();
+
+				// Prepare map; order propertyInfo list to speed up conversion
+				var fields = new List<string>();
+				for (int a = 0; a < reader.FieldCount; a++)
+					fields.Add(reader.GetName(a));
+
+				for(int a = 0; a < fields.Count; a++)
+				{
+					var map = maps.FirstOrDefault(x => x.FieldName == fields[a]);
+					string propertyName = map != null ? map.PropertyName : fields[a];
+					var property = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+					if(property != null)
+					{
+						Delegate convertDelegate = null;
+						if (property.PropertyType != reader.GetFieldType(a))
+						{
+							var fieldType = reader.GetFieldType(a);
+							MethodInfo castMethod = typeof(Convert).GetMethod("To" + property.PropertyType.Name, new Type[] { fieldType });
+							if (castMethod != null)
+							{
+								try
+								{
+									// Create delegate to convert type
+									Type funcType = typeof(Func<,>).MakeGenericType(new Type[2] { fieldType, property.PropertyType });
+									var del = Delegate.CreateDelegate(funcType, castMethod);
+									var item = new Tuple<Type, Type, Delegate>(fieldType, property.PropertyType, del);
+									convertDelegate = del;
+								}
+								catch(Exception ex)
+								{
+									Console.WriteLine("SQLiteGateway - Select - Construct delegate error: {0}", ex);
+								}
+							}
+						}
+
+						var delSetter = Delegate.CreateDelegate(typeof(Action<object, object, object[]>), property, "SetValue");
+						propertyInfos.Add(new Tuple<PropertyInfo, Delegate, Delegate>(property, delSetter, convertDelegate));
+					}
+					else
+					{
+						Console.WriteLine("[!!!] SqliteGateway - Failed to recognize property {0}", propertyName);
+						propertyInfos.Add(new Tuple<PropertyInfo, Delegate, Delegate>(null, null, null));
+					}
+				}
+
                 while (reader.Read())
                 {
                     // Create object and fill data
                     T data = new T();
-
-                    // Cycle through columns
                     for (int a = 0; a < reader.FieldCount; a++)
                     {
-                        // Get column info
-                        string fieldName = reader.GetName(a);
                         Type fieldType = reader.GetFieldType(a);
                         object fieldValue = reader.GetValue(a);
 
-                        // Check for map
-                        string propertyName = fieldName;                        
-                        var map = maps.FirstOrDefault(x => x.FieldName == fieldName);
-                        if (map != null)
-                            propertyName = map.PropertyName;
-
-                        // Get property info and fill column if valid
-                        PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
-                        if (info != null)
+						PropertyInfo info = propertyInfos[a].Item1;
+						var delSet = propertyInfos[a].Item2;
+						if (info != null)
                         {
-                            try
-                            {                         
-                                // Set value to null
-                                if (fieldValue is System.DBNull)
-                                    fieldValue = null;                                
-
-                                // Check if the type is an enum                                    
-                                if (info.PropertyType.IsEnum)
-                                {
-                                    fieldValue = Enum.Parse(info.PropertyType, fieldValue.ToString());
-                                }                                
-                                else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
-                                {
-                                    // Guid aren't supported in SQLite, so they are stored as strings.
-                                    fieldValue = new Guid(fieldValue.ToString());                                    
-                                }
-                                else if (info.PropertyType.FullName != fieldType.FullName)
-                                {
-                                    // Call a convert method in the Convert static class, if available
-                                    MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
-                                    if (castMethod != null)
-                                    {
-                                        fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
-                                    }
-                                }
-
-                                // Set property value
-                                info.SetValue(data, fieldValue, null);
-                            }
-                            catch
+                            if (fieldValue is System.DBNull)
+							{
+                                fieldValue = null;                                
+							}
+							else if (info.PropertyType.IsEnum)
                             {
-                                throw;
+								fieldValue = Enum.Parse(info.PropertyType, fieldValue.ToString());
+                            }         
+							else if (info.PropertyType == typeof(Guid))
+							{
+								fieldValue = new Guid(fieldValue.ToString());                                    
+							}
+                            else if (info.PropertyType.FullName != fieldType.FullName)
+                            {
+								var convertDelegate = propertyInfos[a].Item3;
+								if(convertDelegate != null)
+									fieldValue = convertDelegate.DynamicInvoke(new object[1] { fieldValue });
                             }
-                        }
+
+							// This is actually faster than dynamic invoke
+							info.SetValue(data, fieldValue, null);
+//							if(delSet != null)
+//								delSet.DynamicInvoke(new object[3] { data, fieldValue, null });
+						}
                     }
 
-                    // Add item to list
                     list.Add(data);
                 }
                 

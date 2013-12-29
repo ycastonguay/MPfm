@@ -141,6 +141,9 @@ namespace MPfm.Core
 			int secs = 0;
 			int ms = 0;
 
+			if (string.IsNullOrEmpty(time))
+				return 0;
+
 			var split = time.Split(new char[2]{ ':', '.' }, StringSplitOptions.RemoveEmptyEntries);
 			if(split.Length >= 0)
 				int.TryParse(split[0], out mins);
