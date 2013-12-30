@@ -45,11 +45,12 @@ namespace MPfm.iOS.Classes.Controls
         public UILabel AlbumCountLabel { get; private set; }
         //public UIView SecondaryMenuBackground { get; private set; }
 
-        public MPfmImageButton PlayButton { get; set; }
-        public MPfmImageButton AddButton { get; set; }
-        public MPfmImageButton DeleteButton { get; set; }
+		public MPfmSecondaryMenuButton PlayButton { get; set; }
+		public MPfmSecondaryMenuButton AddButton { get; set; }
+		public MPfmSecondaryMenuButton DeleteButton { get; set; }
 
         public bool IsTextAnimationEnabled { get; set; }
+		public bool IsDarkBackground { get; set; }
 
         public float RightOffset { get; set; }
 
@@ -177,18 +178,25 @@ namespace MPfm.iOS.Classes.Controls
 //            //SecondaryMenuBackground.Alpha = 0;
 //            AddSubview(SecondaryMenuBackground);
 
-            PlayButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44));
-            PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
+			// Maybe add icons only to iPad where there is enough space
+			PlayButton = new MPfmSecondaryMenuButton(new RectangleF(4, 4, 30, 30));
+			PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
+			PlayButton.SetTitle("Play", UIControlState.Normal); 
+			PlayButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             PlayButton.Alpha = 0;
             AddSubview(PlayButton);
 
-            AddButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44));
-            AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
+			AddButton = new MPfmSecondaryMenuButton(new RectangleF(4, 4, 30, 30));
+			AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
+			AddButton.SetTitle("Add to playlist", UIControlState.Normal);
+			AddButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             AddButton.Alpha = 0;
             AddSubview(AddButton);
 
-            DeleteButton = new MPfmImageButton(new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44));
-            DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
+			DeleteButton = new MPfmSecondaryMenuButton(new RectangleF(4, 4, 30, 30));
+			DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
+			DeleteButton.SetTitle("Delete", UIControlState.Normal);
+			DeleteButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             DeleteButton.Alpha = 0;
             AddSubview(DeleteButton);
         }
@@ -245,7 +253,7 @@ namespace MPfm.iOS.Classes.Controls
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 titleY = 2 + 4;
 
-            if (_isTextLabelAllowedToChangeFrame)
+			//if (_isTextLabelAllowedToChangeFrame)
                 TextLabel.Frame = new RectangleF(x, titleY, textWidth, 22);
             if (!string.IsNullOrEmpty(DetailTextLabel.Text))
                 DetailTextLabel.Frame = new RectangleF(x, 22 + 4, textWidth, 16);
@@ -264,17 +272,21 @@ namespace MPfm.iOS.Classes.Controls
 			ImageAlbum2.Frame = new RectangleF(screenSize.Width - 130, 4, 44, 44);
 			ImageAlbum3.Frame = new RectangleF(screenSize.Width - 182, 4, 44, 44);
 			AlbumCountLabel.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
+
+			PlayButton.Frame = new RectangleF(4, 56, 100, 64);
+			AddButton.Frame = new RectangleF(108, 56, 100, 64);
+			DeleteButton.Frame = new RectangleF(212, 56, 100, 64);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
         {
             SelectedBackgroundView.Alpha = 1;
             SelectedBackgroundView.Hidden = !highlighted;
-            TextLabel.TextColor = highlighted ? UIColor.White : UIColor.Black;
+			TextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
             DetailTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
-            DetailTextLabel.TextColor = highlighted ? UIColor.White : UIColor.Gray;
-            //IndexTextLabel.TextColor = highlighted ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
+			DetailTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Gray;
+			IndexTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
             //SecondaryMenuBackground.BackgroundColor = highlighted ? GlobalTheme.SecondaryColor : GlobalTheme.LightColor;
 
             base.SetHighlighted(highlighted, animated);

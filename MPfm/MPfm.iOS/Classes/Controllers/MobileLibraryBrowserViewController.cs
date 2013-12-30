@@ -234,9 +234,9 @@ namespace MPfm.iOS.Classes.Controllers
                         oldCell.PlayButton.Alpha = 0;
                         oldCell.AddButton.Alpha = 0;
                         oldCell.DeleteButton.Alpha = 0;
-                        oldCell.PlayButton.Frame = new RectangleF(((oldCell.Frame.Width - 44) / 2) - 8, (oldCell.Frame.Height - 44) / 2, 44, 44);
-                        oldCell.AddButton.Frame = new RectangleF((oldCell.Frame.Width - 44) / 2 + 44, (oldCell.Frame.Height - 44) / 2, 44, 44);
-                        oldCell.DeleteButton.Frame = new RectangleF(((oldCell.Frame.Width - 44) / 2) + 96, (oldCell.Frame.Height - 44) / 2, 44, 44);
+						oldCell.PlayButton.Frame = new RectangleF(((oldCell.Frame.Width - 44) / 2) - 8, 48, 44, 44);
+						oldCell.AddButton.Frame = new RectangleF((oldCell.Frame.Width - 44) / 2 + 44, 48, 44, 44);
+						oldCell.DeleteButton.Frame = new RectangleF(((oldCell.Frame.Width - 44) / 2) + 96, 48, 44, 44);
                     }, null);
                 }
             }
@@ -249,16 +249,16 @@ namespace MPfm.iOS.Classes.Controllers
                     cell.PlayButton.Alpha = 0;
                     cell.AddButton.Alpha = 0;
                     cell.DeleteButton.Alpha = 0;
-                    cell.PlayButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) - 8, (cell.Frame.Height - 44) / 2, 44, 44);
-                    cell.AddButton.Frame = new RectangleF((cell.Frame.Width - 44) / 2 + 44, (cell.Frame.Height - 44) / 2, 44, 44);
-                    cell.DeleteButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) + 96, (cell.Frame.Height - 44) / 2, 44, 44);
+					cell.PlayButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) - 8, 48, 44, 44);
+					cell.AddButton.Frame = new RectangleF((cell.Frame.Width - 44) / 2 + 44, 48, 44, 44);
+					cell.DeleteButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) + 96, 48, 44, 44);
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                         cell.PlayButton.Alpha = 1;
                         cell.AddButton.Alpha = 1;
                         cell.DeleteButton.Alpha = 1;
-                        cell.PlayButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) - 52, (cell.Frame.Height - 44) / 2, 44, 44);
-                        cell.AddButton.Frame = new RectangleF((cell.Frame.Width - 44) / 2, (cell.Frame.Height - 44) / 2, 44, 44);
-                        cell.DeleteButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) + 52, (cell.Frame.Height - 44) / 2, 44, 44);
+						cell.PlayButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) - 52, 48, 44, 44);
+						cell.AddButton.Frame = new RectangleF((cell.Frame.Width - 44) / 2, 48, 44, 44);
+						cell.DeleteButton.Frame = new RectangleF(((cell.Frame.Width - 44) / 2) + 52, 48, 44, 44);
                     }, null);
                 }
             }
@@ -442,10 +442,12 @@ namespace MPfm.iOS.Classes.Controllers
                 if (oldCell != null)
                 {
                     //oldCell.SecondaryMenuBackground.Alpha = 0;
+					oldCell.IsDarkBackground = false;
+					oldCell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
-                        oldCell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 138, 4, 44, 44);
-                        oldCell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 86, 4, 44, 44);
-                        oldCell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 34, 4, 44, 44);
+//						oldCell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
+//						oldCell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
+//						oldCell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
                         oldCell.TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
@@ -456,13 +458,20 @@ namespace MPfm.iOS.Classes.Controllers
                         oldCell.ImageAlbum1.Alpha = 0.75f;
                         oldCell.ImageAlbum2.Alpha = 0.4f;
                         oldCell.ImageAlbum3.Alpha = 0.2f;
+
+						oldCell.BackgroundColor = UIColor.White;
+						oldCell.TextLabel.TextColor = UIColor.Black;
+						oldCell.DetailTextLabel.TextColor = UIColor.Gray;
+						oldCell.IndexTextLabel.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
+						oldCell.PlayButton.UpdateLayout();
+						oldCell.AddButton.UpdateLayout();
+						oldCell.DeleteButton.UpdateLayout();
                     }, null);
                 }
             }
 
 			if (row >= 0)
             {
-				//var item = _items[position];
 				var cell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(row, section));
                 if (cell != null)
                 {
@@ -473,26 +482,44 @@ namespace MPfm.iOS.Classes.Controllers
                     cell.ImageAlbum1.Alpha = 0.75f;
                     cell.ImageAlbum2.Alpha = 0.4f;
                     cell.ImageAlbum3.Alpha = 0.2f;
-                    cell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 138, 4, 44, 44);
-                    cell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 86, 4, 44, 44);
-                    cell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 34, 4, 44, 44);
+//					cell.PlayButton.Frame = new RectangleF(4, 52, 100, 44);
+//					cell.AddButton.Frame = new RectangleF(108, 52, 100, 44);
+//					cell.DeleteButton.Frame = new RectangleF(212, 52, 100, 44);
+
+					cell.BackgroundColor = GlobalTheme.SecondaryColor;
+					cell.IsDarkBackground = true;
+					cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
                         cell.PlayButton.Alpha = 1;
                         cell.AddButton.Alpha = 1;
                         cell.DeleteButton.Alpha = 1;
                         cell.AlbumCountLabel.Alpha = 0;
-                        cell.ImageAlbum1.Alpha = 0;
-                        cell.ImageAlbum2.Alpha = 0;
-                        cell.ImageAlbum3.Alpha = 0;
+//						cell.ImageAlbum1.Alpha = 1;
+//						cell.ImageAlbum2.Alpha = 1;
+//						cell.ImageAlbum3.Alpha = 1;
                         cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                         cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                         cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
-                        cell.PlayButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
-                        cell.AddButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
-                        cell.DeleteButton.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
+//						cell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
+//						cell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
+//						cell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
+
+						cell.BackgroundColor = GlobalTheme.BackgroundColor;
+						cell.TextLabel.TextColor = UIColor.White;
+						cell.DetailTextLabel.TextColor = UIColor.White;
+						cell.IndexTextLabel.TextColor = UIColor.White;
+
+						cell.PlayButton.UpdateLayout();
+						cell.AddButton.UpdateLayout();
+						cell.DeleteButton.UpdateLayout();
+
                     }, null);
                 }
             }
+
+			// Execute animation for new row height (as simple as that!)
+			tableView.BeginUpdates();
+			tableView.EndUpdates();	
         }
 
 		[Export ("numberOfSectionsInTableView:")]
@@ -593,11 +620,9 @@ namespace MPfm.iOS.Classes.Controllers
             cell.IsTextAnimationEnabled = true;
             cell.TextLabel.Font = UIFont.FromName("HelveticaNeue", 14);
             cell.TextLabel.Text = item.Title;
-			cell.TextLabel.TextColor = UIColor.Black;
 			cell.TextLabel.HighlightedTextColor = UIColor.White;
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             cell.DetailTextLabel.Text = item.Subtitle;
-			cell.DetailTextLabel.TextColor = UIColor.Gray;
 			cell.DetailTextLabel.HighlightedTextColor = UIColor.White;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
@@ -616,15 +641,26 @@ namespace MPfm.iOS.Classes.Controllers
             if(String.IsNullOrEmpty(item.Subtitle))
                 cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 
-			cell.PlayButton.Alpha = _editingRowPosition == indexPath.Row ? 1 : 0;
-			cell.AddButton.Alpha = _editingRowPosition == indexPath.Row ? 1 : 0;
-			cell.DeleteButton.Alpha = _editingRowPosition == indexPath.Row ? 1 : 0;
-			cell.AlbumCountLabel.Alpha = _editingRowPosition == indexPath.Row ? 0 : 0.75f;
-			cell.ImageAlbum1.Alpha = _editingRowPosition == indexPath.Row ? 0 : 0.75f;
-			cell.ImageAlbum2.Alpha = _editingRowPosition == indexPath.Row ? 0 : 0.4f;
-			cell.ImageAlbum3.Alpha = _editingRowPosition == indexPath.Row ? 0 : 0.2f;
+			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
+			cell.ImageChevron.Image = isEditing ? UIImage.FromBundle("Images/Tables/chevron_white") : UIImage.FromBundle("Images/Tables/chevron");
+			cell.IsDarkBackground = isEditing;
+			cell.BackgroundColor = isEditing ? GlobalTheme.BackgroundColor : UIColor.White;
+			cell.PlayButton.Alpha = isEditing ? 1 : 0;
+			cell.AddButton.Alpha = isEditing ? 1 : 0;
+			cell.DeleteButton.Alpha = isEditing ? 1 : 0;
+			cell.AlbumCountLabel.Alpha = isEditing ? 1 : 0.75f;
+//			cell.ImageAlbum1.Alpha = isEditing ? 1 : 0.75f;
+//			cell.ImageAlbum2.Alpha = isEditing ? 1 : 0.4f;
+//			cell.ImageAlbum3.Alpha = isEditing ? 1 : 0.2f;
+			cell.ImageAlbum1.Alpha = 0.75f;
+			cell.ImageAlbum2.Alpha = 0.4f;
+			cell.ImageAlbum3.Alpha = 0.2f;
+			cell.TextLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
+			cell.DetailTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Gray;
+			cell.IndexTextLabel.TextColor = isEditing ? UIColor.White : UIColor.FromRGB(0.5f, 0.5f, 0.5f);
+
             //cell.SecondaryMenuBackground.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
-			if (_editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section)
+			if (isEditing)
             {
                 cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                 cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
@@ -736,14 +772,16 @@ namespace MPfm.iOS.Classes.Controllers
             if (cell == null)
                 return;
 
-            cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
+			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
+			cell.ImageChevron.Image = isEditing ? UIImage.FromBundle("Images/Tables/chevron_white") : UIImage.FromBundle("Images/Tables/chevron");
             cell.RightImage.Image = UIImage.FromBundle("Images/Icons/icon_speaker");
         }
 
         [Export ("tableView:heightForRowAtIndexPath:")]
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 52;
+			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
+			return isEditing ? 128 : 52;
         }
 
 		[Export ("tableView:heightForHeaderInSection:")]

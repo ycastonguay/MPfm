@@ -340,6 +340,7 @@
     <Compile Include="Classes\Controls\MPfmTableView.cs" />
     <Compile Include="Classes\Controls\MPfmCollectionHeaderView.cs" />
     <Compile Include="Classes\Controls\MPfmAlbumHeaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmSecondaryMenuButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
