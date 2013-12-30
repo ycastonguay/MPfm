@@ -56,7 +56,7 @@ namespace MPfm.iOS.Classes.Controls
         private void Initialize()
         {
             LabelAlignment = UIControlContentHorizontalAlignment.Left;
-			BackgroundColor = UIColor.Clear;
+			BackgroundColor = GlobalTheme.BackgroundColor;
             Layer.CornerRadius = 8;
 			Layer.BorderWidth = 1f;
 			Layer.BorderColor = GlobalTheme.MainLightColor.CGColor;
@@ -131,7 +131,7 @@ namespace MPfm.iOS.Classes.Controls
             if (!on)
             {
                 UIView.Animate(0.1, () => {
-					BackgroundColor = UIColor.Clear;
+					BackgroundColor = GlobalTheme.BackgroundColor;
                     TitleLabel.Transform = CGAffineTransform.MakeScale(1, 1);
 					ImageView.Transform = CGAffineTransform.MakeScale(1, 1);
                 });

@@ -421,7 +421,10 @@ namespace MPfm.iOS.Classes.Controllers
             Tracing.Log("MobileLibraryBrowserViewController - HandleLongPressTableCellRow");
             PointF pt = gestureRecognizer.LocationInView(tableView);
             NSIndexPath indexPath = tableView.IndexPathForRowAtPoint(pt);
-			SetEditingTableCellRow(indexPath.Section, indexPath.Row);
+			if (_editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section)
+				ResetEditingTableCellRow();
+			else
+				SetEditingTableCellRow(indexPath.Section, indexPath.Row);
         }
 
         private void ResetEditingTableCellRow()
@@ -441,7 +444,7 @@ namespace MPfm.iOS.Classes.Controllers
 				var oldCell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
                 if (oldCell != null)
                 {
-                    //oldCell.SecondaryMenuBackground.Alpha = 0;
+					oldCell.BackgroundColor = GlobalTheme.SecondaryColor;
 					oldCell.IsDarkBackground = false;
 					oldCell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
@@ -451,6 +454,14 @@ namespace MPfm.iOS.Classes.Controllers
                         oldCell.TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                         oldCell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+						oldCell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+						oldCell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(1, 1);
+						oldCell.ImageAlbum2.Transform = CGAffineTransform.MakeScale(1, 1);
+						oldCell.ImageAlbum3.Transform = CGAffineTransform.MakeScale(1, 1);
+						oldCell.PlayButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+						oldCell.AddButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+						oldCell.DeleteButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+
                         oldCell.PlayButton.Alpha = 0;
                         oldCell.AddButton.Alpha = 0;
                         oldCell.DeleteButton.Alpha = 0;
@@ -462,6 +473,7 @@ namespace MPfm.iOS.Classes.Controllers
 						oldCell.BackgroundColor = UIColor.White;
 						oldCell.TextLabel.TextColor = UIColor.Black;
 						oldCell.DetailTextLabel.TextColor = UIColor.Gray;
+						oldCell.AlbumCountLabel.TextColor = UIColor.Black;
 						oldCell.IndexTextLabel.TextColor = UIColor.FromRGB(0.5f, 0.5f, 0.5f);
 						oldCell.PlayButton.UpdateLayout();
 						oldCell.AddButton.UpdateLayout();
@@ -482,9 +494,9 @@ namespace MPfm.iOS.Classes.Controllers
                     cell.ImageAlbum1.Alpha = 0.75f;
                     cell.ImageAlbum2.Alpha = 0.4f;
                     cell.ImageAlbum3.Alpha = 0.2f;
-//					cell.PlayButton.Frame = new RectangleF(4, 52, 100, 44);
-//					cell.AddButton.Frame = new RectangleF(108, 52, 100, 44);
-//					cell.DeleteButton.Frame = new RectangleF(212, 52, 100, 44);
+//					cell.PlayButton.Frame = new RectangleF(4, 25, 100, 44);
+//					cell.AddButton.Frame = new RectangleF(108, 25, 100, 44);
+//					cell.DeleteButton.Frame = new RectangleF(212, 25, 100, 44);
 
 					cell.BackgroundColor = GlobalTheme.SecondaryColor;
 					cell.IsDarkBackground = true;
@@ -493,22 +505,31 @@ namespace MPfm.iOS.Classes.Controllers
                         cell.PlayButton.Alpha = 1;
                         cell.AddButton.Alpha = 1;
                         cell.DeleteButton.Alpha = 1;
-                        cell.AlbumCountLabel.Alpha = 0;
-//						cell.ImageAlbum1.Alpha = 1;
-//						cell.ImageAlbum2.Alpha = 1;
-//						cell.ImageAlbum3.Alpha = 1;
+						cell.AlbumCountLabel.Alpha = 1;
+						cell.ImageAlbum1.Alpha = 0.5f;
+						cell.ImageAlbum2.Alpha = 0.2f;
+						cell.ImageAlbum3.Alpha = 0.075f;
+
                         cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                         cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
                         cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
-//						cell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
-//						cell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
-//						cell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
+						cell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+						cell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+						cell.ImageAlbum2.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+						cell.ImageAlbum3.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+						cell.PlayButton.Transform = CGAffineTransform.MakeScale(1, 1);
+						cell.AddButton.Transform = CGAffineTransform.MakeScale(1, 1);
+						cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
 
 						cell.BackgroundColor = GlobalTheme.BackgroundColor;
 						cell.TextLabel.TextColor = UIColor.White;
 						cell.DetailTextLabel.TextColor = UIColor.White;
 						cell.IndexTextLabel.TextColor = UIColor.White;
+						cell.AlbumCountLabel.TextColor = UIColor.White;
 
+//						cell.PlayButton.Frame = new RectangleF(4, 52, 100, 64);
+//						cell.AddButton.Frame = new RectangleF(108, 52, 100, 64);
+//						cell.DeleteButton.Frame = new RectangleF(212, 52, 100, 64);
 						cell.PlayButton.UpdateLayout();
 						cell.AddButton.UpdateLayout();
 						cell.DeleteButton.UpdateLayout();
@@ -624,6 +645,7 @@ namespace MPfm.iOS.Classes.Controllers
             cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 12);
             cell.DetailTextLabel.Text = item.Subtitle;
 			cell.DetailTextLabel.HighlightedTextColor = UIColor.White;
+			cell.AlbumCountLabel.HighlightedTextColor = UIColor.White;
             cell.ImageView.AutoresizingMask = UIViewAutoresizing.None;
             cell.ImageView.ClipsToBounds = true;
             cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
@@ -649,28 +671,39 @@ namespace MPfm.iOS.Classes.Controllers
 			cell.AddButton.Alpha = isEditing ? 1 : 0;
 			cell.DeleteButton.Alpha = isEditing ? 1 : 0;
 			cell.AlbumCountLabel.Alpha = isEditing ? 1 : 0.75f;
-//			cell.ImageAlbum1.Alpha = isEditing ? 1 : 0.75f;
-//			cell.ImageAlbum2.Alpha = isEditing ? 1 : 0.4f;
-//			cell.ImageAlbum3.Alpha = isEditing ? 1 : 0.2f;
-			cell.ImageAlbum1.Alpha = 0.75f;
-			cell.ImageAlbum2.Alpha = 0.4f;
-			cell.ImageAlbum3.Alpha = 0.2f;
+			cell.ImageAlbum1.Alpha = isEditing ? 0.5f : 0.75f;
+			cell.ImageAlbum2.Alpha = isEditing ? 0.2f : 0.4f;
+			cell.ImageAlbum3.Alpha = isEditing ? 0.075f : 0.2f;
 			cell.TextLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
 			cell.DetailTextLabel.TextColor = isEditing ? UIColor.White : UIColor.Gray;
 			cell.IndexTextLabel.TextColor = isEditing ? UIColor.White : UIColor.FromRGB(0.5f, 0.5f, 0.5f);
+			cell.AlbumCountLabel.TextColor = isEditing ? UIColor.White : UIColor.Black;
 
-            //cell.SecondaryMenuBackground.Alpha = _editingTableCellRowPosition == indexPath.Row ? 1 : 0;
 			if (isEditing)
             {
                 cell.TextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
-                cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
-                cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.9f, 0.9f);
+				cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+				cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+				cell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+				cell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+				cell.ImageAlbum2.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+				cell.ImageAlbum3.Transform = CGAffineTransform.MakeScale(0.86f, 0.86f);
+				cell.PlayButton.Transform = CGAffineTransform.MakeScale(1, 1);
+				cell.AddButton.Transform = CGAffineTransform.MakeScale(1, 1);
+				cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
             }
             else
             {
                 cell.TextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
                 cell.DetailTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
                 cell.IndexTextLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+				cell.AlbumCountLabel.Transform = CGAffineTransform.MakeScale(1f, 1f);
+				cell.ImageAlbum1.Transform = CGAffineTransform.MakeScale(1f, 1f);
+				cell.ImageAlbum2.Transform = CGAffineTransform.MakeScale(1f, 1f);
+				cell.ImageAlbum3.Transform = CGAffineTransform.MakeScale(1f, 1f);
+				cell.PlayButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+				cell.AddButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
+				cell.DeleteButton.Transform = CGAffineTransform.MakeScale(0.8f, 0.8f);
             }
 
             if (_browserType == MobileLibraryBrowserType.Songs)
@@ -781,7 +814,7 @@ namespace MPfm.iOS.Classes.Controllers
         public float HeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
 			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
-			return isEditing ? 128 : 52;
+			return isEditing ? 126 : 52;
         }
 
 		[Export ("tableView:heightForHeaderInSection:")]

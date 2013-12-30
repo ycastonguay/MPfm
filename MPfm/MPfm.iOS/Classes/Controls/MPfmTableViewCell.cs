@@ -43,7 +43,6 @@ namespace MPfm.iOS.Classes.Controls
         public UIImageView ImageAlbum2 { get; private set; }
         public UIImageView ImageAlbum3 { get; private set; }
         public UILabel AlbumCountLabel { get; private set; }
-        //public UIView SecondaryMenuBackground { get; private set; }
 
 		public MPfmSecondaryMenuButton PlayButton { get; set; }
 		public MPfmSecondaryMenuButton AddButton { get; set; }
@@ -117,7 +116,6 @@ namespace MPfm.iOS.Classes.Controls
             AlbumCountLabel.Font = UIFont.FromName("HelveticaNeue-Light", 18);
             AlbumCountLabel.Hidden = true;
             AlbumCountLabel.Text = "+98";
-            //AlbumCountLabel.TextColor = UIColor.White;
             AlbumCountLabel.TextColor = UIColor.Black;
             AlbumCountLabel.TextAlignment = UITextAlignment.Center;
             AlbumCountLabel.HighlightedTextColor = UIColor.White;
@@ -172,32 +170,30 @@ namespace MPfm.iOS.Classes.Controls
             TextLabel.RemoveFromSuperview();
             AddSubview(TextLabel);
 
-//            SecondaryMenuBackground = new UIView();
-//            SecondaryMenuBackground.BackgroundColor = UIColor.White;
-//            SecondaryMenuBackground.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width, 4, 188, 44);
-//            //SecondaryMenuBackground.Alpha = 0;
-//            AddSubview(SecondaryMenuBackground);
-
 			// Maybe add icons only to iPad where there is enough space
-			PlayButton = new MPfmSecondaryMenuButton(new RectangleF(4, 4, 30, 30));
+			PlayButton = new MPfmSecondaryMenuButton();
+			PlayButton.Frame = new RectangleF(4, 53, 100, 64);
 			PlayButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/play"), UIControlState.Normal);
 			PlayButton.SetTitle("Play", UIControlState.Normal); 
 			PlayButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             PlayButton.Alpha = 0;
             AddSubview(PlayButton);
 
-			AddButton = new MPfmSecondaryMenuButton(new RectangleF(4, 4, 30, 30));
+			AddButton = new MPfmSecondaryMenuButton();
+			AddButton.Frame = new RectangleF(108, 53, 100, 64);
 			AddButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/add"), UIControlState.Normal);
 			AddButton.SetTitle("Add to playlist", UIControlState.Normal);
 			AddButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             AddButton.Alpha = 0;
             AddSubview(AddButton);
 
-			DeleteButton = new MPfmSecondaryMenuButton(new RectangleF(4, 4, 30, 30));
+			DeleteButton = new MPfmSecondaryMenuButton();
+			DeleteButton.Frame = new RectangleF(212, 53, 100, 64);
 			DeleteButton.SetImage(UIImage.FromBundle("Images/ContextualButtons/trash"), UIControlState.Normal);
 			DeleteButton.SetTitle("Delete", UIControlState.Normal);
 			DeleteButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             DeleteButton.Alpha = 0;
+
             AddSubview(DeleteButton);
         }
 
@@ -268,14 +264,14 @@ namespace MPfm.iOS.Classes.Controls
             else
                 RightImage.Frame = new RectangleF(screenSize.Width - 66 - RightOffset, 4, 44, 44);
 
-			ImageAlbum1.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
-			ImageAlbum2.Frame = new RectangleF(screenSize.Width - 130, 4, 44, 44);
-			ImageAlbum3.Frame = new RectangleF(screenSize.Width - 182, 4, 44, 44);
-			AlbumCountLabel.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
+//			ImageAlbum1.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
+//			ImageAlbum2.Frame = new RectangleF(screenSize.Width - 130, 4, 44, 44);
+//			ImageAlbum3.Frame = new RectangleF(screenSize.Width - 182, 4, 44, 44);
+			//AlbumCountLabel.Frame = new RectangleF(screenSize.Width - 78, 4, 44, 44);
 
-			PlayButton.Frame = new RectangleF(4, 56, 100, 64);
-			AddButton.Frame = new RectangleF(108, 56, 100, 64);
-			DeleteButton.Frame = new RectangleF(212, 56, 100, 64);
+//			PlayButton.Frame = new RectangleF(4, 56, 100, 64);
+//			AddButton.Frame = new RectangleF(108, 56, 100, 64);
+//			DeleteButton.Frame = new RectangleF(212, 56, 100, 64);
         }
 
         public override void SetHighlighted(bool highlighted, bool animated)
@@ -285,20 +281,19 @@ namespace MPfm.iOS.Classes.Controls
 			TextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
             DetailTextLabel.Highlighted = highlighted;
             IndexTextLabel.Highlighted = highlighted;
+			AlbumCountLabel.Highlighted = highlighted;
 			DetailTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Gray;
 			IndexTextLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
-            //SecondaryMenuBackground.BackgroundColor = highlighted ? GlobalTheme.SecondaryColor : GlobalTheme.LightColor;
+			AlbumCountLabel.TextColor = highlighted ? UIColor.White : IsDarkBackground ? UIColor.White : UIColor.Black;
 
             base.SetHighlighted(highlighted, animated);
         }
 
         public override void SetSelected(bool selected, bool animated)
         {
-            //if(selected)
-                //SecondaryMenuBackground.BackgroundColor = GlobalTheme.SecondaryColor;
-
             TextLabel.TextColor = selected ? UIColor.White : UIColor.Black;
             DetailTextLabel.TextColor = selected ? UIColor.White : UIColor.Gray;
+			AlbumCountLabel.TextColor = selected ? UIColor.White : UIColor.Black;
             //IndexTextLabel.TextColor = selected ? UIColor.White : UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
 
             if (!selected)
@@ -338,11 +333,10 @@ namespace MPfm.iOS.Classes.Controls
 
         private void AnimatePress(bool on)
         {
-            if (!IsTextAnimationEnabled)
+			if (!IsTextAnimationEnabled)
                 return;
 
             _isTextLabelAllowedToChangeFrame = !on;
-
             if (!on)
             {
                 UIView.Animate(0.1, 0, UIViewAnimationOptions.CurveEaseIn, () => {
@@ -352,6 +346,10 @@ namespace MPfm.iOS.Classes.Controls
                     TextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     DetailTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
                     IndexTextLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+					AlbumCountLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+					ImageAlbum1.Transform = CGAffineTransform.MakeScale(1, 1);
+					ImageAlbum2.Transform = CGAffineTransform.MakeScale(1, 1);
+					ImageAlbum3.Transform = CGAffineTransform.MakeScale(1, 1);
                 }, null);
             }
             else
@@ -360,6 +358,10 @@ namespace MPfm.iOS.Classes.Controls
                     TextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                     DetailTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                     IndexTextLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+					AlbumCountLabel.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+					ImageAlbum1.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+					ImageAlbum2.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
+					ImageAlbum3.Transform = CGAffineTransform.MakeScale(0.96f, 0.96f);
                 }, null);
             }
         }
