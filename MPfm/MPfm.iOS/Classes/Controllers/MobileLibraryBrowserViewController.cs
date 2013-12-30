@@ -56,6 +56,7 @@ namespace MPfm.iOS.Classes.Controllers
         string _navigationBarSubtitle;
         List<KeyValuePair<string, UIImage>> _imageCache;
         List<KeyValuePair<string, UIImage>> _thumbnailImageCache;
+		MPfmTableViewCell _movingCell = null;
         int _editingRowPosition = -1;
 		int _editingRowSection = -1;
 
@@ -89,6 +90,7 @@ namespace MPfm.iOS.Classes.Controllers
 
 			// TODO: Add TopLayoutGuide when Xamarin will explain how it works (or patch it)
 			View.BackgroundColor = GlobalTheme.BackgroundColor;
+			tableView.Alpha = 0;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
 			tableView.RegisterClassForHeaderFooterViewReuse(typeof(MPfmAlbumHeaderView), _headerCellIdentifier);
@@ -100,8 +102,14 @@ namespace MPfm.iOS.Classes.Controllers
             collectionView.RegisterClassForCell(typeof(MPfmCollectionAlbumViewCell), _collectionCellIdentifier);
 			collectionView.RegisterClassForSupplementaryView(typeof(MPfmCollectionHeaderView), UICollectionElementKindSection.Header, _collectionCellHeaderIdentifier);
 
+			var pan = new UIPanGestureRecognizer(PanTableView);			
+			pan.WeakDelegate = this;
+			pan.MinimumNumberOfTouches = 1;
+			pan.MaximumNumberOfTouches = 1;
+			//pan.CancelsTouchesInView = false;
+			tableView.AddGestureRecognizer(pan);
+
 			//viewAlbumCover.Hidden = _browserType != MobileLibraryBrowserType.Songs;
-			tableView.Alpha = 0;
 			collectionView.Alpha = (_browserType == MobileLibraryBrowserType.Songs && _tabType != MobileNavigationTabType.Songs) ? 1 : 0;
 
 			//imageViewAlbumCover.BackgroundColor = UIColor.Black;
@@ -209,8 +217,20 @@ namespace MPfm.iOS.Classes.Controllers
 			Tracing.Log("MobileLibraryBrowserViewController - HandleLongPressCollectionCellRow");
             PointF pt = gestureRecognizer.LocationInView(collectionView);
             NSIndexPath indexPath = collectionView.IndexPathForItemAtPoint(pt);
-			if(indexPath != null)
+			if (indexPath != null)
+			{
 				SetEditingCollectionCellRow(indexPath.Row, indexPath.Section);
+				var cell = (MPfmCollectionAlbumViewCell)collectionView.CellForItem(indexPath);
+				if (cell != null)
+				{
+					var newView = new UIView(cell.PlayButton.Frame);
+					newView.BackgroundColor = UIColor.Purple;
+					//UIView.Animate(0.2, 0, UIViewAnimationOptions.TransitionFlipFromTop
+//					UIView.Transition(cell.PlayButton, newView, 0.4, UIViewAnimationOptions.TransitionFlipFromRight, () => {
+//
+//					});
+				}
+			}
         }
 
         private void ResetEditingCollectionCellRow()
@@ -413,6 +433,69 @@ namespace MPfm.iOS.Classes.Controllers
 
         #region UITableView DataSource/Delegate
 
+		[Export ("gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:")]
+		private bool ShouldRecognizeSimultaneouslyWithGestureRecognizer(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
+		{
+			return true;
+		}
+
+		private void PanTableView(UIPanGestureRecognizer panGestureRecognizer)
+		{
+			//var pt = panGestureRecognizer.TranslationInView(cell.ContentView); //using cell can cause crashes
+			var ptLocation = panGestureRecognizer.LocationInView(tableView);
+			var ptTranslation = panGestureRecognizer.TranslationInView(tableView);
+			//Console.WriteLine("Peter Pan - gesture state: {0} ptLocation: {1} ptTranslation: {2}", panGestureRecognizer.State, ptLocation, ptTranslation);
+
+			// Block scrolling when the user clearly starts to go left or right
+			if (ptTranslation.X > 20f)
+				tableView.ScrollEnabled = false;
+
+			// Check when the cell is slided 
+			if (panGestureRecognizer.State == UIGestureRecognizerState.Began)
+			{
+				var indexPath = tableView.IndexPathForRowAtPoint(ptLocation);
+				if (indexPath == null)
+					return;
+
+				var cell = (MPfmTableViewCell)tableView.CellAt(indexPath);
+				if (cell == null)
+					return;
+
+				// Cache cell for reuse later
+				_movingCell = cell;
+			}
+			else if (panGestureRecognizer.State == UIGestureRecognizerState.Ended)
+			{
+				UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+					{
+						var finalFrame = _movingCell.ContainerView.Frame;
+						finalFrame.X = 0;
+						_movingCell.ContainerView.Frame = finalFrame;
+						_movingCell.ImageAddToPlaylist.Alpha = 0.1f;
+						_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
+					}, null);
+				tableView.ScrollEnabled = true;
+				_movingCell = null;
+			}
+
+			if (_movingCell == null)
+				return;
+
+			var newFrame = _movingCell.ContainerView.Frame;
+			newFrame.X = ptTranslation.X;
+			_movingCell.ContainerView.Frame = newFrame;
+
+			// Make text and image stay fixed and not scroll with the finger
+			float alpha = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
+			float scale = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
+			float scale2 = 0.5f + (scale * 0.5f);
+			_movingCell.ImageAddToPlaylist.Alpha = alpha;
+			_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(scale2, scale2);
+			_movingCell.AddToPlaylistLabel.Alpha = alpha;
+			_movingCell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale2, scale2);
+			//Console.WriteLine(">>> Peter PAN - alpha: {0} scale: {1} scale2: {2}", alpha, scale, scale2);
+		}
+
         private void HandleLongPressTableCellRow(UILongPressGestureRecognizer gestureRecognizer)
         {
             if (gestureRecognizer.State != UIGestureRecognizerState.Began)
@@ -444,7 +527,7 @@ namespace MPfm.iOS.Classes.Controllers
 				var oldCell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
                 if (oldCell != null)
                 {
-					oldCell.BackgroundColor = GlobalTheme.SecondaryColor;
+					oldCell.ContainerView.BackgroundColor = GlobalTheme.SecondaryColor;
 					oldCell.IsDarkBackground = false;
 					oldCell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
@@ -470,7 +553,7 @@ namespace MPfm.iOS.Classes.Controllers
                         oldCell.ImageAlbum2.Alpha = 0.4f;
                         oldCell.ImageAlbum3.Alpha = 0.2f;
 
-						oldCell.BackgroundColor = UIColor.White;
+						oldCell.ContainerView.BackgroundColor = UIColor.White;
 						oldCell.TextLabel.TextColor = UIColor.Black;
 						oldCell.DetailTextLabel.TextColor = UIColor.Gray;
 						oldCell.AlbumCountLabel.TextColor = UIColor.Black;
@@ -498,7 +581,7 @@ namespace MPfm.iOS.Classes.Controllers
 //					cell.AddButton.Frame = new RectangleF(108, 25, 100, 44);
 //					cell.DeleteButton.Frame = new RectangleF(212, 25, 100, 44);
 
-					cell.BackgroundColor = GlobalTheme.SecondaryColor;
+					cell.ContainerView.BackgroundColor = GlobalTheme.SecondaryColor;
 					cell.IsDarkBackground = true;
 					cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
@@ -521,7 +604,7 @@ namespace MPfm.iOS.Classes.Controllers
 						cell.AddButton.Transform = CGAffineTransform.MakeScale(1, 1);
 						cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
 
-						cell.BackgroundColor = GlobalTheme.BackgroundColor;
+						cell.ContainerView.BackgroundColor = GlobalTheme.BackgroundColor;
 						cell.TextLabel.TextColor = UIColor.White;
 						cell.DetailTextLabel.TextColor = UIColor.White;
 						cell.IndexTextLabel.TextColor = UIColor.White;
@@ -634,6 +717,16 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.PlayButton.TouchUpInside += HandleTableViewPlayTouchUpInside;
                 cell.AddButton.TouchUpInside += HandleTableViewAddTouchUpInside;
                 cell.DeleteButton.TouchUpInside += HandleTableViewDeleteTouchUpInside;
+
+//				var pan = new UIPanGestureRecognizer((gesture) => {
+//					PanTableCell(gesture, cell);
+//				});
+//				pan.MinimumNumberOfTouches = 1;
+//				pan.MaximumNumberOfTouches = 1;
+//				pan.CancelsTouchesInView = false;
+//				pan.WeakDelegate = this;
+//				cell.ContentView.AddGestureRecognizer(pan);
+//				//cell.BackgroundView.AddGestureRecognizer(pan);
             }
 
             cell.Tag = indexPath.Row;
@@ -666,7 +759,7 @@ namespace MPfm.iOS.Classes.Controllers
 			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
 			cell.ImageChevron.Image = isEditing ? UIImage.FromBundle("Images/Tables/chevron_white") : UIImage.FromBundle("Images/Tables/chevron");
 			cell.IsDarkBackground = isEditing;
-			cell.BackgroundColor = isEditing ? GlobalTheme.BackgroundColor : UIColor.White;
+			cell.ContainerView.BackgroundColor = isEditing ? GlobalTheme.BackgroundColor : UIColor.White;
 			cell.PlayButton.Alpha = isEditing ? 1 : 0;
 			cell.AddButton.Alpha = isEditing ? 1 : 0;
 			cell.DeleteButton.Alpha = isEditing ? 1 : 0;

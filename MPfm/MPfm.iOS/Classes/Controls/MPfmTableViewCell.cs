@@ -35,6 +35,12 @@ namespace MPfm.iOS.Classes.Controls
     {
         private bool _isTextLabelAllowedToChangeFrame = true;
 
+		public UIView ContainerView { get; private set; }
+
+		public UIView BehindView { get; private set; }
+		public UIImageView ImageAddToPlaylist { get; private set; }
+		public UILabel AddToPlaylistLabel { get; private set; }
+
         public UILabel IndexTextLabel { get; private set; }
         public UIButton RightButton { get; private set; }
         public UIImageView RightImage { get; private set; }
@@ -77,37 +83,58 @@ namespace MPfm.iOS.Classes.Controls
             SelectionStyle = UITableViewCellSelectionStyle.None;
             var screenSize = UIKitHelper.GetDeviceSize();
            
-//            UIView backView = new UIView(Frame);
-//            backView.BackgroundColor = GlobalTheme.LightColor;
-//            BackgroundView = backView;
-//            BackgroundColor = UIColor.White;
-            
+			BehindView = new UIView(Bounds);
+			BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
+			AddSubview(BehindView);
+
+			ImageAddToPlaylist = new UIImageView();
+			ImageAddToPlaylist.Frame = new RectangleF(10, 14, 24, 24);
+			ImageAddToPlaylist.Image = UIImage.FromBundle("Images/ContextualButtons/add");
+			ImageAddToPlaylist.BackgroundColor = UIColor.Clear;
+			ImageAddToPlaylist.Alpha = 0.1f;
+			BehindView.AddSubview(ImageAddToPlaylist);
+
+			AddToPlaylistLabel = new UILabel();
+			AddToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+			AddToPlaylistLabel.Frame = new RectangleF(40, 10, 100, 32);
+			AddToPlaylistLabel.Text = "Add to queue";
+			AddToPlaylistLabel.BackgroundColor = UIColor.Clear;
+			AddToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 15);
+			AddToPlaylistLabel.TextColor = UIColor.White;
+			AddToPlaylistLabel.TextAlignment = UITextAlignment.Left;
+			AddToPlaylistLabel.HighlightedTextColor = UIColor.White;
+			BehindView.AddSubview(AddToPlaylistLabel);
+
+			ContainerView = new UIView(Bounds);
+			ContainerView.BackgroundColor = UIColor.White;
+			AddSubview(ContainerView);
+
             UIView backViewSelected = new UIView(Frame);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
             SelectedBackgroundView = backViewSelected;     
             SelectedBackgroundView.Hidden = true;
-            AddSubview(SelectedBackgroundView);
+			ContainerView.AddSubview(SelectedBackgroundView);
 
             ImageAlbum1 = new UIImageView();
             ImageAlbum1.BackgroundColor = UIColor.Clear;
             ImageAlbum1.Hidden = true;
             ImageAlbum1.Alpha = 0.75f;
             ImageAlbum1.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
-            AddSubview(ImageAlbum1);
+			ContainerView.AddSubview(ImageAlbum1);
 
             ImageAlbum2 = new UIImageView();
             ImageAlbum2.BackgroundColor = UIColor.Clear;
             ImageAlbum2.Hidden = true;
             ImageAlbum2.Alpha = 0.4f;
             ImageAlbum2.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 130, 4, 44, 44);
-            AddSubview(ImageAlbum2);
+			ContainerView.AddSubview(ImageAlbum2);
 
             ImageAlbum3 = new UIImageView();
             ImageAlbum3.BackgroundColor = UIColor.Clear;
             ImageAlbum3.Hidden = true;
             ImageAlbum3.Alpha = 0.2f;
             ImageAlbum3.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 182, 4, 44, 44);
-            AddSubview(ImageAlbum3);
+			ContainerView.AddSubview(ImageAlbum3);
 
             AlbumCountLabel = new UILabel();
             AlbumCountLabel.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 78, 4, 44, 44);
@@ -119,7 +146,7 @@ namespace MPfm.iOS.Classes.Controls
             AlbumCountLabel.TextColor = UIColor.Black;
             AlbumCountLabel.TextAlignment = UITextAlignment.Center;
             AlbumCountLabel.HighlightedTextColor = UIColor.White;
-            AddSubview(AlbumCountLabel);
+			ContainerView.AddSubview(AlbumCountLabel);
 
             TextLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
             TextLabel.BackgroundColor = UIColor.Orange;
@@ -136,8 +163,8 @@ namespace MPfm.iOS.Classes.Controls
             // Make sure the text label is over all other subviews
             DetailTextLabel.RemoveFromSuperview();
             ImageView.RemoveFromSuperview();
-            AddSubview(DetailTextLabel);
-            AddSubview(ImageView);
+			ContainerView.AddSubview(DetailTextLabel);
+			ContainerView.AddSubview(ImageView);
 
             IndexTextLabel = new UILabel();
             IndexTextLabel.BackgroundColor = UIColor.Clear;
@@ -145,30 +172,30 @@ namespace MPfm.iOS.Classes.Controls
             IndexTextLabel.TextColor = UIColor.FromRGBA(0.5f, 0.5f, 0.5f, 1);
             IndexTextLabel.TextAlignment = UITextAlignment.Center;
             IndexTextLabel.HighlightedTextColor = UIColor.White;
-            AddSubview(IndexTextLabel);
+			ContainerView.AddSubview(IndexTextLabel);
 
             RightButton = new UIButton(UIButtonType.Custom);
             RightButton.Hidden = true;
             RightButton.Frame = new RectangleF(screenSize.Width - Bounds.Height, 4, Bounds.Height, Bounds.Height);
             RightButton.TouchUpInside += HandleRightButtonTouchUpInside;
-            AddSubview(RightButton);
+			ContainerView.AddSubview(RightButton);
 
             ImageChevron = new UIImageView(UIImage.FromBundle("Images/Tables/chevron"));
             ImageChevron.BackgroundColor = UIColor.Clear;
             ImageChevron.Hidden = true;
             ImageChevron.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 22, 4, 22, 44);
-            AddSubview(ImageChevron);           
+			ContainerView.AddSubview(ImageChevron);           
 
             RightImage = new UIImageView(UIImage.FromBundle("Images/Icons/icon_speaker"));
             RightImage.Alpha = 0.7f;
             RightImage.BackgroundColor = UIColor.Clear;
             RightImage.Hidden = true;
             RightImage.Frame = new RectangleF(UIScreen.MainScreen.Bounds.Width - 66, 4, 44, 44);
-            AddSubview(RightImage);
+			ContainerView.AddSubview(RightImage);
 
             // Make sure the text label is over all other subviews
             TextLabel.RemoveFromSuperview();
-            AddSubview(TextLabel);
+			ContainerView.AddSubview(TextLabel);
 
 			// Maybe add icons only to iPad where there is enough space
 			PlayButton = new MPfmSecondaryMenuButton();
@@ -177,7 +204,7 @@ namespace MPfm.iOS.Classes.Controls
 			PlayButton.SetTitle("Play", UIControlState.Normal); 
 			PlayButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             PlayButton.Alpha = 0;
-            AddSubview(PlayButton);
+			ContainerView.AddSubview(PlayButton);
 
 			AddButton = new MPfmSecondaryMenuButton();
 			AddButton.Frame = new RectangleF(108, 53, 100, 64);
@@ -185,7 +212,7 @@ namespace MPfm.iOS.Classes.Controls
 			AddButton.SetTitle("Add to playlist", UIControlState.Normal);
 			AddButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             AddButton.Alpha = 0;
-            AddSubview(AddButton);
+			ContainerView.AddSubview(AddButton);
 
 			DeleteButton = new MPfmSecondaryMenuButton();
 			DeleteButton.Frame = new RectangleF(212, 53, 100, 64);
@@ -193,8 +220,7 @@ namespace MPfm.iOS.Classes.Controls
 			DeleteButton.SetTitle("Delete", UIControlState.Normal);
 			DeleteButton.Font = UIFont.FromName("HelveticaNeue-Light", 12f);
             DeleteButton.Alpha = 0;
-
-            AddSubview(DeleteButton);
+			ContainerView.AddSubview(DeleteButton);
         }
 
         private void HandleRightButtonTouchUpInside(object sender, EventArgs e)
@@ -208,6 +234,8 @@ namespace MPfm.iOS.Classes.Controls
             base.LayoutSubviews();
 
             //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
+			BehindView.Frame = Bounds;
+			ContainerView.Frame = Bounds;
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             var screenSize = UIKitHelper.GetDeviceSize();
