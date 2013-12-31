@@ -42,6 +42,7 @@ namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
+		NSIndexPath _movingIndexPath;
 		bool _isTableViewScrolling = false;
 		readonly object _locker = new object();
 		List<Tuple<SectionIndex, List<LibraryBrowserEntity>>> _items;
@@ -495,17 +496,20 @@ namespace MPfm.iOS.Classes.Controllers
 					return;
 
 				// Cache cell for reuse later
+				_movingIndexPath = indexPath;
 				_movingCell = cell;
+
+				// Refresh icon/text in case they are not in sync with the queue status
+				_movingCell.AddToPlaylistLabel.Text = _movingCell.IsQueued ? "Remove from queue" : "Add to queue";
+				_movingCell.ImageAddToPlaylist.Image = _movingCell.IsQueued ? UIImage.FromBundle("Images/ContextualButtons/trash") : UIImage.FromBundle("Images/ContextualButtons/add");
+
 			}
 			else if (panGestureRecognizer.State == UIGestureRecognizerState.Ended)
 			{
 				if (_movingCell == null)
 					return;
 
-				var finalFrame = _movingCell.ContainerView.Frame;
-				finalFrame.X = 0;
 				float movingX = Math.Min(ptTranslation.X, maxX);
-
 				if(movingX == maxX)
 				{
 					// Animate success
@@ -533,7 +537,11 @@ namespace MPfm.iOS.Classes.Controllers
 						}, null);
 					UIView.Animate(0.2, 0.75, UIViewAnimationOptions.CurveEaseInOut, () =>
 						{
+							var finalFrame = _movingCell.ContainerView.Frame;
+							finalFrame.X = 12;
 							_movingCell.ContainerView.Frame = finalFrame;
+							_movingCell.IsQueued = true;
+							_items[_movingIndexPath.Section].Item2[_movingIndexPath.Row].IsQueued = true;
 						}, () => {
 							var newImageAddToPlaylistFrame = _movingCell.ImageAddToPlaylist.Frame;
 							newImageAddToPlaylistFrame.Y = 14;
@@ -554,16 +562,25 @@ namespace MPfm.iOS.Classes.Controllers
 							_movingCell.ImageCheckmarkConfirm.Alpha = 0;
 
 							_movingCell = null;
+							_movingIndexPath = null;
 						});
 				}
 				else
 				{
 					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
 						{
+							var finalFrame = _movingCell.ContainerView.Frame;
+							finalFrame.X = _movingCell.IsQueued ? 12 : 0;
 							_movingCell.ContainerView.Frame = finalFrame;
 							_movingCell.ImageAddToPlaylist.Alpha = 0.1f;
 							_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
-						}, () => _movingCell = null);
+						}, () => 
+						{
+							_movingCell.BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
+							_movingCell = null;
+							_movingIndexPath = null;
+						}
+					);
 				}
 				tableView.ScrollEnabled = true;
 				return;
@@ -573,18 +590,32 @@ namespace MPfm.iOS.Classes.Controllers
 				return;
 
 			var newFrame = _movingCell.ContainerView.Frame;
-			newFrame.X = Math.Min(ptTranslation.X, maxX);
+			newFrame.X = Math.Min(_movingCell.IsQueued ? 20 + ptTranslation.X : ptTranslation.X, maxX);
 			_movingCell.ContainerView.Frame = newFrame;
 
 			// Make text and image stay fixed and not scroll with the finger
 			float alpha = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
 			float scale = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
 			float scale2 = 0.5f + (scale * 0.5f);
+
+			// Blue: 47, 129, 183
+			// Red: 139, 0, 0
+			//var blue = UIColor.FromRGB(47, 129, 183);
+			int r1 = 47;
+			int g1 = 129;
+			int b1 = 183;
+			int r2 = 139;
+			int g2 = 0;
+			int b2 = 0;
+			int r = (int)(_movingCell.IsQueued ? r1 + (scale * (r2 - r1)) : r1);
+			int g = (int)(_movingCell.IsQueued ? g1 + (scale * (g2 - g1)) : g1);
+			int b = (int)(_movingCell.IsQueued ? b1 + (scale * (b2 - b1)) : b1);
 			_movingCell.ImageAddToPlaylist.Alpha = alpha;
 			_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(scale2, scale2);
 			_movingCell.AddToPlaylistLabel.Alpha = alpha;
 			_movingCell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale2, scale2);
-			//Console.WriteLine(">>> Peter PAN - alpha: {0} scale: {1} scale2: {2}", alpha, scale, scale2);
+			_movingCell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
+			Console.WriteLine(">>> Peter PAN - alpha: {0} scale: {1} scale2: {2} r: {3} g: {4} b: {5}", alpha, scale, scale2, r, g, b);
 		}
 
         private void HandleLongPressTableCellRow(UILongPressGestureRecognizer gestureRecognizer)
@@ -846,6 +877,11 @@ namespace MPfm.iOS.Classes.Controllers
             // Change title font when the item has a subtitle
             if(String.IsNullOrEmpty(item.Subtitle))
                 cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Light", 16);
+
+			//var newContainerViewFrame = cell.ContainerView.Frame;
+			//newContainerViewFrame.X = item.IsQueued ? 12 : 0;
+			cell.IsQueued = item.IsQueued;
+			//cell.ContainerView.Frame = newContainerViewFrame;
 
 			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
 			cell.ImageChevron.Image = isEditing ? UIImage.FromBundle("Images/Tables/chevron_white") : UIImage.FromBundle("Images/Tables/chevron");

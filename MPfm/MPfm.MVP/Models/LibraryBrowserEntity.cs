@@ -31,6 +31,7 @@ namespace MPfm.MVP.Models
 		public LibraryBrowserEntityType EntityType { get; set; }
 		public string Title { get; set; }
         public string Subtitle { get; set; }
+        public bool IsQueued { get; set; }
 		public LibraryQuery Query { get; set; }
 		public List<LibraryBrowserEntity> SubItems { get; set; }
         public List<string> AlbumTitles { get; set; }

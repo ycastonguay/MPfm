@@ -58,6 +58,7 @@ namespace MPfm.iOS.Classes.Controls
 		public MPfmSecondaryMenuButton AddButton { get; set; }
 		public MPfmSecondaryMenuButton DeleteButton { get; set; }
 
+		public bool IsQueued { get; set; }
         public bool IsTextAnimationEnabled { get; set; }
 		public bool IsDarkBackground { get; set; }
 
@@ -121,7 +122,7 @@ namespace MPfm.iOS.Classes.Controls
 
 			AddToPlaylistLabel = new UILabel();
 			AddToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			AddToPlaylistLabel.Frame = new RectangleF(40, 10, 110, 32);
+			AddToPlaylistLabel.Frame = new RectangleF(40, 10, 150, 32);
 			AddToPlaylistLabel.Text = "Add to queue";
 			AddToPlaylistLabel.BackgroundColor = UIColor.Clear;
 			AddToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 15);
@@ -132,7 +133,7 @@ namespace MPfm.iOS.Classes.Controls
 
 			AddedToPlaylistLabel = new UILabel();
 			AddedToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			AddedToPlaylistLabel.Frame = new RectangleF(10, 62, 140, 32);
+			AddedToPlaylistLabel.Frame = new RectangleF(10, 62, 150, 32);
 			AddedToPlaylistLabel.Alpha = 0;
 			AddedToPlaylistLabel.Text = "Added to queue!";
 			AddedToPlaylistLabel.BackgroundColor = UIColor.Clear;
@@ -272,7 +273,7 @@ namespace MPfm.iOS.Classes.Controls
 
             //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
 			BehindView.Frame = Bounds;
-			ContainerView.Frame = Bounds;
+			ContainerView.Frame = new RectangleF(IsQueued ? 12 : 0, 0, Bounds.Width, Bounds.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             var screenSize = UIKitHelper.GetDeviceSize();
