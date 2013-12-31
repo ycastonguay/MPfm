@@ -38,8 +38,12 @@ namespace MPfm.iOS.Classes.Controls
 		public UIView ContainerView { get; private set; }
 
 		public UIView BehindView { get; private set; }
+		public UIImageView ImageCheckmark { get; private set; }
+		public UIImageView ImageCheckmarkConfirm { get; private set; }
 		public UIImageView ImageAddToPlaylist { get; private set; }
+		public UIImageView ImageAddedToPlaylist { get; private set; }
 		public UILabel AddToPlaylistLabel { get; private set; }
+		public UILabel AddedToPlaylistLabel { get; private set; }
 
         public UILabel IndexTextLabel { get; private set; }
         public UIButton RightButton { get; private set; }
@@ -94,9 +98,30 @@ namespace MPfm.iOS.Classes.Controls
 			ImageAddToPlaylist.Alpha = 0.1f;
 			BehindView.AddSubview(ImageAddToPlaylist);
 
+			ImageAddedToPlaylist = new UIImageView();
+			ImageAddedToPlaylist.Frame = new RectangleF(10, 14, 24, 24);
+			ImageAddedToPlaylist.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark");
+			ImageAddedToPlaylist.BackgroundColor = UIColor.Clear;
+			ImageAddedToPlaylist.Alpha = 0f;
+			//BehindView.AddSubview(ImageAddedToPlaylist);
+
+			ImageCheckmark = new UIImageView();
+			ImageCheckmark.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
+			ImageCheckmark.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark");
+			ImageCheckmark.BackgroundColor = UIColor.Clear;
+			ImageCheckmark.Alpha = 1f;
+			BehindView.AddSubview(ImageCheckmark);
+
+			ImageCheckmarkConfirm = new UIImageView();
+			ImageCheckmarkConfirm.Frame = new RectangleF((UIScreen.MainScreen.Bounds.Width / 2f) + 14f, 14, 24, 24);
+			ImageCheckmarkConfirm.Image = UIImage.FromBundle("Images/ContextualButtons/checkmark_nobg");
+			ImageCheckmarkConfirm.BackgroundColor = UIColor.Clear;
+			ImageCheckmarkConfirm.Alpha = 0f;
+			BehindView.AddSubview(ImageCheckmarkConfirm);
+
 			AddToPlaylistLabel = new UILabel();
 			AddToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			AddToPlaylistLabel.Frame = new RectangleF(40, 10, 100, 32);
+			AddToPlaylistLabel.Frame = new RectangleF(40, 10, 110, 32);
 			AddToPlaylistLabel.Text = "Add to queue";
 			AddToPlaylistLabel.BackgroundColor = UIColor.Clear;
 			AddToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 15);
@@ -104,6 +129,18 @@ namespace MPfm.iOS.Classes.Controls
 			AddToPlaylistLabel.TextAlignment = UITextAlignment.Left;
 			AddToPlaylistLabel.HighlightedTextColor = UIColor.White;
 			BehindView.AddSubview(AddToPlaylistLabel);
+
+			AddedToPlaylistLabel = new UILabel();
+			AddedToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
+			AddedToPlaylistLabel.Frame = new RectangleF(10, 62, 140, 32);
+			AddedToPlaylistLabel.Alpha = 0;
+			AddedToPlaylistLabel.Text = "Added to queue!";
+			AddedToPlaylistLabel.BackgroundColor = UIColor.Clear;
+			AddedToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 15);
+			AddedToPlaylistLabel.TextColor = UIColor.White;
+			AddedToPlaylistLabel.TextAlignment = UITextAlignment.Left;
+			AddedToPlaylistLabel.HighlightedTextColor = UIColor.White;
+			BehindView.AddSubview(AddedToPlaylistLabel);
 
 			ContainerView = new UIView(Bounds);
 			ContainerView.BackgroundColor = UIColor.White;

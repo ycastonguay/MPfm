@@ -42,6 +42,7 @@ namespace MPfm.iOS.Classes.Controllers
 {
     public partial class MobileLibraryBrowserViewController : BaseViewController, IMobileLibraryBrowserView
     {
+		bool _isTableViewScrolling = false;
 		readonly object _locker = new object();
 		List<Tuple<SectionIndex, List<LibraryBrowserEntity>>> _items;
         MobileLibraryBrowserType _browserType;
@@ -433,6 +434,34 @@ namespace MPfm.iOS.Classes.Controllers
 
         #region UITableView DataSource/Delegate
 
+		[Export ("scrollViewDidScroll:")]
+		private void ScrollViewDidScroll(UIScrollView scrollView)
+		{
+			//Console.WriteLine("MLB >> ScrollViewDidScroll");
+			_isTableViewScrolling = true;
+		}
+
+		[Export ("scrollViewDidEndScrollingAnimation:")]
+		private void ScrollViewDidEndScrollingAnimation(UIScrollView scrollView)
+		{
+			//Console.WriteLine("MLB >> ScrollViewDidEndScrollingAnimation");
+			_isTableViewScrolling = false;
+		}
+
+		[Export ("scrollViewDidEndDecelerating:")]
+		private void ScrollViewDidEndDecelerating(UIScrollView scrollView)
+		{
+			//Console.WriteLine("MLB >> scrollViewDidEndDecelerating");
+			_isTableViewScrolling = false;
+		}
+
+		[Export ("scrollViewDidEndDragging:willDecelerate:")]
+		private void ScrollViewDidEndDragging(UIScrollView scrollView, bool willDecelerate)
+		{
+			//Console.WriteLine("MLB >> ScrollViewDidEndDragging - willDecelerate: {0}", willDecelerate);
+			_isTableViewScrolling = false;
+		}
+
 		[Export ("gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:")]
 		private bool ShouldRecognizeSimultaneouslyWithGestureRecognizer(UIGestureRecognizer gestureRecognizer, UIGestureRecognizer otherGestureRecognizer)
 		{
@@ -441,12 +470,16 @@ namespace MPfm.iOS.Classes.Controllers
 
 		private void PanTableView(UIPanGestureRecognizer panGestureRecognizer)
 		{
+			if (_isTableViewScrolling)
+				return;
+
 			//var pt = panGestureRecognizer.TranslationInView(cell.ContentView); //using cell can cause crashes
 			var ptLocation = panGestureRecognizer.LocationInView(tableView);
 			var ptTranslation = panGestureRecognizer.TranslationInView(tableView);
 			//Console.WriteLine("Peter Pan - gesture state: {0} ptLocation: {1} ptTranslation: {2}", panGestureRecognizer.State, ptLocation, ptTranslation);
 
 			// Block scrolling when the user clearly starts to go left or right
+			float maxX = (View.Bounds.Width / 2f) + 28f + 14f + 8f;
 			if (ptTranslation.X > 20f)
 				tableView.ScrollEnabled = false;
 
@@ -466,23 +499,81 @@ namespace MPfm.iOS.Classes.Controllers
 			}
 			else if (panGestureRecognizer.State == UIGestureRecognizerState.Ended)
 			{
-				UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
-					{
-						var finalFrame = _movingCell.ContainerView.Frame;
-						finalFrame.X = 0;
-						_movingCell.ContainerView.Frame = finalFrame;
-						_movingCell.ImageAddToPlaylist.Alpha = 0.1f;
-						_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
-					}, null);
+				if (_movingCell == null)
+					return;
+
+				var finalFrame = _movingCell.ContainerView.Frame;
+				finalFrame.X = 0;
+				float movingX = Math.Min(ptTranslation.X, maxX);
+
+				if(movingX == maxX)
+				{
+					// Animate success
+					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+						{
+							var newImageAddToPlaylistFrame = _movingCell.ImageAddToPlaylist.Frame;
+							newImageAddToPlaylistFrame.Y = -_movingCell.Bounds.Height;
+							_movingCell.ImageAddToPlaylist.Alpha = 0.25f;
+							_movingCell.ImageAddToPlaylist.Frame = newImageAddToPlaylistFrame;
+							_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
+
+							var newAddToPlaylistLabelFrame = _movingCell.AddToPlaylistLabel.Frame;
+							newAddToPlaylistLabelFrame.Y = -_movingCell.Bounds.Height;
+							_movingCell.AddToPlaylistLabel.Alpha = 0.25f;
+							_movingCell.AddToPlaylistLabel.Frame = newAddToPlaylistLabelFrame;
+							_movingCell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+
+							var newAddedToPlaylistLabelFrame = _movingCell.AddedToPlaylistLabel.Frame;
+							newAddedToPlaylistLabelFrame.Y = 10;
+							_movingCell.AddedToPlaylistLabel.Frame = newAddedToPlaylistLabelFrame;
+							_movingCell.AddedToPlaylistLabel.Alpha = 1;
+
+							_movingCell.ImageCheckmark.Alpha = 0;
+							_movingCell.ImageCheckmarkConfirm.Alpha = 1;
+						}, null);
+					UIView.Animate(0.2, 0.75, UIViewAnimationOptions.CurveEaseInOut, () =>
+						{
+							_movingCell.ContainerView.Frame = finalFrame;
+						}, () => {
+							var newImageAddToPlaylistFrame = _movingCell.ImageAddToPlaylist.Frame;
+							newImageAddToPlaylistFrame.Y = 14;
+							_movingCell.ImageAddToPlaylist.Frame = newImageAddToPlaylistFrame;
+							_movingCell.ImageAddToPlaylist.Alpha = 0.1f;
+
+							var newAddToPlaylistLabelFrame = _movingCell.AddToPlaylistLabel.Frame;
+							newAddToPlaylistLabelFrame.Y = 10;
+							_movingCell.AddToPlaylistLabel.Frame = newAddToPlaylistLabelFrame;
+							_movingCell.AddToPlaylistLabel.Alpha = 0.1f;
+
+							var newAddedToPlaylistLabelFrame = _movingCell.AddedToPlaylistLabel.Frame;
+							newAddedToPlaylistLabelFrame.Y = 62;
+							_movingCell.AddedToPlaylistLabel.Frame = newAddedToPlaylistLabelFrame;
+							_movingCell.AddedToPlaylistLabel.Alpha = 0;
+
+							_movingCell.ImageCheckmark.Alpha = 1;
+							_movingCell.ImageCheckmarkConfirm.Alpha = 0;
+
+							_movingCell = null;
+						});
+				}
+				else
+				{
+					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+						{
+							_movingCell.ContainerView.Frame = finalFrame;
+							_movingCell.ImageAddToPlaylist.Alpha = 0.1f;
+							_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
+						}, () => _movingCell = null);
+				}
 				tableView.ScrollEnabled = true;
-				_movingCell = null;
+				return;
 			}
 
 			if (_movingCell == null)
 				return;
 
 			var newFrame = _movingCell.ContainerView.Frame;
-			newFrame.X = ptTranslation.X;
+			newFrame.X = Math.Min(ptTranslation.X, maxX);
 			_movingCell.ContainerView.Frame = newFrame;
 
 			// Make text and image stay fixed and not scroll with the finger

@@ -640,6 +640,12 @@
     <BundleResource Include="Images\Splash\splash_default-568h_overlay%402x.png" />
     <BundleResource Include="Images\Splash\splash_default_overlay%402x.png" />
     <BundleResource Include="Images\Splash\splash_default_overlay.png" />
+    <BundleResource Include="Images\ContextualButtons\checkmark_green.png" />
+    <BundleResource Include="Images\ContextualButtons\checkmark_green%402x.png" />
+    <BundleResource Include="Images\ContextualButtons\checkmark.png" />
+    <BundleResource Include="Images\ContextualButtons\checkmark%402x.png" />
+    <BundleResource Include="Images\ContextualButtons\checkmark_nobg.png" />
+    <BundleResource Include="Images\ContextualButtons\checkmark_nobg%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
