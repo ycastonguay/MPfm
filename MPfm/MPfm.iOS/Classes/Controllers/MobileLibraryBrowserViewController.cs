@@ -500,6 +500,7 @@ namespace MPfm.iOS.Classes.Controllers
 
 				// Refresh icon/text in case they are not in sync with the queue status
 				cell.AddToPlaylistLabel.Text = cell.IsQueued ? "Remove from queue" : "Add to queue";
+				cell.AddedToPlaylistLabel.Text = cell.IsQueued ? "Removed from queue!" : "Added to queue!";
 				cell.ImageAddToPlaylist.Image = cell.IsQueued ? UIImage.FromBundle("Images/ContextualButtons/trash") : UIImage.FromBundle("Images/ContextualButtons/add");
 			}
 			else if (panGestureRecognizer.State == UIGestureRecognizerState.Ended)
@@ -519,8 +520,11 @@ namespace MPfm.iOS.Classes.Controllers
 
 		private void AnimateCellQueueMovement(MPfmTableViewCell cell, PointF ptTranslation, float maxX)
 		{
+			if (cell == null)
+				return;
+
 			var newFrame = _movingCell.ContainerView.Frame;
-			newFrame.X = Math.Min(_movingCell.IsQueued ? 20 + ptTranslation.X : ptTranslation.X, maxX);
+			newFrame.X = Math.Max(Math.Min(_movingCell.IsQueued ? 4 + ptTranslation.X : ptTranslation.X, maxX), 0);
 			_movingCell.ContainerView.Frame = newFrame;
 
 			// Make text and image stay fixed and not scroll with the finger
@@ -530,7 +534,6 @@ namespace MPfm.iOS.Classes.Controllers
 
 			// Blue: 47, 129, 183
 			// Red: 139, 0, 0
-			//var blue = UIColor.FromRGB(47, 129, 183);
 			int r1 = 47;
 			int g1 = 129;
 			int b1 = 183;
@@ -545,11 +548,14 @@ namespace MPfm.iOS.Classes.Controllers
 			cell.AddToPlaylistLabel.Alpha = alpha;
 			cell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale2, scale2);
 			cell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
-			//Console.WriteLine(">>> Peter PAN - alpha: {0} scale: {1} scale2: {2} r: {3} g: {4} b: {5}", alpha, scale, scale2, r, g, b);
+			//Console.WriteLine("alpha: {0} scale: {1} scale2: {2} r: {3} g: {4} b: {5}", alpha, scale, scale2, r, g, b);
 		}
 
 		private void AnimateCellQueueSuccess(MPfmTableViewCell cell, int section, int row)
 		{
+			if (cell == null)
+				return;
+
 			UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
 				{
 					var newImageAddToPlaylistFrame = cell.ImageAddToPlaylist.Frame;
@@ -574,11 +580,23 @@ namespace MPfm.iOS.Classes.Controllers
 				}, null);
 			UIView.Animate(0.2, 0.75, UIViewAnimationOptions.CurveEaseInOut, () =>
 				{
+					cell.IsQueued = !cell.IsQueued;
+					_items[section].Item2[row].IsQueued = cell.IsQueued;
+
 					var finalFrame = cell.ContainerView.Frame;
-					finalFrame.X = 12;
+					finalFrame.X = cell.IsQueued ? 4 : 0;
 					cell.ContainerView.Frame = finalFrame;
-					cell.IsQueued = true;
-					_items[section].Item2[row].IsQueued = true;
+
+					float alpha = 0.5f;
+					float scale = 0.5f;
+					int r = cell.IsQueued ? 47 : 139;
+					int g = cell.IsQueued ? 129 : 0;
+					int b = cell.IsQueued ? 183 : 0;
+					cell.ImageAddToPlaylist.Alpha = alpha;
+					//cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(scale, scale);
+					cell.AddToPlaylistLabel.Alpha = alpha;
+					//cell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
+					cell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
 				}, () => {
 					var newImageAddToPlaylistFrame = cell.ImageAddToPlaylist.Frame;
 					newImageAddToPlaylistFrame.Y = 14;
@@ -602,13 +620,27 @@ namespace MPfm.iOS.Classes.Controllers
 
 		private void AnimateCellQueueCancel(MPfmTableViewCell cell)
 		{
+			if (cell == null)
+				return;
+
 			UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
 				{
 					var finalFrame = cell.ContainerView.Frame;
-					finalFrame.X = cell.IsQueued ? 12 : 0;
+					finalFrame.X = cell.IsQueued ? 4 : 0;
 					cell.ContainerView.Frame = finalFrame;
 					cell.ImageAddToPlaylist.Alpha = 0.1f;
 					cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
+
+					//float alpha = 0.5f;
+					//float scale = 0.5f;
+					int r = cell.IsQueued ? 47 : 139;
+					int g = cell.IsQueued ? 129 : 0;
+					int b = cell.IsQueued ? 183 : 0;
+					//cell.ImageAddToPlaylist.Alpha = alpha;
+					//cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(scale, scale);
+					//cell.AddToPlaylistLabel.Alpha = alpha;
+					//cell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
+					cell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
 				}, () => 
 				{
 					cell.BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
@@ -837,16 +869,6 @@ namespace MPfm.iOS.Classes.Controllers
                 cell.PlayButton.TouchUpInside += HandleTableViewPlayTouchUpInside;
                 cell.AddButton.TouchUpInside += HandleTableViewAddTouchUpInside;
                 cell.DeleteButton.TouchUpInside += HandleTableViewDeleteTouchUpInside;
-
-//				var pan = new UIPanGestureRecognizer((gesture) => {
-//					PanTableCell(gesture, cell);
-//				});
-//				pan.MinimumNumberOfTouches = 1;
-//				pan.MaximumNumberOfTouches = 1;
-//				pan.CancelsTouchesInView = false;
-//				pan.WeakDelegate = this;
-//				cell.ContentView.AddGestureRecognizer(pan);
-//				//cell.BackgroundView.AddGestureRecognizer(pan);
             }
 
             cell.Tag = indexPath.Row;

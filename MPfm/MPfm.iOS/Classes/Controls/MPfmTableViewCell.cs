@@ -125,7 +125,7 @@ namespace MPfm.iOS.Classes.Controls
 			AddToPlaylistLabel.Frame = new RectangleF(40, 10, 150, 32);
 			AddToPlaylistLabel.Text = "Add to queue";
 			AddToPlaylistLabel.BackgroundColor = UIColor.Clear;
-			AddToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 15);
+			AddToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 			AddToPlaylistLabel.TextColor = UIColor.White;
 			AddToPlaylistLabel.TextAlignment = UITextAlignment.Left;
 			AddToPlaylistLabel.HighlightedTextColor = UIColor.White;
@@ -137,7 +137,7 @@ namespace MPfm.iOS.Classes.Controls
 			AddedToPlaylistLabel.Alpha = 0;
 			AddedToPlaylistLabel.Text = "Added to queue!";
 			AddedToPlaylistLabel.BackgroundColor = UIColor.Clear;
-			AddedToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 15);
+			AddedToPlaylistLabel.Font = UIFont.FromName("HelveticaNeue-Light", 14);
 			AddedToPlaylistLabel.TextColor = UIColor.White;
 			AddedToPlaylistLabel.TextAlignment = UITextAlignment.Left;
 			AddedToPlaylistLabel.HighlightedTextColor = UIColor.White;
@@ -273,7 +273,7 @@ namespace MPfm.iOS.Classes.Controls
 
             //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
 			BehindView.Frame = Bounds;
-			ContainerView.Frame = new RectangleF(IsQueued ? 12 : 0, 0, Bounds.Width, Bounds.Height);
+			ContainerView.Frame = new RectangleF(IsQueued ? 4 : 0, 0, Bounds.Width, Bounds.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             var screenSize = UIKitHelper.GetDeviceSize();
