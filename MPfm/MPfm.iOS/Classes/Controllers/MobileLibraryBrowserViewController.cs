@@ -474,7 +474,6 @@ namespace MPfm.iOS.Classes.Controllers
 			if (_isTableViewScrolling)
 				return;
 
-			//var pt = panGestureRecognizer.TranslationInView(cell.ContentView); //using cell can cause crashes
 			var ptLocation = panGestureRecognizer.LocationInView(tableView);
 			var ptTranslation = panGestureRecognizer.TranslationInView(tableView);
 			//Console.WriteLine("Peter Pan - gesture state: {0} ptLocation: {1} ptTranslation: {2}", panGestureRecognizer.State, ptLocation, ptTranslation);
@@ -500,95 +499,26 @@ namespace MPfm.iOS.Classes.Controllers
 				_movingCell = cell;
 
 				// Refresh icon/text in case they are not in sync with the queue status
-				_movingCell.AddToPlaylistLabel.Text = _movingCell.IsQueued ? "Remove from queue" : "Add to queue";
-				_movingCell.ImageAddToPlaylist.Image = _movingCell.IsQueued ? UIImage.FromBundle("Images/ContextualButtons/trash") : UIImage.FromBundle("Images/ContextualButtons/add");
-
+				cell.AddToPlaylistLabel.Text = cell.IsQueued ? "Remove from queue" : "Add to queue";
+				cell.ImageAddToPlaylist.Image = cell.IsQueued ? UIImage.FromBundle("Images/ContextualButtons/trash") : UIImage.FromBundle("Images/ContextualButtons/add");
 			}
 			else if (panGestureRecognizer.State == UIGestureRecognizerState.Ended)
 			{
-				if (_movingCell == null)
-					return;
-
 				float movingX = Math.Min(ptTranslation.X, maxX);
 				if(movingX == maxX)
-				{
-					// Animate success
-					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
-						{
-							var newImageAddToPlaylistFrame = _movingCell.ImageAddToPlaylist.Frame;
-							newImageAddToPlaylistFrame.Y = -_movingCell.Bounds.Height;
-							_movingCell.ImageAddToPlaylist.Alpha = 0.25f;
-							_movingCell.ImageAddToPlaylist.Frame = newImageAddToPlaylistFrame;
-							_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
-
-							var newAddToPlaylistLabelFrame = _movingCell.AddToPlaylistLabel.Frame;
-							newAddToPlaylistLabelFrame.Y = -_movingCell.Bounds.Height;
-							_movingCell.AddToPlaylistLabel.Alpha = 0.25f;
-							_movingCell.AddToPlaylistLabel.Frame = newAddToPlaylistLabelFrame;
-							_movingCell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(1, 1);
-
-							var newAddedToPlaylistLabelFrame = _movingCell.AddedToPlaylistLabel.Frame;
-							newAddedToPlaylistLabelFrame.Y = 10;
-							_movingCell.AddedToPlaylistLabel.Frame = newAddedToPlaylistLabelFrame;
-							_movingCell.AddedToPlaylistLabel.Alpha = 1;
-
-							_movingCell.ImageCheckmark.Alpha = 0;
-							_movingCell.ImageCheckmarkConfirm.Alpha = 1;
-						}, null);
-					UIView.Animate(0.2, 0.75, UIViewAnimationOptions.CurveEaseInOut, () =>
-						{
-							var finalFrame = _movingCell.ContainerView.Frame;
-							finalFrame.X = 12;
-							_movingCell.ContainerView.Frame = finalFrame;
-							_movingCell.IsQueued = true;
-							_items[_movingIndexPath.Section].Item2[_movingIndexPath.Row].IsQueued = true;
-						}, () => {
-							var newImageAddToPlaylistFrame = _movingCell.ImageAddToPlaylist.Frame;
-							newImageAddToPlaylistFrame.Y = 14;
-							_movingCell.ImageAddToPlaylist.Frame = newImageAddToPlaylistFrame;
-							_movingCell.ImageAddToPlaylist.Alpha = 0.1f;
-
-							var newAddToPlaylistLabelFrame = _movingCell.AddToPlaylistLabel.Frame;
-							newAddToPlaylistLabelFrame.Y = 10;
-							_movingCell.AddToPlaylistLabel.Frame = newAddToPlaylistLabelFrame;
-							_movingCell.AddToPlaylistLabel.Alpha = 0.1f;
-
-							var newAddedToPlaylistLabelFrame = _movingCell.AddedToPlaylistLabel.Frame;
-							newAddedToPlaylistLabelFrame.Y = 62;
-							_movingCell.AddedToPlaylistLabel.Frame = newAddedToPlaylistLabelFrame;
-							_movingCell.AddedToPlaylistLabel.Alpha = 0;
-
-							_movingCell.ImageCheckmark.Alpha = 1;
-							_movingCell.ImageCheckmarkConfirm.Alpha = 0;
-
-							_movingCell = null;
-							_movingIndexPath = null;
-						});
-				}
+					AnimateCellQueueSuccess(_movingCell, _movingIndexPath.Section, _movingIndexPath.Row);
 				else
-				{
-					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
-						{
-							var finalFrame = _movingCell.ContainerView.Frame;
-							finalFrame.X = _movingCell.IsQueued ? 12 : 0;
-							_movingCell.ContainerView.Frame = finalFrame;
-							_movingCell.ImageAddToPlaylist.Alpha = 0.1f;
-							_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
-						}, () => 
-						{
-							_movingCell.BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
-							_movingCell = null;
-							_movingIndexPath = null;
-						}
-					);
-				}
+					AnimateCellQueueCancel(_movingCell);
+
 				tableView.ScrollEnabled = true;
 				return;
 			}
 
-			if (_movingCell == null)
-				return;
+			AnimateCellQueueMovement(_movingCell, ptTranslation, maxX);
+		}
 
+		private void AnimateCellQueueMovement(MPfmTableViewCell cell, PointF ptTranslation, float maxX)
+		{
 			var newFrame = _movingCell.ContainerView.Frame;
 			newFrame.X = Math.Min(_movingCell.IsQueued ? 20 + ptTranslation.X : ptTranslation.X, maxX);
 			_movingCell.ContainerView.Frame = newFrame;
@@ -607,15 +537,83 @@ namespace MPfm.iOS.Classes.Controllers
 			int r2 = 139;
 			int g2 = 0;
 			int b2 = 0;
-			int r = (int)(_movingCell.IsQueued ? r1 + (scale * (r2 - r1)) : r1);
-			int g = (int)(_movingCell.IsQueued ? g1 + (scale * (g2 - g1)) : g1);
-			int b = (int)(_movingCell.IsQueued ? b1 + (scale * (b2 - b1)) : b1);
-			_movingCell.ImageAddToPlaylist.Alpha = alpha;
-			_movingCell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(scale2, scale2);
-			_movingCell.AddToPlaylistLabel.Alpha = alpha;
-			_movingCell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale2, scale2);
-			_movingCell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
-			Console.WriteLine(">>> Peter PAN - alpha: {0} scale: {1} scale2: {2} r: {3} g: {4} b: {5}", alpha, scale, scale2, r, g, b);
+			int r = (int)(cell.IsQueued ? r1 + (scale * (r2 - r1)) : r1);
+			int g = (int)(cell.IsQueued ? g1 + (scale * (g2 - g1)) : g1);
+			int b = (int)(cell.IsQueued ? b1 + (scale * (b2 - b1)) : b1);
+			cell.ImageAddToPlaylist.Alpha = alpha;
+			cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(scale2, scale2);
+			cell.AddToPlaylistLabel.Alpha = alpha;
+			cell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale2, scale2);
+			cell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
+			//Console.WriteLine(">>> Peter PAN - alpha: {0} scale: {1} scale2: {2} r: {3} g: {4} b: {5}", alpha, scale, scale2, r, g, b);
+		}
+
+		private void AnimateCellQueueSuccess(MPfmTableViewCell cell, int section, int row)
+		{
+			UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+				{
+					var newImageAddToPlaylistFrame = cell.ImageAddToPlaylist.Frame;
+					newImageAddToPlaylistFrame.Y = -cell.Bounds.Height;
+					cell.ImageAddToPlaylist.Alpha = 0.25f;
+					cell.ImageAddToPlaylist.Frame = newImageAddToPlaylistFrame;
+					cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
+
+					var newAddToPlaylistLabelFrame = cell.AddToPlaylistLabel.Frame;
+					newAddToPlaylistLabelFrame.Y = -cell.Bounds.Height;
+					cell.AddToPlaylistLabel.Alpha = 0.25f;
+					cell.AddToPlaylistLabel.Frame = newAddToPlaylistLabelFrame;
+					cell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(1, 1);
+
+					var newAddedToPlaylistLabelFrame = cell.AddedToPlaylistLabel.Frame;
+					newAddedToPlaylistLabelFrame.Y = 10;
+					cell.AddedToPlaylistLabel.Frame = newAddedToPlaylistLabelFrame;
+					cell.AddedToPlaylistLabel.Alpha = 1;
+
+					cell.ImageCheckmark.Alpha = 0;
+					cell.ImageCheckmarkConfirm.Alpha = 1;
+				}, null);
+			UIView.Animate(0.2, 0.75, UIViewAnimationOptions.CurveEaseInOut, () =>
+				{
+					var finalFrame = cell.ContainerView.Frame;
+					finalFrame.X = 12;
+					cell.ContainerView.Frame = finalFrame;
+					cell.IsQueued = true;
+					_items[section].Item2[row].IsQueued = true;
+				}, () => {
+					var newImageAddToPlaylistFrame = cell.ImageAddToPlaylist.Frame;
+					newImageAddToPlaylistFrame.Y = 14;
+					cell.ImageAddToPlaylist.Frame = newImageAddToPlaylistFrame;
+					cell.ImageAddToPlaylist.Alpha = 0.1f;
+
+					var newAddToPlaylistLabelFrame = cell.AddToPlaylistLabel.Frame;
+					newAddToPlaylistLabelFrame.Y = 10;
+					cell.AddToPlaylistLabel.Frame = newAddToPlaylistLabelFrame;
+					cell.AddToPlaylistLabel.Alpha = 0.1f;
+
+					var newAddedToPlaylistLabelFrame = cell.AddedToPlaylistLabel.Frame;
+					newAddedToPlaylistLabelFrame.Y = 62;
+					cell.AddedToPlaylistLabel.Frame = newAddedToPlaylistLabelFrame;
+					cell.AddedToPlaylistLabel.Alpha = 0;
+
+					cell.ImageCheckmark.Alpha = 1;
+					cell.ImageCheckmarkConfirm.Alpha = 0;
+				});
+		}
+
+		private void AnimateCellQueueCancel(MPfmTableViewCell cell)
+		{
+			UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+				{
+					var finalFrame = cell.ContainerView.Frame;
+					finalFrame.X = cell.IsQueued ? 12 : 0;
+					cell.ContainerView.Frame = finalFrame;
+					cell.ImageAddToPlaylist.Alpha = 0.1f;
+					cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
+				}, () => 
+				{
+					cell.BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
+				}
+			);
 		}
 
         private void HandleLongPressTableCellRow(UILongPressGestureRecognizer gestureRecognizer)
