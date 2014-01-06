@@ -369,5 +369,8 @@
     <Compile Include="Config\Models\GeneralAppConfig.cs" />
     <Compile Include="Messages\MarkerPositionUpdatedMessage.cs" />
     <Compile Include="Messages\MarkerActivatedMessage.cs" />
+    <Compile Include="Views\IQueueView.cs" />
+    <Compile Include="Presenters\Interfaces\IQueuePresenter.cs" />
+    <Compile Include="Presenters\QueuePresenter.cs" />
   </ItemGroup>
 </Project>

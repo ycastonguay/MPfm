@@ -43,5 +43,12 @@ namespace MPfm.iOS.Helpers
             }
             return new SizeF(width, height);
         }
+
+		public static UIColor ColorWithBrightness(UIColor color, float brightnessMultiplier)
+		{
+			float h, s, b, a;
+			color.GetHSBA(out h, out s, out b, out a);
+			return UIColor.FromHSBA(h, s, Math.Min(b * brightnessMultiplier, 1), a);
+		}
     }
 }

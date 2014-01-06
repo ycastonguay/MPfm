@@ -32,6 +32,7 @@ namespace MPfm.MVP.Views
         Action<Guid> OnDeleteItem { get; set; }
         Action<Guid> OnPlayItem { get; set; }
         Action<Guid> OnAddItemToPlaylist { get; set; }
+        Action<Guid> OnAddRemoveItemQueue { get; set; }
         Action<string, string, object> OnRequestAlbumArt { get; set; }
         Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 

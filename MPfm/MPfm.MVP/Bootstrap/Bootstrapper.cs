@@ -100,9 +100,10 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IResumePlaybackPresenter, ResumePlaybackPresenter>().AsMultiInstance();
             container.Register<IStartResumePlaybackPresenter, StartResumePlaybackPresenter>().AsMultiInstance();
             container.Register<IFirstRunPresenter, FirstRunPresenter>().AsMultiInstance();
-            container.Register<IMobileMainPresenter, MobileMainPresenter>().AsMultiInstance();
+            container.Register<IMobileMainPresenter, MobileMainPresenter>().AsMultiInstance();       
+            container.Register<IQueuePresenter, QueuePresenter>().AsMultiInstance();
         }
-        
+
         /// <summary>
         /// Returns the IoC container.
         /// </summary>

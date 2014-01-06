@@ -341,6 +341,10 @@
     <Compile Include="Classes\Controls\MPfmCollectionHeaderView.cs" />
     <Compile Include="Classes\Controls\MPfmAlbumHeaderView.cs" />
     <Compile Include="Classes\Controls\MPfmSecondaryMenuButton.cs" />
+    <Compile Include="Classes\Controllers\QueueViewController.cs" />
+    <Compile Include="Classes\Controllers\QueueViewController.designer.cs">
+      <DependentUpon>QueueViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -411,6 +415,8 @@
     <InterfaceDefinition Include="XIB\iPhone\CloudConnectViewController_iPhone.xib" />
     <InterfaceDefinition Include="XIB\iPad\PlayerStatusViewController_iPad.xib" />
     <InterfaceDefinition Include="XIB\iPhone\PlayerStatusViewController_iPhone.xib" />
+    <InterfaceDefinition Include="XIB\iPad\QueueViewController_iPad.xib" />
+    <InterfaceDefinition Include="XIB\iPhone\QueueViewController_iPhone.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -646,6 +652,10 @@
     <BundleResource Include="Images\ContextualButtons\checkmark%402x.png" />
     <BundleResource Include="Images\ContextualButtons\checkmark_nobg.png" />
     <BundleResource Include="Images\ContextualButtons\checkmark_nobg%402x.png" />
+    <BundleResource Include="Images\Player\close.png" />
+    <BundleResource Include="Images\Player\close%402x.png" />
+    <BundleResource Include="Images\ContextualButtons\minus.png" />
+    <BundleResource Include="Images\ContextualButtons\minus%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">

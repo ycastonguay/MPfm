@@ -33,6 +33,12 @@ namespace MPfm.iOS.Classes.Controls
         private CAShapeLayer _layerCircle;
 
         public UIImageView GlyphImageView { get; private set; }
+		public float GlyphAlpha { get; private set; }
+		public float GlyphAlphaOn { get; private set; }
+		public UIColor FillColor { get; private set; }
+		public UIColor FillColorOn { get; private set; }
+		public UIColor StrokeColor { get; private set; }
+		public UIColor StrokeColorOn { get; private set; }
 
         public delegate void ButtonClick();
         public event ButtonClick OnButtonClick;
@@ -51,6 +57,7 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
+			SetDefaultTheme();
             TintColor = UIColor.White;
 			Layer.BackgroundColor = UIColor.Clear.CGColor;
 
@@ -60,8 +67,8 @@ namespace MPfm.iOS.Classes.Controls
             _layerCircle.Bounds = Bounds;
             _layerCircle.Path = UIBezierPath.FromRoundedRect(new RectangleF(0, 0, 2f * radius, 2f * radius), radius).CGPath;
             _layerCircle.Position = new PointF(Bounds.Width / 2, Bounds.Height / 2);
-            _layerCircle.FillColor = GlobalTheme.BackgroundColor.CGColor;
-            _layerCircle.StrokeColor = GlobalTheme.MainLightColor.CGColor;
+			_layerCircle.FillColor = FillColor.CGColor;
+			_layerCircle.StrokeColor = StrokeColor.CGColor;
             _layerCircle.LineWidth = 1f;
             Layer.AddSublayer(_layerCircle);
 
@@ -69,7 +76,7 @@ namespace MPfm.iOS.Classes.Controls
             GlyphImageView.BackgroundColor = UIColor.Clear;
             GlyphImageView.Layer.AnchorPoint = new PointF(0.5f, 0.5f);
             GlyphImageView.Frame = new RectangleF((Frame.Width - 50) / 2, (Frame.Height - 50) / 2, 50, 50);
-            GlyphImageView.Alpha = 0.7f;
+			GlyphImageView.Alpha = GlyphAlpha;
 
             TitleLabel.Alpha = 0;
             TitleLabel.Hidden = true;
@@ -77,6 +84,28 @@ namespace MPfm.iOS.Classes.Controls
 
             AddSubview(GlyphImageView);
         }
+
+		private void SetDefaultTheme()
+		{
+			SetTheme(GlobalTheme.BackgroundColor, GlobalTheme.MainLightColor, GlobalTheme.MainColor, GlobalTheme.LightColor.ColorWithAlpha(0.5f), 0.7f, 1);
+		}
+
+		public void SetTheme(UIColor fillColor, UIColor strokeColor, UIColor fillColorOn, UIColor strokeColorOn, float glyphAlpha, float glyphAlphaOn)
+		{
+			FillColor = fillColor;
+			StrokeColor = strokeColor;
+			FillColorOn = fillColorOn;
+			StrokeColorOn = strokeColorOn;
+			GlyphAlpha = glyphAlpha;
+			GlyphAlphaOn = glyphAlphaOn;
+
+			if (_layerCircle == null)
+				return;
+
+			_layerCircle.FillColor = FillColor.CGColor;
+			_layerCircle.StrokeColor = StrokeColor.CGColor;
+			GlyphImageView.Alpha = GlyphAlpha;
+		}
 
 		public override void LayoutSubviews()
 		{
@@ -121,8 +150,8 @@ namespace MPfm.iOS.Classes.Controls
                     GlyphImageView.Alpha = 0.7f;
 				}, () => _isAnimating = false);
                 UIView.Animate(0.05, () => {
-                    _layerCircle.FillColor = GlobalTheme.BackgroundColor.CGColor;
-                    _layerCircle.StrokeColor = GlobalTheme.MainLightColor.CGColor;
+					_layerCircle.FillColor = FillColor.CGColor;
+					_layerCircle.StrokeColor = StrokeColor.CGColor;
                     _layerCircle.LineWidth = 1f;
                 });
             }
@@ -134,8 +163,8 @@ namespace MPfm.iOS.Classes.Controls
                     GlyphImageView.Alpha = 1f;
 				}, () => _isAnimating = false);
                 UIView.Animate(0.025, () => {
-                    _layerCircle.FillColor = GlobalTheme.MainColor.CGColor;
-                    _layerCircle.StrokeColor = GlobalTheme.LightColor.ColorWithAlpha(0.5f).CGColor;
+					_layerCircle.FillColor = FillColorOn.CGColor;
+					_layerCircle.StrokeColor = StrokeColorOn.CGColor;
                     _layerCircle.LineWidth = 1.5f;
                 });
             }

@@ -14,6 +14,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
 using MonoTouch.UIKit;
 
 namespace MPfm.iOS.Classes.Objects
@@ -38,5 +39,7 @@ namespace MPfm.iOS.Classes.Objects
 		public static UIColor PlayerPanelButtonColor { get { return UIColor.FromRGBA(0.6f, 0.6f, 0.6f, 0.2f); } }
         public static UIColor PlayerPanelBackgroundColor { get { return UIColor.FromRGBA(0, 0, 0, 0.6f); } }
         public static float PlayerPanelButtonAlpha { get { return 0.8f; } }
+
+		public static UIColor AlternateColor1 { get { return UIColor.FromRGB(47, 129, 183); } }
     }
 }

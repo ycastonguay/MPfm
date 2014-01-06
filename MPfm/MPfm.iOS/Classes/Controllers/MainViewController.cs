@@ -89,12 +89,24 @@ namespace MPfm.iOS.Classes.Controllers
 				return;
 
 			_viewControllers.Add(new Tuple<UIViewController, MobileDialogPresentationType>(viewController, presentationType));
-			AddChildViewController(viewController);
-			var view = viewController.View;		
+			UIView view = viewController.View;		
 			view.Alpha = 0;
-			View.AddSubview(view);
-			viewController.View.BringSubviewToFront(view);
-			viewController.DidMoveToParentViewController(this);
+
+			if (presentationType == MobileDialogPresentationType.TabBar)
+			{
+				// This one is a bit different; we are adding it as a child of the TabBar controller
+				//TabBarController.AddChildViewController(viewController);
+				TabBarController.View.AddSubview(view);
+				//viewController.View.BringSubviewToFront(view);
+				//viewController.DidMoveToParentViewController(TabBarController);
+			}
+			else
+			{
+				AddChildViewController(viewController);
+				View.AddSubview(view);
+				viewController.View.BringSubviewToFront(view);
+				viewController.DidMoveToParentViewController(this);
+			}
 
 			switch (presentationType)
 			{
@@ -104,7 +116,13 @@ namespace MPfm.iOS.Classes.Controllers
 				case MobileDialogPresentationType.NotificationBar:
 					view.Frame = new RectangleF(0, View.Bounds.Height, View.Bounds.Width, 54);
 					break;
-			}		
+				case MobileDialogPresentationType.TabBar:
+					//view.Frame = new RectangleF(0, TabBarController.View.Bounds.Height, TabBarController.View.Bounds.Width, 54);
+					float tabBarHeight = 49;
+					view.Frame = new RectangleF(0, TabBarController.View.Bounds.Height - 54 - tabBarHeight, TabBarController.View.Bounds.Width, 54);
+					view.Alpha = 1;
+					break;
+			}
 
 			int notificationViewCount = _viewControllers.Count(x => x.Item2 == MobileDialogPresentationType.NotificationBar);
 			switch (presentationType)
@@ -113,16 +131,27 @@ namespace MPfm.iOS.Classes.Controllers
 					UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () => view.Alpha = 1, null);
 					break;
 				case MobileDialogPresentationType.NotificationBar:
-					//view.BackgroundColor = GlobalTheme.MainColor;
-					UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () => {
-						_isAnimating = true;
-						//view.BackgroundColor = GlobalTheme.BackgroundColor;
-						view.Alpha = 1;
-						view.Frame = new RectangleF(0, View.Bounds.Height - (notificationViewCount * 54), View.Bounds.Width, 54);
-						TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViewCount * 54));
-					}, () => {
-						_isAnimating = false;
-					});
+					UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+						{
+							_isAnimating = true;
+							view.Alpha = 1;
+							view.Frame = new RectangleF(0, View.Bounds.Height - (notificationViewCount * 54), View.Bounds.Width, 54);
+							TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height - (notificationViewCount * 54));
+						}, () => _isAnimating = false);
+					break;
+				case MobileDialogPresentationType.TabBar:
+							float tabBarHeight = 49;
+							view.Alpha = 1;
+							view.Frame = new RectangleF(0, TabBarController.View.Bounds.Height - 54 - tabBarHeight, TabBarController.View.Bounds.Width, 54);
+
+//					UIView.Animate(0.4, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+//						{
+//							float tabBarHeight = 49;
+//							_isAnimating = true;
+//							view.Alpha = 1;
+//							view.Frame = new RectangleF(0, TabBarController.View.Bounds.Height - 54 - tabBarHeight, TabBarController.View.Bounds.Width, 54);
+//							//TabBarController.View.Frame = new RectangleF(0, 0, View.Bounds.Width, View.Bounds.Height - 54);
+//						}, () => _isAnimating = false);
 					break;
 			}
 		}

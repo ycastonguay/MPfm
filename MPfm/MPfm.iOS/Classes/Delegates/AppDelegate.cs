@@ -142,6 +142,7 @@ namespace MPfm.iOS.Classes.Delegates
             container.Register<IAddPlaylistView, AddPlaylistViewController>().AsMultiInstance();
             container.Register<IResumePlaybackView, ResumePlaybackViewController>().AsMultiInstance();
             container.Register<IStartResumePlaybackView, StartResumePlaybackViewController>().AsMultiInstance();
+			container.Register<IQueueView, QueueViewController>().AsMultiInstance();
             container.Register<IFirstRunView, FirstRunViewController>().AsMultiInstance();
         }
 
@@ -253,11 +254,8 @@ namespace MPfm.iOS.Classes.Delegates
 						_mainViewController.PresentViewController(navCtrl, true, null);
                         // TODO: Remove navCtrl from list when dialog is closed.
                         break;
-                    case MobileDialogPresentationType.Overlay:
-						_mainViewController.AddViewController(viewController, MobileDialogPresentationType.Overlay);
-                        break;
-					case MobileDialogPresentationType.NotificationBar:
-						_mainViewController.AddViewController(viewController, MobileDialogPresentationType.NotificationBar);
+					default:
+						_mainViewController.AddViewController(viewController, presentationType);
 						break;
                 }
             });

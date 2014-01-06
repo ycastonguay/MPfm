@@ -501,7 +501,7 @@ namespace MPfm.iOS.Classes.Controllers
 				// Refresh icon/text in case they are not in sync with the queue status
 				cell.AddToPlaylistLabel.Text = cell.IsQueued ? "Remove from queue" : "Add to queue";
 				cell.AddedToPlaylistLabel.Text = cell.IsQueued ? "Removed from queue!" : "Added to queue!";
-				cell.ImageAddToPlaylist.Image = cell.IsQueued ? UIImage.FromBundle("Images/ContextualButtons/trash") : UIImage.FromBundle("Images/ContextualButtons/add");
+				cell.ImageAddToPlaylist.Image = cell.IsQueued ? UIImage.FromBundle("Images/ContextualButtons/minus") : UIImage.FromBundle("Images/ContextualButtons/add");
 			}
 			else if (panGestureRecognizer.State == UIGestureRecognizerState.Ended)
 			{
@@ -600,6 +600,8 @@ namespace MPfm.iOS.Classes.Controllers
 					cell.AddToPlaylistLabel.Alpha = alpha;
 					//cell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
 					cell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
+
+					OnAddRemoveItemQueue(_items[section].Item2[row].Id);
 				}, () => {
 					var newImageAddToPlaylistFrame = cell.ImageAddToPlaylist.Frame;
 					newImageAddToPlaylistFrame.Y = 14;
@@ -1134,6 +1136,7 @@ namespace MPfm.iOS.Classes.Controllers
 		public Action<Guid> OnPlayItem { get; set; }
         public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 		public Action<Guid> OnAddItemToPlaylist { get; set; }
+		public Action<Guid> OnAddRemoveItemQueue { get; set; }
 
         public void MobileLibraryBrowserError(Exception ex)
         {

@@ -134,7 +134,7 @@ namespace MPfm.iOS.Classes.Controls
 
 			AddedToPlaylistLabel = new UILabel();
 			AddedToPlaylistLabel.Layer.AnchorPoint = new PointF(0, 0.5f);
-			AddedToPlaylistLabel.Frame = new RectangleF(10, 62, 150, 32);
+			AddedToPlaylistLabel.Frame = new RectangleF(12, 62, 150, 32);
 			AddedToPlaylistLabel.Alpha = 0;
 			AddedToPlaylistLabel.Text = "Added to queue!";
 			AddedToPlaylistLabel.BackgroundColor = UIColor.Clear;

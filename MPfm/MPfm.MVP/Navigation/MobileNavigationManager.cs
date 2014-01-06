@@ -71,6 +71,8 @@ namespace MPfm.MVP.Navigation
         private IEqualizerPresetDetailsPresenter _equalizerPresetDetailsPresenter;
         private IPlayerView _playerView;
         private IPlayerPresenter _playerPresenter;
+        private IQueueView _queueView;
+        private IQueuePresenter _queuePresenter;
         private ISyncView _syncView;
         private ISyncPresenter _syncPresenter;
         private ISyncConnectManualView _syncConnectManualView;
@@ -299,7 +301,6 @@ namespace MPfm.MVP.Navigation
 
         public virtual void BindPlayerStatusView(IPlayerStatusView view)
         {
-            // This is used only on Android, where the Options menu is bound to the main activity.
             _playerStatusView = view;
             _playerStatusPresenter = Bootstrapper.GetContainer().Resolve<IPlayerStatusPresenter>();
             _playerStatusPresenter.BindView(view);
@@ -308,6 +309,27 @@ namespace MPfm.MVP.Navigation
                 _playerStatusPresenter.ViewDestroyed();
                 _playerStatusPresenter = null;
                 _playerStatusView = null;
+            };
+        }
+
+        public virtual IQueueView CreateQueueView()
+        {
+            if (_queueView == null)
+                _queueView = Bootstrapper.GetContainer().Resolve<IQueueView>();
+
+            return _queueView;
+        }
+
+        public virtual void BindQueueView(IQueueView view)
+        {
+            _queueView = view;
+            _queuePresenter = Bootstrapper.GetContainer().Resolve<IQueuePresenter>();
+            _queuePresenter.BindView(view);
+            _queueView.OnViewDestroy = (theView) =>
+            {
+                _queuePresenter.ViewDestroyed();
+                _queuePresenter = null;
+                _queueView = null;
             };
         }
 
@@ -1134,6 +1156,7 @@ namespace MPfm.MVP.Navigation
     {
         Standard = 0,
         Overlay = 1,
-        NotificationBar = 2
+        NotificationBar = 2,
+        TabBar = 3
     }
 }

@@ -52,6 +52,7 @@ namespace MPfm.MVP.Presenters
 	    List<LibraryBrowserEntity> _items;
 	    List<Tuple<MobileLibraryBrowserType, LibraryQuery>> _queryHistory;
         Task _currentTask;
+        IQueueView _queueView;
 
         public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query,
                                              ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager, IPlayerService playerService,
@@ -81,6 +82,7 @@ namespace MPfm.MVP.Presenters
             view.OnItemClick = ItemClick;
             view.OnPlayItem = PlayItem;
             view.OnAddItemToPlaylist = AddItemToPlaylist;
+            view.OnAddRemoveItemQueue = AddRemoveItemQueue;
             view.OnRequestAlbumArt = RequestAlbumArt;
             view.OnRequestAlbumArtSynchronously = OnRequestAlbumArtSynchronously;
 
@@ -176,6 +178,29 @@ namespace MPfm.MVP.Presenters
                     View.RefreshAlbumArtCell(artistName, albumTitle, bytesImage, userData);
                 }
             });
+        }
+
+        private void AddRemoveItemQueue(Guid id)
+        {
+            try
+            {
+                Tracing.Log("MobileLibraryBrowserPresenter - AddRemoveItemQueue - id: {0}", id);
+                var item = _items.FirstOrDefault(x => x.Id == id);
+                if(item == null)
+                    return;
+
+                // TODO: Not sure if this is the best way to handle this.
+                if(_queueView == null)
+                {
+                    _queueView = _navigationManager.CreateQueueView();
+                    _navigationManager.PushDialogView(MobileDialogPresentationType.TabBar, "Queue", View, _queueView);
+                }
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("MobileLibraryBrowserPresenter - AddRemoveItemQueue - Exception: {0}", ex);
+                View.MobileLibraryBrowserError(ex);
+            }
         }
 
         private void AddItemToPlaylist(Guid id)
