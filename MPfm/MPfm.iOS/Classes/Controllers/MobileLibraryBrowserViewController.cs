@@ -527,7 +527,6 @@ namespace MPfm.iOS.Classes.Controllers
 			newFrame.X = Math.Max(Math.Min(_movingCell.IsQueued ? 4 + ptTranslation.X : ptTranslation.X, maxX), 0);
 			_movingCell.ContainerView.Frame = newFrame;
 
-			// Make text and image stay fixed and not scroll with the finger
 			float alpha = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
 			float scale = Math.Max(Math.Min(ptTranslation.X / 150f, 1), 0);
 			float scale2 = 0.5f + (scale * 0.5f);
@@ -583,12 +582,16 @@ namespace MPfm.iOS.Classes.Controllers
 					cell.IsQueued = !cell.IsQueued;
 					_items[section].Item2[row].IsQueued = cell.IsQueued;
 
-					var finalFrame = cell.ContainerView.Frame;
-					finalFrame.X = cell.IsQueued ? 4 : 0;
-					cell.ContainerView.Frame = finalFrame;
+					var containerFrame = cell.ContainerView.Frame;
+					containerFrame.X = 0;
+					cell.ContainerView.Frame = containerFrame;
+
+					var containerBackgroundFrame = cell.ContainerView.Frame;
+					containerBackgroundFrame.X = cell.IsQueued ? 4 : 0;
+					cell.ContainerBackgroundView.Frame = containerBackgroundFrame;
 
 					float alpha = 0.5f;
-					float scale = 0.5f;
+					//float scale = 0.5f;
 					int r = cell.IsQueued ? 47 : 139;
 					int g = cell.IsQueued ? 129 : 0;
 					int b = cell.IsQueued ? 183 : 0;
@@ -625,27 +628,18 @@ namespace MPfm.iOS.Classes.Controllers
 
 			UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
 				{
-					var finalFrame = cell.ContainerView.Frame;
-					finalFrame.X = cell.IsQueued ? 4 : 0;
-					cell.ContainerView.Frame = finalFrame;
+					var containerFrame = cell.ContainerView.Frame;
+					containerFrame.X = 0;
+					cell.ContainerView.Frame = containerFrame;
+
+					var containerBackgroundFrame = cell.ContainerBackgroundView.Frame;
+					containerBackgroundFrame.X = cell.IsQueued ? 4 : 0;
+					cell.ContainerBackgroundView.Frame = containerBackgroundFrame;
+
 					cell.ImageAddToPlaylist.Alpha = 0.1f;
 					cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(1, 1);
-
-					//float alpha = 0.5f;
-					//float scale = 0.5f;
-					int r = cell.IsQueued ? 47 : 139;
-					int g = cell.IsQueued ? 129 : 0;
-					int b = cell.IsQueued ? 183 : 0;
-					//cell.ImageAddToPlaylist.Alpha = alpha;
-					//cell.ImageAddToPlaylist.Transform = CGAffineTransform.MakeScale(scale, scale);
-					//cell.AddToPlaylistLabel.Alpha = alpha;
-					//cell.AddToPlaylistLabel.Transform = CGAffineTransform.MakeScale(scale, scale);
-					cell.BehindView.BackgroundColor = UIColor.FromRGB(r, g, b);
-				}, () => 
-				{
 					cell.BehindView.BackgroundColor = UIColor.FromRGB(47, 129, 183);
-				}
-			);
+				}, null);
 		}
 
         private void HandleLongPressTableCellRow(UILongPressGestureRecognizer gestureRecognizer)
@@ -679,7 +673,7 @@ namespace MPfm.iOS.Classes.Controllers
 				var oldCell = (MPfmTableViewCell)tableView.CellAt(NSIndexPath.FromRowSection(oldRow, oldSection));
                 if (oldCell != null)
                 {
-					oldCell.ContainerView.BackgroundColor = GlobalTheme.SecondaryColor;
+					oldCell.ContainerBackgroundView.BackgroundColor = GlobalTheme.SecondaryColor;
 					oldCell.IsDarkBackground = false;
 					oldCell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron");
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
@@ -705,7 +699,7 @@ namespace MPfm.iOS.Classes.Controllers
                         oldCell.ImageAlbum2.Alpha = 0.4f;
                         oldCell.ImageAlbum3.Alpha = 0.2f;
 
-						oldCell.ContainerView.BackgroundColor = UIColor.White;
+						oldCell.ContainerBackgroundView.BackgroundColor = UIColor.White;
 						oldCell.TextLabel.TextColor = UIColor.Black;
 						oldCell.DetailTextLabel.TextColor = UIColor.Gray;
 						oldCell.AlbumCountLabel.TextColor = UIColor.Black;
@@ -733,7 +727,7 @@ namespace MPfm.iOS.Classes.Controllers
 //					cell.AddButton.Frame = new RectangleF(108, 25, 100, 44);
 //					cell.DeleteButton.Frame = new RectangleF(212, 25, 100, 44);
 
-					cell.ContainerView.BackgroundColor = GlobalTheme.SecondaryColor;
+					cell.ContainerBackgroundView.BackgroundColor = GlobalTheme.SecondaryColor;
 					cell.IsDarkBackground = true;
 					cell.ImageChevron.Image = UIImage.FromBundle("Images/Tables/chevron_white");
                     UIView.Animate(0.2, 0, UIViewAnimationOptions.CurveEaseIn, () => {
@@ -756,7 +750,7 @@ namespace MPfm.iOS.Classes.Controllers
 						cell.AddButton.Transform = CGAffineTransform.MakeScale(1, 1);
 						cell.DeleteButton.Transform = CGAffineTransform.MakeScale(1, 1);
 
-						cell.ContainerView.BackgroundColor = GlobalTheme.BackgroundColor;
+						cell.ContainerBackgroundView.BackgroundColor = GlobalTheme.BackgroundColor;
 						cell.TextLabel.TextColor = UIColor.White;
 						cell.DetailTextLabel.TextColor = UIColor.White;
 						cell.IndexTextLabel.TextColor = UIColor.White;
@@ -906,7 +900,7 @@ namespace MPfm.iOS.Classes.Controllers
 			bool isEditing = _editingRowPosition == indexPath.Row && _editingRowSection == indexPath.Section;
 			cell.ImageChevron.Image = isEditing ? UIImage.FromBundle("Images/Tables/chevron_white") : UIImage.FromBundle("Images/Tables/chevron");
 			cell.IsDarkBackground = isEditing;
-			cell.ContainerView.BackgroundColor = isEditing ? GlobalTheme.BackgroundColor : UIColor.White;
+			cell.ContainerBackgroundView.BackgroundColor = isEditing ? GlobalTheme.BackgroundColor : UIColor.White;
 			cell.PlayButton.Alpha = isEditing ? 1 : 0;
 			cell.AddButton.Alpha = isEditing ? 1 : 0;
 			cell.DeleteButton.Alpha = isEditing ? 1 : 0;

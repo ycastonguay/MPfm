@@ -36,6 +36,7 @@ namespace MPfm.iOS.Classes.Controls
         private bool _isTextLabelAllowedToChangeFrame = true;
 
 		public UIView ContainerView { get; private set; }
+		public UIView ContainerBackgroundView { get; private set; }
 
 		public UIView BehindView { get; private set; }
 		public UIImageView ImageCheckmark { get; private set; }
@@ -144,8 +145,12 @@ namespace MPfm.iOS.Classes.Controls
 			BehindView.AddSubview(AddedToPlaylistLabel);
 
 			ContainerView = new UIView(Bounds);
-			ContainerView.BackgroundColor = UIColor.White;
+			ContainerView.BackgroundColor = UIColor.Clear;
 			AddSubview(ContainerView);
+
+			ContainerBackgroundView = new UIView(Bounds);
+			ContainerBackgroundView.BackgroundColor = UIColor.White;
+			ContainerView.AddSubview(ContainerBackgroundView);
 
             UIView backViewSelected = new UIView(Frame);
             backViewSelected.BackgroundColor = GlobalTheme.SecondaryColor;
@@ -273,7 +278,8 @@ namespace MPfm.iOS.Classes.Controls
 
             //BackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height - 1);
 			BehindView.Frame = Bounds;
-			ContainerView.Frame = new RectangleF(IsQueued ? 4 : 0, 0, Bounds.Width, Bounds.Height);
+			ContainerView.Frame = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
+			ContainerBackgroundView.Frame = new RectangleF(IsQueued ? 4 : 0, 0, Bounds.Width, Bounds.Height);
             SelectedBackgroundView.Frame = new RectangleF(0, 0, Frame.Width, Frame.Height);
 
             var screenSize = UIKitHelper.GetDeviceSize();
