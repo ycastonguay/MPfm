@@ -17,9 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -284,14 +286,17 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnIncrementTime_OnClick(object sender, RoutedEventArgs e)
         {
+            OnIncrementTempo();
         }
 
         private void BtnDecrementTime_OnClick(object sender, RoutedEventArgs e)
         {
+            OnDecrementTempo();
         }
 
         private void BtnResetTime_OnClick(object sender, RoutedEventArgs e)
         {
+            OnResetTimeShifting();
         }
 
         private void BtnChangeKey_OnClick(object sender, RoutedEventArgs e)
@@ -300,30 +305,64 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnIncrementPitch_OnClick(object sender, RoutedEventArgs e)
         {
+            OnIncrementInterval();
         }
 
         private void BtnDecrementPitch_OnClick(object sender, RoutedEventArgs e)
         {
+            OnDecrementInterval();
         }
 
         private void BtnResetPitch_OnClick(object sender, RoutedEventArgs e)
         {
+            OnResetInterval();
         }
 
         private void BtnEditSongMetadata_OnClick(object sender, RoutedEventArgs e)
         {
+            OnEditSongMetadata();
         }
 
         private void BtnSearchGuitarTabs_OnClick(object sender, RoutedEventArgs e)
         {
+            SearchWebForSong("guitar+tab");
         }
 
         private void BtnSearchBassTabs_OnClick(object sender, RoutedEventArgs e)
         {
+            SearchWebForSong("bass+tab");
         }
 
         private void BtnSearchLyrics_OnClick(object sender, RoutedEventArgs e)
         {
+            SearchWebForSong("lyrics");
+        }
+
+        private void SearchWebForSong(string querySuffix)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(lblArtistName.Content.ToString()))
+                    Process.Start(string.Format("http://www.google.ca/search?q={0}+{1}+{2}", HttpUtility.UrlEncode(lblArtistName.Content.ToString()), HttpUtility.UrlEncode(lblSongTitle.Content.ToString()), querySuffix));
+            }
+            catch (Exception ex)
+            {
+                ShowErrorDialog(ex);
+            }
+        }
+
+        private void SliderTimeShifting_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if(OnSetTimeShifting != null)
+                OnSetTimeShifting((float)sliderTimeShifting.Value);
+        }
+
+        private void SliderPitchShifting_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnSetInterval != null)
+                OnSetInterval((int)sliderPitchShifting.Value);
         }
 
         #region IMainView implementation
@@ -492,16 +531,16 @@ namespace MPfm.WPF.Classes.Windows
                         lblAlbumTitle.Content = string.Empty;
                         lblSongTitle.Content = string.Empty;
                         lblFilePath.Content = string.Empty;
-                //        lblFrequency.Text = string.Empty;
-                //        lblBitrate.Text = string.Empty;
-                //        lblBitsPerSample.Text = string.Empty;
-                //        lblSoundFormat.Text = string.Empty;
-                //        lblYear.Text = string.Empty;
-                //        lblMonoStereo.Text = string.Empty;
-                //        lblFileSize.Text = string.Empty;
-                //        lblGenre.Text = string.Empty;
-                //        lblPlayCount.Text = string.Empty;
-                //        lblLastPlayed.Text = string.Empty;
+                        lblSampleRate.Content = string.Empty;
+                        lblBitrate.Content = string.Empty;
+                        lblBitsPerSample.Content = string.Empty;
+                        lblSoundFormat.Content = string.Empty;
+                        lblYear.Content = string.Empty;
+                        lblMonoStereo.Content = string.Empty;
+                        lblFileSize.Content = string.Empty;
+                        lblGenre.Content = string.Empty;
+                        lblPlayCount.Content = string.Empty;
+                        lblLastPlayed.Content = string.Empty;
                     }
                     else
                     {
@@ -510,16 +549,16 @@ namespace MPfm.WPF.Classes.Windows
                         lblSongTitle.Content = audioFile.Title;
                         lblFilePath.Content = audioFile.FilePath;
                         lblLength.Content = audioFile.Length;
-                //        lblFrequency.Text = string.Format("{0} Hz", audioFile.SampleRate);
-                //        lblBitrate.Text = string.Format("{0} kbps", audioFile.Bitrate);
-                //        lblBitsPerSample.Text = string.Format("{0} bits", audioFile.BitsPerSample);
-                //        lblSoundFormat.Text = audioFile.FileType.ToString();
-                //        lblYear.Text = audioFile.Year.ToString();
-                //        lblMonoStereo.Text = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
-                //        lblFileSize.Text = string.Format("{0} bytes", audioFile.FileSize);
-                //        lblGenre.Text = string.Format("{0}", audioFile.Genre);
-                //        lblPlayCount.Text = string.Format("{0} times played", audioFile.PlayCount);
-                //        lblLastPlayed.Text = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
+                        lblSampleRate.Content = string.Format("{0} Hz", audioFile.SampleRate);
+                        lblBitrate.Content = string.Format("{0} kbps", audioFile.Bitrate);
+                        lblBitsPerSample.Content = string.Format("{0} bits", audioFile.BitsPerSample);
+                        lblSoundFormat.Content = audioFile.FileType.ToString();
+                        lblYear.Content = audioFile.Year.ToString();
+                        lblMonoStereo.Content = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
+                        lblFileSize.Content = string.Format("{0} bytes", audioFile.FileSize);
+                        lblGenre.Content = string.Format("{0}", audioFile.Genre);
+                        lblPlayCount.Content = string.Format("{0} times played", audioFile.PlayCount);
+                        lblLastPlayed.Content = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
 
                 //        miTrayArtistName.Text = audioFile.ArtistName;
                 //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
@@ -716,18 +755,14 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    lblDetectedTempoValue.Text = entity.DetectedTempo;
-            //    lblReferenceTempoValue.Text = entity.ReferenceTempo;
-            //    lblCurrentTempoValue.Text = entity.CurrentTempo;
-            //    trackTempo.SetValueWithoutTriggeringEvent((int)entity.TimeShiftingValue);
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                lblDetectedTempo.Content = entity.DetectedTempo;
+                lblReferenceTempo.Content = entity.ReferenceTempo;
+                lblCurrentTempo.Content = entity.CurrentTempo;
+                //sliderTimeShifting.SetValueWithoutTriggeringEvent((int)entity.TimeShiftingValue);
+                sliderTimeShifting.Value = (int) entity.TimeShiftingValue;
+            }));
         }
 
         #endregion
@@ -751,12 +786,16 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                lblInterval.Content = entity.Interval;
+                lblCurrentKey.Content = entity.NewKey.Item2;
+                lblReferenceKey.Content = entity.ReferenceKey.Item2;
+                //    trackPitch.SetValueWithoutTriggeringEvent(entity.IntervalValue);
+                sliderPitchShifting.Value = (int)entity.IntervalValue;
+            }));
             //MethodInvoker methodUIUpdate = delegate
             //{
-            //    lblIntervalValue.Text = entity.Interval;
-            //    lblCurrentKeyValue.Text = entity.NewKey.Item2;
-            //    lblReferenceKeyValue.Text = entity.ReferenceKey.Item2;
-            //    trackPitch.SetValueWithoutTriggeringEvent(entity.IntervalValue);
             //};
 
             //if (InvokeRequired)

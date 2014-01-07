@@ -278,18 +278,18 @@
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>
-                                            <Slider Grid.Row="1" x:Name="sliderTimeShifting" Minimum="50" Value="100" Maximum="150" Margin="0,2,0,6" />
+                                            <Slider Grid.Row="1" x:Name="sliderTimeShifting" Minimum="50" Value="100" Maximum="150" Margin="0,2,0,6" ValueChanged="SliderTimeShifting_OnValueChanged" />
                                             <Grid Grid.Row="2" HorizontalAlignment="Center">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="36" />
                                                     <ColumnDefinition Width="36" />
                                                     <ColumnDefinition Width="36" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementTime_OnClick">
-                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                </Button>
-                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementTime_OnClick">
+                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementTime_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/minus.png" Stretch="None" />
+                                                </Button>
+                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementTime_OnClick">
+                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                                                 </Button>
                                                 <Button Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnResetTime_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
@@ -337,18 +337,18 @@
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>
-                                            <Slider Grid.Row="1" x:Name="sliderPitchShifting" Minimum="50" Value="100" Maximum="150" Margin="0,2,0,6" />
+                                            <Slider Grid.Row="1" x:Name="sliderPitchShifting" Minimum="-12" Value="0" Maximum="12" Margin="0,2,0,6" ValueChanged="SliderPitchShifting_OnValueChanged" />
                                             <Grid Grid.Row="2" HorizontalAlignment="Center">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="36" />
                                                     <ColumnDefinition Width="36" />
                                                     <ColumnDefinition Width="36" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementPitch_OnClick">
-                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                </Button>
-                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementPitch_OnClick">
+                                                <Button Grid.Column="0" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnDecrementPitch_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/minus.png" Stretch="None" />
+                                                </Button>
+                                                <Button Grid.Column="1" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnIncrementPitch_OnClick">
+                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
                                                 </Button>
                                                 <Button Grid.Column="2" Margin="0" Style="{StaticResource PlayerButton}" Width="30" Height="30" Click="BtnResetPitch_OnClick">
                                                     <Image Source="/Resources/Images/Buttons/reset.png" Stretch="None" />
