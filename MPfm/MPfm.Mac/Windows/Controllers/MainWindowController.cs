@@ -995,5 +995,25 @@ namespace MPfm.Mac
         }
 
         #endregion
+
+        public void RefreshMarkerPosition(Marker marker, int newIndex)
+        {
+        }
+
+        public System.Action<Marker> OnUpdateMarker { get; set; }
+        public System.Action<Guid> OnPunchInMarker { get; set; }
+        public System.Action<Guid> OnUndoMarker { get; set; }
+        public System.Action<Guid> OnSetActiveMarker { get; set; }
+        public System.Action<Guid, string> OnChangeMarkerName { get; set; }
+        public System.Action<Guid, float> OnChangeMarkerPosition { get; set; }
+        public System.Action<Guid, float> OnSetMarkerPosition { get; set; }
+
+        public void RefreshActiveMarker(Guid markerId)
+        {
+        }
+
+        public void RefreshMarkerPosition(Marker marker)
+        {
+        }
 	}
 }

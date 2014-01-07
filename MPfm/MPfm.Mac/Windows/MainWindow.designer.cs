@@ -845,6 +845,7 @@ namespace MPfm.Mac
 				lblNewKeyValue = null;
 			}
 		}
+
 	}
 
 	[Register ("MainWindow")]
