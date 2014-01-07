@@ -86,7 +86,10 @@ namespace MPfm.iOS.Classes.Controllers
 		{
 			var itemExists = _viewControllers.FirstOrDefault(x => x.Item1 == viewController);
 			if (itemExists != null)
+			{
+				UIView.Animate(0.2, () => itemExists.Item1.View.Alpha = 1);
 				return;
+			}
 
 			_viewControllers.Add(new Tuple<UIViewController, MobileDialogPresentationType>(viewController, presentationType));
 			UIView view = viewController.View;		

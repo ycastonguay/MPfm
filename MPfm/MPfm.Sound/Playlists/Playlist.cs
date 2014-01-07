@@ -277,19 +277,17 @@ namespace MPfm.Sound.Playlists
             UpdateCurrentItem();
         }
 
-        /// <summary>
-        /// Adds a list of _items at the end of the playlist.
-        /// </summary>
-        /// <param name="audioFiles">List of AudioFile instances</param>
-        public void AddItems(List<AudioFile> audioFiles)
+		public void AddItems(IEnumerable<AudioFile> audioFiles)
         {
             foreach (AudioFile audioFile in audioFiles)
                 AddItem(audioFile);
+			UpdateCurrentItem();
         }
 
-        public void AddItems(List<PlaylistItem> playlistItems)
+		public void AddItems(IEnumerable<PlaylistItem> playlistItems)
         {
             Items.AddRange(playlistItems);
+			UpdateCurrentItem();
         }
 
         /// <summary>
@@ -335,10 +333,6 @@ namespace MPfm.Sound.Playlists
         /// <param name="index">Index of the item to remove</param>
         public void RemoveItem(int index)
         {            
-            // Make sure the item is not playing
-            if (CurrentItemIndex == index)
-                throw new Exception("You cannot remove a playlist item which is currently playing.");
-
             Items[index].Dispose();
             Items.RemoveAt(index);
 
@@ -354,10 +348,7 @@ namespace MPfm.Sound.Playlists
         public void RemoveItems(List<Guid> playlistIds)
         {
             foreach (var playlistId in playlistIds)
-            {
-                var stuff = Items.Select(x => x.Id == playlistId).ToList();
                 Items.RemoveAll(x => x.Id == playlistId);
-            }
         }
 
         /// <summary>

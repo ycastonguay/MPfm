@@ -44,6 +44,9 @@ namespace MPfm.MVP.Services
         private readonly ICloudLibraryService _cloudLibraryService;
         private IPlayer _player;
 
+        private Playlist _currentQueue;
+        public Playlist CurrentQueue { get { return _currentQueue; } }
+
         public bool IsInitialized { get; private set; }
         public bool IsSettingPosition { get { return _player.IsSettingPosition; } }
         public bool IsPlaying { get { return _player.IsPlaying; } }
@@ -78,6 +81,7 @@ namespace MPfm.MVP.Services
             _player.OnPlaylistIndexChanged += HandleOnPlaylistIndexChanged;
             _player.OnAudioInterrupted += HandleOnAudioInterrupted;
             _player.OnBPMDetected += HandleOnBPMDetected;
+            _currentQueue = new Playlist();
             _messengerHub.Subscribe<PlayerCommandMessage>(PlayerCommandMessageReceived);
             _messengerHub.Subscribe<PlayerSetPositionMessage>(PlayerSetPositionMessageReceived);
             IsInitialized = true;
@@ -313,6 +317,15 @@ namespace MPfm.MVP.Services
                 UpdatePlayerStatus(PlayerStatusType.Playing);
 
             NotifyPlaylistUpdate();
+        }
+
+        public void PlayQueue()
+        {
+            Stop();
+            CurrentPlaylist.Clear();
+            CurrentPlaylist.AddItems(CurrentQueue.Items);
+            CurrentQueue.Clear();
+            Play();
         }
 
         public void Stop()

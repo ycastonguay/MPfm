@@ -36,17 +36,20 @@ namespace MPfm.MVP.Services.Interfaces
         bool IsSettingPosition { get; }
         bool IsPlaying { get; }
         bool IsPaused { get; }
-        bool UseFloatingPoint { get; }
-        PlaylistItem CurrentPlaylistItem { get; }
-        Playlist CurrentPlaylist { get; }
-        EQPreset EQPreset { get; }
-        RepeatType RepeatType { get; }
         bool IsEQBypassed { get; }
         bool IsEQEnabled { get; }
+        bool UseFloatingPoint { get; }
+
+        EQPreset EQPreset { get; }
+        RepeatType RepeatType { get; }
         float TimeShifting { get; }
         int PitchShifting { get; }
         float Volume { get; set; }
         PlayerStatusType Status { get; }
+
+        PlaylistItem CurrentPlaylistItem { get; }
+        Playlist CurrentPlaylist { get; }
+        Playlist CurrentQueue { get; }
 
         event PlayerService.BPMDetected OnBPMDetected;
 
@@ -56,6 +59,7 @@ namespace MPfm.MVP.Services.Interfaces
         void Play();        
         void Play(IEnumerable<string> filePaths);
         void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart);
+        void PlayQueue();
         void Stop();
         void Pause();
         void Next();

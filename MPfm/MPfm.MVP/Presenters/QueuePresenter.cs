@@ -26,6 +26,7 @@ using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
 using TinyMessenger;
+using MPfm.Core;
 
 namespace MPfm.MVP.Presenters
 {
@@ -37,14 +38,16 @@ namespace MPfm.MVP.Presenters
         readonly MobileNavigationManager _mobileNavigationManager;
         readonly ITinyMessengerHub _messageHub;
         readonly IPlayerService _playerService;
-	    private readonly ILibraryService _libraryService;
+        readonly IAudioFileCacheService _audioFileCacheService;
 
-        public QueuePresenter(ITinyMessengerHub messageHub, MobileNavigationManager mobileNavigationManager, IPlayerService playerService, ILibraryService libraryService)
+        public QueuePresenter(ITinyMessengerHub messageHub, MobileNavigationManager mobileNavigationManager, IPlayerService playerService, IAudioFileCacheService audioFileCacheService)
         {
             _messageHub = messageHub;
             _mobileNavigationManager = mobileNavigationManager;
             _playerService = playerService;
-            _libraryService = libraryService;
+            _audioFileCacheService = audioFileCacheService;
+
+            _messageHub.Subscribe<QueueUpdatedMessage>((m) => RefreshQueue());
         }
 
         public override void BindView(IQueueView view)
@@ -53,14 +56,38 @@ namespace MPfm.MVP.Presenters
 
             view.OnQueueStartPlayback = StartPlayback;
             view.OnQueueRemoveAll = RemoveAll;
+
+            RefreshQueue();
+        }
+
+        private void RefreshQueue()
+        {
+            long ms = 0;
+            var lengths = _playerService.CurrentQueue.Items.Select(x => x.AudioFile.Length);
+            foreach (string length in lengths)
+                ms += Conversion.TimeStringToMilliseconds(length);
+            string totalLength = Conversion.MillisecondsToTimeString((ulong)ms);
+            string shortTotalLength = totalLength.Substring(0, totalLength.IndexOf(".", StringComparison.Ordinal));
+            View.RefreshQueue(_playerService.CurrentQueue.Items.Count, shortTotalLength);
         }
 
         private void StartPlayback()
         {
+            try
+            {
+                _playerService.PlayQueue();
+                _mobileNavigationManager.CreatePlayerView(MobileNavigationTabType.Artists); // TODO: Damn tab type, must get rid of this
+            }
+            catch(Exception ex)
+            {
+                View.QueueError(ex);
+            }
         }
 
         private void RemoveAll()
         {
+            _playerService.CurrentQueue.Clear();
+            _messageHub.PublishAsync<QueueUpdatedMessage>(new QueueUpdatedMessage(this));
         }
 	}
 }

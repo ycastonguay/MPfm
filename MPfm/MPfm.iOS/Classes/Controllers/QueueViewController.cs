@@ -43,7 +43,7 @@ namespace MPfm.iOS
 			SetButtonColors();
 
 			lblTitle.Text = "Queue";
-			lblSubtitle.Text = "159 songs / 124:24";
+			lblSubtitle.Text = "0 songs / 0:00";
 
 			lblTitle.TextColor = UIKitHelper.ColorWithBrightness(GlobalTheme.AlternateColor1, 5f);
 			lblSubtitle.TextColor = UIColor.White;
@@ -51,11 +51,11 @@ namespace MPfm.iOS
 			lblTitle.Font = UIFont.FromName("HelveticaNeue-Light", 16);
 			lblSubtitle.Font = UIFont.FromName("HelveticaNeue", 14);
 
-			btnRemoveAll.OnButtonClick += () => {
-				UIView.Animate(0.2, () => {
-					View.Alpha = 0;
-				});
+			btnPlay.TouchUpInside += (sender, e) => {
+				OnQueueStartPlayback();
+				Close();
 			};
+			btnRemoveAll.TouchUpInside += (sender, e) => Close();
 
             base.ViewDidLoad();
 			
@@ -67,13 +67,21 @@ namespace MPfm.iOS
 		{
 			var fillColor = UIKitHelper.ColorWithBrightness(GlobalTheme.AlternateColor1, 0.825f);
 			var fillColorOn = UIColor.White.ColorWithAlpha(0.25f);
-			var strokeColor = UIKitHelper.ColorWithBrightness(GlobalTheme.AlternateColor1, 0.725f);
+			//var strokeColor = UIKitHelper.ColorWithBrightness(GlobalTheme.AlternateColor1, 0.725f);
+			var strokeColor = UIColor.White.ColorWithAlpha(0.2f);
 			var strokeColorOn = UIColor.White.ColorWithAlpha(0.45f);
 			float glyphAlpha = 0.95f;
 			float glyphAlphaOn = 1;
 
 			btnPlay.SetTheme(fillColor, strokeColor, fillColorOn, strokeColorOn, glyphAlpha, glyphAlphaOn);
 			btnRemoveAll.SetTheme(fillColor, strokeColor, fillColorOn, strokeColorOn, glyphAlpha, glyphAlphaOn);
+		}
+
+		private void Close()
+		{
+			UIView.Animate(0.2, () => {
+				View.Alpha = 0;
+			});
 		}
 
 		#region IQueueView implementation
@@ -88,6 +96,7 @@ namespace MPfm.iOS
 
 		public void RefreshQueue(int songCount, string totalLength)
 		{
+			InvokeOnMainThread(() => lblSubtitle.Text = string.Format("{0} songs / {1}", songCount, totalLength));
 		}
 
 		#endregion

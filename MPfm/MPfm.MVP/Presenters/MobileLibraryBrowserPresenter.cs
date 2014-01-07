@@ -52,7 +52,6 @@ namespace MPfm.MVP.Presenters
 	    List<LibraryBrowserEntity> _items;
 	    List<Tuple<MobileLibraryBrowserType, LibraryQuery>> _queryHistory;
         Task _currentTask;
-        IQueueView _queueView;
 
         public MobileLibraryBrowserPresenter(MobileNavigationTabType tabType, MobileLibraryBrowserType browserType, LibraryQuery query,
                                              ITinyMessengerHub messengerHub, MobileNavigationManager navigationManager, IPlayerService playerService,
@@ -189,12 +188,20 @@ namespace MPfm.MVP.Presenters
                 if(item == null)
                     return;
 
-                // TODO: Not sure if this is the best way to handle this.
-                if(_queueView == null)
+                // Add/remove audio files from queue
+                var audioFiles = _audioFileCacheService.SelectAudioFiles(item.Query);
+                foreach(var audioFile in audioFiles) 
                 {
-                    _queueView = _navigationManager.CreateQueueView();
-                    _navigationManager.PushDialogView(MobileDialogPresentationType.TabBar, "Queue", View, _queueView);
+                    int index = _playerService.CurrentQueue.Items.FindIndex(x => x.AudioFile.Id == audioFile.Id);
+                    if(index == -1)
+                        _playerService.CurrentQueue.AddItem(audioFile);
+                    else
+                        _playerService.CurrentQueue.RemoveItem(index);
                 }
+                _messengerHub.PublishAsync<QueueUpdatedMessage>(new QueueUpdatedMessage(this));
+
+                var queueView = _navigationManager.CreateQueueView();
+                _navigationManager.PushDialogView(MobileDialogPresentationType.TabBar, "Queue", View, queueView);
             }
             catch (Exception ex)
             {
@@ -231,11 +238,6 @@ namespace MPfm.MVP.Presenters
                 if(item == null)
                     return;
 
-                Action<IBaseView> onViewBindedToPresenter = (theView) => _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                    {
-                        Query = item.Query,
-                        FilePath = item.AudioFile != null ? item.AudioFile.FilePath : string.Empty
-                    });
                 _navigationManager.CreatePlayerView(_tabType);
             }
             catch (Exception ex)
@@ -320,6 +322,7 @@ namespace MPfm.MVP.Presenters
                 // ALBUMS TAB: Albums --> Songs --> Player
                 // SONGS TAB: Songs --> Player
 
+                // TODO: Add private method for generic check at start of methodd
                 var item = _items.FirstOrDefault(x => x.Id == id);
                 if(item == null)
                     return;
@@ -329,17 +332,13 @@ namespace MPfm.MVP.Presenters
                     _browserType != MobileLibraryBrowserType.Songs)
                 {
                     var browserType = (_browserType == MobileLibraryBrowserType.Artists) ? MobileLibraryBrowserType.Albums : MobileLibraryBrowserType.Songs;
-                    _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this)
-                    {
-                            Query = item.Query
-                    });
+                    _messengerHub.PublishAsync<MobileLibraryBrowserItemClickedMessage>(new MobileLibraryBrowserItemClickedMessage(this) { Query = item.Query });
 
                     // On Android, pushing new fragments on ViewPager is extremely buggy, so instead we refresh the same view with new queries. 
 #if ANDROID
                     SetQuery(browserType, _items[index].Query);
 #else
                     var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, item.Query);
-                    //_navigationManager.PushTabView(_tabType, browserType, _items[index].Query, newView);
                     _navigationManager.PushTabView(_tabType, newView);
 #endif
 

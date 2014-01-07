@@ -372,5 +372,6 @@
     <Compile Include="Views\IQueueView.cs" />
     <Compile Include="Presenters\Interfaces\IQueuePresenter.cs" />
     <Compile Include="Presenters\QueuePresenter.cs" />
+    <Compile Include="Messages\QueueUpdatedMessage.cs" />
   </ItemGroup>
 </Project>
