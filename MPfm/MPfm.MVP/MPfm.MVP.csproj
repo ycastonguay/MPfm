@@ -167,6 +167,7 @@
     <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IFirstRunPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IMobileMainPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IQueuePresenter.cs" />
     <Compile Include="Presenters\Interfaces\IStartResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Presenters\Interfaces\ISyncCloudPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISyncConnectManualPresenter.cs" />
     <Compile Include="Presenters\MobileMainPresenter.cs" />
+    <Compile Include="Presenters\QueuePresenter.cs" />
     <Compile Include="Presenters\StartResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\ResumePlaybackPresenter.cs" />
     <Compile Include="Presenters\SelectFoldersPresenter.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="Views\IAddPlaylistView.cs" />
     <Compile Include="Views\IFirstRunView.cs" />
     <Compile Include="Views\IMobileMainView.cs" />
+    <Compile Include="Views\IQueueView.cs" />
     <Compile Include="Views\IStartResumePlaybackView.cs" />
     <Compile Include="Views\IResumePlaybackView.cs" />
     <Compile Include="Views\ISelectFoldersView.cs" />
