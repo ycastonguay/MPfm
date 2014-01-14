@@ -1,4 +1,4 @@
-// Copyright � 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,10 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.GenericControls.Controls.Properties
+namespace MPfm.GenericControls.Theme
 {
-    public interface IOutputMeterProperties
+    public class GenericTheme : ITheme
     {
-        float FaderWidth { get; }
     }
 }

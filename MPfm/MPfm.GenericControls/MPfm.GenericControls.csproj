@@ -39,13 +39,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basics\BasicRectangle.cs" />
+    <Compile Include="Basics\BasicColor.cs" />
+    <Compile Include="Basics\BasicBrush.cs" />
+    <Compile Include="Basics\BasicPen.cs" />
+    <Compile Include="Basics\BasicPoint.cs" />
+    <Compile Include="Basics\BasicGradientBrush.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Controls\OutputMeterControl.cs" />
-    <Compile Include="Controls\Properties\IOutputMeterProperties.cs" />
     <Compile Include="Graphics\IGraphicsContext.cs" />
     <Compile Include="Interaction\IControlInteraction.cs" />
     <Compile Include="Interaction\IControlTouchInteraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Theme\ITheme.cs" />
+    <Compile Include="Theme\GenericTheme.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

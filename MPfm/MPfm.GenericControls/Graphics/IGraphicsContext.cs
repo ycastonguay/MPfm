@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.GenericControls.Basics;
+
 namespace MPfm.GenericControls.Graphics
 {
     public interface IGraphicsContext
@@ -22,8 +24,11 @@ namespace MPfm.GenericControls.Graphics
         float BoundsWidth { get; }
         float BoundsHeight { get; }
 
-        void DrawEllipsis();
-        void DrawRectangle();
-        void DrawLine();
+        void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
+        void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
+        void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen);
+        void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize);
+        void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize);
+        BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize);
     }
 }
