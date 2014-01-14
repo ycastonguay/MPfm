@@ -6,6 +6,7 @@
         xmlns:models="clr-namespace:MPfm.MVP.Models;assembly=MPfm.MVP"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:wc="clr-namespace:MPfm.WindowsControls;assembly=MPfm.WindowsControls"
+        xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen"
         Title="Sessions" Height="600" Width="900" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Window.Resources>
@@ -195,7 +196,7 @@
                                     <ColumnDefinition Width="170" />
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" x:Name="imageAlbum" Source="/Resources/Images/Icons/user.png" Stretch="Uniform" Width="170" Height="170" />
                                 <Grid Grid.Column="1">
@@ -427,15 +428,16 @@
                                             </Grid.RowDefinitions>
                                             <Grid Grid.Row="0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition Width="50" />
                                                 </Grid.ColumnDefinitions>
                                                 <WindowsFormsHost Grid.Column="0">
                                                     <wc:Fader x:Name="faderVolume" Minimum="0" Maximum="100" OnFaderValueChanged="FaderVolume_OnFaderValueChanged" />
                                                 </WindowsFormsHost>
-                                                <WindowsFormsHost Grid.Column="1">
+                                                <controls:OutputMeter Grid.Column="1" x:Name="outputMeter" />
+                                                <!--<WindowsFormsHost Grid.Column="1">
                                                     <wc:OutputMeter x:Name="outputMeter" />
-                                                </WindowsFormsHost>
+                                                </WindowsFormsHost>-->
                                             </Grid>
                                             <Label Grid.Row="1" x:Name="lblVolume" Content="100 %" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="White" HorizontalContentAlignment="Center" />
                                         </Grid>

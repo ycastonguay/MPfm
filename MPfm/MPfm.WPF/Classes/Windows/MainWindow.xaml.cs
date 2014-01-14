@@ -78,7 +78,7 @@ namespace MPfm.WPF.Classes.Windows
             faderVolume.Theme.FaderGradient = new BackgroundGradient(System.Drawing.Color.White, System.Drawing.Color.WhiteSmoke, LinearGradientMode.Vertical, System.Drawing.Color.Gray, 0);
             faderVolume.Theme.FaderShadowGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 188, 188, 188), System.Drawing.Color.Gainsboro, LinearGradientMode.Vertical, System.Drawing.Color.Gray, 0);
 
-            outputMeter.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
+            //outputMeter.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
 
             waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
         }
@@ -459,7 +459,7 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IPlayerView implementation
 
-        public bool IsOutputMeterEnabled { get; private set; }
+        public bool IsOutputMeterEnabled { get { return true; } }
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -672,6 +672,11 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+                outputMeter.InvalidateVisual();
+            }));
         }
 
         #endregion

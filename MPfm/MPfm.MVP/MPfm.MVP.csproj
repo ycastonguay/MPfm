@@ -146,6 +146,7 @@
     <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
     <Compile Include="Messages\PlayerSetPositionMessage.cs" />
     <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
+    <Compile Include="Messages\QueueUpdatedMessage.cs" />
     <Compile Include="Models\CloudConnectEntity.cs" />
     <Compile Include="Models\CloudPreferencesStateEntity.cs" />
     <Compile Include="Models\FolderEntity.cs" />
