@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.WindowsControls", "MPf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.Fonts", "MPfm.Fonts\MPfm.Fonts.csproj", "{26C7DCD4-92B1-4A75-BE4E-4BF34B9C5F1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.GenericControls", "MPfm.GenericControls\MPfm.GenericControls.csproj", "{F2A4E954-0439-42CF-B795-82819C9A39CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Linux|Any CPU = Debug_Linux|Any CPU
@@ -123,6 +125,18 @@ Global
 		{26C7DCD4-92B1-4A75-BE4E-4BF34B9C5F1F}.Release_MacOSX|Any CPU.Build.0 = Release|Any CPU
 		{26C7DCD4-92B1-4A75-BE4E-4BF34B9C5F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26C7DCD4-92B1-4A75-BE4E-4BF34B9C5F1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_Linux|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_Linux|Any CPU.Build.0 = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_MacOSX|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_MacOSX|Any CPU.Build.0 = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_Linux|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_Linux|Any CPU.Build.0 = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_MacOSX|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release_MacOSX|Any CPU.Build.0 = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

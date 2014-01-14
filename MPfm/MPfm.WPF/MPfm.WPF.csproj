@@ -263,6 +263,10 @@
       <Project>{26c7dcd4-92b1-4a75-be4e-4bf34b9c5f1f}</Project>
       <Name>MPfm.Fonts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.csproj">
+      <Project>{f2a4e954-0439-42cf-b795-82819c9a39cf}</Project>
+      <Name>MPfm.GenericControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
       <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
       <Name>MPfm.Library</Name>
