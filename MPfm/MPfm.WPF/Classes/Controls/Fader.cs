@@ -37,12 +37,12 @@ namespace MPfm.WPF.Classes.Controls
     /// </summary>
     public class Fader : Control
     {
-        private Color _backgroundColor1 = Colors.DarkGray;
-        private Color _backgroundColor2 = Colors.Gray;
-        private Color _faderColor1 = Colors.LightGray;
-        private Color _faderColor2 = Colors.Gray;
-        private Color _faderShadowColor1 = Colors.DarkGray;
-        private Color _faderShadowColor2 = Colors.DarkGray;
+        private Color _backgroundColor1 = Color.FromRgb(36, 47, 53);
+        private Color _backgroundColor2 = Color.FromRgb(36, 47, 53);
+        private Color _faderColor1 = Colors.White;
+        private Color _faderColor2 = Colors.WhiteSmoke;
+        private Color _faderShadowColor1 = Color.FromRgb(188, 188, 188);
+        private Color _faderShadowColor2 = Colors.Gainsboro;
         private Color _centerLineColor = Colors.Black;
         private Color _centerLineShadowColor = Colors.DarkGray;
         private Color _faderMiddleLineColor = Colors.Black;
@@ -240,12 +240,6 @@ namespace MPfm.WPF.Classes.Controls
         {
             FaderHeight = 28;
             FaderWidth = 10;
-            _backgroundColor1 = Color.FromRgb(36, 47, 53);
-            _backgroundColor2 = Color.FromRgb(36, 47, 53);
-            _faderColor1 = Colors.White;
-            _faderColor2 = Colors.WhiteSmoke;
-            _faderShadowColor1 = Color.FromRgb(188, 188, 188);
-            _faderShadowColor2 = Colors.Gainsboro;
         }
 
         protected override void OnRender(DrawingContext dc)

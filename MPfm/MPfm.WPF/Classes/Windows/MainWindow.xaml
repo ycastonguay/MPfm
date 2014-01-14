@@ -219,9 +219,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
-                                            <WindowsFormsHost Grid.Column="1">
-                                                <wc:TrackBar x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
-                                            </WindowsFormsHost>
+                                            <controls:TrackBar Grid.Column="1" x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
                                             <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
                                         </Grid>
                                     </StackPanel>

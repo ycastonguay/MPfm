@@ -25,7 +25,7 @@ using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -40,6 +40,7 @@ using MPfm.WindowsControls;
 using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace MPfm.WPF.Classes.Windows
 {
@@ -206,12 +207,12 @@ namespace MPfm.WPF.Classes.Windows
             OnSearchTerms(txtSearchTerms.Text);
         }
 
-        private void TrackPosition_OnMouseDown(object sender, MouseEventArgs e)
+        private void TrackPosition_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             _isPlayerPositionChanging = true;
         }
 
-        private void TrackPosition_OnMouseUp(object sender, MouseEventArgs e)
+        private void TrackPosition_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
             _isPlayerPositionChanging = false;
             OnPlayerSetPosition((float) trackPosition.Value / 10f);
