@@ -37,6 +37,17 @@ namespace MPfm.WPF.Classes.Controls
     /// </summary>
     public class Fader : Control
     {
+        private Color _backgroundColor1 = Colors.DarkGray;
+        private Color _backgroundColor2 = Colors.Gray;
+        private Color _faderColor1 = Colors.LightGray;
+        private Color _faderColor2 = Colors.Gray;
+        private Color _faderShadowColor1 = Colors.DarkGray;
+        private Color _faderShadowColor2 = Colors.DarkGray;
+        private Color _centerLineColor = Colors.Black;
+        private Color _centerLineShadowColor = Colors.DarkGray;
+        private Color _faderMiddleLineColor = Colors.Black;
+        private Color _faderShadowColor = Colors.DarkGray;
+
         private Rect _rectFader = new Rect();
         private bool _isTrackBarMoving = false;
         private double _trackHeight = 0;
@@ -53,22 +64,6 @@ namespace MPfm.WPF.Classes.Controls
             get
             {
                 return _mouseButtonDown;
-            }
-        }
-
-        private FaderTheme _theme = null;
-        /// <summary>
-        /// Defines the current theme used for rendering the control.
-        /// </summary>
-        public FaderTheme Theme
-        {
-            get
-            {
-                return _theme;
-            }
-            set
-            {
-                _theme = value;
             }
         }
 
@@ -243,8 +238,14 @@ namespace MPfm.WPF.Classes.Controls
         public Fader()
             : base()
         {
-            // Create default theme
-            _theme = new FaderTheme();
+            FaderHeight = 28;
+            FaderWidth = 10;
+            _backgroundColor1 = Color.FromRgb(36, 47, 53);
+            _backgroundColor2 = Color.FromRgb(36, 47, 53);
+            _faderColor1 = Colors.White;
+            _faderColor2 = Colors.WhiteSmoke;
+            _faderShadowColor1 = Color.FromRgb(188, 188, 188);
+            _faderShadowColor2 = Colors.Gainsboro;
         }
 
         protected override void OnRender(DrawingContext dc)
@@ -260,7 +261,7 @@ namespace MPfm.WPF.Classes.Controls
             _valueRelativeToValueRange = Value - Minimum;
 
             // Draw background
-            dc.DrawRectangle(new SolidColorBrush(Colors.Brown), new Pen(), new Rect(0, 0, ActualWidth, ActualHeight));
+            dc.DrawRectangle(new SolidColorBrush(_backgroundColor1), new Pen(), new Rect(0, 0, ActualWidth, ActualHeight));
 
             // Return if value range is zero
             if (_valueRange == 0)
@@ -272,18 +273,10 @@ namespace MPfm.WPF.Classes.Controls
             double trackY2 = ActualHeight - Margin;
 
             // Draw shadow track
-            dc.DrawLine(new Pen(new SolidColorBrush(Colors.Chartreuse), 1), new Point(trackX + 1, trackY + 1), new Point(trackX + 1, trackY2 + 1));
-            //    pen = new Pen(theme.CenterLineShadowColor);
-            //    g.DrawLine(pen, new PointF(trackX + 1, trackY + 1), new PointF(trackX + 1, trackY2 + 1));
-            //    pen.Dispose();
-            //    pen = null;
+            dc.DrawLine(new Pen(new SolidColorBrush(_centerLineShadowColor), 1), new Point(trackX + 1, trackY + 1), new Point(trackX + 1, trackY2 + 1));
 
             // Draw track
-            dc.DrawLine(new Pen(new SolidColorBrush(Colors.BurlyWood), 1), new Point(trackX, trackY), new Point(trackX, trackY2));
-            //    pen = new Pen(theme.CenterLineColor);
-            //    g.DrawLine(pen, new PointF(trackX, trackY), new PointF(trackX, trackY2));
-            //    pen.Dispose();
-            //    pen = null;
+            dc.DrawLine(new Pen(new SolidColorBrush(_centerLineColor), 1), new Point(trackX, trackY), new Point(trackX, trackY2));
 
             // Get the track height (remove margin from top and bottom)            
             _trackHeight = ActualHeight - (Margin * 2);
@@ -314,15 +307,9 @@ namespace MPfm.WPF.Classes.Controls
             var rectFaderShadowBottom = new Rect((ActualWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 8 + 1, FaderWidth, 8);
             var rectFaderShadowCenter = new Rect((ActualWidth / 2) - (FaderWidth / 2) + 1, faderY + 4 + 1, FaderWidth, FaderHeight - 8);
 
-            dc.DrawEllipse(Brushes.DarkViolet, new Pen(), rectFaderShadowTop.Center(), rectFaderShadowTop.Width / 2, rectFaderShadowTop.Height / 2);
-            dc.DrawEllipse(Brushes.Orange, new Pen(), rectFaderShadowBottom.Center(), rectFaderShadowBottom.Width / 2, rectFaderShadowBottom.Height / 2);
-            dc.DrawRectangle(Brushes.ForestGreen, new Pen(), rectFaderShadowCenter);
-            //    brush = new SolidBrush(theme.FaderShadowColor);
-            //    g.FillEllipse(brush, rectFaderShadowTop);
-            //    g.FillEllipse(brush, rectFaderShadowBottom);
-            //    g.FillRectangle(brush, rectFaderShadowCenter);
-            //    brush.Dispose();
-            //    brush = null;
+            dc.DrawEllipse(new SolidColorBrush(_faderShadowColor), new Pen(), rectFaderShadowTop.Center(), rectFaderShadowTop.Width / 2, rectFaderShadowTop.Height / 2);
+            dc.DrawEllipse(new SolidColorBrush(_faderShadowColor), new Pen(), rectFaderShadowBottom.Center(), rectFaderShadowBottom.Width / 2, rectFaderShadowBottom.Height / 2);
+            dc.DrawRectangle(new SolidColorBrush(_faderShadowColor), new Pen(), rectFaderShadowCenter);
 
             // Draw fader outline (with 8px border)            
             var rectFaderTop = new Rect((ActualWidth / 2) - (FaderWidth / 2), faderY, FaderWidth, 8);
@@ -330,92 +317,33 @@ namespace MPfm.WPF.Classes.Controls
             var rectFaderBottomCenter = new Rect((ActualWidth / 2) - (FaderWidth / 2), faderY + FaderHeight - 10, FaderWidth, 6);
             var rectFaderCenter = new Rect((ActualWidth / 2) - (FaderWidth / 2), faderY + 4, FaderWidth, FaderHeight - 8);
 
-            dc.DrawEllipse(new LinearGradientBrush(Colors.CadetBlue, Colors.DarkBlue, 90), new Pen(), rectFaderTop.Center(), rectFaderTop.Width / 2, rectFaderTop.Height / 2);
-            //    brushGradient = new LinearGradientBrush(rectFaderTop, theme.FaderGradient.Color1, theme.FaderGradient.Color2, theme.FaderGradient.GradientMode);
-            //    g.FillEllipse(brushGradient, rectFaderTop);
-            //    brushGradient.Dispose();
-            //    brushGradient = null;
-
-            dc.DrawEllipse(new SolidColorBrush(Colors.DarkGoldenrod), new Pen(), rectFaderBottom.Center(), rectFaderBottom.Width / 2, rectFaderBottom.Height / 2);
-            //    brush = new SolidBrush(theme.FaderShadowGradient.Color1);
-            //    g.FillEllipse(brush, rectFaderBottom);
-            //    brush.Dispose();
-            //    brush = null;
-
-            dc.DrawRectangle(new SolidColorBrush(Colors.DarkKhaki), new Pen(), rectFaderCenter);
-            //    brush = new SolidBrush(theme.FaderGradient.Color2);
-            //    g.FillRectangle(brush, rectFaderCenter);
-            //    brush.Dispose();
-            //    brush = null;
-
-            dc.DrawRectangle(new SolidColorBrush(Colors.DarkMagenta), new Pen(), rectFaderBottomCenter);
-            //    brush = new SolidBrush(theme.FaderShadowGradient.Color1);
-            //    g.FillRectangle(brush, rectFaderBottomCenter);
-            //    brush.Dispose();
-            //    brush = null;
+            dc.DrawEllipse(new LinearGradientBrush(_faderColor1, _faderColor2, 90), new Pen(), rectFaderTop.Center(), rectFaderTop.Width / 2, rectFaderTop.Height / 2);
+            dc.DrawEllipse(new SolidColorBrush(_faderShadowColor1), new Pen(), rectFaderBottom.Center(), rectFaderBottom.Width / 2, rectFaderBottom.Height / 2);
+            dc.DrawRectangle(new SolidColorBrush(_faderColor2), new Pen(), rectFaderCenter);
+            dc.DrawRectangle(new SolidColorBrush(_faderShadowColor1), new Pen(), rectFaderBottomCenter);
 
             // Draw fader inside (with 4px border)
             var rectFaderInsideBottom = new Rect((ActualWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 8, FaderWidth - 2, 4);
             var rectFaderInsideBottomCenter = new Rect((ActualWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 12, FaderWidth - 2, FaderHeight - 24);
-
             var rectFaderInsideTop = new Rect((ActualWidth / 2) - (FaderWidth / 2) + 1, faderY + 4, FaderWidth - 2, 8);
             var rectFaderInsideTopCenter = new Rect((ActualWidth / 2) - (FaderWidth / 2) + 1, faderY + 8, FaderWidth - 2, FaderHeight - 24);
 
-            dc.DrawEllipse(new SolidColorBrush(Colors.DodgerBlue), new Pen(), rectFaderInsideTop.Center(), rectFaderInsideTop.Width / 2, rectFaderInsideTop.Height / 2);
-            //    brush = new SolidBrush(theme.FaderShadowGradient.Color1);
-            //    g.FillEllipse(brush, rectFaderInsideTop);
-            //    brush.Dispose();
-            //    brush = null;
-
-            dc.DrawEllipse(new LinearGradientBrush(Colors.FloralWhite, Colors.Gold, 90), new Pen(), rectFaderInsideTopCenter.Center(), rectFaderInsideTopCenter.Width / 2, rectFaderInsideTopCenter.Height / 2);
-            //    brushGradient = new LinearGradientBrush(rectFaderInsideTopCenter, theme.FaderShadowGradient.Color1, theme.FaderShadowGradient.Color2, LinearGradientMode.Vertical);
-            //    g.FillRectangle(brushGradient, rectFaderInsideTopCenter);
-            //    brushGradient.Dispose();
-            //    brushGradient = null;
-
-            dc.DrawEllipse(new SolidColorBrush(Colors.Peru), new Pen(), rectFaderInsideBottom.Center(), rectFaderInsideBottom.Width / 2, rectFaderInsideBottom.Height / 2);
-            //    brush = new SolidBrush(theme.FaderGradient.Color2);
-            //    g.FillEllipse(brush, rectFaderInsideBottom);
-            //    brush.Dispose();
-            //    brush = null;
-
-            dc.DrawRectangle(new SolidColorBrush(Colors.PowderBlue), new Pen(), rectFaderInsideBottomCenter);
-            //    brush = new SolidBrush(theme.FaderGradient.Color2);
-            //    g.FillRectangle(brush, rectFaderInsideBottomCenter);
-            //    brush.Dispose();
-            //    brush = null;
-
-            dc.DrawLine(new Pen(Brushes.Firebrick, 1), new Point((ActualWidth / 2) - (FaderWidth / 2), tickCenterY), new Point((ActualWidth / 2) - (FaderWidth / 2) + FaderWidth, tickCenterY));
-            //    // Draw center of fader
-            //    pen = new Pen(theme.FaderMiddleLineColor);
-            //    //g.DrawLine(pen, new PointF(tickCenterX, (Height / 2) - (FaderHeight / 2)), new PointF(tickCenterX, (Height / 2) - (FaderHeight / 2) + FaderHeight));
-            //    g.DrawLine(pen, new PointF((Width / 2) - (FaderWidth / 2), tickCenterY), new PointF((Width / 2) - (FaderWidth / 2) + FaderWidth, tickCenterY));
-            //    pen.Dispose();
-            //    pen = null;
-
-            //    // Draw bitmap on control
-            //    pe.Graphics.DrawImage(bmp, 0, 0, ClientRectangle, GraphicsUnit.Pixel);
-
-            //    // Dispose graphics and bitmap
-            //    bmp.Dispose();
-            //    bmp = null;
-            //    g.Dispose();
-            //    g = null;
-
-            //    base.OnPaint(pe);
-            //}
+            dc.DrawEllipse(new SolidColorBrush(_faderShadowColor1), new Pen(), rectFaderInsideTop.Center(), rectFaderInsideTop.Width / 2, rectFaderInsideTop.Height / 2);
+            dc.DrawEllipse(new LinearGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new Pen(), rectFaderInsideTopCenter.Center(), rectFaderInsideTopCenter.Width / 2, rectFaderInsideTopCenter.Height / 2);
+            dc.DrawEllipse(new SolidColorBrush(_faderColor2), new Pen(), rectFaderInsideBottom.Center(), rectFaderInsideBottom.Width / 2, rectFaderInsideBottom.Height / 2);
+            dc.DrawRectangle(new SolidColorBrush(_faderColor2), new Pen(), rectFaderInsideBottomCenter);
+            dc.DrawLine(new Pen(new SolidColorBrush(_faderMiddleLineColor), 1), new Point((ActualWidth / 2) - (FaderWidth / 2), tickCenterY), new Point((ActualWidth / 2) - (FaderWidth / 2) + FaderWidth, tickCenterY));
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            _mouseButtonDown = true;
-
             // Make sure the mouse button pressed was the left mouse button
+            _mouseButtonDown = true;
+            CaptureMouse();
             if (e.ChangedButton == MouseButton.Left)
             {
-                var location = e.GetPosition(this);
-
                 // Check if the user clicked in the fader area
+                var location = e.GetPosition(this);
                 if (location.X >= _rectFader.X &&
                     location.X <= _rectFader.Width + _rectFader.X &&
                     location.Y >= _rectFader.Y &&
@@ -431,6 +359,7 @@ namespace MPfm.WPF.Classes.Controls
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             // Check if the track bar was moving (mouse down)
+            ReleaseMouseCapture();
             if (!_isTrackBarMoving)
             {
                 var location = e.GetPosition(this);
