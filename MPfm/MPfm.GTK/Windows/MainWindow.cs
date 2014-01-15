@@ -71,6 +71,7 @@ namespace MPfm.GTK.Windows
             InitializeMarkers();
 
             _outputMeter = new OutputMeter();
+            _outputMeter.WidthRequest = 50;
             hboxVolume.Add(_outputMeter);
             _outputMeter.Show();
 
@@ -903,13 +904,13 @@ namespace MPfm.GTK.Windows
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
-//            if (_outputMeter == null)
-//                return;
-//
-//            Gtk.Application.Invoke(delegate{            
-//                //_outputMeter.AddWaveDataBlock(dataLeft, dataRight);
-//                //_outputMeter.QueueDraw();
-//            });
+            if (_outputMeter == null)
+                return;
+
+            Gtk.Application.Invoke(delegate{            
+                _outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+                _outputMeter.QueueDraw();
+            });
         }
 
         public void RefreshActiveMarker(Guid markerId)

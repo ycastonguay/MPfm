@@ -38,7 +38,5 @@ namespace MPfm.GTK.Helpers
         {
             return new Color(color.R, color.G, color.B);
         }
-
-        // No brushes/pens in iOS, using colors directly with CoreGraphicsHelper class
     }
 }

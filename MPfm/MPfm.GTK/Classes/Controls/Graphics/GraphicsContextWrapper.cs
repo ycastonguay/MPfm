@@ -46,15 +46,14 @@ namespace MPfm.GTK.Classes.Controls.Graphics
 
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
-            _context.SetSourceRGB(brush.Color.R, brush.Color.G, brush.Color.B);
+            _context.SetSourceRGB(brush.Color.R / 255f, brush.Color.G / 255f, brush.Color.B / 255f);
             _context.Rectangle(GenericControlHelper.ToRect(rectangle));
-            //cr.Clip();
             _context.Fill();
         }
 
         public void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen)
         {
-            _context.SetSourceRGB(pen.Brush.Color.R, pen.Brush.Color.G, pen.Brush.Color.B);
+            _context.SetSourceRGB(pen.Brush.Color.R / 255f, pen.Brush.Color.G / 255f, pen.Brush.Color.B / 255f);
             _context.LineTo(point.X, point.Y);
             _context.LineTo(point2.X, point2.Y);
             _context.LineWidth = pen.Thickness;
@@ -63,7 +62,7 @@ namespace MPfm.GTK.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
-            _context.SetSourceRGB(color.R, color.G, color.B);
+            _context.SetSourceRGB(color.R / 255f, color.G / 255f, color.B / 255f);
             _context.SelectFontFace(fontFace, FontSlant.Normal, FontWeight.Normal);
             _context.SetFontSize(fontSize);
             _context.MoveTo(point.X, point.Y);
@@ -77,8 +76,8 @@ namespace MPfm.GTK.Classes.Controls.Graphics
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
         {
-            throw new NotImplementedException();
-            //return new BasicRectangle(0, 0, 30, 20);
+            //throw new NotImplementedException();
+            return new BasicRectangle(0, 0, 30, 20);
         }
     }
 }

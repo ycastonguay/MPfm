@@ -51,8 +51,8 @@ namespace MPfm.GTK.Classes.Controls
         protected override bool OnExposeEvent(Gdk.EventExpose args)
         {
             Cairo.Context cr = Gdk.CairoHelper.Create(GdkWindow);
-            //var wrapper = new GraphicsContextWrapper(cr, Allocation.Width, Allocation.Height);
-            //_control.Render(wrapper);
+            var wrapper = new GraphicsContextWrapper(cr, Allocation.Width, Allocation.Height);
+            _control.Render(wrapper);
 
 //            int width, height;
 //            width = Allocation.Width;
