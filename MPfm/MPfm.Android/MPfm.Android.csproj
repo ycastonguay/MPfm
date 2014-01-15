@@ -115,6 +115,8 @@
     <Compile Include="Classes\Cache\AsyncBitmapDrawable.cs" />
     <Compile Include="Classes\Clients\MyWebViewClient.cs" />
     <Compile Include="Classes\Controls\CustomListView.cs" />
+    <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
     <Compile Include="Classes\Controls\SquareImageView.cs" />
     <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
     <Compile Include="Classes\Controls\OutputMeterView.cs" />
