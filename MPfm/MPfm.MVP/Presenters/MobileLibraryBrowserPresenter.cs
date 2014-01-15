@@ -340,7 +340,7 @@ namespace MPfm.MVP.Presenters
 
                     // On Android, pushing new fragments on ViewPager is extremely buggy, so instead we refresh the same view with new queries. 
 #if ANDROID
-                    SetQuery(browserType, _items[index].Query);
+                    SetQuery(browserType, item.Query);
 #else
                     var newView = _navigationManager.CreateMobileLibraryBrowserView(_tabType, browserType, item.Query);
                     _navigationManager.PushTabView(_tabType, newView);

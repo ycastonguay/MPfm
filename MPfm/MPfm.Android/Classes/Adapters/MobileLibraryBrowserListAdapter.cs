@@ -300,7 +300,7 @@ namespace MPfm.Android.Classes.Adapters
                     break;
                 case Resource.Id.mobileLibraryBrowserCell_imagePlay:
                     Console.WriteLine("MLBLA - PLAY - position: {0}", position);
-                    _fragment.OnPlayItem(position);
+                    _fragment.OnPlayItem(_items[position].Id);
                     break;
                 case Resource.Id.mobileLibraryBrowserCell_imageDelete:
                     Console.WriteLine("MLBLA - DELETE - position: {0}", position);
@@ -309,7 +309,7 @@ namespace MPfm.Android.Classes.Adapters
                         .SetTitle("Delete confirmation")
                         .SetMessage(string.Format("Are you sure you wish to delete {0}?", _items[position].Title))
                         .SetCancelable(true)
-                        .SetPositiveButton("OK", (sender, args) => _fragment.OnDeleteItem(position))
+                        .SetPositiveButton("OK", (sender, args) => _fragment.OnDeleteItem(_items[position].Id))
                         .SetNegativeButton("Cancel", (sender, args) => {})
                         .Create();
                     ad.Show();
