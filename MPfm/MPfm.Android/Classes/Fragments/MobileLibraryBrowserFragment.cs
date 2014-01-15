@@ -134,7 +134,7 @@ namespace MPfm.Android.Classes.Fragments
 
         private void ListViewOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
-            OnItemClick(itemClickEventArgs.Position);
+            OnItemClick(_entities[itemClickEventArgs.Position].Id);
         }
 
         private void ListViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
@@ -150,7 +150,7 @@ namespace MPfm.Android.Classes.Fragments
             var gridAdapter = (MobileLibraryBrowserGridAdapter)((GridView)sender).Adapter;
             gridAdapter.ResetEditingRow();
 
-            OnItemClick(itemClickEventArgs.Position);
+            OnItemClick(_entities[itemClickEventArgs.Position].Id);
         }
 
         private void GridViewOnItemLongClick(object sender, AdapterView.ItemLongClickEventArgs itemLongClickEventArgs)
@@ -206,16 +206,17 @@ namespace MPfm.Android.Classes.Fragments
 
         public void AddItemToPlaylist(int position)
         {
-            OnAddItemToPlaylist(position);
+            OnAddItemToPlaylist(_entities[position].Id);
         }
 
         #region IMobileLibraryBrowserView implementation
 
         public Action<MobileLibraryBrowserType> OnChangeBrowserType { get; set; }
-        public Action<int> OnItemClick { get; set; }
-        public Action<int> OnDeleteItem { get; set; }
-        public Action<int> OnPlayItem { get; set; }
-        public Action<int> OnAddItemToPlaylist { get; set; }
+        public Action<Guid> OnItemClick { get; set; }
+        public Action<Guid> OnDeleteItem { get; set; }
+        public Action<Guid> OnPlayItem { get; set; }
+        public Action<Guid> OnAddItemToPlaylist { get; set; }
+        public Action<Guid> OnAddRemoveItemQueue { get; set; }
         public Action<string, string, object> OnRequestAlbumArt { get; set; }
         public Func<string, string, byte[]> OnRequestAlbumArtSynchronously { get; set; }
 
@@ -310,6 +311,10 @@ namespace MPfm.Android.Classes.Fragments
                         break;
                 }
             });
+        }
+
+        public void RefreshCurrentlyPlayingSong(Guid id, AudioFile audioFile)
+        {
         }
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)

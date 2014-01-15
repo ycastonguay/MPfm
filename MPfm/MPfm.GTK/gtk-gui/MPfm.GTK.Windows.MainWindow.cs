@@ -88,6 +88,7 @@ namespace MPfm.GTK.Windows
 		private global::Gtk.Label lblTimeShiftingValue;
 		private global::Gtk.VBox vbox9;
 		private global::Gtk.Label lblVolume;
+		private global::Gtk.HBox hboxVolume;
 		private global::Gtk.VScale vscaleVolume;
 		private global::Gtk.Label lblCurrentVolume;
 		private global::Gtk.VPaned vpanedLoopsMarkersSongBrowser;
@@ -689,6 +690,10 @@ namespace MPfm.GTK.Windows
 			w46.Expand = false;
 			w46.Fill = false;
 			// Container child vbox9.Gtk.Box+BoxChild
+			this.hboxVolume = new global::Gtk.HBox ();
+			this.hboxVolume.Name = "hboxVolume";
+			this.hboxVolume.Spacing = 6;
+			// Container child hboxVolume.Gtk.Box+BoxChild
 			this.vscaleVolume = new global::Gtk.VScale (null);
 			this.vscaleVolume.TooltipMarkup = "Changes the playback volume (in percentage).";
 			this.vscaleVolume.CanFocus = true;
@@ -701,34 +706,39 @@ namespace MPfm.GTK.Windows
 			this.vscaleVolume.DrawValue = false;
 			this.vscaleVolume.Digits = 0;
 			this.vscaleVolume.ValuePos = ((global::Gtk.PositionType)(3));
-			this.vbox9.Add (this.vscaleVolume);
-			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.vscaleVolume]));
-			w47.Position = 1;
+			this.hboxVolume.Add (this.vscaleVolume);
+			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.hboxVolume [this.vscaleVolume]));
+			w47.Position = 0;
+			w47.Expand = false;
+			w47.Fill = false;
+			this.vbox9.Add (this.hboxVolume);
+			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.hboxVolume]));
+			w48.Position = 1;
 			// Container child vbox9.Gtk.Box+BoxChild
 			this.lblCurrentVolume = new global::Gtk.Label ();
 			this.lblCurrentVolume.Name = "lblCurrentVolume";
 			this.lblCurrentVolume.LabelProp = global::Mono.Unix.Catalog.GetString ("100 %");
 			this.vbox9.Add (this.lblCurrentVolume);
-			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.lblCurrentVolume]));
-			w48.Position = 2;
-			w48.Expand = false;
-			w48.Fill = false;
-			this.hbox4.Add (this.vbox9);
-			global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox9]));
-			w49.PackType = ((global::Gtk.PackType)(1));
+			global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.vbox9 [this.lblCurrentVolume]));
 			w49.Position = 2;
 			w49.Expand = false;
 			w49.Fill = false;
-			this.vboxCurrentSong.Add (this.hbox4);
-			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.vboxCurrentSong [this.hbox4]));
-			w50.Position = 1;
+			this.hbox4.Add (this.vbox9);
+			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.vbox9]));
+			w50.PackType = ((global::Gtk.PackType)(1));
+			w50.Position = 2;
 			w50.Expand = false;
 			w50.Fill = false;
-			this.vboxRight.Add (this.vboxCurrentSong);
-			global::Gtk.Box.BoxChild w51 = ((global::Gtk.Box.BoxChild)(this.vboxRight [this.vboxCurrentSong]));
-			w51.Position = 0;
+			this.vboxCurrentSong.Add (this.hbox4);
+			global::Gtk.Box.BoxChild w51 = ((global::Gtk.Box.BoxChild)(this.vboxCurrentSong [this.hbox4]));
+			w51.Position = 1;
 			w51.Expand = false;
 			w51.Fill = false;
+			this.vboxRight.Add (this.vboxCurrentSong);
+			global::Gtk.Box.BoxChild w52 = ((global::Gtk.Box.BoxChild)(this.vboxRight [this.vboxCurrentSong]));
+			w52.Position = 0;
+			w52.Expand = false;
+			w52.Fill = false;
 			// Container child vboxRight.Gtk.Box+BoxChild
 			this.vpanedLoopsMarkersSongBrowser = new global::Gtk.VPaned ();
 			this.vpanedLoopsMarkersSongBrowser.CanFocus = true;
@@ -752,10 +762,10 @@ namespace MPfm.GTK.Windows
 			this.lblLoops.Xalign = 0F;
 			this.lblLoops.LabelProp = global::Mono.Unix.Catalog.GetString ("Loops");
 			this.hbox8.Add (this.lblLoops);
-			global::Gtk.Box.BoxChild w52 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.lblLoops]));
-			w52.Position = 0;
-			w52.Expand = false;
-			w52.Fill = false;
+			global::Gtk.Box.BoxChild w53 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.lblLoops]));
+			w53.Position = 0;
+			w53.Expand = false;
+			w53.Fill = false;
 			// Container child hbox8.Gtk.Box+BoxChild
 			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarLoops'><toolitem name='actionPlayLoop' action='actionPlayLoop'/><toolitem name='editAction' action='editAction'/><toolitem name='addAction' action='addAction'/><toolitem name='actionRemoveLoop' action='actionRemoveLoop'/></toolbar></ui>");
 			this.toolbarLoops = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarLoops")));
@@ -764,13 +774,13 @@ namespace MPfm.GTK.Windows
 			this.toolbarLoops.ToolbarStyle = ((global::Gtk.ToolbarStyle)(0));
 			this.toolbarLoops.IconSize = ((global::Gtk.IconSize)(1));
 			this.hbox8.Add (this.toolbarLoops);
-			global::Gtk.Box.BoxChild w53 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.toolbarLoops]));
-			w53.Position = 1;
+			global::Gtk.Box.BoxChild w54 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.toolbarLoops]));
+			w54.Position = 1;
 			this.vboxLoops.Add (this.hbox8);
-			global::Gtk.Box.BoxChild w54 = ((global::Gtk.Box.BoxChild)(this.vboxLoops [this.hbox8]));
-			w54.Position = 0;
-			w54.Expand = false;
-			w54.Fill = false;
+			global::Gtk.Box.BoxChild w55 = ((global::Gtk.Box.BoxChild)(this.vboxLoops [this.hbox8]));
+			w55.Position = 0;
+			w55.Expand = false;
+			w55.Fill = false;
 			// Container child vboxLoops.Gtk.Box+BoxChild
 			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
@@ -781,11 +791,11 @@ namespace MPfm.GTK.Windows
 			this.treeLoops.Name = "treeLoops";
 			this.GtkScrolledWindow2.Add (this.treeLoops);
 			this.vboxLoops.Add (this.GtkScrolledWindow2);
-			global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.vboxLoops [this.GtkScrolledWindow2]));
-			w56.Position = 1;
+			global::Gtk.Box.BoxChild w57 = ((global::Gtk.Box.BoxChild)(this.vboxLoops [this.GtkScrolledWindow2]));
+			w57.Position = 1;
 			this.hpanedLoopsMarkers.Add (this.vboxLoops);
-			global::Gtk.Paned.PanedChild w57 = ((global::Gtk.Paned.PanedChild)(this.hpanedLoopsMarkers [this.vboxLoops]));
-			w57.Resize = false;
+			global::Gtk.Paned.PanedChild w58 = ((global::Gtk.Paned.PanedChild)(this.hpanedLoopsMarkers [this.vboxLoops]));
+			w58.Resize = false;
 			// Container child hpanedLoopsMarkers.Gtk.Paned+PanedChild
 			this.vboxLoops1 = new global::Gtk.VBox ();
 			this.vboxLoops1.Name = "vboxLoops1";
@@ -799,10 +809,10 @@ namespace MPfm.GTK.Windows
 			this.lblMarkers.Xalign = 0F;
 			this.lblMarkers.LabelProp = global::Mono.Unix.Catalog.GetString ("Markers");
 			this.hbox9.Add (this.lblMarkers);
-			global::Gtk.Box.BoxChild w58 = ((global::Gtk.Box.BoxChild)(this.hbox9 [this.lblMarkers]));
-			w58.Position = 0;
-			w58.Expand = false;
-			w58.Fill = false;
+			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.hbox9 [this.lblMarkers]));
+			w59.Position = 0;
+			w59.Expand = false;
+			w59.Fill = false;
 			// Container child hbox9.Gtk.Box+BoxChild
 			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMarkers'><toolitem name='actionGoToMarker' action='actionGoToMarker'/><toolitem name='actionAddMarker' action='actionAddMarker'/><toolitem name='actionEditMarker' action='actionEditMarker'/><toolitem name='actionRemoveMarker' action='actionRemoveMarker'/></toolbar></ui>");
 			this.toolbarMarkers = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMarkers")));
@@ -811,13 +821,13 @@ namespace MPfm.GTK.Windows
 			this.toolbarMarkers.ToolbarStyle = ((global::Gtk.ToolbarStyle)(0));
 			this.toolbarMarkers.IconSize = ((global::Gtk.IconSize)(1));
 			this.hbox9.Add (this.toolbarMarkers);
-			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.hbox9 [this.toolbarMarkers]));
-			w59.Position = 1;
+			global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.hbox9 [this.toolbarMarkers]));
+			w60.Position = 1;
 			this.vboxLoops1.Add (this.hbox9);
-			global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.vboxLoops1 [this.hbox9]));
-			w60.Position = 0;
-			w60.Expand = false;
-			w60.Fill = false;
+			global::Gtk.Box.BoxChild w61 = ((global::Gtk.Box.BoxChild)(this.vboxLoops1 [this.hbox9]));
+			w61.Position = 0;
+			w61.Expand = false;
+			w61.Fill = false;
 			// Container child vboxLoops1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow3 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow3.Name = "GtkScrolledWindow3";
@@ -828,12 +838,12 @@ namespace MPfm.GTK.Windows
 			this.treeMarkers.Name = "treeMarkers";
 			this.GtkScrolledWindow3.Add (this.treeMarkers);
 			this.vboxLoops1.Add (this.GtkScrolledWindow3);
-			global::Gtk.Box.BoxChild w62 = ((global::Gtk.Box.BoxChild)(this.vboxLoops1 [this.GtkScrolledWindow3]));
-			w62.Position = 1;
+			global::Gtk.Box.BoxChild w63 = ((global::Gtk.Box.BoxChild)(this.vboxLoops1 [this.GtkScrolledWindow3]));
+			w63.Position = 1;
 			this.hpanedLoopsMarkers.Add (this.vboxLoops1);
 			this.vpanedLoopsMarkersSongBrowser.Add (this.hpanedLoopsMarkers);
-			global::Gtk.Paned.PanedChild w64 = ((global::Gtk.Paned.PanedChild)(this.vpanedLoopsMarkersSongBrowser [this.hpanedLoopsMarkers]));
-			w64.Resize = false;
+			global::Gtk.Paned.PanedChild w65 = ((global::Gtk.Paned.PanedChild)(this.vpanedLoopsMarkersSongBrowser [this.hpanedLoopsMarkers]));
+			w65.Resize = false;
 			// Container child vpanedLoopsMarkersSongBrowser.Gtk.Paned+PanedChild
 			this.vboxSongBrowser = new global::Gtk.VBox ();
 			this.vboxSongBrowser.Name = "vboxSongBrowser";
@@ -847,18 +857,18 @@ namespace MPfm.GTK.Windows
 			this.lblSongBrowser.Xalign = 0F;
 			this.lblSongBrowser.LabelProp = global::Mono.Unix.Catalog.GetString ("Song Browser");
 			this.hbox10.Add (this.lblSongBrowser);
-			global::Gtk.Box.BoxChild w65 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.lblSongBrowser]));
-			w65.Position = 0;
-			w65.Expand = false;
-			w65.Fill = false;
+			global::Gtk.Box.BoxChild w66 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.lblSongBrowser]));
+			w66.Position = 0;
+			w66.Expand = false;
+			w66.Fill = false;
 			// Container child hbox10.Gtk.Box+BoxChild
 			this.lblSearchFor = new global::Gtk.Label ();
 			this.lblSearchFor.Name = "lblSearchFor";
 			this.lblSearchFor.Xalign = 1F;
 			this.lblSearchFor.LabelProp = global::Mono.Unix.Catalog.GetString ("Search for:");
 			this.hbox10.Add (this.lblSearchFor);
-			global::Gtk.Box.BoxChild w66 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.lblSearchFor]));
-			w66.Position = 1;
+			global::Gtk.Box.BoxChild w67 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.lblSearchFor]));
+			w67.Position = 1;
 			// Container child hbox10.Gtk.Box+BoxChild
 			this.txtSearch = new global::Gtk.Entry ();
 			this.txtSearch.CanFocus = true;
@@ -866,13 +876,13 @@ namespace MPfm.GTK.Windows
 			this.txtSearch.IsEditable = true;
 			this.txtSearch.InvisibleChar = '•';
 			this.hbox10.Add (this.txtSearch);
-			global::Gtk.Box.BoxChild w67 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.txtSearch]));
-			w67.Position = 2;
+			global::Gtk.Box.BoxChild w68 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.txtSearch]));
+			w68.Position = 2;
 			this.vboxSongBrowser.Add (this.hbox10);
-			global::Gtk.Box.BoxChild w68 = ((global::Gtk.Box.BoxChild)(this.vboxSongBrowser [this.hbox10]));
-			w68.Position = 0;
-			w68.Expand = false;
-			w68.Fill = false;
+			global::Gtk.Box.BoxChild w69 = ((global::Gtk.Box.BoxChild)(this.vboxSongBrowser [this.hbox10]));
+			w69.Position = 0;
+			w69.Expand = false;
+			w69.Fill = false;
 			// Container child vboxSongBrowser.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -883,34 +893,34 @@ namespace MPfm.GTK.Windows
 			this.treeSongBrowser.Name = "treeSongBrowser";
 			this.GtkScrolledWindow.Add (this.treeSongBrowser);
 			this.vboxSongBrowser.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w70 = ((global::Gtk.Box.BoxChild)(this.vboxSongBrowser [this.GtkScrolledWindow]));
-			w70.Position = 1;
+			global::Gtk.Box.BoxChild w71 = ((global::Gtk.Box.BoxChild)(this.vboxSongBrowser [this.GtkScrolledWindow]));
+			w71.Position = 1;
 			this.vpanedLoopsMarkersSongBrowser.Add (this.vboxSongBrowser);
 			this.vboxRight.Add (this.vpanedLoopsMarkersSongBrowser);
-			global::Gtk.Box.BoxChild w72 = ((global::Gtk.Box.BoxChild)(this.vboxRight [this.vpanedLoopsMarkersSongBrowser]));
-			w72.Position = 1;
+			global::Gtk.Box.BoxChild w73 = ((global::Gtk.Box.BoxChild)(this.vboxRight [this.vpanedLoopsMarkersSongBrowser]));
+			w73.Position = 1;
 			// Container child vboxRight.Gtk.Box+BoxChild
 			this.fixed2 = new global::Gtk.Fixed ();
 			this.fixed2.Name = "fixed2";
 			this.fixed2.HasWindow = false;
 			this.vboxRight.Add (this.fixed2);
-			global::Gtk.Box.BoxChild w73 = ((global::Gtk.Box.BoxChild)(this.vboxRight [this.fixed2]));
-			w73.Position = 3;
-			w73.Expand = false;
-			w73.Fill = false;
+			global::Gtk.Box.BoxChild w74 = ((global::Gtk.Box.BoxChild)(this.vboxRight [this.fixed2]));
+			w74.Position = 3;
+			w74.Expand = false;
+			w74.Fill = false;
 			this.hpanedMain.Add (this.vboxRight);
 			this.vboxMain.Add (this.hpanedMain);
-			global::Gtk.Box.BoxChild w75 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hpanedMain]));
-			w75.Position = 2;
+			global::Gtk.Box.BoxChild w76 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hpanedMain]));
+			w76.Position = 2;
 			// Container child vboxMain.Gtk.Box+BoxChild
 			this.statusbar1 = new global::Gtk.Statusbar ();
 			this.statusbar1.Name = "statusbar1";
 			this.statusbar1.Spacing = 6;
 			this.vboxMain.Add (this.statusbar1);
-			global::Gtk.Box.BoxChild w76 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.statusbar1]));
-			w76.Position = 3;
-			w76.Expand = false;
-			w76.Fill = false;
+			global::Gtk.Box.BoxChild w77 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.statusbar1]));
+			w77.Position = 3;
+			w77.Expand = false;
+			w77.Fill = false;
 			this.Add (this.vboxMain);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

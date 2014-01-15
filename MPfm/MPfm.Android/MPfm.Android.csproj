@@ -115,6 +115,8 @@
     <Compile Include="Classes\Cache\AsyncBitmapDrawable.cs" />
     <Compile Include="Classes\Clients\MyWebViewClient.cs" />
     <Compile Include="Classes\Controls\CustomListView.cs" />
+    <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
     <Compile Include="Classes\Controls\SquareImageView.cs" />
     <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
     <Compile Include="Classes\Controls\OutputMeterView.cs" />
@@ -340,6 +342,10 @@
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.Android.csproj">
+      <Project>{f2a4e954-0439-42cf-b795-82819c9a39cf}</Project>
+      <Name>MPfm.GenericControls.Android</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPfm.Library\MPfm.Library.Android.csproj">
       <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>

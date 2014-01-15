@@ -485,6 +485,14 @@ namespace MPfm.Android
             RunOnUiThread(() => _waveFormView.SetMarkers(markers));
         }
 
+        public void RefreshActiveMarker(Guid markerId)
+        {
+        }
+
+        public void RefreshMarkerPosition(Marker marker)
+        {
+        }
+
         public void RefreshLoops(IEnumerable<Loop> loops)
         {
         }
