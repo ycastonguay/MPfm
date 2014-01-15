@@ -898,6 +898,14 @@ namespace MPfm.GTK.Windows
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
         }
+
+        public void RefreshActiveMarker(Guid markerId)
+        {
+        }
+
+        public void RefreshMarkerPosition(Marker marker)
+        {
+        }
 			
 		public void PlayerError(Exception ex)
 		{
@@ -1018,6 +1026,13 @@ namespace MPfm.GTK.Windows
         public Action<Marker> OnEditMarker { get; set; }
         public Action<Marker> OnSelectMarker { get; set; }
         public Action<Marker> OnDeleteMarker { get; set; }
+        public Action<Marker> OnUpdateMarker { get; set; }
+        public Action<Guid> OnPunchInMarker { get; set; }
+        public Action<Guid> OnUndoMarker { get; set; }
+        public Action<Guid> OnSetActiveMarker { get; set; }
+        public Action<Guid, string> OnChangeMarkerName { get; set; }
+        public Action<Guid, float> OnChangeMarkerPosition { get; set; }
+        public Action<Guid, float> OnSetMarkerPosition { get; set; }
 
         public void MarkerError(Exception ex)
         {
@@ -1044,6 +1059,10 @@ namespace MPfm.GTK.Windows
                     throw ex;
                 }
             });
+        }
+
+        public void RefreshMarkerPosition(Marker marker, int newIndex)
+        {
         }
 
         #endregion

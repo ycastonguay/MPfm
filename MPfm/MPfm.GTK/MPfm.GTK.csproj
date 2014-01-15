@@ -152,6 +152,10 @@
       <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
       <Name>MPfm.MVP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.csproj">
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
+      <Name>MPfm.GenericControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Lib\x64\libbass.so" />
@@ -190,5 +194,6 @@
     <Folder Include="Classes\Navigation\" />
     <Folder Include="Classes\Helpers\" />
     <Folder Include="Resources\" />
+    <Folder Include="Classes\Controls\" />
   </ItemGroup>
 </Project>
