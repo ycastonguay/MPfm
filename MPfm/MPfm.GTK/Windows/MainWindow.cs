@@ -34,6 +34,7 @@ using MPfm.GTK.Helpers;
 using MPfm.MVP.Messages;
 using MPfm.Player.Objects;
 using MPfm.MVP.Presenters;
+using MPfm.GTK.Classes.Controls;
 
 namespace MPfm.GTK.Windows
 {
@@ -47,6 +48,7 @@ namespace MPfm.GTK.Windows
 		private Gtk.ListStore _storeSongBrowser = null;
         private Gtk.ListStore _storeMarkers = null;
 		private Gtk.ListStore _storeAudioFileFormat = null;
+        private OutputMeter _outputMeter = null;
 		
 		#region Application Init/Destroy
 		
@@ -67,6 +69,10 @@ namespace MPfm.GTK.Windows
 			InitializeSongBrowser();
 			InitializeLibraryBrowser();
             InitializeMarkers();
+
+            _outputMeter = new OutputMeter();
+            hboxVolume.Add(_outputMeter);
+            _outputMeter.Show();
 
             // Force refresh song browser to create columns
 			RefreshSongBrowser(new List<AudioFile>());		
@@ -726,7 +732,7 @@ namespace MPfm.GTK.Windows
 			
 		#region IPlayerView implementation
 			
-        public bool IsOutputMeterEnabled { get { return false; } }
+        public bool IsOutputMeterEnabled { get { return true; } }
         public System.Action OnPlayerPlay { get; set; }
         public System.Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public System.Action OnPlayerPause { get; set; }
@@ -897,6 +903,13 @@ namespace MPfm.GTK.Windows
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
+//            if (_outputMeter == null)
+//                return;
+//
+//            Gtk.Application.Invoke(delegate{            
+//                //_outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+//                //_outputMeter.QueueDraw();
+//            });
         }
 
         public void RefreshActiveMarker(Guid markerId)

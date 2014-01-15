@@ -889,19 +889,31 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.VScale" id="vscaleVolume">
+                              <widget class="Gtk.HBox" id="hboxVolume">
                                 <property name="MemberName" />
-                                <property name="Tooltip" translatable="yes">Changes the playback volume (in percentage).</property>
-                                <property name="CanFocus">True</property>
-                                <property name="Inverted">True</property>
-                                <property name="Upper">100</property>
-                                <property name="PageIncrement">10</property>
-                                <property name="StepIncrement">1</property>
-                                <property name="Value">100</property>
-                                <property name="DrawValue">False</property>
-                                <property name="Digits">0</property>
-                                <property name="ValuePos">Bottom</property>
-                                <signal name="ValueChanged" handler="OnVolumeValueChanged" />
+                                <property name="Spacing">6</property>
+                                <child>
+                                  <widget class="Gtk.VScale" id="vscaleVolume">
+                                    <property name="MemberName" />
+                                    <property name="Tooltip" translatable="yes">Changes the playback volume (in percentage).</property>
+                                    <property name="CanFocus">True</property>
+                                    <property name="Inverted">True</property>
+                                    <property name="Upper">100</property>
+                                    <property name="PageIncrement">10</property>
+                                    <property name="StepIncrement">1</property>
+                                    <property name="Value">100</property>
+                                    <property name="DrawValue">False</property>
+                                    <property name="Digits">0</property>
+                                    <property name="ValuePos">Bottom</property>
+                                    <signal name="ValueChanged" handler="OnVolumeValueChanged" />
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">0</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
                                 <property name="Position">1</property>
