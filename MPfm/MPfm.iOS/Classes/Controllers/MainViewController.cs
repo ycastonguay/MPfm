@@ -99,9 +99,14 @@ namespace MPfm.iOS.Classes.Controllers
 			{
 				// This one is a bit different; we are adding it as a child of the TabBar controller
 				//TabBarController.AddChildViewController(viewController);
-				TabBarController.View.AddSubview(view);
+				//TabBarController.View.AddSubview(view);
+				View.AddSubview(view);
+
 				//viewController.View.BringSubviewToFront(view);
 				//viewController.DidMoveToParentViewController(TabBarController);
+
+				//var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+				//appDelegate.root
 			}
 			else
 			{

@@ -345,6 +345,8 @@
     <Compile Include="Classes\Controllers\QueueViewController.designer.cs">
       <DependentUpon>QueueViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />
@@ -449,6 +451,8 @@
     <Folder Include="Images\WhiteIcons\" />
     <Folder Include="Images\Nav\" />
     <Folder Include="Images\SmallWhiteIcons\" />
+    <Folder Include="Classes\Controls\Graphics\" />
+    <Folder Include="Classes\Controls\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\Junction.otf" />
@@ -677,6 +681,10 @@
     <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.iOS.csproj">
       <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
       <Name>MPfm.MVP.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.iOS.csproj">
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
+      <Name>MPfm.GenericControls.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ProjectExtensions>

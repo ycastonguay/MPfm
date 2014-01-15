@@ -27,83 +27,30 @@ namespace MPfm.GenericControls.Controls
     public class OutputMeterControl : IControl
     {
         private readonly IControlInteraction _interaction;
+		private List<WaveDataMinMax> _waveDataHistory;
 
-        private List<WaveDataMinMax> _waveDataHistory = null;
-        /// <summary>
-        /// Array containing an history of min and max peaks over the last 1000ms.
-        /// </summary>
-        public List<WaveDataMinMax> WaveDataHistory
-        {
-            get
-            {
-                return _waveDataHistory;
-            }
-        }
-
-        private OutputMeterDisplayType _displayType = OutputMeterDisplayType.Stereo;
         /// <summary>
         /// Output meter display type (left channel, right channel, stereo, or mix).
         /// </summary>
-        public OutputMeterDisplayType DisplayType
-        {
-            get
-            {
-                return _displayType;
-            }
-            set
-            {
-                _displayType = value;
-            }
-        }
+		public OutputMeterDisplayType DisplayType { get; set; }
 
-        private float _distortionThreshold = 0.9f;
         /// <summary>
         /// Value used to determine if the signal is distorting. Value range: 0.0f to 1.0f.
         /// </summary>
-        public float DistortionThreshold
-        {
-            get
-            {
-                return _distortionThreshold;
-            }
-            set
-            {
-                _distortionThreshold = value;
-            }
-        }
+		public float DistortionThreshold { get; set; }
 
-        private bool _displayDecibels = true;
         /// <summary>
         /// Display the peak (1000ms) in decibels in text at the bottom of each bar.
         /// </summary>
-        public bool DisplayDecibels
-        {
-            get
-            {
-                return _displayDecibels;
-            }
-            set
-            {
-                _displayDecibels = value;
-            }
-        }
+		public bool DisplayDecibels { get; set; }
 
-        private float _drawFloor = -60f;
         /// <summary>
         /// Floor from which the output meter will be drawn. Minimum value: -100 (dB). Max: 0 (dB). Default value: -60 (dB).
         /// </summary>
-        public float DrawFloor
-        {
-            get
-            {
-                return _drawFloor;
-            }
-            set
-            {
-                _drawFloor = value;
-            }
-        }
+		public float DrawFloor { get; set; }
 
+		public float FontSize { get; set; }
+		public string FontFace { get; set; }
         public BasicColor ColorBackground { get { return new BasicColor(36, 47, 53); } }
         public BasicColor ColorMeter1 { get { return new BasicColor(0, 125, 0); } }
         public BasicColor ColorMeter2 { get { return new BasicColor(0, 200, 0); } }
@@ -122,7 +69,18 @@ namespace MPfm.GenericControls.Controls
         {
             _interaction = interaction;
             _waveDataHistory = new List<WaveDataMinMax>();
+			Initialize();
         }
+
+		private void Initialize()
+		{
+			DisplayType = OutputMeterDisplayType.Stereo;
+			DistortionThreshold = 0.9f;
+			DrawFloor = -60f;
+			DisplayDecibels = true;
+			FontFace = "Roboto Condensed";
+			FontSize = 10;
+		}
 
         /// <summary>
         /// Block of 10ms synchronized with timerelapsed on Player.
@@ -140,17 +98,17 @@ namespace MPfm.GenericControls.Controls
         /// <param name="data">Min/max wave data structure</param>
         private void AddToHistory(WaveDataMinMax data)
         {
-            if (WaveDataHistory.Count == 0)
+			if (_waveDataHistory.Count == 0)
             {
-                WaveDataHistory.Add(data);
+				_waveDataHistory.Add(data);
             }
             else
             {
-                WaveDataHistory.Insert(0, data);
+				_waveDataHistory.Insert(0, data);
 
                 // Trim history larger than 1000ms (100 items * 10ms)
-                if (WaveDataHistory.Count > 100)
-                    WaveDataHistory.RemoveAt(WaveDataHistory.Count - 1);
+				if (_waveDataHistory.Count > 100)
+					_waveDataHistory.RemoveAt(_waveDataHistory.Count - 1);
             }
         }
 
@@ -159,7 +117,7 @@ namespace MPfm.GenericControls.Controls
             context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(ColorBackground), new BasicPen());
 
             // If the wave data is empty, skip rendering 
-            if (WaveDataHistory == null || WaveDataHistory.Count == 0)
+			if (_waveDataHistory == null || _waveDataHistory.Count == 0)
                 return;
 
             float fontSize = context.BoundsWidth < 50 ? 8 : 10;
@@ -171,14 +129,14 @@ namespace MPfm.GenericControls.Controls
             barWidth = context.BoundsWidth / 2;
 
             // at 10ms refresh, get last value.
-            float maxLeftDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].leftMax);
-            float maxRightDB = 20.0f * (float)Math.Log10(WaveDataHistory[0].rightMax);
+			float maxLeftDB = 20.0f * (float)Math.Log10(_waveDataHistory[0].leftMax);
+			float maxRightDB = 20.0f * (float)Math.Log10(_waveDataHistory[0].rightMax);
             //float maxLeftDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].leftMax);
             //float maxRightDB2 = (float)Base.LevelToDB_16Bit((double)WaveDataHistory[0].rightMax);
 
             // Get peak for the last 1000ms
-            float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Left);
-            float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(WaveDataHistory, 100, ChannelType.Right);
+			float peakLeftDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(_waveDataHistory, 100, ChannelType.Left);
+			float peakRightDB = AudioTools.GetMaxdBPeakFromWaveDataMaxHistory(_waveDataHistory, 100, ChannelType.Right);
 
             // Set the dB range to display (-100 to +10dB)
             float dbRangeToDisplay = 110;
@@ -225,10 +183,10 @@ namespace MPfm.GenericControls.Controls
                 strDB = "-inf";
 
             // Draw text
-            var rectText = context.MeasureText(strDB, new BasicRectangle(), "Roboto Condensed", 10);
+			var rectText = context.MeasureText(strDB, new BasicRectangle(), FontFace, FontSize);
             float newX = (barWidth - rectText.Width) / 2;
-            context.DrawText(strDB, new BasicPoint(newX + 1, context.BoundsHeight - rectText.Height - 4), new BasicColor(20, 20, 20), "Roboto Condensed", 10);
-            context.DrawText(strDB, new BasicPoint(newX, context.BoundsHeight - rectText.Height - 4 - 1), new BasicColor(255, 255, 255), "Roboto Condensed", 10);
+			context.DrawText(strDB, new BasicPoint(newX + 1, context.BoundsHeight - rectText.Height - 4), new BasicColor(20, 20, 20), FontFace, FontSize);
+			context.DrawText(strDB, new BasicPoint(newX, context.BoundsHeight - rectText.Height - 4 - 1), new BasicColor(255, 255, 255), FontFace, FontSize);
 
             // -----------------------------------------
             // RIGHT CHANNEL
@@ -258,10 +216,10 @@ namespace MPfm.GenericControls.Controls
             context.DrawLine(pt1, pt2, new BasicPen(new BasicBrush(ColorPeakLine), 1));
 
             // Draw number of decibels (with font shadow to make it easier to read)                
-            rectText = context.MeasureText(strDB, new BasicRectangle(), "Roboto Condensed", 10);
+			rectText = context.MeasureText(strDB, new BasicRectangle(), FontFace, FontSize);
             newX = ((barWidth - rectText.Width) / 2) + barWidth;
-            context.DrawText(strDB, new BasicPoint(newX + 1, context.BoundsHeight - rectText.Height - 4), new BasicColor(20, 20, 20), "Roboto Condensed", 10);
-            context.DrawText(strDB, new BasicPoint(newX, context.BoundsHeight - rectText.Height - 4 - 1), new BasicColor(255, 255, 255), "Roboto Condensed", 10);
+			context.DrawText(strDB, new BasicPoint(newX + 1, context.BoundsHeight - rectText.Height - 4), new BasicColor(20, 20, 20), FontFace, FontSize);
+			context.DrawText(strDB, new BasicPoint(newX, context.BoundsHeight - rectText.Height - 4 - 1), new BasicColor(255, 255, 255), FontFace, FontSize);
         }
 
         /// <summary>

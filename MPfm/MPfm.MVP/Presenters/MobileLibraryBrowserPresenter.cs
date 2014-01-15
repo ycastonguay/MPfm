@@ -167,7 +167,11 @@ namespace MPfm.MVP.Presenters
             // Only run one task at a time.
             _currentTask = _currentTask.ContinueWith(t => {
                 // Get the file path of the first file in the album
-                var audioFiles = _libraryService.SelectAudioFiles(AudioFileFormat.All, artistName, albumTitle, string.Empty);
+                var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){
+                    Format = AudioFileFormat.All,
+                    ArtistName = artistName,
+                    AlbumTitle = albumTitle
+                });
                 var audioFile = (audioFiles != null && audioFiles.Count() > 0) ? audioFiles.ElementAt(0) : null;
 
                 if (audioFile != null)

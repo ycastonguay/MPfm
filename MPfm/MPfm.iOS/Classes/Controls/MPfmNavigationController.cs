@@ -104,6 +104,7 @@ namespace MPfm.iOS.Classes.Controls
                             case 0:
                                 viewController.ConfirmedBackButton();
                                 _confirmedViewPop = true;
+								Console.WriteLine("NavCtrl - PopViewController A");
                                 PopViewControllerAnimated(true);
                                 break;
                             default:
@@ -116,7 +117,10 @@ namespace MPfm.iOS.Classes.Controls
 
                 _confirmedViewPop = false;
                 if(ViewControllers.Length > 1)
+				{
+					Console.WriteLine("NavCtrl - PopViewController B");
                     PopViewControllerAnimated(true);
+				}
             };
 
             _btnPlaylist = new MPfmFlatButton();

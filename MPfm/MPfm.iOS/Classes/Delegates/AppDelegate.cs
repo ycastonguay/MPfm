@@ -221,6 +221,7 @@ namespace MPfm.iOS.Classes.Delegates
 
         public void PushTabView(MobileNavigationTabType type, UIViewController viewController)
         {
+			Console.WriteLine("AppDelegate - PushTabView - tabType: {0} viewController: {1}", type, viewController.GetType().FullName);
             InvokeOnMainThread(() => {
                 if (viewController is PlayerViewController)
                     viewController.HidesBottomBarWhenPushed = true;
@@ -232,8 +233,8 @@ namespace MPfm.iOS.Classes.Delegates
 
         public void PushDialogView(MobileDialogPresentationType presentationType, string viewTitle, UIViewController viewController)
         {
+			Console.WriteLine("AppDelegate - PushDialogView - presentationType: {0} viewTitle: {1} viewController: {2}", presentationType, viewTitle, viewController.GetType().FullName);
             InvokeOnMainThread(() => {
-
                 switch (presentationType)
                 {
                     case MobileDialogPresentationType.Standard:
@@ -263,6 +264,7 @@ namespace MPfm.iOS.Classes.Delegates
 
         public void PushDialogSubview(MobileDialogPresentationType presentationType, string parentViewTitle, UIViewController viewController)
         {
+			Console.WriteLine("AppDelegate - PushDialogSubview - presentationType: {0} parentViewTitle: {1} viewController: {2}", presentationType, parentViewTitle, viewController.GetType().FullName);
             InvokeOnMainThread(() => {
                 var navCtrl = _dialogNavigationControllers.FirstOrDefault(x => x.Key == parentViewTitle).Value;
                 navCtrl.PushViewController(viewController, true);
@@ -271,6 +273,7 @@ namespace MPfm.iOS.Classes.Delegates
 
 		public void RemoveChildFromMainViewController(UIViewController viewController)
 		{
+			Console.WriteLine("AppDelegate - RemoveChildFromMainViewController - viewController: {0}", viewController.GetType().FullName);
 			_mainViewController.RemoveViewController(viewController);
 		}
 
