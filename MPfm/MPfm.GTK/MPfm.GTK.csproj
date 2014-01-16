@@ -70,6 +70,7 @@
     <Reference Include="TinyIoC">
       <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cairo" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -129,6 +130,9 @@
     <Compile Include="gtk-gui\MPfm.GTK.SyncCloudWindow.cs" />
     <Compile Include="Windows\SyncWebBrowserWindow.cs" />
     <Compile Include="gtk-gui\MPfm.GTK.SyncWebBrowserWindow.cs" />
+    <Compile Include="Classes\Helpers\GenericControlHelper.cs" />
+    <Compile Include="Classes\Controls\OutputMeter.cs" />
+    <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -151,6 +155,10 @@
     <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">
       <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
       <Name>MPfm.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.csproj">
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
+      <Name>MPfm.GenericControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -190,5 +198,7 @@
     <Folder Include="Classes\Navigation\" />
     <Folder Include="Classes\Helpers\" />
     <Folder Include="Resources\" />
+    <Folder Include="Classes\Controls\" />
+    <Folder Include="Classes\Controls\Graphics\" />
   </ItemGroup>
 </Project>

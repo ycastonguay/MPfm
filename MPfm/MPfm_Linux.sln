@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.GTK", "MPfm.GTK\MPfm.G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.MVP", "MPfm.MVP\MPfm.MVP.csproj", "{B6B0613C-FF39-479D-9EF0-31DAF9684A06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPfm.GenericControls", "MPfm.GenericControls\MPfm.GenericControls.csproj", "{F2A4E954-0439-42CF-B795-82819C9A39CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_Linux|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_Linux|Any CPU.Build.0 = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_MacOSX|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug_MacOSX|Any CPU.Build.0 = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A4E954-0439-42CF-B795-82819C9A39CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_Linux|Any CPU.ActiveCfg = Debug_Linux|Any CPU
 		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_Linux|Any CPU.Build.0 = Debug_Linux|Any CPU
 		{FEB7497C-784C-4380-874F-46FD93C82BA1}.Debug_MacOSX|Any CPU.ActiveCfg = Debug_MacOSX|Any CPU
