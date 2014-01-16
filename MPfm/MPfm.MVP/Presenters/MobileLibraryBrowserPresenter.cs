@@ -163,15 +163,19 @@ namespace MPfm.MVP.Presenters
 
         private void RequestAlbumArt(string artistName, string albumTitle, object userData)
         {
+            //Console.WriteLine("MobileLibraryBrowserPresenter - RequestAlbumArt - artistName: {0} albumTitle: {1}", artistName, albumTitle);
             // TODO: Add canceling, add detection to not request the same album art multiple times
             // Only run one task at a time.
             _currentTask = _currentTask.ContinueWith(t => {
+                //Console.WriteLine("---> Task Start - artistName: {0} albumTitle: {1}", artistName, albumTitle);
                 // Get the file path of the first file in the album
-                var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){
+                //var audioFiles = _audioFileCacheService.SelectAudioFiles(new LibraryQuery(){
+                var audioFiles = _libraryService.SelectAudioFiles(new LibraryQuery() // Library is 10-20x faster than cache on Android...
+                {
                     Format = AudioFileFormat.All,
                     ArtistName = artistName,
                     AlbumTitle = albumTitle
-                });
+                });                
                 var audioFile = (audioFiles != null && audioFiles.Count() > 0) ? audioFiles.ElementAt(0) : null;
 
                 if (audioFile != null)
