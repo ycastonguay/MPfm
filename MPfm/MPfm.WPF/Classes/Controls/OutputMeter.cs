@@ -55,7 +55,6 @@ namespace MPfm.WPF.Classes.Controls
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
-
             var wrapper = new GraphicsContextWrapper(dc, (float) ActualWidth, (float) ActualHeight);
             _control.Render(wrapper);
         }   

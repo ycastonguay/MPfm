@@ -19,8 +19,13 @@ namespace MPfm.GenericControls.Interaction
 {
     public interface IControlInteraction
     {
-        void MouseUp();
-        void MouseDown();
-        void MouseMove();
+        void MouseDown(float x, float y, MouseButtonType button);
+        void MouseUp(float x, float y, MouseButtonType button);
+        void MouseMove(float x, float y, MouseButtonType button);
+    }
+
+    public enum MouseButtonType
+    {
+        Left = 0, Middle = 1, Right = 2
     }
 }

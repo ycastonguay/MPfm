@@ -15,21 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MPfm.GenericControls.Graphics;
 
 namespace MPfm.GenericControls.Controls
 {
-    // Custom: public class MyControl : Control, IGenericControlInteraction, IOutputMeterProperties
-    // or
-    // Custom: public class MyControl : Control, IOutputMeterControlInteraction, IOutputMeterProperties // when control interaction is complex, IOutputMeterCI inherits from IGenericCI
-
-    // But if we inherit from Button, we lose that IGenericControlInteraction implementation. Do it when possible, if not, not a big issue, after all we only map events.
-
-    // public Control() { _control = new OutputMeterControl(this, this); }
-    // ...
-    // public override void OnRender() { _control.Render(new GraphicsContext(context)c); } 
+    public delegate void InvalidateVisual();
     public interface IControl
     {
+        event InvalidateVisual OnInvalidateVisual;
         void Render(IGraphicsContext context);
     }
 }

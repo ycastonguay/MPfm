@@ -65,6 +65,8 @@ namespace MPfm.GenericControls.Controls
         public BasicColor Color0dBLine { get { return new BasicColor(225, 225, 225); } }
         public BasicColor ColorPeakLine { get { return new BasicColor(0, 225, 0); } }
 
+        public event InvalidateVisual OnInvalidateVisual;
+
         public OutputMeterControl(IControlInteraction interaction)
         {
             _interaction = interaction;
