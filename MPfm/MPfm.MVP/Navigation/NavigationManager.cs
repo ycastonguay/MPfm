@@ -138,6 +138,8 @@ namespace MPfm.MVP.Navigation
                 _timeShiftingPresenter.BindView((ITimeShiftingView)view);
                 _pitchShiftingPresenter = Bootstrapper.GetContainer().Resolve<IPitchShiftingPresenter>();
                 _pitchShiftingPresenter.BindView((IPitchShiftingView)view);
+                _updateLibraryPresenter = Bootstrapper.GetContainer().Resolve<IUpdateLibraryPresenter>();
+                _updateLibraryPresenter.BindView((IUpdateLibraryView)view);
             };            
             _mainView = Bootstrapper.GetContainer().Resolve<IMainView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
             _mainView.OnViewDestroy = (view) => {
@@ -158,6 +160,8 @@ namespace MPfm.MVP.Navigation
                 _timeShiftingPresenter = null;
                 _pitchShiftingPresenter.ViewDestroyed();
                 _pitchShiftingPresenter = null;
+                _updateLibraryPresenter.ViewDestroyed();
+                _updateLibraryPresenter = null;
             };
             return _mainView;
         }

@@ -86,12 +86,32 @@ namespace MPfm.MVP.Presenters
         {
             base.BindView(view);
 
+            view.OnAddFilesToLibrary = AddFilesToLibrary;
+            view.OnAddFolderToLibrary = AddFolderToLibrary;
             view.OnStartUpdateLibrary = StartUpdateLibrary;
             view.OnCancelUpdateLibrary = Cancel;
             view.OnSaveLog = SaveLog;
         }
 
-        public void StartUpdateLibrary()
+	    private void AddFolderToLibrary(string folderPath)
+	    {
+            UpdateLibrary(new List<string>(), new List<Folder>() { new Folder(folderPath, true) });
+
+            //    // Add to list of configured folders
+            //    var foundFolder = AppConfigManager.Instance.Root.Library.Folders.FirstOrDefault(x => x.FolderPath == folderPath);
+            //    if (foundFolder == null)
+            //    {
+            //        AppConfigManager.Instance.Root.Library.Folders.Add(folders[0]);
+            //        AppConfigManager.Instance.Save();
+            //    }
+	    }
+
+	    private void AddFilesToLibrary(List<string> filePaths)
+	    {
+            UpdateLibrary(filePaths, new List<Folder>());
+	    }
+
+	    public void StartUpdateLibrary()
         {
             var folder = new Folder()
             {

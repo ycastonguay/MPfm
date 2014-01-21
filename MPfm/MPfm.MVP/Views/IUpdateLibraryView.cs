@@ -28,6 +28,8 @@ namespace MPfm.MVP.Views
 	/// </summary>
     public interface IUpdateLibraryView : IBaseView
 	{
+        Action<List<string>> OnAddFilesToLibrary { get; set; }
+        Action<string> OnAddFolderToLibrary { get; set; }
         Action OnStartUpdateLibrary { get; set; }
         Action OnCancelUpdateLibrary { get; set; }
 	    Action<string> OnSaveLog { get; set; }

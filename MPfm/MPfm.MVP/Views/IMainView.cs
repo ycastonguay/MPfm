@@ -21,9 +21,10 @@ using System.Collections.Generic;
 namespace MPfm.MVP.Views
 {
 	/// <summary>
-	/// Splash screen view interface.
+	/// Main view interface for desktop platforms. Combines several views together. 
+	/// Unfortunately it is not easy/possible to create subviews on all desktop platforms like on mobile devices (i.e. GTK).
 	/// </summary>
-    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, ILoopsView, ITimeShiftingView, IPitchShiftingView
+    public interface IMainView : ILibraryBrowserView, ISongBrowserView, IPlayerView, IMarkersView, ILoopsView, ITimeShiftingView, IPitchShiftingView, IUpdateLibraryView
 	{
         Action OnOpenPreferencesWindow { get; set; }
         Action OnOpenEffectsWindow { get; set; }
@@ -32,9 +33,5 @@ namespace MPfm.MVP.Views
         Action OnOpenSyncCloudWindow { get; set; }
         Action OnOpenSyncWebBrowserWindow { get; set; }
         Action OnOpenResumePlayback { get; set; }
-
-        Action<List<string>> OnAddFilesToLibrary { get; set; }
-        Action<string> OnAddFolderToLibrary { get; set; }
-        Action OnUpdateLibrary { get; set; }
 	}
 }

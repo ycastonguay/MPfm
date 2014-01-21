@@ -139,6 +139,7 @@
                         <RowDefinition Height="27" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Library Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" Grid.ColumnSpan="2" />
                     <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2" Background="#FF242F35">
@@ -158,16 +159,33 @@
                             <ComboBoxItem Name="WV">WV</ComboBoxItem>
                         </ComboBox>
                     </Grid>
-                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" ItemContainerStyle="{StaticResource TreeViewItemStyle}" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" TreeViewItem.Expanded="treeViewLibrary_OnExpanded" Grid.ColumnSpan="2">
-                        <!--<TreeView.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type models:LibraryBrowserEntity}" ItemsSource="{Binding SubItems}">
+                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" ItemContainerStyle="{StaticResource TreeViewItemStyle}" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" TreeViewItem.Expanded="treeViewLibrary_OnExpanded" Grid.ColumnSpan="2" />
+                    <StackPanel Grid.Row="3" x:Name="panelUpdateLibrary" Grid.ColumnSpan="2" Background="#FF242F35">
+                        <Grid Background="#FF455865">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Update Library" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
                                 <StackPanel Orientation="Horizontal" Margin="4">
-                                    <Image Source="/Resources/Images/Icons/user.png" Stretch="Uniform" />
-                                    <TextBlock Text="{Binding Title}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="4,0,0,0" />
+                                    <Image Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
+                                    <TextBlock Margin="6,2,0,0">Cancel</TextBlock>
                                 </StackPanel>
-                            </HierarchicalDataTemplate>
-                        </TreeView.Resources>-->
-                    </TreeView>
+                            </Button>
+                        </Grid>
+                        <Grid Margin="2,2,2,2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="20" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" x:Name="lblUpdateLibraryTitle" Margin="4" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction">Loading...</TextBlock>
+                            <ProgressBar Grid.Row="1" x:Name="progressBarUpdateLibrary" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Value="50" Margin="4" />
+                        </Grid>
+                    </StackPanel>
                 </Grid>
             </Grid>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" Margin="0,27,0,0" />

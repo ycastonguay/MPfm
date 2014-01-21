@@ -44,13 +44,16 @@ namespace MPfm.Library.Objects
         /// </summary>
         public bool IsRecursive { get; set; }
 
-        /// <summary>
-        /// Default constructor for the Folder class.
-        /// </summary>
         public Folder()
         {
-            // Set default values
             FolderId = Guid.NewGuid();
+        }
+
+        public Folder(string folderPath, bool isRecursive)
+        {
+            FolderId = Guid.NewGuid();
+            FolderPath = folderPath;
+            IsRecursive = isRecursive;
         }
     }
 }

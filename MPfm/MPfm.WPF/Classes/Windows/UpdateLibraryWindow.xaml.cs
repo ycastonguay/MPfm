@@ -51,6 +51,8 @@ namespace MPfm.WPF.Classes.Windows
 
         #region IUpdateLibraryView implementation
 
+        public Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
         public Action<string> OnSaveLog { get; set; }

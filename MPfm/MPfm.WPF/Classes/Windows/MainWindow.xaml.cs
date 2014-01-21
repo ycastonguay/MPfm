@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
@@ -27,9 +28,12 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.Core;
+using MPfm.Core.Helpers;
+using MPfm.Library.Objects;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
@@ -59,6 +63,7 @@ namespace MPfm.WPF.Classes.Windows
             SetLegacyControlTheme();
             ViewIsReady();
 
+            panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
         }
 
@@ -93,7 +98,9 @@ namespace MPfm.WPF.Classes.Windows
                 dialog.Multiselect = true;
                 dialog.Title = "Add file(s) to library";
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    OnAddFilesToLibrary(dialog.FileNames.ToList());
+                {
+                    ShowUpdateLibraryPanel(true, () => OnAddFilesToLibrary(dialog.FileNames.ToList()));                    
+                }
             }
             else if (sender == miFile_AddFolder)
             {
@@ -101,7 +108,9 @@ namespace MPfm.WPF.Classes.Windows
                 dialog.Description = "Please select a folder to add to the music library";
                 dialog.ShowNewFolderButton = false;
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    OnAddFolderToLibrary(dialog.SelectedPath);
+                {
+                    ShowUpdateLibraryPanel(true, () => OnAddFolderToLibrary(dialog.SelectedPath));                    
+                }
             }
             else if (sender == miFile_OpenAudioFiles)
             {
@@ -111,12 +120,12 @@ namespace MPfm.WPF.Classes.Windows
                 dialog.Title = "Select audio files or a playlist file to play";
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-
+                    ShowUpdateLibraryPanel(true, null);
                 }
             }
             else if (sender == miFile_UpdateLibrary)
             {
-                OnUpdateLibrary();
+                ShowUpdateLibraryPanel(true, () => OnStartUpdateLibrary());                
             }
             else if (sender == miWindows_Sync)
             {
@@ -130,6 +139,44 @@ namespace MPfm.WPF.Classes.Windows
             {
                 OnOpenSyncWebBrowserWindow();
             }
+        }
+
+        private void ShowUpdateLibraryPanel(bool show, Action onAnimationCompleted)
+        {
+            // Reset values
+            if (show)
+            {
+                lblUpdateLibraryTitle.Text = "Loading...";                
+                progressBarUpdateLibrary.Value = 0;
+            }
+
+            //panelUpdateLibrary.Opacity = 0;
+            panelUpdateLibrary.Height = show ? 0 : 1;
+            panelUpdateLibrary.Visibility = Visibility.Visible;
+
+            //var animOpacity = new DoubleAnimation();
+            //animOpacity.From = 0.0;
+            //animOpacity.To = 1.0;
+            //animOpacity.Duration = TimeSpan.FromMilliseconds(200);
+
+            var animHeight = new DoubleAnimation();
+            animHeight.From = show ? 0.0 : 80.0;
+            animHeight.To = show ? 80.0 : 0.0;
+            animHeight.Duration = TimeSpan.FromMilliseconds(200);
+
+            var storyboard = new Storyboard();
+            //storyboard.Children.Add(animOpacity);                    
+            //Storyboard.SetTarget(animOpacity, panelUpdateLibrary);
+            //Storyboard.SetTargetProperty(animOpacity, new PropertyPath(OpacityProperty));
+            storyboard.Completed += (sender, args) =>
+            {
+                if(onAnimationCompleted != null)
+                    onAnimationCompleted();
+            };
+            storyboard.Children.Add(animHeight);
+            Storyboard.SetTarget(animHeight, panelUpdateLibrary);
+            Storyboard.SetTargetProperty(animHeight, new PropertyPath(HeightProperty));
+            storyboard.Begin();
         }
 
         private void treeViewLibrary_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -375,9 +422,6 @@ namespace MPfm.WPF.Classes.Windows
         public Action OnOpenSyncCloudWindow { get; set; }
         public Action OnOpenSyncWebBrowserWindow { get; set; }
         public Action OnOpenResumePlayback { get; set; }
-        public Action<List<string>> OnAddFilesToLibrary { get; set; }
-        public Action<string> OnAddFolderToLibrary { get; set; }
-        public Action OnUpdateLibrary { get; set; }
 
         #endregion
 
@@ -812,5 +856,52 @@ namespace MPfm.WPF.Classes.Windows
 
         #endregion
 
+        #region IUpdateLibraryView implementation
+
+        public Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public Action<string> OnAddFolderToLibrary { get; set; }
+        public Action OnStartUpdateLibrary { get; set; }
+        public Action OnCancelUpdateLibrary { get; set; }
+        public Action<string> OnSaveLog { get; set; }
+
+        public void RefreshStatus(UpdateLibraryEntity entity)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                lblUpdateLibraryTitle.Text = entity.Title;
+                progressBarUpdateLibrary.Value = entity.PercentageDone * 100;
+            }));
+        }
+
+        public void AddToLog(string entry)
+        {
+        }
+
+        public void ProcessStarted()
+        {
+        }
+
+        public void ProcessEnded(bool canceled)
+        {
+            // Show finish state
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                lblUpdateLibraryTitle.Text = "Update library successful.";
+                progressBarUpdateLibrary.Value = 100;
+            }));
+
+            // Delay before closing update library panel
+            var task = TaskHelper.DelayTask(1500);
+            task.ContinueWith((a) =>
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    ShowUpdateLibraryPanel(false, () => panelUpdateLibrary.Visibility = Visibility.Collapsed);
+                }));
+            });
+        }
+
+
+        #endregion
     }
 }

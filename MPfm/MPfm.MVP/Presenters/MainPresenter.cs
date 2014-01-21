@@ -48,31 +48,7 @@ namespace MPfm.MVP.Presenters
             view.OnOpenSyncCloudWindow = () => _navigationManager.CreateSyncCloudView();
             view.OnOpenSyncWebBrowserWindow = () => _navigationManager.CreateSyncWebBrowserView();
             view.OnOpenResumePlayback = () => _navigationManager.CreateResumePlaybackView();
-            view.OnAddFilesToLibrary = (filePaths) => _navigationManager.CreateUpdateLibraryView(filePaths, new List<Folder>());
-            view.OnAddFolderToLibrary = (folderPath) =>
-            {
-                var folders = new List<Folder>();
-                folders.Add(new Folder()
-                {
-                    FolderPath = folderPath,
-                    IsRecursive = true
-                });
-
-                // Add to list of configured folders
-                var foundFolder = AppConfigManager.Instance.Root.Library.Folders.FirstOrDefault(x => x.FolderPath == folderPath);
-                if (foundFolder == null)
-                {
-                    AppConfigManager.Instance.Root.Library.Folders.Add(folders[0]);
-                    AppConfigManager.Instance.Save();
-                }
-
-                // Start update library
-                _navigationManager.CreateUpdateLibraryView(new List<string>(), folders);
-            };
-            view.OnUpdateLibrary = () => _navigationManager.CreateUpdateLibraryView(new List<string>(), AppConfigManager.Instance.Root.Library.Folders);
-
-			base.BindView(view);
-            
+			base.BindView(view);            
 		}
 	}
 }
