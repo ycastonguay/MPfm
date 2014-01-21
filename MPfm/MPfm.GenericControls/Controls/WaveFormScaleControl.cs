@@ -29,11 +29,10 @@ namespace MPfm.GenericControls.Controls
     /// </summary>
     public class WaveFormScaleControl : IControl
     {
-        private BasicColor _backgroundColor1 = new BasicColor(36, 47, 53);
-        private BasicColor _backgroundColor2 = new BasicColor(36, 47, 53);
-        private BasicColor _borderColor = new BasicColor(65, 65, 65);
-        private BasicColor _minorTickColor = new BasicColor(65, 65, 65);
-        private BasicColor _majorTickColor = new BasicColor(125, 125, 125);
+		private BasicColor _backgroundColor = new BasicColor(32, 40, 46);
+		private BasicColor _borderColor = new BasicColor(85, 85, 85);
+		private BasicColor _minorTickColor = new BasicColor(85, 85, 85);
+		private BasicColor _majorTickColor = new BasicColor(170, 170, 170);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
         private float _timeScaleHeight = 22f;
 
@@ -75,7 +74,7 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
-            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(_backgroundColor1), new BasicPen());
+            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(_backgroundColor), new BasicPen());
 
             if (_audioFile == null || _audioFileLength == 0)
                 return;

@@ -29,7 +29,9 @@ namespace MPfm.iOS.Classes.Objects
         public static UIColor SecondaryDarkColor { get { return UIColor.FromRGBA(0.7529f, 0.2235f, 0.1686f, 1); } }
         public static UIColor LightColor { get { return UIColor.FromRGBA(1.0f, 1.0f, 1.0f, 1); } }
 
-        public static UIColor BackgroundColor { get { return UIColor.FromRGBA(0.1255f, 0.1569f, 0.1804f, 1); } }
+		//public static UIColor BackgroundColor { get { return UIColor.FromRGBA(0.1255f, 0.1569f, 0.1804f, 1); } } 32, 40, 46
+		//public static UIColor BackgroundColor { get { return UIColor.FromRGBA(36, 47, 53, 255); } }
+		public static UIColor BackgroundColor { get { return UIColor.FromRGBA(32, 40, 46, 255); } }
 		public static UIColor BackgroundDarkColor { get { return UIColor.FromRGBA(21, 26, 30, 255); } }
 		public static UIColor BackgroundDarkerColor { get { return UIColor.FromRGBA(16, 20, 23, 255); } }
 

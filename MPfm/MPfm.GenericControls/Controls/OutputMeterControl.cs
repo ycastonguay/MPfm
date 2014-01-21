@@ -51,7 +51,7 @@ namespace MPfm.GenericControls.Controls
 
 		public float FontSize { get; set; }
 		public string FontFace { get; set; }
-        public BasicColor ColorBackground { get { return new BasicColor(36, 47, 53); } }
+		public BasicColor ColorBackground { get { return new BasicColor(32, 40, 46); } }
         public BasicColor ColorMeter1 { get { return new BasicColor(0, 125, 0); } }
         public BasicColor ColorMeter2 { get { return new BasicColor(0, 200, 0); } }
         public BasicColor ColorMeterB1 { get { return new BasicColor(0, 150, 0); } }
