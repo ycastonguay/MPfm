@@ -343,7 +343,6 @@
     <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
-    <Compile Include="Classes\Managers\WaveFormCacheManagerLegacy.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

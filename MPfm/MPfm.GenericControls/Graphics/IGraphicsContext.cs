@@ -24,6 +24,15 @@ namespace MPfm.GenericControls.Graphics
         float BoundsWidth { get; }
         float BoundsHeight { get; }
 
+		// Should this be a different kind of graphics context? IPlotGraphicsContext?
+		// These methods are used for drawing as quick as possible without reseting the pen and brushes
+		void SetStrokeColor(BasicColor color);
+		void SetLineWidth(float width);
+		void StrokeLine(BasicPoint point, BasicPoint point2);
+		void SaveState();
+		void RestoreState();
+
+		// These methods are inteded to be easy to use
         void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen);

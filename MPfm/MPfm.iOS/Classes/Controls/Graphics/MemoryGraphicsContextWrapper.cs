@@ -33,6 +33,7 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 		public object RenderToImageInMemory()
 		{
 			// Weird, no reference to the context?
+			//Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
 			var image = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
 			return image;

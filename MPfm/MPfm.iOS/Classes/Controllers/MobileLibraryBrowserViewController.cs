@@ -51,7 +51,7 @@ namespace MPfm.iOS.Classes.Controllers
         LibraryQuery _query;
         Guid _currentlyPlayingSongId;
         bool _viewHasAlreadyBeenShown = false;
-        string _cellIdentifier = "MobileLibraryBrowserCell";
+		NSString _cellIdentifier = new NSString("MobileLibraryBrowserCell");
 		NSString _headerCellIdentifier = new NSString("MobileLibraryBrowserHeaderCell");
         NSString _collectionCellIdentifier = new NSString("MobileLibraryBrowserCollectionCell");
 		NSString _collectionCellHeaderIdentifier = new NSString("MobileLibraryBrowserCollectionHeaderCell");
@@ -95,6 +95,7 @@ namespace MPfm.iOS.Classes.Controllers
 			tableView.Alpha = 0;
             tableView.WeakDataSource = this;
             tableView.WeakDelegate = this;
+			//tableView.RegisterClassForCellReuse(typeof(MPfmTableViewCell), _cellIdentifier); // crashes when using dequeue
 			tableView.RegisterClassForHeaderFooterViewReuse(typeof(MPfmAlbumHeaderView), _headerCellIdentifier);
             collectionView.BackgroundColor = GlobalTheme.BackgroundColor;
             collectionView.WeakDataSource = this;
@@ -857,8 +858,10 @@ namespace MPfm.iOS.Classes.Controllers
         {
 			var item = _items[indexPath.Section].Item2[indexPath.Row];
 			MPfmTableViewCell cell = (MPfmTableViewCell)tableView.DequeueReusableCell(_cellIdentifier);
+			Console.WriteLine("MLBV - GetCell - dequeue cell==null: {0}", cell == null);
             if (cell == null)
             {
+				Console.WriteLine("MLBV - GetCell - Creating cell manually");
                 cell = new MPfmTableViewCell(UITableViewCellStyle.Subtitle, _cellIdentifier);
 
                 // Register events only once!

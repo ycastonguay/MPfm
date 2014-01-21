@@ -76,5 +76,30 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 			var size = CoreGraphicsHelper.MeasureText(Context, text, fontFace, fontSize);
 			return new BasicRectangle(0, 0, size.Width, size.Height);
 		}
+
+		public void SetStrokeColor(BasicColor color)
+		{
+			Context.SetStrokeColor(GenericControlHelper.ToColor(color).CGColor);
+		}
+
+		public void SetLineWidth(float width)
+		{
+			Context.SetLineWidth(width);
+		}
+
+		public void StrokeLine(BasicPoint point, BasicPoint point2)
+		{
+			Context.StrokeLineSegments(new PointF[2] { GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) });
+		}
+
+		public void SaveState()
+		{
+			Context.SaveState();
+		}
+
+		public void RestoreState()
+		{
+			Context.RestoreState();
+		}
     }
 }

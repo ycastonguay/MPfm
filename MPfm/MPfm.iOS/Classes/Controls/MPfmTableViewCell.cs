@@ -73,6 +73,12 @@ namespace MPfm.iOS.Classes.Controls
             Initialize();
         }
 
+		// Keep this or cell reuse won't work for the first items
+		public MPfmTableViewCell(IntPtr handle) : base(handle)
+		{
+			Initialize();
+		}
+
         public MPfmTableViewCell(RectangleF frame) : base(frame)
         {
             Initialize();

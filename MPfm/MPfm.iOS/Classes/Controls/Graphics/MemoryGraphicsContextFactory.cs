@@ -27,7 +27,7 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 	{
 		public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
 		{
-			//Console.WriteLine("WaveFormCacheManager - Creating image cache...");
+			//Console.WriteLine("MemoryGraphicsContextFactory - CreateMemoryGraphicsContext - width: {0} height: {1}", width, height);
 			UIGraphics.BeginImageContextWithOptions(new SizeF(width, height), false, 0);
 			var context = UIGraphics.GetCurrentContext();
 

@@ -33,7 +33,6 @@ using MPfm.Player.Objects;
 using MPfm.GenericControls.Managers;
 using MPfm.GenericControls.Managers.Events;
 using MPfm.GenericControls.Basics;
-using MPfm.iOS.Managers;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -50,26 +49,6 @@ namespace MPfm.iOS.Classes.Controls
         private float _secondaryCursorX;
         private CGColor _colorGradient1 = GlobalTheme.BackgroundColor.CGColor;
         private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
-
-        public WaveFormDisplayType DisplayType { get; set; }
-
-		private WaveFormCacheManagerLegacy _waveFormCacheManager;
-		public WaveFormCacheManagerLegacy WaveFormCacheManager
-        {
-            get
-            {
-                return _waveFormCacheManager;
-            }
-        }
-
-        private AudioFile _audioFile = null;
-        public AudioFile AudioFile
-        {
-            get
-            {
-                return _audioFile;
-            }
-        }
 
         private long _position;
         public long Position
@@ -114,32 +93,6 @@ namespace MPfm.iOS.Classes.Controls
             }
         }
 
-        private bool _showSecondaryPosition = false;
-        public bool ShowSecondaryPosition
-        {
-            get
-            {
-                return _showSecondaryPosition;
-            }
-            set
-            {
-                _showSecondaryPosition = value;
-            }
-        }
-
-        private long _length;
-        public long Length
-        {
-            get
-            {
-                return _length;
-            }
-            set
-            {
-                _length = value;
-            }
-        }
-
         private float _zoom = 1.0f;
         public float Zoom
         {
@@ -152,6 +105,12 @@ namespace MPfm.iOS.Classes.Controls
                 _zoom = value;
             }
         }
+
+		public WaveFormDisplayType DisplayType { get; set; }
+		public WaveFormCacheManager WaveFormCacheManager { get; private set; }
+		public AudioFile AudioFile { get; private set; }
+		public bool ShowSecondaryPosition { get; set; }
+		public long Length { get; set; }
 
         public MPfmWaveFormView(IntPtr handle) 
             : base (handle)
@@ -167,16 +126,15 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            this.BackgroundColor = UIColor.Black;
+            BackgroundColor = UIColor.Black;
             DisplayType = WaveFormDisplayType.Stereo;
-			//_waveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
-			_waveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManagerLegacy>();
-            _waveFormCacheManager.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
-            _waveFormCacheManager.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
-            _waveFormCacheManager.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
-            _waveFormCacheManager.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
-            _waveFormCacheManager.GenerateWaveFormBitmapBegunEvent += HandleGenerateWaveFormBegunEvent;
-            _waveFormCacheManager.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
+			WaveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
+			WaveFormCacheManager.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
+			WaveFormCacheManager.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
+			WaveFormCacheManager.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
+			WaveFormCacheManager.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
+			WaveFormCacheManager.GenerateWaveFormBitmapBegunEvent += HandleGenerateWaveFormBegunEvent;
+			WaveFormCacheManager.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
         }
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
@@ -201,7 +159,7 @@ namespace MPfm.iOS.Classes.Controls
                 // TODO: Check if cancelled? This will not fire another LoadPeakFile if the peak file gen was cancelled.
 				//Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
                 if(!e.Cancelled)
-                    _waveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
+					WaveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
             });
         }
 
@@ -221,6 +179,7 @@ namespace MPfm.iOS.Classes.Controls
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
             InvokeOnMainThread(() => {
+				//Console.WriteLine("WaveFormView - GenerateWaveFormEndedEvent");
                 _isLoading = false;
 				_imageCache = (UIImage)e.Image;
                 SetNeedsDisplay();
@@ -291,7 +250,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public void FlushCache()
         {
-            _waveFormCacheManager.FlushCache();
+			WaveFormCacheManager.FlushCache();
 
             if(_imageCache != null)
             {
@@ -303,9 +262,9 @@ namespace MPfm.iOS.Classes.Controls
         public void LoadPeakFile(AudioFile audioFile)
         {
 			//Console.WriteLine("WaveFormView - LoadPeakFile " + audioFile.FilePath);
-            _audioFile = audioFile;
+			AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
-            _waveFormCacheManager.LoadPeakFile(audioFile);
+			WaveFormCacheManager.LoadPeakFile(audioFile);
         }
 
         private void RefreshStatus(string status)
@@ -368,7 +327,7 @@ namespace MPfm.iOS.Classes.Controls
             context.StrokeLineSegments(new PointF[2] { new PointF(_cursorX, 0), new PointF(_cursorX, heightAvailable) });
 
             // Check if a secondary cursor must be drawn (i.e. when changing position)
-            if(_showSecondaryPosition)
+            if(ShowSecondaryPosition)
             {
                 float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
                 _secondaryCursorX = secondaryPositionPercentage * Bounds.Width;
@@ -388,11 +347,11 @@ namespace MPfm.iOS.Classes.Controls
 
         public void RefreshWaveFormBitmap(float width)
         {
-            if (_audioFile == null)
+			if (AudioFile == null)
                 return;
 
             //RefreshStatus("Generating new bitmap...");
-            GenerateWaveFormBitmap(_audioFile, new RectangleF(Frame.X, Frame.Y, width, Frame.Height));
+			GenerateWaveFormBitmap(AudioFile, new RectangleF(Frame.X, Frame.Y, width, Frame.Height));
         }
 
         private void GenerateWaveFormBitmap(AudioFile audioFile, RectangleF frame)
@@ -401,8 +360,7 @@ namespace MPfm.iOS.Classes.Controls
             {
                 _isGeneratingImageCache = true;
 				//Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
-				_waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, frame, 1, _length);
-				//_waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, new BasicRectangle(frame.X, frame.Y, frame.Width, frame.Height), 1, _length);
+				WaveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, new BasicRectangle(frame.X, frame.Y, frame.Width, frame.Height), 1, Length);
                 _isGeneratingImageCache = false;
             }
         }

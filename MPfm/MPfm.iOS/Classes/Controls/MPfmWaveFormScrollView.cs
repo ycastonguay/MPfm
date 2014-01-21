@@ -235,11 +235,12 @@ namespace MPfm.iOS.Classes.Controls
             }
             WaveFormView.LoadPeakFile(audioFile);
             WaveFormScaleView.AudioFile = audioFile;
+			WaveFormScaleView.SetNeedsDisplay();
         }
 
         public void RefreshWaveFormBitmap(float width)
         {
-			//Tracing.Log("WaveFormScrollView - RefreshWaveFormBitmap - width: {0} offsetRatio: {1}", width, _offsetRatio);
+			Console.WriteLine("WaveFormScrollView - RefreshWaveFormBitmap - width: {0} offsetRatio: {1}", width, _offsetRatio);
             WaveFormView.RefreshWaveFormBitmap(width);
             WaveFormScaleView.SetNeedsDisplay();
 			UpdateZoomScale(width);
@@ -249,6 +250,7 @@ namespace MPfm.iOS.Classes.Controls
 
         public void SetWaveFormLength(long lengthBytes)
         {
+			Console.WriteLine("WaveFormScrollView - SetWaveFormLength - length: {0}", lengthBytes);
             WaveFormView.Length = lengthBytes;
             WaveFormScaleView.AudioFileLength = lengthBytes;
         }

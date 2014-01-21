@@ -27,6 +27,7 @@ using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Managers.Events;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
+using System.Threading;
 
 namespace MPfm.GenericControls.Managers
 {
@@ -39,8 +40,8 @@ namespace MPfm.GenericControls.Managers
         private readonly IMemoryGraphicsContextFactory _memoryGraphicsContextFactory;
         private Dictionary<string, List<WaveDataMinMax>> _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();
         private Dictionary<Tuple<string, WaveFormDisplayType, float>, object> _bitmapCache = new Dictionary<Tuple<string, WaveFormDisplayType, float>, object>();
-        private BasicColor _colorBackground = new BasicColor(255, 0, 0);
-        private BasicColor _colorWaveForm = new BasicColor(255, 0, 255);
+		private BasicColor _colorBackground = new BasicColor(32, 40, 46);
+		private BasicColor _colorWaveForm = new BasicColor(255, 255, 64);
         private float _padding = 0;
 
         public delegate void LoadPeakFileEventHandler(object sender, LoadPeakFileEventArgs e);
@@ -211,11 +212,7 @@ namespace MPfm.GenericControls.Managers
                     if (!_waveDataCache.ContainsKey(audioFile.FilePath))
                         _waveDataCache.Add(audioFile.FilePath, data);
 
-                    OnLoadedPeakFileSuccessfully(new LoadPeakFileEventArgs()
-                    {
-                        AudioFile = audioFile
-                    });
-
+					OnLoadedPeakFileSuccessfully(new LoadPeakFileEventArgs() { AudioFile = audioFile });
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
             else
@@ -231,18 +228,15 @@ namespace MPfm.GenericControls.Managers
             object imageCache;
             var boundsWaveForm = new BasicRectangle();
 
-            // key = FilePath + DisplayType + Zoom
-
             // Calculate available size
             int widthAvailable = (int)bounds.Width;
             int heightAvailable = (int)bounds.Height;
             if (zoom > 1)
-            {
                 widthAvailable = (int)(bounds.Width * zoom);
-            }
             boundsWaveForm = new BasicRectangle(0, 0, widthAvailable - (_padding * 2), heightAvailable - (_padding * 2));
 
-            Task<object>.Factory.StartNew(() =>
+			// Use this instead of a task, this guarantees to execute in another thread
+			var thread = new Thread(new ThreadStart(() => 
             {
                 IMemoryGraphicsContext context;
                 try
@@ -252,19 +246,18 @@ namespace MPfm.GenericControls.Managers
                     if (context == null)
                     {
                         Console.WriteLine("Error initializing image cache context!");
-                        return null;
+						return;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error while creating image cache context: " + ex.Message);
-                    return null;
+                    return;
                 }
 
                 try
                 {
                     // Draw gradient background
-                    //CoreGraphicsHelper.FillGradient(context, new RectangleF(0, 0, bounds.Width + 2, bounds.Height), _colorGradient1, _colorGradient2);
                     context.DrawRectangle(new BasicRectangle(0, 0, bounds.Width + 2, bounds.Height), new BasicBrush(_colorBackground), new BasicPen());
 
                     // Declare variables
@@ -324,10 +317,9 @@ namespace MPfm.GenericControls.Managers
                     else
                         heightToRenderLine = (boundsWaveForm.Height / 2);
 
-                    var pen = new BasicPen(new BasicBrush(_colorWaveForm), lineWidth);
-                    //context.SetStrokeColor(GlobalTheme.WaveFormColor.CGColor);
+					context.SetStrokeColor(_colorWaveForm);
                     //context.SetLineWidth(0.2f);
-                    //context.SetLineWidth(lineWidth);
+					context.SetLineWidth(lineWidth);
 
                     List<float> roundValues = new List<float>();
                     for (float i = 0; i < boundsWaveForm.Width; i += lineWidth)
@@ -427,20 +419,13 @@ namespace MPfm.GenericControls.Managers
                             // Positive Max Value                   
 
                             // Draw positive value (y: middle to top)                   
-
-                            //context.StrokeLineSegments(new PointF[2] {
-                            //    new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine - maxLineHeight)                        
-                            //});
-                            context.DrawLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - maxLineHeight), pen);
+							context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - maxLineHeight));
 
                             // ------------------------
                             // Negative Max Value
 
                             // Draw negative value (y: middle to height)
-                            //context.StrokeLineSegments(new PointF[2] {
-                            //    new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine + (-minLineHeight))
-                            //});
-                            context.DrawLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-minLineHeight)), pen);
+							context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-minLineHeight)));
                         }
                         else if (displayType == WaveFormDisplayType.Stereo)
                         {
@@ -448,38 +433,26 @@ namespace MPfm.GenericControls.Managers
                             // LEFT Channel - Positive Max Value
 
                             // Draw positive value (y: middle to top)
-                            //context.StrokeLineSegments(new PointF[2] {
-                            //    new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine - leftMaxHeight)
-                            //});
-                            context.DrawLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - leftMaxHeight), pen);
+							context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - leftMaxHeight));
 
                             // -----------------------------------------
                             // LEFT Channel - Negative Max Value
 
                             // Draw negative value (y: middle to height)
-                            //context.StrokeLineSegments(new PointF[2] {
-                            //    new PointF(x1, heightToRenderLine), new PointF(x2, heightToRenderLine + (-leftMinHeight))
-                            //});
-                            context.DrawLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-leftMinHeight)), pen);
+							context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-leftMinHeight)));
 
                             // -----------------------------------------
                             // RIGHT Channel - Positive Max Value
 
                             // Multiply by 3 to get the new center line for right channel
                             // Draw positive value (y: middle to top)
-                            //context.StrokeLineSegments(new PointF[2] {
-                            //    new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) - rightMaxHeight)
-                            //});
-                            context.DrawLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) - rightMaxHeight), pen);
+							context.StrokeLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) - rightMaxHeight));
 
                             // -----------------------------------------
                             // RIGHT Channel - Negative Max Value
 
                             // Draw negative value (y: middle to height)
-                            //context.StrokeLineSegments(new PointF[2] {
-                            //    new PointF(x1, (heightToRenderLine * 3)), new PointF(x2, (heightToRenderLine * 3) + (-rightMinHeight))
-                            //});
-                            context.DrawLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) + (-rightMinHeight)), pen);
+							context.StrokeLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) + (-rightMinHeight)));
                         }
 
                         // Increment the history index; pad the last values if the count is about to exceed
@@ -494,21 +467,21 @@ namespace MPfm.GenericControls.Managers
                 finally
                 {
                     // Get image from context (at this point, we are sure the image context has been initialized properly)
+					Console.WriteLine("WaveFormCacheManager - Rendering image to memory...");
                     imageCache = context.RenderToImageInMemory();
                 }
-                return imageCache;
-            }, TaskCreationOptions.LongRunning).ContinueWith(t =>
-            {
-                //Console.WriteLine("WaveFormCacheManager - Created image successfully.");
-                OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
-                {
-                    AudioFilePath = audioFile.FilePath,
-                    Zoom = zoom,
-                    DisplayType = displayType,
-                    Image = t.Result
-                });
-            }, TaskScheduler.FromCurrentSynchronizationContext());
 
+				Console.WriteLine("WaveFormCacheManager - Created image successfully.");
+				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
+				{
+					AudioFilePath = audioFile.FilePath,
+					Zoom = zoom,
+					DisplayType = displayType,
+					Image = imageCache
+				});
+			}));
+			thread.IsBackground = true;
+			thread.Start();
         }
     }
 
