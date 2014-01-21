@@ -16,14 +16,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Renderers;
+using MPfm.Sound.AudioFiles;
 
-namespace MPfm.GenericControls.Controls
+namespace MPfm.GenericControls.Managers.Events
 {
-    public delegate void InvalidateVisual();
-    public interface IControl : IRenderer
+    public class LoadPeakFileEventArgs : EventArgs
     {
-        event InvalidateVisual OnInvalidateVisual;
+        public AudioFile AudioFile { get; set; }
     }
 }

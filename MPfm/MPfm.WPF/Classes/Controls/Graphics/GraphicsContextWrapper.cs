@@ -19,12 +19,10 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using Microsoft.SqlServer.Server;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
 using Brushes = System.Windows.Media.Brushes;
-using Color = System.Windows.Media.Color;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {
@@ -35,27 +33,12 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         public GraphicsContextWrapper(DrawingContext context, float boundsWidth, float boundsHeight)
         {
             _context = context;
-            _boundsWidth = boundsWidth;
-            _boundsHeight = boundsHeight;
+            BoundsWidth = boundsWidth;
+            BoundsHeight = boundsHeight;
         }
 
-        private float _boundsWidth = 0;
-        public float BoundsWidth
-        {
-            get
-            {
-                return _boundsWidth;
-            }
-        }
-
-        private float _boundsHeight = 0;
-        public float BoundsHeight
-        {
-            get
-            {
-                return _boundsHeight;
-            }
-        }
+        public float BoundsWidth { get; private set; }
+        public float BoundsHeight { get; private set; }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {

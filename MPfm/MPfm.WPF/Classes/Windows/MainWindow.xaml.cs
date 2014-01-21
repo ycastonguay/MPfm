@@ -78,14 +78,6 @@ namespace MPfm.WPF.Classes.Windows
             gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
             gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
 
-            //faderVolume.FaderHeight = 28;
-            //faderVolume.FaderWidth = 10;
-            //faderVolume.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
-            //faderVolume.Theme.FaderGradient = new BackgroundGradient(System.Drawing.Color.White, System.Drawing.Color.WhiteSmoke, LinearGradientMode.Vertical, System.Drawing.Color.Gray, 0);
-            //faderVolume.Theme.FaderShadowGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 188, 188, 188), System.Drawing.Color.Gainsboro, LinearGradientMode.Vertical, System.Drawing.Color.Gray, 0);
-
-            //outputMeter.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
-
             waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
         }
 
@@ -900,7 +892,6 @@ namespace MPfm.WPF.Classes.Windows
                 }));
             });
         }
-
 
         #endregion
     }

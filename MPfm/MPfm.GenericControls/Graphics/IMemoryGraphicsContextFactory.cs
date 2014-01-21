@@ -15,15 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Renderers;
-
-namespace MPfm.GenericControls.Controls
+namespace MPfm.GenericControls.Graphics
 {
-    public delegate void InvalidateVisual();
-    public interface IControl : IRenderer
+    public interface IMemoryGraphicsContextFactory
     {
-        event InvalidateVisual OnInvalidateVisual;
+        IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height);
     }
 }

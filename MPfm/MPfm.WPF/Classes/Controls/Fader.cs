@@ -15,21 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Interaction;
-using MPfm.WindowsControls;
 using MPfm.WPF.Classes.Controls.Graphics;
-using MPfm.WPF.Classes.Extensions;
-using MPfm.WPF.Classes.Theme;
 using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls

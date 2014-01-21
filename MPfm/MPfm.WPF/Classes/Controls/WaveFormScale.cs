@@ -22,18 +22,13 @@ using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls
 {
-    public class OutputMeter : Control
+    public class WaveFormScale : Control
     {
-        private readonly OutputMeterControl _control;
+        private readonly WaveFormScaleControl _control;
 
-        public OutputMeter()
+        public WaveFormScale()
         {
-            _control = new OutputMeterControl(null);
-        }
-
-        public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
-        {
-            _control.AddWaveDataBlock(waveDataLeft, waveDataRight);
+            _control = new WaveFormScaleControl();
         }
 
         protected override void OnRender(DrawingContext dc)

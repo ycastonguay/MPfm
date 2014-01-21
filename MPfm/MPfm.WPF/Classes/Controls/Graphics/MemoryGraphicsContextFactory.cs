@@ -15,32 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Drawing;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Media;
-using MPfm.GenericControls.Controls;
-using MPfm.WPF.Classes.Controls.Graphics;
-using Control = System.Windows.Controls.Control;
+using MPfm.GenericControls.Basics;
+using MPfm.GenericControls.Graphics;
+using MPfm.WPF.Classes.Controls.Helpers;
+using Brushes = System.Windows.Media.Brushes;
 
-namespace MPfm.WPF.Classes.Controls
+namespace MPfm.WPF.Classes.Controls.Graphics
 {
-    public class OutputMeter : Control
+    public class MemoryGraphicsContextFactory : IMemoryGraphicsContextFactory
     {
-        private readonly OutputMeterControl _control;
-
-        public OutputMeter()
+        public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
         {
-            _control = new OutputMeterControl(null);
+            throw new NotImplementedException();
         }
-
-        public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
-        {
-            _control.AddWaveDataBlock(waveDataLeft, waveDataRight);
-        }
-
-        protected override void OnRender(DrawingContext dc)
-        {
-            base.OnRender(dc);
-            var wrapper = new GraphicsContextWrapper(dc, (float) ActualWidth, (float) ActualHeight);
-            _control.Render(wrapper);
-        }   
     }
 }
