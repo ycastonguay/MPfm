@@ -18,23 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using MPfm.Core;
-using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.PeakFiles;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Helpers;
-using MPfm.iOS.Managers;
-using MPfm.iOS.Managers.Events;
 using MPfm.iOS.Classes.Objects;
 using MPfm.Player.Objects;
+using MPfm.GenericControls.Managers.Events;
 
 namespace MPfm.iOS.Classes.Controls
 {

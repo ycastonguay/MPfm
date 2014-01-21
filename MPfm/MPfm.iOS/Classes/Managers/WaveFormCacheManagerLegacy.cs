@@ -31,14 +31,15 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.iOS.Managers.Events;
+using MPfm.GenericControls.Managers;
+using MPfm.GenericControls.Managers.Events;
 
 namespace MPfm.iOS.Managers
 {
     /// <summary>
     /// Manager for caching wave form bitmaps.
     /// </summary>
-    public class WaveFormCacheManager
+    public class WaveFormCacheManagerLegacy
     {
         private IPeakFileService _peakFileService;
         private Dictionary<string, List<WaveDataMinMax>> _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();
@@ -58,7 +59,7 @@ namespace MPfm.iOS.Managers
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
-        public WaveFormCacheManager(IPeakFileService peakFileService)
+        public WaveFormCacheManagerLegacy(IPeakFileService peakFileService)
         {
             _peakFileService = peakFileService;
             _peakFileService.OnProcessStarted += HandleOnPeakFileProcessStarted;

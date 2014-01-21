@@ -31,11 +31,11 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 {
 	public class GraphicsContextWrapper : IGraphicsContext
 	{
-		private CGContext _context;
+		protected CGContext Context;
 
 		public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
 		{
-			_context = context;
+			Context = context;
 			BoundsWidth = boundsWidth;
 			BoundsHeight = boundsHeight;
 		}
@@ -45,35 +45,35 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 
 		public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
 		{
-			CoreGraphicsHelper.DrawEllipsis(_context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness);
+			CoreGraphicsHelper.DrawEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness);
 			// TODO: Add fill
 		}
 
 		public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
 		{
-			CoreGraphicsHelper.FillRect(_context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToColor(brush.Color).CGColor);
+			CoreGraphicsHelper.FillRect(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToColor(brush.Color).CGColor);
 			// TODO: Add outline
 		}
 
 		public void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen)
 		{
-			CoreGraphicsHelper.DrawLine(_context, new List<PointF>(){ GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) }, GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness, true, false);
+			CoreGraphicsHelper.DrawLine(Context, new List<PointF>(){ GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) }, GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness, true, false);
 		}
 
 		public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
 		{
-			CoreGraphicsHelper.DrawTextAtPoint(_context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToColor(color).CGColor);
+			CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToColor(color).CGColor);
 		}
 
 		public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
 		{
-			CoreGraphicsHelper.DrawTextInRect(_context, GenericControlHelper.ToRect(rectangle), text, fontFace, fontSize, GenericControlHelper.ToColor(color).CGColor, UILineBreakMode.TailTruncation, UITextAlignment.Left);
+			CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(rectangle), text, fontFace, fontSize, GenericControlHelper.ToColor(color).CGColor, UILineBreakMode.TailTruncation, UITextAlignment.Left);
 			// TODO: Add text alignment to IGraphicsContext
 		}
 
 		public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
 		{
-			var size = CoreGraphicsHelper.MeasureText(_context, text, fontFace, fontSize);
+			var size = CoreGraphicsHelper.MeasureText(Context, text, fontFace, fontSize);
 			return new BasicRectangle(0, 0, size.Width, size.Height);
 		}
     }

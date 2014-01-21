@@ -203,9 +203,6 @@
       <DependentUpon>MarkerDetailsViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Controls\MPfmSemiTransparentButton.cs" />
-    <Compile Include="Classes\Managers\Events\GeneratePeakFileEventArgs.cs" />
-    <Compile Include="Classes\Managers\WaveFormCacheManager.cs" />
-    <Compile Include="Classes\Managers\Events\GenerateWaveFormEventArgs.cs" />
     <Compile Include="Classes\Objects\GlobalTheme.cs" />
     <Compile Include="Classes\Controls\MPfmTabBar.cs" />
     <Compile Include="Classes\Controls\MPfmNavigationBar.cs" />
@@ -217,7 +214,6 @@
     <Compile Include="Classes\Controllers\EqualizerPresetDetailsViewController.designer.cs">
       <DependentUpon>EqualizerPresetDetailsViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Managers\Events\LoadPeakFileEventArgs.cs" />
     <Compile Include="Classes\Controls\MPfmEqualizerFaderView.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
     <Compile Include="Classes\Controls\Events\MPfmEqualizerFaderValueChangedEventArgs.cs" />
@@ -345,6 +341,9 @@
     </Compile>
     <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
+    <Compile Include="Classes\Managers\WaveFormCacheManagerLegacy.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="XIB\iPhone\SplashViewController_iPhone.xib" />

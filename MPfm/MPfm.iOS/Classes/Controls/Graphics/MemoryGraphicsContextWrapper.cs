@@ -16,21 +16,26 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MonoTouch.CoreGraphics;
+using MPfm.GenericControls.Graphics;
 using MonoTouch.UIKit;
-using MPfm.iOS.Classes.Controls;
+using System.Drawing;
 
-namespace MPfm.iOS.Managers.Events
+namespace MPfm.iOS.Classes.Controls.Graphics
 {
-	public class GenerateWaveFormEventArgs : EventArgs
+	public class MemoryGraphicsContextWrapper : GraphicsContextWrapper, IMemoryGraphicsContext
 	{
-        public string AudioFilePath { get; set; }
-        public float Zoom { get; set; }
-        public WaveFormDisplayType DisplayType { get; set; }
-        public UIImage Image { get; set; }
+		public MemoryGraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight) 
+			: base(context, boundsWidth, boundsHeight)
+		{
+		}
 
-        public GenerateWaveFormEventArgs() 
-            : base()
-        {
-        }
-	}
+		public object RenderToImageInMemory()
+		{
+			// Weird, no reference to the context?
+			var image = UIGraphics.GetImageFromCurrentImageContext();
+            UIGraphics.EndImageContext();
+			return image;
+		}
+    }
 }

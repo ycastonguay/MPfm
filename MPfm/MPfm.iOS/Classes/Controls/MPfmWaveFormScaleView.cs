@@ -34,8 +34,6 @@ using MonoTouch.ObjCRuntime;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.iOS.Managers;
-using MPfm.iOS.Managers.Events;
 using MPfm.Player.Objects;
 
 namespace MPfm.iOS.Classes.Controls

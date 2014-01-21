@@ -18,25 +18,22 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.MVP.Bootstrap;
-using MPfm.MVP.Navigation;
-using MPfm.Sound;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.Foundation;
-using MonoTouch.ObjCRuntime;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Objects;
 using MPfm.iOS.Helpers;
-using MPfm.iOS.Managers;
-using MPfm.iOS.Managers.Events;
 using MPfm.Player.Objects;
+using MPfm.GenericControls.Managers;
+using MPfm.GenericControls.Managers.Events;
+using MPfm.GenericControls.Basics;
+using MPfm.iOS.Managers;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -56,8 +53,8 @@ namespace MPfm.iOS.Classes.Controls
 
         public WaveFormDisplayType DisplayType { get; set; }
 
-        private WaveFormCacheManager _waveFormCacheManager;
-        public WaveFormCacheManager WaveFormCacheManager
+		private WaveFormCacheManagerLegacy _waveFormCacheManager;
+		public WaveFormCacheManagerLegacy WaveFormCacheManager
         {
             get
             {
@@ -172,7 +169,8 @@ namespace MPfm.iOS.Classes.Controls
         {
             this.BackgroundColor = UIColor.Black;
             DisplayType = WaveFormDisplayType.Stereo;
-            _waveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
+			//_waveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
+			_waveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManagerLegacy>();
             _waveFormCacheManager.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
             _waveFormCacheManager.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
             _waveFormCacheManager.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
@@ -224,7 +222,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             InvokeOnMainThread(() => {
                 _isLoading = false;
-                _imageCache = e.Image;
+				_imageCache = (UIImage)e.Image;
                 SetNeedsDisplay();
             });            
         }
@@ -266,7 +264,7 @@ namespace MPfm.iOS.Classes.Controls
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WaveFormView - InvalidateMarker - ex: {0}", ex);
+				Console.WriteLine("WaveFormView - InvalidateMarker - ex: {0}", ex);
 			}
 		}
 
@@ -403,18 +401,11 @@ namespace MPfm.iOS.Classes.Controls
             {
                 _isGeneratingImageCache = true;
 				//Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
-                _waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, frame, 1, _length);
+				_waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, frame, 1, _length);
+				//_waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, new BasicRectangle(frame.X, frame.Y, frame.Width, frame.Height), 1, _length);
                 _isGeneratingImageCache = false;
             }
         }
-
-//        public void SetFrame(RectangleF frame)
-//        {
-//            Frame = frame;
-//            InvokeOnMainThread(() => {
-//                GenerateWaveFormBitmap(_audioFile, frame);
-//            });
-//        }
 
         public override void Draw(RectangleF rect)
         {
@@ -437,28 +428,5 @@ namespace MPfm.iOS.Classes.Controls
                 CoreGraphicsHelper.FillRect(context, Bounds, _colorGradient1);
             }
         }
-    }
-
-    /// <summary>
-    /// Defines the wave form display type.
-    /// </summary>
-    public enum WaveFormDisplayType
-    {
-        /// <summary>
-        /// Left channel.
-        /// </summary>
-        LeftChannel = 0, 
-        /// <summary>
-        /// Right channel.
-        /// </summary>
-        RightChannel = 1, 
-        /// <summary>
-        /// Stereo (left and right channels).
-        /// </summary>
-        Stereo = 2, 
-        /// <summary>
-        /// Mix (mix of left/right channels).
-        /// </summary>
-        Mix = 3
     }
 }

@@ -37,6 +37,8 @@ using DropBoxSync.iOS;
 using MPfm.iOS.Classes.Services;
 using MPfm.Library.Services.Interfaces;
 using System.Drawing;
+using MPfm.GenericControls.Graphics;
+using MPfm.iOS.Classes.Controls.Graphics;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -105,6 +107,7 @@ namespace MPfm.iOS.Classes.Delegates
         {
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+			container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
             container.Register<ICloudService, iOSDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
