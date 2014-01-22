@@ -115,6 +115,8 @@
     <Compile Include="Classes\Cache\AsyncBitmapDrawable.cs" />
     <Compile Include="Classes\Clients\MyWebViewClient.cs" />
     <Compile Include="Classes\Controls\CustomListView.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
     <Compile Include="Classes\Controls\SquareImageView.cs" />
@@ -150,10 +152,6 @@
     <Compile Include="Classes\Listeners\ResolveListener.cs" />
     <Compile Include="Classes\Listeners\DiscoveryListener.cs" />
     <Compile Include="Classes\Listeners\RegistrationListener.cs" />
-    <Compile Include="Classes\Managers\Events\GenerateWaveFormEventArgs.cs" />
-    <Compile Include="Classes\Managers\Events\LoadPeakFileEventArgs.cs" />
-    <Compile Include="Classes\Managers\Events\GeneratePeakFileEventArgs.cs" />
-    <Compile Include="Classes\Managers\WaveFormCacheManager.cs" />
     <Compile Include="Classes\Navigation\AndroidNavigationManager.cs" />
     <Compile Include="Classes\Preferences\SeekBarPreference.cs" />
     <Compile Include="Classes\Providers\AndroidAppConfigProvider.cs" />

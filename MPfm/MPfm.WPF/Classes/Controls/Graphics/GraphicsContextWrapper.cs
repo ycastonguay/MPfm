@@ -40,6 +40,32 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
 
+        public void SetStrokeColor(BasicColor color)
+        {
+            // Is this available in WPF? Not sure yet.
+            throw new System.NotImplementedException();            
+        }
+
+        public void SetLineWidth(float width)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void StrokeLine(BasicPoint point, BasicPoint point2)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SaveState()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RestoreState()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
             _context.DrawEllipse(GenericControlHelper.ToSolidColorBrush(brush), GenericControlHelper.ToPen(pen), GenericControlHelper.ToPoint(rectangle.Center()), rectangle.Width / 2, rectangle.Height / 2);

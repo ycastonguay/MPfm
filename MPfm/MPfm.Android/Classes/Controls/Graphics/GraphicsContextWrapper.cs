@@ -26,6 +26,7 @@ namespace MPfm.Android.Classes.Controls.Graphics
     public class GraphicsContextWrapper : IGraphicsContext
     {
         private Canvas _canvas;
+        private Paint _currentPaint;
 
         public GraphicsContextWrapper(Canvas canvas, float boundsWidth, float boundsHeight, float density)
         {
@@ -38,6 +39,43 @@ namespace MPfm.Android.Classes.Controls.Graphics
         public float Density { get; private set; }
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
+
+        private void TryToCreatePaint()
+        {
+            if (_currentPaint != null)
+                return;
+
+            _currentPaint = new Paint();
+            _currentPaint.AntiAlias = true;
+
+        }
+
+        public void SetStrokeColor(BasicColor color)
+        {
+            TryToCreatePaint();
+            _currentPaint.Color = GenericControlHelper.ToColor(color);
+        }
+
+        public void SetLineWidth(float width)
+        {
+            TryToCreatePaint();
+            _currentPaint.StrokeWidth = width;
+        }
+
+        public void StrokeLine(BasicPoint point, BasicPoint point2)
+        {
+            _canvas.DrawLine(point.X, point.Y, point2.X, point2.Y, _currentPaint);
+        }
+
+        public void SaveState()
+        {
+            _canvas.Save();
+        }
+
+        public void RestoreState()
+        {
+            _canvas.Restore();
+        }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {

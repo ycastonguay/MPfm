@@ -20,10 +20,12 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Runtime;
+using MPfm.Android.Classes.Controls.Graphics;
 using MPfm.Android.Classes.Fragments;
 using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Providers;
 using MPfm.Android.Classes.Receivers;
+using MPfm.GenericControls.Graphics;
 using MPfm.Library;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
@@ -152,6 +154,7 @@ namespace MPfm.Android.Classes
         {
             // Complete IoC configuration
             TinyIoC.TinyIoCContainer container = Bootstrapper.GetContainer();
+            container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
             container.Register<ICloudService, AndroidDropboxService>().AsSingleton();
             container.Register<IAppConfigProvider, AndroidAppConfigProvider>().AsSingleton();

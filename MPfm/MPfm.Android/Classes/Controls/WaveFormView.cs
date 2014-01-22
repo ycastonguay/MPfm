@@ -18,19 +18,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Android;
-using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
-using Android.Widget;
-using MPfm.Android.Classes.Managers;
-using MPfm.Android.Classes.Managers.Events;
 using MPfm.Core;
+using MPfm.GenericControls.Basics;
+using MPfm.GenericControls.Managers;
+using MPfm.GenericControls.Managers.Events;
 using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -236,7 +232,7 @@ namespace org.sessionsapp.android
             Post(() =>
             {
                 _isLoading = false;
-                _imageCache = e.Image;
+                _imageCache = (Bitmap)e.Image;
                 Invalidate();
             });
         }
@@ -428,7 +424,8 @@ namespace org.sessionsapp.android
             {
                 _isGeneratingImageCache = true;
                 Console.WriteLine("WaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
-                _waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, frame, 1, _length);
+                //_waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, frame, 1, _length);
+                _waveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, new BasicRectangle(frame.Left, frame.Top, frame.Width(), frame.Height()), 1, _length);
                 _isGeneratingImageCache = false;
             }
         }
@@ -451,28 +448,5 @@ namespace org.sessionsapp.android
                 //CoreGraphicsHelper.FillRect(context, Bounds, _colorGradient1);
             }
         }
-    }
-
-    /// <summary>
-    /// Defines the wave form display type.
-    /// </summary>
-    public enum WaveFormDisplayType
-    {
-        /// <summary>
-        /// Left channel.
-        /// </summary>
-        LeftChannel = 0,
-        /// <summary>
-        /// Right channel.
-        /// </summary>
-        RightChannel = 1,
-        /// <summary>
-        /// Stereo (left and right channels).
-        /// </summary>
-        Stereo = 2,
-        /// <summary>
-        /// Mix (mix of left/right channels).
-        /// </summary>
-        Mix = 3
     }
 }

@@ -17,20 +17,24 @@
 
 using System;
 using Android.Graphics;
-using org.sessionsapp.android;
+using MPfm.GenericControls.Graphics;
 
-namespace MPfm.Android.Classes.Managers.Events
+namespace MPfm.Android.Classes.Controls.Graphics
 {
-    public class GenerateWaveFormEventArgs : EventArgs
+    public class MemoryGraphicsContextWrapper : GraphicsContextWrapper, IMemoryGraphicsContext
     {
-        public string AudioFilePath { get; set; }
-        public float Zoom { get; set; }
-        public WaveFormDisplayType DisplayType { get; set; }
-        public Bitmap Image { get; set; }
+        private readonly Bitmap _bitmap;
 
-        public GenerateWaveFormEventArgs()
-            : base()
+        public MemoryGraphicsContextWrapper(Canvas canvas, Bitmap bitmap, float boundsWidth, float boundsHeight, float density) 
+            : base(canvas, boundsWidth, boundsHeight, density)
         {
+            _bitmap = bitmap;
+        }
+
+        public object RenderToImageInMemory()
+        {
+            Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
+            return _bitmap;
         }
     }
 }

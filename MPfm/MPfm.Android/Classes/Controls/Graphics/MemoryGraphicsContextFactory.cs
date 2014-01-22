@@ -16,18 +16,21 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Android.Graphics;
+using MPfm.GenericControls.Graphics;
 
-namespace MPfm.Android.Classes.Managers.Events
+namespace MPfm.Android.Classes.Controls.Graphics
 {
-    public class GeneratePeakFileEventArgs : EventArgs
+    public class MemoryGraphicsContextFactory : IMemoryGraphicsContextFactory
     {
-        public string AudioFilePath { get; set; }
-        public float PercentageDone { get; set; }
-        public bool Cancelled { get; set; }
-
-        public GeneratePeakFileEventArgs()
-            : base()
+        public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
         {
+            Console.WriteLine("MemoryGraphicsContextFactory - CreateMemoryGraphicsContext");
+            var bitmapConfig = Bitmap.Config.Argb8888;
+            var bitmap = Bitmap.CreateBitmap((int)width, (int)height, bitmapConfig);
+            var canvas = new Canvas(bitmap);
+            var wrapper = new MemoryGraphicsContextWrapper(canvas, bitmap, width, height, 1);
+            return wrapper;
         }
     }
 }
