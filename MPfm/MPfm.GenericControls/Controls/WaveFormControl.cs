@@ -34,7 +34,7 @@ namespace MPfm.GenericControls.Controls
     /// <summary>
     /// The WaveFormScale control displays the scale in minutes/seconds on top of the wave form.
     /// </summary>
-    public class MPfmWaveFormView : IControl
+    public class WaveFormControl : IControl
     {
         private Guid _activeMarkerId = Guid.Empty;
         private List<Marker> _markers = new List<Marker>();
@@ -47,6 +47,7 @@ namespace MPfm.GenericControls.Controls
         private BasicColor _backgroundColor = new BasicColor(36, 47, 53);
         private BasicColor _statusBackgroundColor = new BasicColor(0, 0, 0, 178);
         private BasicColor _cursorColor = new BasicColor(0, 128, 255);
+        private BasicColor _secondaryCursorColor = new BasicColor(255, 255, 255);
         private BasicColor _markerCursorColor = new BasicColor(255, 0, 0);
         private BasicColor _markerSelectedCursorColor = new BasicColor(234, 138, 128);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
@@ -118,7 +119,7 @@ namespace MPfm.GenericControls.Controls
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
-        public MPfmWaveFormView()
+        public WaveFormControl()
         {
             Initialize();
         }
@@ -126,6 +127,7 @@ namespace MPfm.GenericControls.Controls
         private void Initialize()
         {
             OnInvalidateVisual += () => { };
+            OnInvalidateVisualInRect += (rect) => { };
             Frame = new BasicRectangle();
             DisplayType = WaveFormDisplayType.Stereo;
             WaveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
@@ -140,14 +142,14 @@ namespace MPfm.GenericControls.Controls
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
         {
             //InvokeOnMainThread(() =>
-            //Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileBegunEvent");
+            Console.WriteLine(">>> WaveFormControl - HandleGeneratePeakFileBegunEvent");
             RefreshStatus("Generating wave form (0% done)");
         }
 
         private void HandleGeneratePeakFileProgressEvent(object sender, GeneratePeakFileEventArgs e)
         {
             //InvokeOnMainThread(() =>
-            //Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
+            Console.WriteLine(">>> WaveFormControl - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
             RefreshStatus("Generating wave form (" + e.PercentageDone.ToString("0") + "% done)");
         }
 
@@ -155,7 +157,7 @@ namespace MPfm.GenericControls.Controls
         {
             //InvokeOnMainThread(() =>
             // TODO: Check if cancelled? This will not fire another LoadPeakFile if the peak file gen was cancelled.
-            //Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
+            Console.WriteLine(">>> WaveFormControl - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
             if (!e.Cancelled)
                 WaveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
         }
@@ -163,7 +165,7 @@ namespace MPfm.GenericControls.Controls
         private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
         {
             //InvokeOnMainThread(() =>
-            //Console.WriteLine("MPfmWaveFormView - HandleLoadedPeakFileSuccessfullyEvent");
+            Console.WriteLine(">>> WaveFormControl - HandleLoadedPeakFileSuccessfullyEvent");
             GenerateWaveFormBitmap(e.AudioFile, Frame);
         }
 
@@ -174,7 +176,7 @@ namespace MPfm.GenericControls.Controls
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
             //InvokeOnMainThread(() =>
-            //Console.WriteLine("WaveFormView - GenerateWaveFormEndedEvent");
+            Console.WriteLine(">>> WaveFormControl - GenerateWaveFormEndedEvent");
             _isLoading = false;
             _imageCache = new BasicImage(e.Image);
             OnInvalidateVisual();
@@ -216,7 +218,7 @@ namespace MPfm.GenericControls.Controls
             }
             catch (Exception ex)
             {
-                Console.WriteLine("WaveFormView - InvalidateMarker - ex: {0}", ex);
+                Console.WriteLine("WaveFormControl - InvalidateMarker - ex: {0}", ex);
             }
         }
 
@@ -255,7 +257,7 @@ namespace MPfm.GenericControls.Controls
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-            //Console.WriteLine("WaveFormView - LoadPeakFile " + audioFile.FilePath);
+            Console.WriteLine(">>> WaveFormControl - LoadPeakFile " + audioFile.FilePath);
             AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
             WaveFormCacheManager.LoadPeakFile(audioFile);
@@ -263,6 +265,7 @@ namespace MPfm.GenericControls.Controls
 
         private void RefreshStatus(string status)
         {
+            Console.WriteLine(">>> WaveFormControl - RefreshStatus - status: {0}", status);
             _isLoading = true;
             _status = status;
             OnInvalidateVisual();
@@ -270,19 +273,17 @@ namespace MPfm.GenericControls.Controls
 
         private void DrawStatus(IGraphicsContext context, string status)
         {
-            //CoreGraphcsHelper.FillGradient(context, Bounds, _colorGradient2, _colorGradient1);
+            Console.WriteLine(">>> WaveFormControl - DrawStatus - status: {0}", status);
             context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());            
-            //context.SetFillColor(UIColor.White.CGColor);
-            float y = (Frame.Height - 30) / 2;
-
-            //UIGraphics.PushContext(context);
-            //str.DrawString(new RectangleF(0, y, screenSize.Width, 30), UIFont.FromName("HelveticaNeue-Light", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
-            //UIGraphics.PopContext();
-            context.DrawText(status, new BasicPoint(0, y), _textColor, "Roboto", 12);
+            var rectText = context.MeasureText(status, new BasicRectangle(0, 0, Frame.Width, 30), "Roboto", 12);                
+            float x = (context.BoundsWidth - rectText.Width) / 2;
+            float y = context.BoundsHeight / 2;
+            context.DrawText(status, new BasicPoint(x, y), _textColor, "Roboto", 12);
         }
 
         private void DrawWaveFormBitmap(IGraphicsContext context)
         {
+            Console.WriteLine(">>> WaveFormControl - DrawWaveFormBitmap");
             _isLoading = false;
             int heightAvailable = (int)Frame.Height;
 
@@ -307,12 +308,8 @@ namespace MPfm.GenericControls.Controls
 
                 // Draw text
                 var rectText = new BasicRectangle(x, 0, 12, 12);
-                //CoreGraphicsHelper.FillRect(context, rectText, color.ColorWithAlpha(0.7f).CGColor);
                 context.DrawRectangle(rectText, new BasicBrush(_statusBackgroundColor), new BasicPen());
                 string letter = Conversion.IndexToLetter(a).ToString();
-                //UIGraphics.PushContext(context);
-                //CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(x + 2, 0), letter, "HelveticaNeue", 10, new CGColor(1, 1, 1, 1));
-                //UIGraphics.PopContext();
                 context.DrawText(letter, new BasicPoint(x + 2, 0), _textColor, "Roboto", 10);
             }
 
@@ -329,7 +326,7 @@ namespace MPfm.GenericControls.Controls
                 _secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
 
                 // Draw cursor line
-                context.SetStrokeColor(_cursorColor);
+                context.SetStrokeColor(_secondaryCursorColor);
                 context.SetLineWidth(1.0f);
                 context.StrokeLine(new BasicPoint(_secondaryCursorX, 0), new BasicPoint(_secondaryCursorX, heightAvailable));
             }
@@ -362,17 +359,21 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
+            Console.WriteLine(">>> WaveFormControl - Render");
+            Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
             if (_isLoading)
             {
+                Console.WriteLine(">>> WaveFormControl - Render - Drawing status...");
                 DrawStatus(context, _status);
             }
             else if (_imageCache != null)
             {
+                Console.WriteLine(">>> WaveFormControl - Render - Drawing wave form bitmap...");
                 DrawWaveFormBitmap(context);
             }
             else
             {
-                //CoreGraphicsHelper.FillRect(context, Bounds, _colorGradient1);
+                Console.WriteLine(">>> WaveFormControl - Render - Drawing empty background...");
                 context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
             }
         }

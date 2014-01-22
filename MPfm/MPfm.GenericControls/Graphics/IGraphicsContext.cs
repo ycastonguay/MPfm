@@ -33,7 +33,7 @@ namespace MPfm.GenericControls.Graphics
 		void RestoreState();
 
 		// These methods are inteded to be easy to use
-        void DrawImage(BasicRectangle rectangle, object image);
+        void DrawImage(BasicRectangle rectangle, BasicImage image);
         void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen);

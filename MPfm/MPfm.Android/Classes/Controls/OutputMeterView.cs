@@ -22,6 +22,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using MPfm.Android.Classes.Controls.Graphics;
+using MPfm.Android.Classes.Controls.Helpers;
 using MPfm.GenericControls.Controls;
 
 namespace org.sessionsapp.android
@@ -54,6 +55,8 @@ namespace org.sessionsapp.android
         private void Initialize()
         {
             _control = new OutputMeterControl(null);
+            _control.OnInvalidateVisual += () => Post(Invalidate);
+            _control.OnInvalidateVisualInRect += (rect) => Post(() => Invalidate(GenericControlHelper.ToRect(rect)));
             _control.FontSize = 12;
 
             if (!IsInEditMode)
