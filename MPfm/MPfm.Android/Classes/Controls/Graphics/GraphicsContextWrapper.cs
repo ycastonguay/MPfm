@@ -76,10 +76,10 @@ namespace MPfm.Android.Classes.Controls.Graphics
             _canvas.Restore();
         }
 
-        public void DrawImage(BasicRectangle rectangle, BasicImage image)
+        public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
             var paintBitmap = new Paint();
-            _canvas.DrawBitmap((Bitmap)image.Image, 0, 0, paintBitmap);
+            _canvas.DrawBitmap((Bitmap)image, 0, 0, paintBitmap);
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

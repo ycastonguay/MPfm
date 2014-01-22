@@ -31,7 +31,7 @@ namespace MPfm.Android.Classes.Controls.Graphics
             _bitmap = bitmap;
         }
 
-        public object RenderToImageInMemory()
+        public IDisposable RenderToImageInMemory()
         {
             Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
             return _bitmap;

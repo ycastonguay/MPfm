@@ -225,7 +225,7 @@ namespace MPfm.GenericControls.Managers
 
         public void RequestBitmap(AudioFile audioFile, WaveFormDisplayType displayType, BasicRectangle bounds, float zoom, long audioFileLength)
         {
-            object imageCache;
+            IDisposable imageCache;
             var boundsWaveForm = new BasicRectangle();
 
             // Calculate available size

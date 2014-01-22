@@ -110,7 +110,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basics\BasicImage.cs" />
     <Compile Include="Basics\BasicRectangle.cs" />
     <Compile Include="Basics\BasicColor.cs" />
     <Compile Include="Basics\BasicBrush.cs" />

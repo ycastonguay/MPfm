@@ -41,7 +41,7 @@ namespace MPfm.GenericControls.Controls
         private string _status = "";
         private bool _isLoading = false;
         private bool _isGeneratingImageCache = false;
-        private BasicImage _imageCache = null;
+        private IDisposable _imageCache = null;
         private float _cursorX;
         private float _secondaryCursorX;
         private BasicColor _backgroundColor = new BasicColor(36, 47, 53);
@@ -178,7 +178,7 @@ namespace MPfm.GenericControls.Controls
             //InvokeOnMainThread(() =>
             Console.WriteLine(">>> WaveFormControl - GenerateWaveFormEndedEvent");
             _isLoading = false;
-            _imageCache = new BasicImage(e.Image);
+            _imageCache = e.Image;
             OnInvalidateVisual();
         }
 

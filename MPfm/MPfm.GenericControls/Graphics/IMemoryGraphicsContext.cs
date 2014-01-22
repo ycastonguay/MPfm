@@ -15,12 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MPfm.GenericControls.Basics;
 
 namespace MPfm.GenericControls.Graphics
 {
     public interface IMemoryGraphicsContext : IGraphicsContext
     {
-        object RenderToImageInMemory();
+        IDisposable RenderToImageInMemory();
     }
 }
