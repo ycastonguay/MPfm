@@ -65,6 +65,7 @@ namespace MPfm.GenericControls.Controls
         }
 
         public event InvalidateVisual OnInvalidateVisual;
+        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
         public WaveFormScaleControl()
             : base()

@@ -77,9 +77,14 @@ namespace MPfm.Android.Classes.Controls.Graphics
             _canvas.Restore();
         }
 
+        public void DrawImage(BasicRectangle rectangle, object image)
+        {
+            var paintBitmap = new Paint();
+            _canvas.DrawBitmap((Bitmap)image, 0, 0, paintBitmap);
+        }
+
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
-            // TODO: Add fill
             throw new NotImplementedException();
         }
 

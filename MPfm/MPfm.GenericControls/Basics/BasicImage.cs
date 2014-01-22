@@ -1,4 +1,4 @@
-﻿// Copyright © 2011-2013 Yanick Castonguay
+// Copyright � 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,17 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-namespace MPfm.GenericControls.Interaction
-{
-    public interface IControlInteraction
-    {
-        void MouseDown(float x, float y, MouseButtonType button);
-        void MouseUp(float x, float y, MouseButtonType button);
-        void MouseMove(float x, float y, MouseButtonType button);
-    }
+using System;
 
-    public enum MouseButtonType
+namespace MPfm.GenericControls.Basics
+{
+    public class BasicImage : IDisposable
     {
-        Left = 0, Middle = 1, Right = 2
+        public object Image { get; set; }
+
+        public BasicImage(object image)
+        {
+            Image = image;
+        }
+
+        public void Dispose()
+        {
+            // What do we do here to actually call the image dispose on each platform?
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace MPfm.GenericControls.Controls
 {
     public class OutputMeterControl : IControl
     {
-        private readonly IControlInteraction _interaction;
+        private readonly IControlMouseInteraction _mouseInteraction;
 		private List<WaveDataMinMax> _waveDataHistory;
 
         /// <summary>
@@ -66,10 +66,11 @@ namespace MPfm.GenericControls.Controls
         public BasicColor ColorPeakLine { get { return new BasicColor(0, 225, 0); } }
 
         public event InvalidateVisual OnInvalidateVisual;
+        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
-        public OutputMeterControl(IControlInteraction interaction)
+        public OutputMeterControl(IControlMouseInteraction mouseInteraction)
         {
-            _interaction = interaction;
+            _mouseInteraction = mouseInteraction;
             _waveDataHistory = new List<WaveDataMinMax>();
 			Initialize();
         }

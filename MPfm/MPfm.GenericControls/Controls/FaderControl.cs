@@ -28,7 +28,7 @@ namespace MPfm.GenericControls.Controls
     /// The Fader control is a vertical track bar with the appearance of a fader.
     /// The control appearance can be changed using the public properties.
     /// </summary>
-    public class FaderControl : IControl, IControlInteraction
+    public class FaderControl : IControl, IControlMouseInteraction
     {
         private BasicColor _backgroundColor1 = new BasicColor(36, 47, 53);
         private BasicColor _backgroundColor2 = new BasicColor(36, 47, 53);
@@ -101,6 +101,7 @@ namespace MPfm.GenericControls.Controls
         public event FaderValueChanged OnFaderValueChanged;
 
         public event InvalidateVisual OnInvalidateVisual;
+        public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
         public FaderControl()
             : base()

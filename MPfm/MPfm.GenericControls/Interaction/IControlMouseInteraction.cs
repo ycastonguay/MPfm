@@ -1,4 +1,4 @@
-// Copyright � 2011-2013 Yanick Castonguay
+﻿// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,18 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using MPfm.GenericControls.Basics;
-using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Renderers;
-
-namespace MPfm.GenericControls.Controls
+namespace MPfm.GenericControls.Interaction
 {
-    public delegate void InvalidateVisual();
-    public delegate void InvalidateVisualInRect(BasicRectangle rect);
-    public interface IControl : IRenderer
+    public interface IControlMouseInteraction
     {
-        event InvalidateVisual OnInvalidateVisual;
-        event InvalidateVisualInRect OnInvalidateVisualInRect;
+        void MouseDown(float x, float y, MouseButtonType button);
+        void MouseUp(float x, float y, MouseButtonType button);
+        void MouseMove(float x, float y, MouseButtonType button);
+    }
+
+    public enum MouseButtonType
+    {
+        Left = 0, Middle = 1, Right = 2
     }
 }
