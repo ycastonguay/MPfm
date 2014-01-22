@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows;
@@ -66,9 +67,9 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             throw new System.NotImplementedException();
         }
 
-        public void DrawImage(BasicRectangle rectangle, object image)
+        public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

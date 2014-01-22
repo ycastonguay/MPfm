@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Windows.Media;
 using MPfm.GenericControls.Graphics;
 
@@ -27,7 +28,7 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         {
         }
 
-        public object RenderToImageInMemory()
+        public IDisposable RenderToImageInMemory()
         {
             throw new System.NotImplementedException();
         }
