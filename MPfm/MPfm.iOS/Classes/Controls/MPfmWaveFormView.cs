@@ -16,375 +16,143 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using MPfm.Core;
-using MPfm.MVP.Bootstrap;
-using MPfm.Sound.AudioFiles;
-using MPfm.Sound.PeakFiles;
-using MonoTouch.CoreAnimation;
-using MonoTouch.CoreGraphics;
+using MPfm.GenericControls.Controls;
+using MPfm.GenericControls.Managers;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Controls.Graphics;
 using MPfm.iOS.Classes.Objects;
-using MPfm.iOS.Helpers;
+using MPfm.Sound.AudioFiles;
+using System.Collections.Generic;
 using MPfm.Player.Objects;
-using MPfm.GenericControls.Managers;
-using MPfm.GenericControls.Managers.Events;
-using MPfm.GenericControls.Basics;
+using MPfm.iOS.Classes.Controls.Helpers;
 
 namespace MPfm.iOS.Classes.Controls
 {
     [Register("MPfmWaveFormView")]
     public class MPfmWaveFormView : UIView
     {
-		private Guid _activeMarkerId = Guid.Empty;
-        private List<Marker> _markers = new List<Marker>();
-        private string _status = "";
-        private bool _isLoading = false;
-        private bool _isGeneratingImageCache = false;
-        private UIImage _imageCache = null;
-        private float _cursorX;
-        private float _secondaryCursorX;
-        private CGColor _colorGradient1 = GlobalTheme.BackgroundColor.CGColor;
-        private CGColor _colorGradient2 = GlobalTheme.BackgroundColor.CGColor;
+		private WaveFormControl _control;
 
-        private long _position;
-        public long Position
-        {
-            get
-            {
-                return _position;
-            }
-            set
-            {
-                _position = value;
+		public WaveFormCacheManager WaveFormCacheManager
+		{
+			get
+			{
+				return _control.WaveFormCacheManager;
+			}
+		}
 
-                // Don't bother if a peak file is loading
-                if(_isLoading || _imageCache == null)
-                    return;
+		public long Length
+		{
+			get
+			{
+				return _control.Length;
+			}
+			set
+			{
+				_control.Length = value;
+			}
+		}
 
-                // Invalidate cursor
-                RectangleF rectCursor = new RectangleF(_cursorX - 5, 0, 10, Frame.Height);
-                SetNeedsDisplayInRect(rectCursor);
-            }
-        }
+		public long Position
+		{
+			get
+			{
+				return _control.Position;
+			}
+			set
+			{
+				_control.Position = value;
+			}
+		}
 
-        private long _secondaryPosition;
-        public long SecondaryPosition
-        {
-            get
-            {
-                return _secondaryPosition;
-            }
-            set
-            {
-                _secondaryPosition = value;
-                
-                // Don't bother if a peak file is loading
-                if(_isLoading)
-                    return;
-                
-                // Invalidate cursor. TODO: When the cursor is moving quickly, it dispappears because of the invalidation.
-                //                          Maybe the cursor shouldn't be rendered, but instead be a simple rect over this control?
-                RectangleF rectCursor = new RectangleF(_secondaryCursorX - 25, 0, 50, Frame.Height);
-                SetNeedsDisplayInRect(rectCursor);
-            }
-        }
+		public bool ShowSecondaryPosition
+		{
+			get
+			{
+				return _control.ShowSecondaryPosition;
+			}
+			set
+			{
+				_control.ShowSecondaryPosition = value;
+			}
+		}
 
-        private float _zoom = 1.0f;
-        public float Zoom
-        {
-            get
-            {
-                return _zoom;
-            }
-            set
-            {
-                _zoom = value;
-            }
-        }
+		public long SecondaryPosition
+		{
+			get
+			{
+				return _control.SecondaryPosition;
+			}
+			set
+			{
+				_control.SecondaryPosition = value;
+			}
+		}
 
-		public WaveFormDisplayType DisplayType { get; set; }
-		public WaveFormCacheManager WaveFormCacheManager { get; private set; }
-		public AudioFile AudioFile { get; private set; }
-		public bool ShowSecondaryPosition { get; set; }
-		public long Length { get; set; }
+		public MPfmWaveFormView(IntPtr handle) 
+			: base (handle)
+		{
+			Initialize();
+		}
 
-        public MPfmWaveFormView(IntPtr handle) 
-            : base (handle)
-        {
-            Initialize();
-        }
+		public MPfmWaveFormView(RectangleF frame) 
+			: base(frame)
+		{
+			Initialize();
+		}
 
-        public MPfmWaveFormView(RectangleF frame) 
-            : base(frame)
-        {
-            Initialize();
-        }
+		private void Initialize()
+		{
+			BackgroundColor = GlobalTheme.BackgroundColor;
+			_control = new WaveFormControl();
+			_control.FontFace = "HelveticaNeue";
+			_control.LetterFontFace = "HelveticaNeue";
+			_control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
+			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
+		}
 
-        private void Initialize()
-        {
-            BackgroundColor = UIColor.Black;
-            DisplayType = WaveFormDisplayType.Stereo;
-			WaveFormCacheManager = Bootstrapper.GetContainer().Resolve<WaveFormCacheManager>();
-			WaveFormCacheManager.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
-			WaveFormCacheManager.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
-			WaveFormCacheManager.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
-			WaveFormCacheManager.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
-			WaveFormCacheManager.GenerateWaveFormBitmapBegunEvent += HandleGenerateWaveFormBegunEvent;
-			WaveFormCacheManager.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
-        }
+		public override void Draw(RectangleF rect)
+		{
+			var context = UIGraphics.GetCurrentContext();
+			var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
+			_control.Render(wrapper);
+		}
 
-        private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
-        {
-            InvokeOnMainThread(() => {
-                //Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileBegunEvent");
-                RefreshStatus("Generating wave form (0% done)");
-            });
-        }
+		public void FlushCache()
+		{
+			_control.FlushCache();
+		}
 
-        private void HandleGeneratePeakFileProgressEvent(object sender, GeneratePeakFileEventArgs e)
-        {
-            InvokeOnMainThread(() => {
-                //Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
-                RefreshStatus("Generating wave form (" + e.PercentageDone.ToString("0") + "% done)");
-            });            
-        }
+		public void RefreshWaveFormBitmap()
+		{
+			_control.RefreshWaveFormBitmap();
+		}
 
-        private void HandleGeneratePeakFileEndedEvent(object sender, GeneratePeakFileEventArgs e)
-        {
-            InvokeOnMainThread(() => {
-                // TODO: Check if cancelled? This will not fire another LoadPeakFile if the peak file gen was cancelled.
-				//Console.WriteLine("MPfmWaveFormView - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
-                if(!e.Cancelled)
-					WaveFormCacheManager.LoadPeakFile(new AudioFile(e.AudioFilePath));
-            });
-        }
+		public void RefreshWaveFormBitmap(float width)
+		{
+			_control.RefreshWaveFormBitmap(width);
+		}
 
-        private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
-        {
-            InvokeOnMainThread(() => {
-                //Console.WriteLine("MPfmWaveFormView - HandleLoadedPeakFileSuccessfullyEvent");
-                GenerateWaveFormBitmap(e.AudioFile, Bounds);
-            });
-        }
-
-        private void HandleGenerateWaveFormBegunEvent(object sender, GenerateWaveFormEventArgs e)
-        {
-            
-        }
-
-        private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
-        {
-            InvokeOnMainThread(() => {
-				//Console.WriteLine("WaveFormView - GenerateWaveFormEndedEvent");
-                _isLoading = false;
-				_imageCache = (UIImage)e.Image;
-                SetNeedsDisplay();
-            });            
-        }
-
-        void HandleOnPeakFileProcessStarted(PeakFileStartedData data)
-        {
-        }
-
-        void HandleOnPeakFileProcessData(PeakFileProgressData data)
-        {
-
-        }
-
-        void HandleOnPeakFileProcessDone(PeakFileDoneData data)
-        {
-        }
+		public void LoadPeakFile(AudioFile audioFile)
+		{
+			_control.LoadPeakFile(audioFile);
+		}
 
 		public void SetActiveMarker(Guid markerId)
 		{
-			if(markerId != _activeMarkerId)
-				InvalidateMarker(_activeMarkerId);
-
-			_activeMarkerId = markerId;
-			InvalidateMarker(_activeMarkerId);
-		}
-
-		private void InvalidateMarker(Guid markerId)
-		{
-			try
-			{
-				var marker = _markers.FirstOrDefault(x => x.MarkerId == markerId);
-				if (marker == null)
-					return;
-
-				float xPct = (float)marker.PositionBytes / (float)Length;
-				float xMarker = xPct * Bounds.Width;
-				RectangleF rectCursor = new RectangleF(xMarker - 5, 0, 25, Frame.Height);
-				SetNeedsDisplayInRect(rectCursor);
-			}
-			catch(Exception ex)
-			{
-				Console.WriteLine("WaveFormView - InvalidateMarker - ex: {0}", ex);
-			}
+			_control.SetActiveMarker(markerId);
 		}
 
 		public void SetMarkers(IEnumerable<Marker> markers)
-        {
-            _markers = markers.ToList();
-            SetNeedsDisplay();
-        }
+		{
+			_control.SetMarkers(markers);
+		}
 
 		public void SetMarkerPosition(Marker marker)
 		{
-			var localMarker = _markers.FirstOrDefault(x => x.MarkerId == marker.MarkerId);
-			if (localMarker == null)
-				return;
-		
-			localMarker.Position = marker.Position;
-			localMarker.PositionBytes = marker.PositionBytes;
-			localMarker.PositionPercentage = marker.PositionPercentage;
-			localMarker.PositionSamples = marker.PositionSamples;
-
-			// TODO: Only refresh the old/new marker positions
-			SetNeedsDisplay();
+			_control.SetMarkerPosition(marker);
 		}
-
-        public void FlushCache()
-        {
-			WaveFormCacheManager.FlushCache();
-
-            if(_imageCache != null)
-            {
-                _imageCache.Dispose();
-                _imageCache = null;
-            }
-        }
-
-        public void LoadPeakFile(AudioFile audioFile)
-        {
-			//Console.WriteLine("WaveFormView - LoadPeakFile " + audioFile.FilePath);
-			AudioFile = audioFile;
-            RefreshStatus("Loading peak file...");
-			WaveFormCacheManager.LoadPeakFile(audioFile);
-        }
-
-        private void RefreshStatus(string status)
-        {
-            _isLoading = true;
-            _status = status;
-            SetNeedsDisplay();
-        }
-
-        private void DrawStatus(CGContext context, string status)
-        {
-            var screenSize = UIKitHelper.GetDeviceSize();
-            CoreGraphicsHelper.FillGradient(context, Bounds, _colorGradient2, _colorGradient1);
-
-            NSString str = new NSString(status);
-            context.SetFillColor(UIColor.White.CGColor);
-            float y = (Bounds.Height - 30) / 2;
-
-            UIGraphics.PushContext(context);
-            str.DrawString(new RectangleF(0, y, screenSize.Width, 30), UIFont.FromName("HelveticaNeue-Light", 12), UILineBreakMode.TailTruncation, UITextAlignment.Center);
-            UIGraphics.PopContext();
-        }
-
-        private void DrawWaveFormBitmap(CGContext context)
-        {
-            _isLoading = false;
-            int heightAvailable = (int)Frame.Height;
-
-            // Draw bitmap cache
-            context.DrawImage(Bounds, _imageCache.CGImage);
-            
-            // Calculate position
-            float positionPercentage = (float)Position / (float)Length;
-            _cursorX = positionPercentage * Bounds.Width;
-            
-            // Draw markers
-            for(int a = 0; a < _markers.Count; a++)
-            {
-                float xPct = (float)_markers[a].PositionBytes / (float)Length;
-                float x = xPct * Bounds.Width;
-
-                // Draw cursor line
-				var color = _markers[a].MarkerId == _activeMarkerId ? GlobalTheme.SecondaryLightColor : new UIColor(1, 0, 0, 1);
-				context.SetStrokeColor(color.CGColor);
-                context.SetLineWidth(1.0f);
-                context.StrokeLineSegments(new PointF[2] { new PointF(x, 0), new PointF(x, heightAvailable) });
-
-                // Draw text
-                var rectText = new RectangleF(x, 0, 12, 12);
-				CoreGraphicsHelper.FillRect(context, rectText, color.ColorWithAlpha(0.7f).CGColor);
-                string letter = Conversion.IndexToLetter(a).ToString();
-                UIGraphics.PushContext(context);
-                CoreGraphicsHelper.DrawTextAtPoint(context, new PointF(x+2, 0), letter, "HelveticaNeue", 10, new CGColor(1, 1, 1, 1));
-                UIGraphics.PopContext();
-            }
-
-            // Draw cursor line
-            context.SetStrokeColor(new CGColor(0, 0.5f, 1, 1));
-            context.SetLineWidth(1.0f);
-            context.StrokeLineSegments(new PointF[2] { new PointF(_cursorX, 0), new PointF(_cursorX, heightAvailable) });
-
-            // Check if a secondary cursor must be drawn (i.e. when changing position)
-            if(ShowSecondaryPosition)
-            {
-                float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
-                _secondaryCursorX = secondaryPositionPercentage * Bounds.Width;
-                _secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
-
-                // Draw cursor line
-                context.SetStrokeColor(new CGColor(1, 1, 1, 1));
-                context.SetLineWidth(1.0f);
-                context.StrokeLineSegments(new PointF[2] { new PointF(_secondaryCursorX, 0), new PointF(_secondaryCursorX, heightAvailable) });
-            }
-        }
-
-        public void RefreshWaveFormBitmap()
-        {
-            RefreshWaveFormBitmap(Frame.Width);
-        }
-
-        public void RefreshWaveFormBitmap(float width)
-        {
-			if (AudioFile == null)
-                return;
-
-            //RefreshStatus("Generating new bitmap...");
-			GenerateWaveFormBitmap(AudioFile, new RectangleF(Frame.X, Frame.Y, width, Frame.Height));
-        }
-
-        private void GenerateWaveFormBitmap(AudioFile audioFile, RectangleF frame)
-        {
-            if(!_isGeneratingImageCache)
-            {
-                _isGeneratingImageCache = true;
-				//Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
-				WaveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, new BasicRectangle(frame.X, frame.Y, frame.Width, frame.Height), 1, Length);
-                _isGeneratingImageCache = false;
-            }
-        }
-
-        public override void Draw(RectangleF rect)
-        {
-            // Leave empty! Actual drawing is in DrawLayer
-        }
-
-        [Export ("drawLayer:inContext:")]
-        public void DrawLayer(CALayer layer, CGContext context)
-        {
-            if(_isLoading)
-            {
-                DrawStatus(context, _status);
-            }
-            else if (_imageCache != null)
-            {
-                DrawWaveFormBitmap(context);
-            }
-            else
-            {
-                CoreGraphicsHelper.FillRect(context, Bounds, _colorGradient1);
-            }
-        }
     }
 }

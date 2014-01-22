@@ -36,6 +36,7 @@ namespace MPfm.GenericControls.Managers
     /// </summary>
     public class WaveFormCacheManager
     {
+		// TODO: Should be called WaveFormCacheService.
         private readonly IPeakFileService _peakFileService;
         private readonly IMemoryGraphicsContextFactory _memoryGraphicsContextFactory;
         private Dictionary<string, List<WaveDataMinMax>> _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();

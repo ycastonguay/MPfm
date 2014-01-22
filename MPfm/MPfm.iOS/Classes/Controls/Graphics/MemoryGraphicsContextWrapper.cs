@@ -30,7 +30,7 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 		{
 		}
 
-		public object RenderToImageInMemory()
+		public IDisposable RenderToImageInMemory()
 		{
 			// Weird, no reference to the context?
 			//Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");

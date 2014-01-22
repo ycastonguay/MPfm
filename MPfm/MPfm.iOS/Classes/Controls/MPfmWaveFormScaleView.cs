@@ -23,6 +23,7 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Objects;
 using MPfm.GenericControls.Controls;
 using MPfm.iOS.Classes.Controls.Graphics;
+using MPfm.iOS.Classes.Controls.Helpers;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -71,6 +72,8 @@ namespace MPfm.iOS.Classes.Controls
         {
             BackgroundColor = GlobalTheme.BackgroundColor;
 			_control = new WaveFormScaleControl();
+			_control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
+			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
 
         public override void Draw(RectangleF rect)

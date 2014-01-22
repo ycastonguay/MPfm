@@ -139,6 +139,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -149,6 +152,14 @@
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
       <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.iOS.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.iOS.csproj">
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
+      <Name>MPfm.MVP.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +176,6 @@
     <Compile Include="Graphics\IMemoryGraphicsContext.cs" />
     <Compile Include="Graphics\IGraphicsContext.cs" />
     <Compile Include="Graphics\IMemoryGraphicsContextFactory.cs" />
-    <Compile Include="Interaction\IControlInteraction.cs" />
     <Compile Include="Interaction\IControlTouchInteraction.cs" />
     <Compile Include="Managers\Events\LoadPeakFileEventArgs.cs" />
     <Compile Include="Managers\Events\GenerateWaveFormEventArgs.cs" />
@@ -175,5 +185,7 @@
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
+    <Compile Include="Interaction\IControlMouseInteraction.cs" />
+    <Compile Include="Controls\WaveFormControl.cs" />
   </ItemGroup>
 </Project>

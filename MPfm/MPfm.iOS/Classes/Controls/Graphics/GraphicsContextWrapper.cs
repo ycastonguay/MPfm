@@ -43,6 +43,11 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 		public float BoundsWidth { get; private set; }
 		public float BoundsHeight { get; private set; }
 
+		public void DrawImage(BasicRectangle rectangle, IDisposable image)
+		{
+			Context.DrawImage(GenericControlHelper.ToRect(rectangle), ((UIImage)image).CGImage);
+		}
+
 		public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
 		{
 			CoreGraphicsHelper.DrawEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness);

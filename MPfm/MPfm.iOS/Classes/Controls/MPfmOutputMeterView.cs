@@ -22,6 +22,7 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.GenericControls.Controls;
 using MPfm.iOS.Classes.Controls.Graphics;
+using MPfm.iOS.Classes.Controls.Helpers;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -50,6 +51,8 @@ namespace MPfm.iOS.Classes.Controls
         {
 			_control = new OutputMeterControl(null);
 			_control.FontFace = "HelveticaNeue-CondensedBold";
+			_control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
+			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
             BackgroundColor = UIColor.Black;
         }
 
