@@ -66,6 +66,11 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             throw new System.NotImplementedException();
         }
 
+        public void DrawImage(BasicRectangle rectangle, object image)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
             _context.DrawEllipse(GenericControlHelper.ToSolidColorBrush(brush), GenericControlHelper.ToPen(pen), GenericControlHelper.ToPoint(rectangle.Center()), rectangle.Width / 2, rectangle.Height / 2);
