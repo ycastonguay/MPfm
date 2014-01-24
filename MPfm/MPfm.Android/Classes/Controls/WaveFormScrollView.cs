@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using Android;
 using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
@@ -31,8 +32,11 @@ using MPfm.Sound.AudioFiles;
 
 namespace org.sessionsapp.android
 {
-    public class WaveFormScrollView : ScrollView
+    public class WaveFormScrollView : HorizontalScrollView
     {
+        public WaveFormScaleView ScaleView { get; private set; }
+        public WaveFormView WaveView { get; private set; }
+
         protected WaveFormScrollView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
             Initialize();
@@ -55,7 +59,35 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
-            
+            SetBackgroundColor(Color.DarkOrange);
+            FillViewport = true;
+
+            var layout = new LinearLayout(Context);
+            layout.Orientation = Orientation.Vertical;
+            layout.SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
+            AddView(layout, new FrameLayout.LayoutParams(LayoutParams.FillParent, LayoutParams.FillParent));
+
+            int height = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 22, Resources.DisplayMetrics);
+            ScaleView = new WaveFormScaleView(Context);
+            ScaleView.SetBackgroundColor(Color.Purple);
+            layout.AddView(ScaleView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, height));
+
+            WaveView = new WaveFormView(Context);
+            WaveView.SetBackgroundColor(Color.DarkRed);
+            layout.AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.FillParent, LayoutParams.FillParent));
+        }
+
+        public void LoadPeakFile(AudioFile audioFile)
+        {
+            WaveView.LoadPeakFile(audioFile);
+            ScaleView.AudioFile = audioFile;
+            ScaleView.Invalidate();
+        }
+
+        public void SetWaveFormLength(long lengthBytes)
+        {
+            WaveView.SetWaveFormLength(lengthBytes);
+            ScaleView.AudioFileLength = lengthBytes;
         }
     }
 }

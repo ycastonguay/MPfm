@@ -34,7 +34,6 @@ namespace MPfm.GenericControls.Controls
 		private BasicColor _minorTickColor = new BasicColor(85, 85, 85);
 		private BasicColor _majorTickColor = new BasicColor(170, 170, 170);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
-        private float _timeScaleHeight = 22f;
 
         private AudioFile _audioFile = null;
         public AudioFile AudioFile
@@ -71,10 +70,11 @@ namespace MPfm.GenericControls.Controls
             : base()
         {
             OnInvalidateVisual += () => { };
+            OnInvalidateVisualInRect += (rect) => { };
         }
 
         public void Render(IGraphicsContext context)
-        {
+        {            
             context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(_backgroundColor), new BasicPen());
 
             if (_audioFile == null || _audioFileLength == 0)
@@ -107,11 +107,7 @@ namespace MPfm.GenericControls.Controls
             //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
 
             // Draw scale borders
-            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, _timeScaleHeight), new PointF(Bounds.Width, _timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
-            context.DrawLine(new BasicPoint(0, _timeScaleHeight), new BasicPoint(context.BoundsWidth, _timeScaleHeight), new BasicPen(new BasicBrush(_borderColor), 1));
-
-            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(0, 0), new PointF(0, timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
-            //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(boundsWaveForm.Width, 0), new PointF(boundsWaveForm.Width, timeScaleHeight) }, UIColor.Gray.CGColor, 1, false, false);
+            context.DrawLine(new BasicPoint(0, context.BoundsHeight), new BasicPoint(context.BoundsWidth, context.BoundsHeight), new BasicPen(new BasicBrush(_borderColor), 1));
 
             float tickWidth = 0;
             int tickCount = 0;
@@ -207,6 +203,9 @@ namespace MPfm.GenericControls.Controls
                 }
             }
 
+            // Measure typical text height (do this once, not needed for every major tick)
+            var rectText = context.MeasureText("12345:678.90", new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), "HelveticaNeue", 10);
+
             float tickX = 0;
             int majorTickIndex = 0;
             for(int a = 0; a < tickCount; a++)
@@ -216,17 +215,14 @@ namespace MPfm.GenericControls.Controls
 
                 // Draw scale line
                 if(isMajorTick)
-                    //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, _timeScaleHeight - (_timeScaleHeight / 1.25f)), new PointF(tickX, _timeScaleHeight) }, UIColor.LightGray.CGColor, 1, false, false);
-                    context.DrawLine(new BasicPoint(tickX, _timeScaleHeight - (_timeScaleHeight / 1.25f)), new BasicPoint(tickX, _timeScaleHeight), new BasicPen(new BasicBrush(_majorTickColor), 1));
+                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), new BasicPen(new BasicBrush(_majorTickColor), 1));
                 else
-                    //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, _timeScaleHeight - (_timeScaleHeight / 6)), new PointF(tickX, _timeScaleHeight) }, UIColor.DarkGray.CGColor, 1, false, false);
-                    context.DrawLine(new BasicPoint(tickX, _timeScaleHeight - (_timeScaleHeight / 6)), new BasicPoint(tickX, _timeScaleHeight), new BasicPen(new BasicBrush(_minorTickColor), 1));
+                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 6)), new BasicPoint(tickX, context.BoundsHeight), new BasicPen(new BasicBrush(_minorTickColor), 1));
 
                 if(isMajorTick)
                 {
                     // Draw dashed traversal line for major ticks
-                    //CoreGraphicsHelper.DrawLine(context, new List<PointF>(){ new PointF(tickX, _timeScaleHeight), new PointF(tickX, Bounds.Height) }, UIColor.LightGray.CGColor, 1, false, true);
-                    context.DrawLine(new BasicPoint(tickX, _timeScaleHeight), new BasicPoint(tickX, context.BoundsHeight), new BasicPen(new BasicBrush(_majorTickColor), 1));
+                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight), new BasicPoint(tickX, context.BoundsHeight), new BasicPen(new BasicBrush(_majorTickColor), 1));
 
                     // Determine major scale text
                     int minutes = 0;
@@ -268,9 +264,9 @@ namespace MPfm.GenericControls.Controls
                     }
 
                     // Draw text at every major tick (minute count)
-                    string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);
-                    //CoreGraphicsHelper.DrawTextInRect(context, new RectangleF(tickX + 4, _timeScaleHeight - (_timeScaleHeight / 1.25f), tickWidth * 10, _timeScaleHeight / 2), scaleMajorTitle, "HelveticaNeue", 10f, UIColor.White.CGColor, UILineBreakMode.TailTruncation, UITextAlignment.Left);
-                    context.DrawText(scaleMajorTitle, new BasicPoint(tickX + 4, _timeScaleHeight - (_timeScaleHeight/1.25f)), _textColor, "HelveticaNeue", 10);
+                    string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);                    
+                    float y = context.BoundsHeight - (context.BoundsHeight/12f) - rectText.Height;
+                    context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, "HelveticaNeue", 10);
                     majorTickIndex++;
                 }
 

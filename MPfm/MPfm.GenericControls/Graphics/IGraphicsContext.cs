@@ -24,6 +24,7 @@ namespace MPfm.GenericControls.Graphics
     {
         float BoundsWidth { get; }
         float BoundsHeight { get; }
+        float Density { get; }
 
 		// Should this be a different kind of graphics context? IPlotGraphicsContext?
 		// These methods are used for drawing as quick as possible without reseting the pen and brushes

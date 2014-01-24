@@ -92,7 +92,6 @@ namespace org.sessionsapp.android
 
         public override void Draw(Canvas canvas)
         {
-            Console.WriteLine("WaveFormScaleView - Draw");
             float density = Resources.DisplayMetrics.Density;
             var wrapper = new GraphicsContextWrapper(canvas, Width, Height, density);
             _control.Render(wrapper);

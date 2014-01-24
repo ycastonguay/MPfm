@@ -1103,7 +1103,7 @@ namespace MPfm.Android
 			public const int player_seekBar = 2131493036;
 			
 			// aapt resource value: 0x7f0c00ae
-			public const int player_waveFormView = 2131493038;
+			public const int player_waveFormScrollView = 2131493038;
 			
 			// aapt resource value: 0x7f0c00ca
 			public const int playlistItemCell_imageDelete = 2131493066;

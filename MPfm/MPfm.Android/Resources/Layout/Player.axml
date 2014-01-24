@@ -52,13 +52,13 @@
         android:paddingTop="4dp"
         android:paddingBottom="6dp" />
   </LinearLayout>
-  <org.sessionsapp.android.WaveFormViewGroup
-      android:id="@+id/player_waveFormView"
+  <org.sessionsapp.android.WaveFormScrollView
+      android:id="@+id/player_waveFormScrollView"
       android:orientation="horizontal"
       android:background="#000000"
       android:layout_width="fill_parent"
       android:layout_height="120dp">
-  </org.sessionsapp.android.WaveFormViewGroup>
+  </org.sessionsapp.android.WaveFormScrollView>
   <FrameLayout
       android:id="@+id/player_linearLayoutSubviews"
       android:orientation="horizontal"

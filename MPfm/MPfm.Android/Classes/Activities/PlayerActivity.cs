@@ -53,7 +53,7 @@ namespace MPfm.Android
         private bool _isInitialized = false;
         private ITinyMessengerHub _messengerHub;
         private BitmapCache _bitmapCache;
-        private WaveFormViewGroup _waveFormView;
+        private WaveFormScrollView _waveFormScrollView;
         private SquareImageView _imageViewAlbumArt;
         private TextView _lblPosition;
         private TextView _lblLength;
@@ -101,7 +101,7 @@ namespace MPfm.Android
             _viewPager.Adapter = _viewPagerAdapter;
             _viewPager.SetOnPageChangeListener(_viewPagerAdapter);
 
-            _waveFormView = FindViewById<WaveFormViewGroup>(Resource.Id.player_waveFormView);
+            _waveFormScrollView = FindViewById<WaveFormScrollView>(Resource.Id.player_waveFormScrollView);
             _imageViewAlbumArt = FindViewById<SquareImageView>(Resource.Id.player_imageViewAlbumArt);
             _lblPosition = FindViewById<TextView>(Resource.Id.player_lblPosition);
             _lblLength = FindViewById<TextView>(Resource.Id.player_lblLength);
@@ -196,7 +196,7 @@ namespace MPfm.Android
             base.OnConfigurationChanged(newConfig);
 
             // The window manager returns the width depending on orientation
-            _waveFormView.View.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
+            _waveFormScrollView.WaveView.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
         }
 
         protected override void OnRestart()
@@ -308,7 +308,7 @@ namespace MPfm.Android
             {
                 PlayerPositionEntity entity = OnPlayerRequestPosition((float) _seekBar.Progress/10000f);
                 _lblPosition.Text = entity.Position;
-                _waveFormView.View.SecondaryPosition = entity.PositionBytes;
+                _waveFormScrollView.WaveView.SecondaryPosition = entity.PositionBytes;
             }
         }
 
@@ -316,7 +316,7 @@ namespace MPfm.Android
         {
             //Console.WriteLine("PlayerActivity - SeekBarOnStartTrackingTouch");
             _isPositionChanging = true;
-            _waveFormView.View.ShowSecondaryPosition = true;
+            _waveFormScrollView.WaveView.ShowSecondaryPosition = true;
         }
 
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs stopTrackingTouchEventArgs)
@@ -324,7 +324,7 @@ namespace MPfm.Android
             //Console.WriteLine("PlayerActivity - SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             OnPlayerSetPosition(_seekBar.Progress / 100f);
             _isPositionChanging = false;
-            _waveFormView.View.ShowSecondaryPosition = false;
+            _waveFormScrollView.WaveView.ShowSecondaryPosition = false;
         }
 
         public bool OnTouch(View v, MotionEvent e)
@@ -446,7 +446,7 @@ namespace MPfm.Android
                     _seekBar.Progress = (int) (entity.PositionPercentage * 100);
                 }
 
-                _waveFormView.View.Position = entity.PositionBytes;
+                _waveFormScrollView.WaveView.Position = entity.PositionBytes;
             });
         }
 
@@ -475,14 +475,14 @@ namespace MPfm.Android
                     }
                 });
 
-                _waveFormView.View.SetWaveFormLength(lengthBytes);
-                _waveFormView.View.LoadPeakFile(audioFile);
+                _waveFormScrollView.SetWaveFormLength(lengthBytes);
+                _waveFormScrollView.LoadPeakFile(audioFile);
             });   
         }
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
-            RunOnUiThread(() => _waveFormView.View.SetMarkers(markers));
+            RunOnUiThread(() => _waveFormScrollView.WaveView.SetMarkers(markers));
         }
 
         public void RefreshActiveMarker(Guid markerId)
