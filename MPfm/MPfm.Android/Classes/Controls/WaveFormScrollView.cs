@@ -16,24 +16,23 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using Android;
 using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using MPfm.Android.Classes.Controls.Graphics;
-using MPfm.Android.Classes.Controls.Helpers;
-using MPfm.GenericControls.Controls;
-using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace org.sessionsapp.android
 {
     public class WaveFormScrollView : HorizontalScrollView
     {
+        private int _activePointerId;
+        private float _lastTouchX;
+        private float _lastTouchY;
+        private ScaleGestureDetector _scaleGestureDetector;
+
         public WaveFormScaleView ScaleView { get; private set; }
         public WaveFormView WaveView { get; private set; }
 
@@ -59,7 +58,8 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
-            SetBackgroundColor(Color.DarkOrange);
+            _scaleGestureDetector = new ScaleGestureDetector(Context, new ScaleListener());
+            SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
             FillViewport = true;
 
             var layout = new LinearLayout(Context);
@@ -88,6 +88,77 @@ namespace org.sessionsapp.android
         {
             WaveView.SetWaveFormLength(lengthBytes);
             ScaleView.AudioFileLength = lengthBytes;
+        }
+
+        public override bool OnTouchEvent(MotionEvent e)
+        {
+            _scaleGestureDetector.OnTouchEvent(e);
+
+            float x, y;
+            int pointerIndex, pointerId;
+            switch(e.Action)
+            {
+                case MotionEventActions.Down:
+                    _lastTouchX = e.GetX();
+                    _lastTouchY = e.GetY();
+                    _activePointerId = e.GetPointerId(0);
+                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Down - x,y: {0},{1} activePointerId: {2}", _lastTouchX, _lastTouchY, _activePointerId);
+                    break;
+                case MotionEventActions.Move:
+                    pointerIndex = e.FindPointerIndex(_activePointerId);
+                    if (pointerIndex == -1)
+                        return true;
+                    x = e.GetX(pointerIndex);
+                    y = e.GetY(pointerIndex);
+                    float dx = x - _lastTouchX;
+                    float dy = y - _lastTouchY;
+                    _lastTouchX = x;
+                    _lastTouchY = y;
+                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Move - x,y: {0},{1}", x, y);
+                    break;
+                case MotionEventActions.Up:
+                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Up");
+                    break;
+                case MotionEventActions.Cancel:
+                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Cancel");
+                    break;
+                case MotionEventActions.PointerUp:
+                    pointerIndex = ((int)e.Action & (int)MotionEventActions.PointerIndexMask) >> (int)MotionEventActions.PointerIndexShift;
+                    pointerId = e.GetPointerId(pointerIndex);
+                    if (pointerId == _activePointerId)
+                    {
+                        int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+                        _lastTouchX = e.GetX(newPointerIndex);
+                        _lastTouchY = e.GetY(newPointerIndex);
+                        _activePointerId = e.GetPointerId(newPointerIndex);
+                    }
+                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - PointerUp - pointerIndex: {0}", pointerIndex);
+                    break;
+            }
+
+            //return base.OnTouchEvent(e);
+            return true;
+        }
+
+        private class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener
+        {
+            public override bool OnScaleBegin(ScaleGestureDetector detector)
+            {
+                Console.WriteLine("ScaleListener - OnScaleBegin");
+                return base.OnScaleBegin(detector);
+            }
+
+            public override bool OnScale(ScaleGestureDetector detector)
+            {
+                Console.WriteLine("ScaleListener - OnScale");
+                return base.OnScale(detector);
+            }
+
+            public override void OnScaleEnd(ScaleGestureDetector detector)
+            {
+                Console.WriteLine("ScaleListener - OnScaleEnd");
+                base.OnScaleEnd(detector);
+            }
         }
     }
 }
