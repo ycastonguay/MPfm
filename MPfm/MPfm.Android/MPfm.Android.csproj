@@ -122,6 +122,9 @@
     <Compile Include="Classes\Controls\SquareImageView.cs" />
     <Compile Include="Classes\Controls\EqualizerPresetGraphView.cs" />
     <Compile Include="Classes\Controls\OutputMeterView.cs" />
+    <Compile Include="Classes\Controls\WaveFormScaleView.cs" />
+    <Compile Include="Classes\Controls\WaveFormViewGroup.cs" />
+    <Compile Include="Classes\Controls\WaveFormScrollView.cs" />
     <Compile Include="Classes\Controls\WaveFormView.cs" />
     <Compile Include="Classes\Fragments\Base\BaseFragment.cs" />
     <Compile Include="Classes\Fragments\AudioPreferencesFragment.cs" />
