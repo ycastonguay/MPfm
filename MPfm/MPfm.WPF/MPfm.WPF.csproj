@@ -146,10 +146,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Controls\Graphics\DisposableBitmap.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
     <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
+    <Compile Include="Classes\Controls\WaveFormScrollViewer.cs" />
+    <Compile Include="Classes\Controls\WaveForm.cs" />
     <Compile Include="Classes\Controls\WaveFormScale.cs" />
     <Compile Include="Classes\Controls\TrackBar.cs" />
     <Compile Include="Classes\Controls\Fader.cs" />

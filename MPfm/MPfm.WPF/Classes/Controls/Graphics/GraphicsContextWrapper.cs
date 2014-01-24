@@ -24,12 +24,14 @@ using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
 using Brushes = System.Windows.Media.Brushes;
+using Pen = System.Windows.Media.Pen;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {
     public class GraphicsContextWrapper : IGraphicsContext
     {
         private readonly DrawingContext _context;
+        private Pen _currentPen;
 
         public GraphicsContextWrapper(DrawingContext context, float boundsWidth, float boundsHeight)
         {
@@ -40,36 +42,48 @@ namespace MPfm.WPF.Classes.Controls.Graphics
 
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
+        public float Density { get { return 1; } } // Always 1 on desktop
+
+        private void TryToCreatePen()
+        {
+            if (_currentPen != null)
+                return;
+
+            _currentPen = new Pen();
+        }
 
         public void SetStrokeColor(BasicColor color)
         {
-            // Is this available in WPF? Not sure yet.
-            throw new System.NotImplementedException();            
+            TryToCreatePen();
+            _currentPen.Brush = new SolidColorBrush(GenericControlHelper.ToColor(color));
         }
 
         public void SetLineWidth(float width)
         {
-            throw new System.NotImplementedException();
+            TryToCreatePen();
+            _currentPen.Thickness = width;            
         }
 
         public void StrokeLine(BasicPoint point, BasicPoint point2)
         {
-            throw new System.NotImplementedException();
+            TryToCreatePen();
+            _context.DrawLine(_currentPen, GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2));
         }
 
         public void SaveState()
         {
-            throw new System.NotImplementedException();
+            // Does not exist
         }
 
         public void RestoreState()
         {
-            throw new System.NotImplementedException();
+            // Does not exist
         }
 
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
-            throw new NotImplementedException();
+            var disposableImage = (DisposableBitmap) image;
+            _context.DrawImage(disposableImage.Bitmap, GenericControlHelper.ToRect(rectangle));
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

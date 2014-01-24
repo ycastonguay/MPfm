@@ -16,28 +16,22 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using MPfm.GenericControls.Graphics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {
-    public class MemoryGraphicsContextWrapper : GraphicsContextWrapper, IMemoryGraphicsContext
+    public class DisposableBitmap : IDisposable
     {
-        private readonly DrawingVisual _drawingVisual;
+        public BitmapSource Bitmap { get; private set; }
 
-        public MemoryGraphicsContextWrapper(DrawingVisual drawingVisual, DrawingContext context, float boundsWidth, float boundsHeight) 
-            : base(context, boundsWidth, boundsHeight)
+        public DisposableBitmap(BitmapSource bitmap)
         {
-            _drawingVisual = drawingVisual;            
+            Bitmap = bitmap;
         }
 
-        public IDisposable RenderToImageInMemory()
+        public void Dispose()
         {
-            int dpi = 96;
-            var bitmap = new RenderTargetBitmap((int) BoundsWidth, (int) BoundsHeight, dpi, dpi, PixelFormats.Default);
-            bitmap.Render(_drawingVisual);
-            return new DisposableBitmap(bitmap);
+            // Note: BitmapSource does not implement IDisposable. It does not contain any unmanaged resources and can be fully managed by the garbage collector.
         }
     }
 }

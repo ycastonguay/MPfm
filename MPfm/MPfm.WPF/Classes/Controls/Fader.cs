@@ -15,8 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Interaction;
 using MPfm.WPF.Classes.Controls.Graphics;
@@ -49,7 +51,13 @@ namespace MPfm.WPF.Classes.Controls
                 if (OnFaderValueChanged != null)
                     OnFaderValueChanged(sender, args);
             };
-            _control.OnInvalidateVisual += InvalidateVisual;
+            _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
+            _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                InvalidateVisual();
+                // TODO: It seems you can't invalidate a specific rect in WPF? What?
+                // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
+            }));
         }
 
         protected override void OnRender(DrawingContext dc)

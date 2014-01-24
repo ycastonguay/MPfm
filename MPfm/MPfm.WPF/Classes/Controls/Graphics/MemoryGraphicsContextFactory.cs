@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
@@ -31,7 +32,10 @@ namespace MPfm.WPF.Classes.Controls.Graphics
     {
         public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
         {
-            throw new NotImplementedException();
+            var drawingVisual = new DrawingVisual();
+            var drawingContext = drawingVisual.RenderOpen();
+            var context = new MemoryGraphicsContextWrapper(drawingVisual, drawingContext, width, height);
+            return context;
         }
     }
 }

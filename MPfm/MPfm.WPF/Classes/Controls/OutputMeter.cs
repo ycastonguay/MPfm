@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Windows.Media;
+using System.Windows.Threading;
 using MPfm.GenericControls.Controls;
 using MPfm.WPF.Classes.Controls.Graphics;
 using Control = System.Windows.Controls.Control;
@@ -29,6 +31,13 @@ namespace MPfm.WPF.Classes.Controls
         public OutputMeter()
         {
             _control = new OutputMeterControl(null);
+            _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
+            _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() => 
+            {
+                InvalidateVisual();
+                // TODO: It seems you can't invalidate a specific rect in WPF? What?
+                // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
+            }));
         }
 
         public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)

@@ -184,7 +184,7 @@ namespace MPfm.GenericControls.Controls
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
             //InvokeOnMainThread(() =>
-			//Console.WriteLine("WaveFormControl - GenerateWaveFormEndedEvent");
+			Console.WriteLine("WaveFormControl - GenerateWaveFormEndedEvent");
             _isLoading = false;
             _imageCache = e.Image;
             OnInvalidateVisual();

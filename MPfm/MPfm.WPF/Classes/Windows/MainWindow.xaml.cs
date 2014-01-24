@@ -78,7 +78,7 @@ namespace MPfm.WPF.Classes.Windows
             gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
             gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
 
-            waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
+            //waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -550,8 +550,8 @@ namespace MPfm.WPF.Classes.Windows
                     trackPosition.Value = (int)entity.PositionPercentage * 10;
                 }
 
-                if (!waveFormDisplay.IsLoading)
-                    waveFormDisplay.SetPosition(entity.PositionBytes, entity.Position);
+                //if (!waveFormDisplay.IsLoading)
+                //    waveFormDisplay.SetPosition(entity.PositionBytes, entity.Position);
             }));
         }
 
@@ -604,9 +604,12 @@ namespace MPfm.WPF.Classes.Windows
                         gridViewSongs.NowPlayingAudioFileId = audioFile.Id;
                         gridViewSongs.Refresh();
 
-                        // Configure wave form
-                        waveFormDisplay.Length = lengthBytes;
-                        waveFormDisplay.LoadWaveForm(audioFile.FilePath);
+                        //// Configure wave form
+                        //waveFormDisplay.Length = lengthBytes;
+                        //waveFormDisplay.LoadWaveForm(audioFile.FilePath);
+
+                        scrollViewWaveForm.SetWaveFormLength(lengthBytes);
+                        scrollViewWaveForm.LoadPeakFile(audioFile);
 
                         int albumWidth = (int) imageAlbum.Width;
                         int albumHeight = (int) imageAlbum.Height;

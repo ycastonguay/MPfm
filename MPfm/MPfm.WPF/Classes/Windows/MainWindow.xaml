@@ -463,9 +463,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <WindowsFormsHost Grid.Row="0">
-                                <wc:WaveFormDisplay x:Name="waveFormDisplay" />
-                            </WindowsFormsHost>
+                            <controls:WaveFormScrollViewer Grid.Row="0" x:Name="scrollViewWaveForm" Height="60" />                            
                             <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF242F35" ShowsPreview="True" Height="4" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>

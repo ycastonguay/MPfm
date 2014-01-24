@@ -169,6 +169,8 @@ namespace MPfm.GenericControls.Managers
             // Check if peak file exists
             if (File.Exists(peakFilePath))
             {
+                // TODO: This needs to be done in another thread with new Thread(), long running thread sucks
+                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 Task<List<WaveDataMinMax>>.Factory.StartNew(() =>
                 {
                     List<WaveDataMinMax> data = null;
