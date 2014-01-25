@@ -12,8 +12,6 @@ For more information, go to the MPfm website: http://mp4m.org.
 Important notes:
 --
 
-__Important 2013/04/09__: I commited some files that were taken from BASS.NET (formely BassWrapper in the MPfm.Sound class library) by mistake. __The BASS.NET source code is (C) 2005-2013 Bernd Niedergesäß__. This source code has been removed from this repository. More info can be found [here](http://mp4m.org/blog/removed-sensitive-code-taken-from-bass-net-from-github/).
-
 I'm currently refactoring the project with version 0.7.0.0. Please consult the [Mantis bug tracker for MPfm](http://www.mp4m.org/mantis/roadmap_page.php).
 
 MPfm uses the __BASS audio library__, which is a commercial library, but available for free for open source projects. The MPfm source code repository contains the BASS static/dynamic libraries needed to build each platform. To download updated versions of the BASS library, go to the [BASS library home page](http://www.un4seen.com). Please note that newer versions might introduce breaking changes.
@@ -35,7 +33,7 @@ There are no makefiles at the moment, so you will need [Visual Studio](http://ww
 
 There are several solution files in the root directory of the project. Here is a list of the solution files per platform:
 
-+  __Windows__: `MPfm_Windows.sln`
++  __Windows__: `MPfm_WPF.sln`
 +  __Mac__: `MPfm_Mac.sln`
 +  __Linux__: `MPfm_Linux.sln`
 +  __iOS__: `MPfm_iOS.sln`
@@ -62,7 +60,6 @@ __iOS__:
 __Android__:
 + [Mono for Android](http://xamarin.com/monoforandroid)
 
-*MPfm: Music Player for Musicians is © 2011-2013 Yanick Castonguay and is released under the GPLv3 license.*
-*The BASS audio library is © 1999-2013 Un4seen Developments.*
-*The BASS.NET audio library is © 2005-2013 Bernd Niedergesäß.*
-*FamFamFam icons are © 2009-2012 Mark James.*
+*MPfm: Music Player for Musicians is © 2011-2014 Yanick Castonguay and is released under the GPLv3 license.*
+*The BASS audio library is © 1999-2014 Un4seen Developments.*
+*The BASS.NET audio library is © 2005-2014 Bernd Niedergesäß.*
