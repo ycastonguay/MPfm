@@ -495,7 +495,24 @@ namespace MPfm.WPF.Classes.Windows
 
         private void ListViewMarkers_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);                
+            if (e.RemovedItems.Count > 0)
+            {
+                var marker = e.RemovedItems[0] as Marker;
+                int index = _markers.FindIndex(x => x.MarkerId == marker.MarkerId);
+                ChangeMarkerCellPanelVisibility(index, false);    
+            }
+
+            EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);
+            ChangeMarkerCellPanelVisibility(listViewMarkers.SelectedIndex, true);
+        }
+
+        private void ChangeMarkerCellPanelVisibility(int cellIndex, bool selected)
+        {
+            var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(cellIndex) as ListViewItem;
+            var panelMarkerCollapsed = UIHelper.FindByName("panelMarkerCollapsed", item) as StackPanel;
+            panelMarkerCollapsed.Visibility = selected ? Visibility.Collapsed : Visibility.Visible;
+            var panelMarkerExtended = UIHelper.FindByName("panelMarkerExtended", item) as StackPanel;
+            panelMarkerExtended.Visibility = selected ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void EnableMarkerButtons(bool enabled)
