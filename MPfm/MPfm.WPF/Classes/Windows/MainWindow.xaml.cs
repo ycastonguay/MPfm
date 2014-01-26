@@ -418,6 +418,8 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnGoToMarker_OnClick(object sender, RoutedEventArgs e)
         {
+            var marker = listViewMarkers.SelectedItem as Marker;
+            OnSelectMarker(marker);
         }
 
         private void BtnAddMarker_OnClick(object sender, RoutedEventArgs e)
@@ -461,13 +463,6 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
         {
-            var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(listViewMarkers.SelectedIndex) as ListViewItem;            
-            var panelMarkerCollapsed = UIHelper.FindByName("panelMarkerCollapsed", item) as StackPanel;
-            panelMarkerCollapsed.Visibility = Visibility.Collapsed;
-            var panelMarkerExtended = UIHelper.FindByName("panelMarkerExtended", item) as StackPanel;
-            panelMarkerExtended.Visibility = Visibility.Visible;            
-
-            // Remove extended style on previous cell
         }
 
         private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
@@ -508,18 +503,38 @@ namespace MPfm.WPF.Classes.Windows
 
         private void ChangeMarkerCellPanelVisibility(int cellIndex, bool selected)
         {
-            var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(cellIndex) as ListViewItem;
-            var panelMarkerCollapsed = UIHelper.FindByName("panelMarkerCollapsed", item) as StackPanel;
-            panelMarkerCollapsed.Visibility = selected ? Visibility.Collapsed : Visibility.Visible;
-            var panelMarkerExtended = UIHelper.FindByName("panelMarkerExtended", item) as StackPanel;
-            panelMarkerExtended.Visibility = selected ? Visibility.Visible : Visibility.Collapsed;
+            try
+            {
+                var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(cellIndex) as ListViewItem;
+                var panelMarkerCollapsed = UIHelper.FindByName("panelMarkerCollapsed", item) as Grid;
+                panelMarkerCollapsed.Visibility = selected ? Visibility.Collapsed : Visibility.Visible;
+                var panelMarkerExtended = UIHelper.FindByName("panelMarkerExtended", item) as Grid;
+                panelMarkerExtended.Visibility = selected ? Visibility.Visible : Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to change marker cell panel visiblity: {0}", ex);
+            }
+        }
+
+        private void ListViewMarkers_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var listView = sender as ListView;
+            var gridView = listView.View as GridView;
+            gridView.Columns[0].Width = listView.ActualWidth;
+        }
+
+        private void HandleMarkerItemDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var marker = ((ListViewItem)sender).Content as Marker;
+            OnSelectMarker(marker);
         }
 
         private void EnableMarkerButtons(bool enabled)
         {
-            btnGoToMarker.Enabled = enabled;
-            btnEditMarker.Enabled = enabled;
-            btnRemoveMarker.Enabled = enabled;
+            //btnGoToMarker.Enabled = enabled;
+            //btnEditMarker.Enabled = enabled;
+            //btnRemoveMarker.Enabled = enabled;
         }
 
         private void EnableLoopButtons(bool enabled)
