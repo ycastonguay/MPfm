@@ -1,6 +1,7 @@
 ﻿<Application x:Class="MPfm.WPF.Classes.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
              Startup="App_Startup">
     <Application.Resources>        
         <!--<Style TargetType="ProgressBar">
@@ -172,7 +173,8 @@
                         <Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Normal">
+                                    </VisualState>
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
                                             <ColorAnimation Duration="0" To="#FF687985" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />

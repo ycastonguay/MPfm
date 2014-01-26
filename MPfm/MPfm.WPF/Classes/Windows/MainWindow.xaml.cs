@@ -60,11 +60,22 @@ namespace MPfm.WPF.Classes.Windows
             : base (onViewReady)
         {
             InitializeComponent();
+            Initialize();
             SetLegacyControlTheme();
             ViewIsReady();
+        }
 
+        private void Initialize()
+        {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
+
+            btnPlayLoop.Enabled = false;
+            btnEditLoop.Enabled = false;
+            btnRemoveLoop.Enabled = false;
+            btnGoToMarker.Enabled = false;
+            btnEditMarker.Enabled = false;
+            btnRemoveMarker.Enabled = false;
         }
 
         private void SetLegacyControlTheme()
@@ -403,6 +414,39 @@ namespace MPfm.WPF.Classes.Windows
             // The value of the slider is changed at the startup of the app and the view is not ready
             if (OnSetInterval != null)
                 OnSetInterval((int)sliderPitchShifting.Value);
+        }
+
+
+        private void BtnGoToMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnAddMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnPlayLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnAddLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnEditLoop_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
+        {
         }
 
         #region IMainView implementation

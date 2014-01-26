@@ -170,12 +170,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="0" Content="Update Library" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
-                                <StackPanel Orientation="Horizontal" Margin="4">
-                                    <Image Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
-                                    <TextBlock Margin="6,2,0,0">Cancel</TextBlock>
-                                </StackPanel>
-                            </Button>
+                            <controls:HeaderImageButton Grid.Column="1" Title="Cancel" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource HeaderImageButton}" />
                         </Grid>
                         <Grid Margin="2,2,2,2">
                             <Grid.RowDefinitions>
@@ -486,30 +481,10 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" Content="Loops" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/play.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Play</TextBlock>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
-                                                </StackPanel>
-                                            </Button>
+                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnPlayLoop" Title="Play" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource HeaderImageButton}" Click="BtnPlayLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewLoops">
                                         </ListView>
@@ -531,30 +506,10 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" Content="Markers" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
-                                            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/goto.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Go To</TextBlock>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Add</TextBlock>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/edit.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Edit</TextBlock>
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
-                                                <StackPanel Orientation="Horizontal" Margin="4">
-                                                    <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                                                    <TextBlock Margin="6,2,0,0">Remove</TextBlock>
-                                                </StackPanel>
-                                            </Button>
+                                            <controls:HeaderImageButton Grid.Column="1" x:Name="btnGoToMarker" Title="Go To" ImageSource="/Resources/Images/Buttons/goto.png" Style="{StaticResource HeaderImageButton}" Click="BtnGoToMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddMarker" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
                                         </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewMarkers">
                                         </ListView>
