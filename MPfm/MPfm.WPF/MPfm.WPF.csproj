@@ -158,6 +158,7 @@
     <Compile Include="Classes\Controls\TrackBar.cs" />
     <Compile Include="Classes\Controls\Fader.cs" />
     <Compile Include="Classes\Extensions\ExtensionMethods.cs" />
+    <Compile Include="Classes\Helpers\UIHelper.cs" />
     <Compile Include="Classes\Theme\GlobalTheme.cs" />
     <Compile Include="Classes\Controls\OutputMeter.cs" />
     <Compile Include="Classes\Controls\MPfmButton.cs" />

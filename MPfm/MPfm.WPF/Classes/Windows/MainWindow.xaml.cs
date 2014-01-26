@@ -46,6 +46,7 @@ using MPfm.WindowsControls;
 using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
+using Button = System.Windows.Controls.Button;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace MPfm.WPF.Classes.Windows
@@ -460,6 +461,10 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
         {
+            var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(listViewMarkers.SelectedIndex) as ListViewItem;            
+            item.Height = 100;
+            var button = UIHelper.FindByName("panelToto", item) as StackPanel;
+            button.Background = new SolidColorBrush(Colors.Yellow);
         }
 
         private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
@@ -503,7 +508,6 @@ namespace MPfm.WPF.Classes.Windows
             btnEditLoop.Enabled = enabled;
             btnRemoveLoop.Enabled = enabled;
         }
-
 
         #region IMainView implementation
 

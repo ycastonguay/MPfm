@@ -8,7 +8,7 @@
         xmlns:wc="clr-namespace:MPfm.WindowsControls;assembly=MPfm.WindowsControls"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen"
-        Title="Sessions" Height="600" Width="900" Icon="/MPfm.WPF;component/Resources/Icon.ico">
+        Title="Sessions" Height="653" Width="900" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Window.Resources>
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFD0DBE2" />
         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
@@ -185,7 +185,7 @@
             </Grid>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" Margin="0,27,0,0" />
             <Grid Grid.Column="2" Background="#FF242F35">
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -194,7 +194,7 @@
                     <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <!-- Current Song -->
                         <Grid Grid.Row="0">
@@ -487,6 +487,14 @@
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
                                         <ListView Grid.Row="1" x:Name="listViewLoops">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Path=Name}" />
+                                                    <GridViewColumn Header="Length" Width="80" DisplayMemberBinding="{Binding Path=Length}" />
+                                                    <GridViewColumn Header="Start Position" Width="80" DisplayMemberBinding="{Binding Path=StartPosition}" />
+                                                    <GridViewColumn Header="End Position" Width="80" DisplayMemberBinding="{Binding Path=EndPosition}" />
+                                                </GridView>
+                                            </ListView.View>
                                         </ListView>
                                     </Grid>
                                 </Grid>
@@ -523,8 +531,22 @@
                                         <ListView Grid.Row="1" x:Name="listViewMarkers" SelectionChanged="ListViewMarkers_OnSelectionChanged">
                                             <ListView.View>
                                                 <GridView>
-                                                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
-                                                    <GridViewColumn Header="Position" Width="100" DisplayMemberBinding="{Binding Path=Position}" />  
+                                                    <GridViewColumn Header="Name" Width="150">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel x:Name="panelToto" Background="Goldenrod">
+                                                                    <Button Content="{Binding Path=Name}" />
+                                                                    <Button x:Name="btnToto" Content="Toto" />
+                                                                </StackPanel>
+                                                                <DataTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                                                        <Setter TargetName="panelToto" Property="Background" Value="HotPink"></Setter>
+                                                                    </DataTrigger>
+                                                                </DataTemplate.Triggers>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn Header="Position" Width="80" DisplayMemberBinding="{Binding Path=Position}" />  
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>

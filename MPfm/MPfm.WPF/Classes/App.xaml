@@ -336,7 +336,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Height" Value="20" />
+            <!--<Setter Property="Height" Value="20" />-->
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
@@ -360,13 +360,13 @@
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Height" Value="20" />
+            <Setter Property="Height" Value="20" />            
             <Setter Property="FontFamily" Value="Roboto" />
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="GridViewColumnHeader">
-                        <Grid>
+                        <Grid ShowGridLines="false">
                             <Border Name="HeaderBorder" BorderThickness="0" Background="#FF455865" Padding="2,0,2,0">
                                 <ContentPresenter Name="HeaderContent" Margin="1,0,0,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Border>
