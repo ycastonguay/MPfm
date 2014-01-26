@@ -72,13 +72,8 @@ namespace MPfm.WPF.Classes.Windows
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
-
-            btnPlayLoop.Enabled = false;
-            btnEditLoop.Enabled = false;
-            btnRemoveLoop.Enabled = false;
-            btnGoToMarker.Enabled = false;
-            btnEditMarker.Enabled = false;
-            btnRemoveMarker.Enabled = false;
+            EnableMarkerButtons(false);
+            EnableLoopButtons(false);
         }
 
         private void SetLegacyControlTheme()
@@ -469,6 +464,9 @@ namespace MPfm.WPF.Classes.Windows
 
         private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Are you sure you wish to remove this marker?", "Remove marker", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+                OnDeleteMarker(_markers[listViewMarkers.SelectedIndex]);
         }
 
         private void BtnPlayLoop_OnClick(object sender, RoutedEventArgs e)
@@ -486,6 +484,26 @@ namespace MPfm.WPF.Classes.Windows
         private void BtnRemoveLoop_OnClick(object sender, RoutedEventArgs e)
         {
         }
+
+        private void ListViewMarkers_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);                
+        }
+
+        private void EnableMarkerButtons(bool enabled)
+        {
+            btnGoToMarker.Enabled = enabled;
+            btnEditMarker.Enabled = enabled;
+            btnRemoveMarker.Enabled = enabled;
+        }
+
+        private void EnableLoopButtons(bool enabled)
+        {
+            btnPlayLoop.Enabled = enabled;
+            btnEditLoop.Enabled = enabled;
+            btnRemoveLoop.Enabled = enabled;
+        }
+
 
         #region IMainView implementation
 
@@ -751,22 +769,7 @@ namespace MPfm.WPF.Classes.Windows
                 _markers = markers.ToList();
                 listViewMarkers.Items.Clear();
                 foreach (var marker in markers)
-                {
-                    var item = new ListViewItem();
-                    item.Content = marker.Name;
-                    //item.Expanding += (sender, args) => { Console.WriteLine("Expanding"); };
-                    //item.Header = entity;
-                    //item.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
-
-                    //if (entity.SubItems.Count > 0)
-                    //{
-                    //    var dummy = new MPfmTreeViewItem();
-                    //    dummy.IsDummyNode = true;
-                    //    item.Items.Add(dummy);
-                    //}
-
-                    listViewMarkers.Items.Add(item);
-                }
+                    listViewMarkers.Items.Add(marker);
             }));
         }
 

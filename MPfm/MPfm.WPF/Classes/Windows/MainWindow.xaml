@@ -520,7 +520,13 @@
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
                                         </Grid>
-                                        <ListView Grid.Row="1" x:Name="listViewMarkers">
+                                        <ListView Grid.Row="1" x:Name="listViewMarkers" SelectionChanged="ListViewMarkers_OnSelectionChanged">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
+                                                    <GridViewColumn Header="Position" Width="100" DisplayMemberBinding="{Binding Path=Position}" />  
+                                                </GridView>
+                                            </ListView.View>
                                         </ListView>
                                     </Grid>
                                 </Grid>
