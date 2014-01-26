@@ -535,14 +535,22 @@
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
                                                                 <StackPanel x:Name="panelToto" Background="Goldenrod">
-                                                                    <Button Content="{Binding Path=Name}" />
-                                                                    <Button x:Name="btnToto" Content="Toto" />
+                                                                    <StackPanel x:Name="panelMarkerCollapsed" Background="HotPink" Visibility="Visible">
+                                                                        <TextBlock Text="{Binding Path=Name}" />
+                                                                    </StackPanel>                                                                    
+                                                                    <StackPanel x:Name="panelMarkerExtended" Background="Khaki" Visibility="Collapsed">
+                                                                        <TextBox x:Name="txtMarkerName" Text="{Binding Path=Name}" />
+                                                                        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                                            <TextBlock Text="Position" Margin="0,2,6,6" DockPanel.Dock="Left" VerticalAlignment="Center" />
+                                                                            <Slider x:Name="sliderMarkerPosition" Minimum="0" Value="0" Maximum="10000" Margin="0,2,0,6" DockPanel.Dock="Right" />
+                                                                        </DockPanel>
+                                                                    </StackPanel>
                                                                 </StackPanel>
-                                                                <DataTemplate.Triggers>
+                                                                <!--<DataTemplate.Triggers>
                                                                     <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                                                                         <Setter TargetName="panelToto" Property="Background" Value="HotPink"></Setter>
                                                                     </DataTrigger>
-                                                                </DataTemplate.Triggers>
+                                                                </DataTemplate.Triggers>-->
                                                             </DataTemplate>
                                                         </GridViewColumn.CellTemplate>
                                                     </GridViewColumn>

@@ -462,9 +462,12 @@ namespace MPfm.WPF.Classes.Windows
         private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
         {
             var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(listViewMarkers.SelectedIndex) as ListViewItem;            
-            item.Height = 100;
-            var button = UIHelper.FindByName("panelToto", item) as StackPanel;
-            button.Background = new SolidColorBrush(Colors.Yellow);
+            var panelMarkerCollapsed = UIHelper.FindByName("panelMarkerCollapsed", item) as StackPanel;
+            panelMarkerCollapsed.Visibility = Visibility.Collapsed;
+            var panelMarkerExtended = UIHelper.FindByName("panelMarkerExtended", item) as StackPanel;
+            panelMarkerExtended.Visibility = Visibility.Visible;            
+
+            // Remove extended style on previous cell
         }
 
         private void BtnRemoveMarker_OnClick(object sender, RoutedEventArgs e)
