@@ -20,11 +20,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -54,6 +56,7 @@ namespace MPfm.WPF.Classes.Windows
     public partial class MainWindow : BaseWindow, IMainView
     {
         private List<LibraryBrowserEntity> _itemsLibraryBrowser;
+        private List<Marker> _markers;
         private bool _isPlayerPositionChanging;
 
         public MainWindow(Action<IBaseView> onViewReady) 
@@ -422,7 +425,42 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         private void BtnAddMarker_OnClick(object sender, RoutedEventArgs e)
+        {            
+            contextMenuAddMarker.Placement = PlacementMode.Bottom;
+            contextMenuAddMarker.PlacementTarget = btnAddMarker;
+            contextMenuAddMarker.Visibility = Visibility.Visible;
+            contextMenuAddMarker.IsOpen = true;
+            e.Handled = true;
+        }
+
+        private void BtnAddMarker_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            contextMenuAddMarker.Visibility = Visibility.Collapsed;
+        }
+
+        private void MenuItemVerse_OnClick(object sender, RoutedEventArgs e)
+        {
+            AddMarker(MarkerTemplateNameType.Verse);
+        }
+
+        private void MenuItemChorus_OnClick(object sender, RoutedEventArgs e)
+        {
+            AddMarker(MarkerTemplateNameType.Chorus);
+        }
+
+        private void MenuItemBridge_OnClick(object sender, RoutedEventArgs e)
+        {
+            AddMarker(MarkerTemplateNameType.Bridge);
+        }
+
+        private void MenuItemSolo_OnClick(object sender, RoutedEventArgs e)
+        {
+            AddMarker(MarkerTemplateNameType.Solo);
+        }
+
+        private void AddMarker(MarkerTemplateNameType template)
+        {
+            OnAddMarkerWithTemplate(template);
         }
 
         private void BtnEditMarker_OnClick(object sender, RoutedEventArgs e)
@@ -708,24 +746,28 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    _markers = markers.ToList();
-            //    viewMarkers.Items.Clear();
-            //    foreach (Marker marker in markers)
-            //    {
-            //        ListViewItem item = viewMarkers.Items.Add(marker.Name);
-            //        item.Tag = marker.MarkerId;
-            //        item.SubItems.Add(marker.Position);
-            //        item.SubItems.Add(marker.Comments);
-            //        item.SubItems.Add(marker.PositionBytes.ToString());
-            //    }
-            //};
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                _markers = markers.ToList();
+                listViewMarkers.Items.Clear();
+                foreach (var marker in markers)
+                {
+                    var item = new ListViewItem();
+                    item.Content = marker.Name;
+                    //item.Expanding += (sender, args) => { Console.WriteLine("Expanding"); };
+                    //item.Header = entity;
+                    //item.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+                    //if (entity.SubItems.Count > 0)
+                    //{
+                    //    var dummy = new MPfmTreeViewItem();
+                    //    dummy.IsDummyNode = true;
+                    //    item.Items.Add(dummy);
+                    //}
+
+                    listViewMarkers.Items.Add(item);
+                }
+            }));
         }
 
         public void RefreshActiveMarker(Guid markerId)
@@ -941,5 +983,6 @@ namespace MPfm.WPF.Classes.Windows
         }
 
         #endregion
+
     }
 }

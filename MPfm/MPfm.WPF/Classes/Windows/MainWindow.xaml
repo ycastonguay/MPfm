@@ -482,7 +482,7 @@
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" Content="Loops" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <controls:HeaderImageButton Grid.Column="1" x:Name="btnPlayLoop" Title="Play" ImageSource="/Resources/Images/Buttons/play.png" Style="{StaticResource HeaderImageButton}" Click="BtnPlayLoop_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddLoop" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddLoop_OnClick" />                                                                        
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditLoop" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditLoop_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveLoop" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveLoop_OnClick" />
                                         </Grid>
@@ -507,7 +507,16 @@
                                             </Grid.ColumnDefinitions>
                                             <Label Grid.Column="0" Content="Markers" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                             <controls:HeaderImageButton Grid.Column="1" x:Name="btnGoToMarker" Title="Go To" ImageSource="/Resources/Images/Buttons/goto.png" Style="{StaticResource HeaderImageButton}" Click="BtnGoToMarker_OnClick" />
-                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddMarker" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" Click="BtnAddMarker_OnClick" />
+                                            <controls:HeaderImageButton Grid.Column="2" x:Name="btnAddMarker" Title="Add" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" ContextMenuService.Placement="Bottom" Click="BtnAddMarker_OnClick" MouseRightButtonDown="BtnAddMarker_OnMouseRightButtonDown">
+                                                <Button.ContextMenu>
+                                                    <ContextMenu x:Name="contextMenuAddMarker" Visibility="Collapsed">
+                                                        <MenuItem x:Name="menuItemVerse" Header="Verse" Click="MenuItemVerse_OnClick" />
+                                                        <MenuItem x:Name="menuItemChorus" Header="Chorus" Click="MenuItemChorus_OnClick" />
+                                                        <MenuItem x:Name="menuItemBridge" Header="Bridge" Click="MenuItemBridge_OnClick" />
+                                                        <MenuItem x:Name="menuItemSolo" Header="Solo" Click="MenuItemSolo_OnClick" />
+                                                    </ContextMenu>
+                                                </Button.ContextMenu>
+                                            </controls:HeaderImageButton>
                                             <controls:HeaderImageButton Grid.Column="3" x:Name="btnEditMarker" Title="Edit" ImageSource="/Resources/Images/Buttons/edit.png" Style="{StaticResource HeaderImageButton}" Click="BtnEditMarker_OnClick" />
                                             <controls:HeaderImageButton Grid.Column="4" x:Name="btnRemoveMarker" Title="Remove" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" Click="BtnRemoveMarker_OnClick" />
                                         </Grid>
