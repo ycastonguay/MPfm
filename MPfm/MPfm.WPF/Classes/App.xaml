@@ -340,8 +340,27 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
-            <!--<Setter Property="Width" Value="Auto" />-->
+            <Setter Property="Width" Value="Auto" />
             <Setter Property="FontFamily" Value="Roboto" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+            <!--<Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Grid ShowGridLines="false">
+                            <Border Name="HeaderBorder" BorderThickness="0" Background="Yellow" Padding="2,0,2,0">
+                                <ContentPresenter Name="ListItemContent" Margin="1,0,0,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>-->            
         </Style>
         <Style x:Key="GridViewColumnHeaderGripper" TargetType="Thumb">
             <Setter Property="Width" Value="18"/>

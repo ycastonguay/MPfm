@@ -20,20 +20,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using MPfm.Core;
 using MPfm.Core.Helpers;
 using MPfm.Library.Objects;
 using MPfm.MVP.Messages;
@@ -46,8 +41,6 @@ using MPfm.WindowsControls;
 using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
-using Button = System.Windows.Controls.Button;
-using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace MPfm.WPF.Classes.Windows
 {
@@ -59,6 +52,7 @@ namespace MPfm.WPF.Classes.Windows
         private List<LibraryBrowserEntity> _itemsLibraryBrowser;
         private List<Marker> _markers;
         private bool _isPlayerPositionChanging;
+        private int _selectedMarkerIndex = -1;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -75,6 +69,7 @@ namespace MPfm.WPF.Classes.Windows
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
+            RefreshSongInformation(null, 0, 0, 0);
         }
 
         private void SetLegacyControlTheme()
@@ -87,7 +82,6 @@ namespace MPfm.WPF.Classes.Windows
             gridViewSongs.Theme.IconNowPlayingGradient = new Gradient(System.Drawing.Color.FromArgb(255, 250, 200, 250), System.Drawing.Color.FromArgb(255, 25, 150, 25), LinearGradientMode.Horizontal);
             gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
             gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
-
             //waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
         }
 
@@ -498,7 +492,12 @@ namespace MPfm.WPF.Classes.Windows
             }
 
             EnableMarkerButtons(listViewMarkers.SelectedIndex >= 0);
-            ChangeMarkerCellPanelVisibility(listViewMarkers.SelectedIndex, true);
+
+            if (listViewMarkers.SelectedIndex >= 0)
+            {
+                _selectedMarkerIndex = listViewMarkers.SelectedIndex;
+                ChangeMarkerCellPanelVisibility(listViewMarkers.SelectedIndex, true);
+            }
         }
 
         private void ChangeMarkerCellPanelVisibility(int cellIndex, bool selected)
@@ -542,6 +541,22 @@ namespace MPfm.WPF.Classes.Windows
             btnPlayLoop.Enabled = enabled;
             btnEditLoop.Enabled = enabled;
             btnRemoveLoop.Enabled = enabled;
+        }
+
+        private void SliderMarkerPosition_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //Console.WriteLine("index: {0} value: {1} id: {2}", listViewMarkers.SelectedIndex, e.NewValue, _markers[listViewMarkers.SelectedIndex].MarkerId);
+            OnChangeMarkerPosition(_markers[_selectedMarkerIndex].MarkerId, (float)e.NewValue);
+        }
+
+        private void SliderMarkerPosition_OnLostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            OnUpdateMarker(_markers[_selectedMarkerIndex]);
+        }
+
+        private void TxtMarkerName_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            OnUpdateMarker(_markers[_selectedMarkerIndex]);
         }
 
         #region IMainView implementation
@@ -696,6 +711,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
+            _selectedMarkerIndex = -1;
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 //    btnAddLoop.Enabled = audioFile != null;
@@ -803,13 +819,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-            {
-                _markers = markers.ToList();
-                listViewMarkers.Items.Clear();
-                foreach (var marker in markers)
-                    listViewMarkers.Items.Add(marker);
-            }));
+
         }
 
         public void RefreshActiveMarker(Guid markerId)
@@ -818,6 +828,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshMarkerPosition(Marker marker)
         {
+
         }
 
         public void RefreshLoops(IEnumerable<Loop> loops)
@@ -871,28 +882,34 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshMarkers(List<Marker> markers)
         {
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //    _markers = markers.ToList();
-            //    viewMarkers.Items.Clear();
-            //    foreach (Marker marker in markers)
-            //    {
-            //        ListViewItem item = viewMarkers.Items.Add(marker.Name);
-            //        item.Tag = marker.MarkerId;
-            //        item.SubItems.Add(marker.Position);
-            //        item.SubItems.Add(marker.Comments);
-            //        item.SubItems.Add(marker.PositionBytes.ToString());
-            //    }
-            //};
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                _markers = markers.ToList();
+                listViewMarkers.Items.Clear();
+                foreach (var marker in markers)
+                    listViewMarkers.Items.Add(marker);                
+                listViewMarkers.SelectedIndex = _selectedMarkerIndex;
 
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
+                // Does not open because it cannot find the ListViewItem yet... 
+                // Not needed, setting the selectedindex triggers the event already
+                //ChangeMarkerCellPanelVisibility(_selectedMarkerIndex, true);
+            }));
         }
 
         public void RefreshMarkerPosition(Marker marker, int newIndex)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                //Console.WriteLine("index: {0} value: {1} newIndex: {2}", listViewMarkers.SelectedIndex, marker.Position, newIndex);
+                _markers[_selectedMarkerIndex].Position = marker.Position;
+                _markers[_selectedMarkerIndex].PositionBytes = marker.PositionBytes;
+                _markers[_selectedMarkerIndex].PositionPercentage = marker.PositionPercentage;
+                _markers[_selectedMarkerIndex].PositionSamples = marker.PositionSamples;
+
+                var item = listViewMarkers.ItemContainerGenerator.ContainerFromIndex(_selectedMarkerIndex) as ListViewItem;
+                var lblMarkerPosition = UIHelper.FindByName("lblMarkerPosition", item) as TextBlock;
+                lblMarkerPosition.Text = marker.Position;
+            }));
         }
 
         #endregion
