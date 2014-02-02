@@ -39,6 +39,30 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
+        private void BtnNewPreset_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnSavePreset_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnDeletePreset_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnNormalize_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void BtnReset_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Fader_OnFaderValueChanged(object sender, EventArgs e)
+        {
+        }
+
         #region IEqualizerPresetsView implementation
 
         public Action OnBypassEqualizer { get; set; }
