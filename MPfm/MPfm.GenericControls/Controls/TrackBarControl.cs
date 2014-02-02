@@ -24,11 +24,7 @@ using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Controls
 {
-    /// <summary>
-    /// The Fader control is a vertical track bar with the appearance of a fader.
-    /// The control appearance can be changed using the public properties.
-    /// </summary>
-    public class FaderControl : IControl, IControlMouseInteraction
+    public class TrackBarControl : IControl, IControlMouseInteraction
     {
         private BasicColor _backgroundColor1 = new BasicColor(36, 47, 53);
         private BasicColor _backgroundColor2 = new BasicColor(36, 47, 53);
@@ -43,18 +39,18 @@ namespace MPfm.GenericControls.Controls
 
         private BasicRectangle _rectFader = new BasicRectangle();
         private bool _isTrackBarMoving = false;
-        private float _trackHeight = 0;
+        private float _trackWidth = 0;
         private float _valueRatio = 0;
         private float _valueRelativeToValueRange = 0;
         private float _valueRange = 0;
-        private bool _mouseButtonDown;
+        private bool _mouseButtonDown = false;
 
         public int FaderWidth { get; set; }
         public int FaderHeight { get; set; }
-        public int Minimum { get; set; }
-        public int Maximum { get; set; }
         public int Margin { get; set; }
         public int StepSize { get; set; }
+        public int Minimum { get; set; }
+        public int Maximum { get; set; }
 
         private int _value = 0;
         public int Value
@@ -68,8 +64,8 @@ namespace MPfm.GenericControls.Controls
                 _value = value;
                 OnInvalidateVisual();
 
-                if (OnFaderValueChanged != null)
-                    OnFaderValueChanged(this, new EventArgs());
+                if (OnTrackBarValueChanged != null)
+                    OnTrackBarValueChanged();
             }
         }
 
@@ -86,13 +82,13 @@ namespace MPfm.GenericControls.Controls
             }
         }
 
-        public delegate void FaderValueChanged(object sender, EventArgs e);
-        public event FaderValueChanged OnFaderValueChanged;
+        public delegate void TrackBarValueChanged();
+        public event TrackBarValueChanged OnTrackBarValueChanged;
 
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
-        public FaderControl()
+        public TrackBarControl()
             : base()
         {
             FaderHeight = 28;
@@ -131,23 +127,23 @@ namespace MPfm.GenericControls.Controls
             {
                 // The user clicked without dragging the mouse; we need to add or
                 // substract a "step" depending on the mouse cursor position.
-                if (y < _rectFader.Y)
-                {
-                    if (Value + StepSize > Maximum)
-                        Value = Maximum;
-                    else
-                        Value += StepSize;
-                }
-                else if (y > _rectFader.Y + _rectFader.Height)
+                if (x < _rectFader.X)
                 {
                     if (Value - StepSize < Minimum)
                         Value = Minimum;
                     else
                         Value -= StepSize;
                 }
+                else if (x > _rectFader.X + _rectFader.Width)
+                {
+                    if (Value + StepSize > Maximum)
+                        Value = Maximum;
+                    else
+                        Value += StepSize;
+                }
 
-                if (OnFaderValueChanged != null)
-                    OnFaderValueChanged(this, new EventArgs());
+                if (OnTrackBarValueChanged != null)
+                    OnTrackBarValueChanged();
 
                 OnInvalidateVisual();
             }
@@ -158,33 +154,22 @@ namespace MPfm.GenericControls.Controls
 
         public void MouseMove(float x, float y, MouseButtonType button)
         {
+            // Set value changed flag default to false
             bool valueChanged = false;
             if (_isTrackBarMoving && _mouseButtonDown)
             {
                 // Evaluate tick height
-                double tickHeight = _trackHeight / _valueRange;
-
-                // Loop through "steps"                
+                double tickWidth = _trackWidth / _valueRange;
                 for (int a = Minimum; a < Maximum + 1; a++)
                 {
-                    double startY = _trackHeight - ((a - Minimum + 1) * tickHeight);
-                    double endY = _trackHeight - ((a - Minimum) * tickHeight);
+                    double startX = (a - Minimum) * tickWidth;
+                    double endX = (a - Minimum + 1) * tickWidth;
 
                     // Adjust cursor position relative to margin
-                    double cursorY = y - Margin;
+                    double cursorX = x - Margin;
 
                     // Does the cursor exceed min or max?
-                    if (cursorY <= 0)
-                    {
-                        // Don't change the value if it's already the same!
-                        if (Value != Maximum)
-                        {
-                            Value = Maximum;
-                            valueChanged = true;
-                            break;
-                        }
-                    }
-                    else if (cursorY >= _trackHeight)
+                    if (cursorX <= 0)
                     {
                         // Don't change the value if it's already the same!
                         if (Value != Minimum)
@@ -194,8 +179,18 @@ namespace MPfm.GenericControls.Controls
                             break;
                         }
                     }
+                    else if (cursorX >= _trackWidth)
+                    {
+                        // Don't change the value if it's already the same!
+                        if (Value != Maximum)
+                        {
+                            Value = Maximum;
+                            valueChanged = true;
+                            break;
+                        }
+                    }
                     // Is the cursor in the current value?
-                    else if (cursorY >= startY && cursorY <= endY)
+                    else if (cursorX >= startX && cursorX <= endX)
                     {
                         // Don't change the value if it's already the same!
                         if (Value != a)
@@ -210,8 +205,8 @@ namespace MPfm.GenericControls.Controls
                 // If the value has changed, refresh control and raise event
                 if (valueChanged)
                 {
-                    if (OnFaderValueChanged != null)
-                        OnFaderValueChanged(this, new EventArgs());
+                    if (OnTrackBarValueChanged != null)
+                        OnTrackBarValueChanged();
 
                     OnInvalidateVisual();
                 }
@@ -225,7 +220,7 @@ namespace MPfm.GenericControls.Controls
             _valueRange = (Maximum - Minimum) + 1;
 
             // Get track bar value relative to value range (value - minimum value).
-            // Ex: Min = 50, Max = 150, Value = 100. Value relative to value range = 50.
+            // Ex: Min = 50, Max = 150, Value = 100. Value relative to value range = 50.            
             _valueRelativeToValueRange = Value - Minimum;
 
             // Draw background
@@ -236,72 +231,53 @@ namespace MPfm.GenericControls.Controls
                 return;
 
             // Draw fader track
-            float trackX = context.BoundsWidth / 2;
-            float trackY = Margin;
-            float trackY2 = context.BoundsHeight - Margin;
+            float trackX = Margin; // add margin from left
+            float trackX2 = context.BoundsWidth - Margin; // add margin from right
+            float trackY = context.BoundsHeight / 2; // right in the center
 
-            // Draw shadow track
-            context.DrawLine(new BasicPoint(trackX + 1, trackY + 1), new BasicPoint(trackX + 1, trackY2 + 1), new BasicPen(new BasicBrush(_centerLineShadowColor), 1));
+            context.DrawLine(new BasicPoint(trackX + 1, trackY + 1), new BasicPoint(trackX2 + 1, trackY + 1), new BasicPen(new BasicBrush(_centerLineShadowColor), 1));
+            context.DrawLine(new BasicPoint(trackX, trackY), new BasicPoint(trackX2, trackY), new BasicPen(new BasicBrush(_centerLineColor), 1));
 
-            // Draw track
-            context.DrawLine(new BasicPoint(trackX, trackY), new BasicPoint(trackX, trackY2), new BasicPen(new BasicBrush(_centerLineColor), 1));
-
-            // Get the track height (remove margin from top and bottom)            
-            _trackHeight = context.BoundsHeight - (Margin * 2);
+            // Get the track width (remove margin from left and right)
+            _trackWidth = context.BoundsWidth - (Margin * 2);
 
             // Get tick width
-            float tickHeight = _trackHeight / _valueRange;
+            float tickWidth = _trackWidth / _valueRange;
 
             // Get the percentage of the value relative to value range (needed to draw the fader).
             // We need to divide the value relative to value range to the value range to get the ratio.
             // Ex: Min = 50, Max = 150, Value = 100. Value relative to value range = 50. Value range = 100. Value ratio = 0.5
             _valueRatio = (_valueRelativeToValueRange / _valueRange);
 
-            // Calculate fader position
-            // We need to invert the values (i.e. max is on top, min is bottom)
-            //float valueY = (valueRatio * trackHeight) + Margin;            
-            float valueY = _trackHeight - (_valueRatio * _trackHeight) + Margin;
-            float faderY = valueY + ((tickHeight - FaderHeight) / 2);
-            float tickCenterY = valueY + (tickHeight / 2);
+            // Get the value X coordinate by multiplying the value ratio to the track bar width (removed 3 pixels from left
+            // and right). Add margin from left.
+            float valueX = (_valueRatio * _trackWidth) + Margin; // this gives the LEFT x for our zone
+            float faderX = valueX + ((tickWidth - FaderWidth) / 2);
+            float tickCenterX = valueX + (tickWidth / 2);
 
-            // Create fader rectangle            
-            _rectFader = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY, FaderWidth, FaderHeight);
+            // Create fader rectangle
+            _rectFader = new BasicRectangle(faderX, (context.BoundsHeight / 2) - (FaderHeight / 2), FaderWidth, FaderHeight);
 
-            //    // Draw tick zone (for debug)
-            //    //RectangleF rectTickZone = new RectangleF(valueX, 0, tickWidth, Height);
-            //    //g.FillRectangle(Brushes.DarkGray, rectTickZone);            
+            //// Draw tick zone (for debug)
+            ////RectangleF rectTickZone = new RectangleF(valueX, 0, tickWidth, Height);
+            ////g.FillRectangle(Brushes.DarkGray, rectTickZone);            
 
-            var rectFaderShadowTop = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + 1, FaderWidth, 8);
-            var rectFaderShadowBottom = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 8 + 1, FaderWidth, 8);
-            var rectFaderShadowCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + 4 + 1, FaderWidth, FaderHeight - 8);
+            // Draw fader outline (with 8px border)
+            var rectFaderLeft = new BasicRectangle(faderX, (context.BoundsHeight / 2) - (FaderHeight / 2), 8, FaderHeight);
+            var rectFaderRight = new BasicRectangle(faderX + FaderWidth - 8, (context.BoundsHeight / 2) - (FaderHeight / 2), 8, FaderHeight);
+            var rectFaderCenter = new BasicRectangle(faderX + 4, (context.BoundsHeight / 2) - (FaderHeight / 2), FaderWidth - 8, FaderHeight);
 
-            context.DrawEllipsis(rectFaderShadowTop, new BasicBrush(_faderShadowColor), new BasicPen());
-            context.DrawEllipsis(rectFaderShadowBottom, new BasicBrush(_faderShadowColor), new BasicPen());
-            context.DrawRectangle(rectFaderShadowCenter, new BasicBrush(_faderShadowColor), new BasicPen());
-
-            // Draw fader outline (with 8px border)            
-            var rectFaderTop = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY, FaderWidth, 8);
-            var rectFaderBottom = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY + FaderHeight - 8, FaderWidth, 8);
-            var rectFaderBottomCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY + FaderHeight - 10, FaderWidth, 6);
-            var rectFaderCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY + 4, FaderWidth, FaderHeight - 8);
-
-            context.DrawEllipsis(rectFaderTop, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
-            context.DrawEllipsis(rectFaderBottom, new BasicBrush(_faderShadowColor1), new BasicPen());
-            context.DrawRectangle(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
-            context.DrawRectangle(rectFaderBottomCenter, new BasicBrush(_faderShadowColor1), new BasicPen());
+            context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
+            context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
+            context.DrawEllipsis(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
 
             // Draw fader inside (with 4px border)
-            var rectFaderInsideBottom = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 8, FaderWidth - 2, 4);
-            var rectFaderInsideBottomCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 12, FaderWidth - 2, FaderHeight - 24);
-            var rectFaderInsideTop = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + 4, FaderWidth - 2, 8);
-            var rectFaderInsideTopCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + 8, FaderWidth - 2, FaderHeight - 24);
+            var rectFaderInsideLeft = new BasicRectangle(faderX + 2, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
+            var rectFaderInsideRight = new BasicRectangle(faderX + FaderWidth - 6, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
 
-            context.DrawEllipsis(rectFaderInsideTop, new BasicBrush(_faderShadowColor1), new BasicPen());
-            context.DrawEllipsis(rectFaderInsideTopCenter, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
-            context.DrawEllipsis(rectFaderInsideBottom, new BasicBrush(_faderColor2), new BasicPen());
-            context.DrawRectangle(rectFaderInsideBottomCenter, new BasicBrush(_faderColor2), new BasicPen());
-            context.DrawLine(new BasicPoint((context.BoundsWidth / 2) - (FaderWidth / 2), tickCenterY), new BasicPoint((context.BoundsWidth / 2) - (FaderWidth / 2) + FaderWidth, tickCenterY), new BasicPen(new BasicBrush(_faderMiddleLineColor), 1));
+            context.DrawEllipsis(rectFaderInsideLeft, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
+            context.DrawEllipsis(rectFaderInsideRight, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
+            context.DrawLine(new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2)), new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2) + FaderHeight), new BasicPen(new BasicBrush(_faderShadowColor2), 1));
         }
-
     }
 }
