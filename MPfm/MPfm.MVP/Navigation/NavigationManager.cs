@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using MPfm.Core;
 using MPfm.Library.UpdateLibrary;
 using MPfm.MVP.Bootstrap;
+using MPfm.MVP.Presenters;
 using MPfm.Player.Objects;
 using TinyIoC;
 using MPfm.MVP.Views;
@@ -211,7 +212,7 @@ namespace MPfm.MVP.Navigation
             Action<IBaseView> onViewReady = (view) => {                    
                 _equalizerPresetsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetsPresenter>();
                 _equalizerPresetsPresenter.BindView((IEqualizerPresetsView)view);
-                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>();
+                _equalizerPresetDetailsPresenter = Bootstrapper.GetContainer().Resolve<IEqualizerPresetDetailsPresenter>(new NamedParameterOverloads() { { "presetId", Guid.NewGuid() } });
                 _equalizerPresetDetailsPresenter.BindView((IEqualizerPresetDetailsView)view);
             };
 

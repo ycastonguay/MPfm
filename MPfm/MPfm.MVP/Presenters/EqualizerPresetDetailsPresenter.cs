@@ -44,14 +44,9 @@ namespace MPfm.MVP.Presenters
             _libraryService = libraryService;
 
             if (presetId == Guid.Empty)
-            {
                 ChangePreset(new EQPreset());
-            }
             else
-            {
-                var preset = libraryService.SelectEQPreset(presetId);
-                ChangePreset(preset);
-            }
+                ChangePreset(presetId);
 		}
 
         public override void BindView(IEqualizerPresetDetailsView view)
@@ -65,13 +60,15 @@ namespace MPfm.MVP.Presenters
             view.OnSetFaderGain = SetFaderGain;
             view.OnRevertPreset = RevertPreset;
 
-            _playerService.ApplyEQPreset(_preset);
-            View.RefreshPreset(_preset);
+            if(_preset != null)
+            {
+                _playerService.ApplyEQPreset(_preset);
+                View.RefreshPreset(_preset);
+            }
 
             _messageHub.Subscribe<EqualizerPresetSelectedMessage>((m) =>
             {
-                _preset = _libraryService.SelectEQPreset(m.EQPresetId);
-                ChangePreset(_preset);
+                ChangePreset(m.EQPresetId);
                 View.RefreshPreset(_preset);
             });
         }
