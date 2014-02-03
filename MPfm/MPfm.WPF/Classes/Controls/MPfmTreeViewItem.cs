@@ -17,6 +17,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using MPfm.MVP.Models;
 
 namespace MPfm.WPF.Classes.Controls
 {
@@ -25,6 +26,7 @@ namespace MPfm.WPF.Classes.Controls
     /// </summary> 
     public class MPfmTreeViewItem : TreeViewItem
     {
+        public LibraryBrowserEntity Entity { get; set; }
         public bool IsDummyNode { get; set; }
 
         public static readonly RoutedEvent CollapsingEvent = EventManager.RegisterRoutedEvent("Collapsing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MPfmTreeViewItem));

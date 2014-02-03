@@ -15,9 +15,6 @@
         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
         <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
         <converters:LibraryBrowserImagePathConverter x:Key="LibraryBrowserImagePathConverter" />
-        <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
-            <Setter Property="Margin" Value="0,2,0,2" />
-        </Style>
         <DataTemplate x:Key="TreeViewItemTemplate">
             <StackPanel Orientation="Horizontal" Margin="2">
                 <Image Source="{Binding EntityType, Converter={StaticResource LibraryBrowserImagePathConverter}}" Stretch="Uniform" Opacity="0.7" />
@@ -159,7 +156,14 @@
                             <ComboBoxItem Name="WV">WV</ComboBoxItem>
                         </ComboBox>
                     </Grid>
-                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" ItemContainerStyle="{StaticResource TreeViewItemStyle}" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" TreeViewItem.Expanded="treeViewLibrary_OnExpanded" Grid.ColumnSpan="2" />
+                    <TreeView Grid.Row="2" x:Name="treeViewLibrary" Background="White" SelectedItemChanged="treeViewLibrary_SelectedItemChanged" TreeViewItem.Expanded="treeViewLibrary_OnExpanded" Grid.ColumnSpan="2">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="Margin" Value="0,2,0,2" />
+                                <EventSetter Event="MouseDoubleClick" Handler="TreeViewLibrary_OnTreeViewItemMouseDoubleClick" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
                     <StackPanel Grid.Row="3" x:Name="panelUpdateLibrary" Grid.ColumnSpan="2" Background="#FF242F35">
                         <Grid Background="#FF455865">
                             <Grid.ColumnDefinitions>

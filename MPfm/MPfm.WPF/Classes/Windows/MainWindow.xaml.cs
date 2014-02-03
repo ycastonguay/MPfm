@@ -558,6 +558,15 @@ namespace MPfm.WPF.Classes.Windows
             OnUpdateMarker(_markers[_selectedMarkerIndex]);
         }
 
+        private void TreeViewLibrary_OnTreeViewItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            var value = (MPfmTreeViewItem) treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnTreeNodeDoubleClicked(entity);
+        }
+
         #region IMainView implementation
 
         public Action OnOpenPreferencesWindow { get; set; }
@@ -588,6 +597,7 @@ namespace MPfm.WPF.Classes.Windows
                 {
                     var item = new MPfmTreeViewItem();
                     //item.Expanding += (sender, args) => { Console.WriteLine("Expanding"); };
+                    item.Entity = entity;
                     item.Header = entity;
                     item.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
@@ -612,12 +622,13 @@ namespace MPfm.WPF.Classes.Windows
                 foreach (var subentity in entities)
                 {
                     var subitem = new MPfmTreeViewItem();
+                    subitem.Entity = subentity;
                     subitem.Header = subentity;
                     subitem.HeaderTemplate = FindResource("TreeViewItemTemplate") as DataTemplate;
 
                     if (subentity.SubItems.Count > 0)
                     {
-                        var dummy = new MPfmTreeViewItem();
+                        var dummy = new MPfmTreeViewItem();                        
                         dummy.IsDummyNode = true;
                         subitem.Items.Add(dummy);
                     }
