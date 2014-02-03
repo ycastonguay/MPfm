@@ -473,11 +473,12 @@ namespace MPfm.MVP.Presenters
 		}
 		
         private void Shuffle()
-        {
+        {            
         }
 
         private void Repeat()
         {
+            _playerService.ToggleRepeatType();
         }
 
         private PlayerPositionEntity RequestPosition(float positionPercentage)

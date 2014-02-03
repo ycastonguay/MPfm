@@ -133,7 +133,7 @@ namespace MPfm.MVP.Presenters
 
         private void PlayerRepeat()
         {
+            _playerService.ToggleRepeatType();
         }
-
 	}
 }
