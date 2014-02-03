@@ -32,8 +32,8 @@ namespace MPfm.GenericControls.Controls
         private BasicColor _faderColor2 = new BasicColor(245, 245, 245);
         private BasicColor _faderShadowColor1 = new BasicColor(188, 188, 188);
         private BasicColor _faderShadowColor2 = new BasicColor(220, 220, 220);
-        private BasicColor _centerLineColor = new BasicColor(0, 0, 0);
-        private BasicColor _centerLineShadowColor = new BasicColor(169, 169, 169);
+        private BasicColor _centerLineColor = new BasicColor(0, 0, 0, 150);
+        private BasicColor _centerLineShadowColor = new BasicColor(169, 169, 169, 80);
         private BasicColor _faderMiddleLineColor = new BasicColor(0, 0, 0);
         private BasicColor _faderShadowColor = new BasicColor(169, 169, 169);
 
@@ -61,6 +61,9 @@ namespace MPfm.GenericControls.Controls
             }
             set
             {
+                if (_value == value)
+                    return;
+
                 _value = value;
                 OnInvalidateVisual();
 
@@ -91,8 +94,8 @@ namespace MPfm.GenericControls.Controls
         public TrackBarControl()
             : base()
         {
-            FaderHeight = 28;
-            FaderWidth = 10;
+            FaderHeight = 14;
+            FaderWidth = 24;
             Minimum = 0;
             Maximum = 1;
             Margin = 16;
@@ -267,17 +270,20 @@ namespace MPfm.GenericControls.Controls
             var rectFaderRight = new BasicRectangle(faderX + FaderWidth - 8, (context.BoundsHeight / 2) - (FaderHeight / 2), 8, FaderHeight);
             var rectFaderCenter = new BasicRectangle(faderX + 4, (context.BoundsHeight / 2) - (FaderHeight / 2), FaderWidth - 8, FaderHeight);
 
-            context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
-            context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(new BasicColor(255, 0, 0), new BasicColor(0, 0, 255), 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(new BasicColor(0, 255, 0), new BasicColor(255, 0, 255), 90), new BasicPen());
             context.DrawEllipsis(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
+            //context.DrawEllipsis(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
 
             // Draw fader inside (with 4px border)
             var rectFaderInsideLeft = new BasicRectangle(faderX + 2, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
             var rectFaderInsideRight = new BasicRectangle(faderX + FaderWidth - 6, (context.BoundsHeight / 2) - (FaderHeight / 2) + 2, 4, FaderHeight - 4);
 
-            context.DrawEllipsis(rectFaderInsideLeft, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
-            context.DrawEllipsis(rectFaderInsideRight, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
-            context.DrawLine(new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2)), new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2) + FaderHeight), new BasicPen(new BasicBrush(_faderShadowColor2), 1));
+            //context.DrawEllipsis(rectFaderInsideLeft, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
+            //context.DrawEllipsis(rectFaderInsideRight, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
+            context.DrawLine(new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2)), new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2) + FaderHeight), new BasicPen(new BasicBrush(_faderShadowColor1), 1));
         }
     }
 }

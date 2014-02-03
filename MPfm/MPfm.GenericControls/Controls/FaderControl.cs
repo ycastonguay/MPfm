@@ -36,8 +36,8 @@ namespace MPfm.GenericControls.Controls
         private BasicColor _faderColor2 = new BasicColor(245, 245, 245);
         private BasicColor _faderShadowColor1 = new BasicColor(188, 188, 188);
         private BasicColor _faderShadowColor2 = new BasicColor(220, 220, 220);
-        private BasicColor _centerLineColor = new BasicColor(0, 0, 0);
-        private BasicColor _centerLineShadowColor = new BasicColor(169, 169, 169);
+        private BasicColor _centerLineColor = new BasicColor(0, 0, 0, 150);
+        private BasicColor _centerLineShadowColor = new BasicColor(169, 169, 169, 80); 
         private BasicColor _faderMiddleLineColor = new BasicColor(0, 0, 0);
         private BasicColor _faderShadowColor = new BasicColor(169, 169, 169);
 

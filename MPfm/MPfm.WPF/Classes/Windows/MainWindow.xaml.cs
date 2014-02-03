@@ -395,20 +395,19 @@ namespace MPfm.WPF.Classes.Windows
             }
         }
 
-        private void SliderTimeShifting_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void TrackTimeShifting_OnTrackBarValueChanged()
         {
             // The value of the slider is changed at the startup of the app and the view is not ready
-            if(OnSetTimeShifting != null)
-                OnSetTimeShifting((float)sliderTimeShifting.Value);
+            if (OnSetTimeShifting != null)
+                OnSetTimeShifting(trackTimeShifting.Value);
         }
 
-        private void SliderPitchShifting_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void TrackPitchShifting_OnTrackBarValueChanged()
         {
             // The value of the slider is changed at the startup of the app and the view is not ready
             if (OnSetInterval != null)
-                OnSetInterval((int)sliderPitchShifting.Value);
+                OnSetInterval((int)trackPitchShifting.Value);
         }
-
 
         private void BtnGoToMarker_OnClick(object sender, RoutedEventArgs e)
         {
@@ -681,15 +680,11 @@ namespace MPfm.WPF.Classes.Windows
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                //    trackPosition.Enabled = status == PlayerStatusType.Playing;
+                //trackPosition.IsEnabled = status == PlayerStatusType.Playing;
                 if (status == PlayerStatusType.Playing)
-                {
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/pause.png"));
-                }
                 else
-                {
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/play.png"));
-                }
             }));
         }
 
@@ -700,8 +695,8 @@ namespace MPfm.WPF.Classes.Windows
                 if (!_isPlayerPositionChanging)
                 {
                     lblPosition.Content = entity.Position;
-                    //miTraySongPosition.Text = string.Format("[ {0} / {1} ]", entity.Position, lblLength.Text);
-                    trackPosition.Value = (int)entity.PositionPercentage * 10;
+                    trackPosition.Value = (int)(entity.PositionPercentage * 10);
+                    //Console.WriteLine("Player position: {0} {1} {2} slider: {3} min: {4} max: {5}", entity.Position, entity.PositionPercentage, entity.PositionBytes, temp, trackPosition.Minimum, trackPosition.Maximum);
                 }
 
                 //if (!waveFormDisplay.IsLoading)
@@ -951,7 +946,7 @@ namespace MPfm.WPF.Classes.Windows
                 lblReferenceTempo.Content = entity.ReferenceTempo;
                 lblCurrentTempo.Content = entity.CurrentTempo;
                 //sliderTimeShifting.SetValueWithoutTriggeringEvent((int)entity.TimeShiftingValue);
-                sliderTimeShifting.Value = (int) entity.TimeShiftingValue;
+                trackTimeShifting.Value = (int) entity.TimeShiftingValue;
             }));
         }
 
@@ -982,16 +977,8 @@ namespace MPfm.WPF.Classes.Windows
                 lblCurrentKey.Content = entity.NewKey.Item2;
                 lblReferenceKey.Content = entity.ReferenceKey.Item2;
                 //    trackPitch.SetValueWithoutTriggeringEvent(entity.IntervalValue);
-                sliderPitchShifting.Value = (int)entity.IntervalValue;
+                trackPitchShifting.Value = (int)entity.IntervalValue;
             }));
-            //MethodInvoker methodUIUpdate = delegate
-            //{
-            //};
-
-            //if (InvokeRequired)
-            //    BeginInvoke(methodUIUpdate);
-            //else
-            //    methodUIUpdate.Invoke();
         }
 
         #endregion
