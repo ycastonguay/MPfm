@@ -26,6 +26,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -558,13 +559,35 @@ namespace MPfm.WPF.Classes.Windows
             OnUpdateMarker(_markers[_selectedMarkerIndex]);
         }
 
+        private void StartPlaybackOfSelectedLibraryBrowserTreeViewItem()
+        {
+            var value = (MPfmTreeViewItem)treeViewLibrary.SelectedValue;
+            var entity = value.Entity;
+            if (entity != null)
+                OnTreeNodeDoubleClicked(entity);            
+        }
+
         private void TreeViewLibrary_OnTreeViewItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            var value = (MPfmTreeViewItem) treeViewLibrary.SelectedValue;
-            var entity = value.Entity;
-            if (entity != null)
-                OnTreeNodeDoubleClicked(entity);
+            StartPlaybackOfSelectedLibraryBrowserTreeViewItem();
+        }
+
+        private void MenuItemLibraryBrowserPlay_OnClick(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            StartPlaybackOfSelectedLibraryBrowserTreeViewItem();
+        }
+
+        private void TreeViewLibrary_OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Select the item if it isn't selected yet
+            var item = UIHelper.VisualUpwardSearch(e.OriginalSource as DependencyObject);
+            if (item != null)
+            {
+                item.Focus();
+                e.Handled = true;
+            }
         }
 
         #region IMainView implementation

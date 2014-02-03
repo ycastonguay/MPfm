@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace MPfm.WPF.Classes.Helpers
@@ -44,6 +45,14 @@ namespace MPfm.WPF.Classes.Helpers
             }
 
             return null;
+        }
+
+        public static TreeViewItem VisualUpwardSearch(DependencyObject source)
+        {
+            while (source != null && !(source is TreeViewItem))
+                source = VisualTreeHelper.GetParent(source);
+
+            return source as TreeViewItem;
         }
     }
 }
