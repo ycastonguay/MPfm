@@ -20,38 +20,23 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Playlist" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}">
-                <StackPanel Orientation="Horizontal" Margin="4">
-                    <Image Source="/Resources/Images/Buttons/add.png" Stretch="None" />
-                    <TextBlock Margin="6,1,0,0">New</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="2" Style="{StaticResource HeaderImageButton}">
-                <StackPanel Orientation="Horizontal" Margin="4">
-                    <Image Source="/Resources/Images/Buttons/folder.png" Stretch="None" />
-                    <TextBlock Margin="6,1,0,0">Open</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="3" Style="{StaticResource HeaderImageButton}">
-                <StackPanel Orientation="Horizontal" Margin="4">
-                    <Image Source="/Resources/Images/Buttons/save.png" Stretch="None" />
-                    <TextBlock Margin="6,1,0,0">Save</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="4" Style="{StaticResource HeaderImageButton}">
-                <StackPanel Orientation="Horizontal" Margin="4">
-                    <Image Source="/Resources/Images/Buttons/save.png" Stretch="None" />
-                    <TextBlock Margin="6,1,0,0">Save as</TextBlock>
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="5" Style="{StaticResource HeaderImageButton}">
-                <StackPanel Orientation="Horizontal" Margin="4">
-                    <Image Source="/Resources/Images/Buttons/delete.png" Stretch="None" />
-                    <TextBlock Margin="6,1,0,0">Remove songs</TextBlock>
-                </StackPanel>
-            </Button>
+            <controls:HeaderImageButton Grid.Column="1" Title="New" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" />
+            <controls:HeaderImageButton Grid.Column="2" Title="Open" ImageSource="/Resources/Images/Buttons/folder.png" Style="{StaticResource HeaderImageButton}" />
+            <controls:HeaderImageButton Grid.Column="3" Title="Save" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource HeaderImageButton}" />
+            <controls:HeaderImageButton Grid.Column="4" Title="Save as" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource HeaderImageButton}" />
+            <controls:HeaderImageButton Grid.Column="5" Title="Remove songs" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" />
         </Grid>
-        <ListView Grid.Row="1">
+        <ListView Grid.Row="1" x:Name="listViewPlaylist" ItemContainerStyle="{StaticResource ListViewItemPlaylist}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="" Width="100" />
+                    <GridViewColumn Header="Tr#" Width="30" DisplayMemberBinding="{Binding Path=AudioFile.TrackNumber}" />
+                    <GridViewColumn Header="Song Title" Width="200" DisplayMemberBinding="{Binding Path=AudioFile.Title}" />
+                    <GridViewColumn Header="Length" Width="80" DisplayMemberBinding="{Binding Path=LengthString}" />
+                    <GridViewColumn Header="Artist Name" Width="140" DisplayMemberBinding="{Binding Path=AudioFile.ArtistName}" />
+                    <GridViewColumn Header="Album Title" Width="140" DisplayMemberBinding="{Binding Path=AudioFile.AlbumTitle}" />
+                </GridView>
+            </ListView.View>
         </ListView>
     </Grid>
 </base:BaseWindow>

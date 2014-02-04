@@ -368,6 +368,37 @@
             <Setter Property="Background" Value="#DDDDDD" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
+        <Style x:Key="ListViewItemPlaylist" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <!--<Setter Property="Height" Value="20" />-->
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="FontFamily" Value="Roboto" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <StackPanel Background="Goldenrod">
+                            <GridViewRowPresenter Content="{TemplateBinding Content}" Columns="{TemplateBinding GridView.ColumnCollection}" />
+                            <!--<TextBlock Text="{Binding Path=Row[2]}"></TextBlock>-->
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="VerticalAlignment" Value="Center" />

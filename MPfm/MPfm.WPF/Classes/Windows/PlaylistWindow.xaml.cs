@@ -18,13 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
-using MPfm.Library.Objects;
-using MPfm.MVP.Messages;
-using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
-using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.Playlists;
 using MPfm.WPF.Classes.Windows.Base;
@@ -33,12 +29,18 @@ namespace MPfm.WPF.Classes.Windows
 {
     public partial class PlaylistWindow : BaseWindow, IPlaylistView
     {
+        private Playlist _playlist;
+
         public PlaylistWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
         {
             InitializeComponent();
             ViewIsReady();
+
+            //listViewPlaylist.
         }
+
+
 
         #region IPlaylistView implementation
 
@@ -60,6 +62,15 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshPlaylist(Playlist playlist)
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                _playlist = playlist;
+                listViewPlaylist.Items.Clear();
+                foreach (var item in _playlist.Items)
+                    listViewPlaylist.Items.Add(item);
+
+
+            }));
         }
 
         public void RefreshCurrentlyPlayingSong(int index, AudioFile audioFile)
