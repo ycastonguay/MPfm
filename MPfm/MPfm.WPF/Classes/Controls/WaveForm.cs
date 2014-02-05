@@ -70,7 +70,10 @@ namespace MPfm.WPF.Classes.Controls
         public WaveForm()
         {
             _control = new WaveFormControl();
-            _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(InvalidateVisual));
+            _control.OnInvalidateVisual += () =>
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(InvalidateVisual));
+            };
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 InvalidateVisual();
@@ -101,12 +104,12 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override void OnRender(DrawingContext dc)
         {
-            Console.WriteLine("WaveForm - OnRender - width: {0} height: {1}", ActualWidth, ActualHeight);
+            //Console.WriteLine("WaveForm - OnRender - width: {0} height: {1}", ActualWidth, ActualHeight);
             base.OnRender(dc);
             var wrapper = new GraphicsContextWrapper(dc, (float) ActualWidth, (float) ActualHeight);
             if (ActualWidth == 0 || ActualHeight == 0)
                 return;
-            //_control.Render(wrapper);
+            _control.Render(wrapper);
         }   
     }
 }

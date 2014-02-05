@@ -15,16 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Drawing;
-using System.Globalization;
-using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
-using MPfm.WPF.Classes.Controls.Helpers;
-using Brushes = System.Windows.Media.Brushes;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {
