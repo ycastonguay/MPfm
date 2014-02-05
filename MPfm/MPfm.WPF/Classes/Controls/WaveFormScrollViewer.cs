@@ -16,44 +16,43 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MPfm.Core;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.WPF.Classes.Controls
 {
     public class WaveFormScrollViewer : ScrollViewer
     {
+        private Grid _grid;
+        private RowDefinition _rowScale;
+        private RowDefinition _rowWaveForm;
         public WaveForm WaveFormView { get; private set; }
         public WaveFormScale WaveFormScaleView { get; private set; }
 
         public WaveFormScrollViewer()
         {
+            //MinHeight = 82;            
             VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            //Background = new SolidColorBrush(Colors.BlueViolet);
 
             WaveFormView = new WaveForm();
+            WaveFormView.MinHeight = 60;
             WaveFormScaleView = new WaveFormScale();
 
-            //var stackPanel = new StackPanel();
-            //stackPanel.Orientation = Orientation.Horizontal;
-            //stackPanel.Children.Add(WaveFormScaleView);
-            //stackPanel.Children.Add(WaveFormView);
-            //Content = stackPanel;
-
-            var grid = new Grid();
-            var rowScale = new RowDefinition();
-            var rowWaveForm = new RowDefinition();
-            rowScale.Height = new GridLength(22);
-            rowWaveForm.Height = new GridLength(60);
-            grid.RowDefinitions.Add(rowScale);
-            grid.RowDefinitions.Add(rowWaveForm);
-            grid.Children.Add(WaveFormScaleView);
-            grid.Children.Add(WaveFormView);
+            _grid = new Grid();
+            _rowScale = new RowDefinition();
+            _rowWaveForm = new RowDefinition();
+            _rowScale.Height = new GridLength(22);
+            _grid.RowDefinitions.Add(_rowScale);
+            _grid.RowDefinitions.Add(_rowWaveForm);
+            _grid.Children.Add(WaveFormScaleView);
+            _grid.Children.Add(WaveFormView);
             Grid.SetRow(WaveFormScaleView, 0);
             Grid.SetRow(WaveFormView, 1);
-            Content = grid;
+            Content = _grid;
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -66,6 +65,13 @@ namespace MPfm.WPF.Classes.Controls
         {
             WaveFormView.SetWaveFormLength(lengthBytes);
             WaveFormScaleView.AudioFileLength = lengthBytes;
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            Console.WriteLine("WaveFormScrollViewer - MeasureOverride - constraint: {0} actualSize: {1},{2}", constraint, ActualWidth, ActualHeight);
+            WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);            
+            return base.MeasureOverride(constraint);
         }
     }
 }

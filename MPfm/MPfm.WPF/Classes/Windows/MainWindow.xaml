@@ -244,7 +244,7 @@
                                             <controls:TrackBar Grid.Column="1" x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
                                             <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
                                         </Grid>
-                                        <controls:TestControl x:Name="testControl" Width="100" Height="100" />
+                                        <!--<controls:TestControl x:Name="testControl" Width="100" Height="100" />-->
                                     </StackPanel>
                                 </Grid>
                                 <Grid Grid.Column="2">
@@ -464,11 +464,11 @@
                         <!-- Loops & Markers -->
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="60" />
+                                <RowDefinition />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <controls:WaveFormScrollViewer Grid.Row="0" x:Name="scrollViewWaveForm" Height="60" />                            
+                            <controls:WaveFormScrollViewer Grid.Row="0" x:Name="scrollViewWaveForm" />
                             <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF242F35" ShowsPreview="True" Height="4" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>

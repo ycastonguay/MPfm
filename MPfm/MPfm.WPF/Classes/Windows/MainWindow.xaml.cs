@@ -743,8 +743,8 @@ namespace MPfm.WPF.Classes.Windows
             _selectedMarkerIndex = -1;
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                testControl.CreateBitmap();
-                testControl.InvalidateVisual();
+                //testControl.CreateBitmap();
+                //testControl.InvalidateVisual();
 
                 //    btnAddLoop.Enabled = audioFile != null;
                 //    btnAddMarker.Enabled = audioFile != null;

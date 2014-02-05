@@ -185,6 +185,7 @@ namespace MPfm.GenericControls.Controls
         {
             //InvokeOnMainThread(() =>
 			Console.WriteLine("WaveFormControl - GenerateWaveFormEndedEvent");
+            _isGeneratingImageCache = false;
             _isLoading = false;
             _imageCache = e.Image;
             OnInvalidateVisual();
@@ -361,7 +362,6 @@ namespace MPfm.GenericControls.Controls
                 _isGeneratingImageCache = true;
                 //Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
                 WaveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, rect, 1, Length);
-                _isGeneratingImageCache = false;
             }
         }
 

@@ -472,7 +472,9 @@ namespace MPfm.GenericControls.Managers
                     // Get image from context (at this point, we are sure the image context has been initialized properly)
 					Console.WriteLine("WaveFormCacheManager - Rendering image to memory...");
                     context.Close();
+                    Console.WriteLine("WaveFormCacheManager - Rendering image to memory (2)...");
                     imageCache = context.RenderToImageInMemory();
+                    Console.WriteLine("WaveFormCacheManager - Rendering image to memory (3)...");
                 }
 
 				Console.WriteLine("WaveFormCacheManager - Created image successfully.");
