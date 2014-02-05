@@ -320,9 +320,8 @@ namespace MPfm.GenericControls.Managers
                     else
                         heightToRenderLine = (boundsWaveForm.Height / 2);
 
-					context.SetStrokeColor(_colorWaveForm);
                     //context.SetLineWidth(0.2f);
-					context.SetLineWidth(lineWidth);
+                    context.SetPen(new BasicPen(new BasicBrush(_colorWaveForm), lineWidth));
 
                     List<float> roundValues = new List<float>();
                     for (float i = 0; i < boundsWaveForm.Width; i += lineWidth)
@@ -435,27 +434,27 @@ namespace MPfm.GenericControls.Managers
                             // -----------------------------------------
                             // LEFT Channel - Positive Max Value
 
-                            // Draw positive value (y: middle to top)
-							context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - leftMaxHeight));
+                            //// Draw positive value (y: middle to top)
+                            context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine - leftMaxHeight));
 
-                            // -----------------------------------------
-                            // LEFT Channel - Negative Max Value
+                            //// -----------------------------------------
+                            //// LEFT Channel - Negative Max Value
 
-                            // Draw negative value (y: middle to height)
-							context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-leftMinHeight)));
+                            //// Draw negative value (y: middle to height)
+                            context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-leftMinHeight)));
 
-                            // -----------------------------------------
-                            // RIGHT Channel - Positive Max Value
+                            //// -----------------------------------------
+                            //// RIGHT Channel - Positive Max Value
 
-                            // Multiply by 3 to get the new center line for right channel
-                            // Draw positive value (y: middle to top)
-							context.StrokeLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) - rightMaxHeight));
+                            //// Multiply by 3 to get the new center line for right channel
+                            //// Draw positive value (y: middle to top)
+                            context.StrokeLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) - rightMaxHeight));
 
-                            // -----------------------------------------
-                            // RIGHT Channel - Negative Max Value
+                            //// -----------------------------------------
+                            //// RIGHT Channel - Negative Max Value
 
-                            // Draw negative value (y: middle to height)
-							context.StrokeLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) + (-rightMinHeight)));
+                            //// Draw negative value (y: middle to height)
+                            context.StrokeLine(new BasicPoint(x1, (heightToRenderLine*3)), new BasicPoint(x2, (heightToRenderLine*3) + (-rightMinHeight)));
                         }
 
                         // Increment the history index; pad the last values if the count is about to exceed
@@ -472,9 +471,7 @@ namespace MPfm.GenericControls.Managers
                     // Get image from context (at this point, we are sure the image context has been initialized properly)
 					Console.WriteLine("WaveFormCacheManager - Rendering image to memory...");
                     context.Close();
-                    Console.WriteLine("WaveFormCacheManager - Rendering image to memory (2)...");
                     imageCache = context.RenderToImageInMemory();
-                    Console.WriteLine("WaveFormCacheManager - Rendering image to memory (3)...");
                 }
 
 				Console.WriteLine("WaveFormCacheManager - Created image successfully.");

@@ -44,29 +44,14 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         public float BoundsHeight { get; private set; }
         public float Density { get { return 1; } } // Always 1 on desktop
 
-        private void TryToCreatePen()
+        public void SetPen(BasicPen pen)
         {
-            if (_currentPen != null)
-                return;
-
-            _currentPen = new Pen();
-        }
-
-        public void SetStrokeColor(BasicColor color)
-        {
-            TryToCreatePen();
-            _currentPen.Brush = new SolidColorBrush(GenericControlHelper.ToColor(color));
-        }
-
-        public void SetLineWidth(float width)
-        {
-            TryToCreatePen();
-            _currentPen.Thickness = width;            
+            _currentPen = GenericControlHelper.ToPen(pen);
         }
 
         public void StrokeLine(BasicPoint point, BasicPoint point2)
         {
-            TryToCreatePen();
+            //TryToCreatePen();
             _context.DrawLine(_currentPen, GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2));
         }
 

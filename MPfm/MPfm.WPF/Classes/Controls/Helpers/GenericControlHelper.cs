@@ -41,21 +41,28 @@ namespace MPfm.WPF.Classes.Controls.Helpers
 
         public static SolidColorBrush ToSolidColorBrush(BasicBrush brush)
         {
-            return new SolidColorBrush(ToColor(brush.Color));
+            var solidColorBrush = new SolidColorBrush(ToColor(brush.Color));
+            solidColorBrush.Freeze();
+            return solidColorBrush;
         }
 
         public static LinearGradientBrush ToLinearGradientBrush(BasicGradientBrush brush)
         {
-            if(brush.StartPoint.X == 0 && brush.StartPoint.Y == 0 &&
-               brush.EndPoint.X == 0 && brush.EndPoint.Y == 0)
-                return new LinearGradientBrush(ToColor(brush.Color), ToColor(brush.Color2), brush.Angle);
-
-            return new LinearGradientBrush(ToColor(brush.Color), ToColor(brush.Color2), ToPoint(brush.StartPoint), ToPoint(brush.EndPoint));
+            LinearGradientBrush linearGradientBrush = null;
+            if (brush.StartPoint.X == 0 && brush.StartPoint.Y == 0 &&
+                brush.EndPoint.X == 0 && brush.EndPoint.Y == 0)
+                linearGradientBrush = new LinearGradientBrush(ToColor(brush.Color), ToColor(brush.Color2), brush.Angle);
+            else
+                linearGradientBrush = new LinearGradientBrush(ToColor(brush.Color), ToColor(brush.Color2), ToPoint(brush.StartPoint), ToPoint(brush.EndPoint));
+            linearGradientBrush.Freeze();
+            return linearGradientBrush;
         }
 
         public static Pen ToPen(BasicPen pen)
         {
-            return new Pen(ToSolidColorBrush(pen.Brush), pen.Thickness);
+            var basicPen = new Pen(ToSolidColorBrush(pen.Brush), pen.Thickness);
+            basicPen.Freeze();
+            return basicPen;
         }
     }
 }

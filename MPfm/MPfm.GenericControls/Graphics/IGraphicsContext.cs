@@ -28,8 +28,7 @@ namespace MPfm.GenericControls.Graphics
 
 		// Should this be a different kind of graphics context? IPlotGraphicsContext?
 		// These methods are used for drawing as quick as possible without reseting the pen and brushes
-		void SetStrokeColor(BasicColor color);
-		void SetLineWidth(float width);
+        void SetPen(BasicPen pen);
 		void StrokeLine(BasicPoint point, BasicPoint point2);
 		void SaveState();
 		void RestoreState();

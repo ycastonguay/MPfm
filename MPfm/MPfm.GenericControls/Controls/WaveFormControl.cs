@@ -311,8 +311,7 @@ namespace MPfm.GenericControls.Controls
 
                 // Draw cursor line
                 var color = _markers[a].MarkerId == _activeMarkerId ? _markerSelectedCursorColor : _markerCursorColor;
-                context.SetStrokeColor(color);
-                context.SetLineWidth(1.0f);
+                context.SetPen(new BasicPen(new BasicBrush(color), 1));
                 context.StrokeLine(new BasicPoint(x, 0), new BasicPoint(x, heightAvailable));
 
                 // Draw text
@@ -323,8 +322,7 @@ namespace MPfm.GenericControls.Controls
             }
 
             // Draw cursor line
-            context.SetStrokeColor(_cursorColor);
-            context.SetLineWidth(1.0f);
+            context.SetPen(new BasicPen(new BasicBrush(_cursorColor), 1));
             context.StrokeLine(new BasicPoint(_cursorX, 0), new BasicPoint(_cursorX, heightAvailable));
 
             // Check if a secondary cursor must be drawn (i.e. when changing position)
@@ -335,8 +333,7 @@ namespace MPfm.GenericControls.Controls
                 _secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
 
                 // Draw cursor line
-                context.SetStrokeColor(_secondaryCursorColor);
-                context.SetLineWidth(1.0f);
+                context.SetPen(new BasicPen(new BasicBrush(_secondaryCursorColor), 1));
                 context.StrokeLine(new BasicPoint(_secondaryCursorX, 0), new BasicPoint(_secondaryCursorX, heightAvailable));
             }
         }
