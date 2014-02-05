@@ -67,7 +67,7 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override void OnRender(DrawingContext dc)
         {
-            Console.WriteLine("WaveFormScale - OnRender - width: {0} height: {1}", ActualWidth, ActualHeight);
+            //Console.WriteLine("WaveFormScale - OnRender - width: {0} height: {1}", ActualWidth, ActualHeight);
             base.OnRender(dc);
             var wrapper = new GraphicsContextWrapper(dc, (float) ActualWidth, (float) ActualHeight);
             _control.Render(wrapper);

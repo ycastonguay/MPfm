@@ -29,6 +29,8 @@ namespace MPfm.GenericControls.Controls
     /// </summary>
     public class WaveFormScaleControl : IControl
     {
+        private readonly object _locker = new object();
+        private BasicBrush _brushBackground;
 		private BasicColor _backgroundColor = new BasicColor(32, 40, 46);
 		private BasicColor _borderColor = new BasicColor(85, 85, 85);
 		private BasicColor _minorTickColor = new BasicColor(85, 85, 85);
@@ -50,6 +52,11 @@ namespace MPfm.GenericControls.Controls
         }
 
         private long _audioFileLength;
+        private BasicPen _penTransparent;
+        private BasicPen _penBorder;
+        private BasicPen _penMajorTick;
+        private BasicPen _penMinorTick;
+
         public long AudioFileLength
         {
             get
@@ -74,8 +81,20 @@ namespace MPfm.GenericControls.Controls
         }
 
         public void Render(IGraphicsContext context)
-        {            
-            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(_backgroundColor), new BasicPen());
+        {
+            lock (_locker)
+            {
+                if (_brushBackground == null)
+                {
+                    _brushBackground = new BasicBrush(_backgroundColor);
+                    _penTransparent = new BasicPen();
+                    _penBorder = new BasicPen(new BasicBrush(_borderColor), 1);
+                    _penMajorTick = new BasicPen(new BasicBrush(_majorTickColor), 1);
+                    _penMinorTick = new BasicPen(new BasicBrush(_minorTickColor), 1);
+                }
+            }
+
+            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
 
             if (_audioFile == null || _audioFileLength == 0)
                 return;
@@ -107,7 +126,7 @@ namespace MPfm.GenericControls.Controls
             //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
 
             // Draw scale borders
-            context.DrawLine(new BasicPoint(0, context.BoundsHeight), new BasicPoint(context.BoundsWidth, context.BoundsHeight), new BasicPen(new BasicBrush(_borderColor), 1));
+            context.DrawLine(new BasicPoint(0, context.BoundsHeight), new BasicPoint(context.BoundsWidth, context.BoundsHeight), _penBorder);
 
             float tickWidth = 0;
             int tickCount = 0;
@@ -215,14 +234,14 @@ namespace MPfm.GenericControls.Controls
 
                 // Draw scale line
                 if(isMajorTick)
-                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), new BasicPen(new BasicBrush(_majorTickColor), 1));
+                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
                 else
-                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 6)), new BasicPoint(tickX, context.BoundsHeight), new BasicPen(new BasicBrush(_minorTickColor), 1));
+                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 6)), new BasicPoint(tickX, context.BoundsHeight), _penMinorTick);
 
                 if(isMajorTick)
                 {
                     // Draw dashed traversal line for major ticks
-                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight), new BasicPoint(tickX, context.BoundsHeight), new BasicPen(new BasicBrush(_majorTickColor), 1));
+                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
 
                     // Determine major scale text
                     int minutes = 0;

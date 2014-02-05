@@ -248,18 +248,20 @@ namespace MPfm.WPF.Classes.Windows
 
         private void txtSearchTerms_TextChanged(object sender, TextChangedEventArgs e)
         {
-            OnSearchTerms(txtSearchTerms.Text);
+            OnSearchTerms(txtSearchTerms.Text);            
         }
 
         private void TrackPosition_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             _isPlayerPositionChanging = true;
+            scrollViewWaveForm.ShowSecondaryPosition(true);
         }
 
         private void TrackPosition_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
             _isPlayerPositionChanging = false;
             OnPlayerSetPosition((float) trackPosition.Value / 10f);
+            scrollViewWaveForm.ShowSecondaryPosition(false);
         }
 
         private void TrackPosition_OnTrackBarValueChanged()
@@ -269,6 +271,7 @@ namespace MPfm.WPF.Classes.Windows
             
             var position = OnPlayerRequestPosition((float) trackPosition.Value/1000f);
             lblPosition.Content = position.Position;
+            scrollViewWaveForm.SetSecondaryPosition(position.PositionBytes);
         }
 
         private void FaderVolume_OnFaderValueChanged(object sender, EventArgs e)
@@ -730,11 +733,9 @@ namespace MPfm.WPF.Classes.Windows
                 {
                     lblPosition.Content = entity.Position;
                     trackPosition.Value = (int)(entity.PositionPercentage * 10);
-                    //Console.WriteLine("Player position: {0} {1} {2} slider: {3} min: {4} max: {5}", entity.Position, entity.PositionPercentage, entity.PositionBytes, temp, trackPosition.Minimum, trackPosition.Maximum);
+                    scrollViewWaveForm.SetPosition(entity.PositionBytes);
+                    //Console.WriteLine("Player position: {0} {1} slider: {2} min: {3} max: {4}", entity.Position, entity.PositionPercentage, entity.PositionBytes, trackPosition.Minimum, trackPosition.Maximum);
                 }
-
-                //if (!waveFormDisplay.IsLoading)
-                //    waveFormDisplay.SetPosition(entity.PositionBytes, entity.Position);
             }));
         }
 
@@ -790,10 +791,6 @@ namespace MPfm.WPF.Classes.Windows
 
                         gridViewSongs.NowPlayingAudioFileId = audioFile.Id;
                         gridViewSongs.Refresh();
-
-                        //// Configure wave form
-                        //waveFormDisplay.Length = lengthBytes;
-                        //waveFormDisplay.LoadWaveForm(audioFile.FilePath);
 
                         scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                         scrollViewWaveForm.LoadPeakFile(audioFile);
@@ -851,7 +848,6 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
-
         }
 
         public void RefreshActiveMarker(Guid markerId)
@@ -921,6 +917,7 @@ namespace MPfm.WPF.Classes.Windows
                 foreach (var marker in markers)
                     listViewMarkers.Items.Add(marker);                
                 listViewMarkers.SelectedIndex = _selectedMarkerIndex;
+                scrollViewWaveForm.SetMarkers(_markers);
 
                 // Does not open because it cannot find the ListViewItem yet... 
                 // Not needed, setting the selectedindex triggers the event already

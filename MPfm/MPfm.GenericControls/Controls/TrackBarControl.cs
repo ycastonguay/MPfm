@@ -26,6 +26,9 @@ namespace MPfm.GenericControls.Controls
 {
     public class TrackBarControl : IControl, IControlMouseInteraction
     {
+        private readonly object _locker = new object();
+        private BasicBrush _brushBackground;
+        private BasicPen _penTransparent;
         private BasicColor _backgroundColor1 = new BasicColor(36, 47, 53);
         private BasicColor _backgroundColor2 = new BasicColor(36, 47, 53);
         private BasicColor _faderColor1 = new BasicColor(255, 255, 255);
@@ -53,6 +56,11 @@ namespace MPfm.GenericControls.Controls
         public int Maximum { get; set; }
 
         private int _value = 0;
+        private BasicBrush _brushFaderColor2;
+        private BasicPen _penShadowColor1;
+        private BasicPen _penCenterLineShadow;
+        private BasicPen _penCenterLine;
+
         public int Value
         {
             get
@@ -218,6 +226,19 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
+            lock (_locker)
+            {
+                if (_penTransparent == null)
+                {
+                    _penTransparent = new BasicPen();
+                    _penShadowColor1 = new BasicPen(new BasicBrush(_faderShadowColor1), 1);
+                    _penCenterLine = new BasicPen(new BasicBrush(_centerLineColor), 1);
+                    _penCenterLineShadow = new BasicPen(new BasicBrush(_centerLineShadowColor), 1);
+                    _brushBackground = new BasicBrush(_backgroundColor1);
+                    _brushFaderColor2 = new BasicBrush(_faderColor2);
+                }
+            }
+
             // Value range is the size between max and min track bar value.
             // Ex: Min = 50, Max = 150. Value range = 100 + 1 (because we include 50 and 100)
             _valueRange = (Maximum - Minimum) + 1;
@@ -227,7 +248,7 @@ namespace MPfm.GenericControls.Controls
             _valueRelativeToValueRange = Value - Minimum;
 
             // Draw background
-            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(_backgroundColor1), new BasicPen());
+            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
 
             // Return if value range is zero
             if (_valueRange == 0)
@@ -238,8 +259,8 @@ namespace MPfm.GenericControls.Controls
             float trackX2 = context.BoundsWidth - Margin; // add margin from right
             float trackY = context.BoundsHeight / 2; // right in the center
 
-            context.DrawLine(new BasicPoint(trackX + 1, trackY + 1), new BasicPoint(trackX2 + 1, trackY + 1), new BasicPen(new BasicBrush(_centerLineShadowColor), 1));
-            context.DrawLine(new BasicPoint(trackX, trackY), new BasicPoint(trackX2, trackY), new BasicPen(new BasicBrush(_centerLineColor), 1));
+            context.DrawLine(new BasicPoint(trackX + 1, trackY + 1), new BasicPoint(trackX2 + 1, trackY + 1), _penCenterLineShadow);
+            context.DrawLine(new BasicPoint(trackX, trackY), new BasicPoint(trackX2, trackY), _penCenterLine);
 
             // Get the track width (remove margin from left and right)
             _trackWidth = context.BoundsWidth - (Margin * 2);
@@ -274,7 +295,7 @@ namespace MPfm.GenericControls.Controls
             //context.DrawEllipsis(rectFaderLeft, new BasicGradientBrush(new BasicColor(255, 0, 0), new BasicColor(0, 0, 255), 90), new BasicPen());
             //context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
             //context.DrawEllipsis(rectFaderRight, new BasicGradientBrush(new BasicColor(0, 255, 0), new BasicColor(255, 0, 255), 90), new BasicPen());
-            context.DrawEllipsis(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
+            context.DrawEllipsis(rectFaderCenter, _brushFaderColor2, _penTransparent);
             //context.DrawEllipsis(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
 
             // Draw fader inside (with 4px border)
@@ -283,7 +304,7 @@ namespace MPfm.GenericControls.Controls
 
             //context.DrawEllipsis(rectFaderInsideLeft, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
             //context.DrawEllipsis(rectFaderInsideRight, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
-            context.DrawLine(new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2)), new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2) + FaderHeight), new BasicPen(new BasicBrush(_faderShadowColor1), 1));
+            context.DrawLine(new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2)), new BasicPoint(tickCenterX, (context.BoundsHeight / 2) - (FaderHeight / 2) + FaderHeight), _penShadowColor1);
         }
     }
 }

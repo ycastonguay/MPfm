@@ -30,6 +30,15 @@ namespace MPfm.GenericControls.Controls
     /// </summary>
     public class FaderControl : IControl, IControlMouseInteraction
     {
+        private readonly object _locker = new object();
+        private BasicBrush _brushBackground;
+        private BasicBrush _brushFaderShadowColor;
+        private BasicBrush _brushFaderColor2;
+        private BasicBrush _brushFaderShadowColor1;
+        private BasicGradientBrush _brushFaderGradient;
+        private BasicGradientBrush _brushFaderShadowGradient;
+        private BasicPen _penTransparent;
+        private BasicPen _penMiddleLineColor;
         private BasicColor _backgroundColor1 = new BasicColor(36, 47, 53);
         private BasicColor _backgroundColor2 = new BasicColor(36, 47, 53);
         private BasicColor _faderColor1 = new BasicColor(255, 255, 255);
@@ -220,6 +229,22 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
+            lock (_locker)
+            {
+                if (_penTransparent == null)
+                {
+                    // TODO: Reduce the number of brushes
+                    _penTransparent = new BasicPen();
+                    _penMiddleLineColor = new BasicPen(new BasicBrush(_faderMiddleLineColor), 1);
+                    _brushBackground = new BasicBrush(_backgroundColor1);
+                    _brushFaderShadowColor = new BasicBrush(_faderShadowColor);
+                    _brushFaderGradient = new BasicGradientBrush(_faderColor1, _faderColor2, 90);
+                    _brushFaderColor2 = new BasicBrush(_faderColor2);
+                    _brushFaderShadowColor1 = new BasicBrush(_faderShadowColor1);
+                    _brushFaderShadowGradient = new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90);
+                }
+            }
+
             // Value range is the size between max and min track bar value.
             // Ex: Min = 50, Max = 150. Value range = 100 + 1 (because we include 50 and 100)
             _valueRange = (Maximum - Minimum) + 1;
@@ -229,7 +254,7 @@ namespace MPfm.GenericControls.Controls
             _valueRelativeToValueRange = Value - Minimum;
 
             // Draw background
-            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(_backgroundColor1), new BasicPen());
+            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
 
             // Return if value range is zero
             if (_valueRange == 0)
@@ -275,9 +300,9 @@ namespace MPfm.GenericControls.Controls
             var rectFaderShadowBottom = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 8 + 1, FaderWidth, 8);
             var rectFaderShadowCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + 4 + 1, FaderWidth, FaderHeight - 8);
 
-            context.DrawEllipsis(rectFaderShadowTop, new BasicBrush(_faderShadowColor), new BasicPen());
-            context.DrawEllipsis(rectFaderShadowBottom, new BasicBrush(_faderShadowColor), new BasicPen());
-            context.DrawRectangle(rectFaderShadowCenter, new BasicBrush(_faderShadowColor), new BasicPen());
+            context.DrawEllipsis(rectFaderShadowTop, _brushFaderShadowColor, _penTransparent);
+            context.DrawEllipsis(rectFaderShadowBottom, _brushFaderShadowColor, _penTransparent);
+            context.DrawRectangle(rectFaderShadowCenter, _brushFaderShadowColor, _penTransparent);
 
             // Draw fader outline (with 8px border)            
             var rectFaderTop = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY, FaderWidth, 8);
@@ -285,10 +310,10 @@ namespace MPfm.GenericControls.Controls
             var rectFaderBottomCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY + FaderHeight - 10, FaderWidth, 6);
             var rectFaderCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2), faderY + 4, FaderWidth, FaderHeight - 8);
 
-            context.DrawEllipsis(rectFaderTop, new BasicGradientBrush(_faderColor1, _faderColor2, 90), new BasicPen());
-            context.DrawEllipsis(rectFaderBottom, new BasicBrush(_faderShadowColor1), new BasicPen());
-            context.DrawRectangle(rectFaderCenter, new BasicBrush(_faderColor2), new BasicPen());
-            context.DrawRectangle(rectFaderBottomCenter, new BasicBrush(_faderShadowColor1), new BasicPen());
+            context.DrawEllipsis(rectFaderTop, _brushFaderGradient, _penTransparent);
+            context.DrawEllipsis(rectFaderBottom, _brushFaderShadowColor1, _penTransparent);
+            context.DrawRectangle(rectFaderCenter, _brushFaderColor2, _penTransparent);
+            context.DrawRectangle(rectFaderBottomCenter, _brushFaderShadowColor1, _penTransparent);
 
             // Draw fader inside (with 4px border)
             var rectFaderInsideBottom = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + FaderHeight - 8, FaderWidth - 2, 4);
@@ -296,12 +321,11 @@ namespace MPfm.GenericControls.Controls
             var rectFaderInsideTop = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + 4, FaderWidth - 2, 8);
             var rectFaderInsideTopCenter = new BasicRectangle((context.BoundsWidth / 2) - (FaderWidth / 2) + 1, faderY + 8, FaderWidth - 2, FaderHeight - 24);
 
-            context.DrawEllipsis(rectFaderInsideTop, new BasicBrush(_faderShadowColor1), new BasicPen());
-            context.DrawEllipsis(rectFaderInsideTopCenter, new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90), new BasicPen());
-            context.DrawEllipsis(rectFaderInsideBottom, new BasicBrush(_faderColor2), new BasicPen());
-            context.DrawRectangle(rectFaderInsideBottomCenter, new BasicBrush(_faderColor2), new BasicPen());
-            context.DrawLine(new BasicPoint((context.BoundsWidth / 2) - (FaderWidth / 2), tickCenterY), new BasicPoint((context.BoundsWidth / 2) - (FaderWidth / 2) + FaderWidth, tickCenterY), new BasicPen(new BasicBrush(_faderMiddleLineColor), 1));
+            context.DrawEllipsis(rectFaderInsideTop, _brushFaderShadowColor1, _penTransparent);
+            context.DrawEllipsis(rectFaderInsideTopCenter, _brushFaderShadowGradient, _penTransparent);
+            context.DrawEllipsis(rectFaderInsideBottom, _brushFaderColor2, _penTransparent);
+            context.DrawRectangle(rectFaderInsideBottomCenter, _brushFaderColor2, _penTransparent);
+            context.DrawLine(new BasicPoint((context.BoundsWidth / 2) - (FaderWidth / 2), tickCenterY), new BasicPoint((context.BoundsWidth / 2) - (FaderWidth / 2) + FaderWidth, tickCenterY), _penMiddleLineColor);
         }
-
     }
 }

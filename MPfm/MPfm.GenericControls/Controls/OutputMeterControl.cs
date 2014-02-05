@@ -26,8 +26,15 @@ namespace MPfm.GenericControls.Controls
 {
     public class OutputMeterControl : IControl
     {
+        private readonly object _locker = new object();
         private readonly IControlMouseInteraction _mouseInteraction;
 		private List<WaveDataMinMax> _waveDataHistory;
+        private BasicBrush _brushBackground;
+        private BasicGradientBrush _brushBarLeft;
+        private BasicGradientBrush _brushBarRight;
+        private BasicPen _penTransparent;
+        private BasicPen _pen0dBLine;
+        private BasicPen _penPeakLine;
 
         /// <summary>
         /// Output meter display type (left channel, right channel, stereo, or mix).
@@ -117,7 +124,23 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
-            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), new BasicBrush(ColorBackground), new BasicPen());
+            // Create the brushes and pens only once; since the output meter is rendered very often (i.e. every 20ms) this will optimize drawing 
+            lock (_locker)
+            {                
+                if (_brushBackground == null)
+                {
+                    _brushBackground = new BasicBrush(ColorBackground);
+                    _penTransparent = new BasicPen();
+                    _pen0dBLine = new BasicPen(new BasicBrush(Color0dBLine), 1);
+                    _penPeakLine = new BasicPen(new BasicBrush(ColorPeakLine), 1);
+
+                    // Note: creating the gradient brush in advance means the output meter cannot change size or the gradient won't fit the new control size
+                    _brushBarLeft = new BasicGradientBrush(ColorMeter1, ColorMeter2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight));
+                    _brushBarRight = new BasicGradientBrush(ColorMeterB1, ColorMeterB2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth/2, context.BoundsHeight));
+                }
+            }
+
+            context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
 
             // If the wave data is empty, skip rendering 
 			if (_waveDataHistory == null || _waveDataHistory.Count == 0)
@@ -151,7 +174,7 @@ namespace MPfm.GenericControls.Controls
             //float barHeight = scaleMultiplier * (maxDB + 100);
 
             // Draw 0db line
-            context.DrawLine(new BasicPoint(0, 4), new BasicPoint(context.BoundsWidth, 4), new BasicPen(new BasicBrush(Color0dBLine), 1));
+            context.DrawLine(new BasicPoint(0, 4), new BasicPoint(context.BoundsWidth, 4), _pen0dBLine);
 
             // -----------------------------------------
             // LEFT CHANNEL
@@ -173,12 +196,12 @@ namespace MPfm.GenericControls.Controls
             //{
             //    gradient = theme.MeterDistortionGradient;
             //}
-            context.DrawRectangle(rect, new BasicGradientBrush(ColorMeter1, ColorMeter2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight)), new BasicPen());
+            context.DrawRectangle(rect, _brushBarLeft, _penTransparent);
 
             // Draw peak line
             var pt1 = new BasicPoint(0, context.BoundsHeight - (scaleMultiplier * (peakLeftDB + 100)));
             var pt2 = new BasicPoint(barWidth, context.BoundsHeight - (scaleMultiplier * (peakLeftDB + 100)));
-            context.DrawLine(pt1, pt2, new BasicPen(new BasicBrush(ColorPeakLine), 1));
+            context.DrawLine(pt1, pt2, _penPeakLine);
 
             // Draw number of db      
             string strDB = peakLeftDB.ToString("00.0").Replace(",", ".");
@@ -206,7 +229,7 @@ namespace MPfm.GenericControls.Controls
             // Check for distortion
             //if (maxLeftDB >= 0.2f)
             //    gradient = theme.MeterDistortionGradient;
-            context.DrawRectangle(rect, new BasicGradientBrush(ColorMeterB1, ColorMeterB2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight)), new BasicPen());
+            context.DrawRectangle(rect, _brushBarRight, _penTransparent);
 
             // Draw number of db      
             strDB = peakRightDB.ToString("00.0").Replace(",", ".");
@@ -216,7 +239,7 @@ namespace MPfm.GenericControls.Controls
             // Draw peak line
             pt1 = new BasicPoint(barWidth, context.BoundsHeight - (scaleMultiplier * (peakRightDB + 100)));
             pt2 = new BasicPoint(barWidth * 2, context.BoundsHeight - (scaleMultiplier * (peakRightDB + 100)));
-            context.DrawLine(pt1, pt2, new BasicPen(new BasicBrush(ColorPeakLine), 1));
+            context.DrawLine(pt1, pt2, _penPeakLine);
 
             // Draw number of decibels (with font shadow to make it easier to read)                
 			rectText = context.MeasureText(strDB, new BasicRectangle(), FontFace, FontSize);

@@ -35,7 +35,7 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         public IDisposable RenderToImageInMemory()
         {
             int dpi = 96;
-            Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
+            //Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
             var bitmap = new RenderTargetBitmap((int) BoundsWidth, (int) BoundsHeight, dpi, dpi, PixelFormats.Default);
             bitmap.Render(_drawingVisual);
             bitmap.Freeze();

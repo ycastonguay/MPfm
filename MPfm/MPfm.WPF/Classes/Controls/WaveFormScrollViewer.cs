@@ -16,11 +16,14 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using MPfm.Core;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.WPF.Classes.Controls
@@ -67,9 +70,29 @@ namespace MPfm.WPF.Classes.Controls
             WaveFormScaleView.AudioFileLength = lengthBytes;
         }
 
+        public void SetPosition(long position)
+        {
+            WaveFormView.Position = position;
+        }
+
+        public void SetSecondaryPosition(long position)
+        {
+            WaveFormView.SecondaryPosition = position;
+        }
+
+        public void ShowSecondaryPosition(bool show)
+        {
+            WaveFormView.ShowSecondaryPosition = show;
+        }
+
+        public void SetMarkers(IEnumerable<Marker> markers)
+        {
+            WaveFormView.SetMarkers(markers);
+        }
+
         protected override Size MeasureOverride(Size constraint)
         {
-            Console.WriteLine("WaveFormScrollViewer - MeasureOverride - constraint: {0} actualSize: {1},{2}", constraint, ActualWidth, ActualHeight);
+            //Console.WriteLine("WaveFormScrollViewer - MeasureOverride - constraint: {0} actualSize: {1},{2}", constraint, ActualWidth, ActualHeight);
             WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);            
             return base.MeasureOverride(constraint);
         }

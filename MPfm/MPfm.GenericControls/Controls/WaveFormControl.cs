@@ -35,6 +35,14 @@ namespace MPfm.GenericControls.Controls
     /// </summary>
     public class WaveFormControl : IControl
     {
+        private readonly object _locker = new object();
+        private BasicPen _penTransparent;
+        private BasicPen _penCursorLine;
+        private BasicPen _penSecondaryCursorLine;
+        private BasicPen _penMarkerLine;
+        private BasicPen _penSelectedMarkerLine;
+        private BasicBrush _brushMarkerBackground;
+        private BasicBrush _brushSelectedMarkerBackground;
         private Guid _activeMarkerId = Guid.Empty;
         private List<Marker> _markers = new List<Marker>();
         private string _status = "";
@@ -184,7 +192,7 @@ namespace MPfm.GenericControls.Controls
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
             //InvokeOnMainThread(() =>
-			Console.WriteLine("WaveFormControl - GenerateWaveFormEndedEvent");
+			//Console.WriteLine("WaveFormControl - GenerateWaveFormEndedEvent");
             _isGeneratingImageCache = false;
             _isLoading = false;
             _imageCache = e.Image;
@@ -291,7 +299,21 @@ namespace MPfm.GenericControls.Controls
         }
 
         private void DrawWaveFormBitmap(IGraphicsContext context)
-        {
+        {            
+            lock (_locker)
+            {
+                if (_penCursorLine == null)
+                {
+                    _penTransparent = new BasicPen();
+                    _penCursorLine = new BasicPen(new BasicBrush(_cursorColor), 1);
+                    _penSecondaryCursorLine = new BasicPen(new BasicBrush(_secondaryCursorColor), 1);
+                    _penMarkerLine = new BasicPen(new BasicBrush(_markerCursorColor), 1);
+                    _penSelectedMarkerLine = new BasicPen(new BasicBrush(_markerSelectedCursorColor), 1);
+                    _brushMarkerBackground = new BasicBrush(_markerCursorColor);
+                    _brushSelectedMarkerBackground = new BasicBrush(_markerSelectedCursorColor);
+                }
+            }
+
 			//Console.WriteLine("WaveFormControl - DrawWaveFormBitmap");
             _isLoading = false;
             int heightAvailable = (int)Frame.Height;
@@ -310,19 +332,20 @@ namespace MPfm.GenericControls.Controls
                 float x = xPct * Frame.Width;
 
                 // Draw cursor line
-                var color = _markers[a].MarkerId == _activeMarkerId ? _markerSelectedCursorColor : _markerCursorColor;
-                context.SetPen(new BasicPen(new BasicBrush(color), 1));
+                var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
+                context.SetPen(pen);
                 context.StrokeLine(new BasicPoint(x, 0), new BasicPoint(x, heightAvailable));
 
                 // Draw text
                 var rectText = new BasicRectangle(x, 0, 12, 12);
-				context.DrawRectangle(rectText, new BasicBrush(_markerCursorColor), new BasicPen());
+                var brush = _markers[a].MarkerId == _activeMarkerId ? _brushSelectedMarkerBackground : _brushMarkerBackground;
+				context.DrawRectangle(rectText, brush, _penTransparent);
                 string letter = Conversion.IndexToLetter(a).ToString();
 				context.DrawText(letter, new BasicPoint(x + 2, 0), _textColor, LetterFontFace, LetterFontSize);
             }
 
             // Draw cursor line
-            context.SetPen(new BasicPen(new BasicBrush(_cursorColor), 1));
+            context.SetPen(_penCursorLine);
             context.StrokeLine(new BasicPoint(_cursorX, 0), new BasicPoint(_cursorX, heightAvailable));
 
             // Check if a secondary cursor must be drawn (i.e. when changing position)
@@ -333,7 +356,7 @@ namespace MPfm.GenericControls.Controls
                 _secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
 
                 // Draw cursor line
-                context.SetPen(new BasicPen(new BasicBrush(_secondaryCursorColor), 1));
+                context.SetPen(_penSecondaryCursorLine);
                 context.StrokeLine(new BasicPoint(_secondaryCursorX, 0), new BasicPoint(_secondaryCursorX, heightAvailable));
             }
         }
