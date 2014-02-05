@@ -65,7 +65,8 @@ namespace MPfm.WPF.Classes.Controls
                 Tracing.Log(">> CreateBitmap - Finished work");
                 _bitmap.Freeze();
             }));
-            thread.IsBackground = true;
+            //thread.IsBackground = true;
+            thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
 

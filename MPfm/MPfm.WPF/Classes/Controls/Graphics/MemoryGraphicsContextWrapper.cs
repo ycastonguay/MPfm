@@ -37,6 +37,7 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             int dpi = 96;
             var bitmap = new RenderTargetBitmap((int) BoundsWidth, (int) BoundsHeight, dpi, dpi, PixelFormats.Default);
             bitmap.Render(_drawingVisual);
+            bitmap.Freeze();
             return new DisposableBitmap(bitmap);
         }
     }

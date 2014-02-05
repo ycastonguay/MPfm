@@ -31,7 +31,7 @@ namespace MPfm.WPF.Classes.Controls
         public WaveFormScrollViewer()
         {
             VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
-            Background = new SolidColorBrush(Colors.BlueViolet);
+            //Background = new SolidColorBrush(Colors.BlueViolet);
 
             WaveFormView = new WaveForm();
             WaveFormScaleView = new WaveFormScale();

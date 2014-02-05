@@ -471,6 +471,7 @@ namespace MPfm.GenericControls.Managers
                 {
                     // Get image from context (at this point, we are sure the image context has been initialized properly)
 					Console.WriteLine("WaveFormCacheManager - Rendering image to memory...");
+                    context.Close();
                     imageCache = context.RenderToImageInMemory();
                 }
 
@@ -483,7 +484,8 @@ namespace MPfm.GenericControls.Managers
 					Image = imageCache
 				});
 			}));
-			thread.IsBackground = true;
+			//thread.IsBackground = true;
+            thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
         }
     }

@@ -120,5 +120,10 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, Brushes.Black);
             return new BasicRectangle(0, 0, (float) formattedText.Width, (float) formattedText.Height);
         }
+
+        public void Close()
+        {
+            _context.Close();
+        }
     }
 }

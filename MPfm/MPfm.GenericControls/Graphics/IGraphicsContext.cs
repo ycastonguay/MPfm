@@ -42,5 +42,7 @@ namespace MPfm.GenericControls.Graphics
         void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize);
         void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize);
         BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize);
+
+        void Close();
     }
 }
