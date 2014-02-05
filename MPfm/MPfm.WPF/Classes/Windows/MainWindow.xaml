@@ -244,6 +244,7 @@
                                             <controls:TrackBar Grid.Column="1" x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
                                             <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
                                         </Grid>
+                                        <controls:TestControl x:Name="testControl" Width="100" Height="100" />
                                     </StackPanel>
                                 </Grid>
                                 <Grid Grid.Column="2">
@@ -449,10 +450,10 @@
                                             <Grid Grid.Row="0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="30" />
-                                                    <ColumnDefinition Width="50" />
+                                                    <ColumnDefinition Width="50" />                                                    
                                                 </Grid.ColumnDefinitions>
                                                 <controls:Fader x:Name="faderVolume" Minimum="0" Maximum="100" OnFaderValueChanged="FaderVolume_OnFaderValueChanged" />
-                                                <controls:OutputMeter Grid.Column="1" x:Name="outputMeter" />
+                                                <controls:OutputMeter Grid.Column="1" x:Name="outputMeter" />                                                
                                             </Grid>
                                             <Label Grid.Row="1" x:Name="lblVolume" Content="100 %" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="White" HorizontalContentAlignment="Center" />
                                         </Grid>

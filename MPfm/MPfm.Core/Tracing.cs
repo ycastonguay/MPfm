@@ -17,6 +17,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace MPfm.Core
 {
@@ -72,8 +73,9 @@ namespace MPfm.Core
             Console.WriteLine(message);
 #elif WINDOWSSTORE || PCL || WINDOWS_PHONE
             Debug.WriteLine(message);
-#else
-            Trace.WriteLine(message);
+#else            
+            //Trace.WriteLine(string.Format("[{0}/{1}] {2}", (int)AppDomain.GetCurrentThreadId(), Thread.CurrentThread.ManagedThreadId, message));
+            Trace.WriteLine(string.Format("[{0}] {1}", Thread.CurrentThread.ManagedThreadId, message));
             Trace.Flush();
 #endif
             

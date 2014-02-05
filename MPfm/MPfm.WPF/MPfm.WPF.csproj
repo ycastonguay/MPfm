@@ -146,6 +146,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Controls\TestControl.cs" />
     <Compile Include="Classes\Controls\ImageButton.cs" />
     <Compile Include="Classes\Controls\HeaderImageButton.cs" />
     <Compile Include="Classes\Controls\Graphics\DisposableBitmap.cs" />
