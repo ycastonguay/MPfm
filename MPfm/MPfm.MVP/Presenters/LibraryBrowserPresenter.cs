@@ -35,44 +35,32 @@ namespace MPfm.MVP.Presenters
 	/// </summary>
 	public class LibraryBrowserPresenter : BasePresenter<ILibraryBrowserView>, ILibraryBrowserPresenter
 	{
-        //ILibraryBrowserView view;
-        readonly ITinyMessengerHub messageHub;
-		readonly ILibraryService libraryService;
+        readonly ITinyMessengerHub _messageHub;
+		readonly ILibraryService _libraryService;
 		readonly IAudioFileCacheService audioFileCacheService;
 		
 		public AudioFileFormat Filter { get; private set; }
 		
-		#region Constructor and Dispose
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="LibraryBrowserPresenter"/> class.
-		/// </summary>
 		public LibraryBrowserPresenter(ITinyMessengerHub messageHub,
 		                                ILibraryService libraryService,
 		                                IAudioFileCacheService audioFileCacheService)
 		{						
-			// Set properties
-            this.messageHub = messageHub;
-			this.libraryService = libraryService;
+            this._messageHub = messageHub;
+			this._libraryService = libraryService;
 			this.audioFileCacheService = audioFileCacheService;			
-			
-			// Set default filter
 			Filter = AudioFileFormat.All;
 		}
-        
-		#endregion		
 		
 		#region ILibraryBrowserPresenter implementation
 
         public void BindView(ILibraryBrowserView view)
         {
             base.BindView(view);
-            
-            view.OnAudioFileFormatFilterChanged = (format) => { AudioFileFormatFilterChanged(format); };
-            view.OnTreeNodeSelected = (entity) => { TreeNodeSelected(entity); };
-            view.OnTreeNodeExpanded = (entity, obj) => { TreeNodeExpanded(entity, obj); };
-            view.OnTreeNodeExpandable = (entity) => { return TreeNodeExpandable(entity); };
-            view.OnTreeNodeDoubleClicked = (entity) => { TreeNodeDoubleClicked(entity); };
+            view.OnAudioFileFormatFilterChanged = AudioFileFormatFilterChanged;
+            view.OnTreeNodeSelected = TreeNodeSelected;
+            view.OnTreeNodeExpanded = TreeNodeExpanded;
+            view.OnTreeNodeExpandable = TreeNodeExpandable;
+            view.OnTreeNodeDoubleClicked = TreeNodeDoubleClicked;
 
 //            // Load configuration
 //            if (AppConfigManager.Instance.ShowTooltips)
@@ -100,7 +88,7 @@ namespace MPfm.MVP.Presenters
 		public void TreeNodeSelected(LibraryBrowserEntity entity)
 		{
             Tracing.Log("LibraryBrowserPresenter.TreeNodeSelected -- Broadcasting LibraryBrowserItemSelected message (" + entity.Title + ")...");
-            messageHub.PublishAsync(new LibraryBrowserItemSelectedMessage(this){
+            _messageHub.PublishAsync(new LibraryBrowserItemSelectedMessage(this){
                 Item = entity
             });
 		}
@@ -180,7 +168,7 @@ namespace MPfm.MVP.Presenters
 		{
             // Call player presenter
             Tracing.Log("LibraryBrowserPresenter.TreeNodeDoubleClicked -- Publishing LibraryBrowserItemDoubleClickedMessageay with item " + entity.Title);
-            messageHub.PublishAsync(new LibraryBrowserItemDoubleClickedMessage(this){
+            _messageHub.PublishAsync(new LibraryBrowserItemDoubleClickedMessage(this){
                 Query = entity.Query
             });
 		}
@@ -229,7 +217,7 @@ namespace MPfm.MVP.Presenters
 		{
 			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
 			
-			List<string> artists = libraryService.SelectDistinctArtistNames(format);
+			List<string> artists = _libraryService.SelectDistinctArtistNames(format);
 			foreach(string artist in artists)
 			{
 				list.Add(new LibraryBrowserEntity(){
@@ -269,7 +257,7 @@ namespace MPfm.MVP.Presenters
 			List<string> albums = new List<string>();
 			
 			// Get distinct album titles
-			Dictionary<string, List<string>> albumTitles = libraryService.SelectDistinctAlbumTitles(format, artistName);
+			Dictionary<string, List<string>> albumTitles = _libraryService.SelectDistinctAlbumTitles(format, artistName);
 				       
             // For each song                    
             foreach (KeyValuePair<string, List<string>> keyValue in albumTitles)

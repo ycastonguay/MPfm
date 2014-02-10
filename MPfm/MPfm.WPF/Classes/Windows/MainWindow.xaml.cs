@@ -68,6 +68,17 @@ namespace MPfm.WPF.Classes.Windows
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
+
+            comboSoundFormat.Items.Add(AudioFileFormat.All);
+            comboSoundFormat.Items.Add(AudioFileFormat.APE);
+            comboSoundFormat.Items.Add(AudioFileFormat.FLAC);
+            comboSoundFormat.Items.Add(AudioFileFormat.MP3);
+            comboSoundFormat.Items.Add(AudioFileFormat.MPC);
+            comboSoundFormat.Items.Add(AudioFileFormat.OGG);
+            comboSoundFormat.Items.Add(AudioFileFormat.WMA);
+            comboSoundFormat.Items.Add(AudioFileFormat.WV);
+            comboSoundFormat.SelectedIndex = 0;
+
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
             RefreshSongInformation(null, 0, 0, 0);
@@ -591,6 +602,13 @@ namespace MPfm.WPF.Classes.Windows
                 item.Focus();
                 e.Handled = true;
             }
+        }
+
+        private void ComboSoundFormat_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var value = (AudioFileFormat)comboSoundFormat.SelectedValue;     
+            if(OnAudioFileFormatFilterChanged != null)
+                OnAudioFileFormatFilterChanged(value);
         }
 
         #region IMainView implementation
