@@ -38,6 +38,7 @@ namespace MPfm.Library.Services.Interfaces
         IEnumerable<AudioFile> SelectAudioFiles(LibraryQuery query);
 		IEnumerable<AudioFile> SelectAudioFiles(AudioFileFormat format, string artistName, string albumTitle, string search);		
 		void InsertAudioFile(AudioFile audioFile);
+        void InsertAudioFiles(IEnumerable<AudioFile> audioFiles);
 		void InsertPlaylistFile(PlaylistFile playlistFile);
         void DeleteAudioFile(Guid audioFileId);
         void DeleteAudioFiles(string basePath);

@@ -213,9 +213,9 @@ namespace MPfm.Library.Services
                 if (_cancelUpdateLibrary) throw new UpdateLibraryException();
 				
 				// Get the list of audio files from the database
-				IEnumerable<string> filePathsDatabase = _libraryService.SelectFilePaths();				
-				IEnumerable<string> filePathsToUpdate = filePaths.Except(filePathsDatabase);
-					
+				var filePathsDatabase = _libraryService.SelectFilePaths();				
+				var filePathsToUpdate = filePaths.Except(filePathsDatabase);
+			    var audioFiles = new List<AudioFile>();
 		        for(int a = 0; a < filePathsToUpdate.Count(); a++)
 		        {
 	                if (_cancelUpdateLibrary) throw new UpdateLibraryException();							           				
@@ -232,16 +232,22 @@ namespace MPfm.Library.Services
 		                    filePath.ToUpper().Contains(".PLS") ||
 		                    filePath.ToUpper().Contains(".XSPF"))
 		                {
-		                    PlaylistFile playlistFile = new PlaylistFile(filePath);
+		                    var playlistFile = new PlaylistFile(filePath);
 	                    	_libraryService.InsertPlaylistFile(playlistFile);							
 		                }
 		                else
 		                {
-		                    AudioFile audioFile = new AudioFile(filePath, Guid.NewGuid(), true);	                    
-	                    	_libraryService.InsertAudioFile(audioFile);
+		                    var audioFile = new AudioFile(filePath, Guid.NewGuid(), true);
+                            //_libraryService.InsertAudioFile(audioFile);
+                            audioFiles.Add(audioFile);
+		                    if (audioFiles.Count >= 50)
+		                    {
+                                //Console.WriteLine("UpdateLibraryService - Inserting 20 audio files into database...");
+		                        _libraryService.InsertAudioFiles(audioFiles);
+		                        audioFiles.Clear();
+		                    }
 		                }
 						
-						// Display update
 						OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
 							Title = "Adding audio files to the library",
 							Subtitle = "Adding " + Path.GetFileName(filePath),
@@ -253,8 +259,7 @@ namespace MPfm.Library.Services
 					}
 					catch (Exception ex)
 					{
-						//view.AddToLog("File could not be added: " + filePath);
-                        Console.WriteLine("UpdateLibraryService - Could not add {0}: {1}", filePath, ex);
+                        Console.WriteLine("UpdateLibraryService - Failed to add {0}: {1}", filePath, ex);
 						OnRaiseRefreshStatusEvent(new UpdateLibraryEntity() {
 							Title = "Adding audio files to the library",
 							Subtitle = "Adding " + filePath,
@@ -266,6 +271,9 @@ namespace MPfm.Library.Services
 						});
 					}
 		        }
+
+                if(audioFiles.Count > 0)
+                    _libraryService.InsertAudioFiles(audioFiles);
 
                 // Cancel thread if necessary
                 if (_cancelUpdateLibrary) throw new UpdateLibraryException();

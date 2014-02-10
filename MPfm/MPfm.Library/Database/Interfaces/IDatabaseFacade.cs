@@ -40,6 +40,7 @@ namespace MPfm.Library.Database.Interfaces
         DateTime? GetAudioFileLastPlayedFromHistory(Guid audioFileId);
         int GetAudioFilePlayCountFromHistory(Guid audioFileId);
         void InsertAudioFile(AudioFile audioFile);
+        void InsertAudioFiles(IEnumerable<AudioFile> audioFiles);
         void InsertEQPreset(EQPreset eq);
         void InsertFolder(string folderPath, bool recursive);
         void InsertHistory(Guid audioFileId);

@@ -148,33 +148,14 @@ namespace MPfm.Library.Database
             _gateway.Insert<AudioFile>(audioFile, "AudioFiles");            
         }
 
-        ///// <summary>
-        ///// Inserts new audio files into the database.
-        ///// </summary>
-        ///// <param name="audioFiles">List of AudioFiles to insert</param>
-        //public void InsertAudioFiles(List<AudioFile> audioFiles)
-        //{
-        //    // Insert song
-        //    //Insert("AudioFiles", "AudioFileId", audioFiles);
-        //    string tableName = "AudioFiles";
-        //    string idFieldName = "AudioFileId";
-
-        //    // Get empty result set
-        //    string baseQuery = "SELECT * FROM " + tableName;
-        //    DataTable table = Select(baseQuery + " WHERE " + idFieldName + " = ''");
-
-        //    // Loop through objects
-        //    foreach (AudioFile audioFile in audioFiles)
-        //    {
-        //        // Add new row to data table
-        //        DataRow newRow = table.NewRow();
-        //        table.Rows.Add(newRow);
-        //        ConvertLibrary.ToRow(ref newRow, audioFile);
-        //    }
-
-        //    // Insert new row into database
-        //    UpdateDataTableTransaction(table, baseQuery);
-        //}
+        /// <summary>
+        /// Inserts new audio files into the database.
+        /// </summary>
+        /// <param name="audioFiles">List of AudioFiles to insert</param>
+        public void InsertAudioFiles(IEnumerable<AudioFile> audioFiles)
+        {
+            _gateway.Insert<AudioFile>(audioFiles, "AudioFiles");
+        }
 
         /// <summary>
         /// Updates an existing audio file to the database.

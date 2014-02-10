@@ -41,13 +41,9 @@ namespace MPfm.Library.Database
     /// </summary>
     public class SQLiteGateway : ISQLiteGateway
     {
-        // Private variables        
         private DbProviderFactory factory = null;
         private SQLiteConnection connection = null;        
 
-        /// <summary>
-        /// Private value for the DatabaseFilePath property.
-        /// </summary>
         private string databaseFilePath = string.Empty;
         /// <summary>
         /// Database file path.
@@ -66,7 +62,6 @@ namespace MPfm.Library.Database
         /// <param name="databaseFilePath">Database file path</param>
         public SQLiteGateway(string databaseFilePath)
         {
-            // Initialize factory
             Tracing.Log("SQLiteGateway init -- Initializing database factory (" + databaseFilePath + ")...");
 						
 #if (!MACOSX && !LINUX && !IOS && !ANDROID)			
@@ -83,7 +78,6 @@ namespace MPfm.Library.Database
         /// </summary>
         public static void CreateDatabaseFile(string databaseFilePath)
         {
-            // Create new database file
             SQLiteConnection.CreateFile(databaseFilePath);
         }
 
@@ -93,7 +87,6 @@ namespace MPfm.Library.Database
         /// <returns>DbConnection</returns>
         public DbConnection GenerateConnection()
         {
-            // Open connection
             DbConnection connection = factory.CreateConnection();
             connection.ConnectionString = "Data Source=" + databaseFilePath;                
 
@@ -133,8 +126,7 @@ namespace MPfm.Library.Database
         /// <returns>List of DatabaseFieldMap</returns>
         public List<DatabaseFieldMap> GetMap<T>()
         {
-            // Create map by scanning properties
-            List<DatabaseFieldMap> maps = new List<DatabaseFieldMap>();
+            var maps = new List<DatabaseFieldMap>();
             PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
@@ -143,7 +135,7 @@ namespace MPfm.Library.Database
                 foreach (object attribute in attributes)
                 {
                     // Try to cast into attribute map
-                    DatabaseFieldAttribute attrMap = attribute as DatabaseFieldAttribute;
+                    var attrMap = attribute as DatabaseFieldAttribute;
                     if (attrMap != null)
                         maps.Add(new DatabaseFieldMap(propertyInfo.Name, attrMap.DatabaseFieldName, attrMap.SaveToDatabase));
                 }
@@ -161,7 +153,6 @@ namespace MPfm.Library.Database
         /// <returns>Formatted value</returns>
         public string FormatSQLValue(object value)
         {           
-            // Check value type
             if (value == null)
             {
                 return "null";
@@ -195,7 +186,6 @@ namespace MPfm.Library.Database
         /// <returns>Number of rows affected</returns>
         public int Execute(string sql)
         {
-            // Declare variables
             DbConnection connection = null;            
             DbCommand command = null;            
 
@@ -210,7 +200,6 @@ namespace MPfm.Library.Database
                 command.CommandText = sql;
                 command.Connection = connection;
                 int rows = command.ExecuteNonQuery();
-
                 return rows;
             }
             catch
@@ -219,10 +208,7 @@ namespace MPfm.Library.Database
             }
             finally
             {
-				// Dispose command
                 command.Dispose();
-				
-                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -238,7 +224,6 @@ namespace MPfm.Library.Database
         /// <returns>Scalar query value</returns>
         public object ExecuteScalar(string sql)
         {
-            // Declare variables
             DbConnection connection = null;
             DbCommand command = null;
 
@@ -253,7 +238,6 @@ namespace MPfm.Library.Database
                 command.CommandText = sql;
                 command.Connection = connection;
                 object obj = command.ExecuteScalar();
-
                 return obj;
             }
             catch
@@ -262,10 +246,7 @@ namespace MPfm.Library.Database
             }
             finally
             {
-				// Dispose command
                 command.Dispose();
-				
-                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -290,11 +271,10 @@ namespace MPfm.Library.Database
         /// <returns>List of objects</returns>
         public IEnumerable<object> SelectList(string sql)
         {
-            // Declare variables
             DbConnection connection = null;
             DbDataReader reader = null;
             DbCommand command = null;
-            List<object> list = new List<object>();
+            var list = new List<object>();
 
             try
             {
@@ -324,17 +304,13 @@ namespace MPfm.Library.Database
             }
             finally
             {
-                // Clean up reader and connection
                 if (reader != null)
                 {
                     reader.Close();
                     reader.Dispose();
                 }
 				
-				// Dispose command
                 command.Dispose();
-
-                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -350,7 +326,6 @@ namespace MPfm.Library.Database
         /// <returns>List of tuple</returns>
         public List<Tuple<object, object>> SelectTuple(string sql)
         {
-            // Declare variables
             DbConnection connection = null;
             DbDataReader reader = null;
             DbCommand command = null;            
@@ -385,17 +360,13 @@ namespace MPfm.Library.Database
             }
             finally
             {
-                // Clean up reader and connection
                 if (reader != null)
                 {
                     reader.Close();
                     reader.Dispose();
                 }
 				
-				// Dispose command
                 command.Dispose();
-
-                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -413,12 +384,9 @@ namespace MPfm.Library.Database
         /// <returns>Object</returns>
         public T SelectOne<T>(string sql) where T : new()
         {
-            // Select first from list
-            List<T> list = Select<T>(sql);
+            var list = Select<T>(sql);
             if (list != null && list.Count > 0)
-            {
                 return list[0];
-            }
             return default(T);
         }
 
@@ -430,101 +398,129 @@ namespace MPfm.Library.Database
         /// <returns>List of objects</returns>
         public List<T> Select<T>(string sql) where T : new()
         {
-            // Declare variables
             DbConnection connection = null;
-            DbDataReader reader = null;            
+            DbDataReader reader = null;
             DbCommand command = null;
-            List<T> list = new List<T>();
+            var list = new List<T>();
             var maps = GetMap<T>();
+            var propertyInfos = new List<Tuple<PropertyInfo, Delegate, Delegate>>();
 
             try
-            {                
+            {
                 // Create and open connection
                 connection = GenerateConnection();
+                connection.ConnectionString = "Data Source=" + databaseFilePath;
                 connection.Open();
 
                 // Create command
-                command = factory.CreateCommand();
+                command = connection.CreateCommand();
                 command.CommandText = sql;
                 command.Connection = connection;
 
                 // Create and execute reader
                 reader = command.ExecuteReader();
+
+                // Prepare map; order propertyInfo list to speed up conversion
+                var fields = new List<string>();
+                for (int a = 0; a < reader.FieldCount; a++)
+                    fields.Add(reader.GetName(a));
+
+                for (int a = 0; a < fields.Count; a++)
+                {
+                    var map = maps.FirstOrDefault(x => x.FieldName == fields[a]);
+                    string propertyName = map != null ? map.PropertyName : fields[a];
+                    var property = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+                    if (property != null)
+                    {
+                        Delegate convertDelegate = null;
+                        if (property.PropertyType != reader.GetFieldType(a))
+                        {
+                            var fieldType = reader.GetFieldType(a);
+                            MethodInfo castMethod = typeof(Convert).GetMethod("To" + property.PropertyType.Name, new Type[] { fieldType });
+                            if (castMethod != null)
+                            {
+                                try
+                                {
+                                    // Create delegate to convert type
+                                    Type funcType = typeof(Func<,>).MakeGenericType(new Type[2] { fieldType, property.PropertyType });
+                                    var del = Delegate.CreateDelegate(funcType, castMethod);
+                                    var item = new Tuple<Type, Type, Delegate>(fieldType, property.PropertyType, del);
+                                    convertDelegate = del;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("SQLiteGateway - Select - Construct delegate error: {0}", ex);
+                                }
+                            }
+                        }
+
+                        var delSetter = Delegate.CreateDelegate(typeof(Action<object, object, object[]>), property, "SetValue");
+                        propertyInfos.Add(new Tuple<PropertyInfo, Delegate, Delegate>(property, delSetter, convertDelegate));
+                    }
+                    else
+                    {
+                        Console.WriteLine("[!!!] SqliteGateway - Failed to recognize property {0}", propertyName);
+                        propertyInfos.Add(new Tuple<PropertyInfo, Delegate, Delegate>(null, null, null));
+                    }
+                }
+
                 while (reader.Read())
                 {
                     // Create object and fill data
                     T data = new T();
-
-                    // Cycle through columns
                     for (int a = 0; a < reader.FieldCount; a++)
                     {
-                        // Get column info
-                        string fieldName = reader.GetName(a);
                         Type fieldType = reader.GetFieldType(a);
                         object fieldValue = reader.GetValue(a);
 
-                        // Check for map
-                        string propertyName = fieldName;
-                        var map = maps.FirstOrDefault(x => x.FieldName == fieldName);
-                        if (map != null)
-                            propertyName = map.PropertyName;
-
-                        // Get property info and fill column if valid
-                        PropertyInfo info = typeof(T).GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+                        PropertyInfo info = propertyInfos[a].Item1;
+                        var delSet = propertyInfos[a].Item2;
                         if (info != null)
                         {
-                            // Set value to null
                             if (fieldValue is System.DBNull)
-                                fieldValue = null;                                
-
-                            // Check if the type is an enum                                    
-                            if (info.PropertyType.IsEnum)
+                            {
+                                fieldValue = null;
+                            }
+                            else if (info.PropertyType.IsEnum)
                             {
                                 fieldValue = Enum.Parse(info.PropertyType, fieldValue.ToString());
-                            }                                
-                            else if (info.PropertyType.FullName.ToUpper() == "SYSTEM.GUID")
+                            }
+                            else if (info.PropertyType == typeof(Guid))
                             {
-                                // Guid aren't supported in SQLite, so they are stored as strings.
-                                fieldValue = new Guid(fieldValue.ToString());                                    
+                                fieldValue = new Guid(fieldValue.ToString());
                             }
                             else if (info.PropertyType.FullName != fieldType.FullName)
                             {
-                                // Call a convert method in the Convert static class, if available
-                                MethodInfo castMethod = typeof(Convert).GetMethod("To" + info.PropertyType.Name, new Type[] { fieldType });
-                                if (castMethod != null)
-                                {
-                                    fieldValue = castMethod.Invoke(null, new object[] { fieldValue });                                        
-                                }
+                                var convertDelegate = propertyInfos[a].Item3;
+                                if (convertDelegate != null)
+                                    fieldValue = convertDelegate.DynamicInvoke(new object[1] { fieldValue });
                             }
 
-                            // Set property value
+                            // This is actually faster than dynamic invoke
                             info.SetValue(data, fieldValue, null);
+                            //							if(delSet != null)
+                            //								delSet.DynamicInvoke(new object[3] { data, fieldValue, null });
                         }
                     }
 
-                    // Add item to list
                     list.Add(data);
                 }
-                
+
                 return list;
             }
-            //catch
-            //{
-            //    throw;
-            //}
+            catch
+            {
+                throw;
+            }
             finally
             {
-                // Clean up reader and connection
                 if (reader != null)
                 {
                     reader.Close();
                     reader.Dispose();
                 }
-				
-				// Dispose command
-                command.Dispose();
 
-                // Close and clean up connection
+                command.Dispose();
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -544,7 +540,7 @@ namespace MPfm.Library.Database
         /// <returns>Number of rows affected</returns>
         public int Update<T>(T obj, string tableName, string whereFieldName, object whereValue)
         {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
+            var dict = new Dictionary<string, object>();
             dict.Add(whereFieldName, whereValue);
             return Update<T>(obj, tableName, dict);
         }
@@ -559,11 +555,10 @@ namespace MPfm.Library.Database
         /// <returns>Number of rows affected</returns>
         public int Update<T>(T obj, string tableName, Dictionary<string, object> where)
         {            
-            // Declare variables
             DbConnection connection = null;            
             DbCommand command = null;
             var maps = GetMap<T>();
-            StringBuilder sql = new StringBuilder();
+            var sql = new StringBuilder();
 
             try
             {
@@ -627,16 +622,12 @@ namespace MPfm.Library.Database
                     sql.Append("\n");
                 }
 
-                // Create and open connection
                 connection = GenerateConnection();
                 connection.Open();
 
-                // Create command
                 command = factory.CreateCommand();
                 command.CommandText = sql.ToString();
                 command.Connection = connection;
-
-                // Execute command
                 int count = command.ExecuteNonQuery();
                 return count;
             }
@@ -646,10 +637,7 @@ namespace MPfm.Library.Database
             }
             finally
             {
-				// Dispose command
                 command.Dispose();
-				
-                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -667,11 +655,35 @@ namespace MPfm.Library.Database
         /// <returns>Number of rows affected</returns>
         public int Insert<T>(T obj, string tableName)
         {
-            // Declare variables
             DbConnection connection = null;
+
+            try
+            {
+                connection = GenerateConnection();
+                connection.Open();
+                int count = Insert(obj, tableName, connection);
+                return count;
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // Close and clean up connection
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
+            }
+        }
+
+        private int Insert<T>(T obj, string tableName, DbConnection connection)
+        {
             DbCommand command = null;
             var maps = GetMap<T>();
-            StringBuilder sql = new StringBuilder();
+            var sql = new StringBuilder();
 
             try
             {
@@ -742,16 +754,9 @@ namespace MPfm.Library.Database
                 }
                 sql.AppendLine(") ");
 
-                // Create and open connection
-                connection = GenerateConnection();
-                connection.Open();
-
-                // Create command
                 command = factory.CreateCommand();
                 command.CommandText = sql.ToString();
                 command.Connection = connection;
-
-                // Execute command
                 int count = command.ExecuteNonQuery();
                 return count;
             }
@@ -761,16 +766,23 @@ namespace MPfm.Library.Database
             }
             finally
             {
-				// Dispose command
                 command.Dispose();
-
-                // Close and clean up connection
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
             }
+        }
+
+        public int Insert<T>(IEnumerable<T> objs, string tableName)
+        {
+            int count = 0;
+            DbConnection connection = null;
+            connection = GenerateConnection();
+            connection.Open();
+            using (var transaction = connection.BeginTransaction())
+            {
+                foreach (var obj in objs)
+                    count += Insert(obj, tableName, connection);
+                transaction.Commit();
+            }
+            return count;
         }
 
         /// <summary>
@@ -781,7 +793,7 @@ namespace MPfm.Library.Database
         /// <param name="id">DTO id</param>
         public void Delete(string tableName, string idFieldName, Guid id)
         {
-            Execute("DELETE FROM " + tableName + " WHERE " + idFieldName + " = '" + id.ToString() + "'");
+            Execute(string.Format("DELETE FROM {0} WHERE {1} = '{2}'", tableName, idFieldName, id));
         }
 
         /// <summary>
@@ -790,7 +802,7 @@ namespace MPfm.Library.Database
         /// <param name="tableName">Database table name</param>
         public void Delete(string tableName)
         {
-            Execute("DELETE FROM " + tableName);
+            Execute(string.Format("DELETE FROM {0}", tableName));
         }
 
         /// <summary>
@@ -800,7 +812,7 @@ namespace MPfm.Library.Database
         /// <param name="where">Where clause</param>
         public void Delete(string tableName, string where)
         {
-            Execute("DELETE FROM " + tableName + " WHERE " + where);
+            Execute(string.Format("DELETE FROM {0} WHERE {1}", tableName, where));
         }
     }
 }

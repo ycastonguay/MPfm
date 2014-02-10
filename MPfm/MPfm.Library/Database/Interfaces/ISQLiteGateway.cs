@@ -46,6 +46,7 @@ namespace MPfm.Library.Database.Interfaces
         int Update<T>(T obj, string tableName, string whereFieldName, object whereValue);
         int Update<T>(T obj, string tableName, Dictionary<string, object> where);
         int Insert<T>(T obj, string tableName);
+        int Insert<T>(IEnumerable<T> objs, string tableName);
         void Delete(string tableName, string idFieldName, Guid id);
         void Delete(string tableName);
         void Delete(string tableName, string where);

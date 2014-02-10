@@ -88,6 +88,11 @@ namespace MPfm.Library.Services
 		{
 			_gateway.InsertAudioFile(audioFile);
 		}
+
+        public void InsertAudioFiles(IEnumerable<AudioFile> audioFiles)
+        {
+            _gateway.InsertAudioFiles(audioFiles);   
+        }
 		
 		public void InsertPlaylistFile(PlaylistFile playlistFile)
 		{
