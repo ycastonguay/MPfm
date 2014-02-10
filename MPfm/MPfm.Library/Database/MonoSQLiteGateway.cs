@@ -672,94 +672,13 @@ namespace MPfm.Library.Database
         public int Insert<T>(T obj, string tableName)
         {
             DbConnection connection = null;
-            DbCommand command = null;
-            List<DatabaseFieldMap> maps = GetMap<T>();
-            StringBuilder sql = new StringBuilder();
 
             try
             {
-                // Generate query
-                sql.AppendLine("INSERT INTO [" + tableName + "] (");
-
-                // Scan through properties to set column names
-                PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                bool addedOneItem = false;
-                for (int a = 0; a < propertyInfos.Length; a++)
-                {
-                    PropertyInfo propertyInfo = propertyInfos[a];
-                    //Console.WriteLine("Insert - Fields - Item {0} name: {1}", a, propertyInfo.Name);
-                    if (propertyInfo.GetSetMethod() != null)
-                    {
-                        // Check mapping
-                        bool saveToDatabase = true;
-                        string fieldName = propertyInfo.Name;
-                        var map = maps.FirstOrDefault(x => x.PropertyName == propertyInfo.Name);
-                        if (map != null)
-                        {
-                            fieldName = map.FieldName;
-                            saveToDatabase = map.SaveToDatabase;
-                        }
-
-                        if (saveToDatabase)
-                        {
-                            // Add comma if an item was added previously
-                            if (!addedOneItem)
-                                addedOneItem = true;
-                            else
-                                sql.Append(", ");
-
-                            sql.Append("[" + fieldName + "]");
-                            sql.Append("\n");
-                        }
-                    }
-                }
-                sql.AppendLine(") VALUES (");
-
-                // Scan through properties and set values
-                addedOneItem = false;
-                for (int a = 0; a < propertyInfos.Length; a++)
-                {
-                    PropertyInfo propertyInfo = propertyInfos[a];
-                    //Console.WriteLine("Insert - Values - Item {0} name: {1}", a, propertyInfo.Name);
-                    if (propertyInfo.GetSetMethod() != null)
-                    {
-                        // Check mapping
-                        bool saveToDatabase = true;
-                        string fieldName = propertyInfo.Name;
-                        var map = maps.FirstOrDefault(x => x.PropertyName == propertyInfo.Name);
-                        if (map != null)
-                            saveToDatabase = map.SaveToDatabase;
-
-                        if (saveToDatabase)
-                        {
-                            // Add comma if an item was added previously
-                            if (!addedOneItem)
-                                addedOneItem = true;
-                            else
-                                sql.Append(", ");
-
-                            // Get value and determine how to add field value
-                            object value = propertyInfo.GetValue(obj, null);
-                            sql.Append(FormatSQLValue(value));
-                            sql.Append("\n");
-                        }
-                    }
-                }
-                sql.AppendLine(") ");
-                //Console.WriteLine(sql);
-
-                // Create and open connection
                 connection = GenerateConnection();
                 connection.Open();
-
-                // Create command
-                command = connection.CreateCommand();
-                command.CommandText = sql.ToString();
-                command.Connection = connection;
-
-                // Execute command
-                int count = command.ExecuteNonQuery();
-                return count;
+				int count = Insert(obj, tableName, connection);
+				return count;
             }
             catch
             {
@@ -767,10 +686,6 @@ namespace MPfm.Library.Database
             }
             finally
             {
-				// Dispose command
-                command.Dispose();
-
-                // Close and clean up connection
                 if (connection.State == ConnectionState.Open)
                 {
                     connection.Close();
@@ -778,6 +693,135 @@ namespace MPfm.Library.Database
                 }
             }
         }
+
+		private int Insert<T>(T obj, string tableName, DbConnection connection)
+		{
+			DbCommand command = null;
+			var maps = GetMap<T>();
+			var sql = new StringBuilder();
+
+			try
+			{
+				// Generate query
+				sql.AppendLine("INSERT INTO [" + tableName + "] (");
+
+				// Scan through properties to set column names
+				PropertyInfo[] propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+				bool addedOneItem = false;
+				for (int a = 0; a < propertyInfos.Length; a++)
+				{
+					PropertyInfo propertyInfo = propertyInfos[a];
+					//Console.WriteLine("Insert - Fields - Item {0} name: {1}", a, propertyInfo.Name);
+					if (propertyInfo.GetSetMethod() != null)
+					{
+						// Check mapping
+						bool saveToDatabase = true;
+						string fieldName = propertyInfo.Name;
+						var map = maps.FirstOrDefault(x => x.PropertyName == propertyInfo.Name);
+						if (map != null)
+						{
+							fieldName = map.FieldName;
+							saveToDatabase = map.SaveToDatabase;
+						}
+
+						if (saveToDatabase)
+						{
+							// Add comma if an item was added previously
+							if (!addedOneItem)
+								addedOneItem = true;
+							else
+								sql.Append(", ");
+
+							sql.Append("[" + fieldName + "]");
+							sql.Append("\n");
+						}
+					}
+				}
+				sql.AppendLine(") VALUES (");
+
+				// Scan through properties and set values
+				addedOneItem = false;
+				for (int a = 0; a < propertyInfos.Length; a++)
+				{
+					PropertyInfo propertyInfo = propertyInfos[a];
+					//Console.WriteLine("Insert - Values - Item {0} name: {1}", a, propertyInfo.Name);
+					if (propertyInfo.GetSetMethod() != null)
+					{
+						// Check mapping
+						bool saveToDatabase = true;
+						string fieldName = propertyInfo.Name;
+						var map = maps.FirstOrDefault(x => x.PropertyName == propertyInfo.Name);
+						if (map != null)
+							saveToDatabase = map.SaveToDatabase;
+
+						if (saveToDatabase)
+						{
+							// Add comma if an item was added previously
+							if (!addedOneItem)
+								addedOneItem = true;
+							else
+								sql.Append(", ");
+
+							// Get value and determine how to add field value
+							object value = propertyInfo.GetValue(obj, null);
+							sql.Append(FormatSQLValue(value));
+							sql.Append("\n");
+						}
+					}
+				}
+				sql.AppendLine(") ");
+				//Console.WriteLine(sql);
+
+				// Create command
+				command = connection.CreateCommand();
+				command.CommandText = sql.ToString();
+				command.Connection = connection;
+
+				// Execute command
+				int count = command.ExecuteNonQuery();
+				return count;
+			}
+			catch
+			{
+				throw;
+			}
+			finally
+			{
+				// Dispose command
+				command.Dispose();
+			}
+		}
+
+		public int Insert<T>(IEnumerable<T> objs, string tableName)
+		{
+			DbConnection connection = null;
+			DbTransaction transaction = null;
+
+			try
+			{
+				connection = GenerateConnection();
+				connection.Open();
+				transaction = connection.BeginTransaction();
+
+				int count = 0;
+				foreach(var obj in objs)
+					count += Insert(obj, tableName, connection);
+				return count;
+			}
+			catch
+			{
+				throw;
+			}
+			finally
+			{
+				if (connection.State == ConnectionState.Open)
+				{
+					transaction.Commit();
+					connection.Close();
+					connection.Dispose();
+				}
+			}
+		}
 
         /// <summary>
         /// Deletes an item from the database.

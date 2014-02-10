@@ -42,6 +42,7 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 
 		public float BoundsWidth { get; private set; }
 		public float BoundsHeight { get; private set; }
+		public float Density { get { return 1; } } // Always 1 on iOS because the Retina displays actually use fractions
 
 		public void DrawImage(BasicRectangle rectangle, IDisposable image)
 		{
@@ -82,14 +83,10 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 			return new BasicRectangle(0, 0, size.Width, size.Height);
 		}
 
-		public void SetStrokeColor(BasicColor color)
+		public void SetPen(BasicPen pen)
 		{
-			Context.SetStrokeColor(GenericControlHelper.ToColor(color).CGColor);
-		}
-
-		public void SetLineWidth(float width)
-		{
-			Context.SetLineWidth(width);
+			Context.SetStrokeColor(GenericControlHelper.ToColor(pen.Brush.Color).CGColor);
+			Context.SetLineWidth(pen.Thickness);
 		}
 
 		public void StrokeLine(BasicPoint point, BasicPoint point2)
@@ -105,6 +102,11 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 		public void RestoreState()
 		{
 			Context.RestoreState();
+		}
+
+		public void Close()
+		{
+			// Not used on iOS
 		}
     }
 }
