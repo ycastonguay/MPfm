@@ -41,6 +41,7 @@ using MPfm.Player.Objects;
 using MPfm.MVP.Presenters;
 using MPfm.Mac.Classes.Controls;
 using System.Web;
+using MPfm.Library.Objects;
 
 namespace MPfm.Mac
 {
@@ -897,8 +898,6 @@ namespace MPfm.Mac
         public Action OnOpenSyncWindow { get; set; }
         public Action OnOpenSyncCloudWindow { get; set; }
         public Action OnOpenSyncWebBrowserWindow { get; set; }
-        public Action<List<string>> OnAddFilesToLibrary { get; set; }
-        public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnUpdateLibrary { get; set; }
 
         public void PushSubView(IBaseView view)
@@ -992,6 +991,32 @@ namespace MPfm.Mac
                 _markers = markers.ToList();
                 tableMarkers.ReloadData();
             });
+        }
+
+        #endregion
+
+        #region IUpdateLibraryView implementation
+
+        public Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public Action<string> OnAddFolderToLibrary { get; set; }
+        public Action OnStartUpdateLibrary { get; set; }
+        public Action OnCancelUpdateLibrary { get; set; }
+        public Action<string> OnSaveLog { get; set; }
+
+        public void RefreshStatus(UpdateLibraryEntity entity)
+        {
+        }
+
+        public void AddToLog(string entry)
+        {
+        }
+
+        public void ProcessStarted()
+        {
+        }
+
+        public void ProcessEnded(bool canceled)
+        {
         }
 
         #endregion

@@ -16,21 +16,11 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using MonoMac.Foundation;
 using MonoMac.AppKit;
-using MPfm.MVP;
-using MPfm.Library;
-using MPfm.MVP.Services.Interfaces;
-using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Views;
-using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Models;
-using MPfm.MVP.Presenters;
-using MPfm.MVP.Bootstrap;
-using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Objects;
+using System.Collections.Generic;
 
 namespace MPfm.Mac
 {
@@ -93,6 +83,8 @@ namespace MPfm.Mac
 
 		#region IUpdateLibraryView implementation
 
+        public Action<List<string>> OnAddFilesToLibrary { get; set; }
+        public Action<string> OnAddFolderToLibrary { get; set; }
         public Action OnStartUpdateLibrary { get; set; }
         public Action OnCancelUpdateLibrary { get; set; }
         public Action<string> OnSaveLog { get; set; }
