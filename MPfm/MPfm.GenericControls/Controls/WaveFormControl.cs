@@ -17,8 +17,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using MPfm.Core;
+using MPfm.GenericControls.Interaction;
 using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -33,9 +35,10 @@ namespace MPfm.GenericControls.Controls
     /// <summary>
     /// The WaveFormScale control displays the scale in minutes/seconds on top of the wave form.
     /// </summary>
-    public class WaveFormControl : IControl
+    public class WaveFormControl : IControl, IControlMouseInteraction
     {
         private readonly object _locker = new object();
+        private bool _isMouseDown;
         private BasicPen _penTransparent;
         private BasicPen _penCursorLine;
         private BasicPen _penSecondaryCursorLine;
@@ -58,7 +61,6 @@ namespace MPfm.GenericControls.Controls
         private BasicColor _markerCursorColor = new BasicColor(255, 0, 0);
         private BasicColor _markerSelectedCursorColor = new BasicColor(234, 138, 128);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
-        //var color = _markers[a].MarkerId == _activeMarkerId ? GlobalTheme.SecondaryLightColor : new UIColor(1, 0, 0, 1);
         public BasicRectangle Frame { get; set; }
 
 		public float FontSize { get; set; }
@@ -128,8 +130,10 @@ namespace MPfm.GenericControls.Controls
         public bool ShowSecondaryPosition { get; set; }
         public long Length { get; set; }
 
+        public delegate void ChangePosition(float position);
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
+        public event ChangePosition OnChangePosition;
 
         public WaveFormControl()
         {
@@ -140,6 +144,7 @@ namespace MPfm.GenericControls.Controls
         {
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
+            OnChangePosition += (position) => { };
 			FontSize = 12;
 			FontFace = "Roboto";
 			LetterFontSize = 10;
@@ -404,6 +409,30 @@ namespace MPfm.GenericControls.Controls
 				//Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
                 context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
             }
+        }
+
+        public void MouseDown(float x, float y, MouseButtonType button)
+        {
+            _isMouseDown = true;
+            ShowSecondaryPosition = true;
+            float positionPercentage = (x / Frame.Width);
+            SecondaryPosition = (long)(positionPercentage * Length);
+        }
+
+        public void MouseUp(float x, float y, MouseButtonType button)
+        {
+            _isMouseDown = false;
+            ShowSecondaryPosition = false;
+            float positionPercentage = (x/Frame.Width);
+            long position = (long)(positionPercentage * Length);
+            Position = position;
+            OnChangePosition(positionPercentage);
+        }
+
+        public void MouseMove(float x, float y, MouseButtonType button)
+        {
+            if(_isMouseDown)
+                SecondaryPosition = (long)((x / Frame.Width) * Length);
         }
     }
 }

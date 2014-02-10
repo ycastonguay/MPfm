@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using MPfm.Core;
+using MPfm.GenericControls.Controls;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 
@@ -36,12 +37,15 @@ namespace MPfm.WPF.Classes.Controls
         public WaveForm WaveFormView { get; private set; }
         public WaveFormScale WaveFormScaleView { get; private set; }
 
+        public event WaveFormControl.ChangePosition OnChangePosition;
+
         public WaveFormScrollViewer()
         {
             //MinHeight = 82;            
             VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
             WaveFormView = new WaveForm();
+            WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
             WaveFormView.MinHeight = 60;
             WaveFormScaleView = new WaveFormScale();
 

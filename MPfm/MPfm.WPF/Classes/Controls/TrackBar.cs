@@ -24,6 +24,7 @@ using System.Windows.Threading;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Interaction;
 using MPfm.WPF.Classes.Controls.Graphics;
+using MPfm.WPF.Classes.Controls.Helpers;
 using MPfm.WPF.Classes.Extensions;
 using Control = System.Windows.Controls.Control;
 
@@ -67,57 +68,19 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            var location = e.GetPosition(this);
-            float x = (float)location.X;
-            float y = (float)location.Y;
-            CaptureMouse();
-            switch (e.ChangedButton)
-            {
-                case MouseButton.Left:
-                    _control.MouseDown(x, y, MouseButtonType.Left);
-                    break;
-                case MouseButton.Middle:
-                    _control.MouseDown(x, y, MouseButtonType.Middle);
-                    break;
-                case MouseButton.Right:
-                    _control.MouseDown(x, y, MouseButtonType.Right);
-                    break;
-            }
+            GenericControlHelper.MouseDown(e, this, _control);
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
-            var location = e.GetPosition(this);
-            float x = (float)location.X;
-            float y = (float)location.Y;
-            ReleaseMouseCapture();
-            switch (e.ChangedButton)
-            {
-                case MouseButton.Left:
-                    _control.MouseUp(x, y, MouseButtonType.Left);
-                    break;
-                case MouseButton.Middle:
-                    _control.MouseUp(x, y, MouseButtonType.Middle);
-                    break;
-                case MouseButton.Right:
-                    _control.MouseUp(x, y, MouseButtonType.Right);
-                    break;
-            }
+            GenericControlHelper.MouseUp(e, this, _control);
             base.OnMouseUp(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            var location = e.GetPosition(this);
-            float x = (float)location.X;
-            float y = (float)location.Y;
-            if (e.LeftButton == MouseButtonState.Pressed)
-                _control.MouseMove(x, y, MouseButtonType.Left);
-            else if (e.MiddleButton == MouseButtonState.Pressed)
-                _control.MouseMove(x, y, MouseButtonType.Middle);
-            else if (e.RightButton == MouseButtonState.Pressed)
-                _control.MouseMove(x, y, MouseButtonType.Right);
+            GenericControlHelper.MouseMove(e, this, _control);
             base.OnMouseMove(e);
         }
     }

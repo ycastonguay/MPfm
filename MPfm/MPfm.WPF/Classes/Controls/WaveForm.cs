@@ -17,12 +17,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.GenericControls.Controls;
+using MPfm.GenericControls.Interaction;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
+using MPfm.WPF.Classes.Controls.Helpers;
 using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls
@@ -67,6 +70,8 @@ namespace MPfm.WPF.Classes.Controls
             }
         }
 
+        public event WaveFormControl.ChangePosition OnChangePosition;
+
         public WaveForm()
         {
             _control = new WaveFormControl();
@@ -80,6 +85,7 @@ namespace MPfm.WPF.Classes.Controls
                 // TODO: It seems you can't invalidate a specific rect in WPF? What?
                 // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
             }));
+            _control.OnChangePosition += (position) => OnChangePosition(position);
         }
 
         public void SetMarkers(IEnumerable<Marker> markers)
@@ -110,6 +116,24 @@ namespace MPfm.WPF.Classes.Controls
             if (ActualWidth == 0 || ActualHeight == 0)
                 return;
             _control.Render(wrapper);
-        }   
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            GenericControlHelper.MouseDown(e, this, _control);
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            GenericControlHelper.MouseUp(e, this, _control);
+            base.OnMouseUp(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            GenericControlHelper.MouseMove(e, this, _control);
+            base.OnMouseMove(e);
+        }
     }
 }

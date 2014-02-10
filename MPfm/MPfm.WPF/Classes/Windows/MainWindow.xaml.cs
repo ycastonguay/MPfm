@@ -68,6 +68,7 @@ namespace MPfm.WPF.Classes.Windows
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
+            scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
 
             comboSoundFormat.Items.Add(AudioFileFormat.All);
             comboSoundFormat.Items.Add(AudioFileFormat.APE);
@@ -609,6 +610,12 @@ namespace MPfm.WPF.Classes.Windows
             var value = (AudioFileFormat)comboSoundFormat.SelectedValue;     
             if(OnAudioFileFormatFilterChanged != null)
                 OnAudioFileFormatFilterChanged(value);
+        }
+
+        private void ScrollViewWaveForm_OnChangePosition(float position)
+        {
+            Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangePosition - position: {0}", position);
+            OnPlayerSetPosition(position * 100);
         }
 
         #region IMainView implementation
