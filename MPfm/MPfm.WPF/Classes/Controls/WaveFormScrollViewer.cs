@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using MPfm.Core;
 using MPfm.GenericControls.Controls;
@@ -41,7 +42,8 @@ namespace MPfm.WPF.Classes.Controls
 
         public WaveFormScrollViewer()
         {
-            //MinHeight = 82;            
+            CanContentScroll = true;
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
             WaveFormView = new WaveForm();
@@ -99,6 +101,22 @@ namespace MPfm.WPF.Classes.Controls
             //Console.WriteLine("WaveFormScrollViewer - MeasureOverride - constraint: {0} actualSize: {1},{2}", constraint, ActualWidth, ActualHeight);
             WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);            
             return base.MeasureOverride(constraint);
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {            
+            var position = e.GetPosition(this);
+            int factor = (int)(e.Delta / 120f);
+            Console.WriteLine("OnMouseWheel - position: {0} delta: {1} factor: {2}", position, e.Delta, factor);
+            //var matrix = _grid.LayoutTransform.Value;
+            var matrix = _grid.RenderTransform.Value;
+            if (e.Delta > 0)
+                matrix.ScaleAt(1.5, 1, position.X, position.Y);
+            else
+                matrix.ScaleAt(1.0 / 1.5, 1, position.X, position.Y);
+            //_grid.LayoutTransform = new MatrixTransform(matrix);
+            _grid.RenderTransform = new MatrixTransform(matrix);
+            base.OnMouseWheel(e);
         }
     }
 }
