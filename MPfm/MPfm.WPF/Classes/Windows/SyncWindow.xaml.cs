@@ -48,13 +48,13 @@ namespace MPfm.WPF.Classes.Windows
         {
             if (_isDiscovering)
             {
-                imageRefreshButton.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/cancel.png"));
-                lblRefreshButton.Content = "Cancel refresh";
+                btnRefresh.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/cancel.png"));
+                btnRefresh.Title = "Cancel refresh";
             }
             else
             {
-                imageRefreshButton.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/refresh.png"));
-                lblRefreshButton.Content = "Refresh devices";
+                btnRefresh.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Buttons/refresh.png"));
+                btnRefresh.Title = "Refresh devices";
             }
         }
 

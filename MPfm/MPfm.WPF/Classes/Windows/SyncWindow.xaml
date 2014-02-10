@@ -18,15 +18,15 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Sync (Nearby Devices)" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-            <Label Grid.Column="1" x:Name="lblIPAddress" Content="" Foreground="#FFDDDDDD" FontSize="12" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" VerticalContentAlignment="Center" />
+            <Label Grid.Column="0" Content="Sync (Nearby Devices)" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
+            <Label Grid.Column="1" x:Name="lblIPAddress" Content="" Foreground="#FFDDDDDD" FontSize="12" FontFamily="/Resources/Fonts/#Roboto" VerticalContentAlignment="Center" />
         </Grid>        
         <Grid Grid.Row="1" Margin="4,8,4,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Foreground="#FFDDDDDD" FontSize="11" FontFamily="/Resources/Fonts/#Junction">
+            <TextBlock Grid.Column="0" Foreground="#FFDDDDDD" FontSize="11" FontFamily="/Resources/Fonts/#Roboto">
                 Searching for devices running Sessions on your local network...
             </TextBlock>
             <ProgressBar Grid.Column="1" x:Name="progressBar" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Value="0" Margin="2" VerticalContentAlignment="Center" />
@@ -48,25 +48,12 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="btnRefresh" Click="btnRefresh_OnClick">
-                <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                    <Image x:Name="imageRefreshButton" Source="/Resources/Images/Buttons/cancel.png" Stretch="None" />
-                    <Label x:Name="lblRefreshButton" FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Cancel refresh</Label>
-                </StackPanel>
-            </Button>
+            <controls:ImageButton Grid.Column="0" x:Name="btnRefresh" Title="Cancel refresh" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource ImageButton}" Click="btnRefresh_OnClick" />
             <StackPanel Grid.Column="1"></StackPanel>
-            <Button Grid.Column="2" x:Name="btnConnectManual" Click="btnConnectManual_OnClick">
-                <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Connect manually to device</Label>
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="3" x:Name="btnConnect" Click="btnConnect_OnClick">
-                <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                    <Image Source="/Resources/Images/Buttons/connect.png" Stretch="None" />
-                    <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Connect to device</Label>
-                </StackPanel>
-            </Button>
+            <controls:ImageButton Grid.Column="2" x:Name="btnConnectManual" Title="Connect to device" ImageSource="/Resources/Images/Buttons/connect.png" Style="{StaticResource ImageButton}" Click="btnConnectManual_OnClick" />
+            <controls:ImageButton Grid.Column="3" x:Name="btnConnect" Title="Connect to device" ImageSource="/Resources/Images/Buttons/connect.png" Style="{StaticResource ImageButton}" />
         </Grid>        
     </Grid>
 </base:BaseWindow>
+
+    

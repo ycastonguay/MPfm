@@ -37,22 +37,16 @@ namespace MPfm.MVP.Presenters
 	{
         readonly ITinyMessengerHub _messageHub;
 		readonly ILibraryService _libraryService;
-		readonly IAudioFileCacheService audioFileCacheService;
 		
 		public AudioFileFormat Filter { get; private set; }
 		
-		public LibraryBrowserPresenter(ITinyMessengerHub messageHub,
-		                                ILibraryService libraryService,
-		                                IAudioFileCacheService audioFileCacheService)
+		public LibraryBrowserPresenter(ITinyMessengerHub messageHub, ILibraryService libraryService)
 		{						
-            this._messageHub = messageHub;
-			this._libraryService = libraryService;
-			this.audioFileCacheService = audioFileCacheService;			
+            _messageHub = messageHub;
+			_libraryService = libraryService;
 			Filter = AudioFileFormat.All;
 		}
 		
-		#region ILibraryBrowserPresenter implementation
-
         public void BindView(ILibraryBrowserView view)
         {
             base.BindView(view);
@@ -62,10 +56,7 @@ namespace MPfm.MVP.Presenters
             view.OnTreeNodeExpandable = TreeNodeExpandable;
             view.OnTreeNodeDoubleClicked = TreeNodeDoubleClicked;
 
-//            // Load configuration
-//            if (AppConfigManager.Instance.ShowTooltips)
-
-            // Refresh view (first level nodes)
+            // TODO: Fix this
             view.RefreshLibraryBrowser(GetFirstLevelNodes());
         }
 
@@ -75,9 +66,8 @@ namespace MPfm.MVP.Presenters
 		/// <param name='format'>Audio file format</param>
 		public void AudioFileFormatFilterChanged(AudioFileFormat format)
 		{
-			// Refresh view (first level nodes)
             Tracing.Log("LibraryBrowserPresenter.AudioFileFormatFilterChanged -- Getting first level nodes and refreshing view...");
-			this.Filter = format;
+			Filter = format;
 			View.RefreshLibraryBrowser(GetFirstLevelNodes());
 		}
 		
@@ -101,7 +91,6 @@ namespace MPfm.MVP.Presenters
 		/// <param name='userData'>User data (i.e. tree node object)</param>
 		public void TreeNodeExpanded(LibraryBrowserEntity entity, object userData)
         {
-            // Check node type
             if (entity.EntityType == LibraryBrowserEntityType.Artists)
             {
                 Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Artist nodes and refreshing view (RefreshLibraryBrowserNode)...");
@@ -139,44 +128,32 @@ namespace MPfm.MVP.Presenters
         /// <returns>List of nodes to ad to the NSOutlineView</returns>
         public IEnumerable<LibraryBrowserEntity> TreeNodeExpandable(LibraryBrowserEntity entity)
         {
-            // Check node type and get appropriate list
-            if (entity.EntityType == LibraryBrowserEntityType.Artists)
+            switch (entity.EntityType)
             {
-                Tracing.Log("LibraryBrowserPresenter.TreeNodeExpandable -- Getting list of distinct artists...");
-                return GetArtistNodes(Filter);
-            } 
-            else if (entity.EntityType == LibraryBrowserEntityType.Albums)
-            {
-                Tracing.Log("LibraryBrowserPresenter.TreeNodeExpandable -- Getting list of distinct albums...");
-                return GetAlbumNodes(Filter);
-            } 
-            else if (entity.EntityType == LibraryBrowserEntityType.Artist)
-            {
-                Tracing.Log("LibraryBrowserPresenter.TreeNodeExpandable -- Getting list of distinct artist albums...");
-                return GetArtistAlbumNodes(Filter, entity.Query.ArtistName);
+                case LibraryBrowserEntityType.Artists:
+                    return GetArtistNodes(Filter);
+                case LibraryBrowserEntityType.Albums:
+                    return GetAlbumNodes(Filter);
+                case LibraryBrowserEntityType.Artist:
+                    return GetArtistAlbumNodes(Filter, entity.Query.ArtistName);
             }
 
             return null;
         }
 
-		/// <summary>
+	    /// <summary>
 		/// Call this method when the tree node has been double clicked. 
 		/// This will start a new playlist in the Player presenter.
 		/// </summary>
 		/// <param name='entity'>Library Browser entity</param>
 		public void TreeNodeDoubleClicked(LibraryBrowserEntity entity)
 		{
-            // Call player presenter
             Tracing.Log("LibraryBrowserPresenter.TreeNodeDoubleClicked -- Publishing LibraryBrowserItemDoubleClickedMessageay with item " + entity.Title);
             _messageHub.PublishAsync(new LibraryBrowserItemDoubleClickedMessage(this){
                 Query = entity.Query
             });
 		}
 
-		#endregion
-		
-		#region Data Methods
-		
 		/// <summary>
 		/// Returns the first level nodes of the library browser.
 		/// </summary>
@@ -185,19 +162,16 @@ namespace MPfm.MVP.Presenters
 		/// </returns>
 		private IEnumerable<LibraryBrowserEntity> GetFirstLevelNodes()
 		{
-			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
-
+			var list = new List<LibraryBrowserEntity>();
             list.Add(new LibraryBrowserEntity(){
                 Title = "All Songs",
                 EntityType = LibraryBrowserEntityType.AllSongs
             });           
-
 			list.Add(new LibraryBrowserEntity(){
 				Title = "Artists",
 				EntityType = LibraryBrowserEntityType.Artists,
 				SubItems = new List<LibraryBrowserEntity>(){ new LibraryBrowserEntity() { EntityType = LibraryBrowserEntityType.Dummy, Title = "dummy" }} // dummy node
 			});
-			
 			list.Add(new LibraryBrowserEntity(){
 				Title = "Albums",
 				EntityType = LibraryBrowserEntityType.Albums,
@@ -215,9 +189,8 @@ namespace MPfm.MVP.Presenters
 		/// </returns>
 		private IEnumerable<LibraryBrowserEntity> GetArtistNodes(AudioFileFormat format)
 		{
-			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
-			
-			List<string> artists = _libraryService.SelectDistinctArtistNames(format);
+			var list = new List<LibraryBrowserEntity>();
+			var artists = _libraryService.SelectDistinctArtistNames(format);
 			foreach(string artist in artists)
 			{
 				list.Add(new LibraryBrowserEntity(){
@@ -252,26 +225,9 @@ namespace MPfm.MVP.Presenters
 		/// <returns>List of album titles</returns>		
 		private IEnumerable<LibraryBrowserEntity> GetArtistAlbumNodes(AudioFileFormat format, string artistName)
 		{
-			// Declare variables
-			List<LibraryBrowserEntity> list = new List<LibraryBrowserEntity>();
-			List<string> albums = new List<string>();
-			
-			// Get distinct album titles
-			Dictionary<string, List<string>> albumTitles = _libraryService.SelectDistinctAlbumTitles(format, artistName);
-				       
-            // For each song                    
-            foreach (KeyValuePair<string, List<string>> keyValue in albumTitles)
-            {
-                foreach (string albumTitle in keyValue.Value)
-                {
-                    albums.Add(albumTitle);
-                }
-            }
-
-            // Order the albums by title
-            albums = albums.OrderBy(x => x).ToList();
-			
-			// Convert to entities
+			var list = new List<LibraryBrowserEntity>();
+		    var albumTitles = _libraryService.SelectDistinctAlbumTitles(format, artistName);
+		    var albums = albumTitles.SelectMany(keyValue => keyValue.Value).OrderBy(x => x).ToList();
 			foreach(string album in albums)
 			{
 				list.Add(new LibraryBrowserEntity(){
@@ -287,8 +243,5 @@ namespace MPfm.MVP.Presenters
 			
 			return list;
 		}
-		
-		#endregion
 	}
 }
-
