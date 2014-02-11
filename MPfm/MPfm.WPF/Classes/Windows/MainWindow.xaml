@@ -250,7 +250,7 @@
                                         <Button x:Name="btnActions" Width="60" Content="Actions" Style="{StaticResource HeaderButton}" Click="BtnActions_OnClick" />
                                     </StackPanel>
                                     <Grid Grid.Row="1">
-                                        <Grid x:Name="panelTimeShifting" Margin="8,5,8,8" Visibility="Visible">                                            
+                                        <Grid x:Name="panelTimeShifting" Margin="8,5,8,8" Visibility="Hidden">                                            
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
                                                 <RowDefinition Height="Auto" />
@@ -374,34 +374,34 @@
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0">
-                                                <Label x:Name="lblSoundFormat" Content="Sound Format" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblMonoStereo" Content="Mono / Stereo" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblBitsPerSample" Content="Bits per sample" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblBitrate" Content="Bitrate" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblSampleRate" Content="Sample rate" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
+                                                <Label x:Name="lblSoundFormat" Content="Sound Format" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblMonoStereo" Content="Mono / Stereo" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblBitsPerSample" Content="Bits per sample" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblBitrate" Content="Bitrate" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblSampleRate" Content="Sample rate" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
                                             </StackPanel>
                                             <StackPanel Grid.Column="1">
-                                                <Label x:Name="lblGenre" Content="Genre" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblYear" Content="Year" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblFileSize" Content="File size" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblPlayCount" Content="Play count" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
-                                                <Label x:Name="lblLastPlayed" Content="Last played" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2" />
+                                                <Label x:Name="lblGenre" Content="Genre" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblYear" Content="Year" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblFileSize" Content="File size" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblPlayCount" Content="Play count" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
+                                                <Label x:Name="lblLastPlayed" Content="Last played" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
                                             </StackPanel>
                                         </Grid>
-                                        <Grid x:Name="panelActions" Margin="8" Visibility="Hidden">
+                                        <Grid x:Name="panelActions" Margin="8" Visibility="Visible">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="28" />
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
-                                            <Button Grid.Row="0" Margin="0" Click="BtnEditSongMetadata_OnClick">
+                                            <Button Grid.Row="0" Margin="0,6,0,0" Width="200" Click="BtnEditSongMetadata_OnClick">
                                                 <StackPanel Orientation="Horizontal" Margin="4,2,2,2">
                                                     <Label FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalContentAlignment="Center" Foreground="White">Edit song metadata</Label>
                                                 </StackPanel>
                                             </Button>
                                             <Label Grid.Row="1" Content="Browse the web for:" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="6" HorizontalContentAlignment="Center" />
-                                            <Grid Grid.Row="2" HorizontalAlignment="Center">
+                                            <Grid Grid.Row="2" HorizontalAlignment="Center" Width="200">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition Width="Auto" />

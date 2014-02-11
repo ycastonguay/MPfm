@@ -841,10 +841,10 @@ namespace MPfm.WPF.Classes.Windows
                         lblBitrate.Content = string.Format("{0} kbps", audioFile.Bitrate);
                         lblBitsPerSample.Content = string.Format("{0} bits", audioFile.BitsPerSample);
                         lblSoundFormat.Content = audioFile.FileType.ToString();
-                        lblYear.Content = audioFile.Year.ToString();
+                        lblYear.Content = audioFile.Year == 0 ? "No year specified" : audioFile.Year.ToString();
                         lblMonoStereo.Content = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
                         lblFileSize.Content = string.Format("{0} bytes", audioFile.FileSize);
-                        lblGenre.Content = string.Format("{0}", audioFile.Genre);
+                        lblGenre.Content = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
                         lblPlayCount.Content = string.Format("{0} times played", audioFile.PlayCount);
                         lblLastPlayed.Content = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
 
