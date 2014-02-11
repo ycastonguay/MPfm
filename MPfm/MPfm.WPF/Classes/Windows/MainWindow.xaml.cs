@@ -858,6 +858,7 @@ namespace MPfm.WPF.Classes.Windows
                         scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                         scrollViewWaveForm.LoadPeakFile(audioFile);
 
+                        imageAlbum.Source = null;
                         int albumWidth = (int) imageAlbum.Width;
                         int albumHeight = (int) imageAlbum.Height;
                         var task = Task<System.Drawing.Image>.Factory.StartNew(() =>

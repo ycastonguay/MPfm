@@ -211,7 +211,7 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="80" />
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" x:Name="imageAlbum" Source="/Resources/Images/Icons/user.png" Stretch="Uniform" Width="170" Height="170" />
+                                <Image Grid.Column="0" x:Name="imageAlbum" Stretch="Uniform" Width="170" Height="170" />
                                 <Grid Grid.Column="1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
@@ -231,9 +231,9 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Margin="2" />
+                                            <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2" />
                                             <controls:TrackBar Grid.Column="1" x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MinWidth="50" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
-                                            <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Margin="2" />
+                                            <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Light" Margin="2" />
                                         </Grid>
                                         <!--<controls:TestControl x:Name="testControl" Width="100" Height="100" />-->
                                     </StackPanel>
@@ -250,7 +250,7 @@
                                         <Button x:Name="btnActions" Width="60" Content="Actions" Style="{StaticResource HeaderButton}" Click="BtnActions_OnClick" />
                                     </StackPanel>
                                     <Grid Grid.Row="1">
-                                        <Grid x:Name="panelTimeShifting" Margin="8" Visibility="Visible">                                            
+                                        <Grid x:Name="panelTimeShifting" Margin="8,5,8,8" Visibility="Visible">                                            
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
                                                 <RowDefinition Height="Auto" />
@@ -309,7 +309,7 @@
                                                 </Button>
                                             </Grid>
                                         </Grid>
-                                        <Grid x:Name="panelPitchShifting" Margin="8" Visibility="Hidden">
+                                        <Grid x:Name="panelPitchShifting" Margin="8,5,8,8" Visibility="Hidden">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
                                                 <RowDefinition Height="Auto" />
@@ -368,7 +368,7 @@
                                                 </Button>
                                             </Grid>                                            
                                         </Grid>
-                                        <Grid x:Name="panelInfo" Margin="8" Visibility="Hidden">
+                                        <Grid x:Name="panelInfo" Margin="6,8,8,8" Visibility="Hidden">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition />
