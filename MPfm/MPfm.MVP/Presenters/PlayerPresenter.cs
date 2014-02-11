@@ -485,7 +485,7 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                Tracing.Log("PlayerPresenter - RequestPosition - positionPercentage: {0}", positionPercentage);
+                //Tracing.Log("PlayerPresenter - RequestPosition - positionPercentage: {0}", positionPercentage);
                 // Calculate new position from 0.0f/1.0f scale
                 long lengthBytes = _playerService.CurrentPlaylistItem.LengthBytes;
                 var audioFile = _playerService.CurrentPlaylistItem.AudioFile;

@@ -39,8 +39,8 @@ namespace MPfm.GenericControls.Controls
         private BasicGradientBrush _brushFaderShadowGradient;
         private BasicPen _penTransparent;
         private BasicPen _penMiddleLineColor;
-        private BasicColor _backgroundColor1 = new BasicColor(36, 47, 53);
-        private BasicColor _backgroundColor2 = new BasicColor(36, 47, 53);
+        private BasicColor _backgroundColor = new BasicColor(32, 40, 46);
+        private BasicColor _backgroundColor2 = new BasicColor(32, 40, 46);
         private BasicColor _faderColor1 = new BasicColor(255, 255, 255);
         private BasicColor _faderColor2 = new BasicColor(245, 245, 245);
         private BasicColor _faderShadowColor1 = new BasicColor(188, 188, 188);
@@ -236,7 +236,7 @@ namespace MPfm.GenericControls.Controls
                     // TODO: Reduce the number of brushes
                     _penTransparent = new BasicPen();
                     _penMiddleLineColor = new BasicPen(new BasicBrush(_faderMiddleLineColor), 1);
-                    _brushBackground = new BasicBrush(_backgroundColor1);
+                    _brushBackground = new BasicBrush(_backgroundColor);
                     _brushFaderShadowColor = new BasicBrush(_faderShadowColor);
                     _brushFaderGradient = new BasicGradientBrush(_faderColor1, _faderColor2, 90);
                     _brushFaderColor2 = new BasicBrush(_faderColor2);

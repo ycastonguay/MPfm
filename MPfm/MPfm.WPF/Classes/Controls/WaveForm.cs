@@ -71,6 +71,7 @@ namespace MPfm.WPF.Classes.Controls
         }
 
         public event WaveFormControl.ChangePosition OnChangePosition;
+        public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
 
         public WaveForm()
         {
@@ -86,6 +87,7 @@ namespace MPfm.WPF.Classes.Controls
                 // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
             }));
             _control.OnChangePosition += (position) => OnChangePosition(position);
+            _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
         }
 
         public void SetMarkers(IEnumerable<Marker> markers)

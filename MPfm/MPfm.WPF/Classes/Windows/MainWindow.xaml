@@ -138,8 +138,8 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Library Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" Grid.ColumnSpan="2" />
-                    <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2" Background="#FF242F35">
+                    <Label Grid.Row="0" Content="Library Browser" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" Grid.ColumnSpan="2" />
+                    <Grid Grid.Row="1" Margin="0,2,0,2" Grid.ColumnSpan="2" Background="{DynamicResource BrushBackgroundColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
@@ -160,8 +160,8 @@
                             </Style>
                         </TreeView.ItemContainerStyle>
                     </TreeView>
-                    <StackPanel Grid.Row="3" x:Name="panelUpdateLibrary" Grid.ColumnSpan="2" Background="#FF242F35">
-                        <Grid Background="#FF455865">
+                    <StackPanel Grid.Row="3" x:Name="panelUpdateLibrary" Grid.ColumnSpan="2" Background="{DynamicResource BrushBackgroundColor}">
+                        <Grid Background="{DynamicResource BrushHeaderBackgroundColor}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
@@ -184,7 +184,7 @@
                 </Grid>
             </Grid>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" Margin="0,27,0,0" />
-            <Grid Grid.Column="2" Background="#FF242F35">
+            <Grid Grid.Column="2" Background="{DynamicResource BrushBackgroundColor}">
                 <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -203,7 +203,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="Current Song" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                            <Label Grid.Row="0" Content="Current Song" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="170" />
@@ -218,22 +218,22 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0" Orientation="Vertical" Margin="6">
-                                        <Label x:Name="lblArtistName" Content="[Artist Name]" Foreground="White" FontSize="22" FontFamily="/Resources/Fonts/#Roboto Thin" Padding="1,1,1,1" />
-                                        <Label x:Name="lblAlbumTitle" Content="[Album Title]" Foreground="White" FontSize="18" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,1,1,1" />
-                                        <Label x:Name="lblSongTitle" Content="[Song Title]" Foreground="#DDDDDD" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,3,3" />
+                                        <Label x:Name="lblArtistName" Content="[Artist Name]" Foreground="White" FontSize="22" FontFamily="/Resources/Fonts/#Roboto Thin" Padding="0,1,1,2" />
+                                        <Label x:Name="lblAlbumTitle" Content="[Album Title]" Foreground="White" FontSize="18" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,1,1,2" />
+                                        <Label x:Name="lblSongTitle" Content="[Song Title]" Foreground="#DDDDDD" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,3,2" />
                                         <Label x:Name="lblFilePath" Content="[File Path]" Foreground="#AAAAAA" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,0,3" />
                                     </StackPanel>
                                     <StackPanel Grid.Row="1" Orientation="Vertical">
-                                        <Label Content="Song Position / Length" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="7,4,4,4" />
-                                        <Grid>
+                                        <Label Content="Song Position / Length" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="7,6,4,6" />
+                                        <Grid Margin="0,4,0,2">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
-                                            <controls:TrackBar Grid.Column="1" x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
-                                            <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="15" FontFamily="/Resources/Fonts/#Roboto Regular" Margin="2" />
+                                            <Label Grid.Column="0" x:Name="lblPosition" Content="00:00.000" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Margin="2" />
+                                            <controls:TrackBar Grid.Column="1" x:Name="trackPosition" Minimum="0" Maximum="1000" Value="0" MinWidth="50" MouseDown="TrackPosition_OnMouseDown" MouseUp="TrackPosition_OnMouseUp" OnTrackBarValueChanged="TrackPosition_OnTrackBarValueChanged" />
+                                            <Label Grid.Column="2" x:Name="lblLength" Content="00:00.000" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Margin="2" />
                                         </Grid>
                                         <!--<controls:TestControl x:Name="testControl" Width="100" Height="100" />-->
                                     </StackPanel>
@@ -291,7 +291,7 @@
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>                                            
-                                            <controls:TrackBar Grid.Row="1" x:Name="trackTimeShifting" Minimum="50" Maximum="150" Value="100" Margin="0" Height="30" OnTrackBarValueChanged="TrackTimeShifting_OnTrackBarValueChanged" />
+                                            <controls:TrackBar Grid.Row="1" x:Name="trackTimeShifting" Minimum="50" Maximum="150" Value="100" Margin="0,-4,0,0" Height="30" OnTrackBarValueChanged="TrackTimeShifting_OnTrackBarValueChanged" />
                                             <Grid Grid.Row="2" HorizontalAlignment="Center">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="36" />
@@ -350,7 +350,7 @@
                                                     </Border>
                                                 </StackPanel>
                                             </Grid>
-                                            <controls:TrackBar Grid.Row="1" x:Name="trackPitchShifting" Minimum="-12" Maximum="12" Value="0" Margin="0" Height="30" OnTrackBarValueChanged="TrackPitchShifting_OnTrackBarValueChanged" />
+                                            <controls:TrackBar Grid.Row="1" x:Name="trackPitchShifting" Minimum="-12" Maximum="12" Value="0" Margin="0,-4,0,0" Height="30" OnTrackBarValueChanged="TrackPitchShifting_OnTrackBarValueChanged" />
                                             <Grid Grid.Row="2" HorizontalAlignment="Center">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="36" />
@@ -459,7 +459,15 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <controls:WaveFormScrollViewer Grid.Row="0" x:Name="scrollViewWaveForm" />
+                            <controls:WaveFormScrollViewer Grid.Row="0" x:Name="scrollViewWaveForm" MouseRightButtonUp="ScrollViewWaveForm_OnMouseRightButtonUp">
+                                <ScrollViewer.ContextMenu>
+                                    <ContextMenu x:Name="contextMenuWaveForm" Visibility="Collapsed">
+                                        <MenuItem x:Name="menuItemZoomIn" Header="Zoom in" Click="MenuItemZoomIn_OnClick" />
+                                        <MenuItem x:Name="menuItemZoomOut" Header="Zoom out" Click="MenuItemZoomOut_OnClick" />
+                                        <MenuItem x:Name="menuItemCreateMarker" Header="Create marker here" Click="MenuItemCreateMarker_OnClick" />
+                                    </ContextMenu>
+                                </ScrollViewer.ContextMenu>
+                            </controls:WaveFormScrollViewer>
                             <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF242F35" ShowsPreview="True" Height="4" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
@@ -467,7 +475,7 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Background="#FF455865">
+                                <Grid Grid.Column="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -500,7 +508,7 @@
                                     </Grid>
                                 </Grid>
                                 <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" />
-                                <Grid Grid.Column="2" Background="#FF455865">
+                                <Grid Grid.Column="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -606,7 +614,7 @@
                         </Grid>
                     </Grid>
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF242F35" ShowsPreview="True" Height="4" />
-                    <Grid Grid.Row="2" Background="#FF455865">
+                    <Grid Grid.Row="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                         <!-- Song Browser -->
                         <Grid>
                             <Grid.RowDefinitions>
@@ -618,7 +626,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="Song Browser" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                                <Label Grid.Column="0" Content="Song Browser" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                                 <Grid Grid.Column="1" Background="White" Margin="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />

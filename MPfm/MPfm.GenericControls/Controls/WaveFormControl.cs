@@ -134,6 +134,7 @@ namespace MPfm.GenericControls.Controls
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
         public event ChangePosition OnChangePosition;
+        public event ChangePosition OnChangeSecondaryPosition;
 
         public WaveFormControl()
         {
@@ -414,6 +415,9 @@ namespace MPfm.GenericControls.Controls
         public void MouseDown(float x, float y, MouseButtonType button)
         {
             _isMouseDown = true;
+            if (AudioFile == null)
+                return;
+
             ShowSecondaryPosition = true;
             float positionPercentage = (x / Frame.Width);
             SecondaryPosition = (long)(positionPercentage * Length);
@@ -422,17 +426,32 @@ namespace MPfm.GenericControls.Controls
         public void MouseUp(float x, float y, MouseButtonType button)
         {
             _isMouseDown = false;
+            if (AudioFile == null)
+                return;
+
             ShowSecondaryPosition = false;
             float positionPercentage = (x/Frame.Width);
             long position = (long)(positionPercentage * Length);
-            Position = position;
-            OnChangePosition(positionPercentage);
+
+            if (button == MouseButtonType.Left)
+            {
+                Position = position;
+                OnChangePosition(positionPercentage);
+            }
         }
 
         public void MouseMove(float x, float y, MouseButtonType button)
         {
-            if(_isMouseDown)
-                SecondaryPosition = (long)((x / Frame.Width) * Length);
+            if (AudioFile == null)
+                return;
+
+            if (_isMouseDown)
+            {
+                long position = (long)((x / Frame.Width) * Length);
+                float positionPercentage = (x / Frame.Width);
+                SecondaryPosition = position;
+                OnChangeSecondaryPosition(positionPercentage);
+            } 
         }
     }
 }

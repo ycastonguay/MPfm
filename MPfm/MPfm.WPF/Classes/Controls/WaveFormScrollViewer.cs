@@ -39,6 +39,7 @@ namespace MPfm.WPF.Classes.Controls
         public WaveFormScale WaveFormScaleView { get; private set; }
 
         public event WaveFormControl.ChangePosition OnChangePosition;
+        public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
 
         public WaveFormScrollViewer()
         {
@@ -48,6 +49,7 @@ namespace MPfm.WPF.Classes.Controls
 
             WaveFormView = new WaveForm();
             WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
+            WaveFormView.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
             WaveFormView.MinHeight = 60;
             WaveFormScaleView = new WaveFormScale();
 

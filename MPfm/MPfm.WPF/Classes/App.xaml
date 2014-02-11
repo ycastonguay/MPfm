@@ -4,12 +4,8 @@
              xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
              Startup="App_Startup">
     <Application.Resources>        
-        <!--<Style TargetType="ProgressBar">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Background" Value="#FF242F35" />
-            <Setter Property="Foreground" Value="#FFE74C3C" />
-            <Setter Property="BorderBrush" Value="#FF242F35" />
-        </Style>-->
+        <SolidColorBrush x:Key="BrushBackgroundColor" Color="#FF20282E" />
+        <SolidColorBrush x:Key="BrushHeaderBackgroundColor" Color="#FF455865" />
         <Style TargetType="Button">
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True" />

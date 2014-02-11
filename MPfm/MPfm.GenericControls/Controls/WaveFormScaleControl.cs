@@ -234,7 +234,8 @@ namespace MPfm.GenericControls.Controls
 
                 // Draw scale line
                 if(isMajorTick)
-                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
+                    //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
+                    context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
                 else
                     context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 6)), new BasicPoint(tickX, context.BoundsHeight), _penMinorTick);
 
@@ -284,7 +285,7 @@ namespace MPfm.GenericControls.Controls
 
                     // Draw text at every major tick (minute count)
                     string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);                    
-                    float y = context.BoundsHeight - (context.BoundsHeight/12f) - rectText.Height;
+                    float y = context.BoundsHeight - (context.BoundsHeight/12f) - rectText.Height - (4 * context.Density);
                     context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, "HelveticaNeue", 10);
                     majorTickIndex++;
                 }

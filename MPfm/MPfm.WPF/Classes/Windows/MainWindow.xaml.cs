@@ -53,7 +53,9 @@ namespace MPfm.WPF.Classes.Windows
         private List<LibraryBrowserEntity> _itemsLibraryBrowser;
         private List<Marker> _markers;
         private bool _isPlayerPositionChanging;
+        private bool _isScrollViewWaveFormChangingSecondaryPosition;
         private int _selectedMarkerIndex = -1;
+        private AudioFile _currentAudioFile;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -69,6 +71,7 @@ namespace MPfm.WPF.Classes.Windows
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
+            scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
 
             comboSoundFormat.Items.Add(AudioFileFormat.All);
             comboSoundFormat.Items.Add(AudioFileFormat.APE);
@@ -278,9 +281,9 @@ namespace MPfm.WPF.Classes.Windows
 
         private void TrackPosition_OnTrackBarValueChanged()
         {
-            if (OnPlayerRequestPosition == null || !_isPlayerPositionChanging)
+            if (OnPlayerRequestPosition == null || !_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
-            
+
             var position = OnPlayerRequestPosition((float) trackPosition.Value/1000f);
             lblPosition.Content = position.Position;
             scrollViewWaveForm.SetSecondaryPosition(position.PositionBytes);
@@ -614,8 +617,42 @@ namespace MPfm.WPF.Classes.Windows
 
         private void ScrollViewWaveForm_OnChangePosition(float position)
         {
-            Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangePosition - position: {0}", position);
-            OnPlayerSetPosition(position * 100);
+            //Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangePosition - position: {0}", position);
+            _isScrollViewWaveFormChangingSecondaryPosition = false;
+            OnPlayerSetPosition(position*100);
+        }
+
+        private void ScrollViewWaveForm_OnChangeSecondaryPosition(float position)
+        {
+            //Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangeSecondaryPosition - position: {0}", position);
+            _isScrollViewWaveFormChangingSecondaryPosition = true;
+            var requestedPosition = OnPlayerRequestPosition(position);
+            trackPosition.Value = (int)(position * 1000);
+            lblPosition.Content = requestedPosition.Position;
+        }
+
+        private void ScrollViewWaveForm_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_currentAudioFile == null)
+                return;
+
+            contextMenuWaveForm.Placement = PlacementMode.MousePoint;
+            contextMenuWaveForm.PlacementTarget = scrollViewWaveForm;
+            contextMenuWaveForm.Visibility = Visibility.Visible;
+            contextMenuWaveForm.IsOpen = true;
+            e.Handled = true;
+        }
+
+        private void MenuItemZoomIn_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void MenuItemZoomOut_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void MenuItemCreateMarker_OnClick(object sender, RoutedEventArgs e)
+        {
         }
 
         #region IMainView implementation
@@ -752,21 +789,22 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
+            if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
+                return;
+
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                if (!_isPlayerPositionChanging)
-                {
-                    lblPosition.Content = entity.Position;
-                    trackPosition.Value = (int)(entity.PositionPercentage * 10);
-                    scrollViewWaveForm.SetPosition(entity.PositionBytes);
-                    //Console.WriteLine("Player position: {0} {1} slider: {2} min: {3} max: {4}", entity.Position, entity.PositionPercentage, entity.PositionBytes, trackPosition.Minimum, trackPosition.Maximum);
-                }
+                lblPosition.Content = entity.Position;
+                trackPosition.Value = (int)(entity.PositionPercentage * 10);
+                scrollViewWaveForm.SetPosition(entity.PositionBytes);
+                //Console.WriteLine("Player position: {0} {1} slider: {2} min: {3} max: {4}", entity.Position, entity.PositionPercentage, entity.PositionBytes, trackPosition.Minimum, trackPosition.Maximum);
             }));
         }
 
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             _selectedMarkerIndex = -1;
+            _currentAudioFile = audioFile;
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 //testControl.CreateBitmap();
