@@ -120,7 +120,7 @@
                 </Grid>
             </DockPanel>
         </DockPanel>
-        <Grid Grid.Row="1" Background="#FF455865">
+        <Grid Grid.Row="1" Background="{DynamicResource BrushHeaderBackgroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="Auto" />
@@ -178,12 +178,12 @@
                                 <RowDefinition Height="20" />
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" x:Name="lblUpdateLibraryTitle" Margin="4" Foreground="#CCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction">Loading...</TextBlock>
-                            <ProgressBar Grid.Row="1" x:Name="progressBarUpdateLibrary" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Value="50" Margin="4" />
+                            <ProgressBar Grid.Row="1" x:Name="progressBarUpdateLibrary" Background="{DynamicResource BrushBackgroundColor}" BorderBrush="{DynamicResource BrushHeaderBackgroundColor}" Foreground="#FFE74C3C" Value="50" Margin="4" />
                         </Grid>
                     </StackPanel>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" Margin="0,27,0,0" />
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="4" Margin="0,27,0,0" />
             <Grid Grid.Column="2" Background="{DynamicResource BrushBackgroundColor}">
                 <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
@@ -243,7 +243,7 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF455865">
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                         <Button x:Name="btnTimeShifting" Width="60" Height="30" Content="Time" Style="{StaticResource HeaderButtonSelected}" Click="BtnTimeShifting_OnClick" />
                                         <Button x:Name="btnPitchShifting" Width="60" Content="Pitch" Style="{StaticResource HeaderButton}" Click="BtnPitchShifting_OnClick" />
                                         <Button x:Name="btnInfo" Width="60" Content="Info" Style="{StaticResource HeaderButton}" Click="BtnInfo_OnClick" />
@@ -431,7 +431,7 @@
                                         <RowDefinition Height="30" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Label Content="Volume" Background="#FF455865" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="8" HorizontalContentAlignment="Center" />
+                                    <Label Content="Volume" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="8" HorizontalContentAlignment="Center" />
                                     <Grid Grid.Row="1" Margin="0,8,0,0">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -468,7 +468,7 @@
                                     </ContextMenu>
                                 </ScrollViewer.ContextMenu>
                             </controls:WaveFormScrollViewer>
-                            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF242F35" ShowsPreview="True" Height="4" />
+                            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="4" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -507,7 +507,7 @@
                                         </ListView>
                                     </Grid>
                                 </Grid>
-                                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="#FF242F35" ShowsPreview="True" Width="4" />
+                                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="4" />
                                 <Grid Grid.Column="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                     <Grid>
                                         <Grid.RowDefinitions>
@@ -613,7 +613,7 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="#FF242F35" ShowsPreview="True" Height="4" />
+                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="4" />
                     <Grid Grid.Row="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                         <!-- Song Browser -->
                         <Grid>

@@ -147,7 +147,7 @@ namespace MPfm.GenericControls.Controls
             OnInvalidateVisualInRect += (rect) => { };
             OnChangePosition += (position) => { };
 			FontSize = 12;
-			FontFace = "Roboto";
+			FontFace = "Roboto Light";
 			LetterFontSize = 10;
 			LetterFontFace = "Roboto";
             Frame = new BasicRectangle();
