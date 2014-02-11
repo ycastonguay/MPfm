@@ -16,7 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
@@ -38,11 +37,13 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             _context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
+            using (var g = System.Drawing.Graphics.FromHwnd(IntPtr.Zero))
+                Density = g.DpiX/96f;
         }
 
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
-        public float Density { get { return 1; } } // Always 1 on desktop
+        public float Density { get; private set; }
 
         public void SetPen(BasicPen pen)
         {
