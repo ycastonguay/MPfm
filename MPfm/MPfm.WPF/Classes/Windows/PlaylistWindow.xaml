@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#FF455865">
+        <Grid Grid.Row="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -19,24 +19,36 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Playlist" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+            <Label Grid.Column="0" Content="Playlist" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
             <controls:HeaderImageButton Grid.Column="1" Title="New" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource HeaderImageButton}" />
             <controls:HeaderImageButton Grid.Column="2" Title="Open" ImageSource="/Resources/Images/Buttons/folder.png" Style="{StaticResource HeaderImageButton}" />
             <controls:HeaderImageButton Grid.Column="3" Title="Save" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource HeaderImageButton}" />
             <controls:HeaderImageButton Grid.Column="4" Title="Save as" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource HeaderImageButton}" />
             <controls:HeaderImageButton Grid.Column="5" Title="Remove songs" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource HeaderImageButton}" />
         </Grid>
-        <ListView Grid.Row="1" x:Name="listViewPlaylist" ItemContainerStyle="{StaticResource ListViewItemPlaylist}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="" Width="100" />
-                    <GridViewColumn Header="Tr#" Width="30" DisplayMemberBinding="{Binding Path=AudioFile.TrackNumber}" />
-                    <GridViewColumn Header="Song Title" Width="200" DisplayMemberBinding="{Binding Path=AudioFile.Title}" />
-                    <GridViewColumn Header="Length" Width="80" DisplayMemberBinding="{Binding Path=LengthString}" />
-                    <GridViewColumn Header="Artist Name" Width="140" DisplayMemberBinding="{Binding Path=AudioFile.ArtistName}" />
-                    <GridViewColumn Header="Album Title" Width="140" DisplayMemberBinding="{Binding Path=AudioFile.AlbumTitle}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ListView Grid.Column="0" x:Name="listViewPlaylistAlbumArt" ItemContainerStyle="{StaticResource ListViewItemPlaylist}" ScrollViewer.ScrollChanged="ListViewPlaylistAlbumArt_OnScrollChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Albums by Artist" Width="160" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView Grid.Column="1" x:Name="listViewPlaylist" ItemContainerStyle="{StaticResource ListViewItemPlaylist}" ScrollViewer.ScrollChanged="ListViewPlaylist_OnScrollChanged">
+                <ListView.View>
+                    <GridView>                        
+                        <GridViewColumn Header="Tr#" Width="30" DisplayMemberBinding="{Binding Path=AudioFile.TrackNumber}" />
+                        <GridViewColumn Header="Song Title" Width="200" DisplayMemberBinding="{Binding Path=AudioFile.Title}" />
+                        <GridViewColumn Header="Length" Width="80" DisplayMemberBinding="{Binding Path=LengthString}" />
+                        <GridViewColumn Header="Artist Name" Width="140" DisplayMemberBinding="{Binding Path=AudioFile.ArtistName}" />
+                        <GridViewColumn Header="Album Title" Width="140" DisplayMemberBinding="{Binding Path=AudioFile.AlbumTitle}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 </base:BaseWindow>
