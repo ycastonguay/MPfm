@@ -696,27 +696,25 @@ namespace MPfm.GenericControls.Controls.Songs
             OnInvalidateVisual();
         }
 
-        //#region Paint Events
-
-        ///// <summary>
-        ///// Update a specific line (if visible) by its audio file unique identifier.
-        ///// </summary>
-        ///// <param name="audioFileId">Audio file unique identifier</param>
-        //public void UpdateAudioFileLine(Guid audioFileId)
-        //{
-        //    // Find the position of the line            
-        //    for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-        //    {
-        //        // Calculate offset
-        //        int offsetY = (a * _songCache.LineHeight) - _vScrollBar.Value + _songCache.LineHeight;
-        //        if (_items[a].AudioFile.Id == audioFileId)
-        //        {
-        //            Invalidate(new Rectangle(_columns[0].Width - _hScrollBar.Value, offsetY, ClientRectangle.Width - _columns[0].Width + _hScrollBar.Value, _songCache.LineHeight));
-        //            Update();
-        //            break;
-        //        }
-        //    }
-        //}
+        /// <summary>
+        /// Update a specific line (if visible) by its audio file unique identifier.
+        /// </summary>
+        /// <param name="audioFileId">Audio file unique identifier</param>
+        public void UpdateAudioFileLine(Guid audioFileId)
+        {
+            // Find the position of the line            
+            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            {
+                // Calculate offset
+                int offsetY = (a * _songCache.LineHeight) - _vScrollBar.Value + _songCache.LineHeight;
+                if (_items[a].AudioFile.Id == audioFileId)
+                {
+                    OnInvalidateVisualInRect(new BasicRectangle(_columns[0].Width - _hScrollBar.Value, offsetY, Frame.Width - _columns[0].Width + _hScrollBar.Value, _songCache.LineHeight));
+                    //Update();
+                    break;
+                }
+            }
+        }
 
         ///// <summary>
         ///// Occurs when the kernel sends message to the control.
@@ -729,6 +727,350 @@ namespace MPfm.GenericControls.Controls.Songs
         //    if (m.Msg != 0x14)
         //        base.OnNotifyMessage(m);
         //}
+
+        ///// <summary>
+        ///// Occurs when the control is resized.
+        ///// Invalidates the cache.
+        ///// </summary>
+        ///// <param name="e">Event arguments</param>
+        //protected override void OnResize(EventArgs e)
+        //{
+        //    // Bug when putting window in maximized mode: black area at the bottom
+        //    // it's because the maximum value is set later in OnPaint
+        //    // If the scrollY value is 
+        //    if (_vScrollBar.Maximum - _vScrollBar.LargeChange < _vScrollBar.Value)
+        //    {
+        //        // Set new scrollbar value
+        //        _vScrollBar.Value = _vScrollBar.Maximum - _vScrollBar.LargeChange + 1;
+        //    }
+
+        //    // Set horizontal scrollbar width and position
+        //    _hScrollBar.Top = ClientRectangle.Height - _hScrollBar.Height;
+
+        //    InvalidateSongCache();
+
+        //    base.OnResize(e);
+        //}
+
+        ///// <summary>
+        ///// Occurs when the user changes the horizontal scrollbar value.
+        ///// </summary>
+        ///// <param name="sender">Event sender</param>
+        ///// <param name="e">Event arguments</param>
+        //protected void hScrollBar_Scroll(object sender, ScrollEventArgs e)
+        //{
+        //    Refresh();
+        //}
+
+        ///// <summary>
+        ///// Occurs when the user changes the vertical scrollbar value.
+        ///// </summary>
+        ///// <param name="sender">Event sender</param>
+        ///// <param name="e">Event arguments</param>
+        //protected void vScrollBar_Scroll(object sender, ScrollEventArgs e)
+        //{
+        //    Refresh();
+        //}
+
+        ///// <summary>
+        ///// Occurs when the user clicks on the control.
+        ///// Selects or unselects items, reorders columns.
+        ///// </summary>
+        ///// <param name="e">Event arguments</param>
+        //protected override void OnMouseClick(MouseEventArgs e)
+        //{
+        //    if (_columns == null || _songCache == null)
+        //        return;
+
+        //    // Calculate album cover art width
+        //    int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
+
+        //    // Make sure the control is focused
+        //    if (!Focused)
+        //        Focus();
+
+        //    // Show context menu strip if the button click is right and not the album art column
+        //    if (e.Button == System.Windows.Forms.MouseButtons.Right &&
+        //        e.X > _columns[0].Width)
+        //    {
+        //        // Is there a context menu strip configured?
+        //        if (contextMenuStrip != null)
+        //            contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);
+        //    }
+
+        //    // Check if the user is resizing a column
+        //    SongGridViewColumn columnResizing = _columns.FirstOrDefault(x => x.IsUserResizingColumn == true);
+
+        //    // Calculate scrollbar offset Y
+        //    int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
+
+        //    // Check if the user has clicked on the header (for orderBy)
+        //    if (e.Y >= 0 &&
+        //        e.Y <= _songCache.LineHeight &&
+        //        columnResizing == null &&
+        //        !IsColumnMoving)
+        //    {
+        //        // Check on what column the user has clicked
+        //        int offsetX = 0;
+        //        for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
+        //        {
+        //            SongGridViewColumn column = _songCache.ActiveColumns[a];
+        //            if (column.Visible)
+        //            {
+        //                // Check if the mouse pointer is over this column
+        //                if (e.X >= offsetX - _hScrollBar.Value && e.X <= offsetX + column.Width - _hScrollBar.Value)
+        //                {
+        //                    // Check mouse button
+        //                    if (e.Button == System.Windows.Forms.MouseButtons.Left && CanChangeOrderBy)
+        //                    {
+        //                        // Check if the column order was already set
+        //                        if (_orderByFieldName == column.FieldName)
+        //                        {
+        //                            // Reverse ascending/descending
+        //                            _orderByAscending = !_orderByAscending;
+        //                        }
+        //                        else
+        //                        {
+        //                            // Set order by field name
+        //                            _orderByFieldName = column.FieldName;
+        //                            _orderByAscending = true;
+        //                        }
+
+        //                        // Invalidate cache and song items
+        //                        _items = null;
+        //                        _songCache = null;
+
+        //                        // Raise column click event (if an event is subscribed)
+        //                        if (OnColumnClick != null)
+        //                        {
+        //                            SongGridViewColumnClickData data = new SongGridViewColumnClickData();
+        //                            data.ColumnIndex = a;
+        //                            OnColumnClick(data);
+        //                        }
+
+        //                        Refresh();
+        //                        return;
+        //                    }
+        //                    else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+        //                    {
+        //                        // Refresh column visibility in menu before opening
+        //                        foreach(ToolStripMenuItem menuItem in _menuColumns.Items)
+        //                        {
+        //                            SongGridViewColumn menuItemColumn = _columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
+        //                            if (menuItemColumn != null)
+        //                                menuItem.Checked = menuItemColumn.Visible;
+        //                        }
+
+        //                        // Display columns contextual menu
+        //                        _menuColumns.Show(this, e.X, e.Y);
+        //                    }
+        //                }
+
+        //                // Increment X offset
+        //                offsetX += column.Width;
+        //            }
+        //        }
+        //    }
+
+        //    // Loop through visible lines to find the original selected items
+        //    int startIndex = -1;
+        //    int endIndex = -1;
+        //    for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+        //    {
+        //        // Check if the item is selected
+        //        if (_items[a].IsSelected)
+        //        {
+        //            // Check if the start index was set
+        //            if (startIndex == -1)
+        //            {
+        //                // Set start index
+        //                startIndex = a;
+        //            }
+        //            // Check if the end index is set or if it needs to be updated
+        //            if (endIndex == -1 || endIndex < a)
+        //            {
+        //                // Set end index
+        //                endIndex = a;
+        //            }
+        //        }
+        //    }
+
+        //    // Make sure the indexes are set
+        //    if (startIndex > -1 && endIndex > -1)
+        //    {
+        //        // Invalidate the original selected lines
+        //        int startY = ((startIndex - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY;
+        //        int endY = ((endIndex - _startLineNumber + 2) * _songCache.LineHeight) + scrollbarOffsetY;
+        //        Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, startY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, endY - startY));
+        //    }
+
+        //    // Reset selection (make sure SHIFT or CTRL isn't held down)
+        //    if ((Control.ModifierKeys & Keys.Shift) == 0 &&
+        //       (Control.ModifierKeys & Keys.Control) == 0)
+        //    {
+        //        SongGridViewItem mouseOverItem = _items.FirstOrDefault(x => x.IsMouseOverItem == true);
+        //        if (mouseOverItem != null)
+        //        {
+        //            // Reset selection, unless the CTRL key is held (TODO)
+        //            List<SongGridViewItem> selectedItems = _items.Where(x => x.IsSelected == true).ToList();
+        //            foreach (SongGridViewItem item in selectedItems)
+        //                item.IsSelected = false;
+        //        }
+        //    }
+
+        //    // Loop through visible lines to update the new selected item
+        //    bool invalidatedNewSelection = false;
+        //    for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+        //    {
+        //        // Check if mouse is over this item
+        //        if (_items[a].IsMouseOverItem)
+        //        {
+        //            invalidatedNewSelection = true;
+
+        //            // Check if SHIFT is held
+        //            if ((Control.ModifierKeys & Keys.Shift) != 0)
+        //            {
+        //                // Find the start index of the selection
+        //                int startIndexSelection = _lastItemIndexClicked;
+        //                if (a < startIndexSelection)
+        //                    startIndexSelection = a;
+
+        //                // Find the end index of the selection
+        //                int endIndexSelection = _lastItemIndexClicked;
+        //                if (a > endIndexSelection)
+        //                    endIndexSelection = a + 1;
+
+        //                // Loop through items to selected
+        //                for (int b = startIndexSelection; b < endIndexSelection; b++)
+        //                    _items[b].IsSelected = true;
+
+        //                // Invalidate region
+        //                Invalidate();
+        //            }
+        //            // Check if CTRL is held
+        //            else if ((Control.ModifierKeys & Keys.Control) != 0)
+        //            {
+        //                // Invert selection
+        //                _items[a].IsSelected = !_items[a].IsSelected;
+        //                Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
+        //            }
+        //            else
+        //            {
+        //                // Set this item as the new selected item
+        //                _items[a].IsSelected = true;
+        //                Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
+        //            }
+
+        //            // Set the last item clicked index
+        //            _lastItemIndexClicked = a;
+
+        //            // Exit loop
+        //            break;
+        //        }
+        //    }
+
+        //    // Raise selected item changed event (if an event is subscribed)
+        //    if (invalidatedNewSelection && OnSelectedIndexChanged != null)
+        //    {
+        //        SongGridViewSelectedIndexChangedData data = new SongGridViewSelectedIndexChangedData();                
+        //        OnSelectedIndexChanged(data);                
+        //    }
+
+        //    Update();
+
+        //    base.OnMouseClick(e);
+        //}
+
+
+        ///// <summary>
+        ///// Occurs when the user clicks on one of the menu items of the Columns contextual menu.
+        ///// </summary>
+        ///// <param name="sender">Event sender</param>
+        ///// <param name="e">Event arguments</param>
+        //protected void menuItemColumns_Click(object sender, EventArgs e)
+        //{
+        //    // Make sure the sender is the menu item
+        //    if (sender is ToolStripMenuItem)
+        //    {
+        //        // Get the reference to the menu item
+        //        ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+
+        //        // Inverse selection
+        //        menuItem.Checked = !menuItem.Checked;
+
+        //        // Get column
+        //        SongGridViewColumn column = _columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
+        //        if (column != null)
+        //        {
+        //            // Set visibility
+        //            column.Visible = menuItem.Checked;
+        //        }
+
+        //        // Reset cache
+        //        _songCache = null;
+        //        Refresh();
+        //    }
+        //}
+
+        /////// <summary>
+        /////// Handles the global messages for the mouse wheel.
+        /////// </summary>
+        /////// <param name="m">Message</param>
+        /////// <returns>Nothing interesting</returns>
+        ////public bool PreFilterMessage(ref Message m)
+        ////{
+        ////    // Check message type
+        ////    if (m.Msg == Win32.WM_MOUSEWHEEL)
+        ////    {
+        ////        // Get mouse wheel delta
+        ////        int delta = Win32.GetWheelDeltaWParam((int)m.WParam);
+
+        ////        // Check if all the data is valid
+        ////        if (_columns == null || _songCache == null)
+        ////        {
+        ////            return false;
+        ////        }
+
+        ////        // Make sure the mouse cursor is over the control, and that the vertical scrollbar is enabled
+        ////        if (!_isMouseOverControl || !_vScrollBar.Enabled)
+        ////        {
+        ////            return false;
+        ////        }
+
+        ////        // Get relative value
+        ////        int value = delta / SystemInformation.MouseWheelScrollDelta;
+
+        ////        // Set new value
+        ////        int newValue = _vScrollBar.Value + (-value * _songCache.LineHeight);
+
+        ////        // Check for maximum
+        ////        if (newValue > _vScrollBar.Maximum - _vScrollBar.LargeChange)
+        ////        {
+        ////            newValue = _vScrollBar.Maximum - _vScrollBar.LargeChange;
+        ////        }
+        ////        // Check for minimum
+        ////        if (newValue < 0)
+        ////        {
+        ////            newValue = 0;
+        ////        }
+
+        ////        // Set scrollbar value
+        ////        _vScrollBar.Value = newValue;
+
+        ////        // Invalidate the whole control and refresh                
+        ////        Refresh();                
+        ////    }
+
+        ////    return false;
+        ////}
+
+        //#endregion
+
+
+        public void Render(IGraphicsContext context)
+        {
+
+        }
 
         ///// <summary>
         ///// Occurs when the control needs to be painted.
@@ -1510,688 +1852,282 @@ namespace MPfm.GenericControls.Controls.Songs
         //        brush.Dispose();
         //        brush = null;
         //    }
-        //}
-
-        ///// <summary>
-        ///// Occurs when the control is resized.
-        ///// Invalidates the cache.
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnResize(EventArgs e)
-        //{
-        //    // Bug when putting window in maximized mode: black area at the bottom
-        //    // it's because the maximum value is set later in OnPaint
-        //    // If the scrollY value is 
-        //    if (_vScrollBar.Maximum - _vScrollBar.LargeChange < _vScrollBar.Value)
-        //    {
-        //        // Set new scrollbar value
-        //        _vScrollBar.Value = _vScrollBar.Maximum - _vScrollBar.LargeChange + 1;
-        //    }
-
-        //    // Set horizontal scrollbar width and position
-        //    _hScrollBar.Top = ClientRectangle.Height - _hScrollBar.Height;
-
-        //    InvalidateSongCache();
-
-        //    base.OnResize(e);
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user changes the horizontal scrollbar value.
-        ///// </summary>
-        ///// <param name="sender">Event sender</param>
-        ///// <param name="e">Event arguments</param>
-        //protected void hScrollBar_Scroll(object sender, ScrollEventArgs e)
-        //{
-        //    Refresh();
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user changes the vertical scrollbar value.
-        ///// </summary>
-        ///// <param name="sender">Event sender</param>
-        ///// <param name="e">Event arguments</param>
-        //protected void vScrollBar_Scroll(object sender, ScrollEventArgs e)
-        //{
-        //    Refresh();
-        //}
-
-        ///// <summary>
-        ///// Occurs when the mouse cursor enters on the control.        
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnMouseEnter(EventArgs e)
-        //{
-        //    _isMouseOverControl = true;
-        //    base.OnMouseEnter(e);
-        //}
-
-        ///// <summary>
-        ///// Occurs when the mouse cursor leaves the control.
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnMouseLeave(EventArgs e)
-        //{
-        //    bool controlNeedsToBeUpdated = false;
-        //    _isMouseOverControl = false;
-
-        //    if (_columns == null || _songCache == null)
-        //        return;
-
-        //    // Calculate scrollbar offset Y
-        //    int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
-
-        //    // Check if there's at least one item
-        //    if (_items.Count > 0)
-        //    {
-        //        // Reset mouse over item flags
-        //        for (int b = _startLineNumber; b < _startLineNumber + _numberOfLinesToDraw; b++)
-        //        {
-        //            // Check if the mouse was over this item
-        //            if (_items[b].IsMouseOverItem)
-        //            {
-        //                // Reset flag and invalidate region
-        //                _items[b].IsMouseOverItem = false;
-        //                Invalidate(new Rectangle(_columns[0].Width - _hScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - _columns[0].Width + _hScrollBar.Value, _songCache.LineHeight));
-        //                controlNeedsToBeUpdated = true;
-
-        //                // Exit loop
-        //                break;
-        //            }
-        //        }
-        //    }
-
-        //    // Reset column flags
-        //    int columnOffsetX2 = 0;
-        //    for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
-        //    {
-        //        // Make sure column is visible
-        //        if (_songCache.ActiveColumns[b].Visible)
-        //        {
-        //            // Was mouse over this column header?
-        //            if (_songCache.ActiveColumns[b].IsMouseOverColumnHeader)
-        //            {
-        //                // Reset flag
-        //                _songCache.ActiveColumns[b].IsMouseOverColumnHeader = false;
-
-        //                // Invalidate region
-        //                Invalidate(new Rectangle(columnOffsetX2 - _hScrollBar.Value, 0, _songCache.ActiveColumns[b].Width, _songCache.LineHeight));
-        //                controlNeedsToBeUpdated = true;
-        //            }
-
-        //            // Increment offset
-        //            columnOffsetX2 += _songCache.ActiveColumns[b].Width;
-        //        }
-        //    }
-
-        //    // Check if control needs to be updated
-        //    if (controlNeedsToBeUpdated)
-        //        Update();
-
-        //    base.OnMouseLeave(e);
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user is pressing down a mouse button.
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnMouseDown(MouseEventArgs e)
-        //{
-        //    // Set flags
-        //    _dragStartX = e.X;
-
-        //    // Check if all the data is valid
-        //    if (_columns == null || _songCache == null)
-        //    {
-        //        return;
-        //    }
-
-        //    // Loop through columns
-        //    foreach (SongGridViewColumn column in _songCache.ActiveColumns)
-        //    {
-        //        // Check for resizing column
-        //        if (column.IsMouseCursorOverColumnLimit && column.CanBeResized && CanResizeColumns)
-        //        {
-        //            // Set resizing column flag
-        //            column.IsUserResizingColumn = true;
-
-        //            // Save the original column width
-        //            _dragOriginalColumnWidth = column.Width;
-        //        }
-        //    }
-            
-        //    // Check if the left mouse button is held
-        //    if(e.Button == System.Windows.Forms.MouseButtons.Left)
-        //    {
-        //        // Set holding button flag
-        //        _isUserHoldingLeftMouseButton = true;
-        //    }
-
-        //    base.OnMouseDown(e);
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user releases a mouse button.        
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnMouseUp(MouseEventArgs e)
-        //{
-        //    // Reset flags
-        //    _dragStartX = -1;
-        //    bool updateControl = false;
-        //    _isUserHoldingLeftMouseButton = false;
-
-        //    if (_columns == null || _songCache == null)
-        //        return;
-
-        //    // Loop through columns
-        //    SongGridViewColumn columnMoving = null;
-        //    foreach (SongGridViewColumn column in _songCache.ActiveColumns)
-        //    {
-        //        // Reset flags
-        //        column.IsUserResizingColumn = false;
-
-        //        // Check if this column is moving
-        //        if(column.IsUserMovingColumn)
-        //        {
-        //            // Set column
-        //            columnMoving = column;
-        //        }
-        //    }
-
-        //    // Check if the user is moving a column
-        //    if (columnMoving != null)
-        //    {
-        //        // Set flag
-        //        columnMoving.IsUserMovingColumn = false;
-        //        updateControl = true;
-
-        //        // Find out on what column the mouse cursor is
-        //        SongGridViewColumn columnOver = null;
-        //        int x = 0;
-        //        bool isPastCurrentlyMovingColumn = false;
-        //        for (int a = 0; a < _songCache.ActiveColumns.Count; a++ )
-        //        {
-        //            // Set current column
-        //            SongGridViewColumn currentColumn = _songCache.ActiveColumns[a];
-
-        //            // Check if current column
-        //            if (currentColumn.FieldName == columnMoving.FieldName)
-        //            {
-        //                // Set flag
-        //                isPastCurrentlyMovingColumn = true;
-        //            }
-
-        //            // Check if the column is visible
-        //            if (currentColumn.Visible)
-        //            {
-        //                // Check if the cursor is over the left part of the column
-        //                if (e.X >= x - _hScrollBar.Value && e.X <= x + (currentColumn.Width / 2) - _hScrollBar.Value)
-        //                {
-        //                    // Check flag
-        //                    if (isPastCurrentlyMovingColumn && currentColumn.FieldName != columnMoving.FieldName)
-        //                    {
-        //                        // Set column
-        //                        columnOver = _songCache.ActiveColumns[a - 1];
-        //                    }
-        //                    else
-        //                    {
-        //                        // Set column
-        //                        columnOver = _songCache.ActiveColumns[a];
-        //                    }
-        //                    break;                               
-        //                }
-        //                // Check if the cursor is over the right part of the column
-        //                else if (e.X >= x + (currentColumn.Width / 2) - _hScrollBar.Value && e.X <= x + currentColumn.Width - _hScrollBar.Value)
-        //                {
-        //                    // Check if there is a next item
-        //                    if (a < _songCache.ActiveColumns.Count - 1)
-        //                    {
-        //                        // Check flag
-        //                        if (isPastCurrentlyMovingColumn)
-        //                        {
-        //                            // Set column
-        //                            columnOver = _songCache.ActiveColumns[a];
-        //                        }
-        //                        else
-        //                        {
-        //                            // Set column
-        //                            columnOver = _songCache.ActiveColumns[a + 1];
-        //                        }
-        //                    }
-
-        //                    break;
-        //                }
-
-        //                // Increment x
-        //                x += currentColumn.Width;
-        //            }
-        //        }
-
-        //        //// Check if the column was found (the cursor might be past the last column
-        //        //if (columnOver == null)
-        //        //{
-        //        //    return;
-        //        //}
-
-        //        // Order columns by their current order
-        //        List<SongGridViewColumn> columnsOrdered = _columns.OrderBy(q => q.Order).ToList();
-
-        //        // Move column
-        //        int indexRemove = -1;
-        //        int indexAdd = -1;
-        //        for (int a = 0; a < columnsOrdered.Count; a++)
-        //        {
-        //            // Find the moving column index
-        //            if (columnsOrdered[a].FieldName == columnMoving.FieldName)
-        //            {
-        //                // Set index
-        //                indexRemove = a;
-        //            }
-
-        //            // Find the column index with the mouse over
-        //            if(columnOver != null && columnsOrdered[a].FieldName == columnOver.FieldName)
-        //            {
-        //                // Set index
-        //                indexAdd = a;
-        //            }
-        //        }
-
-        //        // Remove column
-        //        columnsOrdered.RemoveAt(indexRemove);
-                
-        //        // Check if the index is -1 
-        //        if (indexAdd == -1)
-        //        {
-        //            // Add column to the end
-        //            columnsOrdered.Insert(columnsOrdered.Count, columnMoving);
-        //        }
-        //        else
-        //        {
-        //            // Add column to the new position
-        //            columnsOrdered.Insert(indexAdd, columnMoving);
-        //        }
-
-        //        // Loop through columns to change the order
-        //        for (int a = 0; a < columnsOrdered.Count; a++)
-        //        {
-        //            // Set order
-        //            columnsOrdered[a].Order = a;                
-        //        }                
-        //    }
-
-        //    // Check if the control needs to be updated
-        //    if (updateControl)
-        //    {
-        //        // Invalidate control and refresh
-        //        InvalidateSongCache();
-        //        Invalidate();
-        //        Update();
-        //    }
-
-        //    base.OnMouseUp(e);
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user clicks on the control.
-        ///// Selects or unselects items, reorders columns.
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnMouseClick(MouseEventArgs e)
-        //{
-        //    if (_columns == null || _songCache == null)
-        //        return;
-
-        //    // Calculate album cover art width
-        //    int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
-
-        //    // Make sure the control is focused
-        //    if (!Focused)
-        //        Focus();
-
-        //    // Show context menu strip if the button click is right and not the album art column
-        //    if (e.Button == System.Windows.Forms.MouseButtons.Right &&
-        //        e.X > _columns[0].Width)
-        //    {
-        //        // Is there a context menu strip configured?
-        //        if (contextMenuStrip != null)
-        //            contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);
-        //    }
-
-        //    // Check if the user is resizing a column
-        //    SongGridViewColumn columnResizing = _columns.FirstOrDefault(x => x.IsUserResizingColumn == true);
-
-        //    // Calculate scrollbar offset Y
-        //    int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
-
-        //    // Check if the user has clicked on the header (for orderBy)
-        //    if (e.Y >= 0 &&
-        //        e.Y <= _songCache.LineHeight &&
-        //        columnResizing == null &&
-        //        !IsColumnMoving)
-        //    {
-        //        // Check on what column the user has clicked
-        //        int offsetX = 0;
-        //        for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
-        //        {
-        //            SongGridViewColumn column = _songCache.ActiveColumns[a];
-        //            if (column.Visible)
-        //            {
-        //                // Check if the mouse pointer is over this column
-        //                if (e.X >= offsetX - _hScrollBar.Value && e.X <= offsetX + column.Width - _hScrollBar.Value)
-        //                {
-        //                    // Check mouse button
-        //                    if (e.Button == System.Windows.Forms.MouseButtons.Left && CanChangeOrderBy)
-        //                    {
-        //                        // Check if the column order was already set
-        //                        if (_orderByFieldName == column.FieldName)
-        //                        {
-        //                            // Reverse ascending/descending
-        //                            _orderByAscending = !_orderByAscending;
-        //                        }
-        //                        else
-        //                        {
-        //                            // Set order by field name
-        //                            _orderByFieldName = column.FieldName;
-        //                            _orderByAscending = true;
-        //                        }
-
-        //                        // Invalidate cache and song items
-        //                        _items = null;
-        //                        _songCache = null;
-
-        //                        // Raise column click event (if an event is subscribed)
-        //                        if (OnColumnClick != null)
-        //                        {
-        //                            SongGridViewColumnClickData data = new SongGridViewColumnClickData();
-        //                            data.ColumnIndex = a;
-        //                            OnColumnClick(data);
-        //                        }
-
-        //                        Refresh();
-        //                        return;
-        //                    }
-        //                    else if (e.Button == System.Windows.Forms.MouseButtons.Right)
-        //                    {
-        //                        // Refresh column visibility in menu before opening
-        //                        foreach(ToolStripMenuItem menuItem in _menuColumns.Items)
-        //                        {
-        //                            SongGridViewColumn menuItemColumn = _columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
-        //                            if (menuItemColumn != null)
-        //                                menuItem.Checked = menuItemColumn.Visible;
-        //                        }
-
-        //                        // Display columns contextual menu
-        //                        _menuColumns.Show(this, e.X, e.Y);
-        //                    }
-        //                }
-
-        //                // Increment X offset
-        //                offsetX += column.Width;
-        //            }
-        //        }
-        //    }
-
-        //    // Loop through visible lines to find the original selected items
-        //    int startIndex = -1;
-        //    int endIndex = -1;
-        //    for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-        //    {
-        //        // Check if the item is selected
-        //        if (_items[a].IsSelected)
-        //        {
-        //            // Check if the start index was set
-        //            if (startIndex == -1)
-        //            {
-        //                // Set start index
-        //                startIndex = a;
-        //            }
-        //            // Check if the end index is set or if it needs to be updated
-        //            if (endIndex == -1 || endIndex < a)
-        //            {
-        //                // Set end index
-        //                endIndex = a;
-        //            }
-        //        }
-        //    }
-
-        //    // Make sure the indexes are set
-        //    if (startIndex > -1 && endIndex > -1)
-        //    {
-        //        // Invalidate the original selected lines
-        //        int startY = ((startIndex - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY;
-        //        int endY = ((endIndex - _startLineNumber + 2) * _songCache.LineHeight) + scrollbarOffsetY;
-        //        Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, startY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, endY - startY));
-        //    }
-
-        //    // Reset selection (make sure SHIFT or CTRL isn't held down)
-        //    if ((Control.ModifierKeys & Keys.Shift) == 0 &&
-        //       (Control.ModifierKeys & Keys.Control) == 0)
-        //    {
-        //        SongGridViewItem mouseOverItem = _items.FirstOrDefault(x => x.IsMouseOverItem == true);
-        //        if (mouseOverItem != null)
-        //        {
-        //            // Reset selection, unless the CTRL key is held (TODO)
-        //            List<SongGridViewItem> selectedItems = _items.Where(x => x.IsSelected == true).ToList();
-        //            foreach (SongGridViewItem item in selectedItems)
-        //                item.IsSelected = false;
-        //        }
-        //    }
-
-        //    // Loop through visible lines to update the new selected item
-        //    bool invalidatedNewSelection = false;
-        //    for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-        //    {
-        //        // Check if mouse is over this item
-        //        if (_items[a].IsMouseOverItem)
-        //        {
-        //            invalidatedNewSelection = true;
-
-        //            // Check if SHIFT is held
-        //            if ((Control.ModifierKeys & Keys.Shift) != 0)
-        //            {
-        //                // Find the start index of the selection
-        //                int startIndexSelection = _lastItemIndexClicked;
-        //                if (a < startIndexSelection)
-        //                    startIndexSelection = a;
-
-        //                // Find the end index of the selection
-        //                int endIndexSelection = _lastItemIndexClicked;
-        //                if (a > endIndexSelection)
-        //                    endIndexSelection = a + 1;
-
-        //                // Loop through items to selected
-        //                for (int b = startIndexSelection; b < endIndexSelection; b++)
-        //                    _items[b].IsSelected = true;
-
-        //                // Invalidate region
-        //                Invalidate();
-        //            }
-        //            // Check if CTRL is held
-        //            else if ((Control.ModifierKeys & Keys.Control) != 0)
-        //            {
-        //                // Invert selection
-        //                _items[a].IsSelected = !_items[a].IsSelected;
-        //                Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
-        //            }
-        //            else
-        //            {
-        //                // Set this item as the new selected item
-        //                _items[a].IsSelected = true;
-        //                Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
-        //            }
-
-        //            // Set the last item clicked index
-        //            _lastItemIndexClicked = a;
-
-        //            // Exit loop
-        //            break;
-        //        }
-        //    }
-
-        //    // Raise selected item changed event (if an event is subscribed)
-        //    if (invalidatedNewSelection && OnSelectedIndexChanged != null)
-        //    {
-        //        SongGridViewSelectedIndexChangedData data = new SongGridViewSelectedIndexChangedData();                
-        //        OnSelectedIndexChanged(data);                
-        //    }
-
-        //    Update();
-
-        //    base.OnMouseClick(e);
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user double-clicks on the control.
-        ///// Starts the playback of a new song.
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnMouseDoubleClick(MouseEventArgs e)
-        //{
-        //    if (_columns == null || _songCache == null)
-        //        return;
-
-        //    // Calculate album cover art width
-        //    int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
-
-        //    // Calculate scrollbar offset Y
-        //    int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
-
-        //    // Keep original songId in case the now playing value is set before invalidating the older value
-        //    Guid originalId = Guid.Empty;
-
-        //    // Set original id
-        //    if (_mode == SongGridViewMode.AudioFile)
-        //        originalId = _nowPlayingAudioFileId;
-        //    else if (_mode == SongGridViewMode.Playlist)
-        //        originalId = _nowPlayingPlaylistItemId;
-
-        //    // Loop through visible lines
-        //    for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-        //    {
-        //        // Check if mouse is over this item
-        //        if (_items[a].IsMouseOverItem)
-        //        {
-        //            // Set this item as the new now playing
-        //            _nowPlayingAudioFileId = _items[a].AudioFile.Id;
-        //            _nowPlayingPlaylistItemId = _items[a].PlaylistItemId;
-
-        //            // Invalidate region
-        //            Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
-        //        }
-        //        else if (_mode == SongGridViewMode.AudioFile && _items[a].AudioFile.Id == originalId)
-        //        {
-        //            // Invalidate region
-        //            Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
-        //        }
-        //        else if (_mode == SongGridViewMode.Playlist && _items[a].PlaylistItemId == originalId)
-        //        {
-        //            // Invalidate region
-        //            Invalidate(new Rectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, ClientRectangle.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
-        //        }
-        //    }
-
-        //    // Update invalid regions
-        //    Update();
-
-        //    base.OnMouseDoubleClick(e);
         //}        
 
-        ///// <summary>
-        ///// Occurs when the user clicks on one of the menu items of the Columns contextual menu.
-        ///// </summary>
-        ///// <param name="sender">Event sender</param>
-        ///// <param name="e">Event arguments</param>
-        //protected void menuItemColumns_Click(object sender, EventArgs e)
-        //{
-        //    // Make sure the sender is the menu item
-        //    if (sender is ToolStripMenuItem)
-        //    {
-        //        // Get the reference to the menu item
-        //        ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
-
-        //        // Inverse selection
-        //        menuItem.Checked = !menuItem.Checked;
-
-        //        // Get column
-        //        SongGridViewColumn column = _columns.FirstOrDefault(x => x.Title == menuItem.Tag.ToString());
-        //        if (column != null)
-        //        {
-        //            // Set visibility
-        //            column.Visible = menuItem.Checked;
-        //        }
-
-        //        // Reset cache
-        //        _songCache = null;
-        //        Refresh();
-        //    }
-        //}
-
-        /////// <summary>
-        /////// Handles the global messages for the mouse wheel.
-        /////// </summary>
-        /////// <param name="m">Message</param>
-        /////// <returns>Nothing interesting</returns>
-        ////public bool PreFilterMessage(ref Message m)
-        ////{
-        ////    // Check message type
-        ////    if (m.Msg == Win32.WM_MOUSEWHEEL)
-        ////    {
-        ////        // Get mouse wheel delta
-        ////        int delta = Win32.GetWheelDeltaWParam((int)m.WParam);
-
-        ////        // Check if all the data is valid
-        ////        if (_columns == null || _songCache == null)
-        ////        {
-        ////            return false;
-        ////        }
-
-        ////        // Make sure the mouse cursor is over the control, and that the vertical scrollbar is enabled
-        ////        if (!_isMouseOverControl || !_vScrollBar.Enabled)
-        ////        {
-        ////            return false;
-        ////        }
-
-        ////        // Get relative value
-        ////        int value = delta / SystemInformation.MouseWheelScrollDelta;
-
-        ////        // Set new value
-        ////        int newValue = _vScrollBar.Value + (-value * _songCache.LineHeight);
-
-        ////        // Check for maximum
-        ////        if (newValue > _vScrollBar.Maximum - _vScrollBar.LargeChange)
-        ////        {
-        ////            newValue = _vScrollBar.Maximum - _vScrollBar.LargeChange;
-        ////        }
-        ////        // Check for minimum
-        ////        if (newValue < 0)
-        ////        {
-        ////            newValue = 0;
-        ////        }
-
-        ////        // Set scrollbar value
-        ////        _vScrollBar.Value = newValue;
-
-        ////        // Invalidate the whole control and refresh                
-        ////        Refresh();                
-        ////    }
-
-        ////    return false;
-        ////}
-
-        //#endregion
-
-        public void Render(IGraphicsContext context)
+        /// <summary>
+        /// Occurs when the mouse cursor enters on the control.        
+        /// </summary>
+        public void MouseEnter()
         {
+            _isMouseOverControl = true;
         }
 
+        /// <summary>
+        /// Occurs when the mouse cursor leaves the control.
+        /// </summary>
+        public void MouseLeave()
+        {
+            bool controlNeedsToBeUpdated = false;
+            _isMouseOverControl = false;
+
+            if (_columns == null || _songCache == null)
+                return;
+
+            // Calculate scrollbar offset Y
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
+
+            // Check if there's at least one item
+            if (_items.Count > 0)
+            {
+                // Reset mouse over item flags
+                for (int b = _startLineNumber; b < _startLineNumber + _numberOfLinesToDraw; b++)
+                {
+                    // Check if the mouse was over this item
+                    if (_items[b].IsMouseOverItem)
+                    {
+                        // Reset flag and invalidate region
+                        _items[b].IsMouseOverItem = false;
+                        OnInvalidateVisualInRect(new BasicRectangle(_columns[0].Width - _hScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - _columns[0].Width + _hScrollBar.Value, _songCache.LineHeight));
+                        controlNeedsToBeUpdated = true;
+
+                        // Exit loop
+                        break;
+                    }
+                }
+            }
+
+            // Reset column flags
+            int columnOffsetX2 = 0;
+            for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
+            {
+                // Make sure column is visible
+                if (_songCache.ActiveColumns[b].Visible)
+                {
+                    // Was mouse over this column header?
+                    if (_songCache.ActiveColumns[b].IsMouseOverColumnHeader)
+                    {
+                        // Reset flag
+                        _songCache.ActiveColumns[b].IsMouseOverColumnHeader = false;
+
+                        // Invalidate region
+                        OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - _hScrollBar.Value, 0, _songCache.ActiveColumns[b].Width, _songCache.LineHeight));
+                        controlNeedsToBeUpdated = true;
+                    }
+
+                    // Increment offset
+                    columnOffsetX2 += _songCache.ActiveColumns[b].Width;
+                }
+            }
+
+            //// Check if control needs to be updated
+            //if (controlNeedsToBeUpdated)
+            //    Update();
+        }
+
+        /// <summary>
+        /// Occurs when the user is pressing down a mouse button.
+        /// </summary>        
         public void MouseDown(float x, float y, MouseButtonType button)
         {
+            _dragStartX = (int) x;
+
+            // Check if all the data is valid
+            if (_columns == null || _songCache == null)
+                return;
+
+            // Loop through columns
+            foreach (SongGridViewColumn column in _songCache.ActiveColumns)
+            {
+                // Check for resizing column
+                if (column.IsMouseCursorOverColumnLimit && column.CanBeResized && CanResizeColumns)
+                {
+                    // Set resizing column flag
+                    column.IsUserResizingColumn = true;
+
+                    // Save the original column width
+                    _dragOriginalColumnWidth = column.Width;
+                }
+            }
+
+            // Check if the left mouse button is held
+            if(button == MouseButtonType.Left)
+                _isUserHoldingLeftMouseButton = true;
         }
 
-        public void MouseUp(float x, float y, MouseButtonType button)
+        /// <summary>
+        /// Occurs when the user releases a mouse button.        
+        /// </summary>
+        public void MouseUp(float x, float y2, MouseButtonType button)
         {
+            // Reset flags
+            _dragStartX = -1;
+            bool updateControl = false;
+            _isUserHoldingLeftMouseButton = false;
+
+            if (_columns == null || _songCache == null)
+                return;
+
+            // Loop through columns
+            SongGridViewColumn columnMoving = null;
+            foreach (SongGridViewColumn column in _songCache.ActiveColumns)
+            {
+                // Reset flags
+                column.IsUserResizingColumn = false;
+
+                // Check if this column is moving
+                if (column.IsUserMovingColumn)
+                    columnMoving = column;
+            }
+
+            // Check if the user is moving a column
+            if (columnMoving != null)
+            {
+                // Set flag
+                columnMoving.IsUserMovingColumn = false;
+                updateControl = true;
+
+                // Find out on what column the mouse cursor is
+                SongGridViewColumn columnOver = null;
+                int currentX = 0;
+                bool isPastCurrentlyMovingColumn = false;
+                for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
+                {
+                    var currentColumn = _songCache.ActiveColumns[a];
+                    if (currentColumn.FieldName == columnMoving.FieldName)
+                        isPastCurrentlyMovingColumn = true;
+
+                    if (currentColumn.Visible)
+                    {
+                        // Check if the cursor is over the left part of the column
+                        if (x >= currentX - _hScrollBar.Value && x <= currentX + (currentColumn.Width / 2) - _hScrollBar.Value)
+                        {
+                            // Check flag
+                            if (isPastCurrentlyMovingColumn && currentColumn.FieldName != columnMoving.FieldName)
+                                columnOver = _songCache.ActiveColumns[a - 1];
+                            else
+                                columnOver = _songCache.ActiveColumns[a];
+                            break;
+                        }
+                        // Check if the cursor is over the right part of the column
+                        else if (x >= currentX + (currentColumn.Width / 2) - _hScrollBar.Value && x <= currentX + currentColumn.Width - _hScrollBar.Value)
+                        {
+                            // Check if there is a next item
+                            if (a < _songCache.ActiveColumns.Count - 1)
+                            {
+                                // Check flag
+                                if (isPastCurrentlyMovingColumn)
+                                    columnOver = _songCache.ActiveColumns[a];
+                                else
+                                    columnOver = _songCache.ActiveColumns[a + 1];
+                            }
+                            break;
+                        }
+
+                        // Increment x
+                        currentX += currentColumn.Width;
+                    }
+                }
+
+                //// Check if the column was found (the cursor might be past the last column
+                //if (columnOver == null)
+                //{
+                //    return;
+                //}
+
+                // Order columns by their current order
+                var columnsOrdered = _columns.OrderBy(q => q.Order).ToList();
+
+                // Move column
+                int indexRemove = -1;
+                int indexAdd = -1;
+                for (int a = 0; a < columnsOrdered.Count; a++)
+                {
+                    // Find the moving column index
+                    if (columnsOrdered[a].FieldName == columnMoving.FieldName)
+                        indexRemove = a;
+
+                    // Find the column index with the mouse over
+                    if (columnOver != null && columnsOrdered[a].FieldName == columnOver.FieldName)
+                        indexAdd = a;
+                }
+
+                // Remove column
+                columnsOrdered.RemoveAt(indexRemove);
+
+                // Check if the index is -1 
+                if (indexAdd == -1)
+                {
+                    // Add column to the end
+                    columnsOrdered.Insert(columnsOrdered.Count, columnMoving);
+                }
+                else
+                {
+                    // Add column to the new position
+                    columnsOrdered.Insert(indexAdd, columnMoving);
+                }
+
+                // Loop through columns to change the order
+                for (int a = 0; a < columnsOrdered.Count; a++)
+                    columnsOrdered[a].Order = a;
+            }
+
+            // Check if the control needs to be updated
+            if (updateControl)
+            {
+                InvalidateSongCache();
+                OnInvalidateVisual();
+            }
         }
+
+        /// <summary>
+        /// Occurs when the user double-clicks on the control.
+        /// Starts the playback of a new song.
+        /// </summary>
+        /// <param name="e">Event arguments</param>
+        public void MouseDoubleClick(float x, float y, MouseButtonType button)
+        {
+            if (_columns == null || _songCache == null)
+                return;
+
+            // Calculate album cover art width
+            int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
+
+            // Calculate scrollbar offset Y
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - _vScrollBar.Value;
+
+            // Keep original songId in case the now playing value is set before invalidating the older value
+            Guid originalId = Guid.Empty;
+
+            // Set original id
+            if (_mode == SongGridViewMode.AudioFile)
+                originalId = _nowPlayingAudioFileId;
+            else if (_mode == SongGridViewMode.Playlist)
+                originalId = _nowPlayingPlaylistItemId;
+
+            // Loop through visible lines
+            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            {
+                if (_items[a].IsMouseOverItem)
+                {
+                    // Set this item as the new now playing
+                    _nowPlayingAudioFileId = _items[a].AudioFile.Id;
+                    _nowPlayingPlaylistItemId = _items[a].PlaylistItemId;
+
+                    OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
+                }
+                else if (_mode == SongGridViewMode.AudioFile && _items[a].AudioFile.Id == originalId)
+                {
+                    OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
+                }
+                else if (_mode == SongGridViewMode.Playlist && _items[a].PlaylistItemId == originalId)
+                {
+                    OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - _hScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + _hScrollBar.Value, _songCache.LineHeight));
+                }
+            }
+
+            // Update invalid regions
+            //Update();
+        }        
 
         /// <summary>
         /// Occurs when the mouse pointer is moving over the control.
@@ -2414,7 +2350,6 @@ namespace MPfm.GenericControls.Controls.Songs
             //if (controlNeedsToBeUpdated)
             //    Update();
         }
-
 
         /// <summary>
         /// Creates a cache of values used for rendering the song grid view.

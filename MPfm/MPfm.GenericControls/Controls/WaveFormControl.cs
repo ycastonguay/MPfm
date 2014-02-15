@@ -440,6 +440,10 @@ namespace MPfm.GenericControls.Controls
             }
         }
 
+        public void MouseDoubleClick(float x, float y, MouseButtonType button)
+        {
+        }
+
         public void MouseMove(float x, float y, MouseButtonType button)
         {
             if (AudioFile == null)
@@ -452,6 +456,14 @@ namespace MPfm.GenericControls.Controls
                 SecondaryPosition = position;
                 OnChangeSecondaryPosition(positionPercentage);
             } 
+        }
+
+        public void MouseLeave()
+        {
+        }
+
+        public void MouseEnter()
+        {
         }
     }
 }

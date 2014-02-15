@@ -21,7 +21,10 @@ namespace MPfm.GenericControls.Interaction
     {
         void MouseDown(float x, float y, MouseButtonType button);
         void MouseUp(float x, float y, MouseButtonType button);
+        void MouseDoubleClick(float x, float y, MouseButtonType button);
         void MouseMove(float x, float y, MouseButtonType button);
+        void MouseLeave();
+        void MouseEnter();
     }
 
     public enum MouseButtonType

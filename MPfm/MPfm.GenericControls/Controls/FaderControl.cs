@@ -165,6 +165,10 @@ namespace MPfm.GenericControls.Controls
             _isTrackBarMoving = false;
         }
 
+        public void MouseDoubleClick(float x, float y, MouseButtonType button)
+        {
+        }
+
         public void MouseMove(float x, float y, MouseButtonType button)
         {
             bool valueChanged = false;
@@ -225,6 +229,14 @@ namespace MPfm.GenericControls.Controls
                     OnInvalidateVisual();
                 }
             }
+        }
+
+        public void MouseLeave()
+        {
+        }
+
+        public void MouseEnter()
+        {
         }
 
         public void Render(IGraphicsContext context)
