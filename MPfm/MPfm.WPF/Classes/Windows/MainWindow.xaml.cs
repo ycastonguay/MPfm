@@ -741,6 +741,7 @@ namespace MPfm.WPF.Classes.Windows
                 //    //string orderBy = viewSongs2.OrderByFieldName;
                 //    //bool orderByAscending = viewSongs2.OrderByAscending;
                 gridViewSongs.ImportAudioFiles(audioFiles.ToList());
+                gridViewSongsNew.ImportAudioFiles(audioFiles.ToList());
             }));
         }
 

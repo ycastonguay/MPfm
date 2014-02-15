@@ -27,7 +27,7 @@ namespace MPfm.GenericControls.Controls.Songs
         ///// <summary>
         ///// Private value for the HeaderTextGradient property.
         ///// </summary>
-        //private TextGradient headerTextGradient = new TextGradient(Color.FromArgb(165, 165, 165), Color.FromArgb(195, 195, 195), LinearGradientMode.Horizontal, 
+        //private TextGradient headerTextGradient = new TextGradient(Color.FromArgb(165, 165, 165), Color.FromArgb(195, 195, 195), LinearGradientMode.Horizontal,
         //                                                           Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(60, 60, 60)));
         ///// <summary>
         ///// Defines the header text gradient.
@@ -75,7 +75,7 @@ namespace MPfm.GenericControls.Controls.Songs
         ///// <summary>
         ///// Private value for the RowTextGradient property.
         ///// </summary>
-        //private TextGradient rowTextGradient = new TextGradient(Color.FromArgb(215, 215, 215), Color.FromArgb(235, 235, 235), LinearGradientMode.Horizontal, 
+        //private TextGradient rowTextGradient = new TextGradient(Color.FromArgb(215, 215, 215), Color.FromArgb(235, 235, 235), LinearGradientMode.Horizontal,
         //                                                        Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(0, 0, 0)));
         ///// <summary>
         ///// Defines the row text gradient.

@@ -620,6 +620,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
@@ -639,6 +640,7 @@
                             <WindowsFormsHost Grid.Row="1">
                                 <wc:SongGridView x:Name="gridViewSongs" OnSelectedIndexChanged="gridViewSongs_OnOnSelectedIndexChanged" />
                             </WindowsFormsHost>
+                            <controls:SongGridView Grid.Row="2" x:Name="gridViewSongsNew" />
                         </Grid>
                     </Grid>
                 </Grid>

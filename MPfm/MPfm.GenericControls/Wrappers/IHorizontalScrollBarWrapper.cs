@@ -29,6 +29,9 @@ namespace MPfm.GenericControls.Wrappers
     {
         event ScrollValueChanged OnScrollValueChanged;
 
+        bool Visible { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
         int Value { get; set; }
         int Maximum { get; set; }
         int LargeChange { get; set; }

@@ -51,7 +51,7 @@
     <Compile Include="Basics\BasicGradientBrush.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
-    <Compile Include="Controls\Songs\SongGridView.cs" />
+    <Compile Include="Controls\Songs\SongGridViewControl.cs" />
     <Compile Include="Controls\Songs\SongGridViewCache.cs" />
     <Compile Include="Controls\Songs\SongGridViewColumn.cs" />
     <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />

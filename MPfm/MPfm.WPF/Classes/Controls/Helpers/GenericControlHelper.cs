@@ -120,5 +120,18 @@ namespace MPfm.WPF.Classes.Controls.Helpers
             else if (e.RightButton == MouseButtonState.Pressed)
                 control.MouseMove(x, y, MouseButtonType.Right);
         }
+
+        public static void MouseDoubleClick(MouseEventArgs e, UIElement element, IControlMouseInteraction control)
+        {
+            var location = e.GetPosition(element);
+            float x = (float)location.X;
+            float y = (float)location.Y;
+            if (e.LeftButton == MouseButtonState.Pressed)
+                control.MouseMove(x, y, MouseButtonType.Left);
+            else if (e.MiddleButton == MouseButtonState.Pressed)
+                control.MouseMove(x, y, MouseButtonType.Middle);
+            else if (e.RightButton == MouseButtonState.Pressed)
+                control.MouseMove(x, y, MouseButtonType.Right);
+        }
     }
 }
