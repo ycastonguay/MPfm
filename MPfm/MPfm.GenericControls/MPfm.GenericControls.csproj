@@ -77,10 +77,11 @@
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
+    <Compile Include="Interaction\IControlScrollViewInteraction.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
-      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
       <Name>MPfm.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">

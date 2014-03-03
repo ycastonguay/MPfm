@@ -229,6 +229,17 @@
       <DependentUpon>SyncWebBrowserWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Controllers\SyncWebBrowserWindowController.cs" />
+    <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
+    <Compile Include="Classes\Controls\MPfmFaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmOutputMeterView.cs" />
+    <Compile Include="Classes\Controls\MPfmSongGridView.cs" />
+    <Compile Include="Classes\Controls\MPfmTrackBarView.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormScaleView.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
+    <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -395,6 +406,8 @@
     <Folder Include="Classes\Services\" />
     <Folder Include="Resources\32x32\icomoon\" />
     <Folder Include="Resources\16x16\custom\" />
+    <Folder Include="Classes\Controls\Graphics\" />
+    <Folder Include="Classes\Controls\Helpers\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -426,6 +439,10 @@
     <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
       <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
       <Name>MPfm.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.csproj">
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
+      <Name>MPfm.GenericControls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,99 @@
+// Copyright © 2011-2013 Yanick Castonguay
+//
+// This file is part of MPfm.
+//
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using System.Drawing;
+using MonoMac.AppKit;
+using MonoMac.CoreGraphics;
+using MPfm.GenericControls.Basics;
+using MPfm.GenericControls.Interaction;
+
+namespace MPfm.Mac.Classes.Controls.Helpers
+{
+    public static class GenericControlHelper
+    {
+        public static RectangleF ToRect(BasicRectangle rectangle)
+        {
+            return new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+        }
+
+        public static PointF ToPoint(BasicPoint point)
+        {
+            return new PointF(point.X, point.Y);
+        }
+
+        public static NSColor ToNSColor(BasicColor color)
+        {
+            return NSColor.FromDeviceRgba(color.R, color.G, color.B, color.A);
+        }
+
+        public static CGColor ToCGColor(BasicColor color)
+        {
+            var nsColor = ToNSColor(color);
+            int numberOfComponents = nsColor.ComponentCount;
+            var cgColorSpace = nsColor.ColorSpace.ColorSpace;
+            var components = new float[numberOfComponents];
+            nsColor.GetComponents(out components);
+            var cgColor = new CGColor(cgColorSpace, components);            
+            return cgColor;            
+        }
+
+        public static void MouseUp(NSView view, IControlMouseInteraction control, NSEvent theEvent)
+        {
+            var point = GetMouseLocation(view, theEvent);
+            var button = GetMouseButtonType(theEvent);
+            control.MouseUp(point.X, point.Y, button);
+        }    
+
+        public static void MouseDown(NSView view, IControlMouseInteraction control, NSEvent theEvent)
+        {
+            var point = GetMouseLocation(view, theEvent);
+            var button = GetMouseButtonType(theEvent);
+            control.MouseDown(point.X, point.Y, button);
+        }    
+
+        public static void MouseMove(NSView view, IControlMouseInteraction control, NSEvent theEvent)
+        {
+            var point = GetMouseLocation(view, theEvent);
+            var button = GetMouseButtonType(theEvent);
+            control.MouseMove(point.X, point.Y, button);
+        }    
+
+        private static PointF GetMouseLocation(NSView view, NSEvent theEvent)
+        {
+            return view.ConvertPointFromBase(theEvent.LocationInWindow);
+        }    
+        
+        private static MouseButtonType GetMouseButtonType(NSEvent theEvent)
+        {
+            var button = MouseButtonType.Left;
+            switch (theEvent.Type)
+            {
+                case NSEventType.LeftMouseUp:
+                    button = MouseButtonType.Left;
+                    break;
+                case NSEventType.RightMouseUp:
+                    button = MouseButtonType.Right;
+                    break;
+                case NSEventType.OtherMouseUp:
+                    button = MouseButtonType.Middle;
+                    break;
+            }
+            return button;
+        }    
+    }
+}

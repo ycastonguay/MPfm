@@ -27,7 +27,6 @@ namespace MPfm.GenericControls.Controls
     public class OutputMeterControl : IControl
     {
         private readonly object _locker = new object();
-        private readonly IControlMouseInteraction _mouseInteraction;
 		private List<WaveDataMinMax> _waveDataHistory;
         private BasicBrush _brushBackground;
         private BasicGradientBrush _brushBarLeft;
@@ -75,9 +74,8 @@ namespace MPfm.GenericControls.Controls
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
 
-        public OutputMeterControl(IControlMouseInteraction mouseInteraction)
+        public OutputMeterControl()
         {
-            _mouseInteraction = mouseInteraction;
             _waveDataHistory = new List<WaveDataMinMax>();
 			Initialize();
         }
