@@ -22,6 +22,7 @@ using MonoMac.Foundation;
 using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
+using System;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -29,8 +30,20 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmWaveFormView : NSView
     {
         private WaveFormControl _control;
-        
-        public MPfmWaveFormView()
+
+        [Export("init")]
+        public MPfmWaveFormView() : base(NSObjectFlag.Empty)
+        {
+            Initialize();
+        }
+
+        // Called when created from unmanaged code
+        public MPfmWaveFormView(IntPtr handle) : base (handle)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
         {
             _control = new WaveFormControl();    
             // TODO: Could these be moved inside a generic helper or something?

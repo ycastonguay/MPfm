@@ -16,20 +16,13 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.MVP;
-using MPfm.Mac.Classes.Objects;
-using MPfm.Mac.Classes.Helpers;
 using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
-using MPfm.GenericControls.Interaction;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -37,8 +30,20 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmTrackBarView : NSView
     {
         private TrackBarControl _control;
-        
-        public MPfmTrackBarView()
+
+        [Export("init")]
+        public MPfmTrackBarView() : base(NSObjectFlag.Empty)
+        {
+            Initialize();
+        }
+
+        // Called when created from unmanaged code
+        public MPfmTrackBarView(IntPtr handle) : base (handle)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
         {
             _control = new TrackBarControl();    
             // TODO: Could these be moved inside a generic helper or something?

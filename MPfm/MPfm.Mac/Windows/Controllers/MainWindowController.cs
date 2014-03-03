@@ -17,31 +17,22 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.CoreText;
-using MonoMac.Foundation;
-using MPfm.Core;
-using MPfm.Library;
-using MPfm.MVP;
-using MPfm.Sound;
-using MPfm.MVP.Views;
-using MPfm.MVP.Models;
-using MPfm.Sound.AudioFiles;
-using MPfm.Library.UpdateLibrary;
-using MPfm.MVP.Messages;
-using MPfm.Mac.Classes.Objects;
-using MPfm.Mac.Classes.Helpers;
-using MPfm.Mac.Classes.Delegates;
-using MPfm.Player.Objects;
-using MPfm.MVP.Presenters;
-using MPfm.Mac.Classes.Controls;
 using System.Web;
+using MPfm.Core;
 using MPfm.Library.Objects;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
+using MPfm.MVP.Presenters;
+using MPfm.MVP.Views;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+using MonoMac.AppKit;
+using MonoMac.Foundation;
+using MPfm.Mac.Classes.Controls;
+using MPfm.Mac.Classes.Delegates;
+using MPfm.Mac.Classes.Helpers;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {
@@ -725,7 +716,7 @@ namespace MPfm.Mac
 
         #region IPlayerView implementation
 
-        public bool IsOutputMeterEnabled { get { return false; } }
+        public bool IsOutputMeterEnabled { get { return true; } }
         public Action OnPlayerPlay { get; set; }
         public Action<IEnumerable<string>> OnPlayerPlayFiles { get; set; }
         public Action OnPlayerPause { get; set; }
@@ -838,13 +829,17 @@ namespace MPfm.Mac
 
         public void PlayerError(Exception ex)
         {
-            InvokeOnMainThread(delegate {
+            InvokeOnMainThread(() => {
                 CocoaHelper.ShowAlert("Error", string.Format("An error occured in the Player component: {0}", ex), NSAlertStyle.Critical);
             });
         }
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
+            InvokeOnMainThread(() => {
+                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+                outputMeter.SetNeedsDisplayInRect(outputMeter.Bounds);
+            });
         }
 
         #endregion

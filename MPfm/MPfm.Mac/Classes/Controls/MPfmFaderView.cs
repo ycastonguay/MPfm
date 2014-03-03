@@ -38,7 +38,19 @@ namespace MPfm.Mac.Classes.Controls
     {
         private FaderControl _control;
         
-        public MPfmFaderView()
+        [Export("init")]
+        public MPfmFaderView() : base(NSObjectFlag.Empty)
+        {
+            Initialize();
+        }
+
+        // Called when created from unmanaged code
+        public MPfmFaderView(IntPtr handle) : base (handle)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
         {
             _control = new FaderControl();    
             // TODO: Could these be moved inside a generic helper or something?

@@ -39,7 +39,19 @@ namespace MPfm.Mac.Classes.Controls
     {
         private SongGridViewControl _control;
         
-        public MPfmSongGridView()
+        [Export("init")]
+        public MPfmSongGridView() : base(NSObjectFlag.Empty)
+        {
+            Initialize();
+        }
+
+        // Called when created from unmanaged code
+        public MPfmSongGridView(IntPtr handle) : base (handle)
+        {
+            Initialize();
+        }
+        
+        private void Initialize()
         {
             _control = new SongGridViewControl();   
             // TODO: Could these be moved inside a generic helper or something?
@@ -50,7 +62,7 @@ namespace MPfm.Mac.Classes.Controls
                 SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect));
             };
         }
-        
+
         public override void DrawRect(RectangleF dirtyRect)
         {
             base.DrawRect(dirtyRect);

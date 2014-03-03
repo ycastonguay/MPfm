@@ -43,13 +43,7 @@ namespace MPfm.Mac.Classes.Controls.Helpers
 
         public static CGColor ToCGColor(BasicColor color)
         {
-            var nsColor = ToNSColor(color);
-            int numberOfComponents = nsColor.ComponentCount;
-            var cgColorSpace = nsColor.ColorSpace.ColorSpace;
-            var components = new float[numberOfComponents];
-            nsColor.GetComponents(out components);
-            var cgColor = new CGColor(cgColorSpace, components);            
-            return cgColor;            
+            return new CGColor(color.R/255f, color.G/255f, color.B/255f, color.A/255f);
         }
 
         public static void MouseUp(NSView view, IControlMouseInteraction control, NSEvent theEvent)

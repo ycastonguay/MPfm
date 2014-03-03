@@ -38,6 +38,9 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
         {
+            context.TranslateCTM(0, boundsHeight);
+            context.ScaleCTM(1, -1);
+
             Context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;

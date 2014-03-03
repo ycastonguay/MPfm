@@ -70,6 +70,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSPopUpButton cboSoundFormat { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmFaderView faderVolume { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSImageView imageAlbumCover { get; set; }
 
 		[Outlet]
@@ -179,6 +182,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSOutlineView outlineLibraryBrowser { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewAlbumCovers { get; set; }
@@ -565,6 +571,11 @@ namespace MPfm.Mac
 				lblGenre = null;
 			}
 
+			if (lblInterval != null) {
+				lblInterval.Dispose ();
+				lblInterval = null;
+			}
+
 			if (lblLastPlayed != null) {
 				lblLastPlayed.Dispose ();
 				lblLastPlayed = null;
@@ -585,6 +596,11 @@ namespace MPfm.Mac
 				lblNewKey = null;
 			}
 
+			if (lblNewKeyValue != null) {
+				lblNewKeyValue.Dispose ();
+				lblNewKeyValue = null;
+			}
+
 			if (lblPlayCount != null) {
 				lblPlayCount.Dispose ();
 				lblPlayCount = null;
@@ -593,6 +609,16 @@ namespace MPfm.Mac
 			if (lblPosition != null) {
 				lblPosition.Dispose ();
 				lblPosition = null;
+			}
+
+			if (lblReferenceKey != null) {
+				lblReferenceKey.Dispose ();
+				lblReferenceKey = null;
+			}
+
+			if (lblReferenceKeyValue != null) {
+				lblReferenceKeyValue.Dispose ();
+				lblReferenceKeyValue = null;
 			}
 
 			if (lblReferenceTempo != null) {
@@ -825,27 +851,16 @@ namespace MPfm.Mac
 				viewVolume = null;
 			}
 
-			if (lblReferenceKeyValue != null) {
-				lblReferenceKeyValue.Dispose ();
-				lblReferenceKeyValue = null;
+			if (faderVolume != null) {
+				faderVolume.Dispose ();
+				faderVolume = null;
 			}
 
-			if (lblInterval != null) {
-				lblInterval.Dispose ();
-				lblInterval = null;
-			}
-
-			if (lblReferenceKey != null) {
-				lblReferenceKey.Dispose ();
-				lblReferenceKey = null;
-			}
-
-			if (lblNewKeyValue != null) {
-				lblNewKeyValue.Dispose ();
-				lblNewKeyValue = null;
+			if (outputMeter != null) {
+				outputMeter.Dispose ();
+				outputMeter = null;
 			}
 		}
-
 	}
 
 	[Register ("MainWindow")]
