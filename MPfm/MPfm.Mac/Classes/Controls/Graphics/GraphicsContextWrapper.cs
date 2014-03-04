@@ -34,16 +34,17 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 {
     public class GraphicsContextWrapper : IGraphicsContext
     {
+        private bool _isViewportInverted;
         protected CGContext Context;
 
         public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
         {
-            context.TranslateCTM(0, boundsHeight);
-            context.ScaleCTM(1, -1);
-
             Context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
+
+            Context.TranslateCTM(0, BoundsHeight);
+            Context.ScaleCTM(1, -1);
         }
 
         public float BoundsWidth { get; private set; }
@@ -52,13 +53,19 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
+            var bitmap = image as NSImage;
+            if (bitmap == null)
+                return;
+
+            bitmap.DrawInRect("", GenericControlHelper.ToRect(rectangle), new NSDictionary());
+            //Context.DrawImage(rectangle, bitmap.AsCGImage(GenericControlHelper.ToRect(rectangle), Context, new NSDictionary()));
             //Context.DrawImage(GenericControlHelper.ToRect(rectangle), ((UIImage)image).CGImage);
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
-            CoreGraphicsHelper.DrawEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness);
-            // TODO: Add fill
+            CoreGraphicsHelper.FillEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(brush.Color));
+            // TODO: Add outline
         }
 
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
@@ -74,13 +81,21 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
-            CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToCGColor(color));
+            Context.TranslateCTM(0, -BoundsHeight);
+            Context.ScaleCTM(1, 1);
+
+            var textSize = MeasureText(text, new BasicRectangle(0, 0, 1000, 1000), fontFace, fontSize);
+            var pt = GenericControlHelper.ToPoint(point);
+            pt.Y = BoundsHeight - point.Y - textSize.Height;
+            CoreGraphicsHelper.DrawTextAtPoint(Context, pt, text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
+
+            Context.TranslateCTM(0, BoundsHeight);
+            Context.ScaleCTM(1, -1);
         }
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
-            CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(rectangle), text, fontFace, fontSize, GenericControlHelper.ToCGColor(color));
-            // TODO: Add text alignment to IGraphicsContext
+            CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(rectangle), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
@@ -97,6 +112,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void StrokeLine(BasicPoint point, BasicPoint point2)
         {
+            //SetViewportOrigin(false);
             Context.StrokeLineSegments(new PointF[2] { GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) });
         }
 
@@ -112,7 +128,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void Close()
         {
-            // Not used on iOS
+            // Not used on OS X
         }
     }
 }

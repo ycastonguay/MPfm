@@ -113,7 +113,7 @@ namespace MPfm.Mac.Classes.Controls
                 CocoaHelper.FillRect(context, Bounds, BackgroundColor);
 
             CocoaHelper.DrawRect(context, Bounds, BorderColor);
-            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
+            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Roboto", 11);
             RectangleF rectText;
             if (Image != null)
             {
@@ -130,7 +130,7 @@ namespace MPfm.Mac.Classes.Controls
             }
 
             context.RestoreState();
-            CocoaHelper.DrawText(rectText, 0, 0, Title, "Junction", 11, NSColor.White);
+            CocoaHelper.DrawText(rectText, 0, 0, Title, "Roboto", 11, NSColor.White);
         }
 
         RectangleF Get1pxRect(RectangleF rect)

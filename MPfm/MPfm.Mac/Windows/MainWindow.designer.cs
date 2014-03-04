@@ -202,13 +202,7 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmSongPositionSlider sliderPosition { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSSlider sliderTimeShifting { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSSlider sliderVolume { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSSplitView splitMain { get; set; }
@@ -227,6 +221,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSToolbar toolbarMain { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPosition { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtCurrentTempoValue { get; set; }
@@ -279,6 +276,9 @@ namespace MPfm.Mac
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewVolume { get; set; }
 
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmWaveFormScrollView waveFormScrollView { get; set; }
+
 		[Action ("actionAddFilesToLibrary:")]
 		partial void actionAddFilesToLibrary (MonoMac.Foundation.NSObject sender);
 
@@ -302,9 +302,6 @@ namespace MPfm.Mac
 
 		[Action ("actionChangeTimeShifting:")]
 		partial void actionChangeTimeShifting (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionChangeVolume:")]
-		partial void actionChangeVolume (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionContextualMenuPlay:")]
 		partial void actionContextualMenuPlay (MonoMac.Foundation.NSObject sender);
@@ -511,6 +508,11 @@ namespace MPfm.Mac
 				cboSoundFormat = null;
 			}
 
+			if (faderVolume != null) {
+				faderVolume.Dispose ();
+				faderVolume = null;
+			}
+
 			if (imageAlbumCover != null) {
 				imageAlbumCover.Dispose ();
 				imageAlbumCover = null;
@@ -696,6 +698,11 @@ namespace MPfm.Mac
 				outlineLibraryBrowser = null;
 			}
 
+			if (outputMeter != null) {
+				outputMeter.Dispose ();
+				outputMeter = null;
+			}
+
 			if (scrollViewAlbumCovers != null) {
 				scrollViewAlbumCovers.Dispose ();
 				scrollViewAlbumCovers = null;
@@ -721,19 +728,9 @@ namespace MPfm.Mac
 				sliderPitchShifting = null;
 			}
 
-			if (sliderPosition != null) {
-				sliderPosition.Dispose ();
-				sliderPosition = null;
-			}
-
 			if (sliderTimeShifting != null) {
 				sliderTimeShifting.Dispose ();
 				sliderTimeShifting = null;
-			}
-
-			if (sliderVolume != null) {
-				sliderVolume.Dispose ();
-				sliderVolume = null;
 			}
 
 			if (splitMain != null) {
@@ -764,6 +761,11 @@ namespace MPfm.Mac
 			if (toolbarMain != null) {
 				toolbarMain.Dispose ();
 				toolbarMain = null;
+			}
+
+			if (trackBarPosition != null) {
+				trackBarPosition.Dispose ();
+				trackBarPosition = null;
 			}
 
 			if (txtCurrentTempoValue != null) {
@@ -851,14 +853,9 @@ namespace MPfm.Mac
 				viewVolume = null;
 			}
 
-			if (faderVolume != null) {
-				faderVolume.Dispose ();
-				faderVolume = null;
-			}
-
-			if (outputMeter != null) {
-				outputMeter.Dispose ();
-				outputMeter = null;
+			if (waveFormScrollView != null) {
+				waveFormScrollView.Dispose ();
+				waveFormScrollView = null;
 			}
 		}
 	}

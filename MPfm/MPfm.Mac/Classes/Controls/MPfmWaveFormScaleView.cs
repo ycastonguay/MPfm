@@ -23,6 +23,7 @@ using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
 using System;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -31,6 +32,29 @@ namespace MPfm.Mac.Classes.Controls
     {
         private WaveFormScaleControl _control;
 
+        public AudioFile AudioFile
+        {
+            get
+            {
+                return _control.AudioFile;
+            }
+            set
+            {
+                _control.AudioFile = value;
+            }
+        }
+
+        public long AudioFileLength
+        {
+            get
+            {
+                return _control.AudioFileLength;
+            }
+            set
+            {
+                _control.AudioFileLength = value;
+            }
+        }
         [Export("init")]
         public MPfmWaveFormScaleView() : base(NSObjectFlag.Empty)
         {

@@ -127,6 +127,7 @@ namespace MPfm.GenericControls.Controls
                     y >= _rectFader.Y &&
                     y <= _rectFader.Height + _rectFader.Y)
                 {
+                    //Console.WriteLine("FaderControl - MouseDown - Mouse down on track bar; track bar is now moving");
                     _isTrackBarMoving = true;
                 }
             }
@@ -161,6 +162,7 @@ namespace MPfm.GenericControls.Controls
                 OnInvalidateVisual();
             }
 
+            //Console.WriteLine("FaderControl - MouseDown - Mouse up; stopping track bar movement");
             _mouseButtonDown = false;
             _isTrackBarMoving = false;
         }
@@ -172,6 +174,7 @@ namespace MPfm.GenericControls.Controls
         public void MouseMove(float x, float y, MouseButtonType button)
         {
             bool valueChanged = false;
+            //Console.WriteLine("FaderControl - MouseMove - _isTrackBarMoving: {0} _mouseButtonDown: {1}", _isTrackBarMoving, _mouseButtonDown);
             if (_isTrackBarMoving && _mouseButtonDown)
             {
                 // Evaluate tick height

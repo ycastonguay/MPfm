@@ -23,6 +23,7 @@ using MonoMac.Foundation;
 using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
+using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -30,6 +31,43 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmTrackBarView : NSView
     {
         private TrackBarControl _control;
+        private bool _isMouseDown;
+
+        public bool BlockValueChangeWhenDraggingMouse { get; set; }
+
+        public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }
+        public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
+
+        public int Value 
+        { 
+            get 
+            { 
+                return _control.Value; 
+            } 
+            set 
+            { 
+                if (BlockValueChangeWhenDraggingMouse && _isMouseDown)
+                    return;
+
+                _control.Value = value; 
+            } 
+        }
+        public int ValueWithoutEvent 
+        { 
+            get 
+            { 
+                return _control.ValueWithoutEvent; 
+            } 
+            set 
+            { 
+                if (BlockValueChangeWhenDraggingMouse && _isMouseDown)
+                    return;
+
+                _control.ValueWithoutEvent = value; 
+            } 
+        }
+
+        public event TrackBarControl.TrackBarValueChanged OnTrackBarValueChanged;
 
         [Export("init")]
         public MPfmTrackBarView() : base(NSObjectFlag.Empty)
@@ -45,8 +83,17 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
+            // Add tracking area to receive mouse move and mouse dragged events
+            var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.EnabledDuringMouseDrag;
+            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
+            AddTrackingArea(trackingArea);
+
             _control = new TrackBarControl();    
-            // TODO: Could these be moved inside a generic helper or something?
+            _control.OnTrackBarValueChanged += () =>
+            {
+                if (OnTrackBarValueChanged != null)
+                    OnTrackBarValueChanged();
+            };
             _control.OnInvalidateVisual += () => {
                 SetNeedsDisplayInRect(Bounds);
             };
@@ -66,12 +113,14 @@ namespace MPfm.Mac.Classes.Controls
         
         public override void MouseUp(NSEvent theEvent)
         {
+            _isMouseDown = false;
             base.MouseUp(theEvent);
             GenericControlHelper.MouseUp(this, _control, theEvent);
         }
         
         public override void MouseDown(NSEvent theEvent)
         {
+            _isMouseDown = true;
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
         }
@@ -79,6 +128,12 @@ namespace MPfm.Mac.Classes.Controls
         public override void MouseMoved(NSEvent theEvent)
         {
             base.MouseMoved(theEvent);
+            GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+
+        public override void MouseDragged(NSEvent theEvent)
+        {
+            base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
         }
     }

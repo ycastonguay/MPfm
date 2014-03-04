@@ -50,6 +50,7 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
+            //Console.WriteLine("GenericControlHelper - MouseUp - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
             control.MouseUp(point.X, point.Y, button);
         }    
 
@@ -57,6 +58,7 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
+            //Console.WriteLine("GenericControlHelper - MouseDown - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
             control.MouseDown(point.X, point.Y, button);
         }    
 
@@ -64,12 +66,15 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
+            //Console.WriteLine("GenericControlHelper - MouseMove - point: {0} bounds: {1}", point, view.Bounds);
             control.MouseMove(point.X, point.Y, button);
         }    
 
         private static PointF GetMouseLocation(NSView view, NSEvent theEvent)
         {
-            return view.ConvertPointFromBase(theEvent.LocationInWindow);
+            // Invert point because origin Y is inversed in Cocoa
+            var point = view.ConvertPointFromBase(theEvent.LocationInWindow);
+            return new PointF(point.X, view.Bounds.Height - point.Y);
         }    
         
         private static MouseButtonType GetMouseButtonType(NSEvent theEvent)

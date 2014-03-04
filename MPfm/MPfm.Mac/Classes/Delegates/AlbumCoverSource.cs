@@ -108,7 +108,8 @@ namespace MPfm.Mac.Classes.Delegates
                 try
                 {
                     Tracing.Log("FetchAlbumCoverAsyncCallback - Setting item " + response.Item.AudioFile.FilePath);
-                    response.View.SetItem(response.Item, response.Image);
+                    //response.View.SetItem(response.Item, response.Image);
+                    response.View.SetItem(response.Item, null);
                     Tracing.Log("FetchAlbumCoverAsyncCallback - Refreshing item " + response.Item.AudioFile.FilePath);
                     if(response.Image != null)
                         response.View.SetNeedsDisplayInRect(response.View.Bounds);

@@ -23,6 +23,10 @@ using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
 using System;
+using MPfm.Player.Objects;
+using System.Collections.Generic;
+using MPfm.Sound.AudioFiles;
+using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -30,6 +34,45 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmWaveFormView : NSView
     {
         private WaveFormControl _control;
+
+        public long Position
+        {
+            get
+            {
+                return _control.Position;
+            }
+            set
+            {
+                _control.Position = value;
+            }
+        }
+
+        public long SecondaryPosition
+        {
+            get
+            {
+                return _control.SecondaryPosition;
+            }
+            set
+            {
+                _control.SecondaryPosition = value;
+            }
+        }
+
+        public bool ShowSecondaryPosition
+        {
+            get
+            {
+                return _control.ShowSecondaryPosition;
+            }
+            set
+            {
+                _control.ShowSecondaryPosition = value;
+            }
+        }
+
+        public event WaveFormControl.ChangePosition OnChangePosition;
+        public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
 
         [Export("init")]
         public MPfmWaveFormView() : base(NSObjectFlag.Empty)
@@ -46,7 +89,8 @@ namespace MPfm.Mac.Classes.Controls
         private void Initialize()
         {
             _control = new WaveFormControl();    
-            // TODO: Could these be moved inside a generic helper or something?
+            _control.OnChangePosition += (position) => OnChangePosition(position);
+            _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
             _control.OnInvalidateVisual += () => {
                 SetNeedsDisplayInRect(Bounds);
             };
@@ -61,6 +105,8 @@ namespace MPfm.Mac.Classes.Controls
             
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
+
+            CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(255, 0, 0));
             _control.Render(wrapper);
         }
         
@@ -80,6 +126,26 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseMoved(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+
+        public void SetMarkers(IEnumerable<Marker> markers)
+        {
+            _control.SetMarkers(markers);
+        }
+
+        public void SetWaveFormLength(long lengthBytes)
+        {
+            _control.Length = lengthBytes;
+        }
+
+        public void LoadPeakFile(AudioFile audioFile)
+        {
+            _control.LoadPeakFile(audioFile);
+        }
+
+        public void RefreshWaveFormBitmap(int width)
+        {
+            _control.RefreshWaveFormBitmap(width);
         }
     }
 }

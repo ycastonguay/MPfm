@@ -240,6 +240,7 @@
     <Compile Include="Classes\Controls\MPfmWaveFormScaleView.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
     <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -385,6 +386,12 @@
     <Content Include="Resources\32x32\icomoon\update%402x.png" />
     <Content Include="Resources\32x32\icomoon\next.png" />
     <Content Include="Resources\16x16\custom\vinyl.png" />
+    <Content Include="Resources\Fonts\Roboto-Bold.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Regular.ttf" />
+    <Content Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Light.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Thin.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Medium.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

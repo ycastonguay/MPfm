@@ -35,6 +35,8 @@ using MonoMac.ObjCRuntime;
 using TinyIoC;
 using MPfm.Mac.Classes.Navigation;
 using MPfm.MVP.Config.Providers;
+using MPfm.GenericControls.Graphics;
+using MPfm.Mac.Classes.Controls.Graphics;
 
 namespace MPfm.Mac.Classes.Delegates
 {
@@ -53,6 +55,7 @@ namespace MPfm.Mac.Classes.Delegates
 		{
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, MacSyncDeviceSpecifications>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();

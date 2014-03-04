@@ -31,6 +31,10 @@ namespace MPfm.Mac.Classes.Controls
     {
         private OutputMeterControl _control;
 
+        // https://developer.apple.com/library/mac/documentation/performance/conceptual/Drawing/Articles/CocoaDrawingTips.html
+        //public override bool WantsDefaultClipping { get { return false; } }
+        public override bool IsOpaque { get { return true; } }
+
         [Export("init")]
         public MPfmOutputMeterView() : base(NSObjectFlag.Empty)
         {
@@ -45,6 +49,8 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
+            //WantsLayer = true;
+
             _control = new OutputMeterControl();    
             // TODO: Could these be moved inside a generic helper or something?
             _control.OnInvalidateVisual += () => {
@@ -57,8 +63,6 @@ namespace MPfm.Mac.Classes.Controls
         
         public override void DrawRect(RectangleF dirtyRect)
         {
-            base.DrawRect(dirtyRect);
-            
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
             _control.Render(wrapper);

@@ -138,7 +138,7 @@ namespace MPfm.Mac.Classes.Controls
 
             //CocoaHelper.DrawRect(context, Bounds, BorderColor);
             //RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
-            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "TitilliumText25L-800wt", 12);
+            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Roboto Medium", 11);
             RectangleF rectText;
             if (Image != null)
             {
@@ -155,8 +155,7 @@ namespace MPfm.Mac.Classes.Controls
             }
 
             context.RestoreState();
-            //CocoaHelper.DrawText(rectText, 0, 0, Title, "Junction", 11, NSColor.White);
-            CocoaHelper.DrawText(rectText, 0, 0, Title, "TitilliumText25L-800wt", 12, NSColor.White);
+            CocoaHelper.DrawText(rectText, 0, 0, Title, "Roboto Medium", 11, NSColor.White);
         }
 
         RectangleF Get1pxRect(RectangleF rect)

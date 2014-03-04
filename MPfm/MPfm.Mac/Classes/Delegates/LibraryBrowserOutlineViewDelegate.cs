@@ -75,7 +75,7 @@ namespace MPfm.Mac.Classes.Delegates
 
             // Create view
             NSTableCellView view = (NSTableCellView)outlineView.MakeView("cellLibrary", this);
-            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             view.TextField.StringValue = libraryBrowserItem.Entity.Title;
 
             // Check icon
