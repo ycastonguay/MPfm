@@ -251,29 +251,29 @@
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="113"/>
                                             </imageView>
                                             <customView id="499" customClass="MPfmView">
-                                                <rect key="frame" x="170" y="0.0" width="265" height="62"/>
+                                                <rect key="frame" x="170" y="0.0" width="255" height="62"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <subviews>
                                                     <textField identifier="lblPosition" verticalHuggingPriority="750" id="70">
-                                                        <rect key="frame" x="6" y="5" width="99" height="28"/>
+                                                        <rect key="frame" x="6" y="5" width="77" height="28"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="00:00.000" id="71">
-                                                            <font key="font" size="15" name="Menlo-Regular"/>
+                                                            <font key="font" size="12" name="Menlo-Regular"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField identifier="lblPosition" verticalHuggingPriority="750" id="114">
-                                                        <rect key="frame" x="163" y="5" width="96" height="28"/>
+                                                        <rect key="frame" x="184" y="5" width="65" height="28"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="00:00.000" id="115">
-                                                            <font key="font" size="15" name="Menlo-Regular"/>
+                                                            <font key="font" size="12" name="Menlo-Regular"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="502">
-                                                        <rect key="frame" x="6" y="42" width="188" height="18"/>
+                                                        <rect key="frame" x="6" y="43" width="188" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Song Position / Length" id="503">
                                                             <font key="font" metaFont="smallSystemBold"/>
@@ -282,7 +282,7 @@
                                                         </textFieldCell>
                                                     </textField>
                                                     <customView id="YnV-Zx-V58" customClass="MPfmTrackBarView">
-                                                        <rect key="frame" x="89" y="6" width="87" height="26"/>
+                                                        <rect key="frame" x="72" y="6" width="114" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     </customView>
                                                 </subviews>
@@ -297,7 +297,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <textField identifier="lblAlbumTitle" verticalHuggingPriority="750" id="61">
-                                                <rect key="frame" x="175" y="115" width="207" height="27"/>
+                                                <rect key="frame" x="175" y="110" width="207" height="32"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="[Album Title]" id="62">
                                                     <font key="font" size="22" name="HelveticaNeue"/>
@@ -697,7 +697,7 @@
                                                         </connections>
                                                     </slider>
                                                     <button verticalHuggingPriority="750" id="794" customClass="MPfmButton">
-                                                        <rect key="frame" x="56" y="13" width="24" height="24"/>
+                                                        <rect key="frame" x="47" y="13" width="24" height="24"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="smallSquare" title="-" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="795">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -708,7 +708,7 @@
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" id="797" customClass="MPfmButton">
-                                                        <rect key="frame" x="79" y="13" width="24" height="24"/>
+                                                        <rect key="frame" x="89" y="13" width="24" height="24"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="smallSquare" title="+" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="798">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -719,7 +719,7 @@
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" id="814" customClass="MPfmButton">
-                                                        <rect key="frame" x="102" y="13" width="78" height="24"/>
+                                                        <rect key="frame" x="132" y="13" width="78" height="24"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="smallSquare" title="Reset" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="815">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -792,49 +792,108 @@
                                             </textField>
                                         </subviews>
                                     </customView>
-                                    <splitView dividerStyle="paneSplitter" id="W42-FE-a65">
+                                    <splitView dividerStyle="thin" id="W42-FE-a65">
                                         <rect key="frame" x="1" y="0.0" width="738" height="403"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <customView id="tOW-JQ-ih3">
-                                                <rect key="frame" x="0.0" y="0.0" width="738" height="73"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="738" height="79"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <customView id="WCo-S4-cSR" customClass="MPfmWaveFormScrollView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="73"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="79"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     </customView>
                                                 </subviews>
                                             </customView>
                                             <customView id="7bj-uw-Pk4">
-                                                <rect key="frame" x="0.0" y="83" width="738" height="320"/>
+                                                <rect key="frame" x="0.0" y="80" width="738" height="323"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <splitView dividerStyle="thin" id="120">
-                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="320"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="323"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <customView id="121">
-                                                                <rect key="frame" x="0.0" y="0.0" width="738" height="163"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="738" height="102"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <splitView dividerStyle="thin" vertical="YES" id="127">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="163"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="102"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <customView id="128">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="380" height="163"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="380" height="102"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                 <subviews>
+                                                                                    <customView id="539" customClass="MPfmView">
+                                                                                        <rect key="frame" x="0.0" y="75" width="380" height="27"/>
+                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                                        <subviews>
+                                                                                            <textField verticalHuggingPriority="750" id="540">
+                                                                                                <rect key="frame" x="4" y="2" width="51" height="22"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Loops" id="541">
+                                                                                                    <font key="font" size="12" name="HelveticaNeue-Bold"/>
+                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                                </textFieldCell>
+                                                                                            </textField>
+                                                                                            <button verticalHuggingPriority="750" id="308" customClass="MPfmButton">
+                                                                                                <rect key="frame" x="50" y="0.0" width="61" height="26"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <buttonCell key="cell" type="smallSquare" title="Play" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="309">
+                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                                                </buttonCell>
+                                                                                                <connections>
+                                                                                                    <action selector="actionPlayLoop:" target="-2" id="461"/>
+                                                                                                </connections>
+                                                                                            </button>
+                                                                                            <button verticalHuggingPriority="750" id="314" customClass="MPfmButton">
+                                                                                                <rect key="frame" x="110" y="0.0" width="61" height="26"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <buttonCell key="cell" type="smallSquare" title="Add" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="315">
+                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                                                </buttonCell>
+                                                                                                <connections>
+                                                                                                    <action selector="actionAddLoop:" target="-2" id="463"/>
+                                                                                                </connections>
+                                                                                            </button>
+                                                                                            <button verticalHuggingPriority="750" id="317" customClass="MPfmButton">
+                                                                                                <rect key="frame" x="170" y="0.0" width="59" height="26"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <buttonCell key="cell" type="smallSquare" title="Edit" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="318">
+                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                                                </buttonCell>
+                                                                                                <connections>
+                                                                                                    <action selector="actionEditLoop:" target="-2" id="464"/>
+                                                                                                </connections>
+                                                                                            </button>
+                                                                                            <button verticalHuggingPriority="750" id="320" customClass="MPfmButton">
+                                                                                                <rect key="frame" x="228" y="0.0" width="79" height="26"/>
+                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                                <buttonCell key="cell" type="smallSquare" title="Remove" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="321">
+                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                                                </buttonCell>
+                                                                                                <connections>
+                                                                                                    <action selector="actionRemoveLoop:" target="-2" id="465"/>
+                                                                                                </connections>
+                                                                                            </button>
+                                                                                        </subviews>
+                                                                                    </customView>
                                                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="289" customClass="MPfmScrollView">
-                                                                                        <rect key="frame" x="0.0" y="-5" width="358" height="178"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="380" height="76"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <clipView key="contentView" id="5CT-C0-9Xh">
-                                                                                            <rect key="frame" x="0.0" y="17" width="358" height="161"/>
+                                                                                            <rect key="frame" x="0.0" y="17" width="380" height="59"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
                                                                                                 <tableView identifier="tableLoops" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="292" viewBased="YES" id="290">
-                                                                                                    <rect key="frame" x="0.0" y="0.0" width="358" height="161"/>
+                                                                                                    <rect key="frame" x="0.0" y="0.0" width="380" height="59"/>
                                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -970,7 +1029,7 @@
                                                                                                                 </tableCellView>
                                                                                                             </prototypeCellViews>
                                                                                                         </tableColumn>
-                                                                                                        <tableColumn identifier="columnLoopEndPosition" width="64.5" minWidth="40" maxWidth="1000" id="329">
+                                                                                                        <tableColumn identifier="columnLoopEndPosition" width="86.5" minWidth="40" maxWidth="1000" id="329">
                                                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="End Position">
                                                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -984,11 +1043,11 @@
                                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                             <prototypeCellViews>
                                                                                                                 <tableCellView identifier="cellLoopEndPosition" id="331">
-                                                                                                                    <rect key="frame" x="291" y="1" width="65" height="17"/>
+                                                                                                                    <rect key="frame" x="291" y="1" width="87" height="17"/>
                                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                     <subviews>
                                                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="332">
-                                                                                                                            <rect key="frame" x="0.0" y="0.0" width="65" height="17"/>
+                                                                                                                            <rect key="frame" x="0.0" y="0.0" width="87" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="333">
                                                                                                                                 <font key="font" metaFont="cellTitle"/>
@@ -1009,7 +1068,7 @@
                                                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                         </clipView>
                                                                                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.16666666666666666" id="291">
-                                                                                            <rect key="frame" x="0.0" y="163" width="380.99999996886885" height="15"/>
+                                                                                            <rect key="frame" x="0.0" y="2" width="0.0" height="15"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                         </scroller>
                                                                                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" id="293">
@@ -1017,84 +1076,25 @@
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                         </scroller>
                                                                                         <tableHeaderView key="headerView" id="292" customClass="MPfmTableHeaderView">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="358" height="17"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="380" height="17"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                         </tableHeaderView>
                                                                                     </scrollView>
-                                                                                    <customView id="539" customClass="MPfmView">
-                                                                                        <rect key="frame" x="0.0" y="172" width="358" height="27"/>
-                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                                        <subviews>
-                                                                                            <textField verticalHuggingPriority="750" id="540">
-                                                                                                <rect key="frame" x="4" y="2" width="51" height="22"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Loops" id="541">
-                                                                                                    <font key="font" size="12" name="HelveticaNeue-Bold"/>
-                                                                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                                                                </textFieldCell>
-                                                                                            </textField>
-                                                                                            <button verticalHuggingPriority="750" id="308" customClass="MPfmButton">
-                                                                                                <rect key="frame" x="50" y="0.0" width="61" height="26"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <buttonCell key="cell" type="smallSquare" title="Play" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="309">
-                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                                </buttonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionPlayLoop:" target="-2" id="461"/>
-                                                                                                </connections>
-                                                                                            </button>
-                                                                                            <button verticalHuggingPriority="750" id="314" customClass="MPfmButton">
-                                                                                                <rect key="frame" x="110" y="0.0" width="61" height="26"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <buttonCell key="cell" type="smallSquare" title="Add" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="315">
-                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                                </buttonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionAddLoop:" target="-2" id="463"/>
-                                                                                                </connections>
-                                                                                            </button>
-                                                                                            <button verticalHuggingPriority="750" id="317" customClass="MPfmButton">
-                                                                                                <rect key="frame" x="170" y="0.0" width="59" height="26"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <buttonCell key="cell" type="smallSquare" title="Edit" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="318">
-                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                                </buttonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionEditLoop:" target="-2" id="464"/>
-                                                                                                </connections>
-                                                                                            </button>
-                                                                                            <button verticalHuggingPriority="750" id="320" customClass="MPfmButton">
-                                                                                                <rect key="frame" x="228" y="0.0" width="79" height="26"/>
-                                                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                                <buttonCell key="cell" type="smallSquare" title="Remove" bezelStyle="smallSquare" image="NSApplicationIcon" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="321">
-                                                                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                                                    <font key="font" metaFont="smallSystem"/>
-                                                                                                </buttonCell>
-                                                                                                <connections>
-                                                                                                    <action selector="actionRemoveLoop:" target="-2" id="465"/>
-                                                                                                </connections>
-                                                                                            </button>
-                                                                                        </subviews>
-                                                                                    </customView>
                                                                                 </subviews>
                                                                             </customView>
                                                                             <customView id="129">
-                                                                                <rect key="frame" x="381" y="0.0" width="357" height="163"/>
+                                                                                <rect key="frame" x="381" y="0.0" width="357" height="102"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                 <subviews>
                                                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="389" customClass="MPfmScrollView">
-                                                                                        <rect key="frame" x="0.0" y="-3" width="337" height="176"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="357" height="76"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <clipView key="contentView" id="GVf-da-Z99">
-                                                                                            <rect key="frame" x="0.0" y="17" width="337" height="159"/>
+                                                                                            <rect key="frame" x="0.0" y="17" width="357" height="59"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
                                                                                                 <tableView identifier="tableMarkers" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="391" viewBased="YES" id="393">
-                                                                                                    <rect key="frame" x="0.0" y="0.0" width="337" height="159"/>
+                                                                                                    <rect key="frame" x="0.0" y="0.0" width="357" height="59"/>
                                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1166,7 +1166,7 @@
                                                                                                                 </tableCellView>
                                                                                                             </prototypeCellViews>
                                                                                                         </tableColumn>
-                                                                                                        <tableColumn identifier="columnMarkerComments" width="136" minWidth="40" maxWidth="1000" id="394">
+                                                                                                        <tableColumn identifier="columnMarkerComments" width="156" minWidth="40" maxWidth="1000" id="394">
                                                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Comments">
                                                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1180,11 +1180,11 @@
                                                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                             <prototypeCellViews>
                                                                                                                 <tableCellView identifier="cellMarkerComments" id="412">
-                                                                                                                    <rect key="frame" x="199" y="1" width="136" height="17"/>
+                                                                                                                    <rect key="frame" x="199" y="1" width="156" height="17"/>
                                                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                     <subviews>
                                                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="414">
-                                                                                                                            <rect key="frame" x="0.0" y="0.0" width="136" height="17"/>
+                                                                                                                            <rect key="frame" x="0.0" y="0.0" width="156" height="17"/>
                                                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="415">
                                                                                                                                 <font key="font" metaFont="cellTitle"/>
@@ -1213,12 +1213,12 @@
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                         </scroller>
                                                                                         <tableHeaderView key="headerView" id="391" customClass="MPfmTableHeaderView">
-                                                                                            <rect key="frame" x="0.0" y="0.0" width="337" height="17"/>
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="357" height="17"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
                                                                                         </tableHeaderView>
                                                                                     </scrollView>
                                                                                     <customView id="542" customClass="MPfmView">
-                                                                                        <rect key="frame" x="0.0" y="172" width="337" height="27"/>
+                                                                                        <rect key="frame" x="0.0" y="75" width="357" height="27"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                         <subviews>
                                                                                             <textField verticalHuggingPriority="750" id="543">
@@ -1287,11 +1287,11 @@
                                                                 </subviews>
                                                             </customView>
                                                             <customView id="122">
-                                                                <rect key="frame" x="0.0" y="164" width="738" height="156"/>
+                                                                <rect key="frame" x="0.0" y="103" width="738" height="220"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <customView id="507" customClass="MPfmView">
-                                                                        <rect key="frame" x="0.0" y="129" width="738" height="27"/>
+                                                                        <rect key="frame" x="0.0" y="193" width="738" height="27"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                         <subviews>
                                                                             <textField verticalHuggingPriority="750" id="508">
@@ -1304,7 +1304,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="380.00000003218997" y="3" width="356" height="22"/>
+                                                                                <rect key="frame" x="380.00000004835061" y="3" width="356" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -1345,22 +1345,22 @@
                                                                         </subviews>
                                                                     </customView>
                                                                     <splitView dividerStyle="thin" vertical="YES" id="580">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="780" height="130"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="780" height="194"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
                                                                             <customView id="581">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="256" height="130"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="256" height="194"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                 <subviews>
                                                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="583" customClass="MPfmScrollView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="130"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="256" height="194"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <clipView key="contentView" id="W50-q1-5iS">
-                                                                                            <rect key="frame" x="0.0" y="17" width="256" height="113"/>
+                                                                                            <rect key="frame" x="0.0" y="17" width="256" height="177"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
                                                                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="586" viewBased="YES" id="584">
-                                                                                                    <rect key="frame" x="0.0" y="0.0" width="256" height="113"/>
+                                                                                                    <rect key="frame" x="0.0" y="0.0" width="256" height="177"/>
                                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -1409,18 +1409,18 @@
                                                                                 </subviews>
                                                                             </customView>
                                                                             <customView id="582">
-                                                                                <rect key="frame" x="257" y="0.0" width="523" height="130"/>
+                                                                                <rect key="frame" x="257" y="0.0" width="523" height="194"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                 <subviews>
                                                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="132" customClass="MPfmScrollView">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="523" height="130"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="523" height="194"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                         <clipView key="contentView" id="2fY-7w-Wz4">
-                                                                                            <rect key="frame" x="0.0" y="17" width="523" height="113"/>
+                                                                                            <rect key="frame" x="0.0" y="17" width="523" height="177"/>
                                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                             <subviews>
                                                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="135" viewBased="YES" id="133">
-                                                                                                    <rect key="frame" x="0.0" y="0.0" width="523" height="113"/>
+                                                                                                    <rect key="frame" x="0.0" y="0.0" width="523" height="177"/>
                                                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>

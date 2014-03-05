@@ -33,10 +33,10 @@ namespace MPfm.Mac.Classes.Objects
         public static CGColor ButtonBorderColor = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
         public static CGColor ButtonTextColor = new CGColor(1, 1, 1, 1);
 
-        public static CGColor ButtonToolbarBackgroundColor = new CGColor(97f/255f, 122f/255f, 140f/255f, 1);
+        public static CGColor ButtonToolbarBackgroundColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
         public static CGColor ButtonToolbarBackgroundMouseDownColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);// new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
-        public static CGColor ButtonToolbarBackgroundMouseOverColor = new CGColor(130f/255f, 158f/255f, 177f/255f, 1);
-        public static CGColor ButtonToolbarBorderColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+        public static CGColor ButtonToolbarBackgroundMouseOverColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
+        public static CGColor ButtonToolbarBorderColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
 
         public static CGColor PanelBackgroundColor1 = new CGColor(32f/255f, 40f/255f, 46f/255f);
         public static CGColor PanelBackgroundColor2 = new CGColor(32f/255f, 40f/255f, 46f/255f);
@@ -47,7 +47,7 @@ namespace MPfm.Mac.Classes.Objects
         public static CGColor AlbumCoverBackgroundColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
         public static CGColor AlbumCoverBackgroundColor2 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);
 
-        public static CGColor TableHeaderBackgroundColor = new CGColor(62f/255f, 79f/255f, 91f/255f, 1);
+        public static CGColor TableHeaderBackgroundColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
         public static CGColor TableHeaderBackgroundMouseDownColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
         public static CGColor TableHeaderBackgroundMouseOverColor = new CGColor(130f/255f, 158f/255f, 177f/255f, 1);
         public static CGColor TableHeaderBorderColor = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);

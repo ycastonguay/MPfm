@@ -179,6 +179,7 @@ namespace MPfm.Mac
             viewSongBrowserHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewSongBrowserHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
+            btnPlayLoop.RoundedRadius = 0;
             btnPlayLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnPlayLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnPlayLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
@@ -187,30 +188,37 @@ namespace MPfm.Mac
             //btnStopLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             //btnStopLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             //btnStopLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnAddLoop.RoundedRadius = 0;
             btnAddLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnAddLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnAddLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
             btnAddLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnEditLoop.RoundedRadius = 0;
             btnEditLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnEditLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnEditLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnEditLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnRemoveLoop.RoundedRadius = 0;
             btnRemoveLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnRemoveLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnRemoveLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnRemoveLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnGoToMarker.RoundedRadius = 0;
             btnGoToMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnGoToMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnGoToMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnGoToMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnAddMarker.RoundedRadius = 0;
             btnAddMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnAddMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnAddMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnAddMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnEditMarker.RoundedRadius = 0;
             btnEditMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnEditMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnEditMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnEditMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnRemoveMarker.RoundedRadius = 0;
             btnRemoveMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnRemoveMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnRemoveMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
@@ -228,8 +236,8 @@ namespace MPfm.Mac
 
             lblArtistName.Font = NSFont.FromFontName("Roboto Thin", 24);
             lblAlbumTitle.Font = NSFont.FromFontName("Roboto Light", 20);
-            lblSongTitle.Font = NSFont.FromFontName("Roboto", 17);
-            lblSongPath.Font = NSFont.FromFontName("Roboto", 12);
+            lblSongTitle.Font = NSFont.FromFontName("Roboto Light", 17);
+            lblSongPath.Font = NSFont.FromFontName("Roboto Light", 12);
 
             lblSampleRate.Font = NSFont.FromFontName("Roboto", 11f);
             lblBitrate.Font = NSFont.FromFontName("Roboto", 11f);
@@ -249,15 +257,11 @@ namespace MPfm.Mac
             lblTitleMarkers.Font = NSFont.FromFontName("Roboto Medium", 13);
             lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto Medium", 13);
 
-            lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            //lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            //lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12); // 8,138
-            //lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-
-            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
-            lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);
-            lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
+            lblSubtitleSongPosition.Font = NSFont.FromFontName("Roboto", 12);
+            lblSubtitleVolume.Font = NSFont.FromFontName("Roboto", 12);
+            lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblVolume.Font = NSFont.FromFontName("Roboto Light", 11f);
             lblDetectedTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             lblReferenceTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
             txtCurrentTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);

@@ -34,6 +34,7 @@ namespace MPfm.Mac.Classes.Controls
 
         //public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
 
         public AudioFile AudioFile
         {
