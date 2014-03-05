@@ -34,7 +34,6 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 {
     public class GraphicsContextWrapper : IGraphicsContext
     {
-        private bool _isViewportInverted;
         protected CGContext Context;
 
         public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
@@ -42,9 +41,6 @@ namespace MPfm.Mac.Classes.Controls.Graphics
             Context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
-
-            Context.TranslateCTM(0, BoundsHeight);
-            Context.ScaleCTM(1, -1);
         }
 
         public float BoundsWidth { get; private set; }
@@ -57,9 +53,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
             if (bitmap == null)
                 return;
 
-            bitmap.DrawInRect("", GenericControlHelper.ToRect(rectangle), new NSDictionary());
-            //Context.DrawImage(rectangle, bitmap.AsCGImage(GenericControlHelper.ToRect(rectangle), Context, new NSDictionary()));
-            //Context.DrawImage(GenericControlHelper.ToRect(rectangle), ((UIImage)image).CGImage);
+            bitmap.DrawInRect(GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToRect(rectangle), NSCompositingOperation.SourceOver, 1);
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
@@ -81,16 +75,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
-            Context.TranslateCTM(0, -BoundsHeight);
-            Context.ScaleCTM(1, 1);
-
-            var textSize = MeasureText(text, new BasicRectangle(0, 0, 1000, 1000), fontFace, fontSize);
-            var pt = GenericControlHelper.ToPoint(point);
-            pt.Y = BoundsHeight - point.Y - textSize.Height;
-            CoreGraphicsHelper.DrawTextAtPoint(Context, pt, text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
-
-            Context.TranslateCTM(0, BoundsHeight);
-            Context.ScaleCTM(1, -1);
+            CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
         }
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)

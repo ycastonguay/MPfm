@@ -33,6 +33,9 @@ namespace MPfm.Mac.Classes.Controls
         private TrackBarControl _control;
         private bool _isMouseDown;
 
+        public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
+
         public bool BlockValueChangeWhenDraggingMouse { get; set; }
 
         public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }

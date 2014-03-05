@@ -35,7 +35,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public IDisposable RenderToImageInMemory()
         {
-            Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
+            //Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
             NSGraphicsContext.GlobalRestoreGraphicsState();
             var image = new NSImage(new SizeF(BoundsWidth, BoundsHeight));
             image.AddRepresentation(_bitmap);

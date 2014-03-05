@@ -34,6 +34,7 @@ namespace MPfm.Mac.Classes.Controls
         // https://developer.apple.com/library/mac/documentation/performance/conceptual/Drawing/Articles/CocoaDrawingTips.html
         //public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
 
         [Export("init")]
         public MPfmOutputMeterView() : base(NSObjectFlag.Empty)

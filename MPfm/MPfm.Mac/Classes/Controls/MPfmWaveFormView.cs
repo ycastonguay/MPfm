@@ -34,6 +34,10 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmWaveFormView : NSView
     {
         private WaveFormControl _control;
+        private SizeF _currentSize = new SizeF(0, 0);
+
+        //public override bool WantsDefaultClipping { get { return false; } }
+        public override bool IsOpaque { get { return true; } }
 
         public long Position
         {
@@ -101,12 +105,15 @@ namespace MPfm.Mac.Classes.Controls
         
         public override void DrawRect(RectangleF dirtyRect)
         {
-            base.DrawRect(dirtyRect);
-            
+            if (_currentSize != Bounds.Size)
+            {
+                _currentSize = Bounds.Size;
+                RefreshWaveFormBitmap((int)_currentSize.Width);
+            }
+
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
-
-            CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(255, 0, 0));
+            //CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0, 0, 255));
             _control.Render(wrapper);
         }
         

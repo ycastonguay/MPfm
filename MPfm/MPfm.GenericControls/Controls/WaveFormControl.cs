@@ -296,12 +296,12 @@ namespace MPfm.GenericControls.Controls
 
         private void DrawStatus(IGraphicsContext context, string status)
         {
-			//Console.WriteLine("WaveFormControl - DrawStatus - status: {0}", status);
+            //Console.WriteLine("WaveFormControl - DrawStatus - status: {0}", status);
             context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());            
 			var rectText = context.MeasureText(status, new BasicRectangle(0, 0, Frame.Width, 30), FontFace, FontSize);                
             float x = (context.BoundsWidth - rectText.Width) / 2;
             float y = context.BoundsHeight / 2;
-			context.DrawText(status, new BasicPoint(x, y), _textColor, FontFace, FontSize);
+            context.DrawText(status, new BasicPoint(x, y), _textColor, FontFace, FontSize);
         }
 
         private void DrawWaveFormBitmap(IGraphicsContext context)

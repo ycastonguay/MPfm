@@ -74,7 +74,8 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             // Invert point because origin Y is inversed in Cocoa
             var point = view.ConvertPointFromBase(theEvent.LocationInWindow);
-            return new PointF(point.X, view.Bounds.Height - point.Y);
+            //return new PointF(point.X, view.Bounds.Height - point.Y);
+            return point;
         }    
         
         private static MouseButtonType GetMouseButtonType(NSEvent theEvent)

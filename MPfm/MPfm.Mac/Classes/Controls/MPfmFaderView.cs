@@ -31,6 +31,9 @@ namespace MPfm.Mac.Classes.Controls
     {
         private FaderControl _control;
 
+        public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
+
         public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }
         public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
         public int Value { get { return _control.Value; } set { _control.Value = value; } }

@@ -33,6 +33,7 @@ namespace MPfm.Mac.Classes.Controls
     {
         public MPfmWaveFormView WaveFormView { get; private set; }
         public MPfmWaveFormScaleView WaveFormScaleView { get; private set; }
+        public override bool IsFlipped { get { return true; } }
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
@@ -51,6 +52,13 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
+            PostsBoundsChangedNotifications = true;
+//            NSNotificationCenter.DefaultCenter.AddObserver(NSView.NSViewFrameDidChangeNotification, (notification) =>
+//            { 
+//                    Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification");
+//                }, this);
+            NSNotificationCenter.DefaultCenter.AddObserver(NSView.NSViewFrameDidChangeNotification, FrameDidChangeNotification, this);
+
             WaveFormView = new MPfmWaveFormView();
             WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
             WaveFormView.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
@@ -58,6 +66,21 @@ namespace MPfm.Mac.Classes.Controls
 
             WaveFormScaleView = new MPfmWaveFormScaleView();
             AddSubview(WaveFormScaleView);
+
+            //Console.WriteLine("WaveFormScrollView - Initialize - Bounds: {0} Frame: {1}", Bounds, Frame);
+            SetFrame();
+        }
+
+        private void FrameDidChangeNotification(NSNotification notification)
+        {
+            //Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification - Bounds: {0} Frame: {1}", Bounds, Frame);
+            SetFrame();
+        }
+
+        private void SetFrame()
+        {
+            WaveFormScaleView.Frame = new RectangleF(0, 0, Frame.Width, 22);
+            WaveFormView.Frame = new RectangleF(0, 22, Frame.Width, Frame.Height - 22);
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -92,22 +115,12 @@ namespace MPfm.Mac.Classes.Controls
             WaveFormView.SetMarkers(markers);
         }
 
-        public override bool IsFlipped
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override void DrawRect(System.Drawing.RectangleF dirtyRect)
+        public override void DrawRect(RectangleF dirtyRect)
         {
             base.DrawRect(dirtyRect);
-            var context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0, 255, 0));
-
-            WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, 22);
-            WaveFormView.Frame = new RectangleF(0, 22, Bounds.Width, Bounds.Height - 22);
+////            var context = NSGraphicsContext.CurrentContext.GraphicsPort;
+////            //CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0, 255, 0));
+            //Console.WriteLine("WaveFormScrollView - DrawRect - Bounds: {0} Frame: {1}", Bounds, Frame);
         }
     }
 }

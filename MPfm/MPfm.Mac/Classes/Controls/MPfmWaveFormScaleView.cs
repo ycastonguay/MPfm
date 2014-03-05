@@ -32,6 +32,9 @@ namespace MPfm.Mac.Classes.Controls
     {
         private WaveFormScaleControl _control;
 
+        //public override bool WantsDefaultClipping { get { return false; } }
+        public override bool IsOpaque { get { return true; } }
+
         public AudioFile AudioFile
         {
             get
@@ -81,8 +84,6 @@ namespace MPfm.Mac.Classes.Controls
         
         public override void DrawRect(RectangleF dirtyRect)
         {
-            base.DrawRect(dirtyRect);
-            
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
             _control.Render(wrapper);
