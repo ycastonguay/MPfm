@@ -93,6 +93,11 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
+            // Add tracking area to receive mouse move and mouse dragged events
+            //var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.EnabledDuringMouseDrag;
+//            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
+//            AddTrackingArea(trackingArea);
+
             _control = new WaveFormControl();    
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
@@ -133,6 +138,12 @@ namespace MPfm.Mac.Classes.Controls
         public override void MouseMoved(NSEvent theEvent)
         {
             base.MouseMoved(theEvent);
+            GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+
+        public override void MouseDragged(NSEvent theEvent)
+        {
+            base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
         }
 

@@ -41,6 +41,8 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
+        bool _isPlayerPositionChanging = false;
+        bool _isScrollViewWaveFormChangingSecondaryPosition = false;
         List<Marker> _markers = new List<Marker>();
         LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource _libraryBrowserDataSource = null;
@@ -124,6 +126,9 @@ namespace MPfm.Mac
 
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
+
+            waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
+            waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
 
             btnTabTimeShifting.IsSelected = true;
             btnTabTimeShifting.OnTabButtonSelected += HandleOnTabButtonSelected;
@@ -641,6 +646,22 @@ namespace MPfm.Mac
             }
         }
 
+        private void ScrollViewWaveForm_OnChangePosition(float position)
+        {
+            Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangePosition - position: {0}", position);
+            _isScrollViewWaveFormChangingSecondaryPosition = false;
+            OnPlayerSetPosition(position*100);
+        }
+
+        private void ScrollViewWaveForm_OnChangeSecondaryPosition(float position)
+        {
+            Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangeSecondaryPosition - position: {0}", position);
+            _isScrollViewWaveFormChangingSecondaryPosition = true;
+            var requestedPosition = OnPlayerRequestPosition(position);
+            trackBarPosition.Value = (int)(position * 1000);
+            lblPosition.StringValue = requestedPosition.Position;
+        }
+
         [Export ("controlTextDidChange")]
         private void SearchTextDidChange(NSNotification notification)
         {
@@ -778,14 +799,17 @@ namespace MPfm.Mac
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
+            if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
+                return;
+
             // When setting .StringValue, use a autorelease pool to keep the warnings away
             // http://mono.1490590.n4.nabble.com/Memory-Leak-td3206211.html
             using (NSAutoreleasePool pool = new NSAutoreleasePool())
             {
                 // TODO: Bug CPU hit when updating label...
                 lblPosition.StringValue = entity.Position;
-                //sliderPosition.SetPosition(entity.PositionPercentage * 100);
                 trackBarPosition.Value = (int)(entity.PositionPercentage * 10);
+                waveFormScrollView.SetPosition(entity.PositionBytes);
             };
 		}
 		
@@ -1011,6 +1035,7 @@ namespace MPfm.Mac
             InvokeOnMainThread(delegate {
                 _markers = markers.ToList();
                 tableMarkers.ReloadData();
+                waveFormScrollView.SetMarkers(_markers);
             });
         }
 
