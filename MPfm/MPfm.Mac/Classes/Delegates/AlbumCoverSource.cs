@@ -71,14 +71,14 @@ namespace MPfm.Mac.Classes.Delegates
         public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
             // Create view
-            MPfmAlbumCoverView view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
+            var view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
 
             // Get item for view
-            SongBrowserItem item = groups[row].ToList()[0];
-            Tracing.Log("AlbumCoverSource - GetViewForItem " + item.AudioFile.FilePath);
-            FetchAlbumCoverDelegate fetchAlbumCoverDelegate = new FetchAlbumCoverDelegate(FetchAlbumCoverAsync);
-            fetchAlbumCoverDelegate.BeginInvoke(item, view, FetchAlbumCoverAsyncCallback, fetchAlbumCoverDelegate);
-            Console.WriteLine("GetViewForItem " + row.ToString());
+            var item = groups[row].ToList()[0];
+            //Tracing.Log("AlbumCoverSource - GetViewForItem " + item.AudioFile.FilePath);
+            //FetchAlbumCoverDelegate fetchAlbumCoverDelegate = new FetchAlbumCoverDelegate(FetchAlbumCoverAsync);
+            //fetchAlbumCoverDelegate.BeginInvoke(item, view, FetchAlbumCoverAsyncCallback, fetchAlbumCoverDelegate);
+            //Console.WriteLine("GetViewForItem " + row.ToString());
             view.SetItem(item, null);
             return view;
         }       

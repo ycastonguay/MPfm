@@ -33,6 +33,7 @@ using MPfm.Mac.Classes.Controls;
 using MPfm.Mac.Classes.Delegates;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Objects;
+using System.Threading.Tasks;
 
 namespace MPfm.Mac
 {
@@ -41,6 +42,7 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
+        string _currentAlbumArtKey;
         bool _isPlayerPositionChanging = false;
         bool _isScrollViewWaveFormChangingSecondaryPosition = false;
         List<Marker> _markers = new List<Marker>();
@@ -648,14 +650,14 @@ namespace MPfm.Mac
 
         private void ScrollViewWaveForm_OnChangePosition(float position)
         {
-            Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangePosition - position: {0}", position);
+            //Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangePosition - position: {0}", position);
             _isScrollViewWaveFormChangingSecondaryPosition = false;
             OnPlayerSetPosition(position*100);
         }
 
         private void ScrollViewWaveForm_OnChangeSecondaryPosition(float position)
         {
-            Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangeSecondaryPosition - position: {0}", position);
+            //Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangeSecondaryPosition - position: {0}", position);
             _isScrollViewWaveFormChangingSecondaryPosition = true;
             var requestedPosition = OnPlayerRequestPosition(position);
             trackBarPosition.Value = (int)(position * 1000);
@@ -802,15 +804,11 @@ namespace MPfm.Mac
             if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
                 return;
 
-            // When setting .StringValue, use a autorelease pool to keep the warnings away
-            // http://mono.1490590.n4.nabble.com/Memory-Leak-td3206211.html
-            using (NSAutoreleasePool pool = new NSAutoreleasePool())
-            {
-                // TODO: Bug CPU hit when updating label...
+            InvokeOnMainThread(() => {
                 lblPosition.StringValue = entity.Position;
                 trackBarPosition.Value = (int)(entity.PositionPercentage * 10);
                 waveFormScrollView.SetPosition(entity.PositionBytes);
-            };
+            });
 		}
 		
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
@@ -846,8 +844,79 @@ namespace MPfm.Mac
 
                 if(_songBrowserSource != null)
                     _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
+                
+                LoadAlbumArt(audioFile);
             });
 		}
+        
+        private async void LoadAlbumArt(AudioFile audioFile)
+        {
+            // Check if the album art needs to be refreshed
+            string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
+            if(_currentAlbumArtKey != key)
+            {
+            // Load album art + resize in another thread
+            var task = Task<NSImage>.Factory.StartNew(() => {
+                try
+                {
+                    NSImage image = null;
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    {
+                        InvokeOnMainThread(() => {
+                                image = new NSImage(imageData);
+//                        using (NSImage imageFullSize = new NSImage(imageData))
+//                        {
+//                            if (imageFullSize != null)
+//                            {
+//                                try
+//                                {
+//                                    _currentAlbumArtKey = key;                                    
+//                                    //UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
+//                                    //return imageResized;
+//                                    image = imageFullSize;
+//                                }
+//                                catch (Exception ex)
+//                                {
+//                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+//                                }
+//                            }
+//                        }
+                                });
+                    }
+                        return image;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
+                }
+                
+                return null;
+            });
+            //}).ContinueWith(t => {
+            NSImage imageFromTask = await task;
+                if(imageFromTask == null)
+                    return;
+                
+                InvokeOnMainThread(() => {
+                    try
+                    {
+                        imageAlbumCover.Image = imageFromTask;
+//                        imageViewAlbumArt.Alpha = 0;
+//                        imageViewAlbumArt.Image = image;              
+//
+//                        UIView.Animate(0.3, () => {
+//                            imageViewAlbumArt.Alpha = 1;
+//                        });
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                    }
+                });
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+        }
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {

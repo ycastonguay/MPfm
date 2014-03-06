@@ -30,7 +30,7 @@ namespace MPfm.Mac.Classes.Delegates
     /// </summary>
     public class MainSplitViewDelegate : NSSplitViewDelegate
     {
-        public override float SetMinCoordinateofSubview(NSSplitView splitView, float proposedMinimumPosition, int subviewDividerIndex)
+        public override float SetMinCoordinateOfSubview(NSSplitView splitView, float proposedMinimumPosition, int subviewDividerIndex)
         {
             return 230;
         }

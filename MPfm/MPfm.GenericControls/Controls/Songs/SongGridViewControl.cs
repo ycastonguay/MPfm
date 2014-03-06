@@ -1548,7 +1548,8 @@ namespace MPfm.GenericControls.Controls.Songs
                                     // Display album cover
                                     if (imageAlbumCover != null)
                                         //g.DrawImage(imageAlbumCover, rectAlbumCoverArt);
-                                        context.DrawImage(rectAlbumCoverArt, imageAlbumCover);
+                                        //context.DrawImage(rectAlbumCoverArt, imageAlbumCover);
+                                        context.DrawImage(rectAlbumCoverArt, rectAlbumCoverArt, imageAlbumCover);
 
                                     if (useAlbumArtOverlay)
                                     {

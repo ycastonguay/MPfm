@@ -51,15 +51,9 @@ namespace MPfm.Mac.Classes.Controls
         private void Initialize()
         {
             //WantsLayer = true;
-
             _control = new OutputMeterControl();    
-            // TODO: Could these be moved inside a generic helper or something?
-            _control.OnInvalidateVisual += () => {
-                SetNeedsDisplayInRect(Bounds);
-            };
-            _control.OnInvalidateVisualInRect += (rect) => {
-                SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect));
-            };
+            _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
+            _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
         
         public override void DrawRect(RectangleF dirtyRect)

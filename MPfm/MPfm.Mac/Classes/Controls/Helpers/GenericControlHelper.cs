@@ -66,14 +66,18 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
-            //Console.WriteLine("GenericControlHelper - MouseMove - point: {0} bounds: {1}", point, view.Bounds);
+            Console.WriteLine("GenericControlHelper - MouseMove - point: {0} bounds: {1}", point, view.Bounds);
             control.MouseMove(point.X, point.Y, button);
         }    
 
         private static PointF GetMouseLocation(NSView view, NSEvent theEvent)
         {
             // Invert point because origin Y is inversed in Cocoa
-            var point = view.ConvertPointFromBase(theEvent.LocationInWindow);
+            //var point = view.ConvertPointFromBase(theEvent.LocationInWindow);
+            // ConvertPointfromBase doesn't work in Retina
+            //var point = view.ConvertPointFromBacking(theEvent.LocationInWindow);
+            //var point = view.ConvertPointToBacking(theEvent.LocationInWindow);
+            var point = view.ConvertPointFromView(theEvent.LocationInWindow, null);
             //return new PointF(point.X, view.Bounds.Height - point.Y);
             return point;
         }    

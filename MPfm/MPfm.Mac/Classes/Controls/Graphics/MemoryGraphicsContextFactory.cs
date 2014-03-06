@@ -18,20 +18,25 @@
 using System;
 using MonoMac.AppKit;
 using MPfm.GenericControls.Graphics;
+using MonoMac.Foundation;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
-    public class MemoryGraphicsContextFactory : IMemoryGraphicsContextFactory
+    public class MemoryGraphicsContextFactory : NSObject, IMemoryGraphicsContextFactory
     {
         public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
         {
-            //http://stackoverflow.com/questions/10627557/mac-os-x-drawing-into-an-offscreen-nsgraphicscontext-using-cgcontextref-c-funct
-            var bitmap = new NSBitmapImageRep(IntPtr.Zero, (int)width, (int)height, 8, 4, true, false, NSColorSpace.DeviceRGB, NSBitmapFormat.AlphaFirst, 0, 0);
-            var context = NSGraphicsContext.FromBitmap(bitmap);
-            NSGraphicsContext.GlobalSaveGraphicsState();
-            NSGraphicsContext.CurrentContext = context;
+            MemoryGraphicsContextWrapper wrapper = null;
+            InvokeOnMainThread(() => {
+                //http://stackoverflow.com/questions/10627557/mac-os-x-drawing-into-an-offscreen-nsgraphicscontext-using-cgcontextref-c-funct
+                var bitmap = new NSBitmapImageRep(IntPtr.Zero, (int)width, (int)height, 8, 4, true, false, NSColorSpace.DeviceRGB, NSBitmapFormat.AlphaFirst, 0, 0);
+                var context = NSGraphicsContext.FromBitmap(bitmap);
+                NSGraphicsContext.GlobalSaveGraphicsState();
+                NSGraphicsContext.CurrentContext = context;
+                wrapper = new MemoryGraphicsContextWrapper(context.GraphicsPort, bitmap, width, height);
+            });
             
-            return new MemoryGraphicsContextWrapper(context.GraphicsPort, bitmap, width, height);
+            return wrapper;
         }
     }
 }

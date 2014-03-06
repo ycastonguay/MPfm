@@ -39,6 +39,7 @@ namespace MPfm.GenericControls.Controls
     {
         private readonly object _locker = new object();
         private bool _isMouseDown;
+        private float _density;
         private BasicPen _penTransparent;
         private BasicPen _penCursorLine;
         private BasicPen _penSecondaryCursorLine;
@@ -325,7 +326,9 @@ namespace MPfm.GenericControls.Controls
             int heightAvailable = (int)Frame.Height;
 
             // Draw bitmap cache
-            context.DrawImage(Frame, _imageCache);
+            //Console.WriteLine("WaveFormControl - DrawBitmap - Frame.width: {0} Frame.height: {1}", Frame.Width, Frame.Height);
+            var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
+            context.DrawImage(Frame, rectImage, _imageCache);
 
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;
@@ -386,8 +389,9 @@ namespace MPfm.GenericControls.Controls
             if (!_isGeneratingImageCache)
             {
                 _isGeneratingImageCache = true;
-                //Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0}", audioFile.FilePath);
-                WaveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, rect, 1, Length);
+                var rectImage = new BasicRectangle(0, 0, rect.Width * _density, rect.Height * _density);
+                Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0} rect.width: {1} rect.height: {2}", audioFile.FilePath, rectImage.Width, rectImage.Height);
+                WaveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, rectImage, 1, Length);
             }
         }
 
@@ -395,6 +399,7 @@ namespace MPfm.GenericControls.Controls
         {
 			//Console.WriteLine("WaveFormControl - Render");
             Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
+            _density = context.Density;
             if (_isLoading)
             {
 				//Console.WriteLine("WaveFormControl - Render - Drawing status...");
@@ -419,6 +424,7 @@ namespace MPfm.GenericControls.Controls
                 return;
 
             ShowSecondaryPosition = true;
+            var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
             float positionPercentage = (x / Frame.Width);
             SecondaryPosition = (long)(positionPercentage * Length);
         }
@@ -430,6 +436,7 @@ namespace MPfm.GenericControls.Controls
                 return;
 
             ShowSecondaryPosition = false;
+            var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
             float positionPercentage = (x/Frame.Width);
             long position = (long)(positionPercentage * Length);
 
@@ -446,11 +453,13 @@ namespace MPfm.GenericControls.Controls
 
         public void MouseMove(float x, float y, MouseButtonType button)
         {
+            Console.WriteLine("WaveFormControl - MouseMove - x: {0} y: {1}", x, y);
             if (AudioFile == null)
                 return;
 
             if (_isMouseDown)
             {
+                var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
                 long position = (long)((x / Frame.Width) * Length);
                 float positionPercentage = (x / Frame.Width);
                 SecondaryPosition = position;

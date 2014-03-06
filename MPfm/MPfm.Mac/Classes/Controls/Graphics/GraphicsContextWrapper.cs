@@ -32,28 +32,39 @@ using MPfm.Mac.Classes.Controls.Helpers;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
-    public class GraphicsContextWrapper : IGraphicsContext
+    public class GraphicsContextWrapper : NSObject, IGraphicsContext
     {
         protected CGContext Context;
+        private float _density;
 
         public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
         {
             Context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
+            _density = GetDisplayScale();
+        }
+        
+        private float GetDisplayScale()
+        {
+            float scale = 1;
+            foreach (var screen in NSScreen.Screens)
+                if(screen.BackingScaleFactor > scale)
+                    scale = screen.BackingScaleFactor;
+            return scale;
         }
 
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
-        public float Density { get { return 1; } } // Always 1 on iOS because the Retina displays actually use fractions
+        public float Density { get { return _density; } }
 
-        public void DrawImage(BasicRectangle rectangle, IDisposable image)
+        public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
             var bitmap = image as NSImage;
             if (bitmap == null)
                 return;
 
-            bitmap.DrawInRect(GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToRect(rectangle), NSCompositingOperation.SourceOver, 1);
+            bitmap.DrawInRect(GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleSource), NSCompositingOperation.SourceOver, 1);
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

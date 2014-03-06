@@ -57,7 +57,7 @@ namespace MPfm.Mac.Classes.Controls
 //            { 
 //                    Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification");
 //                }, this);
-            NSNotificationCenter.DefaultCenter.AddObserver(NSView.NSViewFrameDidChangeNotification, FrameDidChangeNotification, this);
+            NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
 
             WaveFormView = new MPfmWaveFormView();
             WaveFormView.OnChangePosition += (position) => OnChangePosition(position);
