@@ -239,6 +239,7 @@ namespace MPfm.Mac
 
             //viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
+            viewSongPosition.HeaderHeight = 26;
             viewVolume.IsHeaderVisible = true;
             //viewTimeShifting.IsHeaderVisible = true;
             //viewPitchShifting.IsHeaderVisible = true;           
@@ -260,30 +261,30 @@ namespace MPfm.Mac
             lblPlayCount.Font = NSFont.FromFontName("Roboto", 11f);
             lblLastPlayed.Font = NSFont.FromFontName("Roboto", 11f);
 
-            lblTitleLibraryBrowser.Font = NSFont.FromFontName("Roboto Medium", 13);
-            lblTitleCurrentSong.Font = NSFont.FromFontName("Roboto Medium", 13);
-            lblTitleLoops.Font = NSFont.FromFontName("Roboto Medium", 13);
-            lblTitleMarkers.Font = NSFont.FromFontName("Roboto Medium", 13);
-            lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto Medium", 13);
+            lblTitleLibraryBrowser.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleCurrentSong.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleLoops.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
 
             lblSubtitleSongPosition.Font = NSFont.FromFontName("Roboto", 12);
             lblSubtitleVolume.Font = NSFont.FromFontName("Roboto", 12);
             lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
             lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
-            lblVolume.Font = NSFont.FromFontName("Roboto Light", 11f);
-            lblDetectedTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            lblReferenceTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            txtCurrentTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            lblReferenceKeyValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            lblNewKeyValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            txtIntervalValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            lblVolume.Font = NSFont.FromFontName("Roboto Light", 12f);
+            lblDetectedTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
+            lblReferenceTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
+            txtCurrentTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
+            lblReferenceKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
+            lblNewKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
+            txtIntervalValue.Font = NSFont.FromFontName("Roboto", 12f);
 
-            lblDetectedTempo.Font = NSFont.FromFontName("Roboto", 11);
-            lblCurrentTempo.Font = NSFont.FromFontName("Roboto", 11);
-            lblReferenceTempo.Font = NSFont.FromFontName("Roboto", 11);
-            lblReferenceKey.Font = NSFont.FromFontName("Roboto", 11);
-            lblInterval.Font = NSFont.FromFontName("Roboto", 11);
-            lblNewKey.Font = NSFont.FromFontName("Roboto", 11);
+            lblDetectedTempo.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblCurrentTempo.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblReferenceTempo.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblReferenceKey.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblInterval.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblNewKey.Font = NSFont.FromFontName("Roboto Light", 12);
 
             cboSoundFormat.Font = NSFont.FromFontName("Roboto", 11);
             searchSongBrowser.Font = NSFont.FromFontName("Roboto", 12);
@@ -376,6 +377,10 @@ namespace MPfm.Mac
             btnToolbarSyncCloud.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "cloud");
             btnToolbarResumePlayback.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "resume");
             btnToolbarSettings.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "preferences");
+
+            btnIncrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "add");
+            btnDecrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "minus");
+            btnResetTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "reset");
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)
@@ -435,11 +440,6 @@ namespace MPfm.Mac
 
 			if(filePaths != null && filePaths.Count() > 0)
                 OnPlayerPlayFiles(filePaths);
-		}
-
-		partial void actionUpdateLibrary(NSObject sender)
-		{
-            OnUpdateLibrary();
 		}
 
         partial void actionSoundFormatChanged(NSObject sender)
@@ -507,16 +507,6 @@ namespace MPfm.Mac
         }
 
         partial void actionPlaySelectedSong(NSObject sender)
-        {
-
-        }
-
-        partial void actionChangeTimeShifting(NSObject sender)
-        {
-            OnPlayerSetTimeShifting(sliderTimeShifting.FloatValue);
-        }
-
-        partial void actionChangeSongPosition(NSObject sender)
         {
 
         }

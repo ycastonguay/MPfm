@@ -406,6 +406,9 @@
     <Content Include="Resources\Toolbar\resume.png" />
     <Content Include="Resources\Toolbar\shuffle.png" />
     <Content Include="Resources\Toolbar\sync.png" />
+    <Content Include="Resources\Buttons\add.png" />
+    <Content Include="Resources\Buttons\minus.png" />
+    <Content Include="Resources\Buttons\reset.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -430,6 +433,7 @@
     <Folder Include="Classes\Controls\Graphics\" />
     <Folder Include="Classes\Controls\Helpers\" />
     <Folder Include="Resources\Toolbar\" />
+    <Folder Include="Resources\Buttons\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

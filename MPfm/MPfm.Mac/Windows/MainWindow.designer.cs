@@ -25,6 +25,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnChangeKey { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnDecrementTimeShifting { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSButton btnDetectTempo { get; set; }
 
 		[Outlet]
@@ -40,6 +43,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnGoToMarker { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnIncrementTimeShifting { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnPlayLoop { get; set; }
 
 		[Outlet]
@@ -50,6 +56,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnResetTimeShifting { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabActions { get; set; }
@@ -235,9 +244,6 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderTimeShifting { get; set; }
-
-		[Outlet]
 		MonoMac.AppKit.NSSplitView splitMain { get; set; }
 
 		[Outlet]
@@ -254,6 +260,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPosition { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarTimeShifting { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtCurrentTempoValue { get; set; }
@@ -329,12 +338,6 @@ namespace MPfm.Mac
 
 		[Action ("actionChangeKey:")]
 		partial void actionChangeKey (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionChangeSongPosition:")]
-		partial void actionChangeSongPosition (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionChangeTimeShifting:")]
-		partial void actionChangeTimeShifting (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionContextualMenuPlay:")]
 		partial void actionContextualMenuPlay (MonoMac.Foundation.NSObject sender);
@@ -437,9 +440,6 @@ namespace MPfm.Mac
 
 		[Action ("actionTabTimeShifting:")]
 		partial void actionTabTimeShifting (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionUpdateLibrary:")]
-		partial void actionUpdateLibrary (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionUseTempo:")]
 		partial void actionUseTempo (MonoMac.Foundation.NSObject sender);
@@ -816,11 +816,6 @@ namespace MPfm.Mac
 				sliderPitchShifting = null;
 			}
 
-			if (sliderTimeShifting != null) {
-				sliderTimeShifting.Dispose ();
-				sliderTimeShifting = null;
-			}
-
 			if (splitMain != null) {
 				splitMain.Dispose ();
 				splitMain = null;
@@ -944,6 +939,26 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
+			}
+
+			if (trackBarTimeShifting != null) {
+				trackBarTimeShifting.Dispose ();
+				trackBarTimeShifting = null;
+			}
+
+			if (btnDecrementTimeShifting != null) {
+				btnDecrementTimeShifting.Dispose ();
+				btnDecrementTimeShifting = null;
+			}
+
+			if (btnIncrementTimeShifting != null) {
+				btnIncrementTimeShifting.Dispose ();
+				btnIncrementTimeShifting = null;
+			}
+
+			if (btnResetTimeShifting != null) {
+				btnResetTimeShifting.Dispose ();
+				btnResetTimeShifting = null;
 			}
 		}
 	}

@@ -36,6 +36,7 @@ namespace MPfm.Mac.Classes.Controls
     {
         private bool isMouseDown = false;
         public bool IsHeaderVisible { get; set; }
+        public float HeaderHeight { get; set; }
 
         public CGColor BackgroundColor1 { get; set; }
         public CGColor BackgroundColor2 { get; set; }
@@ -77,6 +78,7 @@ namespace MPfm.Mac.Classes.Controls
             HeaderColor1 = GlobalTheme.PanelHeaderColor1;
             HeaderColor2 = GlobalTheme.PanelHeaderColor2;
             BorderColor = GlobalTheme.PanelBorderColor;
+            HeaderHeight = 29;
         }
 
         [Export("mouseDown:")]
@@ -105,7 +107,7 @@ namespace MPfm.Mac.Classes.Controls
 
             if (IsHeaderVisible)
             {
-                RectangleF rectHeader = new RectangleF(0, Bounds.Height - 24, Bounds.Width, 24);
+                RectangleF rectHeader = new RectangleF(0, Bounds.Height - HeaderHeight, Bounds.Width, HeaderHeight);
                 CocoaHelper.FillRect(context, rectHeader, HeaderColor1);
                 //CocoaHelper.DrawLine(context, new PointF[2] { new PointF(0, Bounds.Height - 24), new PointF(Bounds.Width, Bounds.Height - 24) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
             }

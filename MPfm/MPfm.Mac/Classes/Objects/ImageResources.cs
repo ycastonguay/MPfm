@@ -30,12 +30,20 @@ namespace MPfm.Mac.Classes.Objects
     {
         public static List<NSImage> images16x16 { get; private set; }
         public static List<NSImage> images32x32 { get; private set; } // TODO: Remove 16x16/32x32 lists to merge in one list with appropriate Retina image loading
+        public static List<NSImage> ButtonImages { get; private set; }
         public static List<NSImage> ToolbarImages { get; private set; }
         public static List<NSImage> Icons { get; private set; }
         public static NSImage imageSplash { get; private set; }
 
         static ImageResources()
         {
+            ButtonImages = new List<NSImage>()
+            {
+                new NSImage(NSBundle.MainBundle.PathForResource("add", "png", "Resources/Buttons", string.Empty)) { Name = "add" },
+                new NSImage(NSBundle.MainBundle.PathForResource("minus", "png", "Resources/Buttons", string.Empty)) { Name = "minus" },
+                new NSImage(NSBundle.MainBundle.PathForResource("reset", "png", "Resources/Buttons", string.Empty)) { Name = "reset" }
+            };
+
             ToolbarImages = new List<NSImage>()
             {
                 new NSImage(NSBundle.MainBundle.PathForResource("play", "png", "Resources/Toolbar", string.Empty)) { Name = "play" },
