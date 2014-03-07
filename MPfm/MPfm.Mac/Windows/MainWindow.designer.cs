@@ -253,9 +253,6 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTableView tableSongBrowser { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSToolbar toolbarMain { get; set; }
-
-		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPosition { get; set; }
 
 		[Outlet]
@@ -534,9 +531,59 @@ namespace MPfm.Mac
 				btnTabTimeShifting = null;
 			}
 
+			if (btnToolbarEffects != null) {
+				btnToolbarEffects.Dispose ();
+				btnToolbarEffects = null;
+			}
+
+			if (btnToolbarNext != null) {
+				btnToolbarNext.Dispose ();
+				btnToolbarNext = null;
+			}
+
+			if (btnToolbarPlaylist != null) {
+				btnToolbarPlaylist.Dispose ();
+				btnToolbarPlaylist = null;
+			}
+
 			if (btnToolbarPlayPause != null) {
 				btnToolbarPlayPause.Dispose ();
 				btnToolbarPlayPause = null;
+			}
+
+			if (btnToolbarPrevious != null) {
+				btnToolbarPrevious.Dispose ();
+				btnToolbarPrevious = null;
+			}
+
+			if (btnToolbarRepeat != null) {
+				btnToolbarRepeat.Dispose ();
+				btnToolbarRepeat = null;
+			}
+
+			if (btnToolbarResumePlayback != null) {
+				btnToolbarResumePlayback.Dispose ();
+				btnToolbarResumePlayback = null;
+			}
+
+			if (btnToolbarSettings != null) {
+				btnToolbarSettings.Dispose ();
+				btnToolbarSettings = null;
+			}
+
+			if (btnToolbarShuffle != null) {
+				btnToolbarShuffle.Dispose ();
+				btnToolbarShuffle = null;
+			}
+
+			if (btnToolbarSync != null) {
+				btnToolbarSync.Dispose ();
+				btnToolbarSync = null;
+			}
+
+			if (btnToolbarSyncCloud != null) {
+				btnToolbarSyncCloud.Dispose ();
+				btnToolbarSyncCloud = null;
 			}
 
 			if (btnUseTempo != null) {
@@ -799,11 +846,6 @@ namespace MPfm.Mac
 				tableSongBrowser = null;
 			}
 
-			if (toolbarMain != null) {
-				toolbarMain.Dispose ();
-				toolbarMain = null;
-			}
-
 			if (trackBarPosition != null) {
 				trackBarPosition.Dispose ();
 				trackBarPosition = null;
@@ -902,56 +944,6 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
-			}
-
-			if (btnToolbarPrevious != null) {
-				btnToolbarPrevious.Dispose ();
-				btnToolbarPrevious = null;
-			}
-
-			if (btnToolbarNext != null) {
-				btnToolbarNext.Dispose ();
-				btnToolbarNext = null;
-			}
-
-			if (btnToolbarRepeat != null) {
-				btnToolbarRepeat.Dispose ();
-				btnToolbarRepeat = null;
-			}
-
-			if (btnToolbarShuffle != null) {
-				btnToolbarShuffle.Dispose ();
-				btnToolbarShuffle = null;
-			}
-
-			if (btnToolbarPlaylist != null) {
-				btnToolbarPlaylist.Dispose ();
-				btnToolbarPlaylist = null;
-			}
-
-			if (btnToolbarEffects != null) {
-				btnToolbarEffects.Dispose ();
-				btnToolbarEffects = null;
-			}
-
-			if (btnToolbarSync != null) {
-				btnToolbarSync.Dispose ();
-				btnToolbarSync = null;
-			}
-
-			if (btnToolbarSyncCloud != null) {
-				btnToolbarSyncCloud.Dispose ();
-				btnToolbarSyncCloud = null;
-			}
-
-			if (btnToolbarResumePlayback != null) {
-				btnToolbarResumePlayback.Dispose ();
-				btnToolbarResumePlayback = null;
-			}
-
-			if (btnToolbarSettings != null) {
-				btnToolbarSettings.Dispose ();
-				btnToolbarSettings = null;
 			}
 		}
 	}

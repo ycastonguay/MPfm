@@ -87,7 +87,6 @@
                 <outlet property="tableLoops" destination="290" id="470"/>
                 <outlet property="tableMarkers" destination="393" id="471"/>
                 <outlet property="tableSongBrowser" destination="133" id="270"/>
-                <outlet property="toolbarMain" destination="31" id="59"/>
                 <outlet property="trackBarPosition" destination="YnV-Zx-V58" id="aMy-WZ-j7I"/>
                 <outlet property="txtCurrentTempoValue" destination="790" id="810"/>
                 <outlet property="txtIntervalValue" destination="LTe-qa-56E" id="Omd-vb-a8t"/>
@@ -1316,7 +1315,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="380" y="3" width="356" height="22"/>
+                                                                                <rect key="frame" x="380.00000001607316" y="3" width="356" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -1680,34 +1679,58 @@
                             <customView id="CzV-nl-8Jg" customClass="MPfmRoundButton">
                                 <rect key="frame" x="4" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionPrevious:" target="-2" id="eHr-zd-Uy9"/>
+                                </connections>
                             </customView>
                             <customView id="ah6-cZ-wm6" customClass="MPfmRoundButton">
                                 <rect key="frame" x="47" y="5" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionPlay:" target="-2" id="KLl-9B-HEC"/>
+                                </connections>
                             </customView>
                             <customView id="A4S-uT-YB4" customClass="MPfmRoundButton">
                                 <rect key="frame" x="96" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionNext:" target="-2" id="ihf-Ba-ymh"/>
+                                </connections>
                             </customView>
                             <customView id="v8M-O0-24c" customClass="MPfmRoundButton">
                                 <rect key="frame" x="139" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionRepeatType:" target="-2" id="tm1-h9-PBB"/>
+                                </connections>
                             </customView>
                             <customView id="QSg-yI-Xhz" customClass="MPfmRoundButton">
                                 <rect key="frame" x="182" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionShuffle:" target="-2" id="7OK-I7-t08"/>
+                                </connections>
                             </customView>
                             <customView id="X99-cQ-7p7" customClass="MPfmRoundButton">
                                 <rect key="frame" x="255" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionOpenPlaylistWindow:" target="-2" id="mtj-bH-7Kf"/>
+                                </connections>
                             </customView>
                             <customView id="4QR-o9-0Mi" customClass="MPfmRoundButton">
                                 <rect key="frame" x="301" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionOpenEffectsWindow:" target="-2" id="NGl-Zo-fHu"/>
+                                </connections>
                             </customView>
                             <customView id="yVd-27-e8w" customClass="MPfmRoundButton">
                                 <rect key="frame" x="346" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionOpenSyncWindow:" target="-2" id="Zh3-NP-UGq"/>
+                                </connections>
                             </customView>
                             <customView id="jLy-9t-69U" customClass="MPfmRoundButton">
                                 <rect key="frame" x="391" y="8" width="44" height="44"/>
@@ -1720,91 +1743,16 @@
                             <customView id="Yrp-AP-eQP" customClass="MPfmRoundButton">
                                 <rect key="frame" x="481" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="actionOpenPreferencesWindow:" target="-2" id="myF-cR-xkk"/>
+                                </connections>
                             </customView>
                         </subviews>
                     </customView>
                 </subviews>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="B6455011-74D0-4944-8653-8CBED153CB08" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="31">
-                <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="32"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="35"/>
-                    <toolbarItem implicitItemIdentifier="NSToolbarSeparatorItem" id="38"/>
-                    <toolbarItem implicitItemIdentifier="74A85E52-F367-4B14-B354-1F060557BCBE" explicitItemIdentifier="toolbarOpen" label="Open" paletteLabel="Open" image="NSActionTemplate" id="39">
-                        <connections>
-                            <action selector="actionOpenAudioFiles:" target="-2" id="98"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="14162B79-0D28-4972-9806-13455B3BA29E" explicitItemIdentifier="toolbarPlay" label="Play" paletteLabel="Play" tag="-1" image="NSActionTemplate" id="73">
-                        <connections>
-                            <action selector="actionPlay:" target="-2" id="99"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="09681CBF-F7D0-4EE5-B40C-C3019E0327A9" explicitItemIdentifier="toolbarNext" label="Next" paletteLabel="Next" tag="-1" image="NSActionTemplate" id="75">
-                        <connections>
-                            <action selector="actionNext:" target="-2" id="101"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="94E72BE0-678B-4011-96EB-B3287E041AD3" explicitItemIdentifier="toolbarPrevious" label="Previous" paletteLabel="Previous" tag="-1" image="NSActionTemplate" id="76">
-                        <connections>
-                            <action selector="actionPrevious:" target="-2" id="102"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="D4C4768E-F5CE-4F02-B1F8-2CB74367A92C" explicitItemIdentifier="toolbarRepeat" label="Repeat (Off)" paletteLabel="Repeat (Off)" tag="-1" image="NSActionTemplate" id="81">
-                        <connections>
-                            <action selector="actionRepeatType:" target="-2" id="105"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="192F0290-0AAD-4920-9AB4-83230A7A7F18" explicitItemIdentifier="toolbarShuffle" label="Shuffle (Off)" paletteLabel="Shuffle (Off)" tag="-1" image="NSActionTemplate" id="824">
-                        <connections>
-                            <action selector="actionShuffle:" target="-2" id="826"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="890FB683-7AC0-4914-A3A9-74744A0849E3" explicitItemIdentifier="toolbarUpdateLibrary" label="Update Library" paletteLabel="Update Library" tag="-1" image="NSActionTemplate" id="77">
-                        <connections>
-                            <action selector="actionUpdateLibrary:" target="-2" id="103"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="1618D175-9D4C-433B-A77B-410FD6EB86F9" explicitItemIdentifier="toolbarEffects" label="Effects" paletteLabel="Effects" tag="-1" image="NSActionTemplate" id="78">
-                        <connections>
-                            <action selector="actionOpenEffectsWindow:" target="-2" id="104"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="74424AB4-EEB0-4C4F-A627-C2213D6D52A2" explicitItemIdentifier="toolbarPlaylist" label="Playlist" paletteLabel="Playlist" tag="-1" image="NSActionTemplate" id="79">
-                        <connections>
-                            <action selector="actionOpenPlaylistWindow:" target="-2" id="107"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="FE92A107-30CA-4EF7-B0C5-5597E9ACD1D0" explicitItemIdentifier="toolbarPreferences" label="Preferences" paletteLabel="Preferences" tag="-1" image="NSActionTemplate" id="80">
-                        <connections>
-                            <action selector="actionOpenPreferencesWindow:" target="-2" id="108"/>
-                        </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="1FC2ACC1-978C-4835-AF70-D877E2759D52" explicitItemIdentifier="toolbarSync" label="Sync" paletteLabel="Sync" tag="-1" image="NSActionTemplate" id="778">
-                        <connections>
-                            <action selector="actionOpenSyncWindow:" target="-2" id="780"/>
-                        </connections>
-                    </toolbarItem>
-                </allowedToolbarItems>
-                <defaultToolbarItems>
-                    <toolbarItem reference="39"/>
-                    <toolbarItem reference="32"/>
-                    <toolbarItem reference="73"/>
-                    <toolbarItem reference="76"/>
-                    <toolbarItem reference="75"/>
-                    <toolbarItem reference="81"/>
-                    <toolbarItem reference="824"/>
-                    <toolbarItem reference="32"/>
-                    <toolbarItem reference="79"/>
-                    <toolbarItem reference="78"/>
-                    <toolbarItem reference="778"/>
-                    <toolbarItem reference="80"/>
-                    <toolbarItem reference="77"/>
-                </defaultToolbarItems>
-            </toolbar>
             <connections>
                 <outlet property="ArtistName" destination="54" id="57"/>
-                <outlet property="Toolbar" destination="31" id="40"/>
                 <outlet property="lblArtistName" destination="54" id="56"/>
             </connections>
         </window>

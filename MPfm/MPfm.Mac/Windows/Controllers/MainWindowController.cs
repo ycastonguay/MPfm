@@ -351,22 +351,6 @@ namespace MPfm.Mac
         /// </summary>
         private void LoadImages()
         {
-            // Load images in toolbar
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_folder-open");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_update");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
-            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
-            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_stop");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_previous");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_next");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarShuffle").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_equalizer");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_playlist");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_settings");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarSync").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_sync");
-
-            // Load button images
             cboSoundFormat.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnAddLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
@@ -381,17 +365,17 @@ namespace MPfm.Mac
             //btnStopLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_stop");
             btnGoToMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_goto");
 
-            btnToolbarPlayPause.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("play", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarPrevious.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("previous", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarNext.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("next", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarRepeat.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("repeat", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarShuffle.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("shuffle", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarPlaylist.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("playlist", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarEffects.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("effects", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarSync.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("sync", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarSyncCloud.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("cloud", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarResumePlayback.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("resume", "png", "Resources/Toolbar", string.Empty));
-            btnToolbarSettings.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("preferences", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "play");
+            btnToolbarPrevious.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "previous");
+            btnToolbarNext.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "next");
+            btnToolbarRepeat.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "repeat");
+            btnToolbarShuffle.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "shuffle");
+            btnToolbarPlaylist.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "playlist");
+            btnToolbarEffects.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "effects");
+            btnToolbarSync.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "sync");
+            btnToolbarSyncCloud.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "cloud");
+            btnToolbarResumePlayback.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "resume");
+            btnToolbarSettings.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "preferences");
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)
@@ -802,12 +786,10 @@ namespace MPfm.Mac
                     case PlayerStatusType.Stopped:
                         goto case PlayerStatusType.Paused;
                     case PlayerStatusType.Paused:
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Play";
+                        btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "play");
                         break;
                     case PlayerStatusType.Playing:
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Pause";
+                        btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "pause");
                         break;
                 }
             });

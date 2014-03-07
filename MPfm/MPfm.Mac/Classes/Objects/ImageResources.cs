@@ -30,11 +30,28 @@ namespace MPfm.Mac.Classes.Objects
     {
         public static List<NSImage> images16x16 { get; private set; }
         public static List<NSImage> images32x32 { get; private set; } // TODO: Remove 16x16/32x32 lists to merge in one list with appropriate Retina image loading
+        public static List<NSImage> ToolbarImages { get; private set; }
         public static List<NSImage> Icons { get; private set; }
         public static NSImage imageSplash { get; private set; }
 
         static ImageResources()
         {
+            ToolbarImages = new List<NSImage>()
+            {
+                new NSImage(NSBundle.MainBundle.PathForResource("play", "png", "Resources/Toolbar", string.Empty)) { Name = "play" },
+                new NSImage(NSBundle.MainBundle.PathForResource("pause", "png", "Resources/Toolbar", string.Empty)) { Name = "pause" },
+                new NSImage(NSBundle.MainBundle.PathForResource("previous", "png", "Resources/Toolbar", string.Empty)) { Name = "previous" },
+                new NSImage(NSBundle.MainBundle.PathForResource("next", "png", "Resources/Toolbar", string.Empty)) { Name = "next" },
+                new NSImage(NSBundle.MainBundle.PathForResource("repeat", "png", "Resources/Toolbar", string.Empty)) { Name = "repeat" },
+                new NSImage(NSBundle.MainBundle.PathForResource("shuffle", "png", "Resources/Toolbar", string.Empty)) { Name = "shuffle" },
+                new NSImage(NSBundle.MainBundle.PathForResource("playlist", "png", "Resources/Toolbar", string.Empty)) { Name = "playlist" },
+                new NSImage(NSBundle.MainBundle.PathForResource("effects", "png", "Resources/Toolbar", string.Empty)) { Name = "effects" },
+                new NSImage(NSBundle.MainBundle.PathForResource("sync", "png", "Resources/Toolbar", string.Empty)) { Name = "sync" },
+                new NSImage(NSBundle.MainBundle.PathForResource("cloud", "png", "Resources/Toolbar", string.Empty)) { Name = "cloud" },
+                new NSImage(NSBundle.MainBundle.PathForResource("resume", "png", "Resources/Toolbar", string.Empty)) { Name = "resume" },
+                new NSImage(NSBundle.MainBundle.PathForResource("preferences", "png", "Resources/Toolbar", string.Empty)) { Name = "preferences" }
+            };
+
             images16x16 = new List<NSImage>() {
                 new NSImage(NSBundle.MainBundle.PathForResource("list-add", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_list-add" },
                 new NSImage(NSBundle.MainBundle.PathForResource("accessories-text-editor", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_accessories-text-editor" },
