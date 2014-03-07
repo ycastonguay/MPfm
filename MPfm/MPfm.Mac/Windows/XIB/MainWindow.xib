@@ -24,6 +24,17 @@
                 <outlet property="btnTabInfo" destination="871" id="879"/>
                 <outlet property="btnTabPitchShifting" destination="868" id="877"/>
                 <outlet property="btnTabTimeShifting" destination="865" id="875"/>
+                <outlet property="btnToolbarEffects" destination="4QR-o9-0Mi" id="mAf-tc-COx"/>
+                <outlet property="btnToolbarNext" destination="A4S-uT-YB4" id="t8K-kF-CaU"/>
+                <outlet property="btnToolbarPlayPause" destination="ah6-cZ-wm6" id="y6Z-4X-u6g"/>
+                <outlet property="btnToolbarPlaylist" destination="X99-cQ-7p7" id="MDi-ic-bBo"/>
+                <outlet property="btnToolbarPrevious" destination="CzV-nl-8Jg" id="czd-W9-gJv"/>
+                <outlet property="btnToolbarRepeat" destination="v8M-O0-24c" id="2yF-hX-hT8"/>
+                <outlet property="btnToolbarResumePlayback" destination="1cI-RO-3hJ" id="R1I-IN-5om"/>
+                <outlet property="btnToolbarSettings" destination="Yrp-AP-eQP" id="Yei-dG-0Rf"/>
+                <outlet property="btnToolbarShuffle" destination="QSg-yI-Xhz" id="59N-B9-wab"/>
+                <outlet property="btnToolbarSync" destination="yVd-27-e8w" id="xMi-uh-BZL"/>
+                <outlet property="btnToolbarSyncCloud" destination="jLy-9t-69U" id="J59-ya-Sh1"/>
                 <outlet property="btnUseTempo" destination="763" id="ydJ-DC-lOd"/>
                 <outlet property="cboSoundFormat" destination="48" id="168"/>
                 <outlet property="faderVolume" destination="IE1-VU-bW9" id="oVd-F0-y3x"/>
@@ -94,6 +105,7 @@
                 <outlet property="viewSongBrowserHeader" destination="507" id="783"/>
                 <outlet property="viewSongPosition" destination="499" id="556"/>
                 <outlet property="viewTimeShifting" destination="510" id="559"/>
+                <outlet property="viewToolbar" destination="3Jn-ya-LND" id="tbr-DE-mQf"/>
                 <outlet property="viewVolume" destination="528" id="558"/>
                 <outlet property="waveFormScrollView" destination="WCo-S4-cSR" id="NRN-89-Phw"/>
                 <outlet property="window" destination="2" id="6"/>
@@ -103,22 +115,22 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Sessions" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" deferred="NO" oneShot="NO" visibleAtLaunch="NO" animationBehavior="default" id="2" customClass="MainWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES"/>
-            <rect key="contentRect" x="131" y="74" width="1000" height="600"/>
+            <rect key="contentRect" x="131" y="74" width="1000" height="614"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
             <view key="contentView" id="3" customClass="MPfmView">
-                <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
+                <rect key="frame" x="0.0" y="0.0" width="1000" height="614"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <splitView dividerStyle="thin" vertical="YES" id="28">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="555"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView id="29" customClass="MPfmView">
-                                <rect key="frame" x="0.0" y="0.0" width="260" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="260" height="555"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <customView id="487" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="575" width="260" height="27"/>
+                                        <rect key="frame" x="0.0" y="530" width="260" height="27"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" id="488">
@@ -133,7 +145,7 @@
                                         </subviews>
                                     </customView>
                                     <customView id="490" customClass="MPfmView">
-                                        <rect key="frame" x="0.0" y="541" width="261" height="34"/>
+                                        <rect key="frame" x="0.0" y="496" width="261" height="34"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" id="44">
@@ -166,14 +178,14 @@
                                         </subviews>
                                     </customView>
                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="19" customClass="MPfmScrollView">
-                                        <rect key="frame" x="0.0" y="0.0" width="260" height="543"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="498"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" copiesOnScroll="NO" id="rVK-lM-QxW">
-                                            <rect key="frame" x="0.0" y="0.0" width="260" height="543"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="260" height="498"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="192" id="20">
-                                                    <rect key="frame" x="0.0" y="0.0" width="260" height="543"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="260" height="498"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <size key="intercellSpacing" width="3" height="0.0"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -238,11 +250,11 @@
                                 </subviews>
                             </customView>
                             <customView id="30" customClass="MPfmView">
-                                <rect key="frame" x="261" y="0.0" width="739" height="600"/>
+                                <rect key="frame" x="261" y="0.0" width="739" height="555"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <customView id="481" customClass="MPfmView">
-                                        <rect key="frame" x="1" y="402" width="739" height="172"/>
+                                        <rect key="frame" x="1" y="357" width="739" height="172"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <imageView id="112">
@@ -778,7 +790,7 @@
                                         </subviews>
                                     </customView>
                                     <customView id="486" customClass="MPfmView">
-                                        <rect key="frame" x="1" y="573" width="739" height="27"/>
+                                        <rect key="frame" x="1" y="528" width="739" height="27"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" id="154">
@@ -793,21 +805,21 @@
                                         </subviews>
                                     </customView>
                                     <splitView dividerStyle="thin" id="W42-FE-a65">
-                                        <rect key="frame" x="1" y="0.0" width="738" height="403"/>
+                                        <rect key="frame" x="1" y="0.0" width="738" height="358"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <customView id="tOW-JQ-ih3">
-                                                <rect key="frame" x="0.0" y="0.0" width="738" height="79"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="738" height="34"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <customView id="WCo-S4-cSR" customClass="MPfmWaveFormScrollView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="79"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="738" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     </customView>
                                                 </subviews>
                                             </customView>
                                             <customView id="7bj-uw-Pk4">
-                                                <rect key="frame" x="0.0" y="80" width="738" height="323"/>
+                                                <rect key="frame" x="0.0" y="35" width="738" height="323"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <splitView dividerStyle="thin" id="120">
@@ -1304,7 +1316,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="380.00000004835061" y="3" width="356" height="22"/>
+                                                                                <rect key="frame" x="380" y="3" width="356" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -1661,6 +1673,56 @@
                             <real value="250"/>
                         </holdingPriorities>
                     </splitView>
+                    <customView id="3Jn-ya-LND" customClass="MPfmView">
+                        <rect key="frame" x="0.0" y="554" width="1000" height="60"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <customView id="CzV-nl-8Jg" customClass="MPfmRoundButton">
+                                <rect key="frame" x="4" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="ah6-cZ-wm6" customClass="MPfmRoundButton">
+                                <rect key="frame" x="47" y="5" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="A4S-uT-YB4" customClass="MPfmRoundButton">
+                                <rect key="frame" x="96" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="v8M-O0-24c" customClass="MPfmRoundButton">
+                                <rect key="frame" x="139" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="QSg-yI-Xhz" customClass="MPfmRoundButton">
+                                <rect key="frame" x="182" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="X99-cQ-7p7" customClass="MPfmRoundButton">
+                                <rect key="frame" x="255" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="4QR-o9-0Mi" customClass="MPfmRoundButton">
+                                <rect key="frame" x="301" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="yVd-27-e8w" customClass="MPfmRoundButton">
+                                <rect key="frame" x="346" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="jLy-9t-69U" customClass="MPfmRoundButton">
+                                <rect key="frame" x="391" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="1cI-RO-3hJ" customClass="MPfmRoundButton">
+                                <rect key="frame" x="436" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                            <customView id="Yrp-AP-eQP" customClass="MPfmRoundButton">
+                                <rect key="frame" x="481" y="8" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </customView>
+                        </subviews>
+                    </customView>
                 </subviews>
             </view>
             <toolbar key="toolbar" implicitIdentifier="B6455011-74D0-4944-8653-8CBED153CB08" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="31">

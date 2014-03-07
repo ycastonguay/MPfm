@@ -64,6 +64,39 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabTimeShifting { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarEffects { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarNext { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarPlaylist { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarPlayPause { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarPrevious { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarRepeat { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarResumePlayback { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarSettings { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarShuffle { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarSync { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarSyncCloud { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnUseTempo { get; set; }
 
 		[Outlet]
@@ -272,6 +305,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewTimeShifting { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewToolbar { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewVolume { get; set; }
@@ -496,6 +532,11 @@ namespace MPfm.Mac
 			if (btnTabTimeShifting != null) {
 				btnTabTimeShifting.Dispose ();
 				btnTabTimeShifting = null;
+			}
+
+			if (btnToolbarPlayPause != null) {
+				btnToolbarPlayPause.Dispose ();
+				btnToolbarPlayPause = null;
 			}
 
 			if (btnUseTempo != null) {
@@ -848,6 +889,11 @@ namespace MPfm.Mac
 				viewTimeShifting = null;
 			}
 
+			if (viewToolbar != null) {
+				viewToolbar.Dispose ();
+				viewToolbar = null;
+			}
+
 			if (viewVolume != null) {
 				viewVolume.Dispose ();
 				viewVolume = null;
@@ -856,6 +902,56 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
+			}
+
+			if (btnToolbarPrevious != null) {
+				btnToolbarPrevious.Dispose ();
+				btnToolbarPrevious = null;
+			}
+
+			if (btnToolbarNext != null) {
+				btnToolbarNext.Dispose ();
+				btnToolbarNext = null;
+			}
+
+			if (btnToolbarRepeat != null) {
+				btnToolbarRepeat.Dispose ();
+				btnToolbarRepeat = null;
+			}
+
+			if (btnToolbarShuffle != null) {
+				btnToolbarShuffle.Dispose ();
+				btnToolbarShuffle = null;
+			}
+
+			if (btnToolbarPlaylist != null) {
+				btnToolbarPlaylist.Dispose ();
+				btnToolbarPlaylist = null;
+			}
+
+			if (btnToolbarEffects != null) {
+				btnToolbarEffects.Dispose ();
+				btnToolbarEffects = null;
+			}
+
+			if (btnToolbarSync != null) {
+				btnToolbarSync.Dispose ();
+				btnToolbarSync = null;
+			}
+
+			if (btnToolbarSyncCloud != null) {
+				btnToolbarSyncCloud.Dispose ();
+				btnToolbarSyncCloud = null;
+			}
+
+			if (btnToolbarResumePlayback != null) {
+				btnToolbarResumePlayback.Dispose ();
+				btnToolbarResumePlayback = null;
+			}
+
+			if (btnToolbarSettings != null) {
+				btnToolbarSettings.Dispose ();
+				btnToolbarSettings = null;
 			}
 		}
 	}

@@ -97,7 +97,11 @@ namespace MPfm.Mac.Classes.Controls
         public override void DrawRect(RectangleF dirtyRect)
         {
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            CocoaHelper.FillRect(context, dirtyRect, BackgroundColor1);
+
+            if (CGColor.Equals(BackgroundColor1, BackgroundColor2))
+                CocoaHelper.FillRect(context, Bounds, BackgroundColor1);
+            else
+                CocoaHelper.FillGradient(context, Bounds, BackgroundColor1, BackgroundColor2);
 
             if (IsHeaderVisible)
             {
@@ -105,11 +109,6 @@ namespace MPfm.Mac.Classes.Controls
                 CocoaHelper.FillRect(context, rectHeader, HeaderColor1);
                 //CocoaHelper.DrawLine(context, new PointF[2] { new PointF(0, Bounds.Height - 24), new PointF(Bounds.Width, Bounds.Height - 24) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
             }
-
-//            context.SaveState();
-//            context.SetStrokeColor(BorderColor);
-//            context.StrokeRect(Get1pxRect(Bounds));
-//            context.RestoreState();
         }
 
         RectangleF Get1pxRect(RectangleF rect)

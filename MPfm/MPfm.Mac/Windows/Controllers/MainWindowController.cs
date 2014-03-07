@@ -175,6 +175,8 @@ namespace MPfm.Mac
 
         private void SetTheme()
         {
+            viewToolbar.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
+            viewToolbar.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewLeftHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewLeftHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewRightHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
@@ -378,6 +380,18 @@ namespace MPfm.Mac
             btnPlaySelectedSong.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_play");
             //btnStopLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_stop");
             btnGoToMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_goto");
+
+            btnToolbarPlayPause.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("play", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarPrevious.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("previous", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarNext.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("next", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarRepeat.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("repeat", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarShuffle.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("shuffle", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarPlaylist.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("playlist", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarEffects.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("effects", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarSync.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("sync", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarSyncCloud.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("cloud", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarResumePlayback.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("resume", "png", "Resources/Toolbar", string.Empty));
+            btnToolbarSettings.ImageView.Image = new NSImage(NSBundle.MainBundle.PathForResource("preferences", "png", "Resources/Toolbar", string.Empty));
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)

@@ -242,6 +242,7 @@
     <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
     <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
+    <Compile Include="Classes\Controls\MPfmRoundButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -393,6 +394,18 @@
     <Content Include="Resources\Fonts\Roboto-Light.ttf" />
     <Content Include="Resources\Fonts\Roboto-Thin.ttf" />
     <Content Include="Resources\Fonts\Roboto-Medium.ttf" />
+    <Content Include="Resources\Toolbar\cloud.png" />
+    <Content Include="Resources\Toolbar\effects.png" />
+    <Content Include="Resources\Toolbar\next.png" />
+    <Content Include="Resources\Toolbar\pause.png" />
+    <Content Include="Resources\Toolbar\play.png" />
+    <Content Include="Resources\Toolbar\playlist.png" />
+    <Content Include="Resources\Toolbar\preferences.png" />
+    <Content Include="Resources\Toolbar\previous.png" />
+    <Content Include="Resources\Toolbar\repeat.png" />
+    <Content Include="Resources\Toolbar\resume.png" />
+    <Content Include="Resources\Toolbar\shuffle.png" />
+    <Content Include="Resources\Toolbar\sync.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -416,6 +429,7 @@
     <Folder Include="Resources\16x16\custom\" />
     <Folder Include="Classes\Controls\Graphics\" />
     <Folder Include="Classes\Controls\Helpers\" />
+    <Folder Include="Resources\Toolbar\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

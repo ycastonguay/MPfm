@@ -143,6 +143,7 @@ namespace MPfm.Mac.Classes.Helpers
             context.Clip();
             //context.ScaleCTM(1, -1);
             context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
+            //context.DrawLinearGradient(gradientBackground, new PointF(rect.X, rect.Y), new PointF(rect.X, rect.Y + (rect.Height / 2)), CGGradientDrawingOptions.DrawsBeforeStartLocation);
             context.RestoreState();
         }       
 

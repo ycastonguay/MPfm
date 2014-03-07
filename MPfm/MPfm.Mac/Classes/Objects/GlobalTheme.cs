@@ -33,8 +33,15 @@ namespace MPfm.Mac.Classes.Objects
         public static CGColor ButtonBorderColor = new CGColor(0.7529f, 0.2235f, 0.1686f, 1);
         public static CGColor ButtonTextColor = new CGColor(1, 1, 1, 1);
 
+        public static CGColor ButtonMainToolbarBackgroundColor = new CGColor(32f/255f, 40f/255f, 46f/255f);
+        public static CGColor ButtonMainToolbarBackgroundMouseDownColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
+        public static CGColor ButtonMainToolbarBackgroundMouseOverColor = new CGColor(50f/255f, 60f/255f, 67f/255f, 1);
+        public static CGColor ButtonMainToolbarBorderColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
+        public static CGColor ButtonMainToolbarMouseDownBorderColor = new CGColor(95f/255f, 113f/255f, 126f/255f, 1);
+        public static CGColor ButtonMainToolbarMouseOverBorderColor = new CGColor(88f/255f, 100f/255f, 110f/255f, 1);
+
         public static CGColor ButtonToolbarBackgroundColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
-        public static CGColor ButtonToolbarBackgroundMouseDownColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);// new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
+        public static CGColor ButtonToolbarBackgroundMouseDownColor = new CGColor(80f/255f, 100f/255f, 114f/255f, 1);
         public static CGColor ButtonToolbarBackgroundMouseOverColor = new CGColor(83f/255f, 104f/255f, 119f/255f, 1);
         public static CGColor ButtonToolbarBorderColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
 
