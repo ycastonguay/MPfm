@@ -66,6 +66,11 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             // Does not exist
         }
 
+        public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
+        {
+            DrawImage(rectangleSource, image);
+        }
+
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
             var disposableImage = (DisposableBitmap) image;

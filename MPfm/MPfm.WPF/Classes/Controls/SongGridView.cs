@@ -45,7 +45,7 @@ namespace MPfm.WPF.Classes.Controls
         {
             _horizontalBarWrapper = new HorizontalScrollBarWrapper();
             _verticalBarWrapper = new VerticalScrollBarWrapper();
-            _control = new SongGridViewControl(_horizontalBarWrapper, _verticalBarWrapper);
+            _control = new SongGridViewControl();
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
