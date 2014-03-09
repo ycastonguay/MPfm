@@ -19,6 +19,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using Microsoft.SqlServer.Server;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
@@ -104,7 +105,10 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
             var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));
-            _context.DrawText(formattedText, GenericControlHelper.ToPoint(new BasicPoint(rectangle.X, rectangle.Y)));
+            formattedText.MaxTextWidth = rectangle.Width;
+            formattedText.MaxTextHeight = rectangle.Height;
+            formattedText.Trimming = TextTrimming.CharacterEllipsis;            
+            _context.DrawText(formattedText, GenericControlHelper.ToPoint(new BasicPoint(rectangle.X, rectangle.Y)));            
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)

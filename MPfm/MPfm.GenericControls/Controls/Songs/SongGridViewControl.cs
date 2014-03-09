@@ -576,6 +576,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
             // Extract image from file
             //var imageAlbumCover = AudioFile.ExtractImageForAudioFile(arg.AudioFile.FilePath);
+            //var bytes = AudioFile.ExtractImageByteArrayForAudioFile(arg.AudioFile.FilePath);
 
             // Set album art in return data            
             //result.AlbumArt = imageAlbumCover;
@@ -802,23 +803,12 @@ namespace MPfm.GenericControls.Controls.Songs
             BasicBrush brush = null;
             BasicGradientBrush brushGradient = null;
             var penTransparent = new BasicPen();    
-            //BasicColor colorNowPlaying1 = _theme.RowNowPlayingTextGradient.Color1;
-            //BasicColor colorNowPlaying2 = _theme.RowNowPlayingTextGradient.Color2;
-            var colorNowPlaying1 = new BasicColor(255, 0, 0);
-            var colorNowPlaying2 = new BasicColor(0, 0, 255);
-            var albumCoverBackgroundGradientColor1 = new BasicColor(255, 0, 0);
-            var albumCoverBackgroundGradientColor2 = new BasicColor(255, 0, 255);
             int offsetX = 0;
             int offsetY = 0;
             int albumCoverStartIndex = 0;
             int albumCoverEndIndex = 0;
             string currentAlbumTitle = string.Empty;
             bool nowPlayingSongFound = false;
-            //Font fontDefault = null;
-            //Font fontDefaultBold = null;
-            string defaultFontName = "Roboto";
-            string defaultFontNameBold = "Roboto Medium";
-            float defaultFontSize = 12f;
 
             //// Make sure the embedded font name needs to be loaded and is valid
             //if (_theme.RowTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(_theme.RowTextGradient.Font.EmbeddedFontName))
@@ -911,19 +901,15 @@ namespace MPfm.GenericControls.Controls.Songs
                 var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, _songCache.LineHeight + 1);
                 
                 // Set default line background color
-                //Color colorBackground1 = _theme.RowTextGradient.Color1;
-                //Color colorBackground2 = _theme.RowTextGradient.Color2;
-                var colorBackground1 = new BasicColor(0, 255, 0);
-                var colorBackground2 = new BasicColor(255, 0, 255);
+                var colorBackground1 = _theme.BackgroundColor;
+                var colorBackground2 = _theme.BackgroundColor;
 
                 // Check conditions to determine background color
                 if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == _nowPlayingAudioFileId) || 
                     (_mode == SongGridViewMode.Playlist && _items[a].PlaylistItemId == _nowPlayingPlaylistItemId))
                 {
-                    //colorBackground1 = _theme.RowNowPlayingTextGradient.Color1;
-                    //colorBackground2 = _theme.RowNowPlayingTextGradient.Color2;
-                    colorBackground1 = new BasicColor(50, 255, 255);
-                    colorBackground2 = new BasicColor(50, 50, 255);
+                    colorBackground1 = _theme.NowPlayingBackgroundColor;
+                    colorBackground2 = _theme.NowPlayingBackgroundColor;
                 }
 
                 // Check if item is selected
@@ -956,17 +942,15 @@ namespace MPfm.GenericControls.Controls.Songs
                 //        (colorBackground2.B + diff > 255) ? 255 : colorBackground2.B + diff);
                 //}
 
-                // Check conditions to determine background color
-                if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == _nowPlayingAudioFileId) ||
-                    (_mode == SongGridViewMode.Playlist && _items[a].PlaylistItemId == _nowPlayingPlaylistItemId))
-                {
-                    colorNowPlaying1 = colorBackground1;
-                    colorNowPlaying2 = colorBackground2;
-                }
+                //// Check conditions to determine background color
+                //if ((_mode == SongGridViewMode.AudioFile && audioFile.Id == _nowPlayingAudioFileId) ||
+                //    (_mode == SongGridViewMode.Playlist && _items[a].PlaylistItemId == _nowPlayingPlaylistItemId))
+                //{
+                //    colorNowPlaying1 = colorBackground1;
+                //    colorNowPlaying2 = colorBackground2;
+                //}
 
                 // Draw row background
-                //colorBackground1 = new BasicColor(0, 255, 0);
-                //colorBackground2 = new BasicColor(0, 255, 255);
                 brushGradient = new BasicGradientBrush(colorBackground1, colorBackground2, 90);
                 context.DrawRectangle(rectBackground, brushGradient, penTransparent);
                 //Console.WriteLine("SongGridViewControl - Drawing background - rect: {0}", rectBackground);
@@ -988,13 +972,9 @@ namespace MPfm.GenericControls.Controls.Songs
                                 // Which size is the minimum? Width or height?                    
                                 int availableWidthHeight = column.Width - 4;
                                 if (_songCache.LineHeight <= column.Width)
-                                {                                    
                                     availableWidthHeight = _songCache.LineHeight - 4;
-                                }
                                 else
-                                {
                                     availableWidthHeight = column.Width - 4;
-                                }
 
                                 // Calculate the icon position                                
                                 float iconNowPlayingX = ((column.Width - availableWidthHeight) / 2) + offsetX - HorizontalScrollBar.Value;
@@ -1005,23 +985,13 @@ namespace MPfm.GenericControls.Controls.Songs
                                 nowPlayingSongFound = true;
 
                                 // Draw outer circle
-                                var iconNowPlayingColor1 = new BasicColor(50, 50, 50);
-                                var iconNowPlayingColor2 = new BasicColor(150, 50, 150);
-                                //brushGradient = new LinearGradientBrush(_rectNowPlaying, Color.FromArgb(50, _theme.IconNowPlayingGradient.Color1.R, _theme.IconNowPlayingGradient.Color1.G, _theme.IconNowPlayingGradient.Color1.B), _theme.IconNowPlayingGradient.Color2, _timerAnimationNowPlayingCount % 360);
-                                brushGradient = new BasicGradientBrush(iconNowPlayingColor1, iconNowPlayingColor2, _timerAnimationNowPlayingCount % 360);
+                                brushGradient = new BasicGradientBrush(_theme.NowPlayingIndicatorBackgroundColor, _theme.NowPlayingIndicatorBackgroundColor, _timerAnimationNowPlayingCount % 360);
                                 context.DrawEllipsis(_rectNowPlaying, brushGradient, penTransparent);
-                                //g.FillEllipse(brushGradient, _rectNowPlaying);
-                                //brushGradient.Dispose();
-                                //brushGradient = null;
 
                                 // Draw inner circle
                                 rect = new BasicRectangle((int)iconNowPlayingX + 4, (int)iconNowPlayingY + 4, availableWidthHeight - 8, availableWidthHeight - 8);
-                                //brush = new SolidBrush(colorNowPlaying1);
-                                brush = new BasicBrush(colorNowPlaying1);
+                                brush = new BasicBrush(_theme.NowPlayingBackgroundColor);
                                 context.DrawEllipsis(rect, brush, penTransparent);
-                                //g.FillEllipse(brush, rect);
-                                //brush.Dispose();
-                                //brush = null;
                             }
                         }
                         else if (column.Title == "Album Cover")
@@ -1089,47 +1059,43 @@ namespace MPfm.GenericControls.Controls.Songs
                                 {
                                     // Draw album cover background
                                     var rectAlbumCover = new BasicRectangle(0 - HorizontalScrollBar.Value, y, _songCache.ActiveColumns[0].Width, albumCoverZoneHeight);
-                                    //brushGradient = new LinearGradientBrush(rectAlbumCover, _theme.AlbumCoverBackgroundGradient.Color1, _theme.AlbumCoverBackgroundGradient.Color2, _theme.AlbumCoverBackgroundGradient.GradientMode);
-                                    brushGradient = new BasicGradientBrush(albumCoverBackgroundGradientColor1, albumCoverBackgroundGradientColor2, 90);
+                                    brushGradient = new BasicGradientBrush(_theme.AlbumCoverBackgroundColor, _theme.AlbumCoverBackgroundColor, 90);
                                     context.DrawRectangle(rectAlbumCover, brushGradient, penTransparent);
-                                    //g.FillRectangle(brushGradient, rectAlbumCover);
-                                    //brushGradient.Dispose();
-                                    //brushGradient = null;
 
                                     // Try to extract image from cache
                                     IDisposable imageAlbumCover = null;
-                                    SongGridViewImageCache cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
-                                    if (cachedImage != null)
-                                    {
-                                        // Set image
-                                        imageAlbumCover = cachedImage.Image;
-                                    }
+                                    //SongGridViewImageCache cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
+                                    //if (cachedImage != null)
+                                    //{
+                                    //    // Set image
+                                    //    imageAlbumCover = cachedImage.Image;
+                                    //}
 
-                                    // Album art not found in cache; try to find an album cover in one of the file
-                                    if (cachedImage == null)
-                                    {
-                                        // Check if the album cover is already in the pile
-                                        bool albumCoverFound = false;
-                                        foreach (SongGridViewBackgroundWorkerArgument arg in _workerUpdateAlbumArtPile)
-                                        {
-                                            // Match by file path
-                                            if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
-                                            {
-                                                // We found the album cover
-                                                albumCoverFound = true;
-                                            }
-                                        }
+                                    //// Album art not found in cache; try to find an album cover in one of the file
+                                    //if (cachedImage == null)
+                                    //{
+                                    //    // Check if the album cover is already in the pile
+                                    //    bool albumCoverFound = false;
+                                    //    foreach (var arg in _workerUpdateAlbumArtPile)
+                                    //    {
+                                    //        // Match by file path
+                                    //        if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
+                                    //        {
+                                    //            // We found the album cover
+                                    //            albumCoverFound = true;
+                                    //        }
+                                    //    }
 
-                                        // Add to the pile only if the album cover isn't already in it
-                                        if (!albumCoverFound)
-                                        {
-                                            // Add item to update album art worker pile
-                                            SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
-                                            arg.AudioFile = audioFile;
-                                            arg.LineIndex = a;
-                                            _workerUpdateAlbumArtPile.Add(arg);
-                                        }
-                                    }
+                                    //    // Add to the pile only if the album cover isn't already in it
+                                    //    if (!albumCoverFound)
+                                    //    {
+                                    //        // Add item to update album art worker pile
+                                    //        SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
+                                    //        arg.AudioFile = audioFile;
+                                    //        arg.LineIndex = a;
+                                    //        _workerUpdateAlbumArtPile.Add(arg);
+                                    //    }
+                                    //}
 
                                     // Measure available width for text
                                     int widthAvailableForText = _columns[0].Width - (_theme.Padding * 2);
@@ -1152,8 +1118,8 @@ namespace MPfm.GenericControls.Controls.Songs
                                         // Measure strings
                                         //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
                                         //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText - (int)sizeArtistName.Width, stringFormat);
-                                        sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), defaultFontNameBold, defaultFontSize);
-                                        sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), defaultFontName, defaultFontSize);
+                                        sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
+                                        sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
 
                                         // Display artist name at full width first, then album name
@@ -1173,8 +1139,8 @@ namespace MPfm.GenericControls.Controls.Songs
                                             // Measure strings
                                             //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
                                             //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
-                                            sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), defaultFontNameBold, defaultFontSize);
-                                            sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), defaultFontName, defaultFontSize);
+                                            sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
+                                            sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
                                             // Display the album title at the top of the zome
                                             rectArtistNameText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + _theme.Padding, widthAvailableForText, heightWithPadding);
@@ -1190,8 +1156,8 @@ namespace MPfm.GenericControls.Controls.Songs
                                             // Measure strings
                                             //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
                                             //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
-                                            sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), defaultFontNameBold, defaultFontSize);
-                                            sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), defaultFontName, defaultFontSize);
+                                            sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
+                                            sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
                                             // If there's only two lines, display text on only two lines
                                             if (albumCoverEndIndex - albumCoverStartIndex == 1)
@@ -1214,8 +1180,8 @@ namespace MPfm.GenericControls.Controls.Songs
                                                 // Measure strings
                                                 //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
                                                 //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
-                                                sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), defaultFontNameBold, defaultFontSize);
-                                                sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), defaultFontName, defaultFontSize);
+                                                sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
+                                                sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
                                                 // Try to center the cover art + padding + max text width
                                                 float maxWidth = sizeArtistName.Width;
@@ -1258,7 +1224,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                                 // Set cover art rectangle
                                                 rectAlbumCoverArt = new BasicRectangle(albumCoverX, y + _theme.Padding, heightWithPadding, heightWithPadding);
                                             }
-
                                         }
                                     }
 
@@ -1370,23 +1335,11 @@ namespace MPfm.GenericControls.Controls.Songs
                                 //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                                 //stringFormat.Alignment = StringAlignment.Near;
 
-                                // Check if this is the artist name column
-                                //brush = new SolidBrush(_theme.RowTextGradient.Font.Color);
-                                brush = new BasicBrush(new BasicColor(200, 100, 50));
+                                // Use bold for ArtistName and DiscTrackNumber
                                 if (column.FieldName == "ArtistName" || column.FieldName == "DiscTrackNumber")
-                                {
-                                    // Use bold for artist name
-                                    //g.DrawString(value, fontDefaultBold, brush, rect, stringFormat);
-                                    context.DrawText(value, rect, new BasicColor(200, 100, 50), defaultFontNameBold, defaultFontSize);
-                                }
+                                    context.DrawText(value, rect, _theme.TextColor, _theme.FontNameBold, _theme.FontSize);
                                 else
-                                {
-                                    // Use default font for the other columns
-                                    //g.DrawString(value, fontDefault, brush, rect, stringFormat);
-                                    context.DrawText(value, rect, new BasicColor(200, 100, 50), defaultFontName, defaultFontSize);
-                                }
-                                //brush.Dispose();
-                                //brush = null;
+                                    context.DrawText(value, rect, _theme.TextColor, _theme.FontName, _theme.FontSize);
                             }
                         }
 
@@ -1401,14 +1354,9 @@ namespace MPfm.GenericControls.Controls.Songs
                 _rectNowPlaying = new BasicRectangle(0, 0, 1, 1);
 
             // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
-            //Console.WriteLine("SongGridViewControl - Header");
             var rectBackgroundHeader = new BasicRectangle(0, -1, Frame.Width, _songCache.LineHeight + 1);
-            //brushGradient = new LinearGradientBrush(rectBackgroundHeader, _theme.HeaderTextGradient.Color1, _theme.HeaderTextGradient.Color2, 90);
-            brushGradient = new BasicGradientBrush(new BasicColor(90, 90, 90), new BasicColor(180, 180, 180), 90);
-            //g.FillRectangle(brushGradient, rectBackgroundHeader);
+            brushGradient = new BasicGradientBrush(_theme.HeaderBackgroundColor, _theme.HeaderBackgroundColor, 90);
             context.DrawRectangle(rectBackgroundHeader, brushGradient, penTransparent);
-            //brushGradient.Dispose();
-            //brushGradient = null;
 
             // Loop through columns
             offsetX = 0;
@@ -1434,23 +1382,15 @@ namespace MPfm.GenericControls.Controls.Songs
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
                         rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, _songCache.LineHeight + 1);
-                        //brushGradient = new LinearGradientBrush(rect, _theme.HeaderHoverTextGradient.Color1, _theme.HeaderHoverTextGradient.Color2, 90);
-                        brushGradient = new BasicGradientBrush(new BasicColor(110, 110, 255), new BasicColor(110, 255, 110), 90);
-                        //g.FillRectangle(brushGradient, rect);
+                        brushGradient = new BasicGradientBrush(_theme.MouseOverHeaderBackgroundColor, _theme.MouseOverHeaderBackgroundColor, 90);
                         context.DrawRectangle(rect, brushGradient, penTransparent);
-                        //brushGradient.Dispose();
-                        //brushGradient = null;
                     }
                     else if (column.IsUserMovingColumn)
                     {
                         // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)                        
                         rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, -1, column.Width, _songCache.LineHeight + 1);
-                        //brushGradient = new LinearGradientBrush(rect, Color.Blue, Color.Green, 90);
                         brushGradient = new BasicGradientBrush(new BasicColor(0, 0, 255), new BasicColor(0, 255, 0), 90);
-                        //g.FillRectangle(brushGradient, rect);
                         context.DrawRectangle(rect, brushGradient, penTransparent);
-                        //brushGradient.Dispose();
-                        //brushGradient = null;
                     }
 
                     // Check if the header title must be displayed
@@ -1461,11 +1401,8 @@ namespace MPfm.GenericControls.Controls.Songs
                         //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                         //brush = new SolidBrush(_theme.HeaderTextGradient.Font.Color);
                         //brush = new BasicBrush(new BasicColor(255, 0, 255));
-                        var headerTextGradientFontColor = new BasicColor(255, 0, 255);
                         //g.DrawString(column.Title, fontDefaultBold, brush, rectTitle, stringFormat);
-                        context.DrawText(column.Title, rectTitle, headerTextGradientFontColor, defaultFontNameBold, defaultFontSize);
-                        //brush.Dispose();
-                        //brush = null;
+                        context.DrawText(column.Title, rectTitle, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
                     }
 
                     // Draw column separator line; determine the height of the line
@@ -1522,12 +1459,8 @@ namespace MPfm.GenericControls.Controls.Songs
             if (IsColumnMoving)
             {
                 // Draw marker
-                //pen = new Pen(Color.Red);
                 pen = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
-                //g.DrawRectangle(pen, new BasicRectangle(_columnMoveMarkerX - HorizontalScrollBar.Value, 0, 1, Frame.Height));
                 context.DrawRectangle(new BasicRectangle(_columnMoveMarkerX - HorizontalScrollBar.Value, 0, 1, Frame.Height), new BasicBrush(), pen);
-                //pen.Dispose();
-                //pen = null;
             }
 
             // Display debug information if enabled
@@ -1552,32 +1485,24 @@ namespace MPfm.GenericControls.Controls.Songs
                 //stringFormat.Trimming = StringTrimming.Word;
                 //stringFormat.LineAlignment = StringAlignment.Near;
                 //SizeF sizeDebugText = g.MeasureString(sbDebug.ToString(), fontDefault, _columns[0].Width - 1, stringFormat);
-                var sizeDebugText = context.MeasureText(sbDebug.ToString(), new BasicRectangle(0, 0, _columns[0].Width, 40), defaultFontName, defaultFontSize);
+                var sizeDebugText = context.MeasureText(sbDebug.ToString(), new BasicRectangle(0, 0, _columns[0].Width, 40), _theme.FontName, _theme.FontSize);
                 rect = new BasicRectangle(0, 0, _columns[0].Width - 1, sizeDebugText.Height);
 
                 // Draw background
-                //brush = new SolidBrush(Color.FromArgb(200, 0, 0, 0));
                 brush = new BasicBrush(new BasicColor(200, 0, 0));
-                //g.FillRectangle(brush, rect);
                 context.DrawRectangle(rect, brush, penTransparent);
-                //brush.Dispose();
-                //brush = null;
 
                 // Draw string
                 //g.DrawString(sbDebug.ToString(), fontDefault, Brushes.White, rectF, stringFormat);
-                context.DrawText(sbDebug.ToString(), rect, new BasicColor(255, 255, 255), defaultFontName, defaultFontSize);
+                context.DrawText(sbDebug.ToString(), rect, new BasicColor(255, 255, 255), _theme.FontName, _theme.FontSize);
             }
 
             // If both scrollbars are visible...
             if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
             {
                 // Draw a bit of control color over the 16x16 area in the lower right corner
-                //brush = new SolidBrush(SystemColors.Control);
                 brush = new BasicBrush(new BasicColor(200, 200, 200));
-                //g.FillRectangle(brush, new Rectangle(ClientRectangle.Width - 16, ClientRectangle.Height - 16, 16, 16));
                 context.DrawRectangle(new BasicRectangle(Frame.Width - 16, Frame.Height - 16, 16, 16), brush, penTransparent);
-                //brush.Dispose();
-                //brush = null;
             }
 
             stopwatch.Stop();
@@ -2363,7 +2288,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
             string allChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm!@#$%^&*()";
             //var rectText = context.MeasureText(allChars, new BasicRectangle(0, 0, 1000, 100), "Roboto", 12);
-            var rectText = new BasicRectangle(0, 0, 100, 24);
+            var rectText = new BasicRectangle(0, 0, 100, 18);
 
             // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
             _songCache.LineHeight = (int)rectText.Height + _theme.Padding;

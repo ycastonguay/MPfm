@@ -254,6 +254,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\Roboto-Bold.ttf" />
     <Resource Include="Resources\Fonts\RobotoCondensed-Bold.ttf" />
     <Resource Include="Resources\Fonts\RobotoCondensed-Light.ttf" />
     <Resource Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />

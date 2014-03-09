@@ -638,7 +638,7 @@
                                 </Grid>
                             </Grid>
                             <WindowsFormsHost Grid.Row="1">
-                                <wc:SongGridView x:Name="gridViewSongs" OnSelectedIndexChanged="gridViewSongs_OnOnSelectedIndexChanged" />
+                                <wc:SongGridView x:Name="gridViewSongs" />
                             </WindowsFormsHost>
                             <controls:SongGridView Grid.Row="2" x:Name="gridViewSongsNew" />
                         </Grid>

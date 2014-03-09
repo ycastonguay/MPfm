@@ -70,6 +70,7 @@ namespace MPfm.WPF.Classes.Windows
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
             gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
+            gridViewSongsNew.DoubleClick += GridViewSongsNewOnDoubleClick;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
 
@@ -98,7 +99,6 @@ namespace MPfm.WPF.Classes.Windows
             gridViewSongs.Theme.IconNowPlayingGradient = new Gradient(System.Drawing.Color.FromArgb(255, 250, 200, 250), System.Drawing.Color.FromArgb(255, 25, 150, 25), LinearGradientMode.Horizontal);
             gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
             gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
-            //waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -219,20 +219,20 @@ namespace MPfm.WPF.Classes.Windows
             e.Handled = true;
         }
 
-        private void gridViewSongs_OnOnSelectedIndexChanged(SongGridViewSelectedIndexChangedData data)
-        {
-        //    if (gridViewSongs.SelectedItems.Count == 0)
-        //        return;
-
-        //    OnTableRowDoubleClicked(gridViewSongs.Items[0].AudioFile);
-        }
-
         private void GridViewSongsOnDoubleClick(object sender, EventArgs eventArgs)
         {
             if (gridViewSongs.SelectedItems.Count == 0)
                 return;
 
             OnTableRowDoubleClicked(gridViewSongs.SelectedItems[0].AudioFile);
+        }
+
+        private void GridViewSongsNewOnDoubleClick(object sender, EventArgs eventArgs)
+        {
+            if (gridViewSongsNew.SelectedItems.Count == 0)
+                return;
+
+            OnTableRowDoubleClicked(gridViewSongsNew.SelectedItems[0].AudioFile);
         }
 
         private void BtnToolbar_OnClick(object sender, RoutedEventArgs e)
@@ -854,6 +854,7 @@ namespace MPfm.WPF.Classes.Windows
                 //        miTraySongTitle.Text = audioFile.Title;
 
                         gridViewSongs.NowPlayingAudioFileId = audioFile.Id;
+                        gridViewSongsNew.NowPlayingAudioFileId = audioFile.Id;
                         gridViewSongs.Refresh();
 
                         scrollViewWaveForm.SetWaveFormLength(lengthBytes);
