@@ -39,6 +39,7 @@ namespace MPfm.GenericControls.Controls.Songs
     /// </summary>
     public class SongGridViewControl : IControl, IControlMouseInteraction//, IControlScrollViewInteraction
     {
+        private IDisposableImageFactory _disposableImageFactory;
         private SongGridViewMode _mode = SongGridViewMode.AudioFile;
 
         // Controls
@@ -385,11 +386,12 @@ namespace MPfm.GenericControls.Controls.Songs
         /// <summary>
         /// Default constructor for SongGridView.
         /// </summary>
-        public SongGridViewControl(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar)
+        public SongGridViewControl(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar, IDisposableImageFactory disposableImageFactory)
         {
+            _disposableImageFactory = disposableImageFactory;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
-
+            
             Frame = new BasicRectangle();
             _theme = new SongGridViewTheme();
 
@@ -575,12 +577,12 @@ namespace MPfm.GenericControls.Controls.Songs
             }
 
             // Extract image from file
-            //var imageAlbumCover = AudioFile.ExtractImageForAudioFile(arg.AudioFile.FilePath);
-            //var bytes = AudioFile.ExtractImageByteArrayForAudioFile(arg.AudioFile.FilePath);
+            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(arg.AudioFile.FilePath);
+            var image = _disposableImageFactory.CreateImageFromByteArray(bytes);
 
-            // Set album art in return data            
-            //result.AlbumArt = imageAlbumCover;
-            //e.Result = result;
+            // Set task result
+            result.AlbumArt = image;
+            e.Result = result;
         }
 
         /// <summary>
@@ -1064,38 +1066,38 @@ namespace MPfm.GenericControls.Controls.Songs
 
                                     // Try to extract image from cache
                                     IDisposable imageAlbumCover = null;
-                                    //SongGridViewImageCache cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
-                                    //if (cachedImage != null)
-                                    //{
-                                    //    // Set image
-                                    //    imageAlbumCover = cachedImage.Image;
-                                    //}
+                                    SongGridViewImageCache cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
+                                    if (cachedImage != null)
+                                    {
+                                        // Set image
+                                        imageAlbumCover = cachedImage.Image;
+                                    }
 
-                                    //// Album art not found in cache; try to find an album cover in one of the file
-                                    //if (cachedImage == null)
-                                    //{
-                                    //    // Check if the album cover is already in the pile
-                                    //    bool albumCoverFound = false;
-                                    //    foreach (var arg in _workerUpdateAlbumArtPile)
-                                    //    {
-                                    //        // Match by file path
-                                    //        if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
-                                    //        {
-                                    //            // We found the album cover
-                                    //            albumCoverFound = true;
-                                    //        }
-                                    //    }
+                                    // Album art not found in cache; try to find an album cover in one of the file
+                                    if (cachedImage == null)
+                                    {
+                                        // Check if the album cover is already in the pile
+                                        bool albumCoverFound = false;
+                                        foreach (var arg in _workerUpdateAlbumArtPile)
+                                        {
+                                            // Match by file path
+                                            if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
+                                            {
+                                                // We found the album cover
+                                                albumCoverFound = true;
+                                            }
+                                        }
 
-                                    //    // Add to the pile only if the album cover isn't already in it
-                                    //    if (!albumCoverFound)
-                                    //    {
-                                    //        // Add item to update album art worker pile
-                                    //        SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
-                                    //        arg.AudioFile = audioFile;
-                                    //        arg.LineIndex = a;
-                                    //        _workerUpdateAlbumArtPile.Add(arg);
-                                    //    }
-                                    //}
+                                        // Add to the pile only if the album cover isn't already in it
+                                        if (!albumCoverFound)
+                                        {
+                                            // Add item to update album art worker pile
+                                            SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
+                                            arg.AudioFile = audioFile;
+                                            arg.LineIndex = a;
+                                            _workerUpdateAlbumArtPile.Add(arg);
+                                        }
+                                    }
 
                                     // Measure available width for text
                                     int widthAvailableForText = _columns[0].Width - (_theme.Padding * 2);
@@ -1331,7 +1333,7 @@ namespace MPfm.GenericControls.Controls.Songs
                                 }
 
                                 // Display text
-                                rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value, offsetY + (_theme.Padding / 2), _songCache.ActiveColumns[b].Width, _songCache.LineHeight - _theme.Padding + 2);
+                                rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, offsetY + (_theme.Padding / 2), _songCache.ActiveColumns[b].Width, _songCache.LineHeight - _theme.Padding + 2);
                                 //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                                 //stringFormat.Alignment = StringAlignment.Near;
 
@@ -1397,7 +1399,7 @@ namespace MPfm.GenericControls.Controls.Songs
                     if (_songCache.ActiveColumns[b].IsHeaderTitleVisible)
                     {
                         // Display title                
-                        var rectTitle = new BasicRectangle(offsetX - HorizontalScrollBar.Value, _theme.Padding / 2, column.Width, _songCache.LineHeight - _theme.Padding + 2);
+                        var rectTitle = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, _theme.Padding / 2, column.Width, _songCache.LineHeight - _theme.Padding + 2);
                         //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
                         //brush = new SolidBrush(_theme.HeaderTextGradient.Font.Color);
                         //brush = new BasicBrush(new BasicColor(255, 0, 255));
@@ -2288,7 +2290,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
             string allChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm!@#$%^&*()";
             //var rectText = context.MeasureText(allChars, new BasicRectangle(0, 0, 1000, 100), "Roboto", 12);
-            var rectText = new BasicRectangle(0, 0, 100, 18);
+            var rectText = new BasicRectangle(0, 0, 100, 14);
 
             // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
             _songCache.LineHeight = (int)rectText.Height + _theme.Padding;

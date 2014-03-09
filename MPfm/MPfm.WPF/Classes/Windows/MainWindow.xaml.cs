@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -31,7 +32,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.Core.Helpers;
+using MPfm.GenericControls.Graphics;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
@@ -861,51 +864,36 @@ namespace MPfm.WPF.Classes.Windows
                         scrollViewWaveForm.LoadPeakFile(audioFile);
 
                         imageAlbum.Source = null;
-                        int albumWidth = (int) imageAlbum.Width;
-                        int albumHeight = (int) imageAlbum.Height;
-                        var task = Task<System.Drawing.Image>.Factory.StartNew(() =>
+                        var task = Task<BitmapImage>.Factory.StartNew(() =>
                         {
-                            //// Get image from library
-                            //Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(songPath);
-
-                            //// Resize image with quality AA
-                            //if (image != null)
-                            //    image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
-
                             try
                             {
-                                var image = AudioFile.ExtractImageForAudioFile(audioFile.FilePath);
-                                if (image == null)
-                                    return null;
+                                var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                                var stream = new MemoryStream(bytes);
+                                stream.Seek(0, SeekOrigin.Begin);
 
-                                image = ImageManipulation.ResizeImage(image, albumWidth, albumHeight);
-                                return image;
+                                var bitmap = new BitmapImage();
+                                bitmap.BeginInit();
+                                bitmap.StreamSource = stream;
+                                bitmap.EndInit();
+                                bitmap.Freeze();
 
-                                //var imageSource = ImageHelper.ImageToImageSource(image);
-                                //Console.WriteLine("imageSource is {0}.{1}", imageSource.Width, imageSource.Height);
-                                //double lowestValue = imageSource.Width < imageSource.Height ? imageSource.Width : imageSource.Height;
-                                //var imageCropped = new CroppedBitmap(new WriteableBitmap(imageSource), new Int32Rect(0, 0, (int)lowestValue, (int)lowestValue));
-                                //imageAlbum.Source = ImageHelper.ImageToImageSource(image);                                
-                                //return imageCropped;
-                                //return imageSource;
+                                return bitmap;
                             }
                             catch (Exception ex)
                             {
-                                // Ignore error and return null
                                 Console.WriteLine("An error occured while extracing album art in {0}: {1}", audioFile.FilePath, ex);
                             }
 
                             return null;
                         });
-                        //var croppedBitmap = task.Result;
-                        //if (croppedBitmap != null)
-                        //    imageAlbum.Source = croppedBitmap;
+
                         var imageResult = task.Result;
                         if (imageResult != null)
                         {
                             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                             {
-                                imageAlbum.Source = ImageHelper.ImageToImageSource(imageResult);
+                                imageAlbum.Source = imageResult;
                             }));
                         }
                     }

@@ -16,38 +16,34 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Media;
+using System.IO;
 using System.Windows.Media.Imaging;
 using MPfm.GenericControls.Graphics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {
-    public class MemoryGraphicsContextFactory : IMemoryGraphicsContextFactory
+    public class DisposableImageFactory : IDisposableImageFactory
     {
-        public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
-        {
-            var drawingVisual = new DrawingVisual();
-            var drawingContext = drawingVisual.RenderOpen();
-            var context = new MemoryGraphicsContextWrapper(drawingVisual, drawingContext, width, height);
-            return context;
-        }
-
         public IDisposable CreateImageFromByteArray(byte[] data)
         {
-            int width = 100;
-            int height = 100;
-            float density = 1;
-            float dpi = 96;
-            using (var g = System.Drawing.Graphics.FromHwnd(IntPtr.Zero))
+            BitmapImage bitmap = null;
+            try
             {
-                dpi = g.DpiX;
-                density = g.DpiX/96f;
+                var stream = new MemoryStream(data);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+                bitmap.Freeze();
             }
-            var pixelFormat = PixelFormats.Pbgra32;
-            var bytesPerPixel = (pixelFormat.BitsPerPixel + 7) / 8;
-            var stride = bytesPerPixel * width;
-            var bitmap = BitmapSource.Create(width, height, dpi, dpi, pixelFormat, null, data, stride);
+            catch (Exception ex)
+            {
+                //Console.WriteLine("DisposableImageFactory - Failed to create bitmap from byte array: {0}", ex);
+                return null;
+            }
+
             var disposableBitmap = new DisposableBitmap(bitmap);
             return disposableBitmap;
         }

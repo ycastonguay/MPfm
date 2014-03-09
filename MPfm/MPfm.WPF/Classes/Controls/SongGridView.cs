@@ -23,6 +23,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.GenericControls.Controls.Songs;
+using MPfm.GenericControls.Graphics;
+using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
@@ -69,7 +71,8 @@ namespace MPfm.WPF.Classes.Controls
             DockPanel.SetDock(_horizontalScrollBar, Dock.Bottom);
             Children.Add(_horizontalScrollBar);
 
-            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar);
+            var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
+            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -137,7 +140,10 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            _control.MouseWheel(e.Delta);
+            if(e.Delta > 0)
+                _control.MouseWheel(2);
+            else if(e.Delta < 0)
+                _control.MouseWheel(-2);
             base.OnMouseWheel(e);
         }
     }
