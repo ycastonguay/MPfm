@@ -17,9 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -35,28 +34,30 @@ namespace MPfm.WPF.Classes.Controls
         private SongGridViewControl _control;
         private HorizontalScrollBarWrapper _horizontalScrollBar;
         private VerticalScrollBarWrapper _verticalScrollBar;
-        private WindowsFormsHost _hostHorizontalScrollBar;
-        private WindowsFormsHost _hostVerticalScrollBar;
 
         public SongGridView()
             : base()
         {
+            var dummy = new Control();
+            DockPanel.SetDock(dummy, Dock.Left);
+            Children.Add(dummy);
+
             // Create wrappers for scrollbars so the generic control can interact with them
             _verticalScrollBar = new VerticalScrollBarWrapper();
-            _verticalScrollBar.Width = 40;
-            _verticalScrollBar.Height = 200;
+            _verticalScrollBar.Width = 20;
+            _verticalScrollBar.Height = Double.NaN;
             _verticalScrollBar.Minimum = 1;
             _verticalScrollBar.Maximum = 100;
-            _verticalScrollBar.Value = 50;
+            _verticalScrollBar.Margin = new Thickness(0, 0, 0, 20);
             DockPanel.SetDock(_verticalScrollBar, Dock.Right);
             Children.Add(_verticalScrollBar);
 
             _horizontalScrollBar = new HorizontalScrollBarWrapper();
-            _horizontalScrollBar.Width = 200;
-            _horizontalScrollBar.Height = 40;
+            _horizontalScrollBar.Width = Double.NaN;
+            _horizontalScrollBar.Height = 20;
             _horizontalScrollBar.Minimum = 1;
             _horizontalScrollBar.Maximum = 100;
-            _horizontalScrollBar.Value = 50;
+            _horizontalScrollBar.VerticalAlignment = VerticalAlignment.Bottom;                
             DockPanel.SetDock(_horizontalScrollBar, Dock.Bottom);
             Children.Add(_horizontalScrollBar);
 
@@ -111,6 +112,7 @@ namespace MPfm.WPF.Classes.Controls
             _control.MouseLeave();
             base.OnMouseLeave(e);
         }
+
 
         //protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         //{

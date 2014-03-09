@@ -17,6 +17,7 @@
 
 //using System.Windows.Forms;
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -29,20 +30,27 @@ namespace MPfm.WPF.Classes.Controls
     {
         public event ScrollValueChanged OnScrollValueChanged;
         bool IHorizontalScrollBarWrapper.Visible { get; set; }
-        bool IHorizontalScrollBarWrapper.Enabled { get; set; }
-        int IHorizontalScrollBarWrapper.Width { get; set; }
-        int IHorizontalScrollBarWrapper.Height { get; set; }
-        int IHorizontalScrollBarWrapper.Value { get; set; }
-        int IHorizontalScrollBarWrapper.Maximum { get; set; }
-        int IHorizontalScrollBarWrapper.Minimum { get; set; }
-        int IHorizontalScrollBarWrapper.SmallChange { get; set; }
-        int IHorizontalScrollBarWrapper.LargeChange { get; set; }
+        bool IHorizontalScrollBarWrapper.Enabled { get { return IsEnabled; } set { IsEnabled = value; } }
+        int IHorizontalScrollBarWrapper.Width { get { return (int)Width; } set { Width = value; } }
+        int IHorizontalScrollBarWrapper.Height { get { return (int)Height; } set { Height = value; } }
+        int IHorizontalScrollBarWrapper.Value { get { return (int)Value; } set { Value = value; } }
+        int IHorizontalScrollBarWrapper.Minimum { get { return (int)Minimum; } set { Minimum = value; } }
+        int IHorizontalScrollBarWrapper.Maximum { get { return (int)Maximum; } set { Maximum = value; } }
+        int IHorizontalScrollBarWrapper.SmallChange { get { return (int)SmallChange; } set { SmallChange = value; } }
+        int IHorizontalScrollBarWrapper.LargeChange { get { return (int)LargeChange; } set { LargeChange = value; } }
 
         public HorizontalScrollBarWrapper()
         {
             Orientation = Orientation.Horizontal;
-            HorizontalAlignment = HorizontalAlignment.Left;
-            Background = new SolidColorBrush(Colors.HotPink);
         }
+
+        protected override void OnValueChanged(double oldValue, double newValue)
+        {
+            //Console.WriteLine("HorizontalScrollBarWrapper - OnValueChanged - newValue: {0} (min: {1} max: {2})", newValue, Minimum, Maximum);
+            base.OnValueChanged(oldValue, newValue);
+            if (OnScrollValueChanged != null)
+                OnScrollValueChanged(this, new EventArgs());
+        }
+
     }
 }

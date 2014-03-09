@@ -399,18 +399,10 @@ namespace MPfm.GenericControls.Controls.Songs
             timerAnimationNowPlaying.Enabled = true;
 
             VerticalScrollBar = verticalScrollBar;
-            VerticalScrollBar.Width = 16;
-            //VerticalScrollBar.Scroll += new ScrollEventHandler(vScrollBar_Scroll);
-            //Controls.Add(VerticalScrollBar);
+            VerticalScrollBar.OnScrollValueChanged += (sender, args) => OnInvalidateVisual();
 
             HorizontalScrollBar = horizontalScrollBar;
-            //// Create horizontal scrollbar
-            //HorizontalScrollBar = new System.Windows.Forms.HScrollBar();
-            //HorizontalScrollBar.Width = ClientRectangle.Width;
-            //HorizontalScrollBar.Height = 16;
-            //HorizontalScrollBar.Top = ClientRectangle.Height - HorizontalScrollBar.Height;
-            //HorizontalScrollBar.Scroll += new ScrollEventHandler(hScrollBar_Scroll);
-            //Controls.Add(HorizontalScrollBar);
+            HorizontalScrollBar.OnScrollValueChanged += (sender, args) => OnInvalidateVisual();
 
             //// Override mouse messages for mouse wheel (get mouse wheel events out of control)
             //Application.AddMessageFilter(this);
@@ -754,26 +746,6 @@ namespace MPfm.GenericControls.Controls.Songs
         //    InvalidateSongCache();
 
         //    base.OnResize(e);
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user changes the horizontal scrollbar value.
-        ///// </summary>
-        ///// <param name="sender">Event sender</param>
-        ///// <param name="e">Event arguments</param>
-        //protected void hScrollBar_Scroll(object sender, ScrollEventArgs e)
-        //{
-        //    Refresh();
-        //}
-
-        ///// <summary>
-        ///// Occurs when the user changes the vertical scrollbar value.
-        ///// </summary>
-        ///// <param name="sender">Event sender</param>
-        ///// <param name="e">Event arguments</param>
-        //protected void vScrollBar_Scroll(object sender, ScrollEventArgs e)
-        //{
-        //    Refresh();
         //}
 
         ///// <summary>
@@ -1144,11 +1116,11 @@ namespace MPfm.GenericControls.Controls.Songs
                 return;
 
             // If frame doesn't match, refresh frame and song cache
-            if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight)
+            if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight || _songCache == null)
             {
                 Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
                 InvalidateSongCache();
-            }
+            }            
 
             // Calculate how many lines must be skipped because of the scrollbar position
             _startLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (_songCache.LineHeight)), 0);
@@ -1863,7 +1835,7 @@ namespace MPfm.GenericControls.Controls.Songs
             }
 
             stopwatch.Stop();
-            Console.WriteLine("SongGridViewControl - Render - Completed in {0} - frame: {1} numberOfLinesToDraw: {2}", stopwatch.Elapsed, Frame, _numberOfLinesToDraw);
+            //Console.WriteLine("SongGridViewControl - Render - Completed in {0} - frame: {1} numberOfLinesToDraw: {2}", stopwatch.Elapsed, Frame, _numberOfLinesToDraw);
         }        
 
         /// <summary>

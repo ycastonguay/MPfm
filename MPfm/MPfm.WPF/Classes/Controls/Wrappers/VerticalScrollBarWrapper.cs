@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using MPfm.GenericControls.Wrappers;
@@ -25,20 +26,26 @@ namespace MPfm.WPF.Classes.Controls
     {
         public event ScrollValueChanged OnScrollValueChanged;
         bool IVerticalScrollBarWrapper.Visible { get; set; }
-        bool IVerticalScrollBarWrapper.Enabled { get; set; }
-        int IVerticalScrollBarWrapper.Width { get; set; }
-        int IVerticalScrollBarWrapper.Height { get; set; }
-        int IVerticalScrollBarWrapper.Value { get; set; }
-        int IVerticalScrollBarWrapper.Maximum { get; set; }
-        int IVerticalScrollBarWrapper.Minimum { get; set; }
-        int IVerticalScrollBarWrapper.SmallChange { get; set; }
-        int IVerticalScrollBarWrapper.LargeChange { get; set; }
+        bool IVerticalScrollBarWrapper.Enabled { get { return IsEnabled; } set { IsEnabled = value; } }
+        int IVerticalScrollBarWrapper.Width { get { return (int) Width; } set { Width = value; } }
+        int IVerticalScrollBarWrapper.Height { get { return (int) Height; } set { Height = value; } }
+        int IVerticalScrollBarWrapper.Value { get { return (int)Value; } set { Value = value; } }
+        int IVerticalScrollBarWrapper.Minimum { get { return (int)Minimum; } set { Minimum = value; } }
+        int IVerticalScrollBarWrapper.Maximum { get { return (int)Maximum; } set { Maximum = value; } }
+        int IVerticalScrollBarWrapper.SmallChange { get { return (int)SmallChange; } set { SmallChange = value; } }
+        int IVerticalScrollBarWrapper.LargeChange { get { return (int)LargeChange; } set { LargeChange = value; } }
 
         public VerticalScrollBarWrapper()
         {
-            Orientation = System.Windows.Controls.Orientation.Vertical;
-            HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-            Background = new SolidColorBrush(Colors.PowderBlue);
+            Orientation = System.Windows.Controls.Orientation.Vertical;            
+        }
+
+        protected override void OnValueChanged(double oldValue, double newValue)
+        {
+            //Console.WriteLine("VerticalScrollBarWrapper - OnValueChanged - newValue: {0} (min: {1} max: {2})", newValue, Minimum, Maximum);
+            base.OnValueChanged(oldValue, newValue);
+            if(OnScrollValueChanged != null)
+                OnScrollValueChanged(this, new EventArgs());
         }
     }
 }
