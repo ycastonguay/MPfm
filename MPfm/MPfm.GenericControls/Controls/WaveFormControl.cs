@@ -417,7 +417,7 @@ namespace MPfm.GenericControls.Controls
             }
         }
 
-        public void MouseDown(float x, float y, MouseButtonType button)
+        public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             _isMouseDown = true;
             if (AudioFile == null)
@@ -429,7 +429,7 @@ namespace MPfm.GenericControls.Controls
             SecondaryPosition = (long)(positionPercentage * Length);
         }
 
-        public void MouseUp(float x, float y, MouseButtonType button)
+        public void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             _isMouseDown = false;
             if (AudioFile == null)
@@ -447,13 +447,17 @@ namespace MPfm.GenericControls.Controls
             }
         }
 
-        public void MouseDoubleClick(float x, float y, MouseButtonType button)
+        public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
+        {
+        }
+
+        public void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
         }
 
         public void MouseMove(float x, float y, MouseButtonType button)
         {
-            Console.WriteLine("WaveFormControl - MouseMove - x: {0} y: {1}", x, y);
+            //Console.WriteLine("WaveFormControl - MouseMove - x: {0} y: {1}", x, y);
             if (AudioFile == null)
                 return;
 
@@ -472,6 +476,10 @@ namespace MPfm.GenericControls.Controls
         }
 
         public void MouseEnter()
+        {
+        }
+
+        public void MouseWheel(float delta)
         {
         }
     }

@@ -85,12 +85,18 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            //Console.WriteLine("SongGridView - OnMouseDown - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseDown(e, this, _control);
+            if (e.ClickCount == 1)
+                GenericControlHelper.MouseClick(e, this, _control);
+            else if (e.ClickCount == 2)
+                GenericControlHelper.MouseDoubleClick(e, this, _control);
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
+            //Console.WriteLine("SongGridView - OnMouseUp - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseUp(e, this, _control);
             base.OnMouseUp(e);
         }
@@ -113,11 +119,10 @@ namespace MPfm.WPF.Classes.Controls
             base.OnMouseLeave(e);
         }
 
-
-        //protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
-        //{
-        //    GenericControlHelper.MouseDoubleClick(e, this, _control);
-        //    base.OnMouseDoubleClick(e);
-        //}
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            _control.MouseWheel(e.Delta);
+            base.OnMouseWheel(e);
+        }
     }
 }
