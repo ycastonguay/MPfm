@@ -103,7 +103,8 @@ namespace MPfm.WPF.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
-            throw new System.NotImplementedException();
+            var formattedText = new FormattedText(text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, new Typeface(fontFace), fontSize, new SolidColorBrush(GenericControlHelper.ToColor(color)));
+            _context.DrawText(formattedText, GenericControlHelper.ToPoint(new BasicPoint(rectangle.X, rectangle.Y)));
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)

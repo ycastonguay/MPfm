@@ -15,31 +15,34 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.ComponentModel;
+//using System.Windows.Forms;
+
 using System.Windows;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using System.Windows.Threading;
-using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Wrappers;
-using MPfm.WPF.Classes.Controls.Graphics;
-using MPfm.WPF.Classes.Controls.Helpers;
-using MPfm.WPF.Classes.Extensions;
-using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls
 {
-    public class HorizontalScrollBarWrapper : Control, IHorizontalScrollBarWrapper
+    public class HorizontalScrollBarWrapper : ScrollBar, IHorizontalScrollBarWrapper
     {
         public event ScrollValueChanged OnScrollValueChanged;
-        public bool Visible { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int Value { get; set; }
-        public int Maximum { get; set; }
-        public int LargeChange { get; set; }
+        bool IHorizontalScrollBarWrapper.Visible { get; set; }
+        bool IHorizontalScrollBarWrapper.Enabled { get; set; }
+        int IHorizontalScrollBarWrapper.Width { get; set; }
+        int IHorizontalScrollBarWrapper.Height { get; set; }
+        int IHorizontalScrollBarWrapper.Value { get; set; }
+        int IHorizontalScrollBarWrapper.Maximum { get; set; }
+        int IHorizontalScrollBarWrapper.Minimum { get; set; }
+        int IHorizontalScrollBarWrapper.SmallChange { get; set; }
+        int IHorizontalScrollBarWrapper.LargeChange { get; set; }
+
+        public HorizontalScrollBarWrapper()
+        {
+            Orientation = Orientation.Horizontal;
+            HorizontalAlignment = HorizontalAlignment.Left;
+            Background = new SolidColorBrush(Colors.HotPink);
+        }
     }
 }

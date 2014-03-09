@@ -15,31 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using System.Windows.Threading;
-using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Wrappers;
-using MPfm.WPF.Classes.Controls.Graphics;
-using MPfm.WPF.Classes.Controls.Helpers;
-using MPfm.WPF.Classes.Extensions;
-using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls
 {
-    public class VerticalScrollBarWrapper : Control, IVerticalScrollBarWrapper
+    public class VerticalScrollBarWrapper : ScrollBar, IVerticalScrollBarWrapper
     {
         public event ScrollValueChanged OnScrollValueChanged;
-        public bool Visible { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int Value { get; set; }
-        public int Maximum { get; set; }
-        public int LargeChange { get; set; }
+        bool IVerticalScrollBarWrapper.Visible { get; set; }
+        bool IVerticalScrollBarWrapper.Enabled { get; set; }
+        int IVerticalScrollBarWrapper.Width { get; set; }
+        int IVerticalScrollBarWrapper.Height { get; set; }
+        int IVerticalScrollBarWrapper.Value { get; set; }
+        int IVerticalScrollBarWrapper.Maximum { get; set; }
+        int IVerticalScrollBarWrapper.Minimum { get; set; }
+        int IVerticalScrollBarWrapper.SmallChange { get; set; }
+        int IVerticalScrollBarWrapper.LargeChange { get; set; }
+
+        public VerticalScrollBarWrapper()
+        {
+            Orientation = System.Windows.Controls.Orientation.Vertical;
+            HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            Background = new SolidColorBrush(Colors.PowderBlue);
+        }
     }
 }

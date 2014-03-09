@@ -17,35 +17,50 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Documents;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Controls.Songs;
-using MPfm.GenericControls.Interaction;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
-using MPfm.WPF.Classes.Extensions;
-using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls
 {
-    public class SongGridView : Control
+    public class SongGridView : DockPanel
     {
         private SongGridViewControl _control;
-        private HorizontalScrollBarWrapper _horizontalBarWrapper;
-        private VerticalScrollBarWrapper _verticalBarWrapper;
+        private HorizontalScrollBarWrapper _horizontalScrollBar;
+        private VerticalScrollBarWrapper _verticalScrollBar;
+        private WindowsFormsHost _hostHorizontalScrollBar;
+        private WindowsFormsHost _hostVerticalScrollBar;
 
         public SongGridView()
             : base()
         {
-            _horizontalBarWrapper = new HorizontalScrollBarWrapper();
-            _verticalBarWrapper = new VerticalScrollBarWrapper();
-            _control = new SongGridViewControl();
+            // Create wrappers for scrollbars so the generic control can interact with them
+            _verticalScrollBar = new VerticalScrollBarWrapper();
+            _verticalScrollBar.Width = 40;
+            _verticalScrollBar.Height = 200;
+            _verticalScrollBar.Minimum = 1;
+            _verticalScrollBar.Maximum = 100;
+            _verticalScrollBar.Value = 50;
+            DockPanel.SetDock(_verticalScrollBar, Dock.Right);
+            Children.Add(_verticalScrollBar);
+
+            _horizontalScrollBar = new HorizontalScrollBarWrapper();
+            _horizontalScrollBar.Width = 200;
+            _horizontalScrollBar.Height = 40;
+            _horizontalScrollBar.Minimum = 1;
+            _horizontalScrollBar.Maximum = 100;
+            _horizontalScrollBar.Value = 50;
+            DockPanel.SetDock(_horizontalScrollBar, Dock.Bottom);
+            Children.Add(_horizontalScrollBar);
+
+            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar);
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -97,10 +112,10 @@ namespace MPfm.WPF.Classes.Controls
             base.OnMouseLeave(e);
         }
 
-        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
-        {
-            GenericControlHelper.MouseDoubleClick(e, this, _control);
-            base.OnMouseDoubleClick(e);
-        }
+        //protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        //{
+        //    GenericControlHelper.MouseDoubleClick(e, this, _control);
+        //    base.OnMouseDoubleClick(e);
+        //}
     }
 }

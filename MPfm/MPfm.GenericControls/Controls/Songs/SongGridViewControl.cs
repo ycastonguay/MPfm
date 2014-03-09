@@ -1,4 +1,4 @@
-// Copyright © 2011-2013 Yanick Castonguay
+// Copyri3w2qght © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -41,8 +42,8 @@ namespace MPfm.GenericControls.Controls.Songs
         private SongGridViewMode _mode = SongGridViewMode.AudioFile;
 
         // Controls
-//        private IVerticalScrollBarWrapper VerticalScrollBar = null;
-//        private IHorizontalScrollBarWrapper HorizontalScrollBar = null;
+        public IHorizontalScrollBarWrapper HorizontalScrollBar { get; private set; }
+        public IVerticalScrollBarWrapper VerticalScrollBar { get; private set; }
         //private ContextMenuStrip _menuColumns = null;
 
         // Background worker for updating album art
@@ -52,7 +53,6 @@ namespace MPfm.GenericControls.Controls.Songs
         private Timer _timerUpdateAlbumArt = null;        
         private SongGridViewCache _songCache = null;
         private List<SongGridViewImageCache> _imageCache = new List<SongGridViewImageCache>();
-
         private const int MinimumColumnWidth = 30;
 
         // Private variables used for mouse events
@@ -70,9 +70,6 @@ namespace MPfm.GenericControls.Controls.Songs
         private BasicRectangle _rectNowPlaying = new BasicRectangle(0, 0, 1, 1);
         private Timer timerAnimationNowPlaying = null;
         
-        public IHorizontalScrollBarWrapper HorizontalScrollBar { get; private set; }
-        public IVerticalScrollBarWrapper VerticalScrollBar { get; private set; }
-
         public delegate void SelectedIndexChanged(SongGridViewSelectedIndexChangedData data);
         public delegate void ColumnClick(SongGridViewColumnClickData data);
 
@@ -388,11 +385,12 @@ namespace MPfm.GenericControls.Controls.Songs
         /// <summary>
         /// Default constructor for SongGridView.
         /// </summary>
-        public SongGridViewControl()
+        public SongGridViewControl(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar)
         {
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
 
+            Frame = new BasicRectangle();
             _theme = new SongGridViewTheme();
 
             timerAnimationNowPlaying = new Timer();
@@ -400,12 +398,12 @@ namespace MPfm.GenericControls.Controls.Songs
             timerAnimationNowPlaying.Elapsed += TimerAnimationNowPlayingOnElapsed;
             timerAnimationNowPlaying.Enabled = true;
 
-            //VerticalScrollBar = verticalScrollBar;
-            //VerticalScrollBar.Width = 16;
+            VerticalScrollBar = verticalScrollBar;
+            VerticalScrollBar.Width = 16;
             //VerticalScrollBar.Scroll += new ScrollEventHandler(vScrollBar_Scroll);
             //Controls.Add(VerticalScrollBar);
 
-            //HorizontalScrollBar = horizontalScrollBar;
+            HorizontalScrollBar = horizontalScrollBar;
             //// Create horizontal scrollbar
             //HorizontalScrollBar = new System.Windows.Forms.HScrollBar();
             //HorizontalScrollBar.Width = ClientRectangle.Width;
@@ -1078,11 +1076,14 @@ namespace MPfm.GenericControls.Controls.Songs
             if (_items == null)
                 return;
 
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             var rect = new BasicRectangle();
             BasicPen pen = null;
             BasicBrush brush = null;
             BasicGradientBrush brushGradient = null;
-            var penTransparent = new BasicPen();            
+            var penTransparent = new BasicPen();    
             //BasicColor colorNowPlaying1 = _theme.RowNowPlayingTextGradient.Color1;
             //BasicColor colorNowPlaying2 = _theme.RowNowPlayingTextGradient.Color2;
             var colorNowPlaying1 = new BasicColor(255, 0, 0);
@@ -1142,9 +1143,12 @@ namespace MPfm.GenericControls.Controls.Songs
             if (_items == null)
                 return;
 
-            // Check if a cache exists, or if the cache needs to be refreshed
-            if (_songCache == null)
+            // If frame doesn't match, refresh frame and song cache
+            if (Frame.Width != context.BoundsWidth || Frame.Height != context.BoundsHeight)
+            {
+                Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
                 InvalidateSongCache();
+            }
 
             // Calculate how many lines must be skipped because of the scrollbar position
             _startLineNumber = Math.Max((int) Math.Floor((double) VerticalScrollBar.Value/(double) (_songCache.LineHeight)), 0);
@@ -1168,9 +1172,9 @@ namespace MPfm.GenericControls.Controls.Songs
 
             // Loop through lines
             for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-            {
-                // Get audio file
-                AudioFile audioFile = _items[a].AudioFile;
+            {                
+                var audioFile = _items[a].AudioFile;
+                //Console.WriteLine("SongGridViewControl - Line {0} - AudioFile: {1}/{2}/{3}", a, audioFile.ArtistName, audioFile.AlbumTitle, audioFile.Title);
 
                 // Calculate Y offset (compensate for scrollbar position)
                 offsetY = (a * _songCache.LineHeight) - VerticalScrollBar.Value + _songCache.LineHeight;
@@ -1186,7 +1190,6 @@ namespace MPfm.GenericControls.Controls.Songs
                     lineBackgroundWidth -= VerticalScrollBar.Width;
 
                 // Set rectangle                
-                //Rectangle rectBackground = new Rectangle(albumArtColumnWidth - HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, _songCache.LineHeight);                
                 var rectBackground = new BasicRectangle(albumArtColumnWidth - HorizontalScrollBar.Value, offsetY, lineBackgroundWidth, _songCache.LineHeight + 1);
                 
                 // Set default line background color
@@ -1211,11 +1214,11 @@ namespace MPfm.GenericControls.Controls.Songs
                     // Use darker color
                     int diff = 40;
                     colorBackground1 = new BasicColor(255,
-                        (byte) ((colorBackground1.R - diff < 0) ? 0 : colorBackground1.R - diff),
+                        (byte)((colorBackground1.R - diff < 0) ? 0 : colorBackground1.R - diff),
                         (byte)((colorBackground1.G - diff < 0) ? 0 : colorBackground1.G - diff),
                         (byte)((colorBackground1.B - diff < 0) ? 0 : colorBackground1.B - diff));
                     colorBackground2 = new BasicColor(255,
-                        (byte) ((colorBackground2.R - diff < 0) ? 0 : colorBackground2.R - diff),
+                        (byte)((colorBackground2.R - diff < 0) ? 0 : colorBackground2.R - diff),
                         (byte)((colorBackground2.G - diff < 0) ? 0 : colorBackground2.G - diff),
                         (byte)((colorBackground2.B - diff < 0) ? 0 : colorBackground2.B - diff));
                 }
@@ -1243,25 +1246,21 @@ namespace MPfm.GenericControls.Controls.Songs
                     colorNowPlaying2 = colorBackground2;
                 }
 
-                // Create gradient
-                //brushGradient = new LinearGradientBrush(rectBackground, colorBackground1, colorBackground2, 90);
+                // Draw row background
+                //colorBackground1 = new BasicColor(0, 255, 0);
+                //colorBackground2 = new BasicColor(0, 255, 255);
                 brushGradient = new BasicGradientBrush(colorBackground1, colorBackground2, 90);
-                //g.FillRectangle(brushGradient, rectBackground);
                 context.DrawRectangle(rectBackground, brushGradient, penTransparent);
-                //brushGradient.Dispose();
-                //brushGradient = null;
+                //Console.WriteLine("SongGridViewControl - Drawing background - rect: {0}", rectBackground);
 
                 // Loop through columns                
                 offsetX = 0;
                 for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
                 {
-                    // Get current column
-                    SongGridViewColumn column = _songCache.ActiveColumns[b];
-
-                    // Check if the column is visible
+                    var column = _songCache.ActiveColumns[b];
+                    //Console.WriteLine("SongGridViewControl - Line {0} Col {1} {2}", a, b, column.FieldName);
                     if (column.Visible)
                     {
-                        // Check if this is the "Now playing" column
                         if (column.Title == "Now Playing")
                         {
                             // Draw now playing icon
@@ -1589,75 +1588,45 @@ namespace MPfm.GenericControls.Controls.Songs
                         }
                         else
                         {
-                            // Get property through reflection
+                            // Print value depending on type
                             PropertyInfo propertyInfo = audioFile.GetType().GetProperty(column.FieldName);
                             if (propertyInfo != null)
                             {
-                                // Get property value
                                 string value = string.Empty;
                                 try
                                 {
-                                    // Determine the type of value
                                     if (propertyInfo.PropertyType.FullName == "System.String")
                                     {
-                                        // Try to get the value
                                         value = propertyInfo.GetValue(audioFile, null).ToString();
                                     }
-                                    // Nullable Int64
                                     else if (propertyInfo.PropertyType.FullName.Contains("Int64") &&
                                             propertyInfo.PropertyType.FullName.Contains("Nullable"))
                                     {
-                                        // Try to get the value
                                         long? longValue = (long?)propertyInfo.GetValue(audioFile, null);
-
-                                        // Check if null
                                         if (longValue.HasValue)
-                                        {
-                                            // Render to string
                                             value = longValue.Value.ToString();
-                                        }
                                     }
-                                    // Nullable DateTime
                                     else if (propertyInfo.PropertyType.FullName.Contains("DateTime") &&
                                             propertyInfo.PropertyType.FullName.Contains("Nullable"))
                                     {
-                                        // Try to get the value
                                         DateTime? dateTimeValue = (DateTime?)propertyInfo.GetValue(audioFile, null);
-
-                                        // Check if null
                                         if (dateTimeValue.HasValue)
-                                        {
-                                            // Render to string
                                             value = dateTimeValue.Value.ToShortDateString() + " " + dateTimeValue.Value.ToShortTimeString();
-                                        }
                                     }
                                     else if (propertyInfo.PropertyType.FullName.Contains("System.UInt32"))
                                     {
-                                        // Try to get the value
                                         uint uintValue = (uint)propertyInfo.GetValue(audioFile, null);
-
-                                        // Render to string
                                         value = uintValue.ToString();
                                     }
                                     else if (propertyInfo.PropertyType.FullName.Contains("System.Int32"))
                                     {
-                                        // Try to get the value
                                         int intValue = (int)propertyInfo.GetValue(audioFile, null);
-
-                                        // Render to string
                                         value = intValue.ToString();
                                     }
                                     else if (propertyInfo.PropertyType.FullName.Contains("MPfm.Sound.AudioFileFormat"))
                                     {
-                                        // Try to get the value
                                         AudioFileFormat theValue = (AudioFileFormat)propertyInfo.GetValue(audioFile, null);
-
-                                        // Render to string
                                         value = theValue.ToString();
-                                    }
-                                    else
-                                    {
-                                        // If the type of unknown, leave the value empty
                                     }
                                 }
                                 catch
@@ -1675,7 +1644,7 @@ namespace MPfm.GenericControls.Controls.Songs
                                     {
                                         columnsWidth += _songCache.ActiveColumns[c].Width;
                                     }
-                                    columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
+                                    //columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
                                 }
 
                                 // Display text
@@ -1714,6 +1683,7 @@ namespace MPfm.GenericControls.Controls.Songs
                 _rectNowPlaying = new BasicRectangle(0, 0, 1, 1);
 
             // Draw header (for some reason, the Y must be set -1 to cover an area which isn't supposed to be displayed)
+            //Console.WriteLine("SongGridViewControl - Header");
             var rectBackgroundHeader = new BasicRectangle(0, -1, Frame.Width, _songCache.LineHeight + 1);
             //brushGradient = new LinearGradientBrush(rectBackgroundHeader, _theme.HeaderTextGradient.Color1, _theme.HeaderTextGradient.Color2, 90);
             brushGradient = new BasicGradientBrush(new BasicColor(90, 90, 90), new BasicColor(180, 180, 180), 90);
@@ -1726,7 +1696,8 @@ namespace MPfm.GenericControls.Controls.Songs
             offsetX = 0;
             for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
             {
-                SongGridViewColumn column = _songCache.ActiveColumns[b];
+                var column = _songCache.ActiveColumns[b];
+                //Console.WriteLine("SongGridViewControl - Header Col {0}", b);
                 if (column.Visible)
                 {
                     // The last column always take the remaining width
@@ -1890,6 +1861,9 @@ namespace MPfm.GenericControls.Controls.Songs
                 //brush.Dispose();
                 //brush = null;
             }
+
+            stopwatch.Stop();
+            Console.WriteLine("SongGridViewControl - Render - Completed in {0} - frame: {1} numberOfLinesToDraw: {2}", stopwatch.Elapsed, Frame, _numberOfLinesToDraw);
         }        
 
         /// <summary>
@@ -2458,98 +2432,88 @@ namespace MPfm.GenericControls.Controls.Songs
             //bmpTemp.Dispose();
             //bmpTemp = null;
 
-            //// Calculate the line height (try to measure the total possible height of characters using the custom or default font)
-            //_songCache.LineHeight = (int)sizeFont.Height + _theme.Padding;
-            //_songCache.TotalHeight = _songCache.LineHeight * _items.Count;
+            string allChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm!@#$%^&*()";
+            //var rectText = context.MeasureText(allChars, new BasicRectangle(0, 0, 1000, 100), "Roboto", 12);
+            var rectText = new BasicRectangle(0, 0, 100, 24);
 
-            //// Check if the total active columns width exceed the width available in the control
-            //_songCache.TotalWidth = 0;
-            //for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
-            //{
-            //    // Check if column is visible
-            //    if (_songCache.ActiveColumns[a].Visible)
-            //    {
-            //        // Increment total width
-            //        _songCache.TotalWidth += _songCache.ActiveColumns[a].Width;
-            //    }
-            //}
+            // Calculate the line height (try to measure the total possible height of characters using the custom or default font)
+            _songCache.LineHeight = (int)rectText.Height + _theme.Padding;
+            _songCache.TotalHeight = _songCache.LineHeight * _items.Count;
 
-            //// Calculate the number of lines visible (count out the header, which is one line height)
-            //_songCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(ClientRectangle.Height) / (double)(_songCache.LineHeight));
+            // Check if the total active columns width exceed the width available in the control
+            _songCache.TotalWidth = 0;
+            for (int a = 0; a < _songCache.ActiveColumns.Count; a++)
+                if (_songCache.ActiveColumns[a].Visible)
+                    _songCache.TotalWidth += _songCache.ActiveColumns[a].Width;
 
-            //// Set vertical scrollbar dimensions
+            // Calculate the number of lines visible (count out the header, which is one line height)
+            _songCache.NumberOfLinesFittingInControl = (int)Math.Floor((double)(Frame.Height) / (double)(_songCache.LineHeight));
+
+            // Set vertical scrollbar dimensions
             //VerticalScrollBar.Top = _songCache.LineHeight;
             //VerticalScrollBar.Left = ClientRectangle.Width - VerticalScrollBar.Width;
-            //VerticalScrollBar.Minimum = 0;
+            VerticalScrollBar.Minimum = 0;            
 
-            //// Scrollbar maximum is the number of lines fitting in the screen + the remaining line which might be cut
-            //// by the control height because it's not a multiple of line height (i.e. the last line is only partly visible)
-            //int lastLineHeight = ClientRectangle.Height - (_songCache.LineHeight * _songCache.NumberOfLinesFittingInControl);
+            // Scrollbar maximum is the number of lines fitting in the screen + the remaining line which might be cut
+            // by the control height because it's not a multiple of line height (i.e. the last line is only partly visible)
+            int lastLineHeight = (int) (Frame.Height - (_songCache.LineHeight * _songCache.NumberOfLinesFittingInControl));
 
-            //// Check width
-            //if (_songCache.TotalWidth > ClientRectangle.Width - VerticalScrollBar.Width)
-            //{
-            //    // Set scrollbar values
-            //    HorizontalScrollBar.Maximum = _songCache.TotalWidth;
-            //    HorizontalScrollBar.SmallChange = 5;
-            //    HorizontalScrollBar.LargeChange = ClientRectangle.Width;
+            // Check width
+            if (_songCache.TotalWidth > Frame.Width - VerticalScrollBar.Width)
+            {
+                // Set scrollbar values
+                HorizontalScrollBar.Maximum = _songCache.TotalWidth;
+                HorizontalScrollBar.SmallChange = 5;
+                HorizontalScrollBar.LargeChange = (int) Frame.Width;
+                HorizontalScrollBar.Visible = true;
+            }
 
-            //    // Show scrollbar
-            //    HorizontalScrollBar.Visible = true;
-            //}
+            // Check if the horizontal scrollbar needs to be turned off
+            if (_songCache.TotalWidth <= Frame.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
+                HorizontalScrollBar.Visible = false;
 
-            //// Check if the horizontal scrollbar needs to be turned off
-            //if (_songCache.TotalWidth <= ClientRectangle.Width - VerticalScrollBar.Width && HorizontalScrollBar.Visible)
-            //{
-            //    // Hide the horizontal scrollbar
-            //    HorizontalScrollBar.Visible = false;
-            //}
+            // If there are less items than items fitting on screen...            
+            if (((_songCache.NumberOfLinesFittingInControl - 1) * _songCache.LineHeight) - HorizontalScrollBar.Height >= _songCache.TotalHeight)
+            {
+                // Disable the scrollbar
+                VerticalScrollBar.Enabled = false;
+                VerticalScrollBar.Value = 0;
+            }
+            else
+            {
+                // Set scrollbar values
+                VerticalScrollBar.Enabled = true;
 
-            //// If there are less items than items fitting on screen...            
-            //if (((_songCache.NumberOfLinesFittingInControl - 1) * _songCache.LineHeight) - HorizontalScrollBar.Height >= _songCache.TotalHeight)
-            //{
-            //    // Disable the scrollbar
-            //    VerticalScrollBar.Enabled = false;
-            //    VerticalScrollBar.Value = 0;
-            //}
-            //else
-            //{
-            //    // Set scrollbar values
-            //    VerticalScrollBar.Enabled = true;
+                // The real large change needs to be added to the LargeChange and Maximum property in order to work. 
+                int realLargeChange = _songCache.LineHeight * 5;
 
-            //    // The real large change needs to be added to the LargeChange and Maximum property in order to work. 
-            //    int realLargeChange = _songCache.LineHeight * 5;
+                // Calculate the vertical scrollbar maximum
+                int vMax = _songCache.LineHeight * (_items.Count - _songCache.NumberOfLinesFittingInControl + 1) - lastLineHeight + realLargeChange;
 
-            //    // Calculate the vertical scrollbar maximum
-            //    int vMax = _songCache.LineHeight * (_items.Count - _songCache.NumberOfLinesFittingInControl + 1) - lastLineHeight + realLargeChange;
+                // Add the horizontal scrollbar height if visible
+                if (HorizontalScrollBar.Visible)
+                    vMax += HorizontalScrollBar.Height;
 
-            //    // Add the horizontal scrollbar height if visible
-            //    if (HorizontalScrollBar.Visible)
-            //    {
-            //        // Add height
-            //        vMax += HorizontalScrollBar.Height;
-            //    }
-                
-            //    // Compensate for the header, and for the last line which might be truncated by the control height
-            //    VerticalScrollBar.Maximum = vMax;
-            //    VerticalScrollBar.SmallChange = _songCache.LineHeight;
-            //    VerticalScrollBar.LargeChange = 1 + realLargeChange;
-            //}
+                // Compensate for the header, and for the last line which might be truncated by the control height
+                VerticalScrollBar.Maximum = vMax;
+                VerticalScrollBar.SmallChange = _songCache.LineHeight;
+                VerticalScrollBar.LargeChange = 1 + realLargeChange;
+            }
 
-            //// Calculate the scrollbar offset Y
-            //_songCache.ScrollBarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            // Calculate the scrollbar offset Y
+            _songCache.ScrollBarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
 
-            //// If both scrollbars need to be visible, the width and height must be changed
-            //if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
-            //{
-            //    // Cut 16 pixels
-            //    HorizontalScrollBar.Width = ClientRectangle.Width - 16;
-            //    VerticalScrollBar.Height = ClientRectangle.Height - _songCache.LineHeight - 16;
-            //}
-            //else
-            //{
-            //    VerticalScrollBar.Height = ClientRectangle.Height - _songCache.LineHeight;
-            //}
+            // If both scrollbars need to be visible, the width and height must be changed
+            if (HorizontalScrollBar.Visible && VerticalScrollBar.Visible)
+            {
+                // Cut 16 pixels
+                HorizontalScrollBar.Width = (int) (Frame.Width - 16);
+                VerticalScrollBar.Height = (int) (Frame.Height - _songCache.LineHeight - 16);
+            }
+            else
+            {
+                VerticalScrollBar.Height = (int) (Frame.Height - _songCache.LineHeight);
+            }
         }
 
         /// <summary>
