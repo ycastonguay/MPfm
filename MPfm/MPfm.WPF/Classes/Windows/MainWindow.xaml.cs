@@ -65,14 +65,12 @@ namespace MPfm.WPF.Classes.Windows
         {
             InitializeComponent();
             Initialize();
-            SetLegacyControlTheme();
             ViewIsReady();
         }
 
         private void Initialize()
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
-            gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
             gridViewSongsNew.DoubleClick += GridViewSongsNewOnDoubleClick;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
@@ -90,18 +88,6 @@ namespace MPfm.WPF.Classes.Windows
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
             RefreshSongInformation(null, 0, 0, 0);
-        }
-
-        private void SetLegacyControlTheme()
-        {
-            var fontRow = new CustomFont("Roboto", 8, System.Drawing.Color.FromArgb(255, 0, 0, 0));
-            var fontHeader = new CustomFont("Roboto", 8, System.Drawing.Color.FromArgb(255, 255, 255, 255));
-            gridViewSongs.Theme.AlbumCoverBackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
-            gridViewSongs.Theme.HeaderHoverTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
-            gridViewSongs.Theme.HeaderTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
-            gridViewSongs.Theme.IconNowPlayingGradient = new Gradient(System.Drawing.Color.FromArgb(255, 250, 200, 250), System.Drawing.Color.FromArgb(255, 25, 150, 25), LinearGradientMode.Horizontal);
-            gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
-            gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -220,14 +206,6 @@ namespace MPfm.WPF.Classes.Windows
                 }
             }
             e.Handled = true;
-        }
-
-        private void GridViewSongsOnDoubleClick(object sender, EventArgs eventArgs)
-        {
-            if (gridViewSongs.SelectedItems.Count == 0)
-                return;
-
-            OnTableRowDoubleClicked(gridViewSongs.SelectedItems[0].AudioFile);
         }
 
         private void GridViewSongsNewOnDoubleClick(object sender, EventArgs eventArgs)
@@ -743,7 +721,6 @@ namespace MPfm.WPF.Classes.Windows
             {
                 //    //string orderBy = viewSongs2.OrderByFieldName;
                 //    //bool orderByAscending = viewSongs2.OrderByAscending;
-                gridViewSongs.ImportAudioFiles(audioFiles.ToList());
                 gridViewSongsNew.ImportAudioFiles(audioFiles.ToList());
             }));
         }
@@ -856,9 +833,7 @@ namespace MPfm.WPF.Classes.Windows
                 //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
                 //        miTraySongTitle.Text = audioFile.Title;
 
-                        gridViewSongs.NowPlayingAudioFileId = audioFile.Id;
                         gridViewSongsNew.NowPlayingAudioFileId = audioFile.Id;
-                        gridViewSongs.Refresh();
 
                         scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                         scrollViewWaveForm.LoadPeakFile(audioFile);

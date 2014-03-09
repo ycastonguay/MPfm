@@ -620,7 +620,6 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
-                                <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
@@ -637,10 +636,7 @@
                                     <Image Grid.Column="1" Source="/Resources/Images/Icons/search.png" Stretch="None" Margin="4,0,2,0" />
                                 </Grid>
                             </Grid>
-                            <WindowsFormsHost Grid.Row="1">
-                                <wc:SongGridView x:Name="gridViewSongs" />
-                            </WindowsFormsHost>
-                            <controls:SongGridView Grid.Row="2" x:Name="gridViewSongsNew" />
+                            <controls:SongGridView Grid.Row="1" x:Name="gridViewSongsNew" Background="{DynamicResource BrushBackgroundColor}" />
                         </Grid>
                     </Grid>
                 </Grid>
