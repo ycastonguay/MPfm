@@ -786,7 +786,7 @@ namespace MPfm.GenericControls.Controls.Songs
                 newValue = 0;
             
             VerticalScrollBar.Value = newValue;
-            //InvalidateVisual();
+            //OnInvalidateVisual();
         }
 
         /// <summary>

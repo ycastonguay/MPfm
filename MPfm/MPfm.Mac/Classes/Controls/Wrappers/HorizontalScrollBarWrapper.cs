@@ -17,6 +17,7 @@
 
 using MonoMac.AppKit;
 using MPfm.GenericControls.Wrappers;
+using System;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -48,7 +49,7 @@ namespace MPfm.Mac.Classes.Controls
         public HorizontalScrollBarWrapper()
         {
             //Orientation = Orientation.Horizontal;
-        }
+        }       
 
 //        protected override void OnValueChanged(double oldValue, double newValue)
 //        {

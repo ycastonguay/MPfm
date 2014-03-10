@@ -244,6 +244,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmSongGridView songGridView { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSSplitView splitMain { get; set; }
 
 		[Outlet]
@@ -466,6 +469,11 @@ namespace MPfm.Mac
 				btnChangeKey = null;
 			}
 
+			if (btnDecrementTimeShifting != null) {
+				btnDecrementTimeShifting.Dispose ();
+				btnDecrementTimeShifting = null;
+			}
+
 			if (btnDetectTempo != null) {
 				btnDetectTempo.Dispose ();
 				btnDetectTempo = null;
@@ -491,6 +499,11 @@ namespace MPfm.Mac
 				btnGoToMarker = null;
 			}
 
+			if (btnIncrementTimeShifting != null) {
+				btnIncrementTimeShifting.Dispose ();
+				btnIncrementTimeShifting = null;
+			}
+
 			if (btnPlayLoop != null) {
 				btnPlayLoop.Dispose ();
 				btnPlayLoop = null;
@@ -509,6 +522,11 @@ namespace MPfm.Mac
 			if (btnRemoveMarker != null) {
 				btnRemoveMarker.Dispose ();
 				btnRemoveMarker = null;
+			}
+
+			if (btnResetTimeShifting != null) {
+				btnResetTimeShifting.Dispose ();
+				btnResetTimeShifting = null;
 			}
 
 			if (btnTabActions != null) {
@@ -846,6 +864,11 @@ namespace MPfm.Mac
 				trackBarPosition = null;
 			}
 
+			if (trackBarTimeShifting != null) {
+				trackBarTimeShifting.Dispose ();
+				trackBarTimeShifting = null;
+			}
+
 			if (txtCurrentTempoValue != null) {
 				txtCurrentTempoValue.Dispose ();
 				txtCurrentTempoValue = null;
@@ -941,24 +964,9 @@ namespace MPfm.Mac
 				waveFormScrollView = null;
 			}
 
-			if (trackBarTimeShifting != null) {
-				trackBarTimeShifting.Dispose ();
-				trackBarTimeShifting = null;
-			}
-
-			if (btnDecrementTimeShifting != null) {
-				btnDecrementTimeShifting.Dispose ();
-				btnDecrementTimeShifting = null;
-			}
-
-			if (btnIncrementTimeShifting != null) {
-				btnIncrementTimeShifting.Dispose ();
-				btnIncrementTimeShifting = null;
-			}
-
-			if (btnResetTimeShifting != null) {
-				btnResetTimeShifting.Dispose ();
-				btnResetTimeShifting = null;
+			if (songGridView != null) {
+				songGridView.Dispose ();
+				songGridView = null;
 			}
 		}
 	}

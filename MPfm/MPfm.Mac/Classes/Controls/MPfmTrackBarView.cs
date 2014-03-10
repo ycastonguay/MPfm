@@ -97,12 +97,8 @@ namespace MPfm.Mac.Classes.Controls
                 if (OnTrackBarValueChanged != null)
                     OnTrackBarValueChanged();
             };
-            _control.OnInvalidateVisual += () => {
-                SetNeedsDisplayInRect(Bounds);
-            };
-            _control.OnInvalidateVisualInRect += (rect) => {
-                SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect));
-            };
+            _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
+            _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
         
         public override void DrawRect(RectangleF dirtyRect)

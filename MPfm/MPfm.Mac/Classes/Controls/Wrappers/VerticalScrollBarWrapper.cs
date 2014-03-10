@@ -17,6 +17,8 @@
 
 using MonoMac.AppKit;
 using MPfm.GenericControls.Wrappers;
+using System;
+using MonoMac.Foundation;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -35,7 +37,13 @@ namespace MPfm.Mac.Classes.Controls
                 frame.Height = value; 
                 Frame = frame;
             } }
-        int IVerticalScrollBarWrapper.Value { get { return (int)FloatValue; } set { FloatValue = value; } }
+        int IVerticalScrollBarWrapper.Value { get { 
+                Console.WriteLine("IVerticalScrollBarWrapper - Get Value {0}", FloatValue);
+                return (int)FloatValue; 
+            } set { 
+                Console.WriteLine("IVerticalScrollBarWrapper - Set Value to {0}", value);
+                FloatValue = value; 
+            } }
 //        int IHorizontalScrollBarWrapper.Minimum { get { return (int)Minimum; } set { Minimum = value; } }
 //        int IHorizontalScrollBarWrapper.Maximum { get { return (int)Maximum; } set { Maximum = value; } }
 //        int IHorizontalScrollBarWrapper.SmallChange { get { return (int)SmallChange; } set { SmallChange = value; } }
@@ -48,7 +56,15 @@ namespace MPfm.Mac.Classes.Controls
         public VerticalScrollBarWrapper()
         {
             //Orientation = Orientation.Horizontal;
+            Action = new MonoMac.ObjCRuntime.Selector("stuff:");
         }
+
+        [Export ("stuff:")]
+        private void Stuff(NSObject sender)
+        {
+            Console.WriteLine("STUFF");
+        }
+
 
 //        protected override void OnValueChanged(double oldValue, double newValue)
 //        {

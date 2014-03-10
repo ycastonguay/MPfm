@@ -962,6 +962,8 @@ namespace MPfm.Mac
                 tableSongBrowser.Source = _songBrowserSource;
                 _albumCoverSource = new AlbumCoverSource(_albumCoverCacheService, audioFiles);
                 tableAlbumCovers.Source = _albumCoverSource;
+
+                songGridView.ImportAudioFiles(audioFiles.ToList());
             });
 		}
 
