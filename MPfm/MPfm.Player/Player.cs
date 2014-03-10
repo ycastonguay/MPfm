@@ -30,6 +30,7 @@ using Un4seen.Bass.AddOn.Fx;
 using MPfm.Player.Events;
 using MPfm.Player.Exceptions;
 using MPfm.Player.Objects;
+using System.Diagnostics;
 
 #if !IOS && !ANDROID
 using Un4seen.BassAsio;
@@ -71,7 +72,7 @@ namespace MPfm.Player
         private System.Timers.Timer _timerPlayer = null;
         private Channel _streamChannel = null;
         private Channel _fxChannel = null;
-        private MixerChannel _mixerChannel = null;
+        private Channel _mixerChannel = null;
 
         // Plugin handles
         private int _fxEQHandle;
@@ -248,10 +249,7 @@ namespace MPfm.Player
 
                 // Check if the player is playing
                 if (_mixerChannel != null)
-                {
-                    // Set main volume
                     _mixerChannel.Volume = value;
-                }
 
 #if !IOS && !ANDROID
 
@@ -688,7 +686,7 @@ namespace MPfm.Player
             if (device.DriverType == DriverType.DirectSound)
             {
                 // Initialize sound system                
-                Base.Init(device.Id, mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT);
+                Base.Init(device.Id, mixerSampleRate, BASSInit.BASS_DEVICE_DEFAULT | BASSInit.BASS_DEVICE_LATENCY);
             }
 #if !IOS && !ANDROID
             else if (device.DriverType == DriverType.ASIO)
@@ -737,9 +735,8 @@ namespace MPfm.Player
             else if (OS.Type == OSType.MacOSX)
             {
 				// Default
-				// 10ms update period does not work under Linux. Major stuttering
-                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, _bufferSize);
-            	Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 100);					
+                Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 100);// _bufferSize);
+                Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 10);					
             }		
 
             _isDeviceInitialized = true;
@@ -901,7 +898,7 @@ namespace MPfm.Player
                     _playlist.Items[a].Load(_useFloatingPoint);
 
                 // Start decoding first playlist item
-                //playlist.Items[Playlist.CurrentItemIndex].Decode(0);
+                _playlist.Items[Playlist.CurrentItemIndex].Decode(0);
 
                 try
                 {
@@ -917,6 +914,8 @@ namespace MPfm.Player
                     _streamChannel = Channel.CreateStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, _streamProc);
 					//Tracing.Log("Player.Play -- Creating time shifting channel...");
                     _fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, true, _useFloatingPoint);
+                    //_fxChannel = Channel.CreateStreamForTimeShifting(_streamChannel.Handle, false, _useFloatingPoint);
+                    //_fxChannel = _streamChannel;
                 }
                 catch(Exception ex)
                 {
@@ -934,9 +933,10 @@ namespace MPfm.Player
                     try
                     {
                         // Create mixer stream
-						//Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
+						Tracing.Log("Player.Play -- Creating mixer channel (DirectSound)...");
                         _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, false);
                         _mixerChannel.AddChannel(_fxChannel.Handle);
+                        //_mixerChannel = _fxChannel;
                         AddBPMCallbacks();
                     }
                     catch (Exception ex)
@@ -958,7 +958,6 @@ namespace MPfm.Player
                         Tracing.Log("Player.Play -- Creating mixer channel (ASIO)...");
                         _mixerChannel = MixerChannel.CreateMixerStream(_playlist.CurrentItem.AudioFile.SampleRate, 2, _useFloatingPoint, true);
                         _mixerChannel.AddChannel(_fxChannel.Handle);
-
                     }
                     catch (Exception ex)
                     {
@@ -1388,7 +1387,16 @@ namespace MPfm.Player
             if(IsSettingPosition)
                 return 0;
 
-            long outputPosition = _mixerChannel.GetPosition(_fxChannel.Handle);            
+            long outputPosition = 0;
+            if (_mixerChannel is MixerChannel)
+            {
+                var mixerChannel = _mixerChannel as MixerChannel;
+                outputPosition = mixerChannel.GetPosition(_fxChannel.Handle);
+            } 
+            else
+            {
+                outputPosition = _mixerChannel.GetPosition();
+            }
             //long outputPosition = Playlist.CurrentItem.Channel.GetPosition();
 
             if(_useFloatingPoint)
@@ -1532,7 +1540,16 @@ namespace MPfm.Player
 #else
             Playlist.CurrentItem.SyncProc = new SYNCPROC(LoopSyncProc);
 #endif
-            Playlist.CurrentItem.SyncProcHandle = _mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
+
+            if (_mixerChannel is MixerChannel)
+            {
+                var mixerChannel = _mixerChannel as MixerChannel;
+                Playlist.CurrentItem.SyncProcHandle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
+            } 
+            else
+            {
+                Playlist.CurrentItem.SyncProcHandle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS | BASSSync.BASS_SYNC_MIXTIME, (endPositionBytes - startPositionBytes) * 2, Playlist.CurrentItem.SyncProc);
+            }
 
             // Set new callback (length already in floating point)
             SetSyncCallback((length - (startPositionBytes * 2))); // + buffered));
@@ -1554,7 +1571,15 @@ namespace MPfm.Player
                     return;
 
                 Tracing.Log("Player.StopLoop -- Removing sync...");
-                _mixerChannel.RemoveSync(_fxChannel.Handle, Playlist.CurrentItem.SyncProcHandle);
+                if (_mixerChannel is MixerChannel)
+                {
+                    var mixerChannel = _mixerChannel as MixerChannel;
+                    mixerChannel.RemoveSync(_fxChannel.Handle, Playlist.CurrentItem.SyncProcHandle);
+                } 
+                else
+                {
+                    _mixerChannel.RemoveSync(Playlist.CurrentItem.SyncProcHandle);
+                }
             }
             catch
             {
@@ -1732,7 +1757,16 @@ namespace MPfm.Player
             syncProc.SyncProc = new SYNCPROC(PlayerSyncProc);
 #endif
 
-            syncProc.Handle = _mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);            
+
+            if (_mixerChannel is MixerChannel)
+            {
+                var mixerChannel = _mixerChannel as MixerChannel;
+                syncProc.Handle = mixerChannel.SetSync(_fxChannel.Handle, BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);
+            } 
+            else
+            {
+                syncProc.Handle = _mixerChannel.SetSync(BASSSync.BASS_SYNC_POS, position, syncProc.SyncProc);
+            }
 
             _syncProcs.Add(syncProc);
 
@@ -1763,7 +1797,15 @@ namespace MPfm.Player
             {
                 if (_syncProcs[a].Handle == handle)
                 {
-                    _mixerChannel.RemoveSync(_fxChannel.Handle, _syncProcs[a].Handle);
+                    if (_mixerChannel is MixerChannel)
+                    {
+                        var mixerChannel = _mixerChannel as MixerChannel;
+                        mixerChannel.RemoveSync(_fxChannel.Handle, _syncProcs[a].Handle);
+                    } 
+                    else
+                    {
+                        _mixerChannel.RemoveSync(_syncProcs[a].Handle);
+                    }
                     _syncProcs[a].Handle = 0;
                     _syncProcs[a].SyncProc = null;
                     _syncProcs.RemoveAt(a);
@@ -1797,7 +1839,9 @@ namespace MPfm.Player
         #endregion
 
         #region Callback Events
-        
+
+        DateTime _lastDateTime = DateTime.Now;
+
         /// <summary>
         /// Callback used for standard devices (including DirectSound).
         /// </summary>
@@ -1808,6 +1852,9 @@ namespace MPfm.Player
         /// <returns>Audio data</returns>
         internal int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             // If the current sub channel is null, end the stream            
 			if(_playlist == null || _playlist.CurrentItem == null || _playlist.Items.Count < _currentMixPlaylistIndex || _playlist.Items[_currentMixPlaylistIndex] == null ||
 			   _playlist.Items[_currentMixPlaylistIndex].Channel == null)
@@ -1822,11 +1869,22 @@ namespace MPfm.Player
 
                 // Get data from the current channel since it is running
                 int data = _playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
-                return data;
+                //return data;
 
-//                byte[] bufferData = playlist.Items[currentMixPlaylistIndex].GetData(length);
-//                Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
-//                return bufferData.Length;
+                //byte[] bufferData = _playlist.Items[_currentMixPlaylistIndex].GetData(length);
+                //Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
+                //return bufferData.Length;
+
+                stopwatch.Stop();
+                //if(stopwatch.ElapsedMilliseconds > 0)
+                var info = Bass.BASS_GetInfo();
+                float cpu = Bass.BASS_GetCPU();
+                //var timeSpan = DateTime.Now - _lastDateTime;
+                //_lastDateTime = DateTime.Now;
+                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} data: {5} length: {6}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, data, length);
+                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} length: {5} elapsed since last call: {6}.{7}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, length, DateTime.Now.Second, DateTime.Now.Millisecond);
+                return data;
+                //return bufferData.Length;
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
@@ -1868,7 +1926,16 @@ namespace MPfm.Player
                 _mixerChannel.Lock(true);
 
 				//Tracing.Log("StreamCallback -- Getting main channel position...");
-                long position = _mixerChannel.GetPosition(_fxChannel.Handle);
+                long position = 0;
+                if (_mixerChannel is MixerChannel)
+                {
+                    var mixerChannel = _mixerChannel as MixerChannel;
+                    position = mixerChannel.GetPosition(_fxChannel.Handle);
+                } 
+                else
+                {
+                    position = _mixerChannel.GetPosition();
+                }
 //                if (_useFloatingPoint)
 //                    position /= 2;
 
@@ -1887,7 +1954,11 @@ namespace MPfm.Player
                 _mixerChannel.Lock(false);
 
                 // Return data from the new channel
-                return Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
+                var data = Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
+
+                stopwatch.Stop();
+                Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms)", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds);
+                return data;
             }
 
             return (int)BASSStreamProc.BASS_STREAMPROC_END;
