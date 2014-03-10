@@ -50,16 +50,18 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
+            var keysHeld = new KeysHeld();
             //Console.WriteLine("GenericControlHelper - MouseUp - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
-            control.MouseUp(point.X, point.Y, button);
+            control.MouseUp(point.X, point.Y, button, keysHeld);
         }    
 
         public static void MouseDown(NSView view, IControlMouseInteraction control, NSEvent theEvent)
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
+            var keysHeld = new KeysHeld();
             //Console.WriteLine("GenericControlHelper - MouseDown - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
-            control.MouseDown(point.X, point.Y, button);
+            control.MouseDown(point.X, point.Y, button, keysHeld);
         }    
 
         public static void MouseMove(NSView view, IControlMouseInteraction control, NSEvent theEvent)

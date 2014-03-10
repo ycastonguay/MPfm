@@ -31,6 +31,8 @@ using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
 using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Controls.Songs;
+using MPfm.GenericControls.Graphics;
+using MPfm.MVP.Bootstrap;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -53,7 +55,10 @@ namespace MPfm.Mac.Classes.Controls
         
         private void Initialize()
         {
-            _control = new SongGridViewControl();   
+            var horizontalScrollBar = new HorizontalScrollBarWrapper();
+            var verticalScrollBar = new VerticalScrollBarWrapper();
+            var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
+            _control = new SongGridViewControl(horizontalScrollBar, verticalScrollBar, disposableImageFactory);   
             // TODO: Could these be moved inside a generic helper or something?
             _control.OnInvalidateVisual += () => {
                 SetNeedsDisplayInRect(Bounds);

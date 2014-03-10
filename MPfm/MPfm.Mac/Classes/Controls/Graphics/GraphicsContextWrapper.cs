@@ -58,6 +58,11 @@ namespace MPfm.Mac.Classes.Controls.Graphics
         public float BoundsHeight { get; private set; }
         public float Density { get { return _density; } }
 
+        public void DrawImage(BasicRectangle rectangle, IDisposable image)
+        {
+            DrawImage(rectangle, rectangle, image);
+        }
+
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
             var bitmap = image as NSImage;

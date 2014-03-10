@@ -11,13 +11,9 @@
 		<string>MPfm.icns</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>org.mp4m.mac</string>
+	<string>org.sessionsapp.osx</string>
 	<key>CFBundleName</key>
-	<string>MPfm</string>
-	<key>CFBundleShortVersionString</key>
-	<string>0.6.0.1</string>
-	<key>CFBundleVersion</key>
-	<string>502</string>
+	<string>Sessions</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.music</string>
 	<key>LSMinimumSystemVersion</key>
@@ -26,5 +22,11 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleDisplayName</key>
+	<string>Sessions</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.8.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>600</string>
 </dict>
 </plist>
