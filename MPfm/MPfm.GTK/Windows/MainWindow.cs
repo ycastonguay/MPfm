@@ -35,6 +35,7 @@ using MPfm.MVP.Messages;
 using MPfm.Player.Objects;
 using MPfm.MVP.Presenters;
 using MPfm.GTK.Classes.Controls;
+using MPfm.Library.Objects;
 
 namespace MPfm.GTK.Windows
 {
@@ -724,8 +725,6 @@ namespace MPfm.GTK.Windows
         public System.Action OnOpenSyncCloudWindow { get; set; }
         public System.Action OnOpenSyncWebBrowserWindow { get; set; }
 
-        public System.Action<List<string>> OnAddFilesToLibrary { get; set; }
-        public System.Action<string> OnAddFolderToLibrary { get; set; }
         public System.Action OnUpdateLibrary { get; set; }
         public System.Action OnOpenResumePlayback { get; set; }
 
@@ -1150,6 +1149,32 @@ namespace MPfm.GTK.Windows
         }
 
         #endregion        
+
+		#region IUpdateLibraryView implementation
+
+		public System.Action<List<string>> OnAddFilesToLibrary { get; set; }
+		public System.Action<string> OnAddFolderToLibrary { get; set; }
+		public System.Action OnStartUpdateLibrary { get; set; }
+		public System.Action OnCancelUpdateLibrary { get; set; }
+		public System.Action<string> OnSaveLog { get; set; }
+
+		public void RefreshStatus(UpdateLibraryEntity entity)
+		{
+		}
+
+		public void AddToLog(string entry)
+		{
+		}
+
+		public void ProcessStarted()
+		{
+		}
+
+		public void ProcessEnded(bool canceled)
+		{
+		}
+
+		#endregion
 
 	}
 }

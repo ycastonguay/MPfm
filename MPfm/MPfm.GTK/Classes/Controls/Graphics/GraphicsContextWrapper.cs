@@ -31,6 +31,7 @@ namespace MPfm.GTK.Classes.Controls.Graphics
 
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
+		public float Density { get { return 1; } }
 
         public GraphicsContextWrapper(Context context, float boundsWidth, float boundsHeight)
         {
@@ -39,9 +40,16 @@ namespace MPfm.GTK.Classes.Controls.Graphics
             BoundsHeight = boundsHeight;
         }
 
+		public void DrawImage(BasicRectangle rectangle, IDisposable image)
+		{
+		}
+
+		public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
+		{
+		}
+
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
-        {
-            throw new NotImplementedException();
+        {            
         }
 
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
@@ -71,13 +79,31 @@ namespace MPfm.GTK.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
-            throw new NotImplementedException();
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
         {
-            //throw new NotImplementedException();
             return new BasicRectangle(0, 0, 30, 20);
         }
+
+		public void SetPen(BasicPen pen)
+		{
+		}
+
+		public void StrokeLine(BasicPoint point, BasicPoint point2)
+		{
+		}
+
+		public void SaveState()
+		{
+		}
+
+		public void RestoreState()
+		{
+		}	
+
+		public void Close()
+		{
+		}
     }
 }

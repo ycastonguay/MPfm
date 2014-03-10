@@ -40,7 +40,7 @@ namespace MPfm.GTK.Classes.Controls
 
         private void Initialize()
         {
-            _control = new OutputMeterControl(null);
+            _control = new OutputMeterControl();
         }
 
         public void AddWaveDataBlock(float[] waveDataLeft, float[] waveDataRight)
