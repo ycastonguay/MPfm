@@ -338,6 +338,7 @@ namespace MPfm.GenericControls.Managers
                     //List<float> roundValues = new List<float>();
                     for (float i = 0; i < boundsWaveForm.Width; i += lineWidth)
                     {
+                        context.SetPen(penWaveForm);
                         // Round to 0.5
                         //i = (float)Math.Round(i * 2) / 2;
                         //float iRound = (float)Math.Round(i);

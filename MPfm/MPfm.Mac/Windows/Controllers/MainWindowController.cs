@@ -33,6 +33,7 @@ using MPfm.Mac.Classes.Controls;
 using MPfm.Mac.Classes.Delegates;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Objects;
+using System.Threading.Tasks;
 
 namespace MPfm.Mac
 {
@@ -41,6 +42,9 @@ namespace MPfm.Mac
     /// </summary>
 	public partial class MainWindowController : BaseWindowController, IMainView
 	{
+        string _currentAlbumArtKey;
+        bool _isPlayerPositionChanging = false;
+        bool _isScrollViewWaveFormChangingSecondaryPosition = false;
         List<Marker> _markers = new List<Marker>();
         LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource _libraryBrowserDataSource = null;
@@ -67,7 +71,18 @@ namespace MPfm.Mac
             NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
             anim.Duration = 0.4f;
             anim.StartAnimation();
-		}		
+
+            faderVolume.Minimum = 0;
+            faderVolume.Maximum = 100;
+            faderVolume.OnFaderValueChanged += HandleOnFaderValueChanged;
+            faderVolume.SetNeedsDisplayInRect(faderVolume.Bounds);
+
+            trackBarPosition.Minimum = 0;
+            trackBarPosition.Maximum = 1000;
+            trackBarPosition.BlockValueChangeWhenDraggingMouse = true;
+            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
+            trackBarPosition.SetNeedsDisplayInRect(faderVolume.Bounds);
+		}
 
 		public override void WindowDidLoad()
 		{
@@ -114,6 +129,9 @@ namespace MPfm.Mac
             scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
             scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
 
+            waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
+            waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
+
             btnTabTimeShifting.IsSelected = true;
             btnTabTimeShifting.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabPitchShifting.OnTabButtonSelected += HandleOnTabButtonSelected;
@@ -157,6 +175,8 @@ namespace MPfm.Mac
 
         private void SetTheme()
         {
+            viewToolbar.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
+            viewToolbar.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewLeftHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewLeftHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewRightHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
@@ -168,6 +188,7 @@ namespace MPfm.Mac
             viewSongBrowserHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewSongBrowserHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
+            btnPlayLoop.RoundedRadius = 0;
             btnPlayLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnPlayLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnPlayLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
@@ -176,30 +197,37 @@ namespace MPfm.Mac
             //btnStopLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             //btnStopLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             //btnStopLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnAddLoop.RoundedRadius = 0;
             btnAddLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnAddLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnAddLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
             btnAddLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            btnEditLoop.RoundedRadius = 0;
             btnEditLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnEditLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnEditLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnEditLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnRemoveLoop.RoundedRadius = 0;
             btnRemoveLoop.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnRemoveLoop.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnRemoveLoop.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnRemoveLoop.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnGoToMarker.RoundedRadius = 0;
             btnGoToMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnGoToMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnGoToMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnGoToMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnAddMarker.RoundedRadius = 0;
             btnAddMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnAddMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnAddMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnAddMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnEditMarker.RoundedRadius = 0;
             btnEditMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnEditMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnEditMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
             btnEditMarker.BorderColor = GlobalTheme.ButtonToolbarBorderColor;
+            btnRemoveMarker.RoundedRadius = 0;
             btnRemoveMarker.BackgroundColor = GlobalTheme.ButtonToolbarBackgroundColor;
             btnRemoveMarker.BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             btnRemoveMarker.BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
@@ -211,62 +239,59 @@ namespace MPfm.Mac
 
             //viewInformation.IsHeaderVisible = true;
             viewSongPosition.IsHeaderVisible = true;
+            viewSongPosition.HeaderHeight = 26;
             viewVolume.IsHeaderVisible = true;
             //viewTimeShifting.IsHeaderVisible = true;
             //viewPitchShifting.IsHeaderVisible = true;           
 
-            lblArtistName.Font = NSFont.FromFontName("TitilliumText25L-800wt", 24);
-            lblAlbumTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 20);
-            lblSongTitle.Font = NSFont.FromFontName("TitilliumText25L-600wt", 17);
-            lblSongPath.Font = NSFont.FromFontName("TitilliumText25L-400wt", 12);
+            lblArtistName.Font = NSFont.FromFontName("Roboto Thin", 24);
+            lblAlbumTitle.Font = NSFont.FromFontName("Roboto Light", 20);
+            lblSongTitle.Font = NSFont.FromFontName("Roboto Light", 17);
+            lblSongPath.Font = NSFont.FromFontName("Roboto Light", 12);
 
-            lblSampleRate.Font = NSFont.FromFontName("Junction", 11f);
-            lblBitrate.Font = NSFont.FromFontName("Junction", 11f);
-            lblMonoStereo.Font = NSFont.FromFontName("Junction", 11f);
-            lblFileType.Font = NSFont.FromFontName("Junction", 11f);
-            lblBitsPerSample.Font = NSFont.FromFontName("Junction", 11f);
-            lblFilterBySoundFormat.Font = NSFont.FromFontName("Junction", 11f);
-            lblYear.Font = NSFont.FromFontName("Junction", 11f);
-            lblGenre.Font = NSFont.FromFontName("Junction", 11f);
-            lblFileSize.Font = NSFont.FromFontName("Junction", 11f);
-            lblPlayCount.Font = NSFont.FromFontName("Junction", 11f);
-            lblLastPlayed.Font = NSFont.FromFontName("Junction", 11f);
+            lblSampleRate.Font = NSFont.FromFontName("Roboto", 11f);
+            lblBitrate.Font = NSFont.FromFontName("Roboto", 11f);
+            lblMonoStereo.Font = NSFont.FromFontName("Roboto", 11f);
+            lblFileType.Font = NSFont.FromFontName("Roboto", 11f);
+            lblBitsPerSample.Font = NSFont.FromFontName("Roboto", 11f);
+            lblFilterBySoundFormat.Font = NSFont.FromFontName("Roboto", 11f);
+            lblYear.Font = NSFont.FromFontName("Roboto", 11f);
+            lblGenre.Font = NSFont.FromFontName("Roboto", 11f);
+            lblFileSize.Font = NSFont.FromFontName("Roboto", 11f);
+            lblPlayCount.Font = NSFont.FromFontName("Roboto", 11f);
+            lblLastPlayed.Font = NSFont.FromFontName("Roboto", 11f);
 
-            lblTitleLibraryBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
-            lblTitleCurrentSong.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
-            lblTitleLoops.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
-            lblTitleMarkers.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
-            lblTitleSongBrowser.Font = NSFont.FromFontName("TitilliumText25L-800wt", 14);
+            lblTitleLibraryBrowser.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleCurrentSong.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleLoops.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
+            lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
 
-            lblSubtitleSongPosition.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            //lblSubtitleTimeShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            lblSubtitleVolume.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
-            //lblSubtitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12); // 8,138
-            //lblSubtitlePitchShifting.Font = NSFont.FromFontName("TitilliumText25L-800wt", 12);
+            lblSubtitleSongPosition.Font = NSFont.FromFontName("Roboto", 12);
+            lblSubtitleVolume.Font = NSFont.FromFontName("Roboto", 12);
+            lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblLength.Font = NSFont.FromFontName("Roboto Light", 15f);
+            lblVolume.Font = NSFont.FromFontName("Roboto Light", 12f);
+            lblDetectedTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
+            lblReferenceTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
+            txtCurrentTempoValue.Font = NSFont.FromFontName("Roboto", 12f);
+            lblReferenceKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
+            lblNewKeyValue.Font = NSFont.FromFontName("Roboto", 12f);
+            txtIntervalValue.Font = NSFont.FromFontName("Roboto", 12f);
 
-            lblPosition.Font = NSFont.FromFontName("DroidSansMono", 15f);
-            lblLength.Font = NSFont.FromFontName("DroidSansMono", 15f);
-            lblVolume.Font = NSFont.FromFontName("DroidSansMono", 11f);
-            lblDetectedTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            lblReferenceTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            txtCurrentTempoValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            lblReferenceKeyValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            lblNewKeyValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
-            txtIntervalValue.Font = NSFont.FromFontName("DroidSansMono", 10f);
+            lblDetectedTempo.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblCurrentTempo.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblReferenceTempo.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblReferenceKey.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblInterval.Font = NSFont.FromFontName("Roboto Light", 12);
+            lblNewKey.Font = NSFont.FromFontName("Roboto Light", 12);
 
-            lblDetectedTempo.Font = NSFont.FromFontName("Junction", 11);
-            lblCurrentTempo.Font = NSFont.FromFontName("Junction", 11);
-            lblReferenceTempo.Font = NSFont.FromFontName("Junction", 11);
-            lblReferenceKey.Font = NSFont.FromFontName("Junction", 11);
-            lblInterval.Font = NSFont.FromFontName("Junction", 11);
-            lblNewKey.Font = NSFont.FromFontName("Junction", 11);
-
-            cboSoundFormat.Font = NSFont.FromFontName("Junction", 11);
-            searchSongBrowser.Font = NSFont.FromFontName("Junction", 12);
+            cboSoundFormat.Font = NSFont.FromFontName("Roboto", 11);
+            searchSongBrowser.Font = NSFont.FromFontName("Roboto", 12);
 
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
-            columnText.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnText.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
             // Set cell fonts for Song Browser
             NSTableColumn columnTrackNumber = tableSongBrowser.FindTableColumn(new NSString("columnTrackNumber"));
@@ -274,52 +299,52 @@ namespace MPfm.Mac
             NSTableColumn columnLength = tableSongBrowser.FindTableColumn(new NSString("columnLength"));
             NSTableColumn columnArtistName = tableSongBrowser.FindTableColumn(new NSString("columnArtistName"));
             NSTableColumn columnAlbumTitle = tableSongBrowser.FindTableColumn(new NSString("columnAlbumTitle"));
-            columnTrackNumber.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnTrackNumber.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnTitle.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLength.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLength.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnArtistName.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnArtistName.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnAlbumTitle.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnAlbumTitle.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnTrackNumber.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnTrackNumber.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnTitle.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnTitle.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLength.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLength.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnArtistName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnArtistName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnAlbumTitle.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnAlbumTitle.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
             // Set cell fonts for Loops
             NSTableColumn columnLoopName = tableLoops.FindTableColumn(new NSString("columnLoopName"));
             NSTableColumn columnLoopLength = tableLoops.FindTableColumn(new NSString("columnLoopLength"));
             NSTableColumn columnLoopStartPosition = tableLoops.FindTableColumn(new NSString("columnLoopStartPosition"));
             NSTableColumn columnLoopEndPosition = tableLoops.FindTableColumn(new NSString("columnLoopEndPosition"));
-            columnLoopName.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLoopName.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLoopLength.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLoopLength.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLoopStartPosition.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLoopStartPosition.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLoopEndPosition.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnLoopEndPosition.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnLoopName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopLength.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopLength.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopStartPosition.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopStartPosition.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopEndPosition.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnLoopEndPosition.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
             // Set cell fonts for Markers
             NSTableColumn columnMarkerName = tableMarkers.FindTableColumn(new NSString("columnMarkerName"));
             NSTableColumn columnMarkerPosition = tableMarkers.FindTableColumn(new NSString("columnMarkerPosition"));
             NSTableColumn columnMarkerComments = tableMarkers.FindTableColumn(new NSString("columnMarkerComments"));
-            columnMarkerName.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnMarkerName.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnMarkerPosition.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnMarkerPosition.DataCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnMarkerComments.HeaderCell.Font = NSFont.FromFontName("Junction", 11f);
-            columnMarkerComments.DataCell.Font = NSFont.FromFontName("Junction", 11f);
+            columnMarkerName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnMarkerName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnMarkerPosition.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnMarkerPosition.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnMarkerComments.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
+            columnMarkerComments.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
-            btnDetectTempo.Font = NSFont.FromFontName("Junction", 11f);
-            btnPlayLoop.Font = NSFont.FromFontName("Junction", 11f);
+            btnDetectTempo.Font = NSFont.FromFontName("Roboto", 11f);
+            btnPlayLoop.Font = NSFont.FromFontName("Roboto", 11f);
             //btnStopLoop.Font = NSFont.FromFontName("Junction", 11f);
-            btnAddLoop.Font = NSFont.FromFontName("Junction", 11f);
-            btnEditLoop.Font = NSFont.FromFontName("Junction", 11f);
-            btnRemoveLoop.Font = NSFont.FromFontName("Junction", 11f);
-            btnGoToMarker.Font = NSFont.FromFontName("Junction", 11f);
-            btnAddMarker.Font = NSFont.FromFontName("Junction", 11f);
-            btnEditMarker.Font = NSFont.FromFontName("Junction", 11f);
-            btnRemoveMarker.Font = NSFont.FromFontName("Junction", 11f);
+            btnAddLoop.Font = NSFont.FromFontName("Roboto", 11f);
+            btnEditLoop.Font = NSFont.FromFontName("Roboto", 11f);
+            btnRemoveLoop.Font = NSFont.FromFontName("Roboto", 11f);
+            btnGoToMarker.Font = NSFont.FromFontName("Roboto", 11f);
+            btnAddMarker.Font = NSFont.FromFontName("Roboto", 11f);
+            btnEditMarker.Font = NSFont.FromFontName("Roboto", 11f);
+            btnRemoveMarker.Font = NSFont.FromFontName("Roboto", 11f);
         }
 
         /// <summary>
@@ -327,22 +352,6 @@ namespace MPfm.Mac
         /// </summary>
         private void LoadImages()
         {
-            // Load images in toolbar
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarOpen").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_folder-open");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarUpdateLibrary").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_update");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
-            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPause").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
-            //toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarStop").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_stop");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPrevious").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_previous");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarNext").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_next");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarRepeat").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarShuffle").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_repeat");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarEffects").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_equalizer");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlaylist").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_playlist");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPreferences").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_settings");
-            toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarSync").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_sync");
-
-            // Load button images
             cboSoundFormat.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnAddLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
@@ -356,6 +365,22 @@ namespace MPfm.Mac
             btnPlaySelectedSong.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_play");
             //btnStopLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_stop");
             btnGoToMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_goto");
+
+            btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "play");
+            btnToolbarPrevious.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "previous");
+            btnToolbarNext.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "next");
+            btnToolbarRepeat.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "repeat");
+            btnToolbarShuffle.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "shuffle");
+            btnToolbarPlaylist.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "playlist");
+            btnToolbarEffects.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "effects");
+            btnToolbarSync.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "sync");
+            btnToolbarSyncCloud.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "cloud");
+            btnToolbarResumePlayback.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "resume");
+            btnToolbarSettings.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "preferences");
+
+            btnIncrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "add");
+            btnDecrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "minus");
+            btnResetTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "reset");
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)
@@ -415,11 +440,6 @@ namespace MPfm.Mac
 
 			if(filePaths != null && filePaths.Count() > 0)
                 OnPlayerPlayFiles(filePaths);
-		}
-
-		partial void actionUpdateLibrary(NSObject sender)
-		{
-            OnUpdateLibrary();
 		}
 
         partial void actionSoundFormatChanged(NSObject sender)
@@ -491,19 +511,14 @@ namespace MPfm.Mac
 
         }
 
-        partial void actionChangeTimeShifting(NSObject sender)
+        private void HandleOnFaderValueChanged(object sender, EventArgs e)
         {
-            OnPlayerSetTimeShifting(sliderTimeShifting.FloatValue);
-        }
+            OnPlayerSetVolume(faderVolume.Value);
+        }       
 
-        partial void actionChangeSongPosition(NSObject sender)
+        private void HandleOnTrackBarValueChanged()
         {
 
-        }
-
-        partial void actionChangeVolume(NSObject sender)
-        {
-            OnPlayerSetVolume(sliderVolume.FloatValue);
         }
 
         partial void actionPlayLoop(NSObject sender)
@@ -621,6 +636,22 @@ namespace MPfm.Mac
             }
         }
 
+        private void ScrollViewWaveForm_OnChangePosition(float position)
+        {
+            //Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangePosition - position: {0}", position);
+            _isScrollViewWaveFormChangingSecondaryPosition = false;
+            OnPlayerSetPosition(position*100);
+        }
+
+        private void ScrollViewWaveForm_OnChangeSecondaryPosition(float position)
+        {
+            //Console.WriteLine("MainWindow - ScrollViewWaveForm_OnChangeSecondaryPosition - position: {0}", position);
+            _isScrollViewWaveFormChangingSecondaryPosition = true;
+            var requestedPosition = OnPlayerRequestPosition(position);
+            trackBarPosition.Value = (int)(position * 1000);
+            lblPosition.StringValue = requestedPosition.Position;
+        }
+
         [Export ("controlTextDidChange")]
         private void SearchTextDidChange(NSNotification notification)
         {
@@ -647,7 +678,7 @@ namespace MPfm.Mac
         {
             NSTableCellView view;           
             view = (NSTableCellView)tableView.MakeView(tableColumn.Identifier.ToString().Replace("column", "cell"), this);
-            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            view.TextField.Font = NSFont.FromFontName("Roboto", 11);
 
             if (tableView.Identifier == "tableMarkers")
             {
@@ -745,12 +776,10 @@ namespace MPfm.Mac
                     case PlayerStatusType.Stopped:
                         goto case PlayerStatusType.Paused;
                     case PlayerStatusType.Paused:
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_play");
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Play";
+                        btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "play");
                         break;
                     case PlayerStatusType.Playing:
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Image = ImageResources.images32x32.FirstOrDefault(x => x.Name == "32_icomoon_pause");
-                        toolbarMain.Items.FirstOrDefault(x => x.Identifier == "toolbarPlay").Label = "Pause";
+                        btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "pause");
                         break;
                 }
             });
@@ -758,14 +787,14 @@ namespace MPfm.Mac
 
 		public void RefreshPlayerPosition(PlayerPositionEntity entity)
         {
-            // When setting .StringValue, use a autorelease pool to keep the warnings away
-            // http://mono.1490590.n4.nabble.com/Memory-Leak-td3206211.html
-            using (NSAutoreleasePool pool = new NSAutoreleasePool())
-            {
-                // TODO: Bug CPU hit when updating label...
+            if (_isPlayerPositionChanging || _isScrollViewWaveFormChangingSecondaryPosition)
+                return;
+
+            InvokeOnMainThread(() => {
                 lblPosition.StringValue = entity.Position;
-                sliderPosition.SetPosition(entity.PositionPercentage * 100);
-            };
+                trackBarPosition.Value = (int)(entity.PositionPercentage * 10);
+                waveFormScrollView.SetPosition(entity.PositionBytes);
+            });
 		}
 		
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
@@ -781,6 +810,9 @@ namespace MPfm.Mac
                 lblBitrate.StringValue = audioFile.Bitrate.ToString() + " kbit/s";
                 lblBitsPerSample.StringValue = audioFile.BitsPerSample.ToString() + " bits";
                 lblSampleRate.StringValue = audioFile.SampleRate.ToString() + " Hz";
+
+                waveFormScrollView.SetWaveFormLength(lengthBytes);
+                waveFormScrollView.LoadPeakFile(audioFile);
 
                 // Set album cover
                 if (!String.IsNullOrEmpty(audioFile.FilePath))
@@ -798,8 +830,79 @@ namespace MPfm.Mac
 
                 if(_songBrowserSource != null)
                     _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
+                
+                LoadAlbumArt(audioFile);
             });
 		}
+        
+        private async void LoadAlbumArt(AudioFile audioFile)
+        {
+            // Check if the album art needs to be refreshed
+            string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
+            if(_currentAlbumArtKey != key)
+            {
+            // Load album art + resize in another thread
+            var task = Task<NSImage>.Factory.StartNew(() => {
+                try
+                {
+                    NSImage image = null;
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    {
+                        InvokeOnMainThread(() => {
+                                image = new NSImage(imageData);
+//                        using (NSImage imageFullSize = new NSImage(imageData))
+//                        {
+//                            if (imageFullSize != null)
+//                            {
+//                                try
+//                                {
+//                                    _currentAlbumArtKey = key;                                    
+//                                    //UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
+//                                    //return imageResized;
+//                                    image = imageFullSize;
+//                                }
+//                                catch (Exception ex)
+//                                {
+//                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
+//                                }
+//                            }
+//                        }
+                                });
+                    }
+                        return image;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
+                }
+                
+                return null;
+            });
+            //}).ContinueWith(t => {
+            NSImage imageFromTask = await task;
+                if(imageFromTask == null)
+                    return;
+                
+                InvokeOnMainThread(() => {
+                    try
+                    {
+                        imageAlbumCover.Image = imageFromTask;
+//                        imageViewAlbumArt.Alpha = 0;
+//                        imageViewAlbumArt.Image = image;              
+//
+//                        UIView.Animate(0.3, () => {
+//                            imageViewAlbumArt.Alpha = 1;
+//                        });
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                    }
+                });
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
+            }
+        }
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
@@ -813,8 +916,10 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(() => {
                 lblVolume.StringValue = entity.VolumeString;
-                if(sliderVolume.FloatValue != entity.Volume)
-                    sliderVolume.FloatValue = entity.Volume;
+//                if(sliderVolume.FloatValue != entity.Volume)
+//                    sliderVolume.FloatValue = entity.Volume;
+                if(faderVolume.Value != (int)entity.Volume)
+                    faderVolume.ValueWithoutEvent = (int)entity.Volume;
             });
         }
 
@@ -857,6 +962,8 @@ namespace MPfm.Mac
                 tableSongBrowser.Source = _songBrowserSource;
                 _albumCoverSource = new AlbumCoverSource(_albumCoverCacheService, audioFiles);
                 tableAlbumCovers.Source = _albumCoverSource;
+
+                songGridView.ImportAudioFiles(audioFiles.ToList());
             });
 		}
 
@@ -985,6 +1092,7 @@ namespace MPfm.Mac
             InvokeOnMainThread(delegate {
                 _markers = markers.ToList();
                 tableMarkers.ReloadData();
+                waveFormScrollView.SetMarkers(_markers);
             });
         }
 

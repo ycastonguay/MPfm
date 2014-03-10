@@ -23,6 +23,7 @@ using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
 using System;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -31,6 +32,33 @@ namespace MPfm.Mac.Classes.Controls
     {
         private WaveFormScaleControl _control;
 
+        //public override bool WantsDefaultClipping { get { return false; } }
+        public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
+
+        public AudioFile AudioFile
+        {
+            get
+            {
+                return _control.AudioFile;
+            }
+            set
+            {
+                _control.AudioFile = value;
+            }
+        }
+
+        public long AudioFileLength
+        {
+            get
+            {
+                return _control.AudioFileLength;
+            }
+            set
+            {
+                _control.AudioFileLength = value;
+            }
+        }
         [Export("init")]
         public MPfmWaveFormScaleView() : base(NSObjectFlag.Empty)
         {
@@ -46,19 +74,12 @@ namespace MPfm.Mac.Classes.Controls
         private void Initialize()
         {
             _control = new WaveFormScaleControl();    
-            // TODO: Could these be moved inside a generic helper or something?
-            _control.OnInvalidateVisual += () => {
-                SetNeedsDisplayInRect(Bounds);
-            };
-            _control.OnInvalidateVisualInRect += (rect) => {
-                SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect));
-            };
+            _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
+            _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
         
         public override void DrawRect(RectangleF dirtyRect)
         {
-            base.DrawRect(dirtyRect);
-            
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
             _control.Render(wrapper);

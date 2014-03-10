@@ -56,7 +56,7 @@ namespace MPfm.Mac.Classes.Controls
 
             // Add a notification to know when the scroll view is scrolled
             synchronizedContentView.PostsBoundsChangedNotifications = true;
-            NSNotificationCenter.DefaultCenter.AddObserver(NSView.NSViewBoundsDidChangeNotification, (notification) => { 
+            NSNotificationCenter.DefaultCenter.AddObserver(NSView.BoundsChangedNotification, (notification) => { 
 
                 // Calculate the difference
                 NSClipView changedContentView = (NSClipView)notification.Object;

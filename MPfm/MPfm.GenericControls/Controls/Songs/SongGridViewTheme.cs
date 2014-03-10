@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Net.Mime;
+using System.Web.UI.WebControls;
+using MPfm.GenericControls.Basics;
+
 namespace MPfm.GenericControls.Controls.Songs
 {
     /// <summary>
@@ -22,150 +26,50 @@ namespace MPfm.GenericControls.Controls.Songs
     /// </summary>
     public class SongGridViewTheme
     {
-        //#region Header
+        public BasicColor BackgroundColor { get; set; }
+        public BasicColor SelectedBackgroundColor { get; set; }
+        public BasicColor MouseOverBackgroundColor { get; set; }
+        public BasicColor NowPlayingBackgroundColor { get; set; }
+        public BasicColor NowPlayingIndicatorBackgroundColor { get; set; }
+        public BasicColor AlbumCoverBackgroundColor { get; set; }
 
-        ///// <summary>
-        ///// Private value for the HeaderTextGradient property.
-        ///// </summary>
-        //private TextGradient headerTextGradient = new TextGradient(Color.FromArgb(165, 165, 165), Color.FromArgb(195, 195, 195), LinearGradientMode.Horizontal,
-        //                                                           Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(60, 60, 60)));
-        ///// <summary>
-        ///// Defines the header text gradient.
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[Category("Header"), Browsable(true), Description("Header text gradient.")]
-        //public TextGradient HeaderTextGradient
-        //{
-        //    get
-        //    {
-        //        return headerTextGradient;
-        //    }
-        //    set
-        //    {
-        //        headerTextGradient = value;
-        //    }
-        //}
+        public BasicColor HeaderBackgroundColor { get; set; }
+        public BasicColor MouseOverHeaderBackgroundColor { get; set; }
 
-        ///// <summary>
-        ///// Private value for the HeaderHoverTextGradient property.
-        ///// </summary>
-        //private TextGradient headerHoverTextGradient = new TextGradient(Color.FromArgb(145, 145, 145), Color.FromArgb(175, 175, 175), LinearGradientMode.Horizontal,
-        //                                                                Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(60, 60, 60)));
-        ///// <summary>
-        ///// Defines the header text gradient (when the mouse cursor is over the header).
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[Category("Header"), Browsable(true), Description("Header text gradient (when the mouse cursor is over the header).")]
-        //public TextGradient HeaderHoverTextGradient
-        //{
-        //    get
-        //    {
-        //        return headerHoverTextGradient;
-        //    }
-        //    set
-        //    {
-        //        headerHoverTextGradient = value;
-        //    }
-        //}
+        public BasicColor TextColor { get; set; }
+        public BasicColor HeaderTextColor { get; set; }
 
-        //#endregion
-
-        //#region Row
-
-        ///// <summary>
-        ///// Private value for the RowTextGradient property.
-        ///// </summary>
-        //private TextGradient rowTextGradient = new TextGradient(Color.FromArgb(215, 215, 215), Color.FromArgb(235, 235, 235), LinearGradientMode.Horizontal,
-        //                                                        Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(0, 0, 0)));
-        ///// <summary>
-        ///// Defines the row text gradient.
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[Category("Row"), Browsable(true), Description("Row text gradient.")]
-        //public TextGradient RowTextGradient
-        //{
-        //    get
-        //    {
-        //        return rowTextGradient;
-        //    }
-        //    set
-        //    {
-        //        rowTextGradient = value;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Private value for the RowNowPlayingTextGradient property.
-        ///// </summary>
-        //private TextGradient rowNowPlayingTextGradient = new TextGradient(Color.FromArgb(135, 235, 135), Color.FromArgb(155, 255, 155), LinearGradientMode.Horizontal,
-        //                                                                  Color.Gray, 0, new CustomFont("Junction", 8.0f, Color.FromArgb(0, 0, 0)));
-        ///// <summary>
-        ///// Defines the row text gradient (when the song is currently playing).
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[Category("Row"), Browsable(true), Description("Row text gradient (when the song is currently playing).")]
-        //public TextGradient RowNowPlayingTextGradient
-        //{
-        //    get
-        //    {
-        //        return rowNowPlayingTextGradient;
-        //    }
-        //    set
-        //    {
-        //        rowNowPlayingTextGradient = value;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Private value for the IconNowPlayingGradient property.
-        ///// </summary>
-        //private Gradient iconNowPlayingGradient = new Gradient(Color.FromArgb(250, 200, 250), Color.FromArgb(25, 150, 25), LinearGradientMode.Horizontal);
-        ///// <summary>
-        ///// Defines the icon gradient next to the song currently playing.
-        ///// </summary>
-        //[RefreshProperties(RefreshProperties.Repaint)]
-        //[Category("Row"), Browsable(true), Description("Icon gradient next to the song currently playing.")]
-        //public Gradient IconNowPlayingGradient
-        //{
-        //    get
-        //    {
-        //        return iconNowPlayingGradient;
-        //    }
-        //    set
-        //    {
-        //        iconNowPlayingGradient = value;
-        //    }
-        //}
-
-        //#endregion
-
-        ///// <summary>
-        ///// Private value for the AlbumCoverBackgroundGradient property.
-        ///// </summary>
-        //private BackgroundGradient albumCoverBackgroundGradient = new BackgroundGradient(Color.FromArgb(55, 55, 55), Color.FromArgb(75, 75, 75), LinearGradientMode.Horizontal, Color.Gray, 0);
-        ///// <summary>
-        ///// Defines the album cover background gradient.
-        ///// </summary>
-        //public BackgroundGradient AlbumCoverBackgroundGradient
-        //{
-        //    get
-        //    {
-        //        return albumCoverBackgroundGradient;
-        //    }
-        //    set
-        //    {
-        //        albumCoverBackgroundGradient = value;
-        //    }
-        //}
-
-        /// <summary>
-        /// Padding used around text and album covers (in pixels).
-        /// </summary>
+        public string FontName { get; set; }
+        public string FontNameBold { get; set; }
+        public float FontSize { get; set; }
         public int Padding { get; set; }
 
         public SongGridViewTheme()
         {
+            //gridViewSongs.Theme.AlbumCoverBackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
+            //gridViewSongs.Theme.HeaderHoverTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
+            //gridViewSongs.Theme.HeaderTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
+            //gridViewSongs.Theme.IconNowPlayingGradient = new Gradient(System.Drawing.Color.FromArgb(255, 250, 200, 250), System.Drawing.Color.FromArgb(255, 25, 150, 25), LinearGradientMode.Horizontal);
+            //gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
+            //gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
+
             Padding = 6;
+            BackgroundColor = new BasicColor(255, 255, 255);
+            SelectedBackgroundColor = new BasicColor(200, 200, 200);
+            MouseOverBackgroundColor = new BasicColor(255, 255, 255);
+            NowPlayingBackgroundColor = new BasicColor(135, 235, 135);
+            NowPlayingIndicatorBackgroundColor = new BasicColor(25, 150, 25);
+            AlbumCoverBackgroundColor = new BasicColor(32, 40, 46);
+
+            HeaderBackgroundColor = new BasicColor(69, 88, 101);
+            MouseOverHeaderBackgroundColor = new BasicColor(104, 121, 133);
+
+            TextColor = new BasicColor(0, 0, 0);
+            HeaderTextColor = new BasicColor(255, 255, 255);
+
+            FontName = "Roboto";
+            FontNameBold = "Roboto Bold";
+            FontSize = 11f;
         }
     }
 }

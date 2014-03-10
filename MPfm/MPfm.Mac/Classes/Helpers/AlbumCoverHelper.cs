@@ -36,35 +36,37 @@ namespace MPfm.Mac.Classes.Helpers
     {
         public static NSImage GetAlbumCover(string audioFilePath)
         {
-            // Try to extract image from tags
-            Console.WriteLine("Getting album cover (" + audioFilePath + ")...");
-            Image image = AudioFile.ExtractImageForAudioFile(audioFilePath);
-            if(image == null)
-            {
-                // Try to find the cover in the current folder
-                Console.WriteLine("Checking folder for album cover (" + audioFilePath + ")...");
-                string folderPath = Path.GetDirectoryName(audioFilePath);
-                UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
-                foreach(UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
-                {
-                    // Check if the file matches
-                    string fileName = fileInfo.Name.ToUpper();
-                    if((fileName.EndsWith(".JPG") ||
-                        fileName.EndsWith(".JPEG") ||
-                        fileName.EndsWith(".PNG") ||
-                        fileName.EndsWith(".GIF")) &&
-                       (fileName.StartsWith("FOLDER") ||
-                        fileName.StartsWith("COVER")))
-                    {
-                        Console.WriteLine("Found image file: " + fileInfo.FullName);
-                        return new NSImage(fileInfo.FullName);
-                    }
-                }
-            }
-
-            // Convert image to NSImage if not null
-            if(image != null)
-                return ConvertToNSImage(image);
+            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFilePath);
+            
+//            // Try to extract image from tags
+//            Console.WriteLine("Getting album cover (" + audioFilePath + ")...");
+//            Image image = AudioFile.ExtractImageForAudioFile(audioFilePath);
+//            if(image == null)
+//            {
+//                // Try to find the cover in the current folder
+//                Console.WriteLine("Checking folder for album cover (" + audioFilePath + ")...");
+//                string folderPath = Path.GetDirectoryName(audioFilePath);
+//                UnixDirectoryInfo rootDirectoryInfo = new UnixDirectoryInfo(folderPath);
+//                foreach(UnixFileSystemInfo fileInfo in rootDirectoryInfo.GetFileSystemEntries())
+//                {
+//                    // Check if the file matches
+//                    string fileName = fileInfo.Name.ToUpper();
+//                    if((fileName.EndsWith(".JPG") ||
+//                        fileName.EndsWith(".JPEG") ||
+//                        fileName.EndsWith(".PNG") ||
+//                        fileName.EndsWith(".GIF")) &&
+//                       (fileName.StartsWith("FOLDER") ||
+//                        fileName.StartsWith("COVER")))
+//                    {
+//                        Console.WriteLine("Found image file: " + fileInfo.FullName);
+//                        return new NSImage(fileInfo.FullName);
+//                    }
+//                }
+//            }
+//
+//            // Convert image to NSImage if not null
+//            if(image != null)
+//                return ConvertToNSImage(image);
 
             return null;
         }

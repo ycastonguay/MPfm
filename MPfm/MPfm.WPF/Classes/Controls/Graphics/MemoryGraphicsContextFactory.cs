@@ -15,7 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using MPfm.GenericControls.Graphics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
@@ -28,6 +31,25 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             var drawingContext = drawingVisual.RenderOpen();
             var context = new MemoryGraphicsContextWrapper(drawingVisual, drawingContext, width, height);
             return context;
+        }
+
+        public IDisposable CreateImageFromByteArray(byte[] data)
+        {
+            int width = 100;
+            int height = 100;
+            float density = 1;
+            float dpi = 96;
+            using (var g = System.Drawing.Graphics.FromHwnd(IntPtr.Zero))
+            {
+                dpi = g.DpiX;
+                density = g.DpiX/96f;
+            }
+            var pixelFormat = PixelFormats.Pbgra32;
+            var bytesPerPixel = (pixelFormat.BitsPerPixel + 7) / 8;
+            var stride = bytesPerPixel * width;
+            var bitmap = BitmapSource.Create(width, height, dpi, dpi, pixelFormat, null, data, stride);
+            var disposableBitmap = new DisposableBitmap(bitmap);
+            return disposableBitmap;
         }
     }
 }

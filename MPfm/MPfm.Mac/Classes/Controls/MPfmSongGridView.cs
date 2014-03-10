@@ -31,13 +31,23 @@ using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
 using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Controls.Songs;
+using MPfm.GenericControls.Graphics;
+using MPfm.MVP.Bootstrap;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.Mac.Classes.Controls
 {
     [Register("MPfmSongGridView")]
-    public class MPfmSongGridView : NSScrollView
+    public class MPfmSongGridView : NSView
     {
         private SongGridViewControl _control;
+
+        public List<SongGridViewItem> SelectedItems { get { return _control.SelectedItems; } }
+        public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
+
+        //public override bool WantsDefaultClipping { get { return false; } }
+        public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
         
         [Export("init")]
         public MPfmSongGridView() : base(NSObjectFlag.Empty)
@@ -53,18 +63,35 @@ namespace MPfm.Mac.Classes.Controls
         
         private void Initialize()
         {
-            _control = new SongGridViewControl();   
-            // TODO: Could these be moved inside a generic helper or something?
-            _control.OnInvalidateVisual += () => {
-                SetNeedsDisplayInRect(Bounds);
-            };
-            _control.OnInvalidateVisualInRect += (rect) => {
-                SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect));
-            };
+            // Add tracking area to receive mouse move and mouse dragged events
+            var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.MouseEnteredAndExited | NSTrackingAreaOptions.EnabledDuringMouseDrag;
+            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
+            AddTrackingArea(trackingArea);
+
+            var horizontalScrollBar = new HorizontalScrollBarWrapper();
+            horizontalScrollBar.Frame = new RectangleF(0, 0, Bounds.Width, 20);
+            AddSubview(horizontalScrollBar);
+
+            var verticalScrollBar = new VerticalScrollBarWrapper();
+            verticalScrollBar.Frame = new RectangleF(0, 0, 20, Bounds.Height);
+            AddSubview(verticalScrollBar);
+
+            var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
+
+            _control = new SongGridViewControl(horizontalScrollBar, verticalScrollBar, disposableImageFactory);   
+            _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
+            _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
+
+        }
+
+        public void ImportAudioFiles(List<AudioFile> audioFiles)
+        {
+            _control.ImportAudioFiles(audioFiles);
         }
 
         public override void DrawRect(RectangleF dirtyRect)
         {
+            //Console.WriteLine("SongGridView - DrawRect - dirtyRect: {0}", dirtyRect);
             base.DrawRect(dirtyRect);
             
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
@@ -88,6 +115,29 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseMoved(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+
+        public override void MouseEntered(NSEvent theEvent)
+        {
+            base.MouseEntered(theEvent);
+            _control.MouseEnter();
+        }
+
+        public override void MouseExited(NSEvent theEvent)
+        {
+            base.MouseExited(theEvent);
+            _control.MouseLeave();
+        }
+
+        public override void ScrollWheel(NSEvent theEvent)
+        {
+            Console.WriteLine("ScrollWheel - deltaX: {0} deltaY: {1}", theEvent.DeltaX, theEvent.DeltaY);
+            base.ScrollWheel(theEvent);
+
+            if (theEvent.DeltaY > 0)
+                _control.MouseWheel(2);
+            else if (theEvent.DeltaY < 0)
+                _control.MouseWheel(-2);
         }
     }
 }

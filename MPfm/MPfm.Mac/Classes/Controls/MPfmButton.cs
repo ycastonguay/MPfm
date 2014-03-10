@@ -25,6 +25,7 @@ using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.Mac.Classes.Objects;
+using MonoMac.CoreImage;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -34,6 +35,7 @@ namespace MPfm.Mac.Classes.Controls
         bool _isMouseDown = false;
         bool _isMouseOver = false;
 
+        public int RoundedRadius { get; set; }
         public CGColor TextColor { get; set; }
         public CGColor BackgroundColor { get; set; }
         public CGColor BackgroundMouseDownColor { get; set; }
@@ -55,6 +57,9 @@ namespace MPfm.Mac.Classes.Controls
         private void Initialize()
         {
             //Layer.CornerRadius = 8; // Crashes the app. Bug in MonoMac?
+            //BezelStyle = NSBezelStyle.Rounded;
+            //Cell.BezelStyle = NSBezelStyle.Rounded;
+            RoundedRadius = 6;
             TextColor = GlobalTheme.ButtonTextColor;
             BackgroundColor = GlobalTheme.ButtonBackgroundColor;
             BackgroundMouseDownColor = GlobalTheme.ButtonBackgroundMouseDownColor;
@@ -105,15 +110,33 @@ namespace MPfm.Mac.Classes.Controls
             context.TranslateCTM(0, Bounds.Height);
             context.ScaleCTM(1, -1);
 
-            if (_isMouseDown)
-                CocoaHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
-            else if (_isMouseOver)
-                CocoaHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
-            else
-                CocoaHelper.FillRect(context, Bounds, BackgroundColor);
+            if (RoundedRadius == 0)
+            {
+                if (_isMouseDown)
+                    CocoaHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
+                else if (_isMouseOver)
+                    CocoaHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
+                else
+                    CocoaHelper.FillRect(context, Bounds, BackgroundColor);
 
-            CocoaHelper.DrawRect(context, Bounds, BorderColor);
-            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
+                CocoaHelper.DrawRect(context, Bounds, BorderColor);
+            } 
+            else
+            {
+                var path = NSBezierPath.FromRoundedRect(Bounds, RoundedRadius, RoundedRadius);
+                NSColor nsColor = null;
+                if (_isMouseDown)
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundMouseDownColor));
+                else if (_isMouseOver)
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundMouseOverColor));
+                else
+                    nsColor = NSColor.FromCIColor(CIColor.FromCGColor(BackgroundColor));
+                nsColor.SetFill();
+                path.Fill();
+            }
+
+            //CocoaHelper.DrawEllipsis(context, Bounds, BorderColor, 1);
+            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Roboto", 11);
             RectangleF rectText;
             if (Image != null)
             {
@@ -129,8 +152,11 @@ namespace MPfm.Mac.Classes.Controls
                 rectText = new RectangleF((Bounds.Width - rectTextSize.Width) / 2, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
             }
 
+            // Fix for Roboto, not sure why the font is rendered a bit below
+            rectText.Y = rectText.Y - 2;
+
             context.RestoreState();
-            CocoaHelper.DrawText(rectText, 0, 0, Title, "Junction", 11, NSColor.White);
+            CocoaHelper.DrawText(rectText, 0, 0, Title, "Roboto", 11, NSColor.White);
         }
 
         RectangleF Get1pxRect(RectangleF rect)

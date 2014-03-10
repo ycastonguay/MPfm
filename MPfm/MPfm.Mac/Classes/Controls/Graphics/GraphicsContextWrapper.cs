@@ -32,33 +32,50 @@ using MPfm.Mac.Classes.Controls.Helpers;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
-    public class GraphicsContextWrapper : IGraphicsContext
+    public class GraphicsContextWrapper : NSObject, IGraphicsContext
     {
         protected CGContext Context;
+        private float _density;
 
         public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
         {
-            context.TranslateCTM(0, boundsHeight);
-            context.ScaleCTM(1, -1);
-
             Context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
+            _density = GetDisplayScale();
+        }
+        
+        private float GetDisplayScale()
+        {
+            float scale = 1;
+            foreach (var screen in NSScreen.Screens)
+                if(screen.BackingScaleFactor > scale)
+                    scale = screen.BackingScaleFactor;
+            return scale;
         }
 
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
-        public float Density { get { return 1; } } // Always 1 on iOS because the Retina displays actually use fractions
+        public float Density { get { return _density; } }
 
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
-            //Context.DrawImage(GenericControlHelper.ToRect(rectangle), ((UIImage)image).CGImage);
+            DrawImage(rectangle, rectangle, image);
+        }
+
+        public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
+        {
+            var bitmap = image as NSImage;
+            if (bitmap == null)
+                return;
+
+            bitmap.DrawInRect(GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleSource), NSCompositingOperation.SourceOver, 1);
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
-            CoreGraphicsHelper.DrawEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(pen.Brush.Color), pen.Thickness);
-            // TODO: Add fill
+            CoreGraphicsHelper.FillEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToCGColor(brush.Color));
+            // TODO: Add outline
         }
 
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
@@ -74,13 +91,12 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
-            CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToCGColor(color));
+            CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
         }
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
-            CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(rectangle), text, fontFace, fontSize, GenericControlHelper.ToCGColor(color));
-            // TODO: Add text alignment to IGraphicsContext
+            CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(rectangle), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
@@ -97,6 +113,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void StrokeLine(BasicPoint point, BasicPoint point2)
         {
+            //SetViewportOrigin(false);
             Context.StrokeLineSegments(new PointF[2] { GenericControlHelper.ToPoint(point), GenericControlHelper.ToPoint(point2) });
         }
 
@@ -112,7 +129,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void Close()
         {
-            // Not used on iOS
+            // Not used on OS X
         }
     }
 }

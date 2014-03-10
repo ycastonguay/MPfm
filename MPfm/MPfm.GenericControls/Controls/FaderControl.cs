@@ -114,7 +114,7 @@ namespace MPfm.GenericControls.Controls
             OnInvalidateVisualInRect += (rect) => { };
         }
 
-        public void MouseDown(float x, float y, MouseButtonType button)
+        public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             // Make sure the mouse button pressed was the left mouse button
             _mouseButtonDown = true;
@@ -127,12 +127,13 @@ namespace MPfm.GenericControls.Controls
                     y >= _rectFader.Y &&
                     y <= _rectFader.Height + _rectFader.Y)
                 {
+                    //Console.WriteLine("FaderControl - MouseDown - Mouse down on track bar; track bar is now moving");
                     _isTrackBarMoving = true;
                 }
             }
         }
 
-        public void MouseUp(float x, float y, MouseButtonType button)
+        public void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             // Check if the track bar was moving (mouse down)
             //ReleaseMouseCapture();
@@ -161,17 +162,23 @@ namespace MPfm.GenericControls.Controls
                 OnInvalidateVisual();
             }
 
+            //Console.WriteLine("FaderControl - MouseDown - Mouse up; stopping track bar movement");
             _mouseButtonDown = false;
             _isTrackBarMoving = false;
         }
 
-        public void MouseDoubleClick(float x, float y, MouseButtonType button)
+        public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
+        {            
+        }
+
+        public void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
         }
 
         public void MouseMove(float x, float y, MouseButtonType button)
         {
             bool valueChanged = false;
+            //Console.WriteLine("FaderControl - MouseMove - _isTrackBarMoving: {0} _mouseButtonDown: {1}", _isTrackBarMoving, _mouseButtonDown);
             if (_isTrackBarMoving && _mouseButtonDown)
             {
                 // Evaluate tick height
@@ -236,6 +243,10 @@ namespace MPfm.GenericControls.Controls
         }
 
         public void MouseEnter()
+        {
+        }
+
+        public void MouseWheel(float delta)
         {
         }
 

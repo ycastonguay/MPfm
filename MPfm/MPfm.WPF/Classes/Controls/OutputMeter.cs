@@ -30,7 +30,7 @@ namespace MPfm.WPF.Classes.Controls
 
         public OutputMeter()
         {
-            _control = new OutputMeterControl(null);
+            _control = new OutputMeterControl();
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() => 
             {

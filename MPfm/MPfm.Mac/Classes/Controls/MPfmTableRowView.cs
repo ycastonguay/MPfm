@@ -82,9 +82,9 @@ namespace MPfm.Mac.Classes.Controls
 //            isMouseDown = false;
 //        }        
 
-        public override void DrawBackgrounn(RectangleF dirtyRect)
+        public override void DrawBackground(RectangleF dirtyRect)
         {
-            base.DrawBackgrounn(dirtyRect); // WTF Backgrounn? Must be a naming bug in MonoMac.
+            base.DrawBackground(dirtyRect); // WTF Backgrounn? Must be a naming bug in MonoMac.
 
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
             CocoaHelper.FillRect(context, dirtyRect, new CGColor(1, 1, 1));

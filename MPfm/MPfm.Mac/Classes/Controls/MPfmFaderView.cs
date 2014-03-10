@@ -16,20 +16,13 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.MVP;
-using MPfm.Mac.Classes.Objects;
-using MPfm.Mac.Classes.Helpers;
 using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
-using MPfm.GenericControls.Interaction;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -37,7 +30,17 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmFaderView : NSView
     {
         private FaderControl _control;
-        
+
+        public override bool IsOpaque { get { return true; } }
+        public override bool IsFlipped { get { return true; } }
+
+        public int Minimum { get { return _control.Minimum; } set { _control.Minimum = value; } }
+        public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
+        public int Value { get { return _control.Value; } set { _control.Value = value; } }
+        public int ValueWithoutEvent { get { return _control.ValueWithoutEvent; } set { _control.ValueWithoutEvent = value; } }
+
+        public event FaderControl.FaderValueChanged OnFaderValueChanged;
+
         [Export("init")]
         public MPfmFaderView() : base(NSObjectFlag.Empty)
         {
@@ -52,14 +55,20 @@ namespace MPfm.Mac.Classes.Controls
 
         private void Initialize()
         {
+            // Add tracking area to receive mouse move and mouse dragged events
+            var opts = NSTrackingAreaOptions.ActiveAlways | NSTrackingAreaOptions.InVisibleRect | NSTrackingAreaOptions.MouseMoved | NSTrackingAreaOptions.EnabledDuringMouseDrag;
+            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
+            AddTrackingArea(trackingArea);
+
             _control = new FaderControl();    
+            _control.OnFaderValueChanged += (sender, args) =>
+            {
+                if (OnFaderValueChanged != null)
+                    OnFaderValueChanged(sender, args);
+            };
             // TODO: Could these be moved inside a generic helper or something?
-            _control.OnInvalidateVisual += () => {
-                SetNeedsDisplayInRect(Bounds);
-            };
-            _control.OnInvalidateVisualInRect += (rect) => {
-                SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect));
-            };
+            _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
+            _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
         
         public override void DrawRect(RectangleF dirtyRect)
@@ -86,6 +95,12 @@ namespace MPfm.Mac.Classes.Controls
         public override void MouseMoved(NSEvent theEvent)
         {
             base.MouseMoved(theEvent);
+            GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+
+        public override void MouseDragged(NSEvent theEvent)
+        {
+            base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
         }
     }
