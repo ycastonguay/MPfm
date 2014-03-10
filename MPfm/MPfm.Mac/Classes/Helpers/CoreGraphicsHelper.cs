@@ -186,8 +186,6 @@ namespace MPfm.Mac.Classes.Helpers
             var dict = new NSMutableDictionary();
             dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
             dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
-            //dict.Add(NSAttributedString.FontAttributeName, new NSString(fontName));
-            //SizeF size = str.DrawString(pt, UIFont.FromName(fontName, fontSize));
             str.DrawString(pt, dict);
             context.RestoreState();
         }
@@ -196,16 +194,19 @@ namespace MPfm.Mac.Classes.Helpers
         {
             context.SaveState();
             NSString str = new NSString(text);
-            //SizeF size = str.DrawString(rect, UIFont.FromName(fontName, fontSize), breakMode, alignment);
-            str.DrawString(rect, new NSDictionary());
+            var dict = new NSMutableDictionary();
+            dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
+            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
+            str.DrawString(rect, dict);
             context.RestoreState();
         }
 
         public static SizeF MeasureText(CGContext context, string text, string fontName, float fontSize)
         {
             NSString str = new NSString(text);
-            //SizeF size = str.StringSize(UIFont.FromName(fontName, fontSize));
-            var size = str.StringSize(new NSDictionary());
+            var dict = new NSMutableDictionary();
+            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
+            var size = str.StringSize(dict);
             return size;
         }
 

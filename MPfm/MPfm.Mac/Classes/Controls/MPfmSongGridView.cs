@@ -18,18 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Reflection;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
-using MPfm.MVP;
-using MPfm.Mac.Classes.Objects;
-using MPfm.Mac.Classes.Helpers;
-using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
-using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Graphics;
 using MPfm.MVP.Bootstrap;
@@ -41,6 +34,8 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmSongGridView : NSView
     {
         private SongGridViewControl _control;
+        private HorizontalScrollBarWrapper _horizontalScrollBar;
+        private VerticalScrollBarWrapper _verticalScrollBar;
 
         public List<SongGridViewItem> SelectedItems { get { return _control.SelectedItems; } }
         public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
@@ -48,7 +43,9 @@ namespace MPfm.Mac.Classes.Controls
         //public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
         public override bool IsFlipped { get { return true; } }
-        
+
+        public event EventHandler DoubleClick;
+
         [Export("init")]
         public MPfmSongGridView() : base(NSObjectFlag.Empty)
         {
@@ -68,21 +65,43 @@ namespace MPfm.Mac.Classes.Controls
             var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
             AddTrackingArea(trackingArea);
 
-            var horizontalScrollBar = new HorizontalScrollBarWrapper();
-            horizontalScrollBar.Frame = new RectangleF(0, 0, Bounds.Width, 20);
-            AddSubview(horizontalScrollBar);
+            _horizontalScrollBar = new HorizontalScrollBarWrapper();
+            _horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
+            //horizontalScrollBar.Action = new MonoMac.ObjCRuntime.Selector("scrollAction:");
+            AddSubview(_horizontalScrollBar);
 
-            var verticalScrollBar = new VerticalScrollBarWrapper();
-            verticalScrollBar.Frame = new RectangleF(0, 0, 20, Bounds.Height);
-            AddSubview(verticalScrollBar);
+            _verticalScrollBar = new VerticalScrollBarWrapper();
+            _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 0, 20, Bounds.Height);
+            AddSubview(_verticalScrollBar);
 
             var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
-
-            _control = new SongGridViewControl(horizontalScrollBar, verticalScrollBar, disposableImageFactory);   
+            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);   
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
 
+            DoubleClick += (sender, e) => { };
+
+            PostsBoundsChangedNotifications = true;
+            NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
         }
+
+        private void FrameDidChangeNotification(NSNotification notification)
+        {
+            //Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification - Bounds: {0} Frame: {1}", Bounds, Frame);
+            SetFrame();
+        }
+
+        private void SetFrame()
+        {
+            _horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
+            _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 0, 20, Bounds.Height);
+        }
+
+//        [Export ("scrollAction:")]
+//        public void ScrollAction(NSObject sender)
+//        {
+//            Console.WriteLine("scrollAction");
+//        }
 
         public void ImportAudioFiles(List<AudioFile> audioFiles)
         {
@@ -109,6 +128,15 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
+            if (theEvent.ClickCount == 1)
+            {
+                GenericControlHelper.MouseClick(this, _control, theEvent);
+            }
+            else if (theEvent.ClickCount == 2)
+            {
+                GenericControlHelper.MouseDoubleClick(this, _control, theEvent);
+                DoubleClick(this, new EventArgs());
+            }
         }
         
         public override void MouseMoved(NSEvent theEvent)
@@ -131,7 +159,7 @@ namespace MPfm.Mac.Classes.Controls
 
         public override void ScrollWheel(NSEvent theEvent)
         {
-            Console.WriteLine("ScrollWheel - deltaX: {0} deltaY: {1}", theEvent.DeltaX, theEvent.DeltaY);
+            //Console.WriteLine("ScrollWheel - deltaX: {0} deltaY: {1}", theEvent.DeltaX, theEvent.DeltaY);
             base.ScrollWheel(theEvent);
 
             if (theEvent.DeltaY > 0)

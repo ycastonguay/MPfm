@@ -29,7 +29,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
         {
             NSImage image = null;
             //InvokeOnMainThread(() => {
-                Console.WriteLine("DisposableImageFactory - CreateImageFromByteArray");
+            //Console.WriteLine("DisposableImageFactory - CreateImageFromByteArray");
                 //image = new NSImage(new SizeF(BoundsWidth, BoundsHeight));
                 //image.AddRepresentation(_bitmap);
 
@@ -63,7 +63,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
+                    Console.WriteLine("DisposableImageFactory - Failed to process image: {0}", ex);
                 }
             //});
             return image;

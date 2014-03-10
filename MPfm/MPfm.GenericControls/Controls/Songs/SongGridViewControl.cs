@@ -776,6 +776,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
             // Calculate new value
             int newValue = (int) (VerticalScrollBar.Value + (-delta * _songCache.LineHeight));
+            //Console.WriteLine("SongGridViewControl - MouseWheel - delta: {0} VerticalScrollBar.Value: {1} lineHeight: {2} newValue: {3}", delta, VerticalScrollBar.Value, _songCache.LineHeight, newValue);
 
             // Check for maximum
             if (newValue > VerticalScrollBar.Maximum - VerticalScrollBar.LargeChange)
@@ -786,7 +787,7 @@ namespace MPfm.GenericControls.Controls.Songs
                 newValue = 0;
             
             VerticalScrollBar.Value = newValue;
-            //OnInvalidateVisual();
+            OnInvalidateVisual();
         }
 
         /// <summary>
