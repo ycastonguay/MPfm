@@ -270,7 +270,8 @@ namespace MPfm.Mac.Classes.Helpers
             newImage.LockFocus();
             sourceImage.Size = newSize;
             NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
-            sourceImage.Draw(new PointF(), new RectangleF(0, 0, newSize.Width, newSize.Height), NSCompositingOperation.Copy, 1); 
+            sourceImage.DrawInRect(new RectangleF(0, 0, size, size), new RectangleF(), NSCompositingOperation.Copy, 1);
+            //sourceImage.Draw(new PointF(), new RectangleF(0, 0, newSize.Width, newSize.Height), NSCompositingOperation.Copy, 1); 
             newImage.UnlockFocus();
             return newImage;
         }

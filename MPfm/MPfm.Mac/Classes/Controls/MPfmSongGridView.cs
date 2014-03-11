@@ -66,12 +66,9 @@ namespace MPfm.Mac.Classes.Controls
             AddTrackingArea(trackingArea);
 
             _horizontalScrollBar = new HorizontalScrollBarWrapper();
-            _horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
-            //horizontalScrollBar.Action = new MonoMac.ObjCRuntime.Selector("scrollAction:");
             AddSubview(_horizontalScrollBar);
 
             _verticalScrollBar = new VerticalScrollBarWrapper();
-            _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 0, 20, Bounds.Height);
             AddSubview(_verticalScrollBar);
 
             var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
@@ -81,6 +78,7 @@ namespace MPfm.Mac.Classes.Controls
 
             DoubleClick += (sender, e) => { };
 
+            SetFrame();
             PostsBoundsChangedNotifications = true;
             NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
         }
@@ -94,14 +92,8 @@ namespace MPfm.Mac.Classes.Controls
         private void SetFrame()
         {
             _horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
-            _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 0, 20, Bounds.Height);
+            _verticalScrollBar.Frame = new RectangleF(Bounds.Width - 20, 20, 20, Bounds.Height - 40);
         }
-
-//        [Export ("scrollAction:")]
-//        public void ScrollAction(NSObject sender)
-//        {
-//            Console.WriteLine("scrollAction");
-//        }
 
         public void ImportAudioFiles(List<AudioFile> audioFiles)
         {

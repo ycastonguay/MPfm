@@ -1065,6 +1065,17 @@ namespace MPfm.GenericControls.Controls.Songs
                                     brushGradient = new BasicGradientBrush(_theme.AlbumCoverBackgroundColor, _theme.AlbumCoverBackgroundColor, 90);
                                     context.DrawRectangle(rectAlbumCover, brushGradient, penTransparent);
 
+                                    // Measure available width for text
+                                    int widthAvailableForText = _columns[0].Width - (_theme.Padding * 2);
+
+                                    // Display titles depending on if an album art was found
+                                    var rectAlbumCoverArt = new BasicRectangle();
+                                    var rectAlbumTitleText = new BasicRectangle();
+                                    var rectArtistNameText = new BasicRectangle();
+                                    var sizeAlbumTitle = new BasicRectangle();
+                                    var sizeArtistName = new BasicRectangle();
+                                    bool useAlbumArtOverlay = false;
+
                                     // Try to extract image from cache
                                     IDisposable imageAlbumCover = null;
                                     SongGridViewImageCache cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
@@ -1096,21 +1107,10 @@ namespace MPfm.GenericControls.Controls.Songs
                                             var arg = new SongGridViewBackgroundWorkerArgument();
                                             arg.AudioFile = audioFile;
                                             arg.LineIndex = a;
-                                            arg.RectAlbumArt = rectAlbumCover;
+                                            arg.RectAlbumArt = new BasicRectangle(0, 0, heightWithPadding, heightWithPadding);
                                             _workerUpdateAlbumArtPile.Add(arg);
                                         }
                                     }
-
-                                    // Measure available width for text
-                                    int widthAvailableForText = _columns[0].Width - (_theme.Padding * 2);
-
-                                    // Display titles depending on if an album art was found
-                                    var rectAlbumCoverArt = new BasicRectangle();
-                                    var rectAlbumTitleText = new BasicRectangle();
-                                    var rectArtistNameText = new BasicRectangle();
-                                    var sizeAlbumTitle = new BasicRectangle();
-                                    var sizeArtistName = new BasicRectangle();
-                                    bool useAlbumArtOverlay = false;
 
                                     // If there's only one line, we need to do place the artist name and album title on one line
                                     if (albumCoverEndIndex - albumCoverStartIndex == 0)
@@ -1230,6 +1230,7 @@ namespace MPfm.GenericControls.Controls.Songs
                                             }
                                         }
                                     }
+                                   
 
                                     // Display album cover
                                     if (imageAlbumCover != null)

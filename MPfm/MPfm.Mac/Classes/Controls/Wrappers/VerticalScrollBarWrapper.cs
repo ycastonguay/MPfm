@@ -25,6 +25,7 @@ namespace MPfm.Mac.Classes.Controls
     public class VerticalScrollBarWrapper : NSScroller, IVerticalScrollBarWrapper
     {
         public event ScrollValueChanged OnScrollValueChanged;
+        //bool IVerticalScrollBarWrapper.Visible { get { return !Hidden; } set { Hidden = !value; } }
         bool IVerticalScrollBarWrapper.Visible { get; set; }
         bool IVerticalScrollBarWrapper.Enabled { get { return Enabled; } set { Enabled = value; } }
         int IVerticalScrollBarWrapper.Width { get { return (int)Frame.Width; } set { 

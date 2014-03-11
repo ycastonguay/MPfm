@@ -31,6 +31,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
             NSImage imageResized = null;
             try
             {
+                //Console.WriteLine("DisposableImageFactory - CreateImageFromByteArray - width: {0} height: {1}", width, height);
                 NSGraphicsContext.GlobalRestoreGraphicsState();
                 using (NSData imageData = NSData.FromArray(data))
                 {
