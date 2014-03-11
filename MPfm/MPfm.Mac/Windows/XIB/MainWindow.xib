@@ -733,7 +733,7 @@
                                                         </connections>
                                                     </button>
                                                     <customView id="Qrn-y5-vUo" customClass="MPfmTrackBarView">
-                                                        <rect key="frame" x="10" y="41" width="219" height="26"/>
+                                                        <rect key="frame" x="9" y="41" width="219" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     </customView>
                                                 </subviews>
@@ -1311,7 +1311,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412" y="3" width="384.00000036665483" height="22"/>
+                                                                                <rect key="frame" x="412.00000042570821" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>

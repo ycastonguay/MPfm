@@ -78,7 +78,7 @@ namespace MPfm.Mac
             trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarPositionValueChanged;
             trackBarPosition.SetNeedsDisplayInRect(trackBarPosition.Bounds);
 
-            trackBarTimeShifting.Minimum = 55;
+            trackBarTimeShifting.Minimum = 50;
             trackBarTimeShifting.Maximum = 150;
             trackBarTimeShifting.Value = 100;
             trackBarTimeShifting.BlockValueChangeWhenDraggingMouse = true;
