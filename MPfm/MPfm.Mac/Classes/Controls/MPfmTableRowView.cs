@@ -87,10 +87,10 @@ namespace MPfm.Mac.Classes.Controls
             base.DrawBackground(dirtyRect); // WTF Backgrounn? Must be a naming bug in MonoMac.
 
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            CocoaHelper.FillRect(context, dirtyRect, new CGColor(1, 1, 1));
+            CoreGraphicsHelper.FillRect(context, dirtyRect, new CGColor(1, 1, 1));
 
             if(IsBorderVisible)
-                CocoaHelper.DrawLine(context, new PointF[2]{ new PointF(0, Bounds.Height), new PointF(Bounds.Width, Bounds.Height) }, 1, new CGColor(0.7f, 0.7f, 0.7f));
+                CoreGraphicsHelper.DrawLine(context, new PointF[2]{ new PointF(0, Bounds.Height), new PointF(Bounds.Width, Bounds.Height) }, 1, new CGColor(0.7f, 0.7f, 0.7f));
         }
     }
 }

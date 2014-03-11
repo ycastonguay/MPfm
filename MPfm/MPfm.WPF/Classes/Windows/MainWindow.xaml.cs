@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -31,7 +32,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.Core.Helpers;
+using MPfm.GenericControls.Graphics;
 using MPfm.Library.Objects;
+using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
@@ -62,14 +65,13 @@ namespace MPfm.WPF.Classes.Windows
         {
             InitializeComponent();
             Initialize();
-            SetLegacyControlTheme();
             ViewIsReady();
         }
 
         private void Initialize()
         {
             panelUpdateLibrary.Visibility = Visibility.Collapsed;
-            gridViewSongs.DoubleClick += GridViewSongsOnDoubleClick;
+            gridViewSongsNew.DoubleClick += GridViewSongsNewOnDoubleClick;
             scrollViewWaveForm.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             scrollViewWaveForm.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
 
@@ -86,19 +88,6 @@ namespace MPfm.WPF.Classes.Windows
             EnableMarkerButtons(false);
             EnableLoopButtons(false);
             RefreshSongInformation(null, 0, 0, 0);
-        }
-
-        private void SetLegacyControlTheme()
-        {
-            var fontRow = new CustomFont("Roboto", 8, System.Drawing.Color.FromArgb(255, 0, 0, 0));
-            var fontHeader = new CustomFont("Roboto", 8, System.Drawing.Color.FromArgb(255, 255, 255, 255));
-            gridViewSongs.Theme.AlbumCoverBackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);
-            gridViewSongs.Theme.HeaderHoverTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
-            gridViewSongs.Theme.HeaderTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 69, 88, 101), System.Drawing.Color.FromArgb(255, 69, 88, 101), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontHeader);
-            gridViewSongs.Theme.IconNowPlayingGradient = new Gradient(System.Drawing.Color.FromArgb(255, 250, 200, 250), System.Drawing.Color.FromArgb(255, 25, 150, 25), LinearGradientMode.Horizontal);
-            gridViewSongs.Theme.RowNowPlayingTextGradient = new TextGradient(System.Drawing.Color.FromArgb(255, 135, 235, 135), System.Drawing.Color.FromArgb(255, 135, 235, 135), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
-            gridViewSongs.Theme.RowTextGradient = new TextGradient(System.Drawing.Color.White, System.Drawing.Color.White, LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0, fontRow);
-            //waveFormDisplay.Theme.BackgroundGradient = new BackgroundGradient(System.Drawing.Color.FromArgb(255, 36, 47, 53), System.Drawing.Color.FromArgb(255, 36, 47, 53), LinearGradientMode.Horizontal, System.Drawing.Color.Gray, 0);            
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -219,20 +208,12 @@ namespace MPfm.WPF.Classes.Windows
             e.Handled = true;
         }
 
-        private void gridViewSongs_OnOnSelectedIndexChanged(SongGridViewSelectedIndexChangedData data)
+        private void GridViewSongsNewOnDoubleClick(object sender, EventArgs eventArgs)
         {
-        //    if (gridViewSongs.SelectedItems.Count == 0)
-        //        return;
-
-        //    OnTableRowDoubleClicked(gridViewSongs.Items[0].AudioFile);
-        }
-
-        private void GridViewSongsOnDoubleClick(object sender, EventArgs eventArgs)
-        {
-            if (gridViewSongs.SelectedItems.Count == 0)
+            if (gridViewSongsNew.SelectedItems.Count == 0)
                 return;
 
-            OnTableRowDoubleClicked(gridViewSongs.SelectedItems[0].AudioFile);
+            OnTableRowDoubleClicked(gridViewSongsNew.SelectedItems[0].AudioFile);
         }
 
         private void BtnToolbar_OnClick(object sender, RoutedEventArgs e)
@@ -740,7 +721,6 @@ namespace MPfm.WPF.Classes.Windows
             {
                 //    //string orderBy = viewSongs2.OrderByFieldName;
                 //    //bool orderByAscending = viewSongs2.OrderByAscending;
-                gridViewSongs.ImportAudioFiles(audioFiles.ToList());
                 gridViewSongsNew.ImportAudioFiles(audioFiles.ToList());
             }));
         }
@@ -853,58 +833,42 @@ namespace MPfm.WPF.Classes.Windows
                 //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
                 //        miTraySongTitle.Text = audioFile.Title;
 
-                        gridViewSongs.NowPlayingAudioFileId = audioFile.Id;
-                        gridViewSongs.Refresh();
+                        gridViewSongsNew.NowPlayingAudioFileId = audioFile.Id;
 
                         scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                         scrollViewWaveForm.LoadPeakFile(audioFile);
 
                         imageAlbum.Source = null;
-                        int albumWidth = (int) imageAlbum.Width;
-                        int albumHeight = (int) imageAlbum.Height;
-                        var task = Task<System.Drawing.Image>.Factory.StartNew(() =>
+                        var task = Task<BitmapImage>.Factory.StartNew(() =>
                         {
-                            //// Get image from library
-                            //Image image = MPfm.Library.Library.GetAlbumArtFromID3OrFolder(songPath);
-
-                            //// Resize image with quality AA
-                            //if (image != null)
-                            //    image = ImageManipulation.ResizeImage(image, picAlbum.Size.Width, picAlbum.Size.Height);
-
                             try
                             {
-                                var image = AudioFile.ExtractImageForAudioFile(audioFile.FilePath);
-                                if (image == null)
-                                    return null;
+                                var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                                var stream = new MemoryStream(bytes);
+                                stream.Seek(0, SeekOrigin.Begin);
 
-                                image = ImageManipulation.ResizeImage(image, albumWidth, albumHeight);
-                                return image;
+                                var bitmap = new BitmapImage();
+                                bitmap.BeginInit();
+                                bitmap.StreamSource = stream;
+                                bitmap.EndInit();
+                                bitmap.Freeze();
 
-                                //var imageSource = ImageHelper.ImageToImageSource(image);
-                                //Console.WriteLine("imageSource is {0}.{1}", imageSource.Width, imageSource.Height);
-                                //double lowestValue = imageSource.Width < imageSource.Height ? imageSource.Width : imageSource.Height;
-                                //var imageCropped = new CroppedBitmap(new WriteableBitmap(imageSource), new Int32Rect(0, 0, (int)lowestValue, (int)lowestValue));
-                                //imageAlbum.Source = ImageHelper.ImageToImageSource(image);                                
-                                //return imageCropped;
-                                //return imageSource;
+                                return bitmap;
                             }
                             catch (Exception ex)
                             {
-                                // Ignore error and return null
                                 Console.WriteLine("An error occured while extracing album art in {0}: {1}", audioFile.FilePath, ex);
                             }
 
                             return null;
                         });
-                        //var croppedBitmap = task.Result;
-                        //if (croppedBitmap != null)
-                        //    imageAlbum.Source = croppedBitmap;
+
                         var imageResult = task.Result;
                         if (imageResult != null)
                         {
                             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                             {
-                                imageAlbum.Source = ImageHelper.ImageToImageSource(imageResult);
+                                imageAlbum.Source = imageResult;
                             }));
                         }
                     }

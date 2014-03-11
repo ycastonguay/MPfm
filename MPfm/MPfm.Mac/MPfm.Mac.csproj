@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>MPfm.Mac</RootNamespace>
-    <AssemblyName>MPfm</AssemblyName>
+    <AssemblyName>Sessions</AssemblyName>
     <SynchReleaseVersion>False</SynchReleaseVersion>
     <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -76,6 +76,8 @@
     <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
     <Externalconsole>True</Externalconsole>
     <UseSGen>False</UseSGen>
+    <I18n>
+    </I18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -243,6 +245,9 @@
     <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
     <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
     <Compile Include="Classes\Controls\MPfmRoundButton.cs" />
+    <Compile Include="Classes\Controls\Wrappers\HorizontalScrollBarWrapper.cs" />
+    <Compile Include="Classes\Controls\Wrappers\VerticalScrollBarWrapper.cs" />
+    <Compile Include="Classes\Controls\Graphics\DisposableImageFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -272,7 +277,6 @@
   <ItemGroup>
     <Content Include="Bass.Net.dll.config" />
     <Content Include="MPfm.icns" />
-    <Content Include="Resources\Splash.png" />
     <Content Include="Resources\Fonts\TitilliumMaps29L.otf" />
     <Content Include="Resources\Fonts\TitilliumTitle20.otf" />
     <Content Include="Resources\Fonts\TitilliumText25L.otf" />
@@ -409,6 +413,10 @@
     <Content Include="Resources\Buttons\add.png" />
     <Content Include="Resources\Buttons\minus.png" />
     <Content Include="Resources\Buttons\reset.png" />
+    <Content Include="Resources\Splash\splash_logo_clear.png" />
+    <Content Include="Resources\Splash\splash_logo_full.png" />
+    <Content Include="Resources\Splash\splash_logo_clear%402x.png" />
+    <Content Include="Resources\Splash\splash_logo_full%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -434,6 +442,8 @@
     <Folder Include="Classes\Controls\Helpers\" />
     <Folder Include="Resources\Toolbar\" />
     <Folder Include="Resources\Buttons\" />
+    <Folder Include="Classes\Controls\Wrappers\" />
+    <Folder Include="Resources\Splash\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -518,5 +528,6 @@
     <BundleResource Include="Resources\icon_button_play%402x.png" />
     <BundleResource Include="Resources\icon_button_goto%402x.png" />
     <BundleResource Include="Resources\icon_button_goto.png" />
+    <BundleResource Include="Resources\Splash.png" />
   </ItemGroup>
 </Project>

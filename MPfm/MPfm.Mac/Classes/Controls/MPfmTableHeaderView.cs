@@ -101,14 +101,14 @@ namespace MPfm.Mac.Classes.Controls
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
 
             if (_isMouseDown)
-                CocoaHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
             else
-                CocoaHelper.FillRect(context, Bounds, BackgroundColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 
             float x = 0;
             foreach (NSTableColumn column in TableView.TableColumns())
             {
-                CocoaHelper.DrawText(new RectangleF(0, 0, column.Width, Bounds.Height), x + 2, 2, column.HeaderCell.Title, "Roboto", 10, NSColor.FromDeviceRgba(0.9f, 0.9f, 0.9f, 1));
+                CoreGraphicsHelper.DrawText(new RectangleF(0, 0, column.Width, Bounds.Height), x + 2, 2, column.HeaderCell.Title, "Roboto", 10, NSColor.FromDeviceRgba(0.9f, 0.9f, 0.9f, 1));
                 x += column.Width;
             }
         }

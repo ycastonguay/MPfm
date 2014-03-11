@@ -15,13 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using MPfm.GenericControls.Basics;
+using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Interaction;
 using MPfm.WindowsControls;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace MPfm.WPF.Classes.Controls.Helpers
 {
@@ -71,19 +75,20 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseDown(MouseButtonEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
+            var keysHeld = new KeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             element.CaptureMouse();
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    control.MouseDown(x, y, MouseButtonType.Left);
+                    control.MouseDown(x, y, MouseButtonType.Left, keysHeld);
                     break;
                 case MouseButton.Middle:
-                    control.MouseDown(x, y, MouseButtonType.Middle);
+                    control.MouseDown(x, y, MouseButtonType.Middle, keysHeld);
                     break;
                 case MouseButton.Right:
-                    control.MouseDown(x, y, MouseButtonType.Right);
+                    control.MouseDown(x, y, MouseButtonType.Right, keysHeld);
                     break;
             }
         }
@@ -91,19 +96,20 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseUp(MouseButtonEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
+            var keysHeld = new KeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             element.ReleaseMouseCapture();
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    control.MouseUp(x, y, MouseButtonType.Left);
+                    control.MouseUp(x, y, MouseButtonType.Left, keysHeld);
                     break;
                 case MouseButton.Middle:
-                    control.MouseUp(x, y, MouseButtonType.Middle);
+                    control.MouseUp(x, y, MouseButtonType.Middle, keysHeld);
                     break;
                 case MouseButton.Right:
-                    control.MouseUp(x, y, MouseButtonType.Right);
+                    control.MouseUp(x, y, MouseButtonType.Right, keysHeld);
                     break;
             }
         }
@@ -119,19 +125,36 @@ namespace MPfm.WPF.Classes.Controls.Helpers
                 control.MouseMove(x, y, MouseButtonType.Middle);
             else if (e.RightButton == MouseButtonState.Pressed)
                 control.MouseMove(x, y, MouseButtonType.Right);
+            else
+                control.MouseMove(x, y, MouseButtonType.None);
+        }
+
+        public static void MouseClick(MouseEventArgs e, UIElement element, IControlMouseInteraction control)
+        {
+            var location = e.GetPosition(element);
+            var keysHeld = new KeysHeld();
+            float x = (float)location.X;
+            float y = (float)location.Y;
+            if (e.LeftButton == MouseButtonState.Released)
+                control.MouseClick(x, y, MouseButtonType.Left, keysHeld);
+            else if (e.MiddleButton == MouseButtonState.Released)
+                control.MouseClick(x, y, MouseButtonType.Middle, keysHeld);
+            else if (e.RightButton == MouseButtonState.Released)
+                control.MouseClick(x, y, MouseButtonType.Right, keysHeld);
         }
 
         public static void MouseDoubleClick(MouseEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
+            var keysHeld = new KeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
-            if (e.LeftButton == MouseButtonState.Pressed)
-                control.MouseMove(x, y, MouseButtonType.Left);
-            else if (e.MiddleButton == MouseButtonState.Pressed)
-                control.MouseMove(x, y, MouseButtonType.Middle);
-            else if (e.RightButton == MouseButtonState.Pressed)
-                control.MouseMove(x, y, MouseButtonType.Right);
+            if (e.LeftButton == MouseButtonState.Released)
+                control.MouseDoubleClick(x, y, MouseButtonType.Left, keysHeld);
+            else if (e.MiddleButton == MouseButtonState.Released)
+                control.MouseDoubleClick(x, y, MouseButtonType.Middle, keysHeld);
+            else if (e.RightButton == MouseButtonState.Released)
+                control.MouseDoubleClick(x, y, MouseButtonType.Right, keysHeld);
         }
     }
 }

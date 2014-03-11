@@ -58,13 +58,20 @@ namespace MPfm.Mac.Classes.Controls.Graphics
         public float BoundsHeight { get; private set; }
         public float Density { get { return _density; } }
 
+        public void DrawImage(BasicRectangle rectangle, IDisposable image)
+        {
+            //Console.WriteLine("GraphicsContextWrapper - DrawImage - rectangle: {0}", rectangle);
+            DrawImage(rectangle, rectangle, image);
+        }
+
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
+            //Console.WriteLine("GraphicsContextWrapper - DrawImage - rectangleDestination: {0} rectangleSource: {1}", rectangleDestination, rectangleSource);
             var bitmap = image as NSImage;
             if (bitmap == null)
                 return;
 
-            bitmap.DrawInRect(GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleSource), NSCompositingOperation.SourceOver, 1);
+            bitmap.Draw(GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleSource), NSCompositingOperation.SourceOver, 1, true, new NSDictionary());
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
@@ -86,12 +93,20 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicPoint point, BasicColor color, string fontFace, float fontSize)
         {
-            CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(point), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
+            // Very ugly fix for Roboto which is rendered too low on OS X
+            var newPt = new BasicPoint(point.X, point.Y);
+            if(fontFace.ToUpper().Contains("ROBOTO"))
+                newPt.Y -= 2;
+            CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(newPt), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
         }
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
-            CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(rectangle), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
+            // Very ugly fix for Roboto which is rendered too low on OS X
+            var newRect = new BasicRectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            if(fontFace.ToUpper().Contains("ROBOTO"))
+                newRect.Y -= 2;
+            CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(newRect), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)

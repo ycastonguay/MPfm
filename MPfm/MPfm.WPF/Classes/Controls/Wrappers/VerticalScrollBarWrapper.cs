@@ -16,30 +16,36 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Forms.VisualStyles;
-using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using System.Windows.Threading;
-using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Wrappers;
-using MPfm.WPF.Classes.Controls.Graphics;
-using MPfm.WPF.Classes.Controls.Helpers;
-using MPfm.WPF.Classes.Extensions;
-using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls
 {
-    public class VerticalScrollBarWrapper : Control, IVerticalScrollBarWrapper
+    public class VerticalScrollBarWrapper : ScrollBar, IVerticalScrollBarWrapper
     {
         public event ScrollValueChanged OnScrollValueChanged;
-        public bool Visible { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int Value { get; set; }
-        public int Maximum { get; set; }
-        public int LargeChange { get; set; }
+        bool IVerticalScrollBarWrapper.Visible { get; set; }
+        bool IVerticalScrollBarWrapper.Enabled { get { return IsEnabled; } set { IsEnabled = value; } }
+        int IVerticalScrollBarWrapper.Width { get { return (int) Width; } set { Width = value; } }
+        int IVerticalScrollBarWrapper.Height { get { return (int) Height; } set { Height = value; } }
+        int IVerticalScrollBarWrapper.Value { get { return (int)Value; } set { Value = value; } }
+        int IVerticalScrollBarWrapper.Minimum { get { return (int)Minimum; } set { Minimum = value; } }
+        int IVerticalScrollBarWrapper.Maximum { get { return (int)Maximum; } set { Maximum = value; } }
+        int IVerticalScrollBarWrapper.SmallChange { get { return (int)SmallChange; } set { SmallChange = value; } }
+        int IVerticalScrollBarWrapper.LargeChange { get { return (int)LargeChange; } set { LargeChange = value; } }
+
+        public VerticalScrollBarWrapper()
+        {
+            Orientation = System.Windows.Controls.Orientation.Vertical;            
+        }
+
+        protected override void OnValueChanged(double oldValue, double newValue)
+        {
+            //Console.WriteLine("VerticalScrollBarWrapper - OnValueChanged - newValue: {0} (min: {1} max: {2})", newValue, Minimum, Maximum);
+            base.OnValueChanged(oldValue, newValue);
+            if(OnScrollValueChanged != null)
+                OnScrollValueChanged(this, new EventArgs());
+        }
     }
 }

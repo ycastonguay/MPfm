@@ -50,16 +50,18 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
+            var keysHeld = new KeysHeld();
             //Console.WriteLine("GenericControlHelper - MouseUp - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
-            control.MouseUp(point.X, point.Y, button);
+            control.MouseUp(point.X, point.Y, button, keysHeld);
         }    
 
         public static void MouseDown(NSView view, IControlMouseInteraction control, NSEvent theEvent)
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
+            var keysHeld = new KeysHeld();
             //Console.WriteLine("GenericControlHelper - MouseDown - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
-            control.MouseDown(point.X, point.Y, button);
+            control.MouseDown(point.X, point.Y, button, keysHeld);
         }    
 
         public static void MouseMove(NSView view, IControlMouseInteraction control, NSEvent theEvent)
@@ -68,7 +70,25 @@ namespace MPfm.Mac.Classes.Controls.Helpers
             var button = GetMouseButtonType(theEvent);
             //Console.WriteLine("GenericControlHelper - MouseMove - point: {0} bounds: {1}", point, view.Bounds);
             control.MouseMove(point.X, point.Y, button);
-        }    
+        } 
+
+        public static void MouseClick(NSView view, IControlMouseInteraction control, NSEvent theEvent)
+        {
+            var point = GetMouseLocation(view, theEvent);
+            var button = GetMouseButtonType(theEvent);
+            var keysHeld = new KeysHeld();
+            //Console.WriteLine("GenericControlHelper - MouseClick - point: {0} bounds: {1}", point, view.Bounds);
+            control.MouseClick(point.X, point.Y, button, keysHeld);
+        }
+
+        public static void MouseDoubleClick(NSView view, IControlMouseInteraction control, NSEvent theEvent)
+        {
+            var point = GetMouseLocation(view, theEvent);
+            var button = GetMouseButtonType(theEvent);
+            var keysHeld = new KeysHeld();
+            //Console.WriteLine("GenericControlHelper - MouseClick - point: {0} bounds: {1}", point, view.Bounds);
+            control.MouseDoubleClick(point.X, point.Y, button, keysHeld);
+        }
 
         private static PointF GetMouseLocation(NSView view, NSEvent theEvent)
         {

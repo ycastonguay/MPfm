@@ -56,6 +56,7 @@ namespace MPfm.Mac.Classes.Delegates
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, MacSyncDeviceSpecifications>().AsSingleton();   
             Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
+            Bootstrapper.GetContainer().Register<IDisposableImageFactory, DisposableImageFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();

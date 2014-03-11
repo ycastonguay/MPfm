@@ -114,7 +114,7 @@ namespace MPfm.GenericControls.Controls
             OnInvalidateVisualInRect += (rect) => { };
         }
 
-        public void MouseDown(float x, float y, MouseButtonType button)
+        public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             // Make sure the mouse button pressed was the left mouse button
             _mouseButtonDown = true;
@@ -133,7 +133,7 @@ namespace MPfm.GenericControls.Controls
             }
         }
 
-        public void MouseUp(float x, float y, MouseButtonType button)
+        public void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             // Check if the track bar was moving (mouse down)
             //ReleaseMouseCapture();
@@ -167,7 +167,11 @@ namespace MPfm.GenericControls.Controls
             _isTrackBarMoving = false;
         }
 
-        public void MouseDoubleClick(float x, float y, MouseButtonType button)
+        public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
+        {            
+        }
+
+        public void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
         }
 
@@ -239,6 +243,10 @@ namespace MPfm.GenericControls.Controls
         }
 
         public void MouseEnter()
+        {
+        }
+
+        public void MouseWheel(float delta)
         {
         }
 

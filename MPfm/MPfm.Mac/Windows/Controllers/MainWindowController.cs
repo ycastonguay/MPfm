@@ -48,10 +48,6 @@ namespace MPfm.Mac
         List<Marker> _markers = new List<Marker>();
         LibraryBrowserOutlineViewDelegate _libraryBrowserOutlineViewDelegate = null;
 		LibraryBrowserDataSource _libraryBrowserDataSource = null;
-        SongBrowserTableViewDelegate _songBrowserOutlineViewDelegate = null;
-        SongBrowserSource _songBrowserSource = null;
-        AlbumCoverSource _albumCoverSource = null;
-        AlbumCoverCacheService _albumCoverCacheService = null;
 
 		public MainWindowController(IntPtr handle) 
             : base (handle)
@@ -60,7 +56,6 @@ namespace MPfm.Mac
 
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
-            this._albumCoverCacheService = new AlbumCoverCacheService();
             this.Window.AlphaValue = 0;
             this.Window.MakeKeyAndOrderFront(this);
 
@@ -69,7 +64,7 @@ namespace MPfm.Mac
             dict.Add(NSViewAnimation.TargetKey, Window);
             dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
             NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-            anim.Duration = 0.4f;
+            anim.Duration = 0.25f;
             anim.StartAnimation();
 
             faderVolume.Minimum = 0;
@@ -80,8 +75,15 @@ namespace MPfm.Mac
             trackBarPosition.Minimum = 0;
             trackBarPosition.Maximum = 1000;
             trackBarPosition.BlockValueChangeWhenDraggingMouse = true;
-            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
-            trackBarPosition.SetNeedsDisplayInRect(faderVolume.Bounds);
+            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarPositionValueChanged;
+            trackBarPosition.SetNeedsDisplayInRect(trackBarPosition.Bounds);
+
+            trackBarTimeShifting.Minimum = 50;
+            trackBarTimeShifting.Maximum = 150;
+            trackBarTimeShifting.Value = 100;
+            trackBarTimeShifting.BlockValueChangeWhenDraggingMouse = true;
+            trackBarTimeShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
+            trackBarTimeShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
 		}
 
 		public override void WindowDidLoad()
@@ -107,10 +109,7 @@ namespace MPfm.Mac
             outlineLibraryBrowser.AllowsMultipleSelection = false;
             outlineLibraryBrowser.DoubleClick += HandleLibraryBrowserDoubleClick;
 
-            _songBrowserOutlineViewDelegate = new SongBrowserTableViewDelegate();
-            tableSongBrowser.Delegate = _songBrowserOutlineViewDelegate;
-            tableSongBrowser.AllowsMultipleSelection = true;
-            tableSongBrowser.DoubleClick += HandleSongBrowserDoubleClick;
+            songGridView.DoubleClick += HandleSongBrowserDoubleClick;
 
             tableMarkers.WeakDelegate = this;
             tableMarkers.WeakDataSource = this;
@@ -118,16 +117,6 @@ namespace MPfm.Mac
 
             LoadImages();
             SetTheme();
-
-            tableAlbumCovers.FocusRingType = NSFocusRingType.None;
-            tableSongBrowser.FocusRingType = NSFocusRingType.None;
-            scrollViewSongBrowser.BorderType = NSBorderType.NoBorder;
-            scrollViewAlbumCovers.BorderType = NSBorderType.NoBorder;
-            scrollViewAlbumCovers.HasHorizontalScroller = false;
-            scrollViewAlbumCovers.HasVerticalScroller = false;
-
-            scrollViewAlbumCovers.SetSynchronizedScrollView(scrollViewSongBrowser);
-            scrollViewSongBrowser.SetSynchronizedScrollView(scrollViewAlbumCovers);
 
             waveFormScrollView.OnChangePosition += ScrollViewWaveForm_OnChangePosition;
             waveFormScrollView.OnChangeSecondaryPosition += ScrollViewWaveForm_OnChangeSecondaryPosition;
@@ -292,23 +281,6 @@ namespace MPfm.Mac
             // Set cell fonts for Library Browser
             NSTableColumn columnText = outlineLibraryBrowser.FindTableColumn(new NSString("columnText"));
             columnText.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-
-            // Set cell fonts for Song Browser
-            NSTableColumn columnTrackNumber = tableSongBrowser.FindTableColumn(new NSString("columnTrackNumber"));
-            NSTableColumn columnTitle = tableSongBrowser.FindTableColumn(new NSString("columnTitle"));
-            NSTableColumn columnLength = tableSongBrowser.FindTableColumn(new NSString("columnLength"));
-            NSTableColumn columnArtistName = tableSongBrowser.FindTableColumn(new NSString("columnArtistName"));
-            NSTableColumn columnAlbumTitle = tableSongBrowser.FindTableColumn(new NSString("columnAlbumTitle"));
-            columnTrackNumber.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnTrackNumber.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnTitle.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnTitle.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLength.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnLength.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnArtistName.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnArtistName.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnAlbumTitle.HeaderCell.Font = NSFont.FromFontName("Roboto", 11f);
-            columnAlbumTitle.DataCell.Font = NSFont.FromFontName("Roboto", 11f);
 
             // Set cell fonts for Loops
             NSTableColumn columnLoopName = tableLoops.FindTableColumn(new NSString("columnLoopName"));
@@ -516,9 +488,16 @@ namespace MPfm.Mac
             OnPlayerSetVolume(faderVolume.Value);
         }       
 
-        private void HandleOnTrackBarValueChanged()
+        private void HandleOnTrackBarPositionValueChanged()
         {
 
+        }
+
+        private void HandleOnTrackBarTimeShiftingValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnSetTimeShifting != null)
+                OnSetTimeShifting(trackBarTimeShifting.Value);
         }
 
         partial void actionPlayLoop(NSObject sender)
@@ -732,10 +711,10 @@ namespace MPfm.Mac
 
         protected void HandleSongBrowserDoubleClick(object sender, EventArgs e)
         {
-            if (tableSongBrowser.SelectedRow == -1)
+            if (songGridView.SelectedItems.Count == 0)
                 return;
 
-            AudioFile audioFile = _songBrowserSource.Items[tableSongBrowser.SelectedRow].AudioFile;
+            AudioFile audioFile = songGridView.SelectedItems[0].AudioFile;
             if(OnTableRowDoubleClicked != null)
                 OnTableRowDoubleClicked.Invoke(audioFile);
         }
@@ -828,9 +807,11 @@ namespace MPfm.Mac
                     imageAlbumCover.Image = new NSImage();
                 }
 
-                if(_songBrowserSource != null)
-                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
-                
+//                if(_songBrowserSource != null)
+//                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
+
+                songGridView.NowPlayingAudioFileId = audioFile.Id;
+
                 LoadAlbumArt(audioFile);
             });
 		}
@@ -958,10 +939,7 @@ namespace MPfm.Mac
 		public void RefreshSongBrowser(IEnumerable<AudioFile> audioFiles)
         {
             InvokeOnMainThread(() => {
-                _songBrowserSource = new SongBrowserSource(audioFiles);
-                tableSongBrowser.Source = _songBrowserSource;
-                _albumCoverSource = new AlbumCoverSource(_albumCoverCacheService, audioFiles);
-                tableAlbumCovers.Source = _albumCoverSource;
+                songGridView.ImportAudioFiles(audioFiles.ToList());
             });
 		}
 
@@ -1048,6 +1026,12 @@ namespace MPfm.Mac
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
         {
+            InvokeOnMainThread(() =>{
+                lblDetectedTempoValue.StringValue = entity.DetectedTempo;
+                lblReferenceTempoValue.StringValue = entity.ReferenceTempo;
+                txtCurrentTempoValue.StringValue = entity.CurrentTempo;
+                trackBarTimeShifting.Value = (int) entity.TimeShiftingValue;
+            });
         }
 
         #endregion

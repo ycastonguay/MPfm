@@ -33,7 +33,6 @@ namespace MPfm.Mac.Classes.Objects
         public static List<NSImage> ButtonImages { get; private set; }
         public static List<NSImage> ToolbarImages { get; private set; }
         public static List<NSImage> Icons { get; private set; }
-        public static NSImage imageSplash { get; private set; }
 
         static ImageResources()
         {
@@ -163,8 +162,6 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_vinyl"),
                 NSImage.ImageNamed("icon_windows")
             };
-
-            imageSplash = new NSImage(NSBundle.MainBundle.PathForResource("Splash", "png", "Resources", string.Empty));
         }
     }
 }

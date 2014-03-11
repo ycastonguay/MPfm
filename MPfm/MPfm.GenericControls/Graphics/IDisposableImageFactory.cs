@@ -1,4 +1,4 @@
-// Copyright Â© 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -15,24 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using MonoMac.AppKit;
+using System;
 
-namespace MPfm.Mac.Classes.Helpers
+namespace MPfm.GenericControls.Graphics
 {
-    /// <summary>
-    /// Helper static class for miscellaneous helper methods.
-    /// </summary>
-    public static class CocoaHelper
+    public interface IDisposableImageFactory
     {
-        public static void ShowAlert(string title, string text, NSAlertStyle alertStyle)
-        {
-            using(NSAlert alert = new NSAlert())
-            {
-                alert.MessageText = title;
-                alert.InformativeText = text;
-                alert.AlertStyle = alertStyle;
-                alert.RunModal();
-            }
-        }
+        IDisposable CreateImageFromByteArray(byte[] data, int width, int height);
     }
 }

@@ -229,13 +229,7 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmOutputMeterView outputMeter { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewAlbumCovers { get; set; }
-
-		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewLibraryBrowser { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmScrollView scrollViewSongBrowser { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSSearchField searchSongBrowser { get; set; }
@@ -244,19 +238,16 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSSlider sliderPitchShifting { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSplitView splitMain { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmSongGridView songGridView { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTableView tableAlbumCovers { get; set; }
+		MonoMac.AppKit.NSSplitView splitMain { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableLoops { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTableView tableSongBrowser { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPosition { get; set; }
@@ -466,6 +457,11 @@ namespace MPfm.Mac
 				btnChangeKey = null;
 			}
 
+			if (btnDecrementTimeShifting != null) {
+				btnDecrementTimeShifting.Dispose ();
+				btnDecrementTimeShifting = null;
+			}
+
 			if (btnDetectTempo != null) {
 				btnDetectTempo.Dispose ();
 				btnDetectTempo = null;
@@ -491,6 +487,11 @@ namespace MPfm.Mac
 				btnGoToMarker = null;
 			}
 
+			if (btnIncrementTimeShifting != null) {
+				btnIncrementTimeShifting.Dispose ();
+				btnIncrementTimeShifting = null;
+			}
+
 			if (btnPlayLoop != null) {
 				btnPlayLoop.Dispose ();
 				btnPlayLoop = null;
@@ -509,6 +510,11 @@ namespace MPfm.Mac
 			if (btnRemoveMarker != null) {
 				btnRemoveMarker.Dispose ();
 				btnRemoveMarker = null;
+			}
+
+			if (btnResetTimeShifting != null) {
+				btnResetTimeShifting.Dispose ();
+				btnResetTimeShifting = null;
 			}
 
 			if (btnTabActions != null) {
@@ -791,19 +797,9 @@ namespace MPfm.Mac
 				outputMeter = null;
 			}
 
-			if (scrollViewAlbumCovers != null) {
-				scrollViewAlbumCovers.Dispose ();
-				scrollViewAlbumCovers = null;
-			}
-
 			if (scrollViewLibraryBrowser != null) {
 				scrollViewLibraryBrowser.Dispose ();
 				scrollViewLibraryBrowser = null;
-			}
-
-			if (scrollViewSongBrowser != null) {
-				scrollViewSongBrowser.Dispose ();
-				scrollViewSongBrowser = null;
 			}
 
 			if (searchSongBrowser != null) {
@@ -816,14 +812,14 @@ namespace MPfm.Mac
 				sliderPitchShifting = null;
 			}
 
+			if (songGridView != null) {
+				songGridView.Dispose ();
+				songGridView = null;
+			}
+
 			if (splitMain != null) {
 				splitMain.Dispose ();
 				splitMain = null;
-			}
-
-			if (tableAlbumCovers != null) {
-				tableAlbumCovers.Dispose ();
-				tableAlbumCovers = null;
 			}
 
 			if (tableLoops != null) {
@@ -836,14 +832,14 @@ namespace MPfm.Mac
 				tableMarkers = null;
 			}
 
-			if (tableSongBrowser != null) {
-				tableSongBrowser.Dispose ();
-				tableSongBrowser = null;
-			}
-
 			if (trackBarPosition != null) {
 				trackBarPosition.Dispose ();
 				trackBarPosition = null;
+			}
+
+			if (trackBarTimeShifting != null) {
+				trackBarTimeShifting.Dispose ();
+				trackBarTimeShifting = null;
 			}
 
 			if (txtCurrentTempoValue != null) {
@@ -939,26 +935,6 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
-			}
-
-			if (trackBarTimeShifting != null) {
-				trackBarTimeShifting.Dispose ();
-				trackBarTimeShifting = null;
-			}
-
-			if (btnDecrementTimeShifting != null) {
-				btnDecrementTimeShifting.Dispose ();
-				btnDecrementTimeShifting = null;
-			}
-
-			if (btnIncrementTimeShifting != null) {
-				btnIncrementTimeShifting.Dispose ();
-				btnIncrementTimeShifting = null;
-			}
-
-			if (btnResetTimeShifting != null) {
-				btnResetTimeShifting.Dispose ();
-				btnResetTimeShifting = null;
 			}
 		}
 	}

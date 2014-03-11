@@ -22,6 +22,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using MPfm.MVP.Services;
 using MPfm.Sound.AudioFiles;
 
 namespace org.sessionsapp.android
@@ -58,14 +59,15 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
-            _scaleGestureDetector = new ScaleGestureDetector(Context, new ScaleListener());
+            _scaleGestureDetector = new ScaleGestureDetector(Context, new ScaleListener(this));
             SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
-            FillViewport = true;
+            //FillViewport = true;            
 
             var layout = new LinearLayout(Context);
             layout.Orientation = Orientation.Vertical;
             layout.SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
-            AddView(layout, new FrameLayout.LayoutParams(LayoutParams.FillParent, LayoutParams.FillParent));
+            //AddView(layout, new FrameLayout.LayoutParams(LayoutParams.FillParent, LayoutParams.FillParent));
+            AddView(layout, new FrameLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
 
             int height = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 22, Resources.DisplayMetrics);
             ScaleView = new WaveFormScaleView(Context);
@@ -74,7 +76,7 @@ namespace org.sessionsapp.android
 
             WaveView = new WaveFormView(Context);
             WaveView.SetBackgroundColor(Color.DarkRed);
-            layout.AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.FillParent, LayoutParams.FillParent));
+            layout.AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -90,74 +92,96 @@ namespace org.sessionsapp.android
             ScaleView.AudioFileLength = lengthBytes;
         }
 
-        public override bool OnTouchEvent(MotionEvent e)
+        public override bool DispatchTouchEvent(MotionEvent e)
         {
-            _scaleGestureDetector.OnTouchEvent(e);
-
-            float x, y;
-            int pointerIndex, pointerId;
-            switch(e.Action)
-            {
-                case MotionEventActions.Down:
-                    _lastTouchX = e.GetX();
-                    _lastTouchY = e.GetY();
-                    _activePointerId = e.GetPointerId(0);
-                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Down - x,y: {0},{1} activePointerId: {2}", _lastTouchX, _lastTouchY, _activePointerId);
-                    break;
-                case MotionEventActions.Move:
-                    pointerIndex = e.FindPointerIndex(_activePointerId);
-                    if (pointerIndex == -1)
-                        return true;
-                    x = e.GetX(pointerIndex);
-                    y = e.GetY(pointerIndex);
-                    float dx = x - _lastTouchX;
-                    float dy = y - _lastTouchY;
-                    _lastTouchX = x;
-                    _lastTouchY = y;
-                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Move - x,y: {0},{1}", x, y);
-                    break;
-                case MotionEventActions.Up:
-                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Up");
-                    break;
-                case MotionEventActions.Cancel:
-                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - Cancel");
-                    break;
-                case MotionEventActions.PointerUp:
-                    pointerIndex = ((int)e.Action & (int)MotionEventActions.PointerIndexMask) >> (int)MotionEventActions.PointerIndexShift;
-                    pointerId = e.GetPointerId(pointerIndex);
-                    if (pointerId == _activePointerId)
-                    {
-                        int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-                        _lastTouchX = e.GetX(newPointerIndex);
-                        _lastTouchY = e.GetY(newPointerIndex);
-                        _activePointerId = e.GetPointerId(newPointerIndex);
-                    }
-                    Console.WriteLine("WaveFormScrollView - OnTouchEvent - PointerUp - pointerIndex: {0}", pointerIndex);
-                    break;
-            }
-
-            //return base.OnTouchEvent(e);
-            return true;
+            base.DispatchTouchEvent(e);
+            return _scaleGestureDetector.OnTouchEvent(e);
         }
+
+        //public override bool OnTouchEvent(MotionEvent e)
+        //{
+        //    return _scaleGestureDetector.OnTouchEvent(e);
+
+        //    //float x, y;
+        //    //int pointerIndex, pointerId;
+        //    //switch(e.Action)
+        //    //{
+        //    //    case MotionEventActions.Down:
+        //    //        _lastTouchX = e.GetX();
+        //    //        _lastTouchY = e.GetY();
+        //    //        _activePointerId = e.GetPointerId(0);
+        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Down - x,y: {0},{1} activePointerId: {2}", _lastTouchX, _lastTouchY, _activePointerId);
+        //    //        break;
+        //    //    case MotionEventActions.Move:
+        //    //        pointerIndex = e.FindPointerIndex(_activePointerId);
+        //    //        if (pointerIndex == -1)
+        //    //            return true;
+        //    //        x = e.GetX(pointerIndex);
+        //    //        y = e.GetY(pointerIndex);
+        //    //        float dx = x - _lastTouchX;
+        //    //        float dy = y - _lastTouchY;
+        //    //        _lastTouchX = x;
+        //    //        _lastTouchY = y;
+        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Move - x,y: {0},{1}", x, y);
+        //    //        break;
+        //    //    case MotionEventActions.Up:
+        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Up");
+        //    //        break;
+        //    //    case MotionEventActions.Cancel:
+        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Cancel");
+        //    //        break;
+        //    //    case MotionEventActions.PointerUp:
+        //    //        pointerIndex = ((int)e.Action & (int)MotionEventActions.PointerIndexMask) >> (int)MotionEventActions.PointerIndexShift;
+        //    //        pointerId = e.GetPointerId(pointerIndex);
+        //    //        if (pointerId == _activePointerId)
+        //    //        {
+        //    //            int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+        //    //            _lastTouchX = e.GetX(newPointerIndex);
+        //    //            _lastTouchY = e.GetY(newPointerIndex);
+        //    //            _activePointerId = e.GetPointerId(newPointerIndex);
+        //    //        }
+        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - PointerUp - pointerIndex: {0}", pointerIndex);
+        //    //        break;
+        //    //}
+
+        //    //return base.OnTouchEvent(e);            
+        //    //return true;
+        //}
 
         private class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener
         {
+            private readonly WaveFormScrollView _scrollView;
+
+            public ScaleListener(WaveFormScrollView scrollView)
+            {
+                _scrollView = scrollView;
+            }
+
             public override bool OnScaleBegin(ScaleGestureDetector detector)
             {
-                Console.WriteLine("ScaleListener - OnScaleBegin");
+                Console.WriteLine("ScaleListener - OnScaleBegin - scaleFactor: {0}", detector.ScaleFactor);
+                SetScrollViewScale(detector.ScaleFactor);
                 return base.OnScaleBegin(detector);
             }
 
             public override bool OnScale(ScaleGestureDetector detector)
             {
-                Console.WriteLine("ScaleListener - OnScale");
+                Console.WriteLine("ScaleListener - OnScale - scaleFactor: {0}", detector.ScaleFactor);
+                SetScrollViewScale(detector.ScaleFactor);
                 return base.OnScale(detector);
             }
 
             public override void OnScaleEnd(ScaleGestureDetector detector)
             {
-                Console.WriteLine("ScaleListener - OnScaleEnd");
+                Console.WriteLine("ScaleListener - OnScaleEnd - scaleFactor: {0}", detector.ScaleFactor);
+                SetScrollViewScale(detector.ScaleFactor);
                 base.OnScaleEnd(detector);
+            }
+
+            private void SetScrollViewScale(float scale)
+            {
+                _scrollView.ScaleX = scale > 1 ? scale : 1;
+                _scrollView.ScaleY = 1;
             }
         }
     }
