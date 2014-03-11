@@ -2381,20 +2381,20 @@ namespace MPfm.GenericControls.Controls.Songs
         /// <param name="e">Event arguments</param>
         private void TimerAnimationNowPlayingOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            // If the rectangle is "empty", do not trigger invalidation
-            if (_rectNowPlaying.X == 0 &&
-                _rectNowPlaying.Y == 0 &&
-                _rectNowPlaying.Width == 1 &&
-                _rectNowPlaying.Height == 1)
-            {
-                return;
-            }
-
-            // Increment counter            
-            _timerAnimationNowPlayingCount += 10;
-
-            // Invalidate region for now playing
-            OnInvalidateVisualInRect(_rectNowPlaying);
+//            // If the rectangle is "empty", do not trigger invalidation
+//            if (_rectNowPlaying.X == 0 &&
+//                _rectNowPlaying.Y == 0 &&
+//                _rectNowPlaying.Width == 1 &&
+//                _rectNowPlaying.Height == 1)
+//            {
+//                return;
+//            }
+//
+//            // Increment counter            
+//            _timerAnimationNowPlayingCount += 10;
+//
+//            // Invalidate region for now playing
+//            OnInvalidateVisualInRect(_rectNowPlaying);
         }
     }
 
