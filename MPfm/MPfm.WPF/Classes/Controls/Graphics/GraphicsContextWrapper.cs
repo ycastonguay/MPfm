@@ -69,7 +69,7 @@ namespace MPfm.WPF.Classes.Controls.Graphics
 
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
-            DrawImage(rectangleSource, image);
+            DrawImage(rectangleDestination, image);
         }
 
         public void DrawImage(BasicRectangle rectangle, IDisposable image)

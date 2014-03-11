@@ -24,7 +24,7 @@ namespace MPfm.WPF.Classes.Controls.Graphics
 {
     public class DisposableImageFactory : IDisposableImageFactory
     {
-        public IDisposable CreateImageFromByteArray(byte[] data)
+        public IDisposable CreateImageFromByteArray(byte[] data, int width, int height)
         {
             BitmapImage bitmap = null;
             try
