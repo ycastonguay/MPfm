@@ -73,10 +73,10 @@ namespace MPfm.Mac.Classes.Controls
             // Draw background
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
             RectangleF rectBackground = new RectangleF(0, 0, Bounds.Width, Bounds.Height);
-            CocoaHelper.FillGradient(context, rectBackground, BackgroundColor1, BackgroundColor2);
+            CoreGraphicsHelper.FillGradient(context, rectBackground, BackgroundColor1, BackgroundColor2, false);
             //CocoaHelper.FillGradient(context, rectBackground, new CGColor(1, 0, 0), new CGColor(0, 0, 1));
 
-            CocoaHelper.DrawLine(context, new PointF[2]{ new PointF(0, Bounds.Height), new PointF(Bounds.Width, Bounds.Height) }, 1, new CGColor(0.5f, 0.5f, 0.5f));
+            CoreGraphicsHelper.DrawLine(context, new PointF[2]{ new PointF(0, Bounds.Height), new PointF(Bounds.Width, Bounds.Height) }, 1, new CGColor(0.5f, 0.5f, 0.5f));
 
             // Check if an album cover is available
             if (imageAlbumCover != null)
@@ -114,20 +114,20 @@ namespace MPfm.Mac.Classes.Controls
                 float y = 8;
                 
                 // Draw artist name
-                RectangleF rectArtistNameSize = CocoaHelper.MeasureString(new SizeF(Bounds.Width - 16, Bounds.Height), item.AudioFile.ArtistName, "TitilliumText25L-800wt", 13);
+                RectangleF rectArtistNameSize = CoreGraphicsHelper.MeasureString(new SizeF(Bounds.Width - 16, Bounds.Height), item.AudioFile.ArtistName, "TitilliumText25L-800wt", 13);
                 y += rectArtistNameSize.Height;
                 RectangleF rectArtistName = new RectangleF(10, rectBackground.Height - y, rectArtistNameSize.Width, rectArtistNameSize.Height);
                 rectArtistName.Inflate(4, 0); // 
-                CocoaHelper.FillRect(context, rectArtistName, new CGColor(0, 0, 0, 0.35f));
-                CocoaHelper.DrawText(rectArtistName, 4, 2, item.AudioFile.ArtistName, "TitilliumText25L-800wt", 13, NSColor.White);
+                CoreGraphicsHelper.FillRect(context, rectArtistName, new CGColor(0, 0, 0, 0.35f));
+                CoreGraphicsHelper.DrawText(rectArtistName, 4, 2, item.AudioFile.ArtistName, "TitilliumText25L-800wt", 13, NSColor.White);
                 
                 // Draw album title
-                RectangleF rectAlbumTitleSize = CocoaHelper.MeasureString(new SizeF(Bounds.Width - 16, Bounds.Height), item.AudioFile.AlbumTitle, "TitilliumText25L-400wt", 13);
+                RectangleF rectAlbumTitleSize = CoreGraphicsHelper.MeasureString(new SizeF(Bounds.Width - 16, Bounds.Height), item.AudioFile.AlbumTitle, "TitilliumText25L-400wt", 13);
                 y += rectAlbumTitleSize.Height;
                 RectangleF rectAlbumTitle = new RectangleF(10, rectBackground.Height - y, rectAlbumTitleSize.Width, rectAlbumTitleSize.Height);
                 rectAlbumTitle.Inflate(4, 0);
-                CocoaHelper.FillRect(context, rectAlbumTitle, new CGColor(0, 0, 0, 0.35f));
-                CocoaHelper.DrawText(rectAlbumTitle, 4, 2, item.AudioFile.AlbumTitle, "TitilliumText25L-400wt", 13, NSColor.White);
+                CoreGraphicsHelper.FillRect(context, rectAlbumTitle, new CGColor(0, 0, 0, 0.35f));
+                CoreGraphicsHelper.DrawText(rectAlbumTitle, 4, 2, item.AudioFile.AlbumTitle, "TitilliumText25L-400wt", 13, NSColor.White);
             }
 
         }        

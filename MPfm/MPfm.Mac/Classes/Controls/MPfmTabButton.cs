@@ -127,18 +127,18 @@ namespace MPfm.Mac.Classes.Controls
             context.ScaleCTM(1, -1);
 
             if (_isMouseDown)
-                CocoaHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
             else if (_isMouseOver)
-                CocoaHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
             else
-                CocoaHelper.FillRect(context, Bounds, BackgroundColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 
             if(IsSelected)
-                CocoaHelper.DrawLine(context, new PointF[2] { new PointF(0, 1), new PointF(Bounds.Width, 1) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
+                CoreGraphicsHelper.DrawLine(context, new PointF[2] { new PointF(0, 1), new PointF(Bounds.Width, 1) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
 
             //CocoaHelper.DrawRect(context, Bounds, BorderColor);
             //RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
-            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "TitilliumText25L-800wt", 12);
+            RectangleF rectTextSize = CoreGraphicsHelper.MeasureString(Bounds.Size, Title, "Roboto", 12);
             RectangleF rectText;
             if (Image != null)
             {
@@ -154,9 +154,11 @@ namespace MPfm.Mac.Classes.Controls
                 rectText = new RectangleF((Bounds.Width - rectTextSize.Width) / 2, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
             }
 
+            // Fix for Roboto
+            rectText.Y = rectText.Y - 2;
+
             context.RestoreState();
-            //CocoaHelper.DrawText(rectText, 0, 0, Title, "Junction", 11, NSColor.White);
-            CocoaHelper.DrawText(rectText, 0, 0, Title, "TitilliumText25L-800wt", 12, NSColor.White);
+            CoreGraphicsHelper.DrawText(rectText, 0, 0, Title, "Roboto", 12, NSColor.White);
         }
 
         RectangleF Get1pxRect(RectangleF rect)

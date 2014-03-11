@@ -54,7 +54,7 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
-            _control = new OutputMeterControl(null);
+            _control = new OutputMeterControl();
             _control.OnInvalidateVisual += () => Post(Invalidate);
             _control.OnInvalidateVisualInRect += (rect) => Post(() => Invalidate(GenericControlHelper.ToRect(rect)));
             _control.FontSize = 12;

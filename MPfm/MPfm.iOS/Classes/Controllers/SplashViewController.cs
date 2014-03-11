@@ -41,11 +41,13 @@ namespace MPfm.iOS.Classes.Controllers
         public SplashViewController()
             : base (UserInterfaceIdiomIsPhone ? "SplashViewController_iPhone" : "SplashViewController_iPad", null)
         {
+			_imageFilePaths = new List<string>();
         }
         
         public override void ViewDidLoad()
         {
-			_imageFilePaths = Directory.EnumerateFiles(PathHelper.PeakFileDirectory, "*.png").ToList();
+			if(Directory.Exists(PathHelper.PeakFileDirectory))
+				_imageFilePaths = Directory.EnumerateFiles(PathHelper.PeakFileDirectory, "*.png").ToList();
 
 //			if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0))
 //				//SetNeedsStatusBarAppearanceUpdate();

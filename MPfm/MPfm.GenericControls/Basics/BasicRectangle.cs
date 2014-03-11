@@ -40,5 +40,10 @@ namespace MPfm.GenericControls.Basics
         {
             return new BasicPoint(X + Width / 2, Y + Height / 2);
         }
+
+        public override string ToString()
+        {
+            return string.Format("({0},{1},{2},{3})", X, Y, Width, Height);
+        }
     }
 }

@@ -71,14 +71,14 @@ namespace MPfm.Mac.Classes.Delegates
         public override NSView GetViewForItem(NSTableView tableView, NSTableColumn tableColumn, int row)
         {
             // Create view
-            MPfmAlbumCoverView view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
+            var view = (MPfmAlbumCoverView)tableView.MakeView("albumCoverView", this);
 
             // Get item for view
-            SongBrowserItem item = groups[row].ToList()[0];
-            Tracing.Log("AlbumCoverSource - GetViewForItem " + item.AudioFile.FilePath);
-            FetchAlbumCoverDelegate fetchAlbumCoverDelegate = new FetchAlbumCoverDelegate(FetchAlbumCoverAsync);
-            fetchAlbumCoverDelegate.BeginInvoke(item, view, FetchAlbumCoverAsyncCallback, fetchAlbumCoverDelegate);
-            Console.WriteLine("GetViewForItem " + row.ToString());
+            var item = groups[row].ToList()[0];
+            //Tracing.Log("AlbumCoverSource - GetViewForItem " + item.AudioFile.FilePath);
+            //FetchAlbumCoverDelegate fetchAlbumCoverDelegate = new FetchAlbumCoverDelegate(FetchAlbumCoverAsync);
+            //fetchAlbumCoverDelegate.BeginInvoke(item, view, FetchAlbumCoverAsyncCallback, fetchAlbumCoverDelegate);
+            //Console.WriteLine("GetViewForItem " + row.ToString());
             view.SetItem(item, null);
             return view;
         }       
@@ -108,7 +108,8 @@ namespace MPfm.Mac.Classes.Delegates
                 try
                 {
                     Tracing.Log("FetchAlbumCoverAsyncCallback - Setting item " + response.Item.AudioFile.FilePath);
-                    response.View.SetItem(response.Item, response.Image);
+                    //response.View.SetItem(response.Item, response.Image);
+                    response.View.SetItem(response.Item, null);
                     Tracing.Log("FetchAlbumCoverAsyncCallback - Refreshing item " + response.Item.AudioFile.FilePath);
                     if(response.Image != null)
                         response.View.SetNeedsDisplayInRect(response.View.Bounds);

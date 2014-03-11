@@ -49,7 +49,7 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-			_control = new OutputMeterControl(null);
+			_control = new OutputMeterControl();
 			_control.FontFace = "HelveticaNeue-CondensedBold";
 			_control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
 			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));

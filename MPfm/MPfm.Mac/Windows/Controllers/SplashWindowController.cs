@@ -64,7 +64,7 @@ namespace MPfm.Mac
             dict.Add(NSViewAnimation.TargetKey, Window);
             dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
             NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-            anim.Duration = 0.4f;
+            anim.Duration = 0.25f;
             anim.StartAnimation();
         }
         
@@ -84,7 +84,24 @@ namespace MPfm.Mac
             base.AwakeFromNib();
 
             // Load image
-            imageView.Image = ImageResources.imageSplash;
+            //imageView.Image = ImageResources.imageSplash;
+            //var imageSplash = new NSImage(NSBundle.MainBundle.PathForResource("Splash", "png", "Resources", string.Empty));
+            var imageSplashLogoClear = new NSImage(NSBundle.MainBundle.PathForResource("splash_logo_clear", "png", "Resources/Splash", string.Empty));
+            var imageSplashLogoFull = new NSImage(NSBundle.MainBundle.PathForResource("splash_logo_full", "png", "Resources/Splash", string.Empty));
+            //imageViewLogo.WantsLayer = true;
+            //imageViewLogo.AlphaValue = 1;
+            imageViewLogo.Image = imageSplashLogoClear;
+            imageViewLogoFull.WantsLayer = true;
+            imageViewLogoFull.AlphaValue = 0;
+            imageViewLogoFull.Image = imageSplashLogoFull;
+
+            NSAnimationContext.BeginGrouping();
+            NSAnimationContext.CurrentContext.Duration = 0.6;
+            //(imageViewLogo.Animator as NSImageView).AlphaValue = 0;
+            (imageViewLogoFull.Animator as NSImageView).AlphaValue = 1;
+            NSAnimationContext.EndGrouping();
+
+            Window.BackgroundColor = GlobalTheme.MainWindowColor;
 
             // Center position
             float x = (NSScreen.MainScreen.Frame.Width - this.Window.Frame.Width) / 2;
@@ -94,7 +111,7 @@ namespace MPfm.Mac
             this.Window.Display();
 
             // Set fonts
-            lblMessage.Font = NSFont.FromFontName("TitilliumText25L-600wt", 13.0f);
+            lblMessage.Font = NSFont.FromFontName("Roboto Light", 13.0f);
             lblMessage.StringValue = "Loading player...";
 
             // Set view as ready
@@ -135,7 +152,7 @@ namespace MPfm.Mac
                 dict.Add(NSViewAnimation.TargetKey, Window);
                 dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeOutEffect);
                 NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-                anim.Duration = 0.4f;
+                anim.Duration = 0.25f;
                 anim.StartAnimation();
 
             });

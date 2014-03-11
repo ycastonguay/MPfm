@@ -102,14 +102,14 @@ namespace MPfm.Mac.Classes.Controls
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
 
             if (_isMouseDown)
-                CocoaHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
             else if (_isMouseOver)
-                CocoaHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
             else
-                CocoaHelper.FillRect(context, Bounds, BackgroundColor);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 
-            CocoaHelper.DrawRect(context, Bounds, BorderColor);
-            RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
+            CoreGraphicsHelper.DrawRect(context, Bounds, BorderColor);
+            RectangleF rectTextSize = CoreGraphicsHelper.MeasureString(Bounds.Size, Title, "Roboto", 11);
             RectangleF rectText;
             if (Image != null)
             {
@@ -125,7 +125,7 @@ namespace MPfm.Mac.Classes.Controls
                 rectText = new RectangleF((Bounds.Width - rectTextSize.Width) / 2, (Bounds.Height - rectTextSize.Height) / 2, rectTextSize.Width, rectTextSize.Height);
             }
 
-            CocoaHelper.DrawText(rectText, 0, 0, Title, "Junction", 11, NSColor.White);
+            CoreGraphicsHelper.DrawText(rectText, 0, 0, Title, "Roboto", 11, NSColor.White);
         }
 
         RectangleF Get1pxRect(RectangleF rect)

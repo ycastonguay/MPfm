@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -210,6 +210,9 @@
     <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
     <Compile Include="Database\DatabaseFacade.cs" />
+    <Compile Include="Objects\AuthenticationToken.cs" />
+    <Compile Include="Objects\CloudDeviceInfo.cs" />
+    <Compile Include="Objects\CloudPlaylist.cs" />
     <Compile Include="Objects\PlaylistAudioFile.cs" />
     <Compile Include="Objects\NetworkState.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
@@ -218,13 +221,17 @@
     <Compile Include="Database\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CloudLibraryService.cs" />
+    <Compile Include="Services\DropboxCoreService.cs" />
+    <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
+    <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />
+    <Compile Include="Services\Interfaces\ICloudService.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryMode.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryException.cs" />
-    <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Services\LibraryService.cs" />
     <Compile Include="Services\Interfaces\ILibraryService.cs" />
     <Compile Include="Services\SyncDiscoveryService.cs" />
@@ -245,11 +252,5 @@
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
     <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
-    <Compile Include="Services\DropboxCoreService.cs" />
-    <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />
-    <Compile Include="Objects\CloudPlaylist.cs" />
-    <Compile Include="Objects\CloudDeviceInfo.cs" />
-    <Compile Include="Services\Interfaces\ICloudService.cs" />
-    <Compile Include="Services\CloudLibraryService.cs" />
   </ItemGroup>
 </Project>

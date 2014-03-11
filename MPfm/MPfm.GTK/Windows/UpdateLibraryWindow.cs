@@ -73,6 +73,8 @@ namespace MPfm.GTK.Windows
 
         #region IUpdateLibraryView implementation
 
+		public System.Action<List<string>> OnAddFilesToLibrary { get; set; }
+		public System.Action<string> OnAddFolderToLibrary { get; set; }
         public System.Action OnStartUpdateLibrary { get; set; }
         public System.Action OnCancelUpdateLibrary { get; set; }
         public System.Action<string> OnSaveLog { get; set; }

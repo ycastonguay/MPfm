@@ -17,35 +17,62 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Documents;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Controls.Songs;
-using MPfm.GenericControls.Interaction;
+using MPfm.GenericControls.Graphics;
+using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
-using MPfm.WPF.Classes.Extensions;
-using Control = System.Windows.Controls.Control;
 
 namespace MPfm.WPF.Classes.Controls
 {
-    public class SongGridView : Control
+    public class SongGridView : DockPanel
     {
         private SongGridViewControl _control;
-        private HorizontalScrollBarWrapper _horizontalBarWrapper;
-        private VerticalScrollBarWrapper _verticalBarWrapper;
+        private HorizontalScrollBarWrapper _horizontalScrollBar;
+        private VerticalScrollBarWrapper _verticalScrollBar;
+
+        public event EventHandler DoubleClick;
+ 
+        public List<SongGridViewItem> SelectedItems { get { return _control.SelectedItems; } }
+        public Guid NowPlayingAudioFileId { get { return _control.NowPlayingAudioFileId; } set { _control.NowPlayingAudioFileId = value; } }
 
         public SongGridView()
             : base()
         {
-            _horizontalBarWrapper = new HorizontalScrollBarWrapper();
-            _verticalBarWrapper = new VerticalScrollBarWrapper();
-            _control = new SongGridViewControl(_horizontalBarWrapper, _verticalBarWrapper);
+            DoubleClick += (sender, e) => { };
+
+            // Add dummy control so the scrollbar can be placed on the right
+            var dummy = new Control();
+            DockPanel.SetDock(dummy, Dock.Left);
+            Children.Add(dummy);
+
+            // Create wrappers for scrollbars so the generic control can interact with them
+            _verticalScrollBar = new VerticalScrollBarWrapper();
+            _verticalScrollBar.Width = 20;
+            _verticalScrollBar.Height = Double.NaN;
+            _verticalScrollBar.Minimum = 1;
+            _verticalScrollBar.Maximum = 100;
+            _verticalScrollBar.Margin = new Thickness(0, 0, 0, 20);
+            DockPanel.SetDock(_verticalScrollBar, Dock.Right);
+            Children.Add(_verticalScrollBar);
+
+            _horizontalScrollBar = new HorizontalScrollBarWrapper();
+            _horizontalScrollBar.Width = Double.NaN;
+            _horizontalScrollBar.Height = 20;
+            _horizontalScrollBar.Minimum = 1;
+            _horizontalScrollBar.Maximum = 100;
+            _horizontalScrollBar.VerticalAlignment = VerticalAlignment.Bottom;                
+            DockPanel.SetDock(_horizontalScrollBar, Dock.Bottom);
+            Children.Add(_horizontalScrollBar);
+
+            var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
+            _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
@@ -63,18 +90,32 @@ namespace MPfm.WPF.Classes.Controls
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
+
+            // Clip drawing to make sure we don't draw outside the control
+            dc.PushClip(new RectangleGeometry(new Rect(0, 0, ActualWidth, ActualHeight)));
             var wrapper = new GraphicsContextWrapper(dc, (float)ActualWidth, (float)ActualHeight);
             _control.Render(wrapper);
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
+            //Console.WriteLine("SongGridView - OnMouseDown - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseDown(e, this, _control);
+            if (e.ClickCount == 1)
+            {
+                GenericControlHelper.MouseClick(e, this, _control);
+            }
+            else if (e.ClickCount == 2)
+            {
+                GenericControlHelper.MouseDoubleClick(e, this, _control);
+                DoubleClick(this, new EventArgs());
+            }
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
+            //Console.WriteLine("SongGridView - OnMouseUp - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseUp(e, this, _control);
             base.OnMouseUp(e);
         }
@@ -97,10 +138,13 @@ namespace MPfm.WPF.Classes.Controls
             base.OnMouseLeave(e);
         }
 
-        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            GenericControlHelper.MouseDoubleClick(e, this, _control);
-            base.OnMouseDoubleClick(e);
+            if(e.Delta > 0)
+                _control.MouseWheel(2);
+            else if(e.Delta < 0)
+                _control.MouseWheel(-2);
+            base.OnMouseWheel(e);
         }
     }
 }

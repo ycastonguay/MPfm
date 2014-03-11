@@ -49,6 +49,11 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 			Context.DrawImage(GenericControlHelper.ToRect(rectangle), ((UIImage)image).CGImage);
 		}
 
+		public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
+		{
+			DrawImage(rectangleDestination, image);
+		}
+
 		public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
 		{
 			CoreGraphicsHelper.DrawEllipsis(Context, GenericControlHelper.ToRect(rectangle), GenericControlHelper.ToColor(pen.Brush.Color).CGColor, pen.Thickness);

@@ -35,6 +35,7 @@ namespace MPfm.GenericControls.Graphics
 
 		// These methods are inteded to be easy to use
         void DrawImage(BasicRectangle rectangle, IDisposable image);
+        void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image);
         void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen);
         void DrawLine(BasicPoint point, BasicPoint point2, BasicPen pen);

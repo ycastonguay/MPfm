@@ -183,7 +183,7 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="4" Margin="0,27,0,0" />
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="1" Margin="0,27,0,0" />
             <Grid Grid.Column="2" Background="{DynamicResource BrushBackgroundColor}">
                 <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
@@ -219,9 +219,9 @@
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0" Orientation="Vertical" Margin="6">
                                         <Label x:Name="lblArtistName" Content="[Artist Name]" Foreground="White" FontSize="22" FontFamily="/Resources/Fonts/#Roboto Thin" Padding="0,1,1,2" />
-                                        <Label x:Name="lblAlbumTitle" Content="[Album Title]" Foreground="White" FontSize="18" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,1,1,2" />
-                                        <Label x:Name="lblSongTitle" Content="[Song Title]" Foreground="#DDDDDD" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,3,2" />
-                                        <Label x:Name="lblFilePath" Content="[File Path]" Foreground="#AAAAAA" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,0,3" />
+                                        <Label x:Name="lblAlbumTitle" Content="[Album Title]" Foreground="#FFE3ECF1" FontSize="18" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,1,1,2" />
+                                        <Label x:Name="lblSongTitle" Content="[Song Title]" Foreground="#FFC2D1DA" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,3,2" />
+                                        <Label x:Name="lblFilePath" Content="[File Path]" Foreground="#FF617A8C" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="1,3,0,3" />
                                     </StackPanel>
                                     <StackPanel Grid.Row="1" Orientation="Vertical">
                                         <Label Content="Song Position / Length" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" Padding="7,6,4,6" />
@@ -250,7 +250,7 @@
                                         <Button x:Name="btnActions" Width="60" Content="Actions" Style="{StaticResource HeaderButton}" Click="BtnActions_OnClick" />
                                     </StackPanel>
                                     <Grid Grid.Row="1">
-                                        <Grid x:Name="panelTimeShifting" Margin="8,5,8,8" Visibility="Hidden">                                            
+                                        <Grid x:Name="panelTimeShifting" Margin="8,5,8,8" Visibility="Visible">                                            
                                             <Grid.RowDefinitions>
                                                 <RowDefinition />
                                                 <RowDefinition Height="Auto" />
@@ -388,7 +388,7 @@
                                                 <Label x:Name="lblLastPlayed" Content="Last played" Foreground="LightGray" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Light" Padding="2,3,3,2" />
                                             </StackPanel>
                                         </Grid>
-                                        <Grid x:Name="panelActions" Margin="8" Visibility="Visible">
+                                        <Grid x:Name="panelActions" Margin="8" Visibility="Hidden">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="28" />
@@ -468,7 +468,7 @@
                                     </ContextMenu>
                                 </ScrollViewer.ContextMenu>
                             </controls:WaveFormScrollViewer>
-                            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="4" />
+                            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="1" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -507,7 +507,7 @@
                                         </ListView>
                                     </Grid>
                                 </Grid>
-                                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="4" />
+                                <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Width="1" />
                                 <Grid Grid.Column="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                                     <Grid>
                                         <Grid.RowDefinitions>
@@ -613,13 +613,12 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="4" />
+                    <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="1" />
                     <Grid Grid.Row="2" Background="{DynamicResource BrushHeaderBackgroundColor}">
                         <!-- Song Browser -->
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
@@ -637,10 +636,7 @@
                                     <Image Grid.Column="1" Source="/Resources/Images/Icons/search.png" Stretch="None" Margin="4,0,2,0" />
                                 </Grid>
                             </Grid>
-                            <WindowsFormsHost Grid.Row="1">
-                                <wc:SongGridView x:Name="gridViewSongs" OnSelectedIndexChanged="gridViewSongs_OnOnSelectedIndexChanged" />
-                            </WindowsFormsHost>
-                            <controls:SongGridView Grid.Row="2" x:Name="gridViewSongsNew" />
+                            <controls:SongGridView Grid.Row="1" x:Name="gridViewSongsNew" Background="{DynamicResource BrushBackgroundColor}" />
                         </Grid>
                     </Grid>
                 </Grid>

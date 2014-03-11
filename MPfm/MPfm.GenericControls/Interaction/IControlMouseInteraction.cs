@@ -19,16 +19,25 @@ namespace MPfm.GenericControls.Interaction
 {
     public interface IControlMouseInteraction
     {
-        void MouseDown(float x, float y, MouseButtonType button);
-        void MouseUp(float x, float y, MouseButtonType button);
-        void MouseDoubleClick(float x, float y, MouseButtonType button);
+        void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld);
+        void MouseUp(float x, float y, MouseButtonType button, KeysHeld keysHeld);
+        void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld);
+        void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld);
         void MouseMove(float x, float y, MouseButtonType button);
         void MouseLeave();
         void MouseEnter();
+        void MouseWheel(float delta);
     }
 
     public enum MouseButtonType
     {
-        Left = 0, Middle = 1, Right = 2
+        None = 0, Left = 1, Middle = 2, Right = 3
+    }
+
+    public class KeysHeld
+    {
+        public bool IsCtrlKeyHeld { get; set; }
+        public bool IsAltKeyHeld { get; set; }
+        public bool IsShiftKeyHeld { get; set; }
     }
 }

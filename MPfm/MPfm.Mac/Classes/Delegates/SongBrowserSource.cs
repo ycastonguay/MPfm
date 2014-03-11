@@ -121,7 +121,7 @@ namespace MPfm.Mac.Classes.Delegates
             } 
 
             NSTableCellView view = (NSTableCellView)tableView.MakeView("tableCellView", this);
-            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             if (identifier == "columnTrackNumber")
                 view.TextField.StringValue = Items[row].AudioFile.TrackNumber.ToString();
             else if (identifier == "columnTitle")
