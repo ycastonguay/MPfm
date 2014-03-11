@@ -169,6 +169,18 @@
     <Compile Include="Basics\BasicPen.cs" />
     <Compile Include="Basics\BasicPoint.cs" />
     <Compile Include="Basics\BasicGradientBrush.cs" />
+    <Compile Include="Graphics\IDisposableImageFactory.cs" />
+    <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
+    <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
+    <Compile Include="Controls\Songs\SongGridViewControl.cs" />
+    <Compile Include="Controls\Songs\SongGridViewCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewColumn.cs" />
+    <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewItem.cs" />
+    <Compile Include="Controls\Songs\SongGridViewMode.cs" />
+    <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
+    <Compile Include="Controls\TrackBarControl.cs" />
+    <Compile Include="Controls\WaveFormControl.cs" />
     <Compile Include="Controls\WaveFormScaleControl.cs" />
     <Compile Include="Controls\FaderControl.cs" />
     <Compile Include="Controls\IControl.cs" />
@@ -176,6 +188,7 @@
     <Compile Include="Graphics\IMemoryGraphicsContext.cs" />
     <Compile Include="Graphics\IGraphicsContext.cs" />
     <Compile Include="Graphics\IMemoryGraphicsContextFactory.cs" />
+    <Compile Include="Interaction\IControlMouseInteraction.cs" />
     <Compile Include="Interaction\IControlTouchInteraction.cs" />
     <Compile Include="Managers\Events\LoadPeakFileEventArgs.cs" />
     <Compile Include="Managers\Events\GenerateWaveFormEventArgs.cs" />
@@ -185,7 +198,6 @@
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
-    <Compile Include="Interaction\IControlMouseInteraction.cs" />
-    <Compile Include="Controls\WaveFormControl.cs" />
+    <Compile Include="Interaction\IControlScrollViewInteraction.cs" />
   </ItemGroup>
 </Project>

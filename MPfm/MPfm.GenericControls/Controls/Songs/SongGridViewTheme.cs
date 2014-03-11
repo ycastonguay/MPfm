@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
-using System.Net.Mime;
-using System.Web.UI.WebControls;
 using MPfm.GenericControls.Basics;
 
 namespace MPfm.GenericControls.Controls.Songs
