@@ -21,6 +21,6 @@ namespace MPfm.GenericControls.Graphics
 {
     public interface IDisposableImageFactory
     {
-        IDisposable CreateImageFromByteArray(byte[] data);
+        IDisposable CreateImageFromByteArray(byte[] data, int width, int height);
     }
 }

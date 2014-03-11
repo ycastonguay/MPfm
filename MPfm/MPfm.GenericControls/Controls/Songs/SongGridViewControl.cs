@@ -578,7 +578,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
             // Extract image from file
             var bytes = AudioFile.ExtractImageByteArrayForAudioFile(arg.AudioFile.FilePath);
-            var image = _disposableImageFactory.CreateImageFromByteArray(bytes);
+            var image = _disposableImageFactory.CreateImageFromByteArray(bytes, (int)arg.RectAlbumArt.Width, (int)arg.RectAlbumArt.Height);
 
             // Set task result
             result.AlbumArt = image;
@@ -1093,9 +1093,10 @@ namespace MPfm.GenericControls.Controls.Songs
                                         if (!albumCoverFound)
                                         {
                                             // Add item to update album art worker pile
-                                            SongGridViewBackgroundWorkerArgument arg = new SongGridViewBackgroundWorkerArgument();
+                                            var arg = new SongGridViewBackgroundWorkerArgument();
                                             arg.AudioFile = audioFile;
                                             arg.LineIndex = a;
+                                            arg.RectAlbumArt = rectAlbumCover;
                                             _workerUpdateAlbumArtPile.Add(arg);
                                         }
                                     }
@@ -1234,7 +1235,7 @@ namespace MPfm.GenericControls.Controls.Songs
                                     if (imageAlbumCover != null)
                                         //g.DrawImage(imageAlbumCover, rectAlbumCoverArt);
                                         //context.DrawImage(rectAlbumCoverArt, imageAlbumCover);
-                                        context.DrawImage(rectAlbumCoverArt, rectAlbumCoverArt, imageAlbumCover);
+                                        context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover);
 
                                     if (useAlbumArtOverlay)
                                     {
@@ -2412,10 +2413,8 @@ namespace MPfm.GenericControls.Controls.Songs
     public class SongGridViewBackgroundWorkerArgument
     {
         public AudioFile AudioFile { get; set; }
-        /// <summary>
-        /// Line number (item index in the SongGridView control).
-        /// </summary>
         public int LineIndex { get; set; }        
+        public BasicRectangle RectAlbumArt { get; set; }
     }
 
     /// <summary>

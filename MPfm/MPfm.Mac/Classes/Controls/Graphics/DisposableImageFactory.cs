@@ -20,53 +20,42 @@ using MonoMac.AppKit;
 using MPfm.GenericControls.Graphics;
 using MonoMac.Foundation;
 using System.Drawing;
+using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
     public class DisposableImageFactory : NSObject, IDisposableImageFactory
     {
-        public IDisposable CreateImageFromByteArray(byte[] data)
+        public IDisposable CreateImageFromByteArray(byte[] data, int width, int height)
         {
-            NSImage image = null;
-            //InvokeOnMainThread(() => {
-            //Console.WriteLine("DisposableImageFactory - CreateImageFromByteArray");
-                //image = new NSImage(new SizeF(BoundsWidth, BoundsHeight));
-                //image.AddRepresentation(_bitmap);
+            NSImage imageResized = null;
+            try
+            {
+                NSGraphicsContext.GlobalRestoreGraphicsState();
+                using (NSData imageData = NSData.FromArray(data))
+                {
+                    InvokeOnMainThread(() => {
+                        using (NSImage imageFullSize = new NSImage(imageData))
+                        {
+                            try
+                            {
+                                imageResized = CoreGraphicsHelper.ScaleImageSquare(imageFullSize, width);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("DisposableImageFactory - Error resizing image: {0}", ex);
+                            }
+                        }
+                    });
+                }
+                return imageResized;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DisposableImageFactory - Failed to process image: {0}", ex);
+            }
 
-                try
-                {
-                    NSGraphicsContext.GlobalRestoreGraphicsState();
-                    using (NSData imageData = NSData.FromArray(data))
-                    {
-                        InvokeOnMainThread(() => {
-                            image = new NSImage(imageData);
-//                        using (NSImage imageFullSize = new NSImage(imageData))
-//                        {
-//                            if (imageFullSize != null)
-//                            {
-//                                try
-//                                {
-//                                    _currentAlbumArtKey = key;                                    
-//                                    //UIImage imageResized = CoreGraphicsHelper.ScaleImage(imageFullSize, height);
-//                                    //return imageResized;
-//                                    image = imageFullSize;
-//                                }
-//                                catch (Exception ex)
-//                                {
-//                                    Console.WriteLine("Error resizing image " + audioFile.ArtistName + " - " + audioFile.AlbumTitle + ": " + ex.Message);
-//                                }
-//                            }
-//                        }
-                        });
-                    }
-                    return image;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("DisposableImageFactory - Failed to process image: {0}", ex);
-                }
-            //});
-            return image;
+            return imageResized;
         }
     }
 }

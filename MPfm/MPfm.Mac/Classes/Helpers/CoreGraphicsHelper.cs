@@ -29,16 +29,6 @@ namespace MPfm.Mac.Classes.Helpers
     /// </summary>
     public static class CoreGraphicsHelper
     {
-        // TODO: Cannot use NSAttributedString in iOS5, only iOS6+
-//        public static RectangleF MeasureString(SizeF sizeConstraint, string text, string fontName, float fontSize)
-//        {
-//            NSMutableDictionary dict = new NSMutableDictionary();
-//            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
-//            NSString nsstr = new NSString(text);
-//            RectangleF rect = nsstr.BoundingRectWithSize(sizeConstraint, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
-//            return rect;
-//        }
-        
         public static float MeasureStringWidth(CGContext context, string text, string fontName, float fontSize)
         {
             if (string.IsNullOrEmpty(text))
@@ -56,6 +46,17 @@ namespace MPfm.Mac.Classes.Helpers
             context.RestoreState();
             
             return pos2.X - pos.X;
+        }
+
+        public static void DrawRect(CGContext context, RectangleF rect, CGColor color)
+        {
+            context.SaveState();
+            context.AddRect(rect);
+            context.Clip();
+            context.SetLineWidth(2);
+            context.SetStrokeColor(color);
+            context.StrokeRect(rect);
+            context.RestoreState();
         }
         
         public static void FillRect(CGContext context, RectangleF rect, CGColor color)
@@ -105,6 +106,18 @@ namespace MPfm.Mac.Classes.Helpers
                 context.SetLineDash(0, new float[2] { 1, 2 }, 2);
             if (closePath)
                 context.ClosePath();
+            context.StrokePath();
+            context.RestoreState();
+        }
+
+        public static void DrawLine(CGContext context, PointF[] points, float lineWidth, CGColor color)
+        {
+            context.SaveState();
+            var path = new CGPath();
+            path.AddLines(points);
+            context.AddPath(path);
+            context.SetLineWidth(lineWidth);
+            context.SetStrokeColor(color);
             context.StrokePath();
             context.RestoreState();
         }
@@ -160,7 +173,7 @@ namespace MPfm.Mac.Classes.Helpers
             context.RestoreState();
         }
         
-        public static void FillGradient(CGContext context, RectangleF rect, CGColor color1, CGColor color2)
+        public static void FillGradient(CGContext context, RectangleF rect, CGColor color1, CGColor color2, bool isHorizontal)
         {
             CGGradient gradientBackground;
             CGColorSpace colorSpace = CGColorSpace.CreateDeviceRGB();
@@ -175,7 +188,10 @@ namespace MPfm.Mac.Classes.Helpers
             context.AddRect(rect);
             context.Clip();
             //context.ScaleCTM(1, -1);
-            context.DrawLinearGradient(gradientBackground, new PointF(rect.X, rect.Y), new PointF(rect.X + rect.Width, rect.Y + rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
+            if(isHorizontal)
+                context.DrawLinearGradient(gradientBackground, new PointF(rect.X, rect.Y), new PointF(rect.X + rect.Width, rect.Y + rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
+            else
+                context.DrawLinearGradient(gradientBackground, new PointF(0, 0), new PointF(0, rect.Height), CGGradientDrawingOptions.DrawsBeforeStartLocation);
             context.RestoreState();
         }       
         
@@ -210,85 +226,53 @@ namespace MPfm.Mac.Classes.Helpers
             return size;
         }
 
-        public static SizeF MeasureTextWithConstraint(CGContext context, string text, string fontName, float fontSize, SizeF constraint)
+        public static void DrawText(CGContext context, string text, string fontName, float fontSize, float translateHeight, float x, float y)
         {
-            NSString str = new NSString(text);
-            //SizeF size = str.StringSize(UIFont.FromName(fontName, fontSize), constraint, breakMode);
-            var size = str.StringSize(new NSDictionary());
-            return size;
+            context.SaveState();
+            context.SelectFont(fontName, fontSize, CGTextEncoding.MacRoman);
+            context.SetTextDrawingMode(CGTextDrawingMode.Fill);
+            context.SetFillColor(new CGColor(1, 1));
+            context.SetStrokeColor(new CGColor(1.0f, 1.0f));
+            //context.AddRect(rectText);
+            //context.Clip();
+            context.TextMatrix = CGAffineTransform.MakeScale(1.0f, -1.0f);
+            context.TranslateCTM(0, translateHeight);
+            context.ScaleCTM(1, -1);
+            context.ShowTextAtPoint(x, y, text);
+            context.RestoreState();
         }
 
-        // TODO: Cannot use NSAttributedString in iOS5, only iOS6+
-//        public static void DrawText(RectangleF rect, float x, float y, string text, string fontName, float fontSize, NSColor fontColor)
-//        {
-//            NSMutableDictionary dict = new NSMutableDictionary();
-//            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
-//            dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
-//            NSString nsstr = new NSString(text);
-//            RectangleF rectBounds = nsstr.BoundingRectWithSize(new SizeF(rect.Width, rect.Height), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
-//            rectBounds.X = rect.X + x;
-//            rectBounds.Y = rect.Y + y;
-//            nsstr.DrawString(rectBounds, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
-//        }
+        public static void DrawText(RectangleF rect, float x, float y, string text, string fontName, float fontSize, NSColor fontColor)
+        {
+            NSMutableDictionary dict = new NSMutableDictionary();
+            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
+            dict.Add(NSAttributedString.ForegroundColorAttributeName, fontColor);
+            NSString nsstr = new NSString(text);
+            RectangleF rectBounds = nsstr.BoundingRectWithSize(new SizeF(rect.Width, rect.Height), NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
+            rectBounds.X = rect.X + x;
+            rectBounds.Y = rect.Y + y;
+            nsstr.DrawString(rectBounds, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
+        }
 
-//        public static NSImage ScaleImage(NSImage image, int maxSize)
-//        {           
-//            NSImage newImage;
-//            using (CGImage imageRef = image.AsCGImage()
-//            {
-//                CGImageAlphaInfo alphaInfo = imageRef.AlphaInfo;
-//                CGColorSpace colorSpaceInfo = CGColorSpace.CreateDeviceRGB();
-//                if (alphaInfo == CGImageAlphaInfo.None)
-//                    alphaInfo = CGImageAlphaInfo.NoneSkipLast;
-//  
-//                int width = maxSize;
-//                int height = maxSize;
-//
-////                int width = imageRef.Width;
-////                int height = imageRef.Height;
-//                
-////                if (height >= width)
-////                {
-////                    width = (int)Math.Floor((double)width * ((double)maxSize / (double)height));
-////                    height = maxSize;
-////                }
-////                else
-////                {
-////                    height = (int)Math.Floor((double)height * ((double)maxSize / (double)width));
-////                    width = maxSize;
-////                }
-//                
-//                CGBitmapContext bitmap;
-//                if (image.Orientation == UIImageOrientation.Up || image.Orientation == UIImageOrientation.Down)
-//                    //bitmap = new CGBitmapContext(IntPtr.Zero, width, height, imageRef.BitsPerComponent, imageRef.BytesPerRow, colorSpaceInfo, alphaInfo);
-//                    bitmap = new CGBitmapContext(IntPtr.Zero, width, height, imageRef.BitsPerComponent, 0, colorSpaceInfo, alphaInfo);
-//                else
-//                    bitmap = new CGBitmapContext(IntPtr.Zero, height, width, imageRef.BitsPerComponent, 0, colorSpaceInfo, alphaInfo);
-//                
-//                switch (image.Orientation)
-//                {
-//                    case UIImageOrientation.Left:
-//                        bitmap.RotateCTM((float)Math.PI / 2);
-//                        bitmap.TranslateCTM(0, -height);
-//                        break;
-//                    case UIImageOrientation.Right:
-//                        bitmap.RotateCTM(-((float)Math.PI / 2));
-//                        bitmap.TranslateCTM(-width, 0);
-//                        break;
-//                    case UIImageOrientation.Up:
-//                        break;
-//                    case UIImageOrientation.Down:
-//                        bitmap.TranslateCTM(width, height);
-//                        bitmap.RotateCTM(-(float)Math.PI);
-//                        break;
-//                }
-//                bitmap.DrawImage(new Rectangle(0, 0, width, height), imageRef);
-//                newImage = UIImage.FromImage(bitmap.ToImage());
-//                bitmap.Dispose();
-//                bitmap = null;
-//            }
-//            
-//            return newImage;
-//        }
+        public static RectangleF MeasureString(SizeF sizeConstraint, string text, string fontName, float fontSize)
+        {
+            NSMutableDictionary dict = new NSMutableDictionary();
+            dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName(fontName, fontSize));
+            NSString nsstr = new NSString(text);
+            RectangleF rect = nsstr.BoundingRectWithSize(sizeConstraint, NSStringDrawingOptions.UsesFontLeading | NSStringDrawingOptions.UsesLineFragmentOrigin, dict);
+            return rect;
+        }
+
+        public static NSImage ScaleImageSquare(NSImage sourceImage, int size)
+        {
+            var newSize = new SizeF(size, size);
+            var newImage = new NSImage(newSize);
+            newImage.LockFocus();
+            sourceImage.Size = newSize;
+            NSGraphicsContext.CurrentContext.ImageInterpolation = NSImageInterpolation.High;
+            sourceImage.Draw(new PointF(), new RectangleF(0, 0, newSize.Width, newSize.Height), NSCompositingOperation.Copy, 1); 
+            newImage.UnlockFocus();
+            return newImage;
+        }
     }
 }

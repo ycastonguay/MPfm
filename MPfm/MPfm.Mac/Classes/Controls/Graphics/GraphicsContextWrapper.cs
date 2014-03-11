@@ -60,16 +60,18 @@ namespace MPfm.Mac.Classes.Controls.Graphics
 
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
+            //Console.WriteLine("GraphicsContextWrapper - DrawImage - rectangle: {0}", rectangle);
             DrawImage(rectangle, rectangle, image);
         }
 
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
+            //Console.WriteLine("GraphicsContextWrapper - DrawImage - rectangleDestination: {0} rectangleSource: {1}", rectangleDestination, rectangleSource);
             var bitmap = image as NSImage;
             if (bitmap == null)
                 return;
 
-            bitmap.DrawInRect(GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleSource), NSCompositingOperation.SourceOver, 1);
+            bitmap.Draw(GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleSource), NSCompositingOperation.SourceOver, 1, true, new NSDictionary());
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

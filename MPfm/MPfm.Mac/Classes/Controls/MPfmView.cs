@@ -101,14 +101,14 @@ namespace MPfm.Mac.Classes.Controls
             CGContext context = NSGraphicsContext.CurrentContext.GraphicsPort;
 
             if (CGColor.Equals(BackgroundColor1, BackgroundColor2))
-                CocoaHelper.FillRect(context, Bounds, BackgroundColor1);
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor1);
             else
-                CocoaHelper.FillGradient(context, Bounds, BackgroundColor1, BackgroundColor2);
+                CoreGraphicsHelper.FillGradient(context, Bounds, BackgroundColor1, BackgroundColor2, false);
 
             if (IsHeaderVisible)
             {
                 RectangleF rectHeader = new RectangleF(0, Bounds.Height - HeaderHeight, Bounds.Width, HeaderHeight);
-                CocoaHelper.FillRect(context, rectHeader, HeaderColor1);
+                CoreGraphicsHelper.FillRect(context, rectHeader, HeaderColor1);
                 //CocoaHelper.DrawLine(context, new PointF[2] { new PointF(0, Bounds.Height - 24), new PointF(Bounds.Width, Bounds.Height - 24) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
             }
         }
