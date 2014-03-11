@@ -61,6 +61,10 @@ namespace MPfm.Android.Classes.Controls.Graphics
             _currentPaint.StrokeWidth = width;
         }
 
+        public void SetPen(BasicPen pen)
+        {
+        }
+
         public void StrokeLine(BasicPoint point, BasicPoint point2)
         {
             _canvas.DrawLine(point.X, point.Y, point2.X, point2.Y, _currentPaint);
@@ -82,9 +86,12 @@ namespace MPfm.Android.Classes.Controls.Graphics
             _canvas.DrawBitmap((Bitmap)image, 0, 0, paintBitmap);
         }
 
+        public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
+        {
+        }
+
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
         {
-            throw new NotImplementedException();
         }
 
         public void DrawRectangle(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)
@@ -129,7 +136,6 @@ namespace MPfm.Android.Classes.Controls.Graphics
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
         {
-            throw new NotImplementedException();
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
@@ -142,6 +148,10 @@ namespace MPfm.Android.Classes.Controls.Graphics
             var rectText = new Rect();
             paint.GetTextBounds(text, 0, text.Length, rectText);
             return new BasicRectangle(rectText.Left, rectText.Top, rectText.Width(), rectText.Height());
+        }
+
+        public void Close()
+        {
         }
     }
 }

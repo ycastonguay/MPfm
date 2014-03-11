@@ -160,11 +160,10 @@
     <Compile Include="Database\Interfaces\IDatabaseFacade.cs" />
     <Compile Include="Database\Interfaces\ISQLiteGateway.cs" />
     <Compile Include="Database\DatabaseFacade.cs" />
+    <Compile Include="Objects\AuthenticationToken.cs" />
     <Compile Include="Objects\CloudDeviceInfo.cs" />
     <Compile Include="Objects\CloudPlaylist.cs" />
     <Compile Include="Objects\PlaylistAudioFile.cs" />
-    <Compile Include="Services\CloudLibraryService.cs" />
-    <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Objects\NetworkState.cs" />
     <Compile Include="Objects\PlaylistFile.cs" />
     <Compile Include="Objects\History.cs" />
@@ -172,9 +171,11 @@
     <Compile Include="Database\SQLiteGateway.cs" />
     <Compile Include="Objects\Folder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CloudLibraryService.cs" />
     <Compile Include="Services\DropboxCoreService.cs" />
-    <Compile Include="Services\Interfaces\ICloudService.cs" />
+    <Compile Include="Services\Exceptions\CloudAppNotLinkedException.cs" />
     <Compile Include="Services\Interfaces\ICloudLibraryService.cs" />
+    <Compile Include="Services\Interfaces\ICloudService.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryProgressDataSong.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryFinishedData.cs" />
     <Compile Include="UpdateLibrary\UpdateLibraryArgument.cs" />
