@@ -75,8 +75,15 @@ namespace MPfm.Mac
             trackBarPosition.Minimum = 0;
             trackBarPosition.Maximum = 1000;
             trackBarPosition.BlockValueChangeWhenDraggingMouse = true;
-            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarValueChanged;
-            trackBarPosition.SetNeedsDisplayInRect(faderVolume.Bounds);
+            trackBarPosition.OnTrackBarValueChanged += HandleOnTrackBarPositionValueChanged;
+            trackBarPosition.SetNeedsDisplayInRect(trackBarPosition.Bounds);
+
+            trackBarTimeShifting.Minimum = 55;
+            trackBarTimeShifting.Maximum = 150;
+            trackBarTimeShifting.Value = 100;
+            trackBarTimeShifting.BlockValueChangeWhenDraggingMouse = true;
+            trackBarTimeShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
+            trackBarTimeShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
 		}
 
 		public override void WindowDidLoad()
@@ -481,9 +488,16 @@ namespace MPfm.Mac
             OnPlayerSetVolume(faderVolume.Value);
         }       
 
-        private void HandleOnTrackBarValueChanged()
+        private void HandleOnTrackBarPositionValueChanged()
         {
 
+        }
+
+        private void HandleOnTrackBarTimeShiftingValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnSetTimeShifting != null)
+                OnSetTimeShifting(trackBarTimeShifting.Value);
         }
 
         partial void actionPlayLoop(NSObject sender)
@@ -1012,6 +1026,12 @@ namespace MPfm.Mac
 
         public void RefreshTimeShifting(PlayerTimeShiftingEntity entity)
         {
+            InvokeOnMainThread(() =>{
+                lblDetectedTempoValue.StringValue = entity.DetectedTempo;
+                lblReferenceTempoValue.StringValue = entity.ReferenceTempo;
+                txtCurrentTempoValue.StringValue = entity.CurrentTempo;
+                trackBarTimeShifting.Value = (int) entity.TimeShiftingValue;
+            });
         }
 
         #endregion

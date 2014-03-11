@@ -50,7 +50,6 @@
     <Compile Include="Basics\BasicPen.cs" />
     <Compile Include="Basics\BasicPoint.cs" />
     <Compile Include="Basics\BasicGradientBrush.cs" />
-    <Compile Include="Controls\WaveFormScrollControl.cs" />
     <Compile Include="Graphics\IDisposableImageFactory.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
