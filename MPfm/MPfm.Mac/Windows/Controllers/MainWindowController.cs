@@ -64,7 +64,7 @@ namespace MPfm.Mac
             dict.Add(NSViewAnimation.TargetKey, Window);
             dict.Add(NSViewAnimation.EffectKey, NSViewAnimation.FadeInEffect);
             NSViewAnimation anim = new NSViewAnimation(new List<NSMutableDictionary>(){ dict }.ToArray());
-            anim.Duration = 0.4f;
+            anim.Duration = 0.25f;
             anim.StartAnimation();
 
             faderVolume.Minimum = 0;

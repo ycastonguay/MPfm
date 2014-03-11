@@ -277,7 +277,6 @@
   <ItemGroup>
     <Content Include="Bass.Net.dll.config" />
     <Content Include="MPfm.icns" />
-    <Content Include="Resources\Splash.png" />
     <Content Include="Resources\Fonts\TitilliumMaps29L.otf" />
     <Content Include="Resources\Fonts\TitilliumTitle20.otf" />
     <Content Include="Resources\Fonts\TitilliumText25L.otf" />
@@ -414,6 +413,10 @@
     <Content Include="Resources\Buttons\add.png" />
     <Content Include="Resources\Buttons\minus.png" />
     <Content Include="Resources\Buttons\reset.png" />
+    <Content Include="Resources\Splash\splash_logo_clear.png" />
+    <Content Include="Resources\Splash\splash_logo_full.png" />
+    <Content Include="Resources\Splash\splash_logo_clear%402x.png" />
+    <Content Include="Resources\Splash\splash_logo_full%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
@@ -440,6 +443,7 @@
     <Folder Include="Resources\Toolbar\" />
     <Folder Include="Resources\Buttons\" />
     <Folder Include="Classes\Controls\Wrappers\" />
+    <Folder Include="Resources\Splash\" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -524,5 +528,6 @@
     <BundleResource Include="Resources\icon_button_play%402x.png" />
     <BundleResource Include="Resources\icon_button_goto%402x.png" />
     <BundleResource Include="Resources\icon_button_goto.png" />
+    <BundleResource Include="Resources\Splash.png" />
   </ItemGroup>
 </Project>
