@@ -16,7 +16,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
@@ -33,6 +36,16 @@ namespace MPfm.WPF.Classes.Windows
         {
             InitializeComponent();
             ViewIsReady();
+
+            imageLogo.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Splash/splash_logo_clear.png"));
+            imageLogoFull.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Splash/splash_logo_full.png"));
+
+            var anim = new DoubleAnimation();
+            anim.From = 0;
+            anim.To = 1;
+            anim.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 400));
+            anim.BeginTime = new TimeSpan(0, 0, 0, 0, 250);
+            imageLogoFull.BeginAnimation(OpacityProperty, anim);
         }
 
         #region ISplashView implementation
