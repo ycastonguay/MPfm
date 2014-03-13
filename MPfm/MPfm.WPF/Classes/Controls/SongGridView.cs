@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,10 +25,12 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Graphics;
+using MPfm.GenericControls.Interaction;
 using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using ModifierKeys = MPfm.GenericControls.Interaction.ModifierKeys;
 
 namespace MPfm.WPF.Classes.Controls
 {
@@ -46,6 +49,7 @@ namespace MPfm.WPF.Classes.Controls
             : base()
         {
             DoubleClick += (sender, e) => { };
+            Focusable = true;
 
             // Add dummy control so the scrollbar can be placed on the right
             var dummy = new Control();
@@ -73,9 +77,18 @@ namespace MPfm.WPF.Classes.Controls
 
             var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
             _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
-            _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
+            _control.OnItemDoubleClick += (id, index) =>
+            {
+                DoubleClick(this, new EventArgs());
+            };
+            _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                //Console.WriteLine("SongGridView - OnInvalidateVisual");
+                InvalidateVisual();
+            }));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
+                //Console.WriteLine("SongGridView - OnInvalidateVisualInRect");
                 InvalidateVisual();
                 // TODO: It seems you can't invalidate a specific rect in WPF? What?
                 // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
@@ -110,13 +123,15 @@ namespace MPfm.WPF.Classes.Controls
                 GenericControlHelper.MouseDoubleClick(e, this, _control);
                 DoubleClick(this, new EventArgs());
             }
+
+            //Keyboard.Focus(this);
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
-            //Console.WriteLine("SongGridView - OnMouseUp - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseUp(e, this, _control);
+            Focus();
             base.OnMouseUp(e);
         }
 
@@ -145,6 +160,21 @@ namespace MPfm.WPF.Classes.Controls
             else if(e.Delta < 0)
                 _control.MouseWheel(-2);
             base.OnMouseWheel(e);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            char key = (char) KeyInterop.VirtualKeyFromKey(e.Key);
+            _control.KeyDown(key, GenericControlHelper.GetSpecialKeys(e.Key), ModifierKeys.None, e.IsRepeat);
+            e.Handled = true;
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            char key = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+            _control.KeyUp(key, GenericControlHelper.GetSpecialKeys(e.Key), ModifierKeys.None, e.IsRepeat);
+            base.OnKeyUp(e);
         }
     }
 }

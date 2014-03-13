@@ -37,7 +37,7 @@ namespace MPfm.GenericControls.Controls.Songs
     /// <summary>
     /// This custom grid view control displays the MPfm library.
     /// </summary>
-    public class SongGridViewControl : IControl, IControlMouseInteraction//, IControlScrollViewInteraction
+    public class SongGridViewControl : IControl, IControlMouseInteraction, IControlKeyboardInteraction
     {
         private IDisposableImageFactory _disposableImageFactory;
         private SongGridViewMode _mode = SongGridViewMode.AudioFile;
@@ -73,19 +73,13 @@ namespace MPfm.GenericControls.Controls.Songs
         
         public delegate void SelectedIndexChanged(SongGridViewSelectedIndexChangedData data);
         public delegate void ColumnClick(SongGridViewColumnClickData data);
+        public delegate void ItemDoubleClick(Guid audioFileId, int index);
 
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
-
-        /// <summary>
-        /// The OnSelectedIndexChanged event is triggered when the selected item(s) have changed.
-        /// </summary>
         public event SelectedIndexChanged OnSelectedIndexChanged;
-
-        /// <summary>
-        /// The ColumnClick event is triggered when the user has clicked on one of the columns.
-        /// </summary>
         public event ColumnClick OnColumnClick;
+        public event ItemDoubleClick OnItemDoubleClick;
 
         #region Properties
         
@@ -391,6 +385,9 @@ namespace MPfm.GenericControls.Controls.Songs
             _disposableImageFactory = disposableImageFactory;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
+            OnSelectedIndexChanged = data => { };
+            OnColumnClick += data => { };
+            OnItemDoubleClick += (id, index) => { };
             
             Frame = new BasicRectangle();
             _theme = new SongGridViewTheme();
@@ -1512,7 +1509,73 @@ namespace MPfm.GenericControls.Controls.Songs
 
             stopwatch.Stop();
             //Console.WriteLine("SongGridViewControl - Render - Completed in {0} - frame: {1} numberOfLinesToDraw: {2}", stopwatch.Elapsed, Frame, _numberOfLinesToDraw);
-        }        
+        }
+
+        public void KeyDown(char key, SpecialKeys specialKeys, ModifierKeys modifierKeys, bool isRepeat)
+        {
+            if (_columns == null || _songCache == null)
+                return;
+
+            int selectedIndex = -1;
+            int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
+            int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
+            var startEndIndexes = GetStartIndexAndEndIndexOfSelectedRows();
+
+            if (specialKeys == SpecialKeys.Down || specialKeys == SpecialKeys.Up)
+            {
+                if (specialKeys == SpecialKeys.Down)
+                {
+                    if (startEndIndexes.Item1 < _items.Count - 1)
+                        selectedIndex = startEndIndexes.Item1 + 1;
+                }
+                else if (specialKeys == SpecialKeys.Up)
+                {
+                    if (startEndIndexes.Item1 > 0)
+                        selectedIndex = startEndIndexes.Item1 - 1;
+                }
+
+                if (selectedIndex == -1)
+                    return;
+
+                ResetSelection();
+                _items[selectedIndex].IsSelected = true;
+            }
+            else if (specialKeys == SpecialKeys.Enter)
+            {
+                OnItemDoubleClick(_items[startEndIndexes.Item1].AudioFile.Id, startEndIndexes.Item1);
+                selectedIndex = startEndIndexes.Item1;
+            }
+
+            // Check if new selection is out of bounds of visible area
+            float y = ((selectedIndex - _startLineNumber + 1)*_songCache.LineHeight) + scrollbarOffsetY;
+            //Console.WriteLine("SongGridViewControl - KeyDown - y: {0} scrollbarOffsetY: {1} VerticalScrollBar.Value: {2}", y, scrollbarOffsetY, VerticalScrollBar.Value);
+
+            // Check if the newly selected item is out of bounds (bottom)
+            if (specialKeys == SpecialKeys.Down && y > Frame.Height - HorizontalScrollBar.Height - _songCache.LineHeight)
+            {
+                int newVerticalScrollBarValue = VerticalScrollBar.Value + _songCache.LineHeight;
+                if (newVerticalScrollBarValue > VerticalScrollBar.Maximum)
+                    newVerticalScrollBarValue = VerticalScrollBar.Maximum;
+
+                VerticalScrollBar.Value = newVerticalScrollBarValue;
+            }
+            // Is it out of bounds (top)?
+            else if (specialKeys == SpecialKeys.Up && y < _songCache.LineHeight)
+            {
+                int newVerticalScrollBarValue = VerticalScrollBar.Value - _songCache.LineHeight;
+                if (newVerticalScrollBarValue < 0)
+                    newVerticalScrollBarValue = 0;
+
+                VerticalScrollBar.Value = newVerticalScrollBarValue;
+            }
+
+            // Is this necessary when scrolling the whole area? it will refresh all anyway
+            OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, y, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+        }
+
+        public void KeyUp(char key, SpecialKeys specialKeys, ModifierKeys modifierKeys, bool isRepeat)
+        {
+        }
 
         /// <summary>
         /// Occurs when the mouse cursor enters on the control.        
@@ -1743,7 +1806,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
         public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
-            Console.WriteLine("SongGridViewControl - MouseClick");
+            //Console.WriteLine("SongGridViewControl - MouseClick");
             if (_columns == null || _songCache == null)
                 return;
 
@@ -1785,7 +1848,6 @@ namespace MPfm.GenericControls.Controls.Songs
                         // Check if the mouse pointer is over this column
                         if (x >= offsetX - HorizontalScrollBar.Value && x <= offsetX + column.Width - HorizontalScrollBar.Value)
                         {
-                            // Check mouse button
                             if (button == MouseButtonType.Left && CanChangeOrderBy)
                             {
                                 // Check if the column order was already set
@@ -1838,27 +1900,9 @@ namespace MPfm.GenericControls.Controls.Songs
             }
 
             // Loop through visible lines to find the original selected items
-            int startIndex = -1;
-            int endIndex = -1;
-            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
-            {
-                // Check if the item is selected
-                if (_items[a].IsSelected)
-                {
-                    // Check if the start index was set
-                    if (startIndex == -1)
-                    {
-                        // Set start index
-                        startIndex = a;
-                    }
-                    // Check if the end index is set or if it needs to be updated
-                    if (endIndex == -1 || endIndex < a)
-                    {
-                        // Set end index
-                        endIndex = a;
-                    }
-                }
-            }
+            var tuple = GetStartIndexAndEndIndexOfSelectedRows();
+            int startIndex = tuple.Item1;
+            int endIndex = tuple.Item2;
 
             // Make sure the indexes are set
             if (startIndex > -1 && endIndex > -1)
@@ -1870,21 +1914,18 @@ namespace MPfm.GenericControls.Controls.Songs
             }
 
             // Reset selection (make sure SHIFT or CTRL isn't held down)
-//            if ((Control.ModifierKeys & Keys.Shift) == 0 &&
-//               (Control.ModifierKeys & Keys.Control) == 0)
             if (!keysHeld.IsShiftKeyHeld && !keysHeld.IsCtrlKeyHeld)
             {
-                SongGridViewItem mouseOverItem = _items.FirstOrDefault(item => item.IsMouseOverItem == true);
+                // Make sure the mouse is over at least one item
+                var mouseOverItem = _items.FirstOrDefault(item => item.IsMouseOverItem == true);
                 if (mouseOverItem != null)
                 {
                     // Reset selection, unless the CTRL key is held (TODO)
-                    List<SongGridViewItem> selectedItems = _items.Where(item => item.IsSelected == true).ToList();
-                    foreach (SongGridViewItem item in selectedItems)
-                        item.IsSelected = false;
+                    ResetSelection();
                 }
             }
 
-            // Loop through visible lines to update the new selected item
+            // Loop through visible lines to update the new selected items
             bool invalidatedNewSelection = false;
             for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
             {
@@ -1894,7 +1935,6 @@ namespace MPfm.GenericControls.Controls.Songs
                     invalidatedNewSelection = true;
 
                     // Check if SHIFT is held
-                    //if ((Control.ModifierKeys & Keys.Shift) != 0)
                     if(keysHeld.IsShiftKeyHeld)
                     {
                         // Find the start index of the selection
@@ -1915,7 +1955,6 @@ namespace MPfm.GenericControls.Controls.Songs
                         OnInvalidateVisual();
                     }
                     // Check if CTRL is held
-                    //else if ((Control.ModifierKeys & Keys.Control) != 0)
                     else if(keysHeld.IsCtrlKeyHeld)
                     {
                         // Invert selection
@@ -1982,6 +2021,7 @@ namespace MPfm.GenericControls.Controls.Songs
                     _nowPlayingAudioFileId = _items[a].AudioFile.Id;
                     _nowPlayingPlaylistItemId = _items[a].PlaylistItemId;
 
+                    OnItemDoubleClick(_nowPlayingAudioFileId, a);
                     OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((a - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
                 }
                 else if (_mode == SongGridViewMode.AudioFile && _items[a].AudioFile.Id == originalId)
@@ -2128,7 +2168,7 @@ namespace MPfm.GenericControls.Controls.Songs
                         {
                             // Invalidate region
                             column.IsMouseOverColumnHeader = false;
-                            OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
+                            //OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
                             controlNeedsToBeUpdated = true;
                         }
 
@@ -2182,7 +2222,7 @@ namespace MPfm.GenericControls.Controls.Songs
                             // Reset flag and invalidate region
                             //Console.WriteLine("SongGridViewControl - MouseMove - Resetting mouse over flag for line {0}", b);
                             _items[b].IsMouseOverItem = false;
-                            OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+                            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
 
                             // Exit loop
                             break;
@@ -2207,7 +2247,7 @@ namespace MPfm.GenericControls.Controls.Songs
                             _items[a].IsMouseOverItem = true;
 
                             // Invalidate region and update control
-                            OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, offsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+                            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, offsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
                             controlNeedsToBeUpdated = true;
 
                             // Exit loop
@@ -2396,6 +2436,39 @@ namespace MPfm.GenericControls.Controls.Songs
 //
 //            // Invalidate region for now playing
 //            OnInvalidateVisualInRect(_rectNowPlaying);
+        }
+
+
+        private void ResetSelection()
+        {
+            // Reset selection, unless the CTRL key is held (TODO)
+            var selectedItems = _items.Where(item => item.IsSelected == true).ToList();
+            foreach (var item in selectedItems)
+                item.IsSelected = false;
+        }
+
+        private Tuple<int, int> GetStartIndexAndEndIndexOfSelectedRows()
+        {
+            // Loop through visible lines to find the original selected items
+            int startIndex = -1;
+            int endIndex = -1;
+            for (int a = _startLineNumber; a < _startLineNumber + _numberOfLinesToDraw; a++)
+            {
+                // Check if the item is selected
+                if (_items[a].IsSelected)
+                {
+                    // Check if the start index was set
+                    if (startIndex == -1)
+                        startIndex = a;
+
+                    // Check if the end index is set or if it needs to be updated
+                    if (endIndex == -1 || endIndex < a)
+                        // Set end index
+                        endIndex = a;
+                }
+            }
+
+            return new Tuple<int, int>(startIndex, endIndex);
         }
     }
 

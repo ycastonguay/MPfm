@@ -156,5 +156,32 @@ namespace MPfm.WPF.Classes.Controls.Helpers
             else if (e.RightButton == MouseButtonState.Released)
                 control.MouseDoubleClick(x, y, MouseButtonType.Right, keysHeld);
         }
+
+        public static SpecialKeys GetSpecialKeys(Key key)
+        {
+            switch (key)
+            {
+                case Key.Enter:
+                    return SpecialKeys.Enter;
+                    break;
+                case Key.Space:
+                    return SpecialKeys.Space;
+                    break;
+                case Key.Up:
+                    return SpecialKeys.Up;
+                    break;
+                case Key.Down:
+                    return SpecialKeys.Down;
+                    break;
+                case Key.Left:
+                    return SpecialKeys.Left;
+                    break;
+                case Key.Right:
+                    return SpecialKeys.Right;
+                    break;
+            }
+
+            return SpecialKeys.None;
+        }
     }
 }
