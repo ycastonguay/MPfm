@@ -77,10 +77,8 @@ namespace MPfm.WPF.Classes.Controls
 
             var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
             _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
-            _control.OnItemDoubleClick += (id, index) =>
-            {
-                DoubleClick(this, new EventArgs());
-            };
+            _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
+            _control.OnItemDoubleClick += (id, index) => DoubleClick(this, new EventArgs());
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 //Console.WriteLine("SongGridView - OnInvalidateVisual");

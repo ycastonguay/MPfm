@@ -74,12 +74,14 @@ namespace MPfm.GenericControls.Controls.Songs
         public delegate void SelectedIndexChanged(SongGridViewSelectedIndexChangedData data);
         public delegate void ColumnClick(SongGridViewColumnClickData data);
         public delegate void ItemDoubleClick(Guid audioFileId, int index);
+        public delegate void ChangeMouseCursorType(MouseCursorType mouseCursorType);
 
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
         public event SelectedIndexChanged OnSelectedIndexChanged;
         public event ColumnClick OnColumnClick;
         public event ItemDoubleClick OnItemDoubleClick;
+        public event ChangeMouseCursorType OnChangeMouseCursorType;
 
         #region Properties
         
@@ -383,11 +385,14 @@ namespace MPfm.GenericControls.Controls.Songs
         public SongGridViewControl(IHorizontalScrollBarWrapper horizontalScrollBar, IVerticalScrollBarWrapper verticalScrollBar, IDisposableImageFactory disposableImageFactory)
         {
             _disposableImageFactory = disposableImageFactory;
+
+            // Add default event handlers so we don't always have to check for null
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
             OnSelectedIndexChanged = data => { };
             OnColumnClick += data => { };
             OnItemDoubleClick += (id, index) => { };
+            OnChangeMouseCursorType += type => { };
             
             Frame = new BasicRectangle();
             _theme = new SongGridViewTheme();
@@ -1687,8 +1692,6 @@ namespace MPfm.GenericControls.Controls.Songs
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
             _dragStartX = (int) x;
-
-            // Check if all the data is valid
             if (_columns == null || _songCache == null)
                 return;
 
@@ -1698,10 +1701,7 @@ namespace MPfm.GenericControls.Controls.Songs
                 // Check for resizing column
                 if (column.IsMouseCursorOverColumnLimit && column.CanBeResized && CanResizeColumns)
                 {
-                    // Set resizing column flag
                     column.IsUserResizingColumn = true;
-
-                    // Save the original column width
                     _dragOriginalColumnWidth = column.Width;
                 }
             }
@@ -1726,12 +1726,9 @@ namespace MPfm.GenericControls.Controls.Songs
 
             // Loop through columns
             SongGridViewColumn columnMoving = null;
-            foreach (SongGridViewColumn column in _songCache.ActiveColumns)
+            foreach (var column in _songCache.ActiveColumns)
             {
-                // Reset flags
                 column.IsUserResizingColumn = false;
-
-                // Check if this column is moving
                 if (column.IsUserMovingColumn)
                     columnMoving = column;
             }
@@ -2174,10 +2171,7 @@ namespace MPfm.GenericControls.Controls.Songs
                             {
                                 mousePointerIsOverColumnLimit = true;
                                 column.IsMouseCursorOverColumnLimit = true;
-
-                                //// Change the cursor if it's not the right cursor
-                                //if (Cursor != Cursors.VSplit)
-                                //    Cursor = Cursors.VSplit;
+                                OnChangeMouseCursorType(MouseCursorType.VSplit);
                             }
                             else
                             {
@@ -2187,9 +2181,9 @@ namespace MPfm.GenericControls.Controls.Songs
                     }
                 }
 
-                //// Check if the default cursor needs to be restored
-                //if (!mousePointerIsOverColumnLimit && Cursor != Cursors.Default)
-                //    Cursor = Cursors.Default;
+                // Check if the default cursor needs to be restored
+                if (!mousePointerIsOverColumnLimit)
+                    OnChangeMouseCursorType(MouseCursorType.Default);
 
                 int columnOffsetX2 = 0;
                 for (int b = 0; b < _songCache.ActiveColumns.Count; b++)

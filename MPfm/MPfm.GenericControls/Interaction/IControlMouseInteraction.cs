@@ -34,6 +34,11 @@ namespace MPfm.GenericControls.Interaction
         None = 0, Left = 1, Middle = 2, Right = 3
     }
 
+    public enum MouseCursorType
+    {
+        Default = 0, HSplit = 1, VSplit = 2
+    }
+
     public class KeysHeld
     {
         public bool IsCtrlKeyHeld { get; set; }

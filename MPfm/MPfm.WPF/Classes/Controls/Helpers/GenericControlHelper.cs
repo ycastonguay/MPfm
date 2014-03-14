@@ -25,6 +25,7 @@ using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Interaction;
 using MPfm.WindowsControls;
+using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace MPfm.WPF.Classes.Controls.Helpers
@@ -155,6 +156,23 @@ namespace MPfm.WPF.Classes.Controls.Helpers
                 control.MouseDoubleClick(x, y, MouseButtonType.Middle, keysHeld);
             else if (e.RightButton == MouseButtonState.Released)
                 control.MouseDoubleClick(x, y, MouseButtonType.Right, keysHeld);
+        }
+
+        public static void ChangeMouseCursor(MouseCursorType mouseCursorType)
+        {
+            switch (mouseCursorType)
+            {
+                case MouseCursorType.Default:
+                    Mouse.OverrideCursor = null; // Return to default
+                    break;
+                case MouseCursorType.HSplit:
+                    // TODO: Change cursor to real HSplit, not available in WPF but in Windows Forms (!?)
+                    Mouse.OverrideCursor = Cursors.SizeNS;
+                    break;
+                case MouseCursorType.VSplit:
+                    Mouse.OverrideCursor = Cursors.SizeWE;
+                    break;
+            }
         }
 
         public static SpecialKeys GetSpecialKeys(Key key)
