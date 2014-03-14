@@ -76,7 +76,7 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseDown(MouseButtonEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             element.CaptureMouse();
@@ -97,7 +97,7 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseUp(MouseButtonEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             element.ReleaseMouseCapture();
@@ -133,7 +133,7 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseClick(MouseEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             if (e.LeftButton == MouseButtonState.Released)
@@ -147,7 +147,7 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseDoubleClick(MouseEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             if (e.LeftButton == MouseButtonState.Released)
@@ -156,6 +156,18 @@ namespace MPfm.WPF.Classes.Controls.Helpers
                 control.MouseDoubleClick(x, y, MouseButtonType.Middle, keysHeld);
             else if (e.RightButton == MouseButtonState.Released)
                 control.MouseDoubleClick(x, y, MouseButtonType.Right, keysHeld);
+        }
+
+        public static KeysHeld GetKeysHeld()
+        {
+            var keysHeld = new KeysHeld();
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                keysHeld.IsShiftKeyHeld = true;
+            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+                keysHeld.IsAltKeyHeld = true;
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                keysHeld.IsCtrlKeyHeld = true;
+            return keysHeld;
         }
 
         public static void ChangeMouseCursor(MouseCursorType mouseCursorType)
