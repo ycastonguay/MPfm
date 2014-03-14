@@ -494,8 +494,7 @@ namespace MPfm.GenericControls.Controls.Songs
                     int indexToDelete = -1;
                     for (int a = 0; a < _workerUpdateAlbumArtPile.Count; a++)
                     {
-                        // Get argument
-                        SongGridViewBackgroundWorkerArgument arg = _workerUpdateAlbumArtPile[a];
+                        var arg = _workerUpdateAlbumArtPile[a];
 
                         // Check if this album is still visible (cancel if it is out of display).                             
                         if (arg.LineIndex < _startLineNumber || arg.LineIndex > _startLineNumber + _numberOfLinesToDraw + _preloadLinesAlbumCover)
@@ -510,13 +509,10 @@ namespace MPfm.GenericControls.Controls.Songs
                     else
                         cleanUpDone = true;
                 }
-                // There must be more album art to fetch.. right?
+
+                // Continue executing pile
                 if (_workerUpdateAlbumArtPile.Count > 0)
-                {
-                    // Start background worker                
-                    SongGridViewBackgroundWorkerArgument arg = _workerUpdateAlbumArtPile[0];
-                    _workerUpdateAlbumArt.RunWorkerAsync(arg);
-                }
+                    _workerUpdateAlbumArt.RunWorkerAsync(_workerUpdateAlbumArtPile[0]);
             }
 
             // Restart timer
@@ -534,10 +530,7 @@ namespace MPfm.GenericControls.Controls.Songs
             if (e.Argument == null)
                 return;
 
-            // Cast argument
             var arg = (SongGridViewBackgroundWorkerArgument)e.Argument;
-
-            // Create result
             var result = new SongGridViewBackgroundWorkerResult();
             result.AudioFile = arg.AudioFile;
 
@@ -681,30 +674,6 @@ namespace MPfm.GenericControls.Controls.Songs
         }
 
         ///// <summary>
-        ///// Occurs when the control is resized.
-        ///// Invalidates the cache.
-        ///// </summary>
-        ///// <param name="e">Event arguments</param>
-        //protected override void OnResize(EventArgs e)
-        //{
-        //    // Bug when putting window in maximized mode: black area at the bottom
-        //    // it's because the maximum value is set later in OnPaint
-        //    // If the scrollY value is 
-        //    if (VerticalScrollBar.Maximum - VerticalScrollBar.LargeChange < VerticalScrollBar.Value)
-        //    {
-        //        // Set new scrollbar value
-        //        VerticalScrollBar.Value = VerticalScrollBar.Maximum - VerticalScrollBar.LargeChange + 1;
-        //    }
-
-        //    // Set horizontal scrollbar width and position
-        //    HorizontalScrollBar.Top = ClientRectangle.Height - HorizontalScrollBar.Height;
-
-        //    InvalidateSongCache();
-
-        //    base.OnResize(e);
-        //}
-
-        ///// <summary>
         ///// Occurs when the user clicks on one of the menu items of the Columns contextual menu.
         ///// </summary>
         ///// <param name="sender">Event sender</param>
@@ -785,43 +754,6 @@ namespace MPfm.GenericControls.Controls.Songs
             int albumCoverEndIndex = 0;
             string currentAlbumTitle = string.Empty;
             bool nowPlayingSongFound = false;
-
-            //// Make sure the embedded font name needs to be loaded and is valid
-            //if (_theme.RowTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(_theme.RowTextGradient.Font.EmbeddedFontName))
-            //{
-            //    try
-            //    {
-            //        // Get embedded fonts
-            //        fontDefault = Tools.LoadEmbeddedFont(embeddedFonts, _theme.RowTextGradient.Font.EmbeddedFontName, _theme.RowTextGradient.Font.Size, _theme.RowTextGradient.Font.ToFontStyle());
-            //        fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, _theme.RowTextGradient.Font.EmbeddedFontName, _theme.RowTextGradient.Font.Size, _theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
-            //    }
-            //    catch
-            //    {
-            //        // Use default font instead
-            //        fontDefault = this.Font;
-            //        fontDefaultBold = new Font(this.Font, FontStyle.Bold);
-            //    }
-            //}
-
-            //// Check if font is null
-            //if (fontDefault == null)
-            //{
-            //    try
-            //    {
-            //        // Try to get standard font
-            //        fontDefault = new Font(_theme.RowTextGradient.Font.StandardFontName, _theme.RowTextGradient.Font.Size, _theme.RowTextGradient.Font.ToFontStyle());
-            //        fontDefaultBold = new Font(_theme.RowTextGradient.Font.StandardFontName, _theme.RowTextGradient.Font.Size, _theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
-            //    }
-            //    catch
-            //    {
-            //        // Use default font instead
-            //        fontDefault = this.Font;
-            //        fontDefaultBold = new Font(this.Font, FontStyle.Bold);
-            //    }
-            //}
-
-            // Set string format
-            //StringFormat stringFormat = new StringFormat();
 
             // If there are no items, no need to draw this control.
             if (_items == null)
@@ -1099,8 +1031,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                         //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
 
                                         // Measure strings
-                                        //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
-                                        //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText - (int)sizeArtistName.Width, stringFormat);
                                         sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
                                         sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
@@ -1119,8 +1049,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                             //stringFormat.Trimming = StringTrimming.EllipsisWord;
 
                                             // Measure strings
-                                            //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
-                                            //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
                                             sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
                                             sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
@@ -1136,8 +1064,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                             //stringFormat.Trimming = StringTrimming.EllipsisWord;
 
                                             // Measure strings
-                                            //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, widthAvailableForText, stringFormat);
-                                            //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText, stringFormat);
                                             sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
                                             sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
@@ -1160,8 +1086,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                                 float widthRemainingForText = _columns[0].Width - _theme.Padding - heightWithPadding;
 
                                                 // Measure strings
-                                                //sizeArtistName = g.MeasureString(audioFile.ArtistName, fontDefaultBold, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
-                                                //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, new SizeF(widthRemainingForText, heightWithPadding), stringFormat);
                                                 sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
                                                 sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthRemainingForText, heightWithPadding), _theme.FontName, _theme.FontSize);
 
@@ -1211,8 +1135,6 @@ namespace MPfm.GenericControls.Controls.Songs
 
                                     // Display album cover
                                     if (imageAlbumCover != null)
-                                        //g.DrawImage(imageAlbumCover, rectAlbumCoverArt);
-                                        //context.DrawImage(rectAlbumCoverArt, imageAlbumCover);
                                         context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover);
 
                                     if (useAlbumArtOverlay)
@@ -1290,18 +1212,18 @@ namespace MPfm.GenericControls.Controls.Songs
                                     // Do nothing
                                 }
 
-                                // The last column always take the remaining width
-                                int columnWidth = column.Width;
-                                if (b == _songCache.ActiveColumns.Count - 1)
-                                {
-                                    // Calculate the remaining width
-                                    int columnsWidth = 0;
-                                    for (int c = 0; c < _songCache.ActiveColumns.Count - 1; c++)
-                                    {
-                                        columnsWidth += _songCache.ActiveColumns[c].Width;
-                                    }
-                                    //columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
-                                }
+                                //// The last column always take the remaining width
+                                //int columnWidth = column.Width;
+                                //if (b == _songCache.ActiveColumns.Count - 1)
+                                //{
+                                //    // Calculate the remaining width
+                                //    int columnsWidth = 0;
+                                //    for (int c = 0; c < _songCache.ActiveColumns.Count - 1; c++)
+                                //    {
+                                //        columnsWidth += _songCache.ActiveColumns[c].Width;
+                                //    }
+                                //    //columnWidth = (int) (Frame.Width - columnsWidth + HorizontalScrollBar.Value);
+                                //}
 
                                 // Display text
                                 rect = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, offsetY + (_theme.Padding / 2), _songCache.ActiveColumns[b].Width, _songCache.LineHeight - _theme.Padding + 2);
@@ -1316,7 +1238,6 @@ namespace MPfm.GenericControls.Controls.Songs
                             }
                         }
 
-                        // Increment offset by the column width
                         offsetX += column.Width;
                     }
                 }
@@ -1336,7 +1257,6 @@ namespace MPfm.GenericControls.Controls.Songs
             for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
             {
                 var column = _songCache.ActiveColumns[b];
-                //Console.WriteLine("SongGridViewControl - Header Col {0}", b);
                 if (column.Visible)
                 {
                     // The last column always take the remaining width
@@ -1372,9 +1292,6 @@ namespace MPfm.GenericControls.Controls.Songs
                         // Display title                
                         var rectTitle = new BasicRectangle(offsetX - HorizontalScrollBar.Value + 2, _theme.Padding / 2, column.Width, _songCache.LineHeight - _theme.Padding + 2);
                         //stringFormat.Trimming = StringTrimming.EllipsisCharacter;
-                        //brush = new SolidBrush(_theme.HeaderTextGradient.Font.Color);
-                        //brush = new BasicBrush(new BasicColor(255, 0, 255));
-                        //g.DrawString(column.Title, fontDefaultBold, brush, rectTitle, stringFormat);
                         context.DrawText(column.Title, rectTitle, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
                     }
 
@@ -1466,7 +1383,6 @@ namespace MPfm.GenericControls.Controls.Songs
                 context.DrawRectangle(rect, brush, penTransparent);
 
                 // Draw string
-                //g.DrawString(sbDebug.ToString(), fontDefault, Brushes.White, rectF, stringFormat);
                 context.DrawText(sbDebug.ToString(), rect, new BasicColor(255, 255, 255), _theme.FontName, _theme.FontSize);
             }
 
@@ -1488,7 +1404,6 @@ namespace MPfm.GenericControls.Controls.Songs
                 return;
 
             int selectedIndex = -1;
-            int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
             int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
             var startEndIndexes = GetStartIndexAndEndIndexOfSelectedRows();
 
@@ -1601,24 +1516,17 @@ namespace MPfm.GenericControls.Controls.Songs
             if (_columns == null || _songCache == null)
                 return;
 
-            // Calculate scrollbar offset Y
             int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
-
-            // Check if there's at least one item
             if (_items.Count > 0)
             {
-                // Reset mouse over item flags
                 for (int b = _startLineNumber; b < _startLineNumber + _numberOfLinesToDraw; b++)
                 {
-                    // Check if the mouse was over this item
                     if (_items[b].IsMouseOverItem)
                     {
-                        // Reset flag and invalidate region
                         _items[b].IsMouseOverItem = false;
                         OnInvalidateVisualInRect(new BasicRectangle(_columns[0].Width - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - _columns[0].Width + HorizontalScrollBar.Value, _songCache.LineHeight));
                         controlNeedsToBeUpdated = true;
 
-                        // Exit loop
                         break;
                     }
                 }
@@ -1628,21 +1536,15 @@ namespace MPfm.GenericControls.Controls.Songs
             int columnOffsetX2 = 0;
             for (int b = 0; b < _songCache.ActiveColumns.Count; b++)
             {
-                // Make sure column is visible
                 if (_songCache.ActiveColumns[b].Visible)
                 {
-                    // Was mouse over this column header?
                     if (_songCache.ActiveColumns[b].IsMouseOverColumnHeader)
                     {
-                        // Reset flag
                         _songCache.ActiveColumns[b].IsMouseOverColumnHeader = false;
-
-                        // Invalidate region
                         OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX2 - HorizontalScrollBar.Value, 0, _songCache.ActiveColumns[b].Width, _songCache.LineHeight));
                         controlNeedsToBeUpdated = true;
                     }
 
-                    // Increment offset
                     columnOffsetX2 += _songCache.ActiveColumns[b].Width;
                 }
             }
@@ -1702,7 +1604,6 @@ namespace MPfm.GenericControls.Controls.Songs
             // Check if the user is moving a column
             if (columnMoving != null)
             {
-                // Set flag
                 columnMoving.IsUserMovingColumn = false;
                 updateControl = true;
 
@@ -1722,7 +1623,6 @@ namespace MPfm.GenericControls.Controls.Songs
                         if (x >= currentX - HorizontalScrollBar.Value &&
                             x <= currentX + (currentColumn.Width/2) - HorizontalScrollBar.Value)
                         {
-                            // Check flag
                             if (isPastCurrentlyMovingColumn && currentColumn.FieldName != columnMoving.FieldName)
                                 columnOver = _songCache.ActiveColumns[a - 1];
                             else
@@ -1736,7 +1636,6 @@ namespace MPfm.GenericControls.Controls.Songs
                             // Check if there is a next item
                             if (a < _songCache.ActiveColumns.Count - 1)
                             {
-                                // Check flag
                                 if (isPastCurrentlyMovingColumn)
                                     columnOver = _songCache.ActiveColumns[a];
                                 else
@@ -1776,19 +1675,13 @@ namespace MPfm.GenericControls.Controls.Songs
                 // Remove column
                 columnsOrdered.RemoveAt(indexRemove);
 
-                // Check if the index is -1 
+                // Check if the item needs to be inserted at the end
                 if (indexAdd == -1)
-                {
-                    // Add column to the end
                     columnsOrdered.Insert(columnsOrdered.Count, columnMoving);
-                }
                 else
-                {
-                    // Add column to the new position
                     columnsOrdered.Insert(indexAdd, columnMoving);
-                }
 
-                // Loop through columns to change the order
+                // Loop through columns to change the order of columnns
                 for (int a = 0; a < columnsOrdered.Count; a++)
                     columnsOrdered[a].Order = a;
             }
@@ -1803,7 +1696,6 @@ namespace MPfm.GenericControls.Controls.Songs
 
         public void MouseClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
-            //Console.WriteLine("SongGridViewControl - MouseClick");
             if (_columns == null || _songCache == null)
                 return;
 
@@ -1876,13 +1768,10 @@ namespace MPfm.GenericControls.Controls.Songs
                                 //        menuItem.Checked = menuItemColumn.Visible;
                                 //}
 
-                                //// Display columns contextual menu
-                                //_menuColumns.Show(this, e.X, e.Y);
                                 OnDisplayContextMenu(ContextMenuType.Header, x, y);
                             }
                         }
 
-                        // Increment X offset
                         offsetX += column.Width;
                     }
                 }
@@ -1908,10 +1797,7 @@ namespace MPfm.GenericControls.Controls.Songs
                 // Make sure the mouse is over at least one item
                 var mouseOverItem = _items.FirstOrDefault(item => item.IsMouseOverItem == true);
                 if (mouseOverItem != null)
-                {
-                    // Reset selection, unless the CTRL key is held (TODO)
                     ResetSelection();
-                }
             }
 
             // Loop through visible lines to update the new selected items
@@ -1959,8 +1845,6 @@ namespace MPfm.GenericControls.Controls.Songs
 
                     // Set the last item clicked index
                     _lastItemIndexClicked = a;
-
-                    // Exit loop
                     break;
                 }
             }
@@ -1982,14 +1866,10 @@ namespace MPfm.GenericControls.Controls.Songs
         /// <param name="e">Event arguments</param>
         public void MouseDoubleClick(float x, float y, MouseButtonType button, KeysHeld keysHeld)
         {
-            Console.WriteLine("SongGridViewControl - MouseDoubleClick");
             if (_columns == null || _songCache == null)
                 return;
 
-            // Calculate album cover art width
             int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
-
-            // Calculate scrollbar offset Y
             int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
 
             // Keep original songId in case the now playing value is set before invalidating the older value
@@ -2181,7 +2061,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                 column.IsMouseOverColumnHeader = true;
                                 OnInvalidateVisualInRect(new BasicRectangle(columnOffsetX - HorizontalScrollBar.Value, 0, column.Width, _songCache.LineHeight));
 
-                                // Exit loop
                                 controlNeedsToBeUpdated = true;
                                 break;
                             }
@@ -2210,7 +2089,6 @@ namespace MPfm.GenericControls.Controls.Songs
                             _items[b].IsMouseOverItem = false;
                             //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, ((b - _startLineNumber + 1) * _songCache.LineHeight) + scrollbarOffsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
 
-                            // Exit loop
                             break;
                         }
                     }
@@ -2235,8 +2113,6 @@ namespace MPfm.GenericControls.Controls.Songs
                             // Invalidate region and update control
                             //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, offsetY, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
                             controlNeedsToBeUpdated = true;
-
-                            // Exit loop
                             break;
                         }
                     }
@@ -2263,50 +2139,6 @@ namespace MPfm.GenericControls.Controls.Songs
 
             // Get active columns and order them
             _songCache.ActiveColumns = _columns.Where(x => x.Order >= 0).OrderBy(x => x.Order).ToList();
-
-            // Load custom font
-            //Font fontDefaultBold = Tools.LoadCustomFont(FontCollection, CustomFontName, Font.Size, FontStyle.Bold);
-            //Font fontDefaultBold = null;
-
-            //// Make sure the embedded font name needs to be loaded and is valid
-            //if (_theme.RowTextGradient.Font.UseEmbeddedFont && !String.IsNullOrEmpty(_theme.RowTextGradient.Font.EmbeddedFontName))
-            //{
-            //    try
-            //    {
-            //        // Get embedded font collection
-            //        EmbeddedFontCollection embeddedFonts = EmbeddedFontHelper.GetEmbeddedFonts();
-
-            //        // Get embedded fonts                    
-            //        fontDefaultBold = Tools.LoadEmbeddedFont(embeddedFonts, _theme.RowTextGradient.Font.EmbeddedFontName, _theme.RowTextGradient.Font.Size, _theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
-            //    }
-            //    catch
-            //    {
-            //        // Use default font instead                    
-            //        fontDefaultBold = new Font(this.Font, FontStyle.Bold);
-            //    }
-            //}
-
-            //// Check if font is null
-            //if (fontDefaultBold == null)
-            //{
-            //    try
-            //    {
-            //        // Try to get standard font                    
-            //        fontDefaultBold = new Font(_theme.RowTextGradient.Font.StandardFontName, _theme.RowTextGradient.Font.Size, _theme.RowTextGradient.Font.ToFontStyle() | FontStyle.Bold);
-            //    }
-            //    catch
-            //    {
-            //        // Use default font instead                    
-            //        fontDefaultBold = new Font(this.Font, FontStyle.Bold);
-            //    }
-            //}
-
-            //// Load default fonts if custom fonts were not found
-            //if (fontDefaultBold == null)
-            //{
-            //    // Load default font
-            //    fontDefaultBold = new Font(Font.FontFamily.Name, Font.Size, FontStyle.Bold);
-            //}
 
             //// Create temporary bitmap/graphics objects to measure a string (to determine line height)
             //Bitmap bmpTemp = new Bitmap(200, 100);
@@ -2366,7 +2198,6 @@ namespace MPfm.GenericControls.Controls.Songs
             }
             else
             {
-                // Set scrollbar values
                 VerticalScrollBar.Enabled = true;
 
                 // The real large change needs to be added to the LargeChange and Maximum property in order to work. 
@@ -2461,40 +2292,39 @@ namespace MPfm.GenericControls.Controls.Songs
         {
             Item = 0, Header = 1   
         }
-    }
 
-    /// <summary>
-    /// Result data structure used for the SongGridView background worker.
-    /// </summary>
-    public class SongGridViewBackgroundWorkerResult
-    {
-        public AudioFile AudioFile { get; set; }
-        public IDisposable AlbumArt { get; set; }
-    }
+        /// <summary>
+        /// Result data structure used for the SongGridView background worker.
+        /// </summary>
+        public class SongGridViewBackgroundWorkerResult
+        {
+            public AudioFile AudioFile { get; set; }
+            public IDisposable AlbumArt { get; set; }
+        }
 
-    /// <summary>
-    /// Argument data structure used for the SongGridView background worker.
-    /// </summary>
-    public class SongGridViewBackgroundWorkerArgument
-    {
-        public AudioFile AudioFile { get; set; }
-        public int LineIndex { get; set; }        
-        public BasicRectangle RectAlbumArt { get; set; }
-    }
+        /// <summary>
+        /// Argument data structure used for the SongGridView background worker.
+        /// </summary>
+        public class SongGridViewBackgroundWorkerArgument
+        {
+            public AudioFile AudioFile { get; set; }
+            public int LineIndex { get; set; }
+            public BasicRectangle RectAlbumArt { get; set; }
+        }
 
-    /// <summary>
-    /// Data structure used for the SelectedIndexChanged event.
-    /// </summary>
-    public class SongGridViewSelectedIndexChangedData
-    {        
-    }
+        /// <summary>
+        /// Data structure used for the SelectedIndexChanged event.
+        /// </summary>
+        public class SongGridViewSelectedIndexChangedData
+        {
+        }
 
-    /// <summary>
-    /// Data structure used for the ColumnClick event.
-    /// </summary>
-    public class SongGridViewColumnClickData
-    {
-        public int ColumnIndex { get; set; }
+        /// <summary>
+        /// Data structure used for the ColumnClick event.
+        /// </summary>
+        public class SongGridViewColumnClickData
+        {
+            public int ColumnIndex { get; set; }
+        }
     }
-
 }
