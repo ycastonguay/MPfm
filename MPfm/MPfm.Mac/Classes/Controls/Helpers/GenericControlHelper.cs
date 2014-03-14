@@ -48,18 +48,34 @@ namespace MPfm.Mac.Classes.Controls.Helpers
 
         public static void MouseUp(NSView view, IControlMouseInteraction control, NSEvent theEvent)
         {
+            MouseUp(view, control, theEvent, false);
+        }
+
+        public static void MouseUp(NSView view, IControlMouseInteraction control, NSEvent theEvent, bool isRightButton)
+        {
+            var button = MouseButtonType.Right;
+            if(!isRightButton)
+                button = GetMouseButtonType(theEvent);
+
             var point = GetMouseLocation(view, theEvent);
-            var button = GetMouseButtonType(theEvent);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld(theEvent);
             //Console.WriteLine("GenericControlHelper - MouseUp - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
             control.MouseUp(point.X, point.Y, button, keysHeld);
         }    
 
         public static void MouseDown(NSView view, IControlMouseInteraction control, NSEvent theEvent)
         {
+            MouseDown(view, control, theEvent, false);
+        }
+
+        public static void MouseDown(NSView view, IControlMouseInteraction control, NSEvent theEvent, bool isRightButton)
+        {
+            var button = MouseButtonType.Right;
+            if(!isRightButton)
+                button = GetMouseButtonType(theEvent);
+
             var point = GetMouseLocation(view, theEvent);
-            var button = GetMouseButtonType(theEvent);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld(theEvent);
             //Console.WriteLine("GenericControlHelper - MouseDown - point: {0} button: {1} bounds: {2}", point, button, view.Bounds);
             control.MouseDown(point.X, point.Y, button, keysHeld);
         }    
@@ -74,9 +90,17 @@ namespace MPfm.Mac.Classes.Controls.Helpers
 
         public static void MouseClick(NSView view, IControlMouseInteraction control, NSEvent theEvent)
         {
+            MouseClick(view, control, theEvent, false);
+        }
+
+        public static void MouseClick(NSView view, IControlMouseInteraction control, NSEvent theEvent, bool isRightButton)
+        {
+            var button = MouseButtonType.Right;
+            if(!isRightButton)
+                button = GetMouseButtonType(theEvent);
+
             var point = GetMouseLocation(view, theEvent);
-            var button = GetMouseButtonType(theEvent);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld(theEvent);
             //Console.WriteLine("GenericControlHelper - MouseClick - point: {0} bounds: {1}", point, view.Bounds);
             control.MouseClick(point.X, point.Y, button, keysHeld);
         }
@@ -85,39 +109,115 @@ namespace MPfm.Mac.Classes.Controls.Helpers
         {
             var point = GetMouseLocation(view, theEvent);
             var button = GetMouseButtonType(theEvent);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld(theEvent);
             //Console.WriteLine("GenericControlHelper - MouseClick - point: {0} bounds: {1}", point, view.Bounds);
             control.MouseDoubleClick(point.X, point.Y, button, keysHeld);
         }
 
+        public static void KeyUp(IControlKeyboardInteraction control, NSEvent theEvent)
+        {
+            control.KeyUp(' ', GetSpecialKeys(theEvent), new ModifierKeys(), theEvent.IsARepeat);
+        }
+
+        public static void KeyDown(IControlKeyboardInteraction control, NSEvent theEvent)
+        {
+            control.KeyDown(' ', GetSpecialKeys(theEvent), new ModifierKeys(), theEvent.IsARepeat);
+        }
+
+        public static void ChangeMouseCursor(MouseCursorType mouseCursorType)
+        {
+            NSCursor cursor;
+            switch (mouseCursorType)
+            {
+                case MouseCursorType.Default:
+                    cursor = NSCursor.ArrowCursor;
+                    break;
+                case MouseCursorType.HSplit:
+                    cursor = NSCursor.ResizeUpDownCursor;
+                    break;
+                case MouseCursorType.VSplit:
+                    cursor = NSCursor.ResizeLeftRightCursor;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            cursor.Set();
+        }
+
         private static PointF GetMouseLocation(NSView view, NSEvent theEvent)
         {
-            // Invert point because origin Y is inversed in Cocoa
-            //var point = view.ConvertPointFromBase(theEvent.LocationInWindow);
-            // ConvertPointfromBase doesn't work in Retina
-            //var point = view.ConvertPointFromBacking(theEvent.LocationInWindow);
-            //var point = view.ConvertPointToBacking(theEvent.LocationInWindow);
-            var point = view.ConvertPointFromView(theEvent.LocationInWindow, null);
-            //return new PointF(point.X, view.Bounds.Height - point.Y);
-            return point;
+            return view.ConvertPointFromView(theEvent.LocationInWindow, null);
         }    
         
         private static MouseButtonType GetMouseButtonType(NSEvent theEvent)
         {
             var button = MouseButtonType.Left;
+
+            // On Mac, the Control key can be used for right click
+            if (theEvent.ModifierFlags == NSEventModifierMask.ControlKeyMask)
+                return MouseButtonType.Right;
+
+            //Console.WriteLine("Event type: {0}", theEvent.Type);
             switch (theEvent.Type)
             {
                 case NSEventType.LeftMouseUp:
+                case NSEventType.LeftMouseDown:
+                case NSEventType.LeftMouseDragged:
                     button = MouseButtonType.Left;
                     break;
-                case NSEventType.RightMouseUp:
-                    button = MouseButtonType.Right;
-                    break;
-                case NSEventType.OtherMouseUp:
-                    button = MouseButtonType.Middle;
-                    break;
+                    // doesn't work
+//                case NSEventType.RightMouseUp:
+//                case NSEventType.RightMouseDown:
+//                case NSEventType.RightMouseDragged:
+//                    button = MouseButtonType.Right;
+//                    break;
+//                case NSEventType.OtherMouseUp:
+//                case NSEventType.OtherMouseDown:
+//                case NSEventType.OtherMouseDragged:
+//                    button = MouseButtonType.Middle;
+//                    break;
             }
             return button;
         }    
+
+        private static KeysHeld GetKeysHeld(NSEvent theEvent)
+        {
+            var keysHeld = new KeysHeld();
+            keysHeld.IsShiftKeyHeld = (theEvent.ModifierFlags & NSEventModifierMask.ShiftKeyMask) != 0;
+            keysHeld.IsAltKeyHeld = (theEvent.ModifierFlags & NSEventModifierMask.CommandKeyMask) != 0;
+            keysHeld.IsCtrlKeyHeld = (theEvent.ModifierFlags & NSEventModifierMask.ControlKeyMask) != 0;
+            return keysHeld;
+        }
+
+        private static SpecialKeys GetSpecialKeys(NSEvent theEvent)
+        {
+            string chars = theEvent.CharactersIgnoringModifiers;
+            if (chars.Length == 0)
+                return SpecialKeys.None;
+
+            char key = chars[0];
+            if (key == (char)NSKey.Return || key == (byte)NSKey.KeypadEnter || key == 13)
+                return SpecialKeys.Enter;
+            else if (key == (char)NSKey.UpArrow)
+                return SpecialKeys.Up;
+            else if (key == (char)NSKey.DownArrow)
+                return SpecialKeys.Down;
+            else if (key == (char)NSKey.LeftArrow)
+                return SpecialKeys.Left;
+            else if (key == (char)NSKey.RightArrow)
+                return SpecialKeys.Right;
+            else if (key == (char)NSKey.PageUp)
+                return SpecialKeys.PageUp;
+            else if (key == (char)NSKey.PageDown)
+                return SpecialKeys.PageDown;
+            else if (key == (char)NSKey.Home)
+                return SpecialKeys.Home;
+            else if (key == (char)NSKey.End)
+                return SpecialKeys.End;
+            else if (key == (char)NSKey.Space)
+                return SpecialKeys.Space;
+
+            return SpecialKeys.None;
+        }
     }
 }
