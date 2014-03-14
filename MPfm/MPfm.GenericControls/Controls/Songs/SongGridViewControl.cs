@@ -958,9 +958,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
                                 int heightWithPadding = albumCoverZoneHeight - (_theme.Padding * 2);
                                 if (heightWithPadding > _songCache.ActiveColumns[0].Width - (_theme.Padding * 2))
-                                {
                                     heightWithPadding = _songCache.ActiveColumns[0].Width - (_theme.Padding * 2);
-                                }
 
                                 // Make sure the height is at least zero (not necessary to draw anything!)
                                 if (albumCoverZoneHeight > 0)
@@ -999,27 +997,34 @@ namespace MPfm.GenericControls.Controls.Songs
                                     // Album art not found in cache; try to find an album cover in one of the file
                                     if (cachedImage == null)
                                     {
-                                        // Check if the album cover is already in the pile
-                                        bool albumCoverFound = false;
-                                        foreach (var arg in _workerUpdateAlbumArtPile)
+                                        try
                                         {
-                                            // Match by file path
-                                            if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
+                                            // Check if the album cover is already in the pile
+                                            bool albumCoverFound = false;
+                                            foreach (var arg in _workerUpdateAlbumArtPile)
                                             {
-                                                // We found the album cover
-                                                albumCoverFound = true;
+                                                // Match by file path
+                                                if (arg.AudioFile.FilePath.ToUpper() == audioFile.FilePath.ToUpper())
+                                                {
+                                                    // We found the album cover
+                                                    albumCoverFound = true;
+                                                }
+                                            }
+
+                                            // Add to the pile only if the album cover isn't already in it
+                                            if (!albumCoverFound)
+                                            {
+                                                // Add item to update album art worker pile
+                                                var arg = new SongGridViewBackgroundWorkerArgument();
+                                                arg.AudioFile = audioFile;
+                                                arg.LineIndex = a;
+                                                arg.RectAlbumArt = new BasicRectangle(0, 0, heightWithPadding, heightWithPadding);
+                                                _workerUpdateAlbumArtPile.Add(arg);
                                             }
                                         }
-
-                                        // Add to the pile only if the album cover isn't already in it
-                                        if (!albumCoverFound)
+                                        catch(Exception ex)
                                         {
-                                            // Add item to update album art worker pile
-                                            var arg = new SongGridViewBackgroundWorkerArgument();
-                                            arg.AudioFile = audioFile;
-                                            arg.LineIndex = a;
-                                            arg.RectAlbumArt = new BasicRectangle(0, 0, heightWithPadding, heightWithPadding);
-                                            _workerUpdateAlbumArtPile.Add(arg);
+                                            Console.WriteLine("SongGridViewConrol - Failed to load cache image: {0}" , ex);
                                         }
                                     }
 
@@ -1140,8 +1145,8 @@ namespace MPfm.GenericControls.Controls.Songs
                                     if (useAlbumArtOverlay)
                                     {
                                         // Draw artist name and album title background
-                                        var rectArtistNameBackground = new BasicRectangle(rectArtistNameText.X - (_theme.Padding / 2), rectArtistNameText.Y - (_theme.Padding / 2), sizeArtistName.Width + _theme.Padding, sizeArtistName.Height + _theme.Padding);
-                                        var rectAlbumTitleBackground = new BasicRectangle(rectAlbumTitleText.X - (_theme.Padding / 2), rectAlbumTitleText.Y - (_theme.Padding / 2), sizeAlbumTitle.Width + _theme.Padding, sizeAlbumTitle.Height + _theme.Padding);
+                                        var rectArtistNameBackground = new BasicRectangle(rectArtistNameText.X - (_theme.Padding / 2), rectArtistNameText.Y - (_theme.Padding / 4), sizeArtistName.Width + _theme.Padding, sizeArtistName.Height + (_theme.Padding / 4));
+                                        var rectAlbumTitleBackground = new BasicRectangle(rectAlbumTitleText.X - (_theme.Padding / 2), rectAlbumTitleText.Y - (_theme.Padding / 4), sizeAlbumTitle.Width + _theme.Padding, sizeAlbumTitle.Height + (_theme.Padding / 4));
                                         var brushTextBackground = new BasicBrush(new BasicColor(0, 0, 0, 190));
                                         context.DrawRectangle(rectArtistNameBackground, brushTextBackground, penTransparent);
                                         context.DrawRectangle(rectAlbumTitleBackground, brushTextBackground, penTransparent);
