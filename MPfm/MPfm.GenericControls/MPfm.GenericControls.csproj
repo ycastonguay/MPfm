@@ -51,6 +51,7 @@
     <Compile Include="Basics\BasicPoint.cs" />
     <Compile Include="Basics\BasicGradientBrush.cs" />
     <Compile Include="Graphics\IDisposableImageFactory.cs" />
+    <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
     <Compile Include="Controls\Songs\SongGridViewControl.cs" />
@@ -62,7 +63,9 @@
     <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
     <Compile Include="Controls\TrackBarControl.cs" />
     <Compile Include="Controls\WaveFormControl.cs" />
-    <Compile Include="Controls\WaveFormScaleControl.cs" />
+    <Compile Include="Controls\WaveFormScaleControl.cs">
+      <DependentUpon>WaveFormControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FaderControl.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Controls\OutputMeterControl.cs" />

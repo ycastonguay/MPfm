@@ -25,6 +25,7 @@ using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Interaction;
 using MPfm.WindowsControls;
+using Cursors = System.Windows.Input.Cursors;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace MPfm.WPF.Classes.Controls.Helpers
@@ -75,7 +76,7 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseDown(MouseButtonEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             element.CaptureMouse();
@@ -96,7 +97,7 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseUp(MouseButtonEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             element.ReleaseMouseCapture();
@@ -132,21 +133,21 @@ namespace MPfm.WPF.Classes.Controls.Helpers
         public static void MouseClick(MouseEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
-            if (e.LeftButton == MouseButtonState.Released)
+            if (e.LeftButton == MouseButtonState.Pressed)
                 control.MouseClick(x, y, MouseButtonType.Left, keysHeld);
-            else if (e.MiddleButton == MouseButtonState.Released)
+            else if (e.MiddleButton == MouseButtonState.Pressed)
                 control.MouseClick(x, y, MouseButtonType.Middle, keysHeld);
-            else if (e.RightButton == MouseButtonState.Released)
+            else if (e.RightButton == MouseButtonState.Pressed)
                 control.MouseClick(x, y, MouseButtonType.Right, keysHeld);
         }
 
         public static void MouseDoubleClick(MouseEventArgs e, UIElement element, IControlMouseInteraction control)
         {
             var location = e.GetPosition(element);
-            var keysHeld = new KeysHeld();
+            var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
             if (e.LeftButton == MouseButtonState.Released)
@@ -155,6 +156,64 @@ namespace MPfm.WPF.Classes.Controls.Helpers
                 control.MouseDoubleClick(x, y, MouseButtonType.Middle, keysHeld);
             else if (e.RightButton == MouseButtonState.Released)
                 control.MouseDoubleClick(x, y, MouseButtonType.Right, keysHeld);
+        }
+
+        public static KeysHeld GetKeysHeld()
+        {
+            var keysHeld = new KeysHeld();
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                keysHeld.IsShiftKeyHeld = true;
+            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt))
+                keysHeld.IsAltKeyHeld = true;
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                keysHeld.IsCtrlKeyHeld = true;
+            return keysHeld;
+        }
+
+        public static void ChangeMouseCursor(MouseCursorType mouseCursorType)
+        {
+            switch (mouseCursorType)
+            {
+                case MouseCursorType.Default:
+                    Mouse.OverrideCursor = null; // Return to default
+                    break;
+                case MouseCursorType.HSplit:
+                    // TODO: Change cursor to real HSplit, not available in WPF but in Windows Forms (!?)
+                    Mouse.OverrideCursor = Cursors.SizeNS;
+                    break;
+                case MouseCursorType.VSplit:
+                    Mouse.OverrideCursor = Cursors.SizeWE;
+                    break;
+            }
+        }
+
+        public static SpecialKeys GetSpecialKeys(Key key)
+        {
+            switch (key)
+            {
+                case Key.Enter:
+                    return SpecialKeys.Enter;
+                case Key.Space:
+                    return SpecialKeys.Space;
+                case Key.Up:
+                    return SpecialKeys.Up;
+                case Key.Down:
+                    return SpecialKeys.Down;
+                case Key.Left:
+                    return SpecialKeys.Left;
+                case Key.Right:
+                    return SpecialKeys.Right;
+                case Key.PageUp:
+                    return SpecialKeys.PageUp;
+                case Key.PageDown:
+                    return SpecialKeys.PageDown;
+                case Key.Home:
+                    return SpecialKeys.Home;
+                case Key.End:
+                    return SpecialKeys.End;
+            }
+
+            return SpecialKeys.None;
         }
     }
 }

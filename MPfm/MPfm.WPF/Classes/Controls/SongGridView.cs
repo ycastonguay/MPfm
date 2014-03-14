@@ -17,17 +17,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using MPfm.GenericControls.Controls.Songs;
 using MPfm.GenericControls.Graphics;
+using MPfm.GenericControls.Interaction;
 using MPfm.MVP.Bootstrap;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
 using MPfm.WPF.Classes.Controls.Helpers;
+using ModifierKeys = MPfm.GenericControls.Interaction.ModifierKeys;
 
 namespace MPfm.WPF.Classes.Controls
 {
@@ -36,6 +40,9 @@ namespace MPfm.WPF.Classes.Controls
         private SongGridViewControl _control;
         private HorizontalScrollBarWrapper _horizontalScrollBar;
         private VerticalScrollBarWrapper _verticalScrollBar;
+
+        private ContextMenu _contextMenuItems;
+        private ContextMenu _contextMenuHeader;
 
         public event EventHandler DoubleClick;
  
@@ -46,6 +53,7 @@ namespace MPfm.WPF.Classes.Controls
             : base()
         {
             DoubleClick += (sender, e) => { };
+            Focusable = true;
 
             // Add dummy control so the scrollbar can be placed on the right
             var dummy = new Control();
@@ -54,17 +62,17 @@ namespace MPfm.WPF.Classes.Controls
 
             // Create wrappers for scrollbars so the generic control can interact with them
             _verticalScrollBar = new VerticalScrollBarWrapper();
-            _verticalScrollBar.Width = 20;
+            _verticalScrollBar.Width = 16;
             _verticalScrollBar.Height = Double.NaN;
             _verticalScrollBar.Minimum = 1;
             _verticalScrollBar.Maximum = 100;
-            _verticalScrollBar.Margin = new Thickness(0, 0, 0, 20);
+            _verticalScrollBar.Margin = new Thickness(0, 20, 0, 20);
             DockPanel.SetDock(_verticalScrollBar, Dock.Right);
             Children.Add(_verticalScrollBar);
 
             _horizontalScrollBar = new HorizontalScrollBarWrapper();
             _horizontalScrollBar.Width = Double.NaN;
-            _horizontalScrollBar.Height = 20;
+            _horizontalScrollBar.Height = 16;
             _horizontalScrollBar.Minimum = 1;
             _horizontalScrollBar.Maximum = 100;
             _horizontalScrollBar.VerticalAlignment = VerticalAlignment.Bottom;                
@@ -73,13 +81,75 @@ namespace MPfm.WPF.Classes.Controls
 
             var disposableImageFactory = Bootstrapper.GetContainer().Resolve<IDisposableImageFactory>();
             _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
-            _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
+            _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
+            _control.OnItemDoubleClick += (id, index) => DoubleClick(this, new EventArgs());
+            _control.OnDisplayContextMenu += (type, x, y) => 
+            {            
+                // Create contextual menu
+                //_menuColumns = new System.Windows.Forms.ContextMenuStrip();
+
+                //// Loop through columns
+                //foreach (SongGridViewColumn column in _columns)
+                //{
+                //    // Add menu item                               
+                //    ToolStripMenuItem menuItem = (ToolStripMenuItem)_menuColumns.Items.Add(column.Title);
+                //    menuItem.Tag = column.Title;
+                //    menuItem.Checked = column.Visible;
+                //    menuItem.Click += new EventHandler(menuItemColumns_Click);
+                //}
+
+                switch (type)
+                {
+                    case SongGridViewControl.ContextMenuType.Item:
+                        _contextMenuItems.Placement = PlacementMode.MousePoint;
+                        _contextMenuItems.PlacementTarget = this;
+                        _contextMenuItems.Visibility = Visibility.Visible;
+                        _contextMenuItems.IsOpen = true;
+                        break;
+                    case SongGridViewControl.ContextMenuType.Header:
+                        _contextMenuHeader.Placement = PlacementMode.MousePoint;
+                        _contextMenuHeader.PlacementTarget = this;
+                        _contextMenuHeader.Visibility = Visibility.Visible;
+                        _contextMenuHeader.IsOpen = true;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("type");
+                }
+            };
+            _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                //Console.WriteLine("SongGridView - OnInvalidateVisual");
+                InvalidateVisual();
+            }));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
+                //Console.WriteLine("SongGridView - OnInvalidateVisualInRect");
                 InvalidateVisual();
                 // TODO: It seems you can't invalidate a specific rect in WPF? What?
                 // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
             }));
+
+            // Create context menu at the end to add columns from control
+            CreateContextMenus();
+        }
+
+        private void CreateContextMenus()
+        {
+            _contextMenuItems = new ContextMenu();
+            var menuItemAddToPlaylist = new MenuItem();
+            menuItemAddToPlaylist.Header = "Add to playlist";
+            _contextMenuItems.Items.Add(menuItemAddToPlaylist);
+            var menuItemPlaySong = new MenuItem();
+            menuItemPlaySong.Header = "Play song(s)";
+            _contextMenuItems.Items.Add(menuItemPlaySong);
+
+            _contextMenuHeader = new ContextMenu();
+            foreach (var column in _control.Columns)
+            {
+                var menuItem = new MenuItem();
+                menuItem.Header = column.FieldName;
+                _contextMenuHeader.Items.Add(menuItem);
+            }
         }
 
         public void ImportAudioFiles(List<AudioFile> audioFiles)
@@ -99,24 +169,18 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            //Console.WriteLine("SongGridView - OnMouseDown - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseDown(e, this, _control);
             if (e.ClickCount == 1)
-            {
                 GenericControlHelper.MouseClick(e, this, _control);
-            }
             else if (e.ClickCount == 2)
-            {
                 GenericControlHelper.MouseDoubleClick(e, this, _control);
-                DoubleClick(this, new EventArgs());
-            }
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
-            //Console.WriteLine("SongGridView - OnMouseUp - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseUp(e, this, _control);
+            Focus();
             base.OnMouseUp(e);
         }
 
@@ -145,6 +209,21 @@ namespace MPfm.WPF.Classes.Controls
             else if(e.Delta < 0)
                 _control.MouseWheel(-2);
             base.OnMouseWheel(e);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            char key = (char) KeyInterop.VirtualKeyFromKey(e.Key);
+            _control.KeyDown(key, GenericControlHelper.GetSpecialKeys(e.Key), ModifierKeys.None, e.IsRepeat);
+            e.Handled = true;
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            char key = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+            _control.KeyUp(key, GenericControlHelper.GetSpecialKeys(e.Key), ModifierKeys.None, e.IsRepeat);
+            base.OnKeyUp(e);
         }
     }
 }
