@@ -213,6 +213,7 @@ namespace MPfm.WPF.Classes.Windows
             if (gridViewSongsNew.SelectedItems.Count == 0)
                 return;
 
+            Console.WriteLine("GridViewSongsNewOnDoubleClick");
             OnTableRowDoubleClicked(gridViewSongsNew.SelectedItems[0].AudioFile);
         }
 

@@ -112,19 +112,11 @@ namespace MPfm.WPF.Classes.Controls
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            //Console.WriteLine("SongGridView - OnMouseDown - ClickCount: {0}", e.ClickCount);
             GenericControlHelper.MouseDown(e, this, _control);
             if (e.ClickCount == 1)
-            {
                 GenericControlHelper.MouseClick(e, this, _control);
-            }
             else if (e.ClickCount == 2)
-            {
                 GenericControlHelper.MouseDoubleClick(e, this, _control);
-                DoubleClick(this, new EventArgs());
-            }
-
-            //Keyboard.Focus(this);
             base.OnMouseDown(e);
         }
 
