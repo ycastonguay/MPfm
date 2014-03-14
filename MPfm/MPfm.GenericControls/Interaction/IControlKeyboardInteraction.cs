@@ -30,6 +30,6 @@ namespace MPfm.GenericControls.Interaction
 
     public enum SpecialKeys
     {
-        None = 0, Enter = 1, Space = 2, Down = 3, Up = 4, Left = 5, Right = 6
+        None = 0, Enter = 1, Space = 2, Down = 3, Up = 4, Left = 5, Right = 6, PageUp = 7, PageDown = 8
     }
 }

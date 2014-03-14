@@ -163,22 +163,20 @@ namespace MPfm.WPF.Classes.Controls.Helpers
             {
                 case Key.Enter:
                     return SpecialKeys.Enter;
-                    break;
                 case Key.Space:
                     return SpecialKeys.Space;
-                    break;
                 case Key.Up:
                     return SpecialKeys.Up;
-                    break;
                 case Key.Down:
                     return SpecialKeys.Down;
-                    break;
                 case Key.Left:
                     return SpecialKeys.Left;
-                    break;
                 case Key.Right:
                     return SpecialKeys.Right;
-                    break;
+                case Key.PageUp:
+                    return SpecialKeys.PageUp;
+                case Key.PageDown:
+                    return SpecialKeys.PageDown;
             }
 
             return SpecialKeys.None;

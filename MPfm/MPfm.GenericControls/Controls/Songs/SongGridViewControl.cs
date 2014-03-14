@@ -1521,56 +1521,76 @@ namespace MPfm.GenericControls.Controls.Songs
             int scrollbarOffsetY = (_startLineNumber * _songCache.LineHeight) - VerticalScrollBar.Value;
             var startEndIndexes = GetStartIndexAndEndIndexOfSelectedRows();
 
-            if (specialKeys == SpecialKeys.Down || specialKeys == SpecialKeys.Up)
-            {
-                if (specialKeys == SpecialKeys.Down)
-                {
-                    if (startEndIndexes.Item1 < _items.Count - 1)
-                        selectedIndex = startEndIndexes.Item1 + 1;
-                }
-                else if (specialKeys == SpecialKeys.Up)
-                {
-                    if (startEndIndexes.Item1 > 0)
-                        selectedIndex = startEndIndexes.Item1 - 1;
-                }
-
-                if (selectedIndex == -1)
-                    return;
-
-                ResetSelection();
-                _items[selectedIndex].IsSelected = true;
-            }
-            else if (specialKeys == SpecialKeys.Enter)
+            if (specialKeys == SpecialKeys.Enter)
             {
                 OnItemDoubleClick(_items[startEndIndexes.Item1].AudioFile.Id, startEndIndexes.Item1);
                 selectedIndex = startEndIndexes.Item1;
+                return;
             }
+
+            switch (specialKeys)
+            {
+                case SpecialKeys.Down:
+                    if (startEndIndexes.Item1 < _items.Count - 1)
+                        selectedIndex = startEndIndexes.Item1 + 1;
+                    break;
+                case SpecialKeys.Up:
+                    if (startEndIndexes.Item1 > 0)
+                        selectedIndex = startEndIndexes.Item1 - 1;
+                    break;
+                case SpecialKeys.PageDown:
+                    selectedIndex = startEndIndexes.Item1 + _songCache.NumberOfLinesFittingInControl - 2; // 2 is header + scrollbar height
+                    if (selectedIndex > _items.Count - 1)
+                        selectedIndex = _items.Count - 1;
+                    break;
+                case SpecialKeys.PageUp:
+                    selectedIndex = startEndIndexes.Item1 - _songCache.NumberOfLinesFittingInControl + 2; 
+                    if (selectedIndex < 0)
+                        selectedIndex = 0;
+                    break;
+            }
+
+            if (selectedIndex == -1)
+                return;
+
+            ResetSelection();
+            _items[selectedIndex].IsSelected = true;
 
             // Check if new selection is out of bounds of visible area
             float y = ((selectedIndex - _startLineNumber + 1)*_songCache.LineHeight) + scrollbarOffsetY;
             //Console.WriteLine("SongGridViewControl - KeyDown - y: {0} scrollbarOffsetY: {1} VerticalScrollBar.Value: {2}", y, scrollbarOffsetY, VerticalScrollBar.Value);
 
-            // Check if the newly selected item is out of bounds (bottom)
-            if (specialKeys == SpecialKeys.Down && y > Frame.Height - HorizontalScrollBar.Height - _songCache.LineHeight)
+            int newVerticalScrollBarValue = VerticalScrollBar.Value;
+            if (specialKeys == SpecialKeys.Down && 
+                y > Frame.Height - HorizontalScrollBar.Height - _songCache.LineHeight) // Check for out of bounds
             {
-                int newVerticalScrollBarValue = VerticalScrollBar.Value + _songCache.LineHeight;
-                if (newVerticalScrollBarValue > VerticalScrollBar.Maximum)
-                    newVerticalScrollBarValue = VerticalScrollBar.Maximum;
-
-                VerticalScrollBar.Value = newVerticalScrollBarValue;
+                newVerticalScrollBarValue = VerticalScrollBar.Value + _songCache.LineHeight;
             }
-            // Is it out of bounds (top)?
             else if (specialKeys == SpecialKeys.Up && y < _songCache.LineHeight)
             {
-                int newVerticalScrollBarValue = VerticalScrollBar.Value - _songCache.LineHeight;
-                if (newVerticalScrollBarValue < 0)
-                    newVerticalScrollBarValue = 0;
-
-                VerticalScrollBar.Value = newVerticalScrollBarValue;
+                newVerticalScrollBarValue = VerticalScrollBar.Value - _songCache.LineHeight;
+            }
+            else if (specialKeys == SpecialKeys.PageDown)
+            {
+                int heightToScrollDown = ((startEndIndexes.Item1 - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
+                newVerticalScrollBarValue = VerticalScrollBar.Value + heightToScrollDown;
+            }
+            else if (specialKeys == SpecialKeys.PageUp)
+            {
+                int heightToScrollUp = ((_startLineNumber + _songCache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * _songCache.LineHeight) - scrollbarOffsetY;
+                newVerticalScrollBarValue = VerticalScrollBar.Value - heightToScrollUp;
             }
 
+            // Make sure we don't scroll out of bounds
+            if (newVerticalScrollBarValue > VerticalScrollBar.Maximum)
+                newVerticalScrollBarValue = VerticalScrollBar.Maximum;
+            if (newVerticalScrollBarValue < 0)
+                newVerticalScrollBarValue = 0;
+            VerticalScrollBar.Value = newVerticalScrollBarValue;
+
             // Is this necessary when scrolling the whole area? it will refresh all anyway
-            OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, y, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+            //OnInvalidateVisualInRect(new BasicRectangle(albumArtCoverWidth - HorizontalScrollBar.Value, y, Frame.Width - albumArtCoverWidth + HorizontalScrollBar.Value, _songCache.LineHeight));
+            OnInvalidateVisual();
         }
 
         public void KeyUp(char key, SpecialKeys specialKeys, ModifierKeys modifierKeys, bool isRepeat)
