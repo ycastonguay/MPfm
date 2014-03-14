@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -40,6 +41,9 @@ namespace MPfm.WPF.Classes.Controls
         private HorizontalScrollBarWrapper _horizontalScrollBar;
         private VerticalScrollBarWrapper _verticalScrollBar;
 
+        private ContextMenu _contextMenuItems;
+        private ContextMenu _contextMenuHeader;
+
         public event EventHandler DoubleClick;
  
         public List<SongGridViewItem> SelectedItems { get { return _control.SelectedItems; } }
@@ -58,17 +62,17 @@ namespace MPfm.WPF.Classes.Controls
 
             // Create wrappers for scrollbars so the generic control can interact with them
             _verticalScrollBar = new VerticalScrollBarWrapper();
-            _verticalScrollBar.Width = 20;
+            _verticalScrollBar.Width = 16;
             _verticalScrollBar.Height = Double.NaN;
             _verticalScrollBar.Minimum = 1;
             _verticalScrollBar.Maximum = 100;
-            _verticalScrollBar.Margin = new Thickness(0, 0, 0, 20);
+            _verticalScrollBar.Margin = new Thickness(0, 20, 0, 20);
             DockPanel.SetDock(_verticalScrollBar, Dock.Right);
             Children.Add(_verticalScrollBar);
 
             _horizontalScrollBar = new HorizontalScrollBarWrapper();
             _horizontalScrollBar.Width = Double.NaN;
-            _horizontalScrollBar.Height = 20;
+            _horizontalScrollBar.Height = 16;
             _horizontalScrollBar.Minimum = 1;
             _horizontalScrollBar.Maximum = 100;
             _horizontalScrollBar.VerticalAlignment = VerticalAlignment.Bottom;                
@@ -79,6 +83,39 @@ namespace MPfm.WPF.Classes.Controls
             _control = new SongGridViewControl(_horizontalScrollBar, _verticalScrollBar, disposableImageFactory);
             _control.OnChangeMouseCursorType += GenericControlHelper.ChangeMouseCursor;
             _control.OnItemDoubleClick += (id, index) => DoubleClick(this, new EventArgs());
+            _control.OnDisplayContextMenu += (type, x, y) => 
+            {            
+                // Create contextual menu
+                //_menuColumns = new System.Windows.Forms.ContextMenuStrip();
+
+                //// Loop through columns
+                //foreach (SongGridViewColumn column in _columns)
+                //{
+                //    // Add menu item                               
+                //    ToolStripMenuItem menuItem = (ToolStripMenuItem)_menuColumns.Items.Add(column.Title);
+                //    menuItem.Tag = column.Title;
+                //    menuItem.Checked = column.Visible;
+                //    menuItem.Click += new EventHandler(menuItemColumns_Click);
+                //}
+
+                switch (type)
+                {
+                    case SongGridViewControl.ContextMenuType.Item:
+                        _contextMenuItems.Placement = PlacementMode.MousePoint;
+                        _contextMenuItems.PlacementTarget = this;
+                        _contextMenuItems.Visibility = Visibility.Visible;
+                        _contextMenuItems.IsOpen = true;
+                        break;
+                    case SongGridViewControl.ContextMenuType.Header:
+                        _contextMenuHeader.Placement = PlacementMode.MousePoint;
+                        _contextMenuHeader.PlacementTarget = this;
+                        _contextMenuHeader.Visibility = Visibility.Visible;
+                        _contextMenuHeader.IsOpen = true;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("type");
+                }
+            };
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 //Console.WriteLine("SongGridView - OnInvalidateVisual");
@@ -91,6 +128,28 @@ namespace MPfm.WPF.Classes.Controls
                 // TODO: It seems you can't invalidate a specific rect in WPF? What?
                 // http://stackoverflow.com/questions/2576599/possible-to-invalidatevisual-on-a-given-region-instead-of-entire-wpf-control                                                                                                                       
             }));
+
+            // Create context menu at the end to add columns from control
+            CreateContextMenus();
+        }
+
+        private void CreateContextMenus()
+        {
+            _contextMenuItems = new ContextMenu();
+            var menuItemAddToPlaylist = new MenuItem();
+            menuItemAddToPlaylist.Header = "Add to playlist";
+            _contextMenuItems.Items.Add(menuItemAddToPlaylist);
+            var menuItemPlaySong = new MenuItem();
+            menuItemPlaySong.Header = "Play song(s)";
+            _contextMenuItems.Items.Add(menuItemPlaySong);
+
+            _contextMenuHeader = new ContextMenu();
+            foreach (var column in _control.Columns)
+            {
+                var menuItem = new MenuItem();
+                menuItem.Header = column.FieldName;
+                _contextMenuHeader.Items.Add(menuItem);
+            }
         }
 
         public void ImportAudioFiles(List<AudioFile> audioFiles)

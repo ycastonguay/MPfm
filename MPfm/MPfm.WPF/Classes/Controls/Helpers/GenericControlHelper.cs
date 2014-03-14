@@ -136,11 +136,11 @@ namespace MPfm.WPF.Classes.Controls.Helpers
             var keysHeld = GetKeysHeld();
             float x = (float)location.X;
             float y = (float)location.Y;
-            if (e.LeftButton == MouseButtonState.Released)
+            if (e.LeftButton == MouseButtonState.Pressed)
                 control.MouseClick(x, y, MouseButtonType.Left, keysHeld);
-            else if (e.MiddleButton == MouseButtonState.Released)
+            else if (e.MiddleButton == MouseButtonState.Pressed)
                 control.MouseClick(x, y, MouseButtonType.Middle, keysHeld);
-            else if (e.RightButton == MouseButtonState.Released)
+            else if (e.RightButton == MouseButtonState.Pressed)
                 control.MouseClick(x, y, MouseButtonType.Right, keysHeld);
         }
 

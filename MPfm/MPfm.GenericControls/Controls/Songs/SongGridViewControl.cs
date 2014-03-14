@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Timers;
+using MPfm.Core;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Interaction;
@@ -42,12 +43,10 @@ namespace MPfm.GenericControls.Controls.Songs
         private IDisposableImageFactory _disposableImageFactory;
         private SongGridViewMode _mode = SongGridViewMode.AudioFile;
 
-        // Controls
+        // Control wrappers
         public IHorizontalScrollBarWrapper HorizontalScrollBar { get; private set; }
         public IVerticalScrollBarWrapper VerticalScrollBar { get; private set; }
-        //private ContextMenuStrip _menuColumns = null;
 
-        // Background worker for updating album art
         private int _preloadLinesAlbumCover = 20;
         private BackgroundWorker _workerUpdateAlbumArt = null;
         private List<SongGridViewBackgroundWorkerArgument> _workerUpdateAlbumArtPile = null;
@@ -75,6 +74,7 @@ namespace MPfm.GenericControls.Controls.Songs
         public delegate void ColumnClick(SongGridViewColumnClickData data);
         public delegate void ItemDoubleClick(Guid audioFileId, int index);
         public delegate void ChangeMouseCursorType(MouseCursorType mouseCursorType);
+        public delegate void DisplayContextMenu(ContextMenuType contextMenuType, float x, float y);
 
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
@@ -82,6 +82,7 @@ namespace MPfm.GenericControls.Controls.Songs
         public event ColumnClick OnColumnClick;
         public event ItemDoubleClick OnItemDoubleClick;
         public event ChangeMouseCursorType OnChangeMouseCursorType;
+        public event DisplayContextMenu OnDisplayContextMenu;
 
         #region Properties
         
@@ -179,24 +180,6 @@ namespace MPfm.GenericControls.Controls.Songs
                 _nowPlayingPlaylistItemId = value;
             }
         }
-
-        //private ContextMenuStrip contextMenuStrip = null;
-        ///// <summary>
-        ///// ContextMenuStrip related to the grid. This context menu
-        ///// opens when the user right clicks an item.
-        ///// </summary>
-        //[Category("Misc"), Browsable(true), Description("Stuff.")]
-        //public override ContextMenuStrip ContextMenuStrip
-        //{
-        //    get
-        //    {
-        //        return contextMenuStrip;
-        //    }
-        //    set
-        //    {
-        //        contextMenuStrip = value;
-        //    }
-        //}
 
         #endregion
 
@@ -393,6 +376,7 @@ namespace MPfm.GenericControls.Controls.Songs
             OnColumnClick += data => { };
             OnItemDoubleClick += (id, index) => { };
             OnChangeMouseCursorType += type => { };
+            OnDisplayContextMenu += (type, f, f1) => { };
             
             Frame = new BasicRectangle();
             _theme = new SongGridViewTheme();
@@ -421,23 +405,23 @@ namespace MPfm.GenericControls.Controls.Songs
             _timerUpdateAlbumArt.Enabled = true;
 
             // Create columns
-            SongGridViewColumn columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
-            SongGridViewColumn columnSongNowPlaying = new SongGridViewColumn("Now Playing", string.Empty, true, 1);
-            SongGridViewColumn columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
-            SongGridViewColumn columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 3);
-            SongGridViewColumn columnSongTrackCount = new SongGridViewColumn("Track Count", "TrackCount", false, 4);
-            SongGridViewColumn columnSongFilePath = new SongGridViewColumn("File Path", "FilePath", false, 5);
-            SongGridViewColumn columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 6);
-            SongGridViewColumn columnSongLength = new SongGridViewColumn("Length", "Length", true, 7);
-            SongGridViewColumn columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 8);
-            SongGridViewColumn columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 9);
-            SongGridViewColumn columnSongGenre = new SongGridViewColumn("Genre", "Genre", false, 10);
-            SongGridViewColumn columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 11);
-            SongGridViewColumn columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 12);
-            SongGridViewColumn columnSongBitrate = new SongGridViewColumn("Bitrate", "Bitrate", false, 13);
-            SongGridViewColumn columnSongSampleRate = new SongGridViewColumn("Sample Rate", "SampleRate", false, 14);
-            SongGridViewColumn columnSongTempo = new SongGridViewColumn("Tempo", "Tempo", false, 15);
-            SongGridViewColumn columnSongYear = new SongGridViewColumn("Year", "Year", false, 16);
+            var columnSongAlbumCover = new SongGridViewColumn("Album Cover", string.Empty, true, 0);
+            var columnSongNowPlaying = new SongGridViewColumn("Now Playing", string.Empty, true, 1);
+            var columnSongFileType = new SongGridViewColumn("Type", "FileType", false, 2);
+            var columnSongTrackNumber = new SongGridViewColumn("Tr#", "DiscTrackNumber", true, 3);
+            var columnSongTrackCount = new SongGridViewColumn("Track Count", "TrackCount", false, 4);
+            var columnSongFilePath = new SongGridViewColumn("File Path", "FilePath", false, 5);
+            var columnSongTitle = new SongGridViewColumn("Song Title", "Title", true, 6);
+            var columnSongLength = new SongGridViewColumn("Length", "Length", true, 7);
+            var columnSongArtistName = new SongGridViewColumn("Artist Name", "ArtistName", true, 8);
+            var columnSongAlbumTitle = new SongGridViewColumn("Album Title", "AlbumTitle", true, 9);
+            var columnSongGenre = new SongGridViewColumn("Genre", "Genre", false, 10);
+            var columnSongPlayCount = new SongGridViewColumn("Play Count", "PlayCount", true, 11);
+            var columnSongLastPlayed = new SongGridViewColumn("Last Played", "LastPlayed", true, 12);
+            var columnSongBitrate = new SongGridViewColumn("Bitrate", "Bitrate", false, 13);
+            var columnSongSampleRate = new SongGridViewColumn("Sample Rate", "SampleRate", false, 14);
+            var columnSongTempo = new SongGridViewColumn("Tempo", "Tempo", false, 15);
+            var columnSongYear = new SongGridViewColumn("Year", "Year", false, 16);
 
             // Set visible column titles
             columnSongAlbumCover.IsHeaderTitleVisible = false;
@@ -480,25 +464,12 @@ namespace MPfm.GenericControls.Controls.Songs
             _columns.Add(columnSongNowPlaying);
             _columns.Add(columnSongPlayCount);
             _columns.Add(columnSongSampleRate);
-            _columns.Add(columnSongTitle); // Song title
+            _columns.Add(columnSongTitle);
             _columns.Add(columnSongTempo);            
             _columns.Add(columnSongTrackNumber);
             _columns.Add(columnSongTrackCount);
-            _columns.Add(columnSongFileType); // Type
+            _columns.Add(columnSongFileType);
             _columns.Add(columnSongYear);
-
-            // Create contextual menu
-            //_menuColumns = new System.Windows.Forms.ContextMenuStrip();
-
-            //// Loop through columns
-            //foreach (SongGridViewColumn column in _columns)
-            //{
-            //    // Add menu item                               
-            //    ToolStripMenuItem menuItem = (ToolStripMenuItem)_menuColumns.Items.Add(column.Title);
-            //    menuItem.Tag = column.Title;
-            //    menuItem.Checked = column.Visible;
-            //    menuItem.Click += new EventHandler(menuItemColumns_Click);
-            //}
         }
 
         /// <summary>
@@ -1080,12 +1051,18 @@ namespace MPfm.GenericControls.Controls.Songs
 
                                     // Try to extract image from cache
                                     IDisposable imageAlbumCover = null;
-                                    SongGridViewImageCache cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
-                                    if (cachedImage != null)
+                                    SongGridViewImageCache cachedImage = null;
+                                    try
                                     {
-                                        // Set image
-                                        imageAlbumCover = cachedImage.Image;
+                                        cachedImage = _imageCache.FirstOrDefault(x => x.Key == audioFile.ArtistName + "_" + audioFile.AlbumTitle);
                                     }
+                                    catch (Exception ex)
+                                    {
+                                        Tracing.Log(ex);
+                                    }
+
+                                    if (cachedImage != null)
+                                        imageAlbumCover = cachedImage.Image;
 
                                     // Album art not found in cache; try to find an album cover in one of the file
                                     if (cachedImage == null)
@@ -1126,7 +1103,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                         //sizeAlbumTitle = g.MeasureString(currentAlbumTitle, fontDefault, widthAvailableForText - (int)sizeArtistName.Width, stringFormat);
                                         sizeArtistName = context.MeasureText(audioFile.ArtistName, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontNameBold, _theme.FontSize);
                                         sizeAlbumTitle = context.MeasureText(currentAlbumTitle, new BasicRectangle(0, 0, widthAvailableForText, heightWithPadding), _theme.FontName, _theme.FontSize);
-
 
                                         // Display artist name at full width first, then album name
                                         rectArtistNameText = new BasicRectangle(_theme.Padding - HorizontalScrollBar.Value, y + (_theme.Padding / 2), widthAvailableForText, _songCache.LineHeight);
@@ -1232,7 +1208,6 @@ namespace MPfm.GenericControls.Controls.Songs
                                             }
                                         }
                                     }
-                                   
 
                                     // Display album cover
                                     if (imageAlbumCover != null)
@@ -1242,35 +1217,26 @@ namespace MPfm.GenericControls.Controls.Songs
 
                                     if (useAlbumArtOverlay)
                                     {
-                                        //// Draw artist name and album title background
-                                        //RectangleF rectArtistNameBackground = new RectangleF(rectArtistNameText.X - (theme.Padding / 2), rectArtistNameText.Y - (theme.Padding / 2), sizeArtistName.Width + theme.Padding, sizeArtistName.Height + theme.Padding);
-                                        //RectangleF rectAlbumTitleBackground = new RectangleF(rectAlbumTitleText.X - (theme.Padding / 2), rectAlbumTitleText.Y - (theme.Padding / 2), sizeAlbumTitle.Width + theme.Padding, sizeAlbumTitle.Height + theme.Padding);
-                                        //brush = new SolidBrush(Color.FromArgb(190, 0, 0, 0));
-                                        //g.FillRectangle(brush, rectArtistNameBackground);
-                                        //g.FillRectangle(brush, rectAlbumTitleBackground);
-                                        //brush.Dispose();
-                                        //brush = null;
+                                        // Draw artist name and album title background
+                                        var rectArtistNameBackground = new BasicRectangle(rectArtistNameText.X - (_theme.Padding / 2), rectArtistNameText.Y - (_theme.Padding / 2), sizeArtistName.Width + _theme.Padding, sizeArtistName.Height + _theme.Padding);
+                                        var rectAlbumTitleBackground = new BasicRectangle(rectAlbumTitleText.X - (_theme.Padding / 2), rectAlbumTitleText.Y - (_theme.Padding / 2), sizeAlbumTitle.Width + _theme.Padding, sizeAlbumTitle.Height + _theme.Padding);
+                                        var brushTextBackground = new BasicBrush(new BasicColor(0, 0, 0, 190));
+                                        context.DrawRectangle(rectArtistNameBackground, brushTextBackground, penTransparent);
+                                        context.DrawRectangle(rectAlbumTitleBackground, brushTextBackground, penTransparent);
                                     }
 
                                     // Check if this is the artist name column (set font to bold)
-                                    //g.DrawString(audioFile.ArtistName, fontDefaultBold, Brushes.White, rectArtistNameText, stringFormat);
-                                    //g.DrawString(currentAlbumTitle, fontDefault, Brushes.White, rectAlbumTitleText, stringFormat);
+                                    context.DrawText(audioFile.ArtistName, rectArtistNameText, _theme.HeaderTextColor, _theme.FontNameBold, _theme.FontSize);
+                                    context.DrawText(currentAlbumTitle, rectAlbumTitleText, _theme.HeaderTextColor, _theme.FontName, _theme.FontSize);
 
                                     // Draw horizontal line to distinguish albums
                                     // Part 1: Draw line over grid
-                                    //pen = new Pen(theme.AlbumCoverBackgroundGradient.Color1);
                                     pen = new BasicPen(new BasicBrush(new BasicColor(180, 180, 180)), 1);
                                     context.DrawLine(new BasicPoint(_columns[0].Width, y), new BasicPoint(Frame.Width, y), pen);
-                                    //g.DrawLine(pen, new Point(_columns[0].Width, y), new Point(ClientRectangle.Width, y));
-                                    //pen.Dispose();
-                                    //pen = null;
 
                                     // Part 2: Draw line over album art zone, in a lighter color
                                     pen = new BasicPen(new BasicBrush(new BasicColor(115, 115, 115)), 1);
                                     context.DrawLine(new BasicPoint(0, y), new BasicPoint(_columns[0].Width, y), pen);
-                                    //g.DrawLine(pen, new Point(0, y), new Point(_columns[0].Width, y));
-                                    //pen.Dispose();
-                                    //pen = null;
                                 }
                             }
 
@@ -1844,18 +1810,9 @@ namespace MPfm.GenericControls.Controls.Songs
             // Calculate album cover art width
             int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
 
-            //// Make sure the control is focused
-            //if (!Focused)
-            //    Focus();
-
-            //// Show context menu strip if the button click is right and not the album art column
-            //if (e.Button == System.Windows.Forms.MouseButtons.Right &&
-            //    e.X > _columns[0].Width)
-            //{
-            //    // Is there a context menu strip configured?
-            //    if (contextMenuStrip != null)
-            //        contextMenuStrip.Show(Control.MousePosition.X, Control.MousePosition.Y);
-            //}
+            // Show context menu strip if the button click is right and not the album art column
+            if (button == MouseButtonType.Right && x > _columns[0].Width)
+                OnDisplayContextMenu(ContextMenuType.Item, x, y);
 
             // Check if the user is resizing a column
             var columnResizing = _columns.FirstOrDefault(col => col.IsUserResizingColumn == true);
@@ -1921,6 +1878,7 @@ namespace MPfm.GenericControls.Controls.Songs
 
                                 //// Display columns contextual menu
                                 //_menuColumns.Show(this, e.X, e.Y);
+                                OnDisplayContextMenu(ContextMenuType.Header, x, y);
                             }
                         }
 
@@ -2435,11 +2393,11 @@ namespace MPfm.GenericControls.Controls.Songs
             {
                 // Cut 16 pixels
                 HorizontalScrollBar.Width = (int) (Frame.Width - 16);
-                VerticalScrollBar.Height = (int) (Frame.Height - _songCache.LineHeight - 16);
+                VerticalScrollBar.Height = (int) (Frame.Height - (_songCache.LineHeight * 2) - 16);
             }
             else
             {
-                VerticalScrollBar.Height = (int) (Frame.Height - _songCache.LineHeight);
+                VerticalScrollBar.Height = (int) (Frame.Height - (_songCache.LineHeight * 2));
             }
         }
 
@@ -2497,6 +2455,11 @@ namespace MPfm.GenericControls.Controls.Songs
             }
 
             return new Tuple<int, int>(startIndex, endIndex);
+        }
+
+        public enum ContextMenuType
+        {
+            Item = 0, Header = 1   
         }
     }
 
