@@ -1410,7 +1410,7 @@ namespace MPfm.GenericControls.Controls.Songs
             if (specialKeys == SpecialKeys.Enter)
             {
                 OnItemDoubleClick(_items[startEndIndexes.Item1].AudioFile.Id, startEndIndexes.Item1);
-                selectedIndex = startEndIndexes.Item1;
+                NowPlayingAudioFileId = _items [startEndIndexes.Item1].AudioFile.Id;
                 return;
             }
 
@@ -1703,7 +1703,7 @@ namespace MPfm.GenericControls.Controls.Songs
             int albumArtCoverWidth = _columns[0].Visible ? _columns[0].Width : 0;
 
             // Show context menu strip if the button click is right and not the album art column
-            if (button == MouseButtonType.Right && x > _columns[0].Width)
+            if (button == MouseButtonType.Right && x > _columns[0].Width && y > _songCache.LineHeight)
                 OnDisplayContextMenu(ContextMenuType.Item, x, y);
 
             // Check if the user is resizing a column
@@ -1816,6 +1816,8 @@ namespace MPfm.GenericControls.Controls.Songs
                         int startIndexSelection = _lastItemIndexClicked;
                         if (a < startIndexSelection)
                             startIndexSelection = a;
+                        if (startIndexSelection < 0)
+                            startIndexSelection = 0;
 
                         // Find the end index of the selection
                         int endIndexSelection = _lastItemIndexClicked;
