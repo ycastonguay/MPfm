@@ -1548,6 +1548,12 @@ namespace MPfm.GenericControls.Controls.Songs
                     if (selectedIndex < 0)
                         selectedIndex = 0;
                     break;
+                case SpecialKeys.Home:
+                    selectedIndex = 0;
+                    break;
+                case SpecialKeys.End:
+                    selectedIndex = _items.Count - 1;
+                    break;
             }
 
             if (selectedIndex == -1)
@@ -1561,24 +1567,32 @@ namespace MPfm.GenericControls.Controls.Songs
             //Console.WriteLine("SongGridViewControl - KeyDown - y: {0} scrollbarOffsetY: {1} VerticalScrollBar.Value: {2}", y, scrollbarOffsetY, VerticalScrollBar.Value);
 
             int newVerticalScrollBarValue = VerticalScrollBar.Value;
-            if (specialKeys == SpecialKeys.Down && 
-                y > Frame.Height - HorizontalScrollBar.Height - _songCache.LineHeight) // Check for out of bounds
+            switch (specialKeys)
             {
-                newVerticalScrollBarValue = VerticalScrollBar.Value + _songCache.LineHeight;
-            }
-            else if (specialKeys == SpecialKeys.Up && y < _songCache.LineHeight)
-            {
-                newVerticalScrollBarValue = VerticalScrollBar.Value - _songCache.LineHeight;
-            }
-            else if (specialKeys == SpecialKeys.PageDown)
-            {
-                int heightToScrollDown = ((startEndIndexes.Item1 - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
-                newVerticalScrollBarValue = VerticalScrollBar.Value + heightToScrollDown;
-            }
-            else if (specialKeys == SpecialKeys.PageUp)
-            {
-                int heightToScrollUp = ((_startLineNumber + _songCache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * _songCache.LineHeight) - scrollbarOffsetY;
-                newVerticalScrollBarValue = VerticalScrollBar.Value - heightToScrollUp;
+                case SpecialKeys.Down:
+                    // Check for out of bounds
+                    if (y > Frame.Height - HorizontalScrollBar.Height - _songCache.LineHeight)
+                        newVerticalScrollBarValue = VerticalScrollBar.Value + _songCache.LineHeight;
+                    break;
+                case SpecialKeys.Up:
+                    // Check for out of bounds
+                    if (y < _songCache.LineHeight)
+                        newVerticalScrollBarValue = VerticalScrollBar.Value - _songCache.LineHeight;
+                    break;
+                case SpecialKeys.PageDown:
+                    int heightToScrollDown = ((startEndIndexes.Item1 - _startLineNumber) * _songCache.LineHeight) + scrollbarOffsetY;
+                    newVerticalScrollBarValue = VerticalScrollBar.Value + heightToScrollDown;
+                    break;
+                case SpecialKeys.PageUp:
+                    int heightToScrollUp = ((_startLineNumber + _songCache.NumberOfLinesFittingInControl - startEndIndexes.Item1 - 2) * _songCache.LineHeight) - scrollbarOffsetY;
+                    newVerticalScrollBarValue = VerticalScrollBar.Value - heightToScrollUp;
+                    break;
+                case SpecialKeys.Home:
+                    newVerticalScrollBarValue = 0;
+                    break;
+                case SpecialKeys.End:
+                    newVerticalScrollBarValue = VerticalScrollBar.Maximum;
+                    break;
             }
 
             // Make sure we don't scroll out of bounds

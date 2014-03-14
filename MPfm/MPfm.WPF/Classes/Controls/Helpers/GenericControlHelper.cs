@@ -177,6 +177,10 @@ namespace MPfm.WPF.Classes.Controls.Helpers
                     return SpecialKeys.PageUp;
                 case Key.PageDown:
                     return SpecialKeys.PageDown;
+                case Key.Home:
+                    return SpecialKeys.Home;
+                case Key.End:
+                    return SpecialKeys.End;
             }
 
             return SpecialKeys.None;
