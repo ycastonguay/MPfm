@@ -27,6 +27,8 @@ using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
 using MPfm.Mac.Classes.Objects;
 using MPfm.Mac.Classes.Helpers;
+using MPfm.Mac.Classes.Controls;
+using System.Reflection;
 
 namespace MPfm.Mac
 {
@@ -74,21 +76,24 @@ namespace MPfm.Mac
             viewBackgroundInformation.HeaderColor2 = GlobalTheme.PanelHeaderColor2;
             viewBackgroundInformation.IsHeaderVisible = true;
 
-            popupPreset.Font = NSFont.FromFontName("Junction", 11f);
-            lblName.Font = NSFont.FromFontName("Junction", 11f);
-            lblTitleInformation.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13f);
-            lblTitlePreset.Font = NSFont.FromFontName("TitilliumText25L-800wt", 13f);
-            lblEQOn.Font = NSFont.FromFontName("Junction", 11f);
-            lblScalePlus6.Font = NSFont.FromFontName("Junction", 11f);
-            lblScale0.Font = NSFont.FromFontName("Junction", 11f);
-            lblScaleMinus6.Font = NSFont.FromFontName("Junction", 11f);
-            txtName.Font = NSFont.FromFontName("Junction", 11f);
+            popupPreset.Font = NSFont.FromFontName("Roboto", 11f);
+            lblName.Font = NSFont.FromFontName("Roboto", 11f);
+            lblTitleInformation.Font = NSFont.FromFontName("Roboto", 13f);
+            lblTitlePreset.Font = NSFont.FromFontName("Roboto", 13f);
+            lblEQOn.Font = NSFont.FromFontName("Roboto", 11f);
+            lblScalePlus6.Font = NSFont.FromFontName("Roboto", 11f);
+            lblScale0.Font = NSFont.FromFontName("Roboto", 11f);
+            lblScaleMinus6.Font = NSFont.FromFontName("Roboto", 11f);
+            txtName.Font = NSFont.FromFontName("Roboto", 11f);
 
             btnNewPreset.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAutoLevel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
             btnDelete.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnSave.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_save");
             btnReset.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
+
+            for(int a = 0; a < 18; a++)
+                ConfigureFader(a);
 
             SetTheme();
         }
@@ -106,43 +111,43 @@ namespace MPfm.Mac
 //            viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
 //            
 //            // Set label fonts
-            lblEQ0.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ1.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ2.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ3.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ4.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ5.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ6.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ7.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ8.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ9.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ10.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ11.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ12.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ13.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ14.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ15.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ16.Font = NSFont.FromFontName("Junction", 11);
-            lblEQ17.Font = NSFont.FromFontName("Junction", 11);
+            lblEQ0.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ1.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ2.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ3.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ4.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ5.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ6.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ7.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ8.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ9.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ10.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ11.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ12.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ13.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ14.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ15.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ16.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQ17.Font = NSFont.FromFontName("Roboto", 11);
 
-            lblEQValue0.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue1.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue2.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue3.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue4.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue5.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue6.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue7.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue8.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue9.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue10.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue11.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue12.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue13.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue14.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue15.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue16.Font = NSFont.FromFontName("Junction", 11);
-            lblEQValue17.Font = NSFont.FromFontName("Junction", 11);
+            lblEQValue0.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue1.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue2.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue3.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue4.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue5.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue6.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue7.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue8.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue9.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue10.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue11.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue12.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue13.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue14.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue15.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue16.Font = NSFont.FromFontName("Roboto", 11);
+            lblEQValue17.Font = NSFont.FromFontName("Roboto", 11);
         }
 
         partial void actionPresetChange(NSObject sender)
@@ -222,131 +227,30 @@ namespace MPfm.Mac
             }
         }
 
-        partial void actionSlider0ChangeValue(NSObject sender)
+        private void ConfigureFader(int index)
         {
-            NSSlider slider = (NSSlider)sender;
-            Console.WriteLine("EffectsWindowController - actionSlider0ChangeValue - value: {0}", slider.FloatValue);
-            lblEQValue0.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ0.StringValue, slider.FloatValue);
+            var fieldInfo = this.GetType().GetProperty(string.Format("fader{0}", index), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            var fader = fieldInfo.GetValue(this) as MPfmFaderView;
+            fader.OnFaderValueChanged += HandleOnFaderValueChanged;
+            fader.Minimum = -6;
+            fader.Maximum = 6;
+            //fader.Value = 0;
         }
 
-        partial void actionSlider1ChangeValue(NSObject sender)
+        private void HandleOnFaderValueChanged(object sender, EventArgs e)
         {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue1.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ1.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider2ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue2.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ2.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider3ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue3.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ3.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider4ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue4.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ4.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider5ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue5.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ5.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider6ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue6.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ6.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider7ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue7.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ7.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider8ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue8.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ8.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider9ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue9.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ9.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider10ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue10.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ10.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider11ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue11.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ11.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider12ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue12.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ12.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider13ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue13.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ13.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider14ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue14.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ14.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider15ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue15.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ15.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider16ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue16.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ16.StringValue, slider.FloatValue);
-        }
-
-        partial void actionSlider17ChangeValue(NSObject sender)
-        {
-            NSSlider slider = (NSSlider)sender;
-            lblEQValue17.StringValue = FormatEQValue(slider.FloatValue);
-            OnSetFaderGain(lblEQ17.StringValue, slider.FloatValue);
+            var fader = (MPfmFaderView)sender; // sender is actually fadercontrol
+            string name = fader.GetType().Name;
+            string strpos = fader.GetType().Name.ToUpper().Replace("fader", "");
+            int pos = 0;
+            int.TryParse(strpos, out pos);
+            var fieldInfo = this.GetType().GetProperty(string.Format("lblEQValue{0}", pos), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            var label = fieldInfo.GetValue(this) as NSTextField;
+            if (label != null)
+            {
+                label.StringValue = FormatEQValue(fader.Value);
+                OnSetFaderGain(label.StringValue, fader.Value);
+            }
         }
 
         private string FormatEQValue(float value)
@@ -357,6 +261,11 @@ namespace MPfm.Mac
             else
                 strValue = value.ToString("0.0").Replace(",",".") + " dB";
             return strValue;
+        }
+
+        private int FormatFaderValue(float value)
+        {
+            return (int)(value * 10);
         }
 
         #region IEqualizerPresetsView implementation
@@ -429,41 +338,41 @@ namespace MPfm.Mac
                 _preset = preset;
 
                 txtName.StringValue = _preset.Name;
-                sliderEQ0.FloatValue = _preset.Gain0;
+                fader0.Value = FormatFaderValue(_preset.Gain0);
+                fader1.Value = FormatFaderValue(_preset.Gain1);
+                fader2.Value = FormatFaderValue(_preset.Gain2);
+                fader3.Value = FormatFaderValue(_preset.Gain3);
+                fader4.Value = FormatFaderValue(_preset.Gain4);
+                fader5.Value = FormatFaderValue(_preset.Gain5);
+                fader6.Value = FormatFaderValue(_preset.Gain6);
+                fader7.Value = FormatFaderValue(_preset.Gain7);
+                fader8.Value = FormatFaderValue(_preset.Gain8);
+                fader9.Value = FormatFaderValue(_preset.Gain9);
+                fader10.Value = FormatFaderValue(_preset.Gain10);
+                fader11.Value = FormatFaderValue(_preset.Gain11);
+                fader12.Value = FormatFaderValue(_preset.Gain12);
+                fader13.Value = FormatFaderValue(_preset.Gain13);
+                fader14.Value = FormatFaderValue(_preset.Gain14);
+                fader15.Value = FormatFaderValue(_preset.Gain15);
+                fader16.Value = FormatFaderValue(_preset.Gain16);
+                fader17.Value = FormatFaderValue(_preset.Gain17);
                 lblEQValue0.StringValue = FormatEQValue(_preset.Gain0);
-                sliderEQ1.FloatValue = _preset.Gain1;
                 lblEQValue1.StringValue = FormatEQValue(_preset.Gain1);
-                sliderEQ2.FloatValue = _preset.Gain2;
                 lblEQValue2.StringValue = FormatEQValue(_preset.Gain2);
-                sliderEQ3.FloatValue = _preset.Gain3;
                 lblEQValue3.StringValue = FormatEQValue(_preset.Gain3);
-                sliderEQ4.FloatValue = _preset.Gain4;
                 lblEQValue4.StringValue = FormatEQValue(_preset.Gain4);
-                sliderEQ5.FloatValue = _preset.Gain5;
                 lblEQValue5.StringValue = FormatEQValue(_preset.Gain5);
-                sliderEQ6.FloatValue = _preset.Gain6;
                 lblEQValue6.StringValue = FormatEQValue(_preset.Gain6);
-                sliderEQ7.FloatValue = _preset.Gain7;
                 lblEQValue7.StringValue = FormatEQValue(_preset.Gain7);
-                sliderEQ8.FloatValue = _preset.Gain8;
                 lblEQValue8.StringValue = FormatEQValue(_preset.Gain8);
-                sliderEQ9.FloatValue = _preset.Gain9;
                 lblEQValue9.StringValue = FormatEQValue(_preset.Gain9);
-                sliderEQ10.FloatValue = _preset.Gain10;
                 lblEQValue10.StringValue = FormatEQValue(_preset.Gain10);
-                sliderEQ11.FloatValue = _preset.Gain11;
                 lblEQValue11.StringValue = FormatEQValue(_preset.Gain11);
-                sliderEQ12.FloatValue = _preset.Gain12;
                 lblEQValue12.StringValue = FormatEQValue(_preset.Gain12);
-                sliderEQ13.FloatValue = _preset.Gain13;
                 lblEQValue13.StringValue = FormatEQValue(_preset.Gain13);
-                sliderEQ14.FloatValue = _preset.Gain14;
                 lblEQValue14.StringValue = FormatEQValue(_preset.Gain14);
-                sliderEQ15.FloatValue = _preset.Gain15;
                 lblEQValue15.StringValue = FormatEQValue(_preset.Gain15);
-                sliderEQ16.FloatValue = _preset.Gain16;
                 lblEQValue16.StringValue = FormatEQValue(_preset.Gain16);
-                sliderEQ17.FloatValue = _preset.Gain17;
                 lblEQValue17.StringValue = FormatEQValue(_preset.Gain17);
             });
         }

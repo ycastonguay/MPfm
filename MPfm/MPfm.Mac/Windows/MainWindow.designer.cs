@@ -25,6 +25,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnChangeKey { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnDecrementPitchShifting { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnDecrementTimeShifting { get; set; }
 
 		[Outlet]
@@ -43,6 +46,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnGoToMarker { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnIncrementPitchShifting { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnIncrementTimeShifting { get; set; }
 
 		[Outlet]
@@ -56,6 +62,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnResetPitchShifting { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnResetTimeShifting { get; set; }
@@ -190,6 +199,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblSampleRate { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblSearchWeb { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblSongPath { get; set; }
 
 		[Outlet]
@@ -248,6 +260,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPitchShifting { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPosition { get; set; }
@@ -457,6 +472,11 @@ namespace MPfm.Mac
 				btnChangeKey = null;
 			}
 
+			if (btnDecrementPitchShifting != null) {
+				btnDecrementPitchShifting.Dispose ();
+				btnDecrementPitchShifting = null;
+			}
+
 			if (btnDecrementTimeShifting != null) {
 				btnDecrementTimeShifting.Dispose ();
 				btnDecrementTimeShifting = null;
@@ -487,6 +507,11 @@ namespace MPfm.Mac
 				btnGoToMarker = null;
 			}
 
+			if (btnIncrementPitchShifting != null) {
+				btnIncrementPitchShifting.Dispose ();
+				btnIncrementPitchShifting = null;
+			}
+
 			if (btnIncrementTimeShifting != null) {
 				btnIncrementTimeShifting.Dispose ();
 				btnIncrementTimeShifting = null;
@@ -510,6 +535,11 @@ namespace MPfm.Mac
 			if (btnRemoveMarker != null) {
 				btnRemoveMarker.Dispose ();
 				btnRemoveMarker = null;
+			}
+
+			if (btnResetPitchShifting != null) {
+				btnResetPitchShifting.Dispose ();
+				btnResetPitchShifting = null;
 			}
 
 			if (btnResetTimeShifting != null) {
@@ -832,6 +862,11 @@ namespace MPfm.Mac
 				tableMarkers = null;
 			}
 
+			if (trackBarPitchShifting != null) {
+				trackBarPitchShifting.Dispose ();
+				trackBarPitchShifting = null;
+			}
+
 			if (trackBarPosition != null) {
 				trackBarPosition.Dispose ();
 				trackBarPosition = null;
@@ -935,6 +970,11 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
+			}
+
+			if (lblSearchWeb != null) {
+				lblSearchWeb.Dispose ();
+				lblSearchWeb = null;
 			}
 		}
 	}

@@ -252,7 +252,9 @@
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
     <InterfaceDefinition Include="Windows\XIB\UpdateLibraryWindow.xib" />
-    <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib">
+      <DependentUpon>MainWindow.xib</DependentUpon>
+    </InterfaceDefinition>
     <InterfaceDefinition Include="Windows\XIB\PlaylistWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\PreferencesWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SplashWindow.xib" />

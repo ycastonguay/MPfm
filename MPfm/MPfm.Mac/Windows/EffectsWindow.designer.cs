@@ -1,10 +1,11 @@
 // WARNING
 //
 // This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the Xcode designer. If it is removed, they will be lost.
+// actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using MonoMac.Foundation;
+using System.CodeDom.Compiler;
 
 namespace MPfm.Mac
 {
@@ -12,88 +13,82 @@ namespace MPfm.Mac
 	partial class EffectsWindowController
 	{
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ0 { get; set; }
+		MonoMac.AppKit.NSButton btnAutoLevel { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ1 { get; set; }
+		MonoMac.AppKit.NSButton btnDelete { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ2 { get; set; }
+		MonoMac.AppKit.NSButton btnEQOn { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ3 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmButton btnNewPreset { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ4 { get; set; }
+		MonoMac.AppKit.NSButton btnReset { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ5 { get; set; }
+		MonoMac.AppKit.NSButton btnSave { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ6 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader0 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ7 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader1 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ8 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader10 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ9 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader11 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ10 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader12 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ11 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader13 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ12 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader14 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ13 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader15 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ14 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader16 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ15 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader17 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ16 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader2 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSSlider sliderEQ17 { get; set; }
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader3 { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader4 { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader5 { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader6 { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader7 { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader8 { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmFaderView fader9 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQ0 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQ1 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ2 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ3 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ4 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ5 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ6 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ7 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ8 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQ9 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQ10 { get; set; }
@@ -120,34 +115,37 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblEQ17 { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ2 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ3 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ4 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ5 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ6 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ7 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ8 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQ9 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEQOn { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQValue0 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQValue1 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue2 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue3 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue4 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue5 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue6 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue7 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue8 { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQValue9 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblEQValue10 { get; set; }
@@ -174,49 +172,31 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblEQValue17 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSPopUpButton popupPreset { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue2 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnEQOn { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue3 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSTextField txtName { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue4 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnSave { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue5 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnDelete { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue6 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnAutoLevel { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue7 { get; set; }
 
 		[Outlet]
-		MonoMac.AppKit.NSButton btnReset { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue8 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewBackground { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
-
-		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblTitlePreset { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblTitleInformation { get; set; }
+		MonoMac.AppKit.NSTextField lblEQValue9 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblName { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblEQOn { get; set; }
-
-		[Outlet]
-		MonoMac.AppKit.NSTextField lblScalePlus6 { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblScale0 { get; set; }
@@ -225,64 +205,34 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblScaleMinus6 { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmButton btnNewPreset { get; set; }
+		MonoMac.AppKit.NSTextField lblScalePlus6 { get; set; }
 
-		[Action ("actionSlider0ChangeValue:")]
-		partial void actionSlider0ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitleInformation { get; set; }
 
-		[Action ("actionSlider1ChangeValue:")]
-		partial void actionSlider1ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblTitlePreset { get; set; }
 
-		[Action ("actionSlider2ChangeValue:")]
-		partial void actionSlider2ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MonoMac.AppKit.NSPopUpButton popupPreset { get; set; }
 
-		[Action ("actionSlider3ChangeValue:")]
-		partial void actionSlider3ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtName { get; set; }
 
-		[Action ("actionSlider4ChangeValue:")]
-		partial void actionSlider4ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewBackground { get; set; }
 
-		[Action ("actionSlider5ChangeValue:")]
-		partial void actionSlider5ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundInformation { get; set; }
 
-		[Action ("actionSlider6ChangeValue:")]
-		partial void actionSlider6ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewBackgroundPreset { get; set; }
 
-		[Action ("actionSlider7ChangeValue:")]
-		partial void actionSlider7ChangeValue (MonoMac.Foundation.NSObject sender);
+		[Action ("actionAutoLevel:")]
+		partial void actionAutoLevel (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionSlider8ChangeValue:")]
-		partial void actionSlider8ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider9ChangeValue:")]
-		partial void actionSlider9ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider10ChangeValue:")]
-		partial void actionSlider10ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider11ChangeValue:")]
-		partial void actionSlider11ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider12ChangeValue:")]
-		partial void actionSlider12ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider13ChangeValue:")]
-		partial void actionSlider13ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider14ChangeValue:")]
-		partial void actionSlider14ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider15ChangeValue:")]
-		partial void actionSlider15ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider16ChangeValue:")]
-		partial void actionSlider16ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionSlider17ChangeValue:")]
-		partial void actionSlider17ChangeValue (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionPresetChange:")]
-		partial void actionPresetChange (MonoMac.Foundation.NSObject sender);
+		[Action ("actionDelete:")]
+		partial void actionDelete (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionEQOnChange:")]
 		partial void actionEQOnChange (MonoMac.Foundation.NSObject sender);
@@ -290,113 +240,20 @@ namespace MPfm.Mac
 		[Action ("actionNameChanged:")]
 		partial void actionNameChanged (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionSave:")]
-		partial void actionSave (MonoMac.Foundation.NSObject sender);
+		[Action ("actionNewPreset:")]
+		partial void actionNewPreset (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionDelete:")]
-		partial void actionDelete (MonoMac.Foundation.NSObject sender);
-
-		[Action ("actionAutoLevel:")]
-		partial void actionAutoLevel (MonoMac.Foundation.NSObject sender);
+		[Action ("actionPresetChange:")]
+		partial void actionPresetChange (MonoMac.Foundation.NSObject sender);
 
 		[Action ("actionReset:")]
 		partial void actionReset (MonoMac.Foundation.NSObject sender);
 
-		[Action ("actionNewPreset:")]
-		partial void actionNewPreset (MonoMac.Foundation.NSObject sender);
+		[Action ("actionSave:")]
+		partial void actionSave (MonoMac.Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (sliderEQ0 != null) {
-				sliderEQ0.Dispose ();
-				sliderEQ0 = null;
-			}
-
-			if (sliderEQ1 != null) {
-				sliderEQ1.Dispose ();
-				sliderEQ1 = null;
-			}
-
-			if (sliderEQ2 != null) {
-				sliderEQ2.Dispose ();
-				sliderEQ2 = null;
-			}
-
-			if (sliderEQ3 != null) {
-				sliderEQ3.Dispose ();
-				sliderEQ3 = null;
-			}
-
-			if (sliderEQ4 != null) {
-				sliderEQ4.Dispose ();
-				sliderEQ4 = null;
-			}
-
-			if (sliderEQ5 != null) {
-				sliderEQ5.Dispose ();
-				sliderEQ5 = null;
-			}
-
-			if (sliderEQ6 != null) {
-				sliderEQ6.Dispose ();
-				sliderEQ6 = null;
-			}
-
-			if (sliderEQ7 != null) {
-				sliderEQ7.Dispose ();
-				sliderEQ7 = null;
-			}
-
-			if (sliderEQ8 != null) {
-				sliderEQ8.Dispose ();
-				sliderEQ8 = null;
-			}
-
-			if (sliderEQ9 != null) {
-				sliderEQ9.Dispose ();
-				sliderEQ9 = null;
-			}
-
-			if (sliderEQ10 != null) {
-				sliderEQ10.Dispose ();
-				sliderEQ10 = null;
-			}
-
-			if (sliderEQ11 != null) {
-				sliderEQ11.Dispose ();
-				sliderEQ11 = null;
-			}
-
-			if (sliderEQ12 != null) {
-				sliderEQ12.Dispose ();
-				sliderEQ12 = null;
-			}
-
-			if (sliderEQ13 != null) {
-				sliderEQ13.Dispose ();
-				sliderEQ13 = null;
-			}
-
-			if (sliderEQ14 != null) {
-				sliderEQ14.Dispose ();
-				sliderEQ14 = null;
-			}
-
-			if (sliderEQ15 != null) {
-				sliderEQ15.Dispose ();
-				sliderEQ15 = null;
-			}
-
-			if (sliderEQ16 != null) {
-				sliderEQ16.Dispose ();
-				sliderEQ16 = null;
-			}
-
-			if (sliderEQ17 != null) {
-				sliderEQ17.Dispose ();
-				sliderEQ17 = null;
-			}
-
 			if (lblEQ0 != null) {
 				lblEQ0.Dispose ();
 				lblEQ0 = null;
@@ -665,6 +522,96 @@ namespace MPfm.Mac
 			if (btnNewPreset != null) {
 				btnNewPreset.Dispose ();
 				btnNewPreset = null;
+			}
+
+			if (fader0 != null) {
+				fader0.Dispose ();
+				fader0 = null;
+			}
+
+			if (fader1 != null) {
+				fader1.Dispose ();
+				fader1 = null;
+			}
+
+			if (fader2 != null) {
+				fader2.Dispose ();
+				fader2 = null;
+			}
+
+			if (fader3 != null) {
+				fader3.Dispose ();
+				fader3 = null;
+			}
+
+			if (fader4 != null) {
+				fader4.Dispose ();
+				fader4 = null;
+			}
+
+			if (fader5 != null) {
+				fader5.Dispose ();
+				fader5 = null;
+			}
+
+			if (fader6 != null) {
+				fader6.Dispose ();
+				fader6 = null;
+			}
+
+			if (fader7 != null) {
+				fader7.Dispose ();
+				fader7 = null;
+			}
+
+			if (fader8 != null) {
+				fader8.Dispose ();
+				fader8 = null;
+			}
+
+			if (fader9 != null) {
+				fader9.Dispose ();
+				fader9 = null;
+			}
+
+			if (fader10 != null) {
+				fader10.Dispose ();
+				fader10 = null;
+			}
+
+			if (fader11 != null) {
+				fader11.Dispose ();
+				fader11 = null;
+			}
+
+			if (fader12 != null) {
+				fader12.Dispose ();
+				fader12 = null;
+			}
+
+			if (fader13 != null) {
+				fader13.Dispose ();
+				fader13 = null;
+			}
+
+			if (fader14 != null) {
+				fader14.Dispose ();
+				fader14 = null;
+			}
+
+			if (fader15 != null) {
+				fader15.Dispose ();
+				fader15 = null;
+			}
+
+			if (fader16 != null) {
+				fader16.Dispose ();
+				fader16 = null;
+			}
+
+			if (fader17 != null) {
+				fader17.Dispose ();
+				fader17 = null;
 			}
 		}
 	}
