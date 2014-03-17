@@ -84,7 +84,15 @@ namespace MPfm.Mac
             trackBarTimeShifting.BlockValueChangeWhenDraggingMouse = true;
             trackBarTimeShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
             trackBarTimeShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
-		}
+
+            trackBarPitchShifting.Minimum = 50;
+            trackBarPitchShifting.Maximum = 150;
+            trackBarPitchShifting.Value = 100;
+            trackBarPitchShifting.BlockValueChangeWhenDraggingMouse = true;
+            trackBarPitchShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
+            trackBarPitchShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
+
+        }
 
 		public override void WindowDidLoad()
 		{
@@ -353,6 +361,9 @@ namespace MPfm.Mac
             btnIncrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "add");
             btnDecrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "minus");
             btnResetTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "reset");
+            btnIncrementPitchShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "add");
+            btnDecrementPitchShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "minus");
+            btnResetPitchShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "reset");
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)
@@ -500,6 +511,13 @@ namespace MPfm.Mac
                 OnSetTimeShifting(trackBarTimeShifting.Value);
         }
 
+        private void HandleOnTrackBarPitchShiftingValueChanged()
+        {
+            // The value of the slider is changed at the startup of the app and the view is not ready
+            if (OnPlayerSetPitchShifting != null)
+                OnPlayerSetPitchShifting(trackBarPitchShifting.Value);
+        }
+
         partial void actionPlayLoop(NSObject sender)
         {
         }
@@ -574,6 +592,26 @@ namespace MPfm.Mac
         partial void actionResetTimeShifting(NSObject sender)
         {
             OnResetTimeShifting();
+        }
+
+        partial void actionChangeKey(NSObject sender)
+        {
+
+        }
+
+        partial void actionDecrementPitchShifting(NSObject sender)
+        {
+            OnDecrementInterval();
+        }
+
+        partial void actionIncrementPitchShfiting(NSObject sender)
+        {
+            OnIncrementInterval();
+        } 
+
+        partial void actionResetPitchShifting(NSObject sender)
+        {
+            OnResetInterval();
         }
 
         partial void actionSearchGuitarTabs(NSObject sender)
@@ -1005,6 +1043,12 @@ namespace MPfm.Mac
 
         public void RefreshPitchShifting(PlayerPitchShiftingEntity entity)
         {
+            InvokeOnMainThread(() =>{
+                txtIntervalValue.StringValue = entity.Interval;
+                lblNewKeyValue.StringValue = entity.NewKey.Item2;
+                lblReferenceKeyValue.StringValue = entity.ReferenceKey.Item2;
+                trackBarPitchShifting.Value = (int)entity.IntervalValue;
+            });
         }
 
         #endregion

@@ -25,6 +25,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnChangeKey { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnDecrementPitchShifting { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnDecrementTimeShifting { get; set; }
 
 		[Outlet]
@@ -43,6 +46,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnGoToMarker { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnIncrementPitchShifting { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnIncrementTimeShifting { get; set; }
 
 		[Outlet]
@@ -56,6 +62,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveMarker { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmRoundButton btnResetPitchShifting { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnResetTimeShifting { get; set; }
@@ -248,6 +257,9 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTableView tableMarkers { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPitchShifting { get; set; }
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBarPosition { get; set; }
@@ -935,6 +947,26 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
+			}
+
+			if (btnDecrementPitchShifting != null) {
+				btnDecrementPitchShifting.Dispose ();
+				btnDecrementPitchShifting = null;
+			}
+
+			if (btnIncrementPitchShifting != null) {
+				btnIncrementPitchShifting.Dispose ();
+				btnIncrementPitchShifting = null;
+			}
+
+			if (btnResetPitchShifting != null) {
+				btnResetPitchShifting.Dispose ();
+				btnResetPitchShifting = null;
+			}
+
+			if (trackBarPitchShifting != null) {
+				trackBarPitchShifting.Dispose ();
+				trackBarPitchShifting = null;
 			}
 		}
 	}
