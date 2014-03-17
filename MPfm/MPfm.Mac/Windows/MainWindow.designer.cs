@@ -199,6 +199,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblSampleRate { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblSearchWeb { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblSongPath { get; set; }
 
 		[Outlet]
@@ -469,6 +472,11 @@ namespace MPfm.Mac
 				btnChangeKey = null;
 			}
 
+			if (btnDecrementPitchShifting != null) {
+				btnDecrementPitchShifting.Dispose ();
+				btnDecrementPitchShifting = null;
+			}
+
 			if (btnDecrementTimeShifting != null) {
 				btnDecrementTimeShifting.Dispose ();
 				btnDecrementTimeShifting = null;
@@ -499,6 +507,11 @@ namespace MPfm.Mac
 				btnGoToMarker = null;
 			}
 
+			if (btnIncrementPitchShifting != null) {
+				btnIncrementPitchShifting.Dispose ();
+				btnIncrementPitchShifting = null;
+			}
+
 			if (btnIncrementTimeShifting != null) {
 				btnIncrementTimeShifting.Dispose ();
 				btnIncrementTimeShifting = null;
@@ -522,6 +535,11 @@ namespace MPfm.Mac
 			if (btnRemoveMarker != null) {
 				btnRemoveMarker.Dispose ();
 				btnRemoveMarker = null;
+			}
+
+			if (btnResetPitchShifting != null) {
+				btnResetPitchShifting.Dispose ();
+				btnResetPitchShifting = null;
 			}
 
 			if (btnResetTimeShifting != null) {
@@ -844,6 +862,11 @@ namespace MPfm.Mac
 				tableMarkers = null;
 			}
 
+			if (trackBarPitchShifting != null) {
+				trackBarPitchShifting.Dispose ();
+				trackBarPitchShifting = null;
+			}
+
 			if (trackBarPosition != null) {
 				trackBarPosition.Dispose ();
 				trackBarPosition = null;
@@ -949,24 +972,9 @@ namespace MPfm.Mac
 				waveFormScrollView = null;
 			}
 
-			if (btnDecrementPitchShifting != null) {
-				btnDecrementPitchShifting.Dispose ();
-				btnDecrementPitchShifting = null;
-			}
-
-			if (btnIncrementPitchShifting != null) {
-				btnIncrementPitchShifting.Dispose ();
-				btnIncrementPitchShifting = null;
-			}
-
-			if (btnResetPitchShifting != null) {
-				btnResetPitchShifting.Dispose ();
-				btnResetPitchShifting = null;
-			}
-
-			if (trackBarPitchShifting != null) {
-				trackBarPitchShifting.Dispose ();
-				trackBarPitchShifting = null;
+			if (lblSearchWeb != null) {
+				lblSearchWeb.Dispose ();
+				lblSearchWeb = null;
 			}
 		}
 	}

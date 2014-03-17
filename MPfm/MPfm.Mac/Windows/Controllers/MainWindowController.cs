@@ -264,6 +264,7 @@ namespace MPfm.Mac
             lblTitleMarkers.Font = NSFont.FromFontName("Roboto", 13);
             lblTitleSongBrowser.Font = NSFont.FromFontName("Roboto", 13);
 
+            lblSearchWeb.Font = NSFont.FromFontName("Roboto", 12);
             lblSubtitleSongPosition.Font = NSFont.FromFontName("Roboto", 12);
             lblSubtitleVolume.Font = NSFont.FromFontName("Roboto", 12);
             lblPosition.Font = NSFont.FromFontName("Roboto Light", 15f);
@@ -338,7 +339,6 @@ namespace MPfm.Mac
             btnAddSongToPlaylist.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
             btnEditLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
             btnEditMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
-            btnEditSongMetadata.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
             btnRemoveLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnRemoveMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
             btnPlayLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_play");
@@ -817,40 +817,65 @@ namespace MPfm.Mac
         public void RefreshSongInformation(AudioFile audioFile, long lengthBytes, int playlistIndex, int playlistCount)
         {
             InvokeOnMainThread(() => {
-                lblArtistName.StringValue = audioFile.ArtistName;
-                lblAlbumTitle.StringValue = audioFile.AlbumTitle;
-                lblSongTitle.StringValue = audioFile.Title;
-                lblSongPath.StringValue = audioFile.FilePath;
-                //lblPosition.StringValue = audioFile.Position;
-                lblLength.StringValue = audioFile.Length;
-                lblFileType.StringValue = audioFile.FileType.ToString();
-                lblBitrate.StringValue = audioFile.Bitrate.ToString() + " kbit/s";
-                lblBitsPerSample.StringValue = audioFile.BitsPerSample.ToString() + " bits";
-                lblSampleRate.StringValue = audioFile.SampleRate.ToString() + " Hz";
-
-                waveFormScrollView.SetWaveFormLength(lengthBytes);
-                waveFormScrollView.LoadPeakFile(audioFile);
-
-                // Set album cover
-                if (!String.IsNullOrEmpty(audioFile.FilePath))
+                if (audioFile == null)
                 {
-                    NSImage image = AlbumCoverHelper.GetAlbumCover(audioFile.FilePath);
-                    if (image != null)
-                        imageAlbumCover.Image = image;
-                    else
-                        imageAlbumCover.Image = new NSImage();
-                } 
+                    lblArtistName.StringValue = string.Empty;
+                    lblAlbumTitle.StringValue = string.Empty;
+                    lblSongTitle.StringValue = string.Empty;
+                    lblSongPath.StringValue = string.Empty;
+                    lblSampleRate.StringValue = string.Empty;
+                    lblBitrate.StringValue = string.Empty;
+                    lblBitsPerSample.StringValue = string.Empty;
+                    lblFileType.StringValue = string.Empty;
+                    lblYear.StringValue = string.Empty;
+                    lblMonoStereo.StringValue = string.Empty;
+                    lblFileSize.StringValue = string.Empty;
+                    lblGenre.StringValue = string.Empty;
+                    lblPlayCount.StringValue = string.Empty;
+                    lblLastPlayed.StringValue = string.Empty;
+                }
                 else
                 {
-                    imageAlbumCover.Image = new NSImage();
+                    lblArtistName.StringValue = audioFile.ArtistName;
+                    lblAlbumTitle.StringValue = audioFile.AlbumTitle;
+                    lblSongTitle.StringValue = audioFile.Title;
+                    lblSongPath.StringValue = audioFile.FilePath;
+                    lblLength.StringValue = audioFile.Length;
+                    lblSampleRate.StringValue = string.Format("{0} Hz", audioFile.SampleRate);
+                    lblBitrate.StringValue = string.Format("{0} kbps", audioFile.Bitrate);
+                    lblBitsPerSample.StringValue = string.Format("{0} bits", audioFile.BitsPerSample);
+                    lblFileType.StringValue = audioFile.FileType.ToString();
+                    lblYear.StringValue = audioFile.Year == 0 ? "No year specified" : audioFile.Year.ToString();
+                    lblMonoStereo.StringValue = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
+                    lblFileSize.StringValue = string.Format("{0} bytes", audioFile.FileSize);
+                    lblGenre.StringValue = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
+                    lblPlayCount.StringValue = string.Format("{0} times played", audioFile.PlayCount);
+                    lblLastPlayed.StringValue = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
+
+                    waveFormScrollView.SetWaveFormLength(lengthBytes);
+                    waveFormScrollView.LoadPeakFile(audioFile);
+
+                    // Set album cover
+                    if (!String.IsNullOrEmpty(audioFile.FilePath))
+                    {
+                        NSImage image = AlbumCoverHelper.GetAlbumCover(audioFile.FilePath);
+                        if (image != null)
+                            imageAlbumCover.Image = image;
+                        else
+                            imageAlbumCover.Image = new NSImage();
+                    } 
+                    else
+                    {
+                        imageAlbumCover.Image = new NSImage();
+                    }
+
+    //                if(_songBrowserSource != null)
+    //                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
+
+                    songGridView.NowPlayingAudioFileId = audioFile.Id;
+
+                    LoadAlbumArt(audioFile);
                 }
-
-//                if(_songBrowserSource != null)
-//                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
-
-                songGridView.NowPlayingAudioFileId = audioFile.Id;
-
-                LoadAlbumArt(audioFile);
             });
 		}
         

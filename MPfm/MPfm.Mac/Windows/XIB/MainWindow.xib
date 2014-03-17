@@ -69,6 +69,7 @@
                 <outlet property="lblReferenceTempo" destination="787" id="808"/>
                 <outlet property="lblReferenceTempoValue" destination="800" id="809"/>
                 <outlet property="lblSampleRate" destination="887" id="q5K-sf-EVl"/>
+                <outlet property="lblSearchWeb" destination="ocB-JZ-9nY" id="jmn-0P-v8e"/>
                 <outlet property="lblSongPath" destination="65" id="69"/>
                 <outlet property="lblSongTitle" destination="63" id="68"/>
                 <outlet property="lblSubtitleSongPosition" destination="502" id="551"/>
@@ -337,96 +338,59 @@
                                                     <color key="backgroundColor" white="0.70224110399999995" alpha="1" colorSpace="calibratedWhite"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <customView id="883" customClass="MPfmView">
-                                                <rect key="frame" x="484" y="14" width="237" height="148"/>
+                                            <customView id="520" customClass="MPfmView">
+                                                <rect key="frame" x="484" y="-2" width="237" height="159"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" id="884">
-                                                        <rect key="frame" x="8" y="125" width="76" height="14"/>
+                                                    <button verticalHuggingPriority="750" id="YNk-Gk-1xs" customClass="MPfmButton">
+                                                        <rect key="frame" x="10" y="118" width="220" height="28"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[File type]" id="891">
+                                                        <buttonCell key="cell" type="smallSquare" title="Edit song metadata" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5sK-oH-ck7">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="885">
-                                                        <rect key="frame" x="8" y="101" width="90" height="14"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionEditSongMetadata:" target="-2" id="lIh-af-P6F"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" id="Ird-p9-6u3" customClass="MPfmButton">
+                                                        <rect key="frame" x="10" y="40" width="70" height="28"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Mono/Stereo]" id="890">
+                                                        <buttonCell key="cell" type="smallSquare" title="Guitar tabs" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zqX-Ws-Ckq">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="886">
-                                                        <rect key="frame" x="8" y="77" width="76" height="14"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionSearchGuitarTabs:" target="-2" id="S2a-3W-5hY"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" id="9UW-kg-mS8" customClass="MPfmButton">
+                                                        <rect key="frame" x="85" y="40" width="70" height="28"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Bits/sample]" id="889">
+                                                        <buttonCell key="cell" type="smallSquare" title="Bass tabs" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5GZ-Pz-oCL">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="rci-ur-7X4">
-                                                        <rect key="frame" x="153" y="125" width="76" height="14"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionSearchBassTabs:" target="-2" id="v0k-d4-DjX"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" id="9PI-Q9-l2M" customClass="MPfmButton">
+                                                        <rect key="frame" x="160" y="40" width="70" height="28"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Genre]" id="1yf-xw-o5V">
+                                                        <buttonCell key="cell" type="smallSquare" title="Lyrics" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WSf-KT-w6i">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="wlo-uZ-RIW">
-                                                        <rect key="frame" x="153" y="101" width="76" height="14"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionSearchLyrics:" target="-2" id="Ep8-EP-V66"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField verticalHuggingPriority="750" id="ocB-JZ-9nY">
+                                                        <rect key="frame" x="6" y="75" width="226" height="20"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Year]" id="Qgo-2I-TsA">
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="kTG-QP-gBj">
-                                                        <rect key="frame" x="153" y="77" width="76" height="14"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[File size]" id="f50-1T-RZ6">
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="887">
-                                                        <rect key="frame" x="8" y="53" width="76" height="14"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Sample rate]" id="888">
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="n9O-Vc-HhR">
-                                                        <rect key="frame" x="8" y="28" width="76" height="14"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Bitrate]" id="rOJ-En-lsn">
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="ccG-KM-7Oq">
-                                                        <rect key="frame" x="153" y="53" width="76" height="14"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Play count]" id="Zlf-qg-Ibj">
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="63W-tX-W4c">
-                                                        <rect key="frame" x="153" y="28" width="76" height="14"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Last played]" id="yBJ-WN-2tH">
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Search the web for:" id="W1a-Kf-5YI">
+                                                            <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -465,59 +429,204 @@
                                                     </customView>
                                                 </subviews>
                                             </customView>
-                                            <customView id="520" customClass="MPfmView">
-                                                <rect key="frame" x="484" y="14" width="237" height="148"/>
+                                            <customView id="713" customClass="MPfmView">
+                                                <rect key="frame" x="484" y="-2" width="237" height="159"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 <subviews>
-                                                    <button verticalHuggingPriority="750" id="YNk-Gk-1xs" customClass="MPfmButton">
-                                                        <rect key="frame" x="8" y="114" width="220" height="26"/>
+                                                    <button verticalHuggingPriority="750" id="ViL-5n-hvb" customClass="MPfmRoundButton">
+                                                        <rect key="frame" x="69" y="6" width="30" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="Edit song metadata" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5sK-oH-ck7">
+                                                        <buttonCell key="cell" type="smallSquare" title="-" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jtH-Fu-xtc">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionEditSongMetadata:" target="-2" id="lIh-af-P6F"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button verticalHuggingPriority="750" id="Ird-p9-6u3" customClass="MPfmButton">
-                                                        <rect key="frame" x="8" y="56" width="70" height="26"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="Guitar tabs" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zqX-Ws-Ckq">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionSearchGuitarTabs:" target="-2" id="S2a-3W-5hY"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button verticalHuggingPriority="750" id="9UW-kg-mS8" customClass="MPfmButton">
-                                                        <rect key="frame" x="83" y="56" width="70" height="26"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="Bass tabs" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5GZ-Pz-oCL">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionSearchBassTabs:" target="-2" id="v0k-d4-DjX"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button verticalHuggingPriority="750" id="9PI-Q9-l2M" customClass="MPfmButton">
-                                                        <rect key="frame" x="158" y="56" width="70" height="26"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="Lyrics" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WSf-KT-w6i">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionSearchLyrics:" target="-2" id="Ep8-EP-V66"/>
-                                                        </connections>
-                                                    </button>
-                                                    <textField verticalHuggingPriority="750" id="ocB-JZ-9nY">
-                                                        <rect key="frame" x="6" y="87" width="177" height="14"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Search the web for:" id="W1a-Kf-5YI">
                                                             <font key="font" metaFont="smallSystem"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionDecrementPitchShifting:" target="-2" id="mvQ-oo-pPn"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" id="WC9-tm-Pid" customClass="MPfmRoundButton">
+                                                        <rect key="frame" x="104" y="6" width="30" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="smallSquare" title="+" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Kqe-tk-uRq">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionIncrementPitchShfiting:" target="-2" id="Mxc-3l-ksc"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" id="8Tb-TX-LSt" customClass="MPfmRoundButton">
+                                                        <rect key="frame" x="139" y="6" width="30" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="smallSquare" title="Reset" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xK8-NS-anf">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionResetPitchShifting:" target="-2" id="9ew-js-Yg9"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField verticalHuggingPriority="750" id="W6p-JN-eZy">
+                                                        <rect key="frame" x="8" y="114" width="74" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="C (Am)" id="chK-vT-ytU">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="Rui-tm-rg3">
+                                                        <rect key="frame" x="8" y="90" width="128" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Interval (semitones):" id="XiV-l4-LMV">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="LTe-qa-56E">
+                                                        <rect key="frame" x="8" y="73" width="139" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" alignment="left" title="0" id="NUz-bG-Vaf">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="cSi-dV-5Ya">
+                                                        <rect key="frame" x="121" y="90" width="111" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="New key:" id="vmu-8X-v0A">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="M8H-8p-sOW">
+                                                        <rect key="frame" x="158" y="73" width="74" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="G (Em)" id="Ji0-I2-OAd">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <button verticalHuggingPriority="750" id="HtM-XY-9DM" customClass="MPfmButton">
+                                                        <rect key="frame" x="129" y="118" width="101" height="28"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="smallSquare" title="Change key" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nms-84-Jbr">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="actionChangeKey:" target="-2" id="g4e-ng-tGI"/>
+                                                        </connections>
+                                                    </button>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="eiF-8g-MxG">
+                                                        <rect key="frame" x="8" y="131" width="94" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Reference key:" id="ESQ-aO-haY">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <customView id="qc1-zf-pt4" customClass="MPfmTrackBarView">
+                                                        <rect key="frame" x="9" y="41" width="219" height="26"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                    </customView>
+                                                </subviews>
+                                            </customView>
+                                            <customView id="883" customClass="MPfmView">
+                                                <rect key="frame" x="484" y="-2" width="237" height="159"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" id="884">
+                                                        <rect key="frame" x="8" y="132" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[File type]" id="891">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="885">
+                                                        <rect key="frame" x="8" y="111" width="90" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Mono/Stereo]" id="890">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="886">
+                                                        <rect key="frame" x="8" y="90" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Bits/sample]" id="889">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="887">
+                                                        <rect key="frame" x="8" y="69" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Sample rate]" id="888">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="n9O-Vc-HhR">
+                                                        <rect key="frame" x="8" y="47" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="[Bitrate]" id="rOJ-En-lsn">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="rci-ur-7X4">
+                                                        <rect key="frame" x="153" y="132" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Genre]" id="1yf-xw-o5V">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="wlo-uZ-RIW">
+                                                        <rect key="frame" x="153" y="111" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Year]" id="Qgo-2I-TsA">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="kTG-QP-gBj">
+                                                        <rect key="frame" x="153" y="90" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[File size]" id="f50-1T-RZ6">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="ccG-KM-7Oq">
+                                                        <rect key="frame" x="153" y="69" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Play count]" id="Zlf-qg-Ibj">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
+                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" id="63W-tX-W4c">
+                                                        <rect key="frame" x="153" y="47" width="76" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="[Last played]" id="yBJ-WN-2tH">
+                                                            <font key="font" size="11" name="HelveticaNeue"/>
                                                             <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -627,114 +736,6 @@
                                                         </connections>
                                                     </button>
                                                     <customView id="Qrn-y5-vUo" customClass="MPfmTrackBarView">
-                                                        <rect key="frame" x="9" y="41" width="219" height="26"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                    </customView>
-                                                </subviews>
-                                            </customView>
-                                            <customView id="713" customClass="MPfmView">
-                                                <rect key="frame" x="484" y="-2" width="237" height="159"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                <subviews>
-                                                    <button verticalHuggingPriority="750" id="ViL-5n-hvb" customClass="MPfmRoundButton">
-                                                        <rect key="frame" x="69" y="6" width="30" height="30"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="-" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jtH-Fu-xtc">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionDecrementPitchShifting:" target="-2" id="mvQ-oo-pPn"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button verticalHuggingPriority="750" id="WC9-tm-Pid" customClass="MPfmRoundButton">
-                                                        <rect key="frame" x="104" y="6" width="30" height="30"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="+" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Kqe-tk-uRq">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionIncrementPitchShfiting:" target="-2" id="Mxc-3l-ksc"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button verticalHuggingPriority="750" id="8Tb-TX-LSt" customClass="MPfmRoundButton">
-                                                        <rect key="frame" x="139" y="6" width="30" height="30"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="Reset" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xK8-NS-anf">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionResetPitchShifting:" target="-2" id="9ew-js-Yg9"/>
-                                                        </connections>
-                                                    </button>
-                                                    <textField verticalHuggingPriority="750" id="W6p-JN-eZy">
-                                                        <rect key="frame" x="8" y="114" width="74" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="C (Am)" id="chK-vT-ytU">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="Rui-tm-rg3">
-                                                        <rect key="frame" x="8" y="90" width="128" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Interval (semitones):" id="XiV-l4-LMV">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="LTe-qa-56E">
-                                                        <rect key="frame" x="8" y="73" width="139" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" alignment="left" title="0" id="NUz-bG-Vaf">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="cSi-dV-5Ya">
-                                                        <rect key="frame" x="121" y="90" width="111" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="New key:" id="vmu-8X-v0A">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField verticalHuggingPriority="750" id="M8H-8p-sOW">
-                                                        <rect key="frame" x="158" y="73" width="74" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="G (Em)" id="Ji0-I2-OAd">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <button verticalHuggingPriority="750" id="HtM-XY-9DM" customClass="MPfmButton">
-                                                        <rect key="frame" x="129" y="118" width="101" height="28"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="smallSquare" title="Change key" bezelStyle="smallSquare" imagePosition="left" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Nms-84-Jbr">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" size="11" name="HelveticaNeue"/>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="actionChangeKey:" target="-2" id="g4e-ng-tGI"/>
-                                                        </connections>
-                                                    </button>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="eiF-8g-MxG">
-                                                        <rect key="frame" x="8" y="131" width="94" height="18"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Reference key:" id="ESQ-aO-haY">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <customView id="qc1-zf-pt4" customClass="MPfmTrackBarView">
                                                         <rect key="frame" x="9" y="41" width="219" height="26"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     </customView>
@@ -1313,7 +1314,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.00000018229321" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412" y="3" width="384.00000006053597" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
