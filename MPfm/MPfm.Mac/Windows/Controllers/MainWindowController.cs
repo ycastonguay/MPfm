@@ -85,13 +85,12 @@ namespace MPfm.Mac
             trackBarTimeShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
             trackBarTimeShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
 
-            trackBarPitchShifting.Minimum = 50;
-            trackBarPitchShifting.Maximum = 150;
-            trackBarPitchShifting.Value = 100;
+            trackBarPitchShifting.Minimum = -12;
+            trackBarPitchShifting.Maximum = 12;
+            trackBarPitchShifting.Value = 0;
             trackBarPitchShifting.BlockValueChangeWhenDraggingMouse = true;
             trackBarPitchShifting.OnTrackBarValueChanged += HandleOnTrackBarTimeShiftingValueChanged;
             trackBarPitchShifting.SetNeedsDisplayInRect(trackBarTimeShifting.Bounds);
-
         }
 
 		public override void WindowDidLoad()
