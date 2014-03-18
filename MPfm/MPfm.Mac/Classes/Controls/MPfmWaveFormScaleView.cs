@@ -24,6 +24,7 @@ using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
 using System;
 using MPfm.Sound.AudioFiles;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -59,6 +60,31 @@ namespace MPfm.Mac.Classes.Controls
                 _control.AudioFileLength = value;
             }
         }
+        
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }
+
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _control.ContentOffset;
+            }
+            set
+            {
+                _control.ContentOffset = value;
+            }
+        }
+
         [Export("init")]
         public MPfmWaveFormScaleView() : base(NSObjectFlag.Empty)
         {

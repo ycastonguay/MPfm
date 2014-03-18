@@ -74,7 +74,6 @@ namespace MPfm.Mac.Classes.Controls
         public override void DrawRect(RectangleF dirtyRect)
         {
             base.DrawRect(dirtyRect);
-            
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
             _control.Render(wrapper);
@@ -102,6 +101,16 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+        
+        public override void ScrollWheel(NSEvent theEvent)
+        {
+            base.ScrollWheel(theEvent);
+
+            if (theEvent.DeltaY > 0)
+                _control.MouseWheel(2);
+            else if (theEvent.DeltaY < 0)
+                _control.MouseWheel(-2);
         }
     }
 }

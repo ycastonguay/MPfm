@@ -29,6 +29,7 @@ using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Managers;
 using MPfm.GenericControls.Managers.Events;
+using MPfm.GenericControls.Wrappers;
 
 namespace MPfm.GenericControls.Controls
 {
@@ -38,6 +39,7 @@ namespace MPfm.GenericControls.Controls
     public class WaveFormControl : IControl, IControlMouseInteraction
     {
         private readonly object _locker = new object();
+        private IHorizontalScrollBarWrapper _horizontalScrollBar;        
         private bool _isMouseDown;
         private float _density;
         private BasicPen _penTransparent;
@@ -53,6 +55,8 @@ namespace MPfm.GenericControls.Controls
         private bool _isLoading = false;
         private bool _isGeneratingImageCache = false;
         private IDisposable _imageCache = null;
+        private float _imageCacheWidth;
+        private float _imageCacheZoom;
         private float _cursorX;
         private float _secondaryCursorX;
 		private BasicColor _backgroundColor = new BasicColor(32, 40, 46);
@@ -62,8 +66,9 @@ namespace MPfm.GenericControls.Controls
         private BasicColor _markerCursorColor = new BasicColor(255, 0, 0);
         private BasicColor _markerSelectedCursorColor = new BasicColor(234, 138, 128);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
+        
+        public InputInteractionMode InteractionMode { get; set; }
         public BasicRectangle Frame { get; set; }
-
 		public float FontSize { get; set; }
 		public string FontFace { get; set; }
 		public float LetterFontSize { get; set; }
@@ -122,6 +127,33 @@ namespace MPfm.GenericControls.Controls
             set
             {
                 _zoom = value;
+                // Adjust content offset
+                //RefreshWaveFormBitmap();
+                OnInvalidateVisual();
+            }
+        }
+        
+        private BasicRectangle ContentSize
+        {
+            get
+            {
+                //return new BasicRectangle(0, 0, Frame.Width * Zoom, Frame.Height * Zoom);
+                return new BasicRectangle(0, 0, Frame.Width * Zoom, Frame.Height);
+            }
+        }
+        
+        private BasicPoint _contentOffset = new BasicPoint(0, 0);
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _contentOffset;
+            }
+            set
+            {
+                _contentOffset = value;
+                //Console.WriteLine("WaveFormControl - ContentOffset: {0}", _contentOffset);
+                OnInvalidateVisual();
             }
         }
 
@@ -137,8 +169,9 @@ namespace MPfm.GenericControls.Controls
         public event ChangePosition OnChangePosition;
         public event ChangePosition OnChangeSecondaryPosition;
 
-        public WaveFormControl()
+        public WaveFormControl(IHorizontalScrollBarWrapper horizontalScrollBar)
         {
+            _horizontalScrollBar = horizontalScrollBar;
             Initialize();
         }
 
@@ -189,7 +222,7 @@ namespace MPfm.GenericControls.Controls
         {
             //InvokeOnMainThread(() =>
 			//Console.WriteLine("WaveFormControl - HandleLoadedPeakFileSuccessfullyEvent");
-            GenerateWaveFormBitmap(e.AudioFile, Frame);
+            GenerateWaveFormBitmap(e.AudioFile, ContentSize);
         }
 
         private void HandleGenerateWaveFormBegunEvent(object sender, GenerateWaveFormEventArgs e)
@@ -203,6 +236,9 @@ namespace MPfm.GenericControls.Controls
             _isGeneratingImageCache = false;
             _isLoading = false;
             _imageCache = e.Image;
+            _imageCacheWidth = e.Width;
+            _imageCacheZoom = e.Zoom;
+            Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
             OnInvalidateVisual();
         }
 
@@ -321,24 +357,45 @@ namespace MPfm.GenericControls.Controls
                 }
             }
 
-			//Console.WriteLine("WaveFormControl - DrawWaveFormBitmap");
+            //Console.WriteLine("WaveFormControl - DrawWaveFormBitmap");
             _isLoading = false;
             int heightAvailable = (int)Frame.Height;
 
             // Draw bitmap cache
             //Console.WriteLine("WaveFormControl - DrawBitmap - Frame.width: {0} Frame.height: {1}", Frame.Width, Frame.Height);
-            var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
+            BasicRectangle rectImage;
+            if (Zoom != _imageCacheZoom)
+            {
+                float deltaZoom = Zoom;
+                //float deltaZoom = Zoom - _imageCacheZoom + 1;
+                //float deltaZoom = (_imageCacheZoom / Zoom) + 1;
+                //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom != _imageCacheZoom - Zoom: {0} _imageCacheZoom: {1} deltaZoom: {2}", Zoom, _imageCacheZoom, deltaZoom);
+                //rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / Zoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
+                rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
+            } 
+            else
+            {
+                //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom == _imageCacheZoom");
+                //rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (2 * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
+                rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (2 * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
+            }
+
+            //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom: {0} _imageCacheZoom: {1}", Zoom, _imageCacheZoom);
+            //var rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / Zoom)), 0, Frame.Width * _density * (1 / Zoom), Frame.Height * _density);
+            //var rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / _imageCacheZoom)), 0, Frame.Width * _density * (1 / _imageCacheZoom), Frame.Height * _density);
+            
+            //Console.WriteLine("rectImage: {0} Frame: {1} ContentSize: {2} ContentOffset: {3}", rectImage, Frame, ContentSize, ContentOffset);
             context.DrawImage(Frame, rectImage, _imageCache);
 
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;
-            _cursorX = positionPercentage * Frame.Width;
+            _cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
 
             // Draw markers
             for (int a = 0; a < _markers.Count; a++)
             {
                 float xPct = (float)_markers[a].PositionBytes / (float)Length;
-                float x = xPct * Frame.Width;
+                float x = (xPct * ContentSize.Width) - ContentOffset.X;
 
                 // Draw cursor line
                 var pen = _markers[a].MarkerId == _activeMarkerId ? _penSelectedMarkerLine : _penMarkerLine;
@@ -360,9 +417,10 @@ namespace MPfm.GenericControls.Controls
             // Check if a secondary cursor must be drawn (i.e. when changing position)
             if (ShowSecondaryPosition)
             {
-                float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;
-                _secondaryCursorX = secondaryPositionPercentage * Frame.Width;
+                float secondaryPositionPercentage = (float)SecondaryPosition / (float)Length;                
+                _secondaryCursorX = (secondaryPositionPercentage * ContentSize.Width) - ContentOffset.X;
                 _secondaryCursorX = (float)Math.Round(_secondaryCursorX * 2) / 2; // Round to 0.5
+                //Console.WriteLine("secondaryPositionPercentage: {0} secondaryCursorX: {1}", secondaryPositionPercentage, _secondaryCursorX);
 
                 // Draw cursor line
                 context.SetPen(_penSecondaryCursorLine);
@@ -372,7 +430,8 @@ namespace MPfm.GenericControls.Controls
 
         public void RefreshWaveFormBitmap()
         {
-            RefreshWaveFormBitmap(Frame.Width);
+            RefreshWaveFormBitmap(ContentSize.Width);
+            //RefreshWaveFormBitmap(Frame.Width); // already multipled layer
         }
 
         public void RefreshWaveFormBitmap(float width)
@@ -391,7 +450,7 @@ namespace MPfm.GenericControls.Controls
                 _isGeneratingImageCache = true;
                 var rectImage = new BasicRectangle(0, 0, rect.Width * _density, rect.Height * _density);
                 Console.WriteLine("MPfmWaveFormView - GenerateWaveFormBitmap audioFilePath: {0} rect.width: {1} rect.height: {2}", audioFile.FilePath, rectImage.Width, rectImage.Height);
-                WaveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, rectImage, 1, Length);
+                WaveFormCacheManager.RequestBitmap(audioFile, WaveFormDisplayType.Stereo, rectImage, Zoom, Length);
             }
         }
 
@@ -424,8 +483,9 @@ namespace MPfm.GenericControls.Controls
                 return;
 
             ShowSecondaryPosition = true;
-            var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
-            float positionPercentage = (x / Frame.Width);
+            long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
+            float positionPercentage = (float)position / (float)Length;
+            //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
             SecondaryPosition = (long)(positionPercentage * Length);
         }
 
@@ -436,10 +496,10 @@ namespace MPfm.GenericControls.Controls
                 return;
 
             ShowSecondaryPosition = false;
-            var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
-            float positionPercentage = (x/Frame.Width);
-            long position = (long)(positionPercentage * Length);
-
+//            float positionPercentage = (x / ContentSize.Width);
+//            long position = (long)(positionPercentage * Length);
+            long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
+            float positionPercentage = (float)position / (float)Length;
             if (button == MouseButtonType.Left)
             {
                 Position = position;
@@ -463,9 +523,10 @@ namespace MPfm.GenericControls.Controls
 
             if (_isMouseDown)
             {
-                var rectImage = new BasicRectangle(0, 0, Frame.Width * _density, Frame.Height * _density);
-                long position = (long)((x / Frame.Width) * Length);
-                float positionPercentage = (x / Frame.Width);
+                long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
+                //float positionPercentage = (x / ContentSize.Width);
+                float positionPercentage = (float)position / (float)Length;
+                //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
                 SecondaryPosition = position;
                 OnChangeSecondaryPosition(positionPercentage);
             } 
@@ -481,6 +542,11 @@ namespace MPfm.GenericControls.Controls
 
         public void MouseWheel(float delta)
         {
+        }
+
+        public enum InputInteractionMode
+        {
+            Select = 0, ZoomIn = 1, ZoomOut = 2
         }
     }
 }
