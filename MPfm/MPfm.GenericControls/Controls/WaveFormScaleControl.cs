@@ -57,6 +57,8 @@ namespace MPfm.GenericControls.Controls
         private BasicPen _penMajorTick;
         private BasicPen _penMinorTick;
 
+        public BasicRectangle Frame { get; set; }
+        
         public long AudioFileLength
         {
             get
@@ -69,6 +71,43 @@ namespace MPfm.GenericControls.Controls
                 OnInvalidateVisual();
             }
         }
+        
+        private float _zoom = 1.0f;
+        public float Zoom
+        {
+            get
+            {
+                return _zoom;
+            }
+            set
+            {
+                _zoom = value;
+                // Adjust content offset
+                OnInvalidateVisual();
+            }
+        }
+        
+        private BasicRectangle ContentSize
+        {
+            get
+            {
+                return new BasicRectangle(0, 0, Frame.Width * Zoom, Frame.Height);
+            }
+        }
+        
+        private BasicPoint _contentOffset = new BasicPoint(0, 0);
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _contentOffset;
+            }
+            set
+            {
+                _contentOffset = value;
+                OnInvalidateVisual();
+            }
+        }
 
         public event InvalidateVisual OnInvalidateVisual;
         public event InvalidateVisualInRect OnInvalidateVisualInRect;
@@ -78,6 +117,7 @@ namespace MPfm.GenericControls.Controls
         {
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
+            Frame = new BasicRectangle();
         }
 
         public void Render(IGraphicsContext context)
@@ -96,6 +136,7 @@ namespace MPfm.GenericControls.Controls
 
             context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
 
+            Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
             if (_audioFile == null || _audioFileLength == 0)
                 return;
 
@@ -126,7 +167,7 @@ namespace MPfm.GenericControls.Controls
             //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
 
             // Draw scale borders
-            context.DrawLine(new BasicPoint(0, context.BoundsHeight), new BasicPoint(context.BoundsWidth, context.BoundsHeight), _penBorder);
+            context.DrawLine(new BasicPoint(0 - ContentOffset.X, ContentSize.Height), new BasicPoint(ContentSize.Width - ContentOffset.X, ContentSize.Height), _penBorder);
 
             float tickWidth = 0;
             int tickCount = 0;
@@ -166,7 +207,7 @@ namespace MPfm.GenericControls.Controls
                         break;
                 }
 
-                tickWidth = (context.BoundsWidth / totalMinutes / scaleMultiplier) / 10;
+                tickWidth = (ContentSize.Width / totalMinutes / scaleMultiplier) / 10;
                 majorTickCount = (int)(Math.Floor(totalMinutes) * scaleMultiplier) + 1; // +1 because of minute 0
                 minorTickCount = (int)((Math.Floor(totalMinutes) * 10) * scaleMultiplier);
                 lastMinuteTickCount = (int)Math.Floor(lastMinuteSeconds / (6f / scaleMultiplier)); // 6 = 6seconds (60/10) // 12
@@ -223,9 +264,9 @@ namespace MPfm.GenericControls.Controls
             }
 
             // Measure typical text height (do this once, not needed for every major tick)
-            var rectText = context.MeasureText("12345:678.90", new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), "HelveticaNeue", 10);
+            var rectText = context.MeasureText("12345:678.90", new BasicRectangle(0, 0, ContentSize.Width, ContentSize.Height), "HelveticaNeue", 10);
 
-            float tickX = 0;
+            float tickX = -ContentOffset.X;
             int majorTickIndex = 0;
             for(int a = 0; a < tickCount; a++)
             {
@@ -235,14 +276,14 @@ namespace MPfm.GenericControls.Controls
                 // Draw scale line
                 if(isMajorTick)
                     //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
-                    context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
+                    context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
                 else
-                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 6)), new BasicPoint(tickX, context.BoundsHeight), _penMinorTick);
+                    context.DrawLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height), _penMinorTick);
 
                 if(isMajorTick)
                 {
                     // Draw dashed traversal line for major ticks
-                    context.DrawLine(new BasicPoint(tickX, context.BoundsHeight), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
+                    context.DrawLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
 
                     // Determine major scale text
                     int minutes = 0;
@@ -285,8 +326,8 @@ namespace MPfm.GenericControls.Controls
 
                     // Draw text at every major tick (minute count)
                     string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);                    
-                    float y = context.BoundsHeight - (context.BoundsHeight/12f) - rectText.Height - (4 * context.Density);
-                    context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, "HelveticaNeue", 10);
+                    float y = ContentSize.Height - (ContentSize.Height/12f) - rectText.Height - (0.5f * context.Density);                    
+                    context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, "Roboto", 10);
                     majorTickIndex++;
                 }
 

@@ -23,7 +23,6 @@ using MonoMac.Foundation;
 using MPfm.GenericControls.Controls;
 using MPfm.Mac.Classes.Controls.Graphics;
 using MPfm.Mac.Classes.Controls.Helpers;
-using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -134,6 +133,16 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
+        }
+        
+        public override void ScrollWheel(NSEvent theEvent)
+        {
+            base.ScrollWheel(theEvent);
+
+            if (theEvent.DeltaY > 0)
+                _control.MouseWheel(2);
+            else if (theEvent.DeltaY < 0)
+                _control.MouseWheel(-2);
         }
     }
 }

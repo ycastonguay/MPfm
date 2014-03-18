@@ -144,12 +144,12 @@ namespace MPfm.Mac.Classes.Controls.Helpers
             cursor.Set();
         }
 
-        private static PointF GetMouseLocation(NSView view, NSEvent theEvent)
+        public static PointF GetMouseLocation(NSView view, NSEvent theEvent)
         {
             return view.ConvertPointFromView(theEvent.LocationInWindow, null);
         }    
         
-        private static MouseButtonType GetMouseButtonType(NSEvent theEvent)
+        public static MouseButtonType GetMouseButtonType(NSEvent theEvent)
         {
             var button = MouseButtonType.Left;
 
@@ -180,16 +180,16 @@ namespace MPfm.Mac.Classes.Controls.Helpers
             return button;
         }    
 
-        private static KeysHeld GetKeysHeld(NSEvent theEvent)
+        public static KeysHeld GetKeysHeld(NSEvent theEvent)
         {
             var keysHeld = new KeysHeld();
             keysHeld.IsShiftKeyHeld = (theEvent.ModifierFlags & NSEventModifierMask.ShiftKeyMask) != 0;
-            keysHeld.IsAltKeyHeld = (theEvent.ModifierFlags & NSEventModifierMask.CommandKeyMask) != 0;
+            keysHeld.IsAltKeyHeld = (theEvent.ModifierFlags & NSEventModifierMask.AlternateKeyMask) != 0;
             keysHeld.IsCtrlKeyHeld = (theEvent.ModifierFlags & NSEventModifierMask.ControlKeyMask) != 0;
             return keysHeld;
         }
 
-        private static SpecialKeys GetSpecialKeys(NSEvent theEvent)
+        public static SpecialKeys GetSpecialKeys(NSEvent theEvent)
         {
             string chars = theEvent.CharactersIgnoringModifiers;
             if (chars.Length == 0)

@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Interaction;
-using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Controls
 {
@@ -242,6 +241,12 @@ namespace MPfm.GenericControls.Controls
 
         public void MouseWheel(float delta)
         {
+            int newValue = (int)(Value + (delta * 20));
+            if(newValue < Minimum)
+                newValue = Minimum;
+            else if(newValue > Maximum)
+                newValue = Maximum;
+            Value = newValue;
         }
 
         public void Render(IGraphicsContext context)

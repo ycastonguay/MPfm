@@ -27,6 +27,7 @@ using MPfm.Player.Objects;
 using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.Mac.Classes.Helpers;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -34,6 +35,7 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmWaveFormView : NSView
     {
         private WaveFormControl _control;
+        private HorizontalScrollBarWrapper _horizontalScrollBar;
         private SizeF _currentSize = new SizeF(0, 0);
 
         //public override bool WantsDefaultClipping { get { return false; } }
@@ -75,6 +77,42 @@ namespace MPfm.Mac.Classes.Controls
                 _control.ShowSecondaryPosition = value;
             }
         }
+        
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }        
+
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _control.ContentOffset;
+            }
+            set
+            {
+                _control.ContentOffset = value;
+            }
+        }        
+
+        public WaveFormControl.InputInteractionMode InteractionMode
+        {
+            get
+            {
+                return _control.InteractionMode;
+            }
+            set
+            {
+                _control.InteractionMode = value;
+            }
+        }
 
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
@@ -98,20 +136,38 @@ namespace MPfm.Mac.Classes.Controls
 //            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
 //            AddTrackingArea(trackingArea);
 
-            _control = new WaveFormControl();    
+            _horizontalScrollBar = new HorizontalScrollBarWrapper();
+            AddSubview(_horizontalScrollBar);
+
+            _control = new WaveFormControl(_horizontalScrollBar);    
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
             _control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
+            
+            SetFrame();
+            PostsBoundsChangedNotifications = true;
+            NSNotificationCenter.DefaultCenter.AddObserver(NSView.FrameChangedNotification, FrameDidChangeNotification, this);
+        }
+        
+        private void FrameDidChangeNotification(NSNotification notification)
+        {
+            //Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification - Bounds: {0} Frame: {1}", Bounds, Frame);
+            SetFrame();
+        }
+
+        private void SetFrame()
+        {
+            _horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
         }
         
         public override void DrawRect(RectangleF dirtyRect)
         {
-            if (_currentSize != Bounds.Size)
-            {
-                _currentSize = Bounds.Size;
-                RefreshWaveFormBitmap((int)_currentSize.Width);
-            }
+//            if (_currentSize != Bounds.Size)
+//            {
+//                _currentSize = Bounds.Size;
+//                RefreshWaveFormBitmap((int)_currentSize.Width);
+//            }
 
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
@@ -156,6 +212,11 @@ namespace MPfm.Mac.Classes.Controls
         public void LoadPeakFile(AudioFile audioFile)
         {
             _control.LoadPeakFile(audioFile);
+        }
+
+        public void RefreshWaveFormBitmap()
+        {
+            _control.RefreshWaveFormBitmap();
         }
 
         public void RefreshWaveFormBitmap(int width)

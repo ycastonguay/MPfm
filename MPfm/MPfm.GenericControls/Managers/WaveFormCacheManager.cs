@@ -237,8 +237,8 @@ namespace MPfm.GenericControls.Managers
             // Calculate available size
             int widthAvailable = (int)bounds.Width;
             int heightAvailable = (int)bounds.Height;
-            if (zoom > 1)
-                widthAvailable = (int)(bounds.Width * zoom);
+//            if (zoom > 1)
+//                widthAvailable = (int)(bounds.Width * zoom);
             boundsWaveForm = new BasicRectangle(0, 0, widthAvailable - (_padding * 2), heightAvailable - (_padding * 2));
 
 			// Use this instead of a task, this guarantees to execute in another thread
@@ -492,6 +492,7 @@ namespace MPfm.GenericControls.Managers
 				{
 					AudioFilePath = audioFile.FilePath,
 					Zoom = zoom,
+                    Width = context.BoundsWidth,
 					DisplayType = displayType,
 					Image = imageCache
 				});
