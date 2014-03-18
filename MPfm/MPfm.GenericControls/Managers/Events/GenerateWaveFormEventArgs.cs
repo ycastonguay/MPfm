@@ -23,6 +23,7 @@ namespace MPfm.GenericControls.Managers.Events
     {
         public string AudioFilePath { get; set; }
         public float Zoom { get; set; }
+        public float Width { get; set; }
         public WaveFormDisplayType DisplayType { get; set; }
         public IDisposable Image { get; set; }
     }
