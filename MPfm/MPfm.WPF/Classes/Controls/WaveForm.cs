@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Interaction;
 using MPfm.Player.Objects;
@@ -70,6 +71,30 @@ namespace MPfm.WPF.Classes.Controls
             }
         }
 
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }
+
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _control.ContentOffset;
+            }
+            set
+            {
+                _control.ContentOffset = value;
+            }
+        }  
+
         public event WaveFormControl.ChangePosition OnChangePosition;
         public event WaveFormControl.ChangePosition OnChangeSecondaryPosition;
 
@@ -103,6 +128,11 @@ namespace MPfm.WPF.Classes.Controls
         public void LoadPeakFile(AudioFile audioFile)
         {
             _control.LoadPeakFile(audioFile);
+        }
+
+        public void RefreshWaveFormBitmap()
+        {
+            _control.RefreshWaveFormBitmap();
         }
 
         public void RefreshWaveFormBitmap(int width)
