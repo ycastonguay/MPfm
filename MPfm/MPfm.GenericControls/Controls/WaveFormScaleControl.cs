@@ -31,6 +31,7 @@ namespace MPfm.GenericControls.Controls
     {
         private readonly object _locker = new object();
         private BasicBrush _brushBackground;
+        private BasicRectangle _rectText;
 		private BasicColor _backgroundColor = new BasicColor(32, 40, 46);
 		private BasicColor _borderColor = new BasicColor(85, 85, 85);
 		private BasicColor _minorTickColor = new BasicColor(85, 85, 85);
@@ -131,6 +132,7 @@ namespace MPfm.GenericControls.Controls
                     _penBorder = new BasicPen(new BasicBrush(_borderColor), 1);
                     _penMajorTick = new BasicPen(new BasicBrush(_majorTickColor), 1);
                     _penMinorTick = new BasicPen(new BasicBrush(_minorTickColor), 1);
+                    _rectText = context.MeasureText("12345:678.90", new BasicRectangle(0, 0, Frame.Width, Frame.Height), "HelveticaNeue", 10);
                 }
             }
 
@@ -157,11 +159,11 @@ namespace MPfm.GenericControls.Controls
 
             // If the song duration is short, use a smaller scale right away
             var scaleType = WaveFormScaleType._1minute;
-            if(totalSecondsScaled < 10)
+            if (totalSecondsScaled < 10)
                 scaleType = WaveFormScaleType._1second;
-            else if(totalSecondsScaled < 30)
+            else if (totalSecondsScaled < 30)
                 scaleType = WaveFormScaleType._10seconds;
-            else if(totalMinutesScaled < 1)
+            else if (totalMinutesScaled < 1)
                 scaleType = WaveFormScaleType._30seconds;
 
             //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
@@ -236,8 +238,7 @@ namespace MPfm.GenericControls.Controls
                             foundScale = true;
                             break;
                     }
-                }
-                else if (tickWidth < 5f)
+                } else if (tickWidth < 5f)
                 {
                     //Console.WriteLine("WaveFormScaleView - tickWidth: {0} - tickWidth < 5f; Moving scale up...", tickWidth);
                     switch (scaleType)
@@ -255,81 +256,84 @@ namespace MPfm.GenericControls.Controls
                             foundScale = true;
                             break;
                     }
-                }
-                else
+                } else
                 {
                     //Console.WriteLine("WaveFormScaleView - tickWidth: {0} - Found right scale; exiting loop...", tickWidth);
                     foundScale = true;
                 }
             }
 
-            // Measure typical text height (do this once, not needed for every major tick)
-            var rectText = context.MeasureText("12345:678.90", new BasicRectangle(0, 0, ContentSize.Width, ContentSize.Height), "HelveticaNeue", 10);
-
             float tickX = -ContentOffset.X;
             int majorTickIndex = 0;
-            for(int a = 0; a < tickCount; a++)
+            for (int a = 0; a < tickCount; a++)
             {
                 bool isMajorTick = ((a % 10) == 0);
-                //Console.WriteLine("####> WaveFormView - Scale - tick {0} x: {1} isMajorTick: {2} tickCount: {3}", a, tickX, isMajorTick, tickCount);
-
-                // Draw scale line
-                if(isMajorTick)
-                    //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
-                    context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
-                else
-                    context.DrawLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height), _penMinorTick);
-
-                if(isMajorTick)
+                
+                // Ignore ticks out of bounds
+                if (tickX >= 0 && tickX <= Frame.Width)
                 {
-                    // Draw dashed traversal line for major ticks
-                    context.DrawLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
+                    //Console.WriteLine("####> WaveFormView - Scale - tick {0} x: {1} isMajorTick: {2} tickCount: {3}", a, tickX, isMajorTick, tickCount);
 
-                    // Determine major scale text
-                    int minutes = 0;
-                    int seconds = 0;
-                    switch(scaleType)
+                    // Draw scale line
+                    if(isMajorTick)
+                        //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
+                        context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
+                    else
+                        context.DrawLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height), _penMinorTick);
+
+                    if (isMajorTick)
                     {
-                        case WaveFormScaleType._10minutes:
-                            minutes = majorTickIndex * 10;
-                            seconds = 0;
-                            break;
-                        case WaveFormScaleType._5minutes:
-                            minutes = majorTickIndex * 5;
-                            seconds = 0;
-                            break;
-                        case WaveFormScaleType._2minutes:
-                            minutes = majorTickIndex * 2;
-                            seconds = 0;
-                            break;
-                        case WaveFormScaleType._1minute:
-                            minutes = majorTickIndex;
-                            seconds = 0;
-                            break;
-                        case WaveFormScaleType._30seconds:
-                            minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
-                            seconds = (majorTickIndex % scaleMultiplier == 0) ? 0 : 30;
-                            break;
-                        case WaveFormScaleType._10seconds:
-                            minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
-                            seconds = ((int)Math.Floor(majorTickIndex % scaleMultiplier)) * 10;
-                            break;
-                        case WaveFormScaleType._5seconds:
-                            minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
-                            seconds = ((int)Math.Floor(majorTickIndex % scaleMultiplier)) * 5;
-                            break;
-                        case WaveFormScaleType._1second:
-                            minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
-                            seconds = (int)Math.Floor(majorTickIndex % scaleMultiplier);
-                            break;
-                    }
+                        // Draw dashed traversal line for major ticks
+                        context.DrawLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
 
-                    // Draw text at every major tick (minute count)
-                    string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);                    
-                    float y = ContentSize.Height - (ContentSize.Height/12f) - rectText.Height - (0.5f * context.Density);                    
-                    context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, "Roboto", 10);
-                    majorTickIndex++;
+                        // Determine major scale text
+                        int minutes = 0;
+                        int seconds = 0;
+                        switch (scaleType)
+                        {
+                            case WaveFormScaleType._10minutes:
+                                minutes = majorTickIndex * 10;
+                                seconds = 0;
+                                break;
+                            case WaveFormScaleType._5minutes:
+                                minutes = majorTickIndex * 5;
+                                seconds = 0;
+                                break;
+                            case WaveFormScaleType._2minutes:
+                                minutes = majorTickIndex * 2;
+                                seconds = 0;
+                                break;
+                            case WaveFormScaleType._1minute:
+                                minutes = majorTickIndex;
+                                seconds = 0;
+                                break;
+                            case WaveFormScaleType._30seconds:
+                                minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
+                                seconds = (majorTickIndex % scaleMultiplier == 0) ? 0 : 30;
+                                break;
+                            case WaveFormScaleType._10seconds:
+                                minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
+                                seconds = ((int)Math.Floor(majorTickIndex % scaleMultiplier)) * 10;
+                                break;
+                            case WaveFormScaleType._5seconds:
+                                minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
+                                seconds = ((int)Math.Floor(majorTickIndex % scaleMultiplier)) * 5;
+                                break;
+                            case WaveFormScaleType._1second:
+                                minutes = (int)Math.Floor(majorTickIndex / scaleMultiplier);
+                                seconds = (int)Math.Floor(majorTickIndex % scaleMultiplier);
+                                break;
+                        }
+
+                        // Draw text at every major tick (minute count)
+                        string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);                    
+                        float y = ContentSize.Height - (ContentSize.Height/12f) - _rectText.Height - (0.5f * context.Density);                    
+                        context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, "Roboto", 10);
+                    }
                 }
+                
+                if(isMajorTick)
+                    majorTickIndex++;
 
                 tickX += tickWidth;
             }

@@ -854,19 +854,19 @@ namespace MPfm.Mac
                     waveFormScrollView.SetWaveFormLength(lengthBytes);
                     waveFormScrollView.LoadPeakFile(audioFile);
 
-                    // Set album cover
-                    if (!String.IsNullOrEmpty(audioFile.FilePath))
-                    {
-                        NSImage image = AlbumCoverHelper.GetAlbumCover(audioFile.FilePath);
-                        if (image != null)
-                            imageAlbumCover.Image = image;
-                        else
-                            imageAlbumCover.Image = new NSImage();
-                    } 
-                    else
-                    {
-                        imageAlbumCover.Image = new NSImage();
-                    }
+//                    // Set album cover
+//                    if (!String.IsNullOrEmpty(audioFile.FilePath))
+//                    {
+//                        NSImage image = AlbumCoverHelper.GetAlbumCover(audioFile.FilePath);
+//                        if (image != null)
+//                            imageAlbumCover.Image = image;
+//                        else
+//                            imageAlbumCover.Image = new NSImage();
+//                    } 
+//                    else
+//                    {
+//                        imageAlbumCover.Image = new NSImage();
+//                    }
 
     //                if(_songBrowserSource != null)
     //                    _songBrowserSource.RefreshIsPlaying(tableSongBrowser, audioFile.FilePath);
@@ -930,6 +930,7 @@ namespace MPfm.Mac
                 InvokeOnMainThread(() => {
                     try
                     {
+                        _currentAlbumArtKey = key;
                         imageAlbumCover.Image = imageFromTask;
 //                        imageViewAlbumArt.Alpha = 0;
 //                        imageViewAlbumArt.Image = image;              

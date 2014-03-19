@@ -25,6 +25,7 @@ using MPfm.Mac.Classes.Controls.Helpers;
 using System;
 using MPfm.Sound.AudioFiles;
 using MPfm.GenericControls.Basics;
+using System.Diagnostics;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -33,7 +34,7 @@ namespace MPfm.Mac.Classes.Controls
     {
         private WaveFormScaleControl _control;
 
-        //public override bool WantsDefaultClipping { get { return false; } }
+        public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
         public override bool IsFlipped { get { return true; } }
 
@@ -106,9 +107,15 @@ namespace MPfm.Mac.Classes.Controls
         
         public override void DrawRect(RectangleF dirtyRect)
         {
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
+            
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
             _control.Render(wrapper);
+            
+            //stopwatch.Stop();
+            //Console.WriteLine("WaveFormScaleView - DrawRect - Render time: {0}", stopwatch.Elapsed);
         }
     }
 }

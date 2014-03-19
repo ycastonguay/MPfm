@@ -39,7 +39,6 @@ namespace MPfm.GenericControls.Controls
     public class WaveFormControl : IControl, IControlMouseInteraction
     {
         private readonly object _locker = new object();
-        private IHorizontalScrollBarWrapper _horizontalScrollBar;        
         private bool _isMouseDown;
         private float _density;
         private BasicPen _penTransparent;
@@ -169,9 +168,8 @@ namespace MPfm.GenericControls.Controls
         public event ChangePosition OnChangePosition;
         public event ChangePosition OnChangeSecondaryPosition;
 
-        public WaveFormControl(IHorizontalScrollBarWrapper horizontalScrollBar)
+        public WaveFormControl()
         {
-            _horizontalScrollBar = horizontalScrollBar;
             Initialize();
         }
 
@@ -366,25 +364,15 @@ namespace MPfm.GenericControls.Controls
             BasicRectangle rectImage;
             if (Zoom != _imageCacheZoom)
             {
-                float deltaZoom = Zoom;
-                //float deltaZoom = Zoom - _imageCacheZoom + 1;
-                //float deltaZoom = (_imageCacheZoom / Zoom) + 1;
+                float deltaZoom = Zoom / _imageCacheZoom;
                 //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom != _imageCacheZoom - Zoom: {0} _imageCacheZoom: {1} deltaZoom: {2}", Zoom, _imageCacheZoom, deltaZoom);
-                //rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / Zoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
-                rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
+                rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
             } 
             else
             {
                 //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom == _imageCacheZoom");
-                //rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (2 * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
-                rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (2 * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
+                rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
             }
-
-            //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom: {0} _imageCacheZoom: {1}", Zoom, _imageCacheZoom);
-            //var rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / Zoom)), 0, Frame.Width * _density * (1 / Zoom), Frame.Height * _density);
-            //var rectImage = new BasicRectangle(ContentOffset.X * (2 * (1 / _imageCacheZoom)), 0, Frame.Width * _density * (1 / _imageCacheZoom), Frame.Height * _density);
-            
-            //Console.WriteLine("rectImage: {0} Frame: {1} ContentSize: {2} ContentOffset: {3}", rectImage, Frame, ContentSize, ContentOffset);
             context.DrawImage(Frame, rectImage, _imageCache);
 
             // Calculate position
@@ -431,7 +419,6 @@ namespace MPfm.GenericControls.Controls
         public void RefreshWaveFormBitmap()
         {
             RefreshWaveFormBitmap(ContentSize.Width);
-            //RefreshWaveFormBitmap(Frame.Width); // already multipled layer
         }
 
         public void RefreshWaveFormBitmap(float width)
@@ -496,8 +483,6 @@ namespace MPfm.GenericControls.Controls
                 return;
 
             ShowSecondaryPosition = false;
-//            float positionPercentage = (x / ContentSize.Width);
-//            long position = (long)(positionPercentage * Length);
             long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
             float positionPercentage = (float)position / (float)Length;
             if (button == MouseButtonType.Left)
@@ -524,7 +509,6 @@ namespace MPfm.GenericControls.Controls
             if (_isMouseDown)
             {
                 long position = (long)(((x + ContentOffset.X) / ContentSize.Width) * Length);
-                //float positionPercentage = (x / ContentSize.Width);
                 float positionPercentage = (float)position / (float)Length;
                 //Console.WriteLine("positionPercentage: {0} x: {1} ContentSize.Width: {2}", positionPercentage, x, ContentSize.Width);
                 SecondaryPosition = position;
