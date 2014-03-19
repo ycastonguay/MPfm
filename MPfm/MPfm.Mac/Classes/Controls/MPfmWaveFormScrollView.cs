@@ -34,8 +34,9 @@ namespace MPfm.Mac.Classes.Controls
     [Register("MPfmWaveFormScrollView")]
     public class MPfmWaveFormScrollView : NSView
     {
-        //private bool _isDragging;
-        //private PointF _startDragLocation;
+        private bool _isDragging;
+        private float _startDragContentOffsetX;
+        private PointF _startDragLocation;
         private NSTextField _lblZoom;
         private NSMenu _menu;
         private NSMenuItem _menuItemSelect;
@@ -57,7 +58,7 @@ namespace MPfm.Mac.Classes.Controls
             }
             set
             {
-                _lblZoom.StringValue = string.Format("{0:0.0}%", value * 100);
+                _lblZoom.StringValue = string.Format("{0:0}%", value * 100);
                 _zoom = value;
                 WaveFormView.Zoom = value;
                 WaveFormScaleView.Zoom = value;
@@ -115,6 +116,7 @@ namespace MPfm.Mac.Classes.Controls
             _lblZoom.StringValue = "100.0%";
             _lblZoom.Font = NSFont.FromFontName("Roboto Medium", 10f);
             _lblZoom.Alignment = NSTextAlignment.Center;
+            _lblZoom.BackgroundColor = NSColor.Clear;
             //_lblZoom.BackgroundColor = NSColor.FromDeviceRgba(0.1f, 0.1f, 0.1f, 0.75f);
             _lblZoom.Layer.BackgroundColor = NSColor.FromDeviceRgba(0.2f, 0.2f, 0.2f, 0.6f).CGColor;
             _lblZoom.TextColor = NSColor.White;
@@ -202,6 +204,10 @@ namespace MPfm.Mac.Classes.Controls
         {
             WaveFormView.LoadPeakFile(audioFile);
             WaveFormScaleView.AudioFile = audioFile;
+            WaveFormView.ContentOffset.X = 0;                
+            WaveFormView.Zoom = 1;
+            WaveFormScaleView.ContentOffset.X = 0;                
+            WaveFormScaleView.Zoom = 1;
         }
 
         public void SetWaveFormLength(long lengthBytes)
@@ -234,11 +240,12 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.ScrollWheel(theEvent);
             
-            Console.WriteLine("ScrollWheel - deltaX: {0} deltaY: {1}", theEvent.DeltaX, theEvent.DeltaY);
+            //Console.WriteLine("ScrollWheel - deltaX: {0} deltaY: {1}", theEvent.DeltaX, theEvent.DeltaY);
             if (theEvent.DeltaX > 0.2f || theEvent.DeltaX < -0.2f)
             {
                 // Scroll left/right using a trackpad
-                SetContentOffsetX(WaveFormView.ContentOffset.X + (theEvent.DeltaX * 2));
+                float deltaX = -theEvent.DeltaX;
+                SetContentOffsetX(WaveFormView.ContentOffset.X + (deltaX * 2));
                 return;
             }
             
@@ -253,13 +260,15 @@ namespace MPfm.Mac.Classes.Controls
                 float newZoom = Zoom + (theEvent.DeltaY / 30f);
                 if(newZoom < 1)
                     newZoom = 1;
-                if(newZoom > 16)
-                    newZoom = 16;
+                if(newZoom > 32)
+                    newZoom = 32;
+                float deltaZoom = newZoom / Zoom;
                 Zoom = newZoom;
 
                 // Adjust content offset with new zoom value
                 // TODO: Adjust content offset X when zooming depending on mouse location
-                contentOffsetX = WaveFormView.ContentOffset.X + (WaveFormView.ContentOffset.X * (newZoom - Zoom));
+                //contentOffsetX = WaveFormView.ContentOffset.X + (WaveFormView.ContentOffset.X * (newZoom - Zoom));
+                contentOffsetX = WaveFormView.ContentOffset.X * deltaZoom;
             } 
             else
             {
@@ -281,47 +290,52 @@ namespace MPfm.Mac.Classes.Controls
             WaveFormScaleView.ContentOffset = new BasicPoint(contentOffsetX, 0);
         }
                 
-//        public override void MouseDown(NSEvent theEvent)
-//        {
-//            base.MouseDown(theEvent);
-//            var keysHeld = GenericControlHelper.GetKeysHeld(theEvent);
-//            if (keysHeld.IsAltKeyHeld)
-//            {
-//                _isDragging = true;
-//                _startDragLocation = GenericControlHelper.GetMouseLocation(this, theEvent);                
-//            }
-//        }
-//        
-//        public override void MouseUp(NSEvent theEvent)
-//        {
-//            base.MouseUp(theEvent);
-//            if (_isDragging)
-//            {
-//                _isDragging = false;
-//            }
-//        }
-//        
-//        public override void MouseMoved(NSEvent theEvent)
-//        {
-//            base.MouseMoved(theEvent);
-//            if (_isDragging)
-//            {
-//                var location = GenericControlHelper.GetMouseLocation(this, theEvent);
-//                Console.WriteLine("location: {0}", location);
-//            }
-//        }
-//
-//        public override void MouseDragged(NSEvent theEvent)
-//        {
-//            base.MouseDragged(theEvent);
-//            if (_isDragging)
-//            {
-//                var location = GenericControlHelper.GetMouseLocation(this, theEvent);
-//                float delta = location.X - _startDragLocation.X;
-//                Console.WriteLine("location: {0} delta: {1}", location, delta);
-//            }
-//        }
+        public override void MouseDown(NSEvent theEvent)
+        {
+            base.MouseDown(theEvent);
+            var location = GenericControlHelper.GetMouseLocation(this, theEvent);
+            if (location.Y <= 20)
+            {
+                _isDragging = true;
+                _startDragContentOffsetX = WaveFormView.ContentOffset.X;
+                _startDragLocation = location;
+            }
+        }
         
+        public override void MouseUp(NSEvent theEvent)
+        {
+            base.MouseUp(theEvent);
+            if (_isDragging)
+            {
+                _isDragging = false;
+            }
+        }
+        
+        public override void MouseMoved(NSEvent theEvent)
+        {
+            base.MouseMoved(theEvent);
+            if (_isDragging)
+            {
+                var location = GenericControlHelper.GetMouseLocation(this, theEvent);
+                Console.WriteLine("location: {0}", location);
+            }
+        }
+
+        public override void MouseDragged(NSEvent theEvent)
+        {
+            base.MouseDragged(theEvent);
+            if (_isDragging)
+            {
+                var location = GenericControlHelper.GetMouseLocation(this, theEvent);
+                float delta = location.X - _startDragLocation.X;
+                float x = _startDragContentOffsetX + delta;
+                SetContentOffsetX(x);
+                //Console.WriteLine("location: {0} delta: {1}", location, delta);
+            }
+        }
+
+        // maybe add mouse drag over scale to scroll left/right? keep scrollbar at the bottom
+
         public override void RightMouseDown(NSEvent theEvent)
         {
             base.RightMouseDown(theEvent);

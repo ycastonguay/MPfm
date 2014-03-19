@@ -19,6 +19,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Microsoft.SqlServer.Server;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
@@ -69,7 +70,9 @@ namespace MPfm.WPF.Classes.Controls.Graphics
 
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
-            DrawImage(rectangleDestination, image);
+            var disposableImage = (DisposableBitmap)image;
+            var croppedBitmap = new CroppedBitmap(disposableImage.Bitmap, GenericControlHelper.ToInt32Rect(rectangleSource));
+            _context.DrawImage(croppedBitmap, GenericControlHelper.ToRect(rectangleDestination));
         }
 
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
