@@ -18,6 +18,7 @@
 using System;
 using System.Windows.Media;
 using System.Windows.Threading;
+using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.Sound.AudioFiles;
 using MPfm.WPF.Classes.Controls.Graphics;
@@ -52,6 +53,30 @@ namespace MPfm.WPF.Classes.Controls
                 _control.AudioFileLength = value;
             }
         }
+
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }
+
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _control.ContentOffset;
+            }
+            set
+            {
+                _control.ContentOffset = value;
+            }
+        }  
 
         public WaveFormScale()
         {

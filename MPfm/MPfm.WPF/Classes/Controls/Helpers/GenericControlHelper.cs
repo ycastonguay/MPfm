@@ -37,6 +37,11 @@ namespace MPfm.WPF.Classes.Controls.Helpers
             return new Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
+        public static Int32Rect ToInt32Rect(BasicRectangle rectangle)
+        {
+            return new Int32Rect((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width, (int) rectangle.Height);
+        }
+
         public static Point ToPoint(BasicPoint point)
         {
             return new Point(point.X, point.Y);

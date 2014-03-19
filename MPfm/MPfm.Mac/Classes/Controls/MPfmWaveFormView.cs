@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using MPfm.Sound.AudioFiles;
 using MPfm.Mac.Classes.Helpers;
 using MPfm.GenericControls.Basics;
+using System.Diagnostics;
 
 namespace MPfm.Mac.Classes.Controls
 {
@@ -35,10 +36,9 @@ namespace MPfm.Mac.Classes.Controls
     public class MPfmWaveFormView : NSView
     {
         private WaveFormControl _control;
-        private HorizontalScrollBarWrapper _horizontalScrollBar;
         private SizeF _currentSize = new SizeF(0, 0);
 
-        //public override bool WantsDefaultClipping { get { return false; } }
+        public override bool WantsDefaultClipping { get { return false; } }
         public override bool IsOpaque { get { return true; } }
         public override bool IsFlipped { get { return true; } }
 
@@ -136,10 +136,7 @@ namespace MPfm.Mac.Classes.Controls
 //            var trackingArea = new NSTrackingArea(Bounds, opts, this, new NSDictionary());
 //            AddTrackingArea(trackingArea);
 
-            _horizontalScrollBar = new HorizontalScrollBarWrapper();
-            AddSubview(_horizontalScrollBar);
-
-            _control = new WaveFormControl(_horizontalScrollBar);    
+            _control = new WaveFormControl();    
             _control.OnChangePosition += (position) => OnChangePosition(position);
             _control.OnChangeSecondaryPosition += (position) => OnChangeSecondaryPosition(position);
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
@@ -158,7 +155,7 @@ namespace MPfm.Mac.Classes.Controls
 
         private void SetFrame()
         {
-            _horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
+            //_horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
         }
         
         public override void DrawRect(RectangleF dirtyRect)
@@ -169,10 +166,15 @@ namespace MPfm.Mac.Classes.Controls
 //                RefreshWaveFormBitmap((int)_currentSize.Width);
 //            }
 
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
+
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
             var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
-            //CoreGraphicsHelper.FillRect(context, Bounds, new CGColor(0, 0, 255));
             _control.Render(wrapper);
+            
+            //stopwatch.Stop();
+            //Console.WriteLine("WaveFormView - DrawRect - Render time: {0}", stopwatch.Elapsed);
         }
         
         public override void MouseUp(NSEvent theEvent)

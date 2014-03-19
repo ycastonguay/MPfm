@@ -459,15 +459,15 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <controls:WaveFormScrollViewer Grid.Row="0" x:Name="scrollViewWaveForm" MouseRightButtonUp="ScrollViewWaveForm_OnMouseRightButtonUp">
-                                <ScrollViewer.ContextMenu>
+                            <controls:WaveFormScrollView Grid.Row="0" x:Name="scrollViewWaveForm" MouseRightButtonUp="ScrollViewWaveForm_OnMouseRightButtonUp">
+                                <Panel.ContextMenu>
                                     <ContextMenu x:Name="contextMenuWaveForm" Visibility="Collapsed">
                                         <MenuItem x:Name="menuItemZoomIn" Header="Zoom in" Click="MenuItemZoomIn_OnClick" />
                                         <MenuItem x:Name="menuItemZoomOut" Header="Zoom out" Click="MenuItemZoomOut_OnClick" />
                                         <MenuItem x:Name="menuItemCreateMarker" Header="Create marker here" Click="MenuItemCreateMarker_OnClick" />
                                     </ContextMenu>
-                                </ScrollViewer.ContextMenu>
-                            </controls:WaveFormScrollViewer>
+                                </Panel.ContextMenu>
+                            </controls:WaveFormScrollView>
                             <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{DynamicResource BrushBackgroundColor}" ShowsPreview="True" Height="1" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>

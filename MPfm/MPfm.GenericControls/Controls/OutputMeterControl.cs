@@ -207,6 +207,7 @@ namespace MPfm.GenericControls.Controls
                 strDB = "-inf";
 
             // Draw text
+            // TODO: Measuring text is CPU intensive, all this to center the value... can we draw something centered without measuring?
 			var rectText = context.MeasureText(strDB, new BasicRectangle(), FontFace, FontSize);
             float newX = (barWidth - rectText.Width) / 2;
 			context.DrawText(strDB, new BasicPoint(newX + 1, context.BoundsHeight - rectText.Height - 4), new BasicColor(20, 20, 20), FontFace, FontSize);
