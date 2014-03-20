@@ -24,6 +24,7 @@ using Android.Util;
 using Android.Views;
 using MPfm.Android.Classes.Controls.Graphics;
 using MPfm.Android.Classes.Controls.Helpers;
+using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -57,6 +58,8 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
+            SetBackgroundColor(Color.Orange);
+
             _control = new WaveFormControl();
             _control.OnInvalidateVisual += () => Post(Invalidate);            
             _control.OnInvalidateVisualInRect += (rect) => Post(() => Invalidate(GenericControlHelper.ToRect(rect)));
@@ -102,6 +105,30 @@ namespace org.sessionsapp.android
             }
         }
 
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }
+
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _control.ContentOffset;
+            }
+            set
+            {
+                _control.ContentOffset = value;
+            }
+        }  
+
         public void SetMarkers(IEnumerable<Marker> markers)
         {
             _control.SetMarkers(markers);
@@ -115,6 +142,11 @@ namespace org.sessionsapp.android
         public void LoadPeakFile(AudioFile audioFile)
         {
             _control.LoadPeakFile(audioFile);
+        }
+
+        public void RefreshWaveFormBitmap()
+        {
+            _control.RefreshWaveFormBitmap();
         }
 
         public void RefreshWaveFormBitmap(int width)

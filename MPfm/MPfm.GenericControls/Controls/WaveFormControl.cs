@@ -220,6 +220,9 @@ namespace MPfm.GenericControls.Controls
         {
             //InvokeOnMainThread(() =>
 			//Console.WriteLine("WaveFormControl - HandleLoadedPeakFileSuccessfullyEvent");
+            if (Frame.Width == 0)
+                return;
+
             GenerateWaveFormBitmap(e.AudioFile, ContentSize);
         }
 
