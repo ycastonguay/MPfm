@@ -22,12 +22,13 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using MPfm.GenericControls.Basics;
 using MPfm.MVP.Services;
 using MPfm.Sound.AudioFiles;
 
 namespace org.sessionsapp.android
 {
-    public class WaveFormScrollView : HorizontalScrollView
+    public class WaveFormScrollView : LinearLayout
     {
         private int _activePointerId;
         private float _lastTouchX;
@@ -36,6 +37,31 @@ namespace org.sessionsapp.android
 
         public WaveFormScaleView ScaleView { get; private set; }
         public WaveFormView WaveView { get; private set; }
+
+        private float _zoom = 1;
+        public float Zoom
+        {
+            get
+            {
+                return _zoom;
+            }
+            set
+            {
+                //_lblZoom.StringValue = string.Format("{0:0}%", value * 100);
+                _zoom = value;
+                WaveView.Zoom = value;
+                ScaleView.Zoom = value;
+                //_lastZoomUpdate = DateTime.Now;
+
+                //if (_lblZoom.AlphaValue == 0)
+                //{
+                //    NSAnimationContext.BeginGrouping();
+                //    NSAnimationContext.CurrentContext.Duration = 0.2;
+                //    (_lblZoom.Animator as NSTextField).AlphaValue = 1;
+                //    NSAnimationContext.EndGrouping();
+                //}
+            }
+        }
 
         protected WaveFormScrollView(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
@@ -60,23 +86,18 @@ namespace org.sessionsapp.android
         private void Initialize()
         {
             _scaleGestureDetector = new ScaleGestureDetector(Context, new ScaleListener(this));
-            SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
-            //FillViewport = true;            
-
-            var layout = new LinearLayout(Context);
-            layout.Orientation = Orientation.Vertical;
-            layout.SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
-            //AddView(layout, new FrameLayout.LayoutParams(LayoutParams.FillParent, LayoutParams.FillParent));
-            AddView(layout, new FrameLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
+            //SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
+            SetBackgroundColor(Color.HotPink);
+            Orientation = Orientation.Vertical;
 
             int height = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 22, Resources.DisplayMetrics);
             ScaleView = new WaveFormScaleView(Context);
             ScaleView.SetBackgroundColor(Color.Purple);
-            layout.AddView(ScaleView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, height));
+            AddView(ScaleView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, height));
 
             WaveView = new WaveFormView(Context);
             WaveView.SetBackgroundColor(Color.DarkRed);
-            layout.AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
+            AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -96,6 +117,16 @@ namespace org.sessionsapp.android
         {
             base.DispatchTouchEvent(e);
             return _scaleGestureDetector.OnTouchEvent(e);
+        }
+
+        private void SetContentOffsetX(float x)
+        {
+            float contentOffsetX = x;
+            float maxX = (Width * Zoom) - Width;
+            contentOffsetX = Math.Max(contentOffsetX, 0);
+            contentOffsetX = Math.Min(contentOffsetX, maxX);
+            WaveView.ContentOffset = new BasicPoint(contentOffsetX, 0);
+            ScaleView.ContentOffset = new BasicPoint(contentOffsetX, 0);
         }
 
         //public override bool OnTouchEvent(MotionEvent e)
@@ -180,8 +211,17 @@ namespace org.sessionsapp.android
 
             private void SetScrollViewScale(float scale)
             {
-                _scrollView.ScaleX = scale > 1 ? scale : 1;
-                _scrollView.ScaleY = 1;
+                float deltaZoom = scale / _scrollView.Zoom;
+
+                // Adjust content offset with new zoom value
+                // TODO: Adjust content offset X when zooming depending on mouse location
+                //contentOffsetX = WaveFormView.ContentOffset.X + (WaveFormView.ContentOffset.X * (newZoom - Zoom));
+                float contentOffsetX = _scrollView.WaveView.ContentOffset.X * deltaZoom;
+                _scrollView.Zoom = scale;
+                _scrollView.SetContentOffsetX(contentOffsetX);
+
+                //_scrollView.ScaleX = scale > 1 ? scale : 1;
+                //_scrollView.ScaleY = 1;
             }
         }
     }

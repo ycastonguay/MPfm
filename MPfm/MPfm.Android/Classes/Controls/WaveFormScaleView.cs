@@ -24,6 +24,7 @@ using Android.Util;
 using Android.Views;
 using MPfm.Android.Classes.Controls.Graphics;
 using MPfm.Android.Classes.Controls.Helpers;
+using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -57,6 +58,30 @@ namespace org.sessionsapp.android
                 _control.AudioFileLength = value;
             }
         }
+
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }
+
+        public BasicPoint ContentOffset
+        {
+            get
+            {
+                return _control.ContentOffset;
+            }
+            set
+            {
+                _control.ContentOffset = value;
+            }
+        }  
 
         public WaveFormScaleView(Context context) : base(context)
         {

@@ -898,7 +898,7 @@ namespace MPfm.Player
                     _playlist.Items[a].Load(_useFloatingPoint);
 
                 // Start decoding first playlist item
-                _playlist.Items[Playlist.CurrentItemIndex].Decode(0);
+                //_playlist.Items[Playlist.CurrentItemIndex].Decode(0);
 
                 try
                 {

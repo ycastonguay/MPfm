@@ -63,6 +63,9 @@ namespace MPfm.Android.Classes.Controls.Graphics
 
         public void SetPen(BasicPen pen)
         {
+            TryToCreatePaint();
+            _currentPaint.Color = GenericControlHelper.ToColor(pen.Brush.Color);
+            _currentPaint.StrokeWidth = pen.Thickness;
         }
 
         public void StrokeLine(BasicPoint point, BasicPoint point2)
@@ -88,6 +91,8 @@ namespace MPfm.Android.Classes.Controls.Graphics
 
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
+            var paintBitmap = new Paint();
+            _canvas.DrawBitmap((Bitmap)image, GenericControlHelper.ToRect(rectangleSource), GenericControlHelper.ToRect(rectangleDestination), paintBitmap);
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

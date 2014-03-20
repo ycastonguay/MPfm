@@ -143,7 +143,7 @@ namespace MPfm.GenericControls.Managers
         public void LoadPeakFile(AudioFile audioFile)
         {
             // Check if another peak file is already loading
-            //Console.WriteLine("WaveFormCacheManager - LoadPeakFile audioFile: " + audioFile.FilePath);
+            Console.WriteLine("WaveFormCacheManager - LoadPeakFile audioFile: " + audioFile.FilePath);
             if (_peakFileService.IsLoading)
             {
                 //Console.WriteLine("WaveFormCacheManager - Cancelling current peak file generation...");
@@ -183,7 +183,7 @@ namespace MPfm.GenericControls.Managers
 
                     try
                     {
-                        //Console.WriteLine("WaveFormCacheManager - Reading peak file: " + peakFilePath);
+                        Console.WriteLine("WaveFormCacheManager - Reading peak file: " + peakFilePath);
                         data = _peakFileService.ReadPeakFile(peakFilePath);
                         if (data != null)
                             return data;
@@ -195,7 +195,7 @@ namespace MPfm.GenericControls.Managers
 
                     try
                     {
-                        //Console.WriteLine("WaveFormCacheManager - Peak file could not be loaded - Generating " + peakFilePath + "...");
+                        Console.WriteLine("WaveFormCacheManager - Peak file could not be loaded - Generating " + peakFilePath + "...");
                         OnGeneratePeakFileBegun(new GeneratePeakFileEventArgs());
                         _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
                     }
@@ -206,7 +206,7 @@ namespace MPfm.GenericControls.Managers
                     return null;
                 }, TaskCreationOptions.LongRunning).ContinueWith(t =>
                 {
-                    //Console.WriteLine("WaveFormCacheManager - Read peak file over.");
+                    Console.WriteLine("WaveFormCacheManager - Read peak file over.");
                     List<WaveDataMinMax> data = (List<WaveDataMinMax>)t.Result;
                     if (data == null)
                     {
@@ -214,7 +214,7 @@ namespace MPfm.GenericControls.Managers
                         return;
                     }
 
-                    //Console.WriteLine("WaveFormCacheManager - Adding wave data to cache...");
+                    Console.WriteLine("WaveFormCacheManager - Adding wave data to cache...");
                     if (!_waveDataCache.ContainsKey(audioFile.FilePath))
                         _waveDataCache.Add(audioFile.FilePath, data);
 
@@ -231,6 +231,7 @@ namespace MPfm.GenericControls.Managers
 
         public void RequestBitmap(AudioFile audioFile, WaveFormDisplayType displayType, BasicRectangle bounds, float zoom, long audioFileLength)
         {
+            Console.WriteLine("WaveFormCacheManager - RequestBitmap - audioFile: {0} zoom: {1} bounds: {2}", audioFile.FilePath, zoom, bounds);
             IDisposable imageCache;
             var boundsWaveForm = new BasicRectangle();
 
@@ -247,7 +248,7 @@ namespace MPfm.GenericControls.Managers
                 IMemoryGraphicsContext context;
                 try
                 {
-                    //Console.WriteLine("WaveFormCacheManager - Creating image cache...");
+                    Console.WriteLine("WaveFormCacheManager - Creating image cache...");
                     context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(bounds.Width, bounds.Height);
                     if (context == null)
                     {
@@ -482,12 +483,12 @@ namespace MPfm.GenericControls.Managers
                 finally
                 {
                     // Get image from context (at this point, we are sure the image context has been initialized properly)
-					//Console.WriteLine("WaveFormCacheManager - Rendering image to memory...");
+					Console.WriteLine("WaveFormCacheManager - Rendering image to memory...");
                     context.Close();
                     imageCache = context.RenderToImageInMemory();
                 }
 
-				//Console.WriteLine("WaveFormCacheManager - Created image successfully.");
+				Console.WriteLine("WaveFormCacheManager - Created image successfully.");
 				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 				{
 					AudioFilePath = audioFile.FilePath,
