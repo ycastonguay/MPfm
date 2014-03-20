@@ -170,6 +170,7 @@
     <Compile Include="Basics\BasicPoint.cs" />
     <Compile Include="Basics\BasicGradientBrush.cs" />
     <Compile Include="Graphics\IDisposableImageFactory.cs" />
+    <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
     <Compile Include="Controls\Songs\SongGridViewControl.cs" />

@@ -217,7 +217,7 @@ namespace MPfm.GenericControls.Controls
                 //Console.WriteLine("WaveFormScaleView - Scale type: {0} - scaleMultipl52ier: {1} majorTickCount: {2} minorTickCount: {3} totalSeconds: {4} lastMinuteSeconds: {5} lastMinuteTickCount: {6} tickCount: {7} tickWidth: {8}", scaleType.ToString(), scaleMultiplier, majorTickCount, minorTickCount, totalSeconds, lastMinuteSeconds, lastMinuteTickCount, tickCount, tickWidth);
 
                 // Check if the right scale was found
-                if (tickWidth > 20f)
+                if (tickWidth > 20f * context.Density)
                 {
                     //Console.WriteLine("WaveFormScaleView - tickWidth: {0} - tickWidth > 20; Moving scale down...", tickWidth);
                     switch (scaleType)
@@ -238,7 +238,7 @@ namespace MPfm.GenericControls.Controls
                             foundScale = true;
                             break;
                     }
-                } else if (tickWidth < 5f)
+                } else if (tickWidth < 5f * context.Density)
                 {
                     //Console.WriteLine("WaveFormScaleView - tickWidth: {0} - tickWidth < 5f; Moving scale up...", tickWidth);
                     switch (scaleType)
