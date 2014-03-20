@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Timers;
 using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
@@ -30,10 +31,10 @@ namespace org.sessionsapp.android
 {
     public class WaveFormScrollView : LinearLayout
     {
-        private int _activePointerId;
-        private float _lastTouchX;
-        private float _lastTouchY;
+        private DateTime _lastZoomUpdate;
+        private Timer _timerFadeOutZoomLabel;
         private ScaleGestureDetector _scaleGestureDetector;
+        private GestureDetector _panGestureDetector;
 
         public WaveFormScaleView ScaleView { get; private set; }
         public WaveFormView WaveView { get; private set; }
@@ -51,7 +52,7 @@ namespace org.sessionsapp.android
                 _zoom = value;
                 WaveView.Zoom = value;
                 ScaleView.Zoom = value;
-                //_lastZoomUpdate = DateTime.Now;
+                _lastZoomUpdate = DateTime.Now;
 
                 //if (_lblZoom.AlphaValue == 0)
                 //{
@@ -85,9 +86,10 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
+            _panGestureDetector = new GestureDetector(Context, new PanListener(this));
             _scaleGestureDetector = new ScaleGestureDetector(Context, new ScaleListener(this));
-            //SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
-            SetBackgroundColor(Color.HotPink);
+            SetBackgroundColor(Resources.GetColor(MPfm.Android.Resource.Color.background));
+            //SetBackgroundColor(Color.HotPink);
             Orientation = Orientation.Vertical;
 
             int height = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 22, Resources.DisplayMetrics);
@@ -98,6 +100,10 @@ namespace org.sessionsapp.android
             WaveView = new WaveFormView(Context);
             WaveView.SetBackgroundColor(Color.DarkRed);
             AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
+
+            _timerFadeOutZoomLabel = new Timer(100);
+            _timerFadeOutZoomLabel.Elapsed += HandleTimerFadeOutZoomLabelElapsed;
+            _timerFadeOutZoomLabel.Start();
         }
 
         public void LoadPeakFile(AudioFile audioFile)
@@ -116,7 +122,10 @@ namespace org.sessionsapp.android
         public override bool DispatchTouchEvent(MotionEvent e)
         {
             base.DispatchTouchEvent(e);
-            return _scaleGestureDetector.OnTouchEvent(e);
+            _panGestureDetector.OnTouchEvent(e);
+            _scaleGestureDetector.OnTouchEvent(e);
+            return true;
+            //return _scaleGestureDetector.OnTouchEvent(e);
         }
 
         private void SetContentOffsetX(float x)
@@ -129,59 +138,62 @@ namespace org.sessionsapp.android
             ScaleView.ContentOffset = new BasicPoint(contentOffsetX, 0);
         }
 
-        //public override bool OnTouchEvent(MotionEvent e)
-        //{
-        //    return _scaleGestureDetector.OnTouchEvent(e);
+        private void HandleTimerFadeOutZoomLabelElapsed(object sender, ElapsedEventArgs e)
+        {
+            Post(() =>
+            {
+                if (DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
+                {
+                    //Console.WriteLine("WaveFormScrollView - HandleTimerFadeOutZoomLabelElapsed - Refreshing wave form bitmap...");
+                    //WaveView.RefreshWaveFormBitmap();
+                }
+            });
+            //InvokeOnMainThread(() =>
+            //{
+            //    //Console.WriteLine("HandleTimerFadeOutZoomLabelElapsed - _lblZoom.AlphaValue: {0} - timeSpan since last update: {1}", _lblZoom.AlphaValue, DateTime.Now - _lastZoomUpdate);
+            //    if (_lblZoom.AlphaValue == 1 && DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
+            //    {
+            //        //Console.WriteLine("HandleTimerFadeOutZoomLabelElapsed - Fade out");
+            //        NSAnimationContext.BeginGrouping();
+            //        NSAnimationContext.CurrentContext.Duration = 0.2;
+            //        (_lblZoom.Animator as NSTextField).AlphaValue = 0;
+            //        NSAnimationContext.EndGrouping();
 
-        //    //float x, y;
-        //    //int pointerIndex, pointerId;
-        //    //switch(e.Action)
-        //    //{
-        //    //    case MotionEventActions.Down:
-        //    //        _lastTouchX = e.GetX();
-        //    //        _lastTouchY = e.GetY();
-        //    //        _activePointerId = e.GetPointerId(0);
-        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Down - x,y: {0},{1} activePointerId: {2}", _lastTouchX, _lastTouchY, _activePointerId);
-        //    //        break;
-        //    //    case MotionEventActions.Move:
-        //    //        pointerIndex = e.FindPointerIndex(_activePointerId);
-        //    //        if (pointerIndex == -1)
-        //    //            return true;
-        //    //        x = e.GetX(pointerIndex);
-        //    //        y = e.GetY(pointerIndex);
-        //    //        float dx = x - _lastTouchX;
-        //    //        float dy = y - _lastTouchY;
-        //    //        _lastTouchX = x;
-        //    //        _lastTouchY = y;
-        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Move - x,y: {0},{1}", x, y);
-        //    //        break;
-        //    //    case MotionEventActions.Up:
-        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Up");
-        //    //        break;
-        //    //    case MotionEventActions.Cancel:
-        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - Cancel");
-        //    //        break;
-        //    //    case MotionEventActions.PointerUp:
-        //    //        pointerIndex = ((int)e.Action & (int)MotionEventActions.PointerIndexMask) >> (int)MotionEventActions.PointerIndexShift;
-        //    //        pointerId = e.GetPointerId(pointerIndex);
-        //    //        if (pointerId == _activePointerId)
-        //    //        {
-        //    //            int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-        //    //            _lastTouchX = e.GetX(newPointerIndex);
-        //    //            _lastTouchY = e.GetY(newPointerIndex);
-        //    //            _activePointerId = e.GetPointerId(newPointerIndex);
-        //    //        }
-        //    //        Console.WriteLine("WaveFormScrollView - OnTouchEvent - PointerUp - pointerIndex: {0}", pointerIndex);
-        //    //        break;
-        //    //}
+            //        WaveFormView.RefreshWaveFormBitmap();
+            //    }
+            //});
+        }
 
-        //    //return base.OnTouchEvent(e);            
-        //    //return true;
-        //}
+        private class PanListener : GestureDetector.SimpleOnGestureListener
+        {
+            private readonly WaveFormScrollView _scrollView;
+
+            public PanListener(WaveFormScrollView scrollView)
+            {
+                _scrollView = scrollView;
+            }
+
+            public override bool OnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+            {
+                Console.WriteLine("PanListener - OnFling - velocityX: {0} velocityY: {1}", velocityX, velocityY);
+                return base.OnFling(e1, e2, velocityX, velocityY);
+            }
+            
+            public override bool OnScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+            {
+                //return base.OnScroll(e1, e2, distanceX, distanceY);                
+                //Console.WriteLine("PanListener - OnScroll - distanceX: {0} distanceY: {1}", distanceX, distanceY);
+                float x = _scrollView.WaveView.ContentOffset.X + distanceX;
+                _scrollView.SetContentOffsetX(x);
+                return true;
+            }
+        }
 
         private class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener
         {
             private readonly WaveFormScrollView _scrollView;
+            private float _startZoom;
+            private float _startContentOffsetX;
 
             public ScaleListener(WaveFormScrollView scrollView)
             {
@@ -190,35 +202,44 @@ namespace org.sessionsapp.android
 
             public override bool OnScaleBegin(ScaleGestureDetector detector)
             {
-                Console.WriteLine("ScaleListener - OnScaleBegin - scaleFactor: {0}", detector.ScaleFactor);
+                //Console.WriteLine("ScaleListener - OnScaleBegin - scaleFactor: {0}", detector.ScaleFactor);
+                _startZoom = _scrollView.Zoom;
+                _startContentOffsetX = _scrollView.WaveView.ContentOffset.X;
                 SetScrollViewScale(detector.ScaleFactor);
                 return base.OnScaleBegin(detector);
             }
 
             public override bool OnScale(ScaleGestureDetector detector)
             {
-                Console.WriteLine("ScaleListener - OnScale - scaleFactor: {0}", detector.ScaleFactor);
+                //Console.WriteLine("ScaleListener - OnScale - scaleFactor: {0}", detector.ScaleFactor);
                 SetScrollViewScale(detector.ScaleFactor);
                 return base.OnScale(detector);
             }
 
             public override void OnScaleEnd(ScaleGestureDetector detector)
             {
-                Console.WriteLine("ScaleListener - OnScaleEnd - scaleFactor: {0}", detector.ScaleFactor);
+                //Console.WriteLine("ScaleListener - OnScaleEnd - scaleFactor: {0}", detector.ScaleFactor);
                 SetScrollViewScale(detector.ScaleFactor);
                 base.OnScaleEnd(detector);
             }
 
             private void SetScrollViewScale(float scale)
             {
-                float deltaZoom = scale / _scrollView.Zoom;
+                float adjustedScale = scale;
+                //float deltaZoom = adjustedScale / _scrollView.Zoom;
 
                 // Adjust content offset with new zoom value
                 // TODO: Adjust content offset X when zooming depending on mouse location
                 //contentOffsetX = WaveFormView.ContentOffset.X + (WaveFormView.ContentOffset.X * (newZoom - Zoom));
-                float contentOffsetX = _scrollView.WaveView.ContentOffset.X * deltaZoom;
-                _scrollView.Zoom = scale;
+                //float contentOffsetX = _scrollView.WaveView.ContentOffset.X * deltaZoom;
+                //float contentOffsetX = _scrollView.WaveView.ContentOffset.X * adjustedScale;
+                float contentOffsetX = _startContentOffsetX * adjustedScale;
+                float zoom = _startZoom * adjustedScale;
+                zoom = Math.Max(1, zoom);
+                zoom = Math.Min(32, zoom);
+                _scrollView.Zoom = zoom;
                 _scrollView.SetContentOffsetX(contentOffsetX);
+                //Console.WriteLine("ScaleListener - SetScrollViewScale - scale: {0} zoom: {1} contentOffset: {2}", scale, _scrollView.Zoom, _scrollView.WaveView.ContentOffset);
 
                 //_scrollView.ScaleX = scale > 1 ? scale : 1;
                 //_scrollView.ScaleY = 1;

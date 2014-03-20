@@ -144,6 +144,11 @@ namespace org.sessionsapp.android
             _control.LoadPeakFile(audioFile);
         }
 
+        public void RefreshWaveFormBitmap()
+        {
+            _control.RefreshWaveFormBitmap();
+        }
+
         public void RefreshWaveFormBitmap(int width)
         {
             _control.RefreshWaveFormBitmap(width);
