@@ -419,6 +419,12 @@
     <Content Include="Resources\Splash\splash_logo_full.png" />
     <Content Include="Resources\Splash\splash_logo_clear%402x.png" />
     <Content Include="Resources\Splash\splash_logo_full%402x.png" />
+    <Content Include="Resources\Toolbar\next%402x.png" />
+    <Content Include="Resources\Toolbar\pause%402x.png" />
+    <Content Include="Resources\Toolbar\play%402x.png" />
+    <Content Include="Resources\Toolbar\previous%402x.png" />
+    <Content Include="Resources\Toolbar\repeat%402x.png" />
+    <Content Include="Resources\Toolbar\shuffle%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />

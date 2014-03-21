@@ -23,9 +23,11 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using MPfm.GenericControls.Basics;
 using MPfm.MVP.Services;
 using MPfm.Sound.AudioFiles;
+using Math = System.Math;
 
 namespace org.sessionsapp.android
 {
@@ -35,6 +37,7 @@ namespace org.sessionsapp.android
         private Timer _timerFadeOutZoomLabel;
         private ScaleGestureDetector _scaleGestureDetector;
         private GestureDetector _panGestureDetector;
+        private OverScroller _scroller; // keep OverScroll because it works better on older devices than Scroller
 
         public WaveFormScaleView ScaleView { get; private set; }
         public WaveFormView WaveView { get; private set; }
@@ -101,6 +104,8 @@ namespace org.sessionsapp.android
             WaveView.SetBackgroundColor(Color.DarkRed);
             AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
 
+            _scroller = new OverScroller(Context);
+
             _timerFadeOutZoomLabel = new Timer(100);
             _timerFadeOutZoomLabel.Elapsed += HandleTimerFadeOutZoomLabelElapsed;
             _timerFadeOutZoomLabel.Start();
@@ -164,6 +169,43 @@ namespace org.sessionsapp.android
             //});
         }
 
+        public override void ComputeScroll()
+        {
+            base.ComputeScroll();
+            
+            // Call compute scroll offset or the position won't change
+            bool moreToScroll = _scroller.ComputeScrollOffset();
+            //Console.WriteLine("WaveFormScrollView - ComputeScroll - scrollingFinished: {0} {1}", scrollingFinished, _scroller.IsFinished);
+            //if (!scrollingFinished)
+            if(!_scroller.IsFinished)
+            {
+                Console.WriteLine("WaveFormScrollView - ComputeScroll - Scrolling to {0}", _scroller.CurrX);
+                WaveView.ContentOffset = new BasicPoint(_scroller.CurrX, 0);
+                ScaleView.ContentOffset = new BasicPoint(_scroller.CurrX, 0);
+            }
+        }
+
+        public void Down()
+        {
+            _scroller.ForceFinished(true);
+            PostInvalidateOnAnimation();            
+        }
+
+        public void Fling(int velocityX, int velocityY)
+        {
+            //_flinger.Start(velocityX);
+
+            //ComputeScroll();
+
+            int startX = (int) WaveView.ContentOffset.X;
+
+            // Reset any animation
+            _scroller.ForceFinished(true);
+            //_scroller.Fling(startX, 0, velocityX, velocityY, 0, (int)((Width * Zoom) - Width), 0, (int)Height, (int)(Width / 2), (int)(Height / 2));
+            _scroller.Fling(startX, 0, velocityX, velocityY, 0, (int)((Width * Zoom) - Width), 0, (int)Height, 0, 0); // no overscroll
+            PostInvalidateOnAnimation(); // That would work if we were using standard Android scrolling... maybe that's why it doesn't work?
+        }
+
         private class PanListener : GestureDetector.SimpleOnGestureListener
         {
             private readonly WaveFormScrollView _scrollView;
@@ -173,9 +215,18 @@ namespace org.sessionsapp.android
                 _scrollView = scrollView;
             }
 
+            public override bool OnDown(MotionEvent e)
+            {
+                Console.WriteLine("PanListener - OnDown");
+                _scrollView.Down();
+                return base.OnDown(e);
+            }
+
             public override bool OnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
             {
                 Console.WriteLine("PanListener - OnFling - velocityX: {0} velocityY: {1}", velocityX, velocityY);
+                //_scrollView.Fling((int) -velocityX, (int) -velocityY);
+                _scrollView.Fling((int)-velocityX, (int)velocityY);
                 return base.OnFling(e1, e2, velocityX, velocityY);
             }
             
