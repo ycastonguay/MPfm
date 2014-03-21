@@ -23,9 +23,11 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using MPfm.GenericControls.Basics;
 using MPfm.MVP.Services;
 using MPfm.Sound.AudioFiles;
+using Math = System.Math;
 
 namespace org.sessionsapp.android
 {
@@ -35,6 +37,8 @@ namespace org.sessionsapp.android
         private Timer _timerFadeOutZoomLabel;
         private ScaleGestureDetector _scaleGestureDetector;
         private GestureDetector _panGestureDetector;
+        private Scroller _scroller;
+        private Flinger _flinger;
 
         public WaveFormScaleView ScaleView { get; private set; }
         public WaveFormView WaveView { get; private set; }
@@ -101,6 +105,9 @@ namespace org.sessionsapp.android
             WaveView.SetBackgroundColor(Color.DarkRed);
             AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
 
+            _scroller = new Scroller(Context);
+            _flinger = new Flinger(this);
+
             _timerFadeOutZoomLabel = new Timer(100);
             _timerFadeOutZoomLabel.Elapsed += HandleTimerFadeOutZoomLabelElapsed;
             _timerFadeOutZoomLabel.Start();
@@ -164,6 +171,83 @@ namespace org.sessionsapp.android
             //});
         }
 
+
+        public void Fling(int velocityX, int velocityY)
+        {
+            _flinger.Start(velocityX);
+
+            //ComputeScroll();
+
+            //int startX = (int) WaveView.ContentOffset.X;
+            //int startY = (int) WaveView.ContentOffset.Y;
+
+            //// Reset any animation
+            //_scroller.ForceFinished(true);
+            //_scroller.Fling(startX, startY, velocityX, velocityY, 0, (int)((Width * Zoom) - Width), 0, (int)Height, (int)(Width / 2), (int)(Height / 2));
+            //PostInvalidateOnAnimation();
+        }
+
+        private class Flinger : IRunnable
+        {
+            private readonly WaveFormScrollView _scrollView;
+            private readonly Scroller _scroller;
+            private int _lastX = 0;
+
+            public bool IsFlinging
+            {
+                get
+                {
+                    return !_scroller.IsFinished;
+                }
+            }
+
+            public Flinger(WaveFormScrollView scrollView)
+            {
+                _scrollView = scrollView;
+                _scroller = new Scroller(scrollView.Context);
+            }
+
+            public void Start(int initialVelocityX)
+            {
+                int startX = (int) _scrollView.WaveView.ContentOffset.X;
+                //int maxX = (int) (_scrollView.Width*_scrollView.Zoom);
+                //_scroller.Fling(startX, 0, initialVelocityX, 0, 0, (int)((_scrollView.Width * Zoom) - _scrollView.Width), 0, (int)_scrollView.Height, (int)(_scrollView.Width / 2), (int)(_scrollView.Height / 2));
+                _scroller.Fling(startX, 0, initialVelocityX, 0, 0, (int)((_scrollView.Width * _scrollView.Zoom) - _scrollView.Width), 0, (int)_scrollView.Height);
+                _lastX = startX;
+                _scrollView.Post(this);
+            }
+
+            public void Run()
+            {
+                if (_scroller.IsFinished)
+                    return;
+
+                bool isMore = _scroller.ComputeScrollOffset();
+                int x = _scroller.CurrX;
+                int diff = _lastX - x;
+                if (diff != 0)
+                {
+                    _scrollView.WaveView.ContentOffset.X = x;
+                    _lastX = x;
+                }
+
+                if (isMore)
+                    _scrollView.Post(this);
+            }
+
+            public void ForceFinished()
+            {
+                if(!_scroller.IsFinished)
+                    _scroller.ForceFinished(true);
+            }
+
+            public void Dispose()
+            {
+            }
+
+            public IntPtr Handle { get; private set; }
+        }
+
         private class PanListener : GestureDetector.SimpleOnGestureListener
         {
             private readonly WaveFormScrollView _scrollView;
@@ -176,6 +260,8 @@ namespace org.sessionsapp.android
             public override bool OnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
             {
                 Console.WriteLine("PanListener - OnFling - velocityX: {0} velocityY: {1}", velocityX, velocityY);
+                //_scrollView.Fling((int) -velocityX, (int) -velocityY);
+                _scrollView.Fling((int)velocityX, (int)velocityY);
                 return base.OnFling(e1, e2, velocityX, velocityY);
             }
             
