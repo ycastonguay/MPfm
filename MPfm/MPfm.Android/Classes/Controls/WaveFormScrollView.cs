@@ -37,8 +37,7 @@ namespace org.sessionsapp.android
         private Timer _timerFadeOutZoomLabel;
         private ScaleGestureDetector _scaleGestureDetector;
         private GestureDetector _panGestureDetector;
-        private Scroller _scroller;
-        private Flinger _flinger;
+        private OverScroller _scroller; // keep OverScroll because it works better on older devices than Scroller
 
         public WaveFormScaleView ScaleView { get; private set; }
         public WaveFormView WaveView { get; private set; }
@@ -105,8 +104,7 @@ namespace org.sessionsapp.android
             WaveView.SetBackgroundColor(Color.DarkRed);
             AddView(WaveView, new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.FillParent));
 
-            _scroller = new Scroller(Context);
-            _flinger = new Flinger(this);
+            _scroller = new OverScroller(Context);
 
             _timerFadeOutZoomLabel = new Timer(100);
             _timerFadeOutZoomLabel.Elapsed += HandleTimerFadeOutZoomLabelElapsed;
@@ -171,81 +169,41 @@ namespace org.sessionsapp.android
             //});
         }
 
+        public override void ComputeScroll()
+        {
+            base.ComputeScroll();
+            
+            // Call compute scroll offset or the position won't change
+            bool moreToScroll = _scroller.ComputeScrollOffset();
+            //Console.WriteLine("WaveFormScrollView - ComputeScroll - scrollingFinished: {0} {1}", scrollingFinished, _scroller.IsFinished);
+            //if (!scrollingFinished)
+            if(!_scroller.IsFinished)
+            {
+                Console.WriteLine("WaveFormScrollView - ComputeScroll - Scrolling to {0}", _scroller.CurrX);
+                WaveView.ContentOffset = new BasicPoint(_scroller.CurrX, 0);
+                ScaleView.ContentOffset = new BasicPoint(_scroller.CurrX, 0);
+            }
+        }
+
+        public void Down()
+        {
+            _scroller.ForceFinished(true);
+            PostInvalidateOnAnimation();            
+        }
 
         public void Fling(int velocityX, int velocityY)
         {
-            _flinger.Start(velocityX);
+            //_flinger.Start(velocityX);
 
             //ComputeScroll();
 
-            //int startX = (int) WaveView.ContentOffset.X;
-            //int startY = (int) WaveView.ContentOffset.Y;
+            int startX = (int) WaveView.ContentOffset.X;
 
-            //// Reset any animation
-            //_scroller.ForceFinished(true);
-            //_scroller.Fling(startX, startY, velocityX, velocityY, 0, (int)((Width * Zoom) - Width), 0, (int)Height, (int)(Width / 2), (int)(Height / 2));
-            //PostInvalidateOnAnimation();
-        }
-
-        private class Flinger : IRunnable
-        {
-            private readonly WaveFormScrollView _scrollView;
-            private readonly Scroller _scroller;
-            private int _lastX = 0;
-
-            public bool IsFlinging
-            {
-                get
-                {
-                    return !_scroller.IsFinished;
-                }
-            }
-
-            public Flinger(WaveFormScrollView scrollView)
-            {
-                _scrollView = scrollView;
-                _scroller = new Scroller(scrollView.Context);
-            }
-
-            public void Start(int initialVelocityX)
-            {
-                int startX = (int) _scrollView.WaveView.ContentOffset.X;
-                //int maxX = (int) (_scrollView.Width*_scrollView.Zoom);
-                //_scroller.Fling(startX, 0, initialVelocityX, 0, 0, (int)((_scrollView.Width * Zoom) - _scrollView.Width), 0, (int)_scrollView.Height, (int)(_scrollView.Width / 2), (int)(_scrollView.Height / 2));
-                _scroller.Fling(startX, 0, initialVelocityX, 0, 0, (int)((_scrollView.Width * _scrollView.Zoom) - _scrollView.Width), 0, (int)_scrollView.Height);
-                _lastX = startX;
-                _scrollView.Post(this);
-            }
-
-            public void Run()
-            {
-                if (_scroller.IsFinished)
-                    return;
-
-                bool isMore = _scroller.ComputeScrollOffset();
-                int x = _scroller.CurrX;
-                int diff = _lastX - x;
-                if (diff != 0)
-                {
-                    _scrollView.WaveView.ContentOffset.X = x;
-                    _lastX = x;
-                }
-
-                if (isMore)
-                    _scrollView.Post(this);
-            }
-
-            public void ForceFinished()
-            {
-                if(!_scroller.IsFinished)
-                    _scroller.ForceFinished(true);
-            }
-
-            public void Dispose()
-            {
-            }
-
-            public IntPtr Handle { get; private set; }
+            // Reset any animation
+            _scroller.ForceFinished(true);
+            //_scroller.Fling(startX, 0, velocityX, velocityY, 0, (int)((Width * Zoom) - Width), 0, (int)Height, (int)(Width / 2), (int)(Height / 2));
+            _scroller.Fling(startX, 0, velocityX, velocityY, 0, (int)((Width * Zoom) - Width), 0, (int)Height, 0, 0); // no overscroll
+            PostInvalidateOnAnimation(); // That would work if we were using standard Android scrolling... maybe that's why it doesn't work?
         }
 
         private class PanListener : GestureDetector.SimpleOnGestureListener
@@ -257,11 +215,18 @@ namespace org.sessionsapp.android
                 _scrollView = scrollView;
             }
 
+            public override bool OnDown(MotionEvent e)
+            {
+                Console.WriteLine("PanListener - OnDown");
+                _scrollView.Down();
+                return base.OnDown(e);
+            }
+
             public override bool OnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
             {
                 Console.WriteLine("PanListener - OnFling - velocityX: {0} velocityY: {1}", velocityX, velocityY);
                 //_scrollView.Fling((int) -velocityX, (int) -velocityY);
-                _scrollView.Fling((int)velocityX, (int)velocityY);
+                _scrollView.Fling((int)-velocityX, (int)velocityY);
                 return base.OnFling(e1, e2, velocityX, velocityY);
             }
             
