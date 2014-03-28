@@ -50,6 +50,8 @@ namespace MPfm.GenericControls.Controls
         private BasicPen _penMinorTick;
 
         public BasicRectangle Frame { get; set; }
+		public float FontSize { get; set; }
+		public string FontFace { get; set; }
 
         private AudioFile _audioFile = null;
         public AudioFile AudioFile
@@ -124,6 +126,8 @@ namespace MPfm.GenericControls.Controls
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
             Frame = new BasicRectangle();
+			FontFace = "Roboto";
+			FontSize = 10;
         }
 
         public void Render(IGraphicsContext context)
@@ -348,7 +352,7 @@ namespace MPfm.GenericControls.Controls
                         // Draw text at every major tick (minute count)
                         string scaleMajorTitle = string.Format("{0}:{1:00}", minutes, seconds);                    
                         float y = ContentSize.Height - (ContentSize.Height/12f) - _rectText.Height - (0.5f * context.Density);                    
-                        context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, "Roboto", 10);
+						context.DrawText(scaleMajorTitle, new BasicPoint(tickX + (4 * context.Density), y), _textColor, FontFace, FontSize);
                     }
                 }
                 

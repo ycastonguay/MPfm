@@ -72,6 +72,7 @@ namespace MPfm.iOS.Classes.Controls
         {
             BackgroundColor = GlobalTheme.BackgroundColor;
 			_control = new WaveFormScaleControl();
+			_control.FontFace = "HelveticaNeue";
 			_control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
 			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }
