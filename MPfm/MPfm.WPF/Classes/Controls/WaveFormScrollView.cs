@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using MPfm.Core;
 using MPfm.GenericControls.Basics;
@@ -42,6 +43,7 @@ namespace MPfm.WPF.Classes.Controls
         private DateTime _lastZoomUpdate;
         private Timer _timerFadeOutZoomLabel;
         private Grid _grid;
+        private Label _lblZoom;
         private RowDefinition _rowScale;
         private RowDefinition _rowWaveForm;
         public WaveForm WaveFormView { get; private set; }
@@ -56,19 +58,25 @@ namespace MPfm.WPF.Classes.Controls
             }
             set
             {
-                //_lblZoom.StringValue = string.Format("{0:0}%", value * 100);
+                _lblZoom.Content = string.Format("{0:0}%", value * 100);
                 _zoom = value;
                 WaveFormView.Zoom = value;
                 WaveFormScaleView.Zoom = value;
                 _lastZoomUpdate = DateTime.Now;
 
-                //if (_lblZoom.AlphaValue == 0)
-                //{
-                //    NSAnimationContext.BeginGrouping();
-                //    NSAnimationContext.CurrentContext.Duration = 0.2;
-                //    (_lblZoom.Animator as NSTextField).AlphaValue = 1;
-                //    NSAnimationContext.EndGrouping();
-                //}
+                if (_lblZoom.Opacity == 0)
+                {
+                    var anim = new DoubleAnimation();
+                    anim.From = 0;
+                    anim.To = 1;
+                    anim.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 200));
+                    _lblZoom.BeginAnimation(OpacityProperty, anim);
+                    //_lblZoom.Opacity = 1;
+                    //    NSAnimationContext.BeginGrouping();
+                    //    NSAnimationContext.CurrentContext.Duration = 0.2;
+                    //    (_lblZoom.Animator as NSTextField).AlphaValue = 1;
+                    //    NSAnimationContext.EndGrouping();
+                }
             }
         }
 
@@ -83,6 +91,25 @@ namespace MPfm.WPF.Classes.Controls
             WaveFormView.MinHeight = 60;
             WaveFormScaleView = new WaveFormScale();
 
+            _lblZoom = new Label();
+            _lblZoom.Background = new SolidColorBrush(Color.FromArgb(140, 32, 40, 46));
+            _lblZoom.Foreground = new SolidColorBrush(Colors.White);
+            _lblZoom.Padding = new Thickness(4);
+            _lblZoom.Content = "100%";
+            _lblZoom.FontFamily = new FontFamily("Roboto");
+            _lblZoom.FontSize = 11;
+            _lblZoom.Width = Double.NaN;
+            _lblZoom.Height = Double.NaN;
+
+            var stackPanel = new StackPanel();
+            stackPanel.HorizontalAlignment = HorizontalAlignment.Center;
+            stackPanel.VerticalAlignment = VerticalAlignment.Center;
+            stackPanel.Children.Add(_lblZoom);
+
+            var panel = new Grid();
+            panel.Children.Add(WaveFormView);
+            panel.Children.Add(stackPanel);
+
             _grid = new Grid();
             _rowScale = new RowDefinition();
             _rowWaveForm = new RowDefinition();
@@ -90,9 +117,9 @@ namespace MPfm.WPF.Classes.Controls
             _grid.RowDefinitions.Add(_rowScale);
             _grid.RowDefinitions.Add(_rowWaveForm);
             _grid.Children.Add(WaveFormScaleView);
-            _grid.Children.Add(WaveFormView);
+            _grid.Children.Add(panel);
             Grid.SetRow(WaveFormScaleView, 0);
-            Grid.SetRow(WaveFormView, 1);
+            Grid.SetRow(panel, 1);
             Children.Add(_grid);
 
             _timerFadeOutZoomLabel = new Timer(100);
@@ -105,9 +132,15 @@ namespace MPfm.WPF.Classes.Controls
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
                 //Console.WriteLine("HandleTimerFadeOutZoomLabelElapsed - _lblZoom.AlphaValue: {0} - timeSpan since last update: {1}", _lblZoom.AlphaValue, DateTime.Now - _lastZoomUpdate);
-                //if (_lblZoom.AlphaValue == 1 && DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
-                if (DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
+                if (_lblZoom.Opacity == 1 && DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
                 {
+                    var anim = new DoubleAnimation();
+                    anim.From = 1;
+                    anim.To = 0;
+                    anim.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 200));
+                    _lblZoom.BeginAnimation(OpacityProperty, anim);
+
+                    //_lblZoom.Opacity = 0;
                     ////Console.WriteLine("HandleTimerFadeOutZoomLabelElapsed - Fade out");
                     //NSAnimationContext.BeginGrouping();
                     //NSAnimationContext.CurrentContext.Duration = 0.2;
