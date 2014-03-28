@@ -327,6 +327,9 @@ namespace MPfm.GenericControls.Controls
         {
 			//Console.WriteLine("WaveFormControl - LoadPeakFile " + audioFile.FilePath);
             _isLoading = true;
+            _imageCache = null;
+            _imageCacheWidth = 0;
+            _imageCacheZoom = 1;
             AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
             WaveFormCacheManager.LoadPeakFile(audioFile);
@@ -388,7 +391,6 @@ namespace MPfm.GenericControls.Controls
             }
 
             //Console.WriteLine("WaveFormControl - DrawWaveFormBitmap");
-            _isLoading = false;
             int heightAvailable = (int)Frame.Height;
 
             // Calculate position
@@ -464,7 +466,7 @@ namespace MPfm.GenericControls.Controls
             _density = context.Density;
             if (_isLoading)
             {
-				//Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", _isLoading);
+                //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", _isLoading);
                 DrawStatus(context, _status);
             }
             else if (_imageCache != null)
@@ -474,7 +476,7 @@ namespace MPfm.GenericControls.Controls
             }
             else
             {
-				//Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
+                //Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
                 context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
             }
         }
