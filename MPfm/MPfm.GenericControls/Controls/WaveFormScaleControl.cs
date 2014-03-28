@@ -274,30 +274,37 @@ namespace MPfm.GenericControls.Controls
             //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
 
             // Draw scale borders
-            context.DrawLine(new BasicPoint(0 - ContentOffset.X, ContentSize.Height), new BasicPoint(ContentSize.Width - ContentOffset.X, ContentSize.Height), _penBorder);
+            context.SetPen(_penBorder);
+            context.StrokeLine(new BasicPoint(0, ContentSize.Height), new BasicPoint(ContentSize.Width, ContentSize.Height));
+            //context.DrawLine(new BasicPoint(0, ContentSize.Height), new BasicPoint(ContentSize.Width, ContentSize.Height), _penBorder);
 
             float tickX = -ContentOffset.X;
             int majorTickIndex = 0;
             for (int a = 0; a < _tickCount; a++)
             {
-                bool isMajorTick = ((a % 10) == 0);
-                
                 // Ignore ticks out of bounds
+                bool isMajorTick = ((a % 10) == 0);
                 if (tickX >= 0 && tickX <= Frame.Width)
                 {
                     //Console.WriteLine("####> WaveFormView - Scale - tick {0} x: {1} isMajorTick: {2} tickCount: {3}", a, tickX, isMajorTick, tickCount);
 
-                    // Draw scale line
+                    //// Draw scale line
+                    //if(isMajorTick)
+                    //    //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
+                    //    context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
+                    //else
+                    //    context.DrawLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height), _penMinorTick);
+
                     if(isMajorTick)
-                        //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
-                        context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
+                        context.StrokeLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height));
                     else
-                        context.DrawLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height), _penMinorTick);
+                        context.StrokeLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height));
 
                     if (isMajorTick)
                     {
                         // Draw dashed traversal line for major ticks
-                        context.DrawLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
+                        //context.DrawLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
+                        context.StrokeLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height));
 
                         // Determine major scale text
                         int minutes = 0;

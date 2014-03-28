@@ -1852,8 +1852,8 @@ namespace MPfm.Player
         /// <returns>Audio data</returns>
         internal int StreamCallback(int handle, IntPtr buffer, int length, IntPtr user)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
 
             // If the current sub channel is null, end the stream            
 			if(_playlist == null || _playlist.CurrentItem == null || _playlist.Items.Count < _currentMixPlaylistIndex || _playlist.Items[_currentMixPlaylistIndex] == null ||
@@ -1875,10 +1875,10 @@ namespace MPfm.Player
                 //Marshal.Copy(bufferData, 0, buffer, bufferData.Length);
                 //return bufferData.Length;
 
-                stopwatch.Stop();
+                //stopwatch.Stop();
                 //if(stopwatch.ElapsedMilliseconds > 0)
-                var info = Bass.BASS_GetInfo();
-                float cpu = Bass.BASS_GetCPU();
+                //var info = Bass.BASS_GetInfo();
+                //float cpu = Bass.BASS_GetCPU();
                 //var timeSpan = DateTime.Now - _lastDateTime;
                 //_lastDateTime = DateTime.Now;
                 //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms) - latency: {2} minbuf: {3} cpu: {4} data: {5} length: {6}", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds, info.latency, info.minbuf, cpu, data, length);
@@ -1888,7 +1888,7 @@ namespace MPfm.Player
             }
             else if (status == BASSActive.BASS_ACTIVE_STOPPED)
             {
-                Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
+                //Tracing.Log("StreamCallback -- BASS.Active.BASS_ACTIVE_STOPPED");
                 _currentLoop = null;
                 if (_playlist.CurrentItemIndex == _playlist.Items.Count - 1)
                 {
@@ -1956,8 +1956,8 @@ namespace MPfm.Player
                 // Return data from the new channel
                 var data = Playlist.Items[_currentMixPlaylistIndex].Channel.GetData(buffer, length);
 
-                stopwatch.Stop();
-                Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms)", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds);
+                //stopwatch.Stop();
+                //Console.WriteLine("Player - StreamCallback - Returning wave data - elapsed: {0} ({1} ms)", stopwatch.Elapsed, stopwatch.ElapsedMilliseconds);
                 return data;
             }
 

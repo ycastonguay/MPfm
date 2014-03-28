@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Timers;
 using Android.Content;
 using Android.Graphics;
@@ -28,6 +29,7 @@ using Java.Lang;
 using MPfm.Android;
 using MPfm.GenericControls.Basics;
 using MPfm.MVP.Services;
+using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
 using Math = System.Math;
 
@@ -39,9 +41,9 @@ namespace org.sessionsapp.android
         private Timer _timerFadeOutZoomLabel;
         private TextView _lblZoom;
 
-        public WaveFormLayout WaveformLayout { get; private set; }
-        public WaveFormScaleView ScaleView { get { return WaveformLayout.ScaleView; } }
-        public WaveFormView WaveView { get { return WaveformLayout.WaveView; } }
+        protected WaveFormLayout WaveformLayout { get; private set; }
+        protected WaveFormScaleView ScaleView { get { return WaveformLayout.ScaleView; } }
+        protected WaveFormView WaveView { get { return WaveformLayout.WaveView; } }
 
         private float _zoom = 1;
         public float Zoom
@@ -142,6 +144,31 @@ namespace org.sessionsapp.android
             ScaleView.AudioFileLength = lengthBytes;
         }
 
+        public void SetPosition(long position)
+        {
+            WaveView.Position = position;
+        }
+
+        public void SetSecondaryPosition(long position)
+        {
+            WaveView.SecondaryPosition = position;
+        }
+
+        public void ShowSecondaryPosition(bool show)
+        {
+            WaveView.ShowSecondaryPosition = show;
+        }
+
+        public void RefreshWaveFormBitmap(int width)
+        {
+            WaveView.RefreshWaveFormBitmap(width);
+        }
+
+        public void SetMarkers(IEnumerable<Marker> markers)
+        {
+            WaveView.SetMarkers(markers);
+        }
+
         private void SetContentOffsetX(float x)
         {
             float contentOffsetX = x;
@@ -235,10 +262,10 @@ namespace org.sessionsapp.android
 
                 // Call compute scroll offset or the position won't change
                 bool moreToScroll = _scroller.ComputeScrollOffset();
-                Console.WriteLine("WaveFormScrollView - WaveFormLayout - ComputeScroll - moreToScroll: {0} scroller.IsFinished: {1}", moreToScroll, _scroller.IsFinished);
+                //Console.WriteLine("WaveFormScrollView - WaveFormLayout - ComputeScroll - moreToScroll: {0} scroller.IsFinished: {1}", moreToScroll, _scroller.IsFinished);
                 if (!_scroller.IsFinished)
                 {
-                    Console.WriteLine("WaveFormScrollView - WaveFormLayout - ComputeScroll - Scrolling to {0}", _scroller.CurrX);
+                    //Console.WriteLine("WaveFormScrollView - WaveFormLayout - ComputeScroll - Scrolling to {0}", _scroller.CurrX);
                     WaveView.ContentOffset = new BasicPoint(_scroller.CurrX, 0);
                     ScaleView.ContentOffset = new BasicPoint(_scroller.CurrX, 0);
                 }
@@ -288,7 +315,7 @@ namespace org.sessionsapp.android
 
             public override bool OnFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
             {
-                Console.WriteLine("PanListener - OnFling - velocityX: {0} velocityY: {1}", velocityX, velocityY);
+                //Console.WriteLine("PanListener - OnFling - velocityX: {0} velocityY: {1}", velocityX, velocityY);
                 _scrollView.WaveformLayout.Fling((int)-velocityX, (int)velocityY);
                 return base.OnFling(e1, e2, velocityX, velocityY);
             }
