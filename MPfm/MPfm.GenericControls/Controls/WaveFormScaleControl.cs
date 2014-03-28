@@ -46,8 +46,6 @@ namespace MPfm.GenericControls.Controls
         private WaveFormScaleType _scaleType;
         private BasicPen _penTransparent;
         private BasicPen _penBorder;
-        private BasicPen _penMajorTick;
-        private BasicPen _penMinorTick;
 
         public BasicRectangle Frame { get; set; }
 		public float FontSize { get; set; }
@@ -139,8 +137,6 @@ namespace MPfm.GenericControls.Controls
                     _brushBackground = new BasicBrush(_backgroundColor);
                     _penTransparent = new BasicPen();
                     _penBorder = new BasicPen(new BasicBrush(_borderColor), 1);
-                    _penMajorTick = new BasicPen(new BasicBrush(_majorTickColor), 1);
-                    _penMinorTick = new BasicPen(new BasicBrush(_minorTickColor), 1);
                     _rectText = context.MeasureText("12345:678.90", new BasicRectangle(0, 0, Frame.Width, Frame.Height), "HelveticaNeue", 10);
                 }
             }
@@ -273,14 +269,10 @@ namespace MPfm.GenericControls.Controls
                 }
             }
 
-            //Console.WriteLine("===> WaveFormScaleView - DrawLayer - Drawing scale...");
-
-            //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
-
             // Draw scale borders
+            //Console.WriteLine("WaveFormScaleView - scaleType: {0} totalMinutes: {1} totalSeconds: {2} totalMinutesScaled: {3} totalSecondsScaled: {4}", scaleType.ToString(), totalMinutes, totalSeconds, totalMinutesScaled, totalSecondsScaled);
             context.SetPen(_penBorder);
             context.StrokeLine(new BasicPoint(0, ContentSize.Height), new BasicPoint(ContentSize.Width, ContentSize.Height));
-            //context.DrawLine(new BasicPoint(0, ContentSize.Height), new BasicPoint(ContentSize.Width, ContentSize.Height), _penBorder);
 
             float tickX = -ContentOffset.X;
             int majorTickIndex = 0;
@@ -292,14 +284,8 @@ namespace MPfm.GenericControls.Controls
                 {
                     //Console.WriteLine("####> WaveFormView - Scale - tick {0} x: {1} isMajorTick: {2} tickCount: {3}", a, tickX, isMajorTick, tickCount);
 
-                    //// Draw scale line
-                    //if(isMajorTick)
-                    //    //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
-                    //    context.DrawLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
-                    //else
-                    //    context.DrawLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height), _penMinorTick);
-
                     if(isMajorTick)
+                        //    //context.DrawLine(new BasicPoint(tickX, context.BoundsHeight - (context.BoundsHeight / 1.25f)), new BasicPoint(tickX, context.BoundsHeight), _penMajorTick);
                         context.StrokeLine(new BasicPoint(tickX, 0), new BasicPoint(tickX, ContentSize.Height));
                     else
                         context.StrokeLine(new BasicPoint(tickX, ContentSize.Height - (ContentSize.Height / 6)), new BasicPoint(tickX, ContentSize.Height));
@@ -307,7 +293,6 @@ namespace MPfm.GenericControls.Controls
                     if (isMajorTick)
                     {
                         // Draw dashed traversal line for major ticks
-                        //context.DrawLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height), _penMajorTick);
                         context.StrokeLine(new BasicPoint(tickX, ContentSize.Height), new BasicPoint(tickX, ContentSize.Height));
 
                         // Determine major scale text

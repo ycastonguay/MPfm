@@ -25,13 +25,9 @@ using Android.Util;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
-using Java.Lang;
-using MPfm.Android;
 using MPfm.GenericControls.Basics;
-using MPfm.MVP.Services;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
-using Math = System.Math;
 
 namespace org.sessionsapp.android
 {
@@ -40,6 +36,7 @@ namespace org.sessionsapp.android
         private DateTime _lastZoomUpdate;
         private Timer _timerFadeOutZoomLabel;
         private TextView _lblZoom;
+        private bool _isZoomLabelVisible;
 
         protected WaveFormLayout WaveformLayout { get; private set; }
         protected WaveFormScaleView ScaleView { get { return WaveformLayout.ScaleView; } }
@@ -59,23 +56,19 @@ namespace org.sessionsapp.android
                 WaveView.Zoom = value;
                 ScaleView.Zoom = value;
                 _lastZoomUpdate = DateTime.Now;
-                _lblZoom.Visibility = ViewStates.Visible;
 
-                //var animFadeIn = new AlphaAnimation(0, 1);
-                //animFadeIn.Interpolator = new DecelerateInterpolator();
-                //animFadeIn.Duration = 200;
-                //_lblZoom.Animation = animFadeIn;
-
-                //Animation animation = AnimationUtils.LoadAnimation(Context, Resource.Animation.fade_in);
-                //_lblZoom.StartAnimation(animation);
-
-                //if (_lblZoom.AlphaValue == 0)
-                //{
-                //    NSAnimationContext.BeginGrouping();
-                //    NSAnimationContext.CurrentContext.Duration = 0.2;
-                //    (_lblZoom.Animator as NSTextField).AlphaValue = 1;
-                //    NSAnimationContext.EndGrouping();
-                //}
+                if(!_isZoomLabelVisible)
+                {
+                    _isZoomLabelVisible = true;
+                    _lblZoom.Visibility = ViewStates.Visible; // make sure the control is visible, on certain Android versions, setting alpha = 0 makes the view invisible
+                    _lblZoom.Alpha = 1;
+                    var animFadeIn = new AlphaAnimation(0, 1);
+                    animFadeIn.RepeatMode = RepeatMode.Reverse;
+                    animFadeIn.Duration = 200;
+                    animFadeIn.AnimationStart += (sender, args) => { Console.WriteLine("WaveFormScrollView - FadeIn - AnimationStart"); };
+                    animFadeIn.AnimationEnd += (sender, args) => { Console.WriteLine("WaveFormScrollView - FadeIn - AnimationEnd"); };
+                    _lblZoom.StartAnimation(animFadeIn);
+                }
             }
         }
 
@@ -101,8 +94,6 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
-            //SetBackgroundColor(Color.HotPink);
-
             WaveformLayout = new WaveFormLayout(this);
             WaveformLayout.LayoutParameters = new FrameLayout.LayoutParams(LayoutParams.FillParent, LayoutParams.FillParent, GravityFlags.CenterHorizontal | GravityFlags.CenterVertical);
             AddView(WaveformLayout);
@@ -116,8 +107,7 @@ namespace org.sessionsapp.android
             _lblZoom.SetTextColor(Color.White);
             _lblZoom.Text = "100%";
             _lblZoom.Gravity = GravityFlags.CenterVertical | GravityFlags.CenterHorizontal;            
-            _lblZoom.Visibility = ViewStates.Gone;
-            //_lblZoom.Alpha = 0;
+            _lblZoom.Alpha = 0;
             AddView(_lblZoom);
 
             _timerFadeOutZoomLabel = new Timer(100);
@@ -181,41 +171,29 @@ namespace org.sessionsapp.android
 
         private void HandleTimerFadeOutZoomLabelElapsed(object sender, ElapsedEventArgs e)
         {
+            if (!_isZoomLabelVisible)
+                return;
+
             Post(() =>
             {
-                if (_lblZoom.Alpha == 1 && DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
+                if (DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
                 {
-                    //Console.WriteLine("WaveFormScrollView - HandleTimerFadeOutZoomLabelElapsed - Refreshing wave form bitmap...");
-                    _lblZoom.Visibility = ViewStates.Gone;
-                    //WaveView.RefreshWaveFormBitmap();
+                    _isZoomLabelVisible = false;
+                    Console.WriteLine("WaveFormScrollView - HandleTimerFadeOutZoomLabelElapsed - Refreshing wave form bitmap...");
+                    WaveView.RefreshWaveFormBitmap();
 
-                    //var animFadeOut = new AlphaAnimation(1, 0);
-                    //animFadeOut.Interpolator = new DecelerateInterpolator();
-                    //animFadeOut.Duration = 200;
-                    //_lblZoom.Animation = animFadeOut;
-
-                    //Animation anim = AnimationUtils.LoadAnimation(Context, Resource.Animation.fade_out);
-                    //anim.AnimationEnd += (animSender, animArgs) =>
-                    //{
-                    //    _lblZoom.Visibility = ViewStates.Gone;
-                    //};
-                    //_lblZoom.StartAnimation(anim);
+                    var animFadeOut = new AlphaAnimation(1, 0);
+                    animFadeOut.RepeatMode = RepeatMode.Reverse;
+                    animFadeOut.FillAfter = true;
+                    animFadeOut.Duration = 200;
+                    animFadeOut.AnimationStart += (o, args) => { Console.WriteLine("WaveFormScrollView - FadeOut - AnimationStart"); };
+                    animFadeOut.AnimationEnd += (o, args) =>
+                    {
+                        Console.WriteLine("WaveFormScrollView - FadeOut - AnimationEnd");
+                    };
+                    _lblZoom.StartAnimation(animFadeOut);
                 }
             });
-            //InvokeOnMainThread(() =>
-            //{
-            //    //Console.WriteLine("HandleTimerFadeOutZoomLabelElapsed - _lblZoom.AlphaValue: {0} - timeSpan since last update: {1}", _lblZoom.AlphaValue, DateTime.Now - _lastZoomUpdate);
-            //    if (_lblZoom.AlphaValue == 1 && DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
-            //    {
-            //        //Console.WriteLine("HandleTimerFadeOutZoomLabelElapsed - Fade out");
-            //        NSAnimationContext.BeginGrouping();
-            //        NSAnimationContext.CurrentContext.Duration = 0.2;
-            //        (_lblZoom.Animator as NSTextField).AlphaValue = 0;
-            //        NSAnimationContext.EndGrouping();
-
-            //        WaveFormView.RefreshWaveFormBitmap();
-            //    }
-            //});
         }
         
         public class WaveFormLayout : LinearLayout
