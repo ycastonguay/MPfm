@@ -71,11 +71,6 @@ namespace MPfm.WPF.Classes.Controls
                     anim.To = 1;
                     anim.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 200));
                     _lblZoom.BeginAnimation(OpacityProperty, anim);
-                    //_lblZoom.Opacity = 1;
-                    //    NSAnimationContext.BeginGrouping();
-                    //    NSAnimationContext.CurrentContext.Duration = 0.2;
-                    //    (_lblZoom.Animator as NSTextField).AlphaValue = 1;
-                    //    NSAnimationContext.EndGrouping();
                 }
             }
         }
@@ -139,13 +134,6 @@ namespace MPfm.WPF.Classes.Controls
                     anim.To = 0;
                     anim.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 200));
                     _lblZoom.BeginAnimation(OpacityProperty, anim);
-
-                    //_lblZoom.Opacity = 0;
-                    ////Console.WriteLine("HandleTimerFadeOutZoomLabelElapsed - Fade out");
-                    //NSAnimationContext.BeginGrouping();
-                    //NSAnimationContext.CurrentContext.Duration = 0.2;
-                    //(_lblZoom.Animator as NSTextField).AlphaValue = 0;
-                    //NSAnimationContext.EndGrouping();
 
                     WaveFormView.RefreshWaveFormBitmap();
                 }
