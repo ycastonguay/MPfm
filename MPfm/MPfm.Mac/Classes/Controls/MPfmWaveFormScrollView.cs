@@ -114,7 +114,7 @@ namespace MPfm.Mac.Classes.Controls
             _lblZoom.Editable = false;
             _lblZoom.Selectable = false;
             _lblZoom.StringValue = "100.0%";
-            _lblZoom.Font = NSFont.FromFontName("Roboto Medium", 10f);
+            _lblZoom.Font = NSFont.FromFontName("Roboto Medium", 11f);
             _lblZoom.Alignment = NSTextAlignment.Center;
             _lblZoom.BackgroundColor = NSColor.Clear;
             //_lblZoom.BackgroundColor = NSColor.FromDeviceRgba(0.1f, 0.1f, 0.1f, 0.75f);
@@ -195,7 +195,7 @@ namespace MPfm.Mac.Classes.Controls
 
         private void SetFrame()
         {
-            _lblZoom.Frame = new RectangleF((Frame.Width - 42) / 2f, ((Frame.Height - 16 - 22) / 2f) + 22, 42, 16);
+            _lblZoom.Frame = new RectangleF((Frame.Width - 42) / 2f, ((Frame.Height - 16 - 22) / 2f) + 22, 42, 20);
             WaveFormScaleView.Frame = new RectangleF(0, 0, Frame.Width, 22);
             WaveFormView.Frame = new RectangleF(0, 22, Frame.Width, Frame.Height - 22);
         }

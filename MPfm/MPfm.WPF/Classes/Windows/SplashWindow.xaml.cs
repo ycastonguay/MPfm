@@ -16,7 +16,6 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
