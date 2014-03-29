@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,21 +26,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.Core.Helpers;
-using MPfm.GenericControls.Graphics;
 using MPfm.Library.Objects;
-using MPfm.MVP.Bootstrap;
 using MPfm.MVP.Messages;
 using MPfm.MVP.Models;
 using MPfm.MVP.Presenters;
 using MPfm.MVP.Views;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
-using MPfm.WindowsControls;
 using MPfm.WPF.Classes.Controls;
 using MPfm.WPF.Classes.Helpers;
 using MPfm.WPF.Classes.Windows.Base;
@@ -317,7 +312,7 @@ namespace MPfm.WPF.Classes.Windows
 
         private void ResetHeaderButtonStyles()
         {
-            var res = System.Windows.Application.Current.Resources;
+            var res = Application.Current.Resources;
             btnTimeShifting.Style = res["HeaderButton"] as Style;
             btnPitchShifting.Style = res["HeaderButton"] as Style;
             btnInfo.Style = res["HeaderButton"] as Style;
@@ -760,7 +755,7 @@ namespace MPfm.WPF.Classes.Windows
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                //trackPosition.IsEnabled = status == PlayerStatusType.Playing;
+                trackPosition.IsEnabled = status == PlayerStatusType.Playing;
                 if (status == PlayerStatusType.Playing)
                     imagePlayPause.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/Toolbar/pause.png"));
                 else
@@ -788,90 +783,84 @@ namespace MPfm.WPF.Classes.Windows
             _currentAudioFile = audioFile;
             Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                //testControl.CreateBitmap();
-                //testControl.InvalidateVisual();
+                if (audioFile == null)
+                {
+                    lblArtistName.Content = string.Empty;
+                    lblAlbumTitle.Content = string.Empty;
+                    lblSongTitle.Content = string.Empty;
+                    lblFilePath.Content = string.Empty;
+                    lblSampleRate.Content = string.Empty;
+                    lblBitrate.Content = string.Empty;
+                    lblBitsPerSample.Content = string.Empty;
+                    lblSoundFormat.Content = string.Empty;
+                    lblYear.Content = string.Empty;
+                    lblMonoStereo.Content = string.Empty;
+                    lblFileSize.Content = string.Empty;
+                    lblGenre.Content = string.Empty;
+                    lblPlayCount.Content = string.Empty;
+                    lblLastPlayed.Content = string.Empty;
+                }
+                else
+                {
+                    lblArtistName.Content = audioFile.ArtistName;
+                    lblAlbumTitle.Content = audioFile.AlbumTitle;
+                    lblSongTitle.Content = audioFile.Title;
+                    lblFilePath.Content = audioFile.FilePath;
+                    lblLength.Content = audioFile.Length;
+                    lblSampleRate.Content = string.Format("{0} Hz", audioFile.SampleRate);
+                    lblBitrate.Content = string.Format("{0} kbps", audioFile.Bitrate);
+                    lblBitsPerSample.Content = string.Format("{0} bits", audioFile.BitsPerSample);
+                    lblSoundFormat.Content = audioFile.FileType.ToString();
+                    lblYear.Content = audioFile.Year == 0 ? "No year specified" : audioFile.Year.ToString();
+                    lblMonoStereo.Content = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
+                    lblFileSize.Content = string.Format("{0} bytes", audioFile.FileSize);
+                    lblGenre.Content = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
+                    lblPlayCount.Content = string.Format("{0} times played", audioFile.PlayCount);
+                    lblLastPlayed.Content = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
 
-                //    btnAddLoop.Enabled = audioFile != null;
-                //    btnAddMarker.Enabled = audioFile != null;
+            //        miTrayArtistName.Text = audioFile.ArtistName;
+            //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
+            //        miTraySongTitle.Text = audioFile.Title;
 
-                    if (audioFile == null)
+                    gridViewSongsNew.NowPlayingAudioFileId = audioFile.Id;
+
+                    scrollViewWaveForm.SetWaveFormLength(lengthBytes);
+                    scrollViewWaveForm.LoadPeakFile(audioFile);
+
+                    imageAlbum.Source = null;
+                    var task = Task<BitmapImage>.Factory.StartNew(() =>
                     {
-                        lblArtistName.Content = string.Empty;
-                        lblAlbumTitle.Content = string.Empty;
-                        lblSongTitle.Content = string.Empty;
-                        lblFilePath.Content = string.Empty;
-                        lblSampleRate.Content = string.Empty;
-                        lblBitrate.Content = string.Empty;
-                        lblBitsPerSample.Content = string.Empty;
-                        lblSoundFormat.Content = string.Empty;
-                        lblYear.Content = string.Empty;
-                        lblMonoStereo.Content = string.Empty;
-                        lblFileSize.Content = string.Empty;
-                        lblGenre.Content = string.Empty;
-                        lblPlayCount.Content = string.Empty;
-                        lblLastPlayed.Content = string.Empty;
-                    }
-                    else
-                    {
-                        lblArtistName.Content = audioFile.ArtistName;
-                        lblAlbumTitle.Content = audioFile.AlbumTitle;
-                        lblSongTitle.Content = audioFile.Title;
-                        lblFilePath.Content = audioFile.FilePath;
-                        lblLength.Content = audioFile.Length;
-                        lblSampleRate.Content = string.Format("{0} Hz", audioFile.SampleRate);
-                        lblBitrate.Content = string.Format("{0} kbps", audioFile.Bitrate);
-                        lblBitsPerSample.Content = string.Format("{0} bits", audioFile.BitsPerSample);
-                        lblSoundFormat.Content = audioFile.FileType.ToString();
-                        lblYear.Content = audioFile.Year == 0 ? "No year specified" : audioFile.Year.ToString();
-                        lblMonoStereo.Content = audioFile.AudioChannels == 1 ? "Mono" : "Stereo";
-                        lblFileSize.Content = string.Format("{0} bytes", audioFile.FileSize);
-                        lblGenre.Content = string.IsNullOrEmpty(audioFile.Genre) ? "No genre specified" : string.Format("{0}", audioFile.Genre);
-                        lblPlayCount.Content = string.Format("{0} times played", audioFile.PlayCount);
-                        lblLastPlayed.Content = audioFile.LastPlayed.HasValue ? string.Format("Last played on {0}", audioFile.LastPlayed.Value.ToShortDateString()) : "";
-
-                //        miTrayArtistName.Text = audioFile.ArtistName;
-                //        miTrayAlbumTitle.Text = audioFile.AlbumTitle;
-                //        miTraySongTitle.Text = audioFile.Title;
-
-                        gridViewSongsNew.NowPlayingAudioFileId = audioFile.Id;
-
-                        scrollViewWaveForm.SetWaveFormLength(lengthBytes);
-                        scrollViewWaveForm.LoadPeakFile(audioFile);
-
-                        imageAlbum.Source = null;
-                        var task = Task<BitmapImage>.Factory.StartNew(() =>
+                        try
                         {
-                            try
-                            {
-                                var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                                var stream = new MemoryStream(bytes);
-                                stream.Seek(0, SeekOrigin.Begin);
+                            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                            var stream = new MemoryStream(bytes);
+                            stream.Seek(0, SeekOrigin.Begin);
 
-                                var bitmap = new BitmapImage();
-                                bitmap.BeginInit();
-                                bitmap.StreamSource = stream;
-                                bitmap.EndInit();
-                                bitmap.Freeze();
+                            var bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.StreamSource = stream;
+                            bitmap.EndInit();
+                            bitmap.Freeze();
 
-                                return bitmap;
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("An error occured while extracing album art in {0}: {1}", audioFile.FilePath, ex);
-                            }
-
-                            return null;
-                        });
-
-                        var imageResult = task.Result;
-                        if (imageResult != null)
-                        {
-                            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                imageAlbum.Source = imageResult;
-                            }));
+                            return bitmap;
                         }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("An error occured while extracing album art in {0}: {1}", audioFile.FilePath, ex);
+                        }
+
+                        return null;
+                    });
+
+                    var imageResult = task.Result;
+                    if (imageResult != null)
+                    {
+                        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                        {
+                            imageAlbum.Source = imageResult;
+                        }));
                     }
+                }
             }));
         }
 
@@ -885,7 +874,6 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshMarkerPosition(Marker marker)
         {
-
         }
 
         public void RefreshLoops(IEnumerable<Loop> loops)

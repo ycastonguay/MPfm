@@ -196,7 +196,7 @@ namespace MPfm.Android
             base.OnConfigurationChanged(newConfig);
 
             // The window manager returns the width depending on orientation
-            _waveFormScrollView.WaveView.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
+            _waveFormScrollView.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
         }
 
         protected override void OnRestart()
@@ -308,7 +308,7 @@ namespace MPfm.Android
             {
                 PlayerPositionEntity entity = OnPlayerRequestPosition((float) _seekBar.Progress/10000f);
                 _lblPosition.Text = entity.Position;
-                _waveFormScrollView.WaveView.SecondaryPosition = entity.PositionBytes;
+                _waveFormScrollView.SetSecondaryPosition(entity.PositionBytes);
             }
         }
 
@@ -316,7 +316,7 @@ namespace MPfm.Android
         {
             //Console.WriteLine("PlayerActivity - SeekBarOnStartTrackingTouch");
             _isPositionChanging = true;
-            _waveFormScrollView.WaveView.ShowSecondaryPosition = true;
+            _waveFormScrollView.ShowSecondaryPosition(true);
         }
 
         private void SeekBarOnStopTrackingTouch(object sender, SeekBar.StopTrackingTouchEventArgs stopTrackingTouchEventArgs)
@@ -324,7 +324,7 @@ namespace MPfm.Android
             //Console.WriteLine("PlayerActivity - SeekBarOnStopTrackingTouch progress: {0}", _seekBar.Progress);
             OnPlayerSetPosition(_seekBar.Progress / 100f);
             _isPositionChanging = false;
-            _waveFormScrollView.WaveView.ShowSecondaryPosition = false;
+            _waveFormScrollView.ShowSecondaryPosition(false);
         }
 
         public bool OnTouch(View v, MotionEvent e)
@@ -446,7 +446,7 @@ namespace MPfm.Android
                     _seekBar.Progress = (int) (entity.PositionPercentage * 100);
                 }
 
-                _waveFormScrollView.WaveView.Position = entity.PositionBytes;
+                _waveFormScrollView.SetPosition(entity.PositionBytes);
             });
         }
 
@@ -482,7 +482,7 @@ namespace MPfm.Android
 
         public void RefreshMarkers(IEnumerable<Marker> markers)
         {
-            RunOnUiThread(() => _waveFormScrollView.WaveView.SetMarkers(markers));
+            RunOnUiThread(() => _waveFormScrollView.SetMarkers(markers));
         }
 
         public void RefreshActiveMarker(Guid markerId)

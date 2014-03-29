@@ -70,8 +70,13 @@ namespace MPfm.WPF.Classes.Controls.Graphics
 
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
+            // Make sure the source rectangle width isn't out of bounds
             var disposableImage = (DisposableBitmap)image;
-            var croppedBitmap = new CroppedBitmap(disposableImage.Bitmap, GenericControlHelper.ToInt32Rect(rectangleSource));
+            if(rectangleSource.Width > disposableImage.Bitmap.Width) Console.WriteLine("[!!!] GraphicsContextWrapper - DrawImage - WARNING: rectSource.Width > image.Width! - rectSource.Width: {0} image.Width: {1}", rectangleSource.Width, disposableImage.Bitmap.Width);
+            float width = (float)(rectangleSource.Width > disposableImage.Bitmap.Width ? disposableImage.Bitmap.Width : rectangleSource.Width);
+            float height = (float)(rectangleSource.Height > disposableImage.Bitmap.Height ? disposableImage.Bitmap.Height : rectangleSource.Height);
+            var rect = new BasicRectangle(rectangleSource.X, rectangleSource.Y, width, height);
+            var croppedBitmap = new CroppedBitmap(disposableImage.Bitmap, GenericControlHelper.ToInt32Rect(rect));
             _context.DrawImage(croppedBitmap, GenericControlHelper.ToRect(rectangleDestination));
         }
 

@@ -199,6 +199,5 @@
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
-    <Compile Include="Interaction\IControlScrollViewInteraction.cs" />
   </ItemGroup>
 </Project>
