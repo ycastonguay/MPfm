@@ -43,7 +43,7 @@ namespace MPfm.GenericControls.Basics
 
         public override string ToString()
         {
-            return string.Format("({0},{1},{2},{3})", X, Y, Width, Height);
+            return string.Format("({0:0.0},{1:0.0},{2:0.0},{3:0.0})", X, Y, Width, Height);
         }
     }
 }
