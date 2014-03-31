@@ -321,6 +321,9 @@ namespace org.sessionsapp.android
             public override bool OnScaleBegin(ScaleGestureDetector detector)
             {
                 //Console.WriteLine("ScaleListener - OnScaleBegin - scaleFactor: {0}", detector.ScaleFactor);
+                if (_scrollView.WaveView.IsLoading)
+                    return base.OnScaleBegin(detector);
+
                 _startZoom = _scrollView.Zoom;
                 _startContentOffsetX = _scrollView.WaveView.ContentOffset.X;
                 SetScrollViewScale(detector.ScaleFactor);

@@ -35,6 +35,13 @@ namespace org.sessionsapp.android
     {
         private WaveFormControl _control;
 
+        public long Position { get { return _control.Position; } set { _control.Position = value; } }
+        public long SecondaryPosition { get { return _control.SecondaryPosition; } set { _control.SecondaryPosition = value; } }
+        public bool ShowSecondaryPosition { get { return _control.ShowSecondaryPosition; } set { _control.ShowSecondaryPosition = value; } }
+        public float Zoom { get { return _control.Zoom; } set { _control.Zoom = value; } }
+        public BasicPoint ContentOffset { get { return _control.ContentOffset; } set { _control.ContentOffset = value; } }
+        public bool IsLoading { get { return _control.IsLoading; } }
+
         public WaveFormView(Context context) : base(context)
         {
             Initialize();
@@ -69,66 +76,6 @@ namespace org.sessionsapp.android
                 SetLayerType(LayerType.Hardware, null); // Use GPU instead of CPU (except in IDE such as Eclipse)
         }
 
-        public long Position
-        {
-            get
-            {
-                return _control.Position;
-            }
-            set
-            {
-                _control.Position = value;
-            }
-        }
-
-        public long SecondaryPosition
-        {
-            get
-            {
-                return _control.SecondaryPosition;
-            }
-            set
-            {
-                _control.SecondaryPosition = value;
-            }
-        }
-
-        public bool ShowSecondaryPosition
-        {
-            get
-            {
-                return _control.ShowSecondaryPosition;
-            }
-            set
-            {
-                _control.ShowSecondaryPosition = value;
-            }
-        }
-
-        public float Zoom
-        {
-            get
-            {
-                return _control.Zoom;
-            }
-            set
-            {
-                _control.Zoom = value;
-            }
-        }
-
-        public BasicPoint ContentOffset
-        {
-            get
-            {
-                return _control.ContentOffset;
-            }
-            set
-            {
-                _control.ContentOffset = value;
-            }
-        }  
-
         public void SetMarkers(IEnumerable<Marker> markers)
         {
             _control.SetMarkers(markers);
@@ -157,6 +104,7 @@ namespace org.sessionsapp.android
         public override void Draw(Canvas canvas)
         {
             float density = Resources.DisplayMetrics.Density;
+            //Console.WriteLine("WaveFormView - Draw - Width: {0} Height: {1} density: {2}", Width, Height, density);
             var wrapper = new GraphicsContextWrapper(canvas, Width, Height, density);
             _control.Render(wrapper);
         }

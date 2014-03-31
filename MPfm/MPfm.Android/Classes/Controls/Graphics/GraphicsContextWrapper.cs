@@ -92,7 +92,10 @@ namespace MPfm.Android.Classes.Controls.Graphics
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
         {
             var paintBitmap = new Paint();
-            _canvas.DrawBitmap((Bitmap)image, GenericControlHelper.ToRect(rectangleSource), GenericControlHelper.ToRect(rectangleDestination), paintBitmap);
+            var bitmap = (Bitmap)image;            
+            //Console.WriteLine("GraphicsContextWrapper - DrawImage - rectDestination: {0} rectSource: {1} bitmap.Width: {2}", rectangleDestination, rectangleSource, bitmap.Width);
+            _canvas.DrawBitmap(bitmap, GenericControlHelper.ToRect(rectangleSource), GenericControlHelper.ToRect(rectangleDestination), paintBitmap);
+            //_canvas.DrawBitmap(bitmap, GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleDestination), paintBitmap);
         }
 
         public void DrawEllipsis(BasicRectangle rectangle, BasicBrush brush, BasicPen pen)

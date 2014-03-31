@@ -51,7 +51,6 @@ namespace MPfm.GenericControls.Controls
         private Guid _activeMarkerId = Guid.Empty;
         private List<Marker> _markers = new List<Marker>();
         private string _status = "";
-        private bool _isLoading = false;
         private bool _isGeneratingImageCache = false;
         private Tuple<IDisposable, int> _imageCache = null;
         private float _imageCacheWidth;
@@ -65,7 +64,8 @@ namespace MPfm.GenericControls.Controls
         private BasicColor _markerCursorColor = new BasicColor(255, 0, 0);
         private BasicColor _markerSelectedCursorColor = new BasicColor(234, 138, 128);
         private BasicColor _textColor = new BasicColor(255, 255, 255);
-        
+
+        public bool IsLoading { get; private set; }
         public InputInteractionMode InteractionMode { get; set; }
         public BasicRectangle Frame { get; set; }
 		public float FontSize { get; set; }
@@ -85,7 +85,7 @@ namespace MPfm.GenericControls.Controls
                 _position = value;
 
                 // Don't bother if a peak file is loading
-                if (_isLoading || _imageCache == null)
+                if (IsLoading || _imageCache == null)
                     return;
 
                 // Invalidate cursor
@@ -106,7 +106,7 @@ namespace MPfm.GenericControls.Controls
                 _secondaryPosition = value;
 
                 // Don't bother if a peak file is loading
-                if (_isLoading)
+                if (IsLoading)
                     return;
 
                 // Invalidate cursor. TODO: When the cursor is moving quickly, it dispappears because of the invalidation.
@@ -237,7 +237,7 @@ namespace MPfm.GenericControls.Controls
             {
                 Console.WriteLine("WaveFormControl - GenerateWaveFormEndedEvent (isLoading: false)");
                 _isGeneratingImageCache = false;
-                _isLoading = false;
+                IsLoading = false;
                 _imageCache = new Tuple<IDisposable, int>(e.Image, (int) e.Width);
                 _imageCacheWidth = e.Width;
                 _imageCacheZoom = e.Zoom;
@@ -326,7 +326,7 @@ namespace MPfm.GenericControls.Controls
         public void LoadPeakFile(AudioFile audioFile)
         {
 			//Console.WriteLine("WaveFormControl - LoadPeakFile " + audioFile.FilePath);
-            _isLoading = true;
+            IsLoading = true;
             _imageCache = null;
             _imageCacheWidth = 0;
             _imageCacheZoom = 1;
@@ -338,7 +338,7 @@ namespace MPfm.GenericControls.Controls
         private void RefreshStatus(string status)
         {
 			//Console.WriteLine("WaveFormControl - RefreshStatus - status: {0}", status);            
-            //_isLoading = true;
+            //IsLoading = true;
             _status = status;
             OnInvalidateVisual();
         }
@@ -464,14 +464,14 @@ namespace MPfm.GenericControls.Controls
 			//Console.WriteLine("WaveFormControl - Render");
             Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
             _density = context.Density;
-            if (_isLoading)
+            if (IsLoading)
             {
-                //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", _isLoading);
+                //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", IsLoading);
                 DrawStatus(context, _status);
             }
             else if (_imageCache != null)
             {
-                //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", _isLoading);
+                //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", IsLoading);
                 DrawWaveFormBitmap(context);
             }
             else
