@@ -16,12 +16,13 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using MPfm.Sound.AudioFiles;
 
-namespace MPfm.GenericControls.Managers.Events
+namespace MPfm.GenericControls.Services.Events
 {
-    public class LoadPeakFileEventArgs : EventArgs
+    public class GeneratePeakFileEventArgs : EventArgs
     {
-        public AudioFile AudioFile { get; set; }
+        public string AudioFilePath { get; set; }
+        public float PercentageDone { get; set; }
+        public bool Cancelled { get; set; }
     }
 }
