@@ -17,13 +17,14 @@
 
 using System;
 
-namespace MPfm.GenericControls.Managers.Events
+namespace MPfm.GenericControls.Services.Events
 {
     public class GenerateWaveFormEventArgs : EventArgs
     {
         public string AudioFilePath { get; set; }
         public float Zoom { get; set; }
         public float Width { get; set; }
+        public float OffsetX { get; set; }
         public WaveFormDisplayType DisplayType { get; set; }
         public IDisposable Image { get; set; }
     }
