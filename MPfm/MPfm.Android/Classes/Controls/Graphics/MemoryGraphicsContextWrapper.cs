@@ -33,7 +33,7 @@ namespace MPfm.Android.Classes.Controls.Graphics
 
         public IDisposable RenderToImageInMemory()
         {
-            Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
+            //Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
             return _bitmap;
         }
     }

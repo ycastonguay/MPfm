@@ -86,7 +86,7 @@ namespace MPfm.Android.Classes.Controls.Graphics
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
             var paintBitmap = new Paint();
-            _canvas.DrawBitmap((Bitmap)image, 0, 0, paintBitmap);
+            _canvas.DrawBitmap((Bitmap)image, rectangle.X, rectangle.Y, paintBitmap);
         }
 
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
@@ -94,7 +94,7 @@ namespace MPfm.Android.Classes.Controls.Graphics
             var paintBitmap = new Paint();
             var bitmap = (Bitmap)image;
             //var resizedBitmap = Bitmap.CreateBitmap(bitmap, (int)rectangleSource.X, (int)rectangleSource.Y, (int)rectangleSource.Width, (int)rectangleSource.Height);
-            Console.WriteLine("GraphicsContextWrapper - DrawImage - rectDestination: {0} rectSource: {1} bitmap.Width: {2}", rectangleDestination, rectangleSource, bitmap.Width);
+            //Console.WriteLine("GraphicsContextWrapper - DrawImage - rectDestination: {0} rectSource: {1} bitmap.Width: {2}", rectangleDestination, rectangleSource, bitmap.Width);
             //_canvas.DrawBitmap(resizedBitmap, GenericControlHelper.ToRect(rectangleSource), GenericControlHelper.ToRect(rectangleDestination), paintBitmap);
             _canvas.DrawBitmap(bitmap, GenericControlHelper.ToRect(rectangleSource), GenericControlHelper.ToRect(rectangleDestination), paintBitmap);
             //_canvas.DrawBitmap(bitmap, GenericControlHelper.ToRect(rectangleDestination), GenericControlHelper.ToRect(rectangleDestination), paintBitmap);

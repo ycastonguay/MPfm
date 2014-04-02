@@ -26,6 +26,8 @@ using MPfm.Android.Classes.Navigation;
 using MPfm.Android.Classes.Providers;
 using MPfm.Android.Classes.Receivers;
 using MPfm.GenericControls.Graphics;
+using MPfm.GenericControls.Services;
+using MPfm.GenericControls.Services.Interfaces;
 using MPfm.Library;
 using MPfm.Library.Services.Interfaces;
 using MPfm.MVP.Bootstrap;
@@ -157,6 +159,8 @@ namespace MPfm.Android.Classes
             container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, AndroidSyncDeviceSpecifications>().AsSingleton();
             container.Register<ICloudService, AndroidDropboxService>().AsSingleton();
+            container.Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();
+            container.Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
             container.Register<IAppConfigProvider, AndroidAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, AndroidNavigationManager>().AsSingleton();
             container.Register<IMobileOptionsMenuView, MainActivity>().AsMultiInstance();

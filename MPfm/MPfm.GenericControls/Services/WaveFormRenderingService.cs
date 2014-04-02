@@ -331,7 +331,7 @@ namespace MPfm.GenericControls.Services
                         heightToRenderLine = (boundsWaveForm.Height / 2);
 
                     context.DrawRectangle(new BasicRectangle(0, 0, boundsBitmap.Width + 2, boundsBitmap.Height), _brushBackground, _penTransparent);
-                    //context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(0, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10);
+                    context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(0, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10);
 
                     // The pen cannot be cached between refreshes because the line width changes every time the width changes
                     //context.SetLineWidth(0.2f);
@@ -514,7 +514,7 @@ namespace MPfm.GenericControls.Services
 					Image = imageCache
 				});
 			}));
-			//thread.IsBackground = true;
+			thread.IsBackground = true;
             thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
         }

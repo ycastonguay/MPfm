@@ -30,7 +30,11 @@ namespace MPfm.GenericControls.Services
     public class WaveFormCacheService : IWaveFormCacheService
     {
         public const int TileSize = 20;
+#if ANDROID
+        public const int MaximumNumberOfTasks = 1;
+#else
         public const int MaximumNumberOfTasks = 2;
+#endif
         private readonly object _locker = new object();
         private readonly IWaveFormRenderingService _waveFormRenderingService;
         private int _numberOfBitmapTasksRunning;

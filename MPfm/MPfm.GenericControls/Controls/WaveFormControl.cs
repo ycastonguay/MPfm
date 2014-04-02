@@ -20,7 +20,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web.UI.WebControls;
 using MPfm.Core;
 using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Services;
@@ -189,6 +188,7 @@ namespace MPfm.GenericControls.Controls
             _waveFormCacheService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
             _waveFormCacheService.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
             _waveFormCacheService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
+            _waveFormCacheService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
         }
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
@@ -227,17 +227,17 @@ namespace MPfm.GenericControls.Controls
             OnInvalidateVisual();
         }
 
-        //private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
-        //{
-        //    // Make sure the control isn't drawing when switching bitmaps
-        //    lock (_locker)
-        //    {
-        //        IsLoading = false;
-        //    }
+        private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
+        {
+            // Make sure the control isn't drawing when switching bitmaps
+            //lock (_locker)
+            //{
+            //    //IsLoading = false;
+            //}
 
-        //    Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
-        //    OnInvalidateVisual();
-        //}
+            //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
+            OnInvalidateVisual();
+        }
 
         public void SetActiveMarker(Guid markerId)
         {

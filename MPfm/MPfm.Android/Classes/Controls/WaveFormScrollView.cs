@@ -149,10 +149,10 @@ namespace org.sessionsapp.android
             WaveView.ShowSecondaryPosition = show;
         }
 
-        public void RefreshWaveFormBitmap(int width)
-        {
-            WaveView.RefreshWaveFormBitmap(width);
-        }
+        //public void RefreshWaveFormBitmap(int width)
+        //{
+        //    WaveView.RefreshWaveFormBitmap(width);
+        //}
 
         public void SetMarkers(IEnumerable<Marker> markers)
         {
@@ -179,8 +179,8 @@ namespace org.sessionsapp.android
                 if (DateTime.Now - _lastZoomUpdate > new TimeSpan(0, 0, 0, 0, 700))
                 {
                     _isZoomLabelVisible = false;
-                    Console.WriteLine("WaveFormScrollView - HandleTimerFadeOutZoomLabelElapsed - Refreshing wave form bitmap...");
-                    WaveView.RefreshWaveFormBitmap();
+                    //Console.WriteLine("WaveFormScrollView - HandleTimerFadeOutZoomLabelElapsed - Refreshing wave form bitmap...");
+                    //WaveView.RefreshWaveFormBitmap();
 
                     var animFadeOut = new AlphaAnimation(1, 0);
                     animFadeOut.RepeatMode = RepeatMode.Reverse;

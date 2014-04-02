@@ -196,7 +196,7 @@ namespace MPfm.Android
             base.OnConfigurationChanged(newConfig);
 
             // The window manager returns the width depending on orientation
-            _waveFormScrollView.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
+            //_waveFormScrollView.RefreshWaveFormBitmap(WindowManager.DefaultDisplay.Width);
         }
 
         protected override void OnRestart()
