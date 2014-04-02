@@ -39,7 +39,6 @@ namespace MPfm.GenericControls.Services
     public class WaveFormRenderingService : IWaveFormRenderingService
     {
 		// TODO: Should be called WaveFormCacheService.
-        private Random rnd = new Random();
         private readonly object _locker = new object();
         private BasicBrush _brushBackground;
         private BasicPen _penTransparent;
@@ -239,17 +238,9 @@ namespace MPfm.GenericControls.Services
         /// <param name="zoom">Zoom level (1 == 100%)</param>
         public void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom)
         {
-            Console.WriteLine("WaveFormRenderingService - RequestBitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", boundsBitmap, boundsWaveForm, zoom);
-            IDisposable imageCache;
-            //var boundsWaveForm = new BasicRectangle();
-
-            //// Calculate available size
-            //int widthAvailable = (int)bounds.Width;
-            //int heightAvailable = (int)bounds.Height;
-            //boundsWaveForm = new BasicRectangle(0, 0, (widthAvailable * zoom) - (_padding * 2), heightAvailable - (_padding * 2));
-
-			// Use this instead of a task, this guarantees to execute in another thread
-			var thread = new Thread(new ThreadStart(() =>
+            // Use this instead of a task, this guarantees to execute in another thread
+            //Console.WriteLine("WaveFormRenderingService - RequestBitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", boundsBitmap, boundsWaveForm, zoom);
+            var thread = new Thread(new ThreadStart(() =>
 			{
 			    var stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -257,7 +248,7 @@ namespace MPfm.GenericControls.Services
                 IMemoryGraphicsContext context;
                 try
                 {
-                    Console.WriteLine("WaveFormRenderingService - Creating image cache...");
+                    //Console.WriteLine("WaveFormRenderingService - Creating image cache...");
                     context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(boundsBitmap.Width, boundsBitmap.Height);
                     if (context == null)
                     {
@@ -271,7 +262,8 @@ namespace MPfm.GenericControls.Services
                     return;
                 }
 
-                try
+			    IDisposable imageCache;
+			    try
                 {
                     lock (_locker)
                     {
@@ -279,7 +271,6 @@ namespace MPfm.GenericControls.Services
                         {
                             _penTransparent = new BasicPen();
                             _brushBackground = new BasicBrush(_colorBackground);
-                            //_brushBackground = new BasicBrush(new BasicColor((byte) rnd.Next(0, 255), (byte) rnd.Next(0, 255), (byte) rnd.Next(0, 255)));
                         }
                     }
 
@@ -347,11 +338,7 @@ namespace MPfm.GenericControls.Services
                     var penWaveForm = new BasicPen(new BasicBrush(_colorWaveForm), lineWidth);
                     context.SetPen(penWaveForm);
 
-                    //float startLine = (float) Math.Floor(boundsBitmap.X/lineWidth);
                     float startLine = ((int)Math.Floor(boundsBitmap.X / lineWidth)) * lineWidth;
-                    //float offsetX = startLine*lineWidth;
-                    //historyIndex = (int) (bounds.X*nHistoryItemsPerLine);
-                    //historyIndex = (int) (startLine*nHistoryItemsPerLine);
                     historyIndex = (int) ((startLine / lineWidth) * nHistoryItemsPerLine);
 
                     //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} startLine2: {1} boundsWaveForm.Width: {2} nHistoryItemsPerLine: {3} historyIndex: {4}", startLine, startLine2, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
@@ -509,14 +496,14 @@ namespace MPfm.GenericControls.Services
                 finally
                 {
                     // Get image from context (at this point, we are sure the image context has been initialized properly)
-					Console.WriteLine("WaveFormRenderingService - Rendering image to memory...");
+					//Console.WriteLine("WaveFormRenderingService - Rendering image to memory...");
                     context.Close();
                     imageCache = context.RenderToImageInMemory();
                 }
 
 				//Console.WriteLine("WaveFormRenderingService - Created image successfully.");
 			    stopwatch.Stop();
-                Console.WriteLine("WaveFormRenderingService - Created image successfully in {0} ms.", stopwatch.ElapsedMilliseconds);
+                //Console.WriteLine("WaveFormRenderingService - Created image successfully in {0} ms.", stopwatch.ElapsedMilliseconds);
 				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 				{
 					//AudioFilePath = audioFile.FilePath,

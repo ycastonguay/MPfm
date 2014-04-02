@@ -27,6 +27,7 @@ namespace MPfm.GenericControls.Services.Interfaces
         event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
+        bool IsEmpty { get; }
 
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);

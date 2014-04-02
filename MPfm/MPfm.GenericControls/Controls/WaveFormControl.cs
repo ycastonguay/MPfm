@@ -216,22 +216,28 @@ namespace MPfm.GenericControls.Controls
             if (Frame.Width == 0)
                 return;
 
-            //GenerateWaveFormBitmap(e.AudioFile, ContentSize);
+            // Start generating the first tile
+            _waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);
+
+            // Start generating all tiles for zoom @ 100%
+            //for(int a = 0; a < Frame.Width; a = a + WaveFormCacheService.TileSize)
+                //_waveFormCacheService.GetTile(a, Frame.Height, Frame.Width, Zoom);
+
             IsLoading = false;
             OnInvalidateVisual();
         }
 
-        private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
-        {
-            // Make sure the control isn't drawing when switching bitmaps
-            lock (_locker)
-            {
-                IsLoading = false;
-            }
+        //private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
+        //{
+        //    // Make sure the control isn't drawing when switching bitmaps
+        //    lock (_locker)
+        //    {
+        //        IsLoading = false;
+        //    }
 
-            Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
-            OnInvalidateVisual();
-        }
+        //    Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
+        //    OnInvalidateVisual();
+        //}
 
         public void SetActiveMarker(Guid markerId)
         {
@@ -281,15 +287,6 @@ namespace MPfm.GenericControls.Controls
             // TODO: Only refresh the old/new marker positions
             OnInvalidateVisual();
         }
-
-        //public void FlushCache()
-        //{
-        //    // Make sure the control isn't drawing a bitmap when flushing it
-        //    lock (_locker)
-        //    {
-        //        _waveFormCacheService.FlushCache();
-        //    }
-        //}
 
         public void LoadPeakFile(AudioFile audioFile)
         {
@@ -415,32 +412,6 @@ namespace MPfm.GenericControls.Controls
             }
         }
 
-        //public void RefreshWaveFormBitmap()
-        //{
-        //    //RefreshWaveFormBitmap(ContentSize.Width);
-        //    RefreshWaveFormBitmap(Frame.Width);
-        //}
-
-        //public void RefreshWaveFormBitmap(float width)
-        //{
-        //    if (AudioFile == null)
-        //        return;
-
-        //    //RefreshStatus("Generating new bitmap...");
-        //    GenerateWaveFormBitmap(AudioFile, new BasicRectangle(Frame.X, Frame.Y, width, Frame.Height));
-        //}
-
-        //private void GenerateWaveFormBitmap(AudioFile audioFile, BasicRectangle rect)
-        //{
-        //    if (!_isGeneratingImageCache && (rect.Width * _density != _imageCacheWidth || _imageCacheZoom != Zoom))
-        //    {
-        //        _isGeneratingImageCache = true;
-        //        var rectImage = new BasicRectangle(0, 0, rect.Width * _density, rect.Height * _density);
-        //        Console.WriteLine("WaveFormControl - GenerateWaveFormBitmap audioFilePath: {0} rect.width: {1} rect.height: {2}", audioFile.FilePath, rectImage.Width, rectImage.Height);
-        //        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rectImage, Zoom);
-        //    }
-        //}
-
         public void Render(IGraphicsContext context)
         {
 			//Console.WriteLine("WaveFormControl - Render");
@@ -451,17 +422,16 @@ namespace MPfm.GenericControls.Controls
                 //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", IsLoading);
                 DrawStatus(context, _status);
             }
-            //else if (_imageCache != null)
-            else
+            else if (!_waveFormCacheService.IsEmpty)
             {
                 //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", IsLoading);
                 DrawWaveFormBitmap(context);
             }
-            //else
-            //{
-            //    Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
-            //    context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
-            //}
+            else
+            {
+                //Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
+                context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
+            }
         }
 
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)

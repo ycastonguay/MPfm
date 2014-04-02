@@ -16,8 +16,10 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
@@ -27,10 +29,13 @@ namespace MPfm.GenericControls.Services
 {
     public class WaveFormCacheService : IWaveFormCacheService
     {
-        public const int TileSize = 20;
+        public const int TileSize = 20;        
         private readonly object _locker = new object();
         private readonly IWaveFormRenderingService _waveFormRenderingService;
+        private int _numberOfBitmapTasksRunning;
         private List<WaveFormTile> _tiles;
+        //private ConcurrentQueue<WaveFormBitmapRequest> _requests;
+        private List<WaveFormBitmapRequest> _requests;
         private bool _isGeneratingWaveForm;
 
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
@@ -40,9 +45,13 @@ namespace MPfm.GenericControls.Services
         public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
+        public bool IsEmpty { get { return _tiles.Count == 0; } }
+
         public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService)
         {
             _tiles = new List<WaveFormTile>();
+            //_requests = new ConcurrentQueue<WaveFormBitmapRequest>();
+            _requests = new List<WaveFormBitmapRequest>();
             _waveFormRenderingService = waveFormRenderingService;
             _waveFormRenderingService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
             _waveFormRenderingService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
@@ -50,6 +59,8 @@ namespace MPfm.GenericControls.Services
             _waveFormRenderingService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
             _waveFormRenderingService.GenerateWaveFormBitmapBegunEvent += HandleGenerateWaveFormBegunEvent;
             _waveFormRenderingService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
+
+            StartBitmapRequestProcessLoop();
         }
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
@@ -84,9 +95,10 @@ namespace MPfm.GenericControls.Services
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
-            Console.WriteLine("WaveFormCacheService - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
+            //Console.WriteLine("WaveFormCacheService - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
             lock (_locker)
             {
+                _numberOfBitmapTasksRunning--;
                 _isGeneratingWaveForm = false;
                 var tile = new WaveFormTile()
                 {
@@ -156,16 +168,89 @@ namespace MPfm.GenericControls.Services
                     // Request a new bitmap
                     // Try not to spam new requests while one is running, this is an async method.
                     // We'll add parallelism later
-                    if (!_isGeneratingWaveForm)
+                    //if (!_isGeneratingWaveForm)
+                    //{
+                    //    // TO DO: We need to add this in a task queue/bag with a loop that processes bitmap generation (and cancels some requests)
+                    //    _isGeneratingWaveForm = true;
+                    //}
+
+                    //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - rect: {0} zoom: {1}", rect, zoom);
+                    var request = new WaveFormBitmapRequest()
                     {
-                        // TO DO: We need to add this in a task queue/bag with a loop that processes bitmap generation (and cancels some requests)
-                        _isGeneratingWaveForm = true;
-                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - rect: {0} zoom: {1}", rect, zoom);
-                        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, new BasicRectangle(0, 0, waveFormWidth, height), zoom);
+                        DisplayType = WaveFormDisplayType.Stereo,
+                        BoundsBitmap = rect,
+                        BoundsWaveForm = new BasicRectangle(0, 0, waveFormWidth, height),
+                        Zoom = zoom
+                    };
+
+                    // Check if bitmap has already been requested in queue
+                    var existingRequest = _requests.FirstOrDefault(obj => obj.BoundsBitmap.Equals(request.BoundsBitmap) && obj.BoundsWaveForm.Equals(request.BoundsWaveForm) && obj.Zoom == request.Zoom);
+                    if (existingRequest == null)
+                    {
+                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom);
+                        _requests.Add(request);                        
                     }
+                    else
+                    {
+                        //Console.WriteLine("!!!!!!! SKIPPING REQUEST");
+                    }
+
+
+                    //_requests.Enqueue(request);
+                    //_waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, new BasicRectangle(0, 0, waveFormWidth, height), zoom);
                 }
             }
             return tile;
+        }
+
+        public void StartBitmapRequestProcessLoop()
+        {
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Loop - requests.Count: {0} numberOfBitmapTasksRunning: {1}", _requests.Count, _numberOfBitmapTasksRunning);
+                    WaveFormBitmapRequest request = null;
+                    lock (_locker)
+                    {
+                        if (_requests.Count > 0 && _numberOfBitmapTasksRunning < 4)
+                        {
+                            _numberOfBitmapTasksRunning++;
+                            request = _requests[0];
+                            _requests.RemoveAt(0);
+                            // Problem is, we can't really remove the request from the list until it is done, or the app might request bitmaps that are already generating
+                        }
+                    }
+                    //_requests.TryDequeue(out request);
+                    if (request != null)
+                    {
+                        Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
+                        _waveFormRenderingService.RequestBitmap(request.DisplayType, request.BoundsBitmap, request.BoundsWaveForm, request.Zoom);
+                    }
+
+                    // Since the bitmap tiles are small enough to be generated under 20 ms, this basically makes it one task only.
+                    // We need to loop requests until we hit the maximum.
+                    Thread.Sleep(20);
+                }
+			}));
+			thread.IsBackground = true;
+            thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+        }
+
+        public class WaveFormBitmapRequest
+        {
+            public WaveFormDisplayType DisplayType { get; set; }
+            public BasicRectangle BoundsBitmap { get; set; }
+            public BasicRectangle BoundsWaveForm { get; set; }
+            public float Zoom { get; set; }
+
+            public WaveFormBitmapRequest()
+            {                
+                BoundsBitmap = new BasicRectangle();
+                BoundsWaveForm = new BasicRectangle();
+                Zoom = 1;
+            }
         }
 
         public class WaveFormTile
