@@ -29,14 +29,13 @@ namespace MPfm.GenericControls.Services
 {
     public class WaveFormCacheService : IWaveFormCacheService
     {
-        public const int TileSize = 20;        
+        public const int TileSize = 20;
+        public const int MaximumNumberOfTasks = 2;
         private readonly object _locker = new object();
         private readonly IWaveFormRenderingService _waveFormRenderingService;
         private int _numberOfBitmapTasksRunning;
         private List<WaveFormTile> _tiles;
-        //private ConcurrentQueue<WaveFormBitmapRequest> _requests;
         private List<WaveFormBitmapRequest> _requests;
-        private bool _isGeneratingWaveForm;
 
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
         public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
@@ -50,7 +49,6 @@ namespace MPfm.GenericControls.Services
         public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService)
         {
             _tiles = new List<WaveFormTile>();
-            //_requests = new ConcurrentQueue<WaveFormBitmapRequest>();
             _requests = new List<WaveFormBitmapRequest>();
             _waveFormRenderingService = waveFormRenderingService;
             _waveFormRenderingService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
@@ -99,7 +97,6 @@ namespace MPfm.GenericControls.Services
             lock (_locker)
             {
                 _numberOfBitmapTasksRunning--;
-                _isGeneratingWaveForm = false;
                 var tile = new WaveFormTile()
                 {
                     ContentOffset = new BasicPoint(e.OffsetX, 0),
@@ -131,10 +128,6 @@ namespace MPfm.GenericControls.Services
 
         public WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom)
         {
-            // The consumer knows how many tiles are in the wave form.
-            // Should the x parameter be a multiple of tile size
-            // or return the tile at that position (that would require returning the offset inside the tile)
-
             WaveFormTile tile = null;
             lock (_locker)
             {
@@ -165,15 +158,6 @@ namespace MPfm.GenericControls.Services
                 }
                 else
                 {
-                    // Request a new bitmap
-                    // Try not to spam new requests while one is running, this is an async method.
-                    // We'll add parallelism later
-                    //if (!_isGeneratingWaveForm)
-                    //{
-                    //    // TO DO: We need to add this in a task queue/bag with a loop that processes bitmap generation (and cancels some requests)
-                    //    _isGeneratingWaveForm = true;
-                    //}
-
                     //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - rect: {0} zoom: {1}", rect, zoom);
                     var request = new WaveFormBitmapRequest()
                     {
@@ -194,10 +178,6 @@ namespace MPfm.GenericControls.Services
                     {
                         //Console.WriteLine("!!!!!!! SKIPPING REQUEST");
                     }
-
-
-                    //_requests.Enqueue(request);
-                    //_waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, new BasicRectangle(0, 0, waveFormWidth, height), zoom);
                 }
             }
             return tile;
@@ -210,21 +190,20 @@ namespace MPfm.GenericControls.Services
                 while (true)
                 {
                     //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Loop - requests.Count: {0} numberOfBitmapTasksRunning: {1}", _requests.Count, _numberOfBitmapTasksRunning);
-                    WaveFormBitmapRequest request = null;
+                    var requestsToProcess = new List<WaveFormBitmapRequest>();
                     lock (_locker)
                     {
-                        if (_requests.Count > 0 && _numberOfBitmapTasksRunning < 4)
+                        while (_requests.Count > 0 && _numberOfBitmapTasksRunning < MaximumNumberOfTasks)
                         {
                             _numberOfBitmapTasksRunning++;
-                            request = _requests[0];
+                            var request = _requests[0];
+                            requestsToProcess.Add(request);
                             _requests.RemoveAt(0);
-                            // Problem is, we can't really remove the request from the list until it is done, or the app might request bitmaps that are already generating
                         }
                     }
-                    //_requests.TryDequeue(out request);
-                    if (request != null)
-                    {
-                        Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
+                    foreach(var request in requestsToProcess)
+                    {                        
+                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
                         _waveFormRenderingService.RequestBitmap(request.DisplayType, request.BoundsBitmap, request.BoundsWaveForm, request.Zoom);
                     }
 
