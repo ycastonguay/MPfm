@@ -21,6 +21,7 @@ using System.Linq;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
+using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Services
 {
@@ -31,6 +32,13 @@ namespace MPfm.GenericControls.Services
         private readonly IWaveFormRenderingService _waveFormRenderingService;
         private List<WaveFormTile> _tiles;
         private bool _isGeneratingWaveForm;
+
+        public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
+        public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
+        public event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
+        public event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
+        public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
+        public event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
         public WaveFormCacheService(IWaveFormRenderingService waveFormRenderingService)
         {
@@ -46,33 +54,32 @@ namespace MPfm.GenericControls.Services
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
         {
-            //Console.WriteLine("WaveFormCacheService - HandleGeneratePeakFileBegunEvent");
+            if (GeneratePeakFileBegunEvent != null)
+                GeneratePeakFileBegunEvent(sender, e);
         }
 
         private void HandleGeneratePeakFileProgressEvent(object sender, GeneratePeakFileEventArgs e)
         {
-            //Console.WriteLine("WaveFormCacheService - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
-            //RefreshStatus("Generating wave form (" + e.PercentageDone.ToString("0") + "% done)");
+            if (GeneratePeakFileProgressEvent != null)
+                GeneratePeakFileProgressEvent(sender, e);
         }
 
         private void HandleGeneratePeakFileEndedEvent(object sender, GeneratePeakFileEventArgs e)
         {
-            //Console.WriteLine("WaveFormCacheService - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
-            //if (!e.Cancelled)
-            //    _waveFormRenderingService.LoadPeakFile(new AudioFile(e.AudioFilePath));
+            if (GeneratePeakFileEndedEvent != null)
+                GeneratePeakFileEndedEvent(sender, e);
         }
 
         private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
         {
-            //Console.WriteLine("WaveFormCacheService - HandleLoadedPeakFileSuccessfullyEvent");
-            //if (Frame.Width == 0)
-            //    return;
-
-            //GenerateWaveFormBitmap(e.AudioFile, ContentSize);
+            if (LoadedPeakFileSuccessfullyEvent != null)
+                LoadedPeakFileSuccessfullyEvent(sender, e);
         }
 
         private void HandleGenerateWaveFormBegunEvent(object sender, GenerateWaveFormEventArgs e)
         {
+            if (GenerateWaveFormBitmapBegunEvent != null)
+                GenerateWaveFormBitmapBegunEvent(sender, e);
         }
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
@@ -89,9 +96,28 @@ namespace MPfm.GenericControls.Services
                 };
                 _tiles.Add(tile);
             }
+
+            if (GenerateWaveFormBitmapEndedEvent != null)
+                GenerateWaveFormBitmapEndedEvent(sender, e);
         }
 
-        public WaveFormTile GetTile(float x, float height, float zoom)
+        public void FlushCache()
+        {
+            lock (_locker)
+            {
+                foreach (var tile in _tiles)
+                    tile.Image.Dispose();
+                _tiles.Clear();
+            }
+        }
+
+        public void LoadPeakFile(AudioFile audioFile)
+        {
+            FlushCache();
+            _waveFormRenderingService.LoadPeakFile(audioFile);
+        }
+
+        public WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom)
         {
             // The consumer knows how many tiles are in the wave form.
             // Should the x parameter be a multiple of tile size
@@ -119,8 +145,8 @@ namespace MPfm.GenericControls.Services
                     if (zoom - tile.Zoom >= 2 || zoom - tile.Zoom <= -2)
                     {
                         // Request a new bitmap
-                        Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - rect: {0} zoom: {1}", rect, zoom);
-                        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, zoom);
+                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - rect: {0} zoom: {1}", rect, zoom);
+                        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, new BasicRectangle(0, 0, waveFormWidth, height), zoom);
                     }
 
                     return tile;
@@ -134,8 +160,8 @@ namespace MPfm.GenericControls.Services
                     {
                         // TO DO: We need to add this in a task queue/bag with a loop that processes bitmap generation (and cancels some requests)
                         _isGeneratingWaveForm = true;
-                        Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - rect: {0} zoom: {1}", rect, zoom);
-                        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, zoom);
+                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - rect: {0} zoom: {1}", rect, zoom);
+                        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, new BasicRectangle(0, 0, waveFormWidth, height), zoom);
                     }
                 }
             }

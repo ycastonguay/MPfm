@@ -43,7 +43,6 @@ namespace MPfm.GenericControls.Controls
     public class WaveFormControl : IControl, IControlMouseInteraction
     {
         private readonly object _locker = new object();
-        private IWaveFormRenderingService _waveFormRenderingService;
         private IWaveFormCacheService _waveFormCacheService;
         private bool _isMouseDown;
         private float _density;
@@ -57,10 +56,6 @@ namespace MPfm.GenericControls.Controls
         private Guid _activeMarkerId = Guid.Empty;
         private List<Marker> _markers = new List<Marker>();
         private string _status = "";
-        private bool _isGeneratingImageCache = false;
-        private IDisposable _imageCache = null;
-        private float _imageCacheWidth;
-        private float _imageCacheZoom;
         private float _cursorX;
         private float _secondaryCursorX;
 		private BasicColor _backgroundColor = new BasicColor(32, 40, 46);        
@@ -90,7 +85,7 @@ namespace MPfm.GenericControls.Controls
                 _position = value;
 
                 // Don't bother if a peak file is loading
-                if (IsLoading || _imageCache == null)
+                if (IsLoading)// || _imageCache == null)
                     return;
 
                 // Invalidate cursor
@@ -188,52 +183,42 @@ namespace MPfm.GenericControls.Controls
 			LetterFontFace = "Roboto";
             Frame = new BasicRectangle();
             DisplayType = WaveFormDisplayType.Stereo;
-            _waveFormRenderingService = Bootstrapper.GetContainer().Resolve<IWaveFormRenderingService>();
-            _waveFormRenderingService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
-            _waveFormRenderingService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
-            _waveFormRenderingService.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
-            _waveFormRenderingService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
-            _waveFormRenderingService.GenerateWaveFormBitmapBegunEvent += HandleGenerateWaveFormBegunEvent;
-            _waveFormRenderingService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
 
             _waveFormCacheService = Bootstrapper.GetContainer().Resolve<IWaveFormCacheService>();
+            _waveFormCacheService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
+            _waveFormCacheService.GeneratePeakFileProgressEvent += HandleGeneratePeakFileProgressEvent;
+            _waveFormCacheService.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
+            _waveFormCacheService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
         }
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
         {
-            //InvokeOnMainThread(() =>
 			//Console.WriteLine("WaveFormControl - HandleGeneratePeakFileBegunEvent");
-            RefreshStatus("Generating wave form (0% done)");
+            RefreshStatus("Generating peak file (0% done)");
         }
 
         private void HandleGeneratePeakFileProgressEvent(object sender, GeneratePeakFileEventArgs e)
         {
-            //InvokeOnMainThread(() =>
 			//Console.WriteLine("WaveFormControl - HandleGeneratePeakFileProgressEvent  (" + e.PercentageDone.ToString("0") + "% done)");
-            RefreshStatus("Generating wave form (" + e.PercentageDone.ToString("0") + "% done)");
+            RefreshStatus("Generating peak file (" + e.PercentageDone.ToString("0") + "% done)");
         }
 
         private void HandleGeneratePeakFileEndedEvent(object sender, GeneratePeakFileEventArgs e)
         {
-            //InvokeOnMainThread(() =>
-            // TODO: Check if cancelled? This will not fire another LoadPeakFile if the peak file gen was cancelled.
 			//Console.WriteLine("WaveFormControl - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
-            if (!e.Cancelled)
-                _waveFormRenderingService.LoadPeakFile(new AudioFile(e.AudioFilePath));
+            //if (!e.Cancelled)
+            //    _waveFormRenderingService.LoadPeakFile(new AudioFile(e.AudioFilePath));
         }
 
         private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
         {
-            //InvokeOnMainThread(() =>
 			//Console.WriteLine("WaveFormControl - HandleLoadedPeakFileSuccessfullyEvent");
             if (Frame.Width == 0)
                 return;
 
-            GenerateWaveFormBitmap(e.AudioFile, ContentSize);
-        }
-
-        private void HandleGenerateWaveFormBegunEvent(object sender, GenerateWaveFormEventArgs e)
-        {
+            //GenerateWaveFormBitmap(e.AudioFile, ContentSize);
+            IsLoading = false;
+            OnInvalidateVisual();
         }
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
@@ -241,12 +226,7 @@ namespace MPfm.GenericControls.Controls
             // Make sure the control isn't drawing when switching bitmaps
             lock (_locker)
             {
-                Console.WriteLine("WaveFormControl - GenerateWaveFormEndedEvent (isLoading: false)");
-                _isGeneratingImageCache = false;
                 IsLoading = false;
-                _imageCache = e.Image;
-                _imageCacheWidth = e.Width;
-                _imageCacheZoom = e.Zoom;
             }
 
             Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
@@ -302,31 +282,22 @@ namespace MPfm.GenericControls.Controls
             OnInvalidateVisual();
         }
 
-        public void FlushCache()
-        {
-            // Make sure the control isn't drawing a bitmap when flushing it
-            lock (_locker)
-            {
-                _waveFormRenderingService.FlushCache();
-
-                if (_imageCache != null)
-                {
-                    _imageCache.Dispose();
-                    _imageCache = null;
-                }
-            }
-        }
+        //public void FlushCache()
+        //{
+        //    // Make sure the control isn't drawing a bitmap when flushing it
+        //    lock (_locker)
+        //    {
+        //        _waveFormCacheService.FlushCache();
+        //    }
+        //}
 
         public void LoadPeakFile(AudioFile audioFile)
         {
 			//Console.WriteLine("WaveFormControl - LoadPeakFile " + audioFile.FilePath);
             IsLoading = true;
-            _imageCache = null;
-            _imageCacheWidth = 0;
-            _imageCacheZoom = 1;
             AudioFile = audioFile;
             RefreshStatus("Loading peak file...");
-            _waveFormRenderingService.LoadPeakFile(audioFile);
+            _waveFormCacheService.LoadPeakFile(audioFile);
         }
 
         private void RefreshStatus(string status)
@@ -391,10 +362,10 @@ namespace MPfm.GenericControls.Controls
                 {
                     float x = a * tileSize;
                     float offsetX = startTile * tileSize;                    
-                    var tile = _waveFormCacheService.GetTile(x, Frame.Height, Zoom);
+                    var tile = _waveFormCacheService.GetTile(x, Frame.Height, Frame.Width, Zoom);
                     if (tile != null)
                     {
-                        Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} offsetX: {2} startTile: {3}", a, x, offsetX, startTile);
+                        //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} offsetX: {2} startTile: {3}", a, x, offsetX, startTile);
                         context.DrawImage(new BasicRectangle(x - offsetX, 0, tileSize, Frame.Height), tile.Image);
                     }
                 }
@@ -444,31 +415,31 @@ namespace MPfm.GenericControls.Controls
             }
         }
 
-        public void RefreshWaveFormBitmap()
-        {
-            //RefreshWaveFormBitmap(ContentSize.Width);
-            RefreshWaveFormBitmap(Frame.Width);
-        }
+        //public void RefreshWaveFormBitmap()
+        //{
+        //    //RefreshWaveFormBitmap(ContentSize.Width);
+        //    RefreshWaveFormBitmap(Frame.Width);
+        //}
 
-        public void RefreshWaveFormBitmap(float width)
-        {
-            if (AudioFile == null)
-                return;
+        //public void RefreshWaveFormBitmap(float width)
+        //{
+        //    if (AudioFile == null)
+        //        return;
 
-            //RefreshStatus("Generating new bitmap...");
-            GenerateWaveFormBitmap(AudioFile, new BasicRectangle(Frame.X, Frame.Y, width, Frame.Height));
-        }
+        //    //RefreshStatus("Generating new bitmap...");
+        //    GenerateWaveFormBitmap(AudioFile, new BasicRectangle(Frame.X, Frame.Y, width, Frame.Height));
+        //}
 
-        private void GenerateWaveFormBitmap(AudioFile audioFile, BasicRectangle rect)
-        {
-            if (!_isGeneratingImageCache && (rect.Width * _density != _imageCacheWidth || _imageCacheZoom != Zoom))
-            {
-                _isGeneratingImageCache = true;
-                var rectImage = new BasicRectangle(0, 0, rect.Width * _density, rect.Height * _density);
-                Console.WriteLine("WaveFormControl - GenerateWaveFormBitmap audioFilePath: {0} rect.width: {1} rect.height: {2}", audioFile.FilePath, rectImage.Width, rectImage.Height);
-                _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rectImage, Zoom);
-            }
-        }
+        //private void GenerateWaveFormBitmap(AudioFile audioFile, BasicRectangle rect)
+        //{
+        //    if (!_isGeneratingImageCache && (rect.Width * _density != _imageCacheWidth || _imageCacheZoom != Zoom))
+        //    {
+        //        _isGeneratingImageCache = true;
+        //        var rectImage = new BasicRectangle(0, 0, rect.Width * _density, rect.Height * _density);
+        //        Console.WriteLine("WaveFormControl - GenerateWaveFormBitmap audioFilePath: {0} rect.width: {1} rect.height: {2}", audioFile.FilePath, rectImage.Width, rectImage.Height);
+        //        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rectImage, Zoom);
+        //    }
+        //}
 
         public void Render(IGraphicsContext context)
         {
@@ -480,16 +451,17 @@ namespace MPfm.GenericControls.Controls
                 //Console.WriteLine("WaveFormControl - Render - Drawing status... isLoading: {0}", IsLoading);
                 DrawStatus(context, _status);
             }
-            else if (_imageCache != null)
+            //else if (_imageCache != null)
+            else
             {
                 //Console.WriteLine("WaveFormControl - Render - Drawing wave form bitmap... isLoading: {0}", IsLoading);
                 DrawWaveFormBitmap(context);
             }
-            else
-            {
-                //Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
-                context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
-            }
+            //else
+            //{
+            //    Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
+            //    context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
+            //}
         }
 
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -233,27 +234,31 @@ namespace MPfm.GenericControls.Services
         /// Requests a wave form bitmap to be generated. Once the bitmap is generated, the OnGenerateWaveFormBitmapEnded event is fired.
         /// </summary>
         /// <param name="displayType">Display type (stereo, mono left/right)</param>
-        /// <param name="bounds">Bounds of the wave form to display (offset can be set with the rect X,Y + zoom)</param>
+        /// <param name="boundsBitmap">Bounds of the bitmap to generate (offset can be set with the rect X,Y + zoom)</param>
+        /// <param name="boundsWaveForm">Bounds of the whole wave form, without zoom applied</param>
         /// <param name="zoom">Zoom level (1 == 100%)</param>
-        public void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle bounds, float zoom)
+        public void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom)
         {
-            Console.WriteLine("WaveFormRenderingService - RequestBitmap - zoom: {0} bounds: {1}", zoom, bounds);
+            Console.WriteLine("WaveFormRenderingService - RequestBitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", boundsBitmap, boundsWaveForm, zoom);
             IDisposable imageCache;
-            var boundsWaveForm = new BasicRectangle();
+            //var boundsWaveForm = new BasicRectangle();
 
-            // Calculate available size
-            int widthAvailable = (int)bounds.Width;
-            int heightAvailable = (int)bounds.Height;
-            boundsWaveForm = new BasicRectangle(0, 0, (widthAvailable * zoom) - (_padding * 2), heightAvailable - (_padding * 2));
+            //// Calculate available size
+            //int widthAvailable = (int)bounds.Width;
+            //int heightAvailable = (int)bounds.Height;
+            //boundsWaveForm = new BasicRectangle(0, 0, (widthAvailable * zoom) - (_padding * 2), heightAvailable - (_padding * 2));
 
 			// Use this instead of a task, this guarantees to execute in another thread
-			var thread = new Thread(new ThreadStart(() => 
-            {
+			var thread = new Thread(new ThreadStart(() =>
+			{
+			    var stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 IMemoryGraphicsContext context;
                 try
                 {
                     Console.WriteLine("WaveFormRenderingService - Creating image cache...");
-                    context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(bounds.Width, bounds.Height);
+                    context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(boundsBitmap.Width, boundsBitmap.Height);
                     if (context == null)
                     {
                         Console.WriteLine("Error initializing image cache context!");
@@ -273,8 +278,8 @@ namespace MPfm.GenericControls.Services
                         if (_penTransparent == null)
                         {
                             _penTransparent = new BasicPen();
-                            //_brushBackground = new BasicBrush(_colorBackground);
-                            _brushBackground = new BasicBrush(new BasicColor((byte) rnd.Next(0, 255), (byte) rnd.Next(0, 255), (byte) rnd.Next(0, 255)));
+                            _brushBackground = new BasicBrush(_colorBackground);
+                            //_brushBackground = new BasicBrush(new BasicColor((byte) rnd.Next(0, 255), (byte) rnd.Next(0, 255), (byte) rnd.Next(0, 255)));
                         }
                     }
 
@@ -334,23 +339,32 @@ namespace MPfm.GenericControls.Services
                     else
                         heightToRenderLine = (boundsWaveForm.Height / 2);
 
-                    context.DrawRectangle(new BasicRectangle(0, 0, bounds.Width + 2, bounds.Height), _brushBackground, _penTransparent);
+                    context.DrawRectangle(new BasicRectangle(0, 0, boundsBitmap.Width + 2, boundsBitmap.Height), _brushBackground, _penTransparent);
+                    //context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(0, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10);
 
                     // The pen cannot be cached between refreshes because the line width changes every time the width changes
                     //context.SetLineWidth(0.2f);
                     var penWaveForm = new BasicPen(new BasicBrush(_colorWaveForm), lineWidth);
                     context.SetPen(penWaveForm);
 
-                    float startLine = (float) Math.Floor(bounds.X/lineWidth);
-                    float offsetX = startLine*lineWidth;
+                    //float startLine = (float) Math.Floor(boundsBitmap.X/lineWidth);
+                    float startLine = ((int)Math.Floor(boundsBitmap.X / lineWidth)) * lineWidth;
+                    //float offsetX = startLine*lineWidth;
+                    //historyIndex = (int) (bounds.X*nHistoryItemsPerLine);
+                    //historyIndex = (int) (startLine*nHistoryItemsPerLine);
+                    historyIndex = (int) ((startLine / lineWidth) * nHistoryItemsPerLine);
 
-                    Console.WriteLine("WaveFormRenderingService - startLine: {0} offsetX: {1}", startLine, offsetX);
+                    //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} startLine2: {1} boundsWaveForm.Width: {2} nHistoryItemsPerLine: {3} historyIndex: {4}", startLine, startLine2, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
 
                     //List<float> roundValues = new List<float>();
                     //for (float i = startLine; i < boundsWaveForm.Width; i += lineWidth)
-                    for (float i = startLine; i < startLine + bounds.Width; i += lineWidth)
+                    for (float i = startLine; i < startLine + boundsBitmap.Width; i += lineWidth)
                     {
+#if MACOSX
+                        // On Mac, the pen needs to be set every time we draw or the color might change to black randomly (weird?)
                         context.SetPen(penWaveForm);
+#endif
+
                         // Round to 0.5
                         //i = (float)Math.Round(i * 2) / 2;
                         //float iRound = (float)Math.Round(i);
@@ -376,8 +390,8 @@ namespace MPfm.GenericControls.Services
                         // Determine x position
                         //                        x1 = iRound; //i;
                         //                        x2 = iRound; //i;
-                        x1 = i - offsetX;
-                        x2 = i - offsetX;
+                        x1 = i - startLine;
+                        x2 = i - startLine;                        
 
                         if (nHistoryItemsPerLine > 1)
                         {
@@ -417,6 +431,7 @@ namespace MPfm.GenericControls.Services
                         mixMaxHeight = mixMax * heightToRenderLine;
                         mixMinHeight = mixMin * heightToRenderLine;
 
+                        //Console.WriteLine("WaveFormRenderingService - line: {0} x1: {1} x2: {2} historyIndex: {3} historyCount: {4} width: {5}", i, x1, x2, historyIndex, historyCount, boundsWaveForm.Width);
                         if (displayType == WaveFormDisplayType.LeftChannel ||
                             displayType == WaveFormDisplayType.RightChannel ||
                             displayType == WaveFormDisplayType.Mix)
@@ -499,11 +514,13 @@ namespace MPfm.GenericControls.Services
                     imageCache = context.RenderToImageInMemory();
                 }
 
-				Console.WriteLine("WaveFormRenderingService - Created image successfully.");
+				//Console.WriteLine("WaveFormRenderingService - Created image successfully.");
+			    stopwatch.Stop();
+                Console.WriteLine("WaveFormRenderingService - Created image successfully in {0} ms.", stopwatch.ElapsedMilliseconds);
 				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 				{
 					//AudioFilePath = audioFile.FilePath,
-                    OffsetX = bounds.X,
+                    OffsetX = boundsBitmap.X,
 					Zoom = zoom,
                     Width = context.BoundsWidth,
 					DisplayType = displayType,
