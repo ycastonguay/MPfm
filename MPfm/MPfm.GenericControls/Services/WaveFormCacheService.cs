@@ -29,8 +29,8 @@ namespace MPfm.GenericControls.Services
 {
     public class WaveFormCacheService : IWaveFormCacheService
     {
-        public const int TileSize = 20;
-#if ANDROID
+        public const int TileSize = 50;
+#if ANDROID || MACOSX // parallelism will be added later for these platforms, not working well for now
         public const int MaximumNumberOfTasks = 1;
 #else
         public const int MaximumNumberOfTasks = 2;
@@ -135,8 +135,9 @@ namespace MPfm.GenericControls.Services
             WaveFormTile tile = null;
             lock (_locker)
             {
-                var rect = new BasicRectangle(x, 0, TileSize, height);
-                var tiles = _tiles.Where(obj => obj.ContentOffset.X == x).ToList();
+                var boundsBitmap = new BasicRectangle(x, 0, TileSize, height);
+                var boundsWaveForm = new BasicRectangle(0, 0, waveFormWidth * zoom, height);
+                var tiles = _tiles.Where(obj => obj.ContentOffset.X == x).ToList(); // not sure this works right when off zoom.
                 if (tiles != null && tiles.Count > 0)
                 {
                     // Check which bitmap to use for zoom
@@ -144,47 +145,72 @@ namespace MPfm.GenericControls.Services
                     {
                         tile = tiles[0];
                     }
-                    else
+                    else if(tiles.Count > 1)
                     {
-                        // TO DO: Find a way to select the one that matches the nearest zoom
-                        tile = tiles[0];
+                        // We don't want to scale down bitmaps
+
+                        var orderedTiles = tiles.OrderBy(obj => obj.Zoom).ToList();
+                        foreach(var thisTile in orderedTiles)
+                        {
+                            if (thisTile.Zoom <= zoom)
+                            {
+                                if (tile != null && thisTile.Zoom > tile.Zoom || tile == null)
+                                {
+                                    tile = thisTile;
+                                }
+                            }
+                        }
+
+                        // If we still haven't found a tile, take the first one.
+                        if(tile == null)
+                            tile = orderedTiles[0];
+
+                        //Console.WriteLine("WaveFormCacheService - GetTile - Finding the right tile in cache; tile.Zoom: {0} -- x: {1} zoom: {2}", tile.Zoom, x, zoom);
                     }
 
                     // Do we need to request a bitmap with a zoom that's more appropriate?
                     if (zoom - tile.Zoom >= 2 || zoom - tile.Zoom <= -2)
                     {
-                        // Request a new bitmap
-                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - rect: {0} zoom: {1}", rect, zoom);
-                        _waveFormRenderingService.RequestBitmap(WaveFormDisplayType.Stereo, rect, new BasicRectangle(0, 0, waveFormWidth, height), zoom);
+                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
+                        AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoom);
                     }
 
                     return tile;
                 }
                 else
                 {
-                    //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - rect: {0} zoom: {1}", rect, zoom);
-                    var request = new WaveFormBitmapRequest()
-                    {
-                        DisplayType = WaveFormDisplayType.Stereo,
-                        BoundsBitmap = rect,
-                        BoundsWaveForm = new BasicRectangle(0, 0, waveFormWidth, height),
-                        Zoom = zoom
-                    };
-
-                    // Check if bitmap has already been requested in queue
-                    var existingRequest = _requests.FirstOrDefault(obj => obj.BoundsBitmap.Equals(request.BoundsBitmap) && obj.BoundsWaveForm.Equals(request.BoundsWaveForm) && obj.Zoom == request.Zoom);
-                    if (existingRequest == null)
-                    {
-                        //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom);
-                        _requests.Add(request);                        
-                    }
-                    else
-                    {
-                        //Console.WriteLine("!!!!!!! SKIPPING REQUEST");
-                    }
+                    AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoom);
                 }
             }
             return tile;
+        }
+
+        private void AddBitmapRequestToList(BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom)
+        {
+            var request = new WaveFormBitmapRequest()
+            {
+                DisplayType = WaveFormDisplayType.Stereo,
+                BoundsBitmap = boundsBitmap,
+                BoundsWaveForm = boundsWaveForm,
+                Zoom = zoom
+            };
+
+            // Check if bitmap has already been requested in queue
+            var existingRequest = _requests.FirstOrDefault(obj => 
+                obj.BoundsBitmap.Equals(request.BoundsBitmap) && 
+                obj.BoundsWaveForm.Equals(request.BoundsWaveForm) && 
+                //obj.Zoom == request.Zoom);
+                obj.Zoom >= request.Zoom - 2 && obj.Zoom <= request.Zoom + 2); // don't spam requests with slightly different zoom levels
+
+            if (existingRequest == null)
+            {
+                Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
+                _requests.Add(request);                        
+            }
+            else
+            {
+                //Console.WriteLine("!!!!!!! SKIPPING REQUEST");
+            }
         }
 
         public void StartBitmapRequestProcessLoop()

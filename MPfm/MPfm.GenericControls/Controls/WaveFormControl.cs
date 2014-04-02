@@ -352,18 +352,55 @@ namespace MPfm.GenericControls.Controls
                 //// Sometimes the control needs to be drawn but the image size in cache does not match the size of the new control, even though we're using thread locking (only on WPF)
                 //context.DrawImage(Frame, rectImage, _imageCache);
 
+                BasicPen penSeparator = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
+                BasicPen penSeparator2 = new BasicPen(new BasicBrush(new BasicColor(0, 0, 255)), 1);
+                BasicPen penSeparator3 = new BasicPen(new BasicBrush(new BasicColor(255, 50, 255)), 1);
                 int tileSize = WaveFormCacheService.TileSize;
                 int startTile = (int) Math.Floor(ContentOffset.X/tileSize);
                 int numberOfTilesToFillWidth = (int) Math.Ceiling(Frame.Width/tileSize);
                 for (int a = startTile; a < startTile + numberOfTilesToFillWidth; a++)
                 {
-                    float x = a * tileSize;
+                    float tileX = a * tileSize;
                     float offsetX = startTile * tileSize;                    
-                    var tile = _waveFormCacheService.GetTile(x, Frame.Height, Frame.Width, Zoom);
+                    var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom);
                     if (tile != null)
                     {
                         //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} offsetX: {2} startTile: {3}", a, x, offsetX, startTile);
-                        context.DrawImage(new BasicRectangle(x - offsetX, 0, tileSize, Frame.Height), tile.Image);
+
+                        if (tile.Zoom != Zoom)
+                        {
+                            //    float deltaZoom = Zoom / _imageCacheZoom;
+                            //    //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom != _imageCacheZoom - Zoom: {0} _imageCacheZoom: {1} deltaZoom: {2}", Zoom, _imageCacheZoom, deltaZoom);
+                            //    rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
+
+
+                            // The tile received for this position doesn't match the current zoom.
+                            // tileX is the perfect position for a tile. if the tile zoom doesn't match, this means the original tile x isn't right anymore.
+                            // can we have overlaps? when stretching a bitmap
+                            // We might have to cut the bitmap a bit? 
+
+                            float deltaZoom = Zoom / tile.Zoom;
+                            float x = (tileX - offsetX) * deltaZoom; //(1 / deltaZoom);
+                            //float x = Zoom - tile.Zoom >= 0 ? (tileX - offsetX) * deltaZoom : (tileX - offsetX) * (1 / deltaZoom);
+                            //float x = (tileX - offsetX);
+                            //context.DrawImage(new BasicRectangle(x, 0, tileSize, Frame.Height), tile.Image);
+                            context.DrawImage(new BasicRectangle(x, 0, tileSize * deltaZoom, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
+                            context.DrawLine(new BasicPoint(x, 0), new BasicPoint(x, Frame.Height), penSeparator2);
+                            //context.DrawLine(new BasicPoint(x + (tileSize * deltaZoom) - 1, 0), new BasicPoint(x + (tileSize * deltaZoom) - 1, Frame.Height), penSeparator3);
+                        } 
+                        else
+                        {
+                            //    rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
+                            //context.DrawImage(new BasicRectangle(x - offsetX, 0, tileSize, Frame.Height), tile.Image)
+
+                            // The tile zoom level fits the current zoom level; no stretching needed
+                            float x = tileX - offsetX;
+                            context.DrawImage(new BasicRectangle(x, 0, tileSize, Frame.Height), tile.Image);
+                            context.DrawLine(new BasicPoint(x, 0), new BasicPoint(x, Frame.Height), penSeparator2);
+                            //context.DrawLine(new BasicPoint(x + tileSize - 1, 0), new BasicPoint(x + tileSize - 1, Frame.Height), penSeparator3);
+                        }
+
+                        //context.DrawLine(new BasicPoint(tileX, 0), new BasicPoint(tileX, Frame.Height), penSeparator);
                     }
                 }
             }

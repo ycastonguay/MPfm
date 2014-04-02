@@ -322,7 +322,7 @@ namespace MPfm.GenericControls.Services
                         lineWidth = lineWidthPerHistoryItem;
                         nHistoryItemsPerLine = 1;
                     }
-                    //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
+                        //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
 
                     float heightToRenderLine = 0;
                     if (displayType == WaveFormDisplayType.Stereo)
@@ -332,6 +332,7 @@ namespace MPfm.GenericControls.Services
 
                     context.DrawRectangle(new BasicRectangle(0, 0, boundsBitmap.Width + 2, boundsBitmap.Height), _brushBackground, _penTransparent);
                     context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(0, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10);
+                    context.DrawText(string.Format("{0:0.0}", zoom), new BasicPoint(0, boundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10);
 
                     // The pen cannot be cached between refreshes because the line width changes every time the width changes
                     //context.SetLineWidth(0.2f);
@@ -341,16 +342,16 @@ namespace MPfm.GenericControls.Services
                     float startLine = ((int)Math.Floor(boundsBitmap.X / lineWidth)) * lineWidth;
                     historyIndex = (int) ((startLine / lineWidth) * nHistoryItemsPerLine);
 
-                    //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} startLine2: {1} boundsWaveForm.Width: {2} nHistoryItemsPerLine: {3} historyIndex: {4}", startLine, startLine2, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
+                        //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} boundsWaveForm.Width: {1} nHistoryItemsPerLine: {2} historyIndex: {3}", startLine, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
 
                     //List<float> roundValues = new List<float>();
                     //for (float i = startLine; i < boundsWaveForm.Width; i += lineWidth)
                     for (float i = startLine; i < startLine + boundsBitmap.Width; i += lineWidth)
                     {
-#if MACOSX
+                        #if MACOSX
                         // On Mac, the pen needs to be set every time we draw or the color might change to black randomly (weird?)
                         context.SetPen(penWaveForm);
-#endif
+                        #endif
 
                         // Round to 0.5
                         //i = (float)Math.Round(i * 2) / 2;
@@ -418,7 +419,7 @@ namespace MPfm.GenericControls.Services
                         mixMaxHeight = mixMax * heightToRenderLine;
                         mixMinHeight = mixMin * heightToRenderLine;
 
-                        //Console.WriteLine("WaveFormRenderingService - line: {0} x1: {1} x2: {2} historyIndex: {3} historyCount: {4} width: {5}", i, x1, x2, historyIndex, historyCount, boundsWaveForm.Width);
+                            //Console.WriteLine("WaveFormRenderingService - line: {0} x1: {1} x2: {2} historyIndex: {3} historyCount: {4} width: {5}", i, x1, x2, historyIndex, historyCount, boundsWaveForm.Width);
                         if (displayType == WaveFormDisplayType.LeftChannel ||
                             displayType == WaveFormDisplayType.RightChannel ||
                             displayType == WaveFormDisplayType.Mix)
@@ -502,7 +503,7 @@ namespace MPfm.GenericControls.Services
                 }
 
 				//Console.WriteLine("WaveFormRenderingService - Created image successfully.");
-			    stopwatch.Stop();
+                stopwatch.Stop();
                 //Console.WriteLine("WaveFormRenderingService - Created image successfully in {0} ms.", stopwatch.ElapsedMilliseconds);
 				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 				{
@@ -514,7 +515,9 @@ namespace MPfm.GenericControls.Services
 					Image = imageCache
 				});
 			}));
+            #if !MACOSX // TODO: Remove this, something is bugged inside this method and requires to be done in the main thread.
 			thread.IsBackground = true;
+            #endif
             thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
         }

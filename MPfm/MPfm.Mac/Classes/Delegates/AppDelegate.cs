@@ -37,6 +37,8 @@ using MPfm.Mac.Classes.Navigation;
 using MPfm.MVP.Config.Providers;
 using MPfm.GenericControls.Graphics;
 using MPfm.Mac.Classes.Controls.Graphics;
+using MPfm.GenericControls.Services.Interfaces;
+using MPfm.GenericControls.Services;
 
 namespace MPfm.Mac.Classes.Delegates
 {
@@ -58,6 +60,8 @@ namespace MPfm.Mac.Classes.Delegates
             Bootstrapper.GetContainer().Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<IDisposableImageFactory, DisposableImageFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();   
+            Bootstrapper.GetContainer().Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();   
             Bootstrapper.GetContainer().Register<NavigationManager, MacNavigationManager>().AsSingleton();
             Bootstrapper.GetContainer().Register<ISplashView, SplashWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IMainView, MainWindowController>().AsMultiInstance();
