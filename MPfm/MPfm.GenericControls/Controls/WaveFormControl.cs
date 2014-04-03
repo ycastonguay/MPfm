@@ -19,6 +19,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using MPfm.Core;
 using MPfm.GenericControls.Interaction;
@@ -224,7 +225,7 @@ namespace MPfm.GenericControls.Controls
                 //_waveFormCacheService.GetTile(a, Frame.Height, Frame.Width, Zoom);
 
             IsLoading = false;
-            OnInvalidateVisual();
+            //OnInvalidateVisual();            
         }
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
@@ -236,7 +237,8 @@ namespace MPfm.GenericControls.Controls
             //}
 
             //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
-            OnInvalidateVisual();
+            //OnInvalidateVisual();
+            OnInvalidateVisualInRect(new BasicRectangle(e.OffsetX, 0, e.Width, Frame.Height));
         }
 
         public void SetActiveMarker(Guid markerId)
@@ -366,7 +368,6 @@ namespace MPfm.GenericControls.Controls
                     if (tile != null)
                     {
                         //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} offsetX: {2} startTile: {3}", a, x, offsetX, startTile);
-
                         if (tile.Zoom != Zoom)
                         {
                             //    float deltaZoom = Zoom / _imageCacheZoom;
@@ -452,6 +453,8 @@ namespace MPfm.GenericControls.Controls
         public void Render(IGraphicsContext context)
         {
 			//Console.WriteLine("WaveFormControl - Render");
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
             _density = context.Density;
             if (IsLoading)
@@ -469,6 +472,9 @@ namespace MPfm.GenericControls.Controls
                 //Console.WriteLine("WaveFormControl - Render - Drawing empty background...");
                 context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
             }
+
+            stopwatch.Stop();
+            Console.WriteLine("WaveFormControl - Render - stopwatch: {0} ms", stopwatch.ElapsedMilliseconds);
         }
 
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)

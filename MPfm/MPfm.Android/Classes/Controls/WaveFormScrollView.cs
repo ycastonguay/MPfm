@@ -65,8 +65,6 @@ namespace org.sessionsapp.android
                     var animFadeIn = new AlphaAnimation(0, 1);
                     animFadeIn.RepeatMode = RepeatMode.Reverse;
                     animFadeIn.Duration = 200;
-                    animFadeIn.AnimationStart += (sender, args) => { Console.WriteLine("WaveFormScrollView - FadeIn - AnimationStart"); };
-                    animFadeIn.AnimationEnd += (sender, args) => { Console.WriteLine("WaveFormScrollView - FadeIn - AnimationEnd"); };
                     _lblZoom.StartAnimation(animFadeIn);
                 }
             }
@@ -186,11 +184,6 @@ namespace org.sessionsapp.android
                     animFadeOut.RepeatMode = RepeatMode.Reverse;
                     animFadeOut.FillAfter = true;
                     animFadeOut.Duration = 200;
-                    animFadeOut.AnimationStart += (o, args) => { Console.WriteLine("WaveFormScrollView - FadeOut - AnimationStart"); };
-                    animFadeOut.AnimationEnd += (o, args) =>
-                    {
-                        Console.WriteLine("WaveFormScrollView - FadeOut - AnimationEnd");
-                    };
                     _lblZoom.StartAnimation(animFadeOut);
                 }
             });
