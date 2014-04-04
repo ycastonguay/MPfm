@@ -25,7 +25,7 @@ namespace MPfm.Android.Classes.Controls.Graphics
     {
         public IMemoryGraphicsContext CreateMemoryGraphicsContext(float width, float height)
         {
-            Console.WriteLine("MemoryGraphicsContextFactory - CreateMemoryGraphicsContext");
+            //Console.WriteLine("MemoryGraphicsContextFactory - CreateMemoryGraphicsContext");
             var bitmapConfig = Bitmap.Config.Argb8888;
             var bitmap = Bitmap.CreateBitmap((int)width, (int)height, bitmapConfig);
             var canvas = new Canvas(bitmap);

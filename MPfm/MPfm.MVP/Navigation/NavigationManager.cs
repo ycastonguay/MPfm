@@ -101,7 +101,15 @@ namespace MPfm.MVP.Navigation
             Action onInitDone = () =>
             {
                 Tracing.Log("SplashInitDone");
-                CreateMainView();
+                try
+                {
+                    CreateMainView();
+                }
+                catch(Exception ex)
+                {
+                    Tracing.Log("NavigationManager - CreateMainView - Exception: {0}", ex);
+                    throw;
+                }
             };
             Action<IBaseView> onViewReady = (view) =>
             {

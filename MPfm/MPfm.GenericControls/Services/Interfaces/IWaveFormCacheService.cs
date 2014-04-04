@@ -15,10 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using MPfm.Sound.AudioFiles;
+
 namespace MPfm.GenericControls.Services.Interfaces
 {
     public interface IWaveFormCacheService
     {
-        WaveFormCacheService.WaveFormTile GetTile(float x, float height, float zoom);
+        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileBegunEvent;
+        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileProgressEvent;
+        event WaveFormRenderingService.GeneratePeakFileEventHandler GeneratePeakFileEndedEvent;
+        event WaveFormRenderingService.LoadPeakFileEventHandler LoadedPeakFileSuccessfullyEvent;
+        event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
+        event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
+        bool IsEmpty { get; }
+
+        void FlushCache();
+        void LoadPeakFile(AudioFile audioFile);
+        WaveFormCacheService.WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom);
     }
 }

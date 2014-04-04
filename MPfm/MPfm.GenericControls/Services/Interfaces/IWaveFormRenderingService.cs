@@ -30,6 +30,6 @@ namespace MPfm.GenericControls.Services.Interfaces
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);
-        void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle bounds, float zoom);
+        void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom);
     }
 }

@@ -118,6 +118,13 @@
     <Compile Include="Basics\BasicGradientBrush.cs" />
     <Compile Include="Graphics\IDisposableImageFactory.cs" />
     <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
+    <Compile Include="Services\Events\GeneratePeakFileEventArgs.cs" />
+    <Compile Include="Services\Events\GenerateWaveFormEventArgs.cs" />
+    <Compile Include="Services\Events\LoadPeakFileEventArgs.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormRenderingService.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormCacheService.cs" />
+    <Compile Include="Services\WaveFormCacheService.cs" />
+    <Compile Include="Services\WaveFormRenderingService.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
     <Compile Include="Controls\Songs\SongGridViewControl.cs" />
@@ -138,11 +145,7 @@
     <Compile Include="Graphics\IMemoryGraphicsContextFactory.cs" />
     <Compile Include="Interaction\IControlMouseInteraction.cs" />
     <Compile Include="Interaction\IControlTouchInteraction.cs" />
-    <Compile Include="Managers\Events\LoadPeakFileEventArgs.cs" />
-    <Compile Include="Managers\Events\GenerateWaveFormEventArgs.cs" />
-    <Compile Include="Managers\Events\GeneratePeakFileEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Managers\WaveFormCacheManager.cs" />
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />

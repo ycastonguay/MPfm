@@ -37,7 +37,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
         {
             NSImage image = null;
             InvokeOnMainThread(() => {
-                Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
+                //Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
                 NSGraphicsContext.GlobalRestoreGraphicsState();
                 image = new NSImage(new SizeF(BoundsWidth, BoundsHeight));
                 image.AddRepresentation(_bitmap);
