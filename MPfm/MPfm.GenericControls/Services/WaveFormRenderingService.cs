@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,17 +25,18 @@ using System.Threading.Tasks;
 using MPfm.Core;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Managers.Events;
+using MPfm.GenericControls.Services.Events;
+using MPfm.GenericControls.Services.Interfaces;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
 using System.Threading;
 
-namespace MPfm.GenericControls.Managers
+namespace MPfm.GenericControls.Services
 {
     /// <summary>
-    /// Manager for caching wave form bitmaps.
+    /// Service for caching wave form bitmaps.
     /// </summary>
-    public class WaveFormCacheManager
+    public class WaveFormRenderingService : IWaveFormRenderingService
     {
 		// TODO: Should be called WaveFormCacheService.
         private readonly object _locker = new object();
@@ -42,9 +44,8 @@ namespace MPfm.GenericControls.Managers
         private BasicPen _penTransparent;
         private readonly IPeakFileService _peakFileService;
         private readonly IMemoryGraphicsContextFactory _memoryGraphicsContextFactory;
-        private Dictionary<string, List<WaveDataMinMax>> _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();
-        private Dictionary<Tuple<string, WaveFormDisplayType, float>, object> _bitmapCache = new Dictionary<Tuple<string, WaveFormDisplayType, float>, object>();
-		private BasicColor _colorBackground = new BasicColor(32, 40, 46);
+        private List<WaveDataMinMax> _waveDataCache = new List<WaveDataMinMax>();
+		private BasicColor _colorBackground = new BasicColor(32, 40, 46);        
 		private BasicColor _colorWaveForm = new BasicColor(255, 255, 64);
         private float _padding = 0;
 
@@ -59,7 +60,7 @@ namespace MPfm.GenericControls.Managers
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapBegunEvent;
         public event GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
 
-        public WaveFormCacheManager(IPeakFileService peakFileService, IMemoryGraphicsContextFactory memoryGraphicsContextFactory)
+        public WaveFormRenderingService(IPeakFileService peakFileService, IMemoryGraphicsContextFactory memoryGraphicsContextFactory)
         {
             _peakFileService = peakFileService;
             _memoryGraphicsContextFactory = memoryGraphicsContextFactory;
@@ -106,13 +107,13 @@ namespace MPfm.GenericControls.Managers
 
         void HandleOnPeakFileProcessStarted(PeakFileStartedData data)
         {
-            //Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessStarted");
+            //Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessStarted");
             OnGeneratePeakFileBegun(new GeneratePeakFileEventArgs());
         }
 
         void HandleOnPeakFileProcessData(PeakFileProgressData data)
         {
-            //Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessData");
+            //Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessData");
             OnGeneratePeakFileProgress(new GeneratePeakFileEventArgs()
             {
                 AudioFilePath = data.AudioFilePath,
@@ -122,7 +123,7 @@ namespace MPfm.GenericControls.Managers
 
         void HandleOnPeakFileProcessDone(PeakFileDoneData data)
         {
-            //Console.WriteLine("WaveFormCacheManager - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
+            //Console.WriteLine("WaveFormRenderingService - HandleOnPeakFileProcessDone - Cancelled: " + data.Cancelled.ToString());
             OnGeneratePeakFileEnded(new GeneratePeakFileEventArgs()
             {
                 AudioFilePath = data.AudioFilePath,
@@ -133,20 +134,18 @@ namespace MPfm.GenericControls.Managers
 
         public void FlushCache()
         {
-            //Console.WriteLine("WaveFormCacheManager - FlushCache");
+            //Console.WriteLine("WaveFormRenderingService - FlushCache");
             _waveDataCache = null;
-            _waveDataCache = new Dictionary<string, List<WaveDataMinMax>>();
-            _bitmapCache = null;
-            _bitmapCache = new Dictionary<Tuple<string, WaveFormDisplayType, float>, object>(); ;
+            _waveDataCache = new List<WaveDataMinMax>();
         }
 
         public void LoadPeakFile(AudioFile audioFile)
         {
             // Check if another peak file is already loading
-            Console.WriteLine("WaveFormCacheManager - LoadPeakFile audioFile: " + audioFile.FilePath);
+            Console.WriteLine("WaveFormRenderingService - LoadPeakFile audioFile: " + audioFile.FilePath);
             if (_peakFileService.IsLoading)
             {
-                //Console.WriteLine("WaveFormCacheManager - Cancelling current peak file generation...");
+                //Console.WriteLine("WaveFormRenderingService - Cancelling current peak file generation...");
                 _peakFileService.Cancel();
             }
 
@@ -156,12 +155,12 @@ namespace MPfm.GenericControls.Managers
             {
                 try
                 {
-                    //Console.WriteLine("WaveFormCacheManager - Creating folder " + peakFileFolder + "...");
+                    //Console.WriteLine("WaveFormRenderingService - Creating folder " + peakFileFolder + "...");
                     Directory.CreateDirectory(peakFileFolder);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("WaveFormCacheManager - Failed to create folder: " + ex.Message);
+                    Console.WriteLine("WaveFormRenderingService - Failed to create folder: " + ex.Message);
                     return;
                 }
             }
@@ -183,7 +182,7 @@ namespace MPfm.GenericControls.Managers
 
                     try
                     {
-                        Console.WriteLine("WaveFormCacheManager - Reading peak file: " + peakFilePath);
+                        Console.WriteLine("WaveFormRenderingService - Reading peak file: " + peakFilePath);
                         data = _peakFileService.ReadPeakFile(peakFilePath);
                         if (data != null)
                             return data;
@@ -195,7 +194,7 @@ namespace MPfm.GenericControls.Managers
 
                     try
                     {
-                        Console.WriteLine("WaveFormCacheManager - Peak file could not be loaded - Generating " + peakFilePath + "...");
+                        Console.WriteLine("WaveFormRenderingService - Peak file could not be loaded - Generating " + peakFilePath + "...");
                         OnGeneratePeakFileBegun(new GeneratePeakFileEventArgs());
                         _peakFileService.GeneratePeakFile(audioFile.FilePath, peakFilePath);
                     }
@@ -206,17 +205,18 @@ namespace MPfm.GenericControls.Managers
                     return null;
                 }, TaskCreationOptions.LongRunning).ContinueWith(t =>
                 {
-                    Console.WriteLine("WaveFormCacheManager - Read peak file over.");
+                    Console.WriteLine("WaveFormRenderingService - Read peak file over.");
                     List<WaveDataMinMax> data = (List<WaveDataMinMax>)t.Result;
                     if (data == null)
                     {
-                        //Console.WriteLine("WaveFormCacheManager - Could not load a peak file from disk (i.e. generating a new peak file).");
+                        //Console.WriteLine("WaveFormRenderingService - Could not load a peak file from disk (i.e. generating a new peak file).");
                         return;
                     }
 
-                    Console.WriteLine("WaveFormCacheManager - Adding wave data to cache...");
-                    if (!_waveDataCache.ContainsKey(audioFile.FilePath))
-                        _waveDataCache.Add(audioFile.FilePath, data);
+                    Console.WriteLine("WaveFormRenderingService - Adding wave data to cache...");
+                    //if (!_waveDataCache.ContainsKey(audioFile.FilePath))
+                    //    _waveDataCache.Add(audioFile.FilePath, data);
+                    _waveDataCache = data;
 
 					OnLoadedPeakFileSuccessfully(new LoadPeakFileEventArgs() { AudioFile = audioFile });
                 }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -229,27 +229,27 @@ namespace MPfm.GenericControls.Managers
             }
         }
 
-        public void RequestBitmap(AudioFile audioFile, WaveFormDisplayType displayType, BasicRectangle bounds, float zoom, long audioFileLength)
+        /// <summary>
+        /// Requests a wave form bitmap to be generated. Once the bitmap is generated, the OnGenerateWaveFormBitmapEnded event is fired.
+        /// </summary>
+        /// <param name="displayType">Display type (stereo, mono left/right)</param>
+        /// <param name="boundsBitmap">Bounds of the bitmap to generate (offset can be set with the rect X,Y + zoom)</param>
+        /// <param name="boundsWaveForm">Bounds of the whole wave form, without zoom applied</param>
+        /// <param name="zoom">Zoom level (1 == 100%)</param>
+        public void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom)
         {
-            Console.WriteLine("WaveFormCacheManager - RequestBitmap - audioFile: {0} zoom: {1} bounds: {2}", audioFile.FilePath, zoom, bounds);
-            IDisposable imageCache;
-            var boundsWaveForm = new BasicRectangle();
+            // Use this instead of a task, this guarantees to execute in another thread
+            //Console.WriteLine("WaveFormRenderingService - RequestBitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", boundsBitmap, boundsWaveForm, zoom);
+            var thread = new Thread(new ThreadStart(() =>
+			{
+			    var stopwatch = new Stopwatch();
+                stopwatch.Start();
 
-            // Calculate available size
-            int widthAvailable = (int)bounds.Width;
-            int heightAvailable = (int)bounds.Height;
-//            if (zoom > 1)
-//                widthAvailable = (int)(bounds.Width * zoom);
-            boundsWaveForm = new BasicRectangle(0, 0, widthAvailable - (_padding * 2), heightAvailable - (_padding * 2));
-
-			// Use this instead of a task, this guarantees to execute in another thread
-			var thread = new Thread(new ThreadStart(() => 
-            {
                 IMemoryGraphicsContext context;
                 try
                 {
-                    Console.WriteLine("WaveFormCacheManager - Creating image cache...");
-                    context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(bounds.Width, bounds.Height);
+                    //Console.WriteLine("WaveFormRenderingService - Creating image cache...");
+                    context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(boundsBitmap.Width, boundsBitmap.Height);
                     if (context == null)
                     {
                         Console.WriteLine("Error initializing image cache context!");
@@ -262,7 +262,8 @@ namespace MPfm.GenericControls.Managers
                     return;
                 }
 
-                try
+			    IDisposable imageCache;
+			    try
                 {
                     lock (_locker)
                     {
@@ -295,7 +296,7 @@ namespace MPfm.GenericControls.Managers
                     float desiredLineWidth = 0.5f;
                     WaveDataMinMax[] subset = null;
 
-                    historyCount = _waveDataCache[audioFile.FilePath].Count;
+                    historyCount = _waveDataCache.Count;
 
                     // Find out how many samples are represented by each line of the wave form, depending on its width.
                     // For example, if the history has 45000 items, and the control has a width of 1000px, 45 items will need to be averaged by line.
@@ -321,7 +322,7 @@ namespace MPfm.GenericControls.Managers
                         lineWidth = lineWidthPerHistoryItem;
                         nHistoryItemsPerLine = 1;
                     }
-                    //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
+                        //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
 
                     float heightToRenderLine = 0;
                     if (displayType == WaveFormDisplayType.Stereo)
@@ -329,17 +330,29 @@ namespace MPfm.GenericControls.Managers
                     else
                         heightToRenderLine = (boundsWaveForm.Height / 2);
 
-                    context.DrawRectangle(new BasicRectangle(0, 0, bounds.Width + 2, bounds.Height), _brushBackground, _penTransparent);
+                    context.DrawRectangle(new BasicRectangle(0, 0, boundsBitmap.Width + 2, boundsBitmap.Height), _brushBackground, _penTransparent);
+                    context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(0, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10);
+                    context.DrawText(string.Format("{0:0.0}", zoom), new BasicPoint(0, boundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10);
 
                     // The pen cannot be cached between refreshes because the line width changes every time the width changes
                     //context.SetLineWidth(0.2f);
                     var penWaveForm = new BasicPen(new BasicBrush(_colorWaveForm), lineWidth);
                     context.SetPen(penWaveForm);
 
+                    float startLine = ((int)Math.Floor(boundsBitmap.X / lineWidth)) * lineWidth;
+                    historyIndex = (int) ((startLine / lineWidth) * nHistoryItemsPerLine);
+
+                        //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} boundsWaveForm.Width: {1} nHistoryItemsPerLine: {2} historyIndex: {3}", startLine, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
+
                     //List<float> roundValues = new List<float>();
-                    for (float i = 0; i < boundsWaveForm.Width; i += lineWidth)
+                    //for (float i = startLine; i < boundsWaveForm.Width; i += lineWidth)
+                    for (float i = startLine; i < startLine + boundsBitmap.Width; i += lineWidth)
                     {
+                        #if MACOSX
+                        // On Mac, the pen needs to be set every time we draw or the color might change to black randomly (weird?)
                         context.SetPen(penWaveForm);
+                        #endif
+
                         // Round to 0.5
                         //i = (float)Math.Round(i * 2) / 2;
                         //float iRound = (float)Math.Round(i);
@@ -365,8 +378,8 @@ namespace MPfm.GenericControls.Managers
                         // Determine x position
                         //                        x1 = iRound; //i;
                         //                        x2 = iRound; //i;
-                        x1 = i;
-                        x2 = i;
+                        x1 = i - startLine;
+                        x2 = i - startLine;                        
 
                         if (nHistoryItemsPerLine > 1)
                         {
@@ -374,12 +387,12 @@ namespace MPfm.GenericControls.Managers
                             {
                                 // Create subset with remaining data
                                 subset = new WaveDataMinMax[historyCount - historyIndex];
-                                _waveDataCache[audioFile.FilePath].CopyTo(historyIndex, subset, 0, historyCount - historyIndex);
+                                _waveDataCache.CopyTo(historyIndex, subset, 0, historyCount - historyIndex);
                             }
                             else
                             {
                                 subset = new WaveDataMinMax[nHistoryItemsPerLine];
-                                _waveDataCache[audioFile.FilePath].CopyTo(historyIndex, subset, 0, nHistoryItemsPerLine);
+                                _waveDataCache.CopyTo(historyIndex, subset, 0, nHistoryItemsPerLine);
                             }
 
                             leftMin = AudioTools.GetMinPeakFromWaveDataMaxHistory(subset.ToList(), nHistoryItemsPerLine, ChannelType.Left);
@@ -391,12 +404,12 @@ namespace MPfm.GenericControls.Managers
                         }
                         else
                         {
-                            leftMin = _waveDataCache[audioFile.FilePath][historyIndex].leftMin;
-                            leftMax = _waveDataCache[audioFile.FilePath][historyIndex].leftMax;
-                            rightMin = _waveDataCache[audioFile.FilePath][historyIndex].rightMin;
-                            rightMax = _waveDataCache[audioFile.FilePath][historyIndex].rightMax;
-                            mixMin = _waveDataCache[audioFile.FilePath][historyIndex].mixMin;
-                            mixMax = _waveDataCache[audioFile.FilePath][historyIndex].mixMax;
+                            leftMin = _waveDataCache[historyIndex].leftMin;
+                            leftMax = _waveDataCache[historyIndex].leftMax;
+                            rightMin = _waveDataCache[historyIndex].rightMin;
+                            rightMax = _waveDataCache[historyIndex].rightMax;
+                            mixMin = _waveDataCache[historyIndex].mixMin;
+                            mixMax = _waveDataCache[historyIndex].mixMax;
                         }
 
                         leftMaxHeight = leftMax * heightToRenderLine;
@@ -406,6 +419,7 @@ namespace MPfm.GenericControls.Managers
                         mixMaxHeight = mixMax * heightToRenderLine;
                         mixMinHeight = mixMin * heightToRenderLine;
 
+                            //Console.WriteLine("WaveFormRenderingService - line: {0} x1: {1} x2: {2} historyIndex: {3} historyCount: {4} width: {5}", i, x1, x2, historyIndex, historyCount, boundsWaveForm.Width);
                         if (displayType == WaveFormDisplayType.LeftChannel ||
                             displayType == WaveFormDisplayType.RightChannel ||
                             displayType == WaveFormDisplayType.Mix)
@@ -483,22 +497,27 @@ namespace MPfm.GenericControls.Managers
                 finally
                 {
                     // Get image from context (at this point, we are sure the image context has been initialized properly)
-					Console.WriteLine("WaveFormCacheManager - Rendering image to memory...");
+					//Console.WriteLine("WaveFormRenderingService - Rendering image to memory...");
                     context.Close();
                     imageCache = context.RenderToImageInMemory();
                 }
 
-				Console.WriteLine("WaveFormCacheManager - Created image successfully.");
+				//Console.WriteLine("WaveFormRenderingService - Created image successfully.");
+                stopwatch.Stop();
+                //Console.WriteLine("WaveFormRenderingService - Created image successfully in {0} ms.", stopwatch.ElapsedMilliseconds);
 				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 				{
-					AudioFilePath = audioFile.FilePath,
+					//AudioFilePath = audioFile.FilePath,
+                    OffsetX = boundsBitmap.X,
 					Zoom = zoom,
                     Width = context.BoundsWidth,
 					DisplayType = displayType,
 					Image = imageCache
 				});
 			}));
-			//thread.IsBackground = true;
+            #if !MACOSX // TODO: Remove this, something is bugged inside this method and requires to be done in the main thread.
+			thread.IsBackground = true;
+            #endif
             thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
         }

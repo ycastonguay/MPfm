@@ -142,7 +142,7 @@ namespace MPfm.Mac.Classes.Controls
                     (_lblZoom.Animator as NSTextField).AlphaValue = 0;
                     NSAnimationContext.EndGrouping();
                     
-                    WaveFormView.RefreshWaveFormBitmap();
+                    //WaveFormView.RefreshWaveFormBitmap();
                 }
             });
         }

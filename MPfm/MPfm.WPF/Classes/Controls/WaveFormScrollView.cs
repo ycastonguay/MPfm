@@ -135,7 +135,7 @@ namespace MPfm.WPF.Classes.Controls
                     anim.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 200));
                     _lblZoom.BeginAnimation(OpacityProperty, anim);
 
-                    WaveFormView.RefreshWaveFormBitmap();
+                    //WaveFormView.RefreshWaveFormBitmap();
                 }
             }));
         }
@@ -185,7 +185,7 @@ namespace MPfm.WPF.Classes.Controls
         protected override Size MeasureOverride(Size constraint)
         {
             //Console.WriteLine("WaveFormScrollView - MeasureOverride - constraint: {0} actualSize: {1},{2}", constraint, ActualWidth, ActualHeight);
-            WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);            
+            //WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);            
             return base.MeasureOverride(constraint);
         }
 

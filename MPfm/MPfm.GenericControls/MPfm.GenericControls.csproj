@@ -30,6 +30,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug_MacOSX</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,6 +59,13 @@
     <Compile Include="Basics\BasicGradientBrush.cs" />
     <Compile Include="Graphics\IDisposableImageFactory.cs" />
     <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
+    <Compile Include="Services\Events\GeneratePeakFileEventArgs.cs" />
+    <Compile Include="Services\Events\GenerateWaveFormEventArgs.cs" />
+    <Compile Include="Services\Events\LoadPeakFileEventArgs.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormRenderingService.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormCacheService.cs" />
+    <Compile Include="Services\WaveFormCacheService.cs" />
+    <Compile Include="Services\WaveFormRenderingService.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
     <Compile Include="Controls\Songs\SongGridViewControl.cs" />
@@ -74,11 +88,7 @@
     <Compile Include="Graphics\IMemoryGraphicsContextFactory.cs" />
     <Compile Include="Interaction\IControlMouseInteraction.cs" />
     <Compile Include="Interaction\IControlTouchInteraction.cs" />
-    <Compile Include="Managers\Events\LoadPeakFileEventArgs.cs" />
-    <Compile Include="Managers\Events\GenerateWaveFormEventArgs.cs" />
-    <Compile Include="Managers\Events\GeneratePeakFileEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Managers\WaveFormCacheManager.cs" />
     <Compile Include="Renderers\IRenderer.cs" />
     <Compile Include="Theme\ITheme.cs" />
     <Compile Include="Theme\GenericTheme.cs" />
@@ -101,6 +111,7 @@
       <Name>MPfm.Sound</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

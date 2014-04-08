@@ -61,7 +61,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {
             //Console.WriteLine("GraphicsContextWrapper - DrawImage - rectangle: {0}", rectangle);
-            DrawImage(rectangle, rectangle, image);
+            DrawImage(rectangle, new BasicRectangle(0, 0, rectangle.Width, rectangle.Height), image);
         }
 
         public void DrawImage(BasicRectangle rectangleDestination, BasicRectangle rectangleSource, IDisposable image)
@@ -97,7 +97,11 @@ namespace MPfm.Mac.Classes.Controls.Graphics
             var newPt = new BasicPoint(point.X, point.Y);
             if(fontFace.ToUpper().Contains("ROBOTO"))
                 newPt.Y -= 2;
-            CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(newPt), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
+
+            // NSString.DrawString needs to be run on the UI thread... weird
+            InvokeOnMainThread(() => {
+                CoreGraphicsHelper.DrawTextAtPoint(Context, GenericControlHelper.ToPoint(newPt), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
+            });
         }
 
         public void DrawText(string text, BasicRectangle rectangle, BasicColor color, string fontFace, float fontSize)
@@ -106,7 +110,11 @@ namespace MPfm.Mac.Classes.Controls.Graphics
             var newRect = new BasicRectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
             if(fontFace.ToUpper().Contains("ROBOTO"))
                 newRect.Y -= 2;
-            CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(newRect), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
+
+            // NSString.DrawString needs to be run on the UI thread... weird
+            InvokeOnMainThread(() => {
+                CoreGraphicsHelper.DrawTextInRect(Context, GenericControlHelper.ToRect(newRect), text, fontFace, fontSize, GenericControlHelper.ToNSColor(color));
+            });
         }
 
         public BasicRectangle MeasureText(string text, BasicRectangle rectangle, string fontFace, float fontSize)
