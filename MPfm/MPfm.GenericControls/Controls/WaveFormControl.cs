@@ -358,12 +358,15 @@ namespace MPfm.GenericControls.Controls
                 BasicPen penSeparator2 = new BasicPen(new BasicBrush(new BasicColor(0, 0, 255)), 1);
                 BasicPen penSeparator3 = new BasicPen(new BasicBrush(new BasicColor(255, 50, 255)), 1);
                 int tileSize = WaveFormCacheService.TileSize;
-                int startTile = (int) Math.Floor(ContentOffset.X/tileSize);
+                int startTile = (int)Math.Floor(ContentOffset.X / tileSize);
+                //int startTile = (int) Math.Max(0, Math.Floor(ContentOffset.X/tileSize) - 1);
                 int numberOfTilesToFillWidth = (int) Math.Ceiling(Frame.Width/tileSize);
+                //Console.WriteLine(">>>>>>>>>>> startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
                 for (int a = startTile; a < startTile + numberOfTilesToFillWidth; a++)
                 {
                     float tileX = a * tileSize;
-                    float offsetX = startTile * tileSize;                    
+                    //float offsetX = startTile * tileSize;                    
+                    float offsetX = 0; // remove this
                     var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom);
                     if (tile != null)
                     {
@@ -385,10 +388,10 @@ namespace MPfm.GenericControls.Controls
                             //float x = Zoom - tile.Zoom >= 0 ? (tileX - offsetX) * deltaZoom : (tileX - offsetX) * (1 / deltaZoom);
                             //float x = (tileX - offsetX);
                             //context.DrawImage(new BasicRectangle(x, 0, tileSize, Frame.Height), tile.Image);
-                            context.DrawImage(new BasicRectangle(x, 0, tileSize * deltaZoom, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
-                            context.DrawLine(new BasicPoint(x, 0), new BasicPoint(x, Frame.Height), penSeparator2);
+                            context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileSize * deltaZoom, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
+                            //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);
                             //context.DrawLine(new BasicPoint(x + (tileSize * deltaZoom) - 1, 0), new BasicPoint(x + (tileSize * deltaZoom) - 1, Frame.Height), penSeparator3);
-                        } 
+                        }
                         else
                         {
                             //    rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
@@ -396,12 +399,16 @@ namespace MPfm.GenericControls.Controls
 
                             // The tile zoom level fits the current zoom level; no stretching needed
                             float x = tileX - offsetX;
-                            context.DrawImage(new BasicRectangle(x, 0, tileSize, Frame.Height), tile.Image);
-                            context.DrawLine(new BasicPoint(x, 0), new BasicPoint(x, Frame.Height), penSeparator2);
+                            context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileSize, Frame.Height), tile.Image);
+                            //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);
                             //context.DrawLine(new BasicPoint(x + tileSize - 1, 0), new BasicPoint(x + tileSize - 1, Frame.Height), penSeparator3);
                         }
 
-                        //context.DrawLine(new BasicPoint(tileX, 0), new BasicPoint(tileX, Frame.Height), penSeparator);
+                        //context.DrawLine(new BasicPoint(tileX - ContentOffset.X, 0), new BasicPoint(tileX - ContentOffset.X, Frame.Height), penSeparator);
+                    }
+                    else
+                    {
+                        //Console.WriteLine("[!!!] Missing bitmap - tileX: {0}", tileX);
                     }
                 }
             }
@@ -453,8 +460,8 @@ namespace MPfm.GenericControls.Controls
         public void Render(IGraphicsContext context)
         {
 			//Console.WriteLine("WaveFormControl - Render");
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            //var stopwatch = new Stopwatch();
+            //stopwatch.Start();
             Frame = new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight);
             _density = context.Density;
             if (IsLoading)
@@ -473,8 +480,8 @@ namespace MPfm.GenericControls.Controls
                 context.DrawRectangle(Frame, new BasicBrush(_backgroundColor), new BasicPen());
             }
 
-            stopwatch.Stop();
-            Console.WriteLine("WaveFormControl - Render - stopwatch: {0} ms", stopwatch.ElapsedMilliseconds);
+            //stopwatch.Stop();
+            //Console.WriteLine("WaveFormControl - Render - stopwatch: {0} ms", stopwatch.ElapsedMilliseconds);
         }
 
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)

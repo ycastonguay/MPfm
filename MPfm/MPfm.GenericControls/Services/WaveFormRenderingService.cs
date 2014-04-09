@@ -242,8 +242,8 @@ namespace MPfm.GenericControls.Services
             //Console.WriteLine("WaveFormRenderingService - RequestBitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", boundsBitmap, boundsWaveForm, zoom);
             var thread = new Thread(new ThreadStart(() =>
 			{
-			    var stopwatch = new Stopwatch();
-                stopwatch.Start();
+			    //var stopwatch = new Stopwatch();
+                //stopwatch.Start();
 
                 IMemoryGraphicsContext context;
                 try
@@ -271,6 +271,7 @@ namespace MPfm.GenericControls.Services
                         {
                             _penTransparent = new BasicPen();
                             _brushBackground = new BasicBrush(_colorBackground);
+                            //_brushBackground = new BasicBrush(new BasicColor(0, 0, 255));
                         }
                     }
 
@@ -331,8 +332,8 @@ namespace MPfm.GenericControls.Services
                         heightToRenderLine = (boundsWaveForm.Height / 2);
 
                     context.DrawRectangle(new BasicRectangle(0, 0, boundsBitmap.Width + 2, boundsBitmap.Height), _brushBackground, _penTransparent);
-                    context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(0, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10);
-                    context.DrawText(string.Format("{0:0.0}", zoom), new BasicPoint(0, boundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10);
+                    context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(1, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                    context.DrawText(string.Format("{0:0.0}", zoom), new BasicPoint(1, boundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
 
                     // The pen cannot be cached between refreshes because the line width changes every time the width changes
                     //context.SetLineWidth(0.2f);
@@ -503,7 +504,7 @@ namespace MPfm.GenericControls.Services
                 }
 
 				//Console.WriteLine("WaveFormRenderingService - Created image successfully.");
-                stopwatch.Stop();
+                //stopwatch.Stop();
                 //Console.WriteLine("WaveFormRenderingService - Created image successfully in {0} ms.", stopwatch.ElapsedMilliseconds);
 				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 				{
