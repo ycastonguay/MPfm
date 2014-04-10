@@ -358,8 +358,8 @@ namespace MPfm.GenericControls.Controls
                 BasicPen penSeparator2 = new BasicPen(new BasicBrush(new BasicColor(0, 0, 255)), 1);
                 BasicPen penSeparator3 = new BasicPen(new BasicBrush(new BasicColor(255, 50, 255)), 1);
                 int tileSize = WaveFormCacheService.TileSize;
-                int startTile = (int)Math.Floor(ContentOffset.X / tileSize);
-                //int startTile = (int) Math.Max(0, Math.Floor(ContentOffset.X/tileSize) - 1);
+                float delta = (float) (Zoom/Math.Floor(Zoom));
+                int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * delta));
                 int numberOfTilesToFillWidth = (int) Math.Ceiling(Frame.Width/tileSize);
                 //Console.WriteLine(">>>>>>>>>>> startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
                 for (int a = startTile; a < startTile + numberOfTilesToFillWidth; a++)
@@ -409,6 +409,7 @@ namespace MPfm.GenericControls.Controls
                     else
                     {
                         //Console.WriteLine("[!!!] Missing bitmap - tileX: {0}", tileX);
+                        //context.DrawRectangle(new BasicRectangle(tileX - ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255)), penSeparator3);
                     }
                 }
             }
