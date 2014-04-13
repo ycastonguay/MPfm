@@ -360,7 +360,7 @@ namespace MPfm.GenericControls.Controls
                 int tileSize = WaveFormCacheService.TileSize;
                 float delta = (float) (Zoom/Math.Floor(Zoom));
                 int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * delta));
-                int numberOfTilesToFillWidth = (int) Math.Ceiling(Frame.Width/tileSize);
+                int numberOfTilesToFillWidth = (int) Math.Ceiling(Frame.Width/tileSize); // b u g: the last tile size doesn't match the actual remaining size, this creates a math error in the rendering service
                 //Console.WriteLine(">>>>>>>>>>> startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
                 for (int a = startTile; a < startTile + numberOfTilesToFillWidth; a++)
                 {
@@ -370,7 +370,7 @@ namespace MPfm.GenericControls.Controls
                     var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom);
                     if (tile != null)
                     {
-                        //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} offsetX: {2} startTile: {3}", a, x, offsetX, startTile);
+                        //Console.WriteLine("WaveFormControl - Drawing tile {0} tileX: {1} tile.Zoom: {2} Zoom: {3}", a, tileX, tile.Zoom, Zoom);
                         if (tile.Zoom != Zoom)
                         {
                             //    float deltaZoom = Zoom / _imageCacheZoom;
@@ -388,6 +388,7 @@ namespace MPfm.GenericControls.Controls
                             //float x = Zoom - tile.Zoom >= 0 ? (tileX - offsetX) * deltaZoom : (tileX - offsetX) * (1 / deltaZoom);
                             //float x = (tileX - offsetX);
                             //context.DrawImage(new BasicRectangle(x, 0, tileSize, Frame.Height), tile.Image);
+                            //Console.WriteLine("[!!!] ZOOM DOESN'T MATCH");
                             context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileSize * deltaZoom, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
                             //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);
                             //context.DrawLine(new BasicPoint(x + (tileSize * deltaZoom) - 1, 0), new BasicPoint(x + (tileSize * deltaZoom) - 1, Frame.Height), penSeparator3);
@@ -398,6 +399,7 @@ namespace MPfm.GenericControls.Controls
                             //context.DrawImage(new BasicRectangle(x - offsetX, 0, tileSize, Frame.Height), tile.Image)
 
                             // The tile zoom level fits the current zoom level; no stretching needed
+                            //Console.WriteLine("[__] ZOOM MATCHES");
                             float x = tileX - offsetX;
                             context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileSize, Frame.Height), tile.Image);
                             //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);

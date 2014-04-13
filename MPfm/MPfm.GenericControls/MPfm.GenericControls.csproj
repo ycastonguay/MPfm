@@ -64,8 +64,10 @@
     <Compile Include="Services\Events\LoadPeakFileEventArgs.cs" />
     <Compile Include="Services\Interfaces\IWaveFormRenderingService.cs" />
     <Compile Include="Services\Interfaces\IWaveFormCacheService.cs" />
+    <Compile Include="Services\Objects\WaveFormBitmapRequest.cs" />
     <Compile Include="Services\WaveFormCacheService.cs" />
     <Compile Include="Services\WaveFormRenderingService.cs" />
+    <Compile Include="Services\Objects\WaveFormTile.cs" />
     <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
     <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
     <Compile Include="Controls\Songs\SongGridViewControl.cs" />

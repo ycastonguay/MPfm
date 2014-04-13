@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
+using MPfm.GenericControls.Services.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Services
@@ -153,7 +154,10 @@ namespace MPfm.GenericControls.Services
                 // |.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.| -- 300%
                 // ex: slice at x:20 and zoom:100% is placed at x:40 for zoom:200%
                 // b u g: there's sometimes more than one bitmap cache per offsetx/zoom!
+                // b u g : this doesn't return a bitmap that is available for the previous threshold
                 tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom)).ToList();
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom) && obj.Zoom == 1).ToList();
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (1 / (zoomThreshold / obj.Zoom)) && obj.Zoom == 1).ToList();
             }
 
             if (tiles != null && tiles.Count > 0)
@@ -190,6 +194,8 @@ namespace MPfm.GenericControls.Services
                 if (tile.Zoom != zoomThreshold)
                 {
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
+
+                    // b u g: This makes the background flash between thresholds
                     AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
                 }
 
@@ -197,7 +203,7 @@ namespace MPfm.GenericControls.Services
             }
             else
             {
-                Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
+                //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
                 AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
             }
 
@@ -226,8 +232,7 @@ namespace MPfm.GenericControls.Services
                     var existingRequest = _requests.FirstOrDefault(obj =>
                         obj.BoundsBitmap.Equals(request.BoundsBitmap) &&
                         obj.BoundsWaveForm.Equals(request.BoundsWaveForm) &&
-                        //obj.Zoom == request.Zoom);
-                        obj.Zoom >= request.Zoom - 2 && obj.Zoom <= request.Zoom + 2); // don't spam requests with slightly different zoom levels
+                        obj.Zoom == request.Zoom);
                     //WaveFormBitmapRequest existingRequest = null;
 
                     if (existingRequest == null)
@@ -259,16 +264,18 @@ namespace MPfm.GenericControls.Services
                     {
                         while (_requests.Count > 0 && _numberOfBitmapTasksRunning < MaximumNumberOfTasks)
                         {
+                            //int index = 0; // FIFO
+                            int index = _requests.Count - 1; // LIFO
                             _numberOfBitmapTasksRunning++;
-                            var request = _requests[0];
+                            var request = _requests[index];
                             requestsToProcess.Add(request);
-                            _requests.RemoveAt(0);
+                            _requests.RemoveAt(index);
                         }
                     }
                     foreach(var request in requestsToProcess)
                     {                        
                         //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
-                        _waveFormRenderingService.RequestBitmap(request.DisplayType, request.BoundsBitmap, request.BoundsWaveForm, request.Zoom);
+                        _waveFormRenderingService.RequestBitmap(request);
                     }
 
                     // Since the bitmap tiles are small enough to be generated under 20 ms, this basically makes it one task only.
@@ -281,32 +288,5 @@ namespace MPfm.GenericControls.Services
 			thread.Start();
         }
 
-        public class WaveFormBitmapRequest
-        {
-            public WaveFormDisplayType DisplayType { get; set; }
-            public BasicRectangle BoundsBitmap { get; set; }
-            public BasicRectangle BoundsWaveForm { get; set; }
-            public float Zoom { get; set; }
-
-            public WaveFormBitmapRequest()
-            {                
-                BoundsBitmap = new BasicRectangle();
-                BoundsWaveForm = new BasicRectangle();
-                Zoom = 1;
-            }
-        }
-
-        public class WaveFormTile
-        {
-            public IDisposable Image { get; set; }
-            public BasicPoint ContentOffset { get; set; }
-            public float Zoom { get; set; }
-
-            public WaveFormTile()
-            {
-                ContentOffset = new BasicPoint();
-                Zoom = 1;
-            }
-        }
     }
 }

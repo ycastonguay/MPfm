@@ -27,6 +27,7 @@ using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
+using MPfm.GenericControls.Services.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Sound.PeakFiles;
 using System.Threading;
@@ -67,6 +68,14 @@ namespace MPfm.GenericControls.Services
             _peakFileService.OnProcessStarted += HandleOnPeakFileProcessStarted;
             _peakFileService.OnProcessData += HandleOnPeakFileProcessData;
             _peakFileService.OnProcessDone += HandleOnPeakFileProcessDone;
+
+            CreateDrawingResources();
+        }
+
+        private void CreateDrawingResources()
+        {
+            _penTransparent = new BasicPen();
+            _brushBackground = new BasicBrush(_colorBackground);
         }
 
         protected virtual void OnGeneratePeakFileBegun(GeneratePeakFileEventArgs e)
@@ -232,16 +241,18 @@ namespace MPfm.GenericControls.Services
         /// <summary>
         /// Requests a wave form bitmap to be generated. Once the bitmap is generated, the OnGenerateWaveFormBitmapEnded event is fired.
         /// </summary>
-        /// <param name="displayType">Display type (stereo, mono left/right)</param>
-        /// <param name="boundsBitmap">Bounds of the bitmap to generate (offset can be set with the rect X,Y + zoom)</param>
-        /// <param name="boundsWaveForm">Bounds of the whole wave form, without zoom applied</param>
-        /// <param name="zoom">Zoom level (1 == 100%)</param>
-        public void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom)
+        public void RequestBitmap(WaveFormBitmapRequest request)
+        {
+            ThreadPool.QueueUserWorkItem(new WaitCallback(RequestBitmapInternal), request);
+        }
+
+        private void RequestBitmapInternal(Object stateInfo)
         {
             // Use this instead of a task, this guarantees to execute in another thread
             //Console.WriteLine("WaveFormRenderingService - RequestBitmap - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2}", boundsBitmap, boundsWaveForm, zoom);
-            var thread = new Thread(new ThreadStart(() =>
-			{
+            var request = stateInfo as WaveFormBitmapRequest;
+            //var thread = new Thread(new ThreadStart(() =>
+			//{
 			    //var stopwatch = new Stopwatch();
                 //stopwatch.Start();
 
@@ -249,7 +260,7 @@ namespace MPfm.GenericControls.Services
                 try
                 {
                     //Console.WriteLine("WaveFormRenderingService - Creating image cache...");
-                    context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(boundsBitmap.Width, boundsBitmap.Height);
+                    context = _memoryGraphicsContextFactory.CreateMemoryGraphicsContext(request.BoundsBitmap.Width, request.BoundsBitmap.Height);
                     if (context == null)
                     {
                         Console.WriteLine("Error initializing image cache context!");
@@ -265,16 +276,6 @@ namespace MPfm.GenericControls.Services
 			    IDisposable imageCache;
 			    try
                 {
-                    lock (_locker)
-                    {
-                        if (_penTransparent == null)
-                        {
-                            _penTransparent = new BasicPen();
-                            _brushBackground = new BasicBrush(_colorBackground);
-                            //_brushBackground = new BasicBrush(new BasicColor(0, 0, 255));
-                        }
-                    }
-
                     float x1 = 0;
                     float x2 = 0;
                     float leftMin = 0;
@@ -301,7 +302,7 @@ namespace MPfm.GenericControls.Services
 
                     // Find out how many samples are represented by each line of the wave form, depending on its width.
                     // For example, if the history has 45000 items, and the control has a width of 1000px, 45 items will need to be averaged by line.
-                    lineWidthPerHistoryItem = boundsWaveForm.Width / (float)historyCount;
+                    lineWidthPerHistoryItem = request.BoundsWaveForm.Width / (float)historyCount;
 
                     // Check if the line width is below the desired line width
                     if (lineWidthPerHistoryItem < desiredLineWidth)
@@ -326,28 +327,28 @@ namespace MPfm.GenericControls.Services
                         //Console.WriteLine("WaveFormView - historyItemsPerLine: " + nHistoryItemsPerLine.ToString());
 
                     float heightToRenderLine = 0;
-                    if (displayType == WaveFormDisplayType.Stereo)
-                        heightToRenderLine = (boundsWaveForm.Height / 4);
+                    if (request.DisplayType == WaveFormDisplayType.Stereo)
+                        heightToRenderLine = (request.BoundsWaveForm.Height / 4);
                     else
-                        heightToRenderLine = (boundsWaveForm.Height / 2);
+                        heightToRenderLine = (request.BoundsWaveForm.Height / 2);
 
-                    context.DrawRectangle(new BasicRectangle(0, 0, boundsBitmap.Width + 2, boundsBitmap.Height), _brushBackground, _penTransparent);
-                    context.DrawText(string.Format("{0}", boundsBitmap.X), new BasicPoint(1, boundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
-                    context.DrawText(string.Format("{0:0.0}", zoom), new BasicPoint(1, boundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                    context.DrawRectangle(new BasicRectangle(0, 0, request.BoundsBitmap.Width + 2, request.BoundsBitmap.Height), _brushBackground, _penTransparent);
+                    context.DrawText(string.Format("{0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+                    context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
 
                     // The pen cannot be cached between refreshes because the line width changes every time the width changes
                     //context.SetLineWidth(0.2f);
                     var penWaveForm = new BasicPen(new BasicBrush(_colorWaveForm), lineWidth);
                     context.SetPen(penWaveForm);
 
-                    float startLine = ((int)Math.Floor(boundsBitmap.X / lineWidth)) * lineWidth;
+                    float startLine = ((int)Math.Floor(request.BoundsBitmap.X / lineWidth)) * lineWidth;
                     historyIndex = (int) ((startLine / lineWidth) * nHistoryItemsPerLine);
 
                         //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} boundsWaveForm.Width: {1} nHistoryItemsPerLine: {2} historyIndex: {3}", startLine, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
 
                     //List<float> roundValues = new List<float>();
                     //for (float i = startLine; i < boundsWaveForm.Width; i += lineWidth)
-                    for (float i = startLine; i < startLine + boundsBitmap.Width; i += lineWidth)
+                    for (float i = startLine; i < startLine + request.BoundsBitmap.Width; i += lineWidth)
                     {
                         #if MACOSX
                         // On Mac, the pen needs to be set every time we draw or the color might change to black randomly (weird?)
@@ -421,26 +422,26 @@ namespace MPfm.GenericControls.Services
                         mixMinHeight = mixMin * heightToRenderLine;
 
                             //Console.WriteLine("WaveFormRenderingService - line: {0} x1: {1} x2: {2} historyIndex: {3} historyCount: {4} width: {5}", i, x1, x2, historyIndex, historyCount, boundsWaveForm.Width);
-                        if (displayType == WaveFormDisplayType.LeftChannel ||
-                            displayType == WaveFormDisplayType.RightChannel ||
-                            displayType == WaveFormDisplayType.Mix)
+                        if (request.DisplayType == WaveFormDisplayType.LeftChannel ||
+                            request.DisplayType == WaveFormDisplayType.RightChannel ||
+                            request.DisplayType == WaveFormDisplayType.Mix)
                         {
                             // Calculate min/max line height
                             float minLineHeight = 0;
                             float maxLineHeight = 0;
 
                             // Set mib/max
-                            if (displayType == WaveFormDisplayType.LeftChannel)
+                            if (request.DisplayType == WaveFormDisplayType.LeftChannel)
                             {
                                 minLineHeight = leftMinHeight;
                                 maxLineHeight = leftMaxHeight;
                             }
-                            else if (displayType == WaveFormDisplayType.RightChannel)
+                            else if (request.DisplayType == WaveFormDisplayType.RightChannel)
                             {
                                 minLineHeight = rightMinHeight;
                                 maxLineHeight = rightMaxHeight;
                             }
-                            else if (displayType == WaveFormDisplayType.Mix)
+                            else if (request.DisplayType == WaveFormDisplayType.Mix)
                             {
                                 minLineHeight = mixMinHeight;
                                 maxLineHeight = mixMaxHeight;
@@ -458,7 +459,7 @@ namespace MPfm.GenericControls.Services
                             // Draw negative value (y: middle to height)
 							context.StrokeLine(new BasicPoint(x1, heightToRenderLine), new BasicPoint(x2, heightToRenderLine + (-minLineHeight)));
                         }
-                        else if (displayType == WaveFormDisplayType.Stereo)
+                        else if (request.DisplayType == WaveFormDisplayType.Stereo)
                         {
                             // -----------------------------------------
                             // LEFT Channel - Positive Max Value
@@ -509,18 +510,18 @@ namespace MPfm.GenericControls.Services
 				OnGenerateWaveFormBitmapEnded(new GenerateWaveFormEventArgs()
 				{
 					//AudioFilePath = audioFile.FilePath,
-                    OffsetX = boundsBitmap.X,
-					Zoom = zoom,
+                    OffsetX = request.BoundsBitmap.X,
+					Zoom = request.Zoom,
                     Width = context.BoundsWidth,
-					DisplayType = displayType,
+					DisplayType = request.DisplayType,
 					Image = imageCache
 				});
-			}));
-            #if !MACOSX // TODO: Remove this, something is bugged inside this method and requires to be done in the main thread.
-			thread.IsBackground = true;
-            #endif
-            thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
+			//}));
+            //#if !MACOSX // TODO: Remove this, something is bugged inside this method and requires to be done in the main thread.
+            //thread.IsBackground = true;
+            //#endif
+            //thread.SetApartmentState(ApartmentState.STA);
+            //thread.Start();
         }
     }
 
