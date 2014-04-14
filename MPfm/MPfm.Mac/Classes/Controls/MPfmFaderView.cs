@@ -64,7 +64,7 @@ namespace MPfm.Mac.Classes.Controls
             _control.OnFaderValueChanged += (sender, args) =>
             {
                 if (OnFaderValueChanged != null)
-                    OnFaderValueChanged(sender, args);
+                    OnFaderValueChanged(this, args);
             };
             // TODO: Could these be moved inside a generic helper or something?
             _control.OnInvalidateVisual += () => InvokeOnMainThread(() => SetNeedsDisplayInRect(Bounds));
