@@ -36,7 +36,7 @@ namespace MPfm.GenericControls.Services
 #if ANDROID || MACOSX // parallelism will be added later for these platforms, not working well for now
         public const int MaximumNumberOfTasks = 1;
 #else
-        public const int MaximumNumberOfTasks = 2;
+        public const int MaximumNumberOfTasks = 1;
 #endif
         private readonly object _lockerRequests = new object();
         private readonly object _lockerTiles = new object();
@@ -155,7 +155,11 @@ namespace MPfm.GenericControls.Services
                 // ex: slice at x:20 and zoom:100% is placed at x:40 for zoom:200%
                 // b u g: there's sometimes more than one bitmap cache per offsetx/zoom!
                 // b u g : this doesn't return a bitmap that is available for the previous threshold
-                tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom)).ToList();
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom)).ToList();
+                tiles = _tiles.Where(obj => obj.ContentOffset.X == x).ToList(); // already adjusted when called
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold - obj.Zoom + 1)).ToList();
+                //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} zoom: {1} TILES FOUND: {2}", x, zoom, tiles.Count);
+                //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} height: {1} waveFormWidth: {2} zoom: {3} TILES FOUND: {4}", x, height, waveFormWidth, zoom, tiles.Count);
                 //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom) && obj.Zoom == 1).ToList();
                 //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (1 / (zoomThreshold / obj.Zoom)) && obj.Zoom == 1).ToList();
             }
@@ -194,9 +198,9 @@ namespace MPfm.GenericControls.Services
                 if (tile.Zoom != zoomThreshold)
                 {
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
-
                     // b u g: This makes the background flash between thresholds
                     AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
+                    //AddBitmapRequestToList(boundsBitmap, boundsWaveForm, 1);
                 }
 
                 return tile;
@@ -205,6 +209,7 @@ namespace MPfm.GenericControls.Services
             {
                 //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
                 AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
+                //AddBitmapRequestToList(boundsBitmap, boundsWaveForm, 1);
             }
 
             //stopwatch.Stop();
@@ -226,16 +231,22 @@ namespace MPfm.GenericControls.Services
                     Zoom = zoom
                 };
 
+                WaveFormTile existingTile = null;
+                lock (_lockerTiles)
+                {
+                    existingTile = _tiles.FirstOrDefault(obj => obj.ContentOffset.X == boundsBitmap.X && obj.Zoom == zoom);
+                }
+
                 lock (_lockerRequests)
                 {
-                    //// Check if bitmap has already been requested in queue
+                    // Check if bitmap has already been requested in queue
                     var existingRequest = _requests.FirstOrDefault(obj =>
                         obj.BoundsBitmap.Equals(request.BoundsBitmap) &&
                         obj.BoundsWaveForm.Equals(request.BoundsWaveForm) &&
                         obj.Zoom == request.Zoom);
                     //WaveFormBitmapRequest existingRequest = null;
 
-                    if (existingRequest == null)
+                    if (existingRequest == null && existingTile == null)
                     {
                         //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
                         _requests.Add(request);
@@ -272,15 +283,14 @@ namespace MPfm.GenericControls.Services
                             _requests.RemoveAt(index);
                         }
                     }
-                    foreach(var request in requestsToProcess)
-                    {                        
-                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
-                        _waveFormRenderingService.RequestBitmap(request);
-                    }
 
-                    // Since the bitmap tiles are small enough to be generated under 20 ms, this basically makes it one task only.
-                    // We need to loop requests until we hit the maximum.
-                    Thread.Sleep(20);
+                    foreach (var request in requestsToProcess)
+                    {
+                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
+                        _waveFormRenderingService.RequestBitmap(request); // ThreadQueueWorkItem will manage a thread pool
+                    }
+                    
+                    Thread.Sleep(50);
                 }
 			}));
 			thread.IsBackground = true;

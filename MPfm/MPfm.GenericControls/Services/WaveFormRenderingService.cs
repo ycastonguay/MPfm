@@ -344,11 +344,14 @@ namespace MPfm.GenericControls.Services
                     float startLine = ((int)Math.Floor(request.BoundsBitmap.X / lineWidth)) * lineWidth;
                     historyIndex = (int) ((startLine / lineWidth) * nHistoryItemsPerLine);
 
-                        //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} boundsWaveForm.Width: {1} nHistoryItemsPerLine: {2} historyIndex: {3}", startLine, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
-
+                    //Console.WriteLine("!!!!!!!!! WaveFormRenderingService - startLine: {0} boundsWaveForm.Width: {1} nHistoryItemsPerLine: {2} historyIndex: {3}", startLine, boundsWaveForm.Width, nHistoryItemsPerLine, historyIndex);
                     //List<float> roundValues = new List<float>();
                     //for (float i = startLine; i < boundsWaveForm.Width; i += lineWidth)
-                    for (float i = startLine; i < startLine + request.BoundsBitmap.Width; i += lineWidth)
+                    float widthToDraw = startLine + request.BoundsBitmap.Width;
+                    if (request.BoundsWaveForm.Width - request.BoundsBitmap.X < request.BoundsBitmap.Width)
+                        widthToDraw = request.BoundsWaveForm.Width - request.BoundsBitmap.X;
+                    //widthToDraw = Math.Min(widthToDraw, request.BoundsWaveForm.Width - request.BoundsBitmap.X);
+                    for (float i = startLine; i < widthToDraw; i += lineWidth)
                     {
                         #if MACOSX
                         // On Mac, the pen needs to be set every time we draw or the color might change to black randomly (weird?)
