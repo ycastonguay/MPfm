@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
+using MPfm.GenericControls.Services.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Services
@@ -35,7 +36,7 @@ namespace MPfm.GenericControls.Services
 #if ANDROID || MACOSX // parallelism will be added later for these platforms, not working well for now
         public const int MaximumNumberOfTasks = 1;
 #else
-        public const int MaximumNumberOfTasks = 2;
+        public const int MaximumNumberOfTasks = 1;
 #endif
         private readonly object _lockerRequests = new object();
         private readonly object _lockerTiles = new object();
@@ -153,7 +154,14 @@ namespace MPfm.GenericControls.Services
                 // |.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.| -- 300%
                 // ex: slice at x:20 and zoom:100% is placed at x:40 for zoom:200%
                 // b u g: there's sometimes more than one bitmap cache per offsetx/zoom!
-                tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom)).ToList();
+                // b u g : this doesn't return a bitmap that is available for the previous threshold
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom)).ToList();
+                tiles = _tiles.Where(obj => obj.ContentOffset.X == x).ToList(); // already adjusted when called
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold - obj.Zoom + 1)).ToList();
+                //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} zoom: {1} TILES FOUND: {2}", x, zoom, tiles.Count);
+                //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} height: {1} waveFormWidth: {2} zoom: {3} TILES FOUND: {4}", x, height, waveFormWidth, zoom, tiles.Count);
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom) && obj.Zoom == 1).ToList();
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (1 / (zoomThreshold / obj.Zoom)) && obj.Zoom == 1).ToList();
             }
 
             if (tiles != null && tiles.Count > 0)
@@ -190,15 +198,18 @@ namespace MPfm.GenericControls.Services
                 if (tile.Zoom != zoomThreshold)
                 {
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
+                    // b u g: This makes the background flash between thresholds
                     AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
+                    //AddBitmapRequestToList(boundsBitmap, boundsWaveForm, 1);
                 }
 
                 return tile;
             }
             else
             {
-                Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
+                //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
                 AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
+                //AddBitmapRequestToList(boundsBitmap, boundsWaveForm, 1);
             }
 
             //stopwatch.Stop();
@@ -220,17 +231,22 @@ namespace MPfm.GenericControls.Services
                     Zoom = zoom
                 };
 
+                WaveFormTile existingTile = null;
+                lock (_lockerTiles)
+                {
+                    existingTile = _tiles.FirstOrDefault(obj => obj.ContentOffset.X == boundsBitmap.X && obj.Zoom == zoom);
+                }
+
                 lock (_lockerRequests)
                 {
-                    //// Check if bitmap has already been requested in queue
+                    // Check if bitmap has already been requested in queue
                     var existingRequest = _requests.FirstOrDefault(obj =>
                         obj.BoundsBitmap.Equals(request.BoundsBitmap) &&
                         obj.BoundsWaveForm.Equals(request.BoundsWaveForm) &&
-                        //obj.Zoom == request.Zoom);
-                        obj.Zoom >= request.Zoom - 2 && obj.Zoom <= request.Zoom + 2); // don't spam requests with slightly different zoom levels
+                        obj.Zoom == request.Zoom);
                     //WaveFormBitmapRequest existingRequest = null;
 
-                    if (existingRequest == null)
+                    if (existingRequest == null && existingTile == null)
                     {
                         //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
                         _requests.Add(request);
@@ -259,21 +275,22 @@ namespace MPfm.GenericControls.Services
                     {
                         while (_requests.Count > 0 && _numberOfBitmapTasksRunning < MaximumNumberOfTasks)
                         {
+                            //int index = 0; // FIFO
+                            int index = _requests.Count - 1; // LIFO
                             _numberOfBitmapTasksRunning++;
-                            var request = _requests[0];
+                            var request = _requests[index];
                             requestsToProcess.Add(request);
-                            _requests.RemoveAt(0);
+                            _requests.RemoveAt(index);
                         }
                     }
-                    foreach(var request in requestsToProcess)
-                    {                        
-                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
-                        _waveFormRenderingService.RequestBitmap(request.DisplayType, request.BoundsBitmap, request.BoundsWaveForm, request.Zoom);
-                    }
 
-                    // Since the bitmap tiles are small enough to be generated under 20 ms, this basically makes it one task only.
-                    // We need to loop requests until we hit the maximum.
-                    Thread.Sleep(20);
+                    foreach (var request in requestsToProcess)
+                    {
+                        //Console.WriteLine("WaveFormCacheService - BitmapRequestProcessLoop - Processing bitmap request - boundsBitmap: {0} boundsWaveForm: {1} zoom: {2} numberOfBitmapTasksRunning: {3}", request.BoundsBitmap, request.BoundsWaveForm, request.Zoom, _numberOfBitmapTasksRunning);
+                        _waveFormRenderingService.RequestBitmap(request); // ThreadQueueWorkItem will manage a thread pool
+                    }
+                    
+                    Thread.Sleep(50);
                 }
 			}));
 			thread.IsBackground = true;
@@ -281,32 +298,5 @@ namespace MPfm.GenericControls.Services
 			thread.Start();
         }
 
-        public class WaveFormBitmapRequest
-        {
-            public WaveFormDisplayType DisplayType { get; set; }
-            public BasicRectangle BoundsBitmap { get; set; }
-            public BasicRectangle BoundsWaveForm { get; set; }
-            public float Zoom { get; set; }
-
-            public WaveFormBitmapRequest()
-            {                
-                BoundsBitmap = new BasicRectangle();
-                BoundsWaveForm = new BasicRectangle();
-                Zoom = 1;
-            }
-        }
-
-        public class WaveFormTile
-        {
-            public IDisposable Image { get; set; }
-            public BasicPoint ContentOffset { get; set; }
-            public float Zoom { get; set; }
-
-            public WaveFormTile()
-            {
-                ContentOffset = new BasicPoint();
-                Zoom = 1;
-            }
-        }
     }
 }

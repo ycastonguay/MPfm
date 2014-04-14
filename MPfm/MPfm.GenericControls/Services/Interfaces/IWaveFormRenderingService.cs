@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using MPfm.GenericControls.Basics;
+using MPfm.GenericControls.Services.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Services.Interfaces
@@ -30,6 +31,6 @@ namespace MPfm.GenericControls.Services.Interfaces
         event WaveFormRenderingService.GenerateWaveFormEventHandler GenerateWaveFormBitmapEndedEvent;
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);
-        void RequestBitmap(WaveFormDisplayType displayType, BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom);
+        void RequestBitmap(WaveFormBitmapRequest request);
     }
 }
