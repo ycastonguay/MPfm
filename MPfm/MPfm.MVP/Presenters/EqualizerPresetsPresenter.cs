@@ -181,7 +181,17 @@ namespace MPfm.MVP.Presenters
         {
             try
             {
-                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, Guid.Empty);
+                // For mobile devices
+                if (_mobileNavigationManager != null)
+                {
+                    _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, Guid.Empty);
+                    return;
+                }
+
+                // For desktop devices
+                var newPreset = new EQPreset();
+                _libraryService.InsertEQPreset(newPreset);
+                _messageHub.PublishAsync<EqualizerPresetSelectedMessage>(new EqualizerPresetSelectedMessage(this, newPreset.EQPresetId));
             }
             catch(Exception ex)
             {
@@ -214,7 +224,9 @@ namespace MPfm.MVP.Presenters
                     return;
 
                 _messageHub.PublishAsync<EqualizerPresetSelectedMessage>(new EqualizerPresetSelectedMessage(this, preset.EQPresetId));
-                _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, preset.EQPresetId);
+
+                if(_mobileNavigationManager != null)
+                    _mobileNavigationManager.CreateEqualizerPresetDetailsView(View, preset.EQPresetId);
             }
             catch(Exception ex)
             {

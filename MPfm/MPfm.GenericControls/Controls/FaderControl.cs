@@ -248,10 +248,10 @@ namespace MPfm.GenericControls.Controls
         public void MouseWheel(float delta)
         {
             int newValue = (int)(Value + (delta * 2));
-            if(newValue < 0)
-                newValue = 0;
-            else if(newValue > 100)
-                newValue = 100;
+            if(newValue < Minimum)
+                newValue = Minimum;
+            else if(newValue > Maximum)
+                newValue = Maximum;
             Value = newValue;
         }
 

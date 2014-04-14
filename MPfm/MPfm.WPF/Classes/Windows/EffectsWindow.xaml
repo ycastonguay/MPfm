@@ -4,62 +4,33 @@
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen" Background="#FF242F35"
-        Title="Effects" Height="426" Width="883.9" Icon="/MPfm.WPF;component/Resources/Icon.ico">
-    <Grid Margin="0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition  />
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0" Background="#FF455865" Content="Presets" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-        <Grid Grid.Row="1" Margin="2">
+        Title="Effects" Height="426" Width="954" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize">
+    <Grid Margin="0" Background="{DynamicResource BrushBackgroundColor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" x:Name="gridFaders" Margin="8,0,7,8">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" Height="24" />
-            <controls:ImageButton Grid.Column="1" x:Name="btnNewPreset" Title="New Preset" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Click="BtnNewPreset_OnClick" />
-        </Grid>
-        <Label Grid.Row="2" Background="#FF455865" Content="Current Preset" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-        <Grid Grid.Row="3" Margin="2,0,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Name:" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" />
-            <TextBox Grid.Column="1" Height="24" />
-            <controls:ImageButton Grid.Column="2" x:Name="btnSavePreset" Title="Save Preset" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource ImageButton}" Click="BtnSavePreset_OnClick" />
-            <controls:ImageButton Grid.Column="3" x:Name="btnDeletePreset" Title="Delete Preset" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource ImageButton}" Click="BtnDeletePreset_OnClick" />
-            <controls:ImageButton Grid.Column="4" x:Name="btnNormalize" Title="Normalize" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Click="BtnNormalize_OnClick" />
-            <controls:ImageButton Grid.Column="5" x:Name="btnReset" Title="Reset EQ" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Click="BtnReset_OnClick" />
-        </Grid>
-        <Grid Grid.Row="4" Margin="8,0,8,8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="46" />
-                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="42" />
+                <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
@@ -67,9 +38,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader0" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader0" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="55 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue0" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue0" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -77,9 +48,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader1" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader1" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="77 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue1" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue1" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
@@ -87,9 +58,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader2" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader2" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="110 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue2" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue2" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="3">
                 <Grid.RowDefinitions>
@@ -97,9 +68,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader3" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader3" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="156 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue3" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue3" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="4">
                 <Grid.RowDefinitions>
@@ -107,9 +78,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader4" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader4" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="220 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue4" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue4" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="5">
                 <Grid.RowDefinitions>
@@ -117,9 +88,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader5" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader5" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="311 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue5" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue5" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="6">
                 <Grid.RowDefinitions>
@@ -127,9 +98,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader6" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader6" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="440 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue6" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue6" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="7">
                 <Grid.RowDefinitions>
@@ -137,9 +108,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader7" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader7" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="622 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue7" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue7" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="8">
                 <Grid.RowDefinitions>
@@ -147,9 +118,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader8" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader8" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="880 Hz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue8" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue8" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="9">
                 <Grid.RowDefinitions>
@@ -157,9 +128,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader9" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader9" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="1.2 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue9" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue9" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="10">
                 <Grid.RowDefinitions>
@@ -167,9 +138,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader10" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader10" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="1.8 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue10" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue10" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="11">
                 <Grid.RowDefinitions>
@@ -177,9 +148,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader11" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader11" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="2.5 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue11" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue11" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="12">
                 <Grid.RowDefinitions>
@@ -187,9 +158,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader12" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader12" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="3.5 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue12" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue12" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="13">
                 <Grid.RowDefinitions>
@@ -197,9 +168,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader13" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader13" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="5 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue13" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue13" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="14">
                 <Grid.RowDefinitions>
@@ -207,9 +178,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader14" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader14" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="7 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue14" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue14" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="15">
                 <Grid.RowDefinitions>
@@ -217,9 +188,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader15" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader15" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="10 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue15" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue15" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="16">
                 <Grid.RowDefinitions>
@@ -227,9 +198,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader16" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader16" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="14 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue16" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue16" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="17">
                 <Grid.RowDefinitions>
@@ -237,9 +208,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <controls:Fader Grid.Row="0" x:Name="fader17" Minimum="-6" Maximum="6" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
+                <controls:Fader Grid.Row="0" x:Name="fader17" Minimum="-60" Maximum="60" Value="0" OnFaderValueChanged="Fader_OnFaderValueChanged" />
                 <Label Grid.Row="1" Content="20 kHz" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
-                <Label Grid.Row="2" x:Name="lblValue17" Content="+6.6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="2" x:Name="lblValue17" Content="0.0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
             <Grid Grid.Column="18">
                 <Grid.RowDefinitions>
@@ -248,10 +219,41 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="36" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="+ 6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0" Padding="2" />
+                <Label Grid.Row="0" Content="+ 6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0,6,0,0" Padding="2" />
                 <Label Grid.Row="1" Content="0 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0" Padding="2" />
                 <Label Grid.Row="2" Content="- 6 dB" Foreground="White" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0" Padding="2" />
             </Grid>
         </Grid>
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Margin="1,0,11.322,0">
+            <Label Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Presets" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+            <Grid x:Name="gridPresets" Margin="6,10,6,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0" x:Name="cboPresets" Width="100" Height="24" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" SelectionChanged="CboPresets_OnSelectionChanged"  />
+                <controls:ImageButton Grid.Row="1" x:Name="btnNewPreset" Title="New Preset" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0,4,0,4" Click="BtnNewPreset_OnClick" />
+            </Grid>
+            <Label Background="{DynamicResource BrushHeaderBackgroundColor}" Content="Current Preset" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+            <Grid x:Name="gridCurrentPreset" Margin="6,4,6,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="Name:" Foreground="LightGray" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" VerticalAlignment="Center" Margin="0,0,0,2" Padding="2" />
+                <Grid Grid.Row="1" Background="White" Height="24" Margin="0,0,0,4">
+                    <TextBlock Margin="2,4,0,0" Padding="0" Text="New preset" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Foreground="DarkGray" Visibility="{Binding ElementName=txtPresetName, Path=Text.IsEmpty, Converter={StaticResource BoolToVis}}" />
+                    <TextBox x:Name="txtPresetName" Background="Transparent" BorderBrush="Transparent" Height="24" Margin="0,0,0,4" Padding="0,4,0,0" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                </Grid>
+                <controls:ImageButton Grid.Row="2" x:Name="btnSavePreset" Title="Save Preset" ImageSource="/Resources/Images/Buttons/save.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnSavePreset_OnClick" />
+                <controls:ImageButton Grid.Row="3" x:Name="btnDeletePreset" Title="Delete Preset" ImageSource="/Resources/Images/Buttons/delete.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnDeletePreset_OnClick" />
+                <controls:ImageButton Grid.Row="4" x:Name="btnNormalize" Title="Normalize" ImageSource="/Resources/Images/Buttons/add.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnNormalize_OnClick" />
+                <controls:ImageButton Grid.Row="5" x:Name="btnReset" Title="Reset EQ" ImageSource="/Resources/Images/Buttons/reset.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnReset_OnClick" />
+            </Grid>
+        </StackPanel>
     </Grid>
 </base:BaseWindow>
