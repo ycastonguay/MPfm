@@ -93,7 +93,8 @@ namespace MPfm.GenericControls.Controls
                 var cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
 
                 // Invalidate cursor
-                var rectCursor = new BasicRectangle(cursorX - 5, 0, 10, Frame.Height);
+                float zoomAdjustment = Math.Max(1, Zoom/4);
+                var rectCursor = new BasicRectangle(cursorX - (5 * zoomAdjustment), 0, 10 * zoomAdjustment, Frame.Height);
                 OnInvalidateVisualInRect(rectCursor);
             }
         }
@@ -117,9 +118,8 @@ namespace MPfm.GenericControls.Controls
                 float secondaryCursorX = (secondaryPositionPercentage * ContentSize.Width) - ContentOffset.X;
                 secondaryCursorX = (float)Math.Round(secondaryCursorX * 2) / 2; // Round to 0.5
 
-                // Invalidate cursor. TODO: When the cursor is moving quickly, it dispappears because of the invalidation.
-                //                          Maybe the cursor shouldn't be rendered, but instead be a simple rect over this control?
-                var rectCursor = new BasicRectangle(secondaryCursorX - 25, 0, 50, Frame.Height);
+                float zoomAdjustment = Math.Max(1, Zoom / 4);
+                var rectCursor = new BasicRectangle(secondaryCursorX - (5 * zoomAdjustment), 0, 25 * zoomAdjustment, Frame.Height);
                 OnInvalidateVisualInRect(rectCursor);
             }
         }
