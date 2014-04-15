@@ -35,7 +35,7 @@ namespace MPfm.GenericControls.Services
         public const int TileSize = 50;
         public const int MaxNumberOfRequests = 20;
 #if ANDROID // parallelism will be added later for these platforms, not working well for now
-        public const int MaximumNumberOfTasks = 1;
+        public const int MaximumNumberOfTasks = 2;
 #else
         public const int MaximumNumberOfTasks = 2;
 #endif

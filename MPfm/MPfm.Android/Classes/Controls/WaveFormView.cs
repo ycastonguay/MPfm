@@ -65,7 +65,8 @@ namespace org.sessionsapp.android
 
         private void Initialize()
         {
-            SetBackgroundColor(Color.Orange);
+            // Keep this or for strange reason the bitmaps won't appear.
+            SetBackgroundColor(Color.Black);
 
             _control = new WaveFormControl();
             _control.OnInvalidateVisual += () => Post(Invalidate);            
