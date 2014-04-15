@@ -26,6 +26,7 @@ using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Services;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
+using MPfm.GenericControls.Services.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -252,16 +253,11 @@ namespace MPfm.GenericControls.Controls
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
-            // Make sure the control isn't drawing when switching bitmaps
-            //lock (_locker)
-            //{
-            //    //IsLoading = false;
-            //}
-
             //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
             float deltaZoom = Zoom / e.Zoom;
             //OnInvalidateVisual();
-            OnInvalidateVisualInRect(new BasicRectangle(e.OffsetX * deltaZoom, 0, e.Width, Frame.Height));
+            float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
+            OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));
             //OnInvalidateVisualInRect(new BasicRectangle(e.OffsetX, 0, e.Width, Frame.Height));
         }
 
@@ -343,100 +339,67 @@ namespace MPfm.GenericControls.Controls
 
         private void DrawWaveFormBitmap(IGraphicsContext context)
         {          
-            // Draw bitmap cache
-            //Console.WriteLine("WaveFormControl - DrawBitmap - Frame.width: {0} Frame.height: {1}", Frame.Width, Frame.Height);
-            //BasicRectangle rectImage;
-            //if (Zoom != _imageCacheZoom)
-            //{
-            //    float deltaZoom = Zoom / _imageCacheZoom;
-            //    //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom != _imageCacheZoom - Zoom: {0} _imageCacheZoom: {1} deltaZoom: {2}", Zoom, _imageCacheZoom, deltaZoom);
-            //    rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
-            //    //rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
-            //    //rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, _imageCache.Item2 * _density * (1 / deltaZoom), Frame.Height * _density);
-            //}
-            //else
-            //{
-            //    //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom == _imageCacheZoom");
-            //    rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
-            //    //rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, _imageCache.Item2 * _density, Frame.Height * _density);
-            //}
-
-            //// Sometimes the control needs to be drawn but the image size in cache does not match the size of the new control, even though we're using thread locking (only on WPF)
-            //context.DrawImage(Frame, rectImage, _imageCache);
-
-            //BasicPen penSeparator = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
-            //BasicPen penSeparator2 = new BasicPen(new BasicBrush(new BasicColor(0, 0, 255)), 1);
-            //BasicPen penSeparator3 = new BasicPen(new BasicBrush(new BasicColor(255, 50, 255)), 1);
+            int heightAvailable = (int)Frame.Height;
             int tileSize = WaveFormCacheService.TileSize;
             float delta = (float) (Zoom/Math.Floor(Zoom));
-            //float startOffsetAt1x = tileSize*Zoom;
-            float startOffsetAt1x = 0;
-            float tempContentOffsetX = Math.Max(0, ContentOffset.X - startOffsetAt1x);
-            int startTile = (int)Math.Floor(tempContentOffsetX / ((float)tileSize * delta)); // b u g: this is where it comes problematic when zooming in 
-            //int startTile = (int)Math.Floor((ContentOffset.X - (tileSize * delta)) / ((float)tileSize * delta));
-            //int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);
-            int numberOfTilesToFillWidth = (int)Math.Ceiling((Frame.Width / tileSize) + startOffsetAt1x);
-            //int startTile = 0; // when drawing the full waveform, the problem of empty tiles when zooming is gone
-            //int numberOfTilesToFillWidth = (int)Math.Ceiling((Frame.Width * Zoom) / tileSize);
-            //Console.WriteLine(">>>>>>>>>>> startTile: {0}", startTile);
-            //Console.WriteLine(">>>>>>>>>>> startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
+            int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * delta));
+            int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);
+            //Console.WriteLine("WaveFormControl - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
+
+            // Get list of tiles to draw
+            var tiles = new List<WaveFormTile>();
             for (int a = startTile; a < startTile + numberOfTilesToFillWidth; a++)
             {
                 float tileX = a * tileSize;
-                //float offsetX = startTile * tileSize;                    
-                float offsetX = 0; // remove this
                 var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom);
-                //Console.WriteLine("WaveFormControl - Drawing tile {0} tileX: {1} tile==null: {2} tile.Zoom: {3} Zoom: {4}", a, tileX, tile == null, tile != null ? tile.Zoom : 0, Zoom);
-                if (tile != null)
-                {
-                    if (tile.Zoom != Zoom)
-                    {
-                        //    float deltaZoom = Zoom / _imageCacheZoom;
-                        //    //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom != _imageCacheZoom - Zoom: {0} _imageCacheZoom: {1} deltaZoom: {2}", Zoom, _imageCacheZoom, deltaZoom);
-                        //    rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
 
+                if(tile != null)
+                    tiles.Add(tile);
 
-                        // The tile received for this position doesn't match the current zoom.
-                        // tileX is the perfect position for a tile. if the tile zoom doesn't match, this means the original tile x isn't right anymore.
-                        // can we have overlaps? when stretching a bitmap
-                        // We might have to cut the bitmap a bit? 
+                //if (tile != null)
+                //{
+                //    bool tileAdded = false;
+                //    for (int b = 0; b < tiles.Count; b++)
+                //    {
+                //        if (tiles[b].Zoom == tile.Zoom)
+                //        {
+                //            if (tiles[b].ContentOffset.X >= tile.ContentOffset.X)
+                //            {
+                //                tileAdded = true;
+                //                tiles.Insert(b, tile);
+                //            }                            
+                //        }
+                //        else if (tiles[b].Zoom > tile.Zoom)
+                //        {
+                //            tileAdded = true;
+                //            tiles.Insert(b, tile);
+                //        }
+                //    }
 
-                        float deltaZoom = Zoom / tile.Zoom;
-                        float x = (tileX - offsetX) * deltaZoom; //(1 / deltaZoom);
-                        float tileWidth = tileSize * deltaZoom;
-                        //float x = Zoom - tile.Zoom >= 0 ? (tileX - offsetX) * deltaZoom : (tileX - offsetX) * (1 / deltaZoom);
-                        //float x = (tileX - offsetX);
-                        //context.DrawImage(new BasicRectangle(x, 0, tileSize, Frame.Height), tile.Image);
-                        //Console.WriteLine("[!!!] Zoom doesn't match - Zoom: {0} tile.Zoom: {1}", Zoom, tile.Zoom);
-                        //context.DrawImage(new BasicRectangle(x - (ContentOffset.X * deltaZoom), 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
-                        context.DrawImage(new BasicRectangle(x - tempContentOffsetX, 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
-                        //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);
-                        //context.DrawLine(new BasicPoint(x + (tileSize * deltaZoom) - 1, 0), new BasicPoint(x + (tileSize * deltaZoom) - 1, Frame.Height), penSeparator3);
-                    }
-                    else
-                    {
-                        //    rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
-                        //context.DrawImage(new BasicRectangle(x - offsetX, 0, tileSize, Frame.Height), tile.Image)
+                //    // Add at the end of the list
+                //    if(!tileAdded)
+                //        tiles.Add(tile);
+                //}
 
-                        // The tile zoom level fits the current zoom level; no stretching needed
-                        float x = tileX - offsetX;
-                        //Console.WriteLine("[***] Zoom matches - Zoom: {0} tile.Zoom: {1} x: {2}", Zoom, tile.Zoom, x);
-                        context.DrawImage(new BasicRectangle(x - tempContentOffsetX, 0, tileSize, Frame.Height), tile.Image);
-                        //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);
-                        //context.DrawLine(new BasicPoint(x + tileSize - 1, 0), new BasicPoint(x + tileSize - 1, Frame.Height), penSeparator3);
-                    }
-
-                    //context.DrawLine(new BasicPoint(tileX - ContentOffset.X, 0), new BasicPoint(tileX - ContentOffset.X, Frame.Height), penSeparator);
-                }
-                else
-                {
-                    //Console.WriteLine("[!!!] Missing bitmap - tileX: {0}", tileX);
-                    //context.DrawRectangle(new BasicRectangle(tileX - ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255)), penSeparator3);
-                }
+                //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, Zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
+                //else
+                //{
+                //    //Console.WriteLine("[!!!] Missing bitmap - tileX: {0}", tileX);
+                //    //context.DrawRectangle(new BasicRectangle(tileX - ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255)), penSeparator3);
+                //}
             }
 
-            //Console.WriteLine("WaveFormControl - DrawWaveFormBitmap");
-            int heightAvailable = (int)Frame.Height;
+            // Order tiles by zoom and then by content offset x; this makes sure that the tiles with the nearest zoom level get drawn on top of farther zoom levels
+            // maybe replace this linq query by inserting the tiles in the list in the right order (at tiles.Add(tile) just up from here)
+            // Also use Distinct to prevent drawing the same tile multiple times
+            var tilesOrdered = tiles.Distinct().OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
+            foreach (var tile in tilesOrdered)
+            {
+                float deltaZoom = Zoom / tile.Zoom;
+                float x = tile.ContentOffset.X * deltaZoom;
+                float tileWidth = tileSize * deltaZoom;
+                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
+            }
 
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;

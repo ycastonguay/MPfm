@@ -26,6 +26,23 @@ namespace MPfm.GenericControls.Services.Objects
         public BasicPoint ContentOffset { get; set; }
         public float Zoom { get; set; }
 
+        /// <summary>
+        /// Returns the content offset X for the tile covering the area at X at the specified zoom factor.
+        /// </summary>
+        /// <param name="x">Content offset x @ current zoom</param>
+        /// <param name="tileSize">Tile size</param>
+        /// <param name="zoom">Zoom factor (mathes zoom for content offset x)</param>
+        /// <returns>Adjusted content offset x</returns>
+        public float GetAdjustedContentOffsetForZoom(float x, float tileSize, float zoom)
+        {
+            // Adjust the content offset x so we take the tile that covers the area in a different zoom factor.
+            // i.e. if we request a tile at position 100 for zoom 300%, and only a tile at zoom 100% is available, this means we need to use the tile at content offset x == 0.
+            float deltaZoom = zoom / Zoom;
+            float xAdj = x * (1 / deltaZoom); 
+            float xFloor = (float) (Math.Floor(xAdj / tileSize) * tileSize);
+            return xFloor;
+        }
+
         public WaveFormTile()
         {
             ContentOffset = new BasicPoint();

@@ -25,7 +25,6 @@ namespace MPfm.GenericControls.Controls
 {
     public class TrackBarControl : IControl, IControlMouseInteraction
     {
-        private readonly object _locker = new object();
         private BasicBrush _brushBackground;
         private BasicPen _penTransparent;
         private BasicColor _backgroundColor = new BasicColor(32, 40, 46);
@@ -109,6 +108,18 @@ namespace MPfm.GenericControls.Controls
             StepSize = 1;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
+
+            CreateDrawingResources();
+        }
+
+        private void CreateDrawingResources()
+        {
+            _penTransparent = new BasicPen();
+            _penShadowColor1 = new BasicPen(new BasicBrush(_faderShadowColor1), 1);
+            _penCenterLine = new BasicPen(new BasicBrush(_centerLineColor), 1);
+            _penCenterLineShadow = new BasicPen(new BasicBrush(_centerLineShadowColor), 1);
+            _brushBackground = new BasicBrush(_backgroundColor);
+            _brushFaderColor2 = new BasicBrush(_faderColor2);
         }
 
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
@@ -251,19 +262,6 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
-            lock (_locker)
-            {
-                if (_penTransparent == null)
-                {
-                    _penTransparent = new BasicPen();
-                    _penShadowColor1 = new BasicPen(new BasicBrush(_faderShadowColor1), 1);
-                    _penCenterLine = new BasicPen(new BasicBrush(_centerLineColor), 1);
-                    _penCenterLineShadow = new BasicPen(new BasicBrush(_centerLineShadowColor), 1);
-                    _brushBackground = new BasicBrush(_backgroundColor);
-                    _brushFaderColor2 = new BasicBrush(_faderColor2);
-                }
-            }
-
             // Value range is the size between max and min track bar value.
             // Ex: Min = 50, Max = 150. Value range = 100 + 1 (because we include 50 and 100)
             _valueRange = (Maximum - Minimum) + 1;

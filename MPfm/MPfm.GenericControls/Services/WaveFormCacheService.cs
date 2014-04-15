@@ -33,10 +33,11 @@ namespace MPfm.GenericControls.Services
     public class WaveFormCacheService : IWaveFormCacheService
     {
         public const int TileSize = 50;
-#if ANDROID || MACOSX // parallelism will be added later for these platforms, not working well for now
-        public const int MaximumNumberOfTasks = 1;
+        public const int MaxNumberOfRequests = 20;
+#if ANDROID // parallelism will be added later for these platforms, not working well for now
+        public const int MaximumNumberOfTasks = 2;
 #else
-        public const int MaximumNumberOfTasks = 1;
+        public const int MaximumNumberOfTasks = 2;
 #endif
         private readonly object _lockerRequests = new object();
         private readonly object _lockerTiles = new object();
@@ -140,28 +141,15 @@ namespace MPfm.GenericControls.Services
             //stopwatch.Start();
             WaveFormTile tile = null;
             List<WaveFormTile> tiles = null;
-            float zoomThreshold = (float) Math.Floor(zoom); //(float) Math.Round(zoom);
+            float zoomThreshold = (float) Math.Floor(zoom);
             var boundsBitmap = new BasicRectangle(x, 0, TileSize, height);
             var boundsWaveForm = new BasicRectangle(0, 0, waveFormWidth * zoomThreshold, height);
 
             lock (_lockerTiles)
             {
-                //if(x == TileSize * 2 && zoomThreshold > 1)
-                    //Debugger.Break();
-
-                // |.......|.......|.......|.......|.......| -- 100%
-                // |...|...|...|...|...|...|...|...|...|...| -- 200%
-                // |.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.|.| -- 300%
-                // ex: slice at x:20 and zoom:100% is placed at x:40 for zoom:200%
-                // b u g: there's sometimes more than one bitmap cache per offsetx/zoom!
-                // b u g : this doesn't return a bitmap that is available for the previous threshold
-                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom)).ToList();
-                tiles = _tiles.Where(obj => obj.ContentOffset.X == x).ToList(); // already adjusted when called
-                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold - obj.Zoom + 1)).ToList();
-                //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} zoom: {1} TILES FOUND: {2}", x, zoom, tiles.Count);
-                //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} height: {1} waveFormWidth: {2} zoom: {3} TILES FOUND: {4}", x, height, waveFormWidth, zoom, tiles.Count);
-                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom) && obj.Zoom == 1).ToList();
-                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (1 / (zoomThreshold / obj.Zoom)) && obj.Zoom == 1).ToList();
+                // Try to get a bitmap tile that covers the area we're interested in. The content offset x must be adjusted depending on the zoom level because a tile with
+                // a lower zoom might cover a very large area when adjusted to the new zoom; we need to draw the bitmap tile with a large offset (most of the bitmap is off screen)
+                tiles = _tiles.Where(obj => obj.ContentOffset.X == obj.GetAdjustedContentOffsetForZoom(x, TileSize, zoomThreshold)).ToList();
             }
 
             if (tiles != null && tiles.Count > 0)
@@ -173,7 +161,7 @@ namespace MPfm.GenericControls.Services
                 }
                 else if (tiles.Count > 1)
                 {
-                    // We don't want to scale down bitmaps
+                    // We don't want to scale down bitmaps, it is more CPU intensive than scaling up
                     var orderedTiles = tiles.OrderBy(obj => obj.Zoom).ToList();
                     tile = orderedTiles.Count > 0 ? orderedTiles[0] : null;
                     foreach (var thisTile in orderedTiles)
@@ -187,29 +175,27 @@ namespace MPfm.GenericControls.Services
                         }
                     }
 
-                    // If we still haven't found a tile, take the first one.
+                    // If we still haven't found a tile, take the first one (probably useless).
                     if (tile == null)
                         tile = orderedTiles[0];
 
                     //Console.WriteLine("WaveFormCacheService - GetTile - Finding the right tile in cache; tile.Zoom: {0} -- x: {1} zoom: {2}", tile.Zoom, x, zoom);
                 }
 
-                // Do we need to request a bitmap with a zoom that's more appropriate?
+                // Do we need to request a bitmap with a zoom that's more appropriate to the current zoom level?
                 if (tile.Zoom != zoomThreshold)
                 {
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
-                    // b u g: This makes the background flash between thresholds
                     AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
-                    //AddBitmapRequestToList(boundsBitmap, boundsWaveForm, 1);
                 }
 
                 return tile;
             }
             else
             {
+                // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
                 //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
                 AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
-                //AddBitmapRequestToList(boundsBitmap, boundsWaveForm, 1);
             }
 
             //stopwatch.Stop();
@@ -219,8 +205,7 @@ namespace MPfm.GenericControls.Services
 
         private void AddBitmapRequestToList(BasicRectangle boundsBitmap, BasicRectangle boundsWaveForm, float zoom)
         {
-            //var thread = new Thread(new ThreadStart(() =>
-            //{
+            // Make sure we don't slow down GetTile() by creating a task and running LINQ queries on another thread
             Task.Factory.StartNew(() =>
             {
                 var request = new WaveFormBitmapRequest()
@@ -231,6 +216,7 @@ namespace MPfm.GenericControls.Services
                     Zoom = zoom
                 };
 
+                // Check if a tile already exists
                 WaveFormTile existingTile = null;
                 lock (_lockerTiles)
                 {
@@ -244,23 +230,19 @@ namespace MPfm.GenericControls.Services
                         obj.BoundsBitmap.Equals(request.BoundsBitmap) &&
                         obj.BoundsWaveForm.Equals(request.BoundsWaveForm) &&
                         obj.Zoom == request.Zoom);
-                    //WaveFormBitmapRequest existingRequest = null;
 
+                    // Request a new bitmap only if necessary
                     if (existingRequest == null && existingTile == null)
                     {
                         //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
                         _requests.Add(request);
-                    }
-                    else
-                    {
-                        //Console.WriteLine("!!!!!!! SKIPPING REQUEST");
+
+                        // Remove the oldest request from the list if we hit the maximum 
+                        if(_requests.Count > MaxNumberOfRequests)
+                            _requests.RemoveAt(0);
                     }
                 }
             });
-            //}));
-            //thread.IsBackground = true;
-            //thread.SetApartmentState(ApartmentState.STA);
-            //thread.Start();
         }
 
         public void StartBitmapRequestProcessLoop()
