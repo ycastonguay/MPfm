@@ -33,10 +33,11 @@ namespace MPfm.GenericControls.Services
     public class WaveFormCacheService : IWaveFormCacheService
     {
         public const int TileSize = 50;
-#if ANDROID || MACOSX // parallelism will be added later for these platforms, not working well for now
+        public const int MaxNumberOfRequests = 20;
+#if ANDROID // parallelism will be added later for these platforms, not working well for now
         public const int MaximumNumberOfTasks = 1;
 #else
-        public const int MaximumNumberOfTasks = 1;
+        public const int MaximumNumberOfTasks = 2;
 #endif
         private readonly object _lockerRequests = new object();
         private readonly object _lockerTiles = new object();
@@ -235,6 +236,10 @@ namespace MPfm.GenericControls.Services
                     {
                         //Console.WriteLine("WaveFormCacheService - Adding bitmap request to queue - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoom, boundsBitmap, boundsWaveForm);
                         _requests.Add(request);
+
+                        // Remove the oldest request from the list if we hit the maximum 
+                        if(_requests.Count > MaxNumberOfRequests)
+                            _requests.RemoveAt(0);
                     }
                 }
             });
