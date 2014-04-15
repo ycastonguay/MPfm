@@ -156,7 +156,18 @@ namespace MPfm.GenericControls.Services
                 // b u g: there's sometimes more than one bitmap cache per offsetx/zoom!
                 // b u g : this doesn't return a bitmap that is available for the previous threshold
                 //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold / obj.Zoom)).ToList();
-                tiles = _tiles.Where(obj => obj.ContentOffset.X == x).ToList(); // already adjusted when called
+                //tiles = _tiles.Where(obj => obj.ContentOffset.X == x).ToList(); // already adjusted when called
+                tiles = _tiles.Where(obj => obj.ContentOffset.X == obj.GetAdjustedContentOffsetForZoom(x, TileSize, zoomThreshold)).ToList();
+
+                //double tileSize = 50.0;
+                //double x = tileSize * 5.0;
+                //double currentZoom = 5.0;
+                //double tileZoom = 1.0;
+                //double zoomDiff = currentZoom - tileZoom;
+                //double xAdj = x / zoomDiff;
+                //double xFloor = Math.Floor(xAdj / tileSize) * tileSize;
+                //Console.WriteLine("x: {0} zoomDiff: {1} xAdj: {2} xFloor: {3}", x, zoomDiff, xAdj, xFloor);
+
                 //tiles = _tiles.Where(obj => obj.ContentOffset.X == x * (zoomThreshold - obj.Zoom + 1)).ToList();
                 //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} zoom: {1} TILES FOUND: {2}", x, zoom, tiles.Count);
                 //Console.WriteLine("WaveFormCacheService - GetTile - x: {0} height: {1} waveFormWidth: {2} zoom: {3} TILES FOUND: {4}", x, height, waveFormWidth, zoom, tiles.Count);

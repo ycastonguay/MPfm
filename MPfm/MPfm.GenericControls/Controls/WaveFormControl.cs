@@ -385,8 +385,8 @@ namespace MPfm.GenericControls.Controls
                 float tileX = a * tileSize;
                 //float offsetX = startTile * tileSize;                    
                 float offsetX = 0; // remove this
-                var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom);
-                //Console.WriteLine("WaveFormControl - Drawing tile {0} tileX: {1} tile==null: {2} tile.Zoom: {3} Zoom: {4}", a, tileX, tile == null, tile != null ? tile.Zoom : 0, Zoom);
+                var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom); // maybe call all gettile in advance and then draw all bitmaps?
+                //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, Zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
                 if (tile != null)
                 {
                     if (tile.Zoom != Zoom)
@@ -402,7 +402,8 @@ namespace MPfm.GenericControls.Controls
                         // We might have to cut the bitmap a bit? 
 
                         float deltaZoom = Zoom / tile.Zoom;
-                        float x = (tileX - offsetX) * deltaZoom; //(1 / deltaZoom);
+                        //float x = (tileX - offsetX) * deltaZoom; //(1 / deltaZoom);
+                        float x = tile.ContentOffset.X * deltaZoom;
                         float tileWidth = tileSize * deltaZoom;
                         //float x = Zoom - tile.Zoom >= 0 ? (tileX - offsetX) * deltaZoom : (tileX - offsetX) * (1 / deltaZoom);
                         //float x = (tileX - offsetX);

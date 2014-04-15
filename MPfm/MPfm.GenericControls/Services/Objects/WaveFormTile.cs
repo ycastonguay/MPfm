@@ -26,6 +26,18 @@ namespace MPfm.GenericControls.Services.Objects
         public BasicPoint ContentOffset { get; set; }
         public float Zoom { get; set; }
 
+        public float GetAdjustedContentOffsetForZoom(float x, float tileSize, float zoom)
+        {
+            //double x = tileSize * 5.0;
+            //float zoomDiff = zoom - Zoom; // gives 0 for the same zoom... 
+            //float xAdj = x / zoomDiff;
+            float deltaZoom = zoom / Zoom;
+            float xAdj = x * (1 / deltaZoom); 
+            float xFloor = (float) (Math.Floor(xAdj / tileSize) * tileSize);
+            //Console.WriteLine("x: {0} zoomDiff: {1} xAdj: {2} xFloor: {3}", x, zoomDiff, xAdj, xFloor);
+            return xFloor;
+        }
+
         public WaveFormTile()
         {
             ContentOffset = new BasicPoint();
