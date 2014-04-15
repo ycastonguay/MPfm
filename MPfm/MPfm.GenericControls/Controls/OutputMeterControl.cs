@@ -26,7 +26,6 @@ namespace MPfm.GenericControls.Controls
 {
     public class OutputMeterControl : IControl
     {
-        private readonly object _locker = new object();
 		private List<WaveDataMinMax> _waveDataHistory;
         private BasicBrush _brushBackground;
         private BasicGradientBrush _brushBarLeft;
@@ -88,7 +87,17 @@ namespace MPfm.GenericControls.Controls
 			DisplayDecibels = true;
 			FontFace = "Roboto Condensed";
 			FontSize = 10;
+
+		    CreateDrawingResources();
 		}
+
+        private void CreateDrawingResources()
+        {
+            _brushBackground = new BasicBrush(ColorBackground);
+            _penTransparent = new BasicPen();
+            _pen0dBLine = new BasicPen(new BasicBrush(Color0dBLine), 1);
+            _penPeakLine = new BasicPen(new BasicBrush(ColorPeakLine), 1);
+        }
 
         /// <summary>
         /// Block of 10ms synchronized with timerelapsed on Player.
@@ -122,21 +131,9 @@ namespace MPfm.GenericControls.Controls
 
         public void Render(IGraphicsContext context)
         {
-            // Create the brushes and pens only once; since the output meter is rendered very often (i.e. every 20ms) this will optimize drawing 
-            lock (_locker)
-            {                
-                if (_brushBackground == null)
-                {
-                    _brushBackground = new BasicBrush(ColorBackground);
-                    _penTransparent = new BasicPen();
-                    _pen0dBLine = new BasicPen(new BasicBrush(Color0dBLine), 1);
-                    _penPeakLine = new BasicPen(new BasicBrush(ColorPeakLine), 1);
-
-                    // Note: creating the gradient brush in advance means the output meter cannot change size or the gradient won't fit the new control size
-                    _brushBarLeft = new BasicGradientBrush(ColorMeter1, ColorMeter2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight));
-                    _brushBarRight = new BasicGradientBrush(ColorMeterB1, ColorMeterB2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth/2, context.BoundsHeight));
-                }
-            }
+            // Note: creating the gradient brush in advance means the output meter cannot change size or the gradient won't fit the new control size
+            _brushBarLeft = new BasicGradientBrush(ColorMeter1, ColorMeter2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight));
+            _brushBarRight = new BasicGradientBrush(ColorMeterB1, ColorMeterB2, new BasicPoint(0, 0), new BasicPoint(context.BoundsWidth / 2, context.BoundsHeight));
 
             context.DrawRectangle(new BasicRectangle(0, 0, context.BoundsWidth, context.BoundsHeight), _brushBackground, _penTransparent);
 
