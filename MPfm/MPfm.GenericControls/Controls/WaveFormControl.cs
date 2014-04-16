@@ -344,61 +344,20 @@ namespace MPfm.GenericControls.Controls
             float delta = (float) (Zoom/Math.Floor(Zoom));
             int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * delta));
             int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);
-            //Console.WriteLine("WaveFormControl - startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
+            //Console.WriteLine("WaveFormControl - #### startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
+            //Console.WriteLine("WaveFormControl - #### startTile: {0}", startTile);
+            var tiles = _waveFormCacheService.GetTiles(startTile, startTile + numberOfTilesToFillWidth, tileSize, Frame, Zoom);
 
-            // Get list of tiles to draw
-            var tiles = new List<WaveFormTile>();
-            for (int a = startTile; a < startTile + numberOfTilesToFillWidth; a++)
-            {
-                float tileX = a * tileSize;
-                var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom);
-
-                if(tile != null)
-                    tiles.Add(tile);
-
-                //if (tile != null)
-                //{
-                //    bool tileAdded = false;
-                //    for (int b = 0; b < tiles.Count; b++)
-                //    {
-                //        if (tiles[b].Zoom == tile.Zoom)
-                //        {
-                //            if (tiles[b].ContentOffset.X >= tile.ContentOffset.X)
-                //            {
-                //                tileAdded = true;
-                //                tiles.Insert(b, tile);
-                //            }                            
-                //        }
-                //        else if (tiles[b].Zoom > tile.Zoom)
-                //        {
-                //            tileAdded = true;
-                //            tiles.Insert(b, tile);
-                //        }
-                //    }
-
-                //    // Add at the end of the list
-                //    if(!tileAdded)
-                //        tiles.Add(tile);
-                //}
-
-                //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, Zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
-                //else
-                //{
-                //    //Console.WriteLine("[!!!] Missing bitmap - tileX: {0}", tileX);
-                //    //context.DrawRectangle(new BasicRectangle(tileX - ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255)), penSeparator3);
-                //}
-            }
-
-            // Order tiles by zoom and then by content offset x; this makes sure that the tiles with the nearest zoom level get drawn on top of farther zoom levels
-            // maybe replace this linq query by inserting the tiles in the list in the right order (at tiles.Add(tile) just up from here)
-            // Also use Distinct to prevent drawing the same tile multiple times
-            var tilesOrdered = tiles.Distinct().OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
-            foreach (var tile in tilesOrdered)
+            foreach (var tile in tiles)
             {
                 float deltaZoom = Zoom / tile.Zoom;
                 float x = tile.ContentOffset.X * deltaZoom;
                 float tileWidth = tileSize * deltaZoom;
+                //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
+                //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
+                //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), _brushMarkerBackground, _penCursorLine);
+                //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
 
             // Calculate position
