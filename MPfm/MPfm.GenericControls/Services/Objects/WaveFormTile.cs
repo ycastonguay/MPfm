@@ -33,7 +33,7 @@ namespace MPfm.GenericControls.Services.Objects
         /// <param name="tileSize">Tile size</param>
         /// <param name="zoom">Zoom factor (mathes zoom for content offset x)</param>
         /// <returns>Adjusted content offset x</returns>
-        public float GetAdjustedContentOffsetForZoom(float x, float tileSize, float zoom)
+        public float GetAdjustedContentOffsetForZoom(float x, int tileSize, float zoom)
         {
             // Adjust the content offset x so we take the tile that covers the area in a different zoom factor.
             // i.e. if we request a tile at position 100 for zoom 300%, and only a tile at zoom 100% is available, this means we need to use the tile at content offset x == 0.
@@ -41,6 +41,18 @@ namespace MPfm.GenericControls.Services.Objects
             float xAdj = zoom > Zoom ? x * (1 / deltaZoom) : x * deltaZoom; 
             float xFloor = (float) (Math.Floor(xAdj / tileSize) * tileSize);
             return xFloor;
+        }
+
+        public bool CheckIfTileIsInBounds(int tileSize, float zoom, BasicRectangle bounds)
+        {
+            float deltaZoom = zoom / Zoom;
+            float tileWidth = tileSize*deltaZoom;
+            //float offsetX = GetAdjustedContentOffsetForZoom(x, tileSize, zoom);
+            //float offsetX = x;
+            float offsetX = ContentOffset.X*deltaZoom;
+            //Console.WriteLine("WaveFormTile - CheckIfTileIsInBounds - offsetX: {0} tileWidth: {1} tileZoom: {2} bounds: {3} zoom: {4}", offsetX, tileWidth, Zoom, bounds, zoom);
+            //return offsetX >= bounds.X && offsetX + tileWidth <= bounds.X + bounds.Width;
+            return offsetX <= bounds.X && offsetX + tileWidth >= bounds.X + bounds.Width;
         }
 
         public WaveFormTile()
