@@ -137,10 +137,9 @@ namespace MPfm.GenericControls.Services
 
         public List<WaveFormTile> GetTiles(int startTile, int endTile, int tileSize, BasicRectangle boundsWaveForm, float zoom)
         {
-            float zoomThreshold = (float)Math.Floor(zoom);
-            //var boundsWaveForm = new BasicRectangle(0, 0, boundsWaveForm.Width * zoomThreshold, boundsWaveForm.Height);
-
             float coveredAreaX = 0;
+            float zoomThreshold = (float)Math.Floor(zoom);
+            var boundsWaveFormAdjusted = new BasicRectangle(0, 0, boundsWaveForm.Width * zoomThreshold, boundsWaveForm.Height);
             var tiles = new List<WaveFormTile>();
             //List<WaveFormTile> previouslyAvailableTiles = new List<WaveFormTile>();
             for (int a = startTile; a < endTile; a++)
@@ -163,14 +162,14 @@ namespace MPfm.GenericControls.Services
                     if (tile.Zoom != zoomThreshold)
                     {
                         //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
-                        AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
+                        AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold);
                     }
                 }
                 else
                 {
                     // We need to request a new bitmap at this zoom threshold because there are no bitmaps available (usually zoom @ 100%)
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap - zoom: {0} boundsBitmap: {1} boundsWaveForm: {2}", zoomThreshold, boundsBitmap, boundsWaveForm);
-                    AddBitmapRequestToList(boundsBitmap, boundsWaveForm, zoomThreshold);
+                    AddBitmapRequestToList(boundsBitmap, boundsWaveFormAdjusted, zoomThreshold);
                 }
 
                 //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
@@ -181,50 +180,50 @@ namespace MPfm.GenericControls.Services
                     float currentTileX = tile.ContentOffset.X*currentTileDeltaZoom;
                     float currentTileWidth = tileSize*currentTileDeltaZoom;
 
-                    // Check if the new tile leaves an empty area behind
-                    if (coveredAreaX < tile.ContentOffset.X)
-                    {
-                        //Console.WriteLine("[...] WaveFormCacheService - GetTiles - An empty area has been found - coveredAreaX: {0} tile.ContentOffset.X: {1}", coveredAreaX, currentTileX);
-                        //var tilesToFillEmptyArea = GetAvailableTilesToFillBounds(tileX, zoom, new BasicRectangle(coveredAreaX, 0, tile.ContentOffset.X - coveredAreaX, boundsWaveForm.Height));
-                        var tilesToFillEmptyArea = GetAvailableTilesToFillBounds(zoom, new BasicRectangle(coveredAreaX, 0, tile.ContentOffset.X - coveredAreaX, boundsWaveForm.Height));
-                        //Console.WriteLine("[...] $$$$$$$$$$$$ WaveFormCacheService - GetTiles - tilesToFillEmptyArea.Count: {0}", tilesToFillEmptyArea.Count);
-                        //foreach (var daTile in tilesToFillEmptyArea)
-                        //    Console.WriteLine("        .....>>>>>> tile.ContentOffset.X: {0} tile.Zoom: {1}", daTile.ContentOffset.X, daTile.Zoom);    
+                    //// Check if the new tile leaves an empty area behind
+                    //if (coveredAreaX < tile.ContentOffset.X)
+                    //{
+                    //    //Console.WriteLine("[...] WaveFormCacheService - GetTiles - An empty area has been found - coveredAreaX: {0} tile.ContentOffset.X: {1}", coveredAreaX, currentTileX);
+                    //    //var tilesToFillEmptyArea = GetAvailableTilesToFillBounds(tileX, zoom, new BasicRectangle(coveredAreaX, 0, tile.ContentOffset.X - coveredAreaX, boundsWaveForm.Height));
+                    //    var tilesToFillEmptyArea = GetAvailableTilesToFillBounds(zoom, new BasicRectangle(coveredAreaX, 0, tile.ContentOffset.X - coveredAreaX, boundsWaveForm.Height));
+                    //    //Console.WriteLine("[...] $$$$$$$$$$$$ WaveFormCacheService - GetTiles - tilesToFillEmptyArea.Count: {0}", tilesToFillEmptyArea.Count);
+                    //    //foreach (var daTile in tilesToFillEmptyArea)
+                    //    //    Console.WriteLine("        .....>>>>>> tile.ContentOffset.X: {0} tile.Zoom: {1}", daTile.ContentOffset.X, daTile.Zoom);    
 
-                        // Go through previously available tiles to find a tile to cover the empty area.
-                        // This should return at least one tile (there should always be one around at zoom=100% except for the initial loading)
-                        WaveFormTile tileToCoverEmptyArea = null;
-                        //foreach (var previouslyAvailableTile in previouslyAvailableTiles)
-                        //{
-                        //    float previousTileDeltaZoom = zoom/previouslyAvailableTile.Zoom;
-                        //    float previousTileX = previouslyAvailableTile.ContentOffset.X * previousTileDeltaZoom;
-                        //    float previousTileWidth = tileSize * previousTileDeltaZoom;
-                        //    if (previousTileX < coveredAreaX &&
-                        //        previousTileX + previousTileWidth >= currentTileX)
-                        //    {
-                        //        tileToCoverEmptyArea = previouslyAvailableTile;
-                        //        Console.WriteLine("[...] !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WaveFormCacheService - GetTiles - ==> A tile has been found to cover the empty area - tileToCover.ContentOffset.X: {0} tileWidth: {1} tile.Zoom: {2}", previousTileX, previousTileWidth, tileToCoverEmptyArea.Zoom);
-                        //        break;
-                        //    }
-                        //}
+                    //    // Go through previously available tiles to find a tile to cover the empty area.
+                    //    // This should return at least one tile (there should always be one around at zoom=100% except for the initial loading)
+                    //    WaveFormTile tileToCoverEmptyArea = null;
+                    //    //foreach (var previouslyAvailableTile in previouslyAvailableTiles)
+                    //    //{
+                    //    //    float previousTileDeltaZoom = zoom/previouslyAvailableTile.Zoom;
+                    //    //    float previousTileX = previouslyAvailableTile.ContentOffset.X * previousTileDeltaZoom;
+                    //    //    float previousTileWidth = tileSize * previousTileDeltaZoom;
+                    //    //    if (previousTileX < coveredAreaX &&
+                    //    //        previousTileX + previousTileWidth >= currentTileX)
+                    //    //    {
+                    //    //        tileToCoverEmptyArea = previouslyAvailableTile;
+                    //    //        Console.WriteLine("[...] !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WaveFormCacheService - GetTiles - ==> A tile has been found to cover the empty area - tileToCover.ContentOffset.X: {0} tileWidth: {1} tile.Zoom: {2}", previousTileX, previousTileWidth, tileToCoverEmptyArea.Zoom);
+                    //    //        break;
+                    //    //    }
+                    //    //}
 
-                        //tileToCoverEmptyArea = tilesToFillEmptyArea.OrderByDescending(x => x.Zoom).FirstOrDefault();
-                        tileToCoverEmptyArea = tilesToFillEmptyArea.FirstOrDefault(x => x.Zoom == 1);
+                    //    //tileToCoverEmptyArea = tilesToFillEmptyArea.OrderByDescending(x => x.Zoom).FirstOrDefault();
+                    //    tileToCoverEmptyArea = tilesToFillEmptyArea.FirstOrDefault(x => x.Zoom == 1);
 
-                        // We found a tile to cover the area. If not, this should be only when refreshing the wave form for the first time @ 100%
-                        if (tileToCoverEmptyArea != null)
-                        {
-                            Console.WriteLine("---> Adding tile to fill empty - tile.X: {0} tile.Zoom: {1} -- {2}", tileToCoverEmptyArea.ContentOffset.X, tileToCoverEmptyArea.Zoom, DateTime.Now);
-                            tiles.Add(tileToCoverEmptyArea);
-                        }
-                        else
-                        {
-                            // The problem is that there are sometimes a tile could not be found the previous list... is that really a good source of info?
-                            // maybe try the previous list and if not, fall back to the 100% zoom.
-                            // or actually make a linq query similar to the one with adjusted content offset x.
-                            Console.WriteLine("[!!!] WARNING: WaveFormCacheService - GetTiles - An empty area could not be filled by a tile!");
-                        }
-                    }
+                    //    // We found a tile to cover the area. If not, this should be only when refreshing the wave form for the first time @ 100%
+                    //    if (tileToCoverEmptyArea != null)
+                    //    {
+                    //        Console.WriteLine("---> Adding tile to fill empty - tile.X: {0} tile.Zoom: {1} -- {2}", tileToCoverEmptyArea.ContentOffset.X, tileToCoverEmptyArea.Zoom, DateTime.Now);
+                    //        tiles.Add(tileToCoverEmptyArea);
+                    //    }
+                    //    else
+                    //    {
+                    //        // The problem is that there are sometimes a tile could not be found the previous list... is that really a good source of info?
+                    //        // maybe try the previous list and if not, fall back to the 100% zoom.
+                    //        // or actually make a linq query similar to the one with adjusted content offset x.
+                    //        Console.WriteLine("[!!!] WARNING: WaveFormCacheService - GetTiles - An empty area could not be filled by a tile!");
+                    //    }
+                    //}
 
                     // Update the covered area position after trying to fill any empty areas left behind
                     // Note: There are still empty areas, this might not be the best way to make sure areas are all filled... 
@@ -241,6 +240,7 @@ namespace MPfm.GenericControls.Services
             // Order tiles by zoom and then by content offset x; this makes sure that the tiles with the nearest zoom level get drawn on top of farther zoom levels
             // maybe replace this linq query by inserting the tiles in the list in the right order (at tiles.Add(tile) just up from here)
             // Also use Distinct to prevent drawing the same tile multiple times
+            // B U G: This might crash if a tile is removed from the list....
             var tilesOrdered = tiles.Distinct().OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
             return tilesOrdered;
         }
