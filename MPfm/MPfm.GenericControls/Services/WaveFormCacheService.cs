@@ -135,6 +135,27 @@ namespace MPfm.GenericControls.Services
             _waveFormRenderingService.LoadPeakFile(audioFile);
         }
 
+        public List<WaveFormTile> GetTiles(int startTile, int endTile, int tileSize, BasicRectangle boundsWaveForm, float zoom)
+        {
+            float coveredAreaX = 0;
+            var tiles = new List<WaveFormTile>();
+            for (int a = startTile; a < endTile; a++)
+            {
+                float tileX = a*tileSize;
+                var tile = GetTile(tileX, boundsWaveForm.Height, boundsWaveForm.Width, zoom);
+
+                //Console.WriteLine("WaveFormCacheService - GetTiles - tile {0} x: {1} Zoom: {2} // tileFound: {3} tile.X: {4} tile.Zoom: {5}", a, tileX, zoom, tile == null, tile != null ? tile.ContentOffset.X : -1, tile != null ? tile.Zoom : -1);
+                if (tile != null)
+                    tiles.Add(tile);
+            }
+
+            // Order tiles by zoom and then by content offset x; this makes sure that the tiles with the nearest zoom level get drawn on top of farther zoom levels
+            // maybe replace this linq query by inserting the tiles in the list in the right order (at tiles.Add(tile) just up from here)
+            // Also use Distinct to prevent drawing the same tile multiple times
+            var tilesOrdered = tiles.Distinct().OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
+            return tilesOrdered;
+        }
+
         public WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom)
         {
             //var stopwatch = new Stopwatch();
@@ -154,35 +175,10 @@ namespace MPfm.GenericControls.Services
 
             if (tiles != null && tiles.Count > 0)
             {
-                // Check which bitmap to use for zoom
-                if (tiles.Count == 1)
-                {
-                    tile = tiles[0];
-                }
-                else if (tiles.Count > 1)
-                {
-                    // We don't want to scale down bitmaps, it is more CPU intensive than scaling up
-                    var orderedTiles = tiles.OrderBy(obj => obj.Zoom).ToList();
-                    tile = orderedTiles.Count > 0 ? orderedTiles[0] : null;
-                    foreach (var thisTile in orderedTiles)
-                    {
-                        if (thisTile.Zoom <= zoomThreshold)
-                        {
-                            if (tile != null && thisTile.Zoom > tile.Zoom || tile == null)
-                            {
-                                tile = thisTile;
-                            }
-                        }
-                    }
+                // Get the tile with the zoom that is the closest to the current zoom threshold 
+                tile = GetOptimalTileAtZoom(tiles, zoomThreshold);
 
-                    // If we still haven't found a tile, take the first one (probably useless).
-                    if (tile == null)
-                        tile = orderedTiles[0];
-
-                    //Console.WriteLine("WaveFormCacheService - GetTile - Finding the right tile in cache; tile.Zoom: {0} -- x: {1} zoom: {2}", tile.Zoom, x, zoom);
-                }
-
-                // Do we need to request a bitmap with a zoom that's more appropriate to the current zoom level?
+                // If we could not find a tile at this zoom level, we need to generate one 
                 if (tile.Zoom != zoomThreshold)
                 {
                     //Console.WriteLine("WaveFormCacheService - Requesting a new bitmap (zoom doesn't match) - zoom: {0} tile.Zoom: {1} boundsBitmap: {2} boundsWaveForm: {3}", zoom, tile.Zoom, boundsBitmap, boundsWaveForm);
@@ -243,6 +239,25 @@ namespace MPfm.GenericControls.Services
                     }
                 }
             });
+        }
+
+        private WaveFormTile GetOptimalTileAtZoom(IEnumerable<WaveFormTile> tiles, float zoom)
+        {
+            // We don't want to scale down bitmaps, it is more CPU intensive than scaling up
+            var orderedTiles = tiles.OrderBy(obj => obj.Zoom).ToList();
+            var tile = orderedTiles.Count > 0 ? orderedTiles[0] : null;
+            foreach (var thisTile in orderedTiles)
+            {
+                if (thisTile.Zoom <= zoom)
+                {
+                    //if (tile != null && thisTile.Zoom > tile.Zoom || tile == null)
+                    if (thisTile.Zoom > tile.Zoom)
+                    {
+                        tile = thisTile;
+                    }
+                }
+            }
+            return tile;
         }
 
         public void StartBitmapRequestProcessLoop()
