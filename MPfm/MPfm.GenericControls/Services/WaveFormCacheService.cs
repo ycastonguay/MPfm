@@ -152,8 +152,8 @@ namespace MPfm.GenericControls.Services
                 {
                     // TEMP: Add every tile for zoom == 100% (TESTING) -- This fixes the empty areas and proves the coveredAreaX technique doesn't work.
                     var tileLowRes = availableTiles.FirstOrDefault(x => x.Zoom == 1);
-                    //if(!tiles.Contains(tileLowRes))
-                    tiles.Add(tileLowRes);
+                    if(tileLowRes != null && !tiles.Contains(tileLowRes))
+                        tiles.Add(tileLowRes);
 
                     // Get the tile with the zoom that is the closest to the current zoom threshold 
                     tile = GetOptimalTileAtZoom(availableTiles, zoomThreshold);
@@ -233,7 +233,8 @@ namespace MPfm.GenericControls.Services
                     //previouslyAvailableTiles = availableTiles;
 
                     // Add tile to list of tiles to draw (TO DO: Check for existing tiles with the same zoom + offset
-                    tiles.Add(tile);
+                    if(!tiles.Contains(tile))
+                        tiles.Add(tile);
                 }
             }
 
@@ -241,7 +242,7 @@ namespace MPfm.GenericControls.Services
             // maybe replace this linq query by inserting the tiles in the list in the right order (at tiles.Add(tile) just up from here)
             // Also use Distinct to prevent drawing the same tile multiple times
             // B U G: This might crash if a tile is removed from the list....
-            var tilesOrdered = tiles.Distinct().OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
+            var tilesOrdered = tiles.OrderBy(obj => obj.Zoom).ThenBy(obj => obj.ContentOffset.X).ToList();
             return tilesOrdered;
         }
 
