@@ -26,6 +26,7 @@ using MPfm.GenericControls.Interaction;
 using MPfm.GenericControls.Services;
 using MPfm.GenericControls.Services.Events;
 using MPfm.GenericControls.Services.Interfaces;
+using MPfm.GenericControls.Services.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
@@ -88,8 +89,13 @@ namespace MPfm.GenericControls.Controls
                 if (IsLoading)// || _imageCache == null)
                     return;
 
+                // Calculate position
+                float positionPercentage = (float)_position / (float)Length;
+                var cursorX = (positionPercentage * ContentSize.Width) - ContentOffset.X;
+
                 // Invalidate cursor
-                var rectCursor = new BasicRectangle(_cursorX - 5, 0, 10, Frame.Height);
+                float zoomAdjustment = Math.Max(1, Zoom/4);
+                var rectCursor = new BasicRectangle(cursorX - (5 * zoomAdjustment), 0, 10 * zoomAdjustment, Frame.Height);
                 OnInvalidateVisualInRect(rectCursor);
             }
         }
@@ -109,9 +115,12 @@ namespace MPfm.GenericControls.Controls
                 if (IsLoading)
                     return;
 
-                // Invalidate cursor. TODO: When the cursor is moving quickly, it dispappears because of the invalidation.
-                //                          Maybe the cursor shouldn't be rendered, but instead be a simple rect over this control?
-                var rectCursor = new BasicRectangle(_secondaryCursorX - 25, 0, 50, Frame.Height);
+                float secondaryPositionPercentage = (float)_secondaryPosition / (float)Length;                
+                float secondaryCursorX = (secondaryPositionPercentage * ContentSize.Width) - ContentOffset.X;
+                secondaryCursorX = (float)Math.Round(secondaryCursorX * 2) / 2; // Round to 0.5
+
+                float zoomAdjustment = Math.Max(1, Zoom / 4);
+                var rectCursor = new BasicRectangle(secondaryCursorX - (5 * zoomAdjustment), 0, 25 * zoomAdjustment, Frame.Height);
                 OnInvalidateVisualInRect(rectCursor);
             }
         }
@@ -174,15 +183,10 @@ namespace MPfm.GenericControls.Controls
 
         private void Initialize()
         {
+            DisplayType = WaveFormDisplayType.Stereo;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
             OnChangePosition += (position) => { };
-			FontSize = 12;
-			FontFace = "Roboto Light";
-			LetterFontSize = 10;
-			LetterFontFace = "Roboto";
-            Frame = new BasicRectangle();
-            DisplayType = WaveFormDisplayType.Stereo;
 
             _waveFormCacheService = Bootstrapper.GetContainer().Resolve<IWaveFormCacheService>();
             _waveFormCacheService.GeneratePeakFileBegunEvent += HandleGeneratePeakFileBegunEvent;
@@ -190,6 +194,25 @@ namespace MPfm.GenericControls.Controls
             _waveFormCacheService.GeneratePeakFileEndedEvent += HandleGeneratePeakFileEndedEvent;
             _waveFormCacheService.LoadedPeakFileSuccessfullyEvent += HandleLoadedPeakFileSuccessfullyEvent;
             _waveFormCacheService.GenerateWaveFormBitmapEndedEvent += HandleGenerateWaveFormEndedEvent;
+
+            CreateDrawingResources();
+        }
+
+        private void CreateDrawingResources()
+        {
+            FontSize = 12;
+            FontFace = "Roboto Light";
+            LetterFontSize = 10;
+            LetterFontFace = "Roboto";
+            Frame = new BasicRectangle();
+
+            _penTransparent = new BasicPen();
+            _penCursorLine = new BasicPen(new BasicBrush(_cursorColor), 1);
+            _penSecondaryCursorLine = new BasicPen(new BasicBrush(_secondaryCursorColor), 1);
+            _penMarkerLine = new BasicPen(new BasicBrush(_markerCursorColor), 1);
+            _penSelectedMarkerLine = new BasicPen(new BasicBrush(_markerSelectedCursorColor), 1);
+            _brushMarkerBackground = new BasicBrush(_markerCursorColor);
+            _brushSelectedMarkerBackground = new BasicBrush(_markerSelectedCursorColor);
         }
 
         private void HandleGeneratePeakFileBegunEvent(object sender, GeneratePeakFileEventArgs e)
@@ -230,15 +253,12 @@ namespace MPfm.GenericControls.Controls
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
-            // Make sure the control isn't drawing when switching bitmaps
-            //lock (_locker)
-            //{
-            //    //IsLoading = false;
-            //}
-
             //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
+            float deltaZoom = Zoom / e.Zoom;
             //OnInvalidateVisual();
-            OnInvalidateVisualInRect(new BasicRectangle(e.OffsetX, 0, e.Width, Frame.Height));
+            float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
+            OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));
+            //OnInvalidateVisualInRect(new BasicRectangle(e.OffsetX, 0, e.Width, Frame.Height));
         }
 
         public void SetActiveMarker(Guid markerId)
@@ -319,103 +339,26 @@ namespace MPfm.GenericControls.Controls
 
         private void DrawWaveFormBitmap(IGraphicsContext context)
         {          
-            // Make sure that the bitmap doesn't change during drawing because a bitmap size mismatch can crash the app
-            lock (_locker)
-            {
-                if (_penCursorLine == null)
-                {
-                    _penTransparent = new BasicPen();
-                    _penCursorLine = new BasicPen(new BasicBrush(_cursorColor), 1);
-                    _penSecondaryCursorLine = new BasicPen(new BasicBrush(_secondaryCursorColor), 1);
-                    _penMarkerLine = new BasicPen(new BasicBrush(_markerCursorColor), 1);
-                    _penSelectedMarkerLine = new BasicPen(new BasicBrush(_markerSelectedCursorColor), 1);
-                    _brushMarkerBackground = new BasicBrush(_markerCursorColor);
-                    _brushSelectedMarkerBackground = new BasicBrush(_markerSelectedCursorColor);
-                }
-
-                //// Draw bitmap cache
-                ////Console.WriteLine("WaveFormControl - DrawBitmap - Frame.width: {0} Frame.height: {1}", Frame.Width, Frame.Height);
-                //BasicRectangle rectImage;
-                //if (Zoom != _imageCacheZoom)
-                //{
-                //    float deltaZoom = Zoom / _imageCacheZoom;
-                //    //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom != _imageCacheZoom - Zoom: {0} _imageCacheZoom: {1} deltaZoom: {2}", Zoom, _imageCacheZoom, deltaZoom);
-                //    rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
-                //    //rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
-                //    //rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, _imageCache.Item2 * _density * (1 / deltaZoom), Frame.Height * _density);
-                //}
-                //else
-                //{
-                //    //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom == _imageCacheZoom");
-                //    rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
-                //    //rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, _imageCache.Item2 * _density, Frame.Height * _density);
-                //}
-
-                //// Sometimes the control needs to be drawn but the image size in cache does not match the size of the new control, even though we're using thread locking (only on WPF)
-                //context.DrawImage(Frame, rectImage, _imageCache);
-
-                BasicPen penSeparator = new BasicPen(new BasicBrush(new BasicColor(255, 0, 0)), 1);
-                BasicPen penSeparator2 = new BasicPen(new BasicBrush(new BasicColor(0, 0, 255)), 1);
-                BasicPen penSeparator3 = new BasicPen(new BasicBrush(new BasicColor(255, 50, 255)), 1);
-                int tileSize = WaveFormCacheService.TileSize;
-                float delta = (float) (Zoom/Math.Floor(Zoom));
-                int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * delta));
-                int numberOfTilesToFillWidth = (int) Math.Ceiling(Frame.Width/tileSize);
-                //Console.WriteLine(">>>>>>>>>>> startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
-                for (int a = startTile; a < startTile + numberOfTilesToFillWidth; a++)
-                {
-                    float tileX = a * tileSize;
-                    //float offsetX = startTile * tileSize;                    
-                    float offsetX = 0; // remove this
-                    var tile = _waveFormCacheService.GetTile(tileX, Frame.Height, Frame.Width, Zoom);
-                    if (tile != null)
-                    {
-                        //Console.WriteLine("WaveFormControl - Drawing tile {0} x: {1} offsetX: {2} startTile: {3}", a, x, offsetX, startTile);
-                        if (tile.Zoom != Zoom)
-                        {
-                            //    float deltaZoom = Zoom / _imageCacheZoom;
-                            //    //Console.WriteLine("WaveFormControl - DrawBitmap - Zoom != _imageCacheZoom - Zoom: {0} _imageCacheZoom: {1} deltaZoom: {2}", Zoom, _imageCacheZoom, deltaZoom);
-                            //    rectImage = new BasicRectangle(ContentOffset.X * (_density * (1 / deltaZoom)), 0, Frame.Width * _density * (1 / deltaZoom), Frame.Height * _density);
-
-
-                            // The tile received for this position doesn't match the current zoom.
-                            // tileX is the perfect position for a tile. if the tile zoom doesn't match, this means the original tile x isn't right anymore.
-                            // can we have overlaps? when stretching a bitmap
-                            // We might have to cut the bitmap a bit? 
-
-                            float deltaZoom = Zoom / tile.Zoom;
-                            float x = (tileX - offsetX) * deltaZoom; //(1 / deltaZoom);
-                            //float x = Zoom - tile.Zoom >= 0 ? (tileX - offsetX) * deltaZoom : (tileX - offsetX) * (1 / deltaZoom);
-                            //float x = (tileX - offsetX);
-                            //context.DrawImage(new BasicRectangle(x, 0, tileSize, Frame.Height), tile.Image);
-                            context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileSize * deltaZoom, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
-                            //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);
-                            //context.DrawLine(new BasicPoint(x + (tileSize * deltaZoom) - 1, 0), new BasicPoint(x + (tileSize * deltaZoom) - 1, Frame.Height), penSeparator3);
-                        }
-                        else
-                        {
-                            //    rectImage = new BasicRectangle((ContentOffset.X * Zoom) * (_density * (1 / Zoom)), 0, Frame.Width * _density, Frame.Height * _density);
-                            //context.DrawImage(new BasicRectangle(x - offsetX, 0, tileSize, Frame.Height), tile.Image)
-
-                            // The tile zoom level fits the current zoom level; no stretching needed
-                            float x = tileX - offsetX;
-                            context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileSize, Frame.Height), tile.Image);
-                            //context.DrawLine(new BasicPoint(x - ContentOffset.X, 0), new BasicPoint(x - ContentOffset.X, Frame.Height), penSeparator2);
-                            //context.DrawLine(new BasicPoint(x + tileSize - 1, 0), new BasicPoint(x + tileSize - 1, Frame.Height), penSeparator3);
-                        }
-
-                        //context.DrawLine(new BasicPoint(tileX - ContentOffset.X, 0), new BasicPoint(tileX - ContentOffset.X, Frame.Height), penSeparator);
-                    }
-                    else
-                    {
-                        //Console.WriteLine("[!!!] Missing bitmap - tileX: {0}", tileX);
-                        //context.DrawRectangle(new BasicRectangle(tileX - ContentOffset.X, 0, tileSize, Frame.Height), new BasicBrush(new BasicColor(0, 0, 255)), penSeparator3);
-                    }
-                }
-            }
-
-            //Console.WriteLine("WaveFormControl - DrawWaveFormBitmap");
             int heightAvailable = (int)Frame.Height;
+            int tileSize = WaveFormCacheService.TileSize;
+            float delta = (float) (Zoom/Math.Floor(Zoom));
+            int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * delta));
+            int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);
+            //Console.WriteLine("WaveFormControl - #### startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
+            //Console.WriteLine("WaveFormControl - #### startTile: {0}", startTile);
+            var tiles = _waveFormCacheService.GetTiles(startTile, startTile + numberOfTilesToFillWidth, tileSize, Frame, Zoom);
+
+            foreach (var tile in tiles)
+            {
+                float deltaZoom = Zoom / tile.Zoom;
+                float x = tile.ContentOffset.X * deltaZoom;
+                float tileWidth = tileSize * deltaZoom;
+                //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
+                //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
+                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
+                //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), _brushMarkerBackground, _penCursorLine);
+                //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
+            }
 
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;

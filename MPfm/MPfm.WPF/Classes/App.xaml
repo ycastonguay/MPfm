@@ -6,6 +6,7 @@
     <Application.Resources>        
         <SolidColorBrush x:Key="BrushBackgroundColor" Color="#FF20282E" />
         <SolidColorBrush x:Key="BrushHeaderBackgroundColor" Color="#FF455865" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Style TargetType="Button">
             <!--Set to true to not get any properties from the themes.-->
             <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -182,7 +183,7 @@
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ColorAnimation Duration="0" To="#FFE74C3C" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
+                                            <ColorAnimation Duration="0" To="#FF693E3A" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="borderButton" />
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>

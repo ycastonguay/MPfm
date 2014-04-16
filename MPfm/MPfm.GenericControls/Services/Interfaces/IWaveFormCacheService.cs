@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+using MPfm.GenericControls.Basics;
+using MPfm.GenericControls.Services.Objects;
 using MPfm.Sound.AudioFiles;
 
 namespace MPfm.GenericControls.Services.Interfaces
@@ -31,6 +34,7 @@ namespace MPfm.GenericControls.Services.Interfaces
 
         void FlushCache();
         void LoadPeakFile(AudioFile audioFile);
-        WaveFormCacheService.WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom);
+        WaveFormTile GetTile(float x, float height, float waveFormWidth, float zoom);
+        List<WaveFormTile> GetTiles(int startTile, int endTile, int tileSize, BasicRectangle boundsWaveForm, float zoom);
     }
 }

@@ -29,7 +29,6 @@ namespace MPfm.GenericControls.Controls
     /// </summary>
     public class FaderControl : IControl, IControlMouseInteraction
     {
-        private readonly object _locker = new object();
         private BasicBrush _brushBackground;
         private BasicBrush _brushFaderShadowColor;
         private BasicBrush _brushFaderColor2;
@@ -111,6 +110,20 @@ namespace MPfm.GenericControls.Controls
             StepSize = 1;
             OnInvalidateVisual += () => { };
             OnInvalidateVisualInRect += (rect) => { };
+
+            CreateDrawingResources();
+        }
+
+        private void CreateDrawingResources()
+        {
+            _penTransparent = new BasicPen();
+            _penMiddleLineColor = new BasicPen(new BasicBrush(_faderMiddleLineColor), 1);
+            _brushBackground = new BasicBrush(_backgroundColor);
+            _brushFaderShadowColor = new BasicBrush(_faderShadowColor);
+            _brushFaderGradient = new BasicGradientBrush(_faderColor1, _faderColor2, 90);
+            _brushFaderColor2 = new BasicBrush(_faderColor2);
+            _brushFaderShadowColor1 = new BasicBrush(_faderShadowColor1);
+            _brushFaderShadowGradient = new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90);
         }
 
         public void MouseDown(float x, float y, MouseButtonType button, KeysHeld keysHeld)
@@ -248,31 +261,15 @@ namespace MPfm.GenericControls.Controls
         public void MouseWheel(float delta)
         {
             int newValue = (int)(Value + (delta * 2));
-            if(newValue < 0)
-                newValue = 0;
-            else if(newValue > 100)
-                newValue = 100;
+            if(newValue < Minimum)
+                newValue = Minimum;
+            else if(newValue > Maximum)
+                newValue = Maximum;
             Value = newValue;
         }
 
         public void Render(IGraphicsContext context)
         {
-            lock (_locker)
-            {
-                if (_penTransparent == null)
-                {
-                    // TODO: Reduce the number of brushes
-                    _penTransparent = new BasicPen();
-                    _penMiddleLineColor = new BasicPen(new BasicBrush(_faderMiddleLineColor), 1);
-                    _brushBackground = new BasicBrush(_backgroundColor);
-                    _brushFaderShadowColor = new BasicBrush(_faderShadowColor);
-                    _brushFaderGradient = new BasicGradientBrush(_faderColor1, _faderColor2, 90);
-                    _brushFaderColor2 = new BasicBrush(_faderColor2);
-                    _brushFaderShadowColor1 = new BasicBrush(_faderShadowColor1);
-                    _brushFaderShadowGradient = new BasicGradientBrush(_faderShadowColor1, _faderShadowColor2, 90);
-                }
-            }
-
             // Value range is the size between max and min track bar value.
             // Ex: Min = 50, Max = 150. Value range = 100 + 1 (because we include 50 and 100)
             _valueRange = (Maximum - Minimum) + 1;

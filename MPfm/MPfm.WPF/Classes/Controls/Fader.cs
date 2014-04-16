@@ -50,7 +50,7 @@ namespace MPfm.WPF.Classes.Controls
             _control.OnFaderValueChanged += (sender, args) =>
             {
                 if (OnFaderValueChanged != null)
-                    OnFaderValueChanged(sender, args);
+                    OnFaderValueChanged(this, args);
             };
             _control.OnInvalidateVisual += () => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(InvalidateVisual));
             _control.OnInvalidateVisualInRect += (rect) => Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
@@ -84,6 +84,15 @@ namespace MPfm.WPF.Classes.Controls
         {
             GenericControlHelper.MouseMove(e, this, _control);
             base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+                _control.MouseWheel(2);
+            else if (e.Delta < 0)
+                _control.MouseWheel(-2);
+            base.OnMouseWheel(e);
         }
     }
 }
