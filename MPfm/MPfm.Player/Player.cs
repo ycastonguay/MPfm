@@ -1618,7 +1618,7 @@ namespace MPfm.Player
         /// </summary>
         public void ApplyEQPreset(EQPreset preset)
         {
-            Console.WriteLine("Player - ApplyEQPreset name: {0}", preset.Name);
+            //Console.WriteLine("Player - ApplyEQPreset name: {0}", preset.Name);
             BASS_BFX_PEAKEQ eq = new BASS_BFX_PEAKEQ();
             _currentEQPreset = preset;
             if (_isEQBypassed)
@@ -1627,13 +1627,13 @@ namespace MPfm.Player
             if(!_isPlaying)
                 return;
 
-            Console.WriteLine("Player - ApplyEQPreset - Removing BPM callbacks...");
+            //Console.WriteLine("Player - ApplyEQPreset - Removing BPM callbacks...");
             RemoveBPMCallbacks();
 
-            Console.WriteLine("Player - ApplyEQPreset - Looping through bands");
+            //Console.WriteLine("Player - ApplyEQPreset - Looping through bands");
             for (int a = 0; a < _currentEQPreset.Bands.Count; a++)
             {
-                Console.WriteLine("Player - ApplyEQPreset name: {0} - Applying band {1}", preset.Name, a);
+                //Console.WriteLine("Player - ApplyEQPreset name: {0} - Applying band {1}", preset.Name, a);
                 EQPresetBand currentBand = _currentEQPreset.Bands[a];
                 eq.lBand = a;
                 eq.lChannel = BASSFXChan.BASS_BFX_CHANALL;
@@ -1646,7 +1646,7 @@ namespace MPfm.Player
                     Base.CheckForError();
             }
 
-            Console.WriteLine("Player - ApplyEQPreset - Readding BPM callbacks...");
+            //Console.WriteLine("Player - ApplyEQPreset - Readding BPM callbacks...");
             AddBPMCallbacks();
         }
 

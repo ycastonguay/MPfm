@@ -58,11 +58,17 @@ namespace MPfm.Mac
         {
             base.WindowDidLoad();
             LoadFontsAndImages();
-            OnViewReady.Invoke(this);
+            OnViewReady(this);
         }
 
         private void LoadFontsAndImages()
         {
+            //viewBackgroundInformation.IsEnabled = false;
+            //viewBackgroundFaders.IsEnabled = false;
+
+            viewBackgroundPreset.HeaderHeight = 22;
+            viewBackgroundInformation.HeaderHeight = 22;
+
             viewBackground.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
             viewBackground.BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
             viewBackgroundPreset.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
@@ -109,8 +115,28 @@ namespace MPfm.Mac
 //            viewLibraryBrowser.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
 //            viewNowPlaying.GradientColor1 = new CGColor(0.2f, 0.2f, 0.2f, 1.0f);
 //            viewNowPlaying.GradientColor2 = new CGColor(0.4f, 0.4f, 0.4f, 1.0f);
-//            
-//            // Set label fonts
+
+            // Set tags for fader (to find out which fader is being modified)
+            fader0.Index = 0;
+            fader1.Index = 1;
+            fader2.Index = 2;
+            fader3.Index = 3;
+            fader4.Index = 4;
+            fader5.Index = 5;
+            fader6.Index = 6;
+            fader7.Index = 7;
+            fader8.Index = 8;
+            fader9.Index = 9;
+            fader10.Index = 10;
+            fader11.Index = 11;
+            fader12.Index = 12;
+            fader13.Index = 13;
+            fader14.Index = 14;
+            fader15.Index = 15;
+            fader16.Index = 16;
+            fader17.Index = 17;
+
+            // Set label fonts
             lblEQ0.Font = NSFont.FromFontName("Roboto", 11);
             lblEQ1.Font = NSFont.FromFontName("Roboto", 11);
             lblEQ2.Font = NSFont.FromFontName("Roboto", 11);
@@ -178,11 +204,26 @@ namespace MPfm.Mac
 
         partial void actionDelete(NSObject sender)
         {
+            using(NSAlert alert = new NSAlert())
+            {
+                alert.MessageText = "Equalizer preset will be deleted";
+                alert.InformativeText = "Are you sure you wish to delete this equalizer preset?";
+                alert.AlertStyle = NSAlertStyle.Warning;
+                var btnOK = alert.AddButton("OK");
+                btnOK.Activated += (sender2, e2) => {
+                    NSApplication.SharedApplication.StopModal();
+                    OnDeletePreset(_preset.EQPresetId);
+                };
+                var btnCancel = alert.AddButton("Cancel");
+                btnCancel.Activated += (sender3, e3) => {
+                    NSApplication.SharedApplication.StopModal();
+                };
+                alert.RunModal();
+            }
         }
 
         partial void actionAutoLevel(NSObject sender)
         {
-            // Display confirmation dialog
             using(NSAlert alert = new NSAlert())
             {
                 alert.MessageText = "Equalizer preset will be normalized";
@@ -208,7 +249,6 @@ namespace MPfm.Mac
 
         partial void actionReset(NSObject sender)
         {
-            // Display confirmation dialog
             using(NSAlert alert = new NSAlert())
             {
                 alert.MessageText = "Equalizer preset will be reset";
@@ -232,24 +272,25 @@ namespace MPfm.Mac
             var fieldInfo = this.GetType().GetProperty(string.Format("fader{0}", index), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             var fader = fieldInfo.GetValue(this) as MPfmFaderView;
             fader.OnFaderValueChanged += HandleOnFaderValueChanged;
-            fader.Minimum = -6;
-            fader.Maximum = 6;
+            fader.Minimum = -60;
+            fader.Maximum = 60;
             //fader.Value = 0;
         }
 
         private void HandleOnFaderValueChanged(object sender, EventArgs e)
         {
-            var fader = (MPfmFaderView)sender; // sender is actually fadercontrol
-            string name = fader.GetType().Name;
-            string strpos = fader.GetType().Name.ToUpper().Replace("fader", "");
-            int pos = 0;
-            int.TryParse(strpos, out pos);
+            if (_preset == null)
+                return;
+
+            var fader = (MPfmFaderView)sender;
+            int pos = fader.Index;
             var fieldInfo = this.GetType().GetProperty(string.Format("lblEQValue{0}", pos), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             var label = fieldInfo.GetValue(this) as NSTextField;
             if (label != null)
             {
-                label.StringValue = FormatEQValue(fader.Value);
-                OnSetFaderGain(label.StringValue, fader.Value);
+                float value = fader.Value / 10f;
+                label.StringValue = FormatEQValue(value);
+                OnSetFaderGain(_preset.Bands[pos].CenterString, value);
             }
         }
 
@@ -291,7 +332,7 @@ namespace MPfm.Mac
                 foreach(var preset in presets)
                 {
                     popupPreset.AddItem(preset.EQPresetId.ToString());
-                    popupPreset.LastItem.Title = preset.Name;
+                    popupPreset.LastItem.Title = preset.EQPresetId.ToString(); //preset.Name;
                     popupPreset.LastItem.ToolTip = preset.EQPresetId.ToString(); // Tag only supports an integer!
                 }
             });
@@ -336,26 +377,28 @@ namespace MPfm.Mac
         {
             InvokeOnMainThread(delegate {
                 _preset = preset;
+                //viewBackgroundInformation.IsEnabled = _preset != null;
+                //viewBackgroundFaders.IsEnabled = _preset != null;
 
                 txtName.StringValue = _preset.Name;
-                fader0.Value = FormatFaderValue(_preset.Gain0);
-                fader1.Value = FormatFaderValue(_preset.Gain1);
-                fader2.Value = FormatFaderValue(_preset.Gain2);
-                fader3.Value = FormatFaderValue(_preset.Gain3);
-                fader4.Value = FormatFaderValue(_preset.Gain4);
-                fader5.Value = FormatFaderValue(_preset.Gain5);
-                fader6.Value = FormatFaderValue(_preset.Gain6);
-                fader7.Value = FormatFaderValue(_preset.Gain7);
-                fader8.Value = FormatFaderValue(_preset.Gain8);
-                fader9.Value = FormatFaderValue(_preset.Gain9);
-                fader10.Value = FormatFaderValue(_preset.Gain10);
-                fader11.Value = FormatFaderValue(_preset.Gain11);
-                fader12.Value = FormatFaderValue(_preset.Gain12);
-                fader13.Value = FormatFaderValue(_preset.Gain13);
-                fader14.Value = FormatFaderValue(_preset.Gain14);
-                fader15.Value = FormatFaderValue(_preset.Gain15);
-                fader16.Value = FormatFaderValue(_preset.Gain16);
-                fader17.Value = FormatFaderValue(_preset.Gain17);
+                fader0.ValueWithoutEvent = FormatFaderValue(_preset.Gain0);
+                fader1.ValueWithoutEvent = FormatFaderValue(_preset.Gain1);
+                fader2.ValueWithoutEvent = FormatFaderValue(_preset.Gain2);
+                fader3.ValueWithoutEvent = FormatFaderValue(_preset.Gain3);
+                fader4.ValueWithoutEvent = FormatFaderValue(_preset.Gain4);
+                fader5.ValueWithoutEvent = FormatFaderValue(_preset.Gain5);
+                fader6.ValueWithoutEvent = FormatFaderValue(_preset.Gain6);
+                fader7.ValueWithoutEvent = FormatFaderValue(_preset.Gain7);
+                fader8.ValueWithoutEvent = FormatFaderValue(_preset.Gain8);
+                fader9.ValueWithoutEvent = FormatFaderValue(_preset.Gain9);
+                fader10.ValueWithoutEvent = FormatFaderValue(_preset.Gain10);
+                fader11.ValueWithoutEvent = FormatFaderValue(_preset.Gain11);
+                fader12.ValueWithoutEvent = FormatFaderValue(_preset.Gain12);
+                fader13.ValueWithoutEvent = FormatFaderValue(_preset.Gain13);
+                fader14.ValueWithoutEvent = FormatFaderValue(_preset.Gain14);
+                fader15.ValueWithoutEvent = FormatFaderValue(_preset.Gain15);
+                fader16.ValueWithoutEvent = FormatFaderValue(_preset.Gain16);
+                fader17.ValueWithoutEvent = FormatFaderValue(_preset.Gain17);
                 lblEQValue0.StringValue = FormatEQValue(_preset.Gain0);
                 lblEQValue1.StringValue = FormatEQValue(_preset.Gain1);
                 lblEQValue2.StringValue = FormatEQValue(_preset.Gain2);

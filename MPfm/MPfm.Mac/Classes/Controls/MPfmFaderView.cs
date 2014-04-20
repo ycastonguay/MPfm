@@ -27,7 +27,7 @@ using MPfm.Mac.Classes.Controls.Helpers;
 namespace MPfm.Mac.Classes.Controls
 {
     [Register("MPfmFaderView")]
-    public class MPfmFaderView : NSView
+    public class MPfmFaderView : NSControl
     {
         private FaderControl _control;
 
@@ -38,6 +38,7 @@ namespace MPfm.Mac.Classes.Controls
         public int Maximum { get { return _control.Maximum; } set { _control.Maximum = value; } }
         public int Value { get { return _control.Value; } set { _control.Value = value; } }
         public int ValueWithoutEvent { get { return _control.ValueWithoutEvent; } set { _control.ValueWithoutEvent = value; } }
+        public int Index { get; set; }
 
         public event FaderControl.FaderValueChanged OnFaderValueChanged;
 
@@ -81,30 +82,45 @@ namespace MPfm.Mac.Classes.Controls
         
         public override void MouseUp(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.MouseUp(theEvent);
             GenericControlHelper.MouseUp(this, _control, theEvent);
         }
         
         public override void MouseDown(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.MouseDown(theEvent);
             GenericControlHelper.MouseDown(this, _control, theEvent);
         }
         
         public override void MouseMoved(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.MouseMoved(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
         }
 
         public override void MouseDragged(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.MouseDragged(theEvent);
             GenericControlHelper.MouseMove(this, _control, theEvent);
         }
         
         public override void ScrollWheel(NSEvent theEvent)
         {
+            if (!Enabled)
+                return;
+
             base.ScrollWheel(theEvent);
 
             if (theEvent.DeltaY > 0)
