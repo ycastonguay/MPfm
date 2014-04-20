@@ -151,11 +151,12 @@ namespace MPfm.Mac.Classes.Controls
         {
             //Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification - Bounds: {0} Frame: {1}", Bounds, Frame);
             SetFrame();
+            _control.InvalidateBitmaps();
         }
 
         private void SetFrame()
         {
-            //_horizontalScrollBar.Frame = new RectangleF(0, Bounds.Height - 20, Bounds.Width, 20);
+            _control.Frame = new BasicRectangle(0, 0, Frame.Width, Frame.Height);
         }
         
         public override void DrawRect(RectangleF dirtyRect)

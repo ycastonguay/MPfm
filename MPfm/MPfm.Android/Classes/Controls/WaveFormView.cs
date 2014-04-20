@@ -69,6 +69,7 @@ namespace org.sessionsapp.android
             SetBackgroundColor(Color.Black);
 
             _control = new WaveFormControl();
+            _control.Frame = new BasicRectangle(0, 0, Width, Height);
             _control.OnInvalidateVisual += () => Post(Invalidate);            
             _control.OnInvalidateVisualInRect += (rect) => Post(() => Invalidate(GenericControlHelper.ToRect(rect)));
             //_control.FontSize = 12;
@@ -92,15 +93,11 @@ namespace org.sessionsapp.android
             _control.LoadPeakFile(audioFile);
         }
 
-        //public void RefreshWaveFormBitmap()
-        //{
-        //    _control.RefreshWaveFormBitmap();
-        //}
-
-        //public void RefreshWaveFormBitmap(int width)
-        //{
-        //    _control.RefreshWaveFormBitmap(width);
-        //}
+        public void InvalidateBitmaps()
+        {
+            _control.Frame = new BasicRectangle(0, 0, Width, Height);
+            _control.InvalidateBitmaps();
+        }
 
         public override void Draw(Canvas canvas)
         {

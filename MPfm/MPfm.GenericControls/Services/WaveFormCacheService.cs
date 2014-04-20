@@ -121,6 +121,11 @@ namespace MPfm.GenericControls.Services
 
         public void FlushCache()
         {
+            lock (_lockerRequests)
+            {
+                _requests.Clear();
+            }
+
             lock (_lockerTiles)
             {
                 foreach (var tile in _tiles)

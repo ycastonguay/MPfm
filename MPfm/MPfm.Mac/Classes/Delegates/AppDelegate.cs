@@ -67,8 +67,10 @@ namespace MPfm.Mac.Classes.Delegates
             Bootstrapper.GetContainer().Register<IMainView, MainWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IUpdateLibraryView, UpdateLibraryWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IPlaylistView, PlaylistWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<ICloudConnectView, CloudConnectWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopEffectsView, EffectsWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<IDesktopPreferencesView, PreferencesWindowController>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IStartResumePlaybackView, StartResumePlaybackWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncView, SyncWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncMenuView, SyncMenuWindowController>().AsMultiInstance();
             Bootstrapper.GetContainer().Register<ISyncDownloadView, SyncDownloadWindowController>().AsMultiInstance();

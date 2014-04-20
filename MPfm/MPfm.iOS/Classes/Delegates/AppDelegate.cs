@@ -39,6 +39,8 @@ using MPfm.Library.Services.Interfaces;
 using System.Drawing;
 using MPfm.GenericControls.Graphics;
 using MPfm.iOS.Classes.Controls.Graphics;
+using MPfm.GenericControls.Services.Interfaces;
+using MPfm.GenericControls.Services;
 
 namespace MPfm.iOS.Classes.Delegates
 {
@@ -110,6 +112,8 @@ namespace MPfm.iOS.Classes.Delegates
 			container.Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             container.Register<ISyncDeviceSpecifications, iOSSyncDeviceSpecifications>().AsSingleton();
             container.Register<ICloudService, iOSDropboxService>().AsSingleton();
+			container.Register<IWaveFormCacheService, WaveFormCacheService>().AsSingleton();
+			container.Register<IWaveFormRenderingService, WaveFormRenderingService>().AsSingleton();
             container.Register<IAppConfigProvider, iOSAppConfigProvider>().AsSingleton();
             container.Register<MobileNavigationManager, iOSNavigationManager>().AsSingleton();
             container.Register<IMobileMainView, MainViewController>().AsMultiInstance();

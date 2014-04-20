@@ -189,7 +189,8 @@ namespace MPfm.Mac.Classes.Controls
 
         private void FrameDidChangeNotification(NSNotification notification)
         {
-            //Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification - Bounds: {0} Frame: {1}", Bounds, Frame);
+            Console.WriteLine("WaveFormScrollView - NSViewFrameDidChangeNotification - Bounds: {0} Frame: {1}", Bounds, Frame);
+            //WaveFormView.
             SetFrame();
         }
 

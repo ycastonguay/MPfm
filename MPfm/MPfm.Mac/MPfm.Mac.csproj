@@ -248,6 +248,16 @@
     <Compile Include="Classes\Controls\Wrappers\HorizontalScrollBarWrapper.cs" />
     <Compile Include="Classes\Controls\Wrappers\VerticalScrollBarWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\DisposableImageFactory.cs" />
+    <Compile Include="Windows\StartResumePlaybackWindow.cs" />
+    <Compile Include="Windows\StartResumePlaybackWindow.designer.cs">
+      <DependentUpon>StartResumePlaybackWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\StartResumePlaybackWindowController.cs" />
+    <Compile Include="Windows\CloudConnectWindow.cs" />
+    <Compile Include="Windows\CloudConnectWindow.designer.cs">
+      <DependentUpon>CloudConnectWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\CloudConnectWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -267,6 +277,8 @@
     <InterfaceDefinition Include="Windows\XIB\SyncDownloadWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncCloudWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncWebBrowserWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\StartResumePlaybackWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\CloudConnectWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -537,5 +549,15 @@
     <BundleResource Include="Resources\icon_button_goto%402x.png" />
     <BundleResource Include="Resources\icon_button_goto.png" />
     <BundleResource Include="Resources\Splash.png" />
+    <BundleResource Include="Resources\icon_button_dropbox.png" />
+    <BundleResource Include="Resources\icon_button_dropbox%402x.png" />
+    <BundleResource Include="Resources\icon_button_cloud.png" />
+    <BundleResource Include="Resources\icon_button_cloud%402x.png" />
+    <BundleResource Include="Resources\icon_button_general.png" />
+    <BundleResource Include="Resources\icon_button_general%402x.png" />
+    <BundleResource Include="Resources\icon_button_library.png" />
+    <BundleResource Include="Resources\icon_button_library%402x.png" />
+    <BundleResource Include="Resources\icon_button_test.png" />
+    <BundleResource Include="Resources\icon_button_test%402x.png" />
   </ItemGroup>
 </Project>

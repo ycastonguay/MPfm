@@ -53,6 +53,8 @@ namespace MPfm.MVP.Bootstrap
             container.Register<IAudioFileCacheService, AudioFileCacheService>().AsSingleton();
             container.Register<IUpdateLibraryService, UpdateLibraryService>().AsSingleton();
             container.Register<IPeakFileService, PeakFileService>().AsSingleton();
+            container.Register<ILifecycleService, LifecycleService>().AsSingleton();
+            container.Register<IResumePlaybackService, ResumePlaybackService>().AsSingleton();
             container.Register<ISyncClientService, SyncClientService>().AsMultiInstance();
             container.Register<ISyncListenerService, SyncListenerService>().AsSingleton();
             container.Register<ISyncDiscoveryService, SyncDiscoveryService>().AsSingleton();

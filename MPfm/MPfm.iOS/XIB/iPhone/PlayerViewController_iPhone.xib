@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment version="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
@@ -24,7 +25,7 @@
                 <outlet property="pageControl" destination="75" id="77"/>
                 <outlet property="scrollView" destination="74" id="76"/>
                 <outlet property="scrollViewPlayer" destination="4fI-ua-DNa" id="zwG-cA-pww"/>
-                <outlet property="scrollViewWaveForm" destination="91" id="92"/>
+                <outlet property="scrollViewWaveForm" destination="TaZ-PD-wUM" id="Nid-6f-mRq"/>
                 <outlet property="sliderPosition" destination="37" id="38"/>
                 <outlet property="view" destination="6" id="7"/>
                 <outlet property="viewEffects" destination="Fh8-2c-sjp" id="JP2-bl-WA5"/>
@@ -232,14 +233,15 @@
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="91" customClass="MPfmWaveFormScrollView">
-                    <rect key="frame" x="0.0" y="88" width="320" height="88"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                </scrollView>
+                <view contentMode="scaleToFill" id="TaZ-PD-wUM" customClass="MPfmWaveFormScrollView">
+                    <rect key="frame" x="0.0" y="27" width="320" height="88"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
