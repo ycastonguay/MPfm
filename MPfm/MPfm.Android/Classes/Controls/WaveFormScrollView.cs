@@ -147,10 +147,10 @@ namespace org.sessionsapp.android
             WaveView.ShowSecondaryPosition = show;
         }
 
-        //public void RefreshWaveFormBitmap(int width)
-        //{
-        //    WaveView.RefreshWaveFormBitmap(width);
-        //}
+        public void InvalidateBitmaps()
+        {
+            WaveView.InvalidateBitmaps();
+        }
 
         public void SetMarkers(IEnumerable<Marker> markers)
         {
