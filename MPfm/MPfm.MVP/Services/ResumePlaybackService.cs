@@ -86,7 +86,9 @@ namespace MPfm.MVP.Services
 
             // Try to get info to resume locally
             double positionPercentage = 0;
-            var audioFileId = new Guid(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId);
+            Guid audioFileId = Guid.Empty;
+            if(!string.IsNullOrEmpty(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId))
+                audioFileId = new Guid(AppConfigManager.Instance.Root.ResumePlayback.AudioFileId);
             audioFileLocal = audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == audioFileId);
             positionPercentage = AppConfigManager.Instance.Root.ResumePlayback.PositionPercentage;
             Tracing.Log("MobileNavigationManager - ContinueAfterSplash - Resuming from local device with audioFile {0} at position {1}", audioFileId, positionPercentage);
