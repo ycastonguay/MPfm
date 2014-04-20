@@ -24,6 +24,7 @@ using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Models;
+using MPfm.Mac.Classes.Controls;
 
 namespace MPfm.Mac
 {
@@ -45,15 +46,62 @@ namespace MPfm.Mac
         {
             this.Window.Center();
             this.Window.MakeKeyAndOrderFront(this);
+
+            btnTabGeneral.OnTabButtonSelected += HandleOnTabButtonSelected;
+            btnTabAudio.OnTabButtonSelected += HandleOnTabButtonSelected;
+            btnTabLibrary.OnTabButtonSelected += HandleOnTabButtonSelected;
+            btnTabCloud.OnTabButtonSelected += HandleOnTabButtonSelected;
+
+            LoadFontsAndImages();
+            HandleOnTabButtonSelected(btnTabGeneral);
         }
 
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
-
-            OnViewReady.Invoke(this);
+            OnViewReady(this);
         }
-        
+
+        private void LoadFontsAndImages()
+        {
+            var headerFont = NSFont.FromFontName("Roboto", 14f);
+            lblGeneralPreferences.Font = headerFont;
+            lblAudioPreferences.Font = headerFont;
+            lblLibraryPreferences.Font = headerFont;
+            lblCloudPreferences.Font = headerFont;
+
+            var subtitleFont = NSFont.FromFontName("Roboto", 12f);
+            lblGeneralUpdateFrequency.Font = subtitleFont;
+            lblAudioOutput.Font = subtitleFont;
+            lblAudioMixer.Font = subtitleFont;
+            lblAudioStatus.Font = subtitleFont;
+            lblLibraryFolders.Font = subtitleFont;
+            lblCloudDropbox.Font = subtitleFont;
+
+            var textFont = NSFont.FromFontName("Roboto", 11f);
+            lblOutputDevice.Font = textFont;
+            lblSampleRate.Font = textFont;
+            lblStatusDescription.Font = textFont;
+            lblUpdatePeriod.Font = textFont;
+            lblEvery.Font = textFont;
+            lblEvery2.Font = textFont;
+            lblMS.Font = textFont;
+            lblMS2.Font = textFont;
+        }
+
+        private void HandleOnTabButtonSelected(MPfmTabButton button)
+        {
+            btnTabGeneral.IsSelected = button == btnTabGeneral;
+            btnTabAudio.IsSelected = button == btnTabAudio;
+            btnTabLibrary.IsSelected = button == btnTabLibrary;
+            btnTabCloud.IsSelected = button == btnTabCloud;
+
+            viewGeneralPreferences.Hidden = button != btnTabGeneral;
+            viewAudioPreferences.Hidden = button != btnTabAudio;
+            viewLibraryPreferences.Hidden = button != btnTabLibrary;
+            viewCloudPreferences.Hidden = button != btnTabCloud;
+        }
+
         #region ILibraryPreferencesView implementation
 
         public Action OnResetLibrary { get; set; }
