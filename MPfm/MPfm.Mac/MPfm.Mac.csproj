@@ -253,6 +253,11 @@
       <DependentUpon>StartResumePlaybackWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Controllers\StartResumePlaybackWindowController.cs" />
+    <Compile Include="Windows\CloudConnectWindow.cs" />
+    <Compile Include="Windows\CloudConnectWindow.designer.cs">
+      <DependentUpon>CloudConnectWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\CloudConnectWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -273,6 +278,7 @@
     <InterfaceDefinition Include="Windows\XIB\SyncCloudWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncWebBrowserWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\StartResumePlaybackWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\CloudConnectWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
