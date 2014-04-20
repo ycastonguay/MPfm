@@ -13,6 +13,21 @@ namespace MPfm.Mac
 	partial class PreferencesWindowController
 	{
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnAddFolder { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnLoginDropbox { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnRemoveFolder { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnResetAudioSettings { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnResetLibrary { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabAudio { get; set; }
 
 		[Outlet]
@@ -23,6 +38,12 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTabButton btnTabLibrary { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnTestAudioSettings { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSButton checkEnableResumePlayback { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblAudioMixer { get; set; }
@@ -52,10 +73,19 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblEvery2 { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblEvery3 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblEvery4 { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblGeneralPreferences { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblGeneralUpdateFrequency { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblHz { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLibraryFolders { get; set; }
@@ -70,10 +100,25 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblMS2 { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblMS3 { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMS4 { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblOutputDevice { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblOutputMeter { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblResumePlaybackNote { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblSampleRate { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblSongPosition { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblStatusDescription { get; set; }
@@ -82,19 +127,89 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblUpdatePeriod { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmPopUpButton popupOutputDevice { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmPopUpButton popupSampleRate { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTableView tableFolders { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBufferSize { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackOutputMeter { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackSongPosition { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackUpdatePeriod { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtBufferSize { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtOutputMeter { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtSongPosition { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtUpdatePeriod { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSView viewAudioPreferences { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewAudioPreferencesHeader { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSView viewCloudPreferences { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewCloudPreferencesHeader { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSView viewGeneralPreferences { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewGeneralPreferencesHeader { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSView viewLibraryPreferences { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewLibraryPreferencesHeader { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAddFolder != null) {
+				btnAddFolder.Dispose ();
+				btnAddFolder = null;
+			}
+
+			if (btnLoginDropbox != null) {
+				btnLoginDropbox.Dispose ();
+				btnLoginDropbox = null;
+			}
+
+			if (btnRemoveFolder != null) {
+				btnRemoveFolder.Dispose ();
+				btnRemoveFolder = null;
+			}
+
+			if (btnResetAudioSettings != null) {
+				btnResetAudioSettings.Dispose ();
+				btnResetAudioSettings = null;
+			}
+
+			if (btnResetLibrary != null) {
+				btnResetLibrary.Dispose ();
+				btnResetLibrary = null;
+			}
+
 			if (btnTabAudio != null) {
 				btnTabAudio.Dispose ();
 				btnTabAudio = null;
@@ -115,9 +230,44 @@ namespace MPfm.Mac
 				btnTabLibrary = null;
 			}
 
+			if (btnTestAudioSettings != null) {
+				btnTestAudioSettings.Dispose ();
+				btnTestAudioSettings = null;
+			}
+
+			if (checkEnableResumePlayback != null) {
+				checkEnableResumePlayback.Dispose ();
+				checkEnableResumePlayback = null;
+			}
+
+			if (lblAudioMixer != null) {
+				lblAudioMixer.Dispose ();
+				lblAudioMixer = null;
+			}
+
+			if (lblAudioOutput != null) {
+				lblAudioOutput.Dispose ();
+				lblAudioOutput = null;
+			}
+
 			if (lblAudioPreferences != null) {
 				lblAudioPreferences.Dispose ();
 				lblAudioPreferences = null;
+			}
+
+			if (lblAudioStatus != null) {
+				lblAudioStatus.Dispose ();
+				lblAudioStatus = null;
+			}
+
+			if (lblBufferSize != null) {
+				lblBufferSize.Dispose ();
+				lblBufferSize = null;
+			}
+
+			if (lblCloudDropbox != null) {
+				lblCloudDropbox.Dispose ();
+				lblCloudDropbox = null;
 			}
 
 			if (lblCloudPreferences != null) {
@@ -125,14 +275,114 @@ namespace MPfm.Mac
 				lblCloudPreferences = null;
 			}
 
+			if (lblEvery != null) {
+				lblEvery.Dispose ();
+				lblEvery = null;
+			}
+
+			if (lblEvery2 != null) {
+				lblEvery2.Dispose ();
+				lblEvery2 = null;
+			}
+
+			if (lblEvery3 != null) {
+				lblEvery3.Dispose ();
+				lblEvery3 = null;
+			}
+
+			if (lblEvery4 != null) {
+				lblEvery4.Dispose ();
+				lblEvery4 = null;
+			}
+
 			if (lblGeneralPreferences != null) {
 				lblGeneralPreferences.Dispose ();
 				lblGeneralPreferences = null;
 			}
 
+			if (lblGeneralUpdateFrequency != null) {
+				lblGeneralUpdateFrequency.Dispose ();
+				lblGeneralUpdateFrequency = null;
+			}
+
+			if (lblLibraryFolders != null) {
+				lblLibraryFolders.Dispose ();
+				lblLibraryFolders = null;
+			}
+
 			if (lblLibraryPreferences != null) {
 				lblLibraryPreferences.Dispose ();
 				lblLibraryPreferences = null;
+			}
+
+			if (lblMS != null) {
+				lblMS.Dispose ();
+				lblMS = null;
+			}
+
+			if (lblMS2 != null) {
+				lblMS2.Dispose ();
+				lblMS2 = null;
+			}
+
+			if (lblMS3 != null) {
+				lblMS3.Dispose ();
+				lblMS3 = null;
+			}
+
+			if (lblMS4 != null) {
+				lblMS4.Dispose ();
+				lblMS4 = null;
+			}
+
+			if (lblOutputDevice != null) {
+				lblOutputDevice.Dispose ();
+				lblOutputDevice = null;
+			}
+
+			if (lblOutputMeter != null) {
+				lblOutputMeter.Dispose ();
+				lblOutputMeter = null;
+			}
+
+			if (lblResumePlaybackNote != null) {
+				lblResumePlaybackNote.Dispose ();
+				lblResumePlaybackNote = null;
+			}
+
+			if (lblSampleRate != null) {
+				lblSampleRate.Dispose ();
+				lblSampleRate = null;
+			}
+
+			if (lblSongPosition != null) {
+				lblSongPosition.Dispose ();
+				lblSongPosition = null;
+			}
+
+			if (lblStatusDescription != null) {
+				lblStatusDescription.Dispose ();
+				lblStatusDescription = null;
+			}
+
+			if (lblUpdatePeriod != null) {
+				lblUpdatePeriod.Dispose ();
+				lblUpdatePeriod = null;
+			}
+
+			if (popupOutputDevice != null) {
+				popupOutputDevice.Dispose ();
+				popupOutputDevice = null;
+			}
+
+			if (popupSampleRate != null) {
+				popupSampleRate.Dispose ();
+				popupSampleRate = null;
+			}
+
+			if (tableFolders != null) {
+				tableFolders.Dispose ();
+				tableFolders = null;
 			}
 
 			if (viewAudioPreferences != null) {
@@ -155,79 +405,69 @@ namespace MPfm.Mac
 				viewLibraryPreferences = null;
 			}
 
-			if (lblAudioOutput != null) {
-				lblAudioOutput.Dispose ();
-				lblAudioOutput = null;
+			if (lblHz != null) {
+				lblHz.Dispose ();
+				lblHz = null;
 			}
 
-			if (lblAudioMixer != null) {
-				lblAudioMixer.Dispose ();
-				lblAudioMixer = null;
+			if (trackBufferSize != null) {
+				trackBufferSize.Dispose ();
+				trackBufferSize = null;
 			}
 
-			if (lblAudioStatus != null) {
-				lblAudioStatus.Dispose ();
-				lblAudioStatus = null;
+			if (trackUpdatePeriod != null) {
+				trackUpdatePeriod.Dispose ();
+				trackUpdatePeriod = null;
 			}
 
-			if (lblGeneralUpdateFrequency != null) {
-				lblGeneralUpdateFrequency.Dispose ();
-				lblGeneralUpdateFrequency = null;
+			if (trackSongPosition != null) {
+				trackSongPosition.Dispose ();
+				trackSongPosition = null;
 			}
 
-			if (lblOutputDevice != null) {
-				lblOutputDevice.Dispose ();
-				lblOutputDevice = null;
+			if (trackOutputMeter != null) {
+				trackOutputMeter.Dispose ();
+				trackOutputMeter = null;
 			}
 
-			if (lblSampleRate != null) {
-				lblSampleRate.Dispose ();
-				lblSampleRate = null;
+			if (txtBufferSize != null) {
+				txtBufferSize.Dispose ();
+				txtBufferSize = null;
 			}
 
-			if (lblBufferSize != null) {
-				lblBufferSize.Dispose ();
-				lblBufferSize = null;
+			if (txtUpdatePeriod != null) {
+				txtUpdatePeriod.Dispose ();
+				txtUpdatePeriod = null;
 			}
 
-			if (lblUpdatePeriod != null) {
-				lblUpdatePeriod.Dispose ();
-				lblUpdatePeriod = null;
+			if (txtSongPosition != null) {
+				txtSongPosition.Dispose ();
+				txtSongPosition = null;
 			}
 
-			if (lblEvery != null) {
-				lblEvery.Dispose ();
-				lblEvery = null;
+			if (txtOutputMeter != null) {
+				txtOutputMeter.Dispose ();
+				txtOutputMeter = null;
 			}
 
-			if (lblEvery2 != null) {
-				lblEvery2.Dispose ();
-				lblEvery2 = null;
+			if (viewAudioPreferencesHeader != null) {
+				viewAudioPreferencesHeader.Dispose ();
+				viewAudioPreferencesHeader = null;
 			}
 
-			if (lblMS != null) {
-				lblMS.Dispose ();
-				lblMS = null;
+			if (viewLibraryPreferencesHeader != null) {
+				viewLibraryPreferencesHeader.Dispose ();
+				viewLibraryPreferencesHeader = null;
 			}
 
-			if (lblMS2 != null) {
-				lblMS2.Dispose ();
-				lblMS2 = null;
+			if (viewCloudPreferencesHeader != null) {
+				viewCloudPreferencesHeader.Dispose ();
+				viewCloudPreferencesHeader = null;
 			}
 
-			if (lblStatusDescription != null) {
-				lblStatusDescription.Dispose ();
-				lblStatusDescription = null;
-			}
-
-			if (lblLibraryFolders != null) {
-				lblLibraryFolders.Dispose ();
-				lblLibraryFolders = null;
-			}
-
-			if (lblCloudDropbox != null) {
-				lblCloudDropbox.Dispose ();
-				lblCloudDropbox = null;
+			if (viewGeneralPreferencesHeader != null) {
+				viewGeneralPreferencesHeader.Dispose ();
+				viewGeneralPreferencesHeader = null;
 			}
 		}
 	}
