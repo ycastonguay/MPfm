@@ -26,6 +26,7 @@ using MPfm.Sound.AudioFiles;
 using System.Collections.Generic;
 using MPfm.Player.Objects;
 using MPfm.iOS.Classes.Controls.Helpers;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -93,6 +94,18 @@ namespace MPfm.iOS.Classes.Controls
                 _control.Zoom = value;
             }
         }
+
+		public BasicPoint ContentOffset
+		{
+			get
+			{
+				return _control.ContentOffset;
+			}
+			set
+			{
+				_control.ContentOffset = value;
+			}
+		}
 
 		public MPfmWaveFormView(IntPtr handle) 
 			: base (handle)

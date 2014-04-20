@@ -24,6 +24,7 @@
                 <outlet property="outputMeter" destination="TnV-d3-0Xw" id="3hT-6o-awI"/>
                 <outlet property="pageControl" destination="18" id="32"/>
                 <outlet property="scrollView" destination="13" id="31"/>
+                <outlet property="scrollViewWaveForm" destination="MHO-9K-mIc" id="ps0-K4-10B"/>
                 <outlet property="sliderPosition" destination="9" id="26"/>
                 <outlet property="view" destination="2" id="3"/>
                 <outlet property="viewEffects" destination="TN5-AR-NKj" id="kn7-4Y-3Ig"/>
@@ -130,7 +131,7 @@
                         <constraint firstAttribute="trailing" secondItem="9" secondAttribute="trailing" constant="84" id="l2S-4d-YZ2"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MHO-9K-mIc">
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MHO-9K-mIc" customClass="MPfmWaveFormScrollView">
                     <rect key="frame" x="0.0" y="24" width="768" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

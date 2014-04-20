@@ -24,6 +24,7 @@ using MPfm.iOS.Classes.Objects;
 using MPfm.GenericControls.Controls;
 using MPfm.iOS.Classes.Controls.Graphics;
 using MPfm.iOS.Classes.Controls.Helpers;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.iOS.Classes.Controls
 {
@@ -67,6 +68,18 @@ namespace MPfm.iOS.Classes.Controls
                 _control.Zoom = value;
             }
         }
+
+		public BasicPoint ContentOffset
+		{
+			get
+			{
+				return _control.ContentOffset;
+			}
+			set
+			{
+				_control.ContentOffset = value;
+			}
+		}
 
         public MPfmWaveFormScaleView(IntPtr handle) 
             : base (handle)
