@@ -55,6 +55,18 @@ namespace MPfm.iOS.Classes.Controls
 				_control.AudioFileLength = value;
             }
         }
+        
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }
 
         public MPfmWaveFormScaleView(IntPtr handle) 
             : base (handle)
@@ -70,9 +82,10 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            BackgroundColor = GlobalTheme.BackgroundColor;
-			_control = new WaveFormScaleControl();
+			BackgroundColor = GlobalTheme.BackgroundColor;
+			_control = new WaveFormScaleControl();            
 			_control.FontFace = "HelveticaNeue";
+			_control.FontSize = 10;
 			_control.OnInvalidateVisual += () => InvokeOnMainThread(SetNeedsDisplay);
 			_control.OnInvalidateVisualInRect += (rect) => InvokeOnMainThread(() => SetNeedsDisplayInRect(GenericControlHelper.ToRect(rect)));
         }

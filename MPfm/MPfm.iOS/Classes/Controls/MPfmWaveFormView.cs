@@ -18,7 +18,6 @@
 using System;
 using System.Drawing;
 using MPfm.GenericControls.Controls;
-using MPfm.GenericControls.Managers;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MPfm.iOS.Classes.Controls.Graphics;
@@ -34,14 +33,6 @@ namespace MPfm.iOS.Classes.Controls
     public class MPfmWaveFormView : UIView
     {
 		private WaveFormControl _control;
-
-		public WaveFormCacheManager WaveFormCacheManager
-		{
-			get
-			{
-				return _control.WaveFormCacheManager;
-			}
-		}
 
 		public long Length
 		{
@@ -90,6 +81,18 @@ namespace MPfm.iOS.Classes.Controls
 				_control.SecondaryPosition = value;
 			}
 		}
+        
+        public float Zoom
+        {
+            get
+            {
+                return _control.Zoom;
+            }
+            set
+            {
+                _control.Zoom = value;
+            }
+        }
 
 		public MPfmWaveFormView(IntPtr handle) 
 			: base (handle)
@@ -118,21 +121,6 @@ namespace MPfm.iOS.Classes.Controls
 			var context = UIGraphics.GetCurrentContext();
 			var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
 			_control.Render(wrapper);
-		}
-
-		public void FlushCache()
-		{
-			_control.FlushCache();
-		}
-
-		public void RefreshWaveFormBitmap()
-		{
-			_control.RefreshWaveFormBitmap();
-		}
-
-		public void RefreshWaveFormBitmap(float width)
-		{
-			_control.RefreshWaveFormBitmap(width);
 		}
 
 		public void LoadPeakFile(AudioFile audioFile)

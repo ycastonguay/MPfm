@@ -25,18 +25,21 @@ using MonoTouch.UIKit;
 using MPfm.iOS.Helpers;
 using MPfm.iOS.Classes.Objects;
 using MPfm.Player.Objects;
-using MPfm.GenericControls.Managers.Events;
 
 namespace MPfm.iOS.Classes.Controls
 {
     [Register("MPfmWaveFormScrollView")]
-    public class MPfmWaveFormScrollView : UIScrollView
+    public class MPfmWaveFormScrollView : UIView
     {
-        private float _zoomScale;
-        private float _offsetRatio;
+        //private float _zoomScale;
+        //private float _offsetRatio;
+        private UITapGestureRecognizer _doubleTapGesture;
+        private UIPinchGestureRecognizer _pinchGesture;
+		private UIPanGestureRecognizer _panGesture;
         private UILabel _lblZoom;
         private UIView _viewCenterLine;
         private float _scaleHeight = 22f;
+		private PointF _initialPanPoint = new PointF();
 
         private WaveFormScrollViewMode _scrollViewMode = WaveFormScrollViewMode.Standard;
         public WaveFormScrollViewMode ScrollViewMode
@@ -55,6 +58,21 @@ namespace MPfm.iOS.Classes.Controls
                     _viewCenterLine.Alpha = 1;
             }
         }
+        
+        private float _zoom = 1.0f;
+        public float Zoom
+        {
+            get
+            {
+                return _zoom;
+            }
+            set
+            {
+                _zoom = value;
+                WaveFormScaleView.Zoom = _zoom;
+                WaveFormView.Zoom = _zoom;
+            }
+        }        
 
         // TODO: Make this entirely private and add methods to set wave forms
         public MPfmWaveFormView WaveFormView { get; private set; }
@@ -74,51 +92,36 @@ namespace MPfm.iOS.Classes.Controls
 
         private void Initialize()
         {
-            MinimumZoomScale = 1.0f;
-            MaximumZoomScale = 16.0f;
-            ShowsHorizontalScrollIndicator = true;
-            ShowsVerticalScrollIndicator = false;
-            AlwaysBounceHorizontal = false;
-            BouncesZoom = true;
-            BackgroundColor = GlobalTheme.BackgroundColor;
+//            MinimumZoomScale = 1.0f;
+//            MaximumZoomScale = 16.0f;
+//            ShowsHorizontalScrollIndicator = true;
+//            ShowsVerticalScrollIndicator = false;
+//            AlwaysBounceHorizontal = false;
+//            BouncesZoom = true;
+			BackgroundColor = GlobalTheme.BackgroundColor;
+			UserInteractionEnabled = true;
+			MultipleTouchEnabled = true;
 
-            UITapGestureRecognizer doubleTap = new UITapGestureRecognizer((recognizer) => {
-                _zoomScale = 1.0f;
-                _offsetRatio = 0;
-                UpdateZoomScale(Bounds.Width);
-                WaveFormView.RefreshWaveFormBitmap();
-                WaveFormScaleView.SetNeedsDisplay();
-                
-                _lblZoom.Text = "100.0%";
-                UIView.Animate(0.15, () => {
-                    _lblZoom.Alpha = 0.9f;
-                }, () => {
-                    UIView.Animate(1, () => {
-                        _lblZoom.Alpha = 0.9f;
-                    }, () => {
-                        UIView.Animate(0.15, () => {
-                            _lblZoom.Alpha = 0;
-                        });
-                    });
-                });
-            });
-            doubleTap.DelaysTouchesBegan = true;
-            doubleTap.NumberOfTapsRequired = 2;
-            AddGestureRecognizer(doubleTap);
+			_doubleTapGesture = new UITapGestureRecognizer(HandleDoubleTapGestureRecognizer);
+            _doubleTapGesture.DelaysTouchesBegan = true;
+            _doubleTapGesture.NumberOfTapsRequired = 2;
+			AddGestureRecognizer(_doubleTapGesture);
+            
+			_pinchGesture = new UIPinchGestureRecognizer(HandlePinchGestureRecognizer);
+            AddGestureRecognizer(_pinchGesture);
+
+			_panGesture = new UIPanGestureRecognizer(HandlePanGestureRecognizer);
+			_panGesture.MinimumNumberOfTouches = 1;
+			_panGesture.MaximumNumberOfTouches = 1;
+			AddGestureRecognizer(_panGesture);
 
             WaveFormView = new MPfmWaveFormView(new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight));
-            WaveFormView.WaveFormCacheManager.GeneratePeakFileEndedEvent += (object sender, GeneratePeakFileEventArgs e) => {
-                WaveFormScaleView.Hidden = false;
-                UserInteractionEnabled = true;
-            };
-            WaveFormView.WaveFormCacheManager.LoadedPeakFileSuccessfullyEvent += (object sender, LoadPeakFileEventArgs e) => {
-                WaveFormScaleView.Hidden = false;
-                UserInteractionEnabled = true;
-            };
             AddSubview(WaveFormView);
 
             WaveFormScaleView = new MPfmWaveFormScaleView(new RectangleF(0, 0, Bounds.Width, _scaleHeight));
             AddSubview(WaveFormScaleView);
+
+			WaveFormView.AddGestureRecognizer(_doubleTapGesture);
 
             _lblZoom = new UILabel(new RectangleF(0, 0, 60, 20));
             _lblZoom.BackgroundColor = GlobalTheme.BackgroundColor;
@@ -134,32 +137,30 @@ namespace MPfm.iOS.Classes.Controls
             _viewCenterLine.Alpha = 0;
             AddSubview(_viewCenterLine);
 
-            ContentSize = WaveFormView.Bounds.Size;
-
-            this.ViewForZoomingInScrollView = delegate {
-                _offsetRatio = (ContentOffset.X / ContentSize.Width);
-				//Tracing.Log("WaveFormScrollView - ViewForZoomingInScrollView - offsetRatio: {0} contentOffset: {1} contentSize: {2}", _offsetRatio, ContentOffset, ContentSize);
-				return WaveFormView;
-            };
-
-            this.ZoomingStarted += delegate {
-                UIView.Animate(0.15, () => {
-                    _lblZoom.Alpha = 0.9f;
-                });
-            };
-
-            this.ZoomingEnded += delegate(object sender, ZoomingEndedEventArgs e) {
-                WaveFormView.RefreshWaveFormBitmap();
-                WaveFormScaleView.SetNeedsDisplay();
-                UIView.Animate(0.25, () => {
-                    _lblZoom.Alpha = 0;
-                });
-            };
-
-            this.DidZoom += delegate(object sender, EventArgs e) {
-                UpdateZoomScale(Bounds.Width);
-                WaveFormScaleView.SetNeedsDisplay();
-            };
+//            this.ViewForZoomingInScrollView = delegate {
+//                _offsetRatio = (ContentOffset.X / ContentSize.Width);
+//				//Tracing.Log("WaveFormScrollView - ViewForZoomingInScrollView - offsetRatio: {0} contentOffset: {1} contentSize: {2}", _offsetRatio, ContentOffset, ContentSize);
+//				return WaveFormView;
+//            };
+//
+//            this.ZoomingStarted += delegate {
+//                UIView.Animate(0.15, () => {
+//                    _lblZoom.Alpha = 0.9f;
+//                });
+//            };
+//
+//            this.ZoomingEnded += delegate(object sender, ZoomingEndedEventArgs e) {
+//                //WaveFormView.RefreshWaveFormBitmap();
+//                WaveFormScaleView.SetNeedsDisplay();
+//                UIView.Animate(0.25, () => {
+//                    _lblZoom.Alpha = 0;
+//                });
+//            };
+//
+//            this.DidZoom += delegate(object sender, EventArgs e) {
+//                UpdateZoomScale(Bounds.Width);
+//                WaveFormScaleView.SetNeedsDisplay();
+//            };
 
 //            this.Scrolled += delegate(object sender, EventArgs e) {
 //            };
@@ -176,78 +177,118 @@ namespace MPfm.iOS.Classes.Controls
 //            };
         }
 
+		private void HandleDoubleTapGestureRecognizer(UITapGestureRecognizer sender)
+		{
+			Zoom = 1.0f;
+			Console.WriteLine("HandleDoubleTapGestureRecognizer");
+
+			//_offsetRatio = 0;
+			//UpdateZoomScale(Bounds.Width);
+			//WaveFormView.RefreshWaveFormBitmap();
+			//WaveFormScaleView.SetNeedsDisplay();
+
+			_lblZoom.Text = "100.0%";
+			UIView.Animate(0.15, () => {
+				_lblZoom.Alpha = 0.9f;
+			}, () => {
+				UIView.Animate(1, () => {
+					_lblZoom.Alpha = 0.9f;
+				}, () => {
+					UIView.Animate(0.15, () => {
+						_lblZoom.Alpha = 0;
+					});
+				});
+			});
+		}
+
+		private void HandlePinchGestureRecognizer(UIPinchGestureRecognizer sender)
+		{
+			float scale = _pinchGesture.Scale;
+			Console.WriteLine("HandlePinchGestureRecognizer - scale: {0}", scale);
+			Zoom = scale;
+		}
+
+		private void HandlePanGestureRecognizer(UIPanGestureRecognizer sender)
+		{
+			var ptPan = sender.TranslationInView(this);
+
+			if(sender.State == UIGestureRecognizerState.Began)
+				_initialPanPoint = sender.View.Center;
+
+			var ptTranslated = new PointF(_initialPanPoint.X + ptPan.X, _initialPanPoint.Y);
+
+			Console.WriteLine("HandlePanGestureRecognizer - state: {0} initialPanPoint: {1} ptPan: {2} ptTranslated: {3}", _panGesture.State, _initialPanPoint, ptPan, ptTranslated);
+		}
+
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
 
-			//Tracing.Log("WaveFormScrollView - LayoutSubviews - Bounds.Width: {0} - Frame.Width: {1}", Bounds.Width, Frame.Width);
-            _lblZoom.Frame = new RectangleF(ContentOffset.X + ((Bounds.Width - 70) / 2), (Bounds.Height - 20) / 2, 54, 20);
-            _viewCenterLine.Frame = new RectangleF(ContentOffset.X + (Bounds.Width / 2), 0, 1, Bounds.Height);
+			WaveFormView.Frame = new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
+			WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, _scaleHeight);
+            _lblZoom.Frame = new RectangleF(((Bounds.Width - 70) / 2), (Bounds.Height - 20) / 2, 54, 20);
+            _viewCenterLine.Frame = new RectangleF((Bounds.Width / 2), 0, 1, Bounds.Height);
         }
 
-        private void UpdateZoomScale(float width)
-        {
-            _zoomScale *= ZoomScale;
-            _zoomScale = (_zoomScale < MinimumZoomScale) ? MinimumZoomScale : _zoomScale;
-            _zoomScale = (_zoomScale > MaximumZoomScale) ? MaximumZoomScale : _zoomScale;
-            ZoomScale = 1.0f;
-            _lblZoom.Text = (_zoomScale * 100).ToString("0") + "%";
-			//Tracing.Log("MPfmWaveFormScrollView - UpdateZoomScale - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
-			UpdateContentSizeAndOffset(width);
-        }
+//        private void UpdateZoomScale(float width)
+//        {
+//            _zoomScale *= ZoomScale;
+//            _zoomScale = (_zoomScale < MinimumZoomScale) ? MinimumZoomScale : _zoomScale;
+//            _zoomScale = (_zoomScale > MaximumZoomScale) ? MaximumZoomScale : _zoomScale;
+//            ZoomScale = 1.0f;
+//            _lblZoom.Text = (_zoomScale * 100).ToString("0") + "%";
+//			//Tracing.Log("MPfmWaveFormScrollView - UpdateZoomScale - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
+//			UpdateContentSizeAndOffset(width);
+//        }
 
-		private void UpdateContentSizeAndOffset(float width)
-		{
-			//Tracing.Log("MPfmWaveFormScrollView - UpdateContentSizeAndOffset - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
-			if(ScrollViewMode == WaveFormScrollViewMode.Standard)
-			{
-				WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, width * _zoomScale, WaveFormView.Frame.Height);
-				WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, width * _zoomScale, _scaleHeight);
-				ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
-				ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
-			}
-			else if(ScrollViewMode == WaveFormScrollViewMode.SelectPosition)
-			{
-				WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, width * _zoomScale, WaveFormView.Frame.Height);
-				WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, width * _zoomScale, _scaleHeight);
-				ContentSize = new SizeF(WaveFormView.Frame.Width + width, Bounds.Height);
-				ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
-			}
-		}
+//		private void UpdateContentSizeAndOffset(float width)
+//		{
+//			//Tracing.Log("MPfmWaveFormScrollView - UpdateContentSizeAndOffset - zoomScale: {0} offsetRatio: {1} width: {2}", _zoomScale, _offsetRatio, width);
+//			if(ScrollViewMode == WaveFormScrollViewMode.Standard)
+//			{
+//				WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, width * _zoomScale, WaveFormView.Frame.Height);
+//				WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, width * _zoomScale, _scaleHeight);
+//				ContentSize = new SizeF(WaveFormView.Frame.Width, Bounds.Height);
+//				ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
+//			}
+//			else if(ScrollViewMode == WaveFormScrollViewMode.SelectPosition)
+//			{
+//				WaveFormView.Frame = new RectangleF(WaveFormView.Frame.X, WaveFormView.Frame.Y, width * _zoomScale, WaveFormView.Frame.Height);
+//				WaveFormScaleView.Frame = new RectangleF(WaveFormScaleView.Frame.X, WaveFormScaleView.Frame.Y, width * _zoomScale, _scaleHeight);
+//				ContentSize = new SizeF(WaveFormView.Frame.Width + width, Bounds.Height);
+//				ContentOffset = new PointF(WaveFormView.Frame.Width * _offsetRatio, 0);
+//			}
+//		}
 
         public void LoadPeakFile(AudioFile audioFile)
         {
-            WaveFormScaleView.Hidden = true;
-            UserInteractionEnabled = false;
+			//WaveFormScaleView.Hidden = true;
+			//UserInteractionEnabled = false;
             if(ScrollViewMode == WaveFormScrollViewMode.Standard)
             {
                 WaveFormView.Frame = new RectangleF(0, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
                 WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, _scaleHeight);
-                ContentSize = Bounds.Size;
-                ContentOffset = new PointF(0, 0);
             }
             else if(ScrollViewMode == WaveFormScrollViewMode.SelectPosition)
             {
                 WaveFormView.Frame = new RectangleF(Bounds.Width / 2, _scaleHeight, Bounds.Width, Bounds.Height - _scaleHeight);
                 WaveFormScaleView.Frame = new RectangleF(Bounds.Width / 2, 0, Bounds.Width, _scaleHeight);
-                ContentSize = new SizeF(Bounds.Width * 2, Bounds.Height);
-                ContentOffset = new PointF(0, 0);
             }
             WaveFormView.LoadPeakFile(audioFile);
             WaveFormScaleView.AudioFile = audioFile;
 			WaveFormScaleView.SetNeedsDisplay();
         }
 
-        public void RefreshWaveFormBitmap(float width)
-        {
-			Console.WriteLine("WaveFormScrollView - RefreshWaveFormBitmap - width: {0} offsetRatio: {1}", width, _offsetRatio);
-            WaveFormView.RefreshWaveFormBitmap(width);
-            WaveFormScaleView.SetNeedsDisplay();
-			UpdateZoomScale(width);
-			//ZoomScale = 1.0f;
-			//UpdateContentSizeAndOffset(width);
-        }
-
+//        public void RefreshWaveFormBitmap(float width)
+//        {
+//			Console.WriteLine("WaveFormScrollView - RefreshWaveFormBitmap - width: {0} offsetRatio: {1}", width, _offsetRatio);
+//            WaveFormView.RefreshWaveFormBitmap(width);
+//            WaveFormScaleView.SetNeedsDisplay();
+//			UpdateZoomScale(width);
+//			//ZoomScale = 1.0f;
+//			//UpdateContentSizeAndOffset(width);
+//        }
+//
         public void SetWaveFormLength(long lengthBytes)
         {
 			Console.WriteLine("WaveFormScrollView - SetWaveFormLength - length: {0}", lengthBytes);
@@ -268,7 +309,7 @@ namespace MPfm.iOS.Classes.Controls
 		public void SetMarkerPosition(Marker marker)
 		{
 			WaveFormView.SetMarkerPosition(marker);
-			ProcessAutoScroll(marker.PositionBytes);
+			//ProcessAutoScroll(marker.PositionBytes);
 		}
 
         public void SetPosition(long position)
@@ -326,54 +367,49 @@ namespace MPfm.iOS.Classes.Controls
         public void SetSecondaryPosition(long position)
 		{
 			WaveFormView.SecondaryPosition = position;
-			ProcessAutoScroll(position);
+			//ProcessAutoScroll(position);
 		}
 
-		private void ProcessAutoScroll(long position)
-		{
-            // Process autoscroll
-            if (_zoomScale > 1)
-            {
-                float positionPercentage = (float)position / (float)WaveFormView.Length;
-                float cursorX = (positionPercentage * WaveFormView.Bounds.Width);
-				//float scrollStartX = ContentOffset.X;
-                float scrollCenterX = ContentOffset.X + Bounds.Width / 2;
-				//float scrollEndX = Bounds.Width + ContentOffset.X;
-                //Console.WriteLine("WaveFormScrollView - AutoScroll - positionPct: {0} cursorX: {1} contentOffset.X: {2} waveFormView.Width: {3} scrollStartX: {4} scrollCenterX: {5} scrollEndX: {6}", positionPercentage, cursorX, ContentOffset.X, WaveFormView.Bounds.Width, scrollStartX, scrollCenterX, scrollEndX);
+//		private void ProcessAutoScroll(long position)
+//		{
+//            // Process autoscroll
+//            if (_zoomScale > 1)
+//            {
+//                float positionPercentage = (float)position / (float)WaveFormView.Length;
+//                float cursorX = (positionPercentage * WaveFormView.Bounds.Width);
+//				//float scrollStartX = ContentOffset.X;
+//                float scrollCenterX = ContentOffset.X + Bounds.Width / 2;
+//				//float scrollEndX = Bounds.Width + ContentOffset.X;
+//                //Console.WriteLine("WaveFormScrollView - AutoScroll - positionPct: {0} cursorX: {1} contentOffset.X: {2} waveFormView.Width: {3} scrollStartX: {4} scrollCenterX: {5} scrollEndX: {6}", positionPercentage, cursorX, ContentOffset.X, WaveFormView.Bounds.Width, scrollStartX, scrollCenterX, scrollEndX);
+//
+//                if (cursorX != scrollCenterX)
+//                {
+//                    if (cursorX < scrollCenterX)
+//                    {
+//                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is left of center X!");
+//                        if (ContentOffset.X >= 0)
+//                        {
+//                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
+//                            newContentOffsetX = newContentOffsetX < 0 ? 0 : newContentOffsetX;
+//                            //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the left; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
+//                            ContentOffset = new PointF(newContentOffsetX, 0);
+//                        }
+//                    }
+//                    else if(cursorX > scrollCenterX)
+//                    {
+//                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is right of center X!");
+//                        if (ContentOffset.X < WaveFormView.Bounds.Width - Bounds.Width)
+//                        {
+//                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
+//                            newContentOffsetX = newContentOffsetX > WaveFormView.Bounds.Width - Bounds.Width ? WaveFormView.Bounds.Width - Bounds.Width : newContentOffsetX;
+//                            //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the right; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
+//                            ContentOffset = new PointF(newContentOffsetX, 0);
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
-                if (cursorX != scrollCenterX)
-                {
-                    if (cursorX < scrollCenterX)
-                    {
-                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is left of center X!");
-                        if (ContentOffset.X >= 0)
-                        {
-                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
-                            newContentOffsetX = newContentOffsetX < 0 ? 0 : newContentOffsetX;
-                            //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the left; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
-                            ContentOffset = new PointF(newContentOffsetX, 0);
-                        }
-                    }
-                    else if(cursorX > scrollCenterX)
-                    {
-                        //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - The cursor is right of center X!");
-                        if (ContentOffset.X < WaveFormView.Bounds.Width - Bounds.Width)
-                        {
-                            float newContentOffsetX = cursorX - (Bounds.Width / 2f);
-                            newContentOffsetX = newContentOffsetX > WaveFormView.Bounds.Width - Bounds.Width ? WaveFormView.Bounds.Width - Bounds.Width : newContentOffsetX;
-                            //Console.WriteLine("WaveFormScrollView - Cursor isn't centered - There is space on the right; AUTOCENTER! currentContentOffsetX: {0} newContentOffsetX: {1}", ContentOffset.X, newContentOffsetX);
-                            ContentOffset = new PointF(newContentOffsetX, 0);
-                        }
-                    }
-                }
-            }
-        }
-
-        public override void Draw(RectangleF rect)
-        {
-            var context = UIGraphics.GetCurrentContext();
-            CoreGraphicsHelper.FillRect(context, new RectangleF(0, 22, Bounds.Width, Bounds.Height), new CGColor(0, 0, 0, 0.25f));
-        }
     }
 
     public enum WaveFormScrollViewMode

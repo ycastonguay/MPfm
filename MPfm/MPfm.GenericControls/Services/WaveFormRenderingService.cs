@@ -316,8 +316,8 @@ namespace MPfm.GenericControls.Services
                     heightToRenderLine = (request.BoundsWaveForm.Height / 2);
 
                 context.DrawRectangle(new BasicRectangle(0, 0, request.BoundsBitmap.Width + 2, request.BoundsBitmap.Height), _brushBackground, _penTransparent);
-                context.DrawText(string.Format("{0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
-                context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+				//context.DrawText(string.Format("{0}", request.BoundsBitmap.X), new BasicPoint(1, request.BoundsBitmap.Height - 20), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
+				//context.DrawText(string.Format("{0:0.0}", request.Zoom), new BasicPoint(1, request.BoundsBitmap.Height - 10), new BasicColor(255, 255, 255), "Roboto Bold", 10 * context.Density);
 
                 // The pen cannot be cached between refreshes because the line width changes every time the width changes
                 //context.SetLineWidth(0.2f);
