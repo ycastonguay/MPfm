@@ -155,5 +155,10 @@ namespace MPfm.iOS.Classes.Controls
 		{
 			_control.SetMarkerPosition(marker);
 		}
+
+		public void InvalidateBitmaps()
+		{
+			_control.InvalidateBitmaps();
+		}
     }
 }

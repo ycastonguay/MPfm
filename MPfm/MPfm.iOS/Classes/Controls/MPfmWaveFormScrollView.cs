@@ -211,6 +211,10 @@ namespace MPfm.iOS.Classes.Controls
 			WaveFormScaleView.Frame = new RectangleF(0, 0, Bounds.Width, _scaleHeight);
             _lblZoom.Frame = new RectangleF(((Bounds.Width - 70) / 2), (Bounds.Height - 20) / 2, 54, 20);
             _viewCenterLine.Frame = new RectangleF((Bounds.Width / 2), 0, 1, Bounds.Height);
+
+			Console.WriteLine("=========>>>>>>>> WaveFormScrollView - LayoutSubviews - frame: {0} orientation: {1}", Frame, UIDevice.CurrentDevice.Orientation);
+			WaveFormView.InvalidateBitmaps();
+			WaveFormScaleView.SetNeedsDisplay();
         }
 
         public void LoadPeakFile(AudioFile audioFile)
