@@ -248,6 +248,11 @@
     <Compile Include="Classes\Controls\Wrappers\HorizontalScrollBarWrapper.cs" />
     <Compile Include="Classes\Controls\Wrappers\VerticalScrollBarWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\DisposableImageFactory.cs" />
+    <Compile Include="Windows\StartResumePlaybackWindow.cs" />
+    <Compile Include="Windows\StartResumePlaybackWindow.designer.cs">
+      <DependentUpon>StartResumePlaybackWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\StartResumePlaybackWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
@@ -267,6 +272,7 @@
     <InterfaceDefinition Include="Windows\XIB\SyncDownloadWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncCloudWindow.xib" />
     <InterfaceDefinition Include="Windows\XIB\SyncWebBrowserWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\StartResumePlaybackWindow.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
