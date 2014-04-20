@@ -53,6 +53,9 @@ namespace MPfm.Mac
             btnTabLibrary.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabCloud.OnTabButtonSelected += HandleOnTabButtonSelected;
 
+            btnAddFolder.OnButtonSelected += (button) => {               
+            };
+
             LoadFontsAndImages();
             HandleOnTabButtonSelected(btnTabGeneral);
         }
@@ -65,14 +68,14 @@ namespace MPfm.Mac
 
         private void LoadFontsAndImages()
         {
-            viewGeneralPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewGeneralPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewAudioPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewAudioPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewLibraryPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewLibraryPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
-            viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewGeneralPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewGeneralPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewAudioPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewAudioPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewLibraryPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewLibraryPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
 
             var headerFont = NSFont.FromFontName("Roboto", 14f);
             lblGeneralPreferences.Font = headerFont;
@@ -124,16 +127,37 @@ namespace MPfm.Mac
             lblHz.TextColor = textColor;
 
             var noteFont = NSFont.FromFontName("Roboto", 11f);
-            var noteColor = NSColor.FromDeviceRgba(0.8f, 0.8f, 0.8f, 1);
+            var noteColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
             lblResumePlaybackNote.Font = noteFont;
-            lblResumePlaybackNote.TextColor = noteColor;
+            lblResumePlaybackNote.TextColor = noteColor;           
 
             // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
             var dict = new NSMutableDictionary();
-            dict.Add(NSAttributedString.ForegroundColorAttributeName, textColor);
+            dict.Add(NSAttributedString.ForegroundColorAttributeName, NSColor.White);
             dict.Add(NSAttributedString.FontAttributeName, NSFont.FromFontName("Roboto", 12));
             var attrStr = new NSAttributedString("Enable Resume Playback with Dropbox", dict);
             checkEnableResumePlayback.AttributedTitle = attrStr;
+
+            btnTabGeneral.ShowSelectedBackgroundColor = true;
+            btnTabGeneral.BackgroundColor = GlobalTheme.SettingsTabColor;
+            btnTabGeneral.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
+            btnTabGeneral.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
+            btnTabGeneral.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
+            btnTabAudio.ShowSelectedBackgroundColor = true;
+            btnTabAudio.BackgroundColor = GlobalTheme.SettingsTabColor;
+            btnTabAudio.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
+            btnTabAudio.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
+            btnTabAudio.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
+            btnTabLibrary.ShowSelectedBackgroundColor = true;
+            btnTabLibrary.BackgroundColor = GlobalTheme.SettingsTabColor;
+            btnTabLibrary.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
+            btnTabLibrary.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
+            btnTabLibrary.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
+            btnTabCloud.ShowSelectedBackgroundColor = true;
+            btnTabCloud.BackgroundColor = GlobalTheme.SettingsTabColor;
+            btnTabCloud.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
+            btnTabCloud.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
+            btnTabCloud.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
 
             btnTabGeneral.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_general");
             btnTabAudio.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_speaker");

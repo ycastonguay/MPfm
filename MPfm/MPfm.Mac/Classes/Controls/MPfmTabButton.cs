@@ -38,7 +38,9 @@ namespace MPfm.Mac.Classes.Controls
         public CGColor BackgroundColor { get; set; }
         public CGColor BackgroundMouseDownColor { get; set; }
         public CGColor BackgroundMouseOverColor { get; set; }
+        public CGColor BackgroundSelectedColor { get; set; }
         public CGColor BorderColor { get; set; }
+        public bool ShowSelectedBackgroundColor { get; set; }
 
         private bool _isSelected = false;
         public bool IsSelected
@@ -76,6 +78,7 @@ namespace MPfm.Mac.Classes.Controls
             BackgroundColor = GlobalTheme.PanelHeaderColor1;
             BackgroundMouseDownColor = GlobalTheme.ButtonToolbarBackgroundMouseOverColor;
             BackgroundMouseOverColor = GlobalTheme.ButtonToolbarBackgroundMouseDownColor;
+            BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
             BorderColor = GlobalTheme.ButtonToolbarBorderColor;
 
             // This allows MouseEntered and MouseExit to work
@@ -130,6 +133,8 @@ namespace MPfm.Mac.Classes.Controls
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseDownColor);
             else if (_isMouseOver)
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundMouseOverColor);
+            else if (IsSelected && ShowSelectedBackgroundColor)
+                CoreGraphicsHelper.FillRect(context, Bounds, BackgroundSelectedColor);
             else
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 

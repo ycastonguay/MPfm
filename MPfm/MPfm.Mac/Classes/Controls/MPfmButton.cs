@@ -42,6 +42,9 @@ namespace MPfm.Mac.Classes.Controls
         public CGColor BackgroundMouseOverColor { get; set; }
         public CGColor BorderColor { get; set; }
 
+        public delegate void ButtonSelected(MPfmButton button);
+        public event ButtonSelected OnButtonSelected;
+
         [Export("init")]
         public MPfmButton() : base(NSObjectFlag.Empty)
         {
@@ -83,6 +86,8 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseUp(theEvent);
             _isMouseDown = false;
+            if(OnButtonSelected != null)
+                OnButtonSelected(this);
             SetNeedsDisplay();
         }
 
