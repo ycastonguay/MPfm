@@ -124,9 +124,9 @@ namespace MPfm.Mac.Classes.Controls
             base.ScrollWheel(theEvent);
 
             if (theEvent.DeltaY > 0)
-                _control.MouseWheel(2);
+                _control.MouseWheel(1);
             else if (theEvent.DeltaY < 0)
-                _control.MouseWheel(-2);
+                _control.MouseWheel(-1);
         }
     }
 }

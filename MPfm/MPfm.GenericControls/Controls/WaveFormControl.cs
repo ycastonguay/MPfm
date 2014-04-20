@@ -16,10 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
 using MPfm.Core;
 using MPfm.GenericControls.Interaction;
@@ -30,11 +27,8 @@ using MPfm.GenericControls.Services.Objects;
 using MPfm.MVP.Bootstrap;
 using MPfm.Player.Objects;
 using MPfm.Sound.AudioFiles;
-using MPfm.Sound.PeakFiles;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
-using MPfm.GenericControls.Wrappers;
-using TinyIoC;
 
 namespace MPfm.GenericControls.Controls
 {
@@ -145,7 +139,6 @@ namespace MPfm.GenericControls.Controls
         {
             get
             {
-                //return new BasicRectangle(0, 0, Frame.Width * Zoom, Frame.Height * Zoom);
                 return new BasicRectangle(0, 0, Frame.Width * Zoom, Frame.Height);
             }
         }
@@ -232,33 +225,39 @@ namespace MPfm.GenericControls.Controls
 			//Console.WriteLine("WaveFormControl - HandleGeneratePeakFileEndedEvent - LoadPeakFile Cancelled: " + e.Cancelled.ToString() + " FilePath: " + e.AudioFilePath);
             //if (!e.Cancelled)
             //    _waveFormRenderingService.LoadPeakFile(new AudioFile(e.AudioFilePath));
+
+            InvalidateBitmaps();
         }
 
         private void HandleLoadedPeakFileSuccessfullyEvent(object sender, LoadPeakFileEventArgs e)
         {
 			//Console.WriteLine("WaveFormControl - HandleLoadedPeakFileSuccessfullyEvent");
-            if (Frame.Width == 0)
-                return;
-
-            // Start generating the first tile
-            _waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);
-
-            // Start generating all tiles for zoom @ 100%
-            //for(int a = 0; a < Frame.Width; a = a + WaveFormCacheService.TileSize)
-                //_waveFormCacheService.GetTile(a, Frame.Height, Frame.Width, Zoom);
-
-            IsLoading = false;
-            //OnInvalidateVisual();            
+            InvalidateBitmaps();
         }
 
         private void HandleGenerateWaveFormEndedEvent(object sender, GenerateWaveFormEventArgs e)
         {
             //Console.WriteLine("WaveFormControl - HandleGenerateWaveFormEndedEvent - e.Width: {0} e.Zoom: {1}", e.Width, e.Zoom);
             float deltaZoom = Zoom / e.Zoom;
-            //OnInvalidateVisual();
             float offsetX = (e.OffsetX*deltaZoom) - ContentOffset.X;
             OnInvalidateVisualInRect(new BasicRectangle(offsetX, 0, e.Width, Frame.Height));
-            //OnInvalidateVisualInRect(new BasicRectangle(e.OffsetX, 0, e.Width, Frame.Height));
+        }
+
+        public void InvalidateBitmaps()
+        {
+            if (Frame.Width == 0)
+                return;
+
+            // Start generating the first tile
+            _waveFormCacheService.FlushCache();
+            _waveFormCacheService.GetTile(0, Frame.Height, Frame.Width, Zoom);
+
+            // Start generating all tiles for zoom @ 100%
+            //for(int a = 0; a < Frame.Width; a = a + WaveFormCacheService.TileSize)
+            //_waveFormCacheService.GetTile(a, Frame.Height, Frame.Width, Zoom);
+
+            IsLoading = false;
+            OnInvalidateVisual();
         }
 
         public void SetActiveMarker(Guid markerId)
