@@ -23,21 +23,21 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
-        <window title="Resume Playback" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" animationBehavior="default" id="2" customClass="StartResumePlaybackWindow">
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" animationBehavior="default" id="2" customClass="StartResumePlaybackWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="131" y="74" width="511" height="359"/>
+            <rect key="contentRect" x="131" y="74" width="490" height="348"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <view key="contentView" id="3">
-                <rect key="frame" x="0.0" y="0.0" width="511" height="359"/>
+                <rect key="frame" x="0.0" y="0.0" width="490" height="348"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView id="hHh-MD-BD7">
-                        <rect key="frame" x="0.0" y="0.0" width="511" height="359"/>
+                        <rect key="frame" x="0.0" y="-11" width="511" height="359"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" id="3fW-T3-7XB">
-                                <rect key="frame" x="9" y="107" width="275" height="20"/>
+                                <rect key="frame" x="9" y="109" width="275" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Last updated: 2014-02-01 14:55:49" id="nBe-7a-fhz">
                                     <font key="font" metaFont="system"/>
@@ -64,7 +64,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="pBf-vG-kLc">
-                                <rect key="frame" x="125" y="204" width="316" height="25"/>
+                                <rect key="frame" x="125" y="206" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bob Dylan" id="2g2-g2-E8n">
                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -73,7 +73,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="xgw-3Z-aE2">
-                                <rect key="frame" x="125" y="181" width="316" height="25"/>
+                                <rect key="frame" x="125" y="183" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Blonde on Blonde" id="ewO-x7-I32">
                                     <font key="font" metaFont="system" size="14"/>
@@ -82,7 +82,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" id="rCj-dp-Ifh">
-                                <rect key="frame" x="125" y="156" width="316" height="25"/>
+                                <rect key="frame" x="125" y="158" width="316" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="One of Us Must Know (Sooner or Later)" id="dxs-7C-CrP">
                                     <font key="font" metaFont="cellTitle"/>
@@ -91,7 +91,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" id="uNG-RK-er5" customClass="MPfmButton">
-                                <rect key="frame" x="139" y="62" width="250" height="30"/>
+                                <rect key="frame" x="139" y="65" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="Resume from this device" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Sv6-pf-1gg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -99,7 +99,7 @@
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" id="nOg-nl-qq5" customClass="MPfmButton">
-                                <rect key="frame" x="139" y="26" width="250" height="30"/>
+                                <rect key="frame" x="139" y="29" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="smallSquare" title="No, thanks" bezelStyle="smallSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8g8-W2-LBz">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -107,10 +107,10 @@
                                 </buttonCell>
                             </button>
                             <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="lZd-Ek-9Tv">
-                                <rect key="frame" x="9" y="298" width="496" height="23"/>
+                                <rect key="frame" x="9" y="300" width="496" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Sessions has detected that you have played music on another device recently:" id="MMe-je-f7h">
-                                    <font key="font" metaFont="titleBar" size="12"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                     <color key="textColor" red="0.87450980389999999" green="0.87450980389999999" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -118,12 +118,12 @@
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="eUo-9n-LeN">
                                 <rect key="frame" x="11" y="144" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="MPfm" id="wdS-zp-hEL"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="wdS-zp-hEL"/>
                             </imageView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Cl3-8z-YKr">
                                 <rect key="frame" x="11" y="262" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="MPfm" id="ikR-RV-nuC"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="ikR-RV-nuC"/>
                             </imageView>
                             <textField verticalHuggingPriority="750" id="a3K-2Y-Abq">
                                 <rect key="frame" x="9" y="323" width="177" height="25"/>
@@ -140,7 +140,4 @@
             </view>
         </window>
     </objects>
-    <resources>
-        <image name="MPfm" width="512" height="512"/>
-    </resources>
 </document>

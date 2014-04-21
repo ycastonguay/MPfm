@@ -38,14 +38,6 @@ namespace MPfm.Mac
             Initialize();
         }
         
-//        // Called when created directly from a XIB file
-//        [Export ("initWithCoder:")]
-//        public SplashWindowController(NSCoder coder) 
-//            : base (coder)
-//        {
-//            Initialize();
-//        }
-        
         // Call to load from the XIB/NIB file
         public SplashWindowController(Action<IBaseView> onViewReady) 
             : base ("SplashWindow", onViewReady)
@@ -116,20 +108,6 @@ namespace MPfm.Mac
 
             // Set view as ready
             OnViewReady.Invoke(this);
-        }
-
-        public override void WindowDidLoad()
-        {
-            base.WindowDidLoad();
-
-//            // Load screens
-//            AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
-//            appDelegate.LoadScreens();
-
-            // Bind view and initialize
-            //splashPresenter.BindView(this);
-            //splashPresenter.Initialize(() => {
-            //});
         }
 
         #region ISplashView implementation

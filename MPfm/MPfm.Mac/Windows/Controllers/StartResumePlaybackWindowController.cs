@@ -24,6 +24,7 @@ using MPfm.MVP.Views;
 using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Mac.Classes.Objects;
+using System.Threading.Tasks;
 
 namespace MPfm.Mac
 {
@@ -58,13 +59,8 @@ namespace MPfm.Mac
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
-            OnViewReady(this);
-        }
-
-        public override void AwakeFromNib()
-        {
-            base.AwakeFromNib();
             LoadFontsAndImages();
+            OnViewReady(this);
         }
 
         private void LoadFontsAndImages()
@@ -87,8 +83,48 @@ namespace MPfm.Mac
             lblSongTitle.Font = songTitleFont;
             lblLastUpdated.Font = lastUpdatedFont;
 
+            imageViewDevice.Image = NSImage.ImageNamed("icon_device_android");
             btnOK.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_ok");     
             btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");     
+        }
+
+        private async void LoadAlbumArt(AudioFile audioFile)
+        {
+            var task = Task<NSImage>.Factory.StartNew(() => {
+                try
+                {
+                    NSImage image = null;
+                    byte[] bytesImage = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);                        
+                    using (NSData imageData = NSData.FromArray(bytesImage))
+                    {
+                        InvokeOnMainThread(() => {
+                            image = new NSImage(imageData);
+                        });
+                    }
+                    return image;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to process image: {0}", ex);
+                }
+
+                return null;
+            });
+
+            NSImage imageFromTask = await task;
+            if(imageFromTask == null)
+                return;
+
+            InvokeOnMainThread(() => {
+                try
+                {
+                    imageViewAlbum.Image = imageFromTask;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("PlayerViewController - RefreshSongInformation - Failed to set image after processing: {0}", ex);
+                }
+            });
         }
 
         #region IStartResumePlaybackView implementation
@@ -109,6 +145,8 @@ namespace MPfm.Mac
                 lblAlbumTitle.StringValue = audioFile.AlbumTitle;
                 lblSongTitle.StringValue = audioFile.Title;
                 lblLastUpdated.StringValue = string.Format("Last updated: {0}", info.Timestamp);
+
+                LoadAlbumArt(audioFile);
             });
         }
 
