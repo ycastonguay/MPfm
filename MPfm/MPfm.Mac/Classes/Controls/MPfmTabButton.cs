@@ -41,6 +41,7 @@ namespace MPfm.Mac.Classes.Controls
         public CGColor BackgroundSelectedColor { get; set; }
         public CGColor BorderColor { get; set; }
         public bool ShowSelectedBackgroundColor { get; set; }
+        public LineLocationEnum LineLocation { get; set; }
 
         private bool _isSelected = false;
         public bool IsSelected
@@ -138,8 +139,10 @@ namespace MPfm.Mac.Classes.Controls
             else
                 CoreGraphicsHelper.FillRect(context, Bounds, BackgroundColor);
 
-            if(IsSelected)
+            if(IsSelected && LineLocation == LineLocationEnum.Bottom)
                 CoreGraphicsHelper.DrawLine(context, new PointF[2] { new PointF(0, 1), new PointF(Bounds.Width, 1) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
+            else if(IsSelected && LineLocation == LineLocationEnum.Top)
+                CoreGraphicsHelper.DrawLine(context, new PointF[2] { new PointF(0, Bounds.Height - 1), new PointF(Bounds.Width, Bounds.Height - 1) }, 0.5f, new CGColor(0.4f, 1, 1, 1));
 
             //CocoaHelper.DrawRect(context, Bounds, BorderColor);
             //RectangleF rectTextSize = CocoaHelper.MeasureString(Bounds.Size, Title, "Junction", 11);
@@ -170,6 +173,11 @@ namespace MPfm.Mac.Classes.Controls
         {
             RectangleF newRect = new RectangleF(rect.X + 0.5f, rect.Y + 0.5f, rect.Width - 1, rect.Height - 1);
             return newRect;
+        }
+
+        public enum LineLocationEnum
+        {
+            Bottom = 0, Top = 1
         }
     }
 }
