@@ -72,7 +72,7 @@ namespace MPfm.Mac
 
         private void LoadFontsAndImages()
         {
-            var titleFont = NSFont.FromFontName("Roboto", 14f);
+            var titleFont = NSFont.FromFontName("Roboto Medium", 14f);
             var minorStepFont = NSFont.FromFontName("Roboto", 11f);
             var majorStepFont = NSFont.FromFontName("Roboto", 12f);
             lblTitle.Font = titleFont;

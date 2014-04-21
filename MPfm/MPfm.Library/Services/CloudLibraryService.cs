@@ -99,7 +99,7 @@ namespace MPfm.Library.Services
                 }
 
                 if (OnDeviceInfosDownloadProgress != null)
-                    OnDeviceInfosDownloadProgress(_deviceInfos.Count/(_deviceInfos.Count + _deviceInfosLeftToDownload.Count));
+                    OnDeviceInfosDownloadProgress((float)_deviceInfos.Count/(float)(_deviceInfos.Count + _deviceInfosLeftToDownload.Count));
 
                 // Check if list is already empty; do not raise OnDeviceInfosAvailable multiple times
 				if (_deviceInfosLeftToDownload.Count == 0)

@@ -136,6 +136,10 @@ namespace MPfm.Mac
 
         public void RefreshStatus(string message)
         {
+            InvokeOnMainThread(delegate
+            {
+                lblMessage.StringValue = message;
+            });
         }
 
         public void DestroyView()
