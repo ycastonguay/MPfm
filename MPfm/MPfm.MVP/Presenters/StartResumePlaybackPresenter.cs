@@ -22,6 +22,7 @@ using MPfm.MVP.Views;
 using MPfm.Library.Services.Interfaces;
 using System.Linq;
 using MPfm.Sound.AudioFiles;
+using System;
 
 namespace MPfm.MVP.Presenters
 {
@@ -46,7 +47,6 @@ namespace MPfm.MVP.Presenters
         {
             view.OnResumePlayback = ResumePlayback;
             base.BindView(view);
-
             RefreshDevice();
         }
 
@@ -55,9 +55,10 @@ namespace MPfm.MVP.Presenters
             _audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.Id == _device.AudioFileId);
             if (_audioFile == null)
             {
-                _audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => x.ArtistName.ToUpper() == _device.ArtistName.ToUpper() &&
-                                                                             x.AlbumTitle.ToUpper() == _device.AlbumTitle.ToUpper() &&
-                                                                             x.Title.ToUpper() == _device.SongTitle.ToUpper());
+                _audioFile = _audioFileCacheService.AudioFiles.FirstOrDefault(x => string.Compare(x.ArtistName, _device.ArtistName, true) == 0 &&
+                    string.Compare(x.AlbumTitle, _device.AlbumTitle, true) == 0 &&
+                    string.Compare(x.Title, _device.SongTitle, true) == 0);
+
             }
             View.RefreshCloudDeviceInfo(_device, _audioFile);
         }

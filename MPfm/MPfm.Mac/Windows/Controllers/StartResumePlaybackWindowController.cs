@@ -23,6 +23,7 @@ using MonoMac.AppKit;
 using MPfm.MVP.Views;
 using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {
@@ -42,6 +43,14 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
+            btnOK.OnButtonSelected += (button) => {
+                OnResumePlayback();
+                Close();
+            };
+            btnCancel.OnButtonSelected += (button) => {
+                Close();
+            };
+
             this.Window.Center();
             this.Window.MakeKeyAndOrderFront(this);
         }
@@ -49,24 +58,37 @@ namespace MPfm.Mac
         public override void WindowDidLoad()
         {
             base.WindowDidLoad();
-            //LoadFontsAndImages();
             OnViewReady(this);
+        }
+
+        public override void AwakeFromNib()
+        {
+            base.AwakeFromNib();
+            LoadFontsAndImages();
         }
 
         private void LoadFontsAndImages()
         {
-            //            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-            //            lblStatus.Font = NSFont.FromFontName("Junction", 12);
-            //            lblCurrentFile.Font = NSFont.FromFontName("Junction", 12);
-            //            lblCurrentFileValue.Font = NSFont.FromFontName("Junction", 12);
-            //            lblDownloadSpeed.Font = NSFont.FromFontName("Junction", 12);
-            //            lblDownloadSpeedValue.Font = NSFont.FromFontName("Junction", 16);
-            //            lblErrors.Font = NSFont.FromFontName("Junction", 12);
-            //            lblErrorsValue.Font = NSFont.FromFontName("Junction", 16);
-            //            lblFilesDownloaded.Font = NSFont.FromFontName("Junction", 12);
-            //            lblFilesDownloadedValue.Font = NSFont.FromFontName("Junction", 16);
-            //
-            //            btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");     
+            var headerFont = NSFont.FromFontName("Roboto Bold", 16f);
+            var noteFont = NSFont.FromFontName("Roboto", 12f);
+            var deviceNameFont = NSFont.FromFontName("Roboto Medium", 14f);
+            var playlistNameFont = NSFont.FromFontName("Roboto", 13f);
+            var lastUpdatedFont = NSFont.FromFontName("Roboto", 12f);
+            var artistNameFont = NSFont.FromFontName("Roboto Bold", 18f);
+            var albumTitleFont = NSFont.FromFontName("Roboto Medium", 16f);
+            var songTitleFont = NSFont.FromFontName("Roboto", 14f);
+
+            lblTitle.Font = headerFont;
+            lblNote.Font = noteFont;
+            lblDeviceName.Font = deviceNameFont;
+            lblPlaylistName.Font = playlistNameFont;
+            lblArtistName.Font = artistNameFont;
+            lblAlbumTitle.Font = albumTitleFont;
+            lblSongTitle.Font = songTitleFont;
+            lblLastUpdated.Font = lastUpdatedFont;
+
+            btnOK.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_ok");     
+            btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");     
         }
 
         #region IStartResumePlaybackView implementation
@@ -75,10 +97,19 @@ namespace MPfm.Mac
 
         public void StartResumePlaybackError(Exception ex)
         {
+            ShowError(ex);
         }
 
         public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
         {
+            InvokeOnMainThread(() =>
+            {
+                lblDeviceName.StringValue = info.DeviceName;
+                lblArtistName.StringValue = audioFile.ArtistName;
+                lblAlbumTitle.StringValue = audioFile.AlbumTitle;
+                lblSongTitle.StringValue = audioFile.Title;
+                lblLastUpdated.StringValue = string.Format("Last updated: {0}", info.Timestamp);
+            });
         }
 
         #endregion
