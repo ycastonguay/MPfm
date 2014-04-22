@@ -38,16 +38,15 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
-        private void btnResume_OnClick(object sender, RoutedEventArgs e)
+        private void BtnOK_OnClick(object sender, RoutedEventArgs e)
         {
-            if (listView.SelectedItems.Count == 0)
-                return;
-
             OnResumePlayback();
+            Close();
         }
 
-        private void btnOpenPreferencesWindow_OnClick(object sender, RoutedEventArgs e)
+        private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
+            Close();
         }
 
         #region IStartResumePlaybackView implementation
@@ -64,18 +63,16 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
         {
-        }
-
-        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
-        {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                _devices = devices.ToList();
-                listView.ItemsSource = _devices;
+                lblDeviceName.Content = info.DeviceName;
+                lblArtistName.Content = audioFile.ArtistName;
+                lblAlbumTitle.Content = audioFile.AlbumTitle;
+                lblSongTitle.Content = audioFile.Title;
+                lblLastUpdated.Content = string.Format("Last updated: {0}", info.Timestamp);
             }));
         }
 
         #endregion
-
     }
 }

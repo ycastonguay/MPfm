@@ -17,69 +17,38 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" x:Name="lblTitle" Content="Resume Playback" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
-            <Button Grid.Column="1" Style="{StaticResource HeaderImageButton}" Click="btnResume_OnClick">
-                <StackPanel Orientation="Horizontal" Margin="4">
-                    <Image Source="/Resources/Images/Buttons/play.png" Stretch="None" />
-                    <TextBlock Margin="6,1,0,0">Resume</TextBlock>
-                </StackPanel>
-            </Button>
         </Grid>        
-        <Grid x:Name="gridLoading" Grid.Row="1" Visibility="Visible">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition />
                 <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" />
-            <StackPanel Grid.Row="1">
-                <Label Content="Loading..." Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" HorizontalContentAlignment="Center" />
-                <ProgressBar Height="20" IsIndeterminate="true" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Margin="5,2,5,2" VerticalContentAlignment="Center" />
+            <StackPanel Grid.Row="0">
+                <Label x:Name="lblTitle2" Content="Resume Playback" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Medium" />
+                <Label x:Name="lblNote" Content="Sessions has detected that you have played music on another device recently:" Foreground="#CCCCCC" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
             </StackPanel>
-            <StackPanel Grid.Row="2" />
-        </Grid>
-        <Grid x:Name="gridLogin" Grid.Row="1" Visibility="Hidden">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" />
             <StackPanel Grid.Row="1">
-                <Label Content="This application is not linked with a Dropbox account." Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" HorizontalContentAlignment="Center" />
-                <Button Margin="0" HorizontalAlignment="Center" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Click="btnOpenPreferencesWindow_OnClick">
-                    <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
-                        <Image Source="/Resources/Images/Buttons/preferences.png" Stretch="None" />
-                        <Label FontSize="11" FontFamily="/Resources/Fonts/#Junction" VerticalContentAlignment="Center" Foreground="White" Margin="6,0,0,0">Open Preferences Window</Label>
-                    </StackPanel>
-                </Button>
+                <StackPanel Orientation="Horizontal">
+                    <Image x:Name="imageDevice" Source="/Resources/Images/Buttons/add.png" />
+                    <Label x:Name="lblDeviceName" Content="John Doe's iPad Air" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
+                </StackPanel>
+                <Label Content="On-the-fly Playlist" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
             </StackPanel>
-            <StackPanel Grid.Row="2" />
-        </Grid>
-        <Grid x:Name="gridResumePlayback" Grid.Row="1" Visibility="Hidden">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Select a device from the list to resume playback:" Foreground="#FFCCCCCC" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Padding="6,8,4,8" />
-            <ListView Grid.Row="1"  x:Name="listView">
-                <ListView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type models:CloudDeviceInfo}" ItemsSource="{Binding SubItems}">
-                        <StackPanel Orientation="Vertical" Margin="4">
-                            <TextBlock Text="{Binding DeviceName}" FontSize="13" FontWeight="Bold" FontFamily="/Resources/Fonts/#Junction" Foreground="Black" Margin="0" />
-                            <TextBlock Text="On-the-fly Playlist" FontSize="12" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="0" />
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel Background="DarkSlateGray" Width="54" Height="54" Margin="0,4,8,4"></StackPanel>
-                                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding ArtistName}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#333333" Margin="0" />
-                                    <TextBlock Text="{Binding AlbumTitle}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#555555" Margin="0" />
-                                    <TextBlock Text="{Binding SongTitle}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#777777" Margin="0" />
-                                </StackPanel>
-                            </StackPanel>
-                            <TextBlock Text="{Binding Timestamp}" FontSize="11" FontFamily="/Resources/Fonts/#Junction" Foreground="#999999" Margin="0" />
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </ListView.Resources>            
-            </ListView>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Image x:Name="imageAlbum" Source="/Resources/Images/Buttons/add.png" />
+                <StackPanel Orientation="Vertical">                    
+                    <Label x:Name="lblArtistName" Content="[Artist name]" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Bold" />
+                    <Label x:Name="lblAlbumTitle" Content="[Album title]" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Medium" />
+                    <Label x:Name="lblSongTitle" Content="[Song title]" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="3">
+                <Label x:Name="lblLastUpdated" Content="Last updated:" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
+                <controls:ImageButton x:Name="btnOK" Title="Resume from this device" ImageSource="/Resources/Images/Buttons/ok.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnOK_OnClick" />
+                <controls:ImageButton x:Name="btnCancel" Title="No, thanks" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnCancel_OnClick" />
+            </StackPanel>
         </Grid>
     </Grid>
 </base:BaseWindow>
