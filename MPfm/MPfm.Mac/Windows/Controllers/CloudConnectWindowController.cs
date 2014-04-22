@@ -22,11 +22,15 @@ using MonoMac.Foundation;
 using MonoMac.AppKit;
 using MPfm.MVP.Views;
 using MPfm.MVP.Models;
+using MPfm.Mac.Classes.Objects;
 
 namespace MPfm.Mac
 {
     public partial class CloudConnectWindowController : BaseWindowController, ICloudConnectView
     {
+        private bool _canCheckForAuthentication = false;
+        private NSColor _uncompletedStepColor = NSColor.FromDeviceRgba(0.75f, 0.75f, 0.75f, 1);
+
         public CloudConnectWindowController(IntPtr handle) 
             : base (handle)
         {
@@ -41,10 +45,23 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
+            LoadFontsAndImages();
+            btnOK.OnButtonSelected += (button) => Close();
+            btnCancel.OnButtonSelected += (button) => Close(); // todo: add cancel
+            progressIndicator.Indeterminate = true;
+            progressIndicator.StartAnimation(this);
+
             this.Window.Center();
             this.Window.MakeKeyAndOrderFront(this);
+            this.Window.DidBecomeKey += HandleWindowDidBecomeKey;
+        }
 
-            LoadFontsAndImages();
+        private void HandleWindowDidBecomeKey(object sender, EventArgs e)
+        {
+            if (!_canCheckForAuthentication)
+                return;
+
+            OnCheckIfAccountIsLinked();
         }
 
         public override void WindowDidLoad()
@@ -54,7 +71,24 @@ namespace MPfm.Mac
         }
 
         private void LoadFontsAndImages()
-        {    
+        {
+            var titleFont = NSFont.FromFontName("Roboto", 14f);
+            var minorStepFont = NSFont.FromFontName("Roboto", 11f);
+            var majorStepFont = NSFont.FromFontName("Roboto", 12f);
+            lblTitle.Font = titleFont;
+            lblStep1.Font = majorStepFont;
+            lblStep1.TextColor = _uncompletedStepColor;
+            lblStep2.Font = majorStepFont;
+            lblStep2.TextColor = _uncompletedStepColor;
+            lblStep2B.Font = minorStepFont;
+            lblStep2B.TextColor = _uncompletedStepColor;
+            lblStep3.Font = majorStepFont;
+            lblStep3.TextColor = _uncompletedStepColor;
+            lblStep4.Font = majorStepFont;
+            lblStep4.TextColor = _uncompletedStepColor;
+
+            btnOK.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_ok");
+            btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
         }
 
         #region ICloudConnectView implementation
@@ -63,14 +97,36 @@ namespace MPfm.Mac
 
         public void CloudConnectError(Exception ex)
         {
+            ShowError(ex);
         }
 
         public void RefreshStatus(CloudConnectEntity entity)
         {
+            InvokeOnMainThread(() =>
+            {
+                string title = string.Format("Connect to {0}", entity.CloudServiceName);
+                Window.Title = title;
+                lblTitle.StringValue = title;
+
+                _canCheckForAuthentication = entity.CurrentStep > 1;
+                lblStep1.TextColor = entity.CurrentStep > 1 ? NSColor.White : _uncompletedStepColor;
+                lblStep2.TextColor = entity.CurrentStep > 2 ? NSColor.White : _uncompletedStepColor;
+                lblStep2B.TextColor = entity.CurrentStep > 2 ? NSColor.White : _uncompletedStepColor;
+                lblStep3.TextColor = entity.CurrentStep > 3 ? NSColor.White : _uncompletedStepColor;
+                lblStep4.TextColor = entity.IsAuthenticated ? NSColor.White : _uncompletedStepColor;
+                btnOK.Enabled = entity.IsAuthenticated;
+                btnCancel.Enabled = !entity.IsAuthenticated;
+
+                if (entity.IsAuthenticated)
+                {
+                    progressIndicator.StopAnimation(this);
+                    progressIndicator.Indeterminate = false;
+                    progressIndicator.DoubleValue = 100;
+                }
+            });
         }
 
         #endregion
 
     }
 }
-

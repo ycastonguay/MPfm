@@ -45,19 +45,18 @@ namespace MPfm.Mac
         
         private void Initialize()
         {
-            this.Window.Center();
-            this.Window.MakeKeyAndOrderFront(this);
-
             btnTabGeneral.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabAudio.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabLibrary.OnTabButtonSelected += HandleOnTabButtonSelected;
             btnTabCloud.OnTabButtonSelected += HandleOnTabButtonSelected;
 
-            btnAddFolder.OnButtonSelected += (button) => {               
-            };
+            btnLoginDropbox.OnButtonSelected += (button) => OnDropboxLoginLogout();
 
             LoadFontsAndImages();
             HandleOnTabButtonSelected(btnTabGeneral);
+
+            this.Window.Center();
+            this.Window.MakeKeyAndOrderFront(this);
         }
 
         public override void WindowDidLoad()
@@ -138,21 +137,25 @@ namespace MPfm.Mac
             var attrStr = new NSAttributedString("Enable Resume Playback with Dropbox", dict);
             checkEnableResumePlayback.AttributedTitle = attrStr;
 
+            btnTabGeneral.LineLocation = MPfmTabButton.LineLocationEnum.Top;
             btnTabGeneral.ShowSelectedBackgroundColor = true;
             btnTabGeneral.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabGeneral.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
             btnTabGeneral.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
             btnTabGeneral.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
+            btnTabAudio.LineLocation = MPfmTabButton.LineLocationEnum.Top;
             btnTabAudio.ShowSelectedBackgroundColor = true;
             btnTabAudio.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabAudio.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
             btnTabAudio.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
             btnTabAudio.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
+            btnTabLibrary.LineLocation = MPfmTabButton.LineLocationEnum.Top;
             btnTabLibrary.ShowSelectedBackgroundColor = true;
             btnTabLibrary.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabLibrary.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
             btnTabLibrary.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
             btnTabLibrary.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
+            btnTabCloud.LineLocation = MPfmTabButton.LineLocationEnum.Top;
             btnTabCloud.ShowSelectedBackgroundColor = true;
             btnTabCloud.BackgroundColor = GlobalTheme.SettingsTabColor;
             btnTabCloud.BackgroundMouseDownColor = GlobalTheme.SettingsTabOverColor;
@@ -196,6 +199,7 @@ namespace MPfm.Mac
 
         public void LibraryPreferencesError(Exception ex)
         {
+            ShowError(ex);
         }
 
         public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
@@ -211,6 +215,7 @@ namespace MPfm.Mac
 
         public void GeneralPreferencesError(Exception ex)
         {
+            ShowError(ex);
         }
 
         public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
@@ -226,14 +231,21 @@ namespace MPfm.Mac
 
         public void CloudPreferencesError(Exception ex)
         {
+            ShowError(ex);
         }
 
         public void RefreshCloudPreferences(CloudAppConfig config)
         {
+            InvokeOnMainThread(() => {
+                checkEnableResumePlayback.State = config.IsResumePlaybackEnabled ? NSCellStateValue.On : NSCellStateValue.Off;
+            });
         }
 
         public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
         {
+            InvokeOnMainThread(() => {
+                btnLoginDropbox.StringValue = entity.IsDropboxLinkedToApp ? "Logout from Dropbox" : "Login to Dropbox";
+            });
         }
 
         #endregion
@@ -244,6 +256,7 @@ namespace MPfm.Mac
 
         public void AudioPreferencesError(Exception ex)
         {
+            ShowError(ex);
         }
 
         public void RefreshAudioPreferences(AudioAppConfig config)

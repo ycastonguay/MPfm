@@ -559,5 +559,7 @@
     <BundleResource Include="Resources\icon_button_library%402x.png" />
     <BundleResource Include="Resources\icon_button_test.png" />
     <BundleResource Include="Resources\icon_button_test%402x.png" />
+    <BundleResource Include="Resources\icon_button_ok.png" />
+    <BundleResource Include="Resources\icon_button_ok%402x.png" />
   </ItemGroup>
 </Project>

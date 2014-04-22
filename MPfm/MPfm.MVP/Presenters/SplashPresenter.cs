@@ -109,7 +109,6 @@ namespace MPfm.MVP.Presenters
                     Close();
                 }
             });
-                    //}, cancellationToken, TaskCreationOptions.LongRunning, _taskScheduler);
 	    }
 
         private void CloudLibraryServiceOnDeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos)
@@ -134,11 +133,11 @@ namespace MPfm.MVP.Presenters
 	            {
                     if (_hasFinishedInitialization)
                         return;
-                    
+
+                    _hasFinishedInitialization = true;
 	                View.InitDone(true);
 	                _onInitDone();
 	                View.RefreshStatus("Opening app...");
-	                _hasFinishedInitialization = true;
 	            }
 	        }, token, TaskCreationOptions.None, _taskScheduler);
 	    }
