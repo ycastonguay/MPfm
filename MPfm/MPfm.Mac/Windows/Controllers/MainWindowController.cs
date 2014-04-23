@@ -1043,6 +1043,7 @@ namespace MPfm.Mac
                     {
                         int row = outlineLibraryBrowser.RowForItem(artistNode);
                         outlineLibraryBrowser.SelectRow(row, false);
+                        outlineLibraryBrowser.ScrollRowToVisible(row);
                     }
                     else if(entity.EntityType == LibraryBrowserEntityType.ArtistAlbum)
                     {
@@ -1050,6 +1051,7 @@ namespace MPfm.Mac
                         var artistAlbumNode = artistNode.SubItems.FirstOrDefault(x => string.Compare(x.Entity.Query.AlbumTitle, entity.Query.AlbumTitle, true) == 0);
                         int row = outlineLibraryBrowser.RowForItem(artistAlbumNode);
                         outlineLibraryBrowser.SelectRow(row, false);
+                        outlineLibraryBrowser.ScrollRowToVisible(row);
                     }
                 }
                 else if(entity.EntityType == LibraryBrowserEntityType.Album)
@@ -1060,6 +1062,7 @@ namespace MPfm.Mac
                     var albumNode = albumsNode.SubItems.FirstOrDefault(x => string.Compare(x.Entity.Query.AlbumTitle, entity.Query.AlbumTitle, true) == 0);
                     int row = outlineLibraryBrowser.RowForItem(albumNode);
                     outlineLibraryBrowser.SelectRow(row, false);
+                    outlineLibraryBrowser.ScrollRowToVisible(row);
                 }
             });
         }

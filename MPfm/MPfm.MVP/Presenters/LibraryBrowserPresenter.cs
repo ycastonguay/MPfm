@@ -305,7 +305,7 @@ namespace MPfm.MVP.Presenters
 			{
 				list.Add(new LibraryBrowserEntity(){
 					Title = album,
-					EntityType = LibraryBrowserEntityType.Album,
+                    EntityType = string.IsNullOrEmpty(artistName) ? LibraryBrowserEntityType.Album : LibraryBrowserEntityType.ArtistAlbum,
                     Query = new LibraryQuery(){
 						Format = format,
 						ArtistName = artistName,
