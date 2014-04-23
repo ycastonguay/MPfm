@@ -51,9 +51,8 @@ namespace MPfm.Mac
             progressIndicator.Indeterminate = true;
             progressIndicator.StartAnimation(this);
 
-            this.Window.Center();
-            this.Window.MakeKeyAndOrderFront(this);
-            this.Window.DidBecomeKey += HandleWindowDidBecomeKey;
+            Window.DidBecomeKey += HandleWindowDidBecomeKey;
+            ShowWindowCentered();
         }
 
         private void HandleWindowDidBecomeKey(object sender, EventArgs e)

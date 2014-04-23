@@ -49,7 +49,7 @@ namespace MPfm.Mac
         void Initialize()
         {
             this.Window.AlphaValue = 0;
-            this.Window.MakeKeyAndOrderFront(this);
+            ShowWindowCentered();
 
             // Fade in splash screen
             NSMutableDictionary dict = new NSMutableDictionary();

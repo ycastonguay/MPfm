@@ -54,9 +54,7 @@ namespace MPfm.Mac
 
             LoadFontsAndImages();
             HandleOnTabButtonSelected(btnTabGeneral);
-
-            this.Window.Center();
-            this.Window.MakeKeyAndOrderFront(this);
+            ShowWindowCentered();
         }
 
         public override void WindowDidLoad()

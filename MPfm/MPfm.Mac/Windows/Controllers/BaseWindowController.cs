@@ -68,6 +68,17 @@ namespace MPfm.Mac
         
         #endregion
 
+        public void ShowWindowCentered()
+        {
+            this.Window.Center();
+            var screenRect = NSScreen.MainScreen.Frame;
+            var rect = Window.Frame;
+            rect.X = (screenRect.Width - Window.Frame.Width) / 2f;
+            rect.Y = (screenRect.Height - Window.Frame.Height) / 2f;
+            this.Window.SetFrame(rect, true);
+            this.Window.MakeKeyAndOrderFront(this);
+        }
+
         protected override void Dispose(bool disposing)
         {
             Console.WriteLine("BaseWindowController - Dispose(" + disposing.ToString() + ")");

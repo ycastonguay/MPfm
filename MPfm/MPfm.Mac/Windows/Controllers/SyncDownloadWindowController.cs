@@ -44,8 +44,7 @@ namespace MPfm.Mac
 
         private void Initialize()
         {
-            this.Window.Center();
-            this.Window.MakeKeyAndOrderFront(this);
+            ShowWindowCentered();
         }
 
         public override void WindowDidLoad()

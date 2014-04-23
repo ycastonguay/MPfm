@@ -25,6 +25,7 @@ using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
 using MPfm.Mac.Classes.Objects;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace MPfm.Mac
 {
@@ -52,14 +53,13 @@ namespace MPfm.Mac
                 Close();
             };
 
-            this.Window.Center();
-            this.Window.MakeKeyAndOrderFront(this);
+            ShowWindowCentered();
         }
 
         public override void WindowDidLoad()
         {
-            base.WindowDidLoad();
             LoadFontsAndImages();
+            base.WindowDidLoad();
             OnViewReady(this);
         }
 

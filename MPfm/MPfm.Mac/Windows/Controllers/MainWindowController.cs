@@ -57,7 +57,7 @@ namespace MPfm.Mac
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
             this.Window.AlphaValue = 0;
-            this.Window.MakeKeyAndOrderFront(this);
+            ShowWindowCentered();
 
             // Fade in main window
             NSMutableDictionary dict = new NSMutableDictionary();
