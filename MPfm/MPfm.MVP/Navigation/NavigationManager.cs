@@ -458,12 +458,12 @@ namespace MPfm.MVP.Navigation
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>();
+                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>(new NamedParameterOverloads() { { "device", _resumeCloudDeviceInfo } });
                 _startResumePlaybackPresenter.BindView((IStartResumePlaybackView)view);
             };
 
             // Create view and manage view destruction
-            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady }, { "device", _resumeCloudDeviceInfo } });
             _startResumePlaybackView.OnViewDestroy = (view) =>
             {
                 _startResumePlaybackPresenter.ViewDestroyed();

@@ -561,5 +561,7 @@
     <BundleResource Include="Resources\icon_button_test%402x.png" />
     <BundleResource Include="Resources\icon_button_ok.png" />
     <BundleResource Include="Resources\icon_button_ok%402x.png" />
+    <BundleResource Include="Resources\icon_device_android.png" />
+    <BundleResource Include="Resources\icon_device_android%402x.png" />
   </ItemGroup>
 </Project>

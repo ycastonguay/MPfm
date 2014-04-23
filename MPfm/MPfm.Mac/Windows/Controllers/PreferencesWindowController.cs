@@ -76,7 +76,7 @@ namespace MPfm.Mac
             viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
 
-            var headerFont = NSFont.FromFontName("Roboto", 14f);
+            var headerFont = NSFont.FromFontName("Roboto Medium", 14f);
             lblGeneralPreferences.Font = headerFont;
             lblAudioPreferences.Font = headerFont;
             lblLibraryPreferences.Font = headerFont;
@@ -244,7 +244,7 @@ namespace MPfm.Mac
         public void RefreshCloudPreferencesState(CloudPreferencesStateEntity entity)
         {
             InvokeOnMainThread(() => {
-                btnLoginDropbox.StringValue = entity.IsDropboxLinkedToApp ? "Logout from Dropbox" : "Login to Dropbox";
+                btnLoginDropbox.Title = entity.IsDropboxLinkedToApp ? "Logout from Dropbox" : "Login to Dropbox";
             });
         }
 
