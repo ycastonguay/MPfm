@@ -21,6 +21,8 @@ using MPfm.MVP.Config.Models;
 using MPfm.MVP.Config.Providers;
 using MPfm.MVP.Helpers;
 using MPfm.Sound.AudioFiles;
+using System;
+using MPfm.Core;
 
 namespace MPfm.MVP.Config
 {
@@ -58,7 +60,16 @@ namespace MPfm.MVP.Config
 
         public void Load()
         {
-            Root = _provider.Load(PathHelper.ConfigurationFilePath);
+            try
+            {
+                Root = _provider.Load(PathHelper.ConfigurationFilePath);
+            }
+            catch(Exception ex)
+            {
+                // Failed to load configuration file, create a new one in memory
+                Root = new RootAppConfig();
+                Tracing.Log("AppConfigManager.Load -- Failed to load configuration file: {0}", ex);
+            }
 
             // Fix any important values that could have been corrupted for some reason
             if (Root.Library.SyncServicePort < 80 || Root.Library.SyncServicePort > 65535)
