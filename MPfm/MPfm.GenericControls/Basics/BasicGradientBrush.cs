@@ -24,6 +24,10 @@ namespace MPfm.GenericControls.Basics
         public BasicPoint StartPoint { get; set; }
         public BasicPoint EndPoint { get; set; }
 
+        public BasicGradientBrush()
+        {
+        }
+
         public BasicGradientBrush(BasicColor color, BasicColor color2, float angle) : base(color)
         {
             Color2 = color2;
