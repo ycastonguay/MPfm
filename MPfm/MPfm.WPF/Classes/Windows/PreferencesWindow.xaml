@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:models="clr-namespace:MPfm.Library.Objects;assembly=MPfm.Library"
-        WindowStartupLocation="CenterScreen" Background="#FF242F35"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
         Title="Preferences" Height="500" Width="680" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Grid Margin="0">
         <Grid.RowDefinitions>
@@ -39,18 +39,18 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <Label Grid.Row="1" x:Name="lblTitle" Content="General Preferences" Background="#FF455865" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Regular" />
+        <Label Grid.Row="1" x:Name="lblTitle" Content="General Preferences" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Regular" />
         <StackPanel Grid.Row="2" x:Name="gridAudio" Visibility="Hidden">
             <StackPanel Background="White" Margin="8,8,8,0">
-                <Label Content="Output" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Content="Output" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
             </StackPanel>
             <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
-                <Label Content="Mixer" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Content="Mixer" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
             </StackPanel>
             <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
-                <Label Content="Status" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Content="Status" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="TBD" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
             </StackPanel>
         </StackPanel>
@@ -62,7 +62,7 @@
                     <RowDefinition Height="250" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="Folders" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Grid.Row="0" Content="Folders" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <Grid Grid.Row="1" Margin="2,2,2,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -114,7 +114,7 @@
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Enable synchronization" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
             </StackPanel>-->
             <StackPanel Background="White" Margin="8,8,8,0" Orientation="Vertical">
-                <Label Content="Dropbox" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Content="Dropbox" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <StackPanel Orientation="Horizontal">
                     <Button Margin="0" HorizontalAlignment="Left" FontSize="11" FontFamily="/Resources/Fonts/#Roboto Regular" Click="btnDropboxLoginLogout_OnClick">
                         <StackPanel Orientation="Horizontal" Margin="8,4,8,4">
@@ -131,7 +131,7 @@
         </StackPanel>
         <StackPanel Grid.Row="2" x:Name="gridGeneral" Visibility="Hidden">
             <StackPanel Background="White" Margin="8,8,8,0">
-                <Label Content="Update Frequency" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Content="Update Frequency" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Song position:" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
                     <Slider Width="200" Margin="4" />
@@ -148,13 +148,13 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Background="White" Margin="8,8,8,0">
-                <Label Content="User Interface" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Content="User Interface" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Show tooltips" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <CheckBox VerticalContentAlignment="Center" Margin="4" Content="Show application in system tray" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <CheckBox VerticalContentAlignment="Center" Margin="24,4,4,4" Content="Minimize in system tray when the app is closed" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
             </StackPanel>
             <StackPanel Background="White" Margin="8,8,8,0">
-                <Label Content="Peak Files" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
+                <Label Content="Peak Files" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <RadioButton x:Name="radioPeakFiles_UseDefaultDirectory" VerticalContentAlignment="Center" Margin="4" Content="Use default directory ([dir])" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <RadioButton x:Name="radioPeakFiles_UseCustomDirectory" VerticalContentAlignment="Center" Margin="4" Content="Use custom directory:" Foreground="Black" FontSize="12" FontFamily="/Resources/Fonts/#Roboto Regular" />
                 <StackPanel Orientation="Vertical">

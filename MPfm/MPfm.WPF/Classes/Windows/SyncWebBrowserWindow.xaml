@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
-        WindowStartupLocation="CenterScreen" Background="#FF242F35"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
         Title="Sync (Web Browser)" Height="203.333" Width="495.233" Icon="/MPfm.WPF;component/Resources/Icon.ico">
     <Grid Margin="0">
         <Grid.RowDefinitions>

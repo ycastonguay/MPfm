@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
-        WindowStartupLocation="CenterScreen" Background="#FF242F35"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
         Title="Connect to" Height="300" Width="540" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" x:Name="lblTitle" Content="Connect to" Background="#FF455865" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+        <Label Grid.Row="0" x:Name="lblTitle" Content="Connect to" Background="{DynamicResource BrushHeaderBackgroundColor}" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
         <StackPanel Grid.Row="1" Margin="6">
             <ProgressBar x:Name="progressBar" Height="20" IsIndeterminate="true" Background="#FF242F35" BorderBrush="#FF242F35" Foreground="#FFE74C3C" Margin="5,8,5,8" VerticalContentAlignment="Center" />
             <Label x:Name="lblStep1" Content="Step 1: Fetch request token from Dropbox API" Foreground="#999999" FontSize="13" FontFamily="/Resources/Fonts/#Junction" />
