@@ -31,8 +31,10 @@ namespace MPfm.WPF.Classes.Windows
 {
     public partial class PreferencesWindow : BaseWindow, IDesktopPreferencesView
     {
-        private CloudAppConfig _cloudAppConfig;
+        private GeneralAppConfig _generalAppConfig;
+        private AudioAppConfig _audioAppConfig;
         private LibraryAppConfig _libraryAppConfig;
+        private CloudAppConfig _cloudAppConfig;
 
         public PreferencesWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -70,6 +72,105 @@ namespace MPfm.WPF.Classes.Windows
             btnTabLibrary.Style = res["TabButton"] as Style;
             btnTabCloud.Style = res["TabButton"] as Style;
         }
+
+        #region General Preferences
+
+        private void sliderOutputMeter_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (txtUpdateFrequency_OutputMeter == null) return;
+            int value = (int)sliderUpdateFrequency_OutputMeter.Value;
+            txtUpdateFrequency_OutputMeter.Text = value.ToString();
+
+            _generalAppConfig.OutputMeterUpdateFrequency = value;
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void sliderSongPosition_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (txtUpdateFrequency_SongPosition == null) return;
+            int value = (int)sliderUpdateFrequency_SongPosition.Value;
+            txtUpdateFrequency_SongPosition.Text = value.ToString();
+
+            _generalAppConfig.SongPositionUpdateFrequency = value;
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void TxtUpdateFrequency_SongPosition_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void TxtUpdateFrequency_OutputMeter_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void ChkShowTooltips_OnChecked(object sender, RoutedEventArgs e)
+        {
+            _generalAppConfig.ShowTooltips = chkShowTooltips.IsChecked.GetValueOrDefault();
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void ChkShowAppInSystemTray_OnChecked(object sender, RoutedEventArgs e)
+        {
+            _generalAppConfig.ShowAppInSystemTray = chkShowAppInSystemTray.IsChecked.GetValueOrDefault();
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void ChkMinimizeAppInSystemTray_OnChecked(object sender, RoutedEventArgs e)
+        {
+            _generalAppConfig.MinimizeAppInSystemTray = chkMinimizeAppInSystemTray.IsChecked.GetValueOrDefault();
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void RadioPeakFiles_UseDefaultDirectory_OnChecked(object sender, RoutedEventArgs e)
+        {
+            bool value = radioPeakFiles_UseCustomDirectory.IsChecked.GetValueOrDefault();
+            btnBrowseCustomDirectory.IsEnabled = value;
+            _generalAppConfig.UseCustomPeakFileFolder = value;
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void RadioPeakFiles_UseCustomDirectory_OnChecked(object sender, RoutedEventArgs e)
+        {
+            bool value = radioPeakFiles_UseCustomDirectory.IsChecked.GetValueOrDefault();
+            btnBrowseCustomDirectory.IsEnabled = value;
+            _generalAppConfig.UseCustomPeakFileFolder = radioPeakFiles_UseCustomDirectory.IsChecked.GetValueOrDefault();
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void btnBrowseCustomDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.Description = "Please select a folder for peak files";
+            dialog.ShowNewFolderButton = true;
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtPeakFiles_CustomDirectory.Text = dialog.SelectedPath;
+                _generalAppConfig.CustomPeakFileFolder = dialog.SelectedPath;
+                OnSetGeneralPreferences(_generalAppConfig);
+            }
+        }
+
+        private void sliderMaximumFolderSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (txtMaximumFolderSize == null) return;
+            int value = (int)sliderMaximumFolderSize.Value;
+            txtMaximumFolderSize.Text = value.ToString();
+
+            _generalAppConfig.MaximumPeakFolderSize = value;
+            OnSetGeneralPreferences(_generalAppConfig);
+        }
+
+        private void TxtMaximumFolderSize_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void btnRemovePeakFiles_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        #endregion
+
+        #region Library Preferences
 
         private void btnAddFolder_OnClick(object sender, RoutedEventArgs e)
         {
@@ -120,6 +221,10 @@ namespace MPfm.WPF.Classes.Windows
             OnResetLibrary();
         }
 
+        #endregion
+
+        #region Cloud Preferences
+
         private void btnDropboxLoginLogout_OnClick(object sender, RoutedEventArgs e)
         {
             OnDropboxLoginLogout();
@@ -132,29 +237,27 @@ namespace MPfm.WPF.Classes.Windows
             OnSetCloudPreferences(_cloudAppConfig);
         }
 
+        #endregion
+
         #region ILibraryPreferencesView implementation
 
         public Action<LibraryAppConfig> OnSetLibraryPreferences { get; set; }
         public Action OnResetLibrary { get; set; }
-        public Action OnUpdateLibrary { get; set; }
-        Action<bool> ILibraryPreferencesView.OnEnableSyncListener { get; set; }
+        public Action OnUpdateLibrary { get; set; }        
         public Action OnSelectFolders { get; set; }
-        public Action OnEnableSyncListener { get; set; }
+        public Action<bool> OnEnableSyncListener { get; set; }
         public Action<int> OnSetSyncListenerPort { get; set; }
 
         public void LibraryPreferencesError(Exception ex)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                MessageBox.Show(this, string.Format("An error occured in LibraryPreferences: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }));
+            ShowErrorDialog(ex);
         }
 
         public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
         {
+            _libraryAppConfig = config;
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                _libraryAppConfig = config;
                 lblLibrarySize.Content = string.Format("Library size: {0}", librarySize);
                 listViewFolders.ItemsSource = config.Folders;
                 listViewFolders.Items.Refresh();
@@ -170,10 +273,7 @@ namespace MPfm.WPF.Classes.Windows
 
         public void CloudPreferencesError(Exception ex)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                MessageBox.Show(this, string.Format("An error occured in CloudPreferences: {0}", ex), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }));
+            ShowErrorDialog(ex);
         }
 
         public void RefreshCloudPreferences(CloudAppConfig config)
@@ -211,10 +311,15 @@ namespace MPfm.WPF.Classes.Windows
 
         public void AudioPreferencesError(Exception ex)
         {
+            ShowErrorDialog(ex);
         }
 
         public void RefreshAudioPreferences(AudioAppConfig config)
         {
+            _audioAppConfig = config;
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+            }));
         }
 
         #endregion
@@ -226,13 +331,62 @@ namespace MPfm.WPF.Classes.Windows
 
         public void GeneralPreferencesError(Exception ex)
         {
+            ShowErrorDialog(ex);
         }
 
         public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
         {
+            _generalAppConfig = config;
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                sliderUpdateFrequency_SongPosition.Value = config.SongPositionUpdateFrequency;
+                sliderUpdateFrequency_OutputMeter.Value = config.OutputMeterUpdateFrequency;
+                txtUpdateFrequency_OutputMeter.Text = config.OutputMeterUpdateFrequency.ToString();
+                txtUpdateFrequency_SongPosition.Text = config.SongPositionUpdateFrequency.ToString();
+
+                chkShowTooltips.IsChecked = config.ShowTooltips;
+                chkShowAppInSystemTray.IsChecked = config.ShowAppInSystemTray;
+                chkMinimizeAppInSystemTray.IsChecked = config.MinimizeAppInSystemTray;
+
+                radioPeakFiles_UseCustomDirectory.IsChecked = config.UseCustomPeakFileFolder;
+                sliderMaximumFolderSize.Value = config.MaximumPeakFolderSize;
+                txtMaximumFolderSize.Text = config.MaximumPeakFolderSize.ToString();
+                txtPeakFiles_CustomDirectory.Text = config.CustomPeakFileFolder;
+            }));
         }
 
         #endregion
 
+        private void ComboOutputDevice_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void ComboSampleRate_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void sliderBufferSize_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+        }
+
+        private void TxtBufferSize_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void sliderUpdatePeriod_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+        }
+
+        private void TxtUpdatePeriod_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+        }
+
+        private void btnTestAudioSettings_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void btnResetAudioSettings_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }
