@@ -702,6 +702,11 @@ namespace MPfm.WPF.Classes.Windows
             }));
         }
 
+        public void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity)
+        {
+            
+        }
+
         #endregion
 
         #region ISongBrowserView implementation

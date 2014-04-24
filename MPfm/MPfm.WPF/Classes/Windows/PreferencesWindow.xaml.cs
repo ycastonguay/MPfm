@@ -18,12 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.MVP.Config.Models;
 using MPfm.MVP.Models;
 using MPfm.MVP.Views;
 using MPfm.WPF.Classes.Windows.Base;
+using Style = System.Windows.Style;
 
 namespace MPfm.WPF.Classes.Windows
 {
@@ -54,6 +56,19 @@ namespace MPfm.WPF.Classes.Windows
                 lblTitle.Content = "Library Preferences";
             else if (sender == btnTabCloud)
                 lblTitle.Content = "Cloud Preferences";
+
+            ResetHeaderButtonStyles();
+            var button = sender as Button;
+            button.Style = Application.Current.Resources["TabButtonSelected"] as Style;
+        }
+
+        private void ResetHeaderButtonStyles()
+        {
+            var res = Application.Current.Resources;
+            btnTabGeneral.Style = res["TabButton"] as Style;
+            btnTabAudio.Style = res["TabButton"] as Style;
+            btnTabLibrary.Style = res["TabButton"] as Style;
+            btnTabCloud.Style = res["TabButton"] as Style;
         }
 
         private void btnAddFolder_OnClick(object sender, RoutedEventArgs e)
@@ -137,13 +152,10 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
         {
-        }
-
-        public void RefreshLibraryPreferences(LibraryAppConfig config)
-        {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 _libraryAppConfig = config;
+                lblLibrarySize.Content = string.Format("Library size: {0}", librarySize);
                 listViewFolders.ItemsSource = config.Folders;
                 listViewFolders.Items.Refresh();
             }));
