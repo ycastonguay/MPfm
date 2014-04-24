@@ -56,7 +56,7 @@ namespace MPfm.Mac.Classes.Delegates
 		public override void FinishedLaunching(NSObject notification)
 		{
             Bootstrapper.GetContainer().Register<ISyncDeviceSpecifications, MacSyncDeviceSpecifications>().AsSingleton();   
-            Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsMultiInstance();
+            Bootstrapper.GetContainer().Register<IAppConfigProvider, XmlAppConfigProvider>().AsSingleton();
             Bootstrapper.GetContainer().Register<IMemoryGraphicsContextFactory, MemoryGraphicsContextFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<IDisposableImageFactory, DisposableImageFactory>().AsSingleton();
             Bootstrapper.GetContainer().Register<ICloudService, DropboxCoreService>().AsSingleton();   

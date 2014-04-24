@@ -27,6 +27,7 @@ using MPfm.Core;
 using TinyMessenger;
 using MPfm.Library.Services.Interfaces;
 using MPfm.Library.Objects;
+using MPfm.MVP.Config;
 
 namespace MPfm.MVP.Presenters
 {
@@ -44,10 +45,9 @@ namespace MPfm.MVP.Presenters
 		{						
             _messageHub = messageHub;
 			_libraryService = libraryService;
-			Filter = AudioFileFormat.All;
 		}
 		
-        public void BindView(ILibraryBrowserView view)
+        public override void BindView(ILibraryBrowserView view)
         {
             base.BindView(view);
             view.OnAudioFileFormatFilterChanged = AudioFileFormatFilterChanged;
@@ -56,8 +56,74 @@ namespace MPfm.MVP.Presenters
             view.OnTreeNodeExpandable = TreeNodeExpandable;
             view.OnTreeNodeDoubleClicked = TreeNodeDoubleClicked;
 
-            // TODO: Fix this
-            view.RefreshLibraryBrowser(GetFirstLevelNodes());
+            Initialize();
+        }
+        
+        private void Initialize()
+        {
+            // Start by adding the first level nodes
+            var firstLevelNodes = GetFirstLevelNodes();
+            
+            // Check if we need to restore the state from a previous session
+            if (AppConfigManager.Instance.Root.LibraryBrowser.IsAvailable)
+            {
+                // Refresh/expand the nodes needed for restoring the state
+                var entityType = AppConfigManager.Instance.Root.LibraryBrowser.EntityType;
+                var query = AppConfigManager.Instance.Root.LibraryBrowser.Query;
+                switch (entityType)
+                {
+                    case LibraryBrowserEntityType.AllSongs:
+                    case LibraryBrowserEntityType.Dummy:
+                    case LibraryBrowserEntityType.Artists:
+                    case LibraryBrowserEntityType.Albums:
+                        var node = firstLevelNodes.FirstOrDefault(x => x.EntityType == entityType);
+                        View.RefreshLibraryBrowser(firstLevelNodes);
+                        View.RefreshLibraryBrowserSelectedNode(node);
+                        break;
+                    case LibraryBrowserEntityType.Artist:
+                    case LibraryBrowserEntityType.ArtistAlbum:
+                        var artistsNode = firstLevelNodes.FirstOrDefault(x => x.EntityType == LibraryBrowserEntityType.Artists);
+                        var artistNodes = GetArtistNodes(Filter);
+                        artistsNode.SubItems.AddRange(artistNodes);
+                        var artistNode = artistNodes.FirstOrDefault(x => string.Compare(x.Query.ArtistName, query.ArtistName, true) == 0);
+                        
+                        LibraryBrowserEntity nodeSelected = null;
+                        if (entityType == LibraryBrowserEntityType.Artist)
+                        {
+                            nodeSelected = artistNode;
+                        } 
+                        else if (entityType == LibraryBrowserEntityType.ArtistAlbum)
+                        {
+                            if (artistNode != null)
+                            {
+                                var artistAlbums = GetArtistAlbumNodes(Filter, query.ArtistName);
+                                artistNode.SubItems.AddRange(artistAlbums);
+                                nodeSelected = artistAlbums.FirstOrDefault(
+                                    x => string.Compare(x.Query.ArtistName, query.ArtistName, true) == 0 &&
+                                    string.Compare(x.Query.AlbumTitle, query.AlbumTitle, true) == 0);
+                            }
+                        }
+                        
+                        View.RefreshLibraryBrowser(firstLevelNodes);
+                        if(nodeSelected != null)
+                            View.RefreshLibraryBrowserSelectedNode(nodeSelected);
+                        break;
+                    case LibraryBrowserEntityType.Album:
+                        var albumsNode = firstLevelNodes.FirstOrDefault(x => x.EntityType == LibraryBrowserEntityType.Albums);
+                        var albumNodes = GetAlbumNodes(Filter);
+                        albumsNode.SubItems.AddRange(albumNodes);
+                        var selectedAlbum = albumNodes.FirstOrDefault(x => string.Compare(x.Query.AlbumTitle, query.AlbumTitle, true) == 0);
+                        
+                        View.RefreshLibraryBrowser(firstLevelNodes);
+                        if(selectedAlbum != null)
+                            View.RefreshLibraryBrowserSelectedNode(selectedAlbum);
+                        break;
+                }
+            } 
+            else
+            {
+                View.RefreshLibraryBrowser(firstLevelNodes);
+            }
         }
 
 		/// <summary>
@@ -66,7 +132,7 @@ namespace MPfm.MVP.Presenters
 		/// <param name='format'>Audio file format</param>
 		public void AudioFileFormatFilterChanged(AudioFileFormat format)
 		{
-            Tracing.Log("LibraryBrowserPresenter.AudioFileFormatFilterChanged -- Getting first level nodes and refreshing view...");
+            //Tracing.Log("LibraryBrowserPresenter.AudioFileFormatFilterChanged -- Getting first level nodes and refreshing view...");
 			Filter = format;
 			View.RefreshLibraryBrowser(GetFirstLevelNodes());
 		}
@@ -77,7 +143,14 @@ namespace MPfm.MVP.Presenters
 		/// <param name='entity'>Library Browser entity</param>
 		public void TreeNodeSelected(LibraryBrowserEntity entity)
 		{
-            Tracing.Log("LibraryBrowserPresenter.TreeNodeSelected -- Broadcasting LibraryBrowserItemSelected message (" + entity.Title + ")...");
+            //Tracing.Log("LibraryBrowserPresenter.TreeNodeSelected -- Broadcasting LibraryBrowserItemSelected message (" + entity.Title + ")...");
+            
+            // Store selection for reloading the Library Browser state later (i.e. startup)
+            AppConfigManager.Instance.Root.LibraryBrowser.IsAvailable = true;
+            AppConfigManager.Instance.Root.LibraryBrowser.EntityType = entity.EntityType;
+            AppConfigManager.Instance.Root.LibraryBrowser.Query = entity.Query;
+            AppConfigManager.Instance.Save();
+            
             _messageHub.PublishAsync(new LibraryBrowserItemSelectedMessage(this){
                 Item = entity
             });
@@ -93,7 +166,7 @@ namespace MPfm.MVP.Presenters
         {
             if (entity.EntityType == LibraryBrowserEntityType.Artists)
             {
-                Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Artist nodes and refreshing view (RefreshLibraryBrowserNode)...");
+                //Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Artist nodes and refreshing view (RefreshLibraryBrowserNode)...");
                 View.RefreshLibraryBrowserNode(
                     entity,
                     GetArtistNodes(Filter),
@@ -102,7 +175,7 @@ namespace MPfm.MVP.Presenters
             } 
             else if (entity.EntityType == LibraryBrowserEntityType.Albums)
             {
-                Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Album nodes and refreshing view (RefreshLibraryBrowserNode)...");
+                //Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting Album nodes and refreshing view (RefreshLibraryBrowserNode)...");
                 View.RefreshLibraryBrowserNode(
                     entity,
                     GetAlbumNodes(Filter),
@@ -111,7 +184,7 @@ namespace MPfm.MVP.Presenters
             } 
             else if (entity.EntityType == LibraryBrowserEntityType.Artist)
             {
-                Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting ArtistAlbum nodes and refreshing view (RefreshLibraryBrowserNode)...");
+                //Tracing.Log("LibraryBrowserPresenter.TreeNodeExpanded -- Getting ArtistAlbum nodes and refreshing view (RefreshLibraryBrowserNode)...");
                 View.RefreshLibraryBrowserNode(
                     entity,
                     GetArtistAlbumNodes(Filter, entity.Query.ArtistName),
@@ -148,7 +221,7 @@ namespace MPfm.MVP.Presenters
 		/// <param name='entity'>Library Browser entity</param>
 		public void TreeNodeDoubleClicked(LibraryBrowserEntity entity)
 		{
-            Tracing.Log("LibraryBrowserPresenter.TreeNodeDoubleClicked -- Publishing LibraryBrowserItemDoubleClickedMessageay with item " + entity.Title);
+            //Tracing.Log("LibraryBrowserPresenter.TreeNodeDoubleClicked -- Publishing LibraryBrowserItemDoubleClickedMessageay with item " + entity.Title);
             _messageHub.PublishAsync(new LibraryBrowserItemDoubleClickedMessage(this){
                 Query = entity.Query
             });

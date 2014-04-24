@@ -40,6 +40,7 @@ namespace MPfm.MVP.Config.Models
         public GeneralAppConfig General { get; set; }
         public ControlsAppConfig Controls { get; set; }       
         public WindowsAppConfig Windows { get; set; }
+        public LibraryBrowserAppConfig LibraryBrowser { get; set; }
 
         public ResumePlaybackAppConfig ResumePlayback { get; set; }
 
@@ -57,6 +58,7 @@ namespace MPfm.MVP.Config.Models
             Library = new LibraryAppConfig();     
             General = new GeneralAppConfig();       
             Windows = new WindowsAppConfig();
+            LibraryBrowser = new LibraryBrowserAppConfig();
 
             ResumePlayback = new ResumePlaybackAppConfig();
         }

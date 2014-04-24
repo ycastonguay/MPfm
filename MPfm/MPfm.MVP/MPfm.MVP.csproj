@@ -323,5 +323,6 @@
     <Compile Include="Services\Interfaces\ILifecycleService.cs" />
     <Compile Include="Services\Interfaces\IResumePlaybackService.cs" />
     <Compile Include="Services\ResumePlaybackService.cs" />
+    <Compile Include="Config\Models\LibraryBrowserAppConfig.cs" />
   </ItemGroup>
 </Project>
