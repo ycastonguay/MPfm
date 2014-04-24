@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:models="clr-namespace:MPfm.Library.Objects;assembly=MPfm.Library"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Resume Playback" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico">
+        Title="Resume Playback" Height="330" Width="553.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,36 +16,38 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" x:Name="lblTitle" Content="Resume Playback" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />
+            <!--<Label Grid.Column="0" x:Name="lblTitle" Content="Resume Playback" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#TitilliumText22L Lt" />-->
         </Grid>        
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="4,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <Label x:Name="lblTitle2" Content="Resume Playback" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Medium" />
-                <Label x:Name="lblNote" Content="Sessions has detected that you have played music on another device recently:" Foreground="#CCCCCC" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
+            <StackPanel Grid.Row="0" Margin="0,8,0,4">
+                <Label x:Name="lblTitle2" Content="Resume Playback" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Medium" Padding="0,0,0,2" />
+                <Label x:Name="lblNote" Content="Sessions has detected that you have played music on another device recently:" Foreground="#CCCCCC" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" Padding="0" />
             </StackPanel>
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="1" Margin="0,4,0,8">
                 <StackPanel Orientation="Horizontal">
-                    <Image x:Name="imageDevice" Source="/Resources/Images/Buttons/add.png" />
-                    <Label x:Name="lblDeviceName" Content="John Doe's iPad Air" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
+                    <Image x:Name="imageDevice" Source="/Resources/Images/Devices/android.png" />
+                    <StackPanel Orientation="Vertical" Margin="6,0,0,0">
+                        <Label x:Name="lblDeviceName" Content="[Device name]" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Margin="0,2,0,2" Padding="0" />
+                        <Label Content="On-the-fly Playlist" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" Margin="0,2,0,2" Padding="0" />
+                    </StackPanel>
                 </StackPanel>
-                <Label Content="On-the-fly Playlist" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
             </StackPanel>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <Image x:Name="imageAlbum" Source="/Resources/Images/Buttons/add.png" />
-                <StackPanel Orientation="Vertical">                    
-                    <Label x:Name="lblArtistName" Content="[Artist name]" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Bold" />
-                    <Label x:Name="lblAlbumTitle" Content="[Album title]" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto Medium" />
-                    <Label x:Name="lblSongTitle" Content="[Song title]" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto" />
+                <Image x:Name="imageAlbum" Stretch="Uniform" Width="100" Height="100" />
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="6,0,0,0">                    
+                    <Label x:Name="lblArtistName" Content="[Artist name]" Foreground="White" FontSize="16" FontFamily="/Resources/Fonts/#Roboto Medium" Padding="0,2,0,2" />
+                    <Label x:Name="lblAlbumTitle" Content="[Album title]" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" Padding="0,2,0,2" />
+                    <Label x:Name="lblSongTitle" Content="[Song title]" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0,4,0,0" />
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="3">
-                <Label x:Name="lblLastUpdated" Content="Last updated:" Foreground="White" FontSize="14" FontFamily="/Resources/Fonts/#Roboto" />
+                <Label x:Name="lblLastUpdated" Content="Last updated:" Foreground="White" FontSize="13" FontFamily="/Resources/Fonts/#Roboto Light" Padding="0" Margin="0,4,0,4" />
                 <controls:ImageButton x:Name="btnOK" Title="Resume from this device" ImageSource="/Resources/Images/Buttons/ok.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnOK_OnClick" />
                 <controls:ImageButton x:Name="btnCancel" Title="No, thanks" ImageSource="/Resources/Images/Buttons/cancel.png" Style="{StaticResource ImageButton}" Margin="0" Click="BtnCancel_OnClick" />
             </StackPanel>

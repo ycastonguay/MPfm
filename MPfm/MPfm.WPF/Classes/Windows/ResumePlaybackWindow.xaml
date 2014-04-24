@@ -5,7 +5,7 @@
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         xmlns:models="clr-namespace:MPfm.Library.Objects;assembly=MPfm.Library"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Resume Playback" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico">
+        Title="Resume Playback" Height="426" Width="677.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

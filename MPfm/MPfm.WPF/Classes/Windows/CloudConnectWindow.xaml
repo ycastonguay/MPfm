@@ -4,7 +4,7 @@
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
-        Title="Connect to" Height="300" Width="540" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize">
+        Title="Connect to" Height="300" Width="540" Icon="/MPfm.WPF;component/Resources/Icon.ico" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
