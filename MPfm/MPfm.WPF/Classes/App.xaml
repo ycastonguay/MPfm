@@ -7,6 +7,8 @@
         <!-- Colors -->
         <Color x:Key="BackgroundColor">#FF20282E</Color>
         <Color x:Key="HeaderBackgroundColor">#FF576B78</Color>
+        <!--<Color x:Key="SecondaryHeaderBackgroundColor">#FF323C43</Color>-->
+        <Color x:Key="SecondaryHeaderBackgroundColor">#FF455864</Color>
         <Color x:Key="MenuItemOverBackgroundColor">#FF323C43</Color>
         
         <Color x:Key="HeaderButtonOverBackgroundColor">#FF687985</Color>
@@ -21,6 +23,7 @@
         <!-- Brushes -->
         <SolidColorBrush x:Key="BrushBackgroundColor" Color="{DynamicResource BackgroundColor}" />
         <SolidColorBrush x:Key="BrushHeaderBackgroundColor" Color="{DynamicResource HeaderBackgroundColor}" />
+        <SolidColorBrush x:Key="BrushSecondaryHeaderBackgroundColor" Color="{DynamicResource SecondaryHeaderBackgroundColor}" />
         <SolidColorBrush x:Key="BrushButtonBackgroundColor" Color="{DynamicResource ButtonBackgroundColor}" />
 
         <SolidColorBrush x:Key="BrushMenuItemOverBackgroundColor" Color="{DynamicResource MenuItemOverBackgroundColor}" />

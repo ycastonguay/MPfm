@@ -25,15 +25,23 @@ namespace MPfm.MVP.Config.Models
     /// </summary>
     public class GeneralAppConfig : IAppConfig
     {
+        public bool UseCustomPeakFileFolder { get; set; }
+        public string CustomPeakFileFolder { get; set; }
         public int MaximumPeakFolderSize { get; set; }
+
         public int SongPositionUpdateFrequency { get; set; }
         public int OutputMeterUpdateFrequency { get; set; }
+
+        public bool ShowTooltips { get; set; }
+        public bool ShowAppInSystemTray { get; set; }
+        public bool MinimizeAppInSystemTray { get; set; }
 
         public GeneralAppConfig()
         {
             MaximumPeakFolderSize = 100;
             SongPositionUpdateFrequency = 20;
             OutputMeterUpdateFrequency = 20;
+            ShowTooltips = true;
         }        
     }
 }

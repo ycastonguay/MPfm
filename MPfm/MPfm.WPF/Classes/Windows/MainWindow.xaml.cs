@@ -54,6 +54,7 @@ namespace MPfm.WPF.Classes.Windows
         private bool _isScrollViewWaveFormChangingSecondaryPosition;
         private int _selectedMarkerIndex = -1;
         private AudioFile _currentAudioFile;
+        private string _currentAlbumArtKey;
 
         public MainWindow(Action<IBaseView> onViewReady) 
             : base (onViewReady)
@@ -832,38 +833,44 @@ namespace MPfm.WPF.Classes.Windows
                     scrollViewWaveForm.SetWaveFormLength(lengthBytes);
                     scrollViewWaveForm.LoadPeakFile(audioFile);
 
-                    imageAlbum.Source = null;
-                    var task = Task<BitmapImage>.Factory.StartNew(() =>
+                    string key = audioFile.ArtistName.ToUpper() + "_" + audioFile.AlbumTitle.ToUpper();
+                    if (_currentAlbumArtKey != key)
                     {
-                        try
+                        imageAlbum.Source = null;
+                        var task = Task<BitmapImage>.Factory.StartNew(() =>
                         {
-                            var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
-                            var stream = new MemoryStream(bytes);
-                            stream.Seek(0, SeekOrigin.Begin);
+                            try
+                            {
+                                var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                                var stream = new MemoryStream(bytes);
+                                stream.Seek(0, SeekOrigin.Begin);
 
-                            var bitmap = new BitmapImage();
-                            bitmap.BeginInit();
-                            bitmap.StreamSource = stream;
-                            bitmap.EndInit();
-                            bitmap.Freeze();
+                                var bitmap = new BitmapImage();
+                                bitmap.BeginInit();
+                                bitmap.StreamSource = stream;
+                                bitmap.EndInit();
+                                bitmap.Freeze();
 
-                            return bitmap;
+                                return bitmap;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("An error occured while extracing album art in {0}: {1}",
+                                    audioFile.FilePath, ex);
+                            }
+
+                            return null;
+                        });
+
+                        var imageResult = task.Result;
+                        if (imageResult != null)
+                        {
+                            _currentAlbumArtKey = key;
+                            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                            {
+                                imageAlbum.Source = imageResult;
+                            }));
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("An error occured while extracing album art in {0}: {1}", audioFile.FilePath, ex);
-                        }
-
-                        return null;
-                    });
-
-                    var imageResult = task.Result;
-                    if (imageResult != null)
-                    {
-                        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            imageAlbum.Source = imageResult;
-                        }));
                     }
                 }
             }));

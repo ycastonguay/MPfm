@@ -68,7 +68,7 @@
                         <GradientStop Color="#FF455864" Offset="1"/>
                     </LinearGradientBrush>
                 </DockPanel.Background>
-                <Grid Margin="4,10,4,6">
+                <Grid Margin="4,6,4,6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
