@@ -28,7 +28,7 @@ namespace MPfm.Mac.Classes.Objects
     /// </summary>
     public static class ImageResources
     {
-        public static List<NSImage> images16x16 { get; private set; }
+        public static List<NSImage> Roboto { get; private set; }
         public static List<NSImage> images32x32 { get; private set; } // TODO: Remove 16x16/32x32 lists to merge in one list with appropriate Retina image loading
         public static List<NSImage> ButtonImages { get; private set; }
         public static List<NSImage> ToolbarImages { get; private set; }
@@ -59,7 +59,7 @@ namespace MPfm.Mac.Classes.Objects
                 new NSImage(NSBundle.MainBundle.PathForResource("preferences", "png", "Resources/Toolbar", string.Empty)) { Name = "preferences" }
             };
 
-            images16x16 = new List<NSImage>() {
+            Roboto = new List<NSImage>() {
                 new NSImage(NSBundle.MainBundle.PathForResource("list-add", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_list-add" },
                 new NSImage(NSBundle.MainBundle.PathForResource("accessories-text-editor", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_accessories-text-editor" },
                 new NSImage(NSBundle.MainBundle.PathForResource("list-remove", "png", "Resources/16x16/tango", string.Empty)) { Name = "16_tango_list-remove" },
@@ -157,6 +157,9 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_button_speaker"),
                 NSImage.ImageNamed("icon_button_stop"),
                 NSImage.ImageNamed("icon_button_test"),
+                NSImage.ImageNamed("icon_roundbutton_add"),
+                NSImage.ImageNamed("icon_roundbutton_minus"),
+                NSImage.ImageNamed("icon_roundbutton_reset"),
                 NSImage.ImageNamed("icon_android"),
                 NSImage.ImageNamed("icon_artists"),
                 NSImage.ImageNamed("icon_linux"),
@@ -167,9 +170,13 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_song"),
                 NSImage.ImageNamed("icon_vinyl"),
                 NSImage.ImageNamed("icon_windows"),
+                NSImage.ImageNamed("toolbar_cloud"),
+                NSImage.ImageNamed("toolbar_equalizer"),
                 NSImage.ImageNamed("toolbar_next"),
                 NSImage.ImageNamed("toolbar_pause"),
                 NSImage.ImageNamed("toolbar_play"),
+                NSImage.ImageNamed("toolbar_playlist"),
+                NSImage.ImageNamed("toolbar_preferences"),
                 NSImage.ImageNamed("toolbar_previous"),
                 NSImage.ImageNamed("toolbar_repeat"),
                 NSImage.ImageNamed("toolbar_shuffle")

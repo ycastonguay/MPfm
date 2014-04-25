@@ -332,7 +332,7 @@ namespace MPfm.Mac
         /// </summary>
         private void LoadImages()
         {
-            cboSoundFormat.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
+            cboSoundFormat.Image = ImageResources.Roboto.FirstOrDefault(x => x.Name == "16_icomoon_plus");
             btnAddLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
             btnAddSongToPlaylist.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
@@ -350,19 +350,19 @@ namespace MPfm.Mac
             btnToolbarNext.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_next");
             btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat");
             btnToolbarShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
-            btnToolbarPlaylist.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "playlist");
-            btnToolbarEffects.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "effects");
+            btnToolbarPlaylist.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_playlist");
+            btnToolbarEffects.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_equalizer");
             btnToolbarSync.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "sync");
-            btnToolbarSyncCloud.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "cloud");
+            btnToolbarSyncCloud.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_cloud");
             btnToolbarResumePlayback.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "resume");
-            btnToolbarSettings.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "preferences");
+            btnToolbarSettings.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_preferences");
 
-            btnIncrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "add");
-            btnDecrementTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "minus");
-            btnResetTimeShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "reset");
-            btnIncrementPitchShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "add");
-            btnDecrementPitchShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "minus");
-            btnResetPitchShifting.ImageView.Image = ImageResources.ButtonImages.FirstOrDefault(x => x.Name == "reset");
+            btnIncrementTimeShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_add");
+            btnDecrementTimeShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_minus");
+            btnResetTimeShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_reset");
+            btnIncrementPitchShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_add");
+            btnDecrementPitchShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_minus");
+            btnResetPitchShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_reset");
         }
 
 		partial void actionAddFilesToLibrary(NSObject sender)

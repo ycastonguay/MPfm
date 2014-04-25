@@ -70,32 +70,27 @@ namespace MPfm.Mac.Classes.Delegates
         [Export("outlineView:viewForTableColumn:item:")]
         public NSView GetViewForItem(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
         {
-            // Cast item
             var libraryBrowserItem = (LibraryBrowserItem)item;
-
-            // Create view
             var view = (NSTableCellView)outlineView.MakeView("cellLibrary", this);
             view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             view.TextField.StringValue = libraryBrowserItem.Entity.Title;
 
-            // Check icon
-            if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.AllSongs)
+            switch (libraryBrowserItem.Entity.EntityType)
             {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_cabinet");
-            } 
-            else if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Artists)
-            {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_users");
-            } 
-            else if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Album ||
-                    libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Albums ||
-                    libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.ArtistAlbum)
-            {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
-            } 
-            else if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Artist)
-            {
-                view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_user");
+                case LibraryBrowserEntityType.AllSongs:
+                    view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_artists");
+                    break;
+                case LibraryBrowserEntityType.Artists:
+                    view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_artists");
+                    break;
+                case LibraryBrowserEntityType.Album:
+                case LibraryBrowserEntityType.Albums:
+                case LibraryBrowserEntityType.ArtistAlbum:
+                    view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_vinyl");
+                    break;
+                case LibraryBrowserEntityType.Artist:
+                    view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_user");
+                    break;
             } 
 
             return view;

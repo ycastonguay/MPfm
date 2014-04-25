@@ -576,5 +576,19 @@
     <BundleResource Include="Resources\toolbar_repeat%402x.png" />
     <BundleResource Include="Resources\toolbar_shuffle.png" />
     <BundleResource Include="Resources\toolbar_shuffle%402x.png" />
+    <BundleResource Include="Resources\toolbar_cloud.png" />
+    <BundleResource Include="Resources\toolbar_playlist%402x.png" />
+    <BundleResource Include="Resources\toolbar_preferences%402x.png" />
+    <BundleResource Include="Resources\toolbar_preferences.png" />
+    <BundleResource Include="Resources\toolbar_playlist.png" />
+    <BundleResource Include="Resources\toolbar_equalizer.png" />
+    <BundleResource Include="Resources\toolbar_equalizer%402x.png" />
+    <BundleResource Include="Resources\toolbar_cloud%402x.png" />
+    <BundleResource Include="Resources\icon_roundbutton_add.png" />
+    <BundleResource Include="Resources\icon_roundbutton_add%402x.png" />
+    <BundleResource Include="Resources\icon_roundbutton_reset.png" />
+    <BundleResource Include="Resources\icon_roundbutton_reset%402x.png" />
+    <BundleResource Include="Resources\icon_roundbutton_minus.png" />
+    <BundleResource Include="Resources\icon_roundbutton_minus%402x.png" />
   </ItemGroup>
 </Project>

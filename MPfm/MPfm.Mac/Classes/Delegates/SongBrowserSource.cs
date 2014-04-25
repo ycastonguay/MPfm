@@ -104,7 +104,7 @@ namespace MPfm.Mac.Classes.Delegates
             {
                 // If something else than NSImage is returned, the application crashes...
                 //return new NSImage(new SizeF(16, 16));
-                return ImageResources.images16x16[0];
+                return ImageResources.Roboto[0];
             }
 
             return Items[row].KeyValues[tableColumnName];

@@ -16,19 +16,8 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Reflection;
 using MonoMac.AppKit;
-using MonoMac.CoreGraphics;
-using MonoMac.Foundation;
-using MPfm.MVP;
-using MPfm.Mac.Classes.Objects;
-using MPfm.Mac.Classes.Helpers;
-using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Basics;
-using MPfm.Mac.Classes.Controls.Helpers;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
