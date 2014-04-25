@@ -21,13 +21,15 @@ using MPfm.GenericControls.Graphics;
 using MonoMac.Foundation;
 using System.Drawing;
 using MPfm.Mac.Classes.Helpers;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
     public class DisposableImageFactory : NSObject, IDisposableImageFactory
     {
-        public IDisposable CreateImageFromByteArray(byte[] data, int width, int height)
+        public IBasicImage CreateImageFromByteArray(byte[] data, int width, int height)
         {
+            IBasicImage image = null;
             NSImage imageResized = null;
             try
             {
@@ -49,14 +51,15 @@ namespace MPfm.Mac.Classes.Controls.Graphics
                         }
                     });
                 }
-                return imageResized;
+                image = new BasicImage(imageResized);
+                return image;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("DisposableImageFactory - Failed to process image: {0}", ex);
             }
 
-            return imageResized;
+            return image;
         }
     }
 }

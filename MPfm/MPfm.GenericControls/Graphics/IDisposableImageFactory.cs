@@ -16,11 +16,12 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.GenericControls.Graphics
 {
     public interface IDisposableImageFactory
     {
-        IDisposable CreateImageFromByteArray(byte[] data, int width, int height);
+        IBasicImage CreateImageFromByteArray(byte[] data, int width, int height);
     }
 }

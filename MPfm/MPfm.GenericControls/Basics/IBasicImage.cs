@@ -1,4 +1,4 @@
-// Copyright Â© 2011-2013 Yanick Castonguay
+// Copyright © 2011-2013 Yanick Castonguay
 //
 // This file is part of MPfm.
 //
@@ -14,18 +14,13 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
-
 using System;
-using MPfm.GenericControls.Basics;
 
-namespace MPfm.GenericControls.Controls.Songs
+namespace MPfm.GenericControls.Basics
 {
-    /// <summary>
-    /// Album art cache for the song grid view control.
-    /// </summary>
-    public class SongGridViewImageCache
+    public interface IBasicImage
     {
-        public string Key { get; set; }
-        public IBasicImage Image { get; set; }
+        IDisposable Image { get; set; }
+        BasicRectangle ImageSize { get; }
     }
 }
