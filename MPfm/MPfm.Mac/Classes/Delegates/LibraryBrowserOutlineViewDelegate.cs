@@ -54,12 +54,12 @@ namespace MPfm.Mac.Classes.Delegates
         public override void SelectionDidChange(NSNotification notification)
         {
             // Get selected row and call presenter
-            NSOutlineView outlineView = (NSOutlineView)notification.Object;
-            LibraryBrowserItem item = (LibraryBrowserItem)outlineView.ItemAtRow(outlineView.SelectedRow);
+            var outlineView = (NSOutlineView)notification.Object;
+            var item = (LibraryBrowserItem)outlineView.ItemAtRow(outlineView.SelectedRow);
 
             // Call presenter if a valid item has been found
             if(item != null)
-                OnTreeNodeSelected.Invoke(item.Entity);
+                OnTreeNodeSelected(item.Entity);
         }
 
         public override void ItemDidExpand(NSNotification notification)
@@ -71,10 +71,10 @@ namespace MPfm.Mac.Classes.Delegates
         public NSView GetViewForItem(NSOutlineView outlineView, NSTableColumn tableColumn, NSObject item)
         {
             // Cast item
-            LibraryBrowserItem libraryBrowserItem = (LibraryBrowserItem)item;
+            var libraryBrowserItem = (LibraryBrowserItem)item;
 
             // Create view
-            NSTableCellView view = (NSTableCellView)outlineView.MakeView("cellLibrary", this);
+            var view = (NSTableCellView)outlineView.MakeView("cellLibrary", this);
             view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             view.TextField.StringValue = libraryBrowserItem.Entity.Title;
 
@@ -88,7 +88,8 @@ namespace MPfm.Mac.Classes.Delegates
                 view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_users");
             } 
             else if (libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Album ||
-                     libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Albums)
+                    libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.Albums ||
+                    libraryBrowserItem.Entity.EntityType == LibraryBrowserEntityType.ArtistAlbum)
             {
                 view.ImageView.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_custom_vinyl");
             } 

@@ -27,6 +27,7 @@ using MPfm.MVP.Views;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.Library.Objects;
 using MPfm.Sound.AudioFiles;
+using MPfm.MVP.Services.Interfaces;
 
 namespace MPfm.MVP.Navigation
 {
@@ -35,6 +36,8 @@ namespace MPfm.MVP.Navigation
     /// </summary>
     public abstract class NavigationManager
     {
+        private CloudDeviceInfo _resumeCloudDeviceInfo;
+
         ISplashView _splashView;
         ISplashPresenter _splashPresenter;
 
@@ -103,7 +106,12 @@ namespace MPfm.MVP.Navigation
                 Tracing.Log("SplashInitDone");
                 try
                 {
+                    var resumePlaybackService = Bootstrapper.GetContainer().Resolve<IResumePlaybackService>();
+                    _resumeCloudDeviceInfo = resumePlaybackService.GetResumePlaybackInfo();
                     CreateMainView();
+
+                    if(_resumeCloudDeviceInfo != null)
+                        CreateStartResumePlaybackView();
                 }
                 catch(Exception ex)
                 {
@@ -450,12 +458,12 @@ namespace MPfm.MVP.Navigation
             // The view invokes the OnViewReady action when the view is ready. This means the presenter can be created and bound to the view.
             Action<IBaseView> onViewReady = (view) =>
             {
-                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>();
+                _startResumePlaybackPresenter = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackPresenter>(new NamedParameterOverloads() { { "device", _resumeCloudDeviceInfo } });
                 _startResumePlaybackPresenter.BindView((IStartResumePlaybackView)view);
             };
 
             // Create view and manage view destruction
-            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady } });
+            _startResumePlaybackView = Bootstrapper.GetContainer().Resolve<IStartResumePlaybackView>(new NamedParameterOverloads() { { "onViewReady", onViewReady }, { "device", _resumeCloudDeviceInfo } });
             _startResumePlaybackView.OnViewDestroy = (view) =>
             {
                 _startResumePlaybackPresenter.ViewDestroyed();

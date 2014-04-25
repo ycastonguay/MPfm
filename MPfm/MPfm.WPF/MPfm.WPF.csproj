@@ -378,6 +378,10 @@
     <Resource Include="Resources\Images\Splash\splash_logo_full%402x.png" />
     <Resource Include="Resources\Images\Splash\splash_logo_full.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Devices\android%402x.png" />
+    <Resource Include="Resources\Images\Devices\android.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

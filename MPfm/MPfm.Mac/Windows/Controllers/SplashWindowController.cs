@@ -38,14 +38,6 @@ namespace MPfm.Mac
             Initialize();
         }
         
-//        // Called when created directly from a XIB file
-//        [Export ("initWithCoder:")]
-//        public SplashWindowController(NSCoder coder) 
-//            : base (coder)
-//        {
-//            Initialize();
-//        }
-        
         // Call to load from the XIB/NIB file
         public SplashWindowController(Action<IBaseView> onViewReady) 
             : base ("SplashWindow", onViewReady)
@@ -57,7 +49,7 @@ namespace MPfm.Mac
         void Initialize()
         {
             this.Window.AlphaValue = 0;
-            this.Window.MakeKeyAndOrderFront(this);
+            ShowWindowCentered();
 
             // Fade in splash screen
             NSMutableDictionary dict = new NSMutableDictionary();
@@ -118,24 +110,14 @@ namespace MPfm.Mac
             OnViewReady.Invoke(this);
         }
 
-        public override void WindowDidLoad()
-        {
-            base.WindowDidLoad();
-
-//            // Load screens
-//            AppDelegate appDelegate = (AppDelegate)NSApplication.SharedApplication.Delegate;
-//            appDelegate.LoadScreens();
-
-            // Bind view and initialize
-            //splashPresenter.BindView(this);
-            //splashPresenter.Initialize(() => {
-            //});
-        }
-
         #region ISplashView implementation
 
         public void RefreshStatus(string message)
         {
+            InvokeOnMainThread(delegate
+            {
+                lblMessage.StringValue = message;
+            });
         }
 
         public void DestroyView()

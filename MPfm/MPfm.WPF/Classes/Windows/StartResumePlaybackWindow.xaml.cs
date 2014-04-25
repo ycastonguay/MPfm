@@ -17,8 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MPfm.Library.Objects;
 using MPfm.MVP.Views;
@@ -38,16 +41,15 @@ namespace MPfm.WPF.Classes.Windows
             ViewIsReady();
         }
 
-        private void btnResume_OnClick(object sender, RoutedEventArgs e)
+        private void BtnOK_OnClick(object sender, RoutedEventArgs e)
         {
-            if (listView.SelectedItems.Count == 0)
-                return;
-
             OnResumePlayback();
+            Close();
         }
 
-        private void btnOpenPreferencesWindow_OnClick(object sender, RoutedEventArgs e)
+        private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
+            Close();
         }
 
         #region IStartResumePlaybackView implementation
@@ -64,18 +66,50 @@ namespace MPfm.WPF.Classes.Windows
 
         public void RefreshCloudDeviceInfo(CloudDeviceInfo info, AudioFile audioFile)
         {
-        }
-
-        public void RefreshDevices(IEnumerable<CloudDeviceInfo> devices)
-        {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
-                _devices = devices.ToList();
-                listView.ItemsSource = _devices;
+                lblDeviceName.Content = info.DeviceName;
+                lblArtistName.Content = audioFile.ArtistName;
+                lblAlbumTitle.Content = audioFile.AlbumTitle;
+                lblSongTitle.Content = audioFile.Title;
+                lblLastUpdated.Content = string.Format("Last updated: {0}", info.Timestamp);
+
+                imageAlbum.Source = null;
+                var task = Task<BitmapImage>.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        var bytes = AudioFile.ExtractImageByteArrayForAudioFile(audioFile.FilePath);
+                        var stream = new MemoryStream(bytes);
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.StreamSource = stream;
+                        bitmap.EndInit();
+                        bitmap.Freeze();
+
+                        return bitmap;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("An error occured while extracing album art in {0}: {1}", audioFile.FilePath, ex);
+                    }
+
+                    return null;
+                });
+
+                var imageResult = task.Result;
+                if (imageResult != null)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                    {
+                        imageAlbum.Source = imageResult;
+                    }));
+                }
             }));
         }
 
         #endregion
-
     }
 }

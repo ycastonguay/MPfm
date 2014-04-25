@@ -56,8 +56,8 @@ namespace MPfm.MVP.Presenters
             _cloudLibraryService.OnDeviceInfosAvailable += CloudLibraryServiceOnDeviceInfosAvailable;
 	        _cloudLibraryService.OnDeviceInfosDownloadProgress += (progress) =>
 	        {
-                // TODO: For some reason, the UI isn't updated frequently enough for the progress to display correctly.
-                //View.RefreshStatus(string.Format("{0}", progress));
+                //Console.WriteLine("===>> OnDeviceInfosDownloadProgress - {0}", progress);
+                View.RefreshStatus(string.Format("Syncing data from cloud ({0:0} %)...", progress * 100));
 	        };
 
             _timerDownloadFiles = new Timer(5000);
@@ -73,7 +73,6 @@ namespace MPfm.MVP.Presenters
                 return;
             }
 
-            // Initialize player
             View.RefreshStatus("Initializing player...");
             Device device = new Device()
             {
@@ -90,7 +89,6 @@ namespace MPfm.MVP.Presenters
             _taskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 #endif
 
-            var cancellationToken = new CancellationToken();
             Task.Factory.StartNew(() =>
             {
                 View.RefreshStatus("Initializing app...");
@@ -109,7 +107,6 @@ namespace MPfm.MVP.Presenters
                     Close();
                 }
             });
-                    //}, cancellationToken, TaskCreationOptions.LongRunning, _taskScheduler);
 	    }
 
         private void CloudLibraryServiceOnDeviceInfosAvailable(IEnumerable<CloudDeviceInfo> deviceInfos)
@@ -121,6 +118,7 @@ namespace MPfm.MVP.Presenters
         private void TimerDownloadFilesOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
             Tracing.Log("SplashPresenter - TimerDownloadFilesOnElapsed");
+            View.RefreshStatus("Skipping resume playback because download time is taking too long...");
             _timerDownloadFiles.Stop();
             Close();
         }
@@ -134,11 +132,11 @@ namespace MPfm.MVP.Presenters
 	            {
                     if (_hasFinishedInitialization)
                         return;
-                    
+
+                    _hasFinishedInitialization = true;
 	                View.InitDone(true);
 	                _onInitDone();
 	                View.RefreshStatus("Opening app...");
-	                _hasFinishedInitialization = true;
 	            }
 	        }, token, TaskCreationOptions.None, _taskScheduler);
 	    }

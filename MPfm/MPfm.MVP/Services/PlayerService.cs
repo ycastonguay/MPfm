@@ -278,9 +278,9 @@ namespace MPfm.MVP.Services
         {
             _messengerHub.PublishAsync<PlayerPlaylistUpdatedMessage>(new PlayerPlaylistUpdatedMessage(this));
 
-            Task.Factory.StartNew(() => {
-                //_cloudLibraryService.PushPlaylist(_player.Playlist);
-            });
+//            Task.Factory.StartNew(() => {
+//                //_cloudLibraryService.PushPlaylist(_player.Playlist);
+//            });
         }
 
         public void Play()
@@ -346,10 +346,6 @@ namespace MPfm.MVP.Services
 
         public void PlayPause()
         {
-            //if (_player.IsPlaying)
-            //    _player.Pause();
-            //else
-            //    _player.Play();
             if (_player.IsPlaying)
                 Pause();
             else

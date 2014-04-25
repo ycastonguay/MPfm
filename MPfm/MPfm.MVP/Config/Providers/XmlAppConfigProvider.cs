@@ -19,12 +19,21 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 using MPfm.MVP.Config.Models;
+using System.Threading.Tasks;
 
 #if !WINDOWSSTORE
 namespace MPfm.MVP.Config.Providers
-{
+{    
     public class XmlAppConfigProvider : IAppConfigProvider
     {
+        private readonly object _locker = new object();
+        private XmlSerializer _serializer;
+        
+        public XmlAppConfigProvider()
+        {
+            _serializer = new XmlSerializer(typeof(RootAppConfig));
+        }
+        
         /// <summary>
         /// Loads application settings from file.
         /// </summary>
@@ -32,14 +41,18 @@ namespace MPfm.MVP.Config.Providers
         /// <returns>AppConfigManager object</returns>
         public RootAppConfig Load(string filePath)
         {
-            if (!File.Exists(filePath))
-                return new RootAppConfig();
+            lock (_locker)
+            {
+                if (!File.Exists(filePath))
+                    return new RootAppConfig();
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(RootAppConfig));
-            TextReader textReader = new StreamReader(filePath);
-            Object obj = deserializer.Deserialize(textReader);
-            RootAppConfig theme = (RootAppConfig)obj;
-            return theme;
+                using (TextReader textReader = new StreamReader(filePath))
+                {
+                    Object obj = _serializer.Deserialize(textReader);
+                    var theme = (RootAppConfig)obj;
+                    return theme;
+                }
+            }
         }
 
         /// <summary>
@@ -49,10 +62,15 @@ namespace MPfm.MVP.Config.Providers
         /// <param name="config">AppConfigManager object</param>
         public void Save(string filePath, RootAppConfig config)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(RootAppConfig));
-            TextWriter textWriter = new StreamWriter(filePath);
-            serializer.Serialize(textWriter, config);
-            textWriter.Dispose();
+            Task.Factory.StartNew(() => {
+                lock(_locker)
+                {
+                    using (TextWriter textWriter = new StreamWriter(filePath))
+                    {
+                        _serializer.Serialize(textWriter, config);
+                    }
+                }
+            });
         }
     }
 }

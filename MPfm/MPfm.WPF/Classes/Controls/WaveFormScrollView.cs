@@ -185,7 +185,8 @@ namespace MPfm.WPF.Classes.Controls
         protected override Size MeasureOverride(Size constraint)
         {
             //Console.WriteLine("WaveFormScrollView - MeasureOverride - constraint: {0} actualSize: {1},{2}", constraint, ActualWidth, ActualHeight);
-            //WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);            
+            //WaveFormView.RefreshWaveFormBitmap((int)ActualWidth);
+            WaveFormView.InvalidateBitmaps();
             return base.MeasureOverride(constraint);
         }
 

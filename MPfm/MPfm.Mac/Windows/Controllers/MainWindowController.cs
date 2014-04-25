@@ -57,7 +57,7 @@ namespace MPfm.Mac
 		public MainWindowController(Action<IBaseView> onViewReady) : base ("MainWindow", onViewReady)
         {
             this.Window.AlphaValue = 0;
-            this.Window.MakeKeyAndOrderFront(this);
+            ShowWindowCentered();
 
             // Fade in main window
             NSMutableDictionary dict = new NSMutableDictionary();
@@ -1028,6 +1028,92 @@ namespace MPfm.Mac
 		{
 		    // Not used in Cocoa.
 		}
+        
+        public void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity)
+        {
+            InvokeOnMainThread(() => {
+                if(entity.EntityType == LibraryBrowserEntityType.Artist ||
+                   entity.EntityType == LibraryBrowserEntityType.ArtistAlbum)
+                {
+                    var artistsNode = _libraryBrowserDataSource.Items.FirstOrDefault(x => x.Entity.EntityType == LibraryBrowserEntityType.Artists);
+                    outlineLibraryBrowser.ExpandItem(artistsNode);
+                    var artistNode = artistsNode.SubItems.FirstOrDefault(x => string.Compare(x.Entity.Query.ArtistName, entity.Query.ArtistName, true) == 0);
+                    
+                    if(entity.EntityType == LibraryBrowserEntityType.Artist)
+                    {
+                        int row = outlineLibraryBrowser.RowForItem(artistNode);
+                        outlineLibraryBrowser.SelectRow(row, false);
+                        outlineLibraryBrowser.ScrollRowToVisible(row);
+                    }
+                    else if(entity.EntityType == LibraryBrowserEntityType.ArtistAlbum)
+                    {
+                        outlineLibraryBrowser.ExpandItem(artistNode);
+                        var artistAlbumNode = artistNode.SubItems.FirstOrDefault(x => string.Compare(x.Entity.Query.AlbumTitle, entity.Query.AlbumTitle, true) == 0);
+                        int row = outlineLibraryBrowser.RowForItem(artistAlbumNode);
+                        outlineLibraryBrowser.SelectRow(row, false);
+                        outlineLibraryBrowser.ScrollRowToVisible(row);
+                    }
+                }
+                else if(entity.EntityType == LibraryBrowserEntityType.Album)
+                {
+                    var albumsNode = _libraryBrowserDataSource.Items.FirstOrDefault(x => x.Entity.EntityType == LibraryBrowserEntityType.Albums);
+                    outlineLibraryBrowser.ExpandItem(albumsNode);
+                    
+                    var albumNode = albumsNode.SubItems.FirstOrDefault(x => string.Compare(x.Entity.Query.AlbumTitle, entity.Query.AlbumTitle, true) == 0);
+                    int row = outlineLibraryBrowser.RowForItem(albumNode);
+                    outlineLibraryBrowser.SelectRow(row, false);
+                    outlineLibraryBrowser.ScrollRowToVisible(row);
+                }
+            });
+        }
+        
+        private void SelectItem(NSObject item)
+        {
+            int itemIndex = outlineLibraryBrowser.RowForItem(item);
+            if (itemIndex < 0)
+            {
+                ExpandParentsOfItem(item);
+                itemIndex = outlineLibraryBrowser.RowForItem(item);
+                if(itemIndex < 0)
+                    return;
+            }
+            
+            outlineLibraryBrowser.SelectRow(itemIndex, false);
+//              NSInteger itemIndex = [self rowForItem:item];
+//    if (itemIndex < 0) {
+//        [self expandParentsOfItem: item];
+//        itemIndex = [self rowForItem:item];
+//        if (itemIndex < 0)
+//            return;
+//    }
+//
+//    [self selectRowIndexes: [NSIndexSet indexSetWithIndex: itemIndex] byExtendingSelection: NO];
+//}
+        }
+        
+        private void ExpandParentsOfItem(NSObject item)
+        {
+            while (item != null)
+            {
+                var parent = outlineLibraryBrowser.GetParent(item);
+                if(!outlineLibraryBrowser.IsExpandable(parent))
+                    break;
+                if(!outlineLibraryBrowser.IsItemExpanded(parent))
+                    outlineLibraryBrowser.ExpandItem(parent);
+                item = parent;
+            }
+        }
+//        
+//        - (void)expandParentsOfItem:(id)item {
+//    while (item != nil) {
+//        id parent = [self parentForItem: item];
+//        if (![self isExpandable: parent])
+//            break;
+//        if (![self isItemExpanded: parent])
+//            [self expandItem: parent];
+//        item = parent;
+//    }
+//}
 
 		#endregion
 

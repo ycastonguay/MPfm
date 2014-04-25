@@ -17,8 +17,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MPfm.Library.Objects;
 using MPfm.Library.UpdateLibrary;
+using MPfm.MVP.Config;
 using MPfm.MVP.Presenters.Interfaces;
 using MPfm.MVP.Services.Interfaces;
 using MPfm.MVP.Views;
@@ -41,12 +43,14 @@ namespace MPfm.MVP.Presenters
 	{
 	    readonly IAudioFileCacheService _audioFileCacheService;
 		readonly IUpdateLibraryService _updateLibraryService;
+        readonly ILibraryService _libraryService;
         readonly ISyncDeviceSpecifications _syncDeviceSpecifications;
 		
         public UpdateLibraryPresenter(IAudioFileCacheService audioFileCacheService, IUpdateLibraryService updateLibraryService, 
-                                      ISyncDeviceSpecifications syncDeviceSpecifications)
+                                      ILibraryService libraryService, ISyncDeviceSpecifications syncDeviceSpecifications)
 		{
 		    _audioFileCacheService = audioFileCacheService;
+            _libraryService = libraryService;
 			_updateLibraryService = updateLibraryService;
             _updateLibraryService.RaiseRefreshStatusEvent += new EventHandler<RefreshStatusEventArgs>(updateLibraryService_RaiseRefreshStatusEvent);
             _updateLibraryService.RaiseProcessEndedEvent += new EventHandler<ProcessEndedEventArgs>(updateLibraryService_RaiseProcessEndedEvent);
@@ -95,15 +99,17 @@ namespace MPfm.MVP.Presenters
 
 	    private void AddFolderToLibrary(string folderPath)
 	    {
+            // Add to list of configured folders
+            //_libraryService.AddFolder(folderPath, true);
             UpdateLibrary(new List<string>(), new List<Folder>() { new Folder(folderPath, true) });
 
-            //    // Add to list of configured folders
-            //    var foundFolder = AppConfigManager.Instance.Root.Library.Folders.FirstOrDefault(x => x.FolderPath == folderPath);
-            //    if (foundFolder == null)
-            //    {
-            //        AppConfigManager.Instance.Root.Library.Folders.Add(folders[0]);
-            //        AppConfigManager.Instance.Save();
-            //    }
+            var foundFolder = AppConfigManager.Instance.Root.Library.Folders.FirstOrDefault(x => x.FolderPath == folderPath);
+            if (foundFolder == null)
+            {
+                var folder = new Folder(folderPath, true);
+                AppConfigManager.Instance.Root.Library.Folders.Add(folder);
+                AppConfigManager.Instance.Save();
+            }
 	    }
 
 	    private void AddFilesToLibrary(List<string> filePaths)

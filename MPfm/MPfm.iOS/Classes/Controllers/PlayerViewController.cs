@@ -48,7 +48,6 @@ namespace MPfm.iOS.Classes.Controllers
         NSTimer _timerHidePlayerMetadata;
         bool _isPositionChanging = false;
         string _currentAlbumArtKey = string.Empty;
-        //string _currentNavigationSubtitle = string.Empty;
         PlayerMetadataViewController _playerMetadataViewController;
         float _lastSliderPositionValue = 0;
 
@@ -63,7 +62,6 @@ namespace MPfm.iOS.Classes.Controllers
         {
             base.DidReceiveMemoryWarning();
 
-            scrollViewWaveForm.WaveFormView.FlushCache();
             if(imageViewAlbumArt.Image != null)
             {
                 UIImage image = imageViewAlbumArt.Image;
@@ -178,13 +176,12 @@ namespace MPfm.iOS.Classes.Controllers
             };
 
             // Only display wave form on iPhone 5+ and iPad
-            if (DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone3GS ||
-                DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone4 ||
-                DarwinHardwareHelper.Version == DarwinHardwareHelper.HardwareVersion.iPhone4S)
-            {
-                scrollViewWaveForm.Hidden = true;
-				scrollViewWaveForm.UserInteractionEnabled = false;
-            }
+			bool showWaveForm = DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone3GS &&
+			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4 &&
+			                    DarwinHardwareHelper.Version != DarwinHardwareHelper.HardwareVersion.iPhone4S;
+			scrollViewWaveForm.Hidden = !showWaveForm;
+			scrollViewWaveForm.UserInteractionEnabled = showWaveForm;
+			scrollViewWaveForm.MultipleTouchEnabled = showWaveForm;
 
             // Create text attributes for navigation bar button
             UITextAttributes attr = new UITextAttributes();
@@ -320,7 +317,7 @@ namespace MPfm.iOS.Classes.Controllers
 				scrollView.ContentOffset = new PointF(offset * width, 0);
             }
 
-			scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
+			//scrollViewWaveForm.RefreshWaveFormBitmap(View.Frame.Width);
 
             // IMPORTANT: Keep this property here to override the new Frame position by AutoLayout
             sliderPosition.TranslatesAutoresizingMaskIntoConstraints = true;

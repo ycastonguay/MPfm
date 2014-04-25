@@ -702,6 +702,11 @@ namespace MPfm.WPF.Classes.Windows
             }));
         }
 
+        public void RefreshLibraryBrowserSelectedNode(LibraryBrowserEntity entity)
+        {
+            
+        }
+
         #endregion
 
         #region ISongBrowserView implementation
@@ -772,7 +777,7 @@ namespace MPfm.WPF.Classes.Windows
             {
                 lblPosition.Content = entity.Position;
                 trackPosition.Value = (int)(entity.PositionPercentage * 10);
-                //scrollViewWaveForm.SetPosition(entity.PositionBytes);
+                scrollViewWaveForm.SetPosition(entity.PositionBytes);
                 //Console.WriteLine("Player position: {0} {1} slider: {2} min: {3} max: {4}", entity.Position, entity.PositionPercentage, entity.PositionBytes, trackPosition.Minimum, trackPosition.Maximum);
             }));
         }

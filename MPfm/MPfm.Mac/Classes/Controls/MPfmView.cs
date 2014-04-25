@@ -44,6 +44,20 @@ namespace MPfm.Mac.Classes.Controls
         public CGColor HeaderColor2 { get; set; }
         public CGColor BorderColor { get; set; }
 
+        private bool _isEnabled = false;
+        public bool IsEnabled
+        {
+            get
+            {
+                return _isEnabled;
+            }
+            set
+            {
+                _isEnabled = value;
+                SetSubviewsEnabled(_isEnabled);
+            }
+        }
+
         [Export("init")]
         public MPfmView() : base(NSObjectFlag.Empty)
         {
@@ -94,6 +108,19 @@ namespace MPfm.Mac.Classes.Controls
         {
             base.MouseUp(theEvent);
             isMouseDown = false;
+        }
+
+        private void SetSubviewsEnabled(bool enabled)
+        {
+            foreach(var currentView in Subviews)
+            {
+                var currentControl = currentView as NSControl;
+                if(currentControl != null)
+                {
+                    currentControl.Enabled = enabled;
+                    currentControl.Display();
+                }
+            }
         }
 
         public override void DrawRect(RectangleF dirtyRect)

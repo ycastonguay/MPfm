@@ -22,13 +22,13 @@
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
-    <Grid Background="#FF242F35">
+    <Grid Background="{DynamicResource BrushBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
-            <Menu Width="Auto" Height="20" DockPanel.Dock="Top">
+            <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem x:Name="miFile_AddFiles" Header="Add Files to Library..." Click="MenuItem_Click" />
                     <MenuItem x:Name="miFile_AddFolder" Header="Add Folder to Library..." Click="MenuItem_Click" />
@@ -64,11 +64,11 @@
             <DockPanel>
                 <DockPanel.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF242F35" Offset="0"/>
-                        <GradientStop Color="#FF455865" Offset="1"/>
+                        <GradientStop Color="#FF20282E" Offset="0"/>
+                        <GradientStop Color="#FF455864" Offset="1"/>
                     </LinearGradientBrush>
                 </DockPanel.Background>
-                <Grid Margin="4,6,4,2">
+                <Grid Margin="4,10,4,6">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />

@@ -34,8 +34,8 @@ namespace MPfm.GenericControls.Services
     {
         public const int TileSize = 50;
         public const int MaxNumberOfRequests = 20;
-#if ANDROID // parallelism will be added later for these platforms, not working well for now
-        public const int MaximumNumberOfTasks = 2;
+#if MACOSX
+        public const int MaximumNumberOfTasks = 1;
 #else
         public const int MaximumNumberOfTasks = 2;
 #endif
@@ -121,6 +121,11 @@ namespace MPfm.GenericControls.Services
 
         public void FlushCache()
         {
+            lock (_lockerRequests)
+            {
+                _requests.Clear();
+            }
+
             lock (_lockerTiles)
             {
                 foreach (var tile in _tiles)

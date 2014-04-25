@@ -130,15 +130,10 @@ namespace MPfm.WPF.Classes.Controls
             _control.LoadPeakFile(audioFile);
         }
 
-        //public void RefreshWaveFormBitmap()
-        //{
-        //    _control.RefreshWaveFormBitmap();
-        //}
-
-        //public void RefreshWaveFormBitmap(int width)
-        //{
-        //    _control.RefreshWaveFormBitmap(width);
-        //}
+        public void InvalidateBitmaps()
+        {
+            _control.InvalidateBitmaps();
+        }
 
         protected override void OnRender(DrawingContext dc)
         {

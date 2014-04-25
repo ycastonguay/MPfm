@@ -241,8 +241,11 @@ namespace MPfm.Library.Services
             {
                 // If the file exists, decrypt it before changing its contents
                 string filePath = Path.Combine(PathHelper.HomeDirectory, "dropbox.json");
+
+                #if !MACOSX
                 if (File.Exists(filePath))
                     File.Decrypt(filePath);
+                #endif
 
                 // Write file to disk
                 string json = JsonConvert.SerializeObject(token);
@@ -251,8 +254,10 @@ namespace MPfm.Library.Services
                 fileStream.Write(bytes, 0, bytes.Length);
                 fileStream.Close();
 
+                #if !MACOSX
                 // Encrypt file
                 File.Encrypt(filePath);
+                #endif
             }
             catch (Exception ex)
             {

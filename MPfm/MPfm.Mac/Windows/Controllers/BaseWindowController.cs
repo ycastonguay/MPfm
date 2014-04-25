@@ -23,6 +23,7 @@ using MonoMac.AppKit;
 using MPfm.MVP;
 using MPfm.MVP.Views;
 using MPfm.Mac.Classes.Delegates;
+using MPfm.Mac.Classes.Helpers;
 
 namespace MPfm.Mac
 {
@@ -67,6 +68,17 @@ namespace MPfm.Mac
         
         #endregion
 
+        public void ShowWindowCentered()
+        {
+            this.Window.Center();
+            var screenRect = NSScreen.MainScreen.Frame;
+            var rect = Window.Frame;
+            rect.X = (screenRect.Width - Window.Frame.Width) / 2f;
+            rect.Y = (screenRect.Height - Window.Frame.Height) / 2f;
+            this.Window.SetFrame(rect, true);
+            this.Window.MakeKeyAndOrderFront(this);
+        }
+
         protected override void Dispose(bool disposing)
         {
             Console.WriteLine("BaseWindowController - Dispose(" + disposing.ToString() + ")");
@@ -86,5 +98,13 @@ namespace MPfm.Mac
         }
 
         #endregion
+
+        protected void ShowError(Exception ex)
+        {
+            InvokeOnMainThread(delegate
+            {
+                CocoaHelper.ShowAlert("Error", string.Format("An error occured: {0}", ex), NSAlertStyle.Critical);
+            });
+        }
     }
 }

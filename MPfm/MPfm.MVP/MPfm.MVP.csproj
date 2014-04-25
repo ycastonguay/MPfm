@@ -319,5 +319,10 @@
     <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
     <Compile Include="Views\IDesktopPreferencesView.cs" />
     <Compile Include="Views\IDesktopEffectsView.cs" />
+    <Compile Include="Services\LifecycleService.cs" />
+    <Compile Include="Services\Interfaces\ILifecycleService.cs" />
+    <Compile Include="Services\Interfaces\IResumePlaybackService.cs" />
+    <Compile Include="Services\ResumePlaybackService.cs" />
+    <Compile Include="Config\Models\LibraryBrowserAppConfig.cs" />
   </ItemGroup>
 </Project>

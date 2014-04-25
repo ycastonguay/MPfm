@@ -3,15 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:base="clr-namespace:MPfm.WPF.Classes.Windows.Base"
         xmlns:controls="clr-namespace:MPfm.WPF.Classes.Controls"
-        WindowStartupLocation="CenterScreen" Background="#FF242F35"
-        Title="Update Library" Height="153" Width="488.9" Icon="/MPfm.WPF;component/Resources/Icon.ico">
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource BrushBackgroundColor}"
+        Title="Update Library" Height="153" Width="488.9" Icon="/MPfm.WPF;component/Resources/Icon.ico" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#FF455865">
+        <Grid Grid.Row="0" Background="{DynamicResource BrushHeaderBackgroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
