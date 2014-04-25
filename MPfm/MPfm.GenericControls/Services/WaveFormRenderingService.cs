@@ -266,7 +266,7 @@ namespace MPfm.GenericControls.Services
                 return;
             }
 
-			IDisposable imageCache;
+			IBasicImage imageCache;
 			try
 			{
 			    float x1 = 0;

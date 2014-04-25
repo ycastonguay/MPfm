@@ -129,7 +129,7 @@ namespace MPfm.GenericControls.Services
             lock (_lockerTiles)
             {
                 foreach (var tile in _tiles)
-                    tile.Image.Dispose();
+                    tile.Image.Image.Dispose();
                 _tiles.Clear();
             }
         }

@@ -354,7 +354,8 @@ namespace MPfm.GenericControls.Controls
                 float tileWidth = tileSize * deltaZoom;
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
-                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
+                context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
+                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
                 //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), _brushMarkerBackground, _penCursorLine);
                 //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }

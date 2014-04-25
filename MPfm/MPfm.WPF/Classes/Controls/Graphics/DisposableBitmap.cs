@@ -17,9 +17,38 @@
 
 using System;
 using System.Windows.Media.Imaging;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {
+    public class BasicImage : IBasicImage
+    {
+        private DisposableBitmap _bitmap = null;
+
+        public IDisposable Image
+        {
+            get { return _bitmap; }
+            set { _bitmap = (DisposableBitmap)value; }
+        }
+
+        public BasicRectangle ImageSize
+        {
+            get
+            {
+                return new BasicRectangle(0, 0, _bitmap.Bitmap.PixelWidth, _bitmap.Bitmap.PixelHeight);
+            }
+        }
+
+        public BasicImage()
+        {
+        }
+
+        public BasicImage(BitmapSource bitmap)
+        {
+            _bitmap = new DisposableBitmap(bitmap);
+        }
+    }
+
     public class DisposableBitmap : IDisposable
     {
         public BitmapSource Bitmap { get; private set; }

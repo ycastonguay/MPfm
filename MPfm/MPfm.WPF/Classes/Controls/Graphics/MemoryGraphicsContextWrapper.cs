@@ -18,6 +18,7 @@
 using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
@@ -32,7 +33,7 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             _drawingVisual = drawingVisual;            
         }
 
-        public IDisposable RenderToImageInMemory()
+        public IBasicImage RenderToImageInMemory()
         {
             float density = 1;
             float dpi = 96;
@@ -44,7 +45,8 @@ namespace MPfm.WPF.Classes.Controls.Graphics
             var bitmap = new RenderTargetBitmap((int)(BoundsWidth * density), (int)(BoundsHeight * density), dpi, dpi, PixelFormats.Default);
             bitmap.Render(_drawingVisual);
             bitmap.Freeze();
-            return new DisposableBitmap(bitmap);
+            var image = new BasicImage(bitmap);
+            return image;
         }
     }
 }

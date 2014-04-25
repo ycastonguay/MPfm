@@ -16,6 +16,7 @@
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.GenericControls.Services.Events
 {
@@ -26,6 +27,6 @@ namespace MPfm.GenericControls.Services.Events
         public float Width { get; set; }
         public float OffsetX { get; set; }
         public WaveFormDisplayType DisplayType { get; set; }
-        public IDisposable Image { get; set; }
+        public IBasicImage Image { get; set; }
     }
 }

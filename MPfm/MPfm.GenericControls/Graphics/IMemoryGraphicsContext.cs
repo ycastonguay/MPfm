@@ -22,6 +22,6 @@ namespace MPfm.GenericControls.Graphics
 {
     public interface IMemoryGraphicsContext : IGraphicsContext
     {
-        IDisposable RenderToImageInMemory();
+        IBasicImage RenderToImageInMemory();
     }
 }

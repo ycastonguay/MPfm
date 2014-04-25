@@ -18,13 +18,14 @@
 using System;
 using System.IO;
 using System.Windows.Media.Imaging;
+using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 
 namespace MPfm.WPF.Classes.Controls.Graphics
 {
     public class DisposableImageFactory : IDisposableImageFactory
     {
-        public IDisposable CreateImageFromByteArray(byte[] data, int width, int height)
+        public IBasicImage CreateImageFromByteArray(byte[] data, int width, int height)
         {
             BitmapImage bitmap = null;
             try
@@ -44,8 +45,8 @@ namespace MPfm.WPF.Classes.Controls.Graphics
                 return null;
             }
 
-            var disposableBitmap = new DisposableBitmap(bitmap);
-            return disposableBitmap;
+            var image = new BasicImage(bitmap);
+            return image;
         }
     }
 }
