@@ -577,7 +577,7 @@ namespace MPfm.GenericControls.Controls.Songs
                 if (_imageCache[0].Image != null)
                 {
                     var imageTemp = _imageCache[0].Image;
-                    imageTemp.Dispose();
+                    imageTemp.Image.Dispose();
                     imageTemp = null;
                 }
 
@@ -1072,7 +1072,7 @@ namespace MPfm.GenericControls.Controls.Songs
                     bool useAlbumArtOverlay = false;
 
                     // Try to extract image from cache
-                    IDisposable imageAlbumCover = null;
+                    IBasicImage imageAlbumCover = null;
                     SongGridViewImageCache cachedImage = null;
                     try
                     {
@@ -1232,7 +1232,8 @@ namespace MPfm.GenericControls.Controls.Songs
 
                     // Display album cover
                     if (imageAlbumCover != null)
-                        context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover);
+                        context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, imageAlbumCover.ImageSize.Width, imageAlbumCover.ImageSize.Height), imageAlbumCover.Image);
+                        //context.DrawImage(rectAlbumCoverArt, new BasicRectangle(0, 0, rectAlbumCoverArt.Width, rectAlbumCoverArt.Height), imageAlbumCover.Image);
 
                     if (useAlbumArtOverlay)
                     {
@@ -2308,7 +2309,7 @@ namespace MPfm.GenericControls.Controls.Songs
         public class SongGridViewBackgroundWorkerResult
         {
             public AudioFile AudioFile { get; set; }
-            public IDisposable AlbumArt { get; set; }
+            public IBasicImage AlbumArt { get; set; }
         }
 
         /// <summary>
