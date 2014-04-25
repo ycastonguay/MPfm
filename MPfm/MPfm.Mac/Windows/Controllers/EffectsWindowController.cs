@@ -91,11 +91,11 @@ namespace MPfm.Mac
             lblScaleMinus6.Font = NSFont.FromFontName("Roboto", 11f);
             txtName.Font = NSFont.FromFontName("Roboto", 11f);
 
-            btnNewPreset.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
-            btnAutoLevel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
-            btnDelete.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
-            btnSave.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_save");
-            btnReset.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
+            btnNewPreset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAutoLevel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
+            btnDelete.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnSave.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_save");
+            btnReset.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
 
             for(int a = 0; a < 18; a++)
                 ConfigureFader(a);

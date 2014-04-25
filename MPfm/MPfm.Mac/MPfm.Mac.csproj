@@ -564,5 +564,17 @@
     <BundleResource Include="Resources\icon_button_ok%402x.png" />
     <BundleResource Include="Resources\icon_device_android.png" />
     <BundleResource Include="Resources\icon_device_android%402x.png" />
+    <BundleResource Include="Resources\toolbar_next.png" />
+    <BundleResource Include="Resources\toolbar_next%402x.png" />
+    <BundleResource Include="Resources\toolbar_pause.png" />
+    <BundleResource Include="Resources\toolbar_pause%402x.png" />
+    <BundleResource Include="Resources\toolbar_play.png" />
+    <BundleResource Include="Resources\toolbar_play%402x.png" />
+    <BundleResource Include="Resources\toolbar_previous.png" />
+    <BundleResource Include="Resources\toolbar_repeat.png" />
+    <BundleResource Include="Resources\toolbar_previous%402x.png" />
+    <BundleResource Include="Resources\toolbar_repeat%402x.png" />
+    <BundleResource Include="Resources\toolbar_shuffle.png" />
+    <BundleResource Include="Resources\toolbar_shuffle%402x.png" />
   </ItemGroup>
 </Project>

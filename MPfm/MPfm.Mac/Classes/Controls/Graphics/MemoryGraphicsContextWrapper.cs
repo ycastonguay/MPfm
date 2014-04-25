@@ -20,6 +20,7 @@ using System.Drawing;
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MPfm.GenericControls.Graphics;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
@@ -33,7 +34,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
             _bitmap = bitmap;
         }
 
-        public IDisposable RenderToImageInMemory()
+        public IBasicImage RenderToImageInMemory()
         {
             NSImage image = null;
             InvokeOnMainThread(() => {
@@ -42,7 +43,8 @@ namespace MPfm.Mac.Classes.Controls.Graphics
                 image = new NSImage(new SizeF(BoundsWidth, BoundsHeight));
                 image.AddRepresentation(_bitmap);
             });
-            return image;
+            var basicImage = new BasicImage(image);
+            return basicImage;
         }
     }
 }

@@ -333,23 +333,23 @@ namespace MPfm.Mac
         private void LoadImages()
         {
             cboSoundFormat.Image = ImageResources.images16x16.FirstOrDefault(x => x.Name == "16_icomoon_plus");
-            btnAddLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
-            btnAddMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
-            btnAddSongToPlaylist.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
-            btnEditLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
-            btnEditMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_edit");
-            btnRemoveLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
-            btnRemoveMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
-            btnPlayLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_play");
-            btnPlaySelectedSong.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_play");
+            btnAddLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAddMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnAddSongToPlaylist.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnEditLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
+            btnEditMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_edit");
+            btnRemoveLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnRemoveMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnPlayLoop.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
+            btnPlaySelectedSong.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_play");
             //btnStopLoop.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_stop");
-            btnGoToMarker.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_goto");
+            btnGoToMarker.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_goto");
 
-            btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "play");
-            btnToolbarPrevious.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "previous");
-            btnToolbarNext.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "next");
-            btnToolbarRepeat.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "repeat");
-            btnToolbarShuffle.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "shuffle");
+            btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
+            btnToolbarPrevious.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_previous");
+            btnToolbarNext.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_next");
+            btnToolbarRepeat.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_repeat");
+            btnToolbarShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
             btnToolbarPlaylist.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "playlist");
             btnToolbarEffects.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "effects");
             btnToolbarSync.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "sync");
@@ -792,10 +792,10 @@ namespace MPfm.Mac
                     case PlayerStatusType.Stopped:
                         goto case PlayerStatusType.Paused;
                     case PlayerStatusType.Paused:
-                        btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "play");
+                        btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_play");
                         break;
                     case PlayerStatusType.Playing:
-                        btnToolbarPlayPause.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "pause");
+                        btnToolbarPlayPause.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_pause");
                         break;
                 }
             });

@@ -160,17 +160,17 @@ namespace MPfm.Mac
             btnTabCloud.BackgroundMouseOverColor = GlobalTheme.SettingsTabOverColor;
             btnTabCloud.BackgroundSelectedColor = GlobalTheme.SettingsTabSelectedColor;
 
-            btnTabGeneral.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_general");
-            btnTabAudio.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_speaker");
-            btnTabLibrary.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_library");
-            btnTabCloud.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cloud");
+            btnTabGeneral.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_general");
+            btnTabAudio.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_speaker");
+            btnTabLibrary.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_library");
+            btnTabCloud.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_cloud");
 
-            btnAddFolder.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_add");
-            btnRemoveFolder.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_delete");
-            btnResetLibrary.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
-            btnTestAudioSettings.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_test");
-            btnResetAudioSettings.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_reset");
-            btnLoginDropbox.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_dropbox");
+            btnAddFolder.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_add");
+            btnRemoveFolder.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
+            btnResetLibrary.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
+            btnTestAudioSettings.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_test");
+            btnResetAudioSettings.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
+            btnLoginDropbox.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_dropbox");
         }
 
         private void HandleOnTabButtonSelected(MPfmTabButton button)

@@ -67,21 +67,21 @@ namespace MPfm.Mac
             lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
             btnRefreshDevices.StringValue = "Cancel refresh";
 
-            btnConnect.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
-            btnConnectManual.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_connect");
-            btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_refresh");
+            btnConnect.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_connect");
+            btnConnectManual.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_connect");
+            btnRefreshDevices.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_refresh");
         }
 
         private void RefreshDeviceListButton()
         {
             if (_isDiscovering)
             {
-                btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
+                btnRefreshDevices.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_cancel");
                 btnRefreshDevices.Title = "Cancel refresh";
             }
             else
             {
-                btnRefreshDevices.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_refresh");
+                btnRefreshDevices.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_refresh");
                 btnRefreshDevices.Title = "Refresh devices";
             }
         }
@@ -157,7 +157,7 @@ namespace MPfm.Mac
                         iconName = "icon_android";
                         break;
                 }
-                view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == iconName);
+                view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == iconName);
             }
             return view;
         }

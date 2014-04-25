@@ -87,7 +87,7 @@ namespace MPfm.Mac
             lblTotal.Font = NSFont.FromFontName("Junction", 12);
             lblFreeSpace.Font = NSFont.FromFontName("Junction", 12);
 
-            btnSync.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_download");
+            btnSync.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_download");
         }
 
         partial void actionAdd(NSObject sender)
@@ -249,14 +249,14 @@ namespace MPfm.Mac
                 {
                     case SyncMenuItemEntityType.Artist:
                         view.TextField.StringValue = syncMenuItem.Entity.ArtistName;
-                        view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_user");
+                        view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_user");
                         break;
                     case SyncMenuItemEntityType.Album:
                         view.TextField.StringValue = syncMenuItem.Entity.AlbumTitle;
-                        view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_vinyl");
+                        view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_vinyl");
                         break;
                     case SyncMenuItemEntityType.Song:
-                        view.ImageView.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_song");
+                        view.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_song");
                         if (syncMenuItem.Entity.Song != null)
                             view.TextField.StringValue = syncMenuItem.Entity.Song.Title;
                         break;

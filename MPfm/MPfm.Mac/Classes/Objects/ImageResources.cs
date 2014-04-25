@@ -32,7 +32,7 @@ namespace MPfm.Mac.Classes.Objects
         public static List<NSImage> images32x32 { get; private set; } // TODO: Remove 16x16/32x32 lists to merge in one list with appropriate Retina image loading
         public static List<NSImage> ButtonImages { get; private set; }
         public static List<NSImage> ToolbarImages { get; private set; }
-        public static List<NSImage> Icons { get; private set; }
+        public static List<NSImage> Images { get; private set; }
 
         static ImageResources()
         {
@@ -137,7 +137,7 @@ namespace MPfm.Mac.Classes.Objects
                 new NSImage(NSBundle.MainBundle.PathForResource("update", "png", "Resources/32x32/icomoon", string.Empty)) { Name = "32_icomoon_update" }
             };
 
-            Icons = new List<NSImage>() {
+            Images = new List<NSImage>() {
                 NSImage.ImageNamed("icon_button_add"),
                 NSImage.ImageNamed("icon_button_cancel"),
                 NSImage.ImageNamed("icon_button_cloud"),
@@ -166,7 +166,13 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_user"),
                 NSImage.ImageNamed("icon_song"),
                 NSImage.ImageNamed("icon_vinyl"),
-                NSImage.ImageNamed("icon_windows")
+                NSImage.ImageNamed("icon_windows"),
+                NSImage.ImageNamed("toolbar_next"),
+                NSImage.ImageNamed("toolbar_pause"),
+                NSImage.ImageNamed("toolbar_play"),
+                NSImage.ImageNamed("toolbar_previous"),
+                NSImage.ImageNamed("toolbar_repeat"),
+                NSImage.ImageNamed("toolbar_shuffle")
             };
         }
     }

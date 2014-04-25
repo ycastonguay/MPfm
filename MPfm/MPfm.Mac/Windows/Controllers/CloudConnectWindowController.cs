@@ -86,8 +86,8 @@ namespace MPfm.Mac
             lblStep4.Font = majorStepFont;
             lblStep4.TextColor = _uncompletedStepColor;
 
-            btnOK.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_ok");
-            btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
+            btnOK.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_ok");
+            btnCancel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_cancel");
         }
 
         #region ICloudConnectView implementation

@@ -67,7 +67,7 @@ namespace MPfm.Mac
             lblFilesDownloaded.Font = NSFont.FromFontName("Junction", 12);
             lblFilesDownloadedValue.Font = NSFont.FromFontName("Junction", 16);
 
-            btnCancel.Image = ImageResources.Icons.FirstOrDefault(x => x.Name == "icon_button_cancel");
+            btnCancel.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_cancel");
         }
 
         partial void actionCancel(NSObject sender)
