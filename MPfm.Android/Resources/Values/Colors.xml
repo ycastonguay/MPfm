@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="color_black">#000000</color>
+  <color name="white">#000000</color>
+  <color name="background">#20282E</color>
+  <color name="actionbar">#36454F</color>
+  <color name="actionbar_selected">#6D899B</color>
+  <color name="button_background">#E74C3C</color>
+  <color name="button_selected">#F07568</color>
+  <color name="button_textcolor">#FFFFFF</color>
+  <color name="transparentbutton_background">#66AAAAAA</color>
+  <color name="transparentbutton_selected">#AACCCCCC</color>
+  <color name="transparentbutton_textcolor">#FFFFFF</color>
+  <color name="dialogbutton_background">#FF333333</color>
+  <color name="dialogbutton_selected">#FF666666</color>
+  <color name="dialogbutton_textcolor">#FFFFFF</color>
+  <color name="albumcellbutton_background">#DD444444</color>
+  <color name="albumcellbutton_selected">#F2999999</color>
+  <color name="albumcellbutton_textcolor">#FFFFFF</color>
+  <color name="listitem_background">#FFFFFF</color>
+  <color name="listitem_selected">#E74C3C</color>
+  <color name="listitem_textcolor">#FFFFFF</color>
+</resources>

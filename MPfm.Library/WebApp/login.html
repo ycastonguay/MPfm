@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sessions App Sync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="css/app.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="js/jquery.upload-1.0.2.min.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="centerBlock">
+        <img src="images/app_logo.png" style="width: 232px; height: 232px; padding: 16px;" />
+        <h2>
+            Welcome to Sessions App Sync!
+        </h2>
+        <p>
+            To access the web interface of Sessions, you need to enter the authentication code shown on your device.
+        </p>
+        <form name="formLogin" id="formLogin" onsubmit="submitLoginForm()">
+            <p>
+                <label for="authenticationCode">Authentication code:</label>
+                <span class="spacer">&nbsp;</span>
+                <input type="number" class="inputCode" name="authenticationCode" id="authenticationCode">
+            </p>
+            <p>
+                <input type="button" class="button" value="Login" name="authenticationCodeSubmit" id="authenticationCodeSubmit" onclick="submitLoginForm();return false;">
+            </p>
+        </form>
+    </div>
+</body>
+</html>

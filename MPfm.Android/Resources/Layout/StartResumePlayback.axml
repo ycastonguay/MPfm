@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="200dp"
+  android:layout_height="56dp"
+  android:orientation="vertical">
+  <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="12dp"      
+    android:text="Sessions has detected that you have played music on another device recently:"
+    android:textColor="#AAAAAA"
+    android:textSize="14dp" />
+  <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#66000000"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/startResumePlayback_lblDeviceName"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:paddingLeft="12dp"
+      android:paddingRight="12dp"
+      android:paddingTop="4dp"
+      android:paddingBottom="0dp"
+      android:text="Yanick Castonguay's iPad Air"
+      android:textColor="#FFFFFF"
+      android:textSize="20dp" />
+    <TextView
+      android:id="@+id/startResumePlayback_lblPlaylistName"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:paddingLeft="12dp"
+      android:paddingRight="12dp"
+      android:paddingTop="0dp"
+      android:paddingBottom="2dp"
+      android:text="On-the-fly Playlist"
+      android:textColor="#FFFFFF"
+      android:textSize="18dp" />
+    <LinearLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:paddingLeft="12dp"
+      android:paddingRight="12dp"
+      android:paddingTop="2dp"
+      android:paddingBottom="4dp"      
+      android:orientation="horizontal">
+      <org.sessionsapp.android.SquareImageView
+        android:id="@+id/startResumePlayback_imageAlbum"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:background="#333333" />
+      <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+          android:id="@+id/startResumePlayback_lblArtistName"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_vertical"
+          android:paddingTop="1dp"
+          android:paddingBottom="1dp"
+          android:paddingLeft="4dp"
+          android:paddingRight="4dp"
+          android:text="I Love You But I've Chosen Darkness"
+          android:textColor="#FFFFFF"
+          android:textSize="16dp" />
+        <TextView
+          android:id="@+id/startResumePlayback_lblAlbumTitle"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_vertical"
+          android:paddingTop="1dp"
+          android:paddingBottom="1dp"
+          android:paddingLeft="4dp"
+          android:paddingRight="4dp"
+          android:text="I Love You But I've Chosen Darkness"
+          android:textColor="#EEEEEE"
+          android:textSize="14dp" />
+        <TextView
+          android:id="@+id/startResumePlayback_lblSongTitle"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_vertical"
+          android:paddingTop="1dp"
+          android:paddingBottom="1dp"
+          android:paddingLeft="4dp"
+          android:paddingRight="4dp"
+          android:text="I Love You But I've Chosen Darkness"
+          android:textColor="#DDDDDD"
+          android:textSize="13dp" />
+      </LinearLayout>
+    </LinearLayout>
+    <TextView
+      android:id="@+id/startResumePlayback_lblTimestamp"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:paddingLeft="12dp"
+      android:paddingRight="12dp"
+      android:paddingTop="4dp"
+      android:paddingBottom="8dp"
+      android:text="Last updated: 2020-02-12 15:43"
+      android:textColor="#CCCCCC"
+      android:textSize="14dp" />
+  </LinearLayout>
+  <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+    <Button
+      android:id="@+id/startResumePlayback_btnResume"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:drawableLeft="@drawable/selectimage"
+      android:drawablePadding="2dp"
+      android:background="@drawable/dialogbutton"
+      android:text="Resume from this device"
+      android:textColor="@color/dialogbutton_text"
+      android:textSize="14dp"
+      android:padding="6dp" />
+    <Button
+      android:id="@+id/startResumePlayback_btnCancel"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:drawableLeft="@drawable/actionbar_cancel"
+      android:drawablePadding="2dp"
+      android:background="@drawable/dialogbutton"
+      android:text="No, thanks"
+      android:textColor="@color/dialogbutton_text"
+      android:textSize="14dp"
+      android:padding="6dp" />
+    </LinearLayout>
+  </LinearLayout>

@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2893DC60-F3A4-447E-AE0B-1C2AE341D113}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPfm.WPF</RootNamespace>
+    <AssemblyName>MPfm.WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\Debug_WPF\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Library\Lib\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\MPfm.Library\Lib\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="Classes\App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Classes\Windows\StartResumePlaybackWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\SyncCloudWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\CloudConnectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\SyncMenuWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\SyncDownloadWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\ResumePlaybackWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\EditSongMetadataWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\PreferencesWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\EffectsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\SyncWebBrowserWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\FirstRunWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\UpdateLibraryWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\PlaylistWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\SyncWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Classes\Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Classes\App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
+    <Compile Include="Classes\Controls\Graphics\DisposableImageFactory.cs" />
+    <Compile Include="Classes\Controls\SongGridView.cs" />
+    <Compile Include="Classes\Controls\TestControl.cs" />
+    <Compile Include="Classes\Controls\ImageButton.cs" />
+    <Compile Include="Classes\Controls\HeaderImageButton.cs" />
+    <Compile Include="Classes\Controls\Graphics\DisposableBitmap.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
+    <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
+    <Compile Include="Classes\Controls\WaveFormScrollView.cs" />
+    <Compile Include="Classes\Controls\WaveForm.cs" />
+    <Compile Include="Classes\Controls\WaveFormScale.cs" />
+    <Compile Include="Classes\Controls\TrackBar.cs" />
+    <Compile Include="Classes\Controls\Fader.cs" />
+    <Compile Include="Classes\Controls\Wrappers\VerticalScrollBarWrapper.cs" />
+    <Compile Include="Classes\Controls\Wrappers\HorizontalScrollBarWrapper.cs" />
+    <Compile Include="Classes\Extensions\ExtensionMethods.cs" />
+    <Compile Include="Classes\Helpers\UIHelper.cs" />
+    <Compile Include="Classes\Theme\GlobalTheme.cs" />
+    <Compile Include="Classes\Controls\OutputMeter.cs" />
+    <Compile Include="Classes\Controls\MPfmTreeViewItem.cs" />
+    <Compile Include="Classes\Converters\LibraryBrowserImagePathConverter.cs" />
+    <Compile Include="Classes\Helpers\ImageHelper.cs" />
+    <Compile Include="Classes\Navigation\WindowsNavigationManager.cs" />
+    <Compile Include="Classes\Specifications\WindowsSyncDeviceSpecifications.cs" />
+    <Compile Include="Classes\Windows\Base\BaseWindow.cs" />
+    <Compile Include="Classes\Windows\StartResumePlaybackWindow.xaml.cs">
+      <DependentUpon>StartResumePlaybackWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\SyncCloudWindow.xaml.cs">
+      <DependentUpon>SyncCloudWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\CloudConnectWindow.xaml.cs">
+      <DependentUpon>CloudConnectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\SyncMenuWindow.xaml.cs">
+      <DependentUpon>SyncMenuWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\SyncDownloadWindow.xaml.cs">
+      <DependentUpon>SyncDownloadWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\ResumePlaybackWindow.xaml.cs">
+      <DependentUpon>ResumePlaybackWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\EditSongMetadataWindow.xaml.cs">
+      <DependentUpon>EditSongMetadataWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\PreferencesWindow.xaml.cs">
+      <DependentUpon>PreferencesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\EffectsWindow.xaml.cs">
+      <DependentUpon>EffectsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\SyncWebBrowserWindow.xaml.cs">
+      <DependentUpon>SyncWebBrowserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\FirstRunWindow.xaml.cs">
+      <DependentUpon>FirstRunWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\UpdateLibraryWindow.xaml.cs">
+      <DependentUpon>UpdateLibraryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\PlaylistWindow.xaml.cs">
+      <DependentUpon>PlaylistWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\SyncWindow.xaml.cs">
+      <DependentUpon>SyncWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Classes\Windows\SplashWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Windows\SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\Roboto-Bold.ttf" />
+    <Resource Include="Resources\Fonts\RobotoCondensed-Bold.ttf" />
+    <Resource Include="Resources\Fonts\RobotoCondensed-Light.ttf" />
+    <Resource Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Roboto-Light.ttf" />
+    <Resource Include="Resources\Fonts\Roboto-Medium.ttf" />
+    <Resource Include="Resources\Fonts\Roboto-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Roboto-Thin.ttf" />
+    <Resource Include="Resources\Fonts\DroidSansMono.ttf" />
+    <Resource Include="Resources\Fonts\Junction.ttf" />
+    <Resource Include="Resources\Fonts\LeagueGothic.ttf" />
+    <Resource Include="Resources\Fonts\Titillium2.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
+      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Name>MPfm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.csproj">
+      <Project>{f2a4e954-0439-42cf-b795-82819c9a39cf}</Project>
+      <Name>MPfm.GenericControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
+      <Project>{2a62d229-d7fc-41da-b676-bb1371659bfb}</Project>
+      <Name>MPfm.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">
+      <Project>{b6b0613c-ff39-479d-9ef0-31daf9684a06}</Project>
+      <Name>MPfm.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
+      <Project>{feb7497c-784c-4380-874f-46fd93c82ba1}</Project>
+      <Name>MPfm.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
+      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Name>MPfm.Sound</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\add.png" />
+    <Resource Include="Resources\Images\Buttons\cancel.png" />
+    <Resource Include="Resources\Images\Buttons\connect.png" />
+    <Resource Include="Resources\Images\Buttons\delete.png" />
+    <Resource Include="Resources\Images\Buttons\download.png" />
+    <Resource Include="Resources\Images\Buttons\edit.png" />
+    <Resource Include="Resources\Images\Buttons\goto.png" />
+    <Resource Include="Resources\Images\Buttons\play.png" />
+    <Resource Include="Resources\Images\Buttons\refresh.png" />
+    <Resource Include="Resources\Images\Buttons\reset.png" />
+    <Resource Include="Resources\Images\Buttons\save.png" />
+    <Resource Include="Resources\Images\Buttons\speaker.png" />
+    <Resource Include="Resources\Images\Buttons\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Toolbar\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Toolbar\next.png" />
+    <Resource Include="Resources\Images\Toolbar\pause.png" />
+    <Resource Include="Resources\Images\Toolbar\playlist.png" />
+    <Resource Include="Resources\Images\Toolbar\previous.png" />
+    <Resource Include="Resources\Images\Toolbar\repeat.png" />
+    <Resource Include="Resources\Images\Toolbar\shuffle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icons\linux.png" />
+    <Resource Include="Resources\Images\Icons\osx.png" />
+    <Resource Include="Resources\Images\Icons\phone.png" />
+    <Resource Include="Resources\Images\Icons\song.png" />
+    <Resource Include="Resources\Images\Icons\tablet.png" />
+    <Resource Include="Resources\Images\Icons\user.png" />
+    <Resource Include="Resources\Images\Icons\vinyl.png" />
+    <Resource Include="Resources\Images\Icons\windows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Toolbar\cloud.png" />
+    <Resource Include="Resources\Images\Toolbar\resume.png" />
+    <Resource Include="Resources\Images\Toolbar\sync.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Toolbar\effects.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Toolbar\preferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icons\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\cloud.png" />
+    <Resource Include="Resources\Images\Buttons\library.png" />
+    <Resource Include="Resources\Images\Buttons\preferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\audio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\dropbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icons\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Buttons\minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Splash\splash_logo_clear%402x.png" />
+    <Resource Include="Resources\Images\Splash\splash_logo_clear.png" />
+    <Resource Include="Resources\Images\Splash\splash_logo_full%402x.png" />
+    <Resource Include="Resources\Images\Splash\splash_logo_full.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Devices\android%402x.png" />
+    <Resource Include="Resources\Images\Devices\android.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

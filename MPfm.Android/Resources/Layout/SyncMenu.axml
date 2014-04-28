@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"    
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:background="@color/background">
+  <LinearLayout
+    android:id="@+id/syncMenu_loadingLayout"    
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"    
+    android:orientation="horizontal"
+    android:gravity="center">
+    <ProgressBar
+      android:id="@+id/syncMenu_progressBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:indeterminate="true" />
+    <TextView
+      android:id="@+id/syncMenu_lblStatus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="8dp"
+      android:padding="6dip"
+      android:text="Loading..."
+      android:textSize="16dp"
+      android:textColor="#FFFFFF" />
+  </LinearLayout>
+  <LinearLayout
+    android:id="@+id/syncMenu_mainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:visibility="gone">
+    <ListView
+      android:id="@+id/syncMenu_listView"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="#FFFFFF"
+      android:cacheColorHint="#333333"
+      android:divider="#BBBBBB"
+      android:dividerHeight="1px"
+      android:listSelector="@drawable/list" />
+    <LinearLayout    
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:background="@color/background"
+      android:gravity="center_vertical">
+      <LinearLayout      
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="6dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+        <TextView
+          android:id="@+id/syncMenu_lblTotal"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Total: 0 files (0.0 MB)"
+          android:textSize="16dp"
+          android:textColor="#CCCCCC" />
+        <TextView
+          android:id="@+id/syncMenu_lblFreeSpace"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Free space: 0 MB"
+          android:textSize="14dp"
+          android:textColor="#FFFFFF" />
+      </LinearLayout>
+      <Button
+        android:id="@+id/syncMenu_btnSelectAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="6dp"
+        android:background="@drawable/button"
+        android:text="Select all"
+        android:textSize="14dp"
+        android:textColor="@color/button_textcolor" />
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

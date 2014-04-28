@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+  android:title="Library Preferences"
+  android:icon="@drawable/actionbar_settings">
+  <PreferenceCategory
+    android:title="Sync Service"
+    android:key="sync_service">
+    <CheckBoxPreference
+      android:key="sync_service_enabled"
+      android:title="Enable Sync Service"
+      android:icon="@android:color/transparent"
+      android:summary="Allows remote devices to access this library"
+      android:defaultValue="true" />
+    <EditTextPreference
+      android:key="sync_service_http_port"
+      android:title="HTTP Port"
+      android:icon="@android:color/transparent"
+      android:defaultValue="53551" />
+    <Preference
+      android:key="sync_service_footer"
+      android:title=""
+      android:icon="@android:color/transparent"
+      android:summary="The sync service is only used when Wi-Fi is available."
+      android:selectable="false"
+      android:enabled="false" />
+  </PreferenceCategory>
+  <PreferenceCategory
+    android:title="Library"
+    android:key="library">
+    <Preference
+      android:title="Select Folders"
+      android:summary="Selects folders from which audio files will be imported."
+      android:icon="@drawable/actionbar_folder"
+      android:key="select_folders" />
+    <Preference 
+      android:title="Reset Library"
+      android:summary="Reinitializes the database; keeps audio files on the device intact."
+      android:icon="@drawable/actionbar_reset"
+      android:key="reset_library" />
+    <Preference
+      android:title="Update Library"
+      android:summary="Manually updates the library."
+      android:icon="@drawable/actionbar_update"
+      android:key="update_library" />
+    <Preference
+      android:key="library_footer"
+      android:title=""
+      android:icon="@android:color/transparent"
+      android:summary="Total library size: 8420 MB"
+      android:selectable="false"
+      android:enabled="false" />
+  </PreferenceCategory>
+</PreferenceScreen>

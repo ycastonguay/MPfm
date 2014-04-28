@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BCFDCCC6-2F8C-40BB-BE51-BC8E208242D3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPfm.Windows</RootNamespace>
+    <AssemblyName>MPfm</AssemblyName>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <ApplicationIcon>MPFM.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>..\Output\Debug\MPfm.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.SQLite, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.76.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="taglib-sharp, Version=2.0.4.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Sound\Lib\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyIoC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Forms\BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmResumePlayback.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmResumePlayback.Designer.cs">
+      <DependentUpon>frmResumePlayback.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncWebBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncWebBrowser.Designer.cs">
+      <DependentUpon>frmSyncWebBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncCloud.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncCloud.Designer.cs">
+      <DependentUpon>frmSyncCloud.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSync.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSync.Designer.cs">
+      <DependentUpon>frmSync.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncDownload.Designer.cs">
+      <DependentUpon>frmSyncDownload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSyncMenu.Designer.cs">
+      <DependentUpon>frmSyncMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Specifications\WindowsSyncDeviceSpecifications.cs" />
+    <Compile Include="Classes\Misc\DriverComboBoxItem.cs" />
+    <Compile Include="Classes\Navigation\WindowsNavigationManager.cs" />
+    <Compile Include="Classes\Misc\SongQuery.cs" />
+    <Compile Include="Classes\Configuration\Audio\AudioConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Audio\AudioMixerConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Audio\AudioEQConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Controls\ControlsSongGridViewConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Controls\ControlsConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\Controls\ControlsSongGridViewQueryConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\General\GeneralConfigurationKeyValue.cs" />
+    <Compile Include="Classes\Configuration\General\GeneralConfigurationSection.cs" />
+    <Compile Include="Classes\Configuration\IMPfmConfiguration.cs" />
+    <Compile Include="Classes\Configuration\MPfmConfiguration.cs" />
+    <Compile Include="Classes\Configuration\Windows\WindowConfiguration.cs" />
+    <Compile Include="Classes\Configuration\Windows\WindowsConfigurationSection.cs" />
+    <Compile Include="Classes\Forms\frmThemes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmThemes.Designer.cs">
+      <DependentUpon>frmThemes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmLoadPlaylist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmLoadPlaylist.Designer.cs">
+      <DependentUpon>frmLoadPlaylist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmLoopDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmLoopDetails.Designer.cs">
+      <DependentUpon>frmLoopDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmMarkerDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmMarkerDetails.Designer.cs">
+      <DependentUpon>frmMarkerDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmEditSongMetadata.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmEditSongMetadata.Designer.cs">
+      <DependentUpon>frmEditSongMetadata.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmFirstRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmFirstRun.Designer.cs">
+      <DependentUpon>frmFirstRun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmVisualizer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmVisualizer.Designer.cs">
+      <DependentUpon>frmVisualizer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmUpdateLibrary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmUpdateLibrary.Designer.cs">
+      <DependentUpon>frmUpdateLibrary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmEffects.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmEffects.Designer.cs">
+      <DependentUpon>frmEffects.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmPlaylist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmPlaylist.Designer.cs">
+      <DependentUpon>frmPlaylist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmPreferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmPreferences.Designer.cs">
+      <DependentUpon>frmPreferences.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Classes\Forms\frmSplash.Designer.cs">
+      <DependentUpon>frmSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Classes\Forms\frmResumePlayback.resx">
+      <DependentUpon>frmResumePlayback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSyncWebBrowser.resx">
+      <DependentUpon>frmSyncWebBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSyncCloud.resx">
+      <DependentUpon>frmSyncCloud.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmFirstRun.resx">
+      <DependentUpon>frmFirstRun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSync.resx">
+      <DependentUpon>frmSync.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSyncDownload.resx">
+      <DependentUpon>frmSyncDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSyncMenu.resx">
+      <DependentUpon>frmSyncMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmUpdateLibrary.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmUpdateLibrary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmThemes.resx">
+      <DependentUpon>frmThemes.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmLoadPlaylist.resx">
+      <DependentUpon>frmLoadPlaylist.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmLoopDetails.resx">
+      <DependentUpon>frmLoopDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmMarkerDetails.resx">
+      <DependentUpon>frmMarkerDetails.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmEditSongMetadata.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEditSongMetadata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmVisualizer.resx">
+      <DependentUpon>frmVisualizer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmEffects.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEffects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmMain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmPlaylist.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPlaylist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmPreferences.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPreferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Classes\Forms\frmSplash.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Classes\Configuration\ExampleConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resources\icon_android_16.png" />
+    <None Include="Resources\icon_button_add_16.png" />
+    <None Include="Resources\icon_artists_16.png" />
+    <Content Include="Resources\icon_button_cancel_16.png" />
+    <Content Include="Resources\icon_button_connect_16.png" />
+    <None Include="Resources\icon_button_delete_16.png" />
+    <Content Include="Resources\icon_button_download_16.png" />
+    <None Include="Resources\icon_button_edit_16.png" />
+    <None Include="Resources\icon_button_goto_16.png" />
+    <None Include="Resources\icon_button_play_16.png" />
+    <Content Include="Resources\icon_button_refresh_16.png" />
+    <None Include="Resources\icon_button_speaker_16.png" />
+    <None Include="Resources\icon_button_reset_16.png" />
+    <None Include="Resources\icon_button_save_16.png" />
+    <None Include="Resources\icon_button_stop_16.png" />
+    <Content Include="Resources\icon_linux_16.png" />
+    <Content Include="Resources\icon_osx_16.png" />
+    <Content Include="Resources\icon_phone_16.png" />
+    <Content Include="Resources\icon_song_16.png" />
+    <Content Include="Resources\icon_tablet_16.png" />
+    <Content Include="Resources\icon_user_16.png" />
+    <Content Include="Resources\icon_vinyl_16.png" />
+    <Content Include="Resources\icon_windows_16.png" />
+    <None Include="Lib\bass.dll" />
+    <None Include="Lib\bassenc.dll" />
+    <None Include="Lib\bassflac.dll" />
+    <None Include="Lib\bassmix.dll" />
+    <None Include="Lib\basswasapi.dll" />
+    <None Include="Lib\basswma.dll" />
+    <None Include="Lib\basswv.dll" />
+    <None Include="Lib\bass_aac.dll" />
+    <None Include="Lib\bass_ac3.dll" />
+    <None Include="Lib\bass_alac.dll" />
+    <None Include="Lib\bass_ape.dll" />
+    <None Include="Lib\bass_fx.dll" />
+    <None Include="Lib\bass_mpc.dll" />
+    <None Include="Lib\bass_ofr.dll" />
+    <None Include="Lib\bass_tta.dll" />
+    <None Include="Lib\bass_vst.dll" />
+    <Content Include="MPFM.ico" />
+    <Content Include="MPfm_SmallOnly.ico" />
+    <None Include="Resources\bullet_go.png" />
+    <None Include="Resources\layout.png" />
+    <None Include="Resources\arrow_rotate_clockwise.png" />
+    <None Include="Resources\arrow_redo.png" />
+    <None Include="Resources\arrow_switch.png" />
+    <None Include="Resources\help.png" />
+    <None Include="Resources\package_link.png" />
+    <None Include="Resources\folder_explore.png" />
+    <None Include="Resources\cog.png" />
+    <None Include="Resources\database.png" />
+    <None Include="Resources\user.png" />
+    <None Include="Resources\MPFM_Splash_0.5.0.3.png" />
+    <None Include="Resources\error.png" />
+    <None Include="Resources\shape_align_middle.png" />
+    <None Include="Resources\textfield_rename.png" />
+    <None Include="Resources\vcard.png" />
+    <None Include="Resources\bug.png" />
+    <None Include="Resources\world.png" />
+    <None Include="Resources\database_gear.png" />
+    <None Include="Resources\page_white_add.png" />
+    <None Include="Resources\folder_page.png" />
+    <None Include="Resources\exclamation.png" />
+    <None Include="Resources\chart_line.png" />
+    <None Include="Resources\accept.png" />
+    <None Include="Resources\page_white_text.png" />
+    <None Include="Resources\tick.png" />
+    <None Include="Resources\arrow_refresh.png" />
+    <None Include="Resources\arrow_right.png" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\application_view_detail.png" />
+    <None Include="Resources\pencil.png" />
+    <None Include="Resources\disk.png" />
+    <None Include="Resources\wrench.png" />
+    <None Include="Resources\timeline_marker.png" />
+    <None Include="Resources\time.png" />
+    <None Include="Resources\music.png" />
+    <None Include="Resources\cd.png" />
+    <None Include="Resources\folder_add.png" />
+    <None Include="Resources\add.png" />
+    <None Include="Resources\control_repeat.png" />
+    <None Include="Resources\control_fastforward.png" />
+    <None Include="Resources\control_end.png" />
+    <None Include="Resources\control_start.png" />
+    <None Include="Resources\control_equalizer.png" />
+    <None Include="Resources\control_rewind.png" />
+    <None Include="Resources\control_stop.png" />
+    <None Include="Resources\control_pause.png" />
+    <None Include="Resources\control_play.png" />
+    <None Include="Resources\image.png" />
+    <None Include="Resources\information.png" />
+    <None Include="Resources\door_in.png" />
+    <None Include="Resources\cancel.png" />
+    <None Include="Resources\sound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>MPfm.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.csproj">
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
+      <Name>MPfm.MVP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.WindowsControls\MPfm.WindowsControls.csproj">
+      <Project>{11C9F839-A47E-455E-8D10-661E47DE664C}</Project>
+      <Name>MPfm.WindowsControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\Objects\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>rem copy $(ProjectDir)\Lib\taglib-sharp.dll $(TargetDir)
+rem copy $(ProjectDir)\Lib\SQLite.Interop.dll $(TargetDir)
+rem copy $(ProjectDir)\Lib\System.Data.SQLite.dll $(TargetDir)
+rem copy $(ProjectDir)\Lib\System.Data.SQLite.Linq.dll $(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

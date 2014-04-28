@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:id="@+id/syncMenuMenu_item_sync"
+      android:title="Download"      
+      android:icon="@drawable/actionbar_download"
+      android:showAsAction="always|withText" />
+</menu>

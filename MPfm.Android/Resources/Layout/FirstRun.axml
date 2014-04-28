@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:gravity="center"
+  android:background="@color/background">
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">    
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="6dp"    
+      android:gravity="center"
+      android:text="Welcome to Sessions!"
+      android:textSize="22dp"
+      android:textColor="#FFFFFF" />
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="6dp"
+      android:gravity="center"
+      android:text="Sessions is a multi-platform music player designed for audiophiles and musicians. You will find many features to help you practice for your next gig or just listening to your library across different platforms easily."
+      android:textSize="16dp"
+      android:textColor="#CCCCCC" />
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="6dp"
+      android:gravity="center"
+      android:text="Sessions uses long press actions throughout the application. Hold your finger on any menu to discover new features!"
+      android:textSize="16dp"
+      android:textColor="#CCCCCC" />
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="6dp"
+      android:gravity="center"
+      android:text="If you need some help, just go to the Help section of the Sessions web site (sessionsapp.org)."
+      android:textSize="16dp"
+      android:textColor="#CCCCCC" />
+    <Button
+      android:id="@+id/firstRun_btnClose"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="8dp"
+      android:background="@drawable/button"
+      android:text="Start using Sessions"
+      android:textColor="@color/button_textcolor"
+      android:textSize="14dp" />
+  </LinearLayout>
+</LinearLayout>

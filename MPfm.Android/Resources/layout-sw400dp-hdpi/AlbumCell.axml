@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/albumCell_layout"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@color/background">
+  <org.sessionsapp.android.SquareImageView
+    android:id="@+id/albumCell_image"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scaleType="centerCrop"
+    android:background="@color/background" />
+  <Button
+    android:id="@+id/albumCell_btnAddToPlaylist"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:padding="6dp"
+    android:drawableLeft="@drawable/actionbar_add"
+    android:drawablePadding="2dp"
+    android:text="Add to playlist"
+    android:textColor="@color/transparentbutton_textcolor"
+    android:textSize="14dp"    
+    android:visibility="gone"
+    android:background="@drawable/albumcellbutton" />
+  <!-- Why a FrameLayout? Because it seems android doesn't like layout_below or layout_above a view with layout_centerInParent. -->
+  <FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:paddingBottom="120dp">
+    <Button
+      android:id="@+id/albumCell_btnPlay"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="6dp"
+      android:drawableLeft="@drawable/actionbar_play"
+      android:drawablePadding="2dp"
+      android:text="Play album"
+      android:textColor="@color/transparentbutton_textcolor"
+      android:textSize="14dp"
+      android:visibility="gone"
+      android:background="@drawable/albumcellbutton" />
+  </FrameLayout>
+  <FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:paddingTop="120dp">
+    <Button
+      android:id="@+id/albumCell_btnDelete"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="6dp"
+      android:drawableLeft="@drawable/actionbar_trash"
+      android:drawablePadding="2dp"
+      android:text="Delete album"
+      android:textColor="@color/transparentbutton_textcolor"
+      android:textSize="14dp"
+      android:visibility="gone"
+      android:background="@drawable/albumcellbutton" />
+  </FrameLayout>
+  <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#66000000"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/albumCell_artistName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      android:paddingTop="5dp"
+      android:paddingBottom="1dp"
+      android:gravity="center_vertical"
+      android:textStyle="bold"
+      android:textColor="#FFFFFF"
+      android:textSize="15dp"
+      android:ellipsize="end"
+      android:singleLine="true" />
+    <TextView
+      android:id="@+id/albumCell_albumTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      android:paddingTop="1dp"
+      android:paddingBottom="5dp"
+      android:gravity="center_vertical"
+      android:textColor="#FFFFFF"
+      android:textSize="13dp"
+      android:ellipsize="end"
+      android:singleLine="true" />
+  </LinearLayout>
+</RelativeLayout>

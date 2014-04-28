@@ -1,0 +1,89 @@
+// Copyright © 2011-2013 Yanick Castonguay
+//
+// This file is part of MPfm.
+//
+// MPfm is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// MPfm is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with MPfm. If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using System.Collections.Generic;
+using MPfm.MVP.Messages;
+using MPfm.MVP.Models;
+using MPfm.Player;
+using MPfm.Player.Objects;
+using MPfm.Sound.AudioFiles;
+using MPfm.Sound.BassNetWrapper;
+using MPfm.Sound.Playlists;
+
+namespace MPfm.MVP.Services.Interfaces
+{
+    /// <summary>
+    /// Interface for the PlayerService class.
+    /// </summary>
+    public interface IPlayerService
+    {
+        bool IsInitialized { get; }
+        bool IsSettingPosition { get; }
+        bool IsPlaying { get; }
+        bool IsPaused { get; }
+        bool IsEQBypassed { get; }
+        bool IsEQEnabled { get; }
+        bool UseFloatingPoint { get; }
+
+        EQPreset EQPreset { get; }
+        RepeatType RepeatType { get; }
+        float TimeShifting { get; }
+        int PitchShifting { get; }
+        float Volume { get; set; }
+        PlayerStatusType Status { get; }
+
+        PlaylistItem CurrentPlaylistItem { get; }
+        Playlist CurrentPlaylist { get; }
+        Playlist CurrentQueue { get; }
+
+        event PlayerService.BPMDetected OnBPMDetected;
+
+        void Initialize(Device device, int sampleRate, int bufferSize, int updatePeriod);
+        void Dispose();
+
+        void Play();        
+        void Play(IEnumerable<string> filePaths);
+        void Play(IEnumerable<AudioFile> audioFiles, string startAudioFilePath, double initialPosition, bool startPaused, bool waitingToStart);
+        void PlayQueue();
+        void Stop();
+        void Pause();
+        void Next();
+        void Previous();
+        void Resume();
+        void GoTo(int index);
+        void GoTo(Guid playlistItemId);
+        void ToggleRepeatType();
+
+        int GetDataAvailable();
+        Tuple<short[], short[]> GetMixerData(double seconds);
+        Tuple<float[], float[]> GetFloatingPointMixerData(double seconds);
+        PlayerPositionEntity GetPosition();
+
+        void SetPosition(double percentage);
+        void SetPosition(long bytes);
+        void SetTimeShifting(float timeShifting);
+        void SetPitchShifting(int pitchShifting);
+
+        void GoToMarker(Marker marker);
+
+        void BypassEQ();
+        void ResetEQ();
+        void UpdateEQBand(int band, float gain, bool setCurrentEQPresetValue);
+        void ApplyEQPreset(EQPreset preset);
+    }
+}

@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F2A4E954-0439-42CF-B795-82819C9A39CF}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPfm.GenericControls</RootNamespace>
+    <AssemblyName>MPfm.GenericControls</AssemblyName>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\Release\MPfm.Core.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Mac\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Mac\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TinyIoC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.Android.csproj">
+      <Project>{d536fde5-989e-4979-9b39-63621ae4a205}</Project>
+      <Name>MPfm.Core.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.Android.csproj">
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
+      <Name>MPfm.MVP.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.Android.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.Android.csproj">
+      <Project>{d92f718e-9a24-4b8b-9e40-77f93cf89eae}</Project>
+      <Name>MPfm.Sound.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Basics\BasicRectangle.cs" />
+    <Compile Include="Basics\BasicColor.cs" />
+    <Compile Include="Basics\BasicBrush.cs" />
+    <Compile Include="Basics\BasicPen.cs" />
+    <Compile Include="Basics\BasicPoint.cs" />
+    <Compile Include="Basics\BasicGradientBrush.cs" />
+    <Compile Include="Basics\IBasicImage.cs" />
+    <Compile Include="Graphics\IDisposableImageFactory.cs" />
+    <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
+    <Compile Include="Services\Events\GeneratePeakFileEventArgs.cs" />
+    <Compile Include="Services\Events\GenerateWaveFormEventArgs.cs" />
+    <Compile Include="Services\Events\LoadPeakFileEventArgs.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormRenderingService.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormCacheService.cs" />
+    <Compile Include="Services\Objects\WaveFormBitmapRequest.cs" />
+    <Compile Include="Services\WaveFormCacheService.cs" />
+    <Compile Include="Services\WaveFormRenderingService.cs" />
+    <Compile Include="Services\Objects\WaveFormTile.cs" />
+    <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
+    <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
+    <Compile Include="Controls\Songs\SongGridViewControl.cs" />
+    <Compile Include="Controls\Songs\SongGridViewCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewColumn.cs" />
+    <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewItem.cs" />
+    <Compile Include="Controls\Songs\SongGridViewMode.cs" />
+    <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
+    <Compile Include="Controls\TrackBarControl.cs" />
+    <Compile Include="Controls\WaveFormControl.cs" />
+    <Compile Include="Controls\WaveFormScaleControl.cs" />
+    <Compile Include="Controls\FaderControl.cs" />
+    <Compile Include="Controls\IControl.cs" />
+    <Compile Include="Controls\OutputMeterControl.cs" />
+    <Compile Include="Graphics\IMemoryGraphicsContext.cs" />
+    <Compile Include="Graphics\IGraphicsContext.cs" />
+    <Compile Include="Graphics\IMemoryGraphicsContextFactory.cs" />
+    <Compile Include="Interaction\IControlMouseInteraction.cs" />
+    <Compile Include="Interaction\IControlTouchInteraction.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\IRenderer.cs" />
+    <Compile Include="Theme\ITheme.cs" />
+    <Compile Include="Theme\GenericTheme.cs" />
+  </ItemGroup>
+</Project>

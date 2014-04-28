@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="52dp"
+   android:gravity="center_vertical"
+   android:orientation="horizontal">
+  <ImageView
+    android:id="@+id/syncMenuCell_image"
+    android:layout_width="44dp"
+    android:layout_height="44dp"
+    android:layout_marginRight="8dp"
+    android:src="@drawable/icon" />
+  <TextView
+    android:id="@+id/syncMenuCell_index"
+    android:layout_width="22dp"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:textColor="#333333"
+    android:textSize="14dp" />
+  <TextView
+    android:id="@+id/syncMenuCell_title"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:textColor="@color/list_text"
+    android:textSize="14dp" />
+  <ImageView
+    android:id="@+id/syncMenuCell_checkmark"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:src="@drawable/icon" />
+</LinearLayout>

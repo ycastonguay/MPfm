@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_updateLibrary_mainLayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout
+        android:id="@+id/fragment_updateLibrary_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+        <ProgressBar
+            android:id="@+id/fragment_updateLibrary_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+        <TextView
+            android:id="@+id/fragment_updateLibrary_lblTitle"
+            android:text="[Title]"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="6dip"
+            android:layout_toRightOf="@id/fragment_updateLibrary_progressBar"
+            android:textSize="18dp"
+            android:textColor="#FFFFFF" />
+        <TextView
+            android:id="@+id/fragment_updateLibrary_lblSubtitle"
+            android:text="[Subtitle]"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="6dip"
+            android:layout_below="@id/fragment_updateLibrary_lblTitle"
+            android:layout_toRightOf="@id/fragment_updateLibrary_progressBar"
+            android:textSize="14dp"
+            android:ellipsize="end"
+            android:singleLine="true" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/fragment_updateLibrary_button"
+        android:text="Cancel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B6E7364-E61F-4037-A636-09094C808D1A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPfm.MVP</RootNamespace>
+    <AssemblyName>MPfm.MVP</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWSSTORE</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Config\Models\AudioAppConfig.cs" />
+    <Compile Include="Config\Models\CloudAppConfig.cs" />
+    <Compile Include="Config\Models\ControlsAppConfig.cs" />
+    <Compile Include="Config\Models\IAppConfig.cs" />
+    <Compile Include="Config\Models\RootAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewAppConfig.cs" />
+    <Compile Include="Config\Models\TableViewColumnAppConfig.cs" />
+    <Compile Include="Config\Models\WindowAppConfig.cs" />
+    <Compile Include="Config\Models\WindowsAppConfig.cs" />
+    <Compile Include="Config\Providers\XmlAppConfigProvider.cs" />
+    <Compile Include="Config\Providers\IAppConfigProvider.cs" />
+    <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
+    <Compile Include="Messages\MobileLibraryBrowserItemClickedMessage.cs" />
+    <Compile Include="Messages\PlayerSetPositionMessage.cs" />
+    <Compile Include="Messages\PlaylistListUpdatedMessage.cs" />
+    <Compile Include="Messages\PlaylistUpdatedMessage.cs" />
+    <Compile Include="Models\FolderEntity.cs" />
+    <Compile Include="Models\PlaylistEntity.cs" />
+    <Compile Include="Navigation\MobileNavigationManager.cs" />
+    <Compile Include="Presenters\AddMarkerPresenter.cs" />
+    <Compile Include="Presenters\AddPlaylistPresenter.cs" />
+    <Compile Include="Presenters\AudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAddMarkerPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAddPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IResumePlaybackPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectFoldersPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISelectPlaylistPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncConnectManualPresenter.cs" />
+    <Compile Include="Presenters\MobileFirstRunPresenter.cs" />
+    <Compile Include="Presenters\DesktopFirstRunPresenter.cs" />
+    <Compile Include="Presenters\EditSongMetadataPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileFirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IDesktopFirstRunPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IEditSongMetadataPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileOptionsMenuPresenter.cs" />
+    <Compile Include="Presenters\MobileOptionsMenuPresenter.cs" />
+    <Compile Include="Presenters\MobileLibraryBrowserPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMobileLibraryBrowserPresenter.cs" />
+    <Compile Include="Presenters\LibraryPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ILibraryPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAudioPreferencesPresenter.cs" />
+    <Compile Include="Presenters\ResumePlaybackPresenter.cs" />
+    <Compile Include="Presenters\SelectFoldersPresenter.cs" />
+    <Compile Include="Presenters\SelectPlaylistPresenter.cs" />
+    <Compile Include="Presenters\SyncCloudPresenter.cs" />
+    <Compile Include="Presenters\UpdateLibraryPresenter.cs" />
+    <Compile Include="Models\PlayerPositionEntity.cs" />
+    <Compile Include="Views\IAddMarkerView.cs" />
+    <Compile Include="Views\IAddPlaylistView.cs" />
+    <Compile Include="Views\IMobileFirstRunView.cs" />
+    <Compile Include="Views\IDesktopFirstRunView.cs" />
+    <Compile Include="Views\IEditSongMetadataView.cs" />
+    <Compile Include="Views\IMobileOptionsMenuView.cs" />
+    <Compile Include="Views\IMobileLibraryBrowserView.cs" />
+    <Compile Include="Views\ILibraryPreferencesView.cs" />
+    <Compile Include="Views\IGeneralPreferencesView.cs" />
+    <Compile Include="Views\IAudioPreferencesView.cs" />
+    <Compile Include="Views\IResumePlaybackView.cs" />
+    <Compile Include="Views\ISelectFoldersView.cs" />
+    <Compile Include="Views\ISelectPlaylistView.cs" />
+    <Compile Include="Views\ISyncConnectManualView.cs" />
+    <Compile Include="Views\IUpdateLibraryView.cs" />
+    <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Presenters\PlayerPresenter.cs" />
+    <Compile Include="Views\IPlayerView.cs" />
+    <Compile Include="Models\LibraryBrowserEntity.cs" />
+    <Compile Include="Views\ILibraryBrowserView.cs" />
+    <Compile Include="Presenters\LibraryBrowserPresenter.cs" />
+    <Compile Include="Presenters\SongBrowserPresenter.cs" />
+    <Compile Include="Views\ISongBrowserView.cs" />
+    <Compile Include="Presenters\Interfaces\ILibraryBrowserPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPlayerPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISongBrowserPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IUpdateLibraryPresenter.cs" />
+    <Compile Include="Services\InitializationService.cs" />
+    <Compile Include="Services\Interfaces\IInitializationService.cs" />
+    <Compile Include="Models\PlayerVolumeEntity.cs" />
+    <Compile Include="Models\PlayerTimeShiftingEntity.cs" />
+    <Compile Include="Presenters\SplashPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISplashPresenter.cs" />
+    <Compile Include="Views\ISplashView.cs" />
+    <Compile Include="Config\AppConfigManager.cs" />
+    <Compile Include="Services\PlayerService.cs" />
+    <Compile Include="Services\Interfaces\IPlayerService.cs" />
+    <Compile Include="Views\IPreferencesView.cs" />
+    <Compile Include="Presenters\Interfaces\IGeneralPreferencesPresenter.cs" />
+    <Compile Include="Presenters\GeneralPreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPlaylistPresenter.cs" />
+    <Compile Include="Views\IPlaylistView.cs" />
+    <Compile Include="Presenters\PlaylistPresenter.cs" />
+    <Compile Include="Helpers\EQPresetHelper.cs" />
+    <Compile Include="Messages\PlayerStatusMessage.cs" />
+    <Compile Include="Messages\PlayerStatusType.cs" />
+    <Compile Include="Messages\LibraryBrowserItemSelectedMessage.cs" />
+    <Compile Include="Messages\SongBrowserItemDoubleClickedMessage.cs" />
+    <Compile Include="Messages\LibraryBrowserItemDoubleClickedMessage.cs" />
+    <Compile Include="Presenters\BasePresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IBasePresenter.cs" />
+    <Compile Include="Views\IBaseView.cs" />
+    <Compile Include="Views\IMainView.cs" />
+    <Compile Include="Presenters\Interfaces\IMainPresenter.cs" />
+    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Navigation\NavigationManager.cs" />
+    <Compile Include="Views\ILoopsView.cs" />
+    <Compile Include="Views\IMarkersView.cs" />
+    <Compile Include="Views\IPitchShiftingView.cs" />
+    <Compile Include="Views\ITimeShiftingView.cs" />
+    <Compile Include="Views\IPlayerMetadataView.cs" />
+    <Compile Include="Presenters\Interfaces\ILoopsPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMarkersPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ITimeShiftingPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPitchShiftingPresenter.cs" />
+    <Compile Include="Presenters\LoopsPresenter.cs" />
+    <Compile Include="Presenters\MarkersPresenter.cs" />
+    <Compile Include="Presenters\TimeShiftingPresenter.cs" />
+    <Compile Include="Presenters\PitchShiftingPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPlayerMetadataPresenter.cs" />
+    <Compile Include="Presenters\PlayerMetadataPresenter.cs" />
+    <Compile Include="Messages\PlayerPlaylistIndexChangedMessage.cs" />
+    <Compile Include="Messages\PlayerCommandMessage.cs" />
+    <Compile Include="Views\ILoopDetailsView.cs" />
+    <Compile Include="Views\IMarkerDetailsView.cs" />
+    <Compile Include="Presenters\Interfaces\ILoopDetailsPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IMarkerDetailsPresenter.cs" />
+    <Compile Include="Presenters\LoopDetailsPresenter.cs" />
+    <Compile Include="Presenters\MarkerDetailsPresenter.cs" />
+    <Compile Include="Messages\MarkerUpdatedMessage.cs" />
+    <Compile Include="Views\IPlayerStatusView.cs" />
+    <Compile Include="Presenters\Interfaces\IPlayerStatusPresenter.cs" />
+    <Compile Include="Presenters\PlayerStatusPresenter.cs" />
+    <Compile Include="Messages\MobileNavigationManagerCommandMessage.cs" />
+    <Compile Include="Views\IEqualizerPresetsView.cs" />
+    <Compile Include="Presenters\Interfaces\IEqualizerPresetsPresenter.cs" />
+    <Compile Include="Views\IEqualizerPresetDetailsView.cs" />
+    <Compile Include="Presenters\Interfaces\IEqualizerPresetDetailsPresenter.cs" />
+    <Compile Include="Presenters\EqualizerPresetsPresenter.cs" />
+    <Compile Include="Presenters\EqualizerPresetDetailsPresenter.cs" />
+    <Compile Include="Messages\EqualizerPresetUpdatedMessage.cs" />
+    <Compile Include="Views\ISyncView.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncPresenter.cs" />
+    <Compile Include="Presenters\SyncPresenter.cs" />
+    <Compile Include="Models\PlayerPitchShiftingEntity.cs" />
+    <Compile Include="Views\ISyncWebBrowserView.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncWebBrowserPresenter.cs" />
+    <Compile Include="Presenters\SyncWebBrowserPresenter.cs" />
+    <Compile Include="Presenters\SyncMenuPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncMenuPresenter.cs" />
+    <Compile Include="Views\ISyncMenuView.cs" />
+    <Compile Include="Models\SyncMenuItemEntity.cs" />
+    <Compile Include="Presenters\PreferencesPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IPreferencesPresenter.cs" />
+    <Compile Include="Presenters\AboutPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IAboutPresenter.cs" />
+    <Compile Include="Views\IAboutView.cs" />
+    <Compile Include="Views\ISyncDownloadView.cs" />
+    <Compile Include="Presenters\Interfaces\ISyncDownloadPresenter.cs" />
+    <Compile Include="Presenters\SyncDownloadPresenter.cs" />
+    <Compile Include="Messages\PlayerPlaylistUpdatedMessage.cs" />
+    <Compile Include="Views\IDesktopPreferencesView.cs" />
+    <Compile Include="Views\IDesktopEffectsView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.WindowsStore.csproj">
+      <Project>{e97bad77-806e-402b-a3fc-283c31fdb37d}</Project>
+      <Name>MPfm.Core.WindowsStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.WindowsStore.csproj">
+      <Project>{394f4601-af24-43a1-bcd3-0784645dab17}</Project>
+      <Name>MPfm.Library.WindowsStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.WindowsStore.csproj">
+      <Project>{b096c459-3e2d-4932-a961-de692f6b6c1c}</Project>
+      <Name>MPfm.Player.WindowsStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.WindowsStore.csproj">
+      <Project>{a0d06cd4-f009-4068-a79c-377a7d2e014c}</Project>
+      <Name>MPfm.Sound.WindowsStore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="TinyIoC, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPfm.Core\Lib\PCL\TinyIoC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
+    <VisualStudioVersion>11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

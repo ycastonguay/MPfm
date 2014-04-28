@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/syncCloud_mainLayout"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@color/background">
+  <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"    
+    android:padding="6dp"
+    android:text="Dropbox"
+    android:textSize="16dp"
+    android:textColor="#FFFFFF" />
+  <TextView
+    android:id="@+id/syncCloud_lblConnected"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"    
+    android:padding="6dp"
+    android:text="[IsConnected]"
+    android:textSize="14dp"
+    android:textColor="#CCCCCC" />
+  <TextView
+    android:id="@+id/syncCloud_lblDataChanged"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:text="[DataChanged]"
+    android:textSize="14dp"
+    android:textColor="#CCCCCC" />
+  <TextView
+    android:id="@+id/syncCloud_lblValue"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:text="[Value]"
+    android:textSize="14dp"
+    android:textColor="#CCCCCC" />
+  <Button
+    android:id="@+id/syncCloud_btnLogin"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/button"
+    android:text="Enable Dropbox Sync"
+    android:textColor="@color/button_textcolor"
+    android:textSize="14dp" />
+  <Button
+    android:id="@+id/syncCloud_btnLogout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/button"
+    android:text="Disable Dropbox Sync"
+    android:textColor="@color/button_textcolor"
+    android:textSize="14dp" />
+  <Button
+    android:id="@+id/syncCloud_btnPull"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/button"
+    android:text="Pull"
+    android:textColor="@color/button_textcolor"
+    android:textSize="14dp" />
+  <Button
+    android:id="@+id/syncCloud_btnPush"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/button"
+    android:text="Push"
+    android:textColor="@color/button_textcolor"
+    android:textSize="14dp" />
+  <Button
+    android:id="@+id/syncCloud_btnDelete"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/button"
+    android:text="Delete"
+    android:textColor="@color/button_textcolor"
+    android:textSize="14dp" />
+</LinearLayout>

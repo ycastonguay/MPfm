@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/albumCell_layout"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@color/background">
+  <org.sessionsapp.android.SquareImageView
+    android:id="@+id/albumCell_image"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scaleType="centerCrop"
+    android:background="@color/background" />
+  <ImageButton
+    android:id="@+id/albumCell_btnPlay"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_toLeftOf="@+id/albumCell_btnAddToPlaylist"
+    android:padding="6dp"
+    android:src="@drawable/actionbar_play"
+    android:visibility="gone"
+    android:background="@drawable/albumcellbutton" />
+  <ImageButton
+    android:id="@+id/albumCell_btnAddToPlaylist"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="14dp"
+    android:layout_centerInParent="true"
+    android:padding="6dp"
+    android:src="@drawable/actionbar_add"
+    android:visibility="gone"
+    android:background="@drawable/albumcellbutton" />
+  <ImageButton
+    android:id="@+id/albumCell_btnDelete"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="14dp"
+    android:layout_centerInParent="true"
+    android:layout_toRightOf="@+id/albumCell_btnAddToPlaylist"
+    android:padding="6dp"
+    android:src="@drawable/actionbar_trash"
+    android:visibility="gone"
+    android:background="@drawable/albumcellbutton" />
+  <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="#66000000"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/albumCell_artistName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      android:paddingTop="2dp"
+      android:paddingBottom="0dp"
+      android:gravity="center_vertical"
+      android:textStyle="bold"
+      android:textColor="#FFFFFF"
+      android:textSize="14dp"
+      android:ellipsize="end"
+      android:singleLine="true" />
+    <TextView
+      android:id="@+id/albumCell_albumTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingLeft="4dp"
+      android:paddingRight="4dp"
+      android:paddingTop="0dp"
+      android:paddingBottom="4dp"
+      android:gravity="center_vertical"
+      android:textColor="#FFFFFF"
+      android:textSize="12dp"
+      android:ellipsize="end"
+      android:singleLine="true" />
+  </LinearLayout>
+</RelativeLayout>

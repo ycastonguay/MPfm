@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0BC54417-B1EB-4EE0-892D-8F1B94F88843}</ProjectGuid>
+    <ProjectTypeGuids>{948B3504-5B70-4649-8FE4-BDE1FB46EC69};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MPfm.Mac</RootNamespace>
+    <AssemblyName>Sessions</AssemblyName>
+    <SynchReleaseVersion>False</SynchReleaseVersion>
+    <SuppressXamMacUpsell>True</SuppressXamMacUpsell>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <DefineConstants>DEBUG;MACOSX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <OutputPath>..\Output\Debug</OutputPath>
+    <UseSGen>False</UseSGen>
+    <I18n>
+    </I18n>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <OutputPath>..\Output\Release</OutputPath>
+    <DefineConstants>MACOSX</DefineConstants>
+    <UseSGen>False</UseSGen>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <OutputPath>..\Output\Debug_Linux</OutputPath>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <UseSGen>False</UseSGen>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Mac</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>False</CreatePackage>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <Externalconsole>True</Externalconsole>
+    <UseSGen>False</UseSGen>
+    <I18n>
+    </I18n>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Release_Mac</OutputPath>
+    <DefineConstants>MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <PackageSigningKey>3rd Party Mac Developer Installer</PackageSigningKey>
+    <IncludeMonoRuntime>True</IncludeMonoRuntime>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <Externalconsole>True</Externalconsole>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <CreatePackage>True</CreatePackage>
+    <CodeSigningKey>Mac Developer</CodeSigningKey>
+    <UseSGen>False</UseSGen>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Release_Linux</OutputPath>
+    <DefineConstants>LINUX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <IncludeMonoRuntime>False</IncludeMonoRuntime>
+    <EnableCodeSigning>False</EnableCodeSigning>
+    <EnablePackageSigning>False</EnablePackageSigning>
+    <CreatePackage>False</CreatePackage>
+    <UseSGen>False</UseSGen>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="taglib-sharp">
+      <HintPath>Lib\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Posix" />
+    <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="MonoMac">
+      <HintPath>Lib\MonoMac.dll</HintPath>
+    </Reference>
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Windows\UpdateLibraryWindow.cs" />
+    <Compile Include="Windows\UpdateLibraryWindow.designer.cs">
+      <DependentUpon>UpdateLibraryWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LibraryBrowser.cs" />
+    <Compile Include="Views\LibraryBrowserController.cs" />
+    <Compile Include="Views\LibraryBrowser.designer.cs">
+      <DependentUpon>LibraryBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\UpdateLibraryWindowController.cs" />
+    <Compile Include="Windows\PlaylistWindow.cs" />
+    <Compile Include="Windows\PlaylistWindow.designer.cs">
+      <DependentUpon>PlaylistWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EffectsWindow.cs" />
+    <Compile Include="Windows\EffectsWindow.designer.cs">
+      <DependentUpon>EffectsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PreferencesWindow.cs" />
+    <Compile Include="Windows\PreferencesWindow.designer.cs">
+      <DependentUpon>PreferencesWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\EffectsWindowController.cs" />
+    <Compile Include="Windows\Controllers\PlaylistWindowController.cs" />
+    <Compile Include="Windows\Controllers\PreferencesWindowController.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Windows\SplashWindow.cs" />
+    <Compile Include="Windows\SplashWindow.designer.cs">
+      <DependentUpon>SplashWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SplashWindowController.cs" />
+    <Compile Include="Windows\MainWindow.cs" />
+    <Compile Include="Windows\MainWindow.designer.cs">
+      <DependentUpon>Windows\MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\EditLoopWindowController.cs" />
+    <Compile Include="Windows\EditLoopWindow.cs" />
+    <Compile Include="Windows\EditLoopWindow.designer.cs">
+      <DependentUpon>EditLoopWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\EditMarkerWindowController.cs" />
+    <Compile Include="Windows\EditMarkerWindow.cs" />
+    <Compile Include="Windows\Controllers\BaseWindowController.cs" />
+    <Compile Include="Windows\Controllers\SyncWindowController.cs" />
+    <Compile Include="Windows\SyncWindow.cs" />
+    <Compile Include="Windows\SyncWindow.designer.cs">
+      <DependentUpon>SyncWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\MacSyncDeviceSpecifications.cs" />
+    <Compile Include="Classes\Navigation\MacNavigationManager.cs" />
+    <Compile Include="Classes\Controls\MPfmView.cs" />
+    <Compile Include="Classes\Controls\MPfmButton.cs" />
+    <Compile Include="Classes\Controls\MPfmTableCellView.cs" />
+    <Compile Include="Classes\Controls\MPfmScrollView.cs" />
+    <Compile Include="Classes\Controls\MPfmAlbumCoverView.cs" />
+    <Compile Include="Classes\Controls\MPfmTableRowView.cs" />
+    <Compile Include="Classes\Controls\MPfmIsPlayingTableCellView.cs" />
+    <Compile Include="Classes\Controls\MPfmSliderCell.cs" />
+    <Compile Include="Classes\Controls\MPfmTableHeaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmPopUpButton.cs" />
+    <Compile Include="Classes\Objects\LibraryBrowserItem.cs" />
+    <Compile Include="Classes\Objects\ImageResources.cs" />
+    <Compile Include="Classes\Objects\SongBrowserItem.cs" />
+    <Compile Include="Classes\Helpers\CocoaHelper.cs" />
+    <Compile Include="Classes\Helpers\AlbumCoverHelper.cs" />
+    <Compile Include="Classes\Delegates\LibraryBrowserDataSource.cs" />
+    <Compile Include="Classes\Delegates\LibraryBrowserOutlineViewDelegate.cs" />
+    <Compile Include="Classes\Delegates\MainSplitViewDelegate.cs" />
+    <Compile Include="Classes\Delegates\SongBrowserTableViewDelegate.cs" />
+    <Compile Include="Classes\Delegates\MPfmWindowDelegate.cs" />
+    <Compile Include="Classes\Delegates\AppDelegate.cs" />
+    <Compile Include="Classes\Delegates\AppDelegate.designer.cs">
+      <DependentUpon>AppDelegate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Main.cs" />
+    <Compile Include="Classes\Services\AlbumCoverCacheService.cs" />
+    <Compile Include="Classes\Objects\GlobalTheme.cs" />
+    <Compile Include="Classes\Delegates\AlbumCoverSource.cs" />
+    <Compile Include="Classes\Controls\MPfmSongPositionSlider.cs" />
+    <Compile Include="Classes\Delegates\SongBrowserSource.cs" />
+    <Compile Include="Windows\Controllers\MainWindowController.cs" />
+    <Compile Include="Windows\Controllers\SyncMenuWindowController.cs" />
+    <Compile Include="Windows\SyncMenuWindow.cs" />
+    <Compile Include="Windows\SyncMenuWindow.designer.cs">
+      <DependentUpon>SyncMenuWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SyncDownloadWindowController.cs" />
+    <Compile Include="Windows\SyncDownloadWindow.cs" />
+    <Compile Include="Windows\SyncDownloadWindow.designer.cs">
+      <DependentUpon>SyncDownloadWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Objects\SyncMenuItem.cs" />
+    <Compile Include="Classes\Controls\MPfmTabButton.cs" />
+    <Compile Include="Windows\SyncCloudWindow.cs" />
+    <Compile Include="Windows\SyncCloudWindow.designer.cs">
+      <DependentUpon>SyncCloudWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SyncCloudWindowController.cs" />
+    <Compile Include="Windows\SyncWebBrowserWindow.cs" />
+    <Compile Include="Windows\SyncWebBrowserWindow.designer.cs">
+      <DependentUpon>SyncWebBrowserWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\SyncWebBrowserWindowController.cs" />
+    <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
+    <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
+    <Compile Include="Classes\Controls\Helpers\GenericControlHelper.cs" />
+    <Compile Include="Classes\Controls\MPfmFaderView.cs" />
+    <Compile Include="Classes\Controls\MPfmOutputMeterView.cs" />
+    <Compile Include="Classes\Controls\MPfmSongGridView.cs" />
+    <Compile Include="Classes\Controls\MPfmTrackBarView.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormScaleView.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormView.cs" />
+    <Compile Include="Classes\Helpers\CoreGraphicsHelper.cs" />
+    <Compile Include="Classes\Controls\MPfmWaveFormScrollView.cs" />
+    <Compile Include="Classes\Controls\MPfmRoundButton.cs" />
+    <Compile Include="Classes\Controls\Wrappers\HorizontalScrollBarWrapper.cs" />
+    <Compile Include="Classes\Controls\Wrappers\VerticalScrollBarWrapper.cs" />
+    <Compile Include="Classes\Controls\Graphics\DisposableImageFactory.cs" />
+    <Compile Include="Windows\StartResumePlaybackWindow.cs" />
+    <Compile Include="Windows\StartResumePlaybackWindow.designer.cs">
+      <DependentUpon>StartResumePlaybackWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\StartResumePlaybackWindowController.cs" />
+    <Compile Include="Windows\CloudConnectWindow.cs" />
+    <Compile Include="Windows\CloudConnectWindow.designer.cs">
+      <DependentUpon>CloudConnectWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Controllers\CloudConnectWindowController.cs" />
+    <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="Views\LibraryBrowser.xib" />
+    <InterfaceDefinition Include="Windows\XIB\UpdateLibraryWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\EffectsWindow.xib">
+      <DependentUpon>MainWindow.xib</DependentUpon>
+    </InterfaceDefinition>
+    <InterfaceDefinition Include="Windows\XIB\PlaylistWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\PreferencesWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SplashWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\MainWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\MainMenu.xib" />
+    <InterfaceDefinition Include="Windows\XIB\EditLoopWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\EditMarkerWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncMenuWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncDownloadWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncCloudWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\SyncWebBrowserWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\StartResumePlaybackWindow.xib" />
+    <InterfaceDefinition Include="Windows\XIB\CloudConnectWindow.xib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Lib\taglib-sharp.dll" />
+    <None Include="Lib\MonoMac.dll" />
+    <None Include="Resources\16x16\custom\vinyl%402x.png" />
+    <None Include="MPfm.OSX.exe.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Mono\MonoMac\v0.0\Mono.MonoMac.targets" />
+  <ItemGroup>
+    <Content Include="Bass.Net.dll.config" />
+    <Content Include="MPfm.icns" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L.otf" />
+    <Content Include="Resources\Fonts\TitilliumTitle20.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L.otf" />
+    <Content Include="libbass.dylib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_mpc.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbassflac.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbassmix.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbasswv.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_fx.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Fonts\TitilliumText25L001.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L002.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L003.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L004.otf" />
+    <Content Include="Resources\Fonts\TitilliumText25L005.otf" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L001.otf" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L002.otf" />
+    <Content Include="Resources\Fonts\TitilliumMaps29L003.otf" />
+    <Content Include="Resources\Fonts\Junction.otf" />
+    <Content Include="Resources\Fonts\Inconsolata.otf" />
+    <Content Include="Resources\Fonts\DroidSansMono.ttf" />
+    <Content Include="Resources\16x16\tango\accessories-text-editor.png" />
+    <Content Include="Resources\16x16\tango\database.png" />
+    <Content Include="Resources\16x16\tango\cd.png" />
+    <Content Include="Resources\16x16\tango\document-new.png" />
+    <Content Include="Resources\16x16\tango\document-save.png" />
+    <Content Include="Resources\16x16\tango\document-save-as.png" />
+    <Content Include="Resources\16x16\tango\emblem-important.png" />
+    <Content Include="Resources\16x16\tango\go-last.png" />
+    <Content Include="Resources\16x16\tango\group.png" />
+    <Content Include="Resources\16x16\tango\list-add.png" />
+    <Content Include="Resources\16x16\tango\list-remove.png" />
+    <Content Include="Resources\16x16\tango\media-playback-start.png" />
+    <Content Include="Resources\16x16\tango\media-playback-stop.png" />
+    <Content Include="Resources\16x16\tango\user.png" />
+    <Content Include="Resources\32x32\tango\document-open.png" />
+    <Content Include="Resources\32x32\tango\document-save.png" />
+    <Content Include="Resources\32x32\tango\document-save-as.png" />
+    <Content Include="Resources\32x32\tango\media-playback-start.png" />
+    <Content Include="Resources\32x32\tango\media-playback-stop.png" />
+    <Content Include="Resources\32x32\tango\drive-harddisk.png" />
+    <Content Include="Resources\32x32\tango\media-playback-pause.png" />
+    <Content Include="Resources\32x32\tango\media-skip-forward.png" />
+    <Content Include="Resources\32x32\tango\document-new.png" />
+    <Content Include="Resources\32x32\tango\media-skip-backward.png" />
+    <Content Include="Resources\32x32\tango\preferences-desktop.png" />
+    <Content Include="Resources\32x32\tango\preferences-system.png" />
+    <Content Include="Resources\32x32\tango\view-refresh.png" />
+    <Content Include="Resources\32x32\tango\audio-x-generic.png" />
+    <Content Include="Resources\16x16\fam\tick.png" />
+    <Content Include="Resources\16x16\fam\delete.png" />
+    <Content Include="Resources\16x16\fam\information.png" />
+    <Content Include="Resources\16x16\fam\exclamation.png" />
+    <Content Include="Resources\16x16\fam\cancel.png" />
+    <Content Include="Resources\16x16\fam\shape_align_middle.png" />
+    <Content Include="Resources\16x16\fam\time.png" />
+    <Content Include="Resources\16x16\fam\pencil.png" />
+    <Content Include="Resources\16x16\fam\accept.png" />
+    <Content Include="Resources\16x16\fam\add.png" />
+    <Content Include="Resources\32x32\tango\network-wireless.png" />
+    <Content Include="Resources\16x16\tango\network-wireless.png" />
+    <Content Include="Resources\16x16\icomoon\android.png" />
+    <Content Include="Resources\16x16\icomoon\apple.png" />
+    <Content Include="Resources\16x16\icomoon\laptop.png" />
+    <Content Include="Resources\16x16\icomoon\play.png" />
+    <Content Include="Resources\16x16\icomoon\stop.png" />
+    <Content Include="Resources\16x16\icomoon\pencil.png" />
+    <Content Include="Resources\16x16\icomoon\plus.png" />
+    <Content Include="Resources\16x16\icomoon\goto.png" />
+    <Content Include="Resources\16x16\icomoon\delete.png" />
+    <Content Include="Resources\16x16\icomoon\quill.png" />
+    <Content Include="Resources\16x16\icomoon\arrow-right.png" />
+    <Content Include="Resources\16x16\icomoon\close.png" />
+    <Content Include="Resources\16x16\icomoon\drawer.png" />
+    <Content Include="Resources\16x16\icomoon\refresh.png" />
+    <Content Include="Resources\16x16\icomoon\cabinet.png" />
+    <Content Include="Resources\16x16\icomoon\user.png" />
+    <Content Include="Resources\16x16\icomoon\users.png" />
+    <Content Include="Resources\32x32\icomoon\folder-open%402x.png" />
+    <Content Include="Resources\32x32\icomoon\folder-open.png" />
+    <Content Include="Resources\32x32\icomoon\equalizer%402x.png" />
+    <Content Include="Resources\32x32\icomoon\equalizer.png" />
+    <Content Include="Resources\32x32\icomoon\settings.png" />
+    <Content Include="Resources\32x32\icomoon\next%402x.png" />
+    <Content Include="Resources\32x32\icomoon\pause.png" />
+    <Content Include="Resources\32x32\icomoon\pause%402x.png" />
+    <Content Include="Resources\32x32\icomoon\play.png" />
+    <Content Include="Resources\32x32\icomoon\play%402x.png" />
+    <Content Include="Resources\32x32\icomoon\playlist.png" />
+    <Content Include="Resources\32x32\icomoon\playlist%402x.png" />
+    <Content Include="Resources\32x32\icomoon\previous.png" />
+    <Content Include="Resources\32x32\icomoon\previous%402x.png" />
+    <Content Include="Resources\32x32\icomoon\repeat.png" />
+    <Content Include="Resources\32x32\icomoon\repeat%402x.png" />
+    <Content Include="Resources\32x32\icomoon\settings%402x.png" />
+    <Content Include="Resources\32x32\icomoon\stop.png" />
+    <Content Include="Resources\32x32\icomoon\stop%402x.png" />
+    <Content Include="Resources\32x32\icomoon\sync.png" />
+    <Content Include="Resources\32x32\icomoon\sync%402x.png" />
+    <Content Include="Resources\32x32\icomoon\update.png" />
+    <Content Include="Resources\32x32\icomoon\update%402x.png" />
+    <Content Include="Resources\32x32\icomoon\next.png" />
+    <Content Include="Resources\16x16\custom\vinyl.png" />
+    <Content Include="Resources\Fonts\Roboto-Bold.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Regular.ttf" />
+    <Content Include="Resources\Fonts\RobotoCondensed-Regular.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Light.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Thin.ttf" />
+    <Content Include="Resources\Fonts\Roboto-Medium.ttf" />
+    <Content Include="Resources\Toolbar\cloud.png" />
+    <Content Include="Resources\Toolbar\effects.png" />
+    <Content Include="Resources\Toolbar\next.png" />
+    <Content Include="Resources\Toolbar\pause.png" />
+    <Content Include="Resources\Toolbar\play.png" />
+    <Content Include="Resources\Toolbar\playlist.png" />
+    <Content Include="Resources\Toolbar\preferences.png" />
+    <Content Include="Resources\Toolbar\previous.png" />
+    <Content Include="Resources\Toolbar\repeat.png" />
+    <Content Include="Resources\Toolbar\resume.png" />
+    <Content Include="Resources\Toolbar\shuffle.png" />
+    <Content Include="Resources\Toolbar\sync.png" />
+    <Content Include="Resources\Buttons\add.png" />
+    <Content Include="Resources\Buttons\minus.png" />
+    <Content Include="Resources\Buttons\reset.png" />
+    <Content Include="Resources\Splash\splash_logo_clear.png" />
+    <Content Include="Resources\Splash\splash_logo_full.png" />
+    <Content Include="Resources\Splash\splash_logo_clear%402x.png" />
+    <Content Include="Resources\Splash\splash_logo_full%402x.png" />
+    <Content Include="Resources\Toolbar\next%402x.png" />
+    <Content Include="Resources\Toolbar\pause%402x.png" />
+    <Content Include="Resources\Toolbar\play%402x.png" />
+    <Content Include="Resources\Toolbar\previous%402x.png" />
+    <Content Include="Resources\Toolbar\repeat%402x.png" />
+    <Content Include="Resources\Toolbar\shuffle%402x.png" />
+    <Content Include="libbassenc.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_tta.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_ape.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lib\" />
+    <Folder Include="Windows\" />
+    <Folder Include="Views\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\32x32\" />
+    <Folder Include="Resources\16x16\" />
+    <Folder Include="Windows\XIB\" />
+    <Folder Include="Windows\Controllers\" />
+    <Folder Include="Resources\Fonts\" />
+    <Folder Include="Resources\16x16\fam\" />
+    <Folder Include="Resources\16x16\tango\" />
+    <Folder Include="Resources\32x32\tango\" />
+    <Folder Include="Classes\" />
+    <Folder Include="Resources\16x16\icomoon\" />
+    <Folder Include="Classes\Navigation\" />
+    <Folder Include="Classes\Delegates\" />
+    <Folder Include="Classes\Services\" />
+    <Folder Include="Resources\32x32\icomoon\" />
+    <Folder Include="Resources\16x16\custom\" />
+    <Folder Include="Classes\Controls\Graphics\" />
+    <Folder Include="Classes\Controls\Helpers\" />
+    <Folder Include="Resources\Toolbar\" />
+    <Folder Include="Resources\Buttons\" />
+    <Folder Include="Classes\Controls\Wrappers\" />
+    <Folder Include="Resources\Splash\" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ArrayInitializerBraceStyle="NextLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeDelegateDeclarationParentheses="False" NewParentheses="False" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.GenericControls\MPfm.GenericControls.OSX.csproj">
+      <Project>{F2A4E954-0439-42CF-B795-82819C9A39CF}</Project>
+      <Name>MPfm.GenericControls.OSX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.OSX.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>MPfm.Library.OSX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.OSX.csproj">
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
+      <Name>MPfm.MVP.OSX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.OSX.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player.OSX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.OSX.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound.OSX</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_button_cancel.png" />
+    <BundleResource Include="Resources\icon_button_cancel%402x.png" />
+    <BundleResource Include="Resources\icon_button_connect.png" />
+    <BundleResource Include="Resources\icon_button_connect%402x.png" />
+    <BundleResource Include="Resources\icon_button_download.png" />
+    <BundleResource Include="Resources\icon_button_download%402x.png" />
+    <BundleResource Include="Resources\icon_button_refresh.png" />
+    <BundleResource Include="Resources\icon_button_refresh%402x.png" />
+    <BundleResource Include="Resources\icon_linux.png" />
+    <BundleResource Include="Resources\icon_linux%402x.png" />
+    <BundleResource Include="Resources\icon_osx.png" />
+    <BundleResource Include="Resources\icon_osx%402x.png" />
+    <BundleResource Include="Resources\icon_phone.png" />
+    <BundleResource Include="Resources\icon_phone%402x.png" />
+    <BundleResource Include="Resources\icon_tablet.png" />
+    <BundleResource Include="Resources\icon_tablet%402x.png" />
+    <BundleResource Include="Resources\icon_user.png" />
+    <BundleResource Include="Resources\icon_user%402x.png" />
+    <BundleResource Include="Resources\icon_vinyl.png" />
+    <BundleResource Include="Resources\icon_vinyl%402x.png" />
+    <BundleResource Include="Resources\icon_windows.png" />
+    <BundleResource Include="Resources\icon_windows%402x.png" />
+    <BundleResource Include="Resources\icon_android.png" />
+    <BundleResource Include="Resources\icon_android%402x.png" />
+    <BundleResource Include="Resources\icon_song.png" />
+    <BundleResource Include="Resources\icon_song%402x.png" />
+    <BundleResource Include="Resources\icon_artists.png" />
+    <BundleResource Include="Resources\icon_artists%402x.png" />
+    <BundleResource Include="Resources\icon_button_add.png" />
+    <BundleResource Include="Resources\icon_button_add%402x.png" />
+    <BundleResource Include="Resources\icon_button_delete.png" />
+    <BundleResource Include="Resources\icon_button_delete%402x.png" />
+    <BundleResource Include="Resources\icon_button_save.png" />
+    <BundleResource Include="Resources\icon_button_save%402x.png" />
+    <BundleResource Include="Resources\icon_button_reset%402x.png" />
+    <BundleResource Include="Resources\icon_button_reset.png" />
+    <BundleResource Include="Resources\icon_button_speaker.png" />
+    <BundleResource Include="Resources\icon_button_speaker%402x.png" />
+    <BundleResource Include="Resources\icon_button_edit.png" />
+    <BundleResource Include="Resources\icon_button_edit%402x.png" />
+    <BundleResource Include="Resources\icon_button_stop.png" />
+    <BundleResource Include="Resources\icon_button_stop%402x.png" />
+    <BundleResource Include="Resources\icon_button_play.png" />
+    <BundleResource Include="Resources\icon_button_play%402x.png" />
+    <BundleResource Include="Resources\icon_button_goto%402x.png" />
+    <BundleResource Include="Resources\icon_button_goto.png" />
+    <BundleResource Include="Resources\Splash.png" />
+    <BundleResource Include="Resources\icon_button_dropbox.png" />
+    <BundleResource Include="Resources\icon_button_dropbox%402x.png" />
+    <BundleResource Include="Resources\icon_button_cloud.png" />
+    <BundleResource Include="Resources\icon_button_cloud%402x.png" />
+    <BundleResource Include="Resources\icon_button_general.png" />
+    <BundleResource Include="Resources\icon_button_general%402x.png" />
+    <BundleResource Include="Resources\icon_button_library.png" />
+    <BundleResource Include="Resources\icon_button_library%402x.png" />
+    <BundleResource Include="Resources\icon_button_test.png" />
+    <BundleResource Include="Resources\icon_button_test%402x.png" />
+    <BundleResource Include="Resources\icon_button_ok.png" />
+    <BundleResource Include="Resources\icon_button_ok%402x.png" />
+    <BundleResource Include="Resources\icon_device_android.png" />
+    <BundleResource Include="Resources\icon_device_android%402x.png" />
+    <BundleResource Include="Resources\toolbar_next.png" />
+    <BundleResource Include="Resources\toolbar_next%402x.png" />
+    <BundleResource Include="Resources\toolbar_pause.png" />
+    <BundleResource Include="Resources\toolbar_pause%402x.png" />
+    <BundleResource Include="Resources\toolbar_play.png" />
+    <BundleResource Include="Resources\toolbar_play%402x.png" />
+    <BundleResource Include="Resources\toolbar_previous.png" />
+    <BundleResource Include="Resources\toolbar_repeat.png" />
+    <BundleResource Include="Resources\toolbar_previous%402x.png" />
+    <BundleResource Include="Resources\toolbar_repeat%402x.png" />
+    <BundleResource Include="Resources\toolbar_shuffle.png" />
+    <BundleResource Include="Resources\toolbar_shuffle%402x.png" />
+    <BundleResource Include="Resources\toolbar_cloud.png" />
+    <BundleResource Include="Resources\toolbar_playlist%402x.png" />
+    <BundleResource Include="Resources\toolbar_preferences%402x.png" />
+    <BundleResource Include="Resources\toolbar_preferences.png" />
+    <BundleResource Include="Resources\toolbar_playlist.png" />
+    <BundleResource Include="Resources\toolbar_equalizer.png" />
+    <BundleResource Include="Resources\toolbar_equalizer%402x.png" />
+    <BundleResource Include="Resources\toolbar_cloud%402x.png" />
+    <BundleResource Include="Resources\icon_roundbutton_add.png" />
+    <BundleResource Include="Resources\icon_roundbutton_add%402x.png" />
+    <BundleResource Include="Resources\icon_roundbutton_reset.png" />
+    <BundleResource Include="Resources\icon_roundbutton_reset%402x.png" />
+    <BundleResource Include="Resources\icon_roundbutton_minus.png" />
+    <BundleResource Include="Resources\icon_roundbutton_minus%402x.png" />
+  </ItemGroup>
+</Project>

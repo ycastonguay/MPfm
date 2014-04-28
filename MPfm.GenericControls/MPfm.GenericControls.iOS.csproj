@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F2A4E954-0439-42CF-B795-82819C9A39CF}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPfm.GenericControls</RootNamespace>
+    <AssemblyName>MPfm.GenericControls</AssemblyName>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\MPfm.Core.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\MPfm.Core.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\MPfm.Core.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\Release\MPfm.Core.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\Release\MPfm.Core.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\Release\MPfm.Core.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\Release\MPfm.Core.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE;IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Output\Release\MPfm.Core.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Mac\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_MacOSX|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Mac\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_Linux|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\Output\Debug_Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\iOS\TinyIoC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.iOS.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.iOS.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.iOS.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.iOS.csproj">
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
+      <Name>MPfm.MVP.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Basics\BasicRectangle.cs" />
+    <Compile Include="Basics\BasicColor.cs" />
+    <Compile Include="Basics\BasicBrush.cs" />
+    <Compile Include="Basics\BasicPen.cs" />
+    <Compile Include="Basics\BasicPoint.cs" />
+    <Compile Include="Basics\BasicGradientBrush.cs" />
+    <Compile Include="Graphics\IDisposableImageFactory.cs" />
+    <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
+    <Compile Include="Services\Events\GeneratePeakFileEventArgs.cs" />
+    <Compile Include="Services\Events\GenerateWaveFormEventArgs.cs" />
+    <Compile Include="Services\Events\LoadPeakFileEventArgs.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormRenderingService.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormCacheService.cs" />
+    <Compile Include="Services\Objects\WaveFormBitmapRequest.cs" />
+    <Compile Include="Services\WaveFormCacheService.cs" />
+    <Compile Include="Services\WaveFormRenderingService.cs" />
+    <Compile Include="Services\Objects\WaveFormTile.cs" />
+    <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
+    <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
+    <Compile Include="Controls\Songs\SongGridViewControl.cs" />
+    <Compile Include="Controls\Songs\SongGridViewCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewColumn.cs" />
+    <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewItem.cs" />
+    <Compile Include="Controls\Songs\SongGridViewMode.cs" />
+    <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
+    <Compile Include="Controls\TrackBarControl.cs" />
+    <Compile Include="Controls\WaveFormControl.cs" />
+    <Compile Include="Controls\WaveFormScaleControl.cs" />
+    <Compile Include="Controls\FaderControl.cs" />
+    <Compile Include="Controls\IControl.cs" />
+    <Compile Include="Controls\OutputMeterControl.cs" />
+    <Compile Include="Graphics\IMemoryGraphicsContext.cs" />
+    <Compile Include="Graphics\IGraphicsContext.cs" />
+    <Compile Include="Graphics\IMemoryGraphicsContextFactory.cs" />
+    <Compile Include="Interaction\IControlMouseInteraction.cs" />
+    <Compile Include="Interaction\IControlTouchInteraction.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\IRenderer.cs" />
+    <Compile Include="Theme\ITheme.cs" />
+    <Compile Include="Theme\GenericTheme.cs" />
+    <Compile Include="Basics\IBasicImage.cs" />
+  </ItemGroup>
+</Project>

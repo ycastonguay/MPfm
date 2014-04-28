@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="b6220823-8924-49ee-bc4b-90e852489a66" Publisher="CN=Yanick" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>MPfm.WindowsStore</DisplayName>
+    <PublisherDisplayName>Yanick</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MPfm.WindowsStore.App">
+      <VisualElements DisplayName="Sessions" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Sessions is a music player for musicians." ForegroundText="light" BackgroundColor="#20282E">
+        <DefaultTile ShowName="allLogos" ShortName="Sessions" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+        <InitialRotationPreference>
+          <Rotation Preference="portrait" />
+          <Rotation Preference="landscape" />
+          <Rotation Preference="portraitFlipped" />
+          <Rotation Preference="landscapeFlipped" />
+        </InitialRotationPreference>
+      </VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="privateNetworkClientServer" />
+    <Capability Name="internetClientServer" />
+    <Capability Name="musicLibrary" />
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

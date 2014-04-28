@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sessions App Sync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="css/app.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="js/jquery.upload-1.0.2.min.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+</head>
+<body>
+    <!--<div class="navBar">-->
+        <!--<ul class="nav">-->
+            <!--<li class="navItem">-->
+                <!--<img src="images/app_logo.png" style="width: 44px; height: 44px;" />-->
+            <!--</li>-->
+            <!--<li class="navItem"><a href="#about">Upload</a></li>-->
+            <!--<li class="navItem"><a href="#download">Download</a></li>-->
+        <!--</ul>-->
+    <!--</div>-->
+    <div class="header">
+        <div style="float: left; padding: 4px; margin-top: 2px;">
+            <img src="images/app_logo.png" style="width: 44px; height: 44px;" />
+        </div>
+        <div style="float: left; padding: 4px; margin-top: 6px;">
+            <div class="headerTitle">Yanick Castonguay's Library (iOS)</div>
+            <div class="headerSubtitle">1049 files (14459 MB total)</div>
+
+            <!--<table>-->
+                <!--<tr>-->
+                    <!--<td>Library name:</td>-->
+                    <!--<td>Yanick Castonguay's Library</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>Platform:</td>-->
+                    <!--<td>iOS</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td>Number of files:</td>-->
+                    <!--<td>1049 (14459 MB total size)</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div>
+        <div class="tabs">
+            <div id="tabDownload" class="tab tabSelected">Download files</div>
+            <div id="tabUpload" class="tab">Upload files</div>
+            <div style="clear: both;"></div>
+        </div>
+        <div id="tabDownloadContents" class="tabContainer">
+            <input type="button" id="btnDownloadIndex" value="Download index" />
+        </div>
+        <div id="tabUploadContents" class="tabContainer" style="display: none;">
+            <input type="file" multiple="multiple" id="fileUpload" name="fileUpload" />
+            <input type="button" id="btnUpload" value="Upload" />
+        </div>
+    </div>
+</body>
+</html>

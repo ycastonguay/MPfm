@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="52dp"
+   android:minHeight="52dp"
+   android:maxHeight="52dp"
+   android:paddingLeft="8dp"
+   android:paddingRight="8dp"
+   android:gravity="center_vertical"
+   android:orientation="horizontal">
+  <TextView
+    android:id="@+id/playlistItemCell_lblIndex"
+    android:layout_width="32dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textColor="@color/list_secondarytext"
+    android:textSize="18dp" />
+  <LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginLeft="8dp"
+    android:orientation="vertical">
+    <TextView
+      android:id="@+id/playlistItemCell_lblTitle"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:singleLine="true"
+      android:textColor="@color/list_text"
+      android:textSize="16dp" />
+    <TextView
+      android:id="@+id/playlistItemCell_lblSubtitle"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:singleLine="true"
+      android:textColor="@color/list_secondarytext"
+      android:textSize="12dp" />
+  </LinearLayout>
+  <ImageView
+    android:id="@+id/playlistItemCell_imagePlay"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:visibility="gone"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_play" />
+  <ImageView
+    android:id="@+id/playlistItemCell_imageDelete"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:visibility="gone"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_trash" />
+  <ImageView
+    android:id="@+id/playlistItemCell_imageNowPlaying"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_marginRight="6dp"
+    android:visibility="gone"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_speaker" />
+  <ImageView
+    android:id="@+id/playlistItemCell_imageMove"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:background="@android:color/transparent"
+    android:src="@drawable/icon_move" />
+</LinearLayout>
