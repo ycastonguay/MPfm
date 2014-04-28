@@ -54,8 +54,11 @@ namespace MPfm.Mac.Classes.Objects
         public static CGColor PanelHeader2Color2 = new CGColor(51f/255f, 67f/255f, 78f/255f, 1);
         public static CGColor PanelBorderColor = new CGColor(0.2745f, 0.3490f, 0.4f, 1);
 
+//        public static CGColor SettingsTabColor = new CGColor(32f/255f, 40f/255f, 46f/255f, 1);
+//        public static CGColor SettingsTabSelectedColor = new CGColor(51f/255f, 67f/255f, 78f/255f, 1);
+//        public static CGColor SettingsTabOverColor = new CGColor(50f/255f, 60f/255f, 67f/255f, 1);
         public static CGColor SettingsTabColor = new CGColor(32f/255f, 40f/255f, 46f/255f, 1);
-        public static CGColor SettingsTabSelectedColor = new CGColor(51f/255f, 67f/255f, 78f/255f, 1);
+        public static CGColor SettingsTabSelectedColor = new CGColor(69f/255f, 88f/255f, 101f/255f, 1);
         public static CGColor SettingsTabOverColor = new CGColor(50f/255f, 60f/255f, 67f/255f, 1);
 
         public static CGColor AlbumCoverBackgroundColor1 = new CGColor(0.1490f, 0.1843f, 0.2118f, 1);

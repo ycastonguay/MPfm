@@ -65,14 +65,14 @@ namespace MPfm.Mac
 
         private void LoadFontsAndImages()
         {
-            viewGeneralPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewGeneralPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewGeneralPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewGeneralPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewAudioPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
             viewAudioPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
-            viewLibraryPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewLibraryPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewLibraryPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewLibraryPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
 
             viewOutputHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewOutputHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
@@ -80,6 +80,14 @@ namespace MPfm.Mac
             viewMixerHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
             viewStatusHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewStatusHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewDropboxHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewDropboxHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewUpdateFrequencyHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewUpdateFrequencyHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewFoldersHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewFoldersHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewPeakFilesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewPeakFilesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
 
             var headerFont = NSFont.FromFontName("Roboto Light", 16f);
             lblGeneralPreferences.Font = headerFont;
@@ -89,6 +97,7 @@ namespace MPfm.Mac
 
             var subtitleFont = NSFont.FromFontName("Roboto Light", 13f);
             lblGeneralUpdateFrequency.Font = subtitleFont;
+            lblGeneralPeakFiles.Font = subtitleFont;
             lblAudioOutput.Font = subtitleFont;
             lblAudioMixer.Font = subtitleFont;
             lblAudioStatus.Font = subtitleFont;
@@ -111,6 +120,8 @@ namespace MPfm.Mac
             lblOutputMeter.TextColor = textColor;
             lblBufferSize.Font = textFont;
             lblBufferSize.TextColor = textColor;
+            lblMaximumPeakFolderSize.Font = textFont;
+            lblMaximumPeakFolderSize.TextColor = textColor;
             lblEvery.Font = textFont;
             lblEvery.TextColor = textColor;
             lblEvery2.Font = textFont;
@@ -129,11 +140,17 @@ namespace MPfm.Mac
             lblMS4.TextColor = textColor;
             lblHz.Font = textFont;
             lblHz.TextColor = textColor;
+            lblMS.Font = textFont;
+            lblMS.TextColor = textColor;
 
             var noteFont = NSFont.FromFontName("Roboto", 11f);
             var noteColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
             lblResumePlaybackNote.Font = noteFont;
             lblResumePlaybackNote.TextColor = noteColor;           
+            lblPeakFileFolderSize.Font = noteFont;
+            lblPeakFileFolderSize.TextColor = noteColor;           
+            lblLibrarySize.Font = noteFont;
+            lblLibrarySize.TextColor = noteColor;           
 
             // The NSButton checkbox type doesn't let you change the color, so use an attributed string instead
             var dict = new NSMutableDictionary();
@@ -178,6 +195,7 @@ namespace MPfm.Mac
             btnTestAudioSettings.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_test");
             btnResetAudioSettings.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_reset");
             btnLoginDropbox.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_dropbox");
+            btnDeletePeakFiles.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_delete");
         }
 
         private void HandleOnTabButtonSelected(MPfmTabButton button)
@@ -209,6 +227,9 @@ namespace MPfm.Mac
 
         public void RefreshLibraryPreferences(LibraryAppConfig config, string librarySize)
         {
+            InvokeOnMainThread(() => {
+                lblLibrarySize.StringValue = string.Format("Library size: {0}", librarySize);
+            });
         }
 
         #endregion
@@ -225,6 +246,9 @@ namespace MPfm.Mac
 
         public void RefreshGeneralPreferences(GeneralAppConfig config, string peakFolderSize)
         {
+            InvokeOnMainThread(() => {
+                lblPeakFileFolderSize.StringValue = string.Format("Peak file folder size: {0}", peakFolderSize);
+            });
         }
 
         #endregion
@@ -257,7 +281,7 @@ namespace MPfm.Mac
 
         #region IAudioPreferencesView implementation
 
-        public System.Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
+        public Action<AudioAppConfig> OnSetAudioPreferences { get; set; }
 
         public void AudioPreferencesError(Exception ex)
         {

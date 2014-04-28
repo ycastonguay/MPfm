@@ -16,6 +16,12 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmButton btnAddFolder { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnBrowseCustomDirectory { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmButton btnDeletePeakFiles { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmButton btnLoginDropbox { get; set; }
 
 		[Outlet]
@@ -79,6 +85,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblEvery4 { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblGeneralPeakFiles { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblGeneralPreferences { get; set; }
 
 		[Outlet]
@@ -92,6 +101,15 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblLibraryPreferences { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblLibrarySize { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMaximumPeakFolderSize { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField lblMB { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField lblMS { get; set; }
@@ -112,6 +130,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblOutputMeter { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSTextField lblPeakFileFolderSize { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSTextField lblResumePlaybackNote { get; set; }
 
 		[Outlet]
@@ -127,6 +148,9 @@ namespace MPfm.Mac
 		MonoMac.AppKit.NSTextField lblUpdatePeriod { get; set; }
 
 		[Outlet]
+		MonoMac.AppKit.NSMatrix matrixPeakFiles { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmPopUpButton popupOutputDevice { get; set; }
 
 		[Outlet]
@@ -139,6 +163,9 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackBufferSize { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackMaximumPeakFolderSize { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmTrackBarView trackOutputMeter { get; set; }
 
 		[Outlet]
@@ -149,6 +176,12 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtBufferSize { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtCustomDirectory { get; set; }
+
+		[Outlet]
+		MonoMac.AppKit.NSTextField txtMaximumPeakFolderSize { get; set; }
 
 		[Outlet]
 		MonoMac.AppKit.NSTextField txtOutputMeter { get; set; }
@@ -172,6 +205,12 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmView viewCloudPreferencesHeader { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewDropboxHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewFoldersHeader { get; set; }
+
+		[Outlet]
 		MonoMac.AppKit.NSView viewGeneralPreferences { get; set; }
 
 		[Outlet]
@@ -190,7 +229,13 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmView viewOutputHeader { get; set; }
 
 		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewPeakFilesHeader { get; set; }
+
+		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewStatusHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewUpdateFrequencyHeader { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -492,6 +537,81 @@ namespace MPfm.Mac
 			if (viewStatusHeader != null) {
 				viewStatusHeader.Dispose ();
 				viewStatusHeader = null;
+			}
+
+			if (viewFoldersHeader != null) {
+				viewFoldersHeader.Dispose ();
+				viewFoldersHeader = null;
+			}
+
+			if (viewDropboxHeader != null) {
+				viewDropboxHeader.Dispose ();
+				viewDropboxHeader = null;
+			}
+
+			if (viewUpdateFrequencyHeader != null) {
+				viewUpdateFrequencyHeader.Dispose ();
+				viewUpdateFrequencyHeader = null;
+			}
+
+			if (lblMaximumPeakFolderSize != null) {
+				lblMaximumPeakFolderSize.Dispose ();
+				lblMaximumPeakFolderSize = null;
+			}
+
+			if (trackMaximumPeakFolderSize != null) {
+				trackMaximumPeakFolderSize.Dispose ();
+				trackMaximumPeakFolderSize = null;
+			}
+
+			if (lblMB != null) {
+				lblMB.Dispose ();
+				lblMB = null;
+			}
+
+			if (txtMaximumPeakFolderSize != null) {
+				txtMaximumPeakFolderSize.Dispose ();
+				txtMaximumPeakFolderSize = null;
+			}
+
+			if (btnDeletePeakFiles != null) {
+				btnDeletePeakFiles.Dispose ();
+				btnDeletePeakFiles = null;
+			}
+
+			if (lblPeakFileFolderSize != null) {
+				lblPeakFileFolderSize.Dispose ();
+				lblPeakFileFolderSize = null;
+			}
+
+			if (txtCustomDirectory != null) {
+				txtCustomDirectory.Dispose ();
+				txtCustomDirectory = null;
+			}
+
+			if (btnBrowseCustomDirectory != null) {
+				btnBrowseCustomDirectory.Dispose ();
+				btnBrowseCustomDirectory = null;
+			}
+
+			if (matrixPeakFiles != null) {
+				matrixPeakFiles.Dispose ();
+				matrixPeakFiles = null;
+			}
+
+			if (viewPeakFilesHeader != null) {
+				viewPeakFilesHeader.Dispose ();
+				viewPeakFilesHeader = null;
+			}
+
+			if (lblGeneralPeakFiles != null) {
+				lblGeneralPeakFiles.Dispose ();
+				lblGeneralPeakFiles = null;
+			}
+
+			if (lblLibrarySize != null) {
+				lblLibrarySize.Dispose ();
+				lblLibrarySize = null;
 			}
 		}
 	}
