@@ -28,7 +28,7 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         private readonly DrawingVisual _drawingVisual;
 
         public MemoryGraphicsContextWrapper(DrawingVisual drawingVisual, DrawingContext context, float boundsWidth, float boundsHeight) 
-            : base(context, boundsWidth, boundsHeight)
+            : base(context, boundsWidth, boundsHeight, new BasicRectangle(0, 0, boundsWidth, boundsHeight))
         {
             _drawingVisual = drawingVisual;            
         }

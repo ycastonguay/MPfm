@@ -34,15 +34,17 @@ namespace MPfm.WPF.Classes.Controls.Graphics
         private readonly DrawingContext _context;
         private Pen _currentPen;
 
-        public GraphicsContextWrapper(DrawingContext context, float boundsWidth, float boundsHeight)
+        public GraphicsContextWrapper(DrawingContext context, float boundsWidth, float boundsHeight, BasicRectangle dirtyRect)
         {
             _context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
+            DirtyRect = dirtyRect;
             using (var g = System.Drawing.Graphics.FromHwnd(IntPtr.Zero))
                 Density = g.DpiX/96f;
         }
 
+        public BasicRectangle DirtyRect { get; private set; }
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }
         public float Density { get; private set; }

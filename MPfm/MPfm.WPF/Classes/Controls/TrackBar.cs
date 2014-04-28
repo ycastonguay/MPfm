@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Controls;
 using MPfm.GenericControls.Interaction;
 using MPfm.WPF.Classes.Controls.Graphics;
@@ -62,7 +63,9 @@ namespace MPfm.WPF.Classes.Controls
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
-            var wrapper = new GraphicsContextWrapper(dc, (float)ActualWidth, (float)ActualHeight);
+            // TODO: Fix this, dirty rects in WPF is still a mystery. It was simple in WinForms, why is it hidden in WPF?
+            var dirtyRect = new BasicRectangle(0, 0, (float)ActualWidth, (float)ActualHeight); 
+            var wrapper = new GraphicsContextWrapper(dc, (float)ActualWidth, (float)ActualHeight, dirtyRect);
             _control.Render(wrapper);
         }
 

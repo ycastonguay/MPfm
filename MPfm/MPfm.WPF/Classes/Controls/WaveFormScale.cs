@@ -94,7 +94,9 @@ namespace MPfm.WPF.Classes.Controls
         {
             //Console.WriteLine("WaveFormScale - OnRender - width: {0} height: {1}", ActualWidth, ActualHeight);
             base.OnRender(dc);
-            var wrapper = new GraphicsContextWrapper(dc, (float) ActualWidth, (float) ActualHeight);
+            // TODO: Fix this, dirty rects in WPF is still a mystery. It was simple in WinForms, why is it hidden in WPF?
+            var dirtyRect = new BasicRectangle(0, 0, (float)ActualWidth, (float)ActualHeight); 
+            var wrapper = new GraphicsContextWrapper(dc, (float) ActualWidth, (float) ActualHeight, dirtyRect);
             _control.Render(wrapper);
         }   
     }
