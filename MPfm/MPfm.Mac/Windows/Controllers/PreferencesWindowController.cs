@@ -67,20 +67,27 @@ namespace MPfm.Mac
         {
             viewGeneralPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewGeneralPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
-            viewAudioPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
-            viewAudioPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewAudioPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewAudioPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
             viewLibraryPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewLibraryPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
             viewCloudPreferencesHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
             viewCloudPreferencesHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
 
-            var headerFont = NSFont.FromFontName("Roboto Medium", 14f);
+            viewOutputHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewOutputHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewMixerHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewMixerHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewStatusHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewStatusHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+
+            var headerFont = NSFont.FromFontName("Roboto Light", 16f);
             lblGeneralPreferences.Font = headerFont;
             lblAudioPreferences.Font = headerFont;
             lblLibraryPreferences.Font = headerFont;
             lblCloudPreferences.Font = headerFont;
 
-            var subtitleFont = NSFont.FromFontName("Roboto", 13f);
+            var subtitleFont = NSFont.FromFontName("Roboto Light", 13f);
             lblGeneralUpdateFrequency.Font = subtitleFont;
             lblAudioOutput.Font = subtitleFont;
             lblAudioMixer.Font = subtitleFont;

@@ -182,6 +182,15 @@ namespace MPfm.Mac
 
 		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmView viewLibraryPreferencesHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewMixerHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewOutputHeader { get; set; }
+
+		[Outlet]
+		MPfm.Mac.Classes.Controls.MPfmView viewStatusHeader { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -305,6 +314,11 @@ namespace MPfm.Mac
 				lblGeneralUpdateFrequency = null;
 			}
 
+			if (lblHz != null) {
+				lblHz.Dispose ();
+				lblHz = null;
+			}
+
 			if (lblLibraryFolders != null) {
 				lblLibraryFolders.Dispose ();
 				lblLibraryFolders = null;
@@ -385,44 +399,9 @@ namespace MPfm.Mac
 				tableFolders = null;
 			}
 
-			if (viewAudioPreferences != null) {
-				viewAudioPreferences.Dispose ();
-				viewAudioPreferences = null;
-			}
-
-			if (viewCloudPreferences != null) {
-				viewCloudPreferences.Dispose ();
-				viewCloudPreferences = null;
-			}
-
-			if (viewGeneralPreferences != null) {
-				viewGeneralPreferences.Dispose ();
-				viewGeneralPreferences = null;
-			}
-
-			if (viewLibraryPreferences != null) {
-				viewLibraryPreferences.Dispose ();
-				viewLibraryPreferences = null;
-			}
-
-			if (lblHz != null) {
-				lblHz.Dispose ();
-				lblHz = null;
-			}
-
 			if (trackBufferSize != null) {
 				trackBufferSize.Dispose ();
 				trackBufferSize = null;
-			}
-
-			if (trackUpdatePeriod != null) {
-				trackUpdatePeriod.Dispose ();
-				trackUpdatePeriod = null;
-			}
-
-			if (trackSongPosition != null) {
-				trackSongPosition.Dispose ();
-				trackSongPosition = null;
 			}
 
 			if (trackOutputMeter != null) {
@@ -430,19 +409,19 @@ namespace MPfm.Mac
 				trackOutputMeter = null;
 			}
 
+			if (trackSongPosition != null) {
+				trackSongPosition.Dispose ();
+				trackSongPosition = null;
+			}
+
+			if (trackUpdatePeriod != null) {
+				trackUpdatePeriod.Dispose ();
+				trackUpdatePeriod = null;
+			}
+
 			if (txtBufferSize != null) {
 				txtBufferSize.Dispose ();
 				txtBufferSize = null;
-			}
-
-			if (txtUpdatePeriod != null) {
-				txtUpdatePeriod.Dispose ();
-				txtUpdatePeriod = null;
-			}
-
-			if (txtSongPosition != null) {
-				txtSongPosition.Dispose ();
-				txtSongPosition = null;
 			}
 
 			if (txtOutputMeter != null) {
@@ -450,14 +429,29 @@ namespace MPfm.Mac
 				txtOutputMeter = null;
 			}
 
+			if (txtSongPosition != null) {
+				txtSongPosition.Dispose ();
+				txtSongPosition = null;
+			}
+
+			if (txtUpdatePeriod != null) {
+				txtUpdatePeriod.Dispose ();
+				txtUpdatePeriod = null;
+			}
+
+			if (viewAudioPreferences != null) {
+				viewAudioPreferences.Dispose ();
+				viewAudioPreferences = null;
+			}
+
 			if (viewAudioPreferencesHeader != null) {
 				viewAudioPreferencesHeader.Dispose ();
 				viewAudioPreferencesHeader = null;
 			}
 
-			if (viewLibraryPreferencesHeader != null) {
-				viewLibraryPreferencesHeader.Dispose ();
-				viewLibraryPreferencesHeader = null;
+			if (viewCloudPreferences != null) {
+				viewCloudPreferences.Dispose ();
+				viewCloudPreferences = null;
 			}
 
 			if (viewCloudPreferencesHeader != null) {
@@ -465,9 +459,39 @@ namespace MPfm.Mac
 				viewCloudPreferencesHeader = null;
 			}
 
+			if (viewGeneralPreferences != null) {
+				viewGeneralPreferences.Dispose ();
+				viewGeneralPreferences = null;
+			}
+
 			if (viewGeneralPreferencesHeader != null) {
 				viewGeneralPreferencesHeader.Dispose ();
 				viewGeneralPreferencesHeader = null;
+			}
+
+			if (viewLibraryPreferences != null) {
+				viewLibraryPreferences.Dispose ();
+				viewLibraryPreferences = null;
+			}
+
+			if (viewLibraryPreferencesHeader != null) {
+				viewLibraryPreferencesHeader.Dispose ();
+				viewLibraryPreferencesHeader = null;
+			}
+
+			if (viewOutputHeader != null) {
+				viewOutputHeader.Dispose ();
+				viewOutputHeader = null;
+			}
+
+			if (viewMixerHeader != null) {
+				viewMixerHeader.Dispose ();
+				viewMixerHeader = null;
+			}
+
+			if (viewStatusHeader != null) {
+				viewStatusHeader.Dispose ();
+				viewStatusHeader = null;
 			}
 		}
 	}
