@@ -3,7 +3,7 @@ MPfm: Music Player for Musicians
 
 MPfm is a music player made for musicians. It shares a lot of features with other common music players, but it also adds loops, markers, pitch shifting, time shifting, wave form rendering, and much more. 
 
-It is also available on multiple platforms: __Windows__, __Mac__, __Linux__, __iOS__ and __Android__. 
+It is also available on multiple platforms: __Windows__, __OSX__, __Linux__, __iOS__ and __Android__. 
 
 The source code is released under the GPLv3 license. For more information on the MPfm license, go to http://www.mp4m.org/license.
 
@@ -22,7 +22,7 @@ To build MPfm successfully, you will also need a valid BASS.NET registration key
 
 If you want to deploy the iOS and Android versions to hardware devices, you'll need a valid Xamarin license. You can obtain a license [here](http://www.xamarin.com).
 
-The project doesn't contain any makefiles at the moment, they will be added later for the Linux and Mac platforms.
+The project doesn't contain any makefiles at the moment, they will be added later for the Linux and OSX platforms.
 
 Please use the [ProjectSync](https://github.com/ycastonguay/MPfm/tree/master/ProjectSync) tool (included on this repository) to synchronize desktop/iOS/Android project files before submitting any pull requests.
 
@@ -34,7 +34,7 @@ There are no makefiles at the moment, so you will need [Visual Studio](http://ww
 There are several solution files in the root directory of the project. Here is a list of the solution files per platform:
 
 +  __Windows__: `MPfm_WPF.sln`
-+  __Mac__: `MPfm_Mac.sln`
++  __OSX__: `MPfm_OSX.sln`
 +  __Linux__: `MPfm_Linux.sln`
 +  __iOS__: `MPfm_iOS.sln`
 +  __Android__: `MPfm_Android.sln`
@@ -44,7 +44,7 @@ The project source code already contains a few dependencies (such as the BASS au
 __Windows__:
 + [.NET Framework 4.0+](http://www.microsoft.com/net)
 
-__Mac__:
+__OSX__:
 + [Mono](http://www.mono-project.com)
 + [MonoMac](https://github.com/mono/monomac)
 + [Xcode](https://developer.apple.com/xcode/)
@@ -60,6 +60,6 @@ __iOS__:
 __Android__:
 + [Mono for Android](http://xamarin.com/monoforandroid)
 
-*MPfm: Music Player for Musicians is © 2011-2014 Yanick Castonguay and is released under the GPLv3 license.*
+*'MPfm: Music Player for Musicians' and 'Sessions' are © 2011-2014 Yanick Castonguay and is released under the GPLv3 license.*
 *The BASS audio library is © 1999-2014 Un4seen Developments.*
 *The BASS.NET audio library is © 2005-2014 Bernd Niedergesäß.*
