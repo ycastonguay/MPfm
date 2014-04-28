@@ -64,7 +64,7 @@ namespace MPfm.iOS.Classes.Controls
 		public override void Draw(RectangleF rect)
 		{
             var context = UIGraphics.GetCurrentContext();
-			var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
+			var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(rect));
 			_control.FontSize = Bounds.Width < 50 ? 8 : 10;
 			_control.Render(wrapper);
 		}

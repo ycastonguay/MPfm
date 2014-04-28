@@ -33,13 +33,15 @@ namespace MPfm.iOS.Classes.Controls.Graphics
 	{
 		protected CGContext Context;
 
-		public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
+		public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight, BasicRectangle dirtyRect)
 		{
 			Context = context;
 			BoundsWidth = boundsWidth;
 			BoundsHeight = boundsHeight;
+			DirtyRect = dirtyRect;
 		}
 
+		public BasicRectangle DirtyRect { get; private set; }
 		public float BoundsWidth { get; private set; }
 		public float BoundsHeight { get; private set; }
 		public float Density { get { return 1; } } // Always 1 on iOS because the Retina displays actually use fractions

@@ -15,34 +15,46 @@
 // You should have received a copy of the GNU General Public License
 // along with MPfm. If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Drawing;
+using MonoTouch.CoreGraphics;
+using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MPfm.iOS.Classes.Objects;
+using MPfm.iOS.Helpers;
+using MPfm.GenericControls.Graphics;
 using MPfm.GenericControls.Basics;
+using System.Collections.Generic;
+using MPfm.iOS.Classes.Controls.Helpers;
 
-namespace MPfm.iOS.Classes.Controls.Helpers
+namespace MPfm.iOS.Classes.Controls.Graphics
 {
-	public static class GenericControlHelper
+	public class BasicImage : IBasicImage
 	{
-		public static BasicRectangle ToBasicRect(RectangleF rectangle)
+		private UIImage _image = null;
+		public IDisposable Image
 		{
-			return new BasicRectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+			get
+			{
+				return _image;
+			}
+			set
+			{
+				_image = (UIImage)value;
+			}
 		}
 
-		public static RectangleF ToRect(BasicRectangle rectangle)
+		public BasicRectangle ImageSize
 		{
-			return new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+			get
+			{
+				return new BasicRectangle(0, 0, _image.Size.Width, _image.Size.Height);
+			}
 		}
 
-		public static PointF ToPoint(BasicPoint point)
+		public BasicImage(UIImage image)
 		{
-			return new PointF(point.X, point.Y);
+			_image = image;
 		}
-
-		public static UIColor ToColor(BasicColor color)
-		{
-			return UIColor.FromRGBA(color.R, color.G, color.B, color.A);
-		}
-
-		// No brushes/pens in iOS, using colors directly with CoreGraphicsHelper class
-	}
+    }
 }

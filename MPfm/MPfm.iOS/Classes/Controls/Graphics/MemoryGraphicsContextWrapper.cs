@@ -20,22 +20,24 @@ using MonoTouch.CoreGraphics;
 using MPfm.GenericControls.Graphics;
 using MonoTouch.UIKit;
 using System.Drawing;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.iOS.Classes.Controls.Graphics
 {
 	public class MemoryGraphicsContextWrapper : GraphicsContextWrapper, IMemoryGraphicsContext
 	{
 		public MemoryGraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight) 
-			: base(context, boundsWidth, boundsHeight)
+			: base(context, boundsWidth, boundsHeight, new BasicRectangle(0, 0, boundsWidth, boundsHeight))
 		{
 		}
 
-		public IDisposable RenderToImageInMemory()
+		public IBasicImage RenderToImageInMemory()
 		{
 			// Weird, no reference to the context?
 			//Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
-			var image = UIGraphics.GetImageFromCurrentImageContext();
+			var uiImage = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
+			var image = new BasicImage(uiImage);
 			return image;
 		}
     }
