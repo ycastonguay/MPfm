@@ -84,6 +84,7 @@ namespace MPfm.Player
         private int _ttaPluginHandle = 0;
         private int _wvPluginHandle = 0;
         private int _wmaPluginHandle = 0;
+        private int _encPluginHandle = 0;
 
         /// <summary>
         /// Indicates the current playlist item index used by the mixer.
@@ -635,10 +636,21 @@ namespace MPfm.Player
                         throw new Exception("The BASS plugins could not be found in the current directory!");
                     }
 
-				    // Load decoding plugins
+                    // Load plugins
 					_flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
                     _wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
                     _mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
+                    _apePluginHandle = Base.LoadPlugin(pluginPath + "/libbass_ape.dylib");
+                    _ttaPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_tta.dylib");
+
+                    try
+                    {
+                        _encPluginHandle = Base.LoadPlugin(pluginPath + "/libbassenc.dylib");
+                    }
+                    catch(Exception ex)
+                    {
+                        Tracing.Log("Failed to load bassenc: {0}", ex);
+                    }
 #endif
 	            }
 			}

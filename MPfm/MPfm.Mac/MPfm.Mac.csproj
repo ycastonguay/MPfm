@@ -295,9 +295,11 @@
     <Content Include="Resources\Fonts\TitilliumMaps29L.otf" />
     <Content Include="Resources\Fonts\TitilliumTitle20.otf" />
     <Content Include="Resources\Fonts\TitilliumText25L.otf" />
-    <Content Include="MPfm.Mac.exe.config" />
+    <Content Include="MPfm.Mac.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="libbass.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="libbass_mpc.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -438,6 +440,15 @@
     <Content Include="Resources\Toolbar\previous%402x.png" />
     <Content Include="Resources\Toolbar\repeat%402x.png" />
     <Content Include="Resources\Toolbar\shuffle%402x.png" />
+    <Content Include="libbassenc.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_tta.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="libbass_ape.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lib\" />
