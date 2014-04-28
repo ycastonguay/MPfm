@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F2A4E954-0439-42CF-B795-82819C9A39CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MPfm.GenericControls</RootNamespace>
+    <AssemblyName>MPfm.GenericControls</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_MacOSX|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug_MacOSX</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE;MACOSX</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TinyIoC">
+      <HintPath>..\MPfm.Core\Lib\TinyIoC.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Basics\BasicRectangle.cs" />
+    <Compile Include="Basics\BasicColor.cs" />
+    <Compile Include="Basics\BasicBrush.cs" />
+    <Compile Include="Basics\BasicPen.cs" />
+    <Compile Include="Basics\BasicPoint.cs" />
+    <Compile Include="Basics\BasicGradientBrush.cs" />
+    <Compile Include="Graphics\IDisposableImageFactory.cs" />
+    <Compile Include="Interaction\IControlKeyboardInteraction.cs" />
+    <Compile Include="Services\Events\GeneratePeakFileEventArgs.cs" />
+    <Compile Include="Services\Events\GenerateWaveFormEventArgs.cs" />
+    <Compile Include="Services\Events\LoadPeakFileEventArgs.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormRenderingService.cs" />
+    <Compile Include="Services\Interfaces\IWaveFormCacheService.cs" />
+    <Compile Include="Services\Objects\WaveFormBitmapRequest.cs" />
+    <Compile Include="Services\WaveFormCacheService.cs" />
+    <Compile Include="Services\WaveFormRenderingService.cs" />
+    <Compile Include="Services\Objects\WaveFormTile.cs" />
+    <Compile Include="Wrappers\IHorizontalScrollBarWrapper.cs" />
+    <Compile Include="Wrappers\IVerticalScrollBarWrapper.cs" />
+    <Compile Include="Controls\Songs\SongGridViewControl.cs" />
+    <Compile Include="Controls\Songs\SongGridViewCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewColumn.cs" />
+    <Compile Include="Controls\Songs\SongGridViewImageCache.cs" />
+    <Compile Include="Controls\Songs\SongGridViewItem.cs" />
+    <Compile Include="Controls\Songs\SongGridViewMode.cs" />
+    <Compile Include="Controls\Songs\SongGridViewTheme.cs" />
+    <Compile Include="Controls\TrackBarControl.cs" />
+    <Compile Include="Controls\WaveFormControl.cs" />
+    <Compile Include="Controls\WaveFormScaleControl.cs">
+      <DependentUpon>WaveFormControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FaderControl.cs" />
+    <Compile Include="Controls\IControl.cs" />
+    <Compile Include="Controls\OutputMeterControl.cs" />
+    <Compile Include="Graphics\IMemoryGraphicsContext.cs" />
+    <Compile Include="Graphics\IGraphicsContext.cs" />
+    <Compile Include="Graphics\IMemoryGraphicsContextFactory.cs" />
+    <Compile Include="Interaction\IControlMouseInteraction.cs" />
+    <Compile Include="Interaction\IControlTouchInteraction.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\IRenderer.cs" />
+    <Compile Include="Theme\ITheme.cs" />
+    <Compile Include="Theme\GenericTheme.cs" />
+    <Compile Include="Basics\IBasicImage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPfm.Core\MPfm.Core.csproj">
+      <Project>{D536FDE5-989E-4979-9B39-63621AE4A205}</Project>
+      <Name>MPfm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Library\MPfm.Library.OSX.csproj">
+      <Project>{2A62D229-D7FC-41DA-B676-BB1371659BFB}</Project>
+      <Name>MPfm.Library.OSX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Sound\MPfm.Sound.OSX.csproj">
+      <Project>{D92F718E-9A24-4B8B-9E40-77F93CF89EAE}</Project>
+      <Name>MPfm.Sound.OSX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.Player\MPfm.Player.OSX.csproj">
+      <Project>{FEB7497C-784C-4380-874F-46FD93C82BA1}</Project>
+      <Name>MPfm.Player.OSX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPfm.MVP\MPfm.MVP.OSX.csproj">
+      <Project>{B6B0613C-FF39-479D-9EF0-31DAF9684A06}</Project>
+      <Name>MPfm.MVP.OSX</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

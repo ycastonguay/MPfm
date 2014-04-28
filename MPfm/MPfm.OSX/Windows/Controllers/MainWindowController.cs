@@ -808,7 +808,7 @@ namespace MPfm.Mac
 
             InvokeOnMainThread(() => {
                 lblPosition.StringValue = entity.Position;
-                trackBarPosition.Value = (int)(entity.PositionPercentage * 10);
+                //trackBarPosition.Value = (int)(entity.PositionPercentage * 10);
                 waveFormScrollView.SetPosition(entity.PositionBytes);
             });
 		}
@@ -985,10 +985,10 @@ namespace MPfm.Mac
 
         public void RefreshOutputMeter(float[] dataLeft, float[] dataRight)
         {
-            InvokeOnMainThread(() => {
-                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
-                outputMeter.SetNeedsDisplayInRect(outputMeter.Bounds);
-            });
+//            InvokeOnMainThread(() => {
+//                outputMeter.AddWaveDataBlock(dataLeft, dataRight);
+//                outputMeter.SetNeedsDisplayInRect(outputMeter.Bounds);
+//            });
         }
 
         #endregion

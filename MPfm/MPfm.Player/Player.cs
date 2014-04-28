@@ -636,21 +636,12 @@ namespace MPfm.Player
                         throw new Exception("The BASS plugins could not be found in the current directory!");
                     }
 
-                    // Load plugins
+                    // Load decoding plugins
 					_flacPluginHandle = Base.LoadPlugin(pluginPath + "/libbassflac.dylib");
                     _wvPluginHandle = Base.LoadPlugin(pluginPath + "/libbasswv.dylib");
                     _mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
                     _apePluginHandle = Base.LoadPlugin(pluginPath + "/libbass_ape.dylib");
                     _ttaPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_tta.dylib");
-
-                    try
-                    {
-                        _encPluginHandle = Base.LoadPlugin(pluginPath + "/libbassenc.dylib");
-                    }
-                    catch(Exception ex)
-                    {
-                        Tracing.Log("Failed to load bassenc: {0}", ex);
-                    }
 #endif
 	            }
 			}
@@ -750,6 +741,10 @@ namespace MPfm.Player
                 Base.SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 100);// _bufferSize);
                 Base.SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 10);					
             }		
+
+
+
+
 
             _isDeviceInitialized = true;
         }
