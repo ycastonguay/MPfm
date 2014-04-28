@@ -161,6 +161,8 @@ namespace MPfm.Mac.Classes.Controls
         
         public override void DrawRect(RectangleF dirtyRect)
         {
+            //Console.WriteLine("WaveFormView - DrawRect - dirtyRect: {0}", dirtyRect);
+
 //            if (_currentSize != Bounds.Size)
 //            {
 //                _currentSize = Bounds.Size;
@@ -171,7 +173,7 @@ namespace MPfm.Mac.Classes.Controls
             //stopwatch.Start();
 
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
+            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(dirtyRect));
             _control.Render(wrapper);
             
             //stopwatch.Stop();

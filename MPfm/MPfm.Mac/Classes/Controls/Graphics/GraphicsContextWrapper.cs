@@ -35,14 +35,19 @@ namespace MPfm.Mac.Classes.Controls.Graphics
     public class GraphicsContextWrapper : NSObject, IGraphicsContext
     {
         protected CGContext Context;
-        private float _density;
 
-        public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight)
+        public BasicRectangle DirtyRect { get; private set; }
+        public float BoundsWidth { get; private set; }
+        public float BoundsHeight { get; private set; }
+        public float Density { get; private set; }
+
+        public GraphicsContextWrapper(CGContext context, float boundsWidth, float boundsHeight, BasicRectangle dirtyRect)
         {
             Context = context;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
-            _density = GetDisplayScale();
+            DirtyRect = dirtyRect;
+            Density = GetDisplayScale();
         }
         
         private float GetDisplayScale()
@@ -53,10 +58,6 @@ namespace MPfm.Mac.Classes.Controls.Graphics
                     scale = screen.BackingScaleFactor;
             return scale;
         }
-
-        public float BoundsWidth { get; private set; }
-        public float BoundsHeight { get; private set; }
-        public float Density { get { return _density; } }
 
         public void DrawImage(BasicRectangle rectangle, IDisposable image)
         {

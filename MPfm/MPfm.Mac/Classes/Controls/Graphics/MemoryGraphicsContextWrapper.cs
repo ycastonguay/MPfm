@@ -28,8 +28,8 @@ namespace MPfm.Mac.Classes.Controls.Graphics
     {
         private NSBitmapImageRep _bitmap;
         
-        public MemoryGraphicsContextWrapper(CGContext context, NSBitmapImageRep bitmap, float boundsWidth, float boundsHeight) 
-            : base(context, boundsWidth, boundsHeight)
+        public MemoryGraphicsContextWrapper(CGContext context, NSBitmapImageRep bitmap, float boundsWidth, float boundsHeight, BasicRectangle dirtyRect) 
+            : base(context, boundsWidth, boundsHeight, dirtyRect)
         {
             _bitmap = bitmap;
         }

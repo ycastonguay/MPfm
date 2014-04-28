@@ -105,7 +105,7 @@ namespace MPfm.Mac.Classes.Controls
             base.DrawRect(dirtyRect);
             
             var context = NSGraphicsContext.CurrentContext.GraphicsPort;
-            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height);
+            var wrapper = new GraphicsContextWrapper(context, Bounds.Width, Bounds.Height, GenericControlHelper.ToBasicRect(dirtyRect));
             _control.Render(wrapper);
         }
         

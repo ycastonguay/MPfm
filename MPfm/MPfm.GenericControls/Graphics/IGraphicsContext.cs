@@ -22,6 +22,7 @@ namespace MPfm.GenericControls.Graphics
 {
     public interface IGraphicsContext
     {
+        BasicRectangle DirtyRect { get; }
         float BoundsWidth { get; }
         float BoundsHeight { get; }
         float Density { get; }

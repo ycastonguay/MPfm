@@ -19,6 +19,7 @@ using System;
 using MonoMac.AppKit;
 using MPfm.GenericControls.Graphics;
 using MonoMac.Foundation;
+using MPfm.GenericControls.Basics;
 
 namespace MPfm.Mac.Classes.Controls.Graphics
 {
@@ -33,7 +34,7 @@ namespace MPfm.Mac.Classes.Controls.Graphics
                 var context = NSGraphicsContext.FromBitmap(bitmap);
                 NSGraphicsContext.GlobalSaveGraphicsState();
                 NSGraphicsContext.CurrentContext = context;
-                wrapper = new MemoryGraphicsContextWrapper(context.GraphicsPort, bitmap, width, height);
+                wrapper = new MemoryGraphicsContextWrapper(context.GraphicsPort, bitmap, width, height, new BasicRectangle(0, 0, width, height));
             });
             
             return wrapper;

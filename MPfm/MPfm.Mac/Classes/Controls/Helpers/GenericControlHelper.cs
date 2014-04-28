@@ -26,6 +26,11 @@ namespace MPfm.Mac.Classes.Controls.Helpers
 {
     public static class GenericControlHelper
     {
+        public static BasicRectangle ToBasicRect(RectangleF rectangle)
+        {
+            return new BasicRectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+        }
+
         public static RectangleF ToRect(BasicRectangle rectangle)
         {
             return new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);

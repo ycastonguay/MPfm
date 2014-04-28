@@ -340,25 +340,29 @@ namespace MPfm.GenericControls.Controls
         {          
             int heightAvailable = (int)Frame.Height;
             int tileSize = WaveFormCacheService.TileSize;
-            float delta = (float) (Zoom/Math.Floor(Zoom));
-            int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * delta));
-            int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);
+            float deltaZoom = (float) (Zoom/Math.Floor(Zoom));
+            //int startTile = (int)Math.Floor(ContentOffset.X / ((float)tileSize * deltaZoom));
+            int startDirtyTile = (int)Math.Floor((ContentOffset.X + context.DirtyRect.X) / ((float)tileSize * deltaZoom));
+            //int numberOfTilesToFillWidth = (int)Math.Ceiling(Frame.Width / tileSize);// + 1; // maybe a bug here? when one of the tile is partially drawn, you need another one?
+            int numberOfDirtyTilesToDraw = (int)Math.Ceiling(context.DirtyRect.Width / tileSize) + 1;
+            //var tiles = _waveFormCacheService.GetTiles(startTile, startTile + numberOfTilesToFillWidth, tileSize, Frame, Zoom);
+            var tiles = _waveFormCacheService.GetTiles(startDirtyTile, startDirtyTile + numberOfDirtyTilesToDraw, tileSize, Frame, Zoom);
             //Console.WriteLine("WaveFormControl - #### startTile: {0} startTileX: {1} contentOffset.X: {2} contentOffset.X/tileSize: {3} numberOfTilesToFillWidth: {4} firstTileX: {5}", startTile, startTile * tileSize, ContentOffset.X, ContentOffset.X / tileSize, numberOfTilesToFillWidth, (startTile * tileSize) - ContentOffset.X);
-            //Console.WriteLine("WaveFormControl - #### startTile: {0}", startTile);
-            var tiles = _waveFormCacheService.GetTiles(startTile, startTile + numberOfTilesToFillWidth, tileSize, Frame, Zoom);
 
             foreach (var tile in tiles)
             {
-                float deltaZoom = Zoom / tile.Zoom;
-                float x = tile.ContentOffset.X * deltaZoom;
-                float tileWidth = tileSize * deltaZoom;
+                float tileDeltaZoom = Zoom / tile.Zoom;
+                float x = tile.ContentOffset.X * tileDeltaZoom;
+                float tileWidth = tileSize * tileDeltaZoom;
                 //Console.WriteLine("WaveFormControl - Draw - tile - x: {0} tileWidth: {1} deltaZoom: {2}", x, tileWidth, deltaZoom);
                 //Console.WriteLine("WaveFormControl - Draw - tile - tile.ContentOffset.X: {0} x: {1} tileWidth: {2} tile.Zoom: {3}", tile.ContentOffset.X, x, tileWidth, tile.Zoom);
                 context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), tile.Image.ImageSize, tile.Image.Image);
-                //context.DrawImage(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), new BasicRectangle(0, 0, tileSize, Frame.Height), tile.Image);
                 //context.DrawRectangle(new BasicRectangle(x - ContentOffset.X, 0, tileWidth, Frame.Height), _brushMarkerBackground, _penCursorLine);
                 //context.DrawText(string.Format("{0:0.0}", tile.Zoom), new BasicPoint(x - ContentOffset.X + 2, 4), _textColor, "Roboto", 11);
             }
+
+            // Debug: indicate dirty zone
+            //context.DrawRectangle(context.DirtyRect, new BasicBrush(new BasicColor(255, 255, 0, 100)), _penTransparent);
 
             // Calculate position
             float positionPercentage = (float)Position / (float)Length;

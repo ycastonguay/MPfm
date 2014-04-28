@@ -219,7 +219,7 @@ namespace MPfm.MVP.Presenters
 		    try
 		    {
                 // This might throw an exception when the application is closing
-                if (_playerService.IsSettingPosition)
+                if (_playerService.IsSettingPosition || _playerService.Status != PlayerStatusType.Playing)
                     return;
 
 		        entity = _playerService.GetPosition();
