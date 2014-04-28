@@ -28,14 +28,16 @@ namespace MPfm.Android.Classes.Controls.Graphics
         private Canvas _canvas;
         private Paint _currentPaint;
 
-        public GraphicsContextWrapper(Canvas canvas, float boundsWidth, float boundsHeight, float density)
+        public GraphicsContextWrapper(Canvas canvas, float boundsWidth, float boundsHeight, float density, BasicRectangle dirtyRect)
         {
             _canvas = canvas;
+            DirtyRect = dirtyRect;
             BoundsWidth = boundsWidth;
             BoundsHeight = boundsHeight;
             Density = density;
         }
 
+        public BasicRectangle DirtyRect { get; private set; }
         public float Density { get; private set; }
         public float BoundsWidth { get; private set; }
         public float BoundsHeight { get; private set; }

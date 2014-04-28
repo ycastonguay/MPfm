@@ -22,6 +22,11 @@ namespace MPfm.Android.Classes.Controls.Helpers
 {
     public static class GenericControlHelper
     {
+        public static BasicRectangle ToBasicRect(Rect rectangle)
+        {
+            return new BasicRectangle(rectangle.Left, rectangle.Top, rectangle.Right - rectangle.Left, rectangle.Bottom - rectangle.Top);
+        }
+
         public static Rect ToRect(BasicRectangle rectangle)
         {
             return new Rect((int) rectangle.X, (int) rectangle.Y, (int) (rectangle.X + rectangle.Width), (int) (rectangle.Y + rectangle.Height));

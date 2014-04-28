@@ -70,8 +70,10 @@ namespace org.sessionsapp.android
 
         public override void Draw(Canvas canvas)
         {
+            // Note: For hardware accelerated controls, canvas.ClipBounds returns the whole control surface, but the hardware only actually draws 
+            // the dirty rectangle (Romain Guy from Google at http://stackoverflow.com/questions/7233830/partial-invalidation-in-custom-android-view-with-hardware-acceleration)
             float density = Resources.DisplayMetrics.Density;
-            var wrapper = new GraphicsContextWrapper(canvas, Width, Height, density);
+            var wrapper = new GraphicsContextWrapper(canvas, Width, Height, density, GenericControlHelper.ToBasicRect(canvas.ClipBounds));
             _control.Render(wrapper);
         }
     }

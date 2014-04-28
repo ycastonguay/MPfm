@@ -115,6 +115,7 @@
     <Compile Include="Classes\Cache\AsyncBitmapDrawable.cs" />
     <Compile Include="Classes\Clients\MyWebViewClient.cs" />
     <Compile Include="Classes\Controls\CustomListView.cs" />
+    <Compile Include="Classes\Controls\Graphics\BasicImage.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextFactory.cs" />
     <Compile Include="Classes\Controls\Graphics\MemoryGraphicsContextWrapper.cs" />
     <Compile Include="Classes\Controls\Graphics\GraphicsContextWrapper.cs" />

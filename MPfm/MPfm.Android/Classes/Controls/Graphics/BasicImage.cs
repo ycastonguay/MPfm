@@ -17,26 +17,33 @@
 
 using System;
 using Android.Graphics;
+using MPfm.Android.Classes.Controls.Helpers;
 using MPfm.GenericControls.Basics;
 using MPfm.GenericControls.Graphics;
 
 namespace MPfm.Android.Classes.Controls.Graphics
 {
-    public class MemoryGraphicsContextWrapper : GraphicsContextWrapper, IMemoryGraphicsContext
+    public class BasicImage : IBasicImage
     {
-        private readonly Bitmap _bitmap;
+        private Bitmap _bitmap = null;
 
-        public MemoryGraphicsContextWrapper(Canvas canvas, Bitmap bitmap, float boundsWidth, float boundsHeight, float density) 
-            : base(canvas, boundsWidth, boundsHeight, density, new BasicRectangle(0, 0, boundsWidth, boundsHeight))
+        public IDisposable Image
         {
-            _bitmap = bitmap;
+            get { return _bitmap; }
+            set { _bitmap = (Bitmap) value; }
         }
 
-        public IBasicImage RenderToImageInMemory()
+        public BasicRectangle ImageSize
         {
-            //Console.WriteLine("MemoryGraphicsContextWrapper - RenderToImageInMemory");
-            var image = new BasicImage(_bitmap);
-            return image;
+            get
+            {
+                return new BasicRectangle(0, 0, _bitmap.Width, _bitmap.Height);
+            }
+        }
+
+        public BasicImage(Bitmap bitmap)
+        {
+            Image = bitmap;
         }
     }
 }

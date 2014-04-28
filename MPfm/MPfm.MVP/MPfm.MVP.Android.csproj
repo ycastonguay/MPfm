@@ -132,6 +132,7 @@
     <Compile Include="Config\Models\LibraryAppConfig.cs" />
     <Compile Include="Config\Models\CloudAppConfig.cs" />
     <Compile Include="Config\Models\IAppConfig.cs" />
+    <Compile Include="Config\Models\LibraryBrowserAppConfig.cs" />
     <Compile Include="Config\Models\ResumePlaybackAppConfig.cs" />
     <Compile Include="Messages\CloudConnectStatusChangedMessage.cs" />
     <Compile Include="Messages\ConnectionStatusChangedMessage.cs" />
