@@ -80,7 +80,7 @@ namespace MPfm.Player
         void GoTo(int index);
         void GoTo(Guid playlistItemId);
 
-        void StartEncode();
+        void StartEncode(Player.EncoderType encoderType);
         void StopEncode();
         void StartCast(CastServerParams serverParams);
         void StopCast();

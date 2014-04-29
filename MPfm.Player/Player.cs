@@ -539,6 +539,7 @@ namespace MPfm.Player
                 _wvPluginHandle = Base.LoadPlugin("basswv.dll");
 
                 int bassFxVersion = Base.GetFxPluginVersion();
+                int bassEncVersion = BaseEnc.GetVersion();
             	//Base.LoadFxPlugin();
             }
 			else // Linux or Mac OS X
@@ -1088,13 +1089,14 @@ namespace MPfm.Player
                     _isPaused = startPaused;
                 }
 
-//                StartEncode();
-//                StartCast(new CastServerParams(){
-//                    Bitrate = 128, 
-//                    Name = "Sessions Test Server", 
-//                    Url = "localhost:8000/sessions", 
-//                    Password = "password"
-//                });
+                //StartEncode(EncoderType.OGG);
+                //StartCast(new CastServerParams()
+                //{
+                //    Bitrate = 128,
+                //    Name = "Sessions Test Server",
+                //    Url = "localhost:8000",
+                //    Password = "source"
+                //});
 
                 // Raise audio file finished event (if an event is subscribed)
                 if (OnPlaylistIndexChanged != null)
@@ -1761,7 +1763,7 @@ namespace MPfm.Player
 
         #endregion
 
-        public void StartEncode()
+        public void StartEncode(EncoderType encoderType)
         {
             #if MACOSX
 
@@ -1769,6 +1771,24 @@ namespace MPfm.Player
             int atype = BaseEnc.COCOA_AUDIOUNIT_AAC;
             int bitrate = 128;
             _encoderHandle = BaseEnc.EncodeStartCA(_mixerChannel.Handle, ftype, atype, BASSEncode.BASS_ENCODE_AUTOFREE, bitrate * 1000, null, IntPtr.Zero);
+
+            #else
+
+       		//sprintf(com,"lame -r -s 44100 -b %d -",bitrate); // add "-x" for LAME versions pre-3.98
+    		//sprintf(com,"oggenc -r -R 44100 -M %d -m %d -",bitrate,bitrate);
+            var flags = BASSEncode.BASS_ENCODE_NOHEAD | BASSEncode.BASS_ENCODE_AUTOFREE;
+
+            switch (encoderType)
+            {
+                case EncoderType.OGG:
+                    _encoderHandle = BaseEnc.EncodeStart(_mixerChannel.Handle, "oggenc -r -R 44100 -M 128 -m 128 -", flags, null, IntPtr.Zero);
+                    break;
+                case EncoderType.MP3:
+                    _encoderHandle = BaseEnc.EncodeStart(_mixerChannel.Handle, "lame -r -x -s 44100 -b 128 -", flags, null, IntPtr.Zero);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("encoderType");
+            }
 
             #endif
         }
@@ -1784,7 +1804,15 @@ namespace MPfm.Player
             if (_encoderHandle == 0)
                 throw new Exception("The encoder handle is invalid!");
 
-            BaseCast.CastInit(_encoderHandle, serverParams.Url, serverParams.Password, serverParams.Name, "url", 128, true);
+            try
+            {
+                BaseCast.CastInit(_encoderHandle, serverParams.Url, serverParams.Password, serverParams.Name, "url", 128, true);
+            }
+            catch (Exception ex)
+            {
+                Tracing.Log("Player - StartCast - Failed to start cast: {0}", ex);
+                //throw;
+            }
         }
 
         public void StopCast()
@@ -2282,5 +2310,12 @@ namespace MPfm.Player
 
 #endif
         #endregion
+
+        public enum EncoderType
+        {
+            OGG = 0,
+            AAC = 1,
+            MP3 = 2
+        }
     }
 }
