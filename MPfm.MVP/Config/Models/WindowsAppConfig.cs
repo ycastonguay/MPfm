@@ -22,6 +22,8 @@ namespace MPfm.MVP.Config.Models
     /// </summary>
     public class WindowsAppConfig : IAppConfig
     {
+        public int WindowSplitterDistance { get; set; }
+
         public WindowAppConfig MainWindowApp { get; set; }
         public WindowAppConfig PlaylistWindowApp { get; set; }
         public WindowAppConfig EffectsWindowApp { get; set; }

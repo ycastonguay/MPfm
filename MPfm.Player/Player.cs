@@ -612,17 +612,12 @@ namespace MPfm.Player
 	            {
 #if IOS
                     // Load decoding plugins (http://www.un4seen.com/forum/?topic=13851.msg96559#msg96559)
-					Console.WriteLine("Player init -- Loading iOS plugins (FLAC)...");
                     _flacPluginHandle = Base.LoadPlugin("BASSFLAC");
-					Console.WriteLine("Player init -- Loading iOS plugins (WV)...");
                     _wvPluginHandle = Base.LoadPlugin("BASSWV");
-					Console.WriteLine("Player init -- Loading iOS plugins (APE)...");
                     _apePluginHandle = Base.LoadPlugin("BASS_APE");
-					Console.WriteLine("Player init -- Loading iOS plugins (MPC)...");
                     _mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
 
-					Console.WriteLine("Player init -- Loading iOS plugins (ENC)...");
-					int bassEncVersion = BaseEnc.GetVersion();
+					int bassEncVersionOSX = BaseEnc.GetVersion();
 
 					Console.WriteLine("Player init -- Configuring IOSNOTIFY delegate...");
                     _iosNotifyProc = new IOSNOTIFYPROC(IOSNotifyProc);

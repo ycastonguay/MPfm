@@ -180,6 +180,7 @@
     <Compile Include="Services\Events\RefreshStatusEventArgs.cs" />
     <Compile Include="Objects\UpdateLibraryEntity.cs" />
     <Compile Include="Objects\SyncClientDownloadAudioFileProgressEntity.cs" />
+        <Compile Include="Services\SyncListenerServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\sqlite-net-wp8\Sqlite.vcxproj">

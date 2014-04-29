@@ -22,17 +22,7 @@ namespace MPfm.MVP.Config.Models
     public class RootAppConfig : IAppConfig
     {
         public bool IsFirstRun { get; set; }
-        public bool ShowTooltips { get; set; }
         public AudioFileFormat FilterSoundFormat { get; set; }
-
-        public int WindowSplitterDistance { get; set; }
-        public int PositionUpdateFrequency { get; set; }
-        public int OutputMeterUpdateFrequency { get; set; }
-
-        public bool PeakFileUseCustomDirectory { get; set; }
-        public string PeakFileCustomDirectory { get; set; }
-        public bool PeakFileIsDisplayWarning { get; set; }
-        public int PeakFileWarningThreshold { get; set; }
 
         public AudioAppConfig Audio { get; set; }
         public CloudAppConfig Cloud { get; set; }
@@ -41,16 +31,11 @@ namespace MPfm.MVP.Config.Models
         public ControlsAppConfig Controls { get; set; }       
         public WindowsAppConfig Windows { get; set; }
         public LibraryBrowserAppConfig LibraryBrowser { get; set; }
-
         public ResumePlaybackAppConfig ResumePlayback { get; set; }
 
         public RootAppConfig()
         {
-            // Set defaults
             IsFirstRun = true;
-            ShowTooltips = true;
-            PositionUpdateFrequency = 10;
-            OutputMeterUpdateFrequency = 10;
 
             Audio = new AudioAppConfig();
             Cloud = new CloudAppConfig();
@@ -59,7 +44,6 @@ namespace MPfm.MVP.Config.Models
             General = new GeneralAppConfig();       
             Windows = new WindowsAppConfig();
             LibraryBrowser = new LibraryBrowserAppConfig();
-
             ResumePlayback = new ResumePlaybackAppConfig();
         }
     }

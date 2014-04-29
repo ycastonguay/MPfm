@@ -28,6 +28,8 @@ namespace MPfm.MVP.Config.Models
         public bool UseCustomPeakFileFolder { get; set; }
         public string CustomPeakFileFolder { get; set; }
         public int MaximumPeakFolderSize { get; set; }
+        public bool PeakFileIsDisplayWarning { get; set; }
+        public int PeakFileWarningThreshold { get; set; }
 
         public int SongPositionUpdateFrequency { get; set; }
         public int OutputMeterUpdateFrequency { get; set; }
