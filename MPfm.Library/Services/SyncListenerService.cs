@@ -50,6 +50,7 @@ namespace MPfm.Library.Services
         public SyncListenerService(IAudioFileCacheService audioFileCacheService, ISyncDeviceSpecifications syncDeviceSpecifications) 
             : base()
         {
+            Console.WriteLine("SyncListenerService - AuthenticationCode: {0}", AuthenticationCode);
             _audioFileCacheService = audioFileCacheService;
             _syncDeviceSpecifications = syncDeviceSpecifications;
             _syncDeviceSpecifications.OnNetworkStateChanged += delegate(NetworkState networkState) {

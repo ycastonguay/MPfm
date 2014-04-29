@@ -55,6 +55,7 @@ namespace MPfm.Mac
         {
             base.WindowDidLoad();
 
+            btnConnect.Enabled = false;
             tableViewDevices.WeakDelegate = this;
             tableViewDevices.WeakDataSource = this;
             LoadFontsAndImages();
@@ -63,8 +64,42 @@ namespace MPfm.Mac
 
         private void LoadFontsAndImages()
         {
-            lblTitle.Font = NSFont.FromFontName("TitilliumText25L-800wt", 18);
-            lblLibraryUrl.Font = NSFont.FromFontName("Junction", 12);
+            viewTitleHeader.BackgroundColor1 = GlobalTheme.PanelHeaderColor1;
+            viewTitleHeader.BackgroundColor2 = GlobalTheme.PanelHeaderColor2;
+            viewDetails.BackgroundColor1 = GlobalTheme.PanelBackgroundColor1;
+            viewDetails.BackgroundColor2 = GlobalTheme.PanelBackgroundColor2;
+
+            viewDeviceDetailsHeader.BackgroundColor1 = GlobalTheme.AlbumCoverBackgroundColor1;
+            viewDeviceDetailsHeader.BackgroundColor2 = GlobalTheme.AlbumCoverBackgroundColor2;
+            viewSubtitleHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewSubtitleHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+            viewConnectManualHeader.BackgroundColor1 = GlobalTheme.PanelHeader2Color1;
+            viewConnectManualHeader.BackgroundColor2 = GlobalTheme.PanelHeader2Color2;
+
+            var headerFont = NSFont.FromFontName("Roboto Light", 16f);
+            lblTitle.Font = headerFont;
+
+            var subtitleFont = NSFont.FromFontName("Roboto Light", 13f);
+            lblSubtitle.Font = subtitleFont;
+            lblConnectManual.Font = subtitleFont;
+            lblDeviceDetails.Font = subtitleFont;
+
+            var textFont = NSFont.FromFontName("Roboto", 12f);
+            var textColor = NSColor.FromDeviceRgba(0.85f, 0.85f, 0.85f, 1);
+            lblConnectManualUrl.Font = textFont;
+            lblConnectManualUrl.TextColor = textColor;
+            lblConnectManualPort.Font = textFont;
+            lblConnectManualPort.TextColor = textColor;
+
+            var textBoxFont = NSFont.FromFontName("Roboto", 12f);
+            txtConnectManualUrl.Font = textBoxFont;
+            txtConnectManualPort.Font = textBoxFont;
+
+            var noteFont = NSFont.FromFontName("Roboto", 11f);
+            var noteColor = NSColor.FromDeviceRgba(0.7f, 0.7f, 0.7f, 1);
+            lblLibraryUrl.Font = noteFont;
+            lblLibraryUrl.TextColor = noteColor;           
+
             btnRefreshDevices.StringValue = "Cancel refresh";
 
             btnConnect.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_button_connect");
@@ -135,7 +170,7 @@ namespace MPfm.Mac
                 view.TextField.StringValue = _items[row].Url;
             }
 
-            view.TextField.Font = NSFont.FromFontName("Junction", 11);
+            view.TextField.Font = NSFont.FromFontName("Roboto", 11);
             if (view.ImageView != null)
             {
                 string iconName = string.Empty;

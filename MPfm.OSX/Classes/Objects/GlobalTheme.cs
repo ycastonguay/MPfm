@@ -27,6 +27,8 @@ namespace MPfm.Mac.Classes.Objects
         //public static NSColor MainWindowColor = NSColor.FromDeviceRgba(168f/255f, 184f/255f, 195f/255f, 1);
         //public static NSColor MainWindowColor = NSColor.FromDeviceRgba(210f/255f, 220f/255f, 226f/255f, 1);
         public static NSColor MainWindowColor = NSColor.FromDeviceRgba(32f/255f, 40f/255f, 46f/255f, 1);
+        //public static NSColor SecondaryWindowColor = NSColor.FromDeviceRgba(69f/255f, 88f/255f, 101f/255f, 1);
+        public static NSColor SecondaryWindowColor = NSColor.FromDeviceRgba(83f/255f, 104f/255f, 119f/255f, 1);
 
         public static CGColor ButtonBackgroundColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
         public static CGColor ButtonBackgroundMouseDownColor = new CGColor(0.9059f, 0.2980f, 0.2353f, 1);
