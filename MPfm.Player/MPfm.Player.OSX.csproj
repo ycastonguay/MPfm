@@ -114,5 +114,6 @@
     <Compile Include="Events\AudioInterruptedData.cs" />
     <Compile Include="Objects\CastServerParams.cs" />
     <Compile Include="Objects\CastServerMetadata.cs" />
+    <Compile Include="Objects\PlayerMetadata.cs" />
   </ItemGroup>
 </Project>
