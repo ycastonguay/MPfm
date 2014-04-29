@@ -212,5 +212,7 @@
     <Compile Include="BassNetKey.cs" />
     <Compile Include="BassNetWrapper\BassWrapper.cs" />
     <Compile Include="BassNetWrapper\BaseFx.cs" />
+    <Compile Include="BassNetWrapper\BaseCast.cs" />
+    <Compile Include="BassNetWrapper\BaseEnc.cs" />
   </ItemGroup>
 </Project>

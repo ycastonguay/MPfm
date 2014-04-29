@@ -617,6 +617,9 @@ namespace MPfm.Player
 					Console.WriteLine("Player init -- Loading iOS plugins (MPC)...");
                     _mpcPluginHandle = Base.LoadPlugin("BASS_MPC");
 
+					Console.WriteLine("Player init -- Loading iOS plugins (ENC)...");
+					int bassEncVersion = BaseEnc.GetVersion();
+
 					Console.WriteLine("Player init -- Configuring IOSNOTIFY delegate...");
                     _iosNotifyProc = new IOSNOTIFYPROC(IOSNotifyProc);
                     IntPtr ptr = Marshal.GetFunctionPointerForDelegate(_iosNotifyProc);
@@ -1089,14 +1092,14 @@ namespace MPfm.Player
                     _isPaused = startPaused;
                 }
 
-                //StartEncode(EncoderType.OGG);
-                //StartCast(new CastServerParams()
-                //{
-                //    Bitrate = 128,
-                //    Name = "Sessions Test Server",
-                //    Url = "localhost:8000",
-                //    Password = "source"
-                //});
+//                StartEncode(EncoderType.OGG);
+//                StartCast(new CastServerParams()
+//                {
+//                    Bitrate = 128,
+//                    Name = "Sessions Test Server",
+//                    Url = "localhost:8000",
+//                    Password = "source"
+//                });
 
                 // Raise audio file finished event (if an event is subscribed)
                 if (OnPlaylistIndexChanged != null)
@@ -1765,7 +1768,7 @@ namespace MPfm.Player
 
         public void StartEncode(EncoderType encoderType)
         {
-            #if MACOSX
+			#if MACOSX || IOS
 
             int ftype = BaseEnc.COCOA_AUDIOUNIT_ADTS;
             int atype = BaseEnc.COCOA_AUDIOUNIT_AAC;

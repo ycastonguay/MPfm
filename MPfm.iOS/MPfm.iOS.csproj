@@ -26,7 +26,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
   </PropertyGroup>
@@ -37,7 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <MtouchExtraArgs>-v -v -v -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
@@ -59,7 +59,7 @@
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -framework AudioToolbox -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <CrashReportingApiKey>
     </CrashReportingApiKey>
     <CodesignProvision>4F9471C8-9042-4489-8CED-8564B893BC3A</CodesignProvision>
@@ -72,7 +72,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
@@ -88,7 +88,7 @@
     <ConsolePause>False</ConsolePause>
     <BuildIpa>True</BuildIpa>
     <CodesignKey>iPhone Distribution: Société Radio-Canada</CodesignKey>
-    <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
@@ -104,7 +104,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
+    <MtouchExtraArgs>-nosymbolstrip -v -v -v --compiler=clang -gcc_flags "-L${ProjectDir}/Lib/ -framework Accelerate -ObjC -lstdc++ -lbass -lbassenc -lbassmix -lbass_fx -lbass_ape -lbass_mpc -lbassflac -lbasswv -all_load"</MtouchExtraArgs>
     <MtouchI18n>
     </MtouchI18n>
     <MtouchArch>ARMv7</MtouchArch>
@@ -139,6 +139,7 @@
     <None Include="Lib\libbassmix.a" />
     <None Include="Lib\libbasswv.a" />
     <None Include="Lib\taglib-sharp.dll" />
+    <None Include="Lib\libbassenc.a" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Controllers\PlayerViewController.designer.cs">

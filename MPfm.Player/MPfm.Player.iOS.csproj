@@ -175,5 +175,7 @@
     <Compile Include="Objects\Marker.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Events\AudioInterruptedData.cs" />
+    <Compile Include="Objects\CastServerMetadata.cs" />
+    <Compile Include="Objects\CastServerParams.cs" />
   </ItemGroup>
 </Project>

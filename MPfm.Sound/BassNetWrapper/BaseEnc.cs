@@ -68,7 +68,7 @@ namespace MPfm.Sound.BassNetWrapper
                 Base.CheckForError();
         }
 
-        #if MACOSX // || IOS
+        #if MACOSX || IOS
 
         public static int EncodeStartCA(int handle, int ftype, int atype, BASSEncode flags, int bitrate, ENCODEPROCEX encodeproc, IntPtr user)
         {
