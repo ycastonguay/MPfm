@@ -113,6 +113,8 @@
     <Compile Include="AudioFiles\AudioFileFormatExtensions.cs" />
     <Compile Include="AudioFiles\ConvertAudio.cs" />
     <Compile Include="AudioFiles\AudioFileFormat.cs" />
+    <Compile Include="BassNetWrapper\BaseCast.cs" />
+    <Compile Include="BassNetWrapper\BaseEnc.cs" />
     <Compile Include="PeakFiles\PeakFileCorruptedException.cs" />
     <Compile Include="PeakFiles\PeakFileDoneData.cs" />
     <Compile Include="PeakFiles\PeakFileFormatIncompatibleException.cs" />

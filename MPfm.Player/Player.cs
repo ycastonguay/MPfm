@@ -78,7 +78,8 @@ namespace MPfm.Player
         // Plugin handles
         private int _encoderHandle;
         private int _fxEQHandle;
-        private int _aacPluginHandle = 0;        
+        private int _aacPluginHandle = 0;
+        private int _alacPluginHandle = 0;
         private int _apePluginHandle = 0;
         private int _flacPluginHandle = 0;
         private int _mpcPluginHandle = 0;
@@ -549,9 +550,11 @@ namespace MPfm.Player
 				int bassVersion = Base.GetBASSVersion();				
 				int bassFxVersion = Base.GetFxPluginVersion();
 				int bassMixVersion = Base.GetMixPluginVersion();
+                int bassEncVersion = BaseEnc.GetVersion();
 				Tracing.Log("Player init -- BASS Version: " + bassVersion);
 				Tracing.Log("Player init -- BASS FX Version: " + bassFxVersion);
 				Tracing.Log("Player init -- BASS Mix Version: " + bassMixVersion);
+                Tracing.Log("Player init -- BASS Enc Version: " + bassEncVersion);
 
 				// Check OS type
                 Console.WriteLine("Player init -- OS is " + OS.Type.ToString());
@@ -562,8 +565,9 @@ namespace MPfm.Player
 #if ANDROID
                     pluginPath = PluginDirectoryPath;
                     _aacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_aac.so"));
-                    //_alacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_alac.so"));
+                    _alacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_alac.so"));
                     _apePluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_ape.so"));
+                    _mpcPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbass_mpc.so"));
                     _flacPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbassflac.so"));
                     _wvPluginHandle = Base.LoadPlugin(Path.Combine(pluginPath, "libbasswv.so"));
 #else
@@ -649,7 +653,7 @@ namespace MPfm.Player
                     _apePluginHandle = Base.LoadPlugin(pluginPath + "/libbass_ape.dylib");
                     _ttaPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_tta.dylib");
 
-                    int bassEncVersion = BaseEnc.GetVersion();
+                    int bassEncVersion2 = BaseEnc.GetVersion();
                     //Console.WriteLine("OSX Bassenc.dylib version: {0}", bassEncVersion);
 #endif
 	            }
@@ -808,7 +812,9 @@ namespace MPfm.Player
 			// Free plugins if they have been loaded successfully
 			if(_aacPluginHandle > 0)			
             	Base.FreePlugin(_aacPluginHandle);
-			if(_apePluginHandle > 0)			
+            if (_alacPluginHandle > 0)
+                Base.FreePlugin(_alacPluginHandle);
+            if (_apePluginHandle > 0)			
             	Base.FreePlugin(_apePluginHandle);
 			if(_flacPluginHandle > 0)			
             	Base.FreePlugin(_flacPluginHandle);
@@ -822,7 +828,6 @@ namespace MPfm.Player
             	Base.FreePlugin(_wvPluginHandle);
 			if(_wmaPluginHandle > 0)
             	Base.FreePlugin(_wmaPluginHandle);
-			
         }        
 
         /// <summary>
