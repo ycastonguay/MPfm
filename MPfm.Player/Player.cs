@@ -31,6 +31,7 @@ using MPfm.Player.Events;
 using MPfm.Player.Exceptions;
 using MPfm.Player.Objects;
 using System.Diagnostics;
+using Un4seen.Bass.AddOn.Enc;
 
 #if !IOS && !ANDROID
 using Un4seen.BassAsio;
@@ -75,6 +76,7 @@ namespace MPfm.Player
         private Channel _mixerChannel = null;
 
         // Plugin handles
+        private int _encoderHandle;
         private int _fxEQHandle;
         private int _aacPluginHandle = 0;        
         private int _apePluginHandle = 0;
@@ -536,7 +538,7 @@ namespace MPfm.Player
                 _wmaPluginHandle = Base.LoadPlugin("basswma.dll");
                 _wvPluginHandle = Base.LoadPlugin("basswv.dll");
 
-                int bassFxVersion = Base.GetFxPluginVersion();            
+                int bassFxVersion = Base.GetFxPluginVersion();
             	//Base.LoadFxPlugin();
             }
 			else // Linux or Mac OS X
@@ -642,6 +644,9 @@ namespace MPfm.Player
                     _mpcPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_mpc.dylib");
                     _apePluginHandle = Base.LoadPlugin(pluginPath + "/libbass_ape.dylib");
                     _ttaPluginHandle = Base.LoadPlugin(pluginPath + "/libbass_tta.dylib");
+
+                    int bassEncVersion = BaseEnc.GetVersion();
+                    //Console.WriteLine("OSX Bassenc.dylib version: {0}", bassEncVersion);
 #endif
 	            }
 			}
@@ -1082,6 +1087,14 @@ namespace MPfm.Player
 
                     _isPaused = startPaused;
                 }
+
+//                StartEncode();
+//                StartCast(new CastServerParams(){
+//                    Bitrate = 128, 
+//                    Name = "Sessions Test Server", 
+//                    Url = "localhost:8000/sessions", 
+//                    Password = "password"
+//                });
 
                 // Raise audio file finished event (if an event is subscribed)
                 if (OnPlaylistIndexChanged != null)
@@ -1747,6 +1760,37 @@ namespace MPfm.Player
         }
 
         #endregion
+
+        public void StartEncode()
+        {
+            #if MACOSX
+
+            int ftype = BaseEnc.COCOA_AUDIOUNIT_ADTS;
+            int atype = BaseEnc.COCOA_AUDIOUNIT_AAC;
+            int bitrate = 128;
+            _encoderHandle = BaseEnc.EncodeStartCA(_mixerChannel.Handle, ftype, atype, BASSEncode.BASS_ENCODE_AUTOFREE, bitrate * 1000, null, IntPtr.Zero);
+
+            #endif
+        }
+
+        public void StopEncode()
+        {
+            BaseEnc.EncodeStop(_encoderHandle);
+            _encoderHandle = -1;
+        }
+
+        public void StartCast(CastServerParams serverParams)
+        {
+            if (_encoderHandle == 0)
+                throw new Exception("The encoder handle is invalid!");
+
+            BaseCast.CastInit(_encoderHandle, serverParams.Url, serverParams.Password, serverParams.Name, "url", 128, true);
+        }
+
+        public void StopCast()
+        {
+            // Not sure how, simply stop encoder?
+        }
 
         #region Synchronization Methods
 

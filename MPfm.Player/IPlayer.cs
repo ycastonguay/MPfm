@@ -80,6 +80,11 @@ namespace MPfm.Player
         void GoTo(int index);
         void GoTo(Guid playlistItemId);
 
+        void StartEncode();
+        void StopEncode();
+        void StartCast(CastServerParams serverParams);
+        void StopCast();
+
         int GetDataAvailable();
         long Seconds2Bytes(double value);
         int GetMixerData(int length, float[] sampleData);
