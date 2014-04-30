@@ -44,7 +44,10 @@ namespace MPfm.iOS.Helpers
 
         public SyncDeviceType GetDeviceType()
         {
-            return SyncDeviceType.iOS;
+			var deviceType = SyncDeviceType.Unknown;
+			InvokeOnMainThread(() =>
+			deviceType = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad ? SyncDeviceType.iPad : SyncDeviceType.iPhone);
+			return deviceType;
         }
 
         string _deviceName = string.Empty;

@@ -147,6 +147,12 @@ namespace MPfm.iOS
         public Action<string> OnConnectDeviceManually { get; set; }
 		public Action OnOpenConnectDevice { get; set; }
 
+		public Action<SyncDevice> OnRemotePlayPause { get; set; }
+		public Action<SyncDevice> OnRemotePrevious { get; set; }
+		public Action<SyncDevice> OnRemoteNext { get; set; }
+		public Action<SyncDevice> OnRemoteRepeat { get; set; }
+		public Action<SyncDevice> OnRemoteShuffle { get; set; }
+
         public void SyncError(Exception ex)
         {
             InvokeOnMainThread(() => {
@@ -186,6 +192,22 @@ namespace MPfm.iOS
 //                });
             });
         }
+
+		public void RefreshStatus(string status)
+		{
+		}
+
+		public void NotifyAddedDevice(SyncDevice device)
+		{
+		}
+
+		public void NotifyRemovedDevice(SyncDevice device)
+		{
+		}
+
+		public void NotifyUpdatedDevice(SyncDevice device)
+		{
+		}
 
         public void SyncDevice(SyncDevice device)
         {
