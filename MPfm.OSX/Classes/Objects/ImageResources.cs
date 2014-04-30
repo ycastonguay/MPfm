@@ -171,6 +171,7 @@ namespace MPfm.Mac.Classes.Objects
                 NSImage.ImageNamed("icon_vinyl"),
                 NSImage.ImageNamed("icon_windows"),
                 NSImage.ImageNamed("toolbar_cloud"),
+                NSImage.ImageNamed("toolbar_devices"),
                 NSImage.ImageNamed("toolbar_equalizer"),
                 NSImage.ImageNamed("toolbar_next"),
                 NSImage.ImageNamed("toolbar_pause"),

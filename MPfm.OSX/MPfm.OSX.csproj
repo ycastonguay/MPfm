@@ -641,5 +641,7 @@
     <BundleResource Include="Resources\tablet_ipad_large%402x.png" />
     <BundleResource Include="Resources\tablet_windows_large.png" />
     <BundleResource Include="Resources\tablet_windows_large%402x.png" />
+    <BundleResource Include="Resources\toolbar_devices.png" />
+    <BundleResource Include="Resources\toolbar_devices%402x.png" />
   </ItemGroup>
 </Project>

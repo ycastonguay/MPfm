@@ -352,9 +352,8 @@ namespace MPfm.Mac
             btnToolbarShuffle.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_shuffle");
             btnToolbarPlaylist.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_playlist");
             btnToolbarEffects.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_equalizer");
-            btnToolbarSync.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "sync");
+            btnToolbarSync.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_devices");
             btnToolbarSyncCloud.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_cloud");
-            btnToolbarResumePlayback.ImageView.Image = ImageResources.ToolbarImages.FirstOrDefault(x => x.Name == "resume");
             btnToolbarSettings.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "toolbar_preferences");
 
             btnIncrementTimeShifting.ImageView.Image = ImageResources.Images.FirstOrDefault(x => x.Name == "icon_roundbutton_add");

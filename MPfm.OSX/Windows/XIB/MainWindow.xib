@@ -36,7 +36,6 @@
                 <outlet property="btnToolbarPlaylist" destination="X99-cQ-7p7" id="MDi-ic-bBo"/>
                 <outlet property="btnToolbarPrevious" destination="CzV-nl-8Jg" id="czd-W9-gJv"/>
                 <outlet property="btnToolbarRepeat" destination="v8M-O0-24c" id="2yF-hX-hT8"/>
-                <outlet property="btnToolbarResumePlayback" destination="1cI-RO-3hJ" id="R1I-IN-5om"/>
                 <outlet property="btnToolbarSettings" destination="Yrp-AP-eQP" id="Yei-dG-0Rf"/>
                 <outlet property="btnToolbarShuffle" destination="QSg-yI-Xhz" id="59N-B9-wab"/>
                 <outlet property="btnToolbarSync" destination="yVd-27-e8w" id="xMi-uh-BZL"/>
@@ -1314,7 +1313,7 @@
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <searchField verticalHuggingPriority="750" id="189">
-                                                                                <rect key="frame" x="412.0000001213001" y="3" width="384" height="22"/>
+                                                                                <rect key="frame" x="412.00000018229315" y="3" width="384" height="22"/>
                                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                                                 <searchFieldCell key="cell" selectable="YES" editable="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="190">
                                                                                     <font key="font" metaFont="smallSystem"/>
@@ -1446,12 +1445,8 @@
                                 <rect key="frame" x="391" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
-                            <customView id="1cI-RO-3hJ" customClass="MPfmRoundButton">
-                                <rect key="frame" x="436" y="8" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </customView>
                             <customView id="Yrp-AP-eQP" customClass="MPfmRoundButton">
-                                <rect key="frame" x="481" y="8" width="44" height="44"/>
+                                <rect key="frame" x="436" y="8" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <connections>
                                     <action selector="actionOpenPreferencesWindow:" target="-2" id="myF-cR-xkk"/>

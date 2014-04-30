@@ -100,9 +100,6 @@ namespace MPfm.Mac
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarRepeat { get; set; }
 
 		[Outlet]
-		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarResumePlayback { get; set; }
-
-		[Outlet]
 		MPfm.Mac.Classes.Controls.MPfmRoundButton btnToolbarSettings { get; set; }
 
 		[Outlet]
@@ -597,11 +594,6 @@ namespace MPfm.Mac
 				btnToolbarRepeat = null;
 			}
 
-			if (btnToolbarResumePlayback != null) {
-				btnToolbarResumePlayback.Dispose ();
-				btnToolbarResumePlayback = null;
-			}
-
 			if (btnToolbarSettings != null) {
 				btnToolbarSettings.Dispose ();
 				btnToolbarSettings = null;
@@ -760,6 +752,11 @@ namespace MPfm.Mac
 			if (lblSampleRate != null) {
 				lblSampleRate.Dispose ();
 				lblSampleRate = null;
+			}
+
+			if (lblSearchWeb != null) {
+				lblSearchWeb.Dispose ();
+				lblSearchWeb = null;
 			}
 
 			if (lblSongPath != null) {
@@ -970,11 +967,6 @@ namespace MPfm.Mac
 			if (waveFormScrollView != null) {
 				waveFormScrollView.Dispose ();
 				waveFormScrollView = null;
-			}
-
-			if (lblSearchWeb != null) {
-				lblSearchWeb.Dispose ();
-				lblSearchWeb = null;
 			}
 		}
 	}
