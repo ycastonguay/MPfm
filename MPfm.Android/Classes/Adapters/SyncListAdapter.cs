@@ -73,7 +73,7 @@ namespace MPfm.Android.Classes.Adapters
             title.Text = item.Name;
             switch (item.DeviceType)
             {
-                case SyncDeviceType.Android:
+                case SyncDeviceType.AndroidPhone:
                     image.SetImageResource(Resource.Drawable.icon_android);
                     break;
                 case SyncDeviceType.Linux:
@@ -85,7 +85,7 @@ namespace MPfm.Android.Classes.Adapters
                 case SyncDeviceType.Windows:
                     image.SetImageResource(Resource.Drawable.icon_windows);
                     break;
-                case SyncDeviceType.iOS:
+                case SyncDeviceType.iPhone:
                     image.SetImageResource(Resource.Drawable.icon_phone);
                     break;
                 default:
